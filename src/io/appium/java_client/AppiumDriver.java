@@ -17,7 +17,77 @@
 package io.appium.java_client;
 
 
-import org.openqa.selenium.remote.RemoteWebDriver;
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ContextAware;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.remote.*;
 
-public class AppiumDriver extends RemoteWebDriver {
+import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware {
+
+  private final MobileErrorHandler errorHandler = new MobileErrorHandler();
+
+  public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities){
+
+    super(remoteAddress, desiredCapabilities);
+
+    ImmutableMap<String, CommandInfo> mobileCommands = ImmutableMap.<String, CommandInfo>of();
+
+    HttpCommandExecutor mobileExecutor = new HttpCommandExecutor(mobileCommands, remoteAddress);
+    super.setCommandExecutor(mobileExecutor);
+
+  }
+
+  protected Response execute(String driverCommand, Map<String, ?> parameters) {
+    try {
+      return super.execute(driverCommand, parameters);
+    } catch (WebDriverException ex) {
+      errorHandler.throwIfMobileError(ex);
+    }
+
+    throw new RuntimeException("An WebDriver error should have been thrown, if you're reading this, the problem is " +
+            "definitely in the Appium Driver");
+  }
+
+  protected Response execute(String command) {
+    return execute(command, ImmutableMap.<String, Object>of());
+  }
+
+
+
+
+
+  public WebDriver context(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("Must supply a context name");
+    }
+
+
+    execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
+    return AppiumDriver.this;
+  }
+
+
+  public Set<String> getContextHandles() {
+    Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
+    Object value = response.getValue();
+    try {
+      List<String> returnedValues = (List<String>)value;
+      return new LinkedHashSet<String>(returnedValues);
+    } catch (ClassCastException ex) {
+      throw new WebDriverException("Returned value cannot be converted to List<String>: " + value, ex);
+    }
+  }
+
+
+  public String getContext() {
+    return String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
+  }
 }
