@@ -49,6 +49,7 @@ public class ContextTest {
 
   @Test
   public void testSwitchContext() {
+    driver.getContextHandles();
     driver.context("WEBVIEW_1");
     assertEquals(driver.getContext(), "WEBVIEW_1");
   }
