@@ -88,6 +88,10 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
 
   public String getContext() {
-    return String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
+    String contextName = String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
+    if (contextName.equals("null")) {
+      return null;
+    }
+    return contextName;
   }
 }
