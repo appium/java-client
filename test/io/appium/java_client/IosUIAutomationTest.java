@@ -3,25 +3,27 @@ package io.appium.java_client;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Test context-related features
  */
-public class ContextTest {
+public class IosUIAutomationTest {
 
   private AppiumDriver driver;
 
   @Before
   public void setup() throws Exception {
     File appDir = new File("test/io/appium/java_client");
-    File app = new File(appDir, "WebViewApp.app.zip");
+    File app = new File(appDir, "UICatalog.app.zip");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(CapabilityType.VERSION, "7.1");
@@ -37,26 +39,28 @@ public class ContextTest {
   }
 
   @Test
-  public void testGetContext() {
-    boolean assertion = driver.getContext() == null;
-    assert(assertion);
+  public void findElementTest() {
+    WebElement element = driver.findElementByIosUIAutomation(".elements()[0]");
+    assertEquals(element.getAttribute("name"), "UICatalog");
   }
 
   @Test
-  public void testGetContextHandles() {
-    assertEquals(driver.getContextHandles().size(), 2);
+  public void findElementsTest() {
+    List<WebElement> elements = driver.findElementsByIosUIAutomation("elements()");
+    assertEquals(3, elements.size());
   }
 
   @Test
-  public void testSwitchContext() {
-    driver.getContextHandles();
-    driver.context("WEBVIEW_1");
-    assertEquals(driver.getContext(), "WEBVIEW_1");
+  public void MobileElementByTest() {
+    WebElement element = driver.findElement(MobileBy.IosUIAutomation(".elements()[0]"));
+    System.out.println(element);
+    assertEquals(element.getAttribute("name"), "UICatalog");
   }
 
-  @Test(expected = NoSuchContextException.class)
-  public void testContextError() {
-    driver.context("Planet of the Ape-ium");
+  @Test
+  public void MobileElementsByTest() {
+    List<WebElement> elements = driver.findElements(MobileBy.IosUIAutomation(".elements()"));
+    assertEquals(3, elements.size());
   }
 
 }
