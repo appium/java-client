@@ -18,10 +18,7 @@ package io.appium.java_client;
 
 
 import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
 
 import java.net.URL;
@@ -30,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware {
+public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation {
 
   private final MobileErrorHandler errorHandler = new MobileErrorHandler();
 
@@ -45,6 +42,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   }
 
+  @Override
   protected Response execute(String driverCommand, Map<String, ?> parameters) {
     try {
       return super.execute(driverCommand, parameters);
@@ -56,6 +54,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             "definitely in the Appium Driver");
   }
 
+  @Override
   protected Response execute(String command) {
     return execute(command, ImmutableMap.<String, Object>of());
   }
@@ -63,7 +62,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
 
 
-
+  @Override
   public WebDriver context(String name) {
     if (name == null) {
       throw new IllegalArgumentException("Must supply a context name");
@@ -74,7 +73,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     return AppiumDriver.this;
   }
 
-
+  @Override
   public Set<String> getContextHandles() {
     Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
     Object value = response.getValue();
@@ -86,12 +85,22 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     }
   }
 
-
+  @Override
   public String getContext() {
     String contextName = String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
     if (contextName.equals("null")) {
       return null;
     }
     return contextName;
+  }
+
+  @Override
+  public WebElement findElementByIosUIAutomation(String using) {
+    return findElement("-ios uiautomation", using);
+  }
+
+  @Override
+  public List<WebElement> findElementsByIosUIAutomation(String using) {
+    return findElements("-ios uiautomation", using);
   }
 }
