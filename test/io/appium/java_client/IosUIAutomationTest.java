@@ -53,7 +53,6 @@ public class IosUIAutomationTest {
   @Test
   public void MobileElementByTest() {
     WebElement element = driver.findElement(MobileBy.IosUIAutomation(".elements()[0]"));
-    System.out.println(element);
     assertEquals(element.getAttribute("name"), "UICatalog");
   }
 

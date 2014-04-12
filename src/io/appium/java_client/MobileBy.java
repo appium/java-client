@@ -28,6 +28,14 @@ public abstract class MobileBy extends By {
     return new ByAndroidUIAutomator(uiautomatorText);
   }
 
+  public static By AccessibilityId(final String id) {
+    if (id == null) {
+      throw new IllegalArgumentException("Must supply a uiautomationText");
+    }
+
+    return new ByAccessibilityId(id);
+  }
+
   public static class ByIosUIAutomation extends By implements Serializable {
 
     private final String automationText;
@@ -72,6 +80,30 @@ public abstract class MobileBy extends By {
 
     @Override
     public String toString() { return "By.AndroidUIAutomator: " + automatorText; }
+  }
+
+  public static class ByAccessibilityId extends By implements Serializable {
+
+    private final String id;
+
+    public ByAccessibilityId(String id)   {
+      this.id = id;
+    }
+
+    @Override
+    public List<WebElement> findElements(SearchContext context) {
+      return ((FindsByAccessibilityId) context).findElementsByAccessibilityId(id);
+    }
+
+    @Override
+    public WebElement findElement(SearchContext context) {
+      return ((FindsByAccessibilityId) context).findElementByAccessibilityId(id);
+    }
+
+    @Override
+    public String toString() {
+      return "By.AccessibilityId: " + id;
+    }
   }
 }
 

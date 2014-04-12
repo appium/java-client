@@ -20,8 +20,7 @@ package io.appium.java_client;
 /**
  * An empty interface defining constants for the mobile commands defined in the Mobile JSON
  * wire protocol.
- *
- * @author jonahss@gmail.com (Jonah Stiennon)
+ * 
  */
 public interface MobileCommand {
 

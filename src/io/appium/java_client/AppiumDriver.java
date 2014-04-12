@@ -17,7 +17,6 @@
 
 package io.appium.java_client;
 
-
 import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
@@ -31,7 +30,7 @@ import java.util.Set;
 import static io.appium.java_client.MobileCommand.*;
 
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation,
-  FindsByAndroidUIAutomator {
+        FindsByAndroidUIAutomator, FindsByAccessibilityId {
 
   private final MobileErrorHandler errorHandler = new MobileErrorHandler();
 
@@ -142,6 +141,16 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   @Override
   public List<WebElement> findElementsByAndroidUIAutomator(String using) {
     return findElements("-android uiautomator", using);
+  }
+
+  @Override
+  public WebElement findElementByAccessibilityId(String using) {
+    return findElement("accessibility id", using);
+  }
+
+  @Override
+  public List<WebElement> findElementsByAccessibilityId(String using) {
+    return findElements("accessibility id", using);
   }
 
   private static CommandInfo getC(String url) {
