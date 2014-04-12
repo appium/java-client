@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation {
+public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation,
+  FindsByAndroidUIAutomator {
 
   private final MobileErrorHandler errorHandler = new MobileErrorHandler();
 
@@ -102,5 +103,15 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   @Override
   public List<WebElement> findElementsByIosUIAutomation(String using) {
     return findElements("-ios uiautomation", using);
+  }
+
+  @Override
+  public WebElement findElementByAndroidUIAutomator(String using) {
+    return findElement("-android uiautomator", using);
+  }
+
+  @Override
+  public List<WebElement> findElementsByAndroidUIAutomator(String using) {
+    return findElements("-android uiautomator", using);
   }
 }

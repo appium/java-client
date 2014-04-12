@@ -12,23 +12,22 @@ import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Test -ios uiautomation locator strategy
+ * Test -android uiautomator locator strategy
  */
-public class IosUIAutomationTest {
+public class AndroidUIAutomatorTest {
 
   private AppiumDriver driver;
 
   @Before
   public void setup() throws Exception {
     File appDir = new File("test/io/appium/java_client");
-    File app = new File(appDir, "UICatalog.app.zip");
+    File app = new File(appDir, "ApiDemos-debug.apk.zip");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(CapabilityType.VERSION, "7.1");
-    capabilities.setCapability(CapabilityType.PLATFORM, "Mac");
-    capabilities.setCapability("device", "iPhone Simulator");
+    capabilities.setCapability("device", "Android");
     capabilities.setCapability("app", app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
@@ -40,31 +39,30 @@ public class IosUIAutomationTest {
 
   @Test
   public void findElementTest() {
-    WebElement element = driver.findElementByIosUIAutomation(".elements()[0]");
-    assertEquals(element.getAttribute("name"), "UICatalog");
+    WebElement element = driver.findElementByAndroidUIAutomator("new UiSelector().index(0)");
+    assertEquals("android.widget.FrameLayout", element.getTagName());
   }
 
   @Test
   public void findElementsTest() {
-    List<WebElement> elements = driver.findElementsByIosUIAutomation("elements()");
-    assertEquals(3, elements.size());
+    List<WebElement> elements = driver.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)");
+    assertTrue(elements.size() > 11);
   }
 
   @Test
-  public void MobileElementByTest() {
-    WebElement element = driver.findElement(MobileBy.IosUIAutomation(".elements()[0]"));
-    System.out.println(element);
-    assertEquals(element.getAttribute("name"), "UICatalog");
+  public void findElementByTest() {
+    WebElement element = driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().index(0)"));
+    assertEquals("android.widget.FrameLayout", element.getTagName());
   }
 
   @Test
-  public void MobileElementsByTest() {
-    List<WebElement> elements = driver.findElements(MobileBy.IosUIAutomation(".elements()"));
-    assertEquals(3, elements.size());
+  public void findElementsByTest() {
+    List<WebElement> elements = driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)"));
+    assertTrue(elements.size() > 11);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void ErrorTest() {
-    driver.findElementByIosUIAutomation(null);
+    driver.findElementByAndroidUIAutomator(null);
   }
 }
