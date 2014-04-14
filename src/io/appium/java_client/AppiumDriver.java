@@ -43,6 +43,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(RESET, postC("/session/:sessionId/appium/app/reset"))
             .put(GET_STRINGS, getC("/session/:sessionId/appium/app/strings"))
             .put(KEY_EVENT, postC("/session/:sessionId/appium/device/keyevent"))
+            .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -88,6 +89,11 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     if (metastate != null) { builder.put("metastate", metastate); }
     ImmutableMap<String, Integer> parameters = builder.build();
     execute(KEY_EVENT, parameters);
+  }
+
+  public String currentActivity() {
+    Response response = execute(CURRENT_ACTIVITY);
+    return response.getValue().toString();
   }
 
 

@@ -48,4 +48,9 @@ public interface MobileDriver extends WebDriver {
    */
   void sendKeyEvent(int key, Integer metastate);
 
+  /**
+   * Get the current activity being run on the mobile device
+   */
+  String currentActivity();
+
 }

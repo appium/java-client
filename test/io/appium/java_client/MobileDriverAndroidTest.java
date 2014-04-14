@@ -26,6 +26,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.net.URL;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Test Mobile Driver features
  */
@@ -50,18 +52,24 @@ public class MobileDriverAndroidTest {
   }
 
   @Test
-  public void getStrings() {
+  public void getStringsTest() {
     String strings = driver.getAppStrings();
     assert(strings.length() > 100);
   }
 
   @Test
-  public void keyEvent() {
+  public void keyEventTest() {
     driver.sendKeyEvent(AndroidKeyCode.HOME);
   }
 
   @Test
-  public void keyEventWithMetastate() {
+  public void keyEventWithMetastateTest() {
     driver.sendKeyEvent(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
+  }
+
+  @Test
+  public void currentActivityTest() {
+    String activity = driver.currentActivity();
+    assertEquals(".ApiDemos", activity);
   }
 }
