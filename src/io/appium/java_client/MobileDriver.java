@@ -44,7 +44,7 @@ public interface MobileDriver extends WebDriver {
    * Metastates are things like *shift* to get uppercase characters
    *
    * @param key code for the key pressed on the Android device
-   * @param mestastate metastate for the keypress
+   * @param metastate metastate for the keypress
    */
   void sendKeyEvent(int key, Integer metastate);
 
