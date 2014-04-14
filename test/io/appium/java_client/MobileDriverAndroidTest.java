@@ -26,24 +26,20 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-
 /**
- * Test context-related features
+ * Test Mobile Driver features
  */
-public class ContextTest {
+public class MobileDriverAndroidTest {
 
   private AppiumDriver driver;
 
   @Before
   public void setup() throws Exception {
     File appDir = new File("test/io/appium/java_client");
-    File app = new File(appDir, "WebViewApp.app.zip");
+    File app = new File(appDir, "ApiDemos-debug.apk");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(CapabilityType.VERSION, "7.1");
-    capabilities.setCapability(CapabilityType.PLATFORM, "Mac");
-    capabilities.setCapability("device", "iPhone Simulator");
+    capabilities.setCapability("device", "Android");
     capabilities.setCapability("app", app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
@@ -54,26 +50,18 @@ public class ContextTest {
   }
 
   @Test
-  public void testGetContext() {
-    boolean assertion = driver.getContext() == null;
-    assert(assertion);
+  public void getStrings() {
+    String strings = driver.getAppStrings();
+    assert(strings.length() > 100);
   }
 
   @Test
-  public void testGetContextHandles() {
-    assertEquals(driver.getContextHandles().size(), 2);
+  public void keyEvent() {
+    driver.sendKeyEvent(AndroidKeyCode.HOME);
   }
 
   @Test
-  public void testSwitchContext() {
-    driver.getContextHandles();
-    driver.context("WEBVIEW_1");
-    assertEquals(driver.getContext(), "WEBVIEW_1");
+  public void keyEventWithMetastate() {
+    driver.sendKeyEvent(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
   }
-
-  @Test(expected = NoSuchContextException.class)
-  public void testContextError() {
-    driver.context("Planet of the Ape-ium");
-  }
-
 }
