@@ -44,6 +44,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(GET_STRINGS, getC("/session/:sessionId/appium/app/strings"))
             .put(KEY_EVENT, postC("/session/:sessionId/appium/device/keyevent"))
             .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
+            .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -53,7 +54,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
   @Override
-  protected Response execute(String driverCommand, Map<String, ?> parameters) {
+  public Response execute(String driverCommand, Map<String, ?> parameters) {
     try {
       return super.execute(driverCommand, parameters);
     } catch (WebDriverException ex) {

@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.io.File;
 import java.net.URL;
@@ -54,6 +55,14 @@ public class MobileDriverIOSTest {
   @Test
   public void resetTest() {
     driver.resetApp();
+  }
+
+  @Test
+  public void setValueTest() {
+    MobileElement element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField"), driver);
+    element.click();
+    element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("Normal"), driver);
+    element.setValue("Grace Hopper");
   }
 
 }
