@@ -12,11 +12,12 @@ import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * Test -ios uiautomation locator strategy
+ * Test context-related features
  */
-public class IosUIAutomationTest {
+public class AccessibilityIdTest {
 
   private AppiumDriver driver;
 
@@ -40,30 +41,26 @@ public class IosUIAutomationTest {
 
   @Test
   public void findElementTest() {
-    WebElement element = driver.findElementByIosUIAutomation(".elements()[0]");
-    assertEquals(element.getAttribute("name"), "UICatalog");
+    WebElement element = driver.findElementByAccessibilityId("UICatalog");
+    assertNotNull(element);
   }
 
   @Test
   public void findElementsTest() {
-    List<WebElement> elements = driver.findElementsByIosUIAutomation("elements()");
-    assertEquals(3, elements.size());
+    List<WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
+    assertEquals(1, elements.size());
   }
 
   @Test
   public void MobileElementByTest() {
-    WebElement element = driver.findElement(MobileBy.IosUIAutomation(".elements()[0]"));
-    assertEquals(element.getAttribute("name"), "UICatalog");
+    WebElement element = driver.findElement(MobileBy.AccessibilityId("UICatalog"));
+    assertNotNull(element);
   }
 
   @Test
   public void MobileElementsByTest() {
-    List<WebElement> elements = driver.findElements(MobileBy.IosUIAutomation(".elements()"));
-    assertEquals(3, elements.size());
+    List<WebElement> elements = driver.findElements(MobileBy.AccessibilityId("UICatalog"));
+    assertEquals(1, elements.size());
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void ErrorTest() {
-    driver.findElementByIosUIAutomation(null);
-  }
 }

@@ -24,7 +24,7 @@ public class AndroidUIAutomatorTest {
   @Before
   public void setup() throws Exception {
     File appDir = new File("test/io/appium/java_client");
-    File app = new File(appDir, "ApiDemos-debug.apk.zip");
+    File app = new File(appDir, "ApiDemos-debug.apk");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
     capabilities.setCapability("device", "Android");

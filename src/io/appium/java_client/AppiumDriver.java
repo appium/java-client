@@ -1,4 +1,5 @@
 /*
+ +Copyright 2014 Appium contributors
  +Copyright 2014 Software Freedom Conservancy
  +
  +Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,6 @@
 
 package io.appium.java_client;
 
-
 import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
@@ -27,8 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static io.appium.java_client.MobileCommand.*;
+
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation,
-  FindsByAndroidUIAutomator {
+        FindsByAndroidUIAutomator, FindsByAccessibilityId {
 
   private final MobileErrorHandler errorHandler = new MobileErrorHandler();
 
@@ -36,7 +38,13 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
     super(remoteAddress, desiredCapabilities);
 
-    ImmutableMap<String, CommandInfo> mobileCommands = ImmutableMap.<String, CommandInfo>of();
+    ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap.builder();
+    builder
+            .put(RESET, postC("/session/:sessionId/appium/app/reset"))
+            .put(GET_STRINGS, getC("/session/:sessionId/appium/app/strings"))
+            .put(KEY_EVENT, postC("/session/:sessionId/appium/device/keyevent"))
+            ;
+    ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
     HttpCommandExecutor mobileExecutor = new HttpCommandExecutor(mobileCommands, remoteAddress);
     super.setCommandExecutor(mobileExecutor);
@@ -61,6 +69,26 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
 
+  public void resetApp() {
+    execute(MobileCommand.RESET);
+  }
+
+  public String getAppStrings() {
+    Response response = execute(GET_STRINGS);
+    return response.getValue().toString();
+  }
+
+  public void sendKeyEvent(int key) {
+    sendKeyEvent(key, null);
+  }
+
+  public void sendKeyEvent(int key, Integer metastate) {
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("keycode", key);
+    if (metastate != null) { builder.put("metastate", metastate); }
+    ImmutableMap<String, Integer> parameters = builder.build();
+    execute(KEY_EVENT, parameters);
+  }
 
 
   @Override
@@ -113,5 +141,27 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   @Override
   public List<WebElement> findElementsByAndroidUIAutomator(String using) {
     return findElements("-android uiautomator", using);
+  }
+
+  @Override
+  public WebElement findElementByAccessibilityId(String using) {
+    return findElement("accessibility id", using);
+  }
+
+  @Override
+  public List<WebElement> findElementsByAccessibilityId(String using) {
+    return findElements("accessibility id", using);
+  }
+
+  private static CommandInfo getC(String url) {
+    return new CommandInfo(url, HttpVerb.GET);
+  }
+
+  private static CommandInfo postC(String url) {
+    return new CommandInfo(url, HttpVerb.POST);
+  }
+
+  private static CommandInfo deleteC(String url) {
+    return new CommandInfo(url, HttpVerb.DELETE);
   }
 }

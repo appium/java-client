@@ -1,5 +1,5 @@
 /*
-Copyright 2014 Selenium committers
+Copyright 2014 Appium contributors
 Copyright 2014 Software Freedom Conservancy
 
 Licensed under the Apache License, Version 2.0 (the "License");
