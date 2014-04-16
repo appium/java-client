@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
 
+import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -45,6 +46,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(KEY_EVENT, postC("/session/:sessionId/appium/device/keyevent"))
             .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
             .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
+            .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -95,6 +97,13 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   public String currentActivity() {
     Response response = execute(CURRENT_ACTIVITY);
     return response.getValue().toString();
+  }
+
+  public byte[] pullFile(String remotePath) {
+    Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
+    String base64String = response.getValue().toString();
+
+    return DatatypeConverter.parseBase64Binary(base64String);
   }
 
 

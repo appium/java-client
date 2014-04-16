@@ -35,6 +35,8 @@ public interface MobileDriver extends WebDriver {
 
   /**
    * Get all defined Strings from an Android app
+   *
+   * @return a string of all the localized strings defined in the app
    */
   String getAppStrings();
 
@@ -58,5 +60,13 @@ public interface MobileDriver extends WebDriver {
    * Get the current activity being run on the mobile device
    */
   String currentActivity();
+
+  /**
+   *
+   * @param remotePath On Android and iOS, this is either the path to the file (relative to the root of the app's file system).
+   *                   On iOS only, if path starts with /AppName.app, which will be replaced with the application's .app directory
+   * @return A byte array of Base64 encoded data.
+   */
+  byte[] pullFile(String remotePath);
 
 }

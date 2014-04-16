@@ -65,4 +65,10 @@ public class MobileDriverIOSTest {
     element.setValue("Grace Hopper");
   }
 
+  @Test
+  public void pullFileTest() {
+    byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
+    assert(data.length > 0);
+  }
+
 }

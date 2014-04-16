@@ -29,6 +29,7 @@ public interface MobileCommand {
   String KEY_EVENT = "keyEvent";
   String CURRENT_ACTIVITY = "currentActivity";
   String SET_VALUE = "setValue";
+  String PULL_FILE = "pullFile";
 
 
 }
