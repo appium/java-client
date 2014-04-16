@@ -58,6 +58,12 @@ public class MobileDriverAndroidTest {
   }
 
   @Test
+  public void getStringsWithLanguageTest() {
+    String strings = driver.getAppStrings("en");
+    assert(strings.length() > 100);
+  }
+
+  @Test
   public void keyEventTest() {
     driver.sendKeyEvent(AndroidKeyCode.HOME);
   }

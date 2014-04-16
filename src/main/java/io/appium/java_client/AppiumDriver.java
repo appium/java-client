@@ -43,7 +43,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap.builder();
     builder
             .put(RESET, postC("/session/:sessionId/appium/app/reset"))
-            .put(GET_STRINGS, getC("/session/:sessionId/appium/app/strings"))
+            .put(GET_STRINGS, postC("/session/:sessionId/appium/app/strings"))
             .put(KEY_EVENT, postC("/session/:sessionId/appium/device/keyevent"))
             .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
             .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
@@ -96,12 +96,26 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
   /**
-   * Get all defined Strings from an Android app
+   * Get all defined Strings from an Android app for the default language
    *
    * @return a string of all the localized strings defined in the app
    */
   public String getAppStrings() {
     Response response = execute(GET_STRINGS);
+    return response.getValue().toString();
+  }
+
+  /**
+   * Get all defined Strings from an Android app for the specified language
+   *
+   * @param language strings language code
+   * @return a string of all the localized strings defined in the app
+   */
+  public String getAppStrings(String language) {
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("language", language);
+    ImmutableMap<String, Integer> parameters = builder.build();
+    Response response = execute(GET_STRINGS, parameters);
     return response.getValue().toString();
   }
 
