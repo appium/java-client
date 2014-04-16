@@ -30,6 +30,7 @@ public interface MobileCommand {
   String CURRENT_ACTIVITY = "currentActivity";
   String SET_VALUE = "setValue";
   String PULL_FILE = "pullFile";
+  String HIDE_KEYBOARD = "hideKeyboard";
 
 
 }

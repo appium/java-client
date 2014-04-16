@@ -18,55 +18,15 @@
 package io.appium.java_client;
 
 
+import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 
-public interface MobileDriver extends WebDriver {
+public interface MobileDriver extends WebDriver, ContextAware {
 
 
   public Response execute(String driverCommand, Map<String, ?> parameters);
-
-  /**
-   * Reset the currently running app for this session
-   */
-  void resetApp();
-
-  /**
-   * Get all defined Strings from an Android app
-   *
-   * @return a string of all the localized strings defined in the app
-   */
-  String getAppStrings();
-
-  /**
-   * Send a key event to the device
-   *
-   * @param key code for the key pressed on the device
-   */
-  void sendKeyEvent(int key);
-
-  /**
-   * Send a key event along with an Android metastate to an Android device
-   * Metastates are things like *shift* to get uppercase characters
-   *
-   * @param key code for the key pressed on the Android device
-   * @param metastate metastate for the keypress
-   */
-  void sendKeyEvent(int key, Integer metastate);
-
-  /**
-   * Get the current activity being run on the mobile device
-   */
-  String currentActivity();
-
-  /**
-   *
-   * @param remotePath On Android and iOS, this is either the path to the file (relative to the root of the app's file system).
-   *                   On iOS only, if path starts with /AppName.app, which will be replaced with the application's .app directory
-   * @return A byte array of Base64 encoded data.
-   */
-  byte[] pullFile(String remotePath);
 
 }

@@ -73,19 +73,39 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
 
+  /**
+   * Reset the currently running app for this session
+   */
   public void resetApp() {
     execute(MobileCommand.RESET);
   }
 
+  /**
+   * Get all defined Strings from an Android app
+   *
+   * @return a string of all the localized strings defined in the app
+   */
   public String getAppStrings() {
     Response response = execute(GET_STRINGS);
     return response.getValue().toString();
   }
 
+  /**
+   * Send a key event to the device
+   *
+   * @param key code for the key pressed on the device
+   */
   public void sendKeyEvent(int key) {
     sendKeyEvent(key, null);
   }
 
+  /**
+   * Send a key event along with an Android metastate to an Android device
+   * Metastates are things like *shift* to get uppercase characters
+   *
+   * @param key code for the key pressed on the Android device
+   * @param metastate metastate for the keypress
+   */
   public void sendKeyEvent(int key, Integer metastate) {
     ImmutableMap.Builder builder = ImmutableMap.builder();
     builder.put("keycode", key);
@@ -94,11 +114,20 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     execute(KEY_EVENT, parameters);
   }
 
+  /**
+   * Get the current activity being run on the mobile device
+   */
   public String currentActivity() {
     Response response = execute(CURRENT_ACTIVITY);
     return response.getValue().toString();
   }
 
+  /**
+   *
+   * @param remotePath On Android and iOS, this is either the path to the file (relative to the root of the app's file system).
+   *                   On iOS only, if path starts with /AppName.app, which will be replaced with the application's .app directory
+   * @return A byte array of Base64 encoded data.
+   */
   public byte[] pullFile(String remotePath) {
     Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
     String base64String = response.getValue().toString();
