@@ -48,6 +48,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
             .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"))
             .put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"))
+            .put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -134,6 +135,18 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     String base64String = response.getValue().toString();
 
     return DatatypeConverter.parseBase64Binary(base64String);
+  }
+
+  /**
+   * Save base64 encoded data as a file on the remote mobile device.
+   * This is an Android only method.
+   * @param remotePath Path to file to write data to on remote device
+   * @param base64Data Base64 encoded byte array of data to write to remote device
+   */
+  public void pushFile(String remotePath, byte[] base64Data) {
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("path", remotePath).put("data", base64Data);
+    execute(PUSH_FILE, builder.build());
   }
 
   /**
