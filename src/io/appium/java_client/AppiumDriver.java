@@ -49,6 +49,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"))
             .put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"))
             .put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"))
+            .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -164,6 +165,15 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public void hideKeyboard(String keyName) {
     execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
+  }
+
+  /**
+   * Runs the current app as a background app for the number of seconds requested.
+   * This is a synchronous method, it returns after the back has been returned to the foreground.
+   * @param seconds Number of seconds to run App in background
+   */
+  public void runAppInBackground(int seconds) {
+    execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
   }
 
 

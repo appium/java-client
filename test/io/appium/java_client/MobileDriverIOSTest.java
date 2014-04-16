@@ -80,4 +80,12 @@ public class MobileDriverIOSTest {
     driver.hideKeyboard();
   }
 
+  @Test
+  public void runAppInBackgroundTest() {
+    long time = System.currentTimeMillis();
+    driver.runAppInBackground(4);
+    long timeAfter = System.currentTimeMillis();
+    assert(timeAfter - time > 3000);
+  }
+
 }
