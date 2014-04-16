@@ -27,5 +27,8 @@ public interface MobileCommand {
   String RESET = "reset";
   String GET_STRINGS = "getStrings";
   String KEY_EVENT = "keyEvent";
+  String CURRENT_ACTIVITY = "currentActivity";
+  String SET_VALUE = "setValue";
+
 
 }

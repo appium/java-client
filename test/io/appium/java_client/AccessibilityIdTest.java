@@ -62,5 +62,4 @@ public class AccessibilityIdTest {
     List<WebElement> elements = driver.findElements(MobileBy.AccessibilityId("UICatalog"));
     assertEquals(1, elements.size());
   }
-
 }

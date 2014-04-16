@@ -19,8 +19,14 @@ package io.appium.java_client;
 
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.Response;
+
+import java.util.Map;
 
 public interface MobileDriver extends WebDriver {
+
+
+  public Response execute(String driverCommand, Map<String, ?> parameters);
 
   /**
    * Reset the currently running app for this session
@@ -47,5 +53,10 @@ public interface MobileDriver extends WebDriver {
    * @param metastate metastate for the keypress
    */
   void sendKeyEvent(int key, Integer metastate);
+
+  /**
+   * Get the current activity being run on the mobile device
+   */
+  String currentActivity();
 
 }
