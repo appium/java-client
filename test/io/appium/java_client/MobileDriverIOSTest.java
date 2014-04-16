@@ -70,13 +70,14 @@ public class MobileDriverIOSTest {
     byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
     assert(data.length > 0);
   }
-/*
+
   @Test
   public void hideKeyboardTest() {
     MobileElement element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField"), driver);
     element.click();
+    element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("Normal"), driver);
+    element.click();
     driver.hideKeyboard();
-
   }
-*/
+
 }

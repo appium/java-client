@@ -47,6 +47,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
             .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
             .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"))
+            .put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -133,6 +134,23 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     String base64String = response.getValue().toString();
 
     return DatatypeConverter.parseBase64Binary(base64String);
+  }
+
+  /**
+   * Hides the keyboard if it is showing.
+   * This is an iOS only command.
+   */
+  public void hideKeyboard() {
+    execute(HIDE_KEYBOARD);
+  }
+
+  /**
+   * Hides the keyboard by pressing the button specified by keyName if it is showing.
+   * This is an iOS only command.
+   * @param keyName The button pressed by the mobile driver to attempt hiding the keyboard
+   */
+  public void hideKeyboard(String keyName) {
+    execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
   }
 
 
