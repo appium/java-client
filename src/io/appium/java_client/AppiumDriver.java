@@ -17,6 +17,7 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
@@ -50,6 +51,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"))
             .put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"))
             .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
+            .put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -176,6 +178,13 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
   }
 
+  public TouchAction performTouchAction(TouchAction touchAction) {
+    ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
+    touchAction.clearParameters();
+    execute(PERFORM_TOUCH_ACTION, parameters);
+
+    return touchAction;
+  }
 
   @Override
   public WebDriver context(String name) {

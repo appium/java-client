@@ -29,4 +29,6 @@ public interface MobileDriver extends WebDriver, ContextAware {
 
   public Response execute(String driverCommand, Map<String, ?> parameters);
 
+  public TouchAction performTouchAction(TouchAction touchAction);
+
 }

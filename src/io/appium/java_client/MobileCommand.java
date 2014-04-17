@@ -33,6 +33,8 @@ public interface MobileCommand {
   String PUSH_FILE = "pushFile";
   String HIDE_KEYBOARD = "hideKeyboard";
   String RUN_APP_IN_BACKGROUND = "runAppInBackground";
+  String PERFORM_TOUCH_ACTION = "performTouchAction";
+  String PERFORM_MULTI_TOUCH = "performMultiTouch";
 
 
 }
