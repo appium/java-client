@@ -52,6 +52,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"))
             .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
             .put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"))
+            .put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -178,12 +179,34 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
   }
 
+  /**
+   * Performs a chain of touch actions, which together can be considered an entire gesture.
+   * See the Webriver 3 spec https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
+   *
+   * It's more convenient to call the perform() method of the TouchAction object itself.
+   *
+   * @param touchAction A TouchAction object, which contains a list of individual touch actions to perform
+   * @return the same touchaction object
+   */
   public TouchAction performTouchAction(TouchAction touchAction) {
     ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
     touchAction.clearParameters();
     execute(PERFORM_TOUCH_ACTION, parameters);
 
     return touchAction;
+  }
+
+  /**
+   * Performs multiple TouchAction gestures at the same time, to simulate multiple fingers/touch inputs.
+   * See the Webriver 3 spec https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
+   *
+   * It's more convenient to call the perform() method of the MultiTouchAction object.
+   *
+   * @param multiAction the MultiTouchAction object to perform.
+   */
+  public void performMultiTouchAction(MultiTouchAction multiAction) {
+    ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
+    execute(PERFORM_MULTI_TOUCH, parameters);
   }
 
   @Override

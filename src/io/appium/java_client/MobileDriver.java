@@ -31,4 +31,5 @@ public interface MobileDriver extends WebDriver, ContextAware {
 
   public TouchAction performTouchAction(TouchAction touchAction);
 
+  public void performMultiTouchAction(MultiTouchAction multiAction);
 }

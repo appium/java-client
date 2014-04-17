@@ -81,4 +81,24 @@ public class MobileDriverGestureTest {
     Thread.sleep(2000);
   }
 
+  @Test
+  public void MultiGestureTest() throws InterruptedException {
+    WebDriverWait wait = new WebDriverWait(driver, 2);
+
+    WebElement button = driver.findElementsByTagName("button").get(5);
+    TouchAction action = new TouchAction(driver);
+    action.press(button).perform();
+
+    wait.until(ExpectedConditions.alertIsPresent());
+    Alert alert = driver.switchTo().alert();
+    alert.accept();
+
+    WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
+
+    MultiTouchAction multiTouch = new MultiTouchAction(driver);
+    TouchAction action0 = new TouchAction(driver).press(mapview, 100, 0).moveTo(mapview, 0,-80).release();
+    TouchAction action1 = new TouchAction(driver).press(mapview, 100, 50).moveTo(mapview, 0,80).release();
+    multiTouch.add(action0).add(action1).perform();
+    Thread.sleep(2000);
+  }
 }
