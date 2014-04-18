@@ -53,6 +53,15 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
             .put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"))
             .put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"))
+            .put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"))
+            .put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"))
+            .put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"))
+            .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
+            .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
+            .put(END_TEST_COVERAGE, postC("/session/:sessionId/appium/app/end_test_coverage"))
+            .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
+            .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
+            .put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -353,14 +362,14 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     multiTouch.perform();
   }
 
-  /**
+   /**
    * In iOS apps, named TextFields have the same accessibility Id as their containing TableElement.
    * This is a convenience method for getting the named TextField, rather than its containing element.
    * @param name accessiblity id of TextField
    * @return The textfield with the given accessibility id
    */
   public WebElement getNamedTextField(String name) {
-    RemoteWebElement element = (RemoteWebElement)findElementByAccessibilityId(name);
+    RemoteWebElement element = (RemoteWebElement) findElementByAccessibilityId(name);
     System.out.println("tag name: " + element.getTagName());
     if (element.getTagName() != "TextField") {
       MobileElement mobileElement = new MobileElement(element, this);
@@ -369,6 +378,82 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
     return element;
   }
+
+  /**
+   * Checks if an app is installed on the device
+   * @param bundleId bundleId of the app
+   * @return True if app is installed, false otherwise
+   */
+  public boolean isAppInstalled(String bundleId) {
+    Response response = execute(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId));
+
+    return Boolean.parseBoolean(response.getValue().toString());
+  }
+
+  /**
+   * Install an app on the mobile device
+   * @param appPath path to app to install
+   */
+  public void installApp(String appPath) {
+    execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
+  }
+
+  /**
+   * Remove the specified app from the device (uninstall)
+   * @param bundleId the bunble identifier (or app id) of the app to remove
+   */
+  public void removeApp(String bundleId) {
+    execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
+  }
+
+  /**
+   * Launch the app which was provided in the capabilities at session creation
+   */
+  public void launchApp() {
+    execute(LAUNCH_APP);
+  }
+
+  /**
+   * Close the app which was provided in the capabilities at session creation
+   */
+  public void closeApp() {
+    execute(CLOSE_APP);
+  }
+
+  /**
+   * Get test-coverage data
+   * Android-only method
+   * @param intent intent to broadcast
+   * @param path path to .ec file
+   */
+  public void endTestCoverage(String intent, String path) {
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("intent", intent).put("path", path);
+    execute(END_TEST_COVERAGE, builder.build());
+  }
+
+  /**
+   * Lock the device (bring it to the lock screen) for a given number of seconds
+   * @param seconds number of seconds to lock the screen for
+   */
+  public void lockScreen(int seconds) {
+    execute(LOCK, ImmutableMap.of("seconds", seconds));
+  }
+
+  /**
+   * Simulate shaking the device
+   */
+  public void shake() {
+    execute(SHAKE);
+  }
+
+  public String complexFind(String[] complex) {
+    Response response = execute(COMPLEX_FIND, ImmutableMap.of("selector", complex));
+
+    return response.toString();
+  }
+
+
 
 
   @Override

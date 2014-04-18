@@ -35,6 +35,15 @@ public interface MobileCommand {
   String RUN_APP_IN_BACKGROUND = "runAppInBackground";
   String PERFORM_TOUCH_ACTION = "performTouchAction";
   String PERFORM_MULTI_TOUCH = "performMultiTouch";
+  String IS_APP_INSTALLED = "isAppInstalled";
+  String INSTALL_APP = "installApp";
+  String REMOVE_APP = "removeApp";
+  String LAUNCH_APP = "launchApp";
+  String CLOSE_APP = "closeApp";
+  String END_TEST_COVERAGE = "endTestCoverage";
+  String LOCK = "lock";
+  String SHAKE = "shake";
+  String COMPLEX_FIND = "complexFind";
 
 
 }
