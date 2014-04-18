@@ -101,4 +101,22 @@ public class MobileDriverGestureTest {
     multiTouch.add(action0).add(action1).perform();
     Thread.sleep(2000);
   }
+
+  @Test
+  public void ZoomTest() throws InterruptedException {
+    WebDriverWait wait = new WebDriverWait(driver, 2);
+
+    WebElement button = driver.findElementsByTagName("button").get(5);
+    TouchAction action = new TouchAction(driver);
+    action.press(button).perform();
+
+    wait.until(ExpectedConditions.alertIsPresent());
+    Alert alert = driver.switchTo().alert();
+    alert.accept();
+
+    WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
+
+    driver.zoom(mapview);
+    Thread.sleep(2000);
+  }
 }

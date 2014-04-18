@@ -209,12 +209,156 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     execute(PERFORM_MULTI_TOUCH, parameters);
   }
 
+  /**
+   * Convenience method for tapping the center of an element on the screen
+   * @param fingers number of fingers/appendages to tap with
+   * @param element element to tap
+   * @param duration how long between pressing down, and lifting fingers/appendages
+   */
+  public void tap(int fingers, WebElement element, int duration) {
+    MultiTouchAction multiTouch = new MultiTouchAction(this);
+
+    for (int i = 0; i < fingers; i++) {
+      multiTouch.add(createTap(element, duration));
+    }
+
+    multiTouch.perform();
+  }
+
+  /**
+   * Convenience method for tapping a position on the screen
+   * @param fingers number of fingers/appendages to tap with
+   * @param x x coordinate
+   * @param y y coordinate
+   * @param duration
+   */
+  public void tap(int fingers, int x, int y, int duration) {
+    MultiTouchAction multiTouch = new MultiTouchAction(this);
+
+    for (int i = 0; i < fingers; i++) {
+      multiTouch.add(createTap(x, y, duration));
+    }
+
+    multiTouch.perform();
+  }
+
+  /**
+   * Convenience method for swiping across the screen
+   * @param startx starting x coordinate
+   * @param starty starting y coordinate
+   * @param endx ending x coordinate
+   * @param endy ending y coordinate
+   * @param duration amount of time in milliseconds for the entire swipe action to take
+   */
+  public void swipe(int startx, int starty, int endx, int endy, int duration) {
+    TouchAction touchAction = new TouchAction(this);
+
+    //appium converts press-wait-moveto-release to a swipe action
+    touchAction.press(startx, starty).waitAction(duration).moveTo(endx, endy).release();
+
+    touchAction.perform();
+  }
+
+  /**
+   * Convenience method for pinching an element on the screen.
+   * "pinching" refers to the action of two appendages pressing the screen and sliding towards each other.
+   * NOTE:
+   * This convenience method places the initial touches around the element, if this would happen to place one of them
+   * off the screen, appium with return an outOfBounds error. In this case, revert to using the MultiTouchAction api
+   * instead of this method.
+   *
+   * @param el The element to pinch
+   */
+  public void pinch(WebElement el) {
+    MultiTouchAction multiTouch = new MultiTouchAction(this);
+
+    Dimension dimensions = el.getSize();
+    Point upperLeft = el.getLocation();
+    Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
+
+    TouchAction action0 = new TouchAction(this).press(el, center.getX(), center.getY() - 100).moveTo(el).release();
+    TouchAction action1 = new TouchAction(this).press(el, center.getX(), center.getY() + 100).moveTo(el).release();
+
+    multiTouch.add(action0).add(action1);
+
+    multiTouch.perform();
+  }
+
+  /**
+   * Convenience method for pinching an element on the screen.
+   * "pinching" refers to the action of two appendages pressing the screen and sliding towards each other.
+   * NOTE:
+   * This convenience method places the initial touches around the element at a distance, if this would happen to place
+   * one of them off the screen, appium will return an outOfBounds error. In this case, revert to using the
+   * MultiTouchAction api instead of this method.
+   *
+   * @param x x coordinate to terminate the pinch on
+   * @param y y coordinate to terminate the pinch on
+   */
+  public void pinch(int x, int y) {
+    MultiTouchAction multiTouch = new MultiTouchAction(this);
+
+    TouchAction action0 = new TouchAction(this).press(x, y-100).moveTo(x, y).release();
+    TouchAction action1 = new TouchAction(this).press(x, y+100).moveTo(x, y).release();
+
+    multiTouch.add(action0).add(action1);
+
+    multiTouch.perform();
+  }
+
+  /**
+   * Convenience method for "zooming in" on an element on the screen.
+   * "zooming in" refers to the action of two appendages pressing the screen and sliding away from each other.
+   * NOTE:
+   * This convenience method slides touches away from the element, if this would happen to place one of them
+   * off the screen, appium will return an outOfBounds error. In this case, revert to using the MultiTouchAction api
+   * instead of this method.
+   *
+   * @param el The element to pinch
+   */
+  public void zoom(WebElement el) {
+    MultiTouchAction multiTouch = new MultiTouchAction(this);
+
+    Dimension dimensions = el.getSize();
+    Point upperLeft = el.getLocation();
+    Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
+
+    TouchAction action0 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() - 100).release();
+    TouchAction action1 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() + 100).release();
+
+    multiTouch.add(action0).add(action1);
+
+    multiTouch.perform();
+  }
+
+  /**
+   * Convenience method for "zooming in" on an element on the screen.
+   * "zooming in" refers to the action of two appendages pressing the screen and sliding away from each other.
+   * NOTE:
+   * This convenience method slides touches away from the element, if this would happen to place one of them
+   * off the screen, appium will return an outOfBounds error. In this case, revert to using the MultiTouchAction api
+   * instead of this method.
+   *
+   * @param x x coordinate to start zoom on
+   * @param y y coordinate to start zoom on
+   */
+  public void zoom(int x, int y) {
+    MultiTouchAction multiTouch = new MultiTouchAction(this);
+
+    TouchAction action0 = new TouchAction(this).press(x, y).moveTo(x, y-100).release();
+    TouchAction action1 = new TouchAction(this).press(x, y).moveTo(x, y+100).release();
+
+    multiTouch.add(action0).add(action1);
+
+    multiTouch.perform();
+  }
+
+
   @Override
   public WebDriver context(String name) {
     if (name == null) {
       throw new IllegalArgumentException("Must supply a context name");
     }
-
 
     execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
     return AppiumDriver.this;
@@ -269,6 +413,16 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   @Override
   public List<WebElement> findElementsByAccessibilityId(String using) {
     return findElements("accessibility id", using);
+  }
+
+  private TouchAction createTap(WebElement element, int duration) {
+    TouchAction tap = new TouchAction(this);
+    return tap.press(element).waitAction(duration).release();
+  }
+
+  private TouchAction createTap(int x, int y, int duration) {
+    TouchAction tap = new TouchAction(this);
+    return tap.press(x, y).waitAction(duration).release();
   }
 
   private static CommandInfo getC(String url) {

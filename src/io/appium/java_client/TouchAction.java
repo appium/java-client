@@ -29,7 +29,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
  *
  * The flow is to chain individual touch actions into an entire gesture. e.g.
  *   TouchAction action = new TouchAction(driver);
- *   action.press(element).wait(300).moveTo(element1).release().perform();
+ *   action.press(element).waitAction(300).moveTo(element1).release().perform();
  *
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
  */

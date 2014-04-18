@@ -36,7 +36,7 @@ import com.google.common.collect.ImmutableMap;
  *   other appendages or tools touching the screen at the same time as part of this multi-gesture.
  * Then the driver performs the second step of each TouchAction object and another "execution group", and the third, and so on.
  *
- * Using a wait() action within a TouchAction takes up one of the slots in an "execution group", so these can be used to
+ * Using a waitAction() action within a TouchAction takes up one of the slots in an "execution group", so these can be used to
  *   sync up complex actions.
  *
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
