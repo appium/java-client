@@ -35,6 +35,7 @@ public interface MobileCommand {
   String RUN_APP_IN_BACKGROUND = "runAppInBackground";
   String PERFORM_TOUCH_ACTION = "performTouchAction";
   String PERFORM_MULTI_TOUCH = "performMultiTouch";
+  String IS_APP_INSTALLED = "isAppInstalled";
 
 
 }

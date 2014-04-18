@@ -53,6 +53,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
             .put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"))
             .put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"))
+            .put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -353,14 +354,14 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     multiTouch.perform();
   }
 
-  /**
+   /**
    * In iOS apps, named TextFields have the same accessibility Id as their containing TableElement.
    * This is a convenience method for getting the named TextField, rather than its containing element.
    * @param name accessiblity id of TextField
    * @return The textfield with the given accessibility id
    */
   public WebElement getNamedTextField(String name) {
-    RemoteWebElement element = (RemoteWebElement)findElementByAccessibilityId(name);
+    RemoteWebElement element = (RemoteWebElement) findElementByAccessibilityId(name);
     System.out.println("tag name: " + element.getTagName());
     if (element.getTagName() != "TextField") {
       MobileElement mobileElement = new MobileElement(element, this);
@@ -368,6 +369,17 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     }
 
     return element;
+  }
+
+  /**
+   * Checks if an app is installed on the device
+   * @param bundleId bundleId of the app
+   * @return True if app is installed, false otherwise
+   */
+  public boolean isAppInstalled(String bundleId) {
+    Response response = execute(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId));
+
+    return Boolean.parseBoolean(response.getValue().toString());
   }
 
 
