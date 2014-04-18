@@ -27,6 +27,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import java.io.File;
 import java.net.URL;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Test Mobile Driver features
  */
@@ -63,6 +65,15 @@ public class MobileDriverIOSTest {
     element.click();
     element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("Normal"), driver);
     element.setValue("Grace Hopper");
+  }
+
+  @Test
+  public void namedTextFieldTest() {
+    MobileElement element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField"), driver);
+    element.click();
+    element = new MobileElement((RemoteWebElement)driver.getNamedTextField("Normal"), driver);
+    element.setValue("Grace Hopper");
+    assertEquals("Grace Hopper", element.getText());
   }
 
   @Test

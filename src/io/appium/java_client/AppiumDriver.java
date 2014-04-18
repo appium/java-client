@@ -353,6 +353,23 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     multiTouch.perform();
   }
 
+  /**
+   * In iOS apps, named TextFields have the same accessibility Id as their containing TableElement.
+   * This is a convenience method for getting the named TextField, rather than its containing element.
+   * @param name accessiblity id of TextField
+   * @return The textfield with the given accessibility id
+   */
+  public WebElement getNamedTextField(String name) {
+    RemoteWebElement element = (RemoteWebElement)findElementByAccessibilityId(name);
+    System.out.println("tag name: " + element.getTagName());
+    if (element.getTagName() != "TextField") {
+      MobileElement mobileElement = new MobileElement(element, this);
+      return mobileElement.findElementByAccessibilityId(name);
+    }
+
+    return element;
+  }
+
 
   @Override
   public WebDriver context(String name) {
