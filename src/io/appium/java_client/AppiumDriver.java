@@ -61,6 +61,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(END_TEST_COVERAGE, postC("/session/:sessionId/appium/app/end_test_coverage"))
             .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
             .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
+            .put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -444,6 +445,12 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public void shake() {
     execute(SHAKE);
+  }
+
+  public String complexFind(String[] complex) {
+    Response response = execute(COMPLEX_FIND, ImmutableMap.of("selector", complex));
+
+    return response.toString();
   }
 
 

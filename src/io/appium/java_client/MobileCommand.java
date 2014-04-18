@@ -43,6 +43,7 @@ public interface MobileCommand {
   String END_TEST_COVERAGE = "endTestCoverage";
   String LOCK = "lock";
   String SHAKE = "shake";
+  String COMPLEX_FIND = "complexFind";
 
 
 }
