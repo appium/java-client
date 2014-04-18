@@ -65,4 +65,27 @@ public class MobileDriverIOSTest {
     element.setValue("Grace Hopper");
   }
 
+  @Test
+  public void pullFileTest() {
+    byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
+    assert(data.length > 0);
+  }
+
+  @Test
+  public void hideKeyboardTest() {
+    MobileElement element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField"), driver);
+    element.click();
+    element = new MobileElement((RemoteWebElement)driver.findElementByAccessibilityId("Normal"), driver);
+    element.click();
+    driver.hideKeyboard();
+  }
+
+  @Test
+  public void runAppInBackgroundTest() {
+    long time = System.currentTimeMillis();
+    driver.runAppInBackground(4);
+    long timeAfter = System.currentTimeMillis();
+    assert(timeAfter - time > 3000);
+  }
+
 }
