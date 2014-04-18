@@ -56,6 +56,8 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"))
             .put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"))
             .put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"))
+            .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
+            .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -398,6 +400,20 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public void removeApp(String bundleId) {
     execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
+  }
+
+  /**
+   * Launch the app which was provided in the capabilities at session creation
+   */
+  public void launchApp() {
+    execute(LAUNCH_APP);
+  }
+
+  /**
+   * Close the app which was provided in the capabilities at session creation
+   */
+  public void closeApp() {
+    execute(CLOSE_APP);
   }
 
 

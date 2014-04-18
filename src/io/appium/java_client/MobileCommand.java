@@ -38,6 +38,8 @@ public interface MobileCommand {
   String IS_APP_INSTALLED = "isAppInstalled";
   String INSTALL_APP = "installApp";
   String REMOVE_APP = "removeApp";
+  String LAUNCH_APP = "launchApp";
+  String CLOSE_APP = "closeApp";
 
 
 }

@@ -26,9 +26,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Test Mobile Driver features
@@ -83,5 +81,12 @@ public class MobileDriverAndroidTest {
   @Test
   public void isAppNotInstalledTest() {
     assertFalse(driver.isAppInstalled("foo"));
+  }
+
+  @Test
+  public void closeAppTest() throws InterruptedException {
+    driver.closeApp();
+    driver.launchApp();
+    assertEquals(".ApiDemos", driver.currentActivity());
   }
 }
