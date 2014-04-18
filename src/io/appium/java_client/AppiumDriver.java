@@ -54,6 +54,8 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"))
             .put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"))
             .put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"))
+            .put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"))
+            .put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -380,6 +382,22 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     Response response = execute(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId));
 
     return Boolean.parseBoolean(response.getValue().toString());
+  }
+
+  /**
+   * Install an app on the mobile device
+   * @param appPath path to app to install
+   */
+  public void installApp(String appPath) {
+    execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
+  }
+
+  /**
+   * Remove the specified app from the device (uninstall)
+   * @param bundleId the bunble identifier (or app id) of the app to remove
+   */
+  public void removeApp(String bundleId) {
+    execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
   }
 
 

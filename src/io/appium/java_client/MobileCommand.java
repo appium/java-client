@@ -36,6 +36,8 @@ public interface MobileCommand {
   String PERFORM_TOUCH_ACTION = "performTouchAction";
   String PERFORM_MULTI_TOUCH = "performMultiTouch";
   String IS_APP_INSTALLED = "isAppInstalled";
+  String INSTALL_APP = "installApp";
+  String REMOVE_APP = "removeApp";
 
 
 }
