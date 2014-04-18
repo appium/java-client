@@ -59,6 +59,8 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
             .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
             .put(END_TEST_COVERAGE, postC("/session/:sessionId/appium/app/end_test_coverage"))
+            .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
+            .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -427,6 +429,21 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     ImmutableMap.Builder builder = ImmutableMap.builder();
     builder.put("intent", intent).put("path", path);
     execute(END_TEST_COVERAGE, builder.build());
+  }
+
+  /**
+   * Lock the device (bring it to the lock screen) for a given number of seconds
+   * @param seconds number of seconds to lock the screen for
+   */
+  public void lockScreen(int seconds) {
+    execute(LOCK, ImmutableMap.of("seconds", seconds));
+  }
+
+  /**
+   * Simulate shaking the device
+   */
+  public void shake() {
+    execute(SHAKE);
   }
 
 

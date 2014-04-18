@@ -41,6 +41,8 @@ public interface MobileCommand {
   String LAUNCH_APP = "launchApp";
   String CLOSE_APP = "closeApp";
   String END_TEST_COVERAGE = "endTestCoverage";
+  String LOCK = "lock";
+  String SHAKE = "shake";
 
 
 }

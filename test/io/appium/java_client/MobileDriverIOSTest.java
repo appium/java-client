@@ -27,8 +27,6 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.*;
-
 /**
  * Test Mobile Driver features
  */
@@ -99,6 +97,9 @@ public class MobileDriverIOSTest {
     assert(timeAfter - time > 3000);
   }
 
-
+  @Test
+  public void lockTest() {
+    driver.lockScreen(3);
+  }
 
 }
