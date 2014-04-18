@@ -40,6 +40,7 @@ public interface MobileCommand {
   String REMOVE_APP = "removeApp";
   String LAUNCH_APP = "launchApp";
   String CLOSE_APP = "closeApp";
+  String END_TEST_COVERAGE = "endTestCoverage";
 
 
 }

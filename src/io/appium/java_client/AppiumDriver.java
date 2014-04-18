@@ -58,6 +58,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"))
             .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
             .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
+            .put(END_TEST_COVERAGE, postC("/session/:sessionId/appium/app/end_test_coverage"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -415,6 +416,20 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   public void closeApp() {
     execute(CLOSE_APP);
   }
+
+  /**
+   * Get test-coverage data
+   * Android-only method
+   * @param intent intent to broadcast
+   * @param path path to .ec file
+   */
+  public void endTestCoverage(String intent, String path) {
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("intent", intent).put("path", path);
+    execute(END_TEST_COVERAGE, builder.build());
+  }
+
+
 
 
   @Override
