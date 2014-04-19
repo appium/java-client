@@ -5,6 +5,8 @@ Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Pr
 
 Depends upon the Selenium Java client library, available [here](http://docs.seleniumhq.org/download/)
 
+In the process of hosting on the Maven Central Repository, for now you can find the compiled jar in out/artifacts/java_client
+
 ###Added functions###
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
 
