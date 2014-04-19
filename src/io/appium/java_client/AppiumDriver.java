@@ -370,7 +370,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public WebElement getNamedTextField(String name) {
     RemoteWebElement element = (RemoteWebElement) findElementByAccessibilityId(name);
-    System.out.println("tag name: " + element.getTagName());
     if (element.getTagName() != "TextField") {
       MobileElement mobileElement = new MobileElement(element, this);
       return mobileElement.findElementByAccessibilityId(name);
