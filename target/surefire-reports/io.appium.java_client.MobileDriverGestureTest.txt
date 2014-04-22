@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.appium.java_client.MobileDriverGestureTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 77.048 sec

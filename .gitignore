@@ -1,2 +1,4 @@
 #IDE specific files
 .idea/*
+out/*
+settings.xml

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.appium.java_client.AndroidUIAutomatorTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 215.498 sec
