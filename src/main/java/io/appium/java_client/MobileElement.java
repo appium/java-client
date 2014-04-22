@@ -19,6 +19,8 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.*;
 
@@ -66,6 +68,12 @@ public class MobileElement extends RemoteWebElement {
     ImmutableMap.Builder builder = ImmutableMap.builder();
     builder.put("id", id).put("value", value);
     execute(MobileCommand.SET_VALUE, builder.build());
+  }
+
+  public Point getCenter() {
+    Point upperLeft = this.getLocation();
+    Dimension dimensions = this.getSize();
+    return new Point(upperLeft.getX() + dimensions.getWidth()/2, upperLeft.getY() + dimensions.getHeight()/2);
   }
 
   protected Response execute(String command, Map<String, ?> parameters) {
