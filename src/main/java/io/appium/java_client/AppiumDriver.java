@@ -441,6 +441,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   /**
    * Simulate shaking the device
+   * This is an iOS-only method
    */
   public void shake() {
     execute(SHAKE);
