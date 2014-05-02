@@ -47,7 +47,7 @@ public class IosUIAutomationTest {
   @Test
   public void findElementsTest() {
     List<WebElement> elements = driver.findElementsByIosUIAutomation("elements()");
-    assertEquals(3, elements.size());
+    assertEquals(2, elements.size());
   }
 
   @Test

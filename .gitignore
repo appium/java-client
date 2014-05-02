@@ -2,4 +2,6 @@
 .idea/*
 out/*
 target/classes/*
+target/test-classes/*
+target/surfire-reports/*
 settings.xml

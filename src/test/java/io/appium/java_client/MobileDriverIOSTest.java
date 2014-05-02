@@ -27,6 +27,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import java.io.File;
 import java.net.URL;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Test Mobile Driver features
  */
