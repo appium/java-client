@@ -1,4 +1,5 @@
 #IDE specific files
 .idea/*
 out/*
+target/classes/*
 settings.xml
