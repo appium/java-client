@@ -1,5 +1,6 @@
 #IDE specific files
 .idea/*
+out
 out/*
 target/classes/*
 target/test-classes/*
