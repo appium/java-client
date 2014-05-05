@@ -31,7 +31,7 @@ import java.util.Set;
 
 import static io.appium.java_client.MobileCommand.*;
 
-public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation,
+public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, Rotatable, FindsByIosUIAutomation,
         FindsByAndroidUIAutomator, FindsByAccessibilityId {
 
   private final static MobileErrorHandler errorHandler = new MobileErrorHandler();
@@ -488,6 +488,24 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
   @Override
+  public void rotate(ScreenOrientation orientation) {
+    execute(DriverCommand.SET_SCREEN_ORIENTATION, ImmutableMap.of("orientation", orientation.value().toUpperCase()));
+  }
+
+  @Override
+  public ScreenOrientation getOrientation() {
+    Response response = execute(DriverCommand.GET_SCREEN_ORIENTATION);
+    String orientation = response.getValue().toString().toLowerCase();
+    if (orientation.equals(ScreenOrientation.LANDSCAPE.value())) {
+      return ScreenOrientation.LANDSCAPE;
+    } else if (orientation.equals(ScreenOrientation.PORTRAIT.value())) {
+      return ScreenOrientation.PORTRAIT;
+    } else {
+      throw new WebDriverException("Unexpected orientation returned: " + orientation);
+    }
+  }
+
+  @Override
   public WebElement findElementByIosUIAutomation(String using) {
     return findElement("-ios uiautomation", using);
   }
@@ -538,4 +556,5 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   private static CommandInfo deleteC(String url) {
     return new CommandInfo(url, HttpVerb.DELETE);
   }
+
 }
