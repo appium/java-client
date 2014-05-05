@@ -34,7 +34,7 @@ import static io.appium.java_client.MobileCommand.*;
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, FindsByIosUIAutomation,
         FindsByAndroidUIAutomator, FindsByAccessibilityId {
 
-  private final MobileErrorHandler errorHandler = new MobileErrorHandler();
+  private final static MobileErrorHandler errorHandler = new MobileErrorHandler();
 
   public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities){
 
