@@ -11,7 +11,7 @@ Hosted in Maven Central Repository:
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.0</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
@@ -54,3 +54,8 @@ Locators:
 - findElementsByIosUIAutomation()
 - findElementByAndroidUIAutomator()
 - findElementsByAndroidUIAutomator()
+
+##Changelog##
+
+*1.0.2*
+- recompiled to include some missing methods such as shake() and complexFind()
