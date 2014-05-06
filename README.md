@@ -11,7 +11,7 @@ Hosted in Maven Central Repository:
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.0.2</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
@@ -56,6 +56,8 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
-
+*1.1.0*
+- AppiumDriver now implements Rotatable. rotate() and getOrientation() methods added
+- when no appium server is running, the proper error is thrown, instead of a NullPointerException
 *1.0.2*
 - recompiled to include some missing methods such as shake() and complexFind()
