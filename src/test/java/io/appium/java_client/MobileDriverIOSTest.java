@@ -21,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -103,6 +104,13 @@ public class MobileDriverIOSTest {
   @Test
   public void lockTest() {
     driver.lockScreen(3);
+  }
+
+  @Test
+  public void orientationTest() {
+    assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
+    driver.rotate(ScreenOrientation.LANDSCAPE);
+    assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
   }
 
 }
