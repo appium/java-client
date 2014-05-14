@@ -17,6 +17,8 @@ Hosted in Maven Central Repository:
 
 Or, the compiled jar can be found in out/artifacts/java_client
 
+Javadocs: http://appium.github.io/java-client/
+
 ###Added functions###
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
 
