@@ -39,6 +39,28 @@ public class AndroidUIAutomatorTest {
   }
 
   @Test
+  public void complexFind() {
+    String animation = String.format("[\"scroll\",[[3,\"%1$s\"]],[[7,\"%1$s\"]]]", "animation");
+    String cloning = String.format("[\"scroll\",[[3,\"%1$s\"]],[[7,\"%1$s\"]]]", "cloning");
+
+    driver.complexFind(animation).click();
+    driver.complexFind(cloning).click();
+  }
+
+  @Test
+  public void scrollTo() {
+    driver.scrollTo("animation").click();
+    driver.scrollTo("cloning").click();
+  }
+
+  @Test
+  public void scrollToExact() {
+    driver.scrollToExact("Animation").click();
+    driver.scrollToExact("Cloning").click();
+  }
+
+
+  @Test
   public void findElementTest() {
     WebElement element = driver.findElementByAndroidUIAutomator("new UiSelector().index(0)");
     assertEquals("android.widget.FrameLayout", element.getTagName());
