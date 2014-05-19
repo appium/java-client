@@ -4,5 +4,5 @@ out
 out/*
 target/classes/*
 target/test-classes/*
-target/surfire-reports/*
+target/surefire-reports/*
 settings.xml

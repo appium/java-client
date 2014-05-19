@@ -63,3 +63,9 @@ Locators:
 - when no appium server is running, the proper error is thrown, instead of a NullPointerException
 *1.0.2*
 - recompiled to include some missing methods such as shake() and complexFind()
+
+## Running tests
+
+Run a test using
+
+>  mvn -Dtest=io.appium.java_client.MobileDriverAndroidTest clean test

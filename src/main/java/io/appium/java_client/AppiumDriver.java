@@ -35,10 +35,15 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
         FindsByAndroidUIAutomator, FindsByAccessibilityId {
 
   private final static MobileErrorHandler errorHandler = new MobileErrorHandler();
+  private URL remoteAddress;
+  private ComplexFind complexFind;
 
   public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities){
 
     super(remoteAddress, desiredCapabilities);
+
+    this.remoteAddress = remoteAddress;
+    complexFind = new ComplexFind(this);
 
     ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap.builder();
     builder
@@ -461,14 +466,17 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     execute(SHAKE);
   }
 
-  public String complexFind(String[] complex) {
-    Response response = execute(COMPLEX_FIND, ImmutableMap.of("selector", complex));
-
-    return response.toString();
+  public MobileElement complexFind(String complex) {
+    return complexFind.execute(complex);
   }
 
+  public MobileElement scrollTo(String text) {
+    return complexFind.scrollTo(text);
+  }
 
-
+  public MobileElement scrollToExact(String text) {
+    return complexFind.scrollToExact(text);
+  }
 
   @Override
   public WebDriver context(String name) {
@@ -571,4 +579,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     return new CommandInfo(url, HttpVerb.DELETE);
   }
 
+  public URL getRemoteAddress() {
+      return remoteAddress;
+  }
 }
