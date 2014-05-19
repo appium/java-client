@@ -1,6 +1,5 @@
 package io.appium.java_client;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,12 +88,4 @@ public class AndroidUIAutomatorTest {
     driver.findElementByAndroidUIAutomator(null);
   }
 
-  @Test
-  public void pushFileTest() {
-    byte[] data = Base64.encodeBase64("The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra".getBytes());
-    driver.pushFile("/data/local/tmp/remote.txt", data);
-    byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
-    String returnDataDecoded = new String(Base64.decodeBase64(returnData));
-    assertEquals("The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra", returnDataDecoded);
-  }
 }
