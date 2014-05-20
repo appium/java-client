@@ -63,9 +63,11 @@ Locators:
 *1.2.0*
 - complexFind() now returns MobileElement objects
 - added scrollTo() and scrollToExact() methods for use with complexFind()
+
 *1.1.0*
 - AppiumDriver now implements Rotatable. rotate() and getOrientation() methods added
 - when no appium server is running, the proper error is thrown, instead of a NullPointerException
+
 *1.0.2*
 - recompiled to include some missing methods such as shake() and complexFind()
 
