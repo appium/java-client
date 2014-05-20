@@ -60,6 +60,9 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*1.2.1*
+- fix dependency issue
+
 *1.2.0*
 - complexFind() now returns MobileElement objects
 - added scrollTo() and scrollToExact() methods for use with complexFind()
