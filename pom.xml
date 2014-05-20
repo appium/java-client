@@ -28,6 +28,11 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcomponents-client</artifactId>
+            <version>4.3.3</version>
+        </dependency>
     </dependencies>
     <packaging>jar</packaging>
     <name>java-client</name>
