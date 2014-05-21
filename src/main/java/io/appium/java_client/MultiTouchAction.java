@@ -66,7 +66,16 @@ public class MultiTouchAction {
    * Perform the multi-touch action on the mobile driver.
    */
   public void perform() {
-    driver.performMultiTouchAction(this);
+    int size = actions.build().size();
+    if (size > 1) {
+      driver.performMultiTouchAction(this);
+    } else if (size == 1) {
+      //android doesn't like having multi-touch actions with only a single TouchAction...
+      driver.performTouchAction((TouchAction)actions.build().get(0));
+    } else {
+      throw new MissingParameterException("MultiTouch action must have at least one TouchAction added before it can be performed");
+    }
+
   }
 
   protected ImmutableMap getParameters() {

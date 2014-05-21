@@ -60,6 +60,9 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*github HEAD*
+- MultiGesture with a single TouchAction fixed for Android
+
 *1.2.1*
 - fix dependency issue
 

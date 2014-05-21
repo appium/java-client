@@ -33,7 +33,7 @@ import java.net.URL;
 /**
  * Test Mobile Driver features
  */
-public class MobileDriverGestureTest {
+public class iOSGestureTest {
 
   private AppiumDriver driver;
 
@@ -118,5 +118,10 @@ public class MobileDriverGestureTest {
 
     driver.zoom(mapview);
     Thread.sleep(2000);
+  }
+
+  @Test
+  public void TapSingleFingerTest() {
+    driver.tap(1,100,200,1000);
   }
 }
