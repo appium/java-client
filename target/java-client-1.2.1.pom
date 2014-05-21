@@ -6,12 +6,17 @@
 
     <groupId>io.appium</groupId>
     <artifactId>java-client</artifactId>
-    <version>1.0</version>
+    <version>1.2.1</version>
     <dependencies>
         <dependency>
             <groupId>com.google.collections</groupId>
             <artifactId>google-collections</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -22,6 +27,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.3</version>
         </dependency>
     </dependencies>
     <packaging>jar</packaging>
