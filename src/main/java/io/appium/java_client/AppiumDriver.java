@@ -34,7 +34,7 @@ import static io.appium.java_client.MobileCommand.*;
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, Rotatable, FindsByIosUIAutomation,
         FindsByAndroidUIAutomator, FindsByAccessibilityId {
 
-  private final static MobileErrorHandler errorHandler = new MobileErrorHandler();
+  private final static ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
   private URL remoteAddress;
   private ComplexFind complexFind;
 
@@ -73,18 +73,13 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     HttpCommandExecutor mobileExecutor = new HttpCommandExecutor(mobileCommands, remoteAddress);
     super.setCommandExecutor(mobileExecutor);
 
+    super.setErrorHandler(errorHandler);
   }
 
   @Override
   public Response execute(String driverCommand, Map<String, ?> parameters) {
-    try {
-      return super.execute(driverCommand, parameters);
-    } catch (WebDriverException ex) {
-      errorHandler.throwIfMobileError(ex);
-    }
 
-    throw new RuntimeException("An WebDriver error should have been thrown, if you're reading this, the problem is " +
-            "definitely in the Appium Driver");
+    return super.execute(driverCommand, parameters);
   }
 
   @Override
