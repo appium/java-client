@@ -60,8 +60,10 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
-*github HEAD*
+*1.3.0*
 - MultiGesture with a single TouchAction fixed for Android
+- Now depends upon Selenium java client 2.42.1
+- Cleanup of Errorcode handling, due to merging a change into Selenium
 
 *1.2.1*
 - fix dependency issue
