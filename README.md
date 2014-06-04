@@ -5,13 +5,13 @@ Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Pr
 
 Depends upon the Selenium Java client library, available [here](http://docs.seleniumhq.org/download/)
 
-Hosted in Maven Central Repository:
+Hosted in [Maven Central Repository](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22):
 
 ```
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.1.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
