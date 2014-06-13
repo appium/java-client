@@ -177,6 +177,20 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
   /**
+   * Pull a folder from the simulator/device. Does not work on iOS Real Devices, but works on simulators
+   *
+   * @param remotePath On Android and iOS, this is either the path to the file (relative to the root of the app's file system).
+   *                   On iOS only, if path starts with /AppName.app, which will be replaced with the application's .app directory
+   * @return A byte array of Base64 encoded data, representing a ZIP ARCHIVE of the contents of the requested folder.
+   */
+  public byte[] pullFolder(String remotePath) {
+    Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
+    String base64String = response.getValue().toString();
+
+    return DatatypeConverter.parseBase64Binary(base64String);
+  }
+
+  /**
    * Hides the keyboard if it is showing.
    * This is an iOS only command.
    */

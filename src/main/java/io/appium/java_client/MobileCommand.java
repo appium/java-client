@@ -31,6 +31,7 @@ public interface MobileCommand {
   String SET_VALUE = "setValue";
   String PULL_FILE = "pullFile";
   String PUSH_FILE = "pushFile";
+  String PULL_FOLDER = "pullFolder";
   String HIDE_KEYBOARD = "hideKeyboard";
   String RUN_APP_IN_BACKGROUND = "runAppInBackground";
   String PERFORM_TOUCH_ACTION = "performTouchAction";
