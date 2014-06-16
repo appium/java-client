@@ -53,7 +53,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
             .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
             .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"))
-            .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_folder"))
+            .put(PULL_FOLDER, postC("/session/:sessionId/appium/device/pull_folder"))
             .put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"))
             .put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"))
             .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
