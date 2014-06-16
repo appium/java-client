@@ -68,6 +68,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
             .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
             .put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"))
+            .put(OPEN_NOTIFICATIONS, postC("/session/:sessionId/appium/device/open_notifications"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -217,6 +218,11 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
   }
 
+  /**
+   * Open the notification shade, on Android devices.
+   * Android only method.
+   */
+  public void openNotifications() { execute(OPEN_NOTIFICATIONS); }
   /**
    * Performs a chain of touch actions, which together can be considered an entire gesture.
    * See the Webriver 3 spec https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html

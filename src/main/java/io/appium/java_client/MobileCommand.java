@@ -45,6 +45,7 @@ public interface MobileCommand {
   String LOCK = "lock";
   String SHAKE = "shake";
   String COMPLEX_FIND = "complexFind";
+  String OPEN_NOTIFICATIONS = "openNotifications";
 
 
 }
