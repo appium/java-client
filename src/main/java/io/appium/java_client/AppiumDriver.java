@@ -53,6 +53,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(CURRENT_ACTIVITY, getC("/session/:sessionId/appium/device/current_activity"))
             .put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"))
             .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"))
+            .put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_folder"))
             .put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"))
             .put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"))
             .put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"))
@@ -184,7 +185,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    * @return A byte array of Base64 encoded data, representing a ZIP ARCHIVE of the contents of the requested folder.
    */
   public byte[] pullFolder(String remotePath) {
-    Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
+    Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
     String base64String = response.getValue().toString();
 
     return DatatypeConverter.parseBase64Binary(base64String);
