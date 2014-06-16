@@ -29,6 +29,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - currentActivity()
 - pullFile()
 - pushFile()
+- pullFolder()
 - hideKeyboard()
 - runAppInBackground()
 - performTouchAction()
@@ -49,6 +50,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - complexFind()
 - scrollTo()
 - scrollToExact()
+- openNotifications()
 - Context Switching: .context(), .getContextHandles(), getContext())
 
 Locators:
@@ -60,6 +62,11 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*1.4.0*
+- Added openNotifications() method, to open the notifications shade on Android
+- Added pullFolder() method, to pull an entire folder as a zip archive from a device/simulator
+- Upgraded Selenium dependency to 2.42.2
+
 *1.3.0*
 - MultiGesture with a single TouchAction fixed for Android
 - Now depends upon Selenium java client 2.42.1
