@@ -42,7 +42,8 @@ public class MobileDriverAndroidTest {
     File app = new File(appDir, "ApiDemos-debug.apk");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability("device", "Android");
+    capabilities.setCapability("deviceName", "Android Emulator");
+    capabilities.setCapability("platformName", "Android");
     capabilities.setCapability("app", app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }

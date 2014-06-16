@@ -11,8 +11,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test context-related features
@@ -27,9 +27,9 @@ public class AccessibilityIdTest {
     File app = new File(appDir, "UICatalog.app.zip");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(CapabilityType.VERSION, "7.1");
-    capabilities.setCapability(CapabilityType.PLATFORM, "Mac");
-    capabilities.setCapability("device", "iPhone Simulator");
+    capabilities.setCapability("platformVersion", "7.1");
+    capabilities.setCapability("platformName", "iOS");
+    capabilities.setCapability("deviceName", "iPhone Simulator");
     capabilities.setCapability("app", app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
@@ -48,7 +48,7 @@ public class AccessibilityIdTest {
   @Test
   public void findElementsTest() {
     List<WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
-    assertEquals(1, elements.size());
+    assertTrue(elements.size() > 0);
   }
 
   @Test
@@ -60,6 +60,6 @@ public class AccessibilityIdTest {
   @Test
   public void MobileElementsByTest() {
     List<WebElement> elements = driver.findElements(MobileBy.AccessibilityId("UICatalog"));
-    assertEquals(1, elements.size());
+    assertTrue(elements.size() > 0);
   }
 }
