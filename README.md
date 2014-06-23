@@ -5,7 +5,7 @@ Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Pr
 
 Depends upon the Selenium Java client library, available [here](http://docs.seleniumhq.org/download/)
 
-Hosted in [Maven Central Repository](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22):
+[Download the jar from Maven](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22) or add the following to pom.xml:
 
 ```
 <dependency>
