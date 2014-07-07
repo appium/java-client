@@ -15,8 +15,6 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 </dependency>
 ```
 
-Or, the compiled jar can be found in out/artifacts/java_client
-
 Javadocs: http://appium.github.io/java-client/
 
 ###Added functions###
