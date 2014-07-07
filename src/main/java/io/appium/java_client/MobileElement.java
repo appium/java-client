@@ -17,72 +17,63 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.FileDetector;
+import org.openqa.selenium.remote.RemoteWebElement;
 
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
-public class MobileElement extends RemoteWebElement {
+public class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, FindsByAndroidUIAutomator,
+		FindsByIosUIAutomation {
 
-  private String foundBy;
-  protected FileDetector fileDetector;
+	protected FileDetector fileDetector;
 
-  private WebElement webElement;
-  private MobileDriver parent;
+	public List<WebElement> findElements(By by) {
+		return by.findElements(this);
+	}
 
-  public MobileElement(RemoteWebElement originalElement, MobileDriver parentDriver) {
+	public WebElement findElement(By by) {
+		return by.findElement(this);
+	}
 
-    webElement = originalElement;
-    this.id = originalElement.getId();
-    this.parent = parentDriver;
-    //The super doesn't need the parent object at ALL, it's terrible that it asks for one, when it only needs it for setFoundBy()
-    super.setParent(new FakeRemoteWebDriver());
-  }
+	public WebElement findElementByIosUIAutomation(String using) {
+		return findElement("-ios uiautomation", using);
+	}
 
-  public List<WebElement> findElements(By by) {
-    return by.findElements(this);
-  }
+	public List<WebElement> findElementsByIosUIAutomation(String using) {
+		return findElements("-ios uiautomation", using);
+	}
 
-  public WebElement findElement(By by) {
-    return by.findElement(this);
-  }
+	public WebElement findElementByAndroidUIAutomator(String using) {
+		return findElement("-android uiautomator", using);
+	}
 
-  public WebElement findElementByIosUIAutomation(String using) { return findElement("-ios uiautomation", using); }
+	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
+		return findElements("-android uiautomator", using);
+	}
 
-  public List<WebElement> findElementsByIosUIAutomation(String using) { return findElements("-ios uiautomation", using); }
+	public WebElement findElementByAccessibilityId(String using) {
+		return findElement("accessibility id", using);
+	}
 
-  public WebElement findElementByAndroidUIAutomator(String using) { return findElement("-android uiautomator", using); }
+	public List<WebElement> findElementsByAccessibilityId(String using) {
+		return findElements("accessibility id", using);
+	}
 
-  public List<WebElement> findElementsByAndroidUIAutomator(String using) { return findElements("-android uiautomator", using); }
+	public void setValue(String value) {
+		ImmutableMap.Builder builder = ImmutableMap.builder();
+		builder.put("id", id).put("value", value);
+		execute(MobileCommand.SET_VALUE, builder.build());
+	}
 
-  public WebElement findElementByAccessibilityId(String using) { return findElement("accessibility id", using); }
-
-  public List<WebElement> findElementsByAccessibilityId(String using) { return findElements("accessibility id", using); }
-
-  public void setValue(String value) {
-    ImmutableMap.Builder builder = ImmutableMap.builder();
-    builder.put("id", id).put("value", value);
-    execute(MobileCommand.SET_VALUE, builder.build());
-  }
-
-  public Point getCenter() {
-    Point upperLeft = this.getLocation();
-    Dimension dimensions = this.getSize();
-    return new Point(upperLeft.getX() + dimensions.getWidth()/2, upperLeft.getY() + dimensions.getHeight()/2);
-  }
-
-  protected Response execute(String command, Map<String, ?> parameters) {
-    return parent.execute(command, parameters);
-  }
-
-  private class FakeRemoteWebDriver extends RemoteWebDriver {
-    public FakeRemoteWebDriver() {
-      //hahaha do NOTHING!
-    }
-  }
+	public Point getCenter() {
+		Point upperLeft = this.getLocation();
+		Dimension dimensions = this.getSize();
+		return new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
+	}
 }

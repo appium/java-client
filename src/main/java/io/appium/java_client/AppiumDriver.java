@@ -19,10 +19,14 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
 
+import io.appium.java_client.internal.JsonToMobileElementConverter;
+
 import javax.xml.bind.DatatypeConverter;
+
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,6 +45,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities){
 
     super(remoteAddress, desiredCapabilities);
+    this.setElementConverter(new JsonToMobileElementConverter(this));
 
     this.remoteAddress = remoteAddress;
     complexFind = new ComplexFind(this);
@@ -404,10 +409,9 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    * @return The textfield with the given accessibility id
    */
   public WebElement getNamedTextField(String name) {
-    RemoteWebElement element = (RemoteWebElement) findElementByAccessibilityId(name);
+    MobileElement element = (MobileElement) findElementByAccessibilityId(name);
     if (element.getTagName() != "TextField") {
-      MobileElement mobileElement = new MobileElement(element, this);
-      return mobileElement.findElementByAccessibilityId(name);
+      return element.findElementByAccessibilityId(name);
     }
 
     return element;
