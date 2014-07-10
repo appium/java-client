@@ -23,7 +23,7 @@ public class ComplexFind {
    * Create a new remote web element.
    */
   private MobileElement newElement(final String elementId) {
-    final MobileElement element = new MobileElement(new RemoteWebElement(), driver);
+    final MobileElement element = new MobileElement();
     element.setParent(driver);
     element.setId(elementId);
     element.setFileDetector(driver.getFileDetector());

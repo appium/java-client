@@ -17,17 +17,19 @@
 
 package io.appium.java_client;
 
-import org.apache.commons.codec.binary.Base64;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.*;
+import org.apache.commons.codec.binary.Base64;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Test Mobile Driver features
@@ -41,10 +43,10 @@ public class MobileDriverAndroidTest {
     File appDir = new File("src/test/java/io/appium/java_client");
     File app = new File(appDir, "ApiDemos-debug.apk");
     DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability("deviceName", "Android Emulator");
-    capabilities.setCapability("platformName", "Android");
-    capabilities.setCapability("app", app.getAbsolutePath());
+    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
