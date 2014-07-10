@@ -19,14 +19,11 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
+import io.appium.java_client.internal.JsonToMobileElementConverter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
 
-import io.appium.java_client.internal.JsonToMobileElementConverter;
-
 import javax.xml.bind.DatatypeConverter;
-
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -199,10 +196,30 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   /**
    * Hides the keyboard if it is showing.
-   * This is an iOS only command.
+   * On iOS, there are multiple strategies for hiding the keyboard. Defaults to the "tapOutside" strategy (taps outside the keyboard).
+   * Switch to using hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done") if this doesn't work.
    */
   public void hideKeyboard() {
     execute(HIDE_KEYBOARD);
+  }
+
+  /**
+   * Hides the keyboard if it is showing. Available strategies are PRESS_KEY and TAP_OUTSIDE.
+   * One taps outside the keyboard, the other presses a key of your choosing (probably the 'Done' key).
+   * Hiding the keyboard often depends on the way an app is implemented, no single strategy always works.
+   *
+   * These parameters are only for iOS, and ignored by Android.
+   *
+   * @param strategy HideKeyboardStrategy
+   * @param keyName a String, representing the text displayed on the button of the keyboard you want to press. For example: "Done"
+   */
+  public void hideKeyboard(String strategy, String keyName) {
+    ImmutableMap<String, String> parameters = ImmutableMap.of("strategy", strategy);
+    if (keyName != null) {
+      parameters = parameters.of("key", keyName);
+    }
+
+    execute(HIDE_KEYBOARD, parameters);
   }
 
   /**

@@ -17,17 +17,18 @@
 
 package io.appium.java_client;
 
-import static org.junit.Assert.assertEquals;
+import io.appium.java_client.remote.HideKeyboardStrategy;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.net.URL;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test Mobile Driver features
@@ -89,6 +90,24 @@ public class MobileDriverIOSTest {
     element = (MobileElement)driver.findElementByAccessibilityId("Normal");
     element.click();
     driver.hideKeyboard();
+  }
+
+  @Test
+  public void hideKeyboardWithParametersTest() {
+    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
+    element.click();
+    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
+    element.click();
+    driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
+  }
+
+  @Test
+  public void hideKeyboardWithNullParameterTest() {
+    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
+    element.click();
+    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
+    element.click();
+    driver.hideKeyboard(HideKeyboardStrategy.TAP_OUTSIDE, null);
   }
 
   @Test
