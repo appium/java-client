@@ -71,6 +71,8 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
             .put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"))
             .put(OPEN_NOTIFICATIONS, postC("/session/:sessionId/appium/device/open_notifications"))
+            .put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"))
+            .put(SET_NETWORK_CONNECTION, postC("/session/:sessionId/network_connection"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -513,6 +515,36 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   public MobileElement scrollToExact(String text) {
     return complexFind.scrollToExact(text);
+  }
+
+  /**
+   * Get the current network settings of the device.
+   * This is an Android-only method
+   *
+   * @return NetworkConnectionSetting objects will let you inspect the status of AirplaneMode, Wifi, Data connections
+   */
+  public NetworkConnectionSetting getNetworkConnection() {
+    Response response = execute(GET_NETWORK_CONNECTION);
+
+    return new NetworkConnectionSetting(Integer.parseInt(response.getValue().toString()));
+  }
+
+  /**
+   * Set the network connection of the device.
+   * This is an Android-only method
+   *
+   * @param connection The NetworkConnectionSetting configuration to use for the device
+   */
+  public void setNetworkConnection(NetworkConnectionSetting connection) {
+    // the new version of the webdriver protocol is going forward with sending JSON message which look like
+    // {name: "name of endpoint", parameters: "JSON parameters"}
+    // this is for webdrivers which run on protocols besides HTTP (like TCP)
+    // we're implementing that pattern here, for this new method, but haven't translated it to all other commands yet
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("name", "network_connection")
+           .put("parameters", ImmutableMap.of("type", connection.value));
+
+    execute(SET_NETWORK_CONNECTION, builder.build());
   }
 
   @Override

@@ -45,6 +45,7 @@ public class MobileDriverAndroidTest {
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
@@ -105,5 +106,20 @@ public class MobileDriverAndroidTest {
     byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
     String returnDataDecoded = new String(Base64.decodeBase64(returnData));
     assertEquals("The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra", returnDataDecoded);
+  }
+
+  @Test
+  public void networkConnectionTest() {
+    NetworkConnectionSetting networkConnection = new NetworkConnectionSetting(false, true, true);
+
+    networkConnection.setData(false);
+    networkConnection.setWifi(false);
+
+
+    driver.setNetworkConnection(networkConnection);
+    networkConnection = driver.getNetworkConnection();
+
+    assertEquals(new NetworkConnectionSetting(false, false, false), networkConnection);
+
   }
 }
