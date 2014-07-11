@@ -1,17 +1,17 @@
 package io.appium.java_client;
 
-import static org.junit.Assert.assertEquals;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.net.URL;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test -ios uiautomation locator strategy
@@ -46,7 +46,7 @@ public class IosUIAutomationTest {
 
   @Test
   public void findElementsTest() {
-    List<WebElement> elements = driver.findElementsByIosUIAutomation("elements()");
+    List<WebElement> elements = driver.findElementsByIosUIAutomation(".elements()");
     assertEquals(3, elements.size());
   }
 

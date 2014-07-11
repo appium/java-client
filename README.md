@@ -50,6 +50,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - scrollToExact()
 - openNotifications()
 - Context Switching: .context(), .getContextHandles(), getContext())
+- getNetworkConnection(), setNetworkConnection()
 
 Locators:
 - findElementByAccessibilityId()
@@ -60,6 +61,12 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*1.5.0*
+- Added MobileCapabilityType enums for desired capabilities
+- `findElement` and `findElements` return MobileElement objects (still need to be casted, but no longer instantiated)
+- new appium v1.2 `hideKeyboard()` strategies added
+- `getNetworkConnection()` and `setNetworkConnection()` commands added
+
 *1.4.0*
 - Added openNotifications() method, to open the notifications shade on Android
 - Added pullFolder() method, to pull an entire folder as a zip archive from a device/simulator
