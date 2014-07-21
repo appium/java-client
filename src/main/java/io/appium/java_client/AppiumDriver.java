@@ -73,6 +73,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(OPEN_NOTIFICATIONS, postC("/session/:sessionId/appium/device/open_notifications"))
             .put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"))
             .put(SET_NETWORK_CONNECTION, postC("/session/:sessionId/network_connection"))
+            .put(SET_LOCATION, postC("/session/:sessionId/location"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -546,6 +547,21 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
     execute(SET_NETWORK_CONNECTION, builder.build());
   }
+
+    /**
+     *
+     * Set the geo location of the device
+     * This work for android and ios devices
+     *
+     * @param latitude
+     * @param longitude
+     * @param altitude
+     */
+    public void setLocation(double latitude, double longitude, double altitude) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("latitude", latitude).put("longitude", longitude).put("altitude", altitude);
+        execute(SET_LOCATION, builder.build());
+    }
 
   @Override
   public WebDriver context(String name) {
