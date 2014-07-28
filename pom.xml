@@ -33,6 +33,12 @@
             <artifactId>guava</artifactId>
             <version>17.0</version>
         </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.1</version>
+        </dependency>
+
     </dependencies>
     <packaging>jar</packaging>
     <name>java-client</name>
