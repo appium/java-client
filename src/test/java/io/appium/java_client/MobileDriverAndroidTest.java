@@ -122,4 +122,9 @@ public class MobileDriverAndroidTest {
     assertEquals(new NetworkConnectionSetting(false, false, false), networkConnection);
 
   }
+
+    @Test
+    public void locationTest() {
+        driver.setLocation(48.8667,2.4833,0);
+    }
 }
