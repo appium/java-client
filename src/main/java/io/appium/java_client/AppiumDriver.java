@@ -21,7 +21,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import org.openqa.selenium.*;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.html5.LocationContext;
 import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
 
 import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
@@ -33,19 +36,23 @@ import java.util.Set;
 import static io.appium.java_client.MobileCommand.*;
 
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, Rotatable, FindsByIosUIAutomation,
-        FindsByAndroidUIAutomator, FindsByAccessibilityId {
+        FindsByAndroidUIAutomator, FindsByAccessibilityId, LocationContext {
 
   private final static ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
   private URL remoteAddress;
   private ComplexFind complexFind;
+  private RemoteLocationContext locationContext;
+  private ExecuteMethod executeMethod;
 
   public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities){
 
     super(remoteAddress, desiredCapabilities);
     this.setElementConverter(new JsonToMobileElementConverter(this));
 
+    this.executeMethod = new AppiumExecutionMethod(this);
     this.remoteAddress = remoteAddress;
     complexFind = new ComplexFind(this);
+    locationContext = new RemoteLocationContext(executeMethod);
 
     ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap.builder();
     builder
@@ -93,6 +100,10 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     return execute(command, ImmutableMap.<String, Object>of());
   }
 
+  @Override
+  public ExecuteMethod getExecuteMethod() {
+    return executeMethod;
+  }
 
   /**
    * Reset the currently running app for this session
@@ -624,6 +635,16 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   @Override
   public List<WebElement> findElementsByAccessibilityId(String using) {
     return findElements("accessibility id", using);
+  }
+
+  @Override
+  public Location location() {
+    return locationContext.location();
+  }
+
+  @Override
+  public void setLocation(Location location) {
+    locationContext.setLocation(location);
   }
 
   private TouchAction createTap(WebElement element, int duration) {
