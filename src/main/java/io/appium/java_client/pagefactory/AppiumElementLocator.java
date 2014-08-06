@@ -36,7 +36,7 @@ class AppiumElementLocator implements ElementLocator {
 		public List<WebElement> apply(By by) {
 			List<WebElement> result = new ArrayList<WebElement>();
 			try {
-				result.addAll(searchContext.findElements(by));
+				result = searchContext.findElements(by);
 			} catch (StaleElementReferenceException ignored) {}
 			if (result.size() > 0) {
 				return result;
