@@ -36,7 +36,7 @@ class AppiumElementLocator implements ElementLocator {
 		public List<WebElement> apply(By by) {
 			List<WebElement> result = new ArrayList<WebElement>();
 			try {
-				result.addAll(searchContext.findElements(by));
+				result = searchContext.findElements(by);
 			} catch (StaleElementReferenceException ignored) {}
 			if (result.size() > 0) {
 				return result;
@@ -92,7 +92,7 @@ class AppiumElementLocator implements ElementLocator {
 			while (element instanceof WrapsElement){
 				element = ((WrapsElement) element).getWrappedElement();
 			}
-			driver = ((WrapsDriver) searchContext).getWrappedDriver();
+			driver = ((WrapsDriver) element).getWrappedDriver();
 		}
 		return driver;
 	}
