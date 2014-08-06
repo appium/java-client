@@ -34,11 +34,11 @@ public class NetworkConnectionSetting {
     value = bitmask;
   }
 
-  public boolean airplaneModeEnabled() { return (value & airplaneMode) == 1; }
+  public boolean airplaneModeEnabled() { return (value & airplaneMode) != 0; }
 
-  public boolean wifiEnabled() { return (value & wifi) == 1; }
+  public boolean wifiEnabled() { return (value & wifi) != 0; }
 
-  public boolean dataEnabled() { return (value & data) == 1; }
+  public boolean dataEnabled() { return (value & data) != 0; }
 
   public void setAirplaneMode(boolean enable) {
     if (enable) {

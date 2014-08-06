@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -128,6 +129,12 @@ public class MobileDriverIOSTest {
     assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
     driver.rotate(ScreenOrientation.LANDSCAPE);
     assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
+  }
+
+  @Test
+  public void geolocationTest() {
+    Location location = new Location(45, 45, 100);
+    driver.setLocation(location);
   }
 
 }

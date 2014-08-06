@@ -17,18 +17,19 @@
 
 package io.appium.java_client;
 
-import static org.junit.Assert.*;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.net.URL;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Test Mobile Driver features
@@ -83,7 +84,8 @@ public class AndroidGestureTest {
   }
 
   @Test
-  public void TapSingleFingerTest() {
-    driver.tap(1,100,200,1000);
+  public void TapSingleFingerTest() throws InterruptedException {
+    Thread.sleep(2500);
+    driver.tap(1,200,300,1000);
   }
 }

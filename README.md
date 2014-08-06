@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.5.0</version>
+  <version>1.6.1</version>
 </dependency>
 ```
 
@@ -61,6 +61,13 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*1.6.1*
+- Fixed the logic for checking connection status on NetworkConnectionSetting objects
+
+*1.6.0*
+- Added @findBy annotations. Explanation here: https://github.com/appium/java-client/pull/68 Thanks to TikhomirovSergey
+- Appium Driver now implements LocationContext interface, so setLocation() works for setting GPS coordinates
+
 *1.5.0*
 - Added MobileCapabilityType enums for desired capabilities
 - `findElement` and `findElements` return MobileElement objects (still need to be casted, but no longer instantiated)
