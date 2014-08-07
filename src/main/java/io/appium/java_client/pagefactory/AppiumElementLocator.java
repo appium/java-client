@@ -92,7 +92,7 @@ class AppiumElementLocator implements ElementLocator {
 			while (element instanceof WrapsElement){
 				element = ((WrapsElement) element).getWrappedElement();
 			}
-			driver = ((WrapsDriver) searchContext).getWrappedDriver();
+			driver = ((WrapsDriver) element).getWrappedDriver();
 		}
 		return driver;
 	}
