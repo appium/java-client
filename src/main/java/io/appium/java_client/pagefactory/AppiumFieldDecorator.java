@@ -92,8 +92,12 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 	}
 
 	private Object proxyForLocator(Field field, ElementLocator locator) {
+		Class<?> type = field.getType();
+		if (type.equals(WebElement.class)){
+			type = RemoteWebElement.class;
+		}
 		ElementInterceptor elementInterceptor = new ElementInterceptor(locator);
-		return ProxyFactory.getEnhancedProxy(field.getType(),
+		return ProxyFactory.getEnhancedProxy(type,
 				elementInterceptor);
 	}
 	
