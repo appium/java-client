@@ -18,4 +18,5 @@ public interface MobileCapabilityType extends CapabilityType {
 	String APP = "app";
 	String APP_PACKAGE = "appPackage";
 	String APP_ACTIVITY = "appActivity";
+	String APP_WAIT_ACTIVITY = "appWaitActivity";
 }

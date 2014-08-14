@@ -70,7 +70,7 @@ public class NetworkConnectionSetting {
 
   public boolean equals(Object obj) {
     if (obj instanceof Integer) {
-      return value == obj;
+      return value == (Integer) obj;
     }
     if (obj instanceof NetworkConnectionSetting) {
       return value == ((NetworkConnectionSetting)obj).value;
