@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.6.1</version>
+  <version>1.6.2</version>
 </dependency>
 ```
 
@@ -61,6 +61,14 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*1.6.2*
+- Added MobilePlatform interface (Android, IOS, FirefoxOS)
+- Added MobileBrowserType interface (Safari, Browser, Chromium, Chrome)
+- Added MobileCapabilityType.APP_WAIT_ACTIVITY
+- Fixed small Integer cast issue (in Eclipse it won't compile)
+- Set -source and -target of the Java Compiler to 1.7 (for maven compiler plugin)
+- Fixed bug in Page Factory
+
 *1.6.1*
 - Fixed the logic for checking connection status on NetworkConnectionSetting objects
 
