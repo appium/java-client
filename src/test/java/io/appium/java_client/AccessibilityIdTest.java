@@ -3,6 +3,7 @@ package io.appium.java_client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
 
 import java.io.File;
 import java.net.URL;
@@ -28,7 +29,7 @@ public class AccessibilityIdTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);

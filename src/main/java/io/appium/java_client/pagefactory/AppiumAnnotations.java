@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.remote.MobilePlatform.*;
 import io.appium.java_client.MobileBy;
 
 import java.lang.annotation.Annotation;
@@ -28,9 +29,6 @@ class AppiumAnnotations extends Annotations{
 		}
 	};
 	private final static Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
-	private final static String ANDROID_PLATFORM = "Android";
-	private final static String IOS_PLATFORM = "iOS";
-
 	private static List<String> getMethodNames(Method[] methods) {
 		List<String> names = new ArrayList<String>();
 		for (Method m : methods) {
@@ -168,9 +166,9 @@ class AppiumAnnotations extends Annotations{
 	}
 
 	private static Method[] prepareAnnotationMethods(
-			Class<? extends Annotation> annotation) {		
+			Class<? extends Annotation> annotation) {
 		List<String> targeAnnotationMethodNamesList = getMethodNames(annotation.getDeclaredMethods());
-		targeAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);	
+		targeAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
 		Method[] result = new Method[targeAnnotationMethodNamesList.size()];
 		for (String methodName: targeAnnotationMethodNamesList){
 			try {
@@ -180,7 +178,7 @@ class AppiumAnnotations extends Annotations{
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
 			}
-		}		
+		}
 		return result;
 	}
 
@@ -235,26 +233,26 @@ class AppiumAnnotations extends Annotations{
 
 		AndroidFindBy androidBy = mobileField
 				.getAnnotation(AndroidFindBy.class);
-		if (androidBy != null && ANDROID_PLATFORM.toUpperCase().equals(platform)) {
+		if (androidBy != null && ANDROID.toUpperCase().equals(platform)) {
 			return getMobileBy(androidBy, getFilledValue(androidBy));
 		}
 
 		AndroidFindBys androidBys = mobileField
 				.getAnnotation(AndroidFindBys.class);
-		if (androidBys != null && ANDROID_PLATFORM.toUpperCase().equals(platform)) {
+		if (androidBys != null && ANDROID.toUpperCase().equals(platform)) {
 			return getChainedMobileBy(androidBys.value());
 		}
 
 		iOSFindBy iOSBy = mobileField.getAnnotation(iOSFindBy.class);
-		if (iOSBy != null && IOS_PLATFORM.toUpperCase().equals(platform)) {
+		if (iOSBy != null && IOS.toUpperCase().equals(platform)) {
 			return getMobileBy(iOSBy, getFilledValue(iOSBy));
 		}
 
 		iOSFindBys iOSBys = mobileField.getAnnotation(iOSFindBys.class);
-		if (iOSBys != null && IOS_PLATFORM.toUpperCase().equals(platform)) {
+		if (iOSBys != null && IOS.toUpperCase().equals(platform)) {
 			return getChainedMobileBy(iOSBys.value());
 		}
-		
+
 		return super.buildBy();
 	}
 
