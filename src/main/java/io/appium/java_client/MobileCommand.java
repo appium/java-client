@@ -43,6 +43,7 @@ public interface MobileCommand {
   String CLOSE_APP = "closeApp";
   String END_TEST_COVERAGE = "endTestCoverage";
   String LOCK = "lock";
+  String IS_LOCKED = "isLocked";
   String SHAKE = "shake";
   String COMPLEX_FIND = "complexFind";
   String OPEN_NOTIFICATIONS = "openNotifications";

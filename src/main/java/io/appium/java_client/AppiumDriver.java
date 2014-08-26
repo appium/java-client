@@ -75,6 +75,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
             .put(END_TEST_COVERAGE, postC("/session/:sessionId/appium/app/end_test_coverage"))
             .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
+            .put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"))
             .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
             .put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"))
             .put(OPEN_NOTIFICATIONS, postC("/session/:sessionId/appium/device/open_notifications"))
@@ -506,6 +507,19 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public void lockScreen(int seconds) {
     execute(LOCK, ImmutableMap.of("seconds", seconds));
+  }
+
+  /**
+   * Check if the device is locked.
+   * *Android Only Method*
+   *
+   * @return true if device is locked. False otherwise
+   */
+  public boolean isLocked() {
+
+    Response response = execute(IS_LOCKED);
+
+    return Boolean.parseBoolean(response.getValue().toString());
   }
 
   /**

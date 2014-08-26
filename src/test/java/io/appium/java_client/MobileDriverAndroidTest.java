@@ -122,4 +122,9 @@ public class MobileDriverAndroidTest {
     assertEquals(new NetworkConnectionSetting(false, false, false), networkConnection);
 
   }
+
+  @Test
+  public void isLockedTest() {
+    assertEquals(false, driver.isLocked());
+  }
 }
