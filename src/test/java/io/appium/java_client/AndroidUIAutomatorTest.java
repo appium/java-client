@@ -3,6 +3,7 @@ package io.appium.java_client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
 
 import java.io.File;
 import java.net.URL;
@@ -28,7 +29,7 @@ public class AndroidUIAutomatorTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }

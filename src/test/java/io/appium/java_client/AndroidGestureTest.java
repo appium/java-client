@@ -18,6 +18,8 @@
 package io.appium.java_client;
 
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +46,7 @@ public class AndroidGestureTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
