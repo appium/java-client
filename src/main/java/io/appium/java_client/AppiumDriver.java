@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.remote.MobileCapabilityType.*;
 import static io.appium.java_client.MobileCommand.*;
 
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver, ContextAware, Rotatable, FindsByIosUIAutomation,
@@ -81,6 +83,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(OPEN_NOTIFICATIONS, postC("/session/:sessionId/appium/device/open_notifications"))
             .put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"))
             .put(SET_NETWORK_CONNECTION, postC("/session/:sessionId/network_connection"))
+            .put(START_ACTIVITY, postC("/session/:sessionId/appium/device/start_activity"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -168,6 +171,46 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     Response response = execute(CURRENT_ACTIVITY);
     return response.getValue().toString();
   }
+  
+  /**
+   * Launches an arbitrary activity during a test. If the activity belongs to
+   * another application, that application is started and the activity is opened.
+   *
+   * This is an Android-only method.
+   * @param appPackage The package containing the activity. [Required]
+   * @param appActivity The activity to start. [Required]
+   * @param appWaitPackage Automation will begin after this package starts. [Optional]
+   * @param appWaitActivity Automation will begin after this activity starts. [Optional]
+   * @example
+   * driver.startActivity("com.foo.bar", ".MyActivity", null, null);
+   */
+  public void startActivity(String appPackage, String appActivity, String appWaitPackage, String appWaitActivity)
+                                                                                  throws IllegalArgumentException {
+
+    checkArgument((_isNotNullOrEmpty(appPackage) && _isNotNullOrEmpty(appActivity)),
+                  String.format("'%s' and '%s' are required.", APP_PACKAGE, APP_ACTIVITY));
+
+    appWaitPackage = _isNotNullOrEmpty(appWaitPackage) ? appWaitPackage : "";
+    appWaitActivity = _isNotNullOrEmpty(appWaitActivity) ? appWaitActivity : "";
+
+    ImmutableMap<String, String> parameters = ImmutableMap.of(APP_PACKAGE, appPackage,
+                                                              APP_ACTIVITY, appActivity,
+                                                              APP_WAIT_PACKAGE, appWaitPackage,
+                                                              APP_WAIT_ACTIVITY, appWaitActivity);
+
+    execute(START_ACTIVITY, parameters);
+  }
+
+    /**
+     * Checks if a string is null, empty, or whitespace.
+     *
+     * @param str String to check.
+     *
+     * @return True if str is not null or empty.
+     */
+  private static boolean _isNotNullOrEmpty(String str) {
+      return str != null && !str.isEmpty() && str.trim().length() > 0;
+  }
 
   /**
    *
@@ -229,7 +272,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public void hideKeyboard(String strategy, String keyName) {
     ImmutableMap<String, String> parameters = ImmutableMap.of("strategy", strategy);
-    if (keyName != null) {
+    if (_isNotNullOrEmpty(keyName)) {
       parameters = parameters.of("key", keyName);
     }
 
@@ -574,7 +617,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   @Override
   public WebDriver context(String name) {
-    if (name == null) {
+    if (_isNotNullOrEmpty(name)) {
       throw new IllegalArgumentException("Must supply a context name");
     }
 

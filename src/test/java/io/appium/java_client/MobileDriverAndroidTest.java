@@ -129,4 +129,18 @@ public class MobileDriverAndroidTest {
   public void isLockedTest() {
     assertEquals(false, driver.isLocked());
   }
+  
+  @Test
+  public void startActivityInThisAppTest(){
+    driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null);
+    String activity = driver.currentActivity();
+    assertTrue(activity.contains("Node"));
+  }
+  
+    @Test
+  public void startActivityInAnotherAppTest(){
+    driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
+    String activity = driver.currentActivity();
+    assertTrue(activity.contains("Contact"));
+  }
 }

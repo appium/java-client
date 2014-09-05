@@ -21,6 +21,7 @@ Javadocs: http://appium.github.io/java-client/
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
 
 
+- startActivity()
 - resetApp()
 - getAppString()
 - sendKeyEvent()
