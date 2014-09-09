@@ -25,6 +25,7 @@ import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.html5.LocationContext;
 import org.openqa.selenium.remote.*;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
+import org.openqa.selenium.remote.http.HttpMethod;
 
 import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
@@ -672,15 +673,15 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   }
 
   private static CommandInfo getC(String url) {
-    return new CommandInfo(url, HttpVerb.GET);
+    return new CommandInfo(url, HttpMethod.GET);
   }
 
   private static CommandInfo postC(String url) {
-    return new CommandInfo(url, HttpVerb.POST);
+    return new CommandInfo(url, HttpMethod.POST);
   }
 
   private static CommandInfo deleteC(String url) {
-    return new CommandInfo(url, HttpVerb.DELETE);
+    return new CommandInfo(url, HttpMethod.DELETE);
   }
 
   public URL getRemoteAddress() {
