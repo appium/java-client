@@ -41,7 +41,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   private final static ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
   private URL remoteAddress;
-  private ComplexFind complexFind;
   private RemoteLocationContext locationContext;
   private ExecuteMethod executeMethod;
 
@@ -52,7 +51,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
     this.executeMethod = new AppiumExecutionMethod(this);
     this.remoteAddress = remoteAddress;
-    complexFind = new ComplexFind(this);
     locationContext = new RemoteLocationContext(executeMethod);
 
     ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap.builder();
@@ -529,18 +527,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    */
   public void shake() {
     execute(SHAKE);
-  }
-
-  public MobileElement complexFind(String complex) {
-    return complexFind.execute(complex);
-  }
-
-  public MobileElement scrollTo(String text) {
-    return complexFind.scrollTo(text);
-  }
-
-  public MobileElement scrollToExact(String text) {
-    return complexFind.scrollToExact(text);
   }
 
   /**
