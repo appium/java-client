@@ -44,6 +44,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - closeApp()
 - endTestCoverage()
 - lockScreen()
+- isLocked()
 - shake()
 - complexFind()
 - scrollTo()
@@ -51,6 +52,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - openNotifications()
 - Context Switching: .context(), .getContextHandles(), getContext())
 - getNetworkConnection(), setNetworkConnection()
+- ignoreUnimportantViews
 
 Locators:
 - findElementByAccessibilityId()
