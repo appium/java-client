@@ -139,4 +139,18 @@ public class MobileDriverAndroidTest {
     ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString()).getAsBoolean();
     assertFalse(ignoreViews);
   }
+  
+  @Test
+  public void startActivityInThisAppTest(){
+    driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null);
+    String activity = driver.currentActivity();
+    assertTrue(activity.contains("Node"));
+  }
+  
+    @Test
+  public void startActivityInAnotherAppTest(){
+    driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
+    String activity = driver.currentActivity();
+    assertTrue(activity.contains("Contact"));
+  }
 }

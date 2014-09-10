@@ -51,5 +51,6 @@ public interface MobileCommand {
   String SET_NETWORK_CONNECTION = "setNetworkConnection";
   String GET_SETTINGS = "getSettings";
   String SET_SETTINGS = "setSettings";
+  String START_ACTIVITY = "startActivity";
 
 }
