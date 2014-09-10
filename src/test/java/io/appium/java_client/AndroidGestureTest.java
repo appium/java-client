@@ -68,7 +68,6 @@ public class AndroidGestureTest {
 
   @Test
   public void dragNDropTest() {
-	  driver.scrollToExact("Views").click();
 	  driver.findElement(MobileBy.AndroidUIAutomator("description(\"Drag and Drop\")")).click();
 	  WebElement actionBarTitle = driver.findElement(By.id("android:id/action_bar_title"));
 

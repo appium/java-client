@@ -1,19 +1,19 @@
 package io.appium.java_client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
-
-import java.io.File;
-import java.net.URL;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test -android uiautomator locator strategy
@@ -38,28 +38,6 @@ public class AndroidUIAutomatorTest {
   public void tearDown() throws Exception {
     driver.quit();
   }
-
-  @Test
-  public void complexFind() {
-    String animation = String.format("[\"scroll\",[[3,\"%1$s\"]],[[7,\"%1$s\"]]]", "animation");
-    String cloning = String.format("[\"scroll\",[[3,\"%1$s\"]],[[7,\"%1$s\"]]]", "cloning");
-
-    driver.complexFind(animation).click();
-    driver.complexFind(cloning).click();
-  }
-
-  @Test
-  public void scrollTo() {
-    driver.scrollTo("animation").click();
-    driver.scrollTo("cloning").click();
-  }
-
-  @Test
-  public void scrollToExact() {
-    driver.scrollToExact("Animation").click();
-    driver.scrollToExact("Cloning").click();
-  }
-
 
   @Test
   public void findElementTest() {
