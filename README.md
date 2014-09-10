@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.6.2</version>
+  <version>1.7.0</version>
 </dependency>
 ```
 
@@ -53,7 +53,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - openNotifications()
 - Context Switching: .context(), .getContextHandles(), getContext())
 - getNetworkConnection(), setNetworkConnection()
-- ignoreUnimportantViews
+- ignoreUnimportantViews(), getSettings()
 
 Locators:
 - findElementByAccessibilityId()
@@ -64,6 +64,13 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*1.7.0*
+- Removed `scrollTo()` and `scrollToExact()` methods because they relied on `complexFind()`. They will be added back in the next version!
+- Removed `complexFind()`
+- Added `startActivity()` method
+- Added `isLocked()` method
+- Added `getSettings()` and `ignoreUnimportantViews()` methods
+
 *1.6.2*
 - Added MobilePlatform interface (Android, IOS, FirefoxOS)
 - Added MobileBrowserType interface (Safari, Browser, Chromium, Chrome)

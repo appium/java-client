@@ -653,6 +653,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   /**
    * Set the `ignoreUnimportantViews` setting.
+   *  *Android-only method*
    *
    * Sets whether Android devices should use `setCompressedLayoutHeirarchy()` which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important by the system), in an attempt to make things less confusing or faster.
    *
