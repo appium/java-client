@@ -664,7 +664,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
 
   @Override
   public WebDriver context(String name) {
-    if (_isNotNullOrEmpty(name)) {
+    if (!_isNotNullOrEmpty(name)) {
       throw new IllegalArgumentException("Must supply a context name");
     }
 

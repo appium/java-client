@@ -68,6 +68,10 @@ public class AndroidGestureTest {
 
   @Test
   public void dragNDropTest() {
+
+    driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().description(\"Views\"))");
+    driver.findElementByAccessibilityId("Views").click();
+
 	  driver.findElement(MobileBy.AndroidUIAutomator("description(\"Drag and Drop\")")).click();
 	  WebElement actionBarTitle = driver.findElement(By.id("android:id/action_bar_title"));
 
