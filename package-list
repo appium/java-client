@@ -1,3 +1,4 @@
 io.appium.java_client
 io.appium.java_client.internal
+io.appium.java_client.pagefactory
 io.appium.java_client.remote
