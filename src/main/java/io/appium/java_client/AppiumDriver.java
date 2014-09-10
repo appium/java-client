@@ -19,6 +19,8 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
@@ -80,6 +82,8 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
             .put(OPEN_NOTIFICATIONS, postC("/session/:sessionId/appium/device/open_notifications"))
             .put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"))
             .put(SET_NETWORK_CONNECTION, postC("/session/:sessionId/network_connection"))
+            .put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"))
+            .put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
             ;
     ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
 
@@ -557,6 +561,62 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
            .put("parameters", ImmutableMap.of("type", connection.value));
 
     execute(SET_NETWORK_CONNECTION, builder.build());
+  }
+
+  /**
+   * Get settings stored for this test session
+   * It's probably better to use a convenience function, rather than use this function directly.
+   * Try finding the method for the specific setting you want to read
+   *
+   * @return JsonObject, a straight-up hash of settings
+   */
+  public JsonObject getSettings() {
+    Response response = execute(GET_SETTINGS);
+
+    JsonParser parser = new JsonParser();
+    JsonObject settings = (JsonObject)parser.parse(response.getValue().toString());
+
+    return settings;
+  }
+
+  /**
+   * Set settings for this test session
+   * It's probably better to use a convenience function, rather than use this function directly.
+   * Try finding the method for the specific setting you want to change
+   *
+   * @param settings Map of setting keys and values
+   */
+  private void setSettings(ImmutableMap settings) {
+
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put("settings", settings);
+
+    execute(SET_SETTINGS, builder.build());
+  }
+
+  /**
+   * Set a setting for this test session
+   * It's probably better to use a convenience function, rather than use this function directly.
+   * Try finding the method for the specific setting you want to change
+   *
+   * @param setting AppiumSetting you wish to set
+   * @param value value of the setting
+   */
+  private void setSetting(AppiumSetting setting, Object value) {
+    ImmutableMap.Builder builder = ImmutableMap.builder();
+    builder.put(setting.toString(), value);
+    setSettings(builder.build());
+  }
+
+  /**
+   * Set the `ignoreUnimportantViews` setting.
+   *
+   * Sets whether Android devices should use `setCompressedLayoutHeirarchy()` which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important by the system), in an attempt to make things less confusing or faster.
+   *
+   * @param compress ignores unimportant views if true, doesn't ignore otherwise.
+   */
+  public void ignoreUnimportantViews(Boolean compress) {
+    setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
   }
 
   @Override
