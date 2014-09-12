@@ -18,7 +18,7 @@
 package io.appium.java_client;
 
 /**
- * Some common key codes for Android Key Events
+ * Some common key codes for iOS Key Events
  */
 public interface IOSKeyCode {
 

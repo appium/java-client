@@ -170,6 +170,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
   /**
    * Get the current activity being run on the mobile device
    */
+  //Should be moved to the subclass (Android)
   public String currentActivity() {
     Response response = execute(CURRENT_ACTIVITY);
     return response.getValue().toString();
@@ -304,6 +305,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    * Open the notification shade, on Android devices.
    * Android only method.
    */
+  //Should be moved to the subclass
   public void openNotifications() { execute(OPEN_NOTIFICATIONS); }
   /**
    * Performs a chain of touch actions, which together can be considered an entire gesture.
@@ -561,6 +563,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    * @param intent intent to broadcast
    * @param path path to .ec file
    */
+  //Should be moved to the subclass
   public void endTestCoverage(String intent, String path) {
     ImmutableMap.Builder builder = ImmutableMap.builder();
     builder.put("intent", intent).put("path", path);
@@ -581,6 +584,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    *
    * @return true if device is locked. False otherwise
    */
+  //Should be moved to the subclass
   public boolean isLocked() {
 
     Response response = execute(IS_LOCKED);
@@ -679,6 +683,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
    *
    * @param compress ignores unimportant views if true, doesn't ignore otherwise.
    */
+  //Should be moved to the subclass
   public void ignoreUnimportantViews(Boolean compress) {
     setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
   }
