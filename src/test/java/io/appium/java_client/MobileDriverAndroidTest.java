@@ -17,6 +17,7 @@
 
 package io.appium.java_client;
 
+import io.appium.java_client.android.AndroidKeyMetastate;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 

@@ -15,7 +15,7 @@
  +limitations under the License.
  + */
 
-package io.appium.java_client;
+package io.appium.java_client.android;
 
 /**
  * Metastates for Android Key Events

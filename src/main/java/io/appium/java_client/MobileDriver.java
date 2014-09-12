@@ -17,19 +17,13 @@
 
 package io.appium.java_client;
 
-
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 
-public interface MobileDriver extends WebDriver, ContextAware {
-
-
-  public Response execute(String driverCommand, Map<String, ?> parameters);
-
-  public TouchAction performTouchAction(TouchAction touchAction);
-
-  public void performMultiTouchAction(MultiTouchAction multiAction);
+public interface MobileDriver extends WebDriver, ContextAware,
+		PerformsTouchActions {
+	public Response execute(String driverCommand, Map<String, ?> parameters);
 }
