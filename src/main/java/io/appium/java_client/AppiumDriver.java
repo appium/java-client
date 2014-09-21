@@ -86,7 +86,7 @@ import com.google.gson.JsonParser;
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		ContextAware, Rotatable, FindsByIosUIAutomation,
 		FindsByAndroidUIAutomator, FindsByAccessibilityId, LocationContext,
-		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles {
+		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles, InteractsWithApps {
 
 	private final static ErrorHandler errorHandler = new ErrorHandler(
 			new ErrorCodesMobile(), true);
@@ -231,8 +231,9 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	/**
-	 * Reset the currently running app for this session
+	 * @see InteractsWithApps#resetApp()
 	 */
+	@Override
 	public void resetApp() {
 		execute(MobileCommand.RESET);
 	}
@@ -293,48 +294,9 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	/**
-	 * Hides the keyboard if it is showing. Available strategies are PRESS_KEY
-	 * and TAP_OUTSIDE. One taps outside the keyboard, the other presses a key
-	 * of your choosing (probably the 'Done' key). Hiding the keyboard often
-	 * depends on the way an app is implemented, no single strategy always
-	 * works.
-	 * 
-	 * These parameters are only for iOS, and ignored by Android.
-	 * 
-	 * @param strategy
-	 *            HideKeyboardStrategy
-	 * @param keyName
-	 *            a String, representing the text displayed on the button of the
-	 *            keyboard you want to press. For example: "Done"
+	 * @see InteractsWithApps#runAppInBackground(int)
 	 */
-	//Should be moved to the subclass
-	public void hideKeyboard(String strategy, String keyName) {
-		String[] parameters = new String[] { "strategy", "key" };
-		Object[] values = new Object[] { strategy, keyName };		
-		execute(HIDE_KEYBOARD, getCommandImmutableMap(parameters, values));
-	}
-
-	/**
-	 * Hides the keyboard by pressing the button specified by keyName if it is
-	 * showing. This is an iOS only command.
-	 * 
-	 * @param keyName
-	 *            The button pressed by the mobile driver to attempt hiding the
-	 *            keyboard
-	 */
-	//Should be moved to the subclass
-	public void hideKeyboard(String keyName) {
-		execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
-	}
-
-	/**
-	 * Runs the current app as a background app for the number of seconds
-	 * requested. This is a synchronous method, it returns after the back has
-	 * been returned to the foreground.
-	 * 
-	 * @param seconds
-	 *            Number of seconds to run App in background
-	 */
+	@Override
 	public void runAppInBackground(int seconds) {
 		execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
 	}
@@ -521,31 +483,9 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
   }
 
 	/**
-	 * In iOS apps, named TextFields have the same accessibility Id as their
-	 * containing TableElement. This is a convenience method for getting the
-	 * named TextField, rather than its containing element.
-	 * 
-	 * @param name
-	 *            accessiblity id of TextField
-	 * @return The textfield with the given accessibility id
+	 * @see InteractsWithApps#isAppInstalled(String)
 	 */
-	//Should be moved to the subclass
-	public WebElement getNamedTextField(String name) {
-		MobileElement element = (MobileElement) findElementByAccessibilityId(name);
-		if (element.getTagName() != "TextField") {
-			return element.findElementByAccessibilityId(name);
-		}
-
-		return element;
-	}
-
-	/**
-	 * Checks if an app is installed on the device
-	 * 
-	 * @param bundleId
-	 *            bundleId of the app
-	 * @return True if app is installed, false otherwise
-	 */
+	@Override
 	public boolean isAppInstalled(String bundleId) {
 		Response response = execute(IS_APP_INSTALLED,
 				ImmutableMap.of("bundleId", bundleId));
@@ -554,57 +494,35 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	/**
-	 * Install an app on the mobile device
-	 * 
-	 * @param appPath
-	 *            path to app to install
+	 * @see InteractsWithApps#installApp(String)
 	 */
+	@Override
 	public void installApp(String appPath) {
 		execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
 	}
 
 	/**
-	 * Remove the specified app from the device (uninstall)
-	 * 
-	 * @param bundleId
-	 *            the bunble identifier (or app id) of the app to remove
+	 * @see InteractsWithApps#removeApp(String)
 	 */
+	@Override
 	public void removeApp(String bundleId) {
 		execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
 	}
 
 	/**
-	 * Launch the app which was provided in the capabilities at session creation
+	 * @see InteractsWithApps#launchApp()
 	 */
+	@Override
 	public void launchApp() {
 		execute(LAUNCH_APP);
 	}
 
 	/**
-	 * Close the app which was provided in the capabilities at session creation
+	 * @see InteractsWithApps#closeApp()
 	 */
+	@Override
 	public void closeApp() {
 		execute(CLOSE_APP);
-	}
-
-	/**
-	 * Lock the device (bring it to the lock screen) for a given number of
-	 * seconds
-	 * 
-	 * @param seconds
-	 *            number of seconds to lock the screen for
-	 */
-	//Should be moved to the subclass (supposed to be in iOS)
-	public void lockScreen(int seconds) {
-		execute(LOCK, ImmutableMap.of("seconds", seconds));
-	}
-
-	/**
-	 * Simulate shaking the device This is an iOS-only method
-	 */
-	//Should be moved to the subclass
-	public void shake() {
-		execute(SHAKE);
 	}
 
 	/**
