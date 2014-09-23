@@ -17,71 +17,27 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.CLOSE_APP;
-import static io.appium.java_client.MobileCommand.COMPLEX_FIND;
-import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
-import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
-import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.GET_SETTINGS;
-import static io.appium.java_client.MobileCommand.GET_STRINGS;
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-import static io.appium.java_client.MobileCommand.INSTALL_APP;
-import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.IS_LOCKED;
-import static io.appium.java_client.MobileCommand.KEY_EVENT;
-import static io.appium.java_client.MobileCommand.LAUNCH_APP;
-import static io.appium.java_client.MobileCommand.LOCK;
-import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
-import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
-import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
-import static io.appium.java_client.MobileCommand.PULL_FILE;
-import static io.appium.java_client.MobileCommand.PULL_FOLDER;
-import static io.appium.java_client.MobileCommand.PUSH_FILE;
-import static io.appium.java_client.MobileCommand.REMOVE_APP;
-import static io.appium.java_client.MobileCommand.RESET;
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
-import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.SET_SETTINGS;
-import static io.appium.java_client.MobileCommand.SET_VALUE;
-import static io.appium.java_client.MobileCommand.SHAKE;
-import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.openqa.selenium.*;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.html5.LocationContext;
+import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
+import org.openqa.selenium.remote.http.HttpMethod;
 
+import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.DatatypeConverter;
-
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.html5.LocationContext;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.ErrorHandler;
-import org.openqa.selenium.remote.ExecuteMethod;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
-import org.openqa.selenium.remote.http.HttpMethod;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import static io.appium.java_client.MobileCommand.*;
 
 public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		ContextAware, Rotatable, FindsByIosUIAutomation,
@@ -138,7 +94,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 			String[] params, Object[] values) {
 		ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
 		for (int i=0; i < params.length; i++ ){
-			if (_isNotNullOrEmpty(params[i])){
+			if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])){
 				builder.put(params[i], values[i]);
 			}
 		}
@@ -238,6 +194,58 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		execute(MobileCommand.RESET);
 	}
 
+
+  /**
+   * @see InteractsWithApps#isAppInstalled(String)
+   */
+  @Override
+  public boolean isAppInstalled(String bundleId) {
+    Response response = execute(IS_APP_INSTALLED,
+            ImmutableMap.of("bundleId", bundleId));
+
+    return Boolean.parseBoolean(response.getValue().toString());
+  }
+
+  /**
+   * @see InteractsWithApps#installApp(String)
+   */
+  @Override
+  public void installApp(String appPath) {
+    execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
+  }
+
+  /**
+   * @see InteractsWithApps#removeApp(String)
+   */
+  @Override
+  public void removeApp(String bundleId) {
+    execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
+  }
+
+  /**
+   * @see InteractsWithApps#launchApp()
+   */
+  @Override
+  public void launchApp() {
+    execute(LAUNCH_APP);
+  }
+
+  /**
+   * @see InteractsWithApps#closeApp()
+   */
+  @Override
+  public void closeApp() {
+    execute(CLOSE_APP);
+  }
+
+  /**
+   * @see InteractsWithApps#runAppInBackground(int)
+   */
+  @Override
+  public void runAppInBackground(int seconds) {
+    execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
+  }
+
 	/**
 	 * Send a key event to the device
 	 * 
@@ -249,17 +257,13 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		execute(KEY_EVENT, getCommandImmutableMap(KEY_CODE, key));
 	}
 
-	/**
-	 * Checks if a string is null, empty, or whitespace.
-	 * 
-	 * @param str
-	 *            String to check.
-	 * 
-	 * @return True if str is not null or empty.
-	 */
-	protected static boolean _isNotNullOrEmpty(String str) {
-		return str != null && !str.isEmpty() && str.trim().length() > 0;
-	}
+  /**
+   * @see DeviceActionShortcuts#hideKeyboard()
+   */
+  @Override
+  public void hideKeyboard() {
+    execute(HIDE_KEYBOARD);
+  }
 
 	/**
 	 * @see InteractsWithFiles#pullFile(String)
@@ -283,22 +287,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		String base64String = response.getValue().toString();
 
 		return DatatypeConverter.parseBase64Binary(base64String);
-	}
-
-	/**
-	 * @see DeviceActionShortcuts#hideKeyboard()
-	 */
-	@Override
-	public void hideKeyboard() {
-		execute(HIDE_KEYBOARD);
-	}
-
-	/**
-	 * @see InteractsWithApps#runAppInBackground(int)
-	 */
-	@Override
-	public void runAppInBackground(int seconds) {
-		execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
 	}
 
 	/**
@@ -449,49 +437,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	/**
-	 * @see InteractsWithApps#isAppInstalled(String)
-	 */
-	@Override
-	public boolean isAppInstalled(String bundleId) {
-		Response response = execute(IS_APP_INSTALLED,
-				ImmutableMap.of("bundleId", bundleId));
-
-		return Boolean.parseBoolean(response.getValue().toString());
-	}
-
-	/**
-	 * @see InteractsWithApps#installApp(String)
-	 */
-	@Override
-	public void installApp(String appPath) {
-		execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
-	}
-
-	/**
-	 * @see InteractsWithApps#removeApp(String)
-	 */
-	@Override
-	public void removeApp(String bundleId) {
-		execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
-	}
-
-	/**
-	 * @see InteractsWithApps#launchApp()
-	 */
-	@Override
-	public void launchApp() {
-		execute(LAUNCH_APP);
-	}
-
-	/**
-	 * @see InteractsWithApps#closeApp()
-	 */
-	@Override
-	public void closeApp() {
-		execute(CLOSE_APP);
-	}
-
-	/**
 	 * Get settings stored for this test session It's probably better to use a
 	 * convenience function, rather than use this function directly. Try finding
 	 * the method for the specific setting you want to read
@@ -534,7 +479,18 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		setSettings(getCommandImmutableMap(setting.toString(), value));
 	}
 
-	@Override
+  /**
+   * Lock the device (bring it to the lock screen) for a given number of
+   * seconds
+   *
+   * @param seconds
+   *            number of seconds to lock the screen for
+   */
+  public void lockScreen(int seconds) {
+    execute(LOCK, ImmutableMap.of("seconds", seconds));
+  }
+
+  @Override
 	public WebDriver context(String name) {
 		if (!_isNotNullOrEmpty(name)) {
 			throw new IllegalArgumentException("Must supply a context name");
@@ -655,4 +611,20 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	public URL getRemoteAddress() {
 		return remoteAddress;
 	}
+
+  /**
+   * Checks if a string is null, empty, or whitespace.
+   *
+   * @param str
+   *            String to check.
+   *
+   * @return True if str is not null or empty.
+   */
+  protected static boolean _isNotNullOrEmpty(String str) {
+    return str != null && !str.isEmpty() && str.trim().length() > 0;
+  }
+
+  protected static boolean _isNotNullOrEmpty(Object ob) {
+    return ob != null;
+  }
 }

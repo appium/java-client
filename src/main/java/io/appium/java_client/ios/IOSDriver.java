@@ -1,19 +1,15 @@
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-import static io.appium.java_client.MobileCommand.LOCK;
-import static io.appium.java_client.MobileCommand.SHAKE;
-
-import java.net.URL;
-
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobilePlatform;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebElement;
+
+import java.net.URL;
+
+import static io.appium.java_client.MobileCommand.*;
 
 public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts, GetsNamedTextField{
 	private static final String IOS_PLATFORM = MobilePlatform.IOS;
@@ -21,9 +17,9 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
 	public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
 				IOS_PLATFORM));
-	}
-	
-	/**
+  }
+
+  /**
 	 * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
 	 */
 	@Override
@@ -59,16 +55,5 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
 			return element.findElementByAccessibilityId(name);
 		}
 		return element;
-	}	
-
-	/**
-	 * Lock the device (bring it to the lock screen) for a given number of
-	 * seconds
-	 * 
-	 * @param seconds
-	 *            number of seconds to lock the screen for
-	 */
-	public void lockScreen(int seconds) {
-		execute(LOCK, ImmutableMap.of("seconds", seconds));
-	}	
+	}
 }

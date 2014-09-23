@@ -20,12 +20,9 @@ package io.appium.java_client;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import io.appium.java_client.remote.MobileCapabilityType;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -36,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test Mobile Driver features
  */
-public class MobileDriverIOSTest {
+public class IOSDriverTest {
 
   private IOSDriver driver;
 
@@ -47,7 +44,6 @@ public class MobileDriverIOSTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-    //capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
@@ -64,35 +60,12 @@ public class MobileDriverIOSTest {
   }
 
   @Test
-  public void setValueTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
-    element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
-    element.setValue("Grace Hopper");
-  }
-
-  @Test
   public void namedTextFieldTest() {
     MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
     element.click();
     element = (MobileElement)driver.getNamedTextField("Normal");
     element.setValue("Grace Hopper");
     assertEquals("Grace Hopper", element.getText());
-  }
-
-  @Test
-  public void pullFileTest() {
-    byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
-    assert(data.length > 0);
-  }
-
-  @Test
-  public void hideKeyboardTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
-    element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
-    element.click();
-    driver.hideKeyboard();
   }
 
   @Test
@@ -103,40 +76,4 @@ public class MobileDriverIOSTest {
     element.click();
     driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
   }
-
-  @Test
-  public void hideKeyboardWithNullParameterTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
-    element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
-    element.click();
-    driver.hideKeyboard(HideKeyboardStrategy.TAP_OUTSIDE, null);
-  }
-
-  @Test
-  public void runAppInBackgroundTest() {
-    long time = System.currentTimeMillis();
-    driver.runAppInBackground(4);
-    long timeAfter = System.currentTimeMillis();
-    assert(timeAfter - time > 3000);
-  }
-
-  @Test
-  public void lockTest() {
-    driver.lockScreen(3);
-  }
-
-  @Test
-  public void orientationTest() {
-    assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
-    driver.rotate(ScreenOrientation.LANDSCAPE);
-    assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
-  }
-
-  @Test
-  public void geolocationTest() {
-    Location location = new Location(45, 45, 100);
-    driver.setLocation(location);
-  }
-
 }

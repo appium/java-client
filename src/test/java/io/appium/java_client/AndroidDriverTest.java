@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
 /**
  * Test Mobile Driver features
  */
-public class MobileDriverAndroidTest {
+public class AndroidDriverTest {
 
   private AndroidDriver driver;
 
@@ -46,7 +46,6 @@ public class MobileDriverAndroidTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    //capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
     driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
@@ -148,10 +147,12 @@ public class MobileDriverAndroidTest {
     assertTrue(activity.contains("Node"));
   }
   
-    @Test
+  @Test
   public void startActivityInAnotherAppTest(){
     driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
     String activity = driver.currentActivity();
     assertTrue(activity.contains("Contact"));
   }
+
+  //TODO hideKeyboard() test
 }
