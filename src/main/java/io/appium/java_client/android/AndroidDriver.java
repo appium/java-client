@@ -1,32 +1,19 @@
 package io.appium.java_client.android;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
-import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
-import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.GET_STRINGS;
-import static io.appium.java_client.MobileCommand.IS_LOCKED;
-import static io.appium.java_client.MobileCommand.KEY_EVENT;
-import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
-import static io.appium.java_client.MobileCommand.PUSH_FILE;
-import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.START_ACTIVITY;
-import static io.appium.java_client.remote.MobileCapabilityType.APP_ACTIVITY;
-import static io.appium.java_client.remote.MobileCapabilityType.APP_PACKAGE;
-import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_ACTIVITY;
-import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_PACKAGE;
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AndroidKeyCode;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobilePlatform;
-
-import java.net.URL;
-
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.Response;
 
-import com.google.common.collect.ImmutableMap;
+import java.net.URL;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.MobileCommand.*;
+import static io.appium.java_client.remote.MobileCapabilityType.*;
 
 public class AndroidDriver extends AppiumDriver implements
 		AndroidDeviceActionShortcuts, HasAppStrings, HasNetworkConnection, PushesFiles, 
@@ -48,7 +35,7 @@ public class AndroidDriver extends AppiumDriver implements
 				ANDROID_PLATFORM));
 	}
 
-	/**
+  /**
 	 * @param key
 	 *            code for the key pressed on the Android device
 	 * @param metastate
