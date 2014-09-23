@@ -401,9 +401,10 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     Dimension dimensions = el.getSize();
     Point upperLeft = el.getLocation();
     Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
+    int yOffset = center.getY() - upperLeft.getY();
 
-    TouchAction action0 = new TouchAction(this).press(el, center.getX(), center.getY() - 100).moveTo(el).release();
-    TouchAction action1 = new TouchAction(this).press(el, center.getX(), center.getY() + 100).moveTo(el).release();
+    TouchAction action0 = new TouchAction(this).press(el, center.getX(), center.getY() - yOffset).moveTo(el).release();
+    TouchAction action1 = new TouchAction(this).press(el, center.getX(), center.getY() + yOffset).moveTo(el).release();
 
     multiTouch.add(action0).add(action1);
 
@@ -448,9 +449,10 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver, Conte
     Dimension dimensions = el.getSize();
     Point upperLeft = el.getLocation();
     Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
+    int yOffset = center.getY() - upperLeft.getY();
 
-    TouchAction action0 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() - 100).release();
-    TouchAction action1 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() + 100).release();
+    TouchAction action0 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() - yOffset).release();
+    TouchAction action1 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() + yOffset).release();
 
     multiTouch.add(action0).add(action1);
 
