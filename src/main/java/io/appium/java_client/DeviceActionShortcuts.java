@@ -1,5 +1,6 @@
 package io.appium.java_client;
 
+
 public interface DeviceActionShortcuts {
 
 	/**
@@ -14,7 +15,7 @@ public interface DeviceActionShortcuts {
 	 * 
 	 * @param key code for the key pressed on the device
 	 * 
-	 * @see AndroidKeyCode
+	 * @see io.appium.java_client.android.AndroidKeyCode
 	 * @see io.appium.java_client.ios.IOSKeyCode
 	 */
 	public void sendKeyEvent(int key);

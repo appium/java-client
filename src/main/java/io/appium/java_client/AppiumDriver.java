@@ -39,10 +39,10 @@ import java.util.Set;
 
 import static io.appium.java_client.MobileCommand.*;
 
-public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
-		ContextAware, Rotatable, FindsByIosUIAutomation,
-		FindsByAndroidUIAutomator, FindsByAccessibilityId, LocationContext,
-		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles, InteractsWithApps {
+public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriver,
+		ContextAware, Rotatable, FindsByAccessibilityId, LocationContext,
+		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles,
+		InteractsWithApps {
 
 	private final static ErrorHandler errorHandler = new ErrorHandler(
 			new ErrorCodesMobile(), true);
@@ -50,11 +50,11 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	private RemoteLocationContext locationContext;
 	private ExecuteMethod executeMethod;
 
-	//frequently used command parameters
+	// frequently used command parameters
 	protected final String KEY_CODE = "keycode";
 	protected final String PATH = "path";
 	private final String SETTINGS = "settings";
-	
+
 	/**
 	 * @param originalCapabilities
 	 *            the given {@link Capabilities}
@@ -71,7 +71,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	/**
-	 * @param param 
+	 * @param param
 	 *            is a parameter name
 	 * @param value
 	 *            is the parameter value
@@ -83,23 +83,25 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		builder.put(param, value);
 		return builder.build();
 	}
-	
+
 	/**
 	 * 
-	 * @param params is the array with parameter names
-	 * @param values is the array with parameter values
+	 * @param params
+	 *            is the array with parameter names
+	 * @param values
+	 *            is the array with parameter values
 	 * @return built {@link ImmutableMap}
 	 */
 	protected static ImmutableMap<String, Object> getCommandImmutableMap(
 			String[] params, Object[] values) {
 		ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-		for (int i=0; i < params.length; i++ ){
-			if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])){
+		for (int i = 0; i < params.length; i++) {
+			if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])) {
 				builder.put(params[i], values[i]);
 			}
 		}
 		return builder.build();
-	}	
+	}
 
 	public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 
@@ -194,57 +196,56 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		execute(MobileCommand.RESET);
 	}
 
+	/**
+	 * @see InteractsWithApps#isAppInstalled(String)
+	 */
+	@Override
+	public boolean isAppInstalled(String bundleId) {
+		Response response = execute(IS_APP_INSTALLED,
+				ImmutableMap.of("bundleId", bundleId));
 
-  /**
-   * @see InteractsWithApps#isAppInstalled(String)
-   */
-  @Override
-  public boolean isAppInstalled(String bundleId) {
-    Response response = execute(IS_APP_INSTALLED,
-            ImmutableMap.of("bundleId", bundleId));
+		return Boolean.parseBoolean(response.getValue().toString());
+	}
 
-    return Boolean.parseBoolean(response.getValue().toString());
-  }
+	/**
+	 * @see InteractsWithApps#installApp(String)
+	 */
+	@Override
+	public void installApp(String appPath) {
+		execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
+	}
 
-  /**
-   * @see InteractsWithApps#installApp(String)
-   */
-  @Override
-  public void installApp(String appPath) {
-    execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
-  }
+	/**
+	 * @see InteractsWithApps#removeApp(String)
+	 */
+	@Override
+	public void removeApp(String bundleId) {
+		execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
+	}
 
-  /**
-   * @see InteractsWithApps#removeApp(String)
-   */
-  @Override
-  public void removeApp(String bundleId) {
-    execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
-  }
+	/**
+	 * @see InteractsWithApps#launchApp()
+	 */
+	@Override
+	public void launchApp() {
+		execute(LAUNCH_APP);
+	}
 
-  /**
-   * @see InteractsWithApps#launchApp()
-   */
-  @Override
-  public void launchApp() {
-    execute(LAUNCH_APP);
-  }
+	/**
+	 * @see InteractsWithApps#closeApp()
+	 */
+	@Override
+	public void closeApp() {
+		execute(CLOSE_APP);
+	}
 
-  /**
-   * @see InteractsWithApps#closeApp()
-   */
-  @Override
-  public void closeApp() {
-    execute(CLOSE_APP);
-  }
-
-  /**
-   * @see InteractsWithApps#runAppInBackground(int)
-   */
-  @Override
-  public void runAppInBackground(int seconds) {
-    execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
-  }
+	/**
+	 * @see InteractsWithApps#runAppInBackground(int)
+	 */
+	@Override
+	public void runAppInBackground(int seconds) {
+		execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
+	}
 
 	/**
 	 * Send a key event to the device
@@ -257,13 +258,13 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		execute(KEY_EVENT, getCommandImmutableMap(KEY_CODE, key));
 	}
 
-  /**
-   * @see DeviceActionShortcuts#hideKeyboard()
-   */
-  @Override
-  public void hideKeyboard() {
-    execute(HIDE_KEYBOARD);
-  }
+	/**
+	 * @see DeviceActionShortcuts#hideKeyboard()
+	 */
+	@Override
+	public void hideKeyboard() {
+		execute(HIDE_KEYBOARD);
+	}
 
 	/**
 	 * @see InteractsWithFiles#pullFile(String)
@@ -277,8 +278,8 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		return DatatypeConverter.parseBase64Binary(base64String);
 	}
 
-	/**        
-	 * @see InteractsWithFiles#pullFolder(String)        
+	/**
+	 * @see InteractsWithFiles#pullFolder(String)
 	 */
 	@Override
 	public byte[] pullFolder(String remotePath) {
@@ -315,7 +316,7 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	/**
-	 *@see TouchShortcuts#tap(int, WebElement, int)
+	 * @see TouchShortcuts#tap(int, WebElement, int)
 	 */
 	@Override
 	public void tap(int fingers, WebElement element, int duration) {
@@ -513,18 +514,18 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		setSettings(getCommandImmutableMap(setting.toString(), value));
 	}
 
-  /**
-   * Lock the device (bring it to the lock screen) for a given number of
-   * seconds
-   *
-   * @param seconds
-   *            number of seconds to lock the screen for
-   */
-  public void lockScreen(int seconds) {
-    execute(LOCK, ImmutableMap.of("seconds", seconds));
-  }
+	/**
+	 * Lock the device (bring it to the lock screen) for a given number of
+	 * seconds
+	 * 
+	 * @param seconds
+	 *            number of seconds to lock the screen for
+	 */
+	public void lockScreen(int seconds) {
+		execute(LOCK, ImmutableMap.of("seconds", seconds));
+	}
 
-  @Override
+	@Override
 	public WebDriver context(String name) {
 		if (!_isNotNullOrEmpty(name)) {
 			throw new IllegalArgumentException("Must supply a context name");
@@ -580,26 +581,6 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 	}
 
 	@Override
-	public WebElement findElementByIosUIAutomation(String using) {
-		return findElement("-ios uiautomation", using);
-	}
-
-	@Override
-	public List<WebElement> findElementsByIosUIAutomation(String using) {
-		return findElements("-ios uiautomation", using);
-	}
-
-	@Override
-	public WebElement findElementByAndroidUIAutomator(String using) {
-		return findElement("-android uiautomator", using);
-	}
-
-	@Override
-	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
-		return findElements("-android uiautomator", using);
-	}
-
-	@Override
 	public WebElement findElementByAccessibilityId(String using) {
 		return findElement("accessibility id", using);
 	}
@@ -646,19 +627,19 @@ public class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		return remoteAddress;
 	}
 
-  /**
-   * Checks if a string is null, empty, or whitespace.
-   *
-   * @param str
-   *            String to check.
-   *
-   * @return True if str is not null or empty.
-   */
-  protected static boolean _isNotNullOrEmpty(String str) {
-    return str != null && !str.isEmpty() && str.trim().length() > 0;
-  }
+	/**
+	 * Checks if a string is null, empty, or whitespace.
+	 * 
+	 * @param str
+	 *            String to check.
+	 * 
+	 * @return True if str is not null or empty.
+	 */
+	protected static boolean _isNotNullOrEmpty(String str) {
+		return str != null && !str.isEmpty() && str.trim().length() > 0;
+	}
 
-  protected static boolean _isNotNullOrEmpty(Object ob) {
-    return ob != null;
-  }
+	protected static boolean _isNotNullOrEmpty(Object ob) {
+		return ob != null;
+	}
 }
