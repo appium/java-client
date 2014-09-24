@@ -1,6 +1,5 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.AndroidKeyCode;
 import io.appium.java_client.DeviceActionShortcuts;
 
 public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {

@@ -1,13 +1,12 @@
 package io.appium.java_client.pagefactory_tests;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 
 import java.io.File;
 import java.net.URL;
@@ -18,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -26,7 +26,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class iOSPageObjectTest {
 
-	private AppiumDriver driver;
+	private WebDriver driver;
 	@FindBy(className = "UIAButton")
 	private List<WebElement> uiButtons;
 
@@ -97,10 +97,9 @@ public class iOSPageObjectTest {
 	    DesiredCapabilities capabilities = new DesiredCapabilities();
 	    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
 	    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-	    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	}
