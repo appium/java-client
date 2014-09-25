@@ -52,8 +52,7 @@ class AppiumElementLocator implements ElementLocator {
 	private WebElement cachedElement;
 	private List<WebElement> cachedElementList;
 	
-	private final long implicitlyWaitTimeOut;
-	private final TimeUnit timeUnit ;
+	private final TimeOutContainer timeOutContainer;
 
 	/**
 	 * Creates a new mobile element locator. It instantiates {@link WebElement}
@@ -64,8 +63,8 @@ class AppiumElementLocator implements ElementLocator {
 	 * @param field
 	 *            The field on the Page Object that will hold the located value
 	 */
-	public AppiumElementLocator(SearchContext searchContext, Field field,
-			long implicitlyWaitTimeOut, TimeUnit timeUnit) {
+	AppiumElementLocator(SearchContext searchContext, Field field,
+			TimeOutContainer timeOutContainer) {
 		this.searchContext = searchContext;
 		// All known webdrivers implement HasCapabilities
 		String platform = String
@@ -73,8 +72,7 @@ class AppiumElementLocator implements ElementLocator {
 						.getCapabilities().getCapability(
 								MobileCapabilityType.PLATFORM_NAME));
 		AppiumAnnotations annotations = new AppiumAnnotations(field, platform);
-		this.implicitlyWaitTimeOut = implicitlyWaitTimeOut;
-		this.timeUnit = timeUnit;
+		this.timeOutContainer = timeOutContainer;
 		shouldCache = annotations.isLookupCached();
 		by = annotations.buildBy();
 	}
@@ -109,14 +107,15 @@ class AppiumElementLocator implements ElementLocator {
 		try{
 			changeImplicitlyWaitTimeOut(0, TimeUnit.SECONDS);
 			FluentWait<By> wait = new FluentWait<By>(by);
-			wait.withTimeout(implicitlyWaitTimeOut, timeUnit);	
+			wait.withTimeout(timeOutContainer.getTimeValue(), timeOutContainer.getTimeUnitValue());	
 			return wait.until(new WaitingFunction(searchContext));
 		}
 		catch (TimeoutException e){
 			return new ArrayList<WebElement>();
 		}
 		finally{
-			changeImplicitlyWaitTimeOut(implicitlyWaitTimeOut, timeUnit);
+			changeImplicitlyWaitTimeOut(timeOutContainer.getTimeValue(), 
+					timeOutContainer.getTimeUnitValue());
 		}
 	}
 	
