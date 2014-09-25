@@ -19,15 +19,12 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.NetworkConnectionSetting;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
-import io.appium.java_client.android.AndroidKeyMetastate;
 import io.appium.java_client.remote.MobileCapabilityType;
-
 import org.apache.commons.codec.binary.Base64;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -144,18 +141,32 @@ public class AndroidDriverTest {
   }
   
   @Test
-  public void startActivityInThisAppTest(){
+  public void startActivityInThisAppTest() {
     driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null);
     String activity = driver.currentActivity();
     assertTrue(activity.contains("Node"));
   }
   
   @Test
-  public void startActivityInAnotherAppTest(){
+  public void startActivityInAnotherAppTest() {
     driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
     String activity = driver.currentActivity();
     assertTrue(activity.contains("Contact"));
   }
 
   //TODO hideKeyboard() test
+
+  @Test
+  public void scrollToTest() {
+    driver.scrollTo("View");
+    WebElement views = driver.findElementByAccessibilityId("Views");
+    assertNotNull(views);
+  }
+
+  @Test
+  public void scrollToExactTest() {
+    driver.scrollTo("Views");
+    WebElement views = driver.findElementByAccessibilityId("Views");
+    assertNotNull(views);
+  }
 }

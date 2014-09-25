@@ -491,6 +491,20 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		execute(LOCK, ImmutableMap.of("seconds", seconds));
 	}
 
+  /**
+   * Scroll to an element which contains the given text.
+   * Implemented differently on iOS and Android, see docs for individual methods.
+   * @param text
+   */
+  public abstract void scrollTo(String text);
+
+  /**
+   * Scroll to an element with the given text.
+   * Implemented differently on iOS and Android, see docs for individual methods.
+   * @param text
+   */
+  public abstract void scrollToExact(String text);
+
 	@Override
 	public WebDriver context(String name) {
 		if (!_isNotNullOrEmpty(name)) {

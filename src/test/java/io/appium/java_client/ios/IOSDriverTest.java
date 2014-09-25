@@ -18,19 +18,19 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import io.appium.java_client.remote.MobileCapabilityType;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Test Mobile Driver features
@@ -77,5 +77,23 @@ public class IOSDriverTest {
     element = (MobileElement)driver.findElementByAccessibilityId("Normal");
     element.click();
     driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
+  }
+
+  @Test
+  public void scrollToTest() {
+    MobileElement searchBar = (MobileElement) driver.findElementByName("Search Bars");
+    Point before = searchBar.getLocation();
+    driver.scrollTo("Search Ba");
+    Point after = searchBar.getLocation();
+    assertNotEquals(before, after);
+  }
+
+  @Test
+  public void scrollToExactTest() {
+    MobileElement searchBar = (MobileElement) driver.findElementByName("Search Bars");
+    Point before = searchBar.getLocation();
+    driver.scrollToExact("Search Bars");
+    Point after = searchBar.getLocation();
+    assertNotEquals(before, after);
   }
 }

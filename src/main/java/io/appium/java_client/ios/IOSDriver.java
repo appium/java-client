@@ -24,6 +24,52 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
   }
 
   /**
+   * Scroll to the element whose 'text' attribute contains the input text.
+   * This scrolling happens within the first UIATableView on the UI. Use the additional 'context' param to specify a different scrollView.
+   * @param text input text contained in text attribute
+   */
+  @Override
+  public void scrollTo(String text) {
+    scrollTo(text, (MobileElement) findElementByClassName("UIATableView"));
+  }
+
+  /**
+   * Scroll to the element whose 'text' attribute is equal to the input text.
+   * This scrolling happens within the first UIATableView on the UI. Use the additional 'context' param to specify a different scrollView.
+   * @param text input text to match
+   */
+  @Override
+  public void scrollToExact(String text) {
+    scrollToExact(text, (MobileElement) findElementByClassName("UIATableView"));
+  }
+
+  /**
+   * Scroll to the element whose 'text' attribute contains the input text.
+   * @param text input text contained in text attribute
+   * @param context container element to scroll within
+   */
+  public void scrollTo(String text, MobileElement context) {
+    context.findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+  }
+
+  /**
+   * Scroll to the element whose 'text' attribute is equal to the input text.
+   * @param text input text to match
+   * @param context container element to scroll within
+   */
+  public void scrollToExact(String text, MobileElement context) {
+    context.findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
+  }
+
+  /**
+   * Scroll to the given element.
+   * This scrolling happens within the first UIATableView on the UI. Use the ScrollToExactWithinContext() method to specify a different scrollView.
+   */
+  public void scrollTo(WebElement el) {
+    scrollToExact(el.getText());
+  }
+
+  /**
 	 * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
 	 */
 	@Override

@@ -40,6 +40,34 @@ public class AndroidDriver extends AppiumDriver implements
 	}
 
   /**
+   * Scroll forward to the element which has a description or name which contains the input text.
+   * The scrolling is performed on the first scrollView present on the UI
+   * @param text
+   */
+  @Override
+  public void scrollTo(String text) {
+    String uiScrollables = UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") +
+                           UiScrollable("new UiSelector().textContains(\"" + text + "\")");
+    findElementByAndroidUIAutomator(uiScrollables);
+  }
+
+  /**
+   * Scroll forward to the element which has a description or name which exactly matches the input text.
+   * The scrolling is performed on the first scrollView present on the UI
+   * @param text
+   */
+  @Override
+  public void scrollToExact(String text) {
+    String uiScrollables = UiScrollable("new UiSelector().description(\"" + text + "\")") +
+                           UiScrollable("new UiSelector().text(\"" + text + "\")");
+    findElementByAndroidUIAutomator(uiScrollables);
+  }
+
+  private String UiScrollable(String uiSelector) {
+    return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(" + uiSelector + ".instance(0));";
+  }
+
+  /**
 	 * @param key
 	 *            code for the key pressed on the Android device
 	 * @param metastate

@@ -17,8 +17,7 @@
 
 package io.appium.java_client;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -26,7 +25,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.List;
 
 public class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, FindsByAndroidUIAutomator,
 		FindsByIosUIAutomation {
