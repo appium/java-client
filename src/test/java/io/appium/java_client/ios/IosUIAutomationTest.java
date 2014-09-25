@@ -1,7 +1,8 @@
-package io.appium.java_client;
+package io.appium.java_client.ios;
 
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class IosUIAutomationTest {
 
-  private AppiumDriver driver;
+  private IOSDriver driver;
 
   @Before
   public void setup() throws Exception {
@@ -29,10 +30,9 @@ public class IosUIAutomationTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After

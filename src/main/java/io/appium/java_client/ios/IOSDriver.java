@@ -1,17 +1,21 @@
 package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobilePlatform;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 
 import java.net.URL;
+import java.util.List;
 
 import static io.appium.java_client.MobileCommand.*;
 
-public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts, GetsNamedTextField{
+public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts, GetsNamedTextField, FindsByIosUIAutomation{
 	private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
 	public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -56,4 +60,14 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
 		}
 		return element;
 	}
+	
+	@Override
+	public WebElement findElementByIosUIAutomation(String using) {
+		return findElement("-ios uiautomation", using);
+	}
+
+	@Override
+	public List<WebElement> findElementsByIosUIAutomation(String using) {
+		return findElements("-ios uiautomation", using);
+	}	
 }

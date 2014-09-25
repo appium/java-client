@@ -1,15 +1,19 @@
 package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
-import io.appium.java_client.AndroidKeyCode;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
+import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobilePlatform;
+
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
 
 import java.net.URL;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.*;
@@ -17,7 +21,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.*;
 
 public class AndroidDriver extends AppiumDriver implements
 		AndroidDeviceActionShortcuts, HasAppStrings, HasNetworkConnection, PushesFiles, 
-		StartsActivity {
+		StartsActivity, FindsByAndroidUIAutomator {
 
 	private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -222,6 +226,16 @@ public class AndroidDriver extends AppiumDriver implements
 	// Should be moved to the subclass
 	public void ignoreUnimportantViews(Boolean compress) {
 		setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
+	}	
+	
+	@Override
+	public WebElement findElementByAndroidUIAutomator(String using) {
+		return findElement("-android uiautomator", using);
+	}
+
+	@Override
+	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
+		return findElements("-android uiautomator", using);
 	}	
 
 }

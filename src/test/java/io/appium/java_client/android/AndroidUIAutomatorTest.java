@@ -1,7 +1,11 @@
-package io.appium.java_client;
+package io.appium.java_client.android;
 
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +24,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AndroidUIAutomatorTest {
 
-  private AppiumDriver driver;
+  private AndroidDriver driver;
 
   @Before
   public void setup() throws Exception {
@@ -31,7 +35,7 @@ public class AndroidUIAutomatorTest {
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After

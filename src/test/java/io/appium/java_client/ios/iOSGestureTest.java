@@ -15,10 +15,13 @@
  +limitations under the License.
  + */
 
-package io.appium.java_client;
+package io.appium.java_client.ios;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 
 import java.io.File;
 import java.net.URL;
@@ -46,10 +49,9 @@ public class iOSGestureTest {
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After

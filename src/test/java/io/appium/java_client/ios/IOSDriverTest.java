@@ -15,11 +15,13 @@
  +limitations under the License.
  + */
 
-package io.appium.java_client;
+package io.appium.java_client.ios;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import io.appium.java_client.remote.MobileCapabilityType;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
