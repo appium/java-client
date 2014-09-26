@@ -27,7 +27,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public abstract class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, ScrollsTo {
+public abstract class MobileElement extends RemoteWebElement implements FindsByAccessibilityId {
 
 	protected FileDetector fileDetector;
 

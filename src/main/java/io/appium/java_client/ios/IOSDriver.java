@@ -27,22 +27,22 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
 
   /**
    * Scroll to the element whose 'text' attribute contains the input text.
-   * This scrolling happens within the first UIATableView on the UI. Use the additional 'context' param to specify a different scrollView.
+   * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
    * @param text input text contained in text attribute
    */
    @Override
    public MobileElement scrollTo(String text) {
-     return ((MobileElement) findElementByClassName("UIATableView")).scrollTo(text);
+     return ((IOSElement) findElementByClassName("UIATableView")).scrollTo(text);
    }
 
    /**
    * Scroll to the element whose 'text' attribute is equal to the input text.
-   * This scrolling happens within the first UIATableView on the UI. Use the additional 'context' param to specify a different scrollView.
+   * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
    * @param text input text to match
    */
    @Override
    public MobileElement scrollToExact(String text) {
-	  return ((MobileElement) findElementByClassName("UIATableView")).scrollToExact(text);
+	  return ((IOSElement) findElementByClassName("UIATableView")).scrollToExact(text);
    }
 
    /**
