@@ -64,9 +64,9 @@ public class AppiumDriverTest {
 
   @Test
   public void setValueTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
+    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
+    element = (MobileElement)driver.findElementByAccessibilityId("DEFAULT");
     element.setValue("Grace Hopper");
   }
 

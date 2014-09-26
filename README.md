@@ -11,11 +11,17 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>1.7.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
 Javadocs: http://appium.github.io/java-client/
+
+###Structure###
+
+There is an abstract _AppiumDriver_ class which inherits from the Selenium Java Client.
+The _AppiumDriver_ class contains all methods shared by iOS and Android.
+_IOSDriver_ and _AndroidDriver_ both extend _AppiumDriver_ and provide more methods, and specific implementations for some methods.
 
 ###Added functions###
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
@@ -64,6 +70,11 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*2.0.0*
+- AppiumDriver is now an abstract class, use IOSDriver and AndroidDriver which both extend it. You no longer need to include the `PLATFORM_NAME` desired capability since it's automatic for each class. Thanks to @TikhomirovSergey for all their work
+- ScrollTo() and ScrollToExact() methods reimplemented
+- Zoom() and Pinch() are now a little smarter and less likely to fail if you element is near the edge of the screen. Congratulate @BJap on their first PR!
+
 *1.7.0*
 - Removed `scrollTo()` and `scrollToExact()` methods because they relied on `complexFind()`. They will be added back in the next version!
 - Removed `complexFind()`

@@ -68,18 +68,18 @@ public class IOSDriverTest {
 
   @Test
   public void namedTextFieldTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
+    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
-    element = (MobileElement)driver.getNamedTextField("Normal");
+    element = (MobileElement)driver.getNamedTextField("DEFAULT");
     element.setValue("Grace Hopper");
     assertEquals("Grace Hopper", element.getText());
   }
 
   @Test
   public void hideKeyboardWithParametersTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("TextFields, Uses of UITextField");
+    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("Normal");
+    element = (MobileElement)driver.findElementByAccessibilityId("DEFAULT");
     element.click();
     driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
   }
