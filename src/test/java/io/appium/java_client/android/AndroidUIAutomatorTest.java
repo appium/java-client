@@ -69,8 +69,8 @@ public class AndroidUIAutomatorTest {
 
   @Test
   public void findChainedElementsTest() {
-	  MobileElement el1 = (MobileElement) driver.findElementByAndroidUIAutomator("resourceId(\"android:id/content\")");
-	  MobileElement el2 = (MobileElement) el1.findElementByAndroidUIAutomator("text(\"Accessibility\")");
+	  AndroidElement el1 = (AndroidElement) driver.findElementByAndroidUIAutomator("resourceId(\"android:id/content\")");
+	  AndroidElement el2 = (AndroidElement) el1.findElementByAndroidUIAutomator("text(\"Accessibility\")");
 	  el2.click();
 	  MobileElement el3 = (MobileElement) driver.findElementByAndroidUIAutomator("text(\"Custom View\")");
 	  assertTrue(el3.isDisplayed());

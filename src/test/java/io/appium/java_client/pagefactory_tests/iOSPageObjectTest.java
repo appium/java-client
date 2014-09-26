@@ -2,6 +2,7 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -89,6 +90,12 @@ public class iOSPageObjectTest {
 		@AndroidFindBy(className = "android.widget.TextView")
 		})
 	private WebElement chainElementView;
+	
+	@iOSFindBy(uiAutomator = ".elements()[0]")
+	private IOSElement iosButton;
+	
+	@iOSFindBy(uiAutomator = ".elements()[0]")
+	private List<IOSElement> iosButtons;
 
 	@Before
 	public void setUp() throws Exception {
@@ -212,5 +219,15 @@ public class iOSPageObjectTest {
 			nsee = (NoSuchElementException) e;
 		}
 		Assert.assertNotNull(nsee);
+	}
+	
+	@Test
+	public void isIOSElementTest(){
+		Assert.assertNotEquals(null, iosButton.getText());
+	}
+
+	@Test
+	public void areIOSElements_FindByTest(){
+		Assert.assertNotEquals(0, iosButtons.size());
 	}
 }

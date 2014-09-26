@@ -17,8 +17,8 @@ import com.google.common.collect.Maps;
  * Reconstitutes {@link WebElement}s from their JSON representation. Will recursively convert Lists
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
-public class JsonToMobileElementConverter extends JsonToWebElementConverter {
-	private AppiumDriver driver;
+public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {
+	protected AppiumDriver driver;
 
 	public JsonToMobileElementConverter(AppiumDriver driver) {
 		super(driver);
@@ -53,9 +53,9 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 		return result;
 	}
 
-	protected MobileElement newMobileElement() {
-		MobileElement toReturn = new MobileElement();
-		toReturn.setParent(driver);
-		return toReturn;
-	}
+	protected abstract MobileElement newMobileElement(); //{
+		//MobileElement toReturn = new MobileElement();
+		//toReturn.setParent(driver);
+		//return toReturn;
+	//}
 }

@@ -5,7 +5,9 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.NetworkConnectionSetting;
+import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
 import org.openqa.selenium.Capabilities;
@@ -37,6 +39,7 @@ public class AndroidDriver extends AppiumDriver implements
 	public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
 				ANDROID_PLATFORM));
+		this.setElementConverter(new JsonToAndroidElementConverter(this));
 	}
 
   /**
@@ -45,10 +48,10 @@ public class AndroidDriver extends AppiumDriver implements
    * @param text
    */
   @Override
-  public void scrollTo(String text) {
+  public MobileElement scrollTo(String text) {
     String uiScrollables = UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") +
                            UiScrollable("new UiSelector().textContains(\"" + text + "\")");
-    findElementByAndroidUIAutomator(uiScrollables);
+    return (MobileElement) findElementByAndroidUIAutomator(uiScrollables);
   }
 
   /**
@@ -57,13 +60,13 @@ public class AndroidDriver extends AppiumDriver implements
    * @param text
    */
   @Override
-  public void scrollToExact(String text) {
+  public MobileElement scrollToExact(String text) {
     String uiScrollables = UiScrollable("new UiSelector().description(\"" + text + "\")") +
                            UiScrollable("new UiSelector().text(\"" + text + "\")");
-    findElementByAndroidUIAutomator(uiScrollables);
+    return (MobileElement) findElementByAndroidUIAutomator(uiScrollables);
   }
 
-  private String UiScrollable(String uiSelector) {
+  static String UiScrollable(String uiSelector) {
     return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(" + uiSelector + ".instance(0));";
   }
 
