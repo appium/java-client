@@ -2,6 +2,7 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -64,13 +65,13 @@ public class AndroidPageObjectTest {
 	private List<WebElement> iosChainTextViews;
 
 	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
 		@AndroidFindBy(id = "android:id/text1")
 		})
 	@iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"),
 		@iOSFindBy(xpath = "//someElement")})
 	private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
-
 
 	@FindBy(id = "android:id/text1")
 	private WebElement textView;
@@ -108,12 +109,27 @@ public class AndroidPageObjectTest {
 	private WebElement iosChainTextView;
 
 	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
 		@AndroidFindBy(id = "android:id/text1")
 		})
 	@iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"),
 		@iOSFindBy(xpath = "//someElement")})
 	private WebElement chainAndroidOrIOSUIAutomatorView;
+	
+	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+		@AndroidFindBy(id = "android:id/text1")
+		})
+	private AndroidElement androidElementView;
+	
+	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+		@AndroidFindBy(id = "android:id/text1")
+		})
+	private List<AndroidElement> androidElementViews;
 
 	@Before
 	public void setUp() throws Exception {
@@ -255,5 +271,15 @@ public class AndroidPageObjectTest {
 	@Test
 	public void androidOrIOSFindByElementTest_ChainSearches(){
 		Assert.assertNotEquals(null, chainAndroidOrIOSUIAutomatorView.getAttribute("text"));
-	}
+	}	
+	
+	@Test
+	public void isAndroidElementTest(){
+		Assert.assertNotEquals(null, androidElementView.getAttribute("text"));
+	}	
+	
+	@Test
+	public void areAndroidElementsTest(){
+		Assert.assertNotEquals(0, androidElementViews.size());
+	}		
 }

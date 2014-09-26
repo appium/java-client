@@ -18,14 +18,15 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumSetting;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.NetworkConnectionSetting;
-
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import org.apache.commons.codec.binary.Base64;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -167,8 +168,20 @@ public class AndroidDriverTest {
 
   @Test
   public void scrollToExactTest() {
-    driver.scrollTo("Views");
+    driver.scrollToExact("Views");
     WebElement views = driver.findElementByAccessibilityId("Views");
     assertNotNull(views);
+  }
+  
+  @Test
+  public void scrollToFromElementTest() {
+	MobileElement el = ((MobileElement) (driver.findElement(By.className("android.widget.FrameLayout")))).scrollTo("View");  
+    assertNotNull(el);
+  }
+
+  @Test
+  public void scrollToExactFromElementTest() {
+	MobileElement el = ((MobileElement) (driver.findElement(By.className("android.widget.FrameLayout")))).scrollToExact("Views");  
+    assertNotNull(el);
   }
 }

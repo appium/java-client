@@ -27,8 +27,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, FindsByAndroidUIAutomator,
-		FindsByIosUIAutomation {
+public abstract class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, ScrollsTo {
 
 	protected FileDetector fileDetector;
 
@@ -38,22 +37,6 @@ public class MobileElement extends RemoteWebElement implements FindsByAccessibil
 
 	public WebElement findElement(By by) {
 		return by.findElement(this);
-	}
-
-	public WebElement findElementByIosUIAutomation(String using) {
-		return findElement("-ios uiautomation", using);
-	}
-
-	public List<WebElement> findElementsByIosUIAutomation(String using) {
-		return findElements("-ios uiautomation", using);
-	}
-
-	public WebElement findElementByAndroidUIAutomator(String using) {
-		return findElement("-android uiautomator", using);
-	}
-
-	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
-		return findElements("-android uiautomator", using);
 	}
 
 	public WebElement findElementByAccessibilityId(String using) {

@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
@@ -42,7 +41,7 @@ import static io.appium.java_client.MobileCommand.*;
 public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		ContextAware, Rotatable, FindsByAccessibilityId, LocationContext,
 		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles,
-		InteractsWithApps {
+		InteractsWithApps, ScrollsTo {
 
 	private final static ErrorHandler errorHandler = new ErrorHandler(
 			new ErrorCodesMobile(), true);
@@ -106,7 +105,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 
 		super(remoteAddress, desiredCapabilities);
-		this.setElementConverter(new JsonToMobileElementConverter(this));
 
 		this.executeMethod = new AppiumExecutionMethod(this);
 		this.remoteAddress = remoteAddress;
@@ -525,22 +523,7 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		execute(LOCK, ImmutableMap.of("seconds", seconds));
 	}
 
-  /**
-   * Scroll to an element which contains the given text.
-   * Implemented differently on iOS and Android, see docs for individual methods.
-   * @param text
-   */
-  public abstract void scrollTo(String text);
-
-  /**
-   * Scroll to an element with the given text.
-   * Implemented differently on iOS and Android, see docs for individual methods.
-   * @param text
-   */
-  public abstract void scrollToExact(String text);
-
-
-	@Override
+  @Override
 	public WebDriver context(String name) {
 		if (!_isNotNullOrEmpty(name)) {
 			throw new IllegalArgumentException("Must supply a context name");

@@ -17,6 +17,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
+import org.reflections.Reflections;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -29,6 +30,21 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
  * {@link MobileElement} are allowed to use with this decorator
  */
 public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWaitTimeOut {
+	
+	private static final List<Class<? extends WebElement>> availableElementClasses = 
+			new ArrayList<Class<? extends WebElement>>(){
+				private static final long serialVersionUID = 1L;
+				{
+					add(WebElement.class);
+					add(RemoteWebElement.class);
+					add(MobileElement.class);
+					
+					Reflections r = new Reflections("io.appium");
+					addAll(r.getSubTypesOf(MobileElement.class));
+				}
+		
+	};
+	
 	private final AppiumElementLocatorFactory factory;
 
 	public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut, TimeUnit timeUnit) {
@@ -40,7 +56,7 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 	}
 
 	public Object decorate(ClassLoader ignored, Field field) {
-		if (!(WebElement.class.isAssignableFrom(field.getType()) || isDecoratableList(field))) {
+		if (!(availableElementClasses.contains(field.getType()) || isDecoratableList(field))) {
 			return null;
 		}
 
@@ -58,6 +74,19 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		}
 	}
 
+	private static boolean isAvailableElementClass(Type type){	
+		boolean result = false;
+		for (Class<? extends WebElement> webElementClass: 
+			availableElementClasses){
+			if (!webElementClass.equals(type)){
+				continue;
+			}
+			result = true;
+			break;
+		}
+		return result;
+	}
+	
 	private boolean isDecoratableList(Field field) {
 		if (!List.class.isAssignableFrom(field.getType())) {
 			return false;
@@ -70,14 +99,7 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 			return false;
 		}
 
-		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-
-		if (!WebElement.class.equals(listType) && RemoteWebElement.class.equals(listType) 
-				&& MobileElement.class.equals(listType)) {
-			return false;
-		}
-
-
+		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];	
 		if (field.getAnnotation(AndroidFindBy.class) == null
 				&& field.getAnnotation(iOSFindBy.class) == null
 				&& field.getAnnotation(AndroidFindBys.class) == null
@@ -87,8 +109,7 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 			    && field.getAnnotation(FindAll.class) == null){
 			return false;
 		}
-
-		return true;
+		return isAvailableElementClass(listType);
 	}
 
 	private Object proxyForLocator(Field field, ElementLocator locator) {
