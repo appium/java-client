@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -20,14 +21,9 @@ public class TimeOutResetTest {
 	private WebDriver driver;
 	private final static long ACCEPTABLE_DELTA_MILLS = 500;
 
-	/**
-	 * Default time out parameters
-	 */
 
-	private static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
-	private static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
-
-	@FindBy(className = "ClassWhichDoesNotExist")
+	@FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
+	@FindBy(className = "OneAnotherClassWhichDoesNotExist")})
 	private List<WebElement> stubElements;
 	private AppiumFieldDecorator afd;
 
@@ -69,10 +65,10 @@ public class TimeOutResetTest {
 
 	@Test
 	public void test() {
-		checkTimeDifference(DEFAULT_IMPLICITLY_WAIT_TIMEOUT, DEFAULT_TIMEUNIT,
+		checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT, AppiumFieldDecorator.DEFAULT_TIMEUNIT,
 				getBenchMark());
-		System.out.println(String.valueOf(DEFAULT_IMPLICITLY_WAIT_TIMEOUT)
-				+ " " + DEFAULT_TIMEUNIT.toString() + ": Fine");
+		System.out.println(String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT)
+				+ " " + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
 
 		afd.resetImplicitlyWaitTimeOut(15500000, TimeUnit.MICROSECONDS);
 		checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark());

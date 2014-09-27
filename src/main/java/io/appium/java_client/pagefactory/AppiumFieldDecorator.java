@@ -47,6 +47,10 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 	
 	private final AppiumElementLocatorFactory factory;
 
+	public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
+
+	public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
+
 	public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut, TimeUnit timeUnit) {
 		factory = new AppiumElementLocatorFactory(context, implicitlyWaitTimeOut, timeUnit);
 	}
