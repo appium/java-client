@@ -8,31 +8,26 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 
 class AppiumElementLocatorFactory implements ElementLocatorFactory, ResetsImplicitlyWaitTimeOut {
-    private static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
-    private static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
-	
-	private final SearchContext searchContext;
-	private long implicitlyWaitTimeOut;
-	private TimeUnit timeUnit;
+    private final SearchContext searchContext;
+	private final TimeOutContainer timeOutContainer;
 
 	public AppiumElementLocatorFactory(SearchContext searchContext,
 			long implicitlyWaitTimeOut, TimeUnit timeUnit) {
 		this.searchContext = searchContext;
-		this.implicitlyWaitTimeOut = implicitlyWaitTimeOut;
-		this.timeUnit = timeUnit;
+		this.timeOutContainer = new TimeOutContainer(implicitlyWaitTimeOut, timeUnit);
 	}
 	
 	public AppiumElementLocatorFactory(SearchContext searchContext) {
-		this(searchContext, DEFAULT_IMPLICITLY_WAIT_TIMEOUT, DEFAULT_TIMEUNIT);
+		this(searchContext, AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT, 
+				AppiumFieldDecorator.DEFAULT_TIMEUNIT);
 	}	
 
 	public ElementLocator createLocator(Field field) {
-		return new AppiumElementLocator(searchContext, field, implicitlyWaitTimeOut, timeUnit);
+		return new AppiumElementLocator(searchContext, field, timeOutContainer);
 	}
 
 	@Override
 	public void resetImplicitlyWaitTimeOut(long timeOut, TimeUnit timeUnit) {
-		implicitlyWaitTimeOut = timeOut;
-		this.timeUnit = timeUnit;
+		timeOutContainer.resetImplicitlyWaitTimeOut(timeOut, timeUnit);
 	}
 }

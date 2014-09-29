@@ -1,24 +1,26 @@
 package io.appium.java_client.pagefactory_tests;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSFindBys;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 
 import java.io.File;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -27,7 +29,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AndroidPageObjectTest {
 
-	private AppiumDriver driver;
+	private WebDriver driver;
 	@FindBy(className = "android.widget.TextView")
 	private List<WebElement> textVieWs;
 
@@ -64,13 +66,13 @@ public class AndroidPageObjectTest {
 	private List<WebElement> iosChainTextViews;
 
 	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
 		@AndroidFindBy(id = "android:id/text1")
 		})
 	@iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"),
 		@iOSFindBy(xpath = "//someElement")})
 	private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
-
 
 	@FindBy(id = "android:id/text1")
 	private WebElement textView;
@@ -108,25 +110,39 @@ public class AndroidPageObjectTest {
 	private WebElement iosChainTextView;
 
 	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
 		@AndroidFindBy(id = "android:id/text1")
 		})
 	@iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"),
 		@iOSFindBy(xpath = "//someElement")})
 	private WebElement chainAndroidOrIOSUIAutomatorView;
+	
+	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+		@AndroidFindBy(id = "android:id/text1")
+		})
+	private AndroidElement androidElementView;
+	
+	@AndroidFindBys({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+		@AndroidFindBy(id = "android:id/text1")
+		})
+	private List<AndroidElement> androidElementViews;
 
 	@Before
 	public void setUp() throws Exception {
 	    File appDir = new File("src/test/java/io/appium/java_client");
 	    File app = new File(appDir, "ApiDemos-debug.apk");
 	    DesiredCapabilities capabilities = new DesiredCapabilities();
-	    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
 	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-	    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	    driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
-		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+	    //This time out is set because test can be run on slow Android SDK emulator
+		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
 	}
 
 	@After
@@ -257,5 +273,15 @@ public class AndroidPageObjectTest {
 	@Test
 	public void androidOrIOSFindByElementTest_ChainSearches(){
 		Assert.assertNotEquals(null, chainAndroidOrIOSUIAutomatorView.getAttribute("text"));
-	}
+	}	
+	
+	@Test
+	public void isAndroidElementTest(){
+		Assert.assertNotEquals(null, androidElementView.getAttribute("text"));
+	}	
+	
+	@Test
+	public void areAndroidElementsTest(){
+		Assert.assertNotEquals(0, androidElementViews.size());
+	}		
 }
