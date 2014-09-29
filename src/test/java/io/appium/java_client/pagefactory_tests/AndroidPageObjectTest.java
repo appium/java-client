@@ -13,6 +13,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -140,7 +141,8 @@ public class AndroidPageObjectTest {
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 	    driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
-		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+	    //This time out is set because test can be run on slow Android SDK emulator
+		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
 	}
 
 	@After
