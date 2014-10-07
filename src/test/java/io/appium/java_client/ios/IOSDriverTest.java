@@ -62,6 +62,18 @@ public class IOSDriverTest {
   }
 
   @Test
+  public void getStringsTest() {
+    String strings = driver.getAppStrings();
+    assert(strings.length() > 100);
+  }
+
+  @Test
+  public void getStringsWithLanguageTest() {
+    String strings = driver.getAppStrings("en");
+    assert(strings.length() > 100);
+  }
+
+  @Test
   public void resetTest() {
     driver.resetApp();
   }

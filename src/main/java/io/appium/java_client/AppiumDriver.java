@@ -41,7 +41,7 @@ import static io.appium.java_client.MobileCommand.*;
 public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriver,
 		ContextAware, Rotatable, FindsByAccessibilityId, LocationContext,
 		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles,
-		InteractsWithApps, ScrollsTo {
+		InteractsWithApps, ScrollsTo, HasAppStrings {
 
 	private final static ErrorHandler errorHandler = new ErrorHandler(
 			new ErrorCodesMobile(), true);
@@ -53,6 +53,8 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	protected final String KEY_CODE = "keycode";
 	protected final String PATH = "path";
 	private final String SETTINGS = "settings";
+
+	private final String LANGUAGE_PARAM = "language";
 
 	/**
 	 * @param originalCapabilities
@@ -596,6 +598,29 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	@Override
 	public void setLocation(Location location) {
 		locationContext.setLocation(location);
+	}
+
+	/**
+	 * @see HasAppStrings#getAppStrings()
+ 	 */
+	@Override
+	public String getAppStrings() {
+		Response response = execute(GET_STRINGS);
+		return response.getValue().toString();
+	}
+
+	/**
+	 * @param language
+	 *            strings language code
+	 * @return a string of all the localized strings defined in the app
+	 * 
+	 * @see HasAppStrings#getAppStrings(String)
+	 */
+	@Override
+	public String getAppStrings(String language) {
+		Response response = execute(GET_STRINGS,
+				getCommandImmutableMap(LANGUAGE_PARAM, language));
+		return response.getValue().toString();
 	}
 
 	private TouchAction createTap(WebElement element, int duration) {

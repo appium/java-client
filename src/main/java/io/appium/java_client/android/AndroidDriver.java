@@ -22,13 +22,12 @@ import static io.appium.java_client.MobileCommand.*;
 import static io.appium.java_client.remote.MobileCapabilityType.*;
 
 public class AndroidDriver extends AppiumDriver implements
-		AndroidDeviceActionShortcuts, HasAppStrings, HasNetworkConnection, PushesFiles, 
+		AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles,
 		StartsActivity, FindsByAndroidUIAutomator {
 
 	private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
 	private final String METASTATE_PARAM = "metastate";
-	private final String LANGUAGE_PARAM = "language";
 	private final String CONNECTION_NAME_PARAM = "name";
 	private final String CONNECTION_PARAM_PARAM = "parameters";
 	private final String DATA_PARAM = "data";
@@ -85,29 +84,6 @@ public class AndroidDriver extends AppiumDriver implements
 		String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
 		Object[] values = new Object[] { key, metastate };
 		execute(KEY_EVENT, getCommandImmutableMap(parameters, values));
-	}
-
-	/**
-	 * @see HasAppStrings#getAppStrings()
-	 */
-	@Override
-	public String getAppStrings() {
-		Response response = execute(GET_STRINGS);
-		return response.getValue().toString();
-	}
-
-	/**
-	 * @param language
-	 *            strings language code
-	 * @return a string of all the localized strings defined in the app
-	 * 
-	 * @see HasAppStrings#getAppStrings(String)
-	 */
-	@Override
-	public String getAppStrings(String language) {
-		Response response = execute(GET_STRINGS,
-				getCommandImmutableMap(LANGUAGE_PARAM, language));
-		return response.getValue().toString();
 	}
 
 	/**
