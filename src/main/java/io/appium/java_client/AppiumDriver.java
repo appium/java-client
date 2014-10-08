@@ -319,7 +319,7 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	* Tap WebElement 
 	* @param element WebElement to be tapped
 	*/
-	public void tapElement(WebElement element) {
+	public void tap(WebElement element) {
 		RemoteWebElement el = (RemoteWebElement) element;
 		execute(TOUCH_SINGLE_TAP, ImmutableMap.<String, String> of("element", el.getId()));
 	}
