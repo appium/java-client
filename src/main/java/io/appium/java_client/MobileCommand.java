@@ -34,6 +34,7 @@ public interface MobileCommand {
   String PULL_FOLDER = "pullFolder";
   String HIDE_KEYBOARD = "hideKeyboard";
   String RUN_APP_IN_BACKGROUND = "runAppInBackground";
+  String TOUCH_SINGLE_TAP = "touchSingleTap";
   String PERFORM_TOUCH_ACTION = "performTouchAction";
   String PERFORM_MULTI_TOUCH = "performMultiTouch";
   String IS_APP_INSTALLED = "isAppInstalled";
