@@ -37,21 +37,6 @@
             <artifactId>cglib</artifactId>
             <version>3.1</version>
         </dependency>
-	    <dependency>
-	         <groupId>org.reflections</groupId>
-	         <artifactId>reflections</artifactId>
-	         <version>0.9.8</version>
-	         <exclusions>
-	  			<exclusion>
-	  				<artifactId>guava</artifactId>
-	  				<groupId>com.google.guava</groupId>
-	  			</exclusion>
-	  			<exclusion>
-	  				<artifactId>xml-apis</artifactId>
-	  				<groupId>xml-apis</groupId>
-	  			</exclusion>
-	  		</exclusions>
-	     </dependency>
     </dependencies>
     <packaging>jar</packaging>
     <name>java-client</name>

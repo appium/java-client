@@ -1,6 +1,8 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSElement;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -17,7 +19,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import org.reflections.Reflections;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -26,8 +27,9 @@ import org.reflections.Reflections;
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory.
  * 
- * Please pay attention: fields of {@link WebElement}, {@link RemoteWebElement} and
- * {@link MobileElement} are allowed to use with this decorator
+ * Please pay attention: fields of {@link WebElement}, {@link RemoteWebElement},
+ * {@link MobileElement}, {@link AndroidElement} and {@link IOSElement} are allowed 
+ * to use with this decorator
  */
 public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWaitTimeOut {
 	
@@ -38,9 +40,8 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 					add(WebElement.class);
 					add(RemoteWebElement.class);
 					add(MobileElement.class);
-					
-					Reflections r = new Reflections("io.appium");
-					addAll(r.getSubTypesOf(MobileElement.class));
+					add(AndroidElement.class);
+					add(IOSElement.class);
 				}
 		
 	};
