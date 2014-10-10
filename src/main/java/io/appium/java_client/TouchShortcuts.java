@@ -28,7 +28,14 @@ public interface TouchShortcuts {
 	   * @param el The element to pinch
 	   */
 	  public void zoom(WebElement el);
-
+	
+	/**
+	 * Convenience method for tapping a WebElement on the screen
+	 * 
+	 * @param element - WebElement to be tapped
+	 */
+	public void tap(WebElement element);
+	
 	/**
 	 * Convenience method for tapping a position on the screen
 	 * 

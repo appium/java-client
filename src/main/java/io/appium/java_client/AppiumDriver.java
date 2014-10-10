@@ -133,6 +133,8 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 						postC("/session/:sessionId/appium/device/push_file"))
 				.put(RUN_APP_IN_BACKGROUND,
 						postC("/session/:sessionId/appium/app/background"))
+		                .put(TOUCH_SINGLE_TAP,
+                        			postC("/session/:sessionId/touch/click"))
 				.put(PERFORM_TOUCH_ACTION,
 						postC("/session/:sessionId/touch/perform"))
 				.put(PERFORM_MULTI_TOUCH,
@@ -313,6 +315,15 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		ImmutableMap<String, ImmutableList> parameters = multiAction
 				.getParameters();
 		execute(PERFORM_MULTI_TOUCH, parameters);
+	}
+	
+	/**
+	* Tap WebElement 
+	* @param element WebElement to be tapped
+	*/
+	public void tap(WebElement element) {
+		RemoteWebElement el = (RemoteWebElement) element;
+		execute(TOUCH_SINGLE_TAP, ImmutableMap.<String, String> of("element", el.getId()));
 	}
 
 	/**
