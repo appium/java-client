@@ -6,6 +6,7 @@ import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSFindAll;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileCapabilityType;
 
@@ -96,6 +97,20 @@ public class iOSPageObjectTest {
 	
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private List<IOSElement> iosButtons;
+	
+	@iOSFindAll({
+		@iOSFindBy(uiAutomator = ".elements()[100000000]"),	
+		@iOSFindBy(uiAutomator = ".elements()[300000000]"),
+		@iOSFindBy(uiAutomator = ".elements()[0]"),	//it is real locator
+	})
+	private WebElement findAllElement;
+	
+	@iOSFindAll({
+		@iOSFindBy(uiAutomator = ".elements()[100000000]"),	
+		@iOSFindBy(uiAutomator = ".elements()[300000000]"),
+		@iOSFindBy(uiAutomator = ".elements()[0]"),	//it is real locator
+	})	
+	private List<WebElement> findAllElements;
 
 	@Before
 	public void setUp() throws Exception {
@@ -229,5 +244,15 @@ public class iOSPageObjectTest {
 	@Test
 	public void areIOSElements_FindByTest(){
 		Assert.assertNotEquals(0, iosButtons.size());
+	}
+
+	@Test
+	public void findAllElementsTest(){
+		Assert.assertNotEquals(0, findAllElements.size());
+	}
+
+	@Test
+	public void findAllElementTest(){
+		Assert.assertNotEquals(null, findAllElement.getAttribute("text"));
 	}
 }

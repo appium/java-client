@@ -14,9 +14,6 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
@@ -105,16 +102,9 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		}
 
 		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];	
-		if (field.getAnnotation(AndroidFindBy.class) == null
-				&& field.getAnnotation(iOSFindBy.class) == null
-				&& field.getAnnotation(AndroidFindBys.class) == null
-			    && field.getAnnotation(iOSFindBys.class) == null
-			    && field.getAnnotation(FindBy.class) == null
-			    && field.getAnnotation(FindBys.class) == null
-			    && field.getAnnotation(FindAll.class) == null){
-			return false;
-		}
-		return isAvailableElementClass(listType);
+		return isAvailableElementClass(listType);		
+		//if there is no annotation list is supposed to be found by org.openqa.selenium.support.ByIdOrName
+		//DefaultElementLocator has an issue :)
 	}
 
 	private Object proxyForLocator(Field field, ElementLocator locator) {
