@@ -99,17 +99,15 @@ public class iOSPageObjectTest {
 	private List<IOSElement> iosButtons;
 	
 	@iOSFindAll({
-		@iOSFindBy(uiAutomator = ".elements()[100000000]"),	
-		@iOSFindBy(uiAutomator = ".elements()[300000000]"),
-		@iOSFindBy(uiAutomator = ".elements()[0]"),	//it is real locator
+		@iOSFindBy(xpath = "ComputeSumButton_Test"),	
+		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
 	})
 	private WebElement findAllElement;
 	
 	@iOSFindAll({
-		@iOSFindBy(uiAutomator = ".elements()[100000000]"),	
-		@iOSFindBy(uiAutomator = ".elements()[300000000]"),
-		@iOSFindBy(uiAutomator = ".elements()[0]"),	//it is real locator
-	})	
+		@iOSFindBy(xpath = "ComputeSumButton_Test"),	
+		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
+	})
 	private List<WebElement> findAllElements;
 
 	@Before
@@ -253,6 +251,6 @@ public class iOSPageObjectTest {
 
 	@Test
 	public void findAllElementTest(){
-		Assert.assertNotEquals(null, findAllElement.getAttribute("text"));
+		Assert.assertNotEquals(null, findAllElement.getText());
 	}
 }

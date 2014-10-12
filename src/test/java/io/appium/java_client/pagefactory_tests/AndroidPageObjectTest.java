@@ -137,7 +137,7 @@ public class AndroidPageObjectTest {
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),
 		@AndroidFindBy(id = "android:id/Faketext1"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"), //by this locator element is found
-		@AndroidFindBy(id = "android:id/FakeId"),
+		@AndroidFindBy(id = "android:id/FakeId")
 		})
 	private List<WebElement> findAllElementViews;
 	
@@ -145,7 +145,7 @@ public class AndroidPageObjectTest {
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),
 		@AndroidFindBy(id = "android:id/Faketext1"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"), //by this locator element is found
-		@AndroidFindBy(id = "android:id/FakeId"),
+		@AndroidFindBy(id = "android:id/FakeId")
 		})
 	private WebElement findAllElementView;
 	
