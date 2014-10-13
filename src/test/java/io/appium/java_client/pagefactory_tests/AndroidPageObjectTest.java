@@ -3,6 +3,7 @@ package io.appium.java_client.pagefactory_tests;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.pagefactory.AndroidFindAll;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -131,7 +132,23 @@ public class AndroidPageObjectTest {
 		@AndroidFindBy(id = "android:id/text1")
 		})
 	private List<AndroidElement> androidElementViews;
-
+	
+	@AndroidFindAll({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),
+		@AndroidFindBy(id = "android:id/Faketext1"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"), //by this locator element is found
+		@AndroidFindBy(id = "android:id/FakeId")
+		})
+	private List<WebElement> findAllElementViews;
+	
+	@AndroidFindAll({
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),
+		@AndroidFindBy(id = "android:id/Faketext1"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"), //by this locator element is found
+		@AndroidFindBy(id = "android:id/FakeId")
+		})
+	private WebElement findAllElementView;
+	
 	@Before
 	public void setUp() throws Exception {
 	    File appDir = new File("src/test/java/io/appium/java_client");
@@ -284,4 +301,14 @@ public class AndroidPageObjectTest {
 	public void areAndroidElementsTest(){
 		Assert.assertNotEquals(0, androidElementViews.size());
 	}		
+	
+	@Test
+	public void findAllElementTest(){
+		Assert.assertNotEquals(null, findAllElementView.getAttribute("text"));
+	}	
+	
+	@Test
+	public void findAllElementsTest(){
+		Assert.assertNotEquals(0, findAllElementViews.size());
+	}	
 }

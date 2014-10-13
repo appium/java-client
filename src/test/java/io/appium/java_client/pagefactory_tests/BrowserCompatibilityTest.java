@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests;
 
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -163,6 +164,11 @@ public class BrowserCompatibilityTest {
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> foundLinks;
 	
+	private List<WebElement> ires; //this list is located by id="ires"
+	private WebElement gbqfb; //this element is found by id="gbqfb"
+	private WebDriver trap1;
+	private List<AndroidDriver> trap2;
+	
 	private void test(WebDriver driver){
 		try {
 			PageFactory.initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS), this);
@@ -175,6 +181,10 @@ public class BrowserCompatibilityTest {
 			searchTextField.sendKeys("Hello, Appium!");
 			searchButton.click();
 			Assert.assertNotEquals(0, foundLinks.size());
+			Assert.assertNotEquals(0, ires.size());
+			Assert.assertEquals(null, trap1);
+			Assert.assertEquals(null, trap2);
+			gbqfb.click();
 		} finally {
 			driver.quit();
 		}
