@@ -18,7 +18,6 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
@@ -133,17 +132,10 @@ public class iOSGestureTest {
 
 @Test
   public void elementGestureTest(){
-	  WebDriverWait wait = new WebDriverWait(driver, 5);
-	  MobileElement e = (MobileElement) driver.findElementsByClassName("UIAButton").get(5);
+	  MobileElement e = (MobileElement) driver.findElementByName("TextField1");
 	  e.tap(1, 1500);
-	  
-	  wait.until(ExpectedConditions.alertIsPresent());
-	  Alert alert = driver.switchTo().alert();
-	  alert.accept();
-	  
-	  MobileElement e2 = (MobileElement) driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
-	  e2.zoom();
-	  e2.swipe(2000);
-	  e2.pinch();
+	  e.zoom();
+	  e.swipe(2000);
+	  e.pinch();
   }
 }
