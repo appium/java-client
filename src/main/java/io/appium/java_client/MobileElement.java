@@ -86,4 +86,10 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 				location.x + size.getWidth(), location.y + size.getHeight(),
 				duration);
 	}
+	
+
+	@Override
+	public void swipe(SwipeElementDirection direction, int duration) {
+		direction.swipe((AppiumDriver) parent, this, duration);		
+	}
 }

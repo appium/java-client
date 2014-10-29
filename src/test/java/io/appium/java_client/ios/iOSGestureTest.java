@@ -20,6 +20,7 @@ package io.appium.java_client.ios;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -130,12 +131,16 @@ public class iOSGestureTest {
     driver.tap(1,100,200,1000);
   }
 
-@Test
+  @Test
   public void elementGestureTest(){
-	  MobileElement e = (MobileElement) driver.findElementByName("TextField1");
+	MobileElement e = (MobileElement) driver.findElementByName("TextField1");
 	  e.tap(1, 1500);
 	  e.zoom();
 	  e.swipe(2000);
 	  e.pinch();
+	  e.swipe(SwipeElementDirection.UP,2000);
+	  e.swipe(SwipeElementDirection.DOWN,2000);
+	  e.swipe(SwipeElementDirection.LEFT,2000);
+	  e.swipe(SwipeElementDirection.RIGHT,2000);
   }
 }
