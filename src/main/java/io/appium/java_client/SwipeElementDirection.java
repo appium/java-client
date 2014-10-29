@@ -37,7 +37,7 @@ public enum SwipeElementDirection {
 			Point p = element.getCenter();
 			Point location = element.getLocation();
 			Dimension size = element.getSize();
-			driver.swipe(location.getX(), p.getY(), location.getX() + size.getWidth(), p.getY(), duration);
+			driver.swipe(location.getX() + size.getWidth(), p.getY(), location.getX(), p.getY(), duration);
 		}		
 	},
 	/**
@@ -49,7 +49,7 @@ public enum SwipeElementDirection {
 			Point p = element.getCenter();
 			Point location = element.getLocation();
 			Dimension size = element.getSize();
-			driver.swipe(location.getX() + size.getWidth(), p.getY(), location.getX(), p.getY(), duration);
+			driver.swipe(location.getX(), p.getY(), location.getX()+ size.getWidth(), p.getY(), duration);
 		}		
 	};
 	

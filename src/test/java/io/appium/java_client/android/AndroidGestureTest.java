@@ -108,11 +108,11 @@ public class AndroidGestureTest {
 	  e2.swipe(2000);
 	  e2.swipe(SwipeElementDirection.UP,2000);
 	  e2.swipe(SwipeElementDirection.DOWN,2000);
-	  e2.swipe(SwipeElementDirection.LEFT,100);
+	  e2.swipe(SwipeElementDirection.RIGHT,1000);
 	  MobileElement e3 = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Custom Title"));
-	  e3.swipe(SwipeElementDirection.LEFT,100);
+	  e3.swipe(SwipeElementDirection.RIGHT,1000);
 	  MobileElement e4 = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Change Left"));
 	  e4.pinch();
-	  e4.swipe(SwipeElementDirection.RIGHT,100);
+	  e4.swipe(SwipeElementDirection.LEFT,2000);
   }
 }
