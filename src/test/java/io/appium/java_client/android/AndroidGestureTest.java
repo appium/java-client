@@ -105,7 +105,6 @@ public class AndroidGestureTest {
 	  e.tap(1, 1500);
 	  MobileElement e2 = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Activity"));
 	  e2.zoom();
-	  e2.swipe(2000);
 	  e2.swipe(SwipeElementDirection.UP,2000);
 	  e2.swipe(SwipeElementDirection.DOWN,2000);
 	  e2.swipe(SwipeElementDirection.RIGHT,1000);

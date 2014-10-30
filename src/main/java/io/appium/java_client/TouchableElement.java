@@ -40,15 +40,6 @@ public interface TouchableElement extends WebElement {
 	 public void zoom();
 	 
 	 /**
-		 * Convenience method for swiping across the given element
-		 *
-		 * @param duration
-		 *            amount of time in milliseconds for the entire swipe action to
-		 *            take
-		 */
-	  public void swipe(int duration);
-	  
-      /**
       * Convenience method for swiping on the given element to the given direction
       * 
       * @param direction UP, DOWN, LEFT, RIGHT

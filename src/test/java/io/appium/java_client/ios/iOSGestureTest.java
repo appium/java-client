@@ -136,7 +136,6 @@ public class iOSGestureTest {
 	MobileElement e = (MobileElement) driver.findElementByName("TextField1");
 	  e.tap(1, 1500);
 	  e.zoom();
-	  e.swipe(2000);
 	  e.pinch();
 	  e.swipe(SwipeElementDirection.UP,2000);
 	  e.swipe(SwipeElementDirection.DOWN,2000);

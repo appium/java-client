@@ -75,17 +75,6 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 	public void zoom() {
 		((AppiumDriver) parent).zoom(this);		
 	}
-
-	@Override
-	// the swiping is performed from the upper left corner to
-	// the lower right
-	public void swipe(int duration) {
-		Dimension size = this.getSize();
-		Point location = this.getLocation();
-		((AppiumDriver) parent).swipe(location.x, location.y,
-				location.x + size.getWidth(), location.y + size.getHeight(),
-				duration);
-	}
 	
 
 	@Override
