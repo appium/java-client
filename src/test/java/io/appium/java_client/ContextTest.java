@@ -17,19 +17,17 @@
 
 package io.appium.java_client;
 
-import static org.junit.Assert.assertEquals;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.NoSuchContextException;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.net.URL;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test context-related features
@@ -57,8 +55,7 @@ public class ContextTest {
 
   @Test
   public void testGetContext() {
-    boolean assertion = driver.getContext() == null;
-    assert(assertion);
+    assertEquals("NATIVE_APP", driver.getContext());
   }
 
   @Test

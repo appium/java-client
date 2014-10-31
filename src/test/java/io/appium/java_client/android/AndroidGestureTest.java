@@ -17,26 +17,21 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.SwipeElementDirection;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.*;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Test Mobile Driver features
@@ -103,15 +98,20 @@ public class AndroidGestureTest {
 	  driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 	  MobileElement e = (MobileElement) driver.findElement(MobileBy.AccessibilityId("App"));
 	  e.tap(1, 1500);
-	  MobileElement e2 = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Activity"));
+    System.out.println("tap");
+	  MobileElement e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
 	  e2.zoom();
-	  e2.swipe(SwipeElementDirection.UP,2000);
-	  e2.swipe(SwipeElementDirection.DOWN,2000);
-	  e2.swipe(SwipeElementDirection.RIGHT,1000);
-	  MobileElement e3 = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Custom Title"));
-	  e3.swipe(SwipeElementDirection.RIGHT,1000);
-	  MobileElement e4 = (MobileElement) driver.findElement(MobileBy.AccessibilityId("Change Left"));
-	  e4.pinch();
-	  e4.swipe(SwipeElementDirection.LEFT,2000);
+    System.out.println("zoom");
+    e2.swipe(SwipeElementDirection.RIGHT,1000);
+    System.out.println("RIGHT");
+    driver.sendKeyEvent(AndroidKeyCode.BACK);
+    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	  e2.swipe(SwipeElementDirection.LEFT, 1000);
+    System.out.println("LEFT");
+    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	  e2.swipe(SwipeElementDirection.DOWN,1000);
+    System.out.println("DOWN");
+    e2.swipe(SwipeElementDirection.UP,1000);
+    System.out.println("UP");
   }
 }
