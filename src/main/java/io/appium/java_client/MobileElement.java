@@ -18,16 +18,18 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public abstract class MobileElement extends RemoteWebElement implements FindsByAccessibilityId {
+public abstract class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, TouchableElement {
 
 	protected FileDetector fileDetector;
 
@@ -57,5 +59,26 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 		Point upperLeft = this.getLocation();
 		Dimension dimensions = this.getSize();
 		return new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
+	}
+
+	@Override
+	public void pinch() {
+		((AppiumDriver) parent).pinch(this);	
+	}
+
+	@Override
+	public void tap(int fingers, int duration) {
+		((AppiumDriver) parent).tap(fingers, this, duration);		
+	}
+
+	@Override
+	public void zoom() {
+		((AppiumDriver) parent).zoom(this);		
+	}
+	
+
+	@Override
+	public void swipe(SwipeElementDirection direction, int duration) {
+		direction.swipe((AppiumDriver) parent, this, duration);		
 	}
 }
