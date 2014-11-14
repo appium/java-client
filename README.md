@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 </dependency>
 ```
 
@@ -71,6 +71,14 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*2.1.0*
+- Moved hasAppString() from AndroidDriver to AppiumDriver
+- Fixes to PageFactory
+- Added @AndroidFindAll and @iOSFindAll
+- Added toggleLocationServices() to AndroidDriver
+- Added touchAction methods to MobileElement, so now you can do `element.pinch()`, `element.zoom()`, etc.
+- Added the ability to choose a direction to swipe over an element. Use the `SwipeElementDirection` enums: `UP, DOWN, LEFT, RIGHT`
+
 *2.0.0*
 - AppiumDriver is now an abstract class, use IOSDriver and AndroidDriver which both extend it. You no longer need to include the `PLATFORM_NAME` desired capability since it's automatic for each class. Thanks to @TikhomirovSergey for all their work
 - ScrollTo() and ScrollToExact() methods reimplemented
