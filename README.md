@@ -60,6 +60,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - Context Switching: .context(), .getContextHandles(), getContext())
 - getNetworkConnection(), setNetworkConnection()
 - ignoreUnimportantViews(), getSettings()
+- toggleLocationServices()
 
 Locators:
 - findElementByAccessibilityId()

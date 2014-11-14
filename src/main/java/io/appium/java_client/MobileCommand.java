@@ -52,5 +52,5 @@ public interface MobileCommand {
   String GET_SETTINGS = "getSettings";
   String SET_SETTINGS = "setSettings";
   String START_ACTIVITY = "startActivity";
-
+  String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
 }

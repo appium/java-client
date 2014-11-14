@@ -169,4 +169,9 @@ public class AndroidDriverTest {
     WebElement views = driver.findElementByAccessibilityId("Views");
     assertNotNull(views);
   }
+
+  @Test
+  public void toggleLocationServicesTest() {
+    driver.toggleLocationServices();
+  }
 }

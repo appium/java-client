@@ -218,6 +218,10 @@ public class AndroidDriver extends AppiumDriver implements
 		Response response = execute(IS_LOCKED);
 		return Boolean.parseBoolean(response.getValue().toString());
 	}
+
+	public void toggleLocationServices() {
+		execute(TOGGLE_LOCATION_SERVICES);
+	}
 	
 	/**
 	 * Set the `ignoreUnimportantViews` setting. *Android-only method*
