@@ -105,9 +105,11 @@ public class TouchAction {
   }
 
   /**
-   * Move current touch to an absolute position on the screen
-   * @param x x coordinate
-   * @param y y coordinate
+   * Move current touch to a new position relative to the current position on
+   * the screen. If the current position of this TouchAction is (xOld, yOld),
+   * then this method will move the TouchAction to (xOld + x, yOld + y).
+   * @param x change in x coordinate to move through
+   * @param y change in y coordinate to move through
    * @return this TouchAction, for chaining
    */
   public TouchAction moveTo(int x, int y) {
