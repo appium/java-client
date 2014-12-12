@@ -144,7 +144,8 @@ class AppiumAnnotations extends Annotations{
 		mobileField = field;
 		this.platform = String.valueOf(platform).
 				toUpperCase().trim();
-		this.automation = String.valueOf(automation);
+		this.automation = String.valueOf(automation).
+                                toUpperCase().trim();
 	}
 
 	private static void checkDisallowedAnnotationPairs(Annotation a1,
@@ -270,21 +271,21 @@ class AppiumAnnotations extends Annotations{
                 SelendroidFindBy selendroidBy = mobileField
 				.getAnnotation(SelendroidFindBy.class);
 		if (selendroidBy != null && ANDROID.toUpperCase().equals(platform) &&
-                        "Selendroid".equals(automation)) {
+                        "Selendroid".toUpperCase().equals(automation)) {
 			return getMobileBy(selendroidBy, getFilledValue(selendroidBy));
 		}
                 
                 SelendroidFindBys selendroidBys = mobileField
 				.getAnnotation(SelendroidFindBys.class);
-		if (selendroidBy != null && ANDROID.toUpperCase().equals(platform) &&
-                        "Selendroid".equals(automation)) {
+		if (selendroidBys != null && ANDROID.toUpperCase().equals(platform) &&
+                        "Selendroid".toUpperCase().equals(automation)) {
 			return getMobileBy(selendroidBys, getFilledValue(selendroidBys));
 		}
                 
                 SelendroidFindAll selendroidAll = mobileField
 				.getAnnotation(SelendroidFindAll.class);
-		if (selendroidBy != null && ANDROID.toUpperCase().equals(platform) &&
-                        "Selendroid".equals(automation)) {
+		if (selendroidAll != null && ANDROID.toUpperCase().equals(platform) &&
+                        "Selendroid".toUpperCase().equals(automation)) {
 			return getMobileBy(selendroidAll, getFilledValue(selendroidAll));
 		}
                 
