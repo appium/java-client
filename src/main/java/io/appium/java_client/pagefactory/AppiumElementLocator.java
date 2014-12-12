@@ -71,7 +71,12 @@ class AppiumElementLocator implements ElementLocator {
 				.valueOf(((HasCapabilities) unpackWebDriverFromSearchContext())
 						.getCapabilities().getCapability(
 								MobileCapabilityType.PLATFORM_NAME));
-		AppiumAnnotations annotations = new AppiumAnnotations(field, platform);
+		String automation = String
+				.valueOf(((HasCapabilities) unpackWebDriverFromSearchContext())
+						.getCapabilities().getCapability(
+								MobileCapabilityType.AUTOMATION_NAME));
+                
+		AppiumAnnotations annotations = new AppiumAnnotations(field, platform, automation);
 		this.timeOutContainer = timeOutContainer;
 		shouldCache = annotations.isLookupCached();
 		by = annotations.buildBy();
