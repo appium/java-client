@@ -16,8 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface SelendroidFindBy {
-	String uiAutomator() default "";
-	String accessibility()  default "";
 	String id() default "";
 	String name() default "";
 	String className() default "";
