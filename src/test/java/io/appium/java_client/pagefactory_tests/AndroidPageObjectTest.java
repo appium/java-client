@@ -7,6 +7,7 @@ import io.appium.java_client.pagefactory.AndroidFindAll;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSFindBys;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -148,6 +149,10 @@ public class AndroidPageObjectTest {
 		@AndroidFindBy(id = "android:id/FakeId")
 		})
 	private WebElement findAllElementView;
+        
+        @AndroidFindBy(id = "android:id/text1")
+        @SelendroidFindBy(id = "Invalid Identifier")
+        private WebElement textAndroidId;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -310,5 +315,10 @@ public class AndroidPageObjectTest {
 	@Test
 	public void findAllElementsTest(){
 		Assert.assertNotEquals(0, findAllElementViews.size());
+	}	
+        
+	@Test
+	public void findByAndroidAnnotationOnlyTest(){
+		Assert.assertNotEquals(null, textAndroidId.getAttribute("text"));
 	}	
 }
