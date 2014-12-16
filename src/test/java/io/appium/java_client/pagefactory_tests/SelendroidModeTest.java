@@ -7,11 +7,14 @@ import io.appium.java_client.pagefactory.SelendroidFindAll;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.SelendroidFindBys;
 import io.appium.java_client.remote.MobileCapabilityType;
+
 import org.openqa.selenium.WebElement;
+
 import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,6 +25,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class SelendroidModeTest {
+	private static int SELENDROID_PORT = 9999;
 
     private WebDriver driver;
 
@@ -62,7 +66,7 @@ public class SelendroidModeTest {
     @SelendroidFindBy(tagName = "TextView")
     private WebElement textTag;
 
-    @Before
+	@Before
     public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
@@ -70,6 +74,7 @@ public class SelendroidModeTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Selendroid");
+        capabilities.setCapability(MobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
         //This time out is set because test can be run on slow Android SDK emulator

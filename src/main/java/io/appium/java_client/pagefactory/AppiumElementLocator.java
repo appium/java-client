@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -17,6 +18,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.ui.FluentWait;
 
@@ -67,16 +69,24 @@ class AppiumElementLocator implements ElementLocator {
 			TimeOutContainer timeOutContainer) {
 		this.searchContext = searchContext;
 		// All known webdrivers implement HasCapabilities
+		Capabilities capabilities = ((HasCapabilities) unpackWebDriverFromSearchContext()).
+				getCapabilities();
+				
 		String platform = String
-				.valueOf(((HasCapabilities) unpackWebDriverFromSearchContext())
-						.getCapabilities().getCapability(
+				.valueOf(capabilities.getCapability(
 								MobileCapabilityType.PLATFORM_NAME));
 		String automation = String
-				.valueOf(((HasCapabilities) unpackWebDriverFromSearchContext())
-						.getCapabilities().getCapability(
+				.valueOf(capabilities.getCapability(
 								MobileCapabilityType.AUTOMATION_NAME));
+		
+		String browser = (String) capabilities.getCapability(CapabilityType.BROWSER_NAME);		
+		String app = (String) capabilities.getCapability(MobileCapabilityType.APP);
+		
+		boolean isBrowser = ((app == null || "".equals(app.trim())) && 
+				(browser != null && !"".equals(browser.trim())));
                 
-		AppiumAnnotations annotations = new AppiumAnnotations(field, platform, automation);
+		AppiumAnnotations annotations = new AppiumAnnotations(field, 
+				platform, automation, isBrowser);
 		this.timeOutContainer = timeOutContainer;
 		shouldCache = annotations.isLookupCached();
 		by = annotations.buildBy();

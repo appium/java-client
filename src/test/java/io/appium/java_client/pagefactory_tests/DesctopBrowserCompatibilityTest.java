@@ -30,7 +30,7 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-public class BrowserCompatibilityTest {
+public class DesctopBrowserCompatibilityTest {
 
 	private static enum AvailableDrivers {
 		FIREFOX(FirefoxDriver.class, new ArrayList<Platform>() {

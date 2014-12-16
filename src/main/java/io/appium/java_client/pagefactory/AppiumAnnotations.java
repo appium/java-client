@@ -138,14 +138,16 @@ class AppiumAnnotations extends Annotations{
 	private final Field mobileField;
 	private final String platform;
 	private final String automation;
+	private final boolean isBrowser;
 
-	AppiumAnnotations(Field field, String platform, String automation) {
+	AppiumAnnotations(Field field, String platform, String automation, boolean isBrowser) {
 		super(field);
 		mobileField = field;
 		this.platform = String.valueOf(platform).
 				toUpperCase().trim();
 		this.automation = String.valueOf(automation).
                                 toUpperCase().trim();
+		this.isBrowser = isBrowser;
 	}
 
 	private static void checkDisallowedAnnotationPairs(Annotation a1,
@@ -260,6 +262,11 @@ class AppiumAnnotations extends Annotations{
 
 	@Override
 	public By buildBy() {
+		
+		if (isBrowser){
+			return super.buildBy();
+		}
+		
 		assertValidAnnotations();
 
                 SelendroidFindBy selendroidBy = mobileField
