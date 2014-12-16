@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * element or a list of elements. Used in conjunction with
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
- * using Android UI selectors, accessibility, id, name, class name, tag and xpath
+ * using Selendroid UI selectors like, id, name, class name, tag and xpath
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
