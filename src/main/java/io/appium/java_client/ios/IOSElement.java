@@ -1,9 +1,13 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.FindsByIosUIAutomation;
+import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ScrollsTo;
+
 import org.openqa.selenium.WebElement;
+
+import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
@@ -37,5 +41,12 @@ public class IOSElement extends MobileElement implements FindsByIosUIAutomation,
 	@Override
 	public MobileElement scrollToExact(String text) {
 		return (MobileElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void setValue(String value) {		
+		ImmutableMap.Builder builder = ImmutableMap.builder();
+		builder.put("id", id).put("value", value);
+		execute(MobileCommand.SET_VALUE, builder.build());
 	}
 }
