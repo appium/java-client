@@ -63,14 +63,6 @@ public class AppiumDriverTest {
   }
 
   @Test
-  public void setValueTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
-    element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("DEFAULT");
-    element.setValue("Grace Hopper");
-  }
-
-  @Test
   public void pullFileTest() {
     byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
     assert(data.length > 0);

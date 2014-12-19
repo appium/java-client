@@ -83,7 +83,7 @@ public class IOSDriverTest {
     MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
     element = (MobileElement)driver.getNamedTextField("DEFAULT");
-    element.setValue("Grace Hopper");
+    ((IOSElement) element).setValue("Grace Hopper");
     assertEquals("Grace Hopper", element.getText());
   }
 

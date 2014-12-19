@@ -17,14 +17,11 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
@@ -47,12 +44,6 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 
 	public List<WebElement> findElementsByAccessibilityId(String using) {
 		return findElements("accessibility id", using);
-	}
-
-	public void setValue(String value) {
-		ImmutableMap.Builder builder = ImmutableMap.builder();
-		builder.put("id", id).put("value", value);
-		execute(MobileCommand.SET_VALUE, builder.build());
 	}
 
 	public Point getCenter() {
