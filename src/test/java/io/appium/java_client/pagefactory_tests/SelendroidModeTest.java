@@ -65,6 +65,12 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(tagName = "TextView")
     private WebElement textTag;
+    
+    @SelendroidFindBy(linkText = "Accessibility")
+    private WebElement textLink;
+    
+    @SelendroidFindBy(linkText = "ccessibilit")
+    private WebElement textPartialLink;
 
 	@Before
     public void setUp() throws Exception {
@@ -140,9 +146,21 @@ public class SelendroidModeTest {
     public void findByElementByTagTest() {
         Assert.assertNotEquals(null, textTag.getAttribute("text"));
     }
+    
     @Test
     public void findBySelendroidAnnotationOnlyTest() {
         Assert.assertNotEquals(null, textSelendroidId.getAttribute("text"));
     }
+    
+    @Test
+    public void findBySelendroidLinkTextTest() {
+        Assert.assertEquals("Accessibility", textLink.getText());
 
+    }
+    
+    @Test
+    public void findBySelendroidPartialLinkTextTest() {
+        Assert.assertEquals("Accessibility", textPartialLink.getText());
+
+    }
 }
