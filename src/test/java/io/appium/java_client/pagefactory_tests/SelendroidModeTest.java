@@ -69,7 +69,7 @@ public class SelendroidModeTest {
     @SelendroidFindBy(linkText = "Accessibility")
     private WebElement textLink;
     
-    @SelendroidFindBy(linkText = "ccessibilit")
+    @SelendroidFindBy(partialLinkText = "ccessibilit")
     private WebElement textPartialLink;
 
 	@Before
