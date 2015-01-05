@@ -88,6 +88,18 @@ class AppiumAnnotations extends Annotations{
 			By getBy(Annotation annotation) {
 				return By.xpath(getValue(annotation, this));
 			}
+		},
+                BYLINKTEXT("linkText") {
+			@Override
+			By getBy(Annotation annotation) {
+				return By.linkText(getValue(annotation, this));
+			}
+		},
+                BYPARTIALLINKTEXT("partialLinkText") {
+			@Override
+			By getBy(Annotation annotation) {
+				return By.partialLinkText(getValue(annotation, this));
+			}
 		};
 
 		private final String valueName;

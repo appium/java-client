@@ -21,4 +21,6 @@ public @interface SelendroidFindBy {
 	String className() default "";
 	String tagName() default "";
 	String xpath()  default "";
+	String linkText()  default "";
+	String partialLinkText()  default "";
 }
