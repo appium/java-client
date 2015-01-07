@@ -250,17 +250,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	}
 
 	/**
-	 * Send a key event to the device
-	 * 
-	 * @param key
-	 *            code for the key pressed on the device
-	 */
-	@Override
-	public void sendKeyEvent(int key) {
-		execute(KEY_EVENT, getCommandImmutableMap(KEY_CODE, key));
-	}
-
-	/**
 	 * @see DeviceActionShortcuts#hideKeyboard()
 	 */
 	@Override

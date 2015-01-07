@@ -10,14 +10,4 @@ public interface DeviceActionShortcuts {
 	   */
 	  public void hideKeyboard();
 
-	/**
-	 * Send a key event to the device
-	 * 
-	 * @param key code for the key pressed on the device
-	 * 
-	 * @see io.appium.java_client.android.AndroidKeyCode
-	 * @see io.appium.java_client.ios.IOSKeyCode
-	 */
-	public void sendKeyEvent(int key);
-
 }

@@ -69,6 +69,17 @@ public class AndroidDriver extends AppiumDriver implements
     return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(" + uiSelector + ".instance(0));";
   }
 
+	/**
+	 * Send a key event to the device
+	 *
+	 * @param key
+	 *            code for the key pressed on the device
+	 */
+	@Override
+	public void sendKeyEvent(int key) {
+		execute(KEY_EVENT, getCommandImmutableMap(KEY_CODE, key));
+	}
+
   /**
 	 * @param key
 	 *            code for the key pressed on the Android device
