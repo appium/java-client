@@ -21,4 +21,7 @@ public interface MobileCapabilityType extends CapabilityType {
   String APP_WAIT_ACTIVITY = "appWaitActivity";
   String APP_WAIT_PACKAGE = "appWaitPackage";
   String SELENDROID_PORT  = "selendroidPort";
+
+  //Sauce-specific
+  String APPIUM_VERSION = "appiumVersion";
 }
