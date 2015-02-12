@@ -143,7 +143,7 @@ class AppiumElementLocator implements ElementLocator {
 		}
 		List<WebElement> result = waitFor();		
 		if (result.size() == 0){
-			String message = "Cann't locate an element by this strategy: " + by.toString();			
+			String message = "Can't locate an element by this strategy: " + by.toString();
 			throw new NoSuchElementException(message);			
 		}
 		if (shouldCache) {
