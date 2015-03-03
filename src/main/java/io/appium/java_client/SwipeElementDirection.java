@@ -9,8 +9,10 @@ public enum SwipeElementDirection {
 	 */
 	UP{
 		@Override
-		void swipe(AppiumDriver driver, MobileElement element, int duration){
-			Point p = element.getCenter();
+		void swipe(AppiumDriver driver, MobileElement element, 
+				int xOffsetStart, int xOffsetEnd, int yOffsetStart, 
+				int yOffsetEnd, int duration) throws IllegalCoordinatesException {			
+			Point p = element.getCenter();			
 			Point location = element.getLocation();
 			Dimension size = element.getSize();
 			driver.swipe(p.getX(), location.getY() + size.getHeight(), p.getX(), location.getY(), duration);
@@ -21,37 +23,45 @@ public enum SwipeElementDirection {
 	 */
 	DOWN{
 		@Override
-		void swipe(AppiumDriver driver, MobileElement element, int duration){
+		void swipe(AppiumDriver driver, MobileElement element, 
+				int xOffsetStart, int xOffsetEnd, int yOffsetStart, 
+				int yOffsetEnd, int duration) throws IllegalCoordinatesException {
 			Point p = element.getCenter();
 			Point location = element.getLocation();
 			Dimension size = element.getSize();
 			driver.swipe(p.getX(), location.getY(), p.getX(), location.getY() + size.getHeight(), duration);
-		}		
+		}
 	},
 	/**
 	 * To the left from the center of the rightmost
 	 */
 	LEFT{
 		@Override
-		void swipe(AppiumDriver driver, MobileElement element, int duration){
+		void swipe(AppiumDriver driver, MobileElement element, 
+				int xOffsetStart, int xOffsetEnd, int yOffsetStart, 
+				int yOffsetEnd, int duration) throws IllegalCoordinatesException {
 			Point p = element.getCenter();
 			Point location = element.getLocation();
 			Dimension size = element.getSize();
 			driver.swipe(location.getX() + size.getWidth(), p.getY(), location.getX(), p.getY(), duration);
-		}		
+		}
 	},
 	/**
 	 * To the right from the center of the leftmost
 	 */
 	RIGHT{
 		@Override
-		void swipe(AppiumDriver driver, MobileElement element, int duration){
+		void swipe(AppiumDriver driver, MobileElement element, 
+				int xOffsetStart, int xOffsetEnd, int yOffsetStart, 
+				int yOffsetEnd, int duration) throws IllegalCoordinatesException {
 			Point p = element.getCenter();
 			Point location = element.getLocation();
 			Dimension size = element.getSize();
 			driver.swipe(location.getX(), p.getY(), location.getX()+ size.getWidth(), p.getY(), duration);
-		}		
+		}
 	};
 	
-	void swipe(AppiumDriver driver, MobileElement element, int duration){}
+	abstract void swipe(AppiumDriver driver, MobileElement element, 
+			int xOffsetStart, int xOffsetEnd, int yOffsetStart, 
+			int yOffsetEnd, int duration) throws IllegalCoordinatesException;
 }
