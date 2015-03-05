@@ -48,5 +48,29 @@ public interface TouchableElement extends WebElement {
 		 *            take
       */
 	  public void swipe(SwipeElementDirection direction, int duration);	  
-
+	  
+	  
+	  /**
+	   * Convenience method for swiping on the given element to the given direction
+	   * 
+	   * @param direction direction UP, DOWN, LEFT, RIGHT
+	   * 
+	   * @param offset1 is the offset from the border of the element. If direction is UP then
+	   * this is offset from the bottom of the element. If direction is DOWN then
+	   * this is offset from the top of the element. If direction is RIGHT then
+	   * this is offset from the left border of the element. If direction is LEFT then
+	   * this is offset from the right border of the element. 
+	   * 
+	   * @param offset2 is the offset from the border of the element. If direction is UP then
+	   * this is offset from the top of the element. If direction is DOWN then
+	   * this is offset from the bottom of the element. If direction is RIGHT then
+	   * this is offset from the right border of the element. If direction is LEFT then
+	   * this is offset from the left border of the element. 
+	   * 
+	   * @param duration amount of time in milliseconds for the entire swipe action to
+	   *            take
+	   * @throws IllegalCoordinatesException when resulted coordinates are out of the element borders
+	   * or disagree with the given direction
+	   */
+	  public void swipe(SwipeElementDirection direction, int offset1, int offset2, int duration) throws IllegalCoordinatesException;
 }

@@ -104,14 +104,35 @@ public class AndroidGestureTest {
     System.out.println("zoom");
     e2.swipe(SwipeElementDirection.RIGHT,1000);
     System.out.println("RIGHT");
+    
+    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	e2.swipe(SwipeElementDirection.RIGHT, 10, 20, 1000);
+    System.out.println("RIGHT Left border + 10 Right border - 20");
+    
+    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	e2.swipe(SwipeElementDirection.LEFT, 1000);
+    System.out.println("LEFT");
+    
+    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	e2.swipe(SwipeElementDirection.LEFT, 10, 20, 1000);
+    System.out.println("LEFT Right border - 10 Left border + 20");
+    
     driver.sendKeyEvent(AndroidKeyCode.BACK);
     e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
-	  e2.swipe(SwipeElementDirection.LEFT, 1000);
-    System.out.println("LEFT");
-    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
-	  e2.swipe(SwipeElementDirection.DOWN,1000);
-    System.out.println("DOWN");
+	e2.swipe(SwipeElementDirection.DOWN,1000);    
+	System.out.println("DOWN");
+	
+	e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	e2.swipe(SwipeElementDirection.DOWN, 10, 20, 1000);    
+	System.out.println("DOWN Top - 10 Bottom + 20");
+	
+	e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
     e2.swipe(SwipeElementDirection.UP,1000);
     System.out.println("UP");
+    
+    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+    e2.swipe(SwipeElementDirection.UP, 10, 20, 1000);
+    System.out.println("UP Bottom + 10 Top - 20");
+    
   }
 }
