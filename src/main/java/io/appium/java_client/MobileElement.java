@@ -74,8 +74,9 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 	}
 
 	@Override
-	public void swipe(SwipeElementDirection direction, int offset1,
-			int offset2, int duration) throws IllegalCoordinatesException {
-		direction.swipe((AppiumDriver) parent, this, offset1, offset2, duration);		
+	public void swipe(SwipeElementDirection direction, int offsetFromStartBorder,
+			int offsetFromEndBorder, int duration) throws IllegalCoordinatesException {
+		direction.swipe((AppiumDriver) parent, this, offsetFromStartBorder, 
+				offsetFromEndBorder, duration);		
 	}
 }
