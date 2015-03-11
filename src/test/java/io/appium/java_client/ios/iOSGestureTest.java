@@ -138,8 +138,12 @@ public class iOSGestureTest {
 	  e.zoom();
 	  e.pinch();
 	  e.swipe(SwipeElementDirection.UP,2000);
+	  e.swipe(SwipeElementDirection.UP, 5, 5, 2000);
 	  e.swipe(SwipeElementDirection.DOWN,2000);
+	  e.swipe(SwipeElementDirection.DOWN, 5, 5, 2000);
 	  e.swipe(SwipeElementDirection.LEFT,2000);
+	  e.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
 	  e.swipe(SwipeElementDirection.RIGHT,2000);
+	  e.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
   }
 }
