@@ -210,6 +210,19 @@ public class TouchAction {
   }
 
   /**
+   * Press and hold the at the center of an element until the contextmenu event has fired.
+   * @param el element to long-press
+   * @param duration of the long-press, in milliseconds
+   * @return this TouchAction, for chaining
+   */
+  public TouchAction longPress(WebElement el, int duration) {
+    ActionParameter action = new ActionParameter("longPress", (RemoteWebElement)el);
+    action.addParameter("duration", duration);
+    parameterBuilder.add(action);
+    return this;
+  }
+
+  /**
    * Press and hold the at an absolute position on the screen until the contextmenu event has fired.
    * @param x x coordinate
    * @param y y coordinate
@@ -219,6 +232,22 @@ public class TouchAction {
     ActionParameter action = new ActionParameter("longPress");
     action.addParameter("x", x);
     action.addParameter("y", y);
+    parameterBuilder.add(action);
+    return this;
+  }
+
+  /**
+   * Press and hold the at an absolute position on the screen until the contextmenu event has fired.
+   * @param x x coordinate
+   * @param y y coordinate
+   * @param duration of the long-press, in milliseconds
+   * @return this TouchAction, for chaining
+   */
+  public TouchAction longPress(int x, int y, int duration) {
+    ActionParameter action = new ActionParameter("longPress");
+    action.addParameter("x", x);
+    action.addParameter("y", y);
+    action.addParameter("duration", duration);
     parameterBuilder.add(action);
     return this;
   }
@@ -234,6 +263,23 @@ public class TouchAction {
     ActionParameter action = new ActionParameter("longPress", (RemoteWebElement)el);
     action.addParameter("x", x);
     action.addParameter("y", y);
+    parameterBuilder.add(action);
+    return this;
+  }
+
+  /**
+   * Press and hold the at an elements upper-left corner, offset by the given amount, until the contextmenu event has fired.
+   * @param el element to long-press
+   * @param x x offset
+   * @param y y offset
+   * @param duration of the long-press, in milliseconds
+   * @return this TouchAction, for chaining
+   */
+  public TouchAction longPress(WebElement el, int x, int y, int duration) {
+    ActionParameter action = new ActionParameter("longPress", (RemoteWebElement)el);
+    action.addParameter("x", x);
+    action.addParameter("y", y);
+    action.addParameter("duration", duration);
     parameterBuilder.add(action);
     return this;
   }
