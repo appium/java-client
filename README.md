@@ -71,6 +71,15 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+*2.2.0*
+- Added new TouchAction methods for LongPress, on an element, at x,y coordinates, or at an offset from within an element
+- SwipeElementDirection changed. Read the documentation, it's now smarter about how/where to swipe
+- Added APPIUM_VERSION MobileCapabilityType
+- `sendKeyEvent()` moved from AppiumDriver to IOSDriver
+- `linkText` and `partialLinkText` locators added
+- setValue() moved from MobileElement to IOSElement
+- Fixed Selendroid PageAnnotations
+
 *2.1.0*
 - Moved hasAppString() from AndroidDriver to AppiumDriver
 - Fixes to PageFactory
