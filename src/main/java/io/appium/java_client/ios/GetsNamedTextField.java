@@ -12,6 +12,6 @@ public interface GetsNamedTextField {
 	 *            accessiblity id of TextField
 	 * @return The textfield with the given accessibility id
 	 */
-	public WebElement getNamedTextField(String name);
+	public <T extends IOSElement> T getNamedTextField(String name);
 
 }

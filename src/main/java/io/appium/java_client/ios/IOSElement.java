@@ -14,8 +14,8 @@ import java.util.List;
 public class IOSElement extends MobileElement implements FindsByIosUIAutomation, ScrollsTo {
 	
 	@Override
-	public WebElement findElementByIosUIAutomation(String using) {
-		return findElement("-ios uiautomation", using);
+	public IOSElement findElementByIosUIAutomation(String using) {
+		return (IOSElement) findElement("-ios uiautomation", using);
 	}
 
 	@Override

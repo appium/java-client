@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
@@ -44,7 +45,8 @@ public class AndroidAccessibilityTest {
 
 	@Test
 	  public void findElementTest() {
-	    WebElement element = driver.findElementByAccessibilityId("Accessibility");
+        //WebElement element =
+	    MobileElement element = driver.findElementByAccessibilityId("Accessibility");
 	    assertNotNull(element);
 	  }
 

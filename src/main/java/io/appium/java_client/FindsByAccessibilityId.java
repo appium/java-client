@@ -21,7 +21,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public interface FindsByAccessibilityId {
-  WebElement findElementByAccessibilityId(String using);
+  <T extends WebElement> T findElementByAccessibilityId(String using);
 
   List<WebElement> findElementsByAccessibilityId(String using);
 }
