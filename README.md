@@ -77,7 +77,7 @@ Locators:
 - Added APPIUM_VERSION MobileCapabilityType
 - `sendKeyEvent()` moved from AppiumDriver to IOSDriver
 - `linkText` and `partialLinkText` locators added
-- setValue() moved from MobileElement to IOSElement
+- setValue() moved from MobileElement to AndroidElement
 - Fixed Selendroid PageAnnotations
 
 *2.1.0*
