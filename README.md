@@ -11,7 +11,27 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
+</dependency>
+```
+
+It currently depends on selenium-java 2.43.1. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+
+```
+<dependency>
+  <groupId>io.appium</groupId>
+  <artifactId>java-client</artifactId>
+  <version>2.2.0</version>
+  <exclusions>
+    <groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-java</artifactId>
+  </exclusions>
+</dependency>
+
+<dependency>
+  <groupId>org.seleniumhq.selenium</groupId>
+  <artifactId>selenium-java</artifactId>
+  <version>${selenium.version.you.require}</version>
 </dependency>
 ```
 
@@ -71,6 +91,17 @@ Locators:
 - findElementsByAndroidUIAutomator()
 
 ##Changelog##
+
+*2.2.0*
+- Added new TouchAction methods for LongPress, on an element, at x,y coordinates, or at an offset from within an element
+- SwipeElementDirection changed. Read the documentation, it's now smarter about how/where to swipe
+- Added APPIUM_VERSION MobileCapabilityType
+- sendKeyEvent()  moved from AppiumDriver to IOSDriver
+- linkText  and  partialLinkText  locators added
+- setValue() moved from MobileElement to IOSElement
+- Fixed Selendroid PageAnnotations
+
+
 *2.1.0*
 - Moved hasAppString() from AndroidDriver to AppiumDriver
 - Fixes to PageFactory
