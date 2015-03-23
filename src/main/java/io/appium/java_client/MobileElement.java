@@ -34,10 +34,6 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 		return by.findElements(this);
 	}
 
-	public WebElement findElement(By by) {
-		return by.findElement(this);
-	}
-
 	public WebElement findElementByAccessibilityId(String using) {
 		return findElement("accessibility id", using);
 	}
@@ -79,4 +75,40 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 		direction.swipe((AppiumDriver) parent, this, offsetFromStartBorder, 
 				offsetFromEndBorder, duration);		
 	}
+
+    public MobileElement findElement(By by){
+        return (MobileElement) super.findElements(by);
+    }
+
+    public MobileElement findElementById(String using){
+        return (MobileElement) super.findElementById(using);
+    }
+
+    public MobileElement findElementByClassName(String using){
+        return (MobileElement) super.findElementByClassName(using);
+    }
+
+    public MobileElement findElementByName(String using){
+        return (MobileElement) super.findElementByName(using);
+    }
+
+    public MobileElement findElementByTagName(String using){
+        return (MobileElement) super.findElementByTagName(using);
+    }
+
+    public MobileElement findElementByCssSelector(String using){
+        return (MobileElement) super.findElementByCssSelector(using);
+    }
+
+    public MobileElement findElementByLinkText(String using){
+        return (MobileElement) super.findElementByLinkText(using);
+    }
+
+    public MobileElement findElementByPartialLinkText(String using){
+        return (MobileElement) super.findElementByPartialLinkText(using);
+    }
+
+    public MobileElement findElementByXPath(String using){
+        return (MobileElement) super.findElementByXPath(using);
+    }
 }

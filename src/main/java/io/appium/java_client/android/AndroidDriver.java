@@ -251,8 +251,8 @@ public class AndroidDriver extends AppiumDriver implements
 	}	
 	
 	@Override
-	public WebElement findElementByAndroidUIAutomator(String using) {
-		return findElement("-android uiautomator", using);
+	public AndroidElement findElementByAndroidUIAutomator(String using) {
+		return (AndroidElement) findElement("-android uiautomator", using);
 	}
 
 	@Override

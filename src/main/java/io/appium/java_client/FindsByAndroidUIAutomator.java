@@ -21,7 +21,8 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public interface FindsByAndroidUIAutomator {
-  WebElement findElementByAndroidUIAutomator(String using);
 
-  List<WebElement> findElementsByAndroidUIAutomator(String using);
+    <T extends WebElement> T findElementByAndroidUIAutomator(String using);
+
+    List<WebElement> findElementsByAndroidUIAutomator(String using);
 }

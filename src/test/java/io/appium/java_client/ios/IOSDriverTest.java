@@ -80,25 +80,25 @@ public class IOSDriverTest {
 
   @Test
   public void namedTextFieldTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
+    MobileElement element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
-    element = (MobileElement)driver.getNamedTextField("DEFAULT");
+    element = driver.getNamedTextField("DEFAULT");
     ((IOSElement) element).setValue("Grace Hopper");
     assertEquals("Grace Hopper", element.getText());
   }
 
   @Test
   public void hideKeyboardWithParametersTest() {
-    MobileElement element = (MobileElement)driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
+    MobileElement element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
-    element = (MobileElement)driver.findElementByAccessibilityId("DEFAULT");
+    element = driver.findElementByAccessibilityId("DEFAULT");
     element.click();
     driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
   }
 
   @Test
   public void scrollToTest() {
-    MobileElement searchBar = (MobileElement) driver.findElementByName("Search Bars");
+    MobileElement searchBar = driver.findElementByName("Search Bars");
     Point before = searchBar.getLocation();
     driver.scrollTo("Search Ba");
     Point after = searchBar.getLocation();
@@ -107,7 +107,7 @@ public class IOSDriverTest {
 
   @Test
   public void scrollToExactTest() {
-    MobileElement searchBar = (MobileElement) driver.findElementByName("Search Bars");
+    MobileElement searchBar = driver.findElementByName("Search Bars");
     Point before = searchBar.getLocation();
     driver.scrollToExact("Search Bars");
     Point after = searchBar.getLocation();

@@ -75,17 +75,17 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
 	 * @see GetsNamedTextField#getNamedTextField(String)
 	 */
 	@Override
-	public WebElement getNamedTextField(String name) {
-		MobileElement element = (MobileElement) findElementByAccessibilityId(name);
+	public IOSElement getNamedTextField(String name) {
+        IOSElement element = (IOSElement) findElementByAccessibilityId(name);
 		if (element.getTagName() != "TextField") {
-			return element.findElementByAccessibilityId(name);
+			return (IOSElement) element.findElementByAccessibilityId(name);
 		}
 		return element;
 	}
 	
 	@Override
-	public WebElement findElementByIosUIAutomation(String using) {
-		return findElement("-ios uiautomation", using);
+	public IOSElement findElementByIosUIAutomation(String using) {
+		return (IOSElement) findElement("-ios uiautomation", using);
 	}
 
 	@Override

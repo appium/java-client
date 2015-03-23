@@ -21,7 +21,8 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public interface FindsByIosUIAutomation {
-  WebElement findElementByIosUIAutomation(String using);
 
-  List<WebElement> findElementsByIosUIAutomation(String using);
+    <T extends WebElement> T findElementByIosUIAutomation(String using);
+
+    List<WebElement> findElementsByIosUIAutomation(String using);
 }

@@ -96,37 +96,37 @@ public class AndroidGestureTest {
   @Test
   public void elementGestureTest(){
 	  driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-	  MobileElement e = (MobileElement) driver.findElement(MobileBy.AccessibilityId("App"));
+	  MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
 	  e.tap(1, 1500);
     System.out.println("tap");
-	  MobileElement e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	  MobileElement e2 = driver.findElementByClassName("android.widget.TextView");
 	  e2.zoom();
     System.out.println("zoom");
     e2.swipe(SwipeElementDirection.RIGHT,1000);
     System.out.println("RIGHT");
     
-    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+    e2 = driver.findElementByClassName("android.widget.TextView");
 	e2.swipe(SwipeElementDirection.RIGHT, 10, 20, 1000);
     System.out.println("RIGHT Left border + 10 Right border - 20");
     
-    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+    e2 = driver.findElementByClassName("android.widget.TextView");
 	e2.swipe(SwipeElementDirection.LEFT, 1000);
     System.out.println("LEFT");
     
-    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+    e2 = driver.findElementByClassName("android.widget.TextView");
 	e2.swipe(SwipeElementDirection.LEFT, 10, 20, 1000);
     System.out.println("LEFT Right border - 10 Left border + 20");
     
     driver.sendKeyEvent(AndroidKeyCode.BACK);
-    e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+    e2 = driver.findElementByClassName("android.widget.TextView");
 	e2.swipe(SwipeElementDirection.DOWN,1000);    
 	System.out.println("DOWN");
 	
-	e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	e2 = driver.findElementByClassName("android.widget.TextView");
 	e2.swipe(SwipeElementDirection.DOWN, 10, 20, 1000);    
 	System.out.println("DOWN Top - 10 Bottom + 20");
 	
-	e2 = (MobileElement) driver.findElementByClassName("android.widget.TextView");
+	e2 = driver.findElementByClassName("android.widget.TextView");
     e2.swipe(SwipeElementDirection.UP,1000);
     System.out.println("UP");
     
