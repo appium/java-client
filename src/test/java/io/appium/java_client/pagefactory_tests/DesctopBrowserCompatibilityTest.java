@@ -154,7 +154,7 @@ public class DesctopBrowserCompatibilityTest {
 	@iOSFindBys({
 		@iOSFindBy(xpath = "//selector[1]"),
 		@iOSFindBy(xpath = "//someTag")})
-	@FindBy(id="gbqfb")
+	@FindBy(name="btnG")
 	private RemoteWebElement searchButton;
 	
 	@AndroidFindBy(className = "someClass")	
@@ -165,7 +165,7 @@ public class DesctopBrowserCompatibilityTest {
 	private List<WebElement> foundLinks;
 	
 	private List<WebElement> ires; //this list is located by id="ires"
-	private WebElement gbqfb; //this element is found by id="gbqfb"
+	private WebElement btnG; //this element is found by name="btnG"
 	private WebDriver trap1;
 	private List<AndroidDriver> trap2;
 	
@@ -184,7 +184,7 @@ public class DesctopBrowserCompatibilityTest {
 			Assert.assertNotEquals(0, ires.size());
 			Assert.assertEquals(null, trap1);
 			Assert.assertEquals(null, trap2);
-			gbqfb.click();
+            btnG.click();
 		} finally {
 			driver.quit();
 		}
