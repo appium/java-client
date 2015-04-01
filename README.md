@@ -23,8 +23,10 @@ It currently depends on selenium-java 2.43.1. If it is necessary to use another 
   <artifactId>java-client</artifactId>
   <version>2.2.0</version>
   <exclusions>
-    <groupId>org.seleniumhq.selenium</groupId>
-		<artifactId>selenium-java</artifactId>
+    <exclusion>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+    </exclusion>
   </exclusions>
 </dependency>
 
