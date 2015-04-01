@@ -33,6 +33,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
  *
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TouchAction {
 
   private MobileDriver driver;

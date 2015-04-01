@@ -7,17 +7,19 @@ import org.openqa.selenium.WebElement;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileElement;
 
-public class AndroidElement extends MobileElement implements
-		FindsByAndroidUIAutomator {
+public class AndroidElement<RequiredElementType extends WebElement> extends MobileElement<RequiredElementType> implements
+		FindsByAndroidUIAutomator<RequiredElementType> {
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public AndroidElement findElementByAndroidUIAutomator(String using) {
-		return (AndroidElement) findElement("-android uiautomator", using);
+	public RequiredElementType findElementByAndroidUIAutomator(String using) {
+		return (RequiredElementType) findElement("-android uiautomator", using);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
-		return findElements("-android uiautomator", using);
+	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) {
+		return (List<RequiredElementType>) findElements("-android uiautomator", using);
 	}
 
 }

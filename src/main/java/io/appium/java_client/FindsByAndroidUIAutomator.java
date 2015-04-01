@@ -1,5 +1,5 @@
 /*
-Copyright 2014 Appium committers
+Copyright 2014-2015 Appium committers
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public interface FindsByAndroidUIAutomator {
+public interface FindsByAndroidUIAutomator<T extends WebElement> {
 
-    <T extends WebElement> T findElementByAndroidUIAutomator(String using);
+    T findElementByAndroidUIAutomator(String using);
 
-    List<WebElement> findElementsByAndroidUIAutomator(String using);
+    List<T> findElementsByAndroidUIAutomator(String using);
 }

@@ -11,16 +11,19 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
-public class IOSElement extends MobileElement implements FindsByIosUIAutomation, ScrollsTo {
+public class IOSElement<RequiredElementType extends WebElement> extends MobileElement<RequiredElementType> implements 
+FindsByIosUIAutomation<RequiredElementType>, ScrollsTo<RequiredElementType> {
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public IOSElement findElementByIosUIAutomation(String using) {
-		return (IOSElement) findElement("-ios uiautomation", using);
+	public RequiredElementType findElementByIosUIAutomation(String using) {
+		return (RequiredElementType) findElement("-ios uiautomation", using);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<WebElement> findElementsByIosUIAutomation(String using) {
-		return findElements("-ios uiautomation", using);
+	public List<RequiredElementType> findElementsByIosUIAutomation(String using) {
+		return (List<RequiredElementType>) findElements("-ios uiautomation", using);
 	}
 
   /**
@@ -29,8 +32,8 @@ public class IOSElement extends MobileElement implements FindsByIosUIAutomation,
    * @param text input text contained in text attribute
    */
 	@Override
-	public MobileElement scrollTo(String text) {
-		return (MobileElement) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+	public RequiredElementType scrollTo(String text) {
+		return (RequiredElementType) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
 	}
 
   /**
@@ -39,8 +42,8 @@ public class IOSElement extends MobileElement implements FindsByIosUIAutomation,
    * @param text input text contained in text attribute
    */
 	@Override
-	public MobileElement scrollToExact(String text) {
-		return (MobileElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
+	public RequiredElementType scrollToExact(String text) {
+		return (RequiredElementType) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

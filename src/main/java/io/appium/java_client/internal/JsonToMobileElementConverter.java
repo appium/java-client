@@ -18,9 +18,9 @@ import com.google.common.collect.Maps;
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {
-	protected AppiumDriver driver;
+	protected AppiumDriver<?> driver;
 
-	public JsonToMobileElementConverter(AppiumDriver driver) {
+	public JsonToMobileElementConverter(AppiumDriver<?> driver) {
 		super(driver);
 		this.driver = driver;
 	}
@@ -34,7 +34,7 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
 		if (result instanceof Map<?, ?>) {
 			Map<?, ?> resultAsMap = (Map<?, ?>) result;
 			if (resultAsMap.containsKey("ELEMENT")) {
-				MobileElement element = newMobileElement();
+				MobileElement<?> element = newMobileElement();
 				element.setId(String.valueOf(resultAsMap.get("ELEMENT")));
 				element.setFileDetector(driver.getFileDetector());
 				return element;
@@ -53,7 +53,7 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
 		return result;
 	}
 
-	protected abstract MobileElement newMobileElement(); //{
+	protected abstract MobileElement<?> newMobileElement(); //{
 		//MobileElement toReturn = new MobileElement();
 		//toReturn.setParent(driver);
 		//return toReturn;

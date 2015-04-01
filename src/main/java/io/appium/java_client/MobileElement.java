@@ -22,25 +22,13 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public abstract class MobileElement extends RemoteWebElement implements FindsByAccessibilityId, TouchableElement {
+@SuppressWarnings("unchecked")
+public abstract class MobileElement<RequiredElementType extends WebElement> extends DefaultGenericMobileElement<RequiredElementType> {
 
 	protected FileDetector fileDetector;
-
-	public List<WebElement> findElements(By by) {
-		return by.findElements(this);
-	}
-
-	public WebElement findElementByAccessibilityId(String using) {
-		return findElement("accessibility id", using);
-	}
-
-	public List<WebElement> findElementsByAccessibilityId(String using) {
-		return findElements("accessibility id", using);
-	}
 
 	public Point getCenter() {
 		Point upperLeft = this.getLocation();
@@ -50,65 +38,72 @@ public abstract class MobileElement extends RemoteWebElement implements FindsByA
 
 	@Override
 	public void pinch() {
-		((AppiumDriver) parent).pinch(this);	
+		((AppiumDriver<?>) parent).pinch(this);	
 	}
 
 	@Override
 	public void tap(int fingers, int duration) {
-		((AppiumDriver) parent).tap(fingers, this, duration);		
+		((AppiumDriver<?>) parent).tap(fingers, this, duration);		
 	}
 
 	@Override
 	public void zoom() {
-		((AppiumDriver) parent).zoom(this);		
+		((AppiumDriver<?>) parent).zoom(this);		
 	}
 	
 
 	@Override
 	public void swipe(SwipeElementDirection direction, int duration) {
-		direction.swipe((AppiumDriver) parent, this, 0, 0, duration);		
+		direction.swipe((AppiumDriver<?>) parent, this, 0, 0, duration);		
 	}
 
 	@Override
 	public void swipe(SwipeElementDirection direction, int offsetFromStartBorder,
 			int offsetFromEndBorder, int duration) throws IllegalCoordinatesException {
-		direction.swipe((AppiumDriver) parent, this, offsetFromStartBorder, 
+		direction.swipe((AppiumDriver<?>) parent, this, offsetFromStartBorder, 
 				offsetFromEndBorder, duration);		
 	}
 
-    public MobileElement findElement(By by){
-        return (MobileElement) super.findElements(by);
+    @Override
+    public List<RequiredElementType> findElements(By by){
+        return super.findElements(by);
     }
 
-    public MobileElement findElementById(String using){
-        return (MobileElement) super.findElementById(using);
+    @Override
+    public List<RequiredElementType> findElementsById(String id){
+        return super.findElementsById(id);
     }
 
-    public MobileElement findElementByClassName(String using){
-        return (MobileElement) super.findElementByClassName(using);
+	public List<RequiredElementType> findElementsByLinkText(String using) {
+        return super.findElementsByLinkText(using);
     }
 
-    public MobileElement findElementByName(String using){
-        return (MobileElement) super.findElementByName(using);
+    public List<RequiredElementType> findElementsByPartialLinkText(String using) {
+        return super.findElementsByPartialLinkText(using);
     }
 
-    public MobileElement findElementByTagName(String using){
-        return (MobileElement) super.findElementByTagName(using);
+    public List<RequiredElementType> findElementsByTagName(String using) {
+        return super.findElementsByTagName(using);
     }
 
-    public MobileElement findElementByCssSelector(String using){
-        return (MobileElement) super.findElementByCssSelector(using);
+    public List<RequiredElementType> findElementsByName(String using) {
+        return super.findElementsByName(using);
     }
 
-    public MobileElement findElementByLinkText(String using){
-        return (MobileElement) super.findElementByLinkText(using);
+    public List<RequiredElementType> findElementsByClassName(String using) {
+        return super.findElementsByClassName(using);
     }
 
-    public MobileElement findElementByPartialLinkText(String using){
-        return (MobileElement) super.findElementByPartialLinkText(using);
+    public List<RequiredElementType> findElementsByCssSelector(String using) {
+        return super.findElementsByCssSelector(using);
     }
 
-    public MobileElement findElementByXPath(String using){
-        return (MobileElement) super.findElementByXPath(using);
+	public List<RequiredElementType> findElementsByXPath(String using) {
+        return super.findElementsByXPath(using);
+    }
+
+    @Override
+    public List<RequiredElementType> findElementsByAccessibilityId(String using) {
+        return (List<RequiredElementType>) findElements("accessibility id", using);
     }
 }

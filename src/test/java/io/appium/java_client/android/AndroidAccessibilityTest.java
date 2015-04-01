@@ -20,7 +20,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class AndroidAccessibilityTest {
 	
-	private AppiumDriver driver;
+	private AppiumDriver<MobileElement<?>> driver;
 
 	@Before
 	public void setUp() throws Exception {
@@ -29,7 +29,7 @@ public class AndroidAccessibilityTest {
 	    DesiredCapabilities capabilities = new DesiredCapabilities();
 	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	    driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 	}
 
 	@After
@@ -39,14 +39,14 @@ public class AndroidAccessibilityTest {
 
 	@Test
 	  public void findElementsTest() {
-	    List<WebElement> elements = driver.findElementsByAccessibilityId("Accessibility");
+	    List<MobileElement<?>> elements = driver.findElementsByAccessibilityId("Accessibility");
 	    assertTrue(elements.size() > 0);
 	  }
 
 	@Test
 	  public void findElementTest() {
         //WebElement element =
-	    MobileElement element = driver.findElementByAccessibilityId("Accessibility");
+	    MobileElement<?> element = driver.findElementByAccessibilityId("Accessibility");
 	    assertNotNull(element);
 	  }
 
@@ -58,7 +58,7 @@ public class AndroidAccessibilityTest {
 
 	@Test
 	  public void MobileElementsByTest() {
-	    List<WebElement> elements = driver.findElements(MobileBy.AccessibilityId("Accessibility"));
+	    List<MobileElement<?>> elements = driver.findElements(MobileBy.AccessibilityId("Accessibility"));
 	    assertTrue(elements.size() > 0);
 	  }
 
