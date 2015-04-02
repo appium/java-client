@@ -112,6 +112,7 @@ public class iOSPageObjectTest {
 	})
 	private List<WebElement> findAllElements;
 
+	@SuppressWarnings("rawtypes")
 	@Before
 	public void setUp() throws Exception {
 	    File appDir = new File("src/test/java/io/appium/java_client");
@@ -121,7 +122,7 @@ public class iOSPageObjectTest {
 	    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
 	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
 		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	}

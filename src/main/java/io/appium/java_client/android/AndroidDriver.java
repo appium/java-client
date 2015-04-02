@@ -20,6 +20,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.*;
 import static io.appium.java_client.remote.MobileCapabilityType.*;
 
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement}
+ * {@link AndroidElement}
+ */
 public class AndroidDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements
 		AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles,
 		StartsActivity, FindsByAndroidUIAutomator<RequiredElementType> {

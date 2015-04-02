@@ -53,7 +53,7 @@ public class IOSDriverTest {
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver<MobileElement<?>>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After

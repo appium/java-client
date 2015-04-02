@@ -26,6 +26,16 @@ import org.openqa.selenium.remote.FileDetector;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement} and its subclasses that designed specifically for each target mobile OS (still Android and iOS)
+ */
 public abstract class MobileElement<RequiredElementType extends WebElement> extends DefaultGenericMobileElement<RequiredElementType> {
 
 	protected FileDetector fileDetector;
