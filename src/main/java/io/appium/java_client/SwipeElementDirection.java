@@ -147,7 +147,7 @@ public enum SwipeElementDirection {
 	abstract int getEndY(Point center, Point location, Dimension size, int offSet);
 	abstract void checkDirection(int x1, int y1, int x2, int y2);
 	
-	void swipe(AppiumDriver<?> driver, MobileElement<?> element, 
+	void swipe(AppiumDriver<?> driver, MobileElement element, 
 			int offset1, int offset2, int duration) throws IllegalCoordinatesException{
 		Point p = element.getCenter();
 		Point location = element.getLocation();

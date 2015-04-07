@@ -49,10 +49,10 @@ public class AndroidPageObjectTest {
 	private List<WebElement> androidUIAutomatorViews;
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-	private List<MobileElement<?>> mobileElementViews;
+	private List<MobileElement> mobileElementViews;
 
 	@FindBy(className = "android.widget.TextView")
-	private List<MobileElement<?>> mobiletextVieWs;
+	private List<MobileElement> mobiletextVieWs;
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
 	private List<RemoteWebElement> remoteElementViews;
@@ -92,12 +92,11 @@ public class AndroidPageObjectTest {
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
 	private WebElement androidUIAutomatorView;
 
-	@SuppressWarnings("rawtypes")
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
 	private MobileElement mobileElementView;
 
 	@FindBy(className = "android.widget.TextView")
-	private MobileElement<?> mobiletextVieW;
+	private MobileElement mobiletextVieW;
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
 	private RemoteWebElement remotetextVieW;
@@ -126,14 +125,14 @@ public class AndroidPageObjectTest {
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
 		@AndroidFindBy(id = "android:id/text1")
 		})
-	private AndroidElement<AndroidElement<?>> androidElementView;
+	private AndroidElement androidElementView;
 	
 	@AndroidFindBys({
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
 		@AndroidFindBy(id = "android:id/text1")
 		})
-	private List<AndroidElement<AndroidElement<?>>> androidElementViews;
+	private List<AndroidElement> androidElementViews;
 	
 	@AndroidFindAll({
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),

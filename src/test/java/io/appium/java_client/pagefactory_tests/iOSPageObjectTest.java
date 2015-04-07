@@ -46,9 +46,8 @@ public class iOSPageObjectTest {
 	private List<WebElement> androidUIAutomatorViews;
 
 	@iOSFindBy(uiAutomator = ".elements()[0]")
-	private List<MobileElement<?>> mobileButtons;
+	private List<MobileElement> mobileButtons;
 
-	@SuppressWarnings("rawtypes")
 	@FindBy(className = "UIAButton")
 	private List<MobileElement> mobiletFindBy_Buttons;
 
@@ -79,9 +78,8 @@ public class iOSPageObjectTest {
 	private WebElement androidUIAutomatorView;
 
 	@iOSFindBy(uiAutomator = ".elements()[0]")
-	private MobileElement<?> mobileButton;
+	private MobileElement mobileButton;
 
-	@SuppressWarnings("rawtypes")
 	@FindBy(className = "UIAButton")
 	private MobileElement mobiletFindBy_Button;
 
@@ -95,10 +93,10 @@ public class iOSPageObjectTest {
 	private WebElement chainElementView;
 	
 	@iOSFindBy(uiAutomator = ".elements()[0]")
-	private IOSElement<MobileElement<?>> iosButton;
+	private IOSElement iosButton;
 	
 	@iOSFindBy(uiAutomator = ".elements()[0]")
-	private List<IOSElement<?>> iosButtons;
+	private List<IOSElement> iosButtons;
 	
 	@iOSFindAll({
 		@iOSFindBy(xpath = "ComputeSumButton_Test"),	

@@ -23,20 +23,11 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
-/**
- * @param <RequiredElementType> means the required type from the list of allowed types below 
- * that implement {@link WebElement} Instances of the defined type will be 
- * returned via findElement* and findElements*. 
- * Warning (!!!). Allowed types:<br/>
- * {@link WebElement}<br/>
- * {@link TouchableElement}<br/>
- * {@link RemoteWebElement}<br/>
- * {@link MobileElement} and its subclasses that designed specifically for each target mobile OS (still Android and iOS)
- */
-public abstract class MobileElement<RequiredElementType extends WebElement> extends DefaultGenericMobileElement<RequiredElementType> {
+@SuppressWarnings({ "unchecked"})
+public abstract class MobileElement extends DefaultGenericMobileElement<MobileElement> {
 
 	protected FileDetector fileDetector;
 
@@ -75,45 +66,49 @@ public abstract class MobileElement<RequiredElementType extends WebElement> exte
 	}
 
     @Override
-    public List<RequiredElementType> findElements(By by){
+    public List<MobileElement> findElements(By by){
         return super.findElements(by);
     }
 
     @Override
-    public List<RequiredElementType> findElementsById(String id){
+    public List<MobileElement> findElementsById(String id){
         return super.findElementsById(id);
     }
 
-	public List<RequiredElementType> findElementsByLinkText(String using) {
+	public List<MobileElement> findElementsByLinkText(String using) {
         return super.findElementsByLinkText(using);
     }
 
-    public List<RequiredElementType> findElementsByPartialLinkText(String using) {
+    public List<MobileElement> findElementsByPartialLinkText(String using) {
         return super.findElementsByPartialLinkText(using);
     }
 
-    public List<RequiredElementType> findElementsByTagName(String using) {
+    public List<MobileElement> findElementsByTagName(String using) {
         return super.findElementsByTagName(using);
     }
 
-    public List<RequiredElementType> findElementsByName(String using) {
+    public List<MobileElement> findElementsByName(String using) {
         return super.findElementsByName(using);
     }
 
-    public List<RequiredElementType> findElementsByClassName(String using) {
+    public List<MobileElement> findElementsByClassName(String using) {
         return super.findElementsByClassName(using);
     }
 
-    public List<RequiredElementType> findElementsByCssSelector(String using) {
+    public List<MobileElement> findElementsByCssSelector(String using) {
         return super.findElementsByCssSelector(using);
     }
 
-	public List<RequiredElementType> findElementsByXPath(String using) {
+	public List<MobileElement> findElementsByXPath(String using) {
         return super.findElementsByXPath(using);
     }
 
     @Override
-    public List<RequiredElementType> findElementsByAccessibilityId(String using) {
-        return (List<RequiredElementType>) findElements("accessibility id", using);
+    public List<MobileElement> findElementsByAccessibilityId(String using) {
+		List<MobileElement> result = new ArrayList<MobileElement>();
+		List<WebElement> found = findElements("accessibility id", using);
+		for (WebElement e: found)
+			result.add((MobileElement) e);
+		return result;
     }
 }

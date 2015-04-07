@@ -36,7 +36,7 @@ public class MobileElementToJsonConverter extends WebElementToJsonConverter {
     }
 
     if (arg instanceof MobileElement) {
-      return ImmutableMap.of("ELEMENT", ((MobileElement<?>) arg).getId());
+      return ImmutableMap.of("ELEMENT", ((MobileElement) arg).getId());
     }
 
     if (arg.getClass().isArray()) {

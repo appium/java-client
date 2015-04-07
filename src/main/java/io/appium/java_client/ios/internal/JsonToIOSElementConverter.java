@@ -12,8 +12,8 @@ public class JsonToIOSElementConverter extends JsonToMobileElementConverter {
 	}
 
 	@Override
-	protected MobileElement<?> newMobileElement() {
-		IOSElement<?> toReturn = new IOSElement<>();
+	protected MobileElement newMobileElement() {
+		IOSElement toReturn = new IOSElement();
 		toReturn.setParent(driver);
 		return toReturn;
 	}

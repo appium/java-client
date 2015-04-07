@@ -37,7 +37,7 @@ import static org.junit.Assert.assertNotEquals;
  * Test Mobile Driver features
  */
 public class AndroidGestureTest {
-  private AndroidDriver<MobileElement<?>> driver;
+  private AndroidDriver<MobileElement> driver;
 
   @Before
   public void setup() throws Exception {
@@ -47,7 +47,7 @@ public class AndroidGestureTest {
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AndroidDriver<MobileElement<?>>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After
@@ -96,10 +96,10 @@ public class AndroidGestureTest {
   @Test
   public void elementGestureTest(){
 	  driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-	  MobileElement<?> e = driver.findElement(MobileBy.AccessibilityId("App"));
+	  MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
 	  e.tap(1, 1500);
     System.out.println("tap");
-	  MobileElement<?> e2 = driver.findElementByClassName("android.widget.TextView");
+	  MobileElement e2 = driver.findElementByClassName("android.widget.TextView");
 	  e2.zoom();
     System.out.println("zoom");
     e2.swipe(SwipeElementDirection.RIGHT,1000);

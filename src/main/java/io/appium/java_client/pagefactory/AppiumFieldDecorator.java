@@ -104,9 +104,6 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		}
 
 		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];	
-		if (listType instanceof ParameterizedType){
-			listType = ((ParameterizedType) listType).getRawType();
-		}
 		return isAvailableElementClass(listType);		
 		//if there is no annotation list is supposed to be found by org.openqa.selenium.support.ByIdOrName
 		//DefaultElementLocator has an issue :)

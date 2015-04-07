@@ -133,7 +133,7 @@ public class iOSGestureTest {
 
   @Test
   public void elementGestureTest(){
-	  MobileElement<?> e = (MobileElement<?>) driver.findElementByName("TextField1");
+	  MobileElement e = (MobileElement) driver.findElementByName("TextField1");
 	  e.tap(1, 1500);
 	  e.zoom();
 	  e.pinch();

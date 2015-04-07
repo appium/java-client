@@ -9,32 +9,24 @@ import org.openqa.selenium.WebElement;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @param <RequiredElementType> means the required type from the list of allowed types below 
- * that implement {@link WebElement} Instances of the defined type will be 
- * returned via findElement* and findElements*. 
- * Warning (!!!). Allowed types:<br/>
- * {@link WebElement}<br/>
- * {@link TouchableElement}<br/>
- * {@link RemoteWebElement}<br/>
- * {@link MobileElement}
- * {@link IOSElement}
- */
-public class IOSElement<RequiredElementType extends WebElement> extends MobileElement<RequiredElementType> implements 
-FindsByIosUIAutomation<RequiredElementType>, ScrollsTo<RequiredElementType> {
+public class IOSElement extends MobileElement implements 
+FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public RequiredElementType findElementByIosUIAutomation(String using) {
-		return (RequiredElementType) findElement("-ios uiautomation", using);
+	public MobileElement findElementByIosUIAutomation(String using) {
+		return (IOSElement) findElement("-ios uiautomation", using);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<RequiredElementType> findElementsByIosUIAutomation(String using) {
-		return (List<RequiredElementType>) findElements("-ios uiautomation", using);
+	public List<MobileElement> findElementsByIosUIAutomation(String using) {
+		List<MobileElement> result = new ArrayList<MobileElement>();
+		List<WebElement> found = findElements("-ios uiautomation", using);
+		for (WebElement e: found)
+			result.add((IOSElement) e);
+		return result;
 	}
 
   /**
@@ -43,8 +35,8 @@ FindsByIosUIAutomation<RequiredElementType>, ScrollsTo<RequiredElementType> {
    * @param text input text contained in text attribute
    */
 	@Override
-	public RequiredElementType scrollTo(String text) {
-		return (RequiredElementType) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+	public MobileElement scrollTo(String text) {
+		return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
 	}
 
   /**
@@ -53,8 +45,8 @@ FindsByIosUIAutomation<RequiredElementType>, ScrollsTo<RequiredElementType> {
    * @param text input text contained in text attribute
    */
 	@Override
-	public RequiredElementType scrollToExact(String text) {
-		return (RequiredElementType) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
+	public MobileElement scrollToExact(String text) {
+		return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

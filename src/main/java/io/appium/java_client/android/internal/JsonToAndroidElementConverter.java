@@ -12,8 +12,8 @@ public class JsonToAndroidElementConverter extends JsonToMobileElementConverter 
 	}
 
 	@Override
-	protected MobileElement<?> newMobileElement() {
-		AndroidElement<?> toReturn = new AndroidElement<>();
+	protected MobileElement newMobileElement() {
+		AndroidElement toReturn = new AndroidElement();
 		toReturn.setParent(driver);
 		return toReturn;
 	}

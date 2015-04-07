@@ -42,7 +42,7 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class IOSDriverTest {
 
-  private IOSDriver<MobileElement<?>> driver;
+  private IOSDriver<MobileElement> driver;
 
   @Before
   public void setup() throws Exception {
@@ -53,7 +53,7 @@ public class IOSDriverTest {
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<MobileElement<?>>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After
@@ -80,16 +80,16 @@ public class IOSDriverTest {
 
   @Test
   public void namedTextFieldTest() {
-    MobileElement<?> element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
+    MobileElement element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
     element = driver.getNamedTextField("DEFAULT");
-    ((IOSElement<?>) element).setValue("Grace Hopper");
+    ((IOSElement) element).setValue("Grace Hopper");
     assertEquals("Grace Hopper", element.getText());
   }
 
   @Test
   public void hideKeyboardWithParametersTest() {
-    MobileElement<?> element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
+    MobileElement element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
     element.click();
     element = driver.findElementByAccessibilityId("DEFAULT");
     element.click();
@@ -98,7 +98,7 @@ public class IOSDriverTest {
 
   @Test
   public void scrollToTest() {
-    MobileElement<?> searchBar = driver.findElementByName("Search Bars");
+    MobileElement searchBar = driver.findElementByName("Search Bars");
     Point before = searchBar.getLocation();
     driver.scrollTo("Search Ba");
     Point after = searchBar.getLocation();
@@ -107,7 +107,7 @@ public class IOSDriverTest {
 
   @Test
   public void scrollToExactTest() {
-    MobileElement<?> searchBar = driver.findElementByName("Search Bars");
+    MobileElement searchBar = driver.findElementByName("Search Bars");
     Point before = searchBar.getLocation();
     driver.scrollToExact("Search Bars");
     Point after = searchBar.getLocation();

@@ -3,6 +3,7 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 
@@ -21,7 +22,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class AndroidUIAutomatorTest {
 
-  private AndroidDriver<AndroidElement<? extends WebElement>> driver;
+  private AndroidDriver<AndroidElement> driver;
 
   @Before
   public void setup() throws Exception {
@@ -32,7 +33,7 @@ public class AndroidUIAutomatorTest {
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AndroidDriver<AndroidElement<?>>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After
@@ -48,29 +49,28 @@ public class AndroidUIAutomatorTest {
 
   @Test
   public void findElementsTest() {
-    List<AndroidElement<?>> elements = driver.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)");
+    List<AndroidElement> elements = driver.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)");
     assertTrue(elements.size() > 11);
   }
 
   @Test
   public void findElementByTest() {
-    WebElement element = driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().index(0)"));
+    AndroidElement element = driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().index(0)"));
     assertEquals("android.widget.FrameLayout", element.getTagName());
   }
 
   @Test
   public void findElementsByTest() {
-    List<AndroidElement<?>> elements = driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)"));
+    List<AndroidElement> elements = driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)"));
     assertTrue(elements.size() > 11);
   }
 
   @Test
   public void findChainedElementsTest() {
-	  @SuppressWarnings("unchecked")
-	  AndroidElement<AndroidElement<?>> el1 = (AndroidElement<AndroidElement<?>>) driver.findElementByAndroidUIAutomator("resourceId(\"android:id/content\")");
-	  AndroidElement<?> el2 = el1.findElementByAndroidUIAutomator("text(\"Accessibility\")");
+	  AndroidElement el1 = driver.findElementByAndroidUIAutomator("resourceId(\"android:id/content\")");
+	  MobileElement el2 = el1.findElement(MobileBy.AndroidUIAutomator("text(\"Accessibility\")"));
 	  el2.click();
-	  AndroidElement<?> el3 = driver.findElementByAndroidUIAutomator("text(\"Custom View\")");
+	  AndroidElement el3 = driver.findElementByAndroidUIAutomator("text(\"Custom View\")");
 	  assertTrue(el3.isDisplayed());
   }
 
