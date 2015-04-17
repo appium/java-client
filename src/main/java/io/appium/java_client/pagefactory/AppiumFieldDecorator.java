@@ -1,7 +1,6 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
 
@@ -36,7 +35,6 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 				private static final long serialVersionUID = 1L;
 				{
 					add(WebElement.class);
-					add(TouchableElement.class);
 					add(RemoteWebElement.class);
 					add(MobileElement.class);
 					add(AndroidElement.class);
@@ -113,9 +111,6 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		Class<?> type = field.getType();
 		if (type.equals(WebElement.class)){
 			type = RemoteWebElement.class;
-		}
-		if (type.equals(TouchableElement.class)){
-			type = MobileElement.class;
 		}
 		ElementInterceptor elementInterceptor = new ElementInterceptor(locator);
 		return ProxyFactory.getEnhancedProxy(type,
