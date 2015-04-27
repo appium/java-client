@@ -44,6 +44,14 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
    public MobileElement scrollToExact(String text) {
 	  return ((IOSElement) findElementByClassName("UIATableView")).scrollToExact(text);
    }
+    /**
+     * Scroll to the CellView whose 'index' is equal to the input cellIndex.
+     * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
+     * @param integer input text to match
+     */
+    public MobileElement scrollTobyCellIndex(int cellIndex){
+        return ((IOSElement) findElementByClassName("UIATableView")).scrollTobyCellIndex(cellIndex);
+    }
 
    /**
 	 * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)

@@ -42,6 +42,16 @@ public class IOSElement extends MobileElement implements FindsByIosUIAutomation,
 	public MobileElement scrollToExact(String text) {
 		return (MobileElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
 	}
+    /**
+     * Scroll to the CellView whose 'index' is equal to the input cellIndex.
+     * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
+     * @param integer cell index to match
+     */
+
+    public MobileElement scrollTobyCellIndex(int cellIndex){
+        cellIndex = cellIndex -1;
+        return (MobileElement) findElementByIosUIAutomation(".cells()["+cellIndex+"].scrollToVisible();");
+    }
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void setValue(String value) {		
