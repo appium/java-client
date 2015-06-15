@@ -275,8 +275,8 @@ public class iOSPageObjectTest {
     @Test
     public void isTheFieldIOSElement(){
         IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
-        iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WedElement
-        iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWedElement
+        iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
+        iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
         iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
     }
 }
