@@ -1,14 +1,17 @@
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchableElement;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.SearchContext;
@@ -37,24 +40,38 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 					add(WebElement.class);
 					add(RemoteWebElement.class);
 					add(MobileElement.class);
+                    add(TouchableElement.class);
 					add(AndroidElement.class);
 					add(IOSElement.class);
 				}
 		
 	};
+
+    private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>> elementRuleMap =
+            new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>(){
+                private static final long serialVersionUID = 1L;
+                {
+                    put(AndroidDriver.class, AndroidElement.class);
+                    put(AndroidElement.class, AndroidElement.class);
+                    put(IOSDriver.class, IOSElement.class);
+                    put(IOSElement.class, IOSElement.class);
+                }
+            };
 	
 	private final AppiumElementLocatorFactory factory;
-
+    private final SearchContext context;
 	public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
 
 	public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
 
 	public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut, TimeUnit timeUnit) {
-		factory = new AppiumElementLocatorFactory(context, implicitlyWaitTimeOut, timeUnit);
+        this.context = context;
+		factory = new AppiumElementLocatorFactory(this.context, implicitlyWaitTimeOut, timeUnit);
 	}
 	
 	public AppiumFieldDecorator(SearchContext context) {
-		factory = new AppiumElementLocatorFactory(context);
+        this.context = context;
+		factory = new AppiumElementLocatorFactory(this.context);
 	}
 
 	public Object decorate(ClassLoader ignored, Field field) {
@@ -68,7 +85,7 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		}
 
 		if (WebElement.class.isAssignableFrom(field.getType())) {
-			return proxyForLocator(field, locator); 
+			return proxyForLocator(locator);
 		} else if (List.class.isAssignableFrom(field.getType())) {
 			return  proxyForListLocator(locator);
 		} else {
@@ -107,13 +124,22 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		//DefaultElementLocator has an issue :)
 	}
 
-	private Object proxyForLocator(Field field, ElementLocator locator) {
-		Class<?> type = field.getType();
-		if (type.equals(WebElement.class)){
-			type = RemoteWebElement.class;
-		}
+    private Class<?> getTypeForProxy(){
+        Class<?> contextClass = context.getClass();
+        Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules = elementRuleMap.entrySet();
+        Iterator<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> iterator = rules.iterator();
+        while (iterator.hasNext()){ //it will return MobileElement subclass when here is something
+            //that extends AppiumDriver or MobileElement
+            Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e = iterator.next();
+            if (e.getKey().isAssignableFrom(contextClass))
+                return e.getValue();
+        } //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
+        return RemoteWebElement.class;
+    }
+
+	private Object proxyForLocator(ElementLocator locator) {
 		ElementInterceptor elementInterceptor = new ElementInterceptor(locator);
-		return ProxyFactory.getEnhancedProxy(type,
+		return ProxyFactory.getEnhancedProxy(getTypeForProxy(),
 				elementInterceptor);
 	}
 	

@@ -1,6 +1,7 @@
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindAll;
@@ -17,6 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.xpath.operations.And;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -75,6 +77,9 @@ public class AndroidPageObjectTest {
 	@iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"),
 		@iOSFindBy(xpath = "//someElement")})
 	private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
+    private List<TouchableElement> touchabletextVieWs;
 
 	@FindBy(id = "android:id/text1")
 	private WebElement textView;
@@ -153,6 +158,9 @@ public class AndroidPageObjectTest {
         @AndroidFindBy(id = "android:id/text1")
         @SelendroidFindBy(id = "Invalid Identifier")
         private WebElement textAndroidId;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
+    private TouchableElement touchabletextVieW;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -320,5 +328,23 @@ public class AndroidPageObjectTest {
 	@Test
 	public void findByAndroidAnnotationOnlyTest(){
 		Assert.assertNotEquals(null, textAndroidId.getAttribute("text"));
-	}	
+	}
+
+    @Test
+    public void isTouchableElement(){
+        Assert.assertNotEquals(null, touchabletextVieW.getAttribute("text"));
+    }
+
+    @Test
+    public void areTouchableElements(){
+        Assert.assertNotEquals(0, touchabletextVieWs.size());
+    }
+
+    @Test
+    public void isTheFieldAndroidElement(){
+        AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
+        androidElement = (AndroidElement) androidTextView; //declared as WedElement
+        androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
+        androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement
+    }
 }

@@ -12,10 +12,12 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
+ *
  * Intercepts requests to the list of {@link MobileElement}
  *
  */
 class ElementListInterceptor implements MethodInterceptor{
+
 	private final ElementLocator locator;
 	
 	ElementListInterceptor(ElementLocator locator){
@@ -24,6 +26,10 @@ class ElementListInterceptor implements MethodInterceptor{
 
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
+        if(Object.class.getDeclaredMethod("finalize").equals(method)){
+            return proxy.invokeSuper(obj, args);  //invokes .finalize of the proxy-object
+        }
+
 		ArrayList<WebElement> realElements = new ArrayList<WebElement>();
 		realElements.addAll(locator.findElements());
 		return method.invoke(realElements, args);

@@ -23,6 +23,10 @@ class ElementInterceptor implements MethodInterceptor {
 	
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
+        if(Object.class.getDeclaredMethod("finalize").equals(method)){
+            return proxy.invokeSuper(obj, args);  //invokes .finalize of the proxy-object
+        }
+
 		WebElement realElement = locator.findElement();
 		return method.invoke(realElement, args);
 	}

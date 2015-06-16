@@ -1,6 +1,8 @@
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchableElement;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -79,6 +81,12 @@ public class iOSPageObjectTest {
 
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private MobileElement mobileButton;
+
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    private TouchableElement touchableButton;
+
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    private List<TouchableElement> touchableButtons;
 
 	@FindBy(className = "UIAButton")
 	private MobileElement mobiletFindBy_Button;
@@ -253,4 +261,22 @@ public class iOSPageObjectTest {
 	public void findAllElementTest(){
 		Assert.assertNotEquals(null, findAllElement.getText());
 	}
+
+    @Test
+    public void isTouchAbleElement(){
+        Assert.assertNotEquals(null, touchableButton.getText());
+    }
+
+    @Test
+    public void areTouchAbleElements(){
+        Assert.assertNotEquals(0, touchableButtons.size());
+    }
+
+    @Test
+    public void isTheFieldIOSElement(){
+        IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
+        iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
+        iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
+        iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
+    }
 }
