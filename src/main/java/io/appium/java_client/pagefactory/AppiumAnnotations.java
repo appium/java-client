@@ -171,7 +171,8 @@ class AppiumAnnotations extends Annotations {
 		}
 	}
 
-	private void assertValidAnnotations() {
+	@Override
+	protected void assertValidAnnotations() {
 		AndroidFindBy androidBy = mobileField
 				.getAnnotation(AndroidFindBy.class);
 		AndroidFindBys androidBys = mobileField
@@ -201,6 +202,7 @@ class AppiumAnnotations extends Annotations {
 		checkDisallowedAnnotationPairs(iOSBy, iOSBys);
 		checkDisallowedAnnotationPairs(iOSBy, iOSFindAll);
 		checkDisallowedAnnotationPairs(iOSBys, iOSFindAll);
+		super.assertValidAnnotations();
 	}
 
 	private static Method[] prepareAnnotationMethods(
