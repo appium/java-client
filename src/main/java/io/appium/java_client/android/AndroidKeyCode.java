@@ -31,9 +31,7 @@ public interface AndroidKeyCode {
   int SETTINGS = 176;
   int SPACE = 62;
 
-
-
-  //  getAction() value: the key has been pressed down.
+  // getAction() value: the key has been pressed down.
   // (0x00000000)
   int ACTION_DOWN = 0;
 
@@ -85,7 +83,8 @@ public interface AndroidKeyCode {
   // (0x00000040)
   int FLAG_VIRTUAL_HARD_KEY = 64;
 
-  // This constant was deprecated in API level 20.This flag will never be set by the system since the system consumes all wake keys itself.
+  // This constant was deprecated in API level 20.
+  // This flag will never be set by the system since the system consumes all wake keys itself.
   // This mask is set if the device woke because of this key event.
   // (0x00000001)
   int FLAG_WOKE_HERE = 1;
@@ -1130,26 +1129,22 @@ public interface AndroidKeyCode {
   // (0x000000a9)
   int KEYCODE_ZOOM_OUT = 169;
 
-  int MAX_KEYCODE = 84;
-
-  // This constant was deprecated in API level 3.There are now more than MAX_KEYCODE keycodes. Use getMaxKeyCode() instead.
-
+  // This constant was deprecated in API level 3.
+  // There are now more than MAX_KEYCODE keycodes. Use getMaxKeyCode() instead.
   // (0x00000054)
+  int MAX_KEYCODE = 84;
 
   // This mask is used to check whether the left ALT meta key is pressed.
   // See Also
   // isAltPressed()
   // getMetaState()
   // KEYCODE_ALT_LEFT
-  int META_ALT_LEFT_ON = 16;
-
   // (0x00000010)
+  int META_ALT_LEFT_ON = 16;
 
   // This mask is a combination of META_ALT_ON, META_ALT_LEFT_ON and META_ALT_RIGHT_ON.
   // (0x00000032)
   int META_ALT_MASK = 50;
-
-  int META_ALT_ON = 2;
 
   // This mask is used to check whether one of the ALT meta keys is pressed.
   // See Also
@@ -1158,6 +1153,7 @@ public interface AndroidKeyCode {
   // KEYCODE_ALT_LEFT
   // KEYCODE_ALT_RIGHT
   // (0x00000002)
+  int META_ALT_ON = 2;
 
   // This mask is used to check whether the right the ALT meta key is pressed.
   // See Also
@@ -1229,9 +1225,8 @@ public interface AndroidKeyCode {
   // getMetaState()
   // KEYCODE_META_LEFT
   // KEYCODE_META_RIGHT
-  int META_META_ON = 65536;
-
   // (0x00010000)
+  int META_META_ON = 65536;
 
   // This mask is used to check whether the right META meta key is pressed.
   // See Also
