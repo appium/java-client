@@ -9,18 +9,24 @@ import org.openqa.selenium.WebElement;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class IOSElement extends MobileElement implements FindsByIosUIAutomation, ScrollsTo {
+public class IOSElement extends MobileElement implements 
+FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
 	
 	@Override
-	public IOSElement findElementByIosUIAutomation(String using) {
+	public MobileElement findElementByIosUIAutomation(String using) {
 		return (IOSElement) findElement("-ios uiautomation", using);
 	}
 
 	@Override
-	public List<WebElement> findElementsByIosUIAutomation(String using) {
-		return findElements("-ios uiautomation", using);
+	public List<MobileElement> findElementsByIosUIAutomation(String using) {
+		List<MobileElement> result = new ArrayList<MobileElement>();
+		List<WebElement> found = findElements("-ios uiautomation", using);
+		for (WebElement e: found)
+			result.add((IOSElement) e);
+		return result;
 	}
 
   /**
@@ -30,7 +36,7 @@ public class IOSElement extends MobileElement implements FindsByIosUIAutomation,
    */
 	@Override
 	public MobileElement scrollTo(String text) {
-		return (MobileElement) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+		return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
 	}
 
   /**
@@ -40,7 +46,7 @@ public class IOSElement extends MobileElement implements FindsByIosUIAutomation,
    */
 	@Override
 	public MobileElement scrollToExact(String text) {
-		return (MobileElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
+		return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

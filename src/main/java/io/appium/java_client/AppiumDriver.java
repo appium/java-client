@@ -1,6 +1,6 @@
 /*
- +Copyright 2014 Appium contributors
- +Copyright 2014 Software Freedom Conservancy
+ +Copyright 2014-2015 Appium contributors
+ +Copyright 2014-2015 Software Freedom Conservancy
  +
  +Licensed under the Apache License, Version 2.0 (the "License");
  +you may not use this file except in compliance with the License.
@@ -17,31 +17,81 @@
 
 package io.appium.java_client;
 
+import static io.appium.java_client.MobileCommand.CLOSE_APP;
+import static io.appium.java_client.MobileCommand.COMPLEX_FIND;
+import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
+import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
+import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.GET_SETTINGS;
+import static io.appium.java_client.MobileCommand.GET_STRINGS;
+import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
+import static io.appium.java_client.MobileCommand.INSTALL_APP;
+import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
+import static io.appium.java_client.MobileCommand.IS_LOCKED;
+import static io.appium.java_client.MobileCommand.KEY_EVENT;
+import static io.appium.java_client.MobileCommand.LAUNCH_APP;
+import static io.appium.java_client.MobileCommand.LOCK;
+import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
+import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
+import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
+import static io.appium.java_client.MobileCommand.PUSH_FILE;
+import static io.appium.java_client.MobileCommand.REMOVE_APP;
+import static io.appium.java_client.MobileCommand.RESET;
+import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.SET_SETTINGS;
+import static io.appium.java_client.MobileCommand.SET_VALUE;
+import static io.appium.java_client.MobileCommand.SHAKE;
+import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.bind.DatatypeConverter;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.ErrorHandler;
+import org.openqa.selenium.remote.ExecuteMethod;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
+import org.openqa.selenium.remote.http.HttpMethod;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.appium.java_client.remote.MobileCapabilityType;
-import org.openqa.selenium.*;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.html5.LocationContext;
-import org.openqa.selenium.remote.*;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
-import org.openqa.selenium.remote.http.HttpMethod;
 
-import javax.xml.bind.DatatypeConverter;
-import java.net.URL;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static io.appium.java_client.MobileCommand.*;
-
-public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriver,
-		ContextAware, Rotatable, FindsByAccessibilityId, LocationContext,
-		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles,
-		InteractsWithApps, ScrollsTo, HasAppStrings {
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement} and its subclasses that designed specifically for each target mobile OS (still Android and iOS)
+ */
+@SuppressWarnings("unchecked")
+public abstract class AppiumDriver<RequiredElementType extends WebElement> extends DefaultGenericMobileDriver<RequiredElementType> {
 
 	private final static ErrorHandler errorHandler = new ErrorHandler(
 			new ErrorCodesMobile(), true);
@@ -71,40 +121,47 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		return dc;
 	}
 
-    public MobileElement findElement(By by){
-        return (MobileElement) super.findElement(by);
+    @Override
+    public List<RequiredElementType> findElements(By by){
+        return super.findElements(by);
     }
 
-    public MobileElement findElementById(String using){
-        return (MobileElement) super.findElementById(using);
+    @Override
+    public List<RequiredElementType> findElementsById(String id){
+        return super.findElementsById(id);
     }
 
-    public MobileElement findElementByClassName(String using){
-        return (MobileElement) super.findElementByClassName(using);
+	public List<RequiredElementType> findElementsByLinkText(String using) {
+        return super.findElementsByLinkText(using);
     }
 
-    public MobileElement findElementByName(String using){
-        return (MobileElement) super.findElementByName(using);
+    public List<RequiredElementType> findElementsByPartialLinkText(String using) {
+        return super.findElementsByPartialLinkText(using);
     }
 
-    public MobileElement findElementByTagName(String using){
-        return (MobileElement) super.findElementByTagName(using);
+    public List<RequiredElementType> findElementsByTagName(String using) {
+        return super.findElementsByTagName(using);
     }
 
-    public MobileElement findElementByCssSelector(String using){
-        return (MobileElement) super.findElementByCssSelector(using);
-}
-
-    public MobileElement findElementByLinkText(String using){
-        return (MobileElement) super.findElementByLinkText(using);
+    public List<RequiredElementType> findElementsByName(String using) {
+        return super.findElementsByName(using);
     }
 
-    public MobileElement findElementByPartialLinkText(String using){
-        return (MobileElement) super.findElementByPartialLinkText(using);
+    public List<RequiredElementType> findElementsByClassName(String using) {
+        return super.findElementsByClassName(using);
     }
 
-    public MobileElement findElementByXPath(String using){
-        return (MobileElement) super.findElementByXPath(using);
+    public List<RequiredElementType> findElementsByCssSelector(String using) {
+        return super.findElementsByCssSelector(using);
+    }
+
+    public List<RequiredElementType> findElementsByXPath(String using) {
+        return super.findElementsByXPath(using);
+    }
+
+    @Override
+    public List<RequiredElementType> findElementsByAccessibilityId(String using) {
+        return (List<RequiredElementType>) findElements("accessibility id", using);
     }
 
     /**
@@ -211,14 +268,8 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	}
 
 	@Override
-	public Response execute(String driverCommand, Map<String, ?> parameters) {
-
-		return super.execute(driverCommand, parameters);
-	}
-
-	@Override
 	protected Response execute(String command) {
-		return execute(command, ImmutableMap.<String, Object> of());
+		return super.execute(command, ImmutableMap.<String, Object>of());
 	}
 
 	@Override
@@ -335,7 +386,7 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	 * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction)
 	 */
 	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes"})
 	public void performMultiTouchAction(MultiTouchAction multiAction) {
 		ImmutableMap<String, ImmutableList> parameters = multiAction
 				.getParameters();
@@ -562,7 +613,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		return AppiumDriver.this;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Set<String> getContextHandles() {
 		Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
@@ -605,16 +655,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 			throw new WebDriverException("Unexpected orientation returned: "
 					+ orientation);
 		}
-	}
-
-	@Override
-	public MobileElement findElementByAccessibilityId(String using) {
-		return (MobileElement) findElement("accessibility id", using);
-	}
-
-	@Override
-	public List<WebElement> findElementsByAccessibilityId(String using) {
-		return findElements("accessibility id", using);
 	}
 
 	@Override

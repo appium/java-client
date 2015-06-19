@@ -162,6 +162,7 @@ public class AndroidPageObjectTest {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private TouchableElement touchabletextVieW;
 	
+	@SuppressWarnings("rawtypes")
 	@Before
 	public void setUp() throws Exception {
 	    File appDir = new File("src/test/java/io/appium/java_client");

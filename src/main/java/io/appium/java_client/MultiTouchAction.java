@@ -41,6 +41,7 @@ import com.google.common.collect.ImmutableMap;
  *
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MultiTouchAction {
 
   private MobileDriver driver;

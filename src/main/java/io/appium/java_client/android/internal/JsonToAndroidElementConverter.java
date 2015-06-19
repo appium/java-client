@@ -7,7 +7,7 @@ import io.appium.java_client.internal.JsonToMobileElementConverter;
 
 public class JsonToAndroidElementConverter extends JsonToMobileElementConverter {
 
-	public JsonToAndroidElementConverter(AppiumDriver driver) {
+	public JsonToAndroidElementConverter(AppiumDriver<?> driver) {
 		super(driver);
 	}
 

@@ -20,10 +20,12 @@ package io.appium.java_client;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -37,7 +39,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AppiumDriverTest {
 
-  private AppiumDriver driver;
+  private AppiumDriver<?> driver;
 
   @Before
   public void setup() throws Exception {
@@ -49,7 +51,7 @@ public class AppiumDriverTest {
     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After

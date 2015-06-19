@@ -118,6 +118,7 @@ public class iOSPageObjectTest {
 	})
 	private List<WebElement> findAllElements;
 
+	@SuppressWarnings("rawtypes")
 	@Before
 	public void setUp() throws Exception {
 	    File appDir = new File("src/test/java/io/appium/java_client");

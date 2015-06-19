@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by jonahss on 4/10/14.
  */
+@SuppressWarnings("serial")
 public abstract class MobileBy extends By {
 
   public static By IosUIAutomation(final String uiautomationText) {
@@ -44,14 +45,16 @@ public abstract class MobileBy extends By {
       automationText = uiautomationText;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<WebElement> findElements(SearchContext context) {
-      return ((FindsByIosUIAutomation) context).findElementsByIosUIAutomation(automationText);
+      return (List<WebElement>) ((FindsByIosUIAutomation<?>) context).
+    		  findElementsByIosUIAutomation(automationText);
     }
 
     @Override
     public WebElement findElement(SearchContext context) {
-      return ((FindsByIosUIAutomation) context).findElementByIosUIAutomation(automationText);
+      return ((FindsByIosUIAutomation<?>) context).findElementByIosUIAutomation(automationText);
     }
 
     @Override
@@ -68,21 +71,24 @@ public abstract class MobileBy extends By {
       automatorText = uiautomatorText;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<WebElement> findElements(SearchContext context) {
-      return ((FindsByAndroidUIAutomator) context).findElementsByAndroidUIAutomator(automatorText);
+      return (List<WebElement>) ((FindsByAndroidUIAutomator<?>) context).
+    		  findElementsByAndroidUIAutomator(automatorText);
     }
 
     @Override
     public WebElement findElement(SearchContext context) {
-      return ((FindsByAndroidUIAutomator) context).findElementByAndroidUIAutomator(automatorText);
+      return ((FindsByAndroidUIAutomator<?>) context).findElementByAndroidUIAutomator(automatorText);
     }
 
     @Override
     public String toString() { return "By.AndroidUIAutomator: " + automatorText; }
   }
 
-  public static class ByAccessibilityId extends By implements Serializable {
+  
+public static class ByAccessibilityId extends By implements Serializable {
 
     private final String id;
 
@@ -90,14 +96,16 @@ public abstract class MobileBy extends By {
       this.id = id;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<WebElement> findElements(SearchContext context) {
-      return ((FindsByAccessibilityId) context).findElementsByAccessibilityId(id);
+      return (List<WebElement>) 
+    		  ((FindsByAccessibilityId<?>) context).findElementsByAccessibilityId(id);
     }
 
     @Override
     public WebElement findElement(SearchContext context) {
-      return ((FindsByAccessibilityId) context).findElementByAccessibilityId(id);
+      return ((FindsByAccessibilityId<?>) context).findElementByAccessibilityId(id);
     }
 
     @Override

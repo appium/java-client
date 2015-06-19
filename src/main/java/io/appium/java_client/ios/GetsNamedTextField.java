@@ -2,7 +2,7 @@ package io.appium.java_client.ios;
 
 import org.openqa.selenium.WebElement;
 
-public interface GetsNamedTextField {
+public interface GetsNamedTextField<T extends WebElement> {
 	/**
 	 * In iOS apps, named TextFields have the same accessibility Id as their
 	 * containing TableElement. This is a convenience method for getting the
@@ -12,6 +12,6 @@ public interface GetsNamedTextField {
 	 *            accessiblity id of TextField
 	 * @return The textfield with the given accessibility id
 	 */
-	public <T extends IOSElement> T getNamedTextField(String name);
+	public T getNamedTextField(String name);
 
 }

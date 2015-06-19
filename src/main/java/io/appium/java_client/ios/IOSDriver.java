@@ -3,8 +3,9 @@ package io.appium.java_client.ios;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
@@ -16,7 +17,19 @@ import java.util.List;
 
 import static io.appium.java_client.MobileCommand.*;
 
-public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts, GetsNamedTextField, FindsByIosUIAutomation{
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement}
+ * {@link IOSElement}
+ */
+public class IOSDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements IOSDeviceActionShortcuts, GetsNamedTextField<RequiredElementType>, 
+FindsByIosUIAutomation<RequiredElementType>{
 	private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
 	public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -30,9 +43,11 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
    * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
    * @param text input text contained in text attribute
    */
-   @Override
-   public MobileElement scrollTo(String text) {
-     return ((IOSElement) findElementByClassName("UIATableView")).scrollTo(text);
+   @SuppressWarnings("unchecked")
+@Override
+   public RequiredElementType scrollTo(String text) {
+     return (RequiredElementType) ((ScrollsTo<?>) 
+    		 findElementByClassName("UIATableView")).scrollTo(text);
    }
 
    /**
@@ -40,9 +55,11 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
    * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
    * @param text input text to match
    */
-   @Override
-   public MobileElement scrollToExact(String text) {
-	  return ((IOSElement) findElementByClassName("UIATableView")).scrollToExact(text);
+   @SuppressWarnings("unchecked")
+@Override
+   public RequiredElementType scrollToExact(String text) {
+	  return (RequiredElementType) ((ScrollsTo<?>) 
+			  findElementByClassName("UIATableView")).scrollToExact(text);
    }
 
    /**
@@ -74,22 +91,26 @@ public class IOSDriver extends AppiumDriver implements IOSDeviceActionShortcuts,
 	/**
 	 * @see GetsNamedTextField#getNamedTextField(String)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public IOSElement getNamedTextField(String name) {
-        IOSElement element = (IOSElement) findElementByAccessibilityId(name);
+	public RequiredElementType getNamedTextField(String name) {
+		RequiredElementType element = findElementByAccessibilityId(name);
 		if (element.getTagName() != "TextField") {
-			return (IOSElement) element.findElementByAccessibilityId(name);
+			return (RequiredElementType) ((FindsByAccessibilityId<?>) element).
+					findElementByAccessibilityId(name);
 		}
 		return element;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public IOSElement findElementByIosUIAutomation(String using) {
-		return (IOSElement) findElement("-ios uiautomation", using);
+	public RequiredElementType findElementByIosUIAutomation(String using) {
+		return (RequiredElementType) findElement("-ios uiautomation", using);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<WebElement> findElementsByIosUIAutomation(String using) {
-		return findElements("-ios uiautomation", using);
+	public List<RequiredElementType> findElementsByIosUIAutomation(String using) {
+		return (List<RequiredElementType>) findElements("-ios uiautomation", using);
 	}	
 }

@@ -22,7 +22,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class IOSAccessibilityIdTest {
 
-  private AppiumDriver driver;
+  private AppiumDriver<?> driver;
 
   @Before
   public void setup() throws Exception {
@@ -33,7 +33,7 @@ public class IOSAccessibilityIdTest {
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After
@@ -49,7 +49,7 @@ public class IOSAccessibilityIdTest {
 
   @Test
   public void findElementsTest() {
-    List<WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
+    List<? extends WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
     assertTrue(elements.size() > 0);
   }
 
@@ -61,7 +61,7 @@ public class IOSAccessibilityIdTest {
 
   @Test
   public void MobileElementsByTest() {
-    List<WebElement> elements = driver.findElements(MobileBy.AccessibilityId("UICatalog"));
+    List<? extends WebElement> elements = driver.findElements(MobileBy.AccessibilityId("UICatalog"));
     assertTrue(elements.size() > 0);
   }
 }

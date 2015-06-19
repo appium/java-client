@@ -18,9 +18,9 @@ import com.google.common.collect.Maps;
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {
-	protected AppiumDriver driver;
+	protected AppiumDriver<?> driver;
 
-	public JsonToMobileElementConverter(AppiumDriver driver) {
+	public JsonToMobileElementConverter(AppiumDriver<?> driver) {
 		super(driver);
 		this.driver = driver;
 	}

@@ -37,7 +37,7 @@ import static org.junit.Assert.*;
  */
 public class AndroidDriverTest {
 
-  private AndroidDriver driver;
+  private AndroidDriver<?> driver;
 
   @Before
   public void setup() throws Exception {
@@ -48,7 +48,7 @@ public class AndroidDriverTest {
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-    driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
   }
 
   @After

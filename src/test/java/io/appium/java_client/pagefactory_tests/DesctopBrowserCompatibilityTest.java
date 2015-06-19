@@ -167,7 +167,7 @@ public class DesctopBrowserCompatibilityTest {
 	private List<WebElement> ires; //this list is located by id="ires"
 	private WebElement btnG; //this element is found by name="btnG"
 	private WebDriver trap1;
-	private List<AndroidDriver> trap2;
+	private List<AndroidDriver<?>> trap2;
 	
 	private void test(WebDriver driver){
 		try {

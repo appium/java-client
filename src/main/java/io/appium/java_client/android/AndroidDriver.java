@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -21,9 +20,20 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.*;
 import static io.appium.java_client.remote.MobileCapabilityType.*;
 
-public class AndroidDriver extends AppiumDriver implements
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement}
+ * {@link AndroidElement}
+ */
+public class AndroidDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements
 		AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles,
-		StartsActivity, FindsByAndroidUIAutomator {
+		StartsActivity, FindsByAndroidUIAutomator<RequiredElementType> {
 
 	private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -47,10 +57,10 @@ public class AndroidDriver extends AppiumDriver implements
    * @param text
    */
   @Override
-  public MobileElement scrollTo(String text) {
+  public RequiredElementType scrollTo(String text) {
     String uiScrollables = UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") +
                            UiScrollable("new UiSelector().textContains(\"" + text + "\")");
-    return (MobileElement) findElementByAndroidUIAutomator(uiScrollables);
+    return findElementByAndroidUIAutomator(uiScrollables);
   }
 
   /**
@@ -59,10 +69,10 @@ public class AndroidDriver extends AppiumDriver implements
    * @param text
    */
   @Override
-  public MobileElement scrollToExact(String text) {
+  public RequiredElementType scrollToExact(String text) {
     String uiScrollables = UiScrollable("new UiSelector().description(\"" + text + "\")") +
                            UiScrollable("new UiSelector().text(\"" + text + "\")");
-    return (MobileElement) findElementByAndroidUIAutomator(uiScrollables);
+    return findElementByAndroidUIAutomator(uiScrollables);
   }
 
   static String UiScrollable(String uiSelector) {
@@ -250,14 +260,16 @@ public class AndroidDriver extends AppiumDriver implements
 		setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
 	}	
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public AndroidElement findElementByAndroidUIAutomator(String using) {
-		return (AndroidElement) findElement("-android uiautomator", using);
+	public RequiredElementType findElementByAndroidUIAutomator(String using) {
+		return (RequiredElementType) findElement("-android uiautomator", using);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
-		return findElements("-android uiautomator", using);
+	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) {
+		return (List<RequiredElementType>) findElements("-android uiautomator", using);
 	}	
 
 }
