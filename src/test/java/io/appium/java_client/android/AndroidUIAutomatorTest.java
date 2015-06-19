@@ -1,21 +1,21 @@
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
-
-import java.io.File;
-import java.net.URL;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test -android uiautomator locator strategy
@@ -50,7 +50,7 @@ public class AndroidUIAutomatorTest {
   @Test
   public void findElementsTest() {
     List<AndroidElement> elements = driver.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)");
-    assertTrue(elements.size() > 11);
+    assertTrue(elements.size() > 10);
   }
 
   @Test
@@ -62,7 +62,7 @@ public class AndroidUIAutomatorTest {
   @Test
   public void findElementsByTest() {
     List<AndroidElement> elements = driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)"));
-    assertTrue(elements.size() > 11);
+    assertTrue(elements.size() > 10);
   }
 
   @Test
