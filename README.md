@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>2.2.0</version>
+  <version>3.0.0</version>
 </dependency>
 ```
 
@@ -21,7 +21,7 @@ It currently depends on selenium-java 2.46.0. If it is necessary to use another 
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>2.2.0</version>
+  <version>3.0.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -44,6 +44,15 @@ Javadocs: http://appium.github.io/java-client/
 There is an abstract _AppiumDriver_ class which inherits from the Selenium Java Client.
 The _AppiumDriver_ class contains all methods shared by iOS and Android.
 _IOSDriver_ and _AndroidDriver_ both extend _AppiumDriver_ and provide more methods, and specific implementations for some methods.
+
+In the same way, _IOSElement_ and _AndroidElement_ both are subclasses of _MobileElement_
+
+You can instantiate and AppiumDriver with the class of element you want commands to return. For example
+`AppiumDriver<MobileElement> driver;`
+and now when you call the Find functions, they return elements of class MobileElement.
+You can also instantiate drivers like this, to make things simpler:
+`AndroidDriver<AndroidElement> driver = new AndroidDriver(.......`
+`IOSElement el = driver.findElementByAccessiblityId('sample');`
 
 ###Added functions###
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
@@ -92,7 +101,18 @@ Locators:
 - findElementByAndroidUIAutomator()
 - findElementsByAndroidUIAutomator()
 
+## Note to developers! ##
+If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
+If you are using the Eclipse IDE, make sure you are using verison Luna or later.
+
 ##Changelog##
+
+*3.0.0*
+- AppiumDriver class is now a Generic. This allows us to return elements of class MobileElement (and its subclasses) instead of always returning WebElements and requiring users to cast to MobileElement. See https://github.com/appium/java-client/pull/182
+- Full set of Android KeyEvents added.
+- Selenium client version updated to 2.46
+- PageObject enhancements
+- Junit dependency removed
 
 *2.2.0*
 - Added new TouchAction methods for LongPress, on an element, at x,y coordinates, or at an offset from within an element
