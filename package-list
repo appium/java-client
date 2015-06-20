@@ -1,6 +1,7 @@
 io.appium.java_client
 io.appium.java_client.android
 io.appium.java_client.android.internal
+io.appium.java_client.generic.searchcontext
 io.appium.java_client.internal
 io.appium.java_client.ios
 io.appium.java_client.ios.internal

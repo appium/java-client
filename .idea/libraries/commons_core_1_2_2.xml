@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="commons-core-1.2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-core-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-persistence-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-security-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-server-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-test-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-w3c-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-web-1.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-core-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-persistence-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-security-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-server-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-test-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-w3c-1.2.2.jar!/" />
+      <root url="jar://$USER_HOME$/Java/java-commons-1.2.2-with-dependencies/dist/commons-web-1.2.2.jar!/" />
+    </SOURCES>
+  </library>
+</component>
