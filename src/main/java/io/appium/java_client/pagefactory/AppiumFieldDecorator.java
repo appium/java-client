@@ -31,7 +31,7 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
  * {@link MobileElement}, {@link AndroidElement} and {@link IOSElement} are allowed 
  * to use with this decorator
  */
-public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWaitTimeOut {
+public class AppiumFieldDecorator implements FieldDecorator {
 	
 	private static final List<Class<? extends WebElement>> availableElementClasses = 
 			new ArrayList<Class<? extends WebElement>>(){
@@ -66,8 +66,13 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 
 	public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut, TimeUnit timeUnit) {
         this.context = context;
-		factory = new AppiumElementLocatorFactory(this.context, implicitlyWaitTimeOut, timeUnit);
+		factory = new AppiumElementLocatorFactory(this.context, new TimeOutDuration(implicitlyWaitTimeOut, timeUnit));
 	}
+
+    public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
+        this.context = context;
+        factory = new AppiumElementLocatorFactory(this.context, timeOutDuration);
+    }
 	
 	public AppiumFieldDecorator(SearchContext context) {
         this.context = context;
@@ -149,10 +154,5 @@ public class AppiumFieldDecorator implements FieldDecorator, ResetsImplicitlyWai
 		ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
 		return ProxyFactory.getEnhancedProxy(ArrayList.class,
 				elementInterceptor);
-	}
-
-	@Override
-	public void resetImplicitlyWaitTimeOut(long timeOut, TimeUnit timeUnit) {
-		factory.resetImplicitlyWaitTimeOut(timeOut, timeUnit);		
 	}
 }
