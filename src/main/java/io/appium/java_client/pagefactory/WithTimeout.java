@@ -14,6 +14,6 @@ import java.util.concurrent.TimeUnit;
  that differs from defined by default
  */
 public @interface WithTimeout {
-    long timeout();
-    TimeUnit timeUnit();
+    long time();
+    TimeUnit unit();
 }

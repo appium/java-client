@@ -81,7 +81,7 @@ class AppiumElementLocator implements ElementLocator {
 				automation);
         if (field.isAnnotationPresent(WithTimeout.class)){
             WithTimeout withTimeout = field.getAnnotation(WithTimeout.class);
-            this.timeOutDuration = new TimeOutDuration(withTimeout.timeout(), withTimeout.timeUnit());
+            this.timeOutDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
         }
         else
 		    this.timeOutDuration = timeOutDuration;

@@ -28,7 +28,7 @@ public class TimeOutResetTest {
 	@FindBy(className = "OneAnotherClassWhichDoesNotExist")})
 	private List<WebElement> stubElements;
 
-    @WithTimeout(timeout = 5, timeUnit = TimeUnit.SECONDS)
+    @WithTimeout(time = 5, unit = TimeUnit.SECONDS)
     @FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
             @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
     private List<WebElement> stubElements2;
