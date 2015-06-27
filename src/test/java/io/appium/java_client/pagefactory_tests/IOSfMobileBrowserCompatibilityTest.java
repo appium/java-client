@@ -51,7 +51,7 @@ public class IOSfMobileBrowserCompatibilityTest {
 		 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
 		 capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
 		 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-		 driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		 driver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 		 PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
 	}
 

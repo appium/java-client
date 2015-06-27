@@ -1,7 +1,6 @@
 package io.appium.java_client.pagefactory;
 
 import java.lang.reflect.Field;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
