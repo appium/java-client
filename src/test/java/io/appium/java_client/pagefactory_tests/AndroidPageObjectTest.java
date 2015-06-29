@@ -18,7 +18,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.xpath.operations.And;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -343,7 +342,8 @@ public class AndroidPageObjectTest {
 
     @Test
     public void isTheFieldAndroidElement(){
-        AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
+        @SuppressWarnings("unused")
+		AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
         androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement

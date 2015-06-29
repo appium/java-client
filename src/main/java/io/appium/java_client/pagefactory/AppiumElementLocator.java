@@ -51,7 +51,7 @@ class AppiumElementLocator implements ElementLocator {
 	private WebElement cachedElement;
 	private List<WebElement> cachedElementList;
 
-	private final TimeOutContainer timeOutContainer;
+	private final TimeOutDuration timeOutDuration;
 
 	/**
 	 * Creates a new mobile element locator. It instantiates {@link WebElement}
@@ -64,7 +64,7 @@ class AppiumElementLocator implements ElementLocator {
 	 *            The field on the Page Object that will hold the located value
 	 */
 	AppiumElementLocator(SearchContext searchContext, Field field,
-			TimeOutContainer timeOutContainer) {
+			TimeOutDuration timeOutDuration) {
 		this.searchContext = searchContext;
 		// All known webdrivers implement HasCapabilities
 		Capabilities capabilities = ((HasCapabilities) WebDriverUnpackUtility.
@@ -78,7 +78,12 @@ class AppiumElementLocator implements ElementLocator {
 
 		AppiumAnnotations annotations = new AppiumAnnotations(field, platform,
 				automation);
-		this.timeOutContainer = timeOutContainer;
+        if (field.isAnnotationPresent(WithTimeout.class)){
+            WithTimeout withTimeout = field.getAnnotation(WithTimeout.class);
+            this.timeOutDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
+        }
+        else
+		    this.timeOutDuration = timeOutDuration;
 		shouldCache = annotations.isLookupCached();
 		by = annotations.buildBy();
 	}
@@ -98,14 +103,14 @@ class AppiumElementLocator implements ElementLocator {
 		try {
 			changeImplicitlyWaitTimeOut(0, TimeUnit.SECONDS);
 			FluentWait<By> wait = new FluentWait<By>(by);
-			wait.withTimeout(timeOutContainer.getTimeValue(),
-					timeOutContainer.getTimeUnitValue());
+			wait.withTimeout(timeOutDuration.getTime(),
+					timeOutDuration.getTimeUnit());
 			return wait.until(new WaitingFunction(searchContext));
 		} catch (TimeoutException e) {
 			return new ArrayList<WebElement>();
 		} finally {
-			changeImplicitlyWaitTimeOut(timeOutContainer.getTimeValue(),
-					timeOutContainer.getTimeUnitValue());
+			changeImplicitlyWaitTimeOut(timeOutDuration.getTime(),
+					timeOutDuration.getTimeUnit());
 		}
 	}
 

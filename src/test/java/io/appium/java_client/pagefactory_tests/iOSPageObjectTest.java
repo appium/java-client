@@ -2,7 +2,6 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -275,7 +274,8 @@ public class iOSPageObjectTest {
 
     @Test
     public void isTheFieldIOSElement(){
-        IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
+        @SuppressWarnings("unused")
+		IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
         iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
         iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
         iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
