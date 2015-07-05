@@ -22,7 +22,9 @@ class ContentMappedBy extends By {
 		if (!ContextAware.class.isAssignableFrom(driver.getClass())){ //it is desktop browser 
 			return map.get(ContentType.HTML);
 		}
-		
+
+        By result = null;
+
 		ContextAware contextAware = ContextAware.class.cast(driver);
 		String currentContext = contextAware.getContext();
 		if (currentContext.contains(NATIVE_APP_PATTERN))
@@ -34,5 +36,18 @@ class ContentMappedBy extends By {
 	public List<WebElement> findElements(SearchContext context) {
 		return context.findElements(returnRelevantBy(context));
 	}
+
+    @Override
+    public String toString(){
+        By defaultBy = map.get(ContentType.HTML);
+        By nativeBy  = map.get(ContentType.NATIVE);
+
+        if (defaultBy.equals(nativeBy))
+            return defaultBy.toString();
+
+        return  "Locator map: " + "\n" +
+                "- native content: \"" + nativeBy.toString() + "\" \n" +
+                "- html content: \"" + defaultBy.toString() + "\"";
+    }
 
 }

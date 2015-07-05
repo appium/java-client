@@ -160,6 +160,14 @@ public class AndroidPageObjectTest {
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private TouchableElement touchabletextVieW;
+
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    @FindBy(css = "e.e1.e2")
+    private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    @FindBy(css = "e.e1.e2")
+    private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 	
 	@SuppressWarnings("rawtypes")
 	@Before
@@ -347,5 +355,21 @@ public class AndroidPageObjectTest {
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
         androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement
+    }
+
+    @Test
+    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy(){
+        try {
+            Assert.assertNotEquals(null, elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+        }
+        catch (NoSuchElementException ignored){
+            return;
+        }
+        throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
+    }
+
+    @Test
+    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List(){
+        Assert.assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
     }
 }
