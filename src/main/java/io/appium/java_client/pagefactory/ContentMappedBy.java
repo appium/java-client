@@ -23,8 +23,6 @@ class ContentMappedBy extends By {
 			return map.get(ContentType.HTML);
 		}
 
-        By result = null;
-
 		ContextAware contextAware = ContextAware.class.cast(driver);
 		String currentContext = contextAware.getContext();
 		if (currentContext.contains(NATIVE_APP_PATTERN))

@@ -106,8 +106,9 @@ class AppiumElementLocator implements ElementLocator {
         if (IOSDriver.class.isAssignableFrom(driverClass))
             return MobilePlatform.IOS;
 
-        //it is possible that here customers implementation of WebDriver
-        //At this case it has to implement HasCapabilities
+        //it is possible that somebody uses RemoteWebDriver or their
+        //own WebDriver implementation. At this case capabilities are used
+        //to detect platform
         if (HasCapabilities.class.isAssignableFrom(driverClass))
             return String.valueOf(((HasCapabilities) d).getCapabilities().
                     getCapability(MobileCapabilityType.PLATFORM_NAME));
