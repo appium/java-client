@@ -110,6 +110,7 @@ If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 *3.1.1*
 - Page-object findBy strategies are now aware of which driver (iOS or Android) you are using. For more details see the Pull Request: https://github.com/appium/java-client/pull/213
 - If somebody desires to use their own Webdriver implementation then it has to implement HasCapabilities.
+- Added a new annotation: `WithTimeout`. This annotation allows one to specify a specific timeout for finding an element which overrides the drivers default timeout. For more info see: https://github.com/appium/java-client/pull/210
 - Corrected an uninformative Exception message.
 
 *3.0.0*
