@@ -1,6 +1,7 @@
 package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.remote.MobilePlatform.*;
+import static io.appium.java_client.remote.AutomationName.*;
 import io.appium.java_client.MobileBy;
 
 import java.lang.annotation.Annotation;
@@ -300,7 +301,7 @@ class AppiumAnnotations extends Annotations {
 		SelendroidFindBy selendroidBy = mobileField
 				.getAnnotation(SelendroidFindBy.class);
 		if (selendroidBy != null && ANDROID.toUpperCase().equals(platform)
-				&& "Selendroid".toUpperCase().equals(automation)) {
+				&& SELENDROID.toUpperCase().equals(automation)) {
 			return setByForTheNativeContentAndReturn(
 					getMobileBy(selendroidBy, getFilledValue(selendroidBy)),
 					contentMap);
@@ -309,7 +310,7 @@ class AppiumAnnotations extends Annotations {
 		SelendroidFindBys selendroidBys = mobileField
 				.getAnnotation(SelendroidFindBys.class);
 		if (selendroidBys != null && ANDROID.toUpperCase().equals(platform)
-				&& "Selendroid".toUpperCase().equals(automation)) {
+				&& SELENDROID.toUpperCase().equals(automation)) {
 			return setByForTheNativeContentAndReturn(
 					getComplexMobileBy(selendroidBys.value(), ByChained.class),
 					contentMap);
@@ -318,7 +319,7 @@ class AppiumAnnotations extends Annotations {
 		SelendroidFindAll selendroidAll = mobileField
 				.getAnnotation(SelendroidFindAll.class);
 		if (selendroidAll != null && ANDROID.toUpperCase().equals(platform)
-				&& "Selendroid".toUpperCase().equals(automation)) {
+				&& SELENDROID.toUpperCase().equals(automation)) {
 			return setByForTheNativeContentAndReturn(
 					getComplexMobileBy(selendroidAll.value(), ByAll.class),
 					contentMap);

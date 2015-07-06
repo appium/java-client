@@ -1,5 +1,7 @@
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.lang.reflect.Field;
@@ -7,14 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.remote.MobilePlatform;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.ui.FluentWait;
 
@@ -26,6 +22,7 @@ class AppiumElementLocator implements ElementLocator {
 	private static class WaitingFunction implements
 			Function<By, List<WebElement>> {
 		private final SearchContext searchContext;
+        private final static String INVALID_SELECTOR_PATTERN = "Invalid locator strategy:";
 
 		private WaitingFunction(SearchContext searchContext) {
 			this.searchContext = searchContext;
@@ -37,12 +34,26 @@ class AppiumElementLocator implements ElementLocator {
 				result.addAll(searchContext.findElements(by));
 			} catch (StaleElementReferenceException ignored) {
 			}
+            catch (RuntimeException e){
+                if (!isInvalidSelectorRootCause(e))
+                    throw e;
+            }
 			if (result.size() > 0) {
 				return result;
 			} else {
 				return null;
 			}
 		}
+
+        private static boolean isInvalidSelectorRootCause(Throwable e){
+            if (e == null)
+                return false;
+
+            if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN))
+                return true;
+
+            return isInvalidSelectorRootCause(e.getCause());
+        }
 	}
 
 	private final SearchContext searchContext;
@@ -66,15 +77,9 @@ class AppiumElementLocator implements ElementLocator {
 	AppiumElementLocator(SearchContext searchContext, Field field,
 			TimeOutDuration timeOutDuration) {
 		this.searchContext = searchContext;
-		// All known webdrivers implement HasCapabilities
-		Capabilities capabilities = ((HasCapabilities) WebDriverUnpackUtility.
-				unpackWebDriverFromSearchContext(this.searchContext))
-				.getCapabilities();
 
-		String platform = String.valueOf(capabilities
-				.getCapability(MobileCapabilityType.PLATFORM_NAME));
-		String automation = String.valueOf(capabilities
-				.getCapability(MobileCapabilityType.AUTOMATION_NAME));
+		String platform = getPlatform();
+		String automation = getAutomation();
 
 		AppiumAnnotations annotations = new AppiumAnnotations(field, platform,
 				automation);
@@ -87,6 +92,42 @@ class AppiumElementLocator implements ElementLocator {
 		shouldCache = annotations.isLookupCached();
 		by = annotations.buildBy();
 	}
+
+    private String getPlatform(){
+        WebDriver d = WebDriverUnpackUtility.
+                unpackWebDriverFromSearchContext(this.searchContext);
+        if (d == null)
+            return null;
+
+        Class<?> driverClass = d.getClass();
+        if (AndroidDriver.class.isAssignableFrom(driverClass))
+            return MobilePlatform.ANDROID;
+
+        if (IOSDriver.class.isAssignableFrom(driverClass))
+            return MobilePlatform.IOS;
+
+        //it is possible that somebody uses RemoteWebDriver or their
+        //own WebDriver implementation. At this case capabilities are used
+        //to detect platform
+        if (HasCapabilities.class.isAssignableFrom(driverClass))
+            return String.valueOf(((HasCapabilities) d).getCapabilities().
+                    getCapability(MobileCapabilityType.PLATFORM_NAME));
+
+        return null;
+    }
+
+    private String getAutomation(){
+        WebDriver d = WebDriverUnpackUtility.
+                unpackWebDriverFromSearchContext(this.searchContext);
+        if (d == null)
+            return null;
+
+        if (HasCapabilities.class.isAssignableFrom(d.getClass()))
+            return String.valueOf(((HasCapabilities) d).getCapabilities().
+                    getCapability(MobileCapabilityType.AUTOMATION_NAME));
+
+        return null;
+    }
 
 	private void changeImplicitlyWaitTimeOut(long newTimeOut,
 			TimeUnit newTimeUnit) {
