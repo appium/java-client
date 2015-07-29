@@ -732,4 +732,10 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 	protected static boolean _isNotNullOrEmpty(Object ob) {
 		return ob != null;
 	}
+
+    @Override
+    public abstract RequiredElementType scrollTo(String text);
+
+    @Override
+    public  abstract RequiredElementType scrollToExact(String text);
 }
