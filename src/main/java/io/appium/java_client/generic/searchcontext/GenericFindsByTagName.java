@@ -5,6 +5,6 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public interface GenericFindsByTagName<T extends WebElement> {
-    WebElement findElementByTagName(String tagName);
-    List<WebElement> findElementsByTagName(String tagName);
+    T findElementByTagName(String tagName);
+    List<T> findElementsByTagName(String tagName);
 }
