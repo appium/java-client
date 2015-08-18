@@ -31,11 +31,8 @@ abstract class ProxyFactory {
 	}
 	
 	@SuppressWarnings("unchecked")
-	static <T extends Object> T getEnhancedProxy(Class<T> requiredClazz, MethodInterceptor interceptor){
-		Enhancer enhancer = new Enhancer();
-		enhancer.setSuperclass(requiredClazz);
-		enhancer.setCallback(interceptor);
-		return (T) enhancer.create(new Class<?>[] {}, new Object[] {});
+	public static <T> T getEnhancedProxy(Class<T> requiredClazz, MethodInterceptor interceptor){
+		return (T) Enhancer.create(requiredClazz, interceptor);
 	}
 
 }

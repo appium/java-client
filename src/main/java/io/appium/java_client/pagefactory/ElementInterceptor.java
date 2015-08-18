@@ -20,21 +20,33 @@ import io.appium.java_client.MobileElement;
 
 import java.lang.reflect.Method;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
+import static io.appium.java_client.pagefactory.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
+
 /**
  * Intercepts requests to {@link MobileElement}
  *
  */
-class ElementInterceptor implements MethodInterceptor {
+class ElementInterceptor<T extends MobileElement> implements MethodInterceptor {
     private final ElementLocator locator;
+	private final Class<T> elementClass;
+	private final String elementName;
+
+	private WebElement element;
 	
-	ElementInterceptor(ElementLocator locator) {
+	ElementInterceptor(Class<T> clazz, ElementLocator locator, String name) {
+		this.elementClass = clazz;
 		this.locator = locator;
+		this.elementName = name;
 	}
 	
 	public Object intercept(Object obj, Method method, Object[] args,
@@ -42,9 +54,34 @@ class ElementInterceptor implements MethodInterceptor {
         if(Object.class.getDeclaredMethod("finalize").equals(method)){
             return proxy.invokeSuper(obj, args);  //invokes .finalize of the proxy-object
         }
-
-		WebElement realElement = locator.findElement();
-		return method.invoke(realElement, args);
+        if("toString".equals(method.getName())){
+            return elementName;
+        }
+		try {
+			if("getWrappedDriver".equals(method.getName())) {
+				element.getSize();
+			}
+			Object result = method.invoke(element, args);
+			if("isDisplayed".equals(method.getName()) && result.equals(false)) {
+				element.getSize();
+			}
+			return result;
+		} catch (Exception e) {
+			Object objToInvokeOn;
+			element = locator.findElement();
+			if (AppiumElementUtils.isDecoratableElement(method.getDeclaringClass())) {
+				objToInvokeOn = element;
+			} else {
+				T instance = elementClass.newInstance();
+				if (RemoteWebElement.class.isAssignableFrom(element.getClass())) {
+					instance.setId(((RemoteWebElement) element).getId());
+					instance.setParent((RemoteWebDriver) unpackWebDriverFromSearchContext(element));
+				}
+				PageFactory.initElements(new AppiumFieldDecorator(element), instance);
+				objToInvokeOn = instance;
+			}
+			return method.invoke(objToInvokeOn, args);
+		}
 	}
 
 }

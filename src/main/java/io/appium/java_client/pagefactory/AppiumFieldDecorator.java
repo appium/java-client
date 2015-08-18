@@ -23,6 +23,7 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -32,8 +33,11 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
+
+import static io.appium.java_client.pagefactory.AppiumElementUtils.getGenericParameterClass;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -47,20 +51,6 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
  * to use with this decorator
  */
 public class AppiumFieldDecorator implements FieldDecorator {
-	
-	private static final List<Class<? extends WebElement>> availableElementClasses = 
-			new ArrayList<Class<? extends WebElement>>(){
-				private static final long serialVersionUID = 1L;
-				{
-					add(WebElement.class);
-					add(RemoteWebElement.class);
-					add(MobileElement.class);
-                    add(TouchableElement.class);
-					add(AndroidElement.class);
-					add(IOSElement.class);
-				}
-		
-	};
 
     private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>> elementRuleMap =
             new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>(){
@@ -95,53 +85,50 @@ public class AppiumFieldDecorator implements FieldDecorator {
 	}
 
 	public Object decorate(ClassLoader ignored, Field field) {
-		if (!(availableElementClasses.contains(field.getType()) || isDecoratableList(field))) {
-			return null;
+		ElementLocator locator;
+		String name = getName(field);
+		if (AppiumElementUtils.isDecoratableElement(field)) {
+			locator = factory.createLocator(field);
+			return proxyForLocator(getTypeForProxy(), locator, name);
 		}
-
-		ElementLocator locator = factory.createLocator(field);
-		if (locator == null) {
-			return null;
+		if (AppiumElementUtils.isDecoratableList(field)) {
+			locator = factory.createLocator(field);
+			return proxyForListLocator(locator, name);
 		}
-
-		if (WebElement.class.isAssignableFrom(field.getType())) {
-			return proxyForLocator(locator);
-		} else if (List.class.isAssignableFrom(field.getType())) {
-			return  proxyForListLocator(locator);
-		} else {
-			return null;
-		}
-	}
-
-	private static boolean isAvailableElementClass(Type type){	
-		boolean result = false;
-		for (Class<? extends WebElement> webElementClass: 
-			availableElementClasses){
-			if (!webElementClass.equals(type)){
-				continue;
+		if(AppiumElementUtils.isDecoratableMobileElement(field)) {
+			locator = factory.createLocator(field.getType());
+			for (Class annotation : Annotations.FIND_BY) {
+				if (field.isAnnotationPresent(annotation)) {
+					locator = factory.createLocator(field);
+					break;
+				}
 			}
-			result = true;
-			break;
+			MobileElement element = (MobileElement) proxyForLocator(field.getType(), locator, name);
+			PageFactory.initElements(new AppiumFieldDecorator(element), element);
+			return element;
 		}
-		return result;
+		if(AppiumElementUtils.isDecoratableMobileElementsList(field)) {
+			Class<? extends MobileElement> clazz = AppiumElementUtils.getGenericParameterClass(field);
+			locator = factory.createLocator(clazz);
+			return proxyForListLocator(clazz, locator, name);
+		}
+		return null;
 	}
-	
-	private boolean isDecoratableList(Field field) {
-		if (!List.class.isAssignableFrom(field.getType())) {
-			return false;
-		}
 
-		// Type erasure in Java isn't complete. Attempt to discover the generic
-		// type of the list.
-		Type genericType = field.getGenericType();
-		if (!(genericType instanceof ParameterizedType)) {
-			return false;
+	private String getName(Field field) {
+		if(field.isAnnotationPresent(Name.class)) {
+			return field.getAnnotation(Name.class).value();
 		}
-
-		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];	
-		return isAvailableElementClass(listType);		
-		//if there is no annotation list is supposed to be found by org.openqa.selenium.support.ByIdOrName
-		//DefaultElementLocator has an issue :)
+		if(field.getType().isAnnotationPresent(Name.class)) {
+			return field.getType().getAnnotation(Name.class).value();
+		}
+		if(AppiumElementUtils.isDecoratableList(field)) {
+			Class<?> clazz = getGenericParameterClass(field);
+			if(clazz.isAnnotationPresent(Name.class)) {
+				return clazz.getAnnotation(Name.class).value();
+			}
+		}
+		return field.getName();
 	}
 
     private Class<?> getTypeForProxy(){
@@ -154,20 +141,24 @@ public class AppiumFieldDecorator implements FieldDecorator {
             if (e.getKey().isAssignableFrom(contextClass))
                 return e.getValue();
         } //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
-        return RemoteWebElement.class;
+        return RemoteWebElement.class; // будет всегда возвращать у дочерних элементов, потому-что левый класс не привести к AndroidElement
     }
 
-	private Object proxyForLocator(ElementLocator locator) {
-		ElementInterceptor elementInterceptor = new ElementInterceptor(locator);
-		return ProxyFactory.getEnhancedProxy(getTypeForProxy(),
-				elementInterceptor);
+	@SuppressWarnings("unchecked")
+	private Object proxyForLocator(Class<?> clazz, ElementLocator locator, String name) {
+		ElementInterceptor elementInterceptor = new ElementInterceptor(clazz, locator, name);
+		return ProxyFactory.getEnhancedProxy(clazz, elementInterceptor);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<WebElement> proxyForListLocator(
-			ElementLocator locator) {
-		ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
-		return ProxyFactory.getEnhancedProxy(ArrayList.class,
-				elementInterceptor);
+	private List<? extends WebElement> proxyForListLocator(ElementLocator locator, String name) {
+		ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator, name);
+		return ProxyFactory.getEnhancedProxy(ArrayList.class, elementInterceptor);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T extends MobileElement> List<T> proxyForListLocator(Class<T> clazz, ElementLocator locator, String name) {
+		MobileElementListInterceptor elementInterceptor = new MobileElementListInterceptor<>(clazz, locator, name);
+		return ProxyFactory.getEnhancedProxy(ArrayList.class, elementInterceptor);
 	}
 }

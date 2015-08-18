@@ -21,21 +21,24 @@ import static io.appium.java_client.remote.AutomationName.*;
 import io.appium.java_client.MobileBy;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ByIdOrName;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 import org.openqa.selenium.support.pagefactory.Annotations;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
-class AppiumAnnotations extends Annotations {
+class AppiumAnnotations extends AbstractAnnotations {
 
 	private final static List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ = new ArrayList<String>() {
 		private static final long serialVersionUID = 1L;
@@ -167,13 +170,18 @@ class AppiumAnnotations extends Annotations {
 		}
 	}
 
-	private final Field mobileField;
+	private final AnnotatedElement annotated;
 	private final String platform;
 	private final String automation;
 
 	AppiumAnnotations(Field field, String platform, String automation) {
-		super(field);
-		mobileField = field;
+		annotated = field;
+		this.platform = String.valueOf(platform).toUpperCase().trim();
+		this.automation = String.valueOf(automation).toUpperCase().trim();
+	}
+
+	<T extends MobileElement> AppiumAnnotations(Class<T> clazz, String platform, String automation) {
+		annotated = clazz;
 		this.platform = String.valueOf(platform).toUpperCase().trim();
 		this.automation = String.valueOf(automation).toUpperCase().trim();
 	}
@@ -188,25 +196,24 @@ class AppiumAnnotations extends Annotations {
 		}
 	}
 
-	@Override
 	protected void assertValidAnnotations() {
-		AndroidFindBy androidBy = mobileField
+		AndroidFindBy androidBy = annotated
 				.getAnnotation(AndroidFindBy.class);
-		AndroidFindBys androidBys = mobileField
+		AndroidFindBys androidBys = annotated
 				.getAnnotation(AndroidFindBys.class);
-		AndroidFindAll androidFindAll = mobileField
+		AndroidFindAll androidFindAll = annotated
 				.getAnnotation(AndroidFindAll.class);
 
-		SelendroidFindBy selendroidBy = mobileField
+		SelendroidFindBy selendroidBy = annotated
 				.getAnnotation(SelendroidFindBy.class);
-		SelendroidFindBys selendroidBys = mobileField
+		SelendroidFindBys selendroidBys = annotated
 				.getAnnotation(SelendroidFindBys.class);
-		SelendroidFindAll selendroidFindAll = mobileField
+		SelendroidFindAll selendroidFindAll = annotated
 				.getAnnotation(SelendroidFindAll.class);
 
-		iOSFindBy iOSBy = mobileField.getAnnotation(iOSFindBy.class);
-		iOSFindBys iOSBys = mobileField.getAnnotation(iOSFindBys.class);
-		iOSFindAll iOSFindAll = mobileField.getAnnotation(iOSFindAll.class);
+		iOSFindBy iOSBy = annotated.getAnnotation(iOSFindBy.class);
+		iOSFindBys iOSBys = annotated.getAnnotation(iOSFindBys.class);
+		iOSFindAll iOSFindAll = annotated.getAnnotation(iOSFindAll.class);
 
 		checkDisallowedAnnotationPairs(androidBy, androidBys);
 		checkDisallowedAnnotationPairs(androidBy, androidFindAll);
@@ -219,7 +226,6 @@ class AppiumAnnotations extends Annotations {
 		checkDisallowedAnnotationPairs(iOSBy, iOSBys);
 		checkDisallowedAnnotationPairs(iOSBy, iOSFindAll);
 		checkDisallowedAnnotationPairs(iOSBys, iOSFindAll);
-		super.assertValidAnnotations();
 	}
 
 	private static Method[] prepareAnnotationMethods(
@@ -305,16 +311,21 @@ class AppiumAnnotations extends Annotations {
 
 	@Override
 	public By buildBy() {
-
+		FindBy findBy = annotated.getAnnotation(FindBy.class);
+		FindBys findBys = annotated.getAnnotation(FindBys.class);
+		String name = Field.class.isAssignableFrom(annotated.getClass()) ? ((Field) annotated).getName() :
+				((Class) annotated).getName();
 		Map<ContentType, By> contentMap = new HashMap<ContentType, By>();
 
-		By defaultBy = super.buildBy();
+		By defaultBy = new ByIdOrName(name);
+		if(findBys != null) defaultBy = buildByFromFindBys(findBys);
+		if(findBy != null) defaultBy = buildByFromFindBy(findBy);
 		contentMap.put(ContentType.HTML, defaultBy);
 		contentMap.put(ContentType.NATIVE, defaultBy);
 
 		assertValidAnnotations();
 
-		SelendroidFindBy selendroidBy = mobileField
+		SelendroidFindBy selendroidBy = annotated
 				.getAnnotation(SelendroidFindBy.class);
 		if (selendroidBy != null && ANDROID.toUpperCase().equals(platform)
 				&& SELENDROID.toUpperCase().equals(automation)) {
@@ -323,7 +334,7 @@ class AppiumAnnotations extends Annotations {
 					contentMap);
 		}
 
-		SelendroidFindBys selendroidBys = mobileField
+		SelendroidFindBys selendroidBys = annotated
 				.getAnnotation(SelendroidFindBys.class);
 		if (selendroidBys != null && ANDROID.toUpperCase().equals(platform)
 				&& SELENDROID.toUpperCase().equals(automation)) {
@@ -332,7 +343,7 @@ class AppiumAnnotations extends Annotations {
 					contentMap);
 		}
 
-		SelendroidFindAll selendroidAll = mobileField
+		SelendroidFindAll selendroidAll = annotated
 				.getAnnotation(SelendroidFindAll.class);
 		if (selendroidAll != null && ANDROID.toUpperCase().equals(platform)
 				&& SELENDROID.toUpperCase().equals(automation)) {
@@ -341,7 +352,7 @@ class AppiumAnnotations extends Annotations {
 					contentMap);
 		}
 
-		AndroidFindBy androidBy = mobileField
+		AndroidFindBy androidBy = annotated
 				.getAnnotation(AndroidFindBy.class);
 		if (androidBy != null && ANDROID.toUpperCase().equals(platform)) {
 			return setByForTheNativeContentAndReturn(
@@ -349,7 +360,7 @@ class AppiumAnnotations extends Annotations {
 					contentMap);
 		}
 
-		AndroidFindBys androidBys = mobileField
+		AndroidFindBys androidBys = annotated
 				.getAnnotation(AndroidFindBys.class);
 		if (androidBys != null && ANDROID.toUpperCase().equals(platform)) {
 			return setByForTheNativeContentAndReturn(
@@ -357,7 +368,7 @@ class AppiumAnnotations extends Annotations {
 					contentMap);
 		}
 
-		AndroidFindAll androidFindAll = mobileField
+		AndroidFindAll androidFindAll = annotated
 				.getAnnotation(AndroidFindAll.class);
 		if (androidFindAll != null && ANDROID.toUpperCase().equals(platform)) {
 			return setByForTheNativeContentAndReturn(
@@ -365,21 +376,21 @@ class AppiumAnnotations extends Annotations {
 					contentMap);
 		}
 
-		iOSFindBy iOSBy = mobileField.getAnnotation(iOSFindBy.class);
+		iOSFindBy iOSBy = annotated.getAnnotation(iOSFindBy.class);
 		if (iOSBy != null && IOS.toUpperCase().equals(platform)) {
 			return setByForTheNativeContentAndReturn(
 					getMobileBy(iOSBy, getFilledValue(iOSBy)),
 					contentMap);
 		}
 
-		iOSFindBys iOSBys = mobileField.getAnnotation(iOSFindBys.class);
+		iOSFindBys iOSBys = annotated.getAnnotation(iOSFindBys.class);
 		if (iOSBys != null && IOS.toUpperCase().equals(platform)) {
 			return setByForTheNativeContentAndReturn(
 					getComplexMobileBy(iOSBys.value(), ByChained.class),
 					contentMap);
 		}
 
-		iOSFindAll iOSFindAll = mobileField.getAnnotation(iOSFindAll.class);
+		iOSFindAll iOSFindAll = annotated.getAnnotation(iOSFindAll.class);
 		if (iOSFindAll != null && IOS.toUpperCase().equals(platform)) {
 			return setByForTheNativeContentAndReturn(
 					getComplexMobileBy(iOSFindAll.value(), ByAll.class),
@@ -389,4 +400,9 @@ class AppiumAnnotations extends Annotations {
 		return new ContentMappedBy(contentMap);
 	}
 
+
+	@Override
+	public boolean isLookupCached() {
+		return false;
+	}
 }

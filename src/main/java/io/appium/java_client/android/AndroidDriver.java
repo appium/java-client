@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
+import io.appium.java_client.DisplayMetrics;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
@@ -31,19 +32,34 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
 
+import java.awt.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.MobileCommand.ADB_SWIPE;
+import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
+import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
+import static io.appium.java_client.MobileCommand.SWIPE_UP_HOME_BUTTON;
+import static io.appium.java_client.MobileCommand.BROADCAST_INTENT;
+import static io.appium.java_client.MobileCommand.CLEAR_DATA;
 import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
 import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
 import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.IS_LOCKED;
+import static io.appium.java_client.MobileCommand.IS_SOFT_KEYBOARD_PRESENT;
+import static io.appium.java_client.MobileCommand.LIST_FILES;
 import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
 import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.PUSH_FILE;
+import static io.appium.java_client.MobileCommand.REMOVE_FILE;
+import static io.appium.java_client.MobileCommand.REPLACE_APP;
 import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import static io.appium.java_client.MobileCommand.STOP_APP;
 import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_PACKAGE;
@@ -63,7 +79,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.DONT_STOP_APP_ON
  * {@link AndroidElement}
  */
 public class AndroidDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements
-		AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles,
+		AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, CustomCommands,
 		StartsActivity, FindsByAndroidUIAutomator<RequiredElementType> {
 
 	private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
@@ -376,6 +392,77 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	@Override
 	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) throws WebDriverException {
 		return (List<RequiredElementType>) findElements("-android uiautomator", using);
-	}	
+	}
 
+	public void stopApp() {
+		execute(STOP_APP);
+	}
+
+	public void stopApp(String pkg) {
+		execute(STOP_APP, ImmutableMap.of("pkg", pkg));
+	}
+
+	public void replaceApp(String appPath) {
+		execute(REPLACE_APP, ImmutableMap.of("appPath", appPath));
+	}
+
+	public List<String> listFiles(String dir) {
+		Response response = execute(LIST_FILES, ImmutableMap.of(PATH, dir));
+		return (List<String>) response.getValue();
+	}
+
+	public void removeFile(String path) {
+		execute(REMOVE_FILE, ImmutableMap.of(PATH, path));
+	}
+
+	public boolean isSoftKeyboardPresent() {
+		Response response = execute(IS_SOFT_KEYBOARD_PRESENT);
+		return (boolean) response.getValue();
+	}
+
+	public void broadcastIntent(String intent, String receiver, HashMap<String, Object> keys) {
+		String[] parameters = new String[] { "intent", "receiver", "keys" };
+		Object[] values = new Object[] { intent, receiver, keys };
+		execute(BROADCAST_INTENT, getCommandImmutableMap(parameters, values));
+	}
+
+	public void clearData() {
+		execute(CLEAR_DATA);
+	}
+
+	public void clearData(String pkg) {
+		execute(CLEAR_DATA, ImmutableMap.of("pkg", pkg));
+	}
+
+	public void swipeUpHomeButton() {
+		execute(SWIPE_UP_HOME_BUTTON);
+	}
+
+	public void adbSwipe(int x1, int y1, int x2, int y2, int duration) {
+		String[] parameters = new String[] { "x1", "y1", "x2", "y2", "duration" };
+		Object[] values = new Object[] { x1, y1, x2, y2, duration };
+		execute(ADB_SWIPE, getCommandImmutableMap(parameters, values));
+	}
+
+	public void adbSwipe(int x1, int y1, int x2, int y2, int duration, int sleep) {
+		String[] parameters = new String[] { "x1", "y1", "x2", "y2", "duration", "sleep"};
+		Object[] values = new Object[] { x1, y1, x2, y2, duration, sleep };
+		execute(ADB_SWIPE, getCommandImmutableMap(parameters, values));
+	}
+
+	public Rectangle getNavigationBarRegion() {
+		Response response = execute(GET_NAVIGATION_BAR_REGION);
+		ArrayList<String> data = (ArrayList<String>) response.getValue();
+		int x = Integer.parseInt(data.get(0));
+		int y = Integer.parseInt(data.get(1));
+		int width = Integer.parseInt(data.get(2)) - x;
+		int height = Integer.parseInt(data.get(3)) - y;
+		return new Rectangle(x, y, width, height);
+	}
+
+	public DisplayMetrics getDisplayMetrics() {
+		Response response = execute(GET_DISPLAY_METRICS);
+		Map<String, String> map = (Map<String, String>) response.getValue();
+		return new DisplayMetrics(map);
+	}
 }

@@ -21,7 +21,7 @@
 
     <groupId>io.appium</groupId>
     <artifactId>java-client</artifactId>
-    <version>3.2.0</version>
+    <version>3.2.1-YNDX-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -94,7 +94,7 @@
         </developer>
 	</developers>
 
-	<distributionManagement>
+	<!--distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -103,6 +103,18 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+	</distributionManagement-->
+	<distributionManagement>
+		<repository>
+			<id>yandex_qa_releases</id>
+			<name>Releases</name>
+			<url>${releases-repo}</url>
+		</repository>
+		<snapshotRepository>
+			<id>yandex_qa_snapshots</id>
+			<name>Snapshots</name>
+			<url>${snapshots-repo}</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<build>
@@ -133,7 +145,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>
@@ -146,7 +158,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

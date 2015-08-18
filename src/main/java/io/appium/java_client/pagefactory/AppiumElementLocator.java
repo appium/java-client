@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -31,6 +32,9 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import com.google.common.base.Function;
+
+import static io.appium.java_client.pagefactory.AppiumElementUtils.isAndroidElement;
+import static io.appium.java_client.pagefactory.AppiumElementUtils.isIOSElement;
 
 class AppiumElementLocator implements ElementLocator {
 
@@ -75,10 +79,9 @@ class AppiumElementLocator implements ElementLocator {
 	private final SearchContext searchContext;
 	private final boolean shouldCache;
 	private final By by;
+	private final TimeOutDuration timeOutDuration;
 	private WebElement cachedElement;
 	private List<WebElement> cachedElementList;
-
-	private final TimeOutDuration timeOutDuration;
 
 	/**
 	 * Creates a new mobile element locator. It instantiates {@link WebElement}
@@ -92,13 +95,21 @@ class AppiumElementLocator implements ElementLocator {
 	 */
 	AppiumElementLocator(SearchContext searchContext, Field field,
 			TimeOutDuration timeOutDuration) {
+		this(searchContext, field, timeOutDuration, getAutomation(searchContext));
+	}
+
+	<T extends MobileElement> AppiumElementLocator(SearchContext searchContext, Class<T> clazz,
+												   TimeOutDuration timeOutDuration) {
+		this(searchContext, clazz, timeOutDuration, getAutomation(searchContext));
+	}
+
+	AppiumElementLocator(SearchContext searchContext, Field field,
+			TimeOutDuration timeOutDuration, String automation) {
 		this.searchContext = searchContext;
 
 		String platform = getPlatform();
-		String automation = getAutomation();
 
-		AppiumAnnotations annotations = new AppiumAnnotations(field, platform,
-				automation);
+		AppiumAnnotations annotations = new AppiumAnnotations(field, platform, automation);
         if (field.isAnnotationPresent(WithTimeout.class)){
             WithTimeout withTimeout = field.getAnnotation(WithTimeout.class);
             this.timeOutDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
@@ -109,32 +120,62 @@ class AppiumElementLocator implements ElementLocator {
 		by = annotations.buildBy();
 	}
 
-    private String getPlatform(){
-        WebDriver d = WebDriverUnpackUtility.
-                unpackWebDriverFromSearchContext(this.searchContext);
-        if (d == null)
-            return null;
+	<T extends MobileElement> AppiumElementLocator(SearchContext searchContext, Class<T> clazz,
+			TimeOutDuration timeOutDuration, String automation) {
+		this.searchContext = searchContext;
 
-        Class<?> driverClass = d.getClass();
+		String platform = getPlatform();
+
+		AppiumAnnotations annotations = new AppiumAnnotations(clazz, platform, automation);
+        if (clazz.isAnnotationPresent(WithTimeout.class)){
+            WithTimeout withTimeout = clazz.getAnnotation(WithTimeout.class);
+            this.timeOutDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
+        }
+        else
+		    this.timeOutDuration = timeOutDuration;
+		shouldCache = annotations.isLookupCached();
+		by = annotations.buildBy();
+	}
+
+	private Class<? extends WebDriver> getDriverClass() {
+		Class<?> contextClass = this.searchContext.getClass();
+		if(isIOSElement(contextClass))
+			return IOSDriver.class;
+		if(isAndroidElement(contextClass))
+			return AndroidDriver.class;
+		WebDriver d = WebDriverUnpackUtility.unpackWebDriverFromSearchContext(this.searchContext);
+		if (d == null) {
+			return null;
+		} else {
+			return d.getClass();
+		}
+	}
+
+    private String getPlatform(){
+        Class<?> driverClass = getDriverClass();
+		if (driverClass == null)
+			return null;
         if (AndroidDriver.class.isAssignableFrom(driverClass))
             return MobilePlatform.ANDROID;
-
         if (IOSDriver.class.isAssignableFrom(driverClass))
             return MobilePlatform.IOS;
 
         //it is possible that somebody uses RemoteWebDriver or their
         //own WebDriver implementation. At this case capabilities are used
         //to detect platform
-        if (HasCapabilities.class.isAssignableFrom(driverClass))
+		WebDriver d = WebDriverUnpackUtility.unpackWebDriverFromSearchContext(this.searchContext);
+        if (HasCapabilities.class.isAssignableFrom(d.getClass()))
             return String.valueOf(((HasCapabilities) d).getCapabilities().
                     getCapability(MobileCapabilityType.PLATFORM_NAME));
 
         return null;
     }
 
-    private String getAutomation(){
-        WebDriver d = WebDriverUnpackUtility.
-                unpackWebDriverFromSearchContext(this.searchContext);
+    public static String getAutomation(SearchContext searchContext){
+        WebDriver d = null;
+		try {
+			d = WebDriverUnpackUtility.unpackWebDriverFromSearchContext(searchContext);
+		} catch (Exception e) {}
         if (d == null)
             return null;
 

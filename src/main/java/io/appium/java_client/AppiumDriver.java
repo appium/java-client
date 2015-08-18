@@ -630,27 +630,27 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .builder();
         builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
                 .put(GET_STRINGS,
-                        postC("/session/:sessionId/appium/app/strings"))
+						postC("/session/:sessionId/appium/app/strings"))
                 .put(PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/press_keycode"))
+						postC("/session/:sessionId/appium/device/press_keycode"))
                 .put(LONG_PRESS_KEY_CODE,
-                        postC("/session/:sessionId?/appium/device/long_press_keycode"))
+						postC("/session/:sessionId?/appium/device/long_press_keycode"))
                 .put(CURRENT_ACTIVITY,
-                        getC("/session/:sessionId/appium/device/current_activity"))
+						getC("/session/:sessionId/appium/device/current_activity"))
                 .put(SET_VALUE,
                         postC("/session/:sessionId/appium/element/:id/value"))
 				.put(REPLACE_VALUE,
 						postC("/session/:sessionId/appium/element/:id/replace_value"))
 				.put(PULL_FILE,
-                        postC("/session/:sessionId/appium/device/pull_file"))
+						postC("/session/:sessionId/appium/device/pull_file"))
                 .put(PULL_FOLDER,
-                        postC("/session/:sessionId/appium/device/pull_folder"))
+						postC("/session/:sessionId/appium/device/pull_folder"))
                 .put(HIDE_KEYBOARD,
-                        postC("/session/:sessionId/appium/device/hide_keyboard"))
+						postC("/session/:sessionId/appium/device/hide_keyboard"))
                 .put(PUSH_FILE,
-                        postC("/session/:sessionId/appium/device/push_file"))
+						postC("/session/:sessionId/appium/device/push_file"))
                 .put(RUN_APP_IN_BACKGROUND,
-                        postC("/session/:sessionId/appium/app/background"))
+						postC("/session/:sessionId/appium/app/background"))
                 .put(PERFORM_TOUCH_ACTION,
                         postC("/session/:sessionId/touch/perform"))
                 .put(PERFORM_MULTI_TOUCH,
@@ -681,7 +681,18 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
                 .put(START_ACTIVITY,
                         postC("/session/:sessionId/appium/device/start_activity"))
-                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"));
+                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"))
+                .put(STOP_APP, postC("/session/:sessionId/appium/device/stop_app"))
+                .put(REPLACE_APP, postC("/session/:sessionId/appium/device/replace_app"))
+                .put(REMOVE_FILE, postC("/session/:sessionId/appium/device/remove_file"))
+                .put(BROADCAST_INTENT, postC("/session/:sessionId/appium/device/broadcast_intent"))
+                .put(LIST_FILES, postC("/session/:sessionId/appium/device/list_files"))
+                .put(SWIPE_UP_HOME_BUTTON, postC("/session/:sessionId/appium/device/swipe_up_home_button"))
+                .put(CLEAR_DATA, postC("/session/:sessionId/appium/device/clear_data"))
+                .put(ADB_SWIPE, postC("/session/:sessionId/appium/device/adb_swipe"))
+                .put(GET_NAVIGATION_BAR_REGION, getC("/session/:sessionId/appium/device/get_navigation_bar_region"))
+                .put(GET_DISPLAY_METRICS, getC("/session/:sessionId/appium/device/get_display_metrics"))
+                .put(IS_SOFT_KEYBOARD_PRESENT, getC("/session/:sessionId/appium/device/is_soft_keyboard_present"));
 
         return builder.build();
     }

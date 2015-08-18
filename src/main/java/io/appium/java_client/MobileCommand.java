@@ -54,5 +54,15 @@ public interface MobileCommand {
   String SET_SETTINGS = "setSettings";
   String START_ACTIVITY = "startActivity";
   String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
-
+  String STOP_APP = "stopApp";
+  String REPLACE_APP = "replaceApp";
+  String REMOVE_FILE = "removeFile";
+  String BROADCAST_INTENT = "broadcastIntent";
+  String LIST_FILES = "listFiles";
+  String IS_SOFT_KEYBOARD_PRESENT = "isSoftKeyboardPresent";
+  String CLEAR_DATA = "clearData";
+  String SWIPE_UP_HOME_BUTTON = "swipeUpHomeButton";
+  String ADB_SWIPE = "adbSwipe";
+  String GET_NAVIGATION_BAR_REGION = "getNavigationBarRegion";
+  String GET_DISPLAY_METRICS = "getDisplayMetrics";
 }
