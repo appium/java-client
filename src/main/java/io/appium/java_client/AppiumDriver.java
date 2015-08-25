@@ -717,12 +717,14 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 		return remoteAddress;
 	}
 
+	public abstract void sendKeyEvent(int key);
+
 	/**
 	 * Checks if a string is null, empty, or whitespace.
-	 * 
+	 *
 	 * @param str
 	 *            String to check.
-	 * 
+	 *
 	 * @return True if str is not null or empty.
 	 */
 	protected static boolean _isNotNullOrEmpty(String str) {

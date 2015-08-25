@@ -10,6 +10,7 @@ import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebElement;
 
 import java.net.URL;
@@ -62,7 +63,12 @@ FindsByIosUIAutomation<RequiredElementType>{
 			  findElementByClassName("UIATableView")).scrollToExact(text);
    }
 
-   /**
+	@Override
+	public void sendKeyEvent(int key) {
+		throw new UnsupportedCommandException();
+	}
+
+	/**
 	 * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
 	 */
 	@Override
