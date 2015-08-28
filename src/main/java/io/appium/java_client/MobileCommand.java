@@ -26,7 +26,8 @@ public interface MobileCommand {
 
   String RESET = "reset";
   String GET_STRINGS = "getStrings";
-  String KEY_EVENT = "keyEvent";
+  String PRESS_KEY_CODE = "pressKeyCode";
+  String LONG_PRESS_KEY_CODE = "longPressKeyCode";
   String CURRENT_ACTIVITY = "currentActivity";
   String SET_VALUE = "setValue";
   String PULL_FILE = "pullFile";
@@ -53,4 +54,5 @@ public interface MobileCommand {
   String SET_SETTINGS = "setSettings";
   String START_ACTIVITY = "startActivity";
   String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
+
 }

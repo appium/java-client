@@ -117,7 +117,7 @@ public class AndroidGestureTest {
 	e2.swipe(SwipeElementDirection.LEFT, 10, 20, 1000);
     System.out.println("LEFT Right border - 10 Left border + 20");
     
-    driver.sendKeyEvent(AndroidKeyCode.BACK);
+    driver.pressKeyCode(AndroidKeyCode.BACK);
     e2 = driver.findElementByClassName("android.widget.TextView");
 	e2.swipe(SwipeElementDirection.DOWN,1000);    
 	System.out.println("DOWN");

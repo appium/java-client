@@ -28,7 +28,8 @@ import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
 import static io.appium.java_client.MobileCommand.INSTALL_APP;
 import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
 import static io.appium.java_client.MobileCommand.IS_LOCKED;
-import static io.appium.java_client.MobileCommand.KEY_EVENT;
+import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.LAUNCH_APP;
 import static io.appium.java_client.MobileCommand.LOCK;
 import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
@@ -210,8 +211,10 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 		builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
 				.put(GET_STRINGS,
 						postC("/session/:sessionId/appium/app/strings"))
-				.put(KEY_EVENT,
-						postC("/session/:sessionId/appium/device/keyevent"))
+				.put(PRESS_KEY_CODE,
+						postC("/session/:sessionId/appium/device/press_keycode"))
+				.put(LONG_PRESS_KEY_CODE,
+						postC("/session/:sessionId?/appium/device/long_press_keycode"))
 				.put(CURRENT_ACTIVITY,
 						getC("/session/:sessionId/appium/device/current_activity"))
 				.put(SET_VALUE,
