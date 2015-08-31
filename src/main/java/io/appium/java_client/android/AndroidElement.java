@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 
 
@@ -26,4 +28,10 @@ public class AndroidElement extends MobileElement implements
 		return result;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void replaceValue(String value) {
+		ImmutableMap.Builder builder = ImmutableMap.builder();
+		builder.put("id", getId()).put("value", new String[] { value });
+		execute(MobileCommand.REPLACE_VALUE, builder.build());
+	}
 }
