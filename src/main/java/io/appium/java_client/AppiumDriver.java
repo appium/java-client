@@ -38,6 +38,7 @@ import static io.appium.java_client.MobileCommand.PULL_FILE;
 import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 import static io.appium.java_client.MobileCommand.PUSH_FILE;
 import static io.appium.java_client.MobileCommand.REMOVE_APP;
+import static io.appium.java_client.MobileCommand.REPLACE_VALUE;
 import static io.appium.java_client.MobileCommand.RESET;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
@@ -216,6 +217,8 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 						getC("/session/:sessionId/appium/device/current_activity"))
 				.put(SET_VALUE,
 						postC("/session/:sessionId/appium/element/:id/value"))
+				.put(REPLACE_VALUE,
+						postC("/session/:sessionId/appium/element/:id/replace_value"))
 				.put(PULL_FILE,
 						postC("/session/:sessionId/appium/device/pull_file"))
 				.put(PULL_FOLDER,
