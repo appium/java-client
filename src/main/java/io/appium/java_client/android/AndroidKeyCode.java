@@ -28,6 +28,7 @@ public interface AndroidKeyCode {
   int ENTER = 66;
   int HOME = 3;
   int MENU = 82;
+  int SEARCH = 84;
   int SETTINGS = 176;
   int SPACE = 62;
 
