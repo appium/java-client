@@ -14,14 +14,11 @@ import io.appium.java_client.pagefactory.iOSFindBys;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,7 +29,10 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AndroidPageObjectTest {
 
-	private WebDriver driver;
+	private static WebDriver driver;
+    private static AppiumDriverLocalService service;
+    private boolean populated = false;
+
 	@FindBy(className = "android.widget.TextView")
 	private List<WebElement> textVieWs;
 
@@ -170,22 +170,35 @@ public class AndroidPageObjectTest {
     private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 	
 	@SuppressWarnings("rawtypes")
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+
 	    File appDir = new File("src/test/java/io/appium/java_client");
 	    File app = new File(appDir, "ApiDemos-debug.apk");
 	    DesiredCapabilities capabilities = new DesiredCapabilities();
 	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-
-	    //This time out is set because test can be run on slow Android SDK emulator
-		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+	    driver = new AndroidDriver(service.getUrl(), capabilities);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+    @Before
+    public void setUp() throws Exception {
+        if (!populated)
+            //This time out is set because test can be run on slow Android SDK emulator
+            PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+
+        populated = true;
+    }
+
+	@AfterClass
+	public static void afterClass() throws Exception {
+        if (driver != null)
 		driver.quit();
+
+        if (service != null)
+            service.stop();
 	}
 
 	@Test

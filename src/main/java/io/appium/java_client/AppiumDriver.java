@@ -46,6 +46,8 @@ import static io.appium.java_client.MobileCommand.SET_VALUE;
 import static io.appium.java_client.MobileCommand.SHAKE;
 import static io.appium.java_client.MobileCommand.START_ACTIVITY;
 import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.net.URL;
@@ -55,6 +57,8 @@ import java.util.Set;
 
 import javax.xml.bind.DatatypeConverter;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -64,14 +68,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.ErrorHandler;
-import org.openqa.selenium.remote.ExecuteMethod;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.*;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpMethod;
 
@@ -197,75 +194,33 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 		return builder.build();
 	}
 
+    private AppiumDriver(CommandExecutor executor, Capabilities capabilities){
+        super(executor, capabilities);
+        this.executeMethod = new AppiumExecutionMethod(this);
+        locationContext = new RemoteLocationContext(executeMethod);
+        super.setErrorHandler(errorHandler);
+    }
+
 	public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-
-		super(remoteAddress, desiredCapabilities);
-
-		this.executeMethod = new AppiumExecutionMethod(this);
-		this.remoteAddress = remoteAddress;
-		locationContext = new RemoteLocationContext(executeMethod);
-
-		ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap
-				.builder();
-		builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
-				.put(GET_STRINGS,
-						postC("/session/:sessionId/appium/app/strings"))
-				.put(KEY_EVENT,
-						postC("/session/:sessionId/appium/device/keyevent"))
-				.put(CURRENT_ACTIVITY,
-						getC("/session/:sessionId/appium/device/current_activity"))
-				.put(SET_VALUE,
-						postC("/session/:sessionId/appium/element/:id/value"))
-				.put(PULL_FILE,
-						postC("/session/:sessionId/appium/device/pull_file"))
-				.put(PULL_FOLDER,
-						postC("/session/:sessionId/appium/device/pull_folder"))
-				.put(HIDE_KEYBOARD,
-						postC("/session/:sessionId/appium/device/hide_keyboard"))
-				.put(PUSH_FILE,
-						postC("/session/:sessionId/appium/device/push_file"))
-				.put(RUN_APP_IN_BACKGROUND,
-						postC("/session/:sessionId/appium/app/background"))
-				.put(PERFORM_TOUCH_ACTION,
-						postC("/session/:sessionId/touch/perform"))
-				.put(PERFORM_MULTI_TOUCH,
-						postC("/session/:sessionId/touch/multi/perform"))
-				.put(IS_APP_INSTALLED,
-						postC("/session/:sessionId/appium/device/app_installed"))
-				.put(INSTALL_APP,
-						postC("/session/:sessionId/appium/device/install_app"))
-				.put(REMOVE_APP,
-						postC("/session/:sessionId/appium/device/remove_app"))
-				.put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
-				.put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
-				.put(END_TEST_COVERAGE,
-						postC("/session/:sessionId/appium/app/end_test_coverage"))
-				.put(LOCK, postC("/session/:sessionId/appium/device/lock"))
-				.put(IS_LOCKED,
-						postC("/session/:sessionId/appium/device/is_locked"))
-				.put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
-				.put(COMPLEX_FIND,
-						postC("/session/:sessionId/appium/app/complex_find"))
-				.put(OPEN_NOTIFICATIONS,
-						postC("/session/:sessionId/appium/device/open_notifications"))
-				.put(GET_NETWORK_CONNECTION,
-						getC("/session/:sessionId/network_connection"))
-				.put(SET_NETWORK_CONNECTION,
-						postC("/session/:sessionId/network_connection"))
-				.put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"))
-				.put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
-				.put(START_ACTIVITY,
-						postC("/session/:sessionId/appium/device/start_activity"))
-				.put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"));
-
-		ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
-
-		HttpCommandExecutor mobileExecutor = new HttpCommandExecutor(
-				mobileCommands, remoteAddress);
-		super.setCommandExecutor(mobileExecutor);
-
-		super.setErrorHandler(errorHandler);
+		this(new AppiumCommandExecutor(
+                getMobileCommands(), remoteAddress), desiredCapabilities);
+        this.remoteAddress = remoteAddress;
 	}
+
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), service), desiredCapabilities);
+        this.remoteAddress = service.getUrl();
+    }
+
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        this(builder.build(), desiredCapabilities);
+    }
+
+    public AppiumDriver(Capabilities desiredCapabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+    }
+
 
 	@Override
 	protected Response execute(String command) {
@@ -707,6 +662,63 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 	private static CommandInfo postC(String url) {
 		return new CommandInfo(url, HttpMethod.POST);
 	}
+
+    private static ImmutableMap<String, CommandInfo> getMobileCommands(){
+        ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap
+                .builder();
+        builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
+                .put(GET_STRINGS,
+                        postC("/session/:sessionId/appium/app/strings"))
+                .put(KEY_EVENT,
+                        postC("/session/:sessionId/appium/device/keyevent"))
+                .put(CURRENT_ACTIVITY,
+                        getC("/session/:sessionId/appium/device/current_activity"))
+                .put(SET_VALUE,
+                        postC("/session/:sessionId/appium/element/:id/value"))
+                .put(PULL_FILE,
+                        postC("/session/:sessionId/appium/device/pull_file"))
+                .put(PULL_FOLDER,
+                        postC("/session/:sessionId/appium/device/pull_folder"))
+                .put(HIDE_KEYBOARD,
+                        postC("/session/:sessionId/appium/device/hide_keyboard"))
+                .put(PUSH_FILE,
+                        postC("/session/:sessionId/appium/device/push_file"))
+                .put(RUN_APP_IN_BACKGROUND,
+                        postC("/session/:sessionId/appium/app/background"))
+                .put(PERFORM_TOUCH_ACTION,
+                        postC("/session/:sessionId/touch/perform"))
+                .put(PERFORM_MULTI_TOUCH,
+                        postC("/session/:sessionId/touch/multi/perform"))
+                .put(IS_APP_INSTALLED,
+                        postC("/session/:sessionId/appium/device/app_installed"))
+                .put(INSTALL_APP,
+                        postC("/session/:sessionId/appium/device/install_app"))
+                .put(REMOVE_APP,
+                        postC("/session/:sessionId/appium/device/remove_app"))
+                .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
+                .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
+                .put(END_TEST_COVERAGE,
+                        postC("/session/:sessionId/appium/app/end_test_coverage"))
+                .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
+                .put(IS_LOCKED,
+                        postC("/session/:sessionId/appium/device/is_locked"))
+                .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
+                .put(COMPLEX_FIND,
+                        postC("/session/:sessionId/appium/app/complex_find"))
+                .put(OPEN_NOTIFICATIONS,
+                        postC("/session/:sessionId/appium/device/open_notifications"))
+                .put(GET_NETWORK_CONNECTION,
+                        getC("/session/:sessionId/network_connection"))
+                .put(SET_NETWORK_CONNECTION,
+                        postC("/session/:sessionId/network_connection"))
+                .put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"))
+                .put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
+                .put(START_ACTIVITY,
+                        postC("/session/:sessionId/appium/device/start_activity"))
+                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"));
+
+        return builder.build();
+    }
 
 	@SuppressWarnings("unused")
 	private static CommandInfo deleteC(String url) {
