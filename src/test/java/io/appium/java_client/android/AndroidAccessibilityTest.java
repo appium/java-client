@@ -5,30 +5,37 @@ import static org.junit.Assert.assertTrue;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class AndroidAccessibilityTest {
 	
 	private AppiumDriver<MobileElement> driver;
+    private static AppiumDriverLocalService service;
+
+    @BeforeClass
+    public static void beforeClass() throws Exception{
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+    }
 
 	@Before
 	public void setUp() throws Exception {
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
+
 	    File appDir = new File("src/test/java/io/appium/java_client");
 	    File app = new File(appDir, "ApiDemos-debug.apk");
 	    DesiredCapabilities capabilities = new DesiredCapabilities();
 	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
 	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	    driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
 	}
 
 	@After
@@ -60,5 +67,11 @@ public class AndroidAccessibilityTest {
 	    List<MobileElement> elements = driver.findElements(MobileBy.AccessibilityId("Accessibility"));
 	    assertTrue(elements.size() > 0);
 	  }
+
+    @AfterClass
+    public static void afterClass(){
+        if (service != null)
+        service.stop();
+    }
 
 }

@@ -20,15 +20,12 @@ package io.appium.java_client;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.net.URL;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -37,9 +34,19 @@ import static org.junit.Assert.assertEquals;
 public class ContextTest {
 
   private AppiumDriver<?> driver;
+  private static AppiumDriverLocalService service;
+
+  @BeforeClass
+  public static void beforeClass() throws Exception{
+     service = AppiumDriverLocalService.buildDefaultService();
+     service.start();
+  }
 
   @Before
-  public void setup() throws Exception {
+  public void setUp() throws Exception {
+    if (service == null || !service.isRunning())
+      throw new RuntimeException("An appium server node is not started!");
+
     File appDir = new File("src/test/java/io/appium/java_client");
     File app = new File(appDir, "WebViewApp.app.zip");
     DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -47,7 +54,7 @@ public class ContextTest {
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
   }
 
   @After
@@ -75,6 +82,12 @@ public class ContextTest {
   @Test(expected = NoSuchContextException.class)
   public void testContextError() {
     driver.context("Planet of the Ape-ium");
+  }
+
+  @AfterClass
+  public static void afterClass(){
+    if (service != null)
+      service.stop();
   }
 
 }
