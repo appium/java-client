@@ -202,11 +202,11 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         super.setErrorHandler(errorHandler);
     }
 
-	public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-		this(new AppiumCommandExecutor(
-				getMobileCommands(), remoteAddress), desiredCapabilities);
-		this.remoteAddress = remoteAddress;
-	}
+    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), remoteAddress), desiredCapabilities);
+        this.remoteAddress = remoteAddress;
+    }
 
     public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
