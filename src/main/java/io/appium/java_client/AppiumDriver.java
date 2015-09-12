@@ -670,10 +670,10 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
                 .put(GET_STRINGS,
                         postC("/session/:sessionId/appium/app/strings"))
-				.put(PRESS_KEY_CODE,
-								postC("/session/:sessionId/appium/device/press_keycode"))
-				.put(LONG_PRESS_KEY_CODE,
-								postC("/session/:sessionId?/appium/device/long_press_keycode"))
+                .put(PRESS_KEY_CODE,
+                        postC("/session/:sessionId/appium/device/press_keycode"))
+                .put(LONG_PRESS_KEY_CODE,
+                        postC("/session/:sessionId?/appium/device/long_press_keycode"))
                 .put(CURRENT_ACTIVITY,
                         getC("/session/:sessionId/appium/device/current_activity"))
                 .put(SET_VALUE,
