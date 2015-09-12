@@ -9,6 +9,8 @@ import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 
@@ -36,7 +38,25 @@ FindsByIosUIAutomation<RequiredElementType>{
 		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
 				IOS_PLATFORM));
 		this.setElementConverter(new JsonToIOSElementConverter(this));
-  }
+    }
+
+    public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        super(service, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+
+    public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        super(builder, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+
+    public IOSDriver(Capabilities desiredCapabilities) {
+        super(substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
 
   /**
    * Scroll to the element whose 'text' attribute contains the input text.
@@ -44,7 +64,7 @@ FindsByIosUIAutomation<RequiredElementType>{
    * @param text input text contained in text attribute
    */
    @SuppressWarnings("unchecked")
-@Override
+   @Override
    public RequiredElementType scrollTo(String text) {
      return (RequiredElementType) ((ScrollsTo<?>) 
     		 findElementByClassName("UIATableView")).scrollTo(text);
@@ -56,7 +76,7 @@ FindsByIosUIAutomation<RequiredElementType>{
    * @param text input text to match
    */
    @SuppressWarnings("unchecked")
-@Override
+   @Override
    public RequiredElementType scrollToExact(String text) {
 	  return (RequiredElementType) ((ScrollsTo<?>) 
 			  findElementByClassName("UIATableView")).scrollToExact(text);

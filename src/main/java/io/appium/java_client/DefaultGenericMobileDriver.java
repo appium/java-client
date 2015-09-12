@@ -6,10 +6,10 @@ import io.appium.java_client.generic.searchcontext.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +18,8 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         GenericSearchContext<T>, GenericFindsById<T>, GenericFindsByXPath<T>, GenericFindsByLinkText<T>, GenericFindsByTagName<T>,
         GenericFindsByClassName<T>, GenericFindsByCssSelector<T>, GenericFindsByName<T>{
 
-    public DefaultGenericMobileDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, desiredCapabilities);
+    public DefaultGenericMobileDriver(CommandExecutor executor, Capabilities desiredCapabilities){
+       super(executor, desiredCapabilities);
     }
 
     @Override

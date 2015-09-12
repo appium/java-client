@@ -7,11 +7,10 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,6 +26,7 @@ import org.openqa.selenium.support.PageFactory;
 public class IOSfMobileBrowserCompatibilityTest {
 
 	private WebDriver driver;
+    private AppiumDriverLocalService service;
 	
 	@FindBy(name = "q")
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
@@ -47,17 +47,24 @@ public class IOSfMobileBrowserCompatibilityTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		 DesiredCapabilities capabilities = new DesiredCapabilities();
-		 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-		 capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-		 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-		 driver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-		 PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+		driver = new IOSDriver<>(service.getUrl(), capabilities);
+		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		driver.quit();
+        if (driver != null)
+            driver.quit();
+
+        if (service != null)
+            service.stop();
 	}
 
 	@Test

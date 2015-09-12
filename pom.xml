@@ -38,6 +38,11 @@
             <artifactId>cglib</artifactId>
             <version>3.1</version>
         </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.4.1</version>
+        </dependency>
     </dependencies>
     <packaging>jar</packaging>
     <name>java-client</name>
@@ -65,6 +70,12 @@
 			<url>https://github.com/jonahss</url>
 			<id>jonahss</id>
 		</developer>
+        <developer>
+            <email>tichomirovsergey@gmail.com</email>
+            <name>Sergey Tikhomirov</name>
+            <url>https://github.com/TikhomirovSergey</url>
+            <id>TikhomirovSergey</id>
+        </developer>
 	</developers>
 
 	<distributionManagement>

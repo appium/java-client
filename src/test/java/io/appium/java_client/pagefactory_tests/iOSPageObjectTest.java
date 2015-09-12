@@ -12,13 +12,10 @@ import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,7 +26,10 @@ import org.openqa.selenium.support.PageFactory;
 
 public class iOSPageObjectTest {
 
-	private WebDriver driver;
+    private static WebDriver driver;
+    private static AppiumDriverLocalService service;
+    private boolean populated = false;
+
 	@FindBy(className = "UIAButton")
 	private List<WebElement> uiButtons;
 
@@ -125,25 +125,39 @@ public class iOSPageObjectTest {
     @FindBy(css = "e.e1.e2")
     private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
+
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "TestApp.app.zip");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        driver = new IOSDriver(service.getUrl(), capabilities);
+    }
+
 	@SuppressWarnings("rawtypes")
 	@Before
 	public void setUp() throws Exception {
-	    File appDir = new File("src/test/java/io/appium/java_client");
-	    File app = new File(appDir, "TestApp.app.zip");
-	    DesiredCapabilities capabilities = new DesiredCapabilities();
-	    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-	    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        if (!populated)
+		    PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 
-		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        populated = true;
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		driver.quit();
-	}
+    @AfterClass
+    public static void afterClass() throws Exception {
+        if (driver != null)
+            driver.quit();
+
+        if (service != null)
+            service.stop();
+    }
 
 	@Test
 	public void findByElementsTest() {

@@ -19,15 +19,13 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.*;
 import io.appium.java_client.remote.MobileCapabilityType;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -38,16 +36,26 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class AndroidGestureTest {
   private AndroidDriver<MobileElement> driver;
+  private static AppiumDriverLocalService service;
+
+  @BeforeClass
+  public static void beforeClass() throws Exception{
+     service = AppiumDriverLocalService.buildDefaultService();
+     service.start();
+  }
 
   @Before
   public void setup() throws Exception {
+    if (service == null || !service.isRunning())
+       throw new RuntimeException("An appium server node is not started!");
+
     File appDir = new File("src/test/java/io/appium/java_client");
     File app = new File(appDir, "ApiDemos-debug.apk");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
   }
 
   @After
@@ -134,5 +142,11 @@ public class AndroidGestureTest {
     e2.swipe(SwipeElementDirection.UP, 10, 20, 1000);
     System.out.println("UP Bottom + 10 Top - 20");
     
+  }
+
+  @AfterClass
+  public static void afterClass(){
+    if (service != null)
+      service.stop();
   }
 }

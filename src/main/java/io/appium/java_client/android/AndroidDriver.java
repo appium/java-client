@@ -9,6 +9,8 @@ import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
@@ -50,6 +52,24 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 				ANDROID_PLATFORM));
 		this.setElementConverter(new JsonToAndroidElementConverter(this));
 	}
+
+    public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        super(service, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
+    public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        super(builder, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
+    public AndroidDriver(Capabilities desiredCapabilities) {
+        super(substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
 
   /**
    * Scroll forward to the element which has a description or name which contains the input text.

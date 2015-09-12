@@ -9,17 +9,14 @@ import io.appium.java_client.pagefactory.SelendroidFindBys;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.FindBy;
@@ -28,7 +25,9 @@ import org.openqa.selenium.support.PageFactory;
 public class SelendroidModeTest {
 	private static int SELENDROID_PORT = 9999;
 
-    private WebDriver driver;
+    private static WebDriver driver;
+    private static AppiumDriverLocalService service;
+    private boolean populated = false;
 
     @SelendroidFindBy(id = "text1")
     private WebElement textId;
@@ -73,8 +72,11 @@ public class SelendroidModeTest {
     @SelendroidFindBy(partialLinkText = "ccessibilit")
     private WebElement textPartialLink;
 
-	@Before
-    public void setUp() throws Exception {
+	@BeforeClass
+    public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -82,15 +84,25 @@ public class SelendroidModeTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         capabilities.setCapability(MobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
-        driver = new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-
-        //This time out is set because test can be run on slow Android SDK emulator
-        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
     }
 
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
+    @Before
+    public void setUp() throws Exception {
+        if (!populated)
+            //This time out is set because test can be run on slow Android SDK emulator
+            PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+
+        populated = true;
+    }
+
+    @AfterClass
+    public static void afterClass() throws Exception {
+        if (driver != null)
+            driver.quit();
+
+        if (service != null)
+            service.stop();
     }
 
     @Test
