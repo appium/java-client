@@ -5,6 +5,7 @@ import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ScrollsTo;
 
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import com.google.common.collect.ImmutableMap;
@@ -14,14 +15,20 @@ import java.util.List;
 
 public class IOSElement extends MobileElement implements 
 FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
-	
+
+    /**
+     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@Override
-	public MobileElement findElementByIosUIAutomation(String using) {
+	public MobileElement findElementByIosUIAutomation(String using) throws WebDriverException {
 		return (IOSElement) findElement("-ios uiautomation", using);
 	}
 
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@Override
-	public List<MobileElement> findElementsByIosUIAutomation(String using) {
+	public List<MobileElement> findElementsByIosUIAutomation(String using) throws WebDriverException {
 		List<MobileElement> result = new ArrayList<MobileElement>();
 		List<WebElement> found = findElements("-ios uiautomation", using);
 		for (WebElement e: found)

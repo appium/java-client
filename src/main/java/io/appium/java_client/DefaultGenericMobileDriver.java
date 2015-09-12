@@ -3,9 +3,8 @@ package io.appium.java_client;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.generic.searchcontext.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
@@ -47,19 +46,31 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         return (T) super.findElementById(id);
     }
 
-    public T findElementByLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByLinkText(String using) throws WebDriverException{
         return (T) super.findElementByLinkText(using);
     }
 
-    public List findElementsByLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByLinkText(String using) throws WebDriverException{
         return super.findElementsByLinkText(using);
     }
 
-    public T findElementByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByPartialLinkText(String using) throws WebDriverException {
         return (T) super.findElementByPartialLinkText(using);
     }
 
-    public List findElementsByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByPartialLinkText(String using) throws WebDriverException {
         return super.findElementsByPartialLinkText(using);
     }
 
@@ -87,11 +98,17 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         return super.findElementsByClassName(using);
     }
 
-    public T findElementByCssSelector(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByCssSelector(String using) throws WebDriverException{
         return (T) super.findElementByCssSelector(using);
     }
 
-    public List findElementsByCssSelector(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByCssSelector(String using) throws WebDriverException{
         return super.findElementsByCssSelector(using);
     }
 
@@ -104,12 +121,26 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     }
 
     @Override
-    public T findElementByAccessibilityId(String using) {
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
+    public T findElementByAccessibilityId(String using) throws WebDriverException {
         return (T) findElement("accessibility id", using);
     }
 
     @Override
-    public List findElementsByAccessibilityId(String using) {
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
+    public List findElementsByAccessibilityId(String using) throws WebDriverException{
         return (List<T>) findElements("accessibility id", using);
+    }
+
+    /**
+     * Mouse doesn't work on mobile devices and emulators
+     */
+    @Deprecated
+    public Mouse getMouse(){
+        return super.getMouse();
     }
 }

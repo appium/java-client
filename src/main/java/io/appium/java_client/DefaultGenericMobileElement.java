@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
@@ -47,19 +48,31 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return (T) super.findElementById(id);
     }
 
-    public T findElementByLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByLinkText(String using) throws WebDriverException {
         return (T) super.findElementByLinkText(using);
     }
 
-    public List findElementsByLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByLinkText(String using) throws WebDriverException{
         return super.findElementsByLinkText(using);
     }
 
-    public T findElementByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByPartialLinkText(String using) throws WebDriverException {
         return (T) super.findElementByPartialLinkText(using);
     }
 
-    public List findElementsByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByPartialLinkText(String using) throws WebDriverException {
         return super.findElementsByPartialLinkText(using);
     }
 
@@ -87,11 +100,17 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return super.findElementsByClassName(using);
     }
 
-    public T findElementByCssSelector(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByCssSelector(String using) throws WebDriverException{
         return (T) super.findElementByCssSelector(using);
     }
 
-    public List findElementsByCssSelector(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByCssSelector(String using) throws WebDriverException{
         return super.findElementsByCssSelector(using);
     }
 
@@ -111,5 +130,19 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
     @Override
     public List findElementsByAccessibilityId(String using) {
         return (List<T>) findElements("accessibility id", using);
+    }
+
+    /**
+     * @throws WebDriverException because it may not work against native app UI.
+     */
+    public void submit() throws WebDriverException{
+        super.submit();
+    }
+
+    /**
+     * @throws WebDriverException because it may not work against native app UI.
+     */
+    public String getCssValue(String propertyName) throws WebDriverException{
+        return super.getCssValue(propertyName);
     }
 }
