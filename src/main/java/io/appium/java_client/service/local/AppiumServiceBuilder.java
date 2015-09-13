@@ -231,11 +231,12 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             Map.Entry<String, String> entry = iterator.next();
             String argument = entry.getKey();
             String value = entry.getValue();
-            if (StringUtils.isBlank(argument) || StringUtils.isBlank(value))
+            if (StringUtils.isBlank(argument) || value == null)
                 continue;
 
             argList.add(argument);
-            argList.add(value);
+            if (!StringUtils.isBlank(value))
+                argList.add(value);
         }
 
         ImmutableList<String> result = new ImmutableList.Builder<String>().addAll(argList).build();
