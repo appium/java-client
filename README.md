@@ -61,7 +61,8 @@ More can be found in the docs, but here's a quick list of features which this pr
 - startActivity()
 - resetApp()
 - getAppString()
-- sendKeyEvent()
+- pressKey()
+- longPressKey()
 - currentActivity()
 - pullFile()
 - pushFile()
@@ -115,6 +116,7 @@ Historical reference: [The similar solution](https://github.com/Genium-Framework
 The mentioned framework and the current solution use different approaches.
 - Throwing declarations were added to some searching methods. The __"getMouse"__ method of RemoteWebDriver was marked __Deprecated__
 - Add `replaceValue` method for elements.
+- Replace `sendKeyEvent()` method in android with `pressKey()` and added `longPressKey()` method.
 
 *3.1.1*
 - Page-object findBy strategies are now aware of which driver (iOS or Android) you are using. For more details see the Pull Request: https://github.com/appium/java-client/pull/213
