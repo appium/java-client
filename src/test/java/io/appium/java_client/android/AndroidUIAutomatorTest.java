@@ -82,7 +82,27 @@ public class AndroidUIAutomatorTest {
 	  assertTrue(el3.isDisplayed());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
+  public void replaceValue() {
+    String originalValue = "original value";
+    String replacedValue = "replaced value";
+
+    driver.scrollToExact("Views").click();
+    driver.findElementByAndroidUIAutomator("text(\"Controls\")").click();
+    driver.findElementByAndroidUIAutomator("text(\"1. Light Theme\")").click();
+
+    AndroidElement editElement = driver.findElementByAndroidUIAutomator("resourceId(\"com.example.android.apis:id/edit\")");
+
+    editElement.sendKeys(originalValue);
+
+    assertEquals(originalValue, editElement.getText());
+
+    editElement.replaceValue(replacedValue);
+
+    assertEquals(replacedValue, editElement.getText());
+  }
+
+ @Test(expected = IllegalArgumentException.class)
   public void ErrorTest() {
     driver.findElementByAndroidUIAutomator(null);
   }
