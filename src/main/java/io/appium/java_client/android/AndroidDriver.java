@@ -12,6 +12,7 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
 
@@ -278,17 +279,23 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	// Should be moved to the subclass
 	public void ignoreUnimportantViews(Boolean compress) {
 		setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
-	}	
-	
+	}
+
+    /**
+     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public RequiredElementType findElementByAndroidUIAutomator(String using) {
+	public RequiredElementType findElementByAndroidUIAutomator(String using) throws WebDriverException {
 		return (RequiredElementType) findElement("-android uiautomator", using);
 	}
 
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) {
+	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) throws WebDriverException {
 		return (List<RequiredElementType>) findElements("-android uiautomator", using);
 	}	
 

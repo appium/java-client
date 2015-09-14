@@ -106,6 +106,14 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 
 ##Changelog##
+*3.2.0 (is coming out)*
+- updated the dependency on Selenium to version 2.47.1
+- the new dependency on commons-validator v1.4.1
+- the ability to start programmatically/silently an Appium node server is provided now. Details please read at [#240](https://github.com/appium/java-client/pull/240).
+Historical reference: [The similar solution](https://github.com/Genium-Framework/Appium-Support) has been designed by [@Hassan-Radi](https://github.com/Hassan-Radi).
+The mentioned framework and the current solution use different approaches.
+- Throwing declarations were added to some searching methods. The __"getMouse"__ method of RemoteWebDriver was marked __Deprecated__
+...
 
 *3.1.1*
 - Page-object findBy strategies are now aware of which driver (iOS or Android) you are using. For more details see the Pull Request: https://github.com/appium/java-client/pull/213

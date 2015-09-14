@@ -12,6 +12,7 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.net.URL;
@@ -106,8 +107,8 @@ FindsByIosUIAutomation<RequiredElementType>{
 	@Override
 	public void shake() {
 		execute(SHAKE);
-	}	
-	
+	}
+
 	/**
 	 * @see GetsNamedTextField#getNamedTextField(String)
 	 */
@@ -121,16 +122,22 @@ FindsByIosUIAutomation<RequiredElementType>{
 		}
 		return element;
 	}
-	
+
+    /**
+     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public RequiredElementType findElementByIosUIAutomation(String using) {
+	public RequiredElementType findElementByIosUIAutomation(String using) throws WebDriverException {
 		return (RequiredElementType) findElement("-ios uiautomation", using);
 	}
 
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RequiredElementType> findElementsByIosUIAutomation(String using) {
+	public List<RequiredElementType> findElementsByIosUIAutomation(String using) throws WebDriverException {
 		return (List<RequiredElementType>) findElements("-ios uiautomation", using);
 	}	
 }
