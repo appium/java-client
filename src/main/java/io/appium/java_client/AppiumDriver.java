@@ -1,83 +1,43 @@
 /*
- +Copyright 2014-2015 Appium contributors
- +Copyright 2014-2015 Software Freedom Conservancy
- +
- +Licensed under the Apache License, Version 2.0 (the "License");
- +you may not use this file except in compliance with the License.
- +You may obtain a copy of the License at
- +
- +     http://www.apache.org/licenses/LICENSE-2.0
- +
- +Unless required by applicable law or agreed to in writing, software
- +distributed under the License is distributed on an "AS IS" BASIS,
- +WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- +See the License for the specific language governing permissions and
- +limitations under the License.
- + */
+ * Copyright 2015 Appium Contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 package io.appium.java_client;
-
-import static io.appium.java_client.MobileCommand.CLOSE_APP;
-import static io.appium.java_client.MobileCommand.COMPLEX_FIND;
-import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
-import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
-import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.GET_SETTINGS;
-import static io.appium.java_client.MobileCommand.GET_STRINGS;
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-import static io.appium.java_client.MobileCommand.INSTALL_APP;
-import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.IS_LOCKED;
-import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
-import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
-import static io.appium.java_client.MobileCommand.LAUNCH_APP;
-import static io.appium.java_client.MobileCommand.LOCK;
-import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
-import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
-import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
-import static io.appium.java_client.MobileCommand.PULL_FILE;
-import static io.appium.java_client.MobileCommand.PULL_FOLDER;
-import static io.appium.java_client.MobileCommand.PUSH_FILE;
-import static io.appium.java_client.MobileCommand.REMOVE_APP;
-import static io.appium.java_client.MobileCommand.REPLACE_VALUE;
-import static io.appium.java_client.MobileCommand.RESET;
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
-import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.SET_SETTINGS;
-import static io.appium.java_client.MobileCommand.SET_VALUE;
-import static io.appium.java_client.MobileCommand.SHAKE;
-import static io.appium.java_client.MobileCommand.START_ACTIVITY;
-import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
-
-import io.appium.java_client.remote.AppiumCommandExecutor;
-import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.net.URL;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.bind.DatatypeConverter;
-
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.*;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
-import org.openqa.selenium.remote.http.HttpMethod;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.appium.java_client.remote.AppiumCommandExecutor;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.openqa.selenium.*;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
+import org.openqa.selenium.remote.http.HttpMethod;
+
+import javax.xml.bind.DatatypeConverter;
+import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import static io.appium.java_client.MobileCommand.*;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
