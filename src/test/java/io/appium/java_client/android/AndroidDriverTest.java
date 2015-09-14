@@ -77,13 +77,18 @@ public class AndroidDriverTest {
   }
 
   @Test
-  public void keyEventTest() {
-    driver.sendKeyEvent(AndroidKeyCode.HOME);
+  public void pressKeyCodeTest() {
+    driver.pressKeyCode(AndroidKeyCode.HOME);
   }
 
   @Test
-  public void keyEventWithMetastateTest() {
-    driver.sendKeyEvent(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
+  public void pressKeyCodeWithMetastateTest() {
+    driver.pressKeyCode(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
+  }
+
+  @Test
+  public void longPressKeyCodeTest() {
+    driver.longPressKeyCode(AndroidKeyCode.HOME);
   }
 
   @Test

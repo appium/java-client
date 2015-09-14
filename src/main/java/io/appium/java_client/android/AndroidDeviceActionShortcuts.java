@@ -10,7 +10,7 @@ public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {
 	 * @param key
 	 *            code for the key pressed on the device
 	 */
-	public void sendKeyEvent(int key);
+	public void pressKeyCode(int key);
 
 	/**
 	 * Send a key event along with an Android metastate to an Android device
@@ -22,5 +22,25 @@ public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {
 	 * @see AndroidKeyCode
 	 * @see AndroidKeyMetastate
 	 */
-	public void sendKeyEvent(int key, Integer metastate);
+	public void pressKeyCode(int key, Integer metastate);
+
+	/**
+	 * Send a long key event to the device
+	 *
+	 * @param key
+	 *            code for the key pressed on the device
+	 */
+	public void longPressKeyCode(int key);
+
+	/**
+	 * Send a long key event along with an Android metastate to an Android device
+	 * Metastates are things like *shift* to get uppercase characters
+	 *
+	 * @param key code for the key pressed on the Android device
+	 * @param metastate metastate for the keypress
+	 *
+	 * @see AndroidKeyCode
+	 * @see AndroidKeyMetastate
+	 */
+	public void longPressKeyCode(int key, Integer metastate);
 }
