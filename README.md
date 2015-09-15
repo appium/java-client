@@ -15,7 +15,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 </dependency>
 ```
 
-It currently depends on selenium-java 2.46.0. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+It currently depends on selenium-java 2.47.1. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
 
 ```
 <dependency>
