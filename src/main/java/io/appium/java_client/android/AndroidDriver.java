@@ -1,3 +1,19 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
@@ -5,12 +21,14 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
 
@@ -21,14 +39,24 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.*;
 import static io.appium.java_client.remote.MobileCapabilityType.*;
 
-public class AndroidDriver extends AppiumDriver implements
-		AndroidDeviceActionShortcuts, HasAppStrings, HasNetworkConnection, PushesFiles, 
-		StartsActivity, FindsByAndroidUIAutomator {
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement}
+ * {@link AndroidElement}
+ */
+public class AndroidDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements
+		AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles,
+		StartsActivity, FindsByAndroidUIAutomator<RequiredElementType> {
 
 	private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
 	private final String METASTATE_PARAM = "metastate";
-	private final String LANGUAGE_PARAM = "language";
 	private final String CONNECTION_NAME_PARAM = "name";
 	private final String CONNECTION_PARAM_PARAM = "parameters";
 	private final String DATA_PARAM = "data";
@@ -42,16 +70,34 @@ public class AndroidDriver extends AppiumDriver implements
 		this.setElementConverter(new JsonToAndroidElementConverter(this));
 	}
 
+    public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        super(service, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
+    public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        super(builder, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
+    public AndroidDriver(Capabilities desiredCapabilities) {
+        super(substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
   /**
    * Scroll forward to the element which has a description or name which contains the input text.
    * The scrolling is performed on the first scrollView present on the UI
    * @param text
    */
   @Override
-  public MobileElement scrollTo(String text) {
+  public RequiredElementType scrollTo(String text) {
     String uiScrollables = UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") +
                            UiScrollable("new UiSelector().textContains(\"" + text + "\")");
-    return (MobileElement) findElementByAndroidUIAutomator(uiScrollables);
+    return findElementByAndroidUIAutomator(uiScrollables);
   }
 
   /**
@@ -60,15 +106,26 @@ public class AndroidDriver extends AppiumDriver implements
    * @param text
    */
   @Override
-  public MobileElement scrollToExact(String text) {
+  public RequiredElementType scrollToExact(String text) {
     String uiScrollables = UiScrollable("new UiSelector().description(\"" + text + "\")") +
                            UiScrollable("new UiSelector().text(\"" + text + "\")");
-    return (MobileElement) findElementByAndroidUIAutomator(uiScrollables);
+    return findElementByAndroidUIAutomator(uiScrollables);
   }
 
   static String UiScrollable(String uiSelector) {
     return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(" + uiSelector + ".instance(0));";
   }
+
+	/**
+	 * Send a key event to the device
+	 *
+	 * @param key
+	 *            code for the key pressed on the device
+	 */
+	@Override
+	public void pressKeyCode(int key) {
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+	}
 
   /**
 	 * @param key
@@ -78,36 +135,41 @@ public class AndroidDriver extends AppiumDriver implements
 	 * 
 	 * @see AndroidKeyCode
 	 * @see AndroidKeyMetastate
-	 * @see AndroidDeviceActionShortcuts#sendKeyEvent(int, Integer)
+	 * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
 	 */
 	@Override
-	public void sendKeyEvent(int key, Integer metastate) {
+	public void pressKeyCode(int key, Integer metastate) {
 		String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
 		Object[] values = new Object[] { key, metastate };
-		execute(KEY_EVENT, getCommandImmutableMap(parameters, values));
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
 	}
 
 	/**
-	 * @see HasAppStrings#getAppStrings()
+	 * Send a long key event to the device
+	 *
+	 * @param key
+	 *            code for the long key pressed on the device
 	 */
 	@Override
-	public String getAppStrings() {
-		Response response = execute(GET_STRINGS);
-		return response.getValue().toString();
+	public void longPressKeyCode(int key) {
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
 	}
 
 	/**
-	 * @param language
-	 *            strings language code
-	 * @return a string of all the localized strings defined in the app
-	 * 
-	 * @see HasAppStrings#getAppStrings(String)
+	 * @param key
+	 *            code for the long key pressed on the Android device
+	 * @param metastate
+	 *            metastate for the long key press
+	 *
+	 * @see AndroidKeyCode
+	 * @see AndroidKeyMetastate
+	 * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
 	 */
 	@Override
-	public String getAppStrings(String language) {
-		Response response = execute(GET_STRINGS,
-				getCommandImmutableMap(LANGUAGE_PARAM, language));
-		return response.getValue().toString();
+	public void longPressKeyCode(int key, Integer metastate) {
+		String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
+		Object[] values = new Object[] { key, metastate };
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
 	}
 
 	/**
@@ -242,6 +304,10 @@ public class AndroidDriver extends AppiumDriver implements
 		Response response = execute(IS_LOCKED);
 		return Boolean.parseBoolean(response.getValue().toString());
 	}
+
+	public void toggleLocationServices() {
+		execute(TOGGLE_LOCATION_SERVICES);
+	}
 	
 	/**
 	 * Set the `ignoreUnimportantViews` setting. *Android-only method*
@@ -257,16 +323,24 @@ public class AndroidDriver extends AppiumDriver implements
 	// Should be moved to the subclass
 	public void ignoreUnimportantViews(Boolean compress) {
 		setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
-	}	
-	
-	@Override
-	public WebElement findElementByAndroidUIAutomator(String using) {
-		return findElement("-android uiautomator", using);
 	}
 
+    /**
+     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     */
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<WebElement> findElementsByAndroidUIAutomator(String using) {
-		return findElements("-android uiautomator", using);
+	public RequiredElementType findElementByAndroidUIAutomator(String using) throws WebDriverException {
+		return (RequiredElementType) findElement("-android uiautomator", using);
+	}
+
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) throws WebDriverException {
+		return (List<RequiredElementType>) findElements("-android uiautomator", using);
 	}	
 
 }

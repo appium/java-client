@@ -1,19 +1,19 @@
 /*
- +Copyright 2014 Appium contributors
- +Copyright 2014 Software Freedom Conservancy
- +
- +Licensed under the Apache License, Version 2.0 (the "License");
- +you may not use this file except in compliance with the License.
- +You may obtain a copy of the License at
- +
- +     http://www.apache.org/licenses/LICENSE-2.0
- +
- +Unless required by applicable law or agreed to in writing, software
- +distributed under the License is distributed on an "AS IS" BASIS,
- +WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- +See the License for the specific language governing permissions and
- +limitations under the License.
- + */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 package io.appium.java_client;
 
@@ -21,10 +21,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.html5.LocationContext;
 import org.openqa.selenium.remote.*;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpMethod;
@@ -33,15 +35,22 @@ import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static io.appium.java_client.MobileCommand.*;
 
-public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriver,
-		ContextAware, Rotatable, FindsByAccessibilityId, LocationContext,
-		DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles,
-		InteractsWithApps, ScrollsTo {
+/**
+ * @param <RequiredElementType> means the required type from the list of allowed types below 
+ * that implement {@link WebElement} Instances of the defined type will be 
+ * returned via findElement* and findElements*. 
+ * Warning (!!!). Allowed types:<br/>
+ * {@link WebElement}<br/>
+ * {@link TouchableElement}<br/>
+ * {@link RemoteWebElement}<br/>
+ * {@link MobileElement} and its subclasses that designed specifically for each target mobile OS (still Android and iOS)
+ */
+@SuppressWarnings("unchecked")
+public abstract class AppiumDriver<RequiredElementType extends WebElement> extends DefaultGenericMobileDriver<RequiredElementType> {
 
 	private final static ErrorHandler errorHandler = new ErrorHandler(
 			new ErrorCodesMobile(), true);
@@ -53,6 +62,8 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	protected final String KEY_CODE = "keycode";
 	protected final String PATH = "path";
 	private final String SETTINGS = "settings";
+
+	private final String LANGUAGE_PARAM = "language";
 
 	/**
 	 * @param originalCapabilities
@@ -69,7 +80,50 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		return dc;
 	}
 
-	/**
+    @Override
+    public List<RequiredElementType> findElements(By by){
+        return super.findElements(by);
+    }
+
+    @Override
+    public List<RequiredElementType> findElementsById(String id){
+        return super.findElementsById(id);
+    }
+
+	public List<RequiredElementType> findElementsByLinkText(String using) {
+        return super.findElementsByLinkText(using);
+    }
+
+    public List<RequiredElementType> findElementsByPartialLinkText(String using) {
+        return super.findElementsByPartialLinkText(using);
+    }
+
+    public List<RequiredElementType> findElementsByTagName(String using) {
+        return super.findElementsByTagName(using);
+    }
+
+    public List<RequiredElementType> findElementsByName(String using) {
+        return super.findElementsByName(using);
+    }
+
+    public List<RequiredElementType> findElementsByClassName(String using) {
+        return super.findElementsByClassName(using);
+    }
+
+    public List<RequiredElementType> findElementsByCssSelector(String using) {
+        return super.findElementsByCssSelector(using);
+    }
+
+    public List<RequiredElementType> findElementsByXPath(String using) {
+        return super.findElementsByXPath(using);
+    }
+
+    @Override
+    public List<RequiredElementType> findElementsByAccessibilityId(String using) {
+        return (List<RequiredElementType>) findElements("accessibility id", using);
+    }
+
+    /**
 	 * @param param
 	 *            is a parameter name
 	 * @param value
@@ -102,83 +156,37 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		return builder.build();
 	}
 
-	public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+    private AppiumDriver(CommandExecutor executor, Capabilities capabilities){
+        super(executor, capabilities);
+        this.executeMethod = new AppiumExecutionMethod(this);
+        locationContext = new RemoteLocationContext(executeMethod);
+        super.setErrorHandler(errorHandler);
+    }
 
-		super(remoteAddress, desiredCapabilities);
+    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), remoteAddress), desiredCapabilities);
+        this.remoteAddress = remoteAddress;
+    }
 
-		this.executeMethod = new AppiumExecutionMethod(this);
-		this.remoteAddress = remoteAddress;
-		locationContext = new RemoteLocationContext(executeMethod);
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), service), desiredCapabilities);
+        this.remoteAddress = service.getUrl();
+    }
 
-		ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap
-				.builder();
-		builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
-				.put(GET_STRINGS,
-						postC("/session/:sessionId/appium/app/strings"))
-				.put(KEY_EVENT,
-						postC("/session/:sessionId/appium/device/keyevent"))
-				.put(CURRENT_ACTIVITY,
-						getC("/session/:sessionId/appium/device/current_activity"))
-				.put(SET_VALUE,
-						postC("/session/:sessionId/appium/element/:id/value"))
-				.put(PULL_FILE,
-						postC("/session/:sessionId/appium/device/pull_file"))
-				.put(PULL_FOLDER,
-						postC("/session/:sessionId/appium/device/pull_folder"))
-				.put(HIDE_KEYBOARD,
-						postC("/session/:sessionId/appium/device/hide_keyboard"))
-				.put(PUSH_FILE,
-						postC("/session/:sessionId/appium/device/push_file"))
-				.put(RUN_APP_IN_BACKGROUND,
-						postC("/session/:sessionId/appium/app/background"))
-				.put(PERFORM_TOUCH_ACTION,
-						postC("/session/:sessionId/touch/perform"))
-				.put(PERFORM_MULTI_TOUCH,
-						postC("/session/:sessionId/touch/multi/perform"))
-				.put(IS_APP_INSTALLED,
-						postC("/session/:sessionId/appium/device/app_installed"))
-				.put(INSTALL_APP,
-						postC("/session/:sessionId/appium/device/install_app"))
-				.put(REMOVE_APP,
-						postC("/session/:sessionId/appium/device/remove_app"))
-				.put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
-				.put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
-				.put(END_TEST_COVERAGE,
-						postC("/session/:sessionId/appium/app/end_test_coverage"))
-				.put(LOCK, postC("/session/:sessionId/appium/device/lock"))
-				.put(IS_LOCKED,
-						postC("/session/:sessionId/appium/device/is_locked"))
-				.put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
-				.put(COMPLEX_FIND,
-						postC("/session/:sessionId/appium/app/complex_find"))
-				.put(OPEN_NOTIFICATIONS,
-						postC("/session/:sessionId/appium/device/open_notifications"))
-				.put(GET_NETWORK_CONNECTION,
-						getC("/session/:sessionId/network_connection"))
-				.put(SET_NETWORK_CONNECTION,
-						postC("/session/:sessionId/network_connection"))
-				.put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"))
-				.put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
-				.put(START_ACTIVITY,
-						postC("/session/:sessionId/appium/device/start_activity"));
-		ImmutableMap<String, CommandInfo> mobileCommands = builder.build();
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        this(builder.build(), desiredCapabilities);
+    }
 
-		HttpCommandExecutor mobileExecutor = new HttpCommandExecutor(
-				mobileCommands, remoteAddress);
-		super.setCommandExecutor(mobileExecutor);
+    public AppiumDriver(Capabilities desiredCapabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+    }
 
-		super.setErrorHandler(errorHandler);
-	}
-
-	@Override
-	public Response execute(String driverCommand, Map<String, ?> parameters) {
-
-		return super.execute(driverCommand, parameters);
-	}
 
 	@Override
 	protected Response execute(String command) {
-		return execute(command, ImmutableMap.<String, Object> of());
+		return super.execute(command, ImmutableMap.<String, Object>of());
 	}
 
 	@Override
@@ -246,17 +254,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	}
 
 	/**
-	 * Send a key event to the device
-	 * 
-	 * @param key
-	 *            code for the key pressed on the device
-	 */
-	@Override
-	public void sendKeyEvent(int key) {
-		execute(KEY_EVENT, getCommandImmutableMap(KEY_CODE, key));
-	}
-
-	/**
 	 * @see DeviceActionShortcuts#hideKeyboard()
 	 */
 	@Override
@@ -306,7 +303,7 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	 * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction)
 	 */
 	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes"})
 	public void performMultiTouchAction(MultiTouchAction multiAction) {
 		ImmutableMap<String, ImmutableList> parameters = multiAction
 				.getParameters();
@@ -533,7 +530,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 		return AppiumDriver.this;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Set<String> getContextHandles() {
 		Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
@@ -579,16 +575,6 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	}
 
 	@Override
-	public WebElement findElementByAccessibilityId(String using) {
-		return findElement("accessibility id", using);
-	}
-
-	@Override
-	public List<WebElement> findElementsByAccessibilityId(String using) {
-		return findElements("accessibility id", using);
-	}
-
-	@Override
 	public Location location() {
 		return locationContext.location();
 	}
@@ -596,6 +582,29 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	@Override
 	public void setLocation(Location location) {
 		locationContext.setLocation(location);
+	}
+
+	/**
+	 * @see HasAppStrings#getAppStrings()
+ 	 */
+	@Override
+	public String getAppStrings() {
+		Response response = execute(GET_STRINGS);
+		return response.getValue().toString();
+	}
+
+	/**
+	 * @param language
+	 *            strings language code
+	 * @return a string of all the localized strings defined in the app
+	 * 
+	 * @see HasAppStrings#getAppStrings(String)
+	 */
+	@Override
+	public String getAppStrings(String language) {
+		Response response = execute(GET_STRINGS,
+				getCommandImmutableMap(LANGUAGE_PARAM, language));
+		return response.getValue().toString();
 	}
 
 	private TouchAction createTap(WebElement element, int duration) {
@@ -615,6 +624,67 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	private static CommandInfo postC(String url) {
 		return new CommandInfo(url, HttpMethod.POST);
 	}
+
+    private static ImmutableMap<String, CommandInfo> getMobileCommands(){
+        ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap
+                .builder();
+        builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
+                .put(GET_STRINGS,
+                        postC("/session/:sessionId/appium/app/strings"))
+                .put(PRESS_KEY_CODE,
+                        postC("/session/:sessionId/appium/device/press_keycode"))
+                .put(LONG_PRESS_KEY_CODE,
+                        postC("/session/:sessionId?/appium/device/long_press_keycode"))
+                .put(CURRENT_ACTIVITY,
+                        getC("/session/:sessionId/appium/device/current_activity"))
+                .put(SET_VALUE,
+                        postC("/session/:sessionId/appium/element/:id/value"))
+				.put(REPLACE_VALUE,
+						postC("/session/:sessionId/appium/element/:id/replace_value"))
+				.put(PULL_FILE,
+                        postC("/session/:sessionId/appium/device/pull_file"))
+                .put(PULL_FOLDER,
+                        postC("/session/:sessionId/appium/device/pull_folder"))
+                .put(HIDE_KEYBOARD,
+                        postC("/session/:sessionId/appium/device/hide_keyboard"))
+                .put(PUSH_FILE,
+                        postC("/session/:sessionId/appium/device/push_file"))
+                .put(RUN_APP_IN_BACKGROUND,
+                        postC("/session/:sessionId/appium/app/background"))
+                .put(PERFORM_TOUCH_ACTION,
+                        postC("/session/:sessionId/touch/perform"))
+                .put(PERFORM_MULTI_TOUCH,
+                        postC("/session/:sessionId/touch/multi/perform"))
+                .put(IS_APP_INSTALLED,
+                        postC("/session/:sessionId/appium/device/app_installed"))
+                .put(INSTALL_APP,
+                        postC("/session/:sessionId/appium/device/install_app"))
+                .put(REMOVE_APP,
+                        postC("/session/:sessionId/appium/device/remove_app"))
+                .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
+                .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
+                .put(END_TEST_COVERAGE,
+                        postC("/session/:sessionId/appium/app/end_test_coverage"))
+                .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
+                .put(IS_LOCKED,
+                        postC("/session/:sessionId/appium/device/is_locked"))
+                .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
+                .put(COMPLEX_FIND,
+                        postC("/session/:sessionId/appium/app/complex_find"))
+                .put(OPEN_NOTIFICATIONS,
+                        postC("/session/:sessionId/appium/device/open_notifications"))
+                .put(GET_NETWORK_CONNECTION,
+                        getC("/session/:sessionId/network_connection"))
+                .put(SET_NETWORK_CONNECTION,
+                        postC("/session/:sessionId/network_connection"))
+                .put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"))
+                .put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
+                .put(START_ACTIVITY,
+                        postC("/session/:sessionId/appium/device/start_activity"))
+                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"));
+
+        return builder.build();
+    }
 
 	@SuppressWarnings("unused")
 	private static CommandInfo deleteC(String url) {
@@ -640,4 +710,10 @@ public abstract class AppiumDriver extends RemoteWebDriver implements MobileDriv
 	protected static boolean _isNotNullOrEmpty(Object ob) {
 		return ob != null;
 	}
+
+    @Override
+    public abstract RequiredElementType scrollTo(String text);
+
+    @Override
+    public  abstract RequiredElementType scrollToExact(String text);
 }

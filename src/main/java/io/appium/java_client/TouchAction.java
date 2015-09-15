@@ -1,19 +1,18 @@
 /*
- +Copyright 2014 Appium contributors
- +Copyright 2014 Software Freedom Conservancy
- +
- +Licensed under the Apache License, Version 2.0 (the "License");
- +you may not use this file except in compliance with the License.
- +You may obtain a copy of the License at
- +
- +     http://www.apache.org/licenses/LICENSE-2.0
- +
- +Unless required by applicable law or agreed to in writing, software
- +distributed under the License is distributed on an "AS IS" BASIS,
- +WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- +See the License for the specific language governing permissions and
- +limitations under the License.
- + */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.appium.java_client;
 
@@ -33,6 +32,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
  *
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TouchAction {
 
   private MobileDriver driver;
@@ -105,9 +105,11 @@ public class TouchAction {
   }
 
   /**
-   * Move current touch to an absolute position on the screen
-   * @param x x coordinate
-   * @param y y coordinate
+   * Move current touch to a new position relative to the current position on
+   * the screen. If the current position of this TouchAction is (xOld, yOld),
+   * then this method will move the TouchAction to (xOld + x, yOld + y).
+   * @param x change in x coordinate to move through
+   * @param y change in y coordinate to move through
    * @return this TouchAction, for chaining
    */
   public TouchAction moveTo(int x, int y) {
@@ -208,6 +210,19 @@ public class TouchAction {
   }
 
   /**
+   * Press and hold the at the center of an element until the contextmenu event has fired.
+   * @param el element to long-press
+   * @param duration of the long-press, in milliseconds
+   * @return this TouchAction, for chaining
+   */
+  public TouchAction longPress(WebElement el, int duration) {
+    ActionParameter action = new ActionParameter("longPress", (RemoteWebElement)el);
+    action.addParameter("duration", duration);
+    parameterBuilder.add(action);
+    return this;
+  }
+
+  /**
    * Press and hold the at an absolute position on the screen until the contextmenu event has fired.
    * @param x x coordinate
    * @param y y coordinate
@@ -217,6 +232,22 @@ public class TouchAction {
     ActionParameter action = new ActionParameter("longPress");
     action.addParameter("x", x);
     action.addParameter("y", y);
+    parameterBuilder.add(action);
+    return this;
+  }
+
+  /**
+   * Press and hold the at an absolute position on the screen until the contextmenu event has fired.
+   * @param x x coordinate
+   * @param y y coordinate
+   * @param duration of the long-press, in milliseconds
+   * @return this TouchAction, for chaining
+   */
+  public TouchAction longPress(int x, int y, int duration) {
+    ActionParameter action = new ActionParameter("longPress");
+    action.addParameter("x", x);
+    action.addParameter("y", y);
+    action.addParameter("duration", duration);
     parameterBuilder.add(action);
     return this;
   }
@@ -232,6 +263,23 @@ public class TouchAction {
     ActionParameter action = new ActionParameter("longPress", (RemoteWebElement)el);
     action.addParameter("x", x);
     action.addParameter("y", y);
+    parameterBuilder.add(action);
+    return this;
+  }
+
+  /**
+   * Press and hold the at an elements upper-left corner, offset by the given amount, until the contextmenu event has fired.
+   * @param el element to long-press
+   * @param x x offset
+   * @param y y offset
+   * @param duration of the long-press, in milliseconds
+   * @return this TouchAction, for chaining
+   */
+  public TouchAction longPress(WebElement el, int x, int y, int duration) {
+    ActionParameter action = new ActionParameter("longPress", (RemoteWebElement)el);
+    action.addParameter("x", x);
+    action.addParameter("y", y);
+    action.addParameter("duration", duration);
     parameterBuilder.add(action);
     return this;
   }

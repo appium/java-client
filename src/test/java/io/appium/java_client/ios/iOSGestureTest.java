@@ -1,34 +1,32 @@
 /*
- +Copyright 2014 Appium contributors
- +Copyright 2014 Software Freedom Conservancy
- +
- +Licensed under the Apache License, Version 2.0 (the "License");
- +you may not use this file except in compliance with the License.
- +You may obtain a copy of the License at
- +
- +     http://www.apache.org/licenses/LICENSE-2.0
- +
- +Unless required by applicable law or agreed to in writing, software
- +distributed under the License is distributed on an "AS IS" BASIS,
- +WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- +See the License for the specific language governing permissions and
- +limitations under the License.
- + */
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.appium.java_client.ios;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
-import java.net.URL;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -40,10 +38,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class iOSGestureTest {
 
-  private AppiumDriver driver;
+  private AppiumDriver<WebElement> driver;
+  private static AppiumDriverLocalService service;
+
+  @BeforeClass
+  public static void beforeClass() throws Exception{
+     service = AppiumDriverLocalService.buildDefaultService();
+     service.start();
+  }
 
   @Before
   public void setup() throws Exception {
+    if (service == null || !service.isRunning())
+      throw new RuntimeException("An appium server node is not started!");
+
     File appDir = new File("src/test/java/io/appium/java_client");
     File app = new File(appDir, "TestApp.app.zip");
     DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -51,7 +59,7 @@ public class iOSGestureTest {
     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
   }
 
   @After
@@ -127,5 +135,27 @@ public class iOSGestureTest {
   @Test
   public void TapSingleFingerTest() {
     driver.tap(1,100,200,1000);
+  }
+
+  @Test
+  public void elementGestureTest(){
+	  MobileElement e = (MobileElement) driver.findElementByName("TextField1");
+	  e.tap(1, 1500);
+	  e.zoom();
+	  e.pinch();
+	  e.swipe(SwipeElementDirection.UP,2000);
+	  e.swipe(SwipeElementDirection.UP, 5, 5, 2000);
+	  e.swipe(SwipeElementDirection.DOWN,2000);
+	  e.swipe(SwipeElementDirection.DOWN, 5, 5, 2000);
+	  e.swipe(SwipeElementDirection.LEFT,2000);
+	  e.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
+	  e.swipe(SwipeElementDirection.RIGHT,2000);
+	  e.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
+  }
+
+  @AfterClass
+  public static void afterClass(){
+    if (service != null)
+      service.stop();
   }
 }

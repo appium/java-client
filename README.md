@@ -11,7 +11,29 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>2.0.0</version>
+  <version>3.2.0</version>
+</dependency>
+```
+
+It currently depends on selenium-java 2.47.1. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+
+```
+<dependency>
+  <groupId>io.appium</groupId>
+  <artifactId>java-client</artifactId>
+  <version>3.2.0</version>
+  <exclusions>
+    <exclusion>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+
+<dependency>
+  <groupId>org.seleniumhq.selenium</groupId>
+  <artifactId>selenium-java</artifactId>
+  <version>${selenium.version.you.require}</version>
 </dependency>
 ```
 
@@ -23,6 +45,15 @@ There is an abstract _AppiumDriver_ class which inherits from the Selenium Java 
 The _AppiumDriver_ class contains all methods shared by iOS and Android.
 _IOSDriver_ and _AndroidDriver_ both extend _AppiumDriver_ and provide more methods, and specific implementations for some methods.
 
+In the same way, _IOSElement_ and _AndroidElement_ both are subclasses of _MobileElement_
+
+You can instantiate and AppiumDriver with the class of element you want commands to return. For example
+`AppiumDriver<MobileElement> driver;`
+and now when you call the Find functions, they return elements of class MobileElement.
+You can also instantiate drivers like this, to make things simpler:
+`AndroidDriver<AndroidElement> driver = new AndroidDriver(.......`
+`IOSElement el = driver.findElementByAccessiblityId('sample');`
+
 ###Added functions###
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
 
@@ -30,11 +61,13 @@ More can be found in the docs, but here's a quick list of features which this pr
 - startActivity()
 - resetApp()
 - getAppString()
-- sendKeyEvent()
+- pressKey()
+- longPressKey()
 - currentActivity()
 - pullFile()
 - pushFile()
 - pullFolder()
+- replaceValue()
 - hideKeyboard()
 - runAppInBackground()
 - performTouchAction()
@@ -60,6 +93,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - Context Switching: .context(), .getContextHandles(), getContext())
 - getNetworkConnection(), setNetworkConnection()
 - ignoreUnimportantViews(), getSettings()
+- toggleLocationServices()
 
 Locators:
 - findElementByAccessibilityId()
@@ -69,7 +103,51 @@ Locators:
 - findElementByAndroidUIAutomator()
 - findElementsByAndroidUIAutomator()
 
+## Note to developers! ##
+If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
+If you are using the Eclipse IDE, make sure you are using verison Luna or later.
+
 ##Changelog##
+*3.2.0*
+- updated the dependency on Selenium to version 2.47.1
+- the new dependency on commons-validator v1.4.1
+- the ability to start programmatically/silently an Appium node server is provided now. Details please read at [#240](https://github.com/appium/java-client/pull/240).
+Historical reference: [The similar solution](https://github.com/Genium-Framework/Appium-Support) has been designed by [@Hassan-Radi](https://github.com/Hassan-Radi).
+The mentioned framework and the current solution use different approaches.
+- Throwing declarations were added to some searching methods. The __"getMouse"__ method of RemoteWebDriver was marked __Deprecated__
+- Add `replaceValue` method for elements.
+- Replace `sendKeyEvent()` method in android with `pressKey()` and added `longPressKey()` method.
+
+*3.1.1*
+- Page-object findBy strategies are now aware of which driver (iOS or Android) you are using. For more details see the Pull Request: https://github.com/appium/java-client/pull/213
+- If somebody desires to use their own Webdriver implementation then it has to implement HasCapabilities.
+- Added a new annotation: `WithTimeout`. This annotation allows one to specify a specific timeout for finding an element which overrides the drivers default timeout. For more info see: https://github.com/appium/java-client/pull/210
+- Corrected an uninformative Exception message.
+
+*3.0.0*
+- AppiumDriver class is now a Generic. This allows us to return elements of class MobileElement (and its subclasses) instead of always returning WebElements and requiring users to cast to MobileElement. See https://github.com/appium/java-client/pull/182
+- Full set of Android KeyEvents added.
+- Selenium client version updated to 2.46
+- PageObject enhancements
+- Junit dependency removed
+
+*2.2.0*
+- Added new TouchAction methods for LongPress, on an element, at x,y coordinates, or at an offset from within an element
+- SwipeElementDirection changed. Read the documentation, it's now smarter about how/where to swipe
+- Added APPIUM_VERSION MobileCapabilityType
+- `sendKeyEvent()` moved from AppiumDriver to AndroidDriver
+- `linkText` and `partialLinkText` locators added
+- setValue() moved from MobileElement to AndroidElement
+- Fixed Selendroid PageAnnotations
+
+*2.1.0*
+- Moved hasAppString() from AndroidDriver to AppiumDriver
+- Fixes to PageFactory
+- Added @AndroidFindAll and @iOSFindAll
+- Added toggleLocationServices() to AndroidDriver
+- Added touchAction methods to MobileElement, so now you can do `element.pinch()`, `element.zoom()`, etc.
+- Added the ability to choose a direction to swipe over an element. Use the `SwipeElementDirection` enums: `UP, DOWN, LEFT, RIGHT`
+
 *2.0.0*
 - AppiumDriver is now an abstract class, use IOSDriver and AndroidDriver which both extend it. You no longer need to include the `PLATFORM_NAME` desired capability since it's automatic for each class. Thanks to @TikhomirovSergey for all their work
 - ScrollTo() and ScrollToExact() methods reimplemented

@@ -1,22 +1,37 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchableElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSFindAll;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,7 +42,10 @@ import org.openqa.selenium.support.PageFactory;
 
 public class iOSPageObjectTest {
 
-	private WebDriver driver;
+    private static WebDriver driver;
+    private static AppiumDriverLocalService service;
+    private boolean populated = false;
+
 	@FindBy(className = "UIAButton")
 	private List<WebElement> uiButtons;
 
@@ -79,6 +97,12 @@ public class iOSPageObjectTest {
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private MobileElement mobileButton;
 
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    private TouchableElement touchableButton;
+
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    private List<TouchableElement> touchableButtons;
+
 	@FindBy(className = "UIAButton")
 	private MobileElement mobiletFindBy_Button;
 
@@ -96,25 +120,60 @@ public class iOSPageObjectTest {
 	
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private List<IOSElement> iosButtons;
+	
+	@iOSFindAll({
+		@iOSFindBy(xpath = "ComputeSumButton_Test"),	
+		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
+	})
+	private WebElement findAllElement;
+	
+	@iOSFindAll({
+		@iOSFindBy(xpath = "ComputeSumButton_Test"),	
+		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
+	})
+	private List<WebElement> findAllElements;
 
+    @AndroidFindBy(className = "android.widget.TextView")
+    @FindBy(css = "e.e1.e2")
+    private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+
+    @AndroidFindBy(className = "android.widget.TextView")
+    @FindBy(css = "e.e1.e2")
+    private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+
+
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "TestApp.app.zip");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        driver = new IOSDriver(service.getUrl(), capabilities);
+    }
+
+	@SuppressWarnings("rawtypes")
 	@Before
 	public void setUp() throws Exception {
-	    File appDir = new File("src/test/java/io/appium/java_client");
-	    File app = new File(appDir, "TestApp.app.zip");
-	    DesiredCapabilities capabilities = new DesiredCapabilities();
-	    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-	    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-	    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-	    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-	    driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        if (!populated)
+		    PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 
-		PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        populated = true;
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		driver.quit();
-	}
+    @AfterClass
+    public static void afterClass() throws Exception {
+        if (driver != null)
+            driver.quit();
+
+        if (service != null)
+            service.stop();
+    }
 
 	@Test
 	public void findByElementsTest() {
@@ -230,4 +289,49 @@ public class iOSPageObjectTest {
 	public void areIOSElements_FindByTest(){
 		Assert.assertNotEquals(0, iosButtons.size());
 	}
+
+	@Test
+	public void findAllElementsTest(){
+		Assert.assertNotEquals(0, findAllElements.size());
+	}
+
+	@Test
+	public void findAllElementTest(){
+		Assert.assertNotEquals(null, findAllElement.getText());
+	}
+
+    @Test
+    public void isTouchAbleElement(){
+        Assert.assertNotEquals(null, touchableButton.getText());
+    }
+
+    @Test
+    public void areTouchAbleElements(){
+        Assert.assertNotEquals(0, touchableButtons.size());
+    }
+
+    @Test
+    public void isTheFieldIOSElement(){
+        @SuppressWarnings("unused")
+		IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
+        iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
+        iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
+        iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
+    }
+
+    @Test
+    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy(){
+        try {
+            Assert.assertNotEquals(null, elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+        }
+        catch (NoSuchElementException ignored){
+            return;
+        }
+        throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
+    }
+
+    @Test
+    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List(){
+        Assert.assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
+    }
 }

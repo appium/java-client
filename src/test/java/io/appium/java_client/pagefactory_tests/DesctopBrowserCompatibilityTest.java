@@ -1,5 +1,22 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.pagefactory_tests;
 
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -29,7 +46,7 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-public class BrowserCompatibilityTest {
+public class DesctopBrowserCompatibilityTest {
 
 	private static enum AvailableDrivers {
 		FIREFOX(FirefoxDriver.class, new ArrayList<Platform>() {
@@ -153,7 +170,7 @@ public class BrowserCompatibilityTest {
 	@iOSFindBys({
 		@iOSFindBy(xpath = "//selector[1]"),
 		@iOSFindBy(xpath = "//someTag")})
-	@FindBy(id="gbqfb")
+	@FindBy(name="btnG")
 	private RemoteWebElement searchButton;
 	
 	@AndroidFindBy(className = "someClass")	
@@ -162,6 +179,11 @@ public class BrowserCompatibilityTest {
 		@iOSFindBy(xpath = "//someTag")})
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> foundLinks;
+	
+	private List<WebElement> ires; //this list is located by id="ires"
+	private WebElement btnG; //this element is found by name="btnG"
+	private WebDriver trap1;
+	private List<AndroidDriver<?>> trap2;
 	
 	private void test(WebDriver driver){
 		try {
@@ -175,6 +197,10 @@ public class BrowserCompatibilityTest {
 			searchTextField.sendKeys("Hello, Appium!");
 			searchButton.click();
 			Assert.assertNotEquals(0, foundLinks.size());
+			Assert.assertNotEquals(0, ires.size());
+			Assert.assertEquals(null, trap1);
+			Assert.assertEquals(null, trap2);
+            btnG.click();
 		} finally {
 			driver.quit();
 		}

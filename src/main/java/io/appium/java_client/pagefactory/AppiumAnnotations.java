@@ -1,20 +1,41 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.remote.MobilePlatform.*;
+import static io.appium.java_client.remote.AutomationName.*;
 import io.appium.java_client.MobileBy;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.Annotations;
+import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
-class AppiumAnnotations extends Annotations{
+class AppiumAnnotations extends Annotations {
 
 	private final static List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ = new ArrayList<String>() {
 		private static final long serialVersionUID = 1L;
@@ -29,6 +50,7 @@ class AppiumAnnotations extends Annotations{
 		}
 	};
 	private final static Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
+
 	private static List<String> getMethodNames(Method[] methods) {
 		List<String> names = new ArrayList<String>();
 		for (Method m : methods) {
@@ -86,6 +108,18 @@ class AppiumAnnotations extends Annotations{
 			By getBy(Annotation annotation) {
 				return By.xpath(getValue(annotation, this));
 			}
+		},
+		BYLINKTEXT("linkText") {
+			@Override
+			By getBy(Annotation annotation) {
+				return By.linkText(getValue(annotation, this));
+			}
+		},
+		BYPARTIALLINKTEXT("partialLinkText") {
+			@Override
+			By getBy(Annotation annotation) {
+				return By.partialLinkText(getValue(annotation, this));
+			}
 		};
 
 		private final String valueName;
@@ -135,44 +169,71 @@ class AppiumAnnotations extends Annotations{
 
 	private final Field mobileField;
 	private final String platform;
+	private final String automation;
 
-	AppiumAnnotations(Field field, String platform) {
+	AppiumAnnotations(Field field, String platform, String automation) {
 		super(field);
 		mobileField = field;
-		this.platform = String.valueOf(platform).
-				toUpperCase().trim();
+		this.platform = String.valueOf(platform).toUpperCase().trim();
+		this.automation = String.valueOf(automation).toUpperCase().trim();
 	}
 
-	private void assertValidAnnotations() {
+	private static void checkDisallowedAnnotationPairs(Annotation a1,
+			Annotation a2) throws IllegalArgumentException {
+		if (a1 != null && a2 != null) {
+			throw new IllegalArgumentException("If you use a '@"
+					+ a1.getClass().getSimpleName() + "' annotation, "
+					+ "you must not also use a '@"
+					+ a2.getClass().getSimpleName() + "' annotation");
+		}
+	}
+
+	@Override
+	protected void assertValidAnnotations() {
 		AndroidFindBy androidBy = mobileField
 				.getAnnotation(AndroidFindBy.class);
 		AndroidFindBys androidBys = mobileField
 				.getAnnotation(AndroidFindBys.class);
+		AndroidFindAll androidFindAll = mobileField
+				.getAnnotation(AndroidFindAll.class);
+
+		SelendroidFindBy selendroidBy = mobileField
+				.getAnnotation(SelendroidFindBy.class);
+		SelendroidFindBys selendroidBys = mobileField
+				.getAnnotation(SelendroidFindBys.class);
+		SelendroidFindAll selendroidFindAll = mobileField
+				.getAnnotation(SelendroidFindAll.class);
 
 		iOSFindBy iOSBy = mobileField.getAnnotation(iOSFindBy.class);
 		iOSFindBys iOSBys = mobileField.getAnnotation(iOSFindBys.class);
+		iOSFindAll iOSFindAll = mobileField.getAnnotation(iOSFindAll.class);
 
-		if (androidBy != null && androidBys != null) {
-			throw new IllegalArgumentException(
-					"If you use a '@AndroidFindBy' annotation, "
-							+ "you must not also use a '@AndroidFindBys' annotation");
-		}
+		checkDisallowedAnnotationPairs(androidBy, androidBys);
+		checkDisallowedAnnotationPairs(androidBy, androidFindAll);
+		checkDisallowedAnnotationPairs(androidBys, androidFindAll);
 
-		if (iOSBy != null && iOSBys != null) {
-			throw new IllegalArgumentException(
-					"If you use a '@iOSFindBy' annotation, "
-							+ "you must not also use a '@iOSFindBys' annotation");
-		}
+		checkDisallowedAnnotationPairs(selendroidBy, selendroidBys);
+		checkDisallowedAnnotationPairs(selendroidBy, selendroidFindAll);
+		checkDisallowedAnnotationPairs(selendroidBys, selendroidFindAll);
+
+		checkDisallowedAnnotationPairs(iOSBy, iOSBys);
+		checkDisallowedAnnotationPairs(iOSBy, iOSFindAll);
+		checkDisallowedAnnotationPairs(iOSBys, iOSFindAll);
+		super.assertValidAnnotations();
 	}
 
 	private static Method[] prepareAnnotationMethods(
 			Class<? extends Annotation> annotation) {
-		List<String> targeAnnotationMethodNamesList = getMethodNames(annotation.getDeclaredMethods());
-		targeAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
+		List<String> targeAnnotationMethodNamesList = getMethodNames(annotation
+				.getDeclaredMethods());
+		targeAnnotationMethodNamesList
+				.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
 		Method[] result = new Method[targeAnnotationMethodNamesList.size()];
-		for (String methodName: targeAnnotationMethodNamesList){
+		for (String methodName : targeAnnotationMethodNamesList) {
 			try {
-				result[targeAnnotationMethodNamesList.indexOf(methodName)] = annotation.getMethod(methodName, DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
+				result[targeAnnotationMethodNamesList.indexOf(methodName)] = annotation
+						.getMethod(methodName,
+								DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
 			} catch (NoSuchMethodException e) {
 				throw new RuntimeException(e);
 			} catch (SecurityException e) {
@@ -217,43 +278,115 @@ class AppiumAnnotations extends Annotations{
 				+ ": There is an unknown strategy " + valueName);
 	}
 
-	private By getChainedMobileBy(Annotation[] annotations) {
+	@SuppressWarnings("unchecked")
+	private <T extends By> T getComplexMobileBy(Annotation[] annotations,
+			Class<T> requiredByClass) {
 		;
 		By[] byArray = new By[annotations.length];
 		for (int i = 0; i < annotations.length; i++) {
 			byArray[i] = getMobileBy(annotations[i],
 					getFilledValue(annotations[i]));
 		}
-		return new ByChained(byArray);
+		try {
+			Constructor<?> c = requiredByClass.getConstructor(By[].class);
+			Object[] values = new Object[] { byArray };
+			return (T) c.newInstance(values);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private ContentMappedBy setByForTheNativeContentAndReturn(By by,
+			Map<ContentType, By> contentMap) {
+		if (by != null)
+			contentMap.put(ContentType.NATIVE, by);
+		return new ContentMappedBy(contentMap);
 	}
 
 	@Override
 	public By buildBy() {
+
+		Map<ContentType, By> contentMap = new HashMap<ContentType, By>();
+
+		By defaultBy = super.buildBy();
+		contentMap.put(ContentType.HTML, defaultBy);
+		contentMap.put(ContentType.NATIVE, defaultBy);
+
 		assertValidAnnotations();
+
+		SelendroidFindBy selendroidBy = mobileField
+				.getAnnotation(SelendroidFindBy.class);
+		if (selendroidBy != null && ANDROID.toUpperCase().equals(platform)
+				&& SELENDROID.toUpperCase().equals(automation)) {
+			return setByForTheNativeContentAndReturn(
+					getMobileBy(selendroidBy, getFilledValue(selendroidBy)),
+					contentMap);
+		}
+
+		SelendroidFindBys selendroidBys = mobileField
+				.getAnnotation(SelendroidFindBys.class);
+		if (selendroidBys != null && ANDROID.toUpperCase().equals(platform)
+				&& SELENDROID.toUpperCase().equals(automation)) {
+			return setByForTheNativeContentAndReturn(
+					getComplexMobileBy(selendroidBys.value(), ByChained.class),
+					contentMap);
+		}
+
+		SelendroidFindAll selendroidAll = mobileField
+				.getAnnotation(SelendroidFindAll.class);
+		if (selendroidAll != null && ANDROID.toUpperCase().equals(platform)
+				&& SELENDROID.toUpperCase().equals(automation)) {
+			return setByForTheNativeContentAndReturn(
+					getComplexMobileBy(selendroidAll.value(), ByAll.class),
+					contentMap);
+		}
 
 		AndroidFindBy androidBy = mobileField
 				.getAnnotation(AndroidFindBy.class);
 		if (androidBy != null && ANDROID.toUpperCase().equals(platform)) {
-			return getMobileBy(androidBy, getFilledValue(androidBy));
+			return setByForTheNativeContentAndReturn(
+					getMobileBy(androidBy, getFilledValue(androidBy)),
+					contentMap);
 		}
 
 		AndroidFindBys androidBys = mobileField
 				.getAnnotation(AndroidFindBys.class);
 		if (androidBys != null && ANDROID.toUpperCase().equals(platform)) {
-			return getChainedMobileBy(androidBys.value());
+			return setByForTheNativeContentAndReturn(
+					getComplexMobileBy(androidBys.value(), ByChained.class),
+					contentMap);
+		}
+
+		AndroidFindAll androidFindAll = mobileField
+				.getAnnotation(AndroidFindAll.class);
+		if (androidFindAll != null && ANDROID.toUpperCase().equals(platform)) {
+			return setByForTheNativeContentAndReturn(
+					getComplexMobileBy(androidFindAll.value(), ByAll.class),
+					contentMap);
 		}
 
 		iOSFindBy iOSBy = mobileField.getAnnotation(iOSFindBy.class);
 		if (iOSBy != null && IOS.toUpperCase().equals(platform)) {
-			return getMobileBy(iOSBy, getFilledValue(iOSBy));
+			return setByForTheNativeContentAndReturn(
+					getMobileBy(iOSBy, getFilledValue(iOSBy)),
+					contentMap);
 		}
 
 		iOSFindBys iOSBys = mobileField.getAnnotation(iOSFindBys.class);
 		if (iOSBys != null && IOS.toUpperCase().equals(platform)) {
-			return getChainedMobileBy(iOSBys.value());
+			return setByForTheNativeContentAndReturn(
+					getComplexMobileBy(iOSBys.value(), ByChained.class),
+					contentMap);
 		}
 
-		return super.buildBy();
+		iOSFindAll iOSFindAll = mobileField.getAnnotation(iOSFindAll.class);
+		if (iOSFindAll != null && IOS.toUpperCase().equals(platform)) {
+			return setByForTheNativeContentAndReturn(
+					getComplexMobileBy(iOSFindAll.value(), ByAll.class),
+					contentMap);
+		}
+
+		return new ContentMappedBy(contentMap);
 	}
 
 }
