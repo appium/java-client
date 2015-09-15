@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.1.0</version>
+  <version>3.2.0</version>
 </dependency>
 ```
 
@@ -21,7 +21,7 @@ It currently depends on selenium-java 2.46.0. If it is necessary to use another 
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.1.0</version>
+  <version>3.2.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -108,7 +108,7 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 
 ##Changelog##
-*3.2.0 (not yet published)*
+*3.2.0*
 - updated the dependency on Selenium to version 2.47.1
 - the new dependency on commons-validator v1.4.1
 - the ability to start programmatically/silently an Appium node server is provided now. Details please read at [#240](https://github.com/appium/java-client/pull/240).
