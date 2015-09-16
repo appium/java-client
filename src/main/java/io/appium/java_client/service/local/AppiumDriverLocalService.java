@@ -23,11 +23,12 @@ import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-
+import java.util.concurrent.locks.ReentrantLock;
 
 public final class AppiumDriverLocalService extends DriverService {
 
@@ -39,6 +40,8 @@ public final class AppiumDriverLocalService extends DriverService {
     private final String ipAddress;
     private final long startupTimeout;
     private final TimeUnit timeUnit;
+    private final ReentrantLock lock = new ReentrantLock();
+
 
 
     private CommandLine process = null;
@@ -73,6 +76,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     @Override
     public boolean isRunning() {
+        lock.lock();
         if (process == null)
             return false;
 
@@ -81,6 +85,8 @@ public final class AppiumDriverLocalService extends DriverService {
             return true;
         } catch (UrlChecker.TimeoutException e) {
             return false;
+        } finally {
+            lock.unlock();
         }
 
     }
@@ -100,8 +106,8 @@ public final class AppiumDriverLocalService extends DriverService {
      * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
      * @see #stop()
      */
-    public synchronized void start() throws AppiumServerHasNotBeenStartedLocallyException {
-
+    public void start() throws AppiumServerHasNotBeenStartedLocallyException {
+        lock.lock();
         if (isRunning())
             return;
 
@@ -121,6 +127,8 @@ public final class AppiumDriverLocalService extends DriverService {
 
             throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt,
                     e);
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -131,8 +139,10 @@ public final class AppiumDriverLocalService extends DriverService {
      * @see #start()
      */
     @Override
-    public synchronized void stop() {
+    public void stop() {
+        lock.lock();
         destroyProcess();
+        lock.unlock();
     }
 
 
