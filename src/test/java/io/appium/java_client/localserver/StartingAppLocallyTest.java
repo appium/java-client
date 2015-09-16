@@ -33,7 +33,7 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class StartingAppLocally {
+public class StartingAppLocallyTest {
 
     @Test
     public void startingAndroidAppWithCapabilitiesOnlyTest(){
