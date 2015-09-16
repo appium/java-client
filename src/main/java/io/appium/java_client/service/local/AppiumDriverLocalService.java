@@ -76,6 +76,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     @Override
     public boolean isRunning() {
+        lock.lock();
         if (process == null)
             return false;
 
@@ -84,6 +85,8 @@ public final class AppiumDriverLocalService extends DriverService {
             return true;
         } catch (UrlChecker.TimeoutException e) {
             return false;
+        } finally {
+            lock.unlock();
         }
 
     }
