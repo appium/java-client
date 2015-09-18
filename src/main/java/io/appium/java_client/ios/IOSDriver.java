@@ -1,3 +1,19 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
@@ -9,7 +25,10 @@ import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.net.URL;
@@ -36,7 +55,25 @@ FindsByIosUIAutomation<RequiredElementType>{
 		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
 				IOS_PLATFORM));
 		this.setElementConverter(new JsonToIOSElementConverter(this));
-  }
+    }
+
+    public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        super(service, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+
+    public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        super(builder, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+
+    public IOSDriver(Capabilities desiredCapabilities) {
+        super(substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
 
   /**
    * Scroll to the element whose 'text' attribute contains the input text.
@@ -44,7 +81,7 @@ FindsByIosUIAutomation<RequiredElementType>{
    * @param text input text contained in text attribute
    */
    @SuppressWarnings("unchecked")
-@Override
+   @Override
    public RequiredElementType scrollTo(String text) {
      return (RequiredElementType) ((ScrollsTo<?>) 
     		 findElementByClassName("UIATableView")).scrollTo(text);
@@ -56,7 +93,7 @@ FindsByIosUIAutomation<RequiredElementType>{
    * @param text input text to match
    */
    @SuppressWarnings("unchecked")
-@Override
+   @Override
    public RequiredElementType scrollToExact(String text) {
 	  return (RequiredElementType) ((ScrollsTo<?>) 
 			  findElementByClassName("UIATableView")).scrollToExact(text);
@@ -86,8 +123,8 @@ FindsByIosUIAutomation<RequiredElementType>{
 	@Override
 	public void shake() {
 		execute(SHAKE);
-	}	
-	
+	}
+
 	/**
 	 * @see GetsNamedTextField#getNamedTextField(String)
 	 */
@@ -101,16 +138,22 @@ FindsByIosUIAutomation<RequiredElementType>{
 		}
 		return element;
 	}
-	
+
+    /**
+     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public RequiredElementType findElementByIosUIAutomation(String using) {
+	public RequiredElementType findElementByIosUIAutomation(String using) throws WebDriverException {
 		return (RequiredElementType) findElement("-ios uiautomation", using);
 	}
 
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RequiredElementType> findElementsByIosUIAutomation(String using) {
+	public List<RequiredElementType> findElementsByIosUIAutomation(String using) throws WebDriverException {
 		return (List<RequiredElementType>) findElements("-ios uiautomation", using);
 	}	
 }

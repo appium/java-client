@@ -1,3 +1,19 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
@@ -9,7 +25,10 @@ import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
 
@@ -51,6 +70,24 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 		this.setElementConverter(new JsonToAndroidElementConverter(this));
 	}
 
+    public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        super(service, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
+    public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        super(builder, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
+    public AndroidDriver(Capabilities desiredCapabilities) {
+        super(substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+
   /**
    * Scroll forward to the element which has a description or name which contains the input text.
    * The scrolling is performed on the first scrollView present on the UI
@@ -86,8 +123,8 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	 *            code for the key pressed on the device
 	 */
 	@Override
-	public void sendKeyEvent(int key) {
-		execute(KEY_EVENT, getCommandImmutableMap(KEY_CODE, key));
+	public void pressKeyCode(int key) {
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
 	}
 
   /**
@@ -98,13 +135,41 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	 * 
 	 * @see AndroidKeyCode
 	 * @see AndroidKeyMetastate
-	 * @see AndroidDeviceActionShortcuts#sendKeyEvent(int, Integer)
+	 * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
 	 */
 	@Override
-	public void sendKeyEvent(int key, Integer metastate) {
+	public void pressKeyCode(int key, Integer metastate) {
 		String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
 		Object[] values = new Object[] { key, metastate };
-		execute(KEY_EVENT, getCommandImmutableMap(parameters, values));
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
+	}
+
+	/**
+	 * Send a long key event to the device
+	 *
+	 * @param key
+	 *            code for the long key pressed on the device
+	 */
+	@Override
+	public void longPressKeyCode(int key) {
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+	}
+
+	/**
+	 * @param key
+	 *            code for the long key pressed on the Android device
+	 * @param metastate
+	 *            metastate for the long key press
+	 *
+	 * @see AndroidKeyCode
+	 * @see AndroidKeyMetastate
+	 * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
+	 */
+	@Override
+	public void longPressKeyCode(int key, Integer metastate) {
+		String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
+		Object[] values = new Object[] { key, metastate };
+		execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
 	}
 
 	/**
@@ -258,17 +323,23 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	// Should be moved to the subclass
 	public void ignoreUnimportantViews(Boolean compress) {
 		setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
-	}	
-	
+	}
+
+    /**
+     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public RequiredElementType findElementByAndroidUIAutomator(String using) {
+	public RequiredElementType findElementByAndroidUIAutomator(String using) throws WebDriverException {
 		return (RequiredElementType) findElement("-android uiautomator", using);
 	}
 
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) {
+	public List<RequiredElementType> findElementsByAndroidUIAutomator(String using) throws WebDriverException {
 		return (List<RequiredElementType>) findElements("-android uiautomator", using);
 	}	
 

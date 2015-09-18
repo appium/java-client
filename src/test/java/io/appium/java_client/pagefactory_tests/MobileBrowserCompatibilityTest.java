@@ -1,3 +1,19 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -7,10 +23,10 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +46,7 @@ public class MobileBrowserCompatibilityTest {
 	@FindBy(name = "q")
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
 	private WebElement searchTextField;
+    private AppiumDriverLocalService service;
 	
 	@AndroidFindBys({
 		@AndroidFindBy(className = "someClass"),
@@ -43,17 +60,24 @@ public class MobileBrowserCompatibilityTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		 DesiredCapabilities capabilities = new DesiredCapabilities();
-		 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-		 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-		 driver = new AndroidDriver<RemoteWebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-		 //This time out is set because test can be run on slow Android SDK emulator
-		 PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+		driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
+		//This time out is set because test can be run on slow Android SDK emulator
+		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		driver.quit();
+        if (driver != null)
+            driver.quit();
+
+        if (service != null)
+            service.stop();
 	}
 
 	@Test

@@ -11,17 +11,17 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.1.0</version>
+  <version>3.2.0</version>
 </dependency>
 ```
 
-It currently depends on selenium-java 2.46.0. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+It currently depends on selenium-java 2.47.1. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
 
 ```
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.1.0</version>
+  <version>3.2.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -61,11 +61,14 @@ More can be found in the docs, but here's a quick list of features which this pr
 - startActivity()
 - resetApp()
 - getAppString()
-- sendKeyEvent()
+- pressKeyCode()
+- longPressKeyCode()
+- longPressKey()
 - currentActivity()
 - pullFile()
 - pushFile()
 - pullFolder()
+- replaceValue()
 - hideKeyboard()
 - runAppInBackground()
 - performTouchAction()
@@ -106,6 +109,15 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 
 ##Changelog##
+*3.2.0*
+- updated the dependency on Selenium to version 2.47.1
+- the new dependency on commons-validator v1.4.1
+- the ability to start programmatically/silently an Appium node server is provided now. Details please read at [#240](https://github.com/appium/java-client/pull/240).
+Historical reference: [The similar solution](https://github.com/Genium-Framework/Appium-Support) has been designed by [@Hassan-Radi](https://github.com/Hassan-Radi).
+The mentioned framework and the current solution use different approaches.
+- Throwing declarations were added to some searching methods. The __"getMouse"__ method of RemoteWebDriver was marked __Deprecated__
+- Add `replaceValue` method for elements.
+- Replace `sendKeyEvent()` method in android with pressKeyCode(int key) and added: pressKeyCode(int key, Integer metastate), longPressKeyCode(int key), longPressKeyCode(int key, Integer metastate)
 
 *3.1.1*
 - Page-object findBy strategies are now aware of which driver (iOS or Android) you are using. For more details see the Pull Request: https://github.com/appium/java-client/pull/213

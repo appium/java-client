@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ See the NOTICE file distributed with this work for additional
+  ~ information regarding copyright ownership.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
     <groupId>io.appium</groupId>
     <artifactId>java-client</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -15,7 +31,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.46.0</version>
+            <version>2.47.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -37,6 +53,11 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.4.1</version>
         </dependency>
     </dependencies>
     <packaging>jar</packaging>
@@ -65,6 +86,12 @@
 			<url>https://github.com/jonahss</url>
 			<id>jonahss</id>
 		</developer>
+        <developer>
+            <email>tichomirovsergey@gmail.com</email>
+            <name>Sergey Tikhomirov</name>
+            <url>https://github.com/TikhomirovSergey</url>
+            <id>TikhomirovSergey</id>
+        </developer>
 	</developers>
 
 	<distributionManagement>
@@ -136,6 +163,31 @@
                         <version>2.5</version>
                     </dependency>
                 </dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.18.1</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<phase>integration-test</phase>
+						<configuration>
+							<includes>
+								<include>**/*Test.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

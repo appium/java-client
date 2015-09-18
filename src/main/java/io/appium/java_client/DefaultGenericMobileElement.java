@@ -1,3 +1,19 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client;
 
 import io.appium.java_client.generic.searchcontext.GenericFindsByClassName;
@@ -13,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
@@ -47,19 +64,31 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return (T) super.findElementById(id);
     }
 
-    public T findElementByLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByLinkText(String using) throws WebDriverException {
         return (T) super.findElementByLinkText(using);
     }
 
-    public List findElementsByLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByLinkText(String using) throws WebDriverException{
         return super.findElementsByLinkText(using);
     }
 
-    public T findElementByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByPartialLinkText(String using) throws WebDriverException {
         return (T) super.findElementByPartialLinkText(using);
     }
 
-    public List findElementsByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByPartialLinkText(String using) throws WebDriverException {
         return super.findElementsByPartialLinkText(using);
     }
 
@@ -87,11 +116,17 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return super.findElementsByClassName(using);
     }
 
-    public T findElementByCssSelector(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByCssSelector(String using) throws WebDriverException{
         return (T) super.findElementByCssSelector(using);
     }
 
-    public List findElementsByCssSelector(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByCssSelector(String using) throws WebDriverException{
         return super.findElementsByCssSelector(using);
     }
 
@@ -111,5 +146,19 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
     @Override
     public List findElementsByAccessibilityId(String using) {
         return (List<T>) findElements("accessibility id", using);
+    }
+
+    /**
+     * @throws WebDriverException because it may not work against native app UI.
+     */
+    public void submit() throws WebDriverException{
+        super.submit();
+    }
+
+    /**
+     * @throws WebDriverException because it may not work against native app UI.
+     */
+    public String getCssValue(String propertyName) throws WebDriverException{
+        return super.getCssValue(propertyName);
     }
 }

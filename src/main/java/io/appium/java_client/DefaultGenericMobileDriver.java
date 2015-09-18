@@ -1,15 +1,30 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client;
 
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.generic.searchcontext.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +33,8 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         GenericSearchContext<T>, GenericFindsById<T>, GenericFindsByXPath<T>, GenericFindsByLinkText<T>, GenericFindsByTagName<T>,
         GenericFindsByClassName<T>, GenericFindsByCssSelector<T>, GenericFindsByName<T>{
 
-    public DefaultGenericMobileDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, desiredCapabilities);
+    public DefaultGenericMobileDriver(CommandExecutor executor, Capabilities desiredCapabilities){
+       super(executor, desiredCapabilities);
     }
 
     @Override
@@ -47,19 +62,31 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         return (T) super.findElementById(id);
     }
 
-    public T findElementByLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByLinkText(String using) throws WebDriverException{
         return (T) super.findElementByLinkText(using);
     }
 
-    public List findElementsByLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByLinkText(String using) throws WebDriverException{
         return super.findElementsByLinkText(using);
     }
 
-    public T findElementByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByPartialLinkText(String using) throws WebDriverException {
         return (T) super.findElementByPartialLinkText(using);
     }
 
-    public List findElementsByPartialLinkText(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByPartialLinkText(String using) throws WebDriverException {
         return super.findElementsByPartialLinkText(using);
     }
 
@@ -87,11 +114,17 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         return super.findElementsByClassName(using);
     }
 
-    public T findElementByCssSelector(String using) {
+    /**
+     * @throws WebDriverException his method doesn't work against native app UI.
+     */
+    public T findElementByCssSelector(String using) throws WebDriverException{
         return (T) super.findElementByCssSelector(using);
     }
 
-    public List findElementsByCssSelector(String using) {
+    /**
+     * @throws WebDriverException This method doesn't work against native app UI.
+     */
+    public List findElementsByCssSelector(String using) throws WebDriverException{
         return super.findElementsByCssSelector(using);
     }
 
@@ -104,12 +137,26 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     }
 
     @Override
-    public T findElementByAccessibilityId(String using) {
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
+    public T findElementByAccessibilityId(String using) throws WebDriverException {
         return (T) findElement("accessibility id", using);
     }
 
     @Override
-    public List findElementsByAccessibilityId(String using) {
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
+    public List findElementsByAccessibilityId(String using) throws WebDriverException{
         return (List<T>) findElements("accessibility id", using);
+    }
+
+    /**
+     * Mouse doesn't work on mobile devices and emulators
+     */
+    @Deprecated
+    public Mouse getMouse(){
+        return super.getMouse();
     }
 }

@@ -1,17 +1,31 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.android;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -23,9 +37,19 @@ import static org.junit.Assert.assertTrue;
 public class AndroidUIAutomatorTest {
 
   private AndroidDriver<AndroidElement> driver;
+  private static AppiumDriverLocalService service;
+
+  @BeforeClass
+  public static void beforeClass() throws Exception{
+     service = AppiumDriverLocalService.buildDefaultService();
+     service.start();
+  }
 
   @Before
   public void setup() throws Exception {
+    if (service == null || !service.isRunning())
+       throw new RuntimeException("An appium server node is not started!");
+
     File appDir = new File("src/test/java/io/appium/java_client");
     File app = new File(appDir, "ApiDemos-debug.apk");
     DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -33,7 +57,7 @@ public class AndroidUIAutomatorTest {
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+    driver = new AndroidDriver<AndroidElement>(service.getUrl(), capabilities);
   }
 
   @After
@@ -74,9 +98,35 @@ public class AndroidUIAutomatorTest {
 	  assertTrue(el3.isDisplayed());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
+  public void replaceValue() {
+    String originalValue = "original value";
+    String replacedValue = "replaced value";
+
+    driver.scrollToExact("Views").click();
+    driver.findElementByAndroidUIAutomator("text(\"Controls\")").click();
+    driver.findElementByAndroidUIAutomator("text(\"1. Light Theme\")").click();
+
+    AndroidElement editElement = driver.findElementByAndroidUIAutomator("resourceId(\"com.example.android.apis:id/edit\")");
+
+    editElement.sendKeys(originalValue);
+
+    assertEquals(originalValue, editElement.getText());
+
+    editElement.replaceValue(replacedValue);
+
+    assertEquals(replacedValue, editElement.getText());
+  }
+
+ @Test(expected = IllegalArgumentException.class)
   public void ErrorTest() {
     driver.findElementByAndroidUIAutomator(null);
   }
 
+
+  @AfterClass
+  public static void afterClass(){
+    if (service != null)
+       service.stop();
+  }
 }
