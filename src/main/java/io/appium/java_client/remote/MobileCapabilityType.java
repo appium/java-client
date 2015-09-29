@@ -41,4 +41,7 @@ public interface MobileCapabilityType extends CapabilityType {
 
   //Sauce-specific
   String APPIUM_VERSION = "appiumVersion";
+  
+  // capability to accept accento on keyboard
+  String UNICODE_KEYBOARD = "unicodeKeyboard";
 }
