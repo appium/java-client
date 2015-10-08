@@ -46,11 +46,16 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
     private static final int DEFAULT_APPIUM_PORT = 4723;
 
-    private final static String COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM = "npm -g ls --depth=0";
-    private final static String COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM_WIN = "npm.cmd -g ls --depth=0";
+    private static final String NODE_COMMAND_PREFIX = defineNodeCommandPrefix();
+
+    private final static String COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM = NODE_COMMAND_PREFIX +
+            " npm -g ls --depth=0";
+    private final static String COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM_WIN = NODE_COMMAND_PREFIX +
+            " npm.cmd -g ls --depth=0";
 
     private static final int REQUIRED_MAJOR_NODE_JS = 0;
     private static final int REQUIRED_MINOR_NODE_JS = 0;
+
 
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
@@ -80,7 +85,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         Runtime rt = Runtime.getRuntime();
         String result = null;
         try {
-            Process p = rt.exec("node -v");
+            Process p = rt.exec(NODE_COMMAND_PREFIX + " node -v");
             p.waitFor();
             result = getProcessOutput(p.getInputStream());
         } catch (Exception e) {
@@ -128,6 +133,13 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
                     absoluteNodePath + "doesn't match " + APPIUM_NODE_MASK);
     }
 
+    private static String defineNodeCommandPrefix() {
+        if (Platform.getCurrent().is(Platform.WINDOWS))
+            return  "cmd.exe /C";
+        else
+            return  "/bin/bash -l -c";
+    }
+
     public AppiumServiceBuilder() {
         usingPort(DEFAULT_APPIUM_PORT);
     }
@@ -138,7 +150,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         Runtime rt = Runtime.getRuntime();
         Process p;
         try {
-            p = rt.exec("node");
+            p = rt.exec(NODE_COMMAND_PREFIX + " node");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
