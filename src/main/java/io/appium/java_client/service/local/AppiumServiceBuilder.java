@@ -84,13 +84,19 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private static void validateNodeJSVersion(){
         Runtime rt = Runtime.getRuntime();
         String result = null;
+        Process p = null;
         try {
-            Process p = rt.exec(NODE_COMMAND_PREFIX + " node -v");
+            p = rt.exec(NODE_COMMAND_PREFIX + " node -v");
             p.waitFor();
             result = getProcessOutput(p.getInputStream());
         } catch (Exception e) {
             throw new InvalidNodeJSInstance("Node.js is not installed", e);
         }
+        finally {
+            if (p != null)
+                p.destroy();
+        }
+
         String versionNum =  result.replace("v","");
         String[] tokens = versionNum.split("\\.");
         if (Integer.parseInt(tokens[0]) < REQUIRED_MAJOR_NODE_JS ||
@@ -102,12 +108,17 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private static File findNodeInCurrentFileSystem(){
         Runtime rt = Runtime.getRuntime();
         String instancePath;
+        Process p = null;
         try {
-            Process p = rt.exec(returnCommandThatSearchesForDefaultNode());
+            p = rt.exec(returnCommandThatSearchesForDefaultNode());
             p.waitFor();
             instancePath = getProcessOutput(p.getInputStream());
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+        finally {
+            if (p != null)
+                p.destroy();
         }
 
         File result;
@@ -154,16 +165,20 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        OutputStream outputStream = p.getOutputStream();
-        PrintStream out = new PrintStream(outputStream) ;
-        out.println("console.log(process.execPath);") ;
-        out.close();
 
         try {
+            OutputStream outputStream = p.getOutputStream();
+            PrintStream out = new PrintStream(outputStream) ;
+            out.println("console.log(process.execPath);") ;
+            out.close();
+
             return new File(getProcessOutput(p.getInputStream()));
         }
         catch (Throwable t){
             throw new RuntimeException(t);
+        }
+        finally {
+            p.destroy();
         }
     }
 
