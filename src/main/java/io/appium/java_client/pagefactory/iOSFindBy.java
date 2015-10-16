@@ -29,14 +29,40 @@ import java.lang.annotation.Target;
  * this allows users to quickly and easily create PageObjects.
  * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface iOSFindBy {
-	String uiAutomator() default "";
-	String accessibility()  default "";
-	String id() default "";
-	String name() default "";
-	String className() default "";
-	String tagName() default "";
-	String xpath()  default "";
+    /**
+     * It is is iOS UIAutomation string.
+     * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
+     * Conceptual/InstrumentsUserGuide/UIAutomation.html
+     */
+    String uiAutomator() default "";
+
+    /**
+     * It an UI automation accessibility Id which is a convenient to iOS.
+     * About iOS accessibility
+     * {@link "https://developer.apple.com/library/ios/documentation/UIKit/Reference/
+     * UIAccessibilityIdentification_Protocol/index.html"}
+     */
+    String accessibility() default "";
+
+    /**
+     * It is an id of the target element.
+     */
+    String id() default "";
+
+    /**
+     * It is a name of a type/class of the target element.
+     */
+    String className() default "";
+
+    /**
+     * It is a desired element tag.
+     */
+    String tagName() default "";
+
+    /**
+     * It is a xpath to the target element.
+     */
+    String xpath() default "";
 }

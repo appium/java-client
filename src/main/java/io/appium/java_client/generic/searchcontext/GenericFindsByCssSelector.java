@@ -22,5 +22,6 @@ import java.util.List;
 
 public interface GenericFindsByCssSelector<T extends WebElement> {
     T findElementByCssSelector(String cssSelector);
+
     List<T> findElementsByCssSelector(String cssSelector);
 }

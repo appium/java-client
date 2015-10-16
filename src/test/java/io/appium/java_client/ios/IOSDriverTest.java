@@ -16,114 +16,54 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.HideKeyboardStrategy;
-import io.appium.java_client.remote.MobileCapabilityType;
 
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import org.junit.Test;
 
-import org.openqa.selenium.Point;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.html5.Location;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
+public class IOSDriverTest extends BaseIOSTest {
 
-import java.io.File;
+    //TODO There is no ability to check this function usibg simulators.
+    // When CI will have been set up then this test will be returned
+    public void getDeviceTimeTest() {
+        String time = driver.getDeviceTime();
+        assertTrue(time.length() == 28);
+    }
 
-import static org.junit.Assert.assertEquals;
+    @Test public void resetTest() {
+        driver.resetApp();
+    }
 
-import static org.junit.Assert.assertNotEquals;
+    @Test public void hideKeyboardWithParametersTest() {
+        MobileElement element = driver.findElementById("IntegerA");
+        element.click();
+        driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
+    }
 
+    @Test public void geolocationTest() {
+        Location location = new Location(45, 45, 100);
+        driver.setLocation(location);
+    }
 
-/**
- * Test Mobile Driver features
- */
-public class IOSDriverTest {
+    @Test public void orientationTest() {
+        assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+        assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+    
+    @Test public void lockTest() {
+        driver.lockDevice(20);
+    }
 
-  private IOSDriver<MobileElement> driver;
-  private static AppiumDriverLocalService service;
-
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-    service = AppiumDriverLocalService.buildDefaultService();
-    service.start();
-  }
-
-  @Before
-  public void setup() throws Exception {
-    if (service == null || !service.isRunning())
-      throw new RuntimeException("An appium server node is not started!");
-
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "UICatalog.app.zip");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<MobileElement>(service.getUrl(), capabilities);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-  }
-
-  @Test
-  public void getStringsTest() {
-    String strings = driver.getAppStrings();
-    assert(strings.length() > 100);
-  }
-
-  @Test
-  public void getStringsWithLanguageTest() {
-    String strings = driver.getAppStrings("en");
-    assert(strings.length() > 100);
-  }
-
-  @Test
-  public void resetTest() {
-    driver.resetApp();
-  }
-
-  @Test
-  public void namedTextFieldTest() {
-    MobileElement element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
-    element.click();
-    element = driver.getNamedTextField("DEFAULT");
-    ((IOSElement) element).setValue("Grace Hopper");
-    assertEquals("Grace Hopper", element.getText());
-  }
-
-  @Test
-  public void hideKeyboardWithParametersTest() {
-    MobileElement element = driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
-    element.click();
-    element = driver.findElementByAccessibilityId("DEFAULT");
-    element.click();
-    driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
-  }
-
-  @Test
-  public void scrollToTest() {
-    MobileElement searchBar = driver.findElementByName("Search Bars");
-    Point before = searchBar.getLocation();
-    driver.scrollTo("Search Ba");
-    Point after = searchBar.getLocation();
-    assertNotEquals(before, after);
-  }
-
-  @Test
-  public void scrollToExactTest() {
-    MobileElement searchBar = driver.findElementByName("Search Bars");
-    Point before = searchBar.getLocation();
-    driver.scrollToExact("Search Bars");
-    Point after = searchBar.getLocation();
-    assertNotEquals(before, after);
-  }
-
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-      service.stop();
-  }
+    @Test public void pullFileTest() {
+        byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
+        assert (data.length > 0);
+    }
 }

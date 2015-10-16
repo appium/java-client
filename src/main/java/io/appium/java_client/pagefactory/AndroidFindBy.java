@@ -29,14 +29,39 @@ import java.lang.annotation.Target;
  * this allows users to quickly and easily create PageObjects.
  * using Android UI selectors, accessibility, id, name, class name, tag and xpath
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface AndroidFindBy {
-	String uiAutomator() default "";
-	String accessibility()  default "";
-	String id() default "";
-	String name() default "";
-	String className() default "";
-	String tagName() default "";
-	String xpath()  default "";
+    /**
+     * It is an is Android UIAutomator string.
+     * Read http://developer.android.com/intl/ru/tools/testing-support-library/
+     * index.html#uia-apis
+     */
+    String uiAutomator() default "";
+
+    /**
+     * It an UI automation accessibility Id which is a convenient to Android.
+     * About Android accessibility
+     * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
+     */
+    String accessibility() default "";
+
+    /**
+     * It is an id of the target element.
+     */
+    String id() default "";
+
+    /**
+     * It is a className of the target element.
+     */
+    String className() default "";
+
+    /**
+     * It is a desired element tag.
+     */
+    String tagName() default "";
+
+    /**
+     * It is a xpath to the target element.
+     */
+    String xpath() default "";
 }

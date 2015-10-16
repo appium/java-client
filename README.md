@@ -1,7 +1,7 @@
 java-client
 ===========
 
-Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://code.google.com/p/selenium/source/browse/spec-draft.md?repo=mobile)
+Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
 
 Depends upon the Selenium Java client library, available [here](http://docs.seleniumhq.org/download/)
 
@@ -11,17 +11,17 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.2.0</version>
+  <version>3.4.1</version>
 </dependency>
 ```
 
-It currently depends on selenium-java 2.47.1. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+It currently depends on selenium-java 2.53.0. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
 
 ```
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.2.0</version>
+  <version>3.4.1</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -60,11 +60,12 @@ More can be found in the docs, but here's a quick list of features which this pr
 
 - startActivity()
 - resetApp()
-- getAppString()
+- getAppStringMap()
 - pressKeyCode()
 - longPressKeyCode()
 - longPressKey()
 - currentActivity()
+- getDeviceTime()
 - pullFile()
 - pushFile()
 - pullFolder()
@@ -84,10 +85,8 @@ More can be found in the docs, but here's a quick list of features which this pr
 - launchApp()
 - closeApp()
 - endTestCoverage()
-- lockScreen()
 - isLocked()
 - shake()
-- complexFind()
 - scrollTo()
 - scrollToExact()
 - openNotifications()
@@ -95,6 +94,8 @@ More can be found in the docs, but here's a quick list of features which this pr
 - getNetworkConnection(), setNetworkConnection()
 - ignoreUnimportantViews(), getSettings()
 - toggleLocationServices()
+- lockDevice()
+- unlockDevice()
 
 Locators:
 - findElementByAccessibilityId()
@@ -106,9 +107,75 @@ Locators:
 
 ## Note to developers! ##
 If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
-If you are using the Eclipse IDE, make sure you are using verison Luna or later.
+If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
+*4.0.0 (under construction yet)*
+- FIX of TouchAction. Instances of the TouchAction class are reusable now
+- FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by 
+AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
+- the project was integrated with [maven-checkstyle-plugin](https://maven.apache.org/plugins/maven-checkstyle-plugin/). Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the work
+- all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
+anymore.
+- source code was improved according to code style checking rules. 
+- The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
+`org.openqa.selenium.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
+`io.appium.java_client.android.internal.JsonToAndroidElementConverter` or 
+`io.appium.java_client.ios.internal.JsonToIOSElementConverter` by RemoteWebDriver when it is needed.
+- Constructors of the abstract `io.appium.java_client.AppiumDriver` were redesigned. Now they require 
+a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Constructors of 
+`io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver` are same still.
+- the integration with `org.owasp dependency-check-maven` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) 
+for the work.
+- the integration with `org.jacoco jacoco-maven-plugin` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
+
+...
+
+*3.4.1*
+- Update to Selenium v2.53.0
+- all dependencies were updated to latest versions
+- the dependency on org.apache.commons commons-lang3 v3.4 was added
+- the fix of Widget method invocation.[#340](https://github.com/appium/java-client/issues/340). A class visibility was taken into account. Thanks to [aznime](https://github.com/aznime) for the catching.
+Server flags were added:
+  - GeneralServerFlag.ASYNC_TRACE
+  - IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT
+- Source code was formatted using [eclipse-java-google-style.xml](https://google-styleguide.googlecode.com/svn/trunk/eclipse-java-google-style.xml). This is not the complete solution. The code style checking is going to be added further. Thanks to [SrinivasanTarget](https://github.com/SrinivasanTarget) for the work!
+
+*3.4.0*
+- Update to Selenium v2.52.0
+- `getAppStrings()` methods are deprecated now. They are going to be removed. `getAppStringMap()` methods were added and now return a map with app strings (keys and values)
+instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the contribution.
+- Add `getAppStringMap(String language, String stringFile)` method to allow searching app strings in the specified file
+- FIXED of the bug which causes deadlocks of AppiumDriver LocalService in multithreading. Thanks to [saikrishna321](https://github.com/saikrishna321) for the [bug report](https://github.com/appium/java-client/issues/283).
+- FIXED Zoom methods, thanks to [@kkhaidukov](https://github.com/kkhaidukov)
+- FIXED The issue of compatibility of AppiumServiceBuilder with Appium node server v >= 1.5.x. Take a look at [#305](https://github.com/appium/java-client/issues/305)
+- `getDeviceTime()` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
+- FIXED `longPressKeyCode()` methods. Now they use the convenient JSONWP command.Thanks to [@kirillbilchenko](https://github.com/kirillbilchenko) for the proposed fix.
+- FIXED javadoc.
+- Page object tools were updated. Details read here: [#311](https://github.com/appium/java-client/issues/311), [#313](https://github.com/appium/java-client/pull/313), [#317](https://github.com/appium/java-client/pull/317). By.name locator strategy is deprecated for Android and iOS. It is still valid for the Selendroid mode. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the helping.
+- The method `lockScreen(seconds)` is deprecated and it is going to be removed in the next release. Since Appium node server v1.5.x it is recommended to use
+`AndroidDriver.lockDevice()...AndroidDriver.unlockDevice()` or `IOSDriver.lockDevice(int seconds)` instead. Thanks to [@namannigam](https://github.com/namannigam) for
+the catching. Read [#315](https://github.com/appium/java-client/issues/315)
+- `maven-release-plugin` was added to POM.XML configuration
+- [#320](https://github.com/appium/java-client/issues/320) fix. The `Widget.getSelfReference()` was added. This method allows to extract a real widget-object from inside a proxy at some extraordinary situations. Read: [PR](https://github.com/appium/java-client/pull/327). Thanks to [SergeyErmakovMercDev](https://github.com/SergeyErmakovMercDev) for the reporting.
+- all capabilities were added according to [this description](https://github.com/appium/appium/blob/1.5/docs/en/writing-running-appium/caps.md). There are three classes: `io.appium.java_client.remote.MobileCapabilityType` (just modified), `io.appium.java_client.remote.AndroidMobileCapabilityType` (android-specific capabilities), `io.appium.java_client.remote.IOSMobileCapabilityType` (iOS-specific capabilities). Details are here: [#326](https://github.com/appium/java-client/pull/326)
+- some server flags were marked `deprecated` because they are deprecated since server node v1.5.x. These flags are going to be removed at the java client release. Details are here: [#326](https://github.com/appium/java-client/pull/326)
+- The ability to start Appium node programmatically using desired capabilities. This feature is compatible with Appium node server v >= 1.5.x. Details are here: [#326](https://github.com/appium/java-client/pull/326)
+
+*3.3.0*
+- updated the dependency on Selenium to version 2.48.2
+- bug fix and enhancements of io.appium.java_client.service.local.AppiumDriverLocalService
+    - FIXED bug which was found and reproduced with Eclipse for Mac OS X. Please read about details here: [#252](https://github.com/appium/java-client/issues/252)
+    Thanks to [saikrishna321](https://github.com/saikrishna321) for the bug report
+    - FIXED bug which was found out by [Jonahss](https://github.com/Jonahss). Thanks for the reporting. Details: [#272](https://github.com/appium/java-client/issues/272)
+    and [#273](https://github.com/appium/java-client/issues/273)
+    - For starting an appium server using localService, added additional environment variable to specify the location of Node.js binary: NODE_BINARY_PATH
+    - The ability to set additional output streams was provided
+- The additional __startActivity()__ method was added to AndroidDriver. It allows to start activities without the stopping of a target app
+Thanks to [deadmoto](https://github.com/deadmoto) for the contribution
+- The additional extension of the Page Object design pattern was designed. Please read about details here: [#267](https://github.com/appium/java-client/pull/267)
+- New public constructors to AndroidDriver/IOSDriver that allow passing a custom HttpClient.Factory Details: [#276](https://github.com/appium/java-client/pull/278) thanks to [baechul](https://github.com/baechul)
+
 *3.2.0*
 - updated the dependency on Selenium to version 2.47.1
 - the new dependency on commons-validator v1.4.1
@@ -138,7 +205,7 @@ The mentioned framework and the current solution use different approaches.
 - Added APPIUM_VERSION MobileCapabilityType
 - `sendKeyEvent()` moved from AppiumDriver to AndroidDriver
 - `linkText` and `partialLinkText` locators added
-- setValue() moved from MobileElement to AndroidElement
+- setValue() moved from MobileElement to iOSElement
 - Fixed Selendroid PageAnnotations
 
 *2.1.0*

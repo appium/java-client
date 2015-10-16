@@ -29,14 +29,40 @@ import java.lang.annotation.Target;
  * this allows users to quickly and easily create PageObjects.
  * using Selendroid UI selectors like, id, name, class name, tag and xpath
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface SelendroidFindBy {
-	String id() default "";
-	String name() default "";
-	String className() default "";
-	String tagName() default "";
-	String xpath()  default "";
-	String linkText()  default "";
-	String partialLinkText()  default "";
+    /**
+     * It is an id of the target element.
+     */
+    String id() default "";
+
+    /**
+     * It is used in Selendroid mode instead of accessibility id.
+     */
+    String name() default "";
+
+    /**
+     * It is a className of the target element.
+     */
+    String className() default "";
+
+    /**
+     * It is a desired element tag.
+     */
+    String tagName() default "";
+
+    /**
+     * It is a xpath to the target element.
+     */
+    String xpath() default "";
+
+    /**
+     * It is a text of the desired element.
+     */
+    String linkText() default "";
+
+    /**
+     * It is a part of the text of the desired element.
+     */
+    String partialLinkText() default "";
 }

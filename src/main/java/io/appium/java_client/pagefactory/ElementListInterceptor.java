@@ -17,38 +17,29 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
+import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
- *
- * Intercepts requests to the list of {@link MobileElement}
- *
+ * Intercepts requests to the list of {@link MobileElement}.
  */
-class ElementListInterceptor implements MethodInterceptor{
+class ElementListInterceptor extends InterceptorOfAListOfElements {
 
-	private final ElementLocator locator;
-	
-	ElementListInterceptor(ElementLocator locator){
-		this.locator = locator;
-	}
+    ElementListInterceptor(ElementLocator locator) {
+        super(locator);
+    }
 
-	public Object intercept(Object obj, Method method, Object[] args,
-			MethodProxy proxy) throws Throwable {
-        if(Object.class.getDeclaredMethod("finalize").equals(method)){
-            return proxy.invokeSuper(obj, args);  //invokes .finalize of the proxy-object
+    @Override protected Object getObject(List<WebElement> elements, Method method, Object[] args)
+        throws Throwable {
+        try {
+            return method.invoke(elements, args);
+        } catch (Throwable t) {
+            throw ThrowableUtil.extractReadableException(t);
         }
-
-		ArrayList<WebElement> realElements = new ArrayList<WebElement>();
-		realElements.addAll(locator.findElements());
-		return method.invoke(realElements, args);
-	}
+    }
 
 }

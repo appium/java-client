@@ -16,22 +16,21 @@
 
 package io.appium.java_client.android.internal;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class JsonToAndroidElementConverter extends JsonToMobileElementConverter {
 
-	public JsonToAndroidElementConverter(AppiumDriver<?> driver) {
-		super(driver);
-	}
+    public JsonToAndroidElementConverter(RemoteWebDriver driver) {
+        super(driver);
+    }
 
-	@Override
-	protected MobileElement newMobileElement() {
-		AndroidElement toReturn = new AndroidElement();
-		toReturn.setParent(driver);
-		return toReturn;
-	}
+    @Override protected MobileElement newMobileElement() {
+        AndroidElement toReturn = new AndroidElement();
+        toReturn.setParent(driver);
+        return toReturn;
+    }
 
 }

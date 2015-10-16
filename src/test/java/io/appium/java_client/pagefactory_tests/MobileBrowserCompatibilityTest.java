@@ -22,10 +22,6 @@ import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
@@ -39,57 +35,60 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 public class MobileBrowserCompatibilityTest {
 
-	private WebDriver driver;
-	
-	@FindBy(name = "q")
-	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
-	private WebElement searchTextField;
+    private WebDriver driver;
+
     private AppiumDriverLocalService service;
-	
-	@AndroidFindBys({
-		@AndroidFindBy(className = "someClass"),
-		@AndroidFindBy(xpath = "//someTag")})	
-	@FindBy(name="btnG")
-	private RemoteWebElement searchButton;
-	
-	@AndroidFindBy(className = "someClass")	
-	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
-	private List<WebElement> foundLinks;
-	
-	@Before
-	public void setUp() throws Exception {
+
+    @AndroidFindBys({@AndroidFindBy(className = "someClass"), @AndroidFindBy(xpath = "//someTag")})
+    private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
+
+    @FindBy(className = "gsfi")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
+    private WebElement searchTextField;
+
+    @AndroidFindBy(className = "someClass")
+    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) private List<WebElement>
+        foundLinks;
+
+    /**
+     * The setting up.
+     */
+    @Before public void setUp() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-		driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
-		//This time out is set because test can be run on slow Android SDK emulator
-		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
-	}
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+        driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
+        //This time out is set because test can be run on slow Android SDK emulator
+        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+    }
 
-	@After
-	public void tearDown() throws Exception {
-        if (driver != null)
+    /**
+     * finishing.
+     */
+    @After public void tearDown() throws Exception {
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
-	}
+        }
+    }
 
-	@Test
-	public void test() {
-		driver.get("https://www.google.com");
+    @Test public void test() {
+        driver.get("https://www.google.com");
 
-		searchTextField.sendKeys("Hello");
-		searchButton.click();
-		Assert.assertNotEquals(0, foundLinks.size());
-		searchTextField.clear();
-		searchTextField.sendKeys("Hello, Appium!");
-		searchButton.click();
-	}
+        searchTextField.sendKeys("Hello");
+        btnG.click();
+        Assert.assertNotEquals(0, foundLinks.size());
+    }
 
 }

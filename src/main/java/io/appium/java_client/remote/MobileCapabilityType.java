@@ -18,30 +18,94 @@ package io.appium.java_client.remote;
 
 import org.openqa.selenium.remote.CapabilityType;
 
+/**
+ * The list of common capabilities.
+ * Read:
+ * https://github.com/appium/appium/blob/1.5/docs/en/
+ * writing-running-appium/caps.md#appium-server-capabilities
+ */
 public interface MobileCapabilityType extends CapabilityType {
-  
-  String AUTOMATION_NAME = "automationName";
 
-  String PLATFORM_NAME = "platformName";
-  String PLATFORM_VERSION = "platformVersion";
+    /**
+     * Which automation engine to use.
+     */
+    String AUTOMATION_NAME = "automationName";
 
-  String DEVICE_NAME = "deviceName";
+    /**
+     * Which mobile OS platform to use.
+     */
+    String PLATFORM_NAME = "platformName";
 
-  String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
-  String DEVICE_READY_TIMEOUT = "deviceReadyTimeout";
-  String LAUNCH_TIMEOUT = "launchTimeout";
+    /**
+     * Mobile OS version.
+     */
+    String PLATFORM_VERSION = "platformVersion";
 
-  String APP = "app";
-  String APP_PACKAGE = "appPackage";
-  String APP_ACTIVITY = "appActivity";
-  String APP_WAIT_ACTIVITY = "appWaitActivity";
-  String APP_WAIT_PACKAGE = "appWaitPackage";
-  String SELENDROID_PORT  = "selendroidPort";
-  String UDID = "udid";
+    /**
+     * The kind of mobile device or emulator to use.
+     */
+    String DEVICE_NAME = "deviceName";
 
-  //Sauce-specific
-  String APPIUM_VERSION = "appiumVersion";
-  
-  // capability to accept accento on keyboard
-  String UNICODE_KEYBOARD = "unicodeKeyboard";
+    /**
+     * How long (in seconds) Appium will wait for a new command from the
+     * client before assuming the client quit and ending the session.
+     */
+    String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
+
+    /**
+     * The absolute local path or remote http URL to an .ipa or .apk file,
+     * or a .zip containing one of these. Appium will attempt to install this app
+     * binary on the appropriate device first. Note that this capability is not required for
+     * Android if you specify appPackage and appActivity capabilities (see below).
+     * Incompatible with browserName.
+     */
+    String APP = "app";
+
+    /**
+     * Name of mobile web browser to automate.
+     * Should be an empty string if automating an app instead.
+     */
+    String BROWSER_NAME = "browserName";
+
+    /**
+     * Unique device identifier of the connected physical device.
+     */
+    String UDID = "udid";
+
+    /**
+     * Sauce-specific.
+     */
+    String APPIUM_VERSION = "appiumVersion";
+
+    /**
+     * (Sim/Emu-only) Language to set for the simulator / emulator.
+     */
+    String LANGUAGE = "language";
+
+    /**
+     * (Sim/Emu-only) Locale to set for the simulator / emulator.
+     */
+    String LOCALE = "locale";
+
+    /**
+     * (Sim/Emu-only) start in a certain orientation.
+     */
+    String ORIENTATION = "orientation";
+
+    /**
+     * Move directly into Webview context. Default false.
+     */
+    String AUTO_WEBVIEW = "autoWebview";
+
+    /**
+     * Don't reset app state before this session. Default false.
+     */
+    String NO_RESET = "noReset";
+
+    /**
+     * (iOS) Delete the entire simulator folder.
+     * (Android) Reset app state by uninstalling app instead of clearing app data.
+     * On Android, this will also remove the app after the session is complete. Default false.
+     */
+    String FULL_RESET = "fullReset";
 }

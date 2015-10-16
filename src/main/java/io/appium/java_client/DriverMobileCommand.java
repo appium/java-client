@@ -23,5 +23,5 @@ package io.appium.java_client;
  * @author jonahss@gmail.com (Jonah Stiennon)
  */
 public interface DriverMobileCommand {
-  //TODO Jonah: we'll probably need this
+    //TODO Jonah: we'll probably need this
 }

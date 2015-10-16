@@ -16,180 +16,102 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.AppiumSetting;
-import io.appium.java_client.NetworkConnectionSetting;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.*;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.junit.Test;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.html5.Location;
 
-import java.io.File;
+public class AndroidDriverTest extends BaseAndroidTest {
 
-import static org.junit.Assert.*;
+    @Test public void getDeviceTimeTest() {
+        String time = driver.getDeviceTime();
+        assertTrue(time.length() == 28);
+    }
 
-/**
- * Test Mobile Driver features
- */
-public class AndroidDriverTest {
+    @Test public void isAppInstalledTest() {
+        assertTrue(driver.isAppInstalled("com.example.android.apis"));
+    }
 
-  private AndroidDriver<?> driver;
-  private static AppiumDriverLocalService service;
+    @Test public void isAppNotInstalledTest() {
+        assertFalse(driver.isAppInstalled("foo"));
+    }
 
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-    service = AppiumDriverLocalService.buildDefaultService();
-    service.start();
-  }
+    @Test public void closeAppTest() throws InterruptedException {
+        driver.closeApp();
+        driver.launchApp();
+        assertEquals(".ApiDemos", driver.currentActivity());
+    }
 
-  @Before
-  public void setup() throws Exception {
-    if (service == null || !service.isRunning())
-      throw new RuntimeException("An appium server node is not started!");
+    @Test public void pushFileTest() {
+        byte[] data = Base64.encodeBase64(
+            "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra"
+                .getBytes());
+        driver.pushFile("/data/local/tmp/remote.txt", data);
+        byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
+        String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+        assertEquals(
+            "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
+            returnDataDecoded);
+    }
 
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "ApiDemos-debug.apk");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-    driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
-  }
+    @Test public void ignoreUnimportantViews() {
+        driver.ignoreUnimportantViews(true);
+        boolean ignoreViews =
+            driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString())
+                .getAsBoolean();
+        assertTrue(ignoreViews);
+        driver.ignoreUnimportantViews(false);
+        ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString())
+            .getAsBoolean();
+        assertFalse(ignoreViews);
+    }
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-  }
+    @Test public void toggleLocationServicesTest() {
+        driver.toggleLocationServices();
+    }
 
-  @Test
-  public void getStringsTest() {
-    String strings = driver.getAppStrings();
-    assert(strings.length() > 100);
-  }
+    @Test public void geolocationTest() {
+        Location location = new Location(45, 45, 100);
+        driver.setLocation(location);
+    }
 
-  @Test
-  public void getStringsWithLanguageTest() {
-    String strings = driver.getAppStrings("en");
-    assert(strings.length() > 100);
-  }
+    @Test public void orientationTest() {
+        assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+        assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
 
-  @Test
-  public void pressKeyCodeTest() {
-    driver.pressKeyCode(AndroidKeyCode.HOME);
-  }
+    @Test public void lockTest() {
+        driver.lockDevice();
+        assertEquals(true, driver.isLocked());
+        driver.unlockDevice();
+        assertEquals(false, driver.isLocked());
+    }
 
-  @Test
-  public void pressKeyCodeWithMetastateTest() {
-    driver.pressKeyCode(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
-  }
+    @Test public void runAppInBackgroundTest() {
+        long time = System.currentTimeMillis();
+        driver.runAppInBackground(4);
+        long timeAfter = System.currentTimeMillis();
+        assert (timeAfter - time > 3000);
+    }
 
-  @Test
-  public void longPressKeyCodeTest() {
-    driver.longPressKeyCode(AndroidKeyCode.HOME);
-  }
+    @Test public void pullFileTest() {
+        byte[] data =
+            driver.pullFile("data/system/registered_services/android.content.SyncAdapter.xml");
+        assert (data.length > 0);
+    }
 
-  @Test
-  public void currentActivityTest() {
-    String activity = driver.currentActivity();
-    assertEquals(".ApiDemos", activity);
-  }
+    @Test public void resetTest() {
+        driver.resetApp();
+    }
 
-  @Test
-  public void isAppInstalledTest() {
-    assertTrue(driver.isAppInstalled("com.example.android.apis"));
-  }
-
-  @Test
-  public void isAppNotInstalledTest() {
-    assertFalse(driver.isAppInstalled("foo"));
-  }
-
-  @Test
-  public void closeAppTest() throws InterruptedException {
-    driver.closeApp();
-    driver.launchApp();
-    assertEquals(".ApiDemos", driver.currentActivity());
-  }
-
-  @Test
-  public void pushFileTest() {
-    byte[] data = Base64.encodeBase64("The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra".getBytes());
-    driver.pushFile("/data/local/tmp/remote.txt", data);
-    byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
-    String returnDataDecoded = new String(Base64.decodeBase64(returnData));
-    assertEquals("The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra", returnDataDecoded);
-  }
-
-  @Test
-  public void networkConnectionTest() {
-    NetworkConnectionSetting networkConnection = new NetworkConnectionSetting(false, true, true);
-
-    networkConnection.setData(false);
-    networkConnection.setWifi(false);
-
-
-    driver.setNetworkConnection(networkConnection);
-    networkConnection = driver.getNetworkConnection();
-
-    assertEquals(new NetworkConnectionSetting(false, false, false), networkConnection);
-
-  }
-
-  @Test
-  public void isLockedTest() {
-    assertEquals(false, driver.isLocked());
-  }
-
-  @Test
-  public void ignoreUnimportantViews() {
-    driver.ignoreUnimportantViews(true);
-    boolean ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString()).getAsBoolean();
-    assertTrue(ignoreViews);
-    driver.ignoreUnimportantViews(false);
-    ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString()).getAsBoolean();
-    assertFalse(ignoreViews);
-  }
-  
-  @Test
-  public void startActivityInThisAppTest() {
-    driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null);
-    String activity = driver.currentActivity();
-    assertTrue(activity.contains("Node"));
-  }
-  
-  @Test
-  public void startActivityInAnotherAppTest() {
-    driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
-    String activity = driver.currentActivity();
-    assertTrue(activity.contains("Contact"));
-  }
-
-  //TODO hideKeyboard() test
-
-  @Test
-  public void scrollToTest() {
-    driver.scrollTo("View");
-    WebElement views = driver.findElementByAccessibilityId("Views");
-    assertNotNull(views);
-  }
-
-  @Test
-  public void scrollToExactTest() {
-    driver.scrollToExact("Views");
-    WebElement views = driver.findElementByAccessibilityId("Views");
-    assertNotNull(views);
-  }
-
-  @Test
-  public void toggleLocationServicesTest() {
-    driver.toggleLocationServices();
-  }
-
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-       service.stop();
-  }
+    @Test public void endTestCoverage() {
+        driver.endTestCoverage("android.intent.action.MAIN", "");
+    }
 }
