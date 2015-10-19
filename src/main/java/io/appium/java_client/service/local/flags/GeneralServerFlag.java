@@ -75,7 +75,7 @@ public enum GeneralServerFlag implements ServerArgument{
      * Show timestamps in console output <br/>
      * Default: false
      */
-    LOG_TIMESTAMP("log-timestamp"),
+    LOG_TIMESTAMP("--log-timestamp"),
     /**
      * Use local timezone for timestamps <br/>
      * Default: false
