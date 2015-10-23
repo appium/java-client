@@ -24,7 +24,6 @@ import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
@@ -36,8 +35,21 @@ import java.net.URL;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static io.appium.java_client.MobileCommand.*;
-import static io.appium.java_client.remote.MobileCapabilityType.*;
+import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
+import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
+import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.IS_LOCKED;
+import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
+import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.PUSH_FILE;
+import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+import static io.appium.java_client.remote.MobileCapabilityType.APP_ACTIVITY;
+import static io.appium.java_client.remote.MobileCapabilityType.APP_PACKAGE;
+import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_ACTIVITY;
+import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_PACKAGE;
+import static io.appium.java_client.remote.MobileCapabilityType.DONT_STOP_APP_ON_RESET;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
@@ -228,12 +240,14 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	 *            Automation will begin after this package starts. [Optional]
 	 * @param appWaitActivity
 	 *            Automation will begin after this activity starts. [Optional]
-	 * @example driver.startActivity("com.foo.bar", ".MyActivity", null, null);
+	 * @param stopApp
+	 * 			  If true, target app will be stopped. [Optional]
+	 * @example driver.startActivity("com.foo.bar", ".MyActivity", null, null, true);
 	 * 
 	 * @see StartsActivity#startActivity(String, String, String, String)
 	 */
 	public void startActivity(String appPackage, String appActivity,
-			String appWaitPackage, String appWaitActivity)
+			String appWaitPackage, String appWaitActivity, boolean stopApp)
 			throws IllegalArgumentException {
 
 		checkArgument(
@@ -246,13 +260,34 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 		appWaitActivity = _isNotNullOrEmpty(appWaitActivity) ? appWaitActivity
 				: "";
 
-		ImmutableMap<String, String> parameters = ImmutableMap.of(APP_PACKAGE,
+		ImmutableMap<String, ?> parameters = ImmutableMap.of(APP_PACKAGE,
 				appPackage, APP_ACTIVITY, appActivity, APP_WAIT_PACKAGE,
-				appWaitPackage, APP_WAIT_ACTIVITY, appWaitActivity);
+				appWaitPackage, APP_WAIT_ACTIVITY, appWaitActivity,
+				DONT_STOP_APP_ON_RESET, !stopApp);
 
 		execute(START_ACTIVITY, parameters);
 	}
-	
+
+	/**
+	 * @param appPackage
+	 *            The package containing the activity. [Required]
+	 * @param appActivity
+	 *            The activity to start. [Required]
+	 * @param appWaitPackage
+	 *            Automation will begin after this package starts. [Optional]
+	 * @param appWaitActivity
+	 *            Automation will begin after this activity starts. [Optional]
+	 * @example driver.startActivity("com.foo.bar", ".MyActivity", null, null);
+	 *
+	 * @see StartsActivity#startActivity(String, String, String, String)
+	 */
+	public void startActivity(String appPackage, String appActivity,
+			String appWaitPackage, String appWaitActivity)
+			throws IllegalArgumentException {
+
+		this.startActivity(appPackage, appActivity, null, null, true);
+	}
+
 	/**
 	 * @param appPackage The package containing the activity. [Required]
 	 * @param appActivity The activity to start. [Required]
