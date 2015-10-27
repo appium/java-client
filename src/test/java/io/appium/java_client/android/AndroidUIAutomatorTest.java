@@ -21,7 +21,11 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -107,7 +111,7 @@ public class AndroidUIAutomatorTest {
     driver.findElementByAndroidUIAutomator("text(\"Controls\")").click();
     driver.findElementByAndroidUIAutomator("text(\"1. Light Theme\")").click();
 
-    AndroidElement editElement = driver.findElementByAndroidUIAutomator("resourceId(\"com.example.android.apis:id/edit\")");
+    AndroidElement editElement = driver.findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
 
     editElement.sendKeys(originalValue);
 
@@ -118,7 +122,7 @@ public class AndroidUIAutomatorTest {
     assertEquals(replacedValue, editElement.getText());
   }
 
- @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void ErrorTest() {
     driver.findElementByAndroidUIAutomator(null);
   }

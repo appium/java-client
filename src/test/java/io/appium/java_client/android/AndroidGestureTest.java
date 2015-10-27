@@ -16,10 +16,18 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.*;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -82,10 +90,10 @@ public class AndroidGestureTest {
 	  WebElement actionBarTitle = driver.findElement(By.id("android:id/action_bar_title"));
 
 	  assertEquals("Wrong title.", "Views/Drag and Drop", actionBarTitle.getText());
-	  WebElement dragDot1 = driver.findElement(By.id("com.example.android.apis:id/drag_dot_1"));
-	  WebElement dragDot3 = driver.findElement(By.id("com.example.android.apis:id/drag_dot_3"));
+	  WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
+	  WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
-	  WebElement dragText = driver.findElement(By.id("com.example.android.apis:id/drag_text"));
+	  WebElement dragText = driver.findElement(By.id("io.appium.android.apis:id/drag_text"));
 	  assertEquals("Drag text not empty", "", dragText.getText());
 
 	  TouchAction dragNDrop = new TouchAction(driver).longPress(dragDot1).moveTo(dragDot3).release();
