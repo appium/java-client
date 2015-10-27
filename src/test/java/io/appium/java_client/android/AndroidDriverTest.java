@@ -21,13 +21,20 @@ import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test Mobile Driver features
@@ -61,6 +68,15 @@ public class AndroidDriverTest {
   @After
   public void tearDown() throws Exception {
     driver.quit();
+  }
+
+  private String currentActivity() {
+    String currentActivity = null;
+    while (currentActivity == null) {
+      currentActivity = driver.currentActivity();
+      Thread.yield();
+    }
+    return currentActivity;
   }
 
   @Test
@@ -151,14 +167,29 @@ public class AndroidDriverTest {
     ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString()).getAsBoolean();
     assertFalse(ignoreViews);
   }
-  
+
   @Test
   public void startActivityInThisAppTest() {
-    driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null);
-    String activity = driver.currentActivity();
-    assertTrue(activity.contains("Node"));
+    driver.startActivity("io.appium.android.apis", ".os.MorseCode", null, null, false);
+    assertTrue(currentActivity().endsWith(".os.MorseCode"));
+    driver.findElementById("text").sendKeys("Text must be here!");
+    driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null, false);
+    assertTrue(currentActivity().endsWith(".accessibility.AccessibilityNodeProviderActivity"));
+    driver.pressKeyCode(AndroidKeyCode.BACK);
+    assertTrue(currentActivity().endsWith(".os.MorseCode"));
+    assertEquals("Text must be here!", driver.findElementById("text").getText());
   }
-  
+
+  @Test
+  public void stopAndStartActivityInThisAppTest() {
+    driver.startActivity("io.appium.android.apis", ".os.MorseCode", null, null);
+    assertTrue(currentActivity().endsWith(".os.MorseCode"));
+    driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity", null, null);
+    assertTrue(currentActivity().endsWith(".accessibility.AccessibilityNodeProviderActivity"));
+    driver.pressKeyCode(AndroidKeyCode.BACK);
+    assertFalse(currentActivity().endsWith(".os.MorseCode"));
+  }
+
   @Test
   public void startActivityInAnotherAppTest() {
     driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
