@@ -23,9 +23,6 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
@@ -38,6 +35,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class IOSfMobileBrowserCompatibilityTest {
 
@@ -56,7 +56,7 @@ public class IOSfMobileBrowserCompatibilityTest {
 	@FindBy(name="btnG")
 	private RemoteWebElement searchButton;
 	
-	@AndroidFindBy(className = "someClass")	
+	@AndroidFindBy(className = "someClass")
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	@iOSFindBy(className = "someClass")
 	private List<WebElement> foundLinks;

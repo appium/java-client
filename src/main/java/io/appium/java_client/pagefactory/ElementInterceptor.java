@@ -20,7 +20,9 @@ import io.appium.java_client.MobileElement;
 
 import java.lang.reflect.Method;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -32,16 +34,22 @@ import net.sf.cglib.proxy.MethodProxy;
  */
 class ElementInterceptor implements MethodInterceptor {
     private final ElementLocator locator;
+	private final WebDriver driver;
 	
-	ElementInterceptor(ElementLocator locator) {
+	ElementInterceptor(ElementLocator locator, WebDriver driver) {
 		this.locator = locator;
+		this.driver = driver;
 	}
 	
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
-        if(Object.class.getDeclaredMethod("finalize").equals(method)){
-            return proxy.invokeSuper(obj, args);  //invokes .finalize of the proxy-object
-        }
+		if(Object.class.equals(method.getDeclaringClass())){
+			return proxy.invokeSuper(obj, args);
+		}
+
+		if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass()) &&
+				method.getName().equals("getWrappedDriver"))
+			return driver;
 
 		WebElement realElement = locator.findElement();
 		return method.invoke(realElement, args);

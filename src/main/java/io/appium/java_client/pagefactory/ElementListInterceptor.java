@@ -42,9 +42,8 @@ class ElementListInterceptor implements MethodInterceptor{
 
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
-        if(Object.class.getDeclaredMethod("finalize").equals(method)){
-            return proxy.invokeSuper(obj, args);  //invokes .finalize of the proxy-object
-        }
+		if(Object.class.equals(method.getDeclaringClass()))
+			return proxy.invokeSuper(obj, args);
 
 		ArrayList<WebElement> realElements = new ArrayList<WebElement>();
 		realElements.addAll(locator.findElements());

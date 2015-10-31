@@ -17,11 +17,6 @@
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-
-import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import io.appium.java_client.pagefactory.TimeOutDuration;
 import io.appium.java_client.pagefactory.WithTimeout;
 import org.junit.After;
@@ -35,9 +30,13 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 public class TimeOutResetTest {
 	private WebDriver driver;
-	private final static long ACCEPTABLE_DELTA_MILLS = 500;
+	private final static long ACCEPTABLE_DELTA_MILLS = 1500;
 
 
 	@FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
@@ -64,17 +63,17 @@ public class TimeOutResetTest {
 		driver.quit();
 	}
 
-	private static void checkTimeDifference(long etalonTime,
-			TimeUnit etalonTimeUnit, long currentMillis) {
-		long etalonMillis = TimeUnit.MILLISECONDS.convert(etalonTime,
-				etalonTimeUnit);
+	private static void checkTimeDifference(long expectedTime,
+			TimeUnit expectedTimeUnit, long currentMillis) {
+		long expectedMillis = TimeUnit.MILLISECONDS.convert(expectedTime,
+				expectedTimeUnit);
 		try{
 			Assert.assertEquals(true,
-					((currentMillis - etalonMillis) < ACCEPTABLE_DELTA_MILLS)
-							&& ((currentMillis - etalonMillis) >= 0));
+					((currentMillis - expectedMillis) < ACCEPTABLE_DELTA_MILLS)
+							&& ((currentMillis - expectedMillis) >= 0));
 		}
 		catch (Error e){
-			String message = String.valueOf(etalonTime) + " "  + etalonTimeUnit.toString() + " current duration in millis " +
+			String message = String.valueOf(expectedTime) + " "  + expectedTimeUnit.toString() + " current duration in millis " +
 					String.valueOf(currentMillis) + " Failed";
 			throw new RuntimeException(message, e);
 		}
