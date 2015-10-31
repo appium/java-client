@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.TYPE})
 /**
  This annotation is used when some element waits for time
  that differs from defined by default

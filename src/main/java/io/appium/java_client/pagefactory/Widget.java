@@ -24,27 +24,25 @@ import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
-public class Widget implements SearchContext, WrapsDriver, WrapsElement {
+/**
+ * It is the Appium-specific extension of the Page Object design pattern. It allows user
+ * to create objects which typify some element with nested sub-elements. Also it allows to describe and encapsulate
+ * logic of interaction/behavior within.
+ *
+ * About the Page Object design pattern please read these documents:
+ * - https://code.google.com/p/selenium/wiki/PageObjects
+ * - https://code.google.com/p/selenium/wiki/PageFactory
+ */
+public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement {
 
     private final WebElement element;
 
     protected Widget(WebElement element, TimeOutDuration timeOutDuration) {
         this.element = element;
         PageFactory.initElements(new AppiumFieldDecorator(this, timeOutDuration), this);
-    }
-
-    protected Widget(WebElement element, long implicitlyWaitTimeOut, TimeUnit timeUnit) {
-        this.element = element;
-        PageFactory.initElements(new AppiumFieldDecorator(this, implicitlyWaitTimeOut, timeUnit), this);
-    }
-
-    protected Widget(WebElement element) {
-        this.element = element;
-        PageFactory.initElements(new AppiumFieldDecorator(this), this);
     }
 
     @Override
