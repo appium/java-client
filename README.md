@@ -138,7 +138,7 @@ The mentioned framework and the current solution use different approaches.
 - Added APPIUM_VERSION MobileCapabilityType
 - `sendKeyEvent()` moved from AppiumDriver to AndroidDriver
 - `linkText` and `partialLinkText` locators added
-- setValue() moved from MobileElement to AndroidElement
+- setValue() moved from MobileElement to iOSElement
 - Fixed Selendroid PageAnnotations
 
 *2.1.0*
