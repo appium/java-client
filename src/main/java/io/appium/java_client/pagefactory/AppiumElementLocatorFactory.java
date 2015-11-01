@@ -26,23 +26,19 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 
 class AppiumElementLocatorFactory implements ElementLocatorFactory {
-	protected final SearchContext searchContext;
-	protected final TimeOutDuration timeOutDuration;
-	protected final String platform;
-	protected final String automation;
-    protected final WebDriver originalWebDriver;
-    protected final AppiumByBuilder byBuilder;
+	private final SearchContext searchContext;
+	private final TimeOutDuration timeOutDuration;
+    private final WebDriver originalWebDriver;
+    private final AppiumByBuilder builder;
 
 	public AppiumElementLocatorFactory(SearchContext searchContext,
-									   String platform, String automation,
 									   TimeOutDuration timeOutDuration,
-                                       WebDriver originalWebDriver) {
+                                       WebDriver originalWebDriver,
+                                       AppiumByBuilder builder) {
 		this.searchContext = searchContext;
         this.originalWebDriver = originalWebDriver;
 		this.timeOutDuration = timeOutDuration;
-		this.platform = platform;
-		this.automation = automation;
-        byBuilder = new DefaultElementByBuilder(platform, automation);
+        this.builder = builder;
 	}
 
 	public ElementLocator createLocator(Field field) {
@@ -53,10 +49,12 @@ class AppiumElementLocatorFactory implements ElementLocatorFactory {
         }
         else
             customDuration = timeOutDuration;
-        byBuilder.setAnnotated(field);
-        By by = byBuilder.buildBy();
+        builder.setAnnotated(field);
+        By by = builder.buildBy();
         if (by != null)
-            return new AppiumElementLocator(searchContext, by, byBuilder.isLookupCached(), customDuration, originalWebDriver);
+            return new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration, originalWebDriver);
         return null;
 	}
+
+
 }

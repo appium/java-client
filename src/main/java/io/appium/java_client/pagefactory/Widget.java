@@ -21,8 +21,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
-import org.openqa.selenium.support.PageFactory;
-
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
@@ -40,9 +38,8 @@ public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement
 
     private final WebElement element;
 
-    protected Widget(WebElement element, TimeOutDuration timeOutDuration) {
+    protected Widget(WebElement element) {
         this.element = element;
-        PageFactory.initElements(new AppiumFieldDecorator(this, timeOutDuration), this);
     }
 
     @Override

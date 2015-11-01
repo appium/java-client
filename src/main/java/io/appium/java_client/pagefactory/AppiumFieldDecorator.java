@@ -77,9 +77,9 @@ public class AppiumFieldDecorator implements FieldDecorator{
                 }
             };
 
-    private final SearchContext context;
     private final WebDriver originalDriver;
-    private final DefaultFieldDecorator elementFieldDecoracor;
+    private final DefaultFieldDecorator defaultElementFieldDecoracor;
+    private final AppiumElementLocatorFactory widgetLocatorFactory;
     public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
 
@@ -113,13 +113,13 @@ public class AppiumFieldDecorator implements FieldDecorator{
     }
 
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
-        this.context = context;
-        this.originalDriver = unpackWebDriverFromSearchContext(this.context);
+        this.originalDriver = unpackWebDriverFromSearchContext(context);
         String platform = getPlatform(originalDriver);
         String automation = getAutomation(originalDriver);
 
-        elementFieldDecoracor = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(context, platform, automation, timeOutDuration, originalDriver)){
+        defaultElementFieldDecoracor = new DefaultFieldDecorator(
+                new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
+                        new DefaultElementByBuilder(platform, automation))){
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator){
                 return getAProxOfASingleElement(locator);
@@ -135,6 +135,8 @@ public class AppiumFieldDecorator implements FieldDecorator{
                 return isAvailableWebElementListField(field);
             }
         };
+        widgetLocatorFactory = new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
+                new WidgetByBuilder(platform, automation));
     }
 
     public AppiumFieldDecorator(SearchContext context) {
@@ -142,18 +144,52 @@ public class AppiumFieldDecorator implements FieldDecorator{
     }
 
     public Object decorate(ClassLoader ignored, Field field) {
-        //TODO add logic of page object decoration
-        return elementFieldDecoracor.decorate(ignored, field);
+        Object result = defaultElementFieldDecoracor.decorate(ignored, field);
+        if (result != null)
+            return result;
+
+        return decorateWidget(field);
     }
 
+    @SuppressWarnings("unchecked")
+    private Object decorateWidget(Field field){
+        Class<?> type = field.getType();
+        if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type))
+            return null;
+
+        Class<? extends Widget> widgetType;
+        boolean isAlist = false;
+        if (List.class.isAssignableFrom(type)){
+            isAlist = true;
+            Type genericType = field.getGenericType();
+            if (!(genericType instanceof ParameterizedType)) {
+                return null;
+            }
+
+            Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
+
+            if (ParameterizedType.class.isAssignableFrom(listType.getClass()))
+                listType = ((ParameterizedType) listType).getRawType();
+
+            if (!Widget.class.isAssignableFrom((Class) listType))
+                return null;
+
+            widgetType = Class.class.cast(listType);
+        }
+        else
+            widgetType = (Class<? extends Widget>) field.getType();
+
+        ElementLocator locator = widgetLocatorFactory.createLocator(field);
+        //TODO
+        return null;
+    }
 
     private Class<?> getTypeForProxy(){
         Class<? extends SearchContext> driverClass = originalDriver.getClass();
         Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules = elementRuleMap.entrySet();
-        Iterator<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> iterator = rules.iterator();
-        while (iterator.hasNext()){ //it will return MobileElement subclass when here is something
+        //it will return MobileElement subclass when here is something
+        for (Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e : rules) {
             //that extends AppiumDriver or MobileElement
-            Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e = iterator.next();
             if (e.getKey().isAssignableFrom(driverClass))
                 return e.getValue();
         } //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
