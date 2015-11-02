@@ -23,11 +23,14 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import io.appium.java_client.pagefactory.bys.ContentType;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -80,6 +83,9 @@ public class AppiumFieldDecorator implements FieldDecorator{
     private final WebDriver originalDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
+    private final String platform;
+    private final String automation;
+
     public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
 
@@ -114,8 +120,8 @@ public class AppiumFieldDecorator implements FieldDecorator{
 
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
-        String platform = getPlatform(originalDriver);
-        String automation = getAutomation(originalDriver);
+        platform = getPlatform(originalDriver);
+        automation = getAutomation(originalDriver);
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(
                 new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
@@ -180,7 +186,8 @@ public class AppiumFieldDecorator implements FieldDecorator{
             widgetType = (Class<? extends Widget>) field.getType();
 
         ElementLocator locator = widgetLocatorFactory.createLocator(field);
-        //TODO
+        Map<ContentType, Constructor<? extends Widget>> map =
+                OverrideWidgetReader.read(widgetType, field, platform, automation);
         return null;
     }
 

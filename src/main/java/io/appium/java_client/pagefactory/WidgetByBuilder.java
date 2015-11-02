@@ -23,6 +23,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultOrHTMLWidgetClass;
+import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
+
 class WidgetByBuilder extends DefaultElementByBuilder {
 
     private enum WhatIsNeeded {
@@ -47,29 +50,33 @@ class WidgetByBuilder extends DefaultElementByBuilder {
         return (Class<?>) listType;
     }
 
+    @SuppressWarnings("unchecked")
     private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded){
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        By result = null;
-        Field field = null;
-        try {
-            Class<?> declaredClass;
-            if (Field.class.isAssignableFrom(annotatedElement.getClass())) {
-                field = Field.class.cast(annotatedElement);
-                if (List.class.isAssignableFrom(field.getType()))
-                    declaredClass = getClassFromAListField(field);
-                else
-                    declaredClass = field.getType();
-            } else {
-                declaredClass = Class.class.cast(annotatedElement);
-            }
+        Field field = Field.class.cast(annotatedElement);
+        Class<?> declaredClass;
 
-            while (result == null && !declaredClass.equals(Object.class)) {
-                setAnnotated(declaredClass);
+        By result = null;
+        try {
+            if (List.class.isAssignableFrom(field.getType()))
+                declaredClass = getClassFromAListField(field);
+            else
+                declaredClass = field.getType();
+
+            Class<?> convenientClass;
+
+            if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML))
+                convenientClass = getDefaultOrHTMLWidgetClass((Class<? extends Widget>) declaredClass, field);
+            else
+                convenientClass = getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field, platform, automation);
+
+            while (result == null && !convenientClass.equals(Object.class)) {
+                setAnnotated(convenientClass);
                 if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML))
                     result = super.buildDefaultBy();
                 else
                     result = super.buildMobileNativeBy();
-                declaredClass = declaredClass.getSuperclass();
+                convenientClass = convenientClass.getSuperclass();
             }
             return result;
         }

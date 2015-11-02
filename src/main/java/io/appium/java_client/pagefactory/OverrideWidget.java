@@ -32,33 +32,31 @@ import java.lang.annotation.Target;
  * - https://code.google.com/p/selenium/wiki/PageFactory
 */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target({ElementType.FIELD})
 public @interface OverrideWidget {
     /**
-     * This property is used by default when
-     * androidUIAutomator , iOSUIAutomation and selendroid are not defined.
-     * It will be used for HTML (browser or web view) content otherwise.
+     * This property is designed for HTML (browser or web view) content.
      *
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      */
-    Class<? extends Widget> default_Html() default Widget.class;
+    Class<? extends Widget> html() default Widget.class;
     /**
-     * This property is used for Android native content.
+     * This property is designed for Android native content.
      *
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      */
     Class<? extends Widget> androidUIAutomator() default Widget.class;
     /**
-     * This property is used for iOS native content.
+     * This property is designed for iOS native content.
      *
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      */
     Class<? extends Widget> iOSUIAutomation() default Widget.class;
     /**
-     * This property is used for Android native content when Selendroid automation is used.
+     * This property is designed for Android native content when Selendroid automation is used.
      *
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.

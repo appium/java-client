@@ -20,6 +20,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.openqa.selenium.WebElement;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +28,11 @@ import java.util.Map;
 class WidgetInterceptor implements MethodInterceptor{
 
     private final WebElement element;
-    private final Map<ContentType, Class<? extends Widget>> instantiationMap;
+    private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final AppiumFieldDecorator decorator;
 
-    WidgetInterceptor(WebElement element, Map<ContentType, Class<? extends Widget>> instantiationMap,
+    WidgetInterceptor(WebElement element, Map<ContentType, Constructor<? extends Widget>> instantiationMap,
                       AppiumFieldDecorator decorator) {
         this.element = element;
         this.instantiationMap = instantiationMap;
