@@ -16,37 +16,54 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
+import io.appium.java_client.pagefactory.utils.ProxyFactory;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class WidgetListInterceptor implements MethodInterceptor{
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
-    private final List<WebElement> elements;
+class WidgetListInterceptor extends InterceptorOfAListOfElements{
+
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
-    private final List<WebElement> cachedElements = new ArrayList<>();
+    private List<WebElement> cachedElements;
     private final List<Widget> cachedWidgets = new ArrayList<>();
     private final Class<? extends Widget> declaredType;
-    private final AppiumFieldDecorator decorator;
+    private final TimeOutDuration duration;
+    private final WebDriver driver;
 
-    WidgetListInterceptor(List<WebElement> elements, Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-                          Class<? extends Widget> declaredType, AppiumFieldDecorator decorator) {
-        this.elements = elements;
+    WidgetListInterceptor(ElementLocator locator, WebDriver driver, Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+                          Class<? extends Widget> declaredType, TimeOutDuration duration) {
+        super(locator);
         this.instantiationMap = instantiationMap;
         this.declaredType = declaredType;
-        this.decorator = decorator;
+        this.duration = duration;
+        this.driver = driver;
     }
 
 
     @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        //TODO
-        return null;
+    protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws InvocationTargetException,
+            IllegalAccessException, InstantiationException {
+        if (cachedElements ==  null || cachedElements.hashCode() != elements.hashCode()) {
+            cachedElements = elements;
+            cachedWidgets.clear();
+
+            for (WebElement element: cachedElements){
+                ContentType type = getCurrentContentType(element);
+                Class<?>[] params = new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
+                cachedWidgets.add(ProxyFactory.getEnhancedProxy(declaredType, params, new Object[]{element},
+                        new WidgetInterceptor(null, driver, element, instantiationMap, duration)));
+            }
+        }
+        return method.invoke(cachedWidgets, args);
     }
 }

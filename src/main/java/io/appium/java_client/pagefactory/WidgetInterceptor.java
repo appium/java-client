@@ -16,32 +16,55 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
-import net.sf.cglib.proxy.MethodInterceptor;
+import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import net.sf.cglib.proxy.MethodProxy;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-class WidgetInterceptor implements MethodInterceptor{
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
-    private final WebElement element;
+class WidgetInterceptor extends InterceptorOfASingleElement{
+
+    private WebElement cachedElement;
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
-    private final AppiumFieldDecorator decorator;
+    private final TimeOutDuration duration;
 
-    WidgetInterceptor(WebElement element, Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-                      AppiumFieldDecorator decorator) {
-        this.element = element;
+    WidgetInterceptor(ElementLocator locator, WebDriver driver, WebElement cachedElement,
+                             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+                             TimeOutDuration duration) {
+        super(locator, driver);
+        this.cachedElement = cachedElement;
         this.instantiationMap = instantiationMap;
-        this.decorator = decorator;
+        this.duration = duration;
     }
 
+
     @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        //TODO
-        return null;
+    protected Object getObject(WebElement element, Method method, Object[] args) throws InvocationTargetException,
+            IllegalAccessException, InstantiationException {
+        ContentType type = getCurrentContentType(element);
+        if (cachedElement == null || cachedElement.hashCode() != element.hashCode()){
+            cachedElement = element;
+            Widget widget = instantiationMap.get(type).newInstance(cachedElement);
+            cachedInstances.put(type, widget);
+            PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
+        }
+        return method.invoke(cachedInstances.get(type), args);
+    }
+
+    public Object intercept(Object obj, Method method, Object[] args,
+                            MethodProxy proxy) throws Throwable {
+        if (locator != null)
+            return super.intercept(obj, method, args, proxy);
+        return getObject(cachedElement, method, args);
     }
 }

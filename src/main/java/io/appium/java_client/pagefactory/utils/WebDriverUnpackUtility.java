@@ -37,16 +37,16 @@ public final class WebDriverUnpackUtility {
         if (searchContext instanceof WebDriver)
             return (WebDriver) searchContext;
 
+        if (searchContext instanceof WrapsDriver)
+            return unpackWebDriverFromSearchContext(((WrapsDriver) searchContext)
+                    .getWrappedDriver());
+
         // Search context it is not only Webdriver. Webelement is search context
         // too.
         // RemoteWebElement and MobileElement implement WrapsDriver
         if (searchContext instanceof WrapsElement)
             return unpackWebDriverFromSearchContext(((WrapsElement) searchContext)
                     .getWrappedElement());
-
-        if (searchContext instanceof WrapsDriver)
-            return unpackWebDriverFromSearchContext(((WrapsDriver) searchContext)
-                    .getWrappedDriver());
 
         return driver;
     }

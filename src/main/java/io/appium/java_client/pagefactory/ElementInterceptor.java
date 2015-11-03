@@ -18,41 +18,27 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
-
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * Intercepts requests to {@link MobileElement}
  *
  */
-class ElementInterceptor implements MethodInterceptor {
-    private final ElementLocator locator;
-	private final WebDriver driver;
+class ElementInterceptor extends InterceptorOfASingleElement {
 	
 	ElementInterceptor(ElementLocator locator, WebDriver driver) {
-		this.locator = locator;
-		this.driver = driver;
-	}
-	
-	public Object intercept(Object obj, Method method, Object[] args,
-			MethodProxy proxy) throws Throwable {
-		if(Object.class.equals(method.getDeclaringClass())){
-			return proxy.invokeSuper(obj, args);
-		}
-
-		if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass()) &&
-				method.getName().equals("getWrappedDriver"))
-			return driver;
-
-		WebElement realElement = locator.findElement();
-		return method.invoke(realElement, args);
+		super(locator, driver);
 	}
 
+	@Override
+	protected Object getObject(WebElement element, Method method, Object[] args) throws InvocationTargetException,
+			IllegalAccessException {
+		return method.invoke(element, args);
+	}
 }
