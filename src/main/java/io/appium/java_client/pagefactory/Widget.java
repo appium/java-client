@@ -36,7 +36,7 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unp
  */
 public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement {
 
-    private final WebElement element;
+    private final SearchContext element;
 
     protected Widget(WebElement element) {
         this.element = element;
@@ -59,6 +59,6 @@ public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement
 
     @Override
     public WebElement getWrappedElement() {
-        return element;
+        return (WebElement) element;
     }
 }

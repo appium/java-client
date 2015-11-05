@@ -19,48 +19,61 @@ package io.appium.java_client.pagefactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.ui.FluentWait;
 import com.google.common.base.Function;
 
-class AppiumElementLocator implements ElementLocator {
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
+import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
+
+class AppiumElementLocator implements CacheableLocator {
 
     // This function waits for not empty element list using all defined by
     private static class WaitingFunction implements
             Function<By, List<WebElement>> {
         private final SearchContext searchContext;
-        private final static String INVALID_SELECTOR_PATTERN = "Invalid locator strategy:";
+        Throwable foundStaleElementReferenceException;
 
         private WaitingFunction(SearchContext searchContext) {
             this.searchContext = searchContext;
         }
 
         public List<WebElement> apply(By by) {
-            List<WebElement> result = new ArrayList<WebElement>();
+            List<WebElement> result = new ArrayList<>();
+            Throwable shouldBeThrown = null;
+            boolean isRootCauseInvalidSelector;
+            boolean isRootCauseStaleElementReferenceException = false;
+            foundStaleElementReferenceException = null;
+
             try {
                 result.addAll(searchContext.findElements(by));
-            } catch (StaleElementReferenceException ignored) {
+            } catch (Throwable e){
+
+                isRootCauseInvalidSelector = isInvalidSelectorRootCause(e);
+                if (!isRootCauseInvalidSelector)
+                    isRootCauseStaleElementReferenceException = isStaleElementReferenceException(e);
+
+                if (isRootCauseStaleElementReferenceException)
+                    foundStaleElementReferenceException = extractReadableException(e);
+
+                if (!isRootCauseInvalidSelector & !isRootCauseStaleElementReferenceException)
+                    shouldBeThrown = extractReadableException(e);
             }
-            catch (RuntimeException e){
-                if (!isInvalidSelectorRootCause(e))
-                    throw e;
+
+            if (shouldBeThrown != null) {
+                if (RuntimeException.class.isAssignableFrom(shouldBeThrown.getClass()))
+                    throw (RuntimeException) shouldBeThrown;
+                throw new RuntimeException(shouldBeThrown);
             }
+
             if (result.size() > 0) {
                 return result;
             } else {
                 return null;
             }
-        }
-
-        private static boolean isInvalidSelectorRootCause(Throwable e){
-            if (e == null)
-                return false;
-
-            if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN))
-                return true;
-
-            return isInvalidSelectorRootCause(e.getCause());
         }
     }
 
@@ -71,6 +84,7 @@ class AppiumElementLocator implements ElementLocator {
     private List<WebElement> cachedElementList;
     final TimeOutDuration timeOutDuration;
     final WebDriver originalWebDriver;
+    private final WaitingFunction waitingFunction;
 
     /**
      * Creates a new mobile element locator. It instantiates {@link WebElement}
@@ -89,6 +103,7 @@ class AppiumElementLocator implements ElementLocator {
         this.timeOutDuration = duration;
         this.by = by;
         this.originalWebDriver = originalWebDriver;
+        waitingFunction = new WaitingFunction(this.searchContext);
     }
 
     private void changeImplicitlyWaitTimeOut(long newTimeOut,
@@ -104,12 +119,12 @@ class AppiumElementLocator implements ElementLocator {
         // for each chain By section, etc)
         try {
             changeImplicitlyWaitTimeOut(0, TimeUnit.SECONDS);
-            FluentWait<By> wait = new FluentWait<By>(by);
+            FluentWait<By> wait = new FluentWait<>(by);
             wait.withTimeout(timeOutDuration.getTime(),
                     timeOutDuration.getTimeUnit());
-            return wait.until(new WaitingFunction(searchContext));
+            return wait.until(waitingFunction);
         } catch (TimeoutException e) {
-            return new ArrayList<WebElement>();
+            return new ArrayList<>();
         } finally {
             changeImplicitlyWaitTimeOut(timeOutDuration.getTime(),
                     timeOutDuration.getTimeUnit());
@@ -127,6 +142,8 @@ class AppiumElementLocator implements ElementLocator {
         if (result.size() == 0) {
             String message = "Can't locate an element by this strategy: "
                     + by.toString();
+            if (waitingFunction.foundStaleElementReferenceException != null)
+                throw new NoSuchElementException(message, waitingFunction.foundStaleElementReferenceException);
             throw new NoSuchElementException(message);
         }
         if (shouldCache) {
@@ -147,5 +164,10 @@ class AppiumElementLocator implements ElementLocator {
             cachedElementList = result;
         }
         return result;
+    }
+
+    @Override
+    public boolean isLookUpCached() {
+        return shouldCache;
     }
 }

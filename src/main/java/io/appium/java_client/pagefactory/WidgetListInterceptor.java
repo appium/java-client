@@ -17,6 +17,7 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
+import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.utils.ProxyFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,7 +41,7 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements{
     private final TimeOutDuration duration;
     private final WebDriver driver;
 
-    WidgetListInterceptor(ElementLocator locator, WebDriver driver, Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+    WidgetListInterceptor(CacheableLocator locator, WebDriver driver, Map<ContentType, Constructor<? extends Widget>> instantiationMap,
                           Class<? extends Widget> declaredType, TimeOutDuration duration) {
         super(locator);
         this.instantiationMap = instantiationMap;
@@ -53,7 +54,7 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements{
     @Override
     protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws InvocationTargetException,
             IllegalAccessException, InstantiationException {
-        if (cachedElements ==  null || cachedElements.hashCode() != elements.hashCode()) {
+        if (cachedElements ==  null || (locator !=null && !((CacheableLocator) locator).isLookUpCached())) {
             cachedElements = elements;
             cachedWidgets.clear();
 

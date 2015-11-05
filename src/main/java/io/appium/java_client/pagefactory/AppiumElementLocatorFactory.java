@@ -16,16 +16,17 @@
 
 package io.appium.java_client.pagefactory;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
+import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
+import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
-import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 
-class AppiumElementLocatorFactory implements ElementLocatorFactory {
+class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
 	private final SearchContext searchContext;
 	private final TimeOutDuration timeOutDuration;
     private final WebDriver originalWebDriver;
@@ -41,20 +42,25 @@ class AppiumElementLocatorFactory implements ElementLocatorFactory {
         this.builder = builder;
 	}
 
-	public ElementLocator createLocator(Field field) {
+	public CacheableLocator createLocator(Field field) {
+        return this.createLocator((AnnotatedElement) field);
+	}
+
+    @Override
+    public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
         TimeOutDuration customDuration;
-        if (field.isAnnotationPresent(WithTimeout.class)){
-            WithTimeout withTimeout = field.getAnnotation(WithTimeout.class);
+        if (annotatedElement.isAnnotationPresent(WithTimeout.class)){
+            WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
             customDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
         }
         else
             customDuration = timeOutDuration;
-        builder.setAnnotated(field);
+        builder.setAnnotated(annotatedElement);
         By by = builder.buildBy();
         if (by != null)
             return new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration, originalWebDriver);
         return null;
-	}
+    }
 
 
 }

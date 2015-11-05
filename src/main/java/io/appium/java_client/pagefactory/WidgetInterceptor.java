@@ -17,11 +17,11 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
+import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import net.sf.cglib.proxy.MethodProxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +38,7 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final TimeOutDuration duration;
 
-    WidgetInterceptor(ElementLocator locator, WebDriver driver, WebElement cachedElement,
+    WidgetInterceptor(CacheableLocator locator, WebDriver driver, WebElement cachedElement,
                              Map<ContentType, Constructor<? extends Widget>> instantiationMap,
                              TimeOutDuration duration) {
         super(locator, driver);
@@ -52,7 +52,8 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
     protected Object getObject(WebElement element, Method method, Object[] args) throws InvocationTargetException,
             IllegalAccessException, InstantiationException {
         ContentType type = getCurrentContentType(element);
-        if (cachedElement == null || cachedElement.hashCode() != element.hashCode()){
+        if (cachedElement == null || (locator !=null && !((CacheableLocator) locator).isLookUpCached()) ||
+                cachedInstances.size() == 0){
             cachedElement = element;
             Widget widget = instantiationMap.get(type).newInstance(cachedElement);
             cachedInstances.put(type, widget);

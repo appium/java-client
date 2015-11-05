@@ -31,6 +31,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
+import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -186,7 +187,7 @@ public class AppiumFieldDecorator implements FieldDecorator{
         else
             widgetType = (Class<? extends Widget>) field.getType();
 
-        ElementLocator locator = widgetLocatorFactory.createLocator(field);
+        CacheableLocator locator = widgetLocatorFactory.createLocator(field);
         Map<ContentType, Constructor<? extends Widget>> map =
                 OverrideWidgetReader.read(widgetType, field, platform, automation);
 
