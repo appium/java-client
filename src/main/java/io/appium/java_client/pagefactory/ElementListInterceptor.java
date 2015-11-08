@@ -18,10 +18,8 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
@@ -38,8 +36,13 @@ class ElementListInterceptor extends InterceptorOfAListOfElements{
 	}
 
 	@Override
-	protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-		return method.invoke(elements, args);
+	protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws Throwable {
+		try {
+			return method.invoke(elements, args);
+		}
+		catch (Throwable t){
+			throw ThrowableUtil.extractReadableException(t);
+		}
 	}
 
 }

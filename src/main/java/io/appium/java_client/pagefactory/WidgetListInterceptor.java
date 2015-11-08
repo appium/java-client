@@ -21,10 +21,7 @@ import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.utils.ProxyFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
-
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +49,7 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements{
 
 
     @Override
-    protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws InvocationTargetException,
-            IllegalAccessException, InstantiationException {
+    protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws Throwable {
         if (cachedElements ==  null || (locator !=null && !((CacheableLocator) locator).isLookUpCached())) {
             cachedElements = elements;
             cachedWidgets.clear();
@@ -65,6 +61,11 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements{
                         new WidgetInterceptor(null, driver, element, instantiationMap, duration)));
             }
         }
-        return method.invoke(cachedWidgets, args);
+        try {
+            return method.invoke(cachedWidgets, args);
+        }
+        catch (Throwable t){
+            throw ThrowableUtil.extractReadableException(t);
+        }
     }
 }

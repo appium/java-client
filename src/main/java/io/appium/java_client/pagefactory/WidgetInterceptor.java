@@ -24,7 +24,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +48,7 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
 
 
     @Override
-    protected Object getObject(WebElement element, Method method, Object[] args) throws InvocationTargetException,
-            IllegalAccessException, InstantiationException {
+    protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
         if (cachedElement == null || (locator !=null && !((CacheableLocator) locator).isLookUpCached()) ||
                 cachedInstances.size() == 0){
@@ -59,7 +57,12 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
             cachedInstances.put(type, widget);
             PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
         }
-        return method.invoke(cachedInstances.get(type), args);
+        try {
+            return method.invoke(cachedInstances.get(type), args);
+        }
+        catch (Throwable t){
+            throw ThrowableUtil.extractReadableException(t);
+        }
     }
 
     public Object intercept(Object obj, Method method, Object[] args,

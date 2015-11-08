@@ -35,7 +35,7 @@ public abstract class InterceptorOfASingleElement implements MethodInterceptor {
         this.driver = driver;
     }
 
-    protected abstract Object getObject(WebElement element, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, InstantiationException;
+    protected abstract Object getObject(WebElement element, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, InstantiationException, Throwable;
 
     public Object intercept(Object obj, Method method, Object[] args,
                             MethodProxy proxy) throws Throwable {
