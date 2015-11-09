@@ -12,8 +12,6 @@ public abstract class Movie extends Widget{
 
     public abstract String score();
 
-    public abstract String additionalInfo();
-
     public abstract Object getPoster();
 
     public abstract void goToReview();

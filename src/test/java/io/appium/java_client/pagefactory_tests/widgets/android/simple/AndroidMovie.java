@@ -13,9 +13,6 @@ public class AndroidMovie extends Movie{
     @AndroidFindBy(uiAutomator = "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
     private AndroidElement score;
 
-    @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvCast")
-    private AndroidElement cast;
-
     @AndroidFindBy(accessibility = "poster image")
     private AndroidElement poster;
 
@@ -34,17 +31,12 @@ public class AndroidMovie extends Movie{
     }
 
     @Override
-    public String additionalInfo() {
-        return cast.getText();
-    }
-
-    @Override
     public Object getPoster() {
         return poster.getSize();
     }
 
     @Override
     public void goToReview() {
-        ((AndroidElement) getWrappedElement()).tap(2, 1500);
+        ((AndroidElement) getWrappedElement()).tap(1, 1500);
     }
 }

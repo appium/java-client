@@ -1,10 +1,8 @@
-package io.appium.java_client.pagefactory_tests.widgets.selendroid;
+package io.appium.java_client.pagefactory_tests.widgets;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
-import io.appium.java_client.pagefactory_tests.widgets.Movie;
-import io.appium.java_client.pagefactory_tests.widgets.WidgetTest;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -22,13 +20,13 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class SelendroidWidgetTest implements WidgetTest{
+public class SelendroidOverrideWidgetTest implements WidgetTest{
     private static int SELENDROID_PORT = 9999;
 
     private AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
-    private RottenTomatoesSelendroidApp rottenTomatoesApp;
-    TimeOutDuration duration;
+    private RottenTomatoes rottenTomatoes;
+    private TimeOutDuration duration;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -48,8 +46,8 @@ public class SelendroidWidgetTest implements WidgetTest{
         driver = new AndroidDriver(service.getUrl(), capabilities);
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
-        rottenTomatoesApp = new RottenTomatoesSelendroidApp();
-        PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoesApp);
+        rottenTomatoes = new RottenTomatoes();
+        PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 
     @After
@@ -66,41 +64,41 @@ public class SelendroidWidgetTest implements WidgetTest{
     @Test
     @Override
     public void checkACommonWidget() {
-        assertTrue(rottenTomatoesApp.getSimpleMovieCount() == 10);
-        Movie movie = rottenTomatoesApp.getASimpleMovie(0);
+        assertTrue(rottenTomatoes.getSimpleMovieCount() == 10);
+        Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
         assertNotNull(movie.getPoster());
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
-        rottenTomatoesApp.checkSimpleReviev();
+        rottenTomatoes.checkSimpleReviev();
     }
 
     @Override
     @Test
     public void checkAnAnnotatedWidget() {
-        assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() == 10);
-        Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
+        assertTrue(rottenTomatoes.getAnnotatedMovieCount() == 10);
+        Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
         assertNotNull(movie.getPoster());
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
-        rottenTomatoesApp.checkAnnotatedReviev();
+        rottenTomatoes.checkAnnotatedReviev();
     }
 
 
     @Override
     @Test
     public void checkAnExtendedWidget() {
-        assertTrue(rottenTomatoesApp.getExtendeddMovieCount() == 10);
-        Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
+        assertTrue(rottenTomatoes.getExtendeddMovieCount() == 10);
+        Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
         assertNotNull(movie.getPoster());
         movie.goToReview();
-        driver.getPageSource(); //forcing the refreshing hierarchy
-        rottenTomatoesApp.checkExtendedReviev();
+        driver.getPageSource();  //forcing the refreshing hierarchy
+        rottenTomatoes.checkExtendedReviev();
     }
 
     @Override
@@ -108,17 +106,17 @@ public class SelendroidWidgetTest implements WidgetTest{
     public void checkTheLocatorOverridingOnAWidget() {
         duration.setTime(5);
         try {
-            assertTrue(rottenTomatoesApp.getFakedMovieCount() == 0);
+            assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         }
         catch (Exception e){
             if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 throw e;
         }
 
-        rottenTomatoesApp.getASimpleMovie(0).goToReview();
+        rottenTomatoes.getASimpleMovie(0).goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
         try {
-            rottenTomatoesApp.checkFakeReviev();
+            rottenTomatoes.checkFakeReviev();
         }
         catch (Exception e){
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))

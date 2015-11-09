@@ -13,9 +13,6 @@ public class SelendroidMovie extends Movie{
     @SelendroidFindBy(id = "tvCriticsScore")
     private RemoteWebElement score;
 
-    @SelendroidFindBy(id = "tvCast")
-    private RemoteWebElement cast;
-
     @SelendroidFindBy(id = "ivPosterImage")
     private RemoteWebElement poster;
 
@@ -31,11 +28,6 @@ public class SelendroidMovie extends Movie{
     @Override
     public String score() {
         return score.getText();
-    }
-
-    @Override
-    public String additionalInfo() {
-        return cast.getText();
     }
 
     @Override

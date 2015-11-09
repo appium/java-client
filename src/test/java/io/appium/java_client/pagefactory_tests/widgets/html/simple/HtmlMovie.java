@@ -12,18 +12,6 @@ public class HtmlMovie extends Movie{
     @FindBy(className = "tMeterScore")
     private WebElement score;
 
-    @FindBy(className = "actors")
-    private WebElement actors;
-
-    @FindBy(xpath = ".//*[@class=\"subtle\"]/..")
-    private WebElement critics;
-
-    @FindBy(xpath = ".//*[@class=\"subtle other_info\"]")
-    private WebElement duration;
-
-    @FindBy(xpath = ".//*[@class=\"release-date theater-released-date\"]")
-    private WebElement releaseDate;
-
     @FindBy(className = "poster_container")
     private WebElement poster;
 
@@ -44,12 +32,6 @@ public class HtmlMovie extends Movie{
     @Override
     public String score() {
         return score.getText();
-    }
-
-    @Override
-    public String additionalInfo() {
-        return actors.getText() + " " + critics.getText() + " " +
-                duration.getText() + " " + releaseDate.getText();
     }
 
     @Override

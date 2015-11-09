@@ -66,7 +66,6 @@ public class AndroidWidgetTest implements WidgetTest{
         Movie movie = rottenTomatoesApp.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
-        assertTrue(!StringUtils.isBlank(movie.additionalInfo()));
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
@@ -80,7 +79,6 @@ public class AndroidWidgetTest implements WidgetTest{
         Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
-        assertTrue(!StringUtils.isBlank(movie.additionalInfo()));
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
@@ -95,7 +93,6 @@ public class AndroidWidgetTest implements WidgetTest{
         Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
-        assertTrue(!StringUtils.isBlank(movie.additionalInfo()));
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
