@@ -12,8 +12,9 @@ import org.openqa.selenium.WebElement;
 //className = UIAWindow
 public class IOSReview extends Review{
 
-    @iOSFindBy(className = "UIANavigationBar")
-    private IOSElement navigationBar;
+    @iOSFindBys({@iOSFindBy(className = "UIANavigationBar"),
+            @iOSFindBy(className = "UIAStaticText")})
+    private IOSElement title;
 
     @iOSFindBys({@iOSFindBy(className = "UIAScrollView"),
     @iOSFindBy(className = "UIAStaticText")})
@@ -29,7 +30,7 @@ public class IOSReview extends Review{
 
     @Override
     public String title() {
-        return navigationBar.getText();
+        return title.getText();
     }
 
     @Override

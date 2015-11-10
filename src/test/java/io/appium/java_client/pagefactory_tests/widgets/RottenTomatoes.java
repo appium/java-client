@@ -74,7 +74,7 @@ public class RottenTomatoes {
     @SelendroidFindBy(id = "Fake_ID_For_All_Platforms")
     @iOSFindBy(id = "Fake_ID_For_All_Platforms")
     @OverrideWidget(html = ExtendedHtmlMovies.class, selendroid = ExtendedSelendroidMovies.class,
-            androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSReview.class)
+            androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
     private Movies fakeMovies;
 
     @FindBy(id = "Fake_ID_For_All_Platforms")
@@ -82,7 +82,7 @@ public class RottenTomatoes {
     @SelendroidFindBy(id = "Fake_ID_For_All_Platforms")
     @iOSFindBy(id = "Fake_ID_For_All_Platforms")
     @OverrideWidget(html = ExtendedHtmlReview.class, selendroid = ExtendedSelendroidReview.class,
-            androidUIAutomator = ExtendedAndroidReview.class)
+            androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
     private Review fakeReview;
 
 
