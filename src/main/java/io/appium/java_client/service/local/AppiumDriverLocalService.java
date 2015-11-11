@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -44,7 +45,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final long startupTimeout;
     private final TimeUnit timeUnit;
     private final ReentrantLock lock = new ReentrantLock();
-    private final ListOutputStream stream = new ListOutputStream().add(System.err);
+    private final ListOutputStream stream = new ListOutputStream().add(System.out);
 
 
 
@@ -167,8 +168,15 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     public void addOutPutStream(OutputStream outputStream){
-        checkNotNull(outputStream);
+        checkNotNull(outputStream, "outputStream parameter is NULL!");
         stream.add(outputStream);
+    }
+
+    public void addOutPutStreams(List<OutputStream> outputStreams){
+        checkNotNull(outputStreams, "outputStreams parameter is NULL!");
+        for (OutputStream stream: outputStreams){
+            addOutPutStream(stream);
+        }
     }
 
     public static AppiumDriverLocalService buildDefaultService(){
