@@ -25,10 +25,13 @@ import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class AppiumDriverLocalService extends DriverService {
 
@@ -41,6 +44,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final long startupTimeout;
     private final TimeUnit timeUnit;
     private final ReentrantLock lock = new ReentrantLock();
+    private final ListOutputStream stream = new ListOutputStream().add(System.err);
 
 
 
@@ -114,7 +118,7 @@ public final class AppiumDriverLocalService extends DriverService {
         try {
             process = new CommandLine(this.nodeJSExec.getCanonicalPath(), nodeJSArgs.toArray(new String[] {}));
             process.setEnvironmentVariables(nodeJSEnvironment);
-            process.copyOutputTo(System.err);
+            process.copyOutputTo(stream);
             process.executeAsync();
             ping(startupTimeout, timeUnit);
         } catch (Throwable e) {
@@ -160,6 +164,11 @@ public final class AppiumDriverLocalService extends DriverService {
             return process.getStdOut();
 
         return null;
+    }
+
+    public void addOutPutStream(OutputStream outputStream){
+        checkNotNull(outputStream);
+        stream.add(outputStream);
     }
 
     public static AppiumDriverLocalService buildDefaultService(){
