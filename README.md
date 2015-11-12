@@ -87,7 +87,6 @@ More can be found in the docs, but here's a quick list of features which this pr
 - lockScreen()
 - isLocked()
 - shake()
-- complexFind()
 - scrollTo()
 - scrollToExact()
 - openNotifications()
@@ -109,6 +108,16 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 
 ##Changelog##
+*3.3.0 (still not released)*
+- updated the dependency on Selenium to version 2.48.2
+- bug fix and enhancements of io.appium.java_client.service.local.AppiumDriverLocalService
+    - FIXED bug which was found and reproduced with Eclipse for Mac OS X. Please read about details here: [#252](https://github.com/appium/java-client/issues/252)
+    Thanks to [saikrishna321](https://github.com/saikrishna321) for the bug report
+    - The ability to set additional output streams was provided
+- The additional __startActivity()__ method was added to AndroidDriver. It allows to start activities without the stopping of a target app
+Thanks to [deadmoto](https://github.com/deadmoto) for the contribution
+- The additional extension of the Page Object design pattern was designed. Please read about details here: [#267](https://github.com/appium/java-client/pull/267)
+
 *3.2.0*
 - updated the dependency on Selenium to version 2.47.1
 - the new dependency on commons-validator v1.4.1
