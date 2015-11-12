@@ -26,6 +26,7 @@ import org.openqa.selenium.Platform;
 import java.io.*;
 import java.util.Properties;
 
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class ServerBuilderTest {
@@ -134,5 +135,48 @@ public class ServerBuilderTest {
         service.start();
         assertEquals(true, service.isRunning());
         service.stop();
+    }
+
+    @Test
+    public void checkAbilityToChangeOutputStream() throws Exception{
+        File file = new File("target/test");
+        file.createNewFile();
+        OutputStream stream = new FileOutputStream(file);
+        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+        service.addOutPutStream(stream);
+        try {
+            service.start();
+            assertTrue(file.length() > 0);
+        }
+        finally {
+            service.stop();
+            if (stream != null)
+                stream.close();
+
+            if (file.exists())
+                file.delete();
+        }
+    }
+
+    @Test
+    public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception{
+        File file = new File("target/test");
+        file.createNewFile();
+        OutputStream stream = new FileOutputStream(file);
+        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+        try {
+            service.start();
+            service.addOutPutStream(stream);
+            service.isRunning();
+            assertTrue(file.length() > 0);
+        }
+        finally {
+            service.stop();
+            if (stream != null)
+                stream.close();
+
+            if (file.exists())
+                file.delete();
+        }
     }
 }
