@@ -87,7 +87,6 @@ More can be found in the docs, but here's a quick list of features which this pr
 - lockScreen()
 - isLocked()
 - shake()
-- complexFind()
 - scrollTo()
 - scrollToExact()
 - openNotifications()
