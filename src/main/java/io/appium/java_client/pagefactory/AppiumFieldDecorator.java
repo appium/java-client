@@ -59,7 +59,7 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unp
 public class AppiumFieldDecorator implements FieldDecorator{
 
     private static final List<Class<? extends WebElement>> availableElementClasses =
-            new ArrayList<Class<? extends WebElement>>(){
+            new ArrayList<Class<? extends WebElement>>() {
                 private static final long serialVersionUID = 1L;
                 {
                     add(WebElement.class);
@@ -73,7 +73,7 @@ public class AppiumFieldDecorator implements FieldDecorator{
             };
 
     private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>> elementRuleMap =
-            new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>(){
+            new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
                 private static final long serialVersionUID = 1L;
                 {
                     put(AndroidDriver.class, AndroidElement.class);
@@ -103,9 +103,9 @@ public class AppiumFieldDecorator implements FieldDecorator{
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(
                 new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
-                        new DefaultElementByBuilder(platform, automation))){
+                        new DefaultElementByBuilder(platform, automation))) {
             @Override
-            protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator){
+            protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
                 return proxyForAnElement(locator);
             }
 
@@ -132,8 +132,8 @@ public class AppiumFieldDecorator implements FieldDecorator{
 
                 boolean result = false;
                 for (Class<? extends WebElement> webElementClass:
-                        availableElementClasses){
-                    if (!webElementClass.equals(listType)){
+                        availableElementClasses) {
+                    if (!webElementClass.equals(listType)) {
                         continue;
                     }
                     result = true;
@@ -153,21 +153,23 @@ public class AppiumFieldDecorator implements FieldDecorator{
 
     public Object decorate(ClassLoader ignored, Field field) {
         Object result = defaultElementFieldDecoracor.decorate(ignored, field);
-        if (result != null)
+        if (result != null) {
             return result;
+        }
 
         return decorateWidget(field);
     }
 
     @SuppressWarnings("unchecked")
-    private Object decorateWidget(Field field){
+    private Object decorateWidget(Field field) {
         Class<?> type = field.getType();
-        if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type))
+        if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
             return null;
+        }
 
         Class<? extends Widget> widgetType;
         boolean isAlist = false;
-        if (List.class.isAssignableFrom(type)){
+        if (List.class.isAssignableFrom(type)) {
             isAlist = true;
             Type genericType = field.getGenericType();
             if (!(genericType instanceof ParameterizedType)) {
@@ -176,24 +178,28 @@ public class AppiumFieldDecorator implements FieldDecorator{
 
             Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
 
-            if (ParameterizedType.class.isAssignableFrom(listType.getClass()))
+            if (ParameterizedType.class.isAssignableFrom(listType.getClass())) {
                 listType = ((ParameterizedType) listType).getRawType();
+            }
 
-            if (!Widget.class.isAssignableFrom((Class) listType))
+            if (!Widget.class.isAssignableFrom((Class) listType)) {
                 return null;
+            }
 
             widgetType = Class.class.cast(listType);
         }
-        else
+        else {
             widgetType = (Class<? extends Widget>) field.getType();
+        }
 
         CacheableLocator locator = widgetLocatorFactory.createLocator(field);
         Map<ContentType, Constructor<? extends Widget>> map =
                 OverrideWidgetReader.read(widgetType, field, platform, automation);
 
-        if (isAlist)
+        if (isAlist) {
             return getEnhancedProxy(ArrayList.class,
                     new WidgetListInterceptor(locator, originalDriver, map, widgetType, timeOutDuration));
+        }
 
         Constructor<? extends Widget> constructor = WidgetConstructorUtil.findConvenientConstructor(widgetType);
         return getEnhancedProxy(widgetType, new Class[] {constructor.getParameterTypes()[0]},
@@ -201,14 +207,15 @@ public class AppiumFieldDecorator implements FieldDecorator{
                         timeOutDuration));
     }
 
-    private Class<?> getTypeForProxy(){
+    private Class<?> getTypeForProxy() {
         Class<? extends SearchContext> driverClass = originalDriver.getClass();
         Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules = elementRuleMap.entrySet();
         //it will return MobileElement subclass when here is something
         for (Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e : rules) {
             //that extends AppiumDriver or MobileElement
-            if (e.getKey().isAssignableFrom(driverClass))
+            if (e.getKey().isAssignableFrom(driverClass)) {
                 return e.getValue();
+            }
         } //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
         return RemoteWebElement.class;
     }

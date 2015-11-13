@@ -27,34 +27,36 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 
 class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
-	private final SearchContext searchContext;
-	private final TimeOutDuration timeOutDuration;
+    private final SearchContext searchContext;
+    private final TimeOutDuration timeOutDuration;
     private final WebDriver originalWebDriver;
     private final AppiumByBuilder builder;
 
-	public AppiumElementLocatorFactory(SearchContext searchContext,
-									   TimeOutDuration timeOutDuration,
+    public AppiumElementLocatorFactory(SearchContext searchContext,
+                                       TimeOutDuration timeOutDuration,
                                        WebDriver originalWebDriver,
                                        AppiumByBuilder builder) {
-		this.searchContext = searchContext;
+        this.searchContext = searchContext;
         this.originalWebDriver = originalWebDriver;
-		this.timeOutDuration = timeOutDuration;
+        this.timeOutDuration = timeOutDuration;
         this.builder = builder;
-	}
+    }
 
-	public CacheableLocator createLocator(Field field) {
+    public CacheableLocator createLocator(Field field) {
         return this.createLocator((AnnotatedElement) field);
-	}
+    }
 
     @Override
     public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
         TimeOutDuration customDuration;
-        if (annotatedElement.isAnnotationPresent(WithTimeout.class)){
+        if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
             customDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
         }
-        else
+        else {
             customDuration = timeOutDuration;
+        }
+
         builder.setAnnotated(annotatedElement);
         By by = builder.buildBy();
         if (by != null)

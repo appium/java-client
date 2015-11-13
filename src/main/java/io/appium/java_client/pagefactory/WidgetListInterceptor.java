@@ -54,7 +54,7 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements{
             cachedElements = elements;
             cachedWidgets.clear();
 
-            for (WebElement element: cachedElements){
+            for (WebElement element: cachedElements) {
                 ContentType type = getCurrentContentType(element);
                 Class<?>[] params = new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
                 cachedWidgets.add(ProxyFactory.getEnhancedProxy(declaredType, params, new Object[]{element},
@@ -64,7 +64,7 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements{
         try {
             return method.invoke(cachedWidgets, args);
         }
-        catch (Throwable t){
+        catch (Throwable t) {
             throw ThrowableUtil.extractReadableException(t);
         }
     }

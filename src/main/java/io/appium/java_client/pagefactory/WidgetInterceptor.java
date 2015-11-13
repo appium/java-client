@@ -51,7 +51,7 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
     protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
         if (cachedElement == null || (locator !=null && !((CacheableLocator) locator).isLookUpCached()) ||
-                cachedInstances.size() == 0){
+                cachedInstances.size() == 0) {
             cachedElement = element;
             Widget widget = instantiationMap.get(type).newInstance(cachedElement);
             cachedInstances.put(type, widget);
@@ -60,15 +60,16 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
         try {
             return method.invoke(cachedInstances.get(type), args);
         }
-        catch (Throwable t){
+        catch (Throwable t) {
             throw ThrowableUtil.extractReadableException(t);
         }
     }
 
     public Object intercept(Object obj, Method method, Object[] args,
                             MethodProxy proxy) throws Throwable {
-        if (locator != null)
+        if (locator != null) {
             return super.intercept(obj, method, args, proxy);
+        }
         return getObject(cachedElement, method, args);
     }
 }

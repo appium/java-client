@@ -50,22 +50,26 @@ class AppiumElementLocator implements CacheableLocator {
 
             try {
                 result.addAll(searchContext.findElements(by));
-            } catch (Throwable e){
+            } catch (Throwable e) {
 
                 isRootCauseInvalidSelector = isInvalidSelectorRootCause(e);
-                if (!isRootCauseInvalidSelector)
+                if (!isRootCauseInvalidSelector) {
                     isRootCauseStaleElementReferenceException = isStaleElementReferenceException(e);
+                }
 
-                if (isRootCauseStaleElementReferenceException)
+                if (isRootCauseStaleElementReferenceException) {
                     foundStaleElementReferenceException = extractReadableException(e);
+                }
 
-                if (!isRootCauseInvalidSelector & !isRootCauseStaleElementReferenceException)
+                if (!isRootCauseInvalidSelector & !isRootCauseStaleElementReferenceException) {
                     shouldBeThrown = extractReadableException(e);
+                }
             }
 
             if (shouldBeThrown != null) {
-                if (RuntimeException.class.isAssignableFrom(shouldBeThrown.getClass()))
+                if (RuntimeException.class.isAssignableFrom(shouldBeThrown.getClass())) {
                     throw (RuntimeException) shouldBeThrown;
+                }
                 throw new RuntimeException(shouldBeThrown);
             }
 
@@ -142,8 +146,9 @@ class AppiumElementLocator implements CacheableLocator {
         if (result.size() == 0) {
             String message = "Can't locate an element by this strategy: "
                     + by.toString();
-            if (waitingFunction.foundStaleElementReferenceException != null)
+            if (waitingFunction.foundStaleElementReferenceException != null) {
                 throw new NoSuchElementException(message, waitingFunction.foundStaleElementReferenceException);
+            }
             throw new NoSuchElementException(message);
         }
         if (shouldCache) {

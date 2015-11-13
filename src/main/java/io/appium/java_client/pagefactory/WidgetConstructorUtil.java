@@ -22,17 +22,18 @@ import java.util.Arrays;
 import java.util.List;
 
 class WidgetConstructorUtil {
-    private WidgetConstructorUtil(){
+    private WidgetConstructorUtil() {
         super();
     }
 
     @SuppressWarnings("unchecked")
-    static Constructor<? extends Widget> findConvenientConstructor(Class<? extends Widget> clazz){
+    static Constructor<? extends Widget> findConvenientConstructor(Class<? extends Widget> clazz) {
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-        for (Constructor<?> constructor: constructors){
+        for (Constructor<?> constructor: constructors) {
             Class<?>[] params = constructor.getParameterTypes();
-            if (constructor.getParameterTypes().length !=1)
+            if (constructor.getParameterTypes().length !=1) {
                 continue;
+            }
 
             Class<?> param = params[0];
             if (WebElement.class.isAssignableFrom(param)) {

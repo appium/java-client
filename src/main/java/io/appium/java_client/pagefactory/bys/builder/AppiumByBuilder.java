@@ -120,26 +120,30 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         }
     }
 
-    protected static By createBy(Annotation[] annotations, HowToUseSelectors howToUseLocators){
-        if (annotations == null || annotations.length == 0)
+    protected static By createBy(Annotation[] annotations, HowToUseSelectors howToUseLocators) {
+        if (annotations == null || annotations.length == 0) {
             return null;
+        }
 
-        switch (howToUseLocators ){
-            case USE_ONE:
+        switch (howToUseLocators ) {
+            case USE_ONE: {
                 return getMobileBy(annotations[0], getFilledValue(annotations[0]));
-            case BUILD_CHAINED:
+            }
+            case BUILD_CHAINED: {
                 return getComplexMobileBy(annotations, ByChained.class);
-            case USE_ANY:
+            }
+            case USE_ANY: {
                 return getComplexMobileBy(annotations, ByAll.class);
-            default:
+            }
+            default: {
                 return null;
+            }
         }
     }
 
     protected final AnnotatedElementContainer annotatedElementContainer;
     protected final String platform;
     protected final String automation;
-
 
     protected AppiumByBuilder(String platform, String automation) {
         this.annotatedElementContainer = new AnnotatedElementContainer();

@@ -37,52 +37,61 @@ class WidgetByBuilder extends DefaultElementByBuilder {
         super(platform, automation);
     }
 
-    private static Class<?> getClassFromAListField(Field field){
+    private static Class<?> getClassFromAListField(Field field) {
         Type genericType = field.getGenericType();
         if (!(genericType instanceof ParameterizedType)) {
             return null;
         }
 
         Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-        if (ParameterizedType.class.isAssignableFrom(listType.getClass()))
+        if (ParameterizedType.class.isAssignableFrom(listType.getClass())) {
             listType = ((ParameterizedType) listType).getRawType();
+        }
 
         return (Class<?>) listType;
     }
 
     @SuppressWarnings("unchecked")
-    private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded){
+    private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         Field field = Field.class.cast(annotatedElement);
         Class<?> declaredClass;
 
         By result = null;
         try {
-            if (List.class.isAssignableFrom(field.getType()))
+            if (List.class.isAssignableFrom(field.getType())) {
                 declaredClass = getClassFromAListField(field);
-            else
+            }
+            else {
                 declaredClass = field.getType();
+            }
 
             Class<?> convenientClass;
 
-            if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML))
+            if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
                 convenientClass = getDefaultOrHTMLWidgetClass((Class<? extends Widget>) declaredClass, field);
-            else
+            }
+            else {
                 convenientClass = getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field, platform, automation);
+            }
 
             while (result == null && !convenientClass.equals(Object.class)) {
                 setAnnotated(convenientClass);
-                if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML))
+                if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
                     result = super.buildDefaultBy();
-                else
+                }
+                else {
                     result = super.buildMobileNativeBy();
+                }
+
                 convenientClass = convenientClass.getSuperclass();
             }
             return result;
         }
         finally {
-            if (field != null)
+            if (field != null) {
                 setAnnotated(field);
+            }
         }
     }
 
@@ -90,19 +99,23 @@ class WidgetByBuilder extends DefaultElementByBuilder {
     protected By buildDefaultBy() {
         By defaultBy = super.buildDefaultBy();
 
-        if (defaultBy != null)
+        if (defaultBy != null) {
             return defaultBy;
-        else
+        }
+        else {
             return getByFromDeclaredClass(WhatIsNeeded.DEFAULT_OR_HTML);
+        }
     }
 
     @Override
     protected By buildMobileNativeBy() {
         By mobileBy = super.buildMobileNativeBy();
 
-        if (mobileBy != null)
+        if (mobileBy != null) {
             return mobileBy;
-        else
+        }
+        else {
             return getByFromDeclaredClass(WhatIsNeeded.MOBILE_NATIVE);
+        }
     }
 }

@@ -23,29 +23,34 @@ import java.lang.reflect.InvocationTargetException;
 class ThrowableUtil {
     private final static String INVALID_SELECTOR_PATTERN = "Invalid locator strategy:";
 
-    static boolean isInvalidSelectorRootCause(Throwable e){
-        if (e == null)
+    static boolean isInvalidSelectorRootCause(Throwable e) {
+        if (e == null) {
             return false;
+        }
 
-        if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN))
+        if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN)) {
             return true;
+        }
 
         return isInvalidSelectorRootCause(e.getCause());
     }
 
-    static boolean isStaleElementReferenceException(Throwable e){
-        if (e == null)
+    static boolean isStaleElementReferenceException(Throwable e) {
+        if (e == null) {
             return false;
+        }
 
-        if (StaleElementReferenceException.class.isAssignableFrom(e.getClass()))
+        if (StaleElementReferenceException.class.isAssignableFrom(e.getClass())) {
             return true;
+        }
 
         return isStaleElementReferenceException(e.getCause());
     }
 
     static Throwable extractReadableException(Throwable e) {
-        if (!RuntimeException.class.equals(e.getClass()) && !InvocationTargetException.class.equals(e.getClass()))
+        if (!RuntimeException.class.equals(e.getClass()) && !InvocationTargetException.class.equals(e.getClass())) {
             return e;
+        }
 
         return extractReadableException(e.getCause());
     }

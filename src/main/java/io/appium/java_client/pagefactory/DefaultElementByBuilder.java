@@ -94,19 +94,22 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         By defaultBy = null;
         FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
-        if (findBy != null)
+        if (findBy != null) {
             defaultBy = super.buildByFromFindBy(findBy);
-
-        if (defaultBy == null){
-            FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
-            if (findBys != null)
-                defaultBy = super.buildByFromFindBys(findBys);
         }
 
-        if (defaultBy == null){
+        if (defaultBy == null) {
+            FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
+            if (findBys != null) {
+                defaultBy = super.buildByFromFindBys(findBys);
+            }
+        }
+
+        if (defaultBy == null) {
             FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
-            if (findAll != null)
+            if (findAll != null) {
                 defaultBy = super.buildBysFromFindByOneOf(findAll);
+            }
         }
         return defaultBy;
     }
@@ -115,49 +118,58 @@ class DefaultElementByBuilder extends AppiumByBuilder {
     protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         if (ANDROID.toUpperCase().equals(platform)
-                && SELENDROID.toUpperCase().equals(automation)){
+                && SELENDROID.toUpperCase().equals(automation)) {
             SelendroidFindBy selendroidFindBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
             SelendroidFindBys selendroidFindBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
             SelendroidFindAll selendroidFindByAll = annotatedElement.getAnnotation(SelendroidFindAll.class);
 
-            if (selendroidFindBy != null)
+            if (selendroidFindBy != null) {
                 return createBy(new Annotation[]{selendroidFindBy}, HowToUseSelectors.USE_ONE);
+            }
 
-            if (selendroidFindBys != null)
+            if (selendroidFindBys != null) {
                 return createBy(selendroidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
+            }
 
-            if (selendroidFindByAll != null)
+            if (selendroidFindByAll != null) {
                 return createBy(selendroidFindByAll.value(), HowToUseSelectors.USE_ANY);
+            }
         }
 
-        if (ANDROID.toUpperCase().equals(platform)){
+        if (ANDROID.toUpperCase().equals(platform)) {
             AndroidFindBy androidFindBy = annotatedElement.getAnnotation(AndroidFindBy.class);
             AndroidFindBys androidFindBys= annotatedElement.getAnnotation(AndroidFindBys.class);
             AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
 
-            if (androidFindBy != null)
+            if (androidFindBy != null) {
                 return createBy(new Annotation[]{androidFindBy}, HowToUseSelectors.USE_ONE);
+            }
 
-            if (androidFindBys != null)
+            if (androidFindBys != null) {
                 return createBy(androidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
+            }
 
-            if (androidFindAll != null)
+            if (androidFindAll != null) {
                 return createBy(androidFindAll.value(), HowToUseSelectors.USE_ANY);
+            }
         }
 
-        if (IOS.toUpperCase().equals(platform)){
+        if (IOS.toUpperCase().equals(platform)) {
             iOSFindBy iOSFindBy = annotatedElement.getAnnotation(iOSFindBy.class);
             iOSFindBys iOSFindBys= annotatedElement.getAnnotation(iOSFindBys.class);
             iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
 
-            if (iOSFindBy != null)
+            if (iOSFindBy != null) {
                 return createBy(new Annotation[]{iOSFindBy}, HowToUseSelectors.USE_ONE);
+            }
 
-            if (iOSFindBys != null)
+            if (iOSFindBys != null) {
                 return createBy(iOSFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
+            }
 
-            if (iOSFindAll != null)
+            if (iOSFindAll != null) {
                 return createBy(iOSFindAll.value(), HowToUseSelectors.USE_ANY);
+            }
         }
 
         return null;
@@ -176,12 +188,14 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         By defaultBy = buildDefaultBy();
         By mobileNativeBy = buildMobileNativeBy();
 
-        if (defaultBy == null)
+        if (defaultBy == null) {
             defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+        }
 
 
-        if (mobileNativeBy == null)
+        if (mobileNativeBy == null) {
             mobileNativeBy = defaultBy;
+        }
 
         Map<ContentType, By> contentMap = new HashMap<>();
         contentMap.put(ContentType.HTML_OR_DEFAULT, defaultBy);
