@@ -73,7 +73,7 @@ public class SelendroidWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
-        rottenTomatoesApp.checkSimpleReviev();
+        rottenTomatoesApp.checkSimpleReview();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class SelendroidWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
-        rottenTomatoesApp.checkAnnotatedReviev();
+        rottenTomatoesApp.checkAnnotatedReview();
     }
 
 
@@ -100,7 +100,7 @@ public class SelendroidWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
         driver.getPageSource(); //forcing the refreshing hierarchy
-        rottenTomatoesApp.checkExtendedReviev();
+        rottenTomatoesApp.checkExtendedReview();
     }
 
     @Override
@@ -118,7 +118,7 @@ public class SelendroidWidgetTest implements WidgetTest{
         rottenTomatoesApp.getASimpleMovie(0).goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
         try {
-            rottenTomatoesApp.checkFakeReviev();
+            rottenTomatoesApp.checkFakeReview();
         }
         catch (Exception e){
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))

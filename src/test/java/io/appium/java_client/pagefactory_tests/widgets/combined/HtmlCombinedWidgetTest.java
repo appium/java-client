@@ -55,7 +55,7 @@ public class HtmlCombinedWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoes.checkSimpleReviev();
+        rottenTomatoes.checkSimpleReview();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class HtmlCombinedWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoes.checkAnnotatedReviev();
+        rottenTomatoes.checkAnnotatedReview();
     }
 
 
@@ -82,7 +82,7 @@ public class HtmlCombinedWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoes.checkExtendedReviev();
+        rottenTomatoes.checkExtendedReview();
     }
 
     @Override
@@ -99,7 +99,7 @@ public class HtmlCombinedWidgetTest implements WidgetTest{
         rottenTomatoes.getASimpleMovie(0).goToReview();
 
         try {
-            rottenTomatoes.checkFakeReviev();
+            rottenTomatoes.checkFakeReview();
         }
         catch (Exception e){
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))

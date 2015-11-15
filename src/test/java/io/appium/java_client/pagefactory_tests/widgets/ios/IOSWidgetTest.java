@@ -5,7 +5,6 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import io.appium.java_client.pagefactory_tests.widgets.WidgetTest;
-import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.lang3.StringUtils;
@@ -70,7 +69,7 @@ public class IOSWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoesApp.checkSimpleReviev();
+        rottenTomatoesApp.checkSimpleReview();
     }
 
     @Override
@@ -83,7 +82,7 @@ public class IOSWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoesApp.checkAnnotatedReviev();
+        rottenTomatoesApp.checkAnnotatedReview();
     }
 
 
@@ -97,7 +96,7 @@ public class IOSWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoesApp.checkExtendedReviev();
+        rottenTomatoesApp.checkExtendedReview();
     }
 
     @Override
@@ -114,7 +113,7 @@ public class IOSWidgetTest implements WidgetTest{
         rottenTomatoesApp.getASimpleMovie(0).goToReview();
 
         try {
-            rottenTomatoesApp.checkFakeReviev();
+            rottenTomatoesApp.checkFakeReview();
         }
         catch (Exception e){
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))

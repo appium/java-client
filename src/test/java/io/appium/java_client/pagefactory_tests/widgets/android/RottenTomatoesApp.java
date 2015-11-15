@@ -49,7 +49,7 @@ public class RottenTomatoesApp {
         return simpleMovies.getMovie(index);
     }
 
-    public void checkSimpleReviev(){
+    public void checkSimpleReview(){
         assertTrue(!StringUtils.isBlank(simpleReview.title()));
         assertTrue(!StringUtils.isBlank(simpleReview.score()));
         assertTrue(!StringUtils.isBlank(simpleReview.info()));
@@ -65,7 +65,7 @@ public class RottenTomatoesApp {
         return annotatedAndroidMovies.getMovie(index);
     }
 
-    public void checkAnnotatedReviev(){
+    public void checkAnnotatedReview(){
         assertTrue(!StringUtils.isBlank(annotatedAndroidReview.title()));
         assertTrue(!StringUtils.isBlank(annotatedAndroidReview.score()));
         assertTrue(!StringUtils.isBlank(annotatedAndroidReview.info()));
@@ -81,7 +81,7 @@ public class RottenTomatoesApp {
         return extendedAndroidMovies.getMovie(index);
     }
 
-    public void checkExtendedReviev(){
+    public void checkExtendedReview(){
         assertTrue(!StringUtils.isBlank(extendedAndroidReview.title()));
         assertTrue(!StringUtils.isBlank(extendedAndroidReview.score()));
         assertTrue(!StringUtils.isBlank(extendedAndroidReview.info()));
@@ -94,7 +94,7 @@ public class RottenTomatoesApp {
         return fakeMovies.getMovieCount();
     }
 
-    public void checkFakeReviev(){
+    public void checkFakeReview(){
         assertTrue(!StringUtils.isBlank(fakeReview.title()));
         assertTrue(!StringUtils.isBlank(fakeReview.score()));
         assertTrue(!StringUtils.isBlank(fakeReview.info()));

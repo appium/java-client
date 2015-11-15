@@ -3,8 +3,6 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
-import io.appium.java_client.pagefactory_tests.widgets.ios.RottenTomatoesIOSApp;
-import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.lang3.StringUtils;
@@ -69,7 +67,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoes.checkSimpleReviev();
+        rottenTomatoes.checkSimpleReview();
     }
 
     @Override
@@ -82,7 +80,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoes.checkAnnotatedReviev();
+        rottenTomatoes.checkAnnotatedReview();
     }
 
 
@@ -96,7 +94,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoes.checkExtendedReviev();
+        rottenTomatoes.checkExtendedReview();
     }
 
     @Override
@@ -113,7 +111,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         rottenTomatoes.getASimpleMovie(0).goToReview();
 
         try {
-            rottenTomatoes.checkFakeReviev();
+            rottenTomatoes.checkFakeReview();
         }
         catch (Exception e){
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))

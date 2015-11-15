@@ -69,7 +69,7 @@ public class AndroidWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoesApp.checkSimpleReviev();
+        rottenTomatoesApp.checkSimpleReview();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class AndroidWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoesApp.checkAnnotatedReviev();
+        rottenTomatoesApp.checkAnnotatedReview();
     }
 
 
@@ -96,7 +96,7 @@ public class AndroidWidgetTest implements WidgetTest{
         assertNotNull(movie.getPoster());
         movie.goToReview();
 
-        rottenTomatoesApp.checkExtendedReviev();
+        rottenTomatoesApp.checkExtendedReview();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class AndroidWidgetTest implements WidgetTest{
         rottenTomatoesApp.getASimpleMovie(0).goToReview();
 
         try {
-            rottenTomatoesApp.checkFakeReviev();
+            rottenTomatoesApp.checkFakeReview();
         }
         catch (Exception e){
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))

@@ -57,7 +57,7 @@ public class RottenTomatoesAppWithCombinedWidgets {
         return simpleMovies.getMovie(index);
     }
 
-    public void checkSimpleReviev(){
+    public void checkSimpleReview(){
         assertTrue(!StringUtils.isBlank(simpleReview.title()));
         assertTrue(!StringUtils.isBlank(simpleReview.score()));
         assertTrue(!StringUtils.isBlank(simpleReview.info()));
@@ -73,7 +73,7 @@ public class RottenTomatoesAppWithCombinedWidgets {
         return annotatedCombinedMovies.getMovie(index);
     }
 
-    public void checkAnnotatedReviev(){
+    public void checkAnnotatedReview(){
         assertTrue(!StringUtils.isBlank(annotatedCombinedReview.title()));
         assertTrue(!StringUtils.isBlank(annotatedCombinedReview.score()));
         assertTrue(!StringUtils.isBlank(annotatedCombinedReview.info()));
@@ -89,7 +89,7 @@ public class RottenTomatoesAppWithCombinedWidgets {
         return extendedCombinedMovies.getMovie(index);
     }
 
-    public void checkExtendedReviev(){
+    public void checkExtendedReview(){
         assertTrue(!StringUtils.isBlank(extendedCombinedReview.title()));
         assertTrue(!StringUtils.isBlank(extendedCombinedReview.score()));
         assertTrue(!StringUtils.isBlank(extendedCombinedReview.info()));
@@ -102,7 +102,7 @@ public class RottenTomatoesAppWithCombinedWidgets {
         return fakeMovies.getMovieCount();
     }
 
-    public void checkFakeReviev(){
+    public void checkFakeReview(){
         assertTrue(!StringUtils.isBlank(fakeReview.title()));
         assertTrue(!StringUtils.isBlank(fakeReview.score()));
         assertTrue(!StringUtils.isBlank(fakeReview.info()));
