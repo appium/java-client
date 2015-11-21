@@ -17,26 +17,25 @@
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.SelendroidFindAll;
-import io.appium.java_client.pagefactory.SelendroidFindBy;
-import io.appium.java_client.pagefactory.SelendroidFindBys;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.pagefactory.*;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.junit.*;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import static org.junit.Assert.*;
 
 public class SelendroidModeTest {
 	private static int SELENDROID_PORT = 9999;
@@ -90,7 +89,8 @@ public class SelendroidModeTest {
 
 	@BeforeClass
     public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
+        AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.AUTOMATION_NAME, AutomationName.SELENDROID);
+        service = builder.build();
         service.start();
 
         File appDir = new File("src/test/java/io/appium/java_client");
@@ -98,7 +98,6 @@ public class SelendroidModeTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         capabilities.setCapability(MobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
         driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
     }
@@ -123,73 +122,67 @@ public class SelendroidModeTest {
 
     @Test
     public void findByIdElementTest() {
-        Assert.assertNotEquals(null, textId.getAttribute("text"));
+        assertNotEquals(null, textId.getAttribute("text"));
     }
     
         @Test
     public void findBySelendroidSelectorTest() {
-        Assert.assertNotEquals(null, textSelendroidId.getAttribute("text"));
+        assertNotEquals(null, textSelendroidId.getAttribute("text"));
     }
 
     @Test
     public void findByElementByNameTest() {
-        Assert.assertEquals("Accessibility", textName.getText());
+        assertEquals("Accessibility", textName.getText());
     }
 
     @Test
     public void findByElementByNameAndroidTest() {
-        Assert.assertEquals("Accessibility", textNameAndroid.getText());
+        assertEquals("Accessibility", textNameAndroid.getText());
     }
 
     @Test
     public void findByElementByNameDefaultTest() {
-        Assert.assertEquals("Accessibility", textNameDefault.getText());
+        assertEquals("Accessibility", textNameDefault.getText());
     }
 
     @Test
     public void findByElementByXpathTest() {
-        Assert.assertEquals("Accessibility", textXpath.getText());
+        assertEquals("Accessibility", textXpath.getText());
     }
 
     @Test
     public void findByElementByIdsTest() {
-        Assert.assertNotNull(textIds.getText());
+        assertNotNull(textIds.getText());
     }
 
     @Test
     public void findByElementByTestAllTest() {
-        Assert.assertNotNull(textAll.getText());
+        assertNotNull(textAll.getText());
     }
 
     @Test
     public void findByElementByTextsAllTest() {
-        Assert.assertTrue(textsAll.size() > 1);
+        assertTrue(textsAll.size() > 1);
     }
 
     @Test
     public void findByElementByCalssTest() {
-        Assert.assertNotEquals(null, textClass.getAttribute("text"));
+        assertNotEquals(null, textClass.getAttribute("text"));
     }
 
     @Test
     public void findByElementByTagTest() {
-        Assert.assertNotEquals(null, textTag.getAttribute("text"));
+        assertNotEquals(null, textTag.getAttribute("text"));
     }
     
     @Test
     public void findBySelendroidAnnotationOnlyTest() {
-        Assert.assertNotEquals(null, textSelendroidId.getAttribute("text"));
+        assertNotEquals(null, textSelendroidId.getAttribute("text"));
     }
     
     @Test
     public void findBySelendroidLinkTextTest() {
-        Assert.assertEquals("Accessibility", textLink.getText());
-
-    }
-    
-    @Test
-    public void findBySelendroidPartialLinkTextTest() {
-        Assert.assertEquals("Accessibility", textPartialLink.getText());
+        assertEquals("Accessibility", textLink.getText());
 
     }
 }

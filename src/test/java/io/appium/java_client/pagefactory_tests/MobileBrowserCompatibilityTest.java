@@ -22,10 +22,6 @@ import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
@@ -39,6 +35,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 public class MobileBrowserCompatibilityTest {
 
 	private WebDriver driver;
@@ -50,11 +49,11 @@ public class MobileBrowserCompatibilityTest {
 	
 	@AndroidFindBys({
 		@AndroidFindBy(className = "someClass"),
-		@AndroidFindBy(xpath = "//someTag")})	
+		@AndroidFindBy(xpath = "//someTag")})
 	@FindBy(name="btnG")
 	private RemoteWebElement searchButton;
 	
-	@AndroidFindBy(className = "someClass")	
+	@AndroidFindBy(className = "someClass")
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> foundLinks;
 	
@@ -87,9 +86,6 @@ public class MobileBrowserCompatibilityTest {
 		searchTextField.sendKeys("Hello");
 		searchButton.click();
 		Assert.assertNotEquals(0, foundLinks.size());
-		searchTextField.clear();
-		searchTextField.sendKeys("Hello, Appium!");
-		searchButton.click();
 	}
 
 }

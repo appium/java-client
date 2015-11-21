@@ -1,0 +1,205 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.appium.java_client.pagefactory;
+
+import static io.appium.java_client.remote.MobilePlatform.*;
+import static io.appium.java_client.remote.AutomationName.*;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import io.appium.java_client.pagefactory.bys.ContentMappedBy;
+import io.appium.java_client.pagefactory.bys.ContentType;
+import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
+import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.*;
+
+class DefaultElementByBuilder extends AppiumByBuilder {
+
+    private static void checkDisallowedAnnotationPairs(Annotation a1,
+                                                       Annotation a2) throws IllegalArgumentException {
+        if (a1 != null && a2 != null) {
+            throw new IllegalArgumentException("If you use a '@"
+                    + a1.getClass().getSimpleName() + "' annotation, "
+                    + "you must not also use a '@"
+                    + a2.getClass().getSimpleName() + "' annotation");
+        }
+    }
+
+    @Override
+    protected void assertValidAnnotations() {
+        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        AndroidFindBy androidBy = annotatedElement
+                .getAnnotation(AndroidFindBy.class);
+        AndroidFindBys androidBys = annotatedElement
+                .getAnnotation(AndroidFindBys.class);
+        AndroidFindAll androidFindAll = annotatedElement
+                .getAnnotation(AndroidFindAll.class);
+
+        SelendroidFindBy selendroidBy = annotatedElement
+                .getAnnotation(SelendroidFindBy.class);
+        SelendroidFindBys selendroidBys = annotatedElement
+                .getAnnotation(SelendroidFindBys.class);
+        SelendroidFindAll selendroidFindAll = annotatedElement
+                .getAnnotation(SelendroidFindAll.class);
+
+        iOSFindBy iOSBy = annotatedElement.getAnnotation(iOSFindBy.class);
+        iOSFindBys iOSBys = annotatedElement.getAnnotation(iOSFindBys.class);
+        iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
+
+        FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
+        FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
+        FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
+
+        checkDisallowedAnnotationPairs(androidBy, androidBys);
+        checkDisallowedAnnotationPairs(androidBy, androidFindAll);
+        checkDisallowedAnnotationPairs(androidBys, androidFindAll);
+
+        checkDisallowedAnnotationPairs(selendroidBy, selendroidBys);
+        checkDisallowedAnnotationPairs(selendroidBy, selendroidFindAll);
+        checkDisallowedAnnotationPairs(selendroidBys, selendroidFindAll);
+
+        checkDisallowedAnnotationPairs(iOSBy, iOSBys);
+        checkDisallowedAnnotationPairs(iOSBy, iOSFindAll);
+        checkDisallowedAnnotationPairs(iOSBys, iOSFindAll);
+
+        checkDisallowedAnnotationPairs(findBy, findBys);
+        checkDisallowedAnnotationPairs(findBy, findAll);
+        checkDisallowedAnnotationPairs(findBys, findAll);
+    }
+
+    protected DefaultElementByBuilder(String platform, String automation) {
+        super(platform, automation);
+    }
+
+    @Override
+    protected By buildDefaultBy() {
+        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        By defaultBy = null;
+        FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
+        if (findBy != null) {
+            defaultBy = super.buildByFromFindBy(findBy);
+        }
+
+        if (defaultBy == null) {
+            FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
+            if (findBys != null) {
+                defaultBy = super.buildByFromFindBys(findBys);
+            }
+        }
+
+        if (defaultBy == null) {
+            FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
+            if (findAll != null) {
+                defaultBy = super.buildBysFromFindByOneOf(findAll);
+            }
+        }
+        return defaultBy;
+    }
+
+    @Override
+    protected By buildMobileNativeBy() {
+        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        if (ANDROID.toUpperCase().equals(platform)
+                && SELENDROID.toUpperCase().equals(automation)) {
+            SelendroidFindBy selendroidFindBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
+            SelendroidFindBys selendroidFindBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
+            SelendroidFindAll selendroidFindByAll = annotatedElement.getAnnotation(SelendroidFindAll.class);
+
+            if (selendroidFindBy != null) {
+                return createBy(new Annotation[]{selendroidFindBy}, HowToUseSelectors.USE_ONE);
+            }
+
+            if (selendroidFindBys != null) {
+                return createBy(selendroidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
+            }
+
+            if (selendroidFindByAll != null) {
+                return createBy(selendroidFindByAll.value(), HowToUseSelectors.USE_ANY);
+            }
+        }
+
+        if (ANDROID.toUpperCase().equals(platform)) {
+            AndroidFindBy androidFindBy = annotatedElement.getAnnotation(AndroidFindBy.class);
+            AndroidFindBys androidFindBys= annotatedElement.getAnnotation(AndroidFindBys.class);
+            AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
+
+            if (androidFindBy != null) {
+                return createBy(new Annotation[]{androidFindBy}, HowToUseSelectors.USE_ONE);
+            }
+
+            if (androidFindBys != null) {
+                return createBy(androidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
+            }
+
+            if (androidFindAll != null) {
+                return createBy(androidFindAll.value(), HowToUseSelectors.USE_ANY);
+            }
+        }
+
+        if (IOS.toUpperCase().equals(platform)) {
+            iOSFindBy iOSFindBy = annotatedElement.getAnnotation(iOSFindBy.class);
+            iOSFindBys iOSFindBys= annotatedElement.getAnnotation(iOSFindBys.class);
+            iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
+
+            if (iOSFindBy != null) {
+                return createBy(new Annotation[]{iOSFindBy}, HowToUseSelectors.USE_ONE);
+            }
+
+            if (iOSFindBys != null) {
+                return createBy(iOSFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
+            }
+
+            if (iOSFindAll != null) {
+                return createBy(iOSFindAll.value(), HowToUseSelectors.USE_ANY);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean isLookupCached() {
+        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        return (annotatedElement.getAnnotation(CacheLookup.class) != null);
+    }
+
+    @Override
+    public By buildBy() {
+        assertValidAnnotations();
+
+        By defaultBy = buildDefaultBy();
+        By mobileNativeBy = buildMobileNativeBy();
+
+        if (defaultBy == null) {
+            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+        }
+
+
+        if (mobileNativeBy == null) {
+            mobileNativeBy = defaultBy;
+        }
+
+        Map<ContentType, By> contentMap = new HashMap<>();
+        contentMap.put(ContentType.HTML_OR_DEFAULT, defaultBy);
+        contentMap.put(ContentType.NATIVE_MOBILE_SPECIFIC, mobileNativeBy);
+        return new ContentMappedBy(contentMap);
+    }
+}

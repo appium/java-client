@@ -20,16 +20,8 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.iOSFindAll;
-import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.pagefactory.*;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.util.List;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -39,6 +31,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.io.File;
+import java.util.List;
 
 public class iOSPageObjectTest {
 
@@ -122,13 +117,13 @@ public class iOSPageObjectTest {
 	private List<IOSElement> iosButtons;
 	
 	@iOSFindAll({
-		@iOSFindBy(xpath = "ComputeSumButton_Test"),	
+		@iOSFindBy(xpath = "ComputeSumButton_Test"),
 		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
 	})
 	private WebElement findAllElement;
 	
 	@iOSFindAll({
-		@iOSFindBy(xpath = "ComputeSumButton_Test"),	
+		@iOSFindBy(xpath = "ComputeSumButton_Test"),
 		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
 	})
 	private List<WebElement> findAllElements;

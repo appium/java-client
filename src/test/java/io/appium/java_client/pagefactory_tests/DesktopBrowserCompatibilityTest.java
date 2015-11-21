@@ -18,10 +18,20 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSFindBys;
+import org.junit.Test;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,23 +40,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.ie.InternetExplorerDriverService;
-import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.remote.RemoteWebElement;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-public class DesctopBrowserCompatibilityTest {
+public class DesktopBrowserCompatibilityTest {
 
 	private static enum AvailableDrivers {
 		FIREFOX(FirefoxDriver.class, new ArrayList<Platform>() {
@@ -56,7 +53,9 @@ public class DesctopBrowserCompatibilityTest {
 				add(Platform.MAC);
 			}
 
-		}, new HashMap<Platform, File>(), null), CHROME(ChromeDriver.class,
+		}, new HashMap<Platform, File>(), null),
+
+        CHROME(ChromeDriver.class,
 				new ArrayList<Platform>() {
 					private static final long serialVersionUID = 1L;
 					{
@@ -75,22 +74,8 @@ public class DesctopBrowserCompatibilityTest {
 								new File(
 										"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver"));
 					}
-				}, ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY), 
-				INTERNET_EXPLORER(
-				InternetExplorerDriver.class, new ArrayList<Platform>() {
-					private static final long serialVersionUID = 1L;
-					{
-						add(Platform.WINDOWS);
-					}
-				}, new HashMap<Platform, File>() {
-					private static final long serialVersionUID = 1L;
-
-					{
-						put(Platform.WINDOWS,
-								new File(
-										"src/test/java/io/appium/java_client/pagefactory_tests/IEDriverServer.exe"));
-					}
-				}, InternetExplorerDriverService.IE_DRIVER_EXE_PROPERTY), SAFARI(
+				}, ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY),
+        SAFARI(
 				SafariDriver.class, new ArrayList<Platform>() {
 					private static final long serialVersionUID = 1L;
 					{
@@ -149,7 +134,7 @@ public class DesctopBrowserCompatibilityTest {
 	}
 	
 
-	public void setUp(Class<? extends WebDriver> driverClass) {	
+	public void setUp(Class<? extends WebDriver> driverClass) {
 		AvailableDrivers availableDriver = AvailableDrivers.getAvailableDriver(driverClass, current);
 		if (availableDriver != null){
 			availableDriver.setSystemProperty(current);
@@ -159,48 +144,29 @@ public class DesctopBrowserCompatibilityTest {
 	private final Platform current = Platform.getCurrent();
 	private final long IMPLICITLY_WAIT = 15;
 	
-	@FindBy(name = "q")
-	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
-	@iOSFindBy(uiAutomator = ".elements()[0]")
-	private WebElement searchTextField;
+
+
 	
-	@AndroidFindBys({
-		@AndroidFindBy(className = "someClass"),
-		@AndroidFindBy(xpath = "//someTag")})	
+	@AndroidFindBy(className = "someClass")
 	@iOSFindBys({
 		@iOSFindBy(xpath = "//selector[1]"),
 		@iOSFindBy(xpath = "//someTag")})
-	@FindBy(name="btnG")
-	private RemoteWebElement searchButton;
-	
-	@AndroidFindBy(className = "someClass")	
-	@iOSFindBys({
-		@iOSFindBy(xpath = "//selector[1]"),
-		@iOSFindBy(xpath = "//someTag")})
-	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
+	@FindBys({@FindBy(id="main"), @FindBy(tagName = "p")})
 	private List<WebElement> foundLinks;
 	
-	private List<WebElement> ires; //this list is located by id="ires"
-	private WebElement btnG; //this element is found by name="btnG"
+	private List<WebElement> main; //this list is located by id="main"
+
 	private WebDriver trap1;
 	private List<AndroidDriver<?>> trap2;
 	
 	private void test(WebDriver driver){
 		try {
 			PageFactory.initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS), this);
-			driver.get("https://www.google.com");
-
-			searchTextField.sendKeys("Hello");
-			searchButton.click();
-			Assert.assertNotEquals(0, foundLinks.size());
-			searchTextField.clear();
-			searchTextField.sendKeys("Hello, Appium!");
-			searchButton.click();
-			Assert.assertNotEquals(0, foundLinks.size());
-			Assert.assertNotEquals(0, ires.size());
-			Assert.assertEquals(null, trap1);
-			Assert.assertEquals(null, trap2);
-            btnG.click();
+			driver.get("file:///" + new File("src/test/java/io/appium/java_client/hello appium - saved page.htm").getAbsolutePath());
+			assertNotEquals(0, foundLinks.size());
+			assertNotEquals(0, main.size());
+			assertEquals(null, trap1);
+			assertEquals(null, trap2);
 		} finally {
 			driver.quit();
 		}
@@ -221,15 +187,7 @@ public class DesctopBrowserCompatibilityTest {
 			setUp(ChromeDriver.class);
 			test(new ChromeDriver());
 		}		
-	}	
-	
-	@Test
-	public void ieTest() {
-		if (AvailableDrivers.getAvailableDriver(InternetExplorerDriver.class, current)!=null){
-			setUp(InternetExplorerDriver.class);
-			test(new InternetExplorerDriver());
-		}		
-	}	
+	}
 	
 	@Test
 	public void safariTest() {
