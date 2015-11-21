@@ -62,7 +62,7 @@ public class IOSWidgetTest implements WidgetTest{
     @Test
     @Override
     public void checkACommonWidget() {
-        assertTrue(rottenTomatoesApp.getSimpleMovieCount() == 10);
+        assertTrue(rottenTomatoesApp.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
@@ -75,7 +75,7 @@ public class IOSWidgetTest implements WidgetTest{
     @Override
     @Test
     public void checkAnAnnotatedWidget() {
-        assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() == 10);
+        assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
@@ -89,7 +89,7 @@ public class IOSWidgetTest implements WidgetTest{
     @Override
     @Test
     public void checkAnExtendedWidget() {
-        assertTrue(rottenTomatoesApp.getExtendeddMovieCount() == 10);
+        assertTrue(rottenTomatoesApp.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));

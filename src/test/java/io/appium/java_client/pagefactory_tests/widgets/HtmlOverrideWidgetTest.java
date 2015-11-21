@@ -46,7 +46,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
     @Test
     @Override
     public void checkACommonWidget() {
-        assertTrue(rottenTomatoes.getSimpleMovieCount() == 30);
+        assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
@@ -59,7 +59,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
     @Override
     @Test
     public void checkAnAnnotatedWidget() {
-        assertTrue(rottenTomatoes.getAnnotatedMovieCount() == 30);
+        assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
@@ -73,7 +73,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
     @Override
     @Test
     public void checkAnExtendedWidget() {
-        assertTrue(rottenTomatoes.getExtendeddMovieCount() == 30);
+        assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));

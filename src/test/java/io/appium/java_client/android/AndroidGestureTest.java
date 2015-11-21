@@ -62,7 +62,7 @@ public class AndroidGestureTest {
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
+    driver = new AndroidDriver<>(service.getUrl(), capabilities);
   }
 
   @After
@@ -121,7 +121,7 @@ public class AndroidGestureTest {
     System.out.println("RIGHT");
     
     e2 = driver.findElementByClassName("android.widget.TextView");
-	e2.swipe(SwipeElementDirection.RIGHT, 10, 20, 1000);
+	e2.swipe(SwipeElementDirection.RIGHT, 1, 2, 1000);
     System.out.println("RIGHT Left border + 10 Right border - 20");
     
     e2 = driver.findElementByClassName("android.widget.TextView");
@@ -129,7 +129,7 @@ public class AndroidGestureTest {
     System.out.println("LEFT");
     
     e2 = driver.findElementByClassName("android.widget.TextView");
-	e2.swipe(SwipeElementDirection.LEFT, 10, 20, 1000);
+	e2.swipe(SwipeElementDirection.LEFT, 1, 2, 1000);
     System.out.println("LEFT Right border - 10 Left border + 20");
     
     driver.pressKeyCode(AndroidKeyCode.BACK);
@@ -138,7 +138,7 @@ public class AndroidGestureTest {
 	System.out.println("DOWN");
 	
 	e2 = driver.findElementByClassName("android.widget.TextView");
-	e2.swipe(SwipeElementDirection.DOWN, 10, 20, 1000);    
+	e2.swipe(SwipeElementDirection.DOWN, 1, 2, 1000);
 	System.out.println("DOWN Top - 10 Bottom + 20");
 	
 	e2 = driver.findElementByClassName("android.widget.TextView");
@@ -146,7 +146,7 @@ public class AndroidGestureTest {
     System.out.println("UP");
     
     e2 = driver.findElementByClassName("android.widget.TextView");
-    e2.swipe(SwipeElementDirection.UP, 10, 20, 1000);
+    e2.swipe(SwipeElementDirection.UP, 1, 2, 1000);
     System.out.println("UP Bottom + 10 Top - 20");
     
   }

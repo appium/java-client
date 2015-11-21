@@ -62,7 +62,7 @@ public class AndroidCombinedWidgetTest implements WidgetTest{
     @Test
     @Override
     public void checkACommonWidget() {
-        assertTrue(rottenTomatoes.getSimpleMovieCount() == 10);
+        assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
@@ -75,7 +75,7 @@ public class AndroidCombinedWidgetTest implements WidgetTest{
     @Override
     @Test
     public void checkAnAnnotatedWidget() {
-        assertTrue(rottenTomatoes.getAnnotatedMovieCount() == 10);
+        assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
@@ -89,7 +89,7 @@ public class AndroidCombinedWidgetTest implements WidgetTest{
     @Override
     @Test
     public void checkAnExtendedWidget() {
-        assertTrue(rottenTomatoes.getExtendeddMovieCount() == 10);
+        assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
         assertTrue(!StringUtils.isBlank(movie.score()));
