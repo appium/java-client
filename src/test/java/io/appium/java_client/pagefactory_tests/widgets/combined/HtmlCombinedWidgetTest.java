@@ -10,7 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
@@ -21,14 +23,23 @@ import static org.junit.Assert.assertTrue;
 
 public class HtmlCombinedWidgetTest implements WidgetTest{
 
-    private static FirefoxDriver driver;
+    private static ChromeDriver driver;
     private static RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        driver = new FirefoxDriver();
-        driver.get("file:///" + new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").getAbsolutePath());
 
+        if (Platform.getCurrent().is(Platform.WINDOWS)) {
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                    "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
+        }
+        else {
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                    "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
+        }
+
+        driver = new ChromeDriver();
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         rottenTomatoes = new RottenTomatoesAppWithCombinedWidgets();
         PageFactory.initElements(new AppiumFieldDecorator(driver, new TimeOutDuration(5, TimeUnit.SECONDS)), rottenTomatoes);
     }
@@ -36,7 +47,7 @@ public class HtmlCombinedWidgetTest implements WidgetTest{
     @Before
     public void setUp() throws Exception {
         if (driver != null)
-            driver.navigate().back();
+            driver.get("file:///" + new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").getAbsolutePath());
     }
 
     @AfterClass
