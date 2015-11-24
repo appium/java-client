@@ -19,6 +19,7 @@ package io.appium.java_client.service.local;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.service.local.flags.ServerArgument;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
@@ -45,41 +46,21 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
 
     private static final int DEFAULT_APPIUM_PORT = 4723;
-
-    private static final String NODE_COMMAND_PREFIX[] = defineNodeCommandPrefix();
-
-    private final static String COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM[] = {"npm", "root", "-g"};
-    private final static String COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM_WIN[] = {"npm.cmd", "root", "-g"};
+    private final static String BIN_BASH[] = {"/bin/bash", "-l", "-c"};
+    private final static String CMD_EXE[] = {"cmd.exe", "/C"};
     private final static String NODE = "node";
-
     private final static String PATH_NAME = getPathVarName();
 
 
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
+    private File npmScript;
 
     //The first starting is slow sometimes on some
     //environment
     private long startupTimeout = 120;
     private TimeUnit timeUnit = TimeUnit.SECONDS;
-
-
-    private static String[] returnCommandThatSearchesForDefaultNode(){
-        if (Platform.getCurrent().is(Platform.WINDOWS)) {
-            return COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM_WIN;
-        }
-        return COMMAND_WHICH_EXTRACTS_DEFAULT_PATH_TO_APPIUM;
-    }
-
-    private static String[] defineNodeCommandPrefix() {
-        if (Platform.getCurrent().is(Platform.WINDOWS)) {
-            return new String[]{"cmd.exe", "/C"};
-        }
-        else {
-            return new String[]{"/bin/bash", "-l", "-c"};
-        }
-    }
 
     private static String getPathVarName(){
         Map<String, String> envVariables = System.getenv();
@@ -114,11 +95,31 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         return processBuilder.start();
     }
 
-    private static File findNodeInCurrentFileSystem(){
+    private void setUpNPMScript(){
+        if (npmScript != null) {
+            return;
+        }
+
+        if (Platform.getCurrent().is(Platform.WINDOWS)) {
+            npmScript = NPMScript.GET_PATH_TO_DEFAULT_NODE_WIN.getScriptFile();
+        }
+        else {
+            npmScript = NPMScript.GET_PATH_TO_DEFAULT_NODE_UNIX.getScriptFile();
+        }
+    }
+
+    private File findNodeInCurrentFileSystem(){
+        setUpNPMScript();
+
         String instancePath;
         Process p = null;
         try {
-            p = getSearchingProcess(returnCommandThatSearchesForDefaultNode());
+            if (Platform.getCurrent().is(Platform.WINDOWS)) {
+                p = getSearchingProcess(ArrayUtils.add(CMD_EXE, npmScript.getAbsolutePath()));
+            }
+            else {
+                p = getSearchingProcess(ArrayUtils.add(BIN_BASH, npmScript.getAbsolutePath()));
+            }
             p.waitFor();
             instancePath = getTheLastStringFromsOutput(p.getInputStream());
         } catch (Throwable e) {
@@ -162,7 +163,12 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     protected File findDefaultExecutable() {
         Process p;
         try {
-            p = getSearchingProcess(ArrayUtils.add(NODE_COMMAND_PREFIX, NODE));
+            if (Platform.getCurrent().is(Platform.WINDOWS)) {
+                p = getSearchingProcess(ArrayUtils.add(CMD_EXE, NODE));
+            }
+            else {
+                p = getSearchingProcess(ArrayUtils.add(BIN_BASH, NODE));
+            }
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
@@ -350,5 +356,16 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        if (npmScript != null) {
+            try {
+                FileUtils.forceDelete(npmScript);
+            } catch (IOException ignored) {
+            }
+        }
+        super.finalize();
     }
 }
