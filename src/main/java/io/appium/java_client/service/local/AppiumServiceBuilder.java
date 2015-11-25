@@ -27,6 +27,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +47,8 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
 
     private static final int DEFAULT_APPIUM_PORT = 4723;
-    private final static String BIN_BASH[] = {"/bin/bash", "-l", "-c"};
+    private final static String BIN_BASH = "/bin/bash";
+    private final static String BIN_SH = "/bin/sh";
     private final static String CMD_EXE[] = {"cmd.exe", "/C"};
     private final static String NODE = "node";
     private final static String PATH_NAME = getPathVarName();
@@ -76,10 +78,13 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
     private static String getTheLastStringFromsOutput(InputStream stream ) throws IOException {
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(stream));
+                new InputStreamReader(stream, Charset.forName("UTF-8")));
         String current;
         String result = null;
         while ((current = reader.readLine()) != null) {
+            if (StringUtils.isBlank(current)) {
+                continue;
+            }
             result = current;
         }
         reader.close();
@@ -88,6 +93,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
     private static Process getSearchingProcess(String... command) throws Throwable {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
+        processBuilder.redirectErrorStream(true);
         if (!StringUtils.isBlank(PATH_NAME)) {
             String path = System.getenv().get(PATH_NAME);
             processBuilder.environment().put(PATH_NAME, path);
@@ -116,11 +122,11 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         try {
             if (Platform.getCurrent().is(Platform.WINDOWS)) {
                 p = getSearchingProcess(ArrayUtils.add(CMD_EXE, npmScript.getAbsolutePath()));
+                p.waitFor();
             }
             else {
-                p = getSearchingProcess(ArrayUtils.add(BIN_BASH, npmScript.getAbsolutePath()));
+                p = getSearchingProcess(BIN_SH, npmScript.getAbsolutePath());
             }
-            p.waitFor();
             instancePath = getTheLastStringFromsOutput(p.getInputStream());
         } catch (Throwable e) {
             throw new RuntimeException(e);
@@ -167,7 +173,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
                 p = getSearchingProcess(ArrayUtils.add(CMD_EXE, NODE));
             }
             else {
-                p = getSearchingProcess(ArrayUtils.add(BIN_BASH, NODE));
+                p = getSearchingProcess(BIN_BASH, "-l", "-c", NODE);
             }
         } catch (Throwable t) {
             throw new RuntimeException(t);
