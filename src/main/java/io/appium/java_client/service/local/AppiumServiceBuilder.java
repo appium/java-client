@@ -47,8 +47,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
 
     private static final int DEFAULT_APPIUM_PORT = 4723;
-    private final static String BIN_BASH = "/bin/bash";
-    private final static String BIN_SH = "/bin/sh";
+    private final static String BASH = "bash";
     private final static String CMD_EXE[] = {"cmd.exe", "/C"};
     private final static String NODE = "node";
     private final static String PATH_NAME = getPathVarName();
@@ -91,9 +90,27 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         return result;
     }
 
+    private static String readErrorStream(Process process)  {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getErrorStream(), Charset.forName("UTF-8")));
+        String current;
+        String result = StringUtils.EMPTY;
+        try {
+            while ((current = reader.readLine()) != null) {
+                if (StringUtils.isBlank(current)) {
+                    continue;
+                }
+                result = result + current;
+            }
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     private static Process getSearchingProcess(String... command) throws Throwable {
         ProcessBuilder processBuilder = new ProcessBuilder(command);
-        processBuilder.redirectErrorStream(true);
         if (!StringUtils.isBlank(PATH_NAME)) {
             String path = System.getenv().get(PATH_NAME);
             processBuilder.environment().put(PATH_NAME, path);
@@ -118,33 +135,35 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         setUpNPMScript();
 
         String instancePath;
-        Process p = null;
+        Process p;
         try {
             if (Platform.getCurrent().is(Platform.WINDOWS)) {
                 p = getSearchingProcess(ArrayUtils.add(CMD_EXE, npmScript.getAbsolutePath()));
                 p.waitFor();
             }
             else {
-                p = getSearchingProcess(BIN_SH, npmScript.getAbsolutePath());
+                p = getSearchingProcess(BASH, "-l", npmScript.getAbsolutePath());
             }
             instancePath = getTheLastStringFromsOutput(p.getInputStream());
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
-        finally {
-            if (p != null)
-                p.destroy();
-        }
 
-        File result;
-        if (StringUtils.isBlank(instancePath) || !(result = new File(instancePath + File.separator +
-                APPIUM_NODE_MASK)).exists()) {
-            throw new InvalidServerInstanceException("There is no installed nodes! Please install " +
-                    " node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
-                    "install Appium app (http://appium.io/downloads.html)",
-                    new IOException("The installed appium node package has not been found."));
+        try {
+            File result;
+            if (StringUtils.isBlank(instancePath) || !(result = new File(instancePath + File.separator +
+                    APPIUM_NODE_MASK)).exists()) {
+                String errorOutput = readErrorStream(p);
+                throw new InvalidServerInstanceException("There is no installed nodes! Please install " +
+                        " node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
+                        "install Appium app (http://appium.io/downloads.html)",
+                        new IOException(errorOutput));
+            }
+            return result;
         }
-        return result;
+        finally {
+            p.destroy();
+        }
     }
 
     private static void validateNodeStructure(File node){
@@ -173,21 +192,32 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
                 p = getSearchingProcess(ArrayUtils.add(CMD_EXE, NODE));
             }
             else {
-                p = getSearchingProcess(BIN_BASH, "-l", "-c", NODE);
+                p = getSearchingProcess(BASH, "-l", "-c", NODE);
             }
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            throw new InvalidNodeJSInstance("Node.js is not installed!", t);
         }
 
+        String filePath;
         try {
             OutputStream outputStream = p.getOutputStream();
             PrintStream out = new PrintStream(outputStream) ;
             out.println("console.log(process.execPath);") ;
             out.close();
-            return new File(getTheLastStringFromsOutput(p.getInputStream()));
+            filePath = getTheLastStringFromsOutput(p.getInputStream());
         }
         catch (Throwable t){
+            p.destroy();
             throw new RuntimeException(t);
+        }
+
+        try {
+            if (StringUtils.isBlank(filePath)) {
+                String errorOutput = readErrorStream(p);
+                String errorMessage = "Can't get a path to the default Node.js instance";
+                throw new InvalidNodeJSInstance(errorMessage, new IOException(errorOutput));
+            }
+            return new File(filePath);
         }
         finally {
             p.destroy();
