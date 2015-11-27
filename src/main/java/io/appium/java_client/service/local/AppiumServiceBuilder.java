@@ -100,7 +100,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
                 if (StringUtils.isBlank(current)) {
                     continue;
                 }
-                result = result + current;
+                result = result + current + "\n";
             }
             reader.close();
         } catch (IOException e) {
