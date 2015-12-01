@@ -32,6 +32,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor{
 
     private final DriverService service;
 
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer, 
+            HttpClient.Factory httpClientFactory) {
+        super(additionalCommands, addressOfRemoteServer, httpClientFactory);
+        service = null;
+    }
+    
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer) {
         super(additionalCommands, addressOfRemoteServer);
         service = null;

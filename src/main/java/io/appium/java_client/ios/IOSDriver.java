@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.List;
 
 import static io.appium.java_client.MobileCommand.*;
+import org.openqa.selenium.remote.http.HttpClient;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
@@ -53,6 +54,12 @@ FindsByIosUIAutomation<RequiredElementType>{
 
 	public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
+				IOS_PLATFORM));
+		this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+    
+    public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+		super(remoteAddress, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
 				IOS_PLATFORM));
 		this.setElementConverter(new JsonToIOSElementConverter(this));
     }

@@ -50,6 +50,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_ACTIVITY;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_PACKAGE;
 import static io.appium.java_client.remote.MobileCapabilityType.DONT_STOP_APP_ON_RESET;
+import org.openqa.selenium.remote.http.HttpClient;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
@@ -78,6 +79,12 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
+				ANDROID_PLATFORM));
+		this.setElementConverter(new JsonToAndroidElementConverter(this));
+	}
+    
+    public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+		super(remoteAddress, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
 				ANDROID_PLATFORM));
 		this.setElementConverter(new JsonToAndroidElementConverter(this));
 	}

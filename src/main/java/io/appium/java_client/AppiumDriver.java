@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import static io.appium.java_client.MobileCommand.*;
+import org.openqa.selenium.remote.http.HttpClient;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
@@ -162,10 +163,16 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
     }
-
+    
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
                 getMobileCommands(), remoteAddress), desiredCapabilities);
+        this.remoteAddress = remoteAddress;
+    }
+
+    public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), remoteAddress, httpClientFactory), desiredCapabilities);
         this.remoteAddress = remoteAddress;
     }
 
