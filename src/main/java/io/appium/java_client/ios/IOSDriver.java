@@ -69,9 +69,27 @@ FindsByIosUIAutomation<RequiredElementType>{
                 IOS_PLATFORM));
         this.setElementConverter(new JsonToIOSElementConverter(this));
     }
+    
+    public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(service, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
 
     public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
         super(builder, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+    
+    public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(builder, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
+    }
+    
+    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities,
                 IOS_PLATFORM));
         this.setElementConverter(new JsonToIOSElementConverter(this));
     }

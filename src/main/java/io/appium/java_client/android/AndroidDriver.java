@@ -94,13 +94,31 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
                 ANDROID_PLATFORM));
         this.setElementConverter(new JsonToAndroidElementConverter(this));
     }
+    
+    public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(service, httpClientFactory, substituteMobilePlatform(desiredCapabilities, 
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
 
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
         super(builder, substituteMobilePlatform(desiredCapabilities,
                 ANDROID_PLATFORM));
         this.setElementConverter(new JsonToAndroidElementConverter(this));
     }
-
+    
+    public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(builder, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+    
+    public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+    
     public AndroidDriver(Capabilities desiredCapabilities) {
         super(substituteMobilePlatform(desiredCapabilities,
                 ANDROID_PLATFORM));
