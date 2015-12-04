@@ -24,4 +24,7 @@ public interface CustomCommands {
     void adbSwipe(int x1, int y1, int x2, int y2, int duration);
     Rectangle getNavigationBarRegion();
     DisplayMetrics getDisplayMetrics();
+    long getDate();
+    void setDate(long time);
+    boolean hasRoot();
 }

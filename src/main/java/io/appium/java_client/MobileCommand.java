@@ -65,4 +65,7 @@ public interface MobileCommand {
   String ADB_SWIPE = "adbSwipe";
   String GET_NAVIGATION_BAR_REGION = "getNavigationBarRegion";
   String GET_DISPLAY_METRICS = "getDisplayMetrics";
+  String GET_DATE = "getDate";
+  String SET_DATE = "setDate";
+  String HAS_ROOT = "hasRoot";
 }
