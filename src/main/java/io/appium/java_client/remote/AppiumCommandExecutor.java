@@ -27,19 +27,34 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
+import org.openqa.selenium.remote.internal.ApacheHttpClient;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor{
 
     private final DriverService service;
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer) {
-        super(additionalCommands, addressOfRemoteServer);
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
+                                 URL addressOfRemoteServer, 
+                                 HttpClient.Factory httpClientFactory) {
+        super(additionalCommands, addressOfRemoteServer, httpClientFactory);
         service = null;
     }
-
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service) {
-        super(additionalCommands, service.getUrl());
+    
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, 
+                                 DriverService service,
+                                 HttpClient.Factory httpClientFactory) {
+        super(additionalCommands, service.getUrl(), httpClientFactory);
         this.service = service;
+    }
+    
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, 
+                                 URL addressOfRemoteServer) {
+        this(additionalCommands, addressOfRemoteServer, new ApacheHttpClient.Factory());
+    }
+
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, 
+                                 DriverService service) {
+        this(additionalCommands, service, new ApacheHttpClient.Factory());
     }
 
     @Override

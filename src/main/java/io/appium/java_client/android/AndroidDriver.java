@@ -50,6 +50,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_ACTIVITY;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_PACKAGE;
 import static io.appium.java_client.remote.MobileCapabilityType.DONT_STOP_APP_ON_RESET;
+import org.openqa.selenium.remote.http.HttpClient;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
@@ -81,9 +82,21 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 				ANDROID_PLATFORM));
 		this.setElementConverter(new JsonToAndroidElementConverter(this));
 	}
+    
+    public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+		super(remoteAddress, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+				ANDROID_PLATFORM));
+		this.setElementConverter(new JsonToAndroidElementConverter(this));
+	}
 
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         super(service, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+    
+    public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(service, httpClientFactory, substituteMobilePlatform(desiredCapabilities, 
                 ANDROID_PLATFORM));
         this.setElementConverter(new JsonToAndroidElementConverter(this));
     }
@@ -93,7 +106,19 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
                 ANDROID_PLATFORM));
         this.setElementConverter(new JsonToAndroidElementConverter(this));
     }
-
+    
+    public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(builder, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+    
+    public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                ANDROID_PLATFORM));
+        this.setElementConverter(new JsonToAndroidElementConverter(this));
+    }
+    
     public AndroidDriver(Capabilities desiredCapabilities) {
         super(substituteMobilePlatform(desiredCapabilities,
                 ANDROID_PLATFORM));

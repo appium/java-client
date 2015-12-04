@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import static io.appium.java_client.MobileCommand.*;
+import org.openqa.selenium.remote.http.HttpClient;
 
 /**
  * @param <RequiredElementType> means the required type from the list of allowed types below 
@@ -156,33 +157,49 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 		return builder.build();
 	}
 
-    private AppiumDriver(CommandExecutor executor, Capabilities capabilities){
+    private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities){
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
+        this.remoteAddress = executor.getAddressOfRemoteServer();
     }
-
+    
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
                 getMobileCommands(), remoteAddress), desiredCapabilities);
-        this.remoteAddress = remoteAddress;
+    }
+
+    public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), remoteAddress, httpClientFactory), desiredCapabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
                 getMobileCommands(), service), desiredCapabilities);
-        this.remoteAddress = service.getUrl();
+    }
+    
+    public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        this(new AppiumCommandExecutor(
+                getMobileCommands(), service, httpClientFactory), desiredCapabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
         this(builder.build(), desiredCapabilities);
     }
-
+    
+    public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        this(builder.build(), httpClientFactory, desiredCapabilities);
+    }
+    
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory, desiredCapabilities);
+    }
+    
     public AppiumDriver(Capabilities desiredCapabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
     }
-
 
 	@Override
 	protected Response execute(String command) {
