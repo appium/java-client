@@ -75,7 +75,7 @@ public enum AndroidServerFlag implements ServerArgument{
      * Sample:<br/>
      * --avd-args -no-snapshot-load
      */
-    AVD_ARGS("--avg-args"),
+    AVD_ARGS("--avd-args"),
     /**
      * Timeout in seconds while waiting for device to become
      * ready<br/>
