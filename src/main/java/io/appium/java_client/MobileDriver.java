@@ -26,9 +26,9 @@ import org.openqa.selenium.remote.Response;
 import java.util.Map;
 
 public interface MobileDriver extends WebDriver,
-		PerformsTouchActions,
+        PerformsTouchActions,
         ContextAware, Rotatable, FindsByAccessibilityId<WebElement>, LocationContext,
         DeviceActionShortcuts, TouchShortcuts, InteractsWithFiles,
         InteractsWithApps, ScrollsTo<WebElement>, HasAppStrings {
-	public Response execute(String driverCommand, Map<String, ?> parameters);
+    Response execute(String driverCommand, Map<String, ?> parameters);
 }

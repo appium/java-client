@@ -34,44 +34,44 @@ import com.google.common.collect.Maps;
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {
-	protected AppiumDriver<?> driver;
+    protected AppiumDriver<?> driver;
 
-	public JsonToMobileElementConverter(AppiumDriver<?> driver) {
-		super(driver);
-		this.driver = driver;
-	}
+    public JsonToMobileElementConverter(AppiumDriver<?> driver) {
+        super(driver);
+        this.driver = driver;
+    }
 
-	public Object apply(Object result) {
-		if (result instanceof Collection<?>) {
-			Collection<?> results = (Collection<?>) result;
-			return Lists.newArrayList(Iterables.transform(results, this));
-		}
+    public Object apply(Object result) {
+        if (result instanceof Collection<?>) {
+            Collection<?> results = (Collection<?>) result;
+            return Lists.newArrayList(Iterables.transform(results, this));
+        }
 
-		if (result instanceof Map<?, ?>) {
-			Map<?, ?> resultAsMap = (Map<?, ?>) result;
-			if (resultAsMap.containsKey("ELEMENT")) {
-				MobileElement element = newMobileElement();
-				element.setId(String.valueOf(resultAsMap.get("ELEMENT")));
-				element.setFileDetector(driver.getFileDetector());
-				return element;
-			} else {
-				return Maps.transformValues(resultAsMap, this);
-			}
-		}
+        if (result instanceof Map<?, ?>) {
+            Map<?, ?> resultAsMap = (Map<?, ?>) result;
+            if (resultAsMap.containsKey("ELEMENT")) {
+                MobileElement element = newMobileElement();
+                element.setId(String.valueOf(resultAsMap.get("ELEMENT")));
+                element.setFileDetector(driver.getFileDetector());
+                return element;
+            } else {
+                return Maps.transformValues(resultAsMap, this);
+            }
+        }
 
-		if (result instanceof Number) {
-			if (result instanceof Float || result instanceof Double) {
-				return ((Number) result).doubleValue();
-			}
-			return ((Number) result).longValue();
-		}
+        if (result instanceof Number) {
+            if (result instanceof Float || result instanceof Double) {
+                return ((Number) result).doubleValue();
+            }
+            return ((Number) result).longValue();
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	protected abstract MobileElement newMobileElement(); //{
-		//MobileElement toReturn = new MobileElement();
-		//toReturn.setParent(driver);
-		//return toReturn;
-	//}
+    protected abstract MobileElement newMobileElement(); //{
+        //MobileElement toReturn = new MobileElement();
+        //toReturn.setParent(driver);
+        //return toReturn;
+    //}
 }

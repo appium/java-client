@@ -50,18 +50,18 @@ import org.openqa.selenium.remote.http.HttpClient;
  */
 public class IOSDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements IOSDeviceActionShortcuts, GetsNamedTextField<RequiredElementType>, 
 FindsByIosUIAutomation<RequiredElementType>{
-	private static final String IOS_PLATFORM = MobilePlatform.IOS;
+    private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
-	public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-		super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
-				IOS_PLATFORM));
-		this.setElementConverter(new JsonToIOSElementConverter(this));
+    public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
     }
     
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-		super(remoteAddress, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
-				IOS_PLATFORM));
-		this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(remoteAddress, httpClientFactory, substituteMobilePlatform(desiredCapabilities,
+                IOS_PLATFORM));
+        this.setElementConverter(new JsonToIOSElementConverter(this));
     }
 
     public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
@@ -109,7 +109,7 @@ FindsByIosUIAutomation<RequiredElementType>{
    @Override
    public RequiredElementType scrollTo(String text) {
      return (RequiredElementType) ((ScrollsTo<?>) 
-    		 findElementByClassName("UIATableView")).scrollTo(text);
+             findElementByClassName("UIATableView")).scrollTo(text);
    }
 
    /**
@@ -120,65 +120,65 @@ FindsByIosUIAutomation<RequiredElementType>{
    @SuppressWarnings("unchecked")
    @Override
    public RequiredElementType scrollToExact(String text) {
-	  return (RequiredElementType) ((ScrollsTo<?>) 
-			  findElementByClassName("UIATableView")).scrollToExact(text);
+      return (RequiredElementType) ((ScrollsTo<?>)
+              findElementByClassName("UIATableView")).scrollToExact(text);
    }
 
    /**
-	 * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
-	 */
-	@Override
-	public void hideKeyboard(String strategy, String keyName) {
-		String[] parameters = new String[] { "strategy", "key" };
-		Object[] values = new Object[] { strategy, keyName };		
-		execute(HIDE_KEYBOARD, getCommandImmutableMap(parameters, values));
-	}
-	
-	/**
-	 * @see IOSDeviceActionShortcuts#hideKeyboard(String)
-	 */
-	@Override
-	public void hideKeyboard(String keyName) {
-		execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
-	}	
-	
-	/**
-	 * @see IOSDeviceActionShortcuts#shake()
-	 */
-	@Override
-	public void shake() {
-		execute(SHAKE);
-	}
+     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
+     */
+    @Override
+    public void hideKeyboard(String strategy, String keyName) {
+        String[] parameters = new String[] { "strategy", "key" };
+        Object[] values = new Object[] { strategy, keyName };
+        execute(HIDE_KEYBOARD, getCommandImmutableMap(parameters, values));
+    }
 
-	/**
-	 * @see GetsNamedTextField#getNamedTextField(String)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public RequiredElementType getNamedTextField(String name) {
-		RequiredElementType element = findElementByAccessibilityId(name);
-		if (element.getTagName() != "TextField") {
-			return (RequiredElementType) ((FindsByAccessibilityId<?>) element).
-					findElementByAccessibilityId(name);
-		}
-		return element;
-	}
+    /**
+     * @see IOSDeviceActionShortcuts#hideKeyboard(String)
+     */
+    @Override
+    public void hideKeyboard(String keyName) {
+        execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
+    }
+
+    /**
+     * @see IOSDeviceActionShortcuts#shake()
+     */
+    @Override
+    public void shake() {
+        execute(SHAKE);
+    }
+
+    /**
+     * @see GetsNamedTextField#getNamedTextField(String)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public RequiredElementType getNamedTextField(String name) {
+        RequiredElementType element = findElementByAccessibilityId(name);
+        if (element.getTagName() != "TextField") {
+            return (RequiredElementType) ((FindsByAccessibilityId<?>) element).
+                    findElementByAccessibilityId(name);
+        }
+        return element;
+    }
 
     /**
      * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
      */
-	@SuppressWarnings("unchecked")
-	@Override
-	public RequiredElementType findElementByIosUIAutomation(String using) throws WebDriverException {
-		return (RequiredElementType) findElement("-ios uiautomation", using);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public RequiredElementType findElementByIosUIAutomation(String using) throws WebDriverException {
+        return (RequiredElementType) findElement("-ios uiautomation", using);
+    }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<RequiredElementType> findElementsByIosUIAutomation(String using) throws WebDriverException {
-		return (List<RequiredElementType>) findElements("-ios uiautomation", using);
-	}	
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<RequiredElementType> findElementsByIosUIAutomation(String using) throws WebDriverException {
+        return (List<RequiredElementType>) findElements("-ios uiautomation", using);
+    }
 }

@@ -35,47 +35,47 @@ FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
     /**
      * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
      */
-	@Override
-	public MobileElement findElementByIosUIAutomation(String using) throws WebDriverException {
-		return (IOSElement) findElement("-ios uiautomation", using);
-	}
+    @Override
+    public MobileElement findElementByIosUIAutomation(String using) throws WebDriverException {
+        return (IOSElement) findElement("-ios uiautomation", using);
+    }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-	@Override
-	public List<MobileElement> findElementsByIosUIAutomation(String using) throws WebDriverException {
-		List<MobileElement> result = new ArrayList<MobileElement>();
-		List<WebElement> found = findElements("-ios uiautomation", using);
-		for (WebElement e: found)
-			result.add((IOSElement) e);
-		return result;
-	}
+    @Override
+    public List<MobileElement> findElementsByIosUIAutomation(String using) throws WebDriverException {
+        List<MobileElement> result = new ArrayList<MobileElement>();
+        List<WebElement> found = findElements("-ios uiautomation", using);
+        for (WebElement e: found)
+            result.add((IOSElement) e);
+        return result;
+    }
 
   /**
    * Scroll to the element whose 'text' attribute contains the input text.
    * Scrolling happens within this element
    * @param text input text contained in text attribute
    */
-	@Override
-	public MobileElement scrollTo(String text) {
-		return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
-	}
+    @Override
+    public MobileElement scrollTo(String text) {
+        return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+    }
 
   /**
    * Scroll to the element whose 'text' attribute matches the input text.
    * Scrolling happens within this element
    * @param text input text contained in text attribute
    */
-	@Override
-	public MobileElement scrollToExact(String text) {
-		return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
-	}
+    @Override
+    public MobileElement scrollToExact(String text) {
+        return (IOSElement) findElementByIosUIAutomation(".scrollToElementWithName(\"" + text + "\")");
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void setValue(String value) {		
-		ImmutableMap.Builder builder = ImmutableMap.builder();
-		builder.put("id", id).put("value", value);
-		execute(MobileCommand.SET_VALUE, builder.build());
-	}
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void setValue(String value) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("id", id).put("value", value);
+        execute(MobileCommand.SET_VALUE, builder.build());
+    }
 }
