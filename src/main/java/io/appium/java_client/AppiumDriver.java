@@ -53,33 +53,33 @@ import org.openqa.selenium.remote.http.HttpClient;
 @SuppressWarnings("unchecked")
 public abstract class AppiumDriver<RequiredElementType extends WebElement> extends DefaultGenericMobileDriver<RequiredElementType> {
 
-	private final static ErrorHandler errorHandler = new ErrorHandler(
-			new ErrorCodesMobile(), true);
-	private URL remoteAddress;
-	private RemoteLocationContext locationContext;
-	private ExecuteMethod executeMethod;
+    private final static ErrorHandler errorHandler = new ErrorHandler(
+            new ErrorCodesMobile(), true);
+    private URL remoteAddress;
+    private RemoteLocationContext locationContext;
+    private ExecuteMethod executeMethod;
 
-	// frequently used command parameters
-	protected final String KEY_CODE = "keycode";
-	protected final String PATH = "path";
-	private final String SETTINGS = "settings";
+    // frequently used command parameters
+    protected final String KEY_CODE = "keycode";
+    protected final String PATH = "path";
+    private final String SETTINGS = "settings";
 
-	private final String LANGUAGE_PARAM = "language";
+    private final String LANGUAGE_PARAM = "language";
 
-	/**
-	 * @param originalCapabilities
-	 *            the given {@link Capabilities}
-	 * @param newPlatform
-	 *            a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-	 *            to be set up
-	 * @return {@link Capabilities} with changed mobile platform value
-	 */
-	protected static Capabilities substituteMobilePlatform(
-			Capabilities originalCapabilities, String newPlatform) {
-		DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
-		dc.setCapability(MobileCapabilityType.PLATFORM_NAME, newPlatform);
-		return dc;
-	}
+    /**
+     * @param originalCapabilities
+     *            the given {@link Capabilities}
+     * @param newPlatform
+     *            a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     *            to be set up
+     * @return {@link Capabilities} with changed mobile platform value
+     */
+    protected static Capabilities substituteMobilePlatform(
+            Capabilities originalCapabilities, String newPlatform) {
+        DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
+        dc.setCapability(MobileCapabilityType.PLATFORM_NAME, newPlatform);
+        return dc;
+    }
 
     @Override
     public List<RequiredElementType> findElements(By by){
@@ -91,7 +91,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         return super.findElementsById(id);
     }
 
-	public List<RequiredElementType> findElementsByLinkText(String using) {
+    public List<RequiredElementType> findElementsByLinkText(String using) {
         return super.findElementsByLinkText(using);
     }
 
@@ -125,37 +125,37 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     }
 
     /**
-	 * @param param
-	 *            is a parameter name
-	 * @param value
-	 *            is the parameter value
-	 * @return built {@link ImmutableMap}
-	 */
-	protected static ImmutableMap<String, Object> getCommandImmutableMap(
-			String param, Object value) {
-		ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-		builder.put(param, value);
-		return builder.build();
-	}
+     * @param param
+     *            is a parameter name
+     * @param value
+     *            is the parameter value
+     * @return built {@link ImmutableMap}
+     */
+    protected static ImmutableMap<String, Object> getCommandImmutableMap(
+            String param, Object value) {
+        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
+        builder.put(param, value);
+        return builder.build();
+    }
 
-	/**
-	 * 
-	 * @param params
-	 *            is the array with parameter names
-	 * @param values
-	 *            is the array with parameter values
-	 * @return built {@link ImmutableMap}
-	 */
-	protected static ImmutableMap<String, Object> getCommandImmutableMap(
-			String[] params, Object[] values) {
-		ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-		for (int i = 0; i < params.length; i++) {
-			if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])) {
-				builder.put(params[i], values[i]);
-			}
-		}
-		return builder.build();
-	}
+    /**
+     *
+     * @param params
+     *            is the array with parameter names
+     * @param values
+     *            is the array with parameter values
+     * @return built {@link ImmutableMap}
+     */
+    protected static ImmutableMap<String, Object> getCommandImmutableMap(
+            String[] params, Object[] values) {
+        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
+        for (int i = 0; i < params.length; i++) {
+            if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])) {
+                builder.put(params[i], values[i]);
+            }
+        }
+        return builder.build();
+    }
 
     private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities){
         super(executor, capabilities);
@@ -201,173 +201,173 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
     }
 
-	@Override
-	protected Response execute(String command) {
-		return super.execute(command, ImmutableMap.<String, Object>of());
-	}
+    @Override
+    protected Response execute(String command) {
+        return super.execute(command, ImmutableMap.<String, Object>of());
+    }
 
-	@Override
-	public ExecuteMethod getExecuteMethod() {
-		return executeMethod;
-	}
+    @Override
+    public ExecuteMethod getExecuteMethod() {
+        return executeMethod;
+    }
 
-	/**
-	 * @see InteractsWithApps#resetApp()
-	 */
-	@Override
-	public void resetApp() {
-		execute(MobileCommand.RESET);
-	}
+    /**
+     * @see InteractsWithApps#resetApp()
+     */
+    @Override
+    public void resetApp() {
+        execute(MobileCommand.RESET);
+    }
 
-	/**
-	 * @see InteractsWithApps#isAppInstalled(String)
-	 */
-	@Override
-	public boolean isAppInstalled(String bundleId) {
-		Response response = execute(IS_APP_INSTALLED,
-				ImmutableMap.of("bundleId", bundleId));
+    /**
+     * @see InteractsWithApps#isAppInstalled(String)
+     */
+    @Override
+    public boolean isAppInstalled(String bundleId) {
+        Response response = execute(IS_APP_INSTALLED,
+                ImmutableMap.of("bundleId", bundleId));
 
-		return Boolean.parseBoolean(response.getValue().toString());
-	}
+        return Boolean.parseBoolean(response.getValue().toString());
+    }
 
-	/**
-	 * @see InteractsWithApps#installApp(String)
-	 */
-	@Override
-	public void installApp(String appPath) {
-		execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
-	}
+    /**
+     * @see InteractsWithApps#installApp(String)
+     */
+    @Override
+    public void installApp(String appPath) {
+        execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
+    }
 
-	/**
-	 * @see InteractsWithApps#removeApp(String)
-	 */
-	@Override
-	public void removeApp(String bundleId) {
-		execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
-	}
+    /**
+     * @see InteractsWithApps#removeApp(String)
+     */
+    @Override
+    public void removeApp(String bundleId) {
+        execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
+    }
 
-	/**
-	 * @see InteractsWithApps#launchApp()
-	 */
-	@Override
-	public void launchApp() {
-		execute(LAUNCH_APP);
-	}
+    /**
+     * @see InteractsWithApps#launchApp()
+     */
+    @Override
+    public void launchApp() {
+        execute(LAUNCH_APP);
+    }
 
-	/**
-	 * @see InteractsWithApps#closeApp()
-	 */
-	@Override
-	public void closeApp() {
-		execute(CLOSE_APP);
-	}
+    /**
+     * @see InteractsWithApps#closeApp()
+     */
+    @Override
+    public void closeApp() {
+        execute(CLOSE_APP);
+    }
 
-	/**
-	 * @see InteractsWithApps#runAppInBackground(int)
-	 */
-	@Override
-	public void runAppInBackground(int seconds) {
-		execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
-	}
+    /**
+     * @see InteractsWithApps#runAppInBackground(int)
+     */
+    @Override
+    public void runAppInBackground(int seconds) {
+        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
+    }
 
-	/**
-	 * @see DeviceActionShortcuts#hideKeyboard()
-	 */
-	@Override
-	public void hideKeyboard() {
-		execute(HIDE_KEYBOARD);
-	}
+    /**
+     * @see DeviceActionShortcuts#hideKeyboard()
+     */
+    @Override
+    public void hideKeyboard() {
+        execute(HIDE_KEYBOARD);
+    }
 
-	/**
-	 * @see InteractsWithFiles#pullFile(String)
-	 */
-	@Override
-	public byte[] pullFile(String remotePath) {
-		Response response = execute(PULL_FILE,
-				ImmutableMap.of(PATH, remotePath));
-		String base64String = response.getValue().toString();
+    /**
+     * @see InteractsWithFiles#pullFile(String)
+     */
+    @Override
+    public byte[] pullFile(String remotePath) {
+        Response response = execute(PULL_FILE,
+                ImmutableMap.of(PATH, remotePath));
+        String base64String = response.getValue().toString();
 
-		return DatatypeConverter.parseBase64Binary(base64String);
-	}
+        return DatatypeConverter.parseBase64Binary(base64String);
+    }
 
-	/**
-	 * @see InteractsWithFiles#pullFolder(String)
-	 */
-	@Override
-	public byte[] pullFolder(String remotePath) {
-		Response response = execute(PULL_FOLDER,
-				ImmutableMap.of(PATH, remotePath));
-		String base64String = response.getValue().toString();
+    /**
+     * @see InteractsWithFiles#pullFolder(String)
+     */
+    @Override
+    public byte[] pullFolder(String remotePath) {
+        Response response = execute(PULL_FOLDER,
+                ImmutableMap.of(PATH, remotePath));
+        String base64String = response.getValue().toString();
 
-		return DatatypeConverter.parseBase64Binary(base64String);
-	}
+        return DatatypeConverter.parseBase64Binary(base64String);
+    }
 
-	/**
-	 * @see PerformsTouchActions#performTouchAction(TouchAction)
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public TouchAction performTouchAction(TouchAction touchAction) {
-		ImmutableMap<String, ImmutableList> parameters = touchAction
-				.getParameters();
-		touchAction.clearParameters();
-		execute(PERFORM_TOUCH_ACTION, parameters);
+    /**
+     * @see PerformsTouchActions#performTouchAction(TouchAction)
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    public TouchAction performTouchAction(TouchAction touchAction) {
+        ImmutableMap<String, ImmutableList> parameters = touchAction
+                .getParameters();
+        touchAction.clearParameters();
+        execute(PERFORM_TOUCH_ACTION, parameters);
 
-		return touchAction;
-	}
+        return touchAction;
+    }
 
-	/**
-	 * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction)
-	 */
-	@Override
-	@SuppressWarnings({ "rawtypes"})
-	public void performMultiTouchAction(MultiTouchAction multiAction) {
-		ImmutableMap<String, ImmutableList> parameters = multiAction
-				.getParameters();
-		execute(PERFORM_MULTI_TOUCH, parameters);
-	}
+    /**
+     * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction)
+     */
+    @Override
+    @SuppressWarnings({ "rawtypes"})
+    public void performMultiTouchAction(MultiTouchAction multiAction) {
+        ImmutableMap<String, ImmutableList> parameters = multiAction
+                .getParameters();
+        execute(PERFORM_MULTI_TOUCH, parameters);
+    }
 
-	/**
-	 * @see TouchShortcuts#tap(int, WebElement, int)
-	 */
-	@Override
-	public void tap(int fingers, WebElement element, int duration) {
-		MultiTouchAction multiTouch = new MultiTouchAction(this);
+    /**
+     * @see TouchShortcuts#tap(int, WebElement, int)
+     */
+    @Override
+    public void tap(int fingers, WebElement element, int duration) {
+        MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-		for (int i = 0; i < fingers; i++) {
-			multiTouch.add(createTap(element, duration));
-		}
+        for (int i = 0; i < fingers; i++) {
+            multiTouch.add(createTap(element, duration));
+        }
 
-		multiTouch.perform();
-	}
+        multiTouch.perform();
+    }
 
-	/**
-	 * @see TouchShortcuts#tap(int, int, int, int)
-	 */
-	@Override
-	public void tap(int fingers, int x, int y, int duration) {
-		MultiTouchAction multiTouch = new MultiTouchAction(this);
+    /**
+     * @see TouchShortcuts#tap(int, int, int, int)
+     */
+    @Override
+    public void tap(int fingers, int x, int y, int duration) {
+        MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-		for (int i = 0; i < fingers; i++) {
-			multiTouch.add(createTap(x, y, duration));
-		}
+        for (int i = 0; i < fingers; i++) {
+            multiTouch.add(createTap(x, y, duration));
+        }
 
-		multiTouch.perform();
-	}
+        multiTouch.perform();
+    }
 
-	/**
-	 * @see TouchShortcuts#swipe(int, int, int, int, int)
-	 */
-	@Override
-	public void swipe(int startx, int starty, int endx, int endy, int duration) {
-		TouchAction touchAction = new TouchAction(this);
+    /**
+     * @see TouchShortcuts#swipe(int, int, int, int, int)
+     */
+    @Override
+    public void swipe(int startx, int starty, int endx, int endy, int duration) {
+        TouchAction touchAction = new TouchAction(this);
 
-		// appium converts press-wait-moveto-release to a swipe action
-		touchAction.press(startx, starty).waitAction(duration)
-				.moveTo(endx, endy).release();
+        // appium converts press-wait-moveto-release to a swipe action
+        touchAction.press(startx, starty).waitAction(duration)
+                .moveTo(endx, endy).release();
 
-		touchAction.perform();
-	}
+        touchAction.perform();
+    }
 
   /**
    * Convenience method for pinching an element on the screen.
@@ -483,164 +483,164 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     multiTouch.perform();
   }
 
-	/**
-	 * Get settings stored for this test session It's probably better to use a
-	 * convenience function, rather than use this function directly. Try finding
-	 * the method for the specific setting you want to read
-	 * 
-	 * @return JsonObject, a straight-up hash of settings
-	 */
-	public JsonObject getSettings() {
-		Response response = execute(GET_SETTINGS);
+    /**
+     * Get settings stored for this test session It's probably better to use a
+     * convenience function, rather than use this function directly. Try finding
+     * the method for the specific setting you want to read
+     *
+     * @return JsonObject, a straight-up hash of settings
+     */
+    public JsonObject getSettings() {
+        Response response = execute(GET_SETTINGS);
 
-		JsonParser parser = new JsonParser();
-		JsonObject settings = (JsonObject) parser.parse(response.getValue()
-				.toString());
+        JsonParser parser = new JsonParser();
+        JsonObject settings = (JsonObject) parser.parse(response.getValue()
+                .toString());
 
-		return settings;
-	}
+        return settings;
+    }
 
-	/**
-	 * Set settings for this test session It's probably better to use a
-	 * convenience function, rather than use this function directly. Try finding
-	 * the method for the specific setting you want to change
-	 * 
-	 * @param settings
-	 *            Map of setting keys and values
-	 */
-	private void setSettings(ImmutableMap<?, ?> settings) {
-		execute(SET_SETTINGS, getCommandImmutableMap(SETTINGS, settings));
-	}
+    /**
+     * Set settings for this test session It's probably better to use a
+     * convenience function, rather than use this function directly. Try finding
+     * the method for the specific setting you want to change
+     *
+     * @param settings
+     *            Map of setting keys and values
+     */
+    private void setSettings(ImmutableMap<?, ?> settings) {
+        execute(SET_SETTINGS, getCommandImmutableMap(SETTINGS, settings));
+    }
 
-	/**
-	 * Set a setting for this test session It's probably better to use a
-	 * convenience function, rather than use this function directly. Try finding
-	 * the method for the specific setting you want to change
-	 * 
-	 * @param setting
-	 *            AppiumSetting you wish to set
-	 * @param value
-	 *            value of the setting
-	 */
-	protected void setSetting(AppiumSetting setting, Object value) {
-		setSettings(getCommandImmutableMap(setting.toString(), value));
-	}
+    /**
+     * Set a setting for this test session It's probably better to use a
+     * convenience function, rather than use this function directly. Try finding
+     * the method for the specific setting you want to change
+     *
+     * @param setting
+     *            AppiumSetting you wish to set
+     * @param value
+     *            value of the setting
+     */
+    protected void setSetting(AppiumSetting setting, Object value) {
+        setSettings(getCommandImmutableMap(setting.toString(), value));
+    }
 
-	/**
-	 * Lock the device (bring it to the lock screen) for a given number of
-	 * seconds
-	 * 
-	 * @param seconds
-	 *            number of seconds to lock the screen for
-	 */
-	public void lockScreen(int seconds) {
-		execute(LOCK, ImmutableMap.of("seconds", seconds));
-	}
+    /**
+     * Lock the device (bring it to the lock screen) for a given number of
+     * seconds
+     *
+     * @param seconds
+     *            number of seconds to lock the screen for
+     */
+    public void lockScreen(int seconds) {
+        execute(LOCK, ImmutableMap.of("seconds", seconds));
+    }
 
   @Override
-	public WebDriver context(String name) {
-		if (!_isNotNullOrEmpty(name)) {
-			throw new IllegalArgumentException("Must supply a context name");
-		}
+    public WebDriver context(String name) {
+        if (!_isNotNullOrEmpty(name)) {
+            throw new IllegalArgumentException("Must supply a context name");
+        }
 
-		execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-		return AppiumDriver.this;
-	}
+        execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
+        return AppiumDriver.this;
+    }
 
-	@Override
-	public Set<String> getContextHandles() {
-		Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
-		Object value = response.getValue();
-		try {
-			List<String> returnedValues = (List<String>) value;
-			return new LinkedHashSet<String>(returnedValues);
-		} catch (ClassCastException ex) {
-			throw new WebDriverException(
-					"Returned value cannot be converted to List<String>: "
-							+ value, ex);
-		}
-	}
+    @Override
+    public Set<String> getContextHandles() {
+        Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
+        Object value = response.getValue();
+        try {
+            List<String> returnedValues = (List<String>) value;
+            return new LinkedHashSet<String>(returnedValues);
+        } catch (ClassCastException ex) {
+            throw new WebDriverException(
+                    "Returned value cannot be converted to List<String>: "
+                            + value, ex);
+        }
+    }
 
-	@Override
-	public String getContext() {
-		String contextName = String.valueOf(execute(
-				DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
-		if (contextName.equals("null")) {
-			return null;
-		}
-		return contextName;
-	}
+    @Override
+    public String getContext() {
+        String contextName = String.valueOf(execute(
+                DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
+        if (contextName.equals("null")) {
+            return null;
+        }
+        return contextName;
+    }
 
-	@Override
-	public void rotate(ScreenOrientation orientation) {
-		execute(DriverCommand.SET_SCREEN_ORIENTATION, ImmutableMap.of(
-				"orientation", orientation.value().toUpperCase()));
-	}
+    @Override
+    public void rotate(ScreenOrientation orientation) {
+        execute(DriverCommand.SET_SCREEN_ORIENTATION, ImmutableMap.of(
+                "orientation", orientation.value().toUpperCase()));
+    }
 
-	@Override
-	public ScreenOrientation getOrientation() {
-		Response response = execute(DriverCommand.GET_SCREEN_ORIENTATION);
-		String orientation = response.getValue().toString().toLowerCase();
-		if (orientation.equals(ScreenOrientation.LANDSCAPE.value())) {
-			return ScreenOrientation.LANDSCAPE;
-		} else if (orientation.equals(ScreenOrientation.PORTRAIT.value())) {
-			return ScreenOrientation.PORTRAIT;
-		} else {
-			throw new WebDriverException("Unexpected orientation returned: "
-					+ orientation);
-		}
-	}
+    @Override
+    public ScreenOrientation getOrientation() {
+        Response response = execute(DriverCommand.GET_SCREEN_ORIENTATION);
+        String orientation = response.getValue().toString().toLowerCase();
+        if (orientation.equals(ScreenOrientation.LANDSCAPE.value())) {
+            return ScreenOrientation.LANDSCAPE;
+        } else if (orientation.equals(ScreenOrientation.PORTRAIT.value())) {
+            return ScreenOrientation.PORTRAIT;
+        } else {
+            throw new WebDriverException("Unexpected orientation returned: "
+                    + orientation);
+        }
+    }
 
-	@Override
-	public Location location() {
-		return locationContext.location();
-	}
+    @Override
+    public Location location() {
+        return locationContext.location();
+    }
 
-	@Override
-	public void setLocation(Location location) {
-		locationContext.setLocation(location);
-	}
+    @Override
+    public void setLocation(Location location) {
+        locationContext.setLocation(location);
+    }
 
-	/**
-	 * @see HasAppStrings#getAppStrings()
- 	 */
-	@Override
-	public String getAppStrings() {
-		Response response = execute(GET_STRINGS);
-		return response.getValue().toString();
-	}
+    /**
+     * @see HasAppStrings#getAppStrings()
+     */
+    @Override
+    public String getAppStrings() {
+        Response response = execute(GET_STRINGS);
+        return response.getValue().toString();
+    }
 
-	/**
-	 * @param language
-	 *            strings language code
-	 * @return a string of all the localized strings defined in the app
-	 * 
-	 * @see HasAppStrings#getAppStrings(String)
-	 */
-	@Override
-	public String getAppStrings(String language) {
-		Response response = execute(GET_STRINGS,
-				getCommandImmutableMap(LANGUAGE_PARAM, language));
-		return response.getValue().toString();
-	}
+    /**
+     * @param language
+     *            strings language code
+     * @return a string of all the localized strings defined in the app
+     *
+     * @see HasAppStrings#getAppStrings(String)
+     */
+    @Override
+    public String getAppStrings(String language) {
+        Response response = execute(GET_STRINGS,
+                getCommandImmutableMap(LANGUAGE_PARAM, language));
+        return response.getValue().toString();
+    }
 
-	private TouchAction createTap(WebElement element, int duration) {
-		TouchAction tap = new TouchAction(this);
-		return tap.press(element).waitAction(duration).release();
-	}
+    private TouchAction createTap(WebElement element, int duration) {
+        TouchAction tap = new TouchAction(this);
+        return tap.press(element).waitAction(duration).release();
+    }
 
-	private TouchAction createTap(int x, int y, int duration) {
-		TouchAction tap = new TouchAction(this);
-		return tap.press(x, y).waitAction(duration).release();
-	}
+    private TouchAction createTap(int x, int y, int duration) {
+        TouchAction tap = new TouchAction(this);
+        return tap.press(x, y).waitAction(duration).release();
+    }
 
-	private static CommandInfo getC(String url) {
-		return new CommandInfo(url, HttpMethod.GET);
-	}
+    private static CommandInfo getC(String url) {
+        return new CommandInfo(url, HttpMethod.GET);
+    }
 
-	private static CommandInfo postC(String url) {
-		return new CommandInfo(url, HttpMethod.POST);
-	}
+    private static CommandInfo postC(String url) {
+        return new CommandInfo(url, HttpMethod.POST);
+    }
 
     private static ImmutableMap<String, CommandInfo> getMobileCommands(){
         ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap
@@ -656,9 +656,9 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                         getC("/session/:sessionId/appium/device/current_activity"))
                 .put(SET_VALUE,
                         postC("/session/:sessionId/appium/element/:id/value"))
-				.put(REPLACE_VALUE,
-						postC("/session/:sessionId/appium/element/:id/replace_value"))
-				.put(PULL_FILE,
+                .put(REPLACE_VALUE,
+                        postC("/session/:sessionId/appium/element/:id/replace_value"))
+                .put(PULL_FILE,
                         postC("/session/:sessionId/appium/device/pull_file"))
                 .put(PULL_FOLDER,
                         postC("/session/:sessionId/appium/device/pull_folder"))
@@ -703,30 +703,30 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         return builder.build();
     }
 
-	@SuppressWarnings("unused")
-	private static CommandInfo deleteC(String url) {
-		return new CommandInfo(url, HttpMethod.DELETE);
-	}
+    @SuppressWarnings("unused")
+    private static CommandInfo deleteC(String url) {
+        return new CommandInfo(url, HttpMethod.DELETE);
+    }
 
-	public URL getRemoteAddress() {
-		return remoteAddress;
-	}
+    public URL getRemoteAddress() {
+        return remoteAddress;
+    }
 
-	/**
-	 * Checks if a string is null, empty, or whitespace.
-	 * 
-	 * @param str
-	 *            String to check.
-	 * 
-	 * @return True if str is not null or empty.
-	 */
-	protected static boolean _isNotNullOrEmpty(String str) {
-		return str != null && !str.isEmpty() && str.trim().length() > 0;
-	}
+    /**
+     * Checks if a string is null, empty, or whitespace.
+     *
+     * @param str
+     *            String to check.
+     *
+     * @return True if str is not null or empty.
+     */
+    protected static boolean _isNotNullOrEmpty(String str) {
+        return str != null && !str.isEmpty() && str.trim().length() > 0;
+    }
 
-	protected static boolean _isNotNullOrEmpty(Object ob) {
-		return ob != null;
-	}
+    protected static boolean _isNotNullOrEmpty(Object ob) {
+        return ob != null;
+    }
 
     @Override
     public abstract RequiredElementType scrollTo(String text);
