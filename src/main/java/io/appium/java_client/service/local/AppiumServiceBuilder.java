@@ -138,6 +138,9 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     protected File findDefaultExecutable() {
 
         String nodeJSExec = System.getProperty(NODE_JS_EXECUTABLE_PROPERTY);
+        if (StringUtils.isBlank(nodeJSExec)) {
+            nodeJSExec = System.getenv(NODE_JS_EXECUTABLE_PROPERTY);
+        }
         if (!StringUtils.isBlank(nodeJSExec)) {
             File result = new File(nodeJSExec);
             if (result.exists()) {
@@ -231,7 +234,10 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         }
 
         String appiumJS = System.getProperty(APPIUM_NODE_PROPERTY);
-        if (appiumJS !=null){
+        if (StringUtils.isBlank(appiumJS)) {
+            appiumJS = System.getenv(APPIUM_NODE_PROPERTY);
+        }
+        if (!StringUtils.isBlank(appiumJS)){
             File node = new File(appiumJS);
             validateNodeStructure(node);
             this.appiumJS =  node;
