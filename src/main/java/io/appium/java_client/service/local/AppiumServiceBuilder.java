@@ -20,14 +20,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.service.local.flags.ServerArgument;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -37,123 +36,74 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
+    public static final String APPIUM_NODE_PROPERTY = "appium.node.path";
+    public static final String NODE_JS_EXECUTABLE_PROPERTY = "appium.node.js.exec.path";
+
     private static final String APPIUM_FOLDER = "appium";
     private static final String BIN_FOLDER = "bin";
     private static final String APPIUM_JS = "appium.js";
     private static final String APPIUM_NODE_MASK =  File.separator +
             APPIUM_FOLDER + File.separator + BIN_FOLDER + File.separator + APPIUM_JS;
 
-    public static final String APPIUM_NODE_PROPERTY = "appium.node.path";
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
 
     private static final int DEFAULT_APPIUM_PORT = 4723;
     private final static String BASH = "bash";
-    private final static String CMD_EXE[] = {"cmd.exe", "/C"};
+    private final static String CMD_EXE = "cmd.exe";
     private final static String NODE = "node";
-    private final static String PATH_NAME = getPathVarName();
-
 
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
     private File npmScript;
+    private File getNodeJSExecutable;
 
     //The first starting is slow sometimes on some
     //environment
     private long startupTimeout = 120;
     private TimeUnit timeUnit = TimeUnit.SECONDS;
 
-    private static String getPathVarName(){
-        Map<String, String> envVariables = System.getenv();
-        Set<String> keys = envVariables.keySet();
-
-        for (String key : keys) {
-            if (key.toUpperCase().trim().equals("Path".toUpperCase())) {
-                return key;
-            }
-        }
-        return null;
-    }
-
-    private static String getTheLastStringFromsOutput(InputStream stream ) throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(stream, Charset.forName("UTF-8")));
-        String current;
-        String result = null;
-        while ((current = reader.readLine()) != null) {
-            if (StringUtils.isBlank(current)) {
-                continue;
-            }
-            result = current;
-        }
-        reader.close();
-        return result;
-    }
-
-    private static String readErrorStream(Process process)  {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getErrorStream(), Charset.forName("UTF-8")));
-        String current;
-        String result = StringUtils.EMPTY;
-        try {
-            while ((current = reader.readLine()) != null) {
-                if (StringUtils.isBlank(current)) {
-                    continue;
-                }
-                result = result + current + "\n";
-            }
-            reader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
-
-    private static Process getSearchingProcess(String... command) throws Throwable {
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
-        if (!StringUtils.isBlank(PATH_NAME)) {
-            String path = System.getenv().get(PATH_NAME);
-            processBuilder.environment().put(PATH_NAME, path);
-        }
-        return processBuilder.start();
-    }
-
     private void setUpNPMScript(){
         if (npmScript != null) {
             return;
         }
 
-        if (Platform.getCurrent().is(Platform.WINDOWS)) {
-            npmScript = NPMScript.GET_PATH_TO_DEFAULT_NODE_WIN.getScriptFile();
+        if (!Platform.getCurrent().is(Platform.WINDOWS)) {
+            npmScript = Scripts.GET_PATH_TO_DEFAULT_NODE_UNIX.getScriptFile();
         }
-        else {
-            npmScript = NPMScript.GET_PATH_TO_DEFAULT_NODE_UNIX.getScriptFile();
+    }
+
+    private void setUpGetNodeJSExecutableScript() {
+        if (getNodeJSExecutable != null) {
+            return;
         }
+
+        getNodeJSExecutable = Scripts.GET_NODE_JS_EXECUTABLE.getScriptFile();
     }
 
     private File findNodeInCurrentFileSystem(){
         setUpNPMScript();
 
         String instancePath;
-        Process p;
+        CommandLine commandLine;
         try {
             if (Platform.getCurrent().is(Platform.WINDOWS)) {
-                p = getSearchingProcess(ArrayUtils.add(CMD_EXE, npmScript.getAbsolutePath()));
-                p.waitFor();
+                commandLine = new CommandLine(CMD_EXE, "/C", "npm root -g");
             }
             else {
-                p = getSearchingProcess(BASH, "-l", npmScript.getAbsolutePath());
+                commandLine = new CommandLine(BASH, "-l", npmScript.getAbsolutePath());
             }
-            instancePath = getTheLastStringFromsOutput(p.getInputStream());
+            commandLine.execute();
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
 
+        instancePath = (commandLine.getStdOut()).trim();
         try {
             File result;
             if (StringUtils.isBlank(instancePath) || !(result = new File(instancePath + File.separator +
                     APPIUM_NODE_MASK)).exists()) {
-                String errorOutput = readErrorStream(p);
+                String errorOutput = commandLine.getStdOut();
                 throw new InvalidServerInstanceException("There is no installed nodes! Please install " +
                         " node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
                         "install Appium app (http://appium.io/downloads.html)",
@@ -162,7 +112,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             return result;
         }
         finally {
-            p.destroy();
+            commandLine.destroy();
         }
     }
 
@@ -186,41 +136,42 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
     @Override
     protected File findDefaultExecutable() {
-        Process p;
+
+        String nodeJSExec = System.getProperty(NODE_JS_EXECUTABLE_PROPERTY);
+        if (!StringUtils.isBlank(nodeJSExec)) {
+            File result = new File(nodeJSExec);
+            if (result.exists()) {
+                return result;
+            }
+        }
+
+        CommandLine commandLine;
+        setUpGetNodeJSExecutableScript();
         try {
             if (Platform.getCurrent().is(Platform.WINDOWS)) {
-                p = getSearchingProcess(ArrayUtils.add(CMD_EXE, NODE));
+                commandLine = new CommandLine(NODE + ".exe", getNodeJSExecutable.getAbsolutePath());
             }
             else {
-                p = getSearchingProcess(BASH, "-l", "-c", NODE);
+                commandLine = new CommandLine(NODE, getNodeJSExecutable.getAbsolutePath());
             }
+            commandLine.execute();
         } catch (Throwable t) {
             throw new InvalidNodeJSInstance("Node.js is not installed!", t);
         }
 
-        String filePath;
-        try {
-            OutputStream outputStream = p.getOutputStream();
-            PrintStream out = new PrintStream(outputStream) ;
-            out.println("console.log(process.execPath);") ;
-            out.close();
-            filePath = getTheLastStringFromsOutput(p.getInputStream());
-        }
-        catch (Throwable t){
-            p.destroy();
-            throw new RuntimeException(t);
-        }
+
+        String filePath = (commandLine.getStdOut()).trim();
 
         try {
-            if (StringUtils.isBlank(filePath)) {
-                String errorOutput = readErrorStream(p);
+            if (StringUtils.isBlank(filePath) || !new File(filePath).exists()) {
+                String errorOutput = commandLine.getStdOut();
                 String errorMessage = "Can't get a path to the default Node.js instance";
                 throw new InvalidNodeJSInstance(errorMessage, new IOException(errorOutput));
             }
             return new File(filePath);
         }
         finally {
-            p.destroy();
+            commandLine.destroy();
         }
     }
 
@@ -394,14 +345,19 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         }
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        if (npmScript != null) {
+    private static void disposeCachedFile(File file) {
+        if (file != null) {
             try {
-                FileUtils.forceDelete(npmScript);
+                FileUtils.forceDelete(file);
             } catch (IOException ignored) {
             }
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        disposeCachedFile(npmScript);
+        disposeCachedFile(getNodeJSExecutable);
         super.finalize();
     }
 }

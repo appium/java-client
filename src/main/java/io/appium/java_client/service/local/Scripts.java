@@ -19,14 +19,14 @@ package io.appium.java_client.service.local;
 import org.apache.commons.io.IOUtils;
 import java.io.*;
 
-enum NPMScript {
-    GET_PATH_TO_DEFAULT_NODE_WIN("get_path_to_default_node.cmd"),
-    GET_PATH_TO_DEFAULT_NODE_UNIX("get_path_to_default_node.sh")
+enum Scripts {
+    GET_PATH_TO_DEFAULT_NODE_UNIX("get_path_to_default_node.sh"),
+    GET_NODE_JS_EXECUTABLE("getExe.js")
     ;
     private static final String RESOURCE_FOLDER = "/scripts/";
     private final String script;
 
-    NPMScript(String script) {
+    Scripts(String script) {
         this.script = script;
     }
 
