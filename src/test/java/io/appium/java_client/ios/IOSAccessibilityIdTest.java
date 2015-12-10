@@ -16,20 +16,19 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-
-import java.io.File;
-import java.util.List;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.io.File;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test context-related features
@@ -54,7 +53,7 @@ public class IOSAccessibilityIdTest {
     File app = new File(appDir, "UICatalog.app.zip");
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
     capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
     driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);

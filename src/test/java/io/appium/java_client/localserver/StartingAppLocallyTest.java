@@ -86,7 +86,7 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
@@ -98,7 +98,7 @@ public class StartingAppLocallyTest {
             assertEquals(true, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME).equals(AutomationName.APPIUM));
             assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("7.1"));
+            assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("8.4"));
             assertEquals(true, caps.getCapability(MobileCapabilityType.APP).equals(app.getAbsolutePath()));
         }
         finally {
@@ -116,7 +116,7 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.AUTOMATION_NAME, AutomationName.APPIUM).
-                withArgument(GeneralServerFlag.APP, app.getAbsolutePath()).withArgument(GeneralServerFlag.PLATFORM_VERSION, "7.1");
+                withArgument(GeneralServerFlag.APP, app.getAbsolutePath()).withArgument(GeneralServerFlag.PLATFORM_VERSION, "8.4");
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(builder, capabilities);;
         try {

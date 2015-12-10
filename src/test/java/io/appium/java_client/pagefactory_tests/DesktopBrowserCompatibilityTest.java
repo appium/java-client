@@ -45,107 +45,20 @@ import static org.junit.Assert.assertNotEquals;
 
 public class DesktopBrowserCompatibilityTest {
 
-	private static enum AvailableDrivers {
-		FIREFOX(FirefoxDriver.class, new ArrayList<Platform>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(Platform.WINDOWS);
-				add(Platform.MAC);
-			}
 
-		}, new HashMap<Platform, File>(), null),
-
-        CHROME(ChromeDriver.class,
-				new ArrayList<Platform>() {
-					private static final long serialVersionUID = 1L;
-					{
-						add(Platform.WINDOWS);
-						add(Platform.MAC);
-					}
-
-				}, new HashMap<Platform, File>() {
-					private static final long serialVersionUID = 1L;
-
-					{
-						put(Platform.WINDOWS,
-								new File(
-										"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe"));
-						put(Platform.MAC,
-								new File(
-										"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver"));
-					}
-				}, ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY),
-        SAFARI(
-				SafariDriver.class, new ArrayList<Platform>() {
-					private static final long serialVersionUID = 1L;
-					{
-						add(Platform.MAC);
-					}
-
-				}, new HashMap<Platform, File>(), null);
-		// TODO Linux can be added if is necessary
-
-		private final Class<? extends WebDriver> driverClazz;
-		private final List<Platform> platformCompatible;
-		private final Map<Platform, File> serviceBinaries;
-		private final String propertyName;
-
-		private AvailableDrivers(Class<? extends WebDriver> driverClazz,
-				List<Platform> platformCompatible,
-				Map<Platform, File> serviceBinaries, String property) {
-			this.driverClazz = driverClazz;
-			this.platformCompatible = platformCompatible;
-			this.serviceBinaries = serviceBinaries;
-			this.propertyName = property;
+	public void setUp() {
+		if (current.is(Platform.WINDOWS)) {
+			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
 		}
-
-		private static AvailableDrivers getAvailableDriver(
-				Class<? extends WebDriver> driverClass, Platform p) {
-			AvailableDrivers[] availableDrivers = AvailableDrivers.values();
-			for (AvailableDrivers availableDriver : availableDrivers) {
-				if (!availableDriver.driverClazz.equals(driverClass)){
-					continue;
-				}
-				
-				for (Platform compatible: availableDriver.platformCompatible){
-					if (p.is(compatible)){
-						return availableDriver;
-					}
-				}
-			}
-			return null;
-		}
-
-		private void setSystemProperty(Platform p) {
-			Platform platform = null;
-			for (Platform compatible: platformCompatible){
-				if (p.is(compatible)){
-					platform = compatible;
-					break;
-				}
-			}
-			
-			if ((platform != null) && (propertyName != null)
-					&& (serviceBinaries.get(platform) != null)) {
-				System.setProperty(propertyName, serviceBinaries.get(platform)
-						.getAbsolutePath());
-			}
-		}
-	}
-	
-
-	public void setUp(Class<? extends WebDriver> driverClass) {
-		AvailableDrivers availableDriver = AvailableDrivers.getAvailableDriver(driverClass, current);
-		if (availableDriver != null){
-			availableDriver.setSystemProperty(current);
+		else {
+			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
 		}
 	}
 	
 	private final Platform current = Platform.getCurrent();
 	private final long IMPLICITLY_WAIT = 15;
-	
-
-
 	
 	@AndroidFindBy(className = "someClass")
 	@iOSFindBys({
@@ -159,7 +72,8 @@ public class DesktopBrowserCompatibilityTest {
 	private WebDriver trap1;
 	private List<AndroidDriver<?>> trap2;
 	
-	private void test(WebDriver driver){
+	private void test(){
+		WebDriver driver = new ChromeDriver();
 		try {
 			PageFactory.initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS), this);
 			driver.get("file:///" + new File("src/test/java/io/appium/java_client/hello appium - saved page.htm").getAbsolutePath());
@@ -173,28 +87,8 @@ public class DesktopBrowserCompatibilityTest {
 	}
 
 	@Test
-	public void fireFoxTest() {
-		if (AvailableDrivers.getAvailableDriver(FirefoxDriver.class, current)!=null){
-			setUp(FirefoxDriver.class);
-			test(new FirefoxDriver());
-		}		
-	}
-	
-	@Test
 	public void chromeTest() {
-		System.getProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY);
-		if (AvailableDrivers.getAvailableDriver(ChromeDriver.class, current)!=null){
-			setUp(ChromeDriver.class);
-			test(new ChromeDriver());
-		}		
+		setUp();
+		test();
 	}
-	
-	@Test
-	public void safariTest() {
-		if (AvailableDrivers.getAvailableDriver(SafariDriver.class, current)!=null){
-			setUp(SafariDriver.class);
-			test(new SafariDriver());
-		}		
-	}		
-
 }

@@ -113,6 +113,8 @@ If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 - bug fix and enhancements of io.appium.java_client.service.local.AppiumDriverLocalService
     - FIXED bug which was found and reproduced with Eclipse for Mac OS X. Please read about details here: [#252](https://github.com/appium/java-client/issues/252)
     Thanks to [saikrishna321](https://github.com/saikrishna321) for the bug report
+    - FIXED bug which was found out by [Jonahss](https://github.com/Jonahss). Thanks for the reporting. Details: [#272](https://github.com/appium/java-client/issues/272)
+    and [#273](https://github.com/appium/java-client/issues/273)
     - The ability to set additional output streams was provided
 - The additional __startActivity()__ method was added to AndroidDriver. It allows to start activities without the stopping of a target app
 Thanks to [deadmoto](https://github.com/deadmoto) for the contribution

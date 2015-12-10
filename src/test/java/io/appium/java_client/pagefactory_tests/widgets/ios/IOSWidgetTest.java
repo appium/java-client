@@ -38,7 +38,7 @@ public class IOSWidgetTest implements WidgetTest{
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         driver = new IOSDriver<>(service.getUrl(), capabilities);

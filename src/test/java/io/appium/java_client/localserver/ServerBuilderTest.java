@@ -62,12 +62,12 @@ public class ServerBuilderTest {
     public void checkAbilityToBuildServiceWithDefinedParametersAndNodeSetInProperties(){
         try {
             String definedNode = findCustomNode().getAbsolutePath();
-            System.setProperty(AppiumServiceBuilder.APPIUM_NODE_PROPERTY, definedNode);
+            System.setProperty(AppiumServiceBuilder.APPIUM_PATH, definedNode);
             AppiumDriverLocalService.buildService(new AppiumServiceBuilder().withIPAddress("127.0.0.1").
                     usingPort(4000).withArgument(GeneralServerFlag.SESSION_OVERRIDE,""));
         }
         finally {
-            System.clearProperty(AppiumServiceBuilder.APPIUM_NODE_PROPERTY);
+            System.clearProperty(AppiumServiceBuilder.APPIUM_PATH);
         }
     }
 
@@ -75,7 +75,7 @@ public class ServerBuilderTest {
     public void checkAbilityToStartServiceOnAFreePort(){
         try {
             String definedNode = findCustomNode().getAbsolutePath();
-            System.setProperty(AppiumServiceBuilder.APPIUM_NODE_PROPERTY, definedNode);
+            System.setProperty(AppiumServiceBuilder.APPIUM_PATH, definedNode);
             AppiumDriverLocalService service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder().withIPAddress("127.0.0.1").
                     usingAnyFreePort().withArgument(GeneralServerFlag.SESSION_OVERRIDE));
             service.start();
@@ -83,7 +83,7 @@ public class ServerBuilderTest {
             service.stop();
         }
         finally {
-            System.clearProperty(AppiumServiceBuilder.APPIUM_NODE_PROPERTY);
+            System.clearProperty(AppiumServiceBuilder.APPIUM_PATH);
         }
     }
 
@@ -115,7 +115,7 @@ public class ServerBuilderTest {
     public void checkStartingOfTheServiceDefinedByProperty(){
         try {
             String definedNode = findCustomNode().getAbsolutePath();
-            System.setProperty(AppiumServiceBuilder.APPIUM_NODE_PROPERTY, definedNode);
+            System.setProperty(AppiumServiceBuilder.APPIUM_PATH, definedNode);
             AppiumDriverLocalService service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder().withIPAddress("127.0.0.1").
                     usingPort(4000).withArgument(GeneralServerFlag.SESSION_OVERRIDE));
             service.start();
@@ -123,7 +123,7 @@ public class ServerBuilderTest {
             service.stop();
         }
         finally {
-            System.clearProperty(AppiumServiceBuilder.APPIUM_NODE_PROPERTY);
+            System.clearProperty(AppiumServiceBuilder.APPIUM_PATH);
         }
     }
 

@@ -23,9 +23,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -52,7 +54,15 @@ public class TimeOutResetTest {
 
 	@Before
 	public void setUp() throws Exception {
-		driver = new FirefoxDriver();
+		if (Platform.getCurrent().is(Platform.WINDOWS)) {
+			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
+		}
+		else {
+			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
+		}
+		driver = new ChromeDriver();
 		timeOutDuration = new TimeOutDuration(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
                 AppiumFieldDecorator.DEFAULT_TIMEUNIT);
 		PageFactory.initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);

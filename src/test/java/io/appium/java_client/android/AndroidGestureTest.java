@@ -87,7 +87,7 @@ public class AndroidGestureTest {
     driver.findElementByAccessibilityId("Views").click();
 
 	  driver.findElement(MobileBy.AndroidUIAutomator("description(\"Drag and Drop\")")).click();
-	  WebElement actionBarTitle = driver.findElement(By.id("android:id/action_bar_title"));
+	  WebElement actionBarTitle = driver.findElement(MobileBy.AndroidUIAutomator("text(\"Views/Drag and Drop\")"));
 
 	  assertEquals("Wrong title.", "Views/Drag and Drop", actionBarTitle.getText());
 	  WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));

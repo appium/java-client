@@ -82,8 +82,13 @@ public final class AppiumDriverLocalService extends DriverService {
     @Override
     public boolean isRunning() {
         lock.lock();
-        if (process == null)
+        if (process == null) {
             return false;
+        }
+
+        if (!process.isRunning()) {
+            return false;
+        }
 
         try {
             ping(500, TimeUnit.MILLISECONDS);
@@ -126,9 +131,11 @@ public final class AppiumDriverLocalService extends DriverService {
             destroyProcess();
             String msgTxt = "The local appium server has not been started. " +
                     "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath() + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
-            String processStream = process.getStdOut();
-            if (!StringUtils.isBlank(processStream))
-                msgTxt = msgTxt + "Process output: " + processStream + "\n";
+            if (process != null) {
+                String processStream = process.getStdOut();
+                if (!StringUtils.isBlank(processStream))
+                    msgTxt = msgTxt + "Process output: " + processStream + "\n";
+            }
 
             throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt,
                     e);
