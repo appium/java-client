@@ -36,8 +36,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
-    public static final String APPIUM_NODE_PROPERTY = "appium.node.path";
-    public static final String APPIUM_NODE_JS_EXEC_PATH = "appium.node.js.exec.path";
+    public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
+    public static final String NODE_PATH = "NODE_BINARY_PATH";
 
     private static final String APPIUM_FOLDER = "appium";
     private static final String BIN_FOLDER = "bin";
@@ -123,11 +123,6 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             throw new InvalidServerInstanceException("The invalid appium node " + absoluteNodePath + " has been defined",
                     new IOException("The node " + absoluteNodePath + "doesn't exist"));
         }
-
-        if (!absoluteNodePath.endsWith(APPIUM_NODE_MASK)) {
-            throw new InvalidServerInstanceException("It is probably there is the corrupted appium server installation. Path " +
-                    absoluteNodePath + "doesn't match " + APPIUM_NODE_MASK);
-        }
     }
 
     public AppiumServiceBuilder() {
@@ -137,9 +132,9 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     @Override
     protected File findDefaultExecutable() {
 
-        String nodeJSExec = System.getProperty(APPIUM_NODE_JS_EXEC_PATH);
+        String nodeJSExec = System.getProperty(NODE_PATH);
         if (StringUtils.isBlank(nodeJSExec)) {
-            nodeJSExec = System.getenv(APPIUM_NODE_JS_EXEC_PATH);
+            nodeJSExec = System.getenv(NODE_PATH);
         }
         if (!StringUtils.isBlank(nodeJSExec)) {
             File result = new File(nodeJSExec);
@@ -233,9 +228,9 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             return;
         }
 
-        String appiumJS = System.getProperty(APPIUM_NODE_PROPERTY);
+        String appiumJS = System.getProperty(APPIUM_PATH);
         if (StringUtils.isBlank(appiumJS)) {
-            appiumJS = System.getenv(APPIUM_NODE_PROPERTY);
+            appiumJS = System.getenv(APPIUM_PATH);
         }
         if (!StringUtils.isBlank(appiumJS)){
             File node = new File(appiumJS);
