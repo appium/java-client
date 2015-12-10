@@ -11,17 +11,17 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.2.0</version>
+  <version>3.3.0</version>
 </dependency>
 ```
 
-It currently depends on selenium-java 2.47.1. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+It currently depends on selenium-java 2.48.2. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
 
 ```
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.2.0</version>
+  <version>3.3.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -108,17 +108,19 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using verison Luna or later.
 
 ##Changelog##
-*3.3.0 (still not released)*
+*3.3.0*
 - updated the dependency on Selenium to version 2.48.2
 - bug fix and enhancements of io.appium.java_client.service.local.AppiumDriverLocalService
     - FIXED bug which was found and reproduced with Eclipse for Mac OS X. Please read about details here: [#252](https://github.com/appium/java-client/issues/252)
     Thanks to [saikrishna321](https://github.com/saikrishna321) for the bug report
     - FIXED bug which was found out by [Jonahss](https://github.com/Jonahss). Thanks for the reporting. Details: [#272](https://github.com/appium/java-client/issues/272)
     and [#273](https://github.com/appium/java-client/issues/273)
+    - For starting an appium server using localService, added additional environment variable to specify the location of Node.js binary: NODE_BINARY_PATH
     - The ability to set additional output streams was provided
 - The additional __startActivity()__ method was added to AndroidDriver. It allows to start activities without the stopping of a target app
 Thanks to [deadmoto](https://github.com/deadmoto) for the contribution
 - The additional extension of the Page Object design pattern was designed. Please read about details here: [#267](https://github.com/appium/java-client/pull/267)
+- New public constructors to AndroidDriver/IOSDriver that allow passing a custom HttpClient.Factory Details: [#276](https://github.com/appium/java-client/pull/278) thanks to [baechul](https://github.com/baechul)
 
 *3.2.0*
 - updated the dependency on Selenium to version 2.47.1
