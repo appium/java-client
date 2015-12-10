@@ -37,7 +37,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
     public static final String APPIUM_NODE_PROPERTY = "appium.node.path";
-    public static final String NODE_JS_EXECUTABLE_PROPERTY = "appium.node.js.exec.path";
+    public static final String APPIUM_NODE_JS_EXEC_PATH = "appium.node.js.exec.path";
 
     private static final String APPIUM_FOLDER = "appium";
     private static final String BIN_FOLDER = "bin";
@@ -137,9 +137,9 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     @Override
     protected File findDefaultExecutable() {
 
-        String nodeJSExec = System.getProperty(NODE_JS_EXECUTABLE_PROPERTY);
+        String nodeJSExec = System.getProperty(APPIUM_NODE_JS_EXEC_PATH);
         if (StringUtils.isBlank(nodeJSExec)) {
-            nodeJSExec = System.getenv(NODE_JS_EXECUTABLE_PROPERTY);
+            nodeJSExec = System.getenv(APPIUM_NODE_JS_EXEC_PATH);
         }
         if (!StringUtils.isBlank(nodeJSExec)) {
             File result = new File(nodeJSExec);
