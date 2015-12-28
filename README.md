@@ -60,7 +60,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 
 - startActivity()
 - resetApp()
-- getAppString()
+- getAppStrings()
 - pressKeyCode()
 - longPressKeyCode()
 - longPressKey()
