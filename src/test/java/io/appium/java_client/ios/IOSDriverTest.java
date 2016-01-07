@@ -28,10 +28,11 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -70,14 +71,14 @@ public class IOSDriverTest {
 
   @Test
   public void getStringsTest() {
-    String strings = driver.getAppStrings();
-    assert(strings.length() > 100);
+    Map<String, String> strings = driver.getAppStrings();
+    assertTrue(strings.size() > 10);
   }
 
   @Test
   public void getStringsWithLanguageTest() {
-    String strings = driver.getAppStrings("en");
-    assert(strings.length() > 100);
+    Map<String, String> strings = driver.getAppStrings("en");
+    assertTrue(strings.size() > 10);
   }
 
   @Test

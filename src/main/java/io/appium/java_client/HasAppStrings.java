@@ -16,22 +16,23 @@
 
 package io.appium.java_client;
 
+import java.util.Map;
 
 public interface HasAppStrings {
 
     /**
     * Get all defined Strings from an app for the default language
     *
-    * @return a string of all the localized strings defined in the app
+    * @return a map with localized strings defined in the app
     */
-    String getAppStrings();
+    Map<String, String> getAppStrings();
 
     /**
     * Get all defined Strings from an app for the specified language
     *
     * @param language strings language code
-    * @return a string of all the localized strings defined in the app
+    * @return a map with localized strings defined in the app
     */
-    String getAppStrings(String language);
+    Map<String, String> getAppStrings(String language);
 
 }

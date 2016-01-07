@@ -35,6 +35,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.appium.java_client.MobileCommand.*;
@@ -602,26 +603,28 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     }
 
     /**
+     * @return a map with localized strings defined in the app
+     *
      * @see HasAppStrings#getAppStrings()
      */
     @Override
-    public String getAppStrings() {
+    public Map<String, String> getAppStrings() {
         Response response = execute(GET_STRINGS);
-        return response.getValue().toString();
+        return (Map<String, String>) response.getValue();
     }
 
     /**
      * @param language
      *            strings language code
-     * @return a string of all the localized strings defined in the app
+     * @return a map with localized strings defined in the app
      *
      * @see HasAppStrings#getAppStrings(String)
      */
     @Override
-    public String getAppStrings(String language) {
+    public Map<String, String> getAppStrings(String language) {
         Response response = execute(GET_STRINGS,
                 getCommandImmutableMap(LANGUAGE_PARAM, language));
-        return response.getValue().toString();
+        return (Map<String, String>) response.getValue();
     }
 
     private TouchAction createTap(WebElement element, int duration) {

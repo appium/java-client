@@ -105,9 +105,12 @@ Locators:
 
 ## Note to developers! ##
 If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
-If you are using the Eclipse IDE, make sure you are using verison Luna or later.
+If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
+*4.0.0 (still not released)*
+- `getAppStrings()` methods now return a map with the app strings keys and values, instead of an string
+
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2
 - bug fix and enhancements of io.appium.java_client.service.local.AppiumDriverLocalService
