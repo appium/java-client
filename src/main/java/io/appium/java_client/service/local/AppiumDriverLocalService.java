@@ -153,8 +153,12 @@ public final class AppiumDriverLocalService extends DriverService {
     @Override
     public void stop() {
         lock.lock();
-        destroyProcess();
-        lock.unlock();
+        try {
+            destroyProcess();
+        }
+        finally {
+            lock.unlock();
+        }
     }
 
 
