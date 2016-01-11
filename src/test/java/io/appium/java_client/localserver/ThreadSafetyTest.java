@@ -178,7 +178,9 @@ public class ThreadSafetyTest {
 
         try {
             runThread.start(); //(1)
+            Thread.sleep(10);
             isRunningThread.start();//(2)
+            Thread.sleep(10);
             stopThread.start(); //(3)
 
             while (runThread.isAlive() || isRunningThread.isAlive() || stopThread.isAlive()) {

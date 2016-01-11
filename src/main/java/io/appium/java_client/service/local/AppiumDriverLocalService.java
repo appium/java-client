@@ -159,9 +159,10 @@ public final class AppiumDriverLocalService extends DriverService {
     public void stop() {
         lock.lock();
         try {
-            if (process.isRunning()) {
+            if (process != null) {
                 destroyProcess();
             }
+            process = null;
         }
         finally {
             lock.unlock();
@@ -170,8 +171,9 @@ public final class AppiumDriverLocalService extends DriverService {
 
 
     private void destroyProcess(){
-        if (process != null)
+        if (process.isRunning()) {
             process.destroy();
+        }
     }
 
     /**
