@@ -204,8 +204,10 @@ public class ThreadSafetyTest {
             assertTrue(stopTestThread.result.equals("OK")); //and then the test tried to shut down it (see (3))
             assertTrue(!service.isRunning());
 
-            stopThread2.start(); // (1)
-            isRunningThread2.start(); // (2)
+            isRunningThread2.start(); // (1)
+            Thread.sleep(10);
+            stopThread2.start(); // (2)
+            Thread.sleep(10);
             runThread2.start(); //(3)
 
             while (runThread2.isAlive() || isRunningThread2.isAlive() || stopThread2.isAlive()) {
@@ -224,8 +226,8 @@ public class ThreadSafetyTest {
                 throw stopTestThread.t;
             }
 
-            assertTrue(stopTestThread2.result.equals("OK")); //the service had not been started firstly (see (1)), it is ok
-            assertTrue(isRunningTestThread2.result.equals(false)); //so it couldn't being running (see (2))
+            assertTrue(isRunningTestThread2.result.equals(false)); //the service wasn't being running (see (1))
+            assertTrue(stopTestThread2.result.equals("OK")); //the service had not been started firstly (see (2)), it is ok
             assertTrue(runTestThread2.result.equals("OK")); //and then it was started (see (3))
             assertTrue(service.isRunning());
         }
