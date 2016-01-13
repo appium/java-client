@@ -82,6 +82,18 @@ public class IOSDriverTest {
   }
 
   @Test
+  public void getStringsWithLanguageAndStringFileTest() {
+    Map<String, String> strings = driver.getAppStrings("en", "Localizable.strings");
+    assertTrue(strings.size() > 10);
+  }
+
+  @Test
+  public void getStringsWithUnknownStringFileTest() {
+    Map<String, String> strings = driver.getAppStrings("en", "Unknown.strings");
+    assertTrue(strings.size() > 10);
+  }
+
+  @Test
   public void resetTest() {
     driver.resetApp();
   }

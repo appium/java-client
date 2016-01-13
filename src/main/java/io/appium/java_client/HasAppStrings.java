@@ -21,18 +21,31 @@ import java.util.Map;
 public interface HasAppStrings {
 
     /**
-    * Get all defined Strings from an app for the default language
-    *
-    * @return a map with localized strings defined in the app
-    */
+     * Get all defined Strings from an app for the default language
+     *
+     * @return a map with localized strings defined in the app
+     */
     Map<String, String> getAppStrings();
 
     /**
-    * Get all defined Strings from an app for the specified language
-    *
-    * @param language strings language code
-    * @return a map with localized strings defined in the app
-    */
+     * Get all defined Strings from an app for the specified language
+     *
+     * @param language
+     *            strings language code
+     * @return a map with localized strings defined in the app
+     */
     Map<String, String> getAppStrings(String language);
+
+    /**
+     * Get all defined Strings from an app for the specified language and
+     * strings filename
+     *
+     * @param language
+     *            strings language code
+     * @param stringFile
+     *            strings filename
+     * @return a map with localized strings defined in the app
+     */
+    Map<String, String> getAppStrings(String language, String stringFile);
 
 }

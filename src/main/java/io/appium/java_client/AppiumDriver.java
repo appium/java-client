@@ -66,6 +66,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     private final String SETTINGS = "settings";
 
     private final String LANGUAGE_PARAM = "language";
+    private final String STRING_FILE_PARAM = "stringFile";
 
     /**
      * @param originalCapabilities
@@ -624,6 +625,24 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     public Map<String, String> getAppStrings(String language) {
         Response response = execute(GET_STRINGS,
                 getCommandImmutableMap(LANGUAGE_PARAM, language));
+        return (Map<String, String>) response.getValue();
+    }
+
+    /**
+     * @param language
+     *            strings language code
+     * @param stringFile
+     *            strings filename
+     * @return a map with localized strings defined in the app
+     *
+     * @see HasAppStrings#getAppStrings(String, String)
+     */
+    @Override
+    public Map<String, String> getAppStrings(String language, String stringFile) {
+        String[] parameters = new String[] { LANGUAGE_PARAM, STRING_FILE_PARAM };
+        Object[] values = new Object[] { language, stringFile };
+        Response response = execute(GET_STRINGS,
+                getCommandImmutableMap(parameters, values));
         return (Map<String, String>) response.getValue();
     }
 
