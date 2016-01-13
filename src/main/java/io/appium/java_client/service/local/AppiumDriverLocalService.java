@@ -44,7 +44,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final String ipAddress;
     private final long startupTimeout;
     private final TimeUnit timeUnit;
-    private final ReentrantLock lock = new ReentrantLock(true);
+    private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
 
 
