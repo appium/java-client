@@ -179,4 +179,35 @@ public class ServerBuilderTest {
                 file.delete();
         }
     }
+
+    @Test
+    public void checkAbilityToShutDownService() {
+        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+        service.stop();
+        assertTrue(!service.isRunning());
+    }
+
+    @Test
+    public void checkAbilityToStartAndShutDownFewServices() throws Exception{
+        AppiumDriverLocalService service1 = new AppiumServiceBuilder().usingAnyFreePort().build();
+        AppiumDriverLocalService service2 = new AppiumServiceBuilder().usingAnyFreePort().build();
+        AppiumDriverLocalService service3 = new AppiumServiceBuilder().usingAnyFreePort().build();
+        AppiumDriverLocalService service4 = new AppiumServiceBuilder().usingAnyFreePort().build();
+        service1.start();
+        service2.start();
+        service3.start();
+        service4.start();
+        service1.stop();
+        Thread.sleep(1000);
+        service2.stop();
+        Thread.sleep(1000);
+        service3.stop();
+        Thread.sleep(1000);
+        service4.stop();
+        assertTrue(!service1.isRunning());
+        assertTrue(!service2.isRunning());
+        assertTrue(!service3.isRunning());
+        assertTrue(!service4.isRunning());
+    }
 }
