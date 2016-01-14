@@ -111,6 +111,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 *4.0.0 (still not released)*
 - `getAppStrings()` methods now return a map with the app strings keys and values, instead of an string
 - Add `getAppStrings(String language, String stringFile)` method to allow searching app strings in the specified file
+- FIXED of the bug which causes deadlocks of AppiumDriver LocalService in multithreading. Thanks to [saikrishna321](https://github.com/saikrishna321) for the [bug report](https://github.com/appium/java-client/issues/283).
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2
