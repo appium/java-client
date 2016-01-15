@@ -446,8 +446,8 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2, upperLeft.getY() + dimensions.getHeight() / 2);
     int yOffset = center.getY() - upperLeft.getY();
 
-    TouchAction action0 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() - yOffset).release();
-    TouchAction action1 = new TouchAction(this).press(el).moveTo(el, center.getX(), center.getY() + yOffset).release();
+    TouchAction action0 = new TouchAction(this).press(center.getX(), center.getY()).moveTo(el, center.getX(), center.getY() - yOffset).release();
+    TouchAction action1 = new TouchAction(this).press(center.getX(), center.getY()).moveTo(el, center.getX(), center.getY() + yOffset).release();
 
     multiTouch.add(action0).add(action1);
 
@@ -477,8 +477,8 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
       yOffset = scrHeight - y;
     }
 
-    TouchAction action0 = new TouchAction(this).press(x, y).moveTo(x, y - yOffset).release();
-    TouchAction action1 = new TouchAction(this).press(x, y).moveTo(x, y + yOffset).release();
+    TouchAction action0 = new TouchAction(this).press(x, y).moveTo(0, -yOffset).release();
+    TouchAction action1 = new TouchAction(this).press(x, y).moveTo(0, yOffset).release();
 
     multiTouch.add(action0).add(action1);
 
