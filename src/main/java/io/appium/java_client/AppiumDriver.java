@@ -273,11 +273,12 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     }
 
     /**
-     * @see GetsDeviceTime#getDeviceTime()
+     * @see DeviceActionShortcuts#getDeviceTime()
      */
     @Override
-    public void getDeviceTime() {
-        execute(GET_DEVICE_TIME);
+    public String getDeviceTime() {
+        Response response = execute(GET_DEVICE_TIME);
+        return response.getValue().toString();
     }
 
     /**
