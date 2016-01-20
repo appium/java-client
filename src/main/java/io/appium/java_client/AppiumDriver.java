@@ -273,6 +273,14 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     }
 
     /**
+     * @see GetsDeviceTime#getDeviceTime()
+     */
+    @Override
+    public void getDeviceTime() {
+        execute(GET_DEVICE_TIME);
+    }
+
+    /**
      * @see DeviceActionShortcuts#hideKeyboard()
      */
     @Override
