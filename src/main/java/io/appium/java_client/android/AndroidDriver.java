@@ -189,7 +189,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
      */
     @Override
     public void longPressKeyCode(int key) {
-        execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
     }
 
     /**
@@ -206,7 +206,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
     public void longPressKeyCode(int key, Integer metastate) {
         String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
         Object[] values = new Object[] { key, metastate };
-        execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
+        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
 
     /**

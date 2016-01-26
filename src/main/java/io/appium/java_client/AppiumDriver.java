@@ -673,7 +673,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(PRESS_KEY_CODE,
                         postC("/session/:sessionId/appium/device/press_keycode"))
                 .put(LONG_PRESS_KEY_CODE,
-                        postC("/session/:sessionId?/appium/device/long_press_keycode"))
+                        postC("/session/:sessionId/appium/device/long_press_keycode"))
                 .put(CURRENT_ACTIVITY,
                         getC("/session/:sessionId/appium/device/current_activity"))
                 .put(SET_VALUE,
