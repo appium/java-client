@@ -41,6 +41,7 @@ import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.IS_LOCKED;
 import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
 import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.PUSH_FILE;
 import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.START_ACTIVITY;
