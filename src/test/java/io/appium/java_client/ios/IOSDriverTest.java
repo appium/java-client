@@ -70,6 +70,12 @@ public class IOSDriverTest {
   }
 
   @Test
+  public void getDeviceTimeTest() {
+    String time = driver.getDeviceTime();
+    assertTrue(time.length() == 28);
+  }
+
+  @Test
   public void getStringsTest() {
     Map<String, String> strings = driver.getAppStrings();
     assertTrue(strings.size() > 10);
