@@ -40,9 +40,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.MobileCommand.ADB_INPUT_TEXT;
 import static io.appium.java_client.MobileCommand.ADB_SWIPE;
+import static io.appium.java_client.MobileCommand.GET_DATE;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
 import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
+import static io.appium.java_client.MobileCommand.HAS_ROOT;
+import static io.appium.java_client.MobileCommand.SET_DATE;
 import static io.appium.java_client.MobileCommand.SWIPE_UP_HOME_BUTTON;
 import static io.appium.java_client.MobileCommand.BROADCAST_INTENT;
 import static io.appium.java_client.MobileCommand.CLEAR_DATA;
@@ -464,5 +468,23 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 		Response response = execute(GET_DISPLAY_METRICS);
 		Map<String, String> map = (Map<String, String>) response.getValue();
 		return new DisplayMetrics(map);
+	}
+
+	public boolean hasRoot() {
+		Response response = execute(HAS_ROOT);
+		return (boolean) response.getValue();
+	}
+
+	public long getDate() {
+		Response response = execute(GET_DATE);
+		return (long) response.getValue();
+	}
+
+	public void setDate(long time) {
+		execute(SET_DATE, ImmutableMap.of("time", time));
+	}
+
+	public void adbInputText(String text) {
+		execute(ADB_INPUT_TEXT, ImmutableMap.of("text", text));
 	}
 }
