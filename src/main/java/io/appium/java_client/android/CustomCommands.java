@@ -22,6 +22,7 @@ public interface CustomCommands {
     void clearData(String pkg);
     void adbSwipe(int x1, int y1, int x2, int y2, int duration, int sleep);
     void adbSwipe(int x1, int y1, int x2, int y2, int duration);
+    void adbInputText(String text);
     Rectangle getNavigationBarRegion();
     DisplayMetrics getDisplayMetrics();
     long getDate();

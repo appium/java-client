@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.MobileCommand.ADB_INPUT_TEXT;
 import static io.appium.java_client.MobileCommand.ADB_SWIPE;
 import static io.appium.java_client.MobileCommand.GET_DATE;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
@@ -481,5 +482,9 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public void setDate(long time) {
 		execute(SET_DATE, ImmutableMap.of("time", time));
+	}
+
+	public void adbInputText(String text) {
+		execute(ADB_INPUT_TEXT, ImmutableMap.of("text", text));
 	}
 }
