@@ -36,14 +36,36 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
+    /**
+     * The property of environmental variable used to define
+     * the path to executable appium.js (node server v<=1.4.x) or
+     * main.js (node server v>=1.5.x)
+     */
     public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
+
+    /**
+     * The property of environmental variable used to define
+     * the path to executable NodeJS file (node.exe for WIN and
+     * node for Linux/MacOS X)
+     */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
 
     private static final String APPIUM_FOLDER = "appium";
+
     private static final String BIN_FOLDER = "bin";
+    private static final String BUILD_FOLDER = "build";
+    private static final String LIB_FOLDER = "lib";
+
     private static final String APPIUM_JS = "appium.js";
-    private static final String APPIUM_NODE_MASK =  File.separator +
-            APPIUM_FOLDER + File.separator + BIN_FOLDER + File.separator + APPIUM_JS;
+    private static final String MAIN_JS = "appium.js";
+
+    private static final String ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND = "There is no installed nodes! Please " +
+            "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
+            "install Appium app (http://appium.io/downloads.html)";
+
+    private static final String APPIUM_NODE_MASK_OLD =  File.separator + BIN_FOLDER + File.separator + APPIUM_JS;
+    private static final String APPIUM_NODE_MASK = File.separator + BUILD_FOLDER + File.separator  + LIB_FOLDER +
+            File.separator + MAIN_JS;
 
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
 
@@ -100,16 +122,28 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
         instancePath = (commandLine.getStdOut()).trim();
         try {
-            File result;
-            if (StringUtils.isBlank(instancePath) || !(result = new File(instancePath + File.separator +
-                    APPIUM_NODE_MASK)).exists()) {
+            File defaultAppiumNode;
+            if (StringUtils.isBlank(instancePath) || !(defaultAppiumNode = new File(instancePath + File.separator +
+                    APPIUM_FOLDER)).exists()) {
                 String errorOutput = commandLine.getStdOut();
-                throw new InvalidServerInstanceException("There is no installed nodes! Please install " +
-                        " node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
-                        "install Appium app (http://appium.io/downloads.html)",
+                throw new InvalidServerInstanceException(ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND,
                         new IOException(errorOutput));
             }
-            return result;
+
+            File oldResult;
+            //older appium server
+            if ((oldResult = new File(defaultAppiumNode, APPIUM_NODE_MASK_OLD)).exists()) {
+                return oldResult;
+            }
+            //appium servers v1.5.x and higher
+            File newResult;
+            if ((newResult = new File(defaultAppiumNode, APPIUM_NODE_MASK)).exists()) {
+                return newResult;
+            }
+
+            throw new InvalidServerInstanceException(ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND,
+                    new IOException("Could not find file neither " + APPIUM_NODE_MASK_OLD + " nor " + APPIUM_NODE_MASK + " in the " +
+                    defaultAppiumNode + " directory"));
         }
         finally {
             commandLine.destroy();

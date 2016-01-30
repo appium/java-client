@@ -20,12 +20,19 @@ import java.util.Map;
 
 public interface HasAppStrings {
 
+    @Deprecated
+    /**
+     * This method is deprecated. It is going to be removed in the next release.
+     * Be careful.
+     */
+    public String getAppStrings();
+
     /**
      * Get all defined Strings from an app for the default language
      *
      * @return a map with localized strings defined in the app
      */
-    Map<String, String> getAppStrings();
+    Map<String, String> getAppStringMap();
 
     /**
      * Get all defined Strings from an app for the specified language
@@ -34,7 +41,7 @@ public interface HasAppStrings {
      *            strings language code
      * @return a map with localized strings defined in the app
      */
-    Map<String, String> getAppStrings(String language);
+    Map<String, String> getAppStringMap(String language);
 
     /**
      * Get all defined Strings from an app for the specified language and
@@ -46,6 +53,6 @@ public interface HasAppStrings {
      *            strings filename
      * @return a map with localized strings defined in the app
      */
-    Map<String, String> getAppStrings(String language, String stringFile);
+    Map<String, String> getAppStringMap(String language, String stringFile);
 
 }
