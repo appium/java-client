@@ -57,7 +57,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private static final String LIB_FOLDER = "lib";
 
     private static final String APPIUM_JS = "appium.js";
-    private static final String MAIN_JS = "appium.js";
+    private static final String MAIN_JS = "main.js";
 
     private static final String ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND = "There is no installed nodes! Please " +
             "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
