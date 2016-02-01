@@ -112,7 +112,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 - Update to Selenium v2.50.0
 - `getAppStrings()` methods are deprecated now. They are going to be removed. `getAppStringMap()` methods were added and now return a map with app strings (keys and values)
 instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the contribution.
-- Add `getAppStrings(String language, String stringFile)` method to allow searching app strings in the specified file
+- Add `getAppStringMap(String language, String stringFile)` method to allow searching app strings in the specified file
 - FIXED of the bug which causes deadlocks of AppiumDriver LocalService in multithreading. Thanks to [saikrishna321](https://github.com/saikrishna321) for the [bug report](https://github.com/appium/java-client/issues/283).
 - FIXED Zoom methods, thanks to [@kkhaidukov](https://github.com/kkhaidukov)
 - FIXED The issue of compatibility of AppiumServiceBuilder with Appium node server v >= 1.5.x. Take a look at [#305](https://github.com/appium/java-client/issues/305)
