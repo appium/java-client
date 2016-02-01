@@ -71,25 +71,25 @@ public class IOSDriverTest {
 
   @Test
   public void getStringsTest() {
-    Map<String, String> strings = driver.getAppStrings();
+    Map<String, String> strings = driver.getAppStringMap();
     assertTrue(strings.size() > 10);
   }
 
   @Test
   public void getStringsWithLanguageTest() {
-    Map<String, String> strings = driver.getAppStrings("en");
+    Map<String, String> strings = driver.getAppStringMap("en");
     assertTrue(strings.size() > 10);
   }
 
   @Test
   public void getStringsWithLanguageAndStringFileTest() {
-    Map<String, String> strings = driver.getAppStrings("en", "Localizable.strings");
+    Map<String, String> strings = driver.getAppStringMap("en", "Localizable.strings");
     assertTrue(strings.size() > 10);
   }
 
   @Test
   public void getStringsWithUnknownStringFileTest() {
-    Map<String, String> strings = driver.getAppStrings("en", "Unknown.strings");
+    Map<String, String> strings = driver.getAppStringMap("en", "Unknown.strings");
     assertTrue(strings.size() > 10);
   }
 
