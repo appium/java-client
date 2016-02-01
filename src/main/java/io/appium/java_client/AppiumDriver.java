@@ -613,6 +613,17 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         return response.getValue().toString();
     }
 
+    @Deprecated
+    /**
+     * This method is deprecated. It is going to be removed in the next release.
+     * Be careful.
+     */
+    public String getAppStrings(String language) {
+        Response response = execute(GET_STRINGS,
+                getCommandImmutableMap(LANGUAGE_PARAM, language));
+        return response.getValue().toString();
+    }
+
     /**
      * @return a map with localized strings defined in the app
      *

@@ -27,6 +27,13 @@ public interface HasAppStrings {
      */
     public String getAppStrings();
 
+    @Deprecated
+    /**
+     * This method is deprecated. It is going to be removed in the next release.
+     * Be careful.
+     */
+    String getAppStrings(String language);
+
     /**
      * Get all defined Strings from an app for the default language
      *

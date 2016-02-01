@@ -37,14 +37,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
     /**
-     * The property of environmental variable used to define
+     * The environmental variable used to define
      * the path to executable appium.js (node server v<=1.4.x) or
      * main.js (node server v>=1.5.x)
      */
     public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
 
     /**
-     * The property of environmental variable used to define
+     * The environmental variable used to define
      * the path to executable NodeJS file (node.exe for WIN and
      * node for Linux/MacOS X)
      */
@@ -59,7 +59,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private static final String APPIUM_JS = "appium.js";
     private static final String MAIN_JS = "main.js";
 
-    private static final String ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND = "There is no installed nodes! Please " +
+    private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please " +
             "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and " +
             "install Appium app (http://appium.io/downloads.html)";
 
@@ -126,7 +126,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             if (StringUtils.isBlank(instancePath) || !(defaultAppiumNode = new File(instancePath + File.separator +
                     APPIUM_FOLDER)).exists()) {
                 String errorOutput = commandLine.getStdOut();
-                throw new InvalidServerInstanceException(ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND,
+                throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND,
                         new IOException(errorOutput));
             }
 
@@ -141,7 +141,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
                 return newResult;
             }
 
-            throw new InvalidServerInstanceException(ERROR_TEXT_WHEN_DEFAULT_APPIUM_NODE_IS_NOT_FOUND,
+            throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND,
                     new IOException("Could not find file neither " + APPIUM_NODE_MASK_OLD + " nor " + APPIUM_NODE_MASK + " in the " +
                     defaultAppiumNode + " directory"));
         }
