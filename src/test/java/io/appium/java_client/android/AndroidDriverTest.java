@@ -81,6 +81,12 @@ public class AndroidDriverTest {
   }
 
   @Test
+  public void getDeviceTimeTest() {
+    String time = driver.getDeviceTime();
+    assertTrue(time.length() == 28);
+  }
+  
+  @Test
   public void getStringsTest() {
     Map<String, String> strings = driver.getAppStringMap();
     assertTrue(strings.size() > 100);
