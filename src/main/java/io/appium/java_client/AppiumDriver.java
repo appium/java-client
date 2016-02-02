@@ -603,13 +603,34 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         locationContext.setLocation(location);
     }
 
+    @Deprecated
+    /**
+     * This method is deprecated. It is going to be removed in the next release.
+     * Be careful.
+     */
+    public String getAppStrings() {
+        Response response = execute(GET_STRINGS);
+        return response.getValue().toString();
+    }
+
+    @Deprecated
+    /**
+     * This method is deprecated. It is going to be removed in the next release.
+     * Be careful.
+     */
+    public String getAppStrings(String language) {
+        Response response = execute(GET_STRINGS,
+                getCommandImmutableMap(LANGUAGE_PARAM, language));
+        return response.getValue().toString();
+    }
+
     /**
      * @return a map with localized strings defined in the app
      *
-     * @see HasAppStrings#getAppStrings()
+     * @see HasAppStrings#getAppStringMap()
      */
     @Override
-    public Map<String, String> getAppStrings() {
+    public Map<String, String> getAppStringMap() {
         Response response = execute(GET_STRINGS);
         return (Map<String, String>) response.getValue();
     }
@@ -619,10 +640,10 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
      *            strings language code
      * @return a map with localized strings defined in the app
      *
-     * @see HasAppStrings#getAppStrings(String)
+     * @see HasAppStrings#getAppStringMap(String)
      */
     @Override
-    public Map<String, String> getAppStrings(String language) {
+    public Map<String, String> getAppStringMap(String language) {
         Response response = execute(GET_STRINGS,
                 getCommandImmutableMap(LANGUAGE_PARAM, language));
         return (Map<String, String>) response.getValue();
@@ -635,10 +656,10 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
      *            strings filename
      * @return a map with localized strings defined in the app
      *
-     * @see HasAppStrings#getAppStrings(String, String)
+     * @see HasAppStrings#getAppStringMap(String, String)
      */
     @Override
-    public Map<String, String> getAppStrings(String language, String stringFile) {
+    public Map<String, String> getAppStringMap(String language, String stringFile) {
         String[] parameters = new String[] { LANGUAGE_PARAM, STRING_FILE_PARAM };
         Object[] values = new Object[] { language, stringFile };
         Response response = execute(GET_STRINGS,
