@@ -751,7 +751,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(START_ACTIVITY,
                         postC("/session/:sessionId/appium/device/start_activity"))
                 .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"))
-                .put(GET_DEVICE_TIME,getC("/wd/hub/session/:sessionId/appium/device/system_time"));
+                .put(GET_DEVICE_TIME,getC("/session/:sessionId/appium/device/system_time"));
 
         return builder.build();
     }
