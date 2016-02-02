@@ -117,6 +117,7 @@ instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the co
 - FIXED of the bug which causes deadlocks of AppiumDriver LocalService in multithreading. Thanks to [saikrishna321](https://github.com/saikrishna321) for the [bug report](https://github.com/appium/java-client/issues/283).
 - FIXED Zoom methods, thanks to [@kkhaidukov](https://github.com/kkhaidukov)
 - FIXED The issue of compatibility of AppiumServiceBuilder with Appium node server v >= 1.5.x. Take a look at [#305](https://github.com/appium/java-client/issues/305)
+- `getDeviceTime()` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2
