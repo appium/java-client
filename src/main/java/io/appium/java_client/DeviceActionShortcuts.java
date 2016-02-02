@@ -26,4 +26,9 @@ public interface DeviceActionShortcuts {
        */
       void hideKeyboard();
 
+    /*
+        Gets device date and time for both iOS(Supports only real device) and Android devices
+     */
+    String getDeviceTime();
+
 }
