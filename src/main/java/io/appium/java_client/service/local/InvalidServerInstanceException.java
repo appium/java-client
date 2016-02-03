@@ -24,8 +24,4 @@ public class InvalidServerInstanceException extends RuntimeException {
     public InvalidServerInstanceException(String messege, Throwable t){
         super(MESSAGE_PREFIX + messege, t);
     }
-
-    public InvalidServerInstanceException(String messege){
-        super(MESSAGE_PREFIX + messege);
-    }
 }

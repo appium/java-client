@@ -60,7 +60,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 
 - startActivity()
 - resetApp()
-- getAppStrings()
+- getAppStringMap()
 - pressKeyCode()
 - longPressKeyCode()
 - longPressKey()
@@ -108,11 +108,14 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
-*4.0.0 (still not released)*
-- `getAppStrings()` methods now return a map with the app strings keys and values, instead of an string
-- Add `getAppStrings(String language, String stringFile)` method to allow searching app strings in the specified file
+*3.4.0 (still not released)*
+- Update to Selenium v2.50.0
+- `getAppStrings()` methods are deprecated now. They are going to be removed. `getAppStringMap()` methods were added and now return a map with app strings (keys and values)
+instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the contribution.
+- Add `getAppStringMap(String language, String stringFile)` method to allow searching app strings in the specified file
 - FIXED of the bug which causes deadlocks of AppiumDriver LocalService in multithreading. Thanks to [saikrishna321](https://github.com/saikrishna321) for the [bug report](https://github.com/appium/java-client/issues/283).
-- Fixed Zoom methods, thanks to @kkhaidukov
+- FIXED Zoom methods, thanks to [@kkhaidukov](https://github.com/kkhaidukov)
+- FIXED The issue of compatibility of AppiumServiceBuilder with Appium node server v >= 1.5.x. Take a look at [#305](https://github.com/appium/java-client/issues/305)
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2

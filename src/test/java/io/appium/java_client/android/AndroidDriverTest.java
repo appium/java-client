@@ -82,13 +82,13 @@ public class AndroidDriverTest {
 
   @Test
   public void getStringsTest() {
-    Map<String, String> strings = driver.getAppStrings();
+    Map<String, String> strings = driver.getAppStringMap();
     assertTrue(strings.size() > 100);
   }
 
   @Test
   public void getStringsWithLanguageTest() {
-    Map<String, String> strings = driver.getAppStrings("en");
+    Map<String, String> strings = driver.getAppStringMap("en");
     assertTrue(strings.size() > 100);
   }
 
