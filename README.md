@@ -11,7 +11,7 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.3.0</version>
+  <version>3.4.0</version>
 </dependency>
 ```
 
