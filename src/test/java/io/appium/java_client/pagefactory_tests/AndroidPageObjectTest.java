@@ -204,7 +204,7 @@ public class AndroidPageObjectTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
     @Before
@@ -386,8 +386,8 @@ public class AndroidPageObjectTest {
     }
 
     @Test
+    @SuppressWarnings("unused")
     public void isTheFieldAndroidElement(){
-        @SuppressWarnings("unused")
         AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement

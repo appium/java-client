@@ -273,6 +273,15 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     }
 
     /**
+     * @see DeviceActionShortcuts#getDeviceTime()
+     */
+    @Override
+    public String getDeviceTime() {
+        Response response = execute(GET_DEVICE_TIME);
+        return response.getValue().toString();
+    }
+
+    /**
      * @see DeviceActionShortcuts#hideKeyboard()
      */
     @Override
@@ -694,7 +703,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(PRESS_KEY_CODE,
                         postC("/session/:sessionId/appium/device/press_keycode"))
                 .put(LONG_PRESS_KEY_CODE,
-                        postC("/session/:sessionId?/appium/device/long_press_keycode"))
+                        postC("/session/:sessionId/appium/device/long_press_keycode"))
                 .put(CURRENT_ACTIVITY,
                         getC("/session/:sessionId/appium/device/current_activity"))
                 .put(SET_VALUE,
@@ -741,7 +750,8 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
                 .put(START_ACTIVITY,
                         postC("/session/:sessionId/appium/device/start_activity"))
-                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"));
+                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"))
+                .put(GET_DEVICE_TIME,getC("/session/:sessionId/appium/device/system_time"));
 
         return builder.build();
     }
