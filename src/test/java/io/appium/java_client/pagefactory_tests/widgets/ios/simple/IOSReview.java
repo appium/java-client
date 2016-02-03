@@ -1,9 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widgets.ios.simple;
 
-
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
-import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSFindBys;
 import io.appium.java_client.pagefactory_tests.widgets.Review;

@@ -2,7 +2,6 @@ package io.appium.java_client.pagefactory_tests.widgets;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
-import io.appium.java_client.pagefactory_tests.widgets.html.RottenTomatoesSite;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -10,7 +10,7 @@ import io.appium.java_client.pagefactory_tests.widgets.html.simple.HtmlReview;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

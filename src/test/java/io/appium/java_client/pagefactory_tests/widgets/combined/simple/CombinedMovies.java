@@ -4,7 +4,6 @@ package io.appium.java_client.pagefactory_tests.widgets.combined.simple;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import io.appium.java_client.pagefactory_tests.widgets.Movies;
-import io.appium.java_client.pagefactory_tests.widgets.android.simple.AndroidMovie;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
