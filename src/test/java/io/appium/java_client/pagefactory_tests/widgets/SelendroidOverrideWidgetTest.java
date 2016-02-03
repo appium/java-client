@@ -43,7 +43,7 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
         rottenTomatoes = new RottenTomatoes();

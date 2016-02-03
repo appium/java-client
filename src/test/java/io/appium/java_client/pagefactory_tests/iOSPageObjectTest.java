@@ -149,10 +149,9 @@ public class iOSPageObjectTest {
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
-	@SuppressWarnings("rawtypes")
 	@Before
 	public void setUp() throws Exception {
         if (!populated)
@@ -306,8 +305,8 @@ public class iOSPageObjectTest {
     }
 
     @Test
+	@SuppressWarnings("unused")
     public void isTheFieldIOSElement(){
-        @SuppressWarnings("unused")
 		IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
         iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
         iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
