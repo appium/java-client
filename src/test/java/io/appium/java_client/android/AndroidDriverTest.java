@@ -114,6 +114,11 @@ public class AndroidDriverTest {
   }
 
   @Test
+  public void longPressKeyCodeWithMetastateTest() {
+    driver.longPressKeyCode(AndroidKeyCode.HOME, AndroidKeyMetastate.META_SHIFT_ON);
+  }
+
+  @Test
   public void currentActivityTest() {
     String activity = driver.currentActivity();
     assertEquals(".ApiDemos", activity);

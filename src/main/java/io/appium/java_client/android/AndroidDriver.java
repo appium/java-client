@@ -41,6 +41,7 @@ import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.IS_LOCKED;
 import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
 import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.PUSH_FILE;
 import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.START_ACTIVITY;
@@ -189,7 +190,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
      */
     @Override
     public void longPressKeyCode(int key) {
-        execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
     }
 
     /**
@@ -206,7 +207,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
     public void longPressKeyCode(int key, Integer metastate) {
         String[] parameters = new String[] { KEY_CODE, METASTATE_PARAM };
         Object[] values = new Object[] { key, metastate };
-        execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
+        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
 
     /**

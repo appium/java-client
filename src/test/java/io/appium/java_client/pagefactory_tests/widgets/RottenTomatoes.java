@@ -14,7 +14,6 @@ import io.appium.java_client.pagefactory_tests.widgets.html.extended.ExtendedHtm
 import io.appium.java_client.pagefactory_tests.widgets.html.extended.ExtendedHtmlReview;
 import io.appium.java_client.pagefactory_tests.widgets.html.simple.HtmlMovies;
 import io.appium.java_client.pagefactory_tests.widgets.html.simple.HtmlReview;
-import io.appium.java_client.pagefactory_tests.widgets.ios.annotated.AnnotatedIOSMovie;
 import io.appium.java_client.pagefactory_tests.widgets.ios.annotated.AnnotatedIOSMovies;
 import io.appium.java_client.pagefactory_tests.widgets.ios.annotated.AnnotatedIOSReview;
 import io.appium.java_client.pagefactory_tests.widgets.ios.extended.ExtendedIOSMovies;
@@ -30,7 +29,7 @@ import io.appium.java_client.pagefactory_tests.widgets.selendroid.simple.Selendr
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 public class RottenTomatoes {
 

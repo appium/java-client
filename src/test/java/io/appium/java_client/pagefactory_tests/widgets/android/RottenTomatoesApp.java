@@ -11,7 +11,7 @@ import io.appium.java_client.pagefactory_tests.widgets.android.simple.AndroidRev
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import org.apache.commons.lang3.StringUtils;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

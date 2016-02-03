@@ -26,7 +26,7 @@ import org.openqa.selenium.Platform;
 import java.io.*;
 import java.util.Properties;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class ServerBuilderTest {
