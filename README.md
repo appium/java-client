@@ -21,7 +21,7 @@ It currently depends on selenium-java 2.50.0. If it is necessary to use another 
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.3.0</version>
+  <version>3.4.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
