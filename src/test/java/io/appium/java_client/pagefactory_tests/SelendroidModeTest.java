@@ -50,15 +50,6 @@ public class SelendroidModeTest {
     @SelendroidFindBy(id = "text1")
     private WebElement textSelendroidId;
 
-    @SelendroidFindBy(name = "Accessibility")
-    private WebElement textName;
-
-    @AndroidFindBy(name = "Accessibility")
-    private WebElement textNameAndroid;
-
-    @FindBy(name = "Accessibility")
-    private WebElement textNameDefault;
-
     @SelendroidFindBy(xpath = "//TextView[@value='Accessibility']")
     private WebElement textXpath;
 
@@ -127,21 +118,6 @@ public class SelendroidModeTest {
         @Test
     public void findBySelendroidSelectorTest() {
         assertNotEquals(null, textSelendroidId.getAttribute("text"));
-    }
-
-    @Test
-    public void findByElementByNameTest() {
-        assertEquals("Accessibility", textName.getText());
-    }
-
-    @Test
-    public void findByElementByNameAndroidTest() {
-        assertEquals("Accessibility", textNameAndroid.getText());
-    }
-
-    @Test
-    public void findByElementByNameDefaultTest() {
-        assertEquals("Accessibility", textNameDefault.getText());
     }
 
     @Test
