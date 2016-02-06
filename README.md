@@ -119,6 +119,7 @@ instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the co
 - FIXED The issue of compatibility of AppiumServiceBuilder with Appium node server v >= 1.5.x. Take a look at [#305](https://github.com/appium/java-client/issues/305)
 - `getDeviceTime()` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
 - FIXED `longPressKeyCode()` methods. Now they use the convenient JSWP command.Thanks to [@kirillbilchenko](https://github.com/kirillbilchenko) for the proposed fix.
+- FIXED javadoc.
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2
