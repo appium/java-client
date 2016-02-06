@@ -155,6 +155,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
      * This method should be used for the setting up of
      * AnnotatedElement instances before the building of
      * By-locator strategies
+     *
+     * @param annotated  is an instance of class which type extends
+     *                   {@link java.lang.reflect.AnnotatedElement}
      */
     public void setAnnotated(AnnotatedElement annotated) {
         this.annotatedElementContainer.setAnnotated(annotated);

@@ -54,7 +54,7 @@ public interface TouchShortcuts {
      *            x coordinate
      * @param y
      *            y coordinate
-     * @param duration
+     * @param duration how long between pressing down, and lifting fingers/appendages
      */
     void tap(int fingers, int x, int y, int duration);
 

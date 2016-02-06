@@ -47,7 +47,7 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unp
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
- * WebElement fields and 2) List<WebElement> fields that have
+ * WebElement fields and 2) List of WebElement that have
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory.

@@ -22,13 +22,16 @@ public interface ScrollsTo<T extends WebElement> {
 
     /**
     * Scroll to an element which contains the given text.
-    * @param text
+    * @param text description or text of an element scroll to
+    *
+    * @return an element that matches
     */
     T scrollTo(String text);
 
     /**
     * Scroll to an element with the given text.
-    * @param text
+    * @param text description or text of an element scroll to
+    * @return an element that matches
     */
     T scrollToExact(String text);
 
