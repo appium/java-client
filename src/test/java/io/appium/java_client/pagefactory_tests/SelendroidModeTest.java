@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.*;
 
 public class SelendroidModeTest {
-	private static int SELENDROID_PORT = 9999;
+    private static int SELENDROID_PORT = 9999;
 
     private static WebDriver driver;
     private static AppiumDriverLocalService service;
@@ -50,19 +50,28 @@ public class SelendroidModeTest {
     @SelendroidFindBy(id = "text1")
     private WebElement textSelendroidId;
 
+    @SelendroidFindBy(name = "Accessibility")
+    private WebElement textName;
+
+    @AndroidFindBy(xpath = "//*[@name='Accessibility']")
+    private WebElement textNameAndroid;
+
+    @FindBy(name = "Accessibility")
+    private WebElement textNameDefault;
+
     @SelendroidFindBy(xpath = "//TextView[@value='Accessibility']")
     private WebElement textXpath;
 
     @SelendroidFindBys({
-        @SelendroidFindBy(id = "text1")})
+            @SelendroidFindBy(id = "text1")})
     private WebElement textIds;
 
     @SelendroidFindAll({
-        @SelendroidFindBy(id = "text1")})
+            @SelendroidFindBy(id = "text1")})
     private WebElement textAll;
 
     @SelendroidFindAll({
-        @SelendroidFindBy(id = "text1")})
+            @SelendroidFindBy(id = "text1")})
     private List<WebElement> textsAll;
 
     @SelendroidFindBy(className = "android.widget.TextView")
@@ -70,14 +79,14 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(tagName = "TextView")
     private WebElement textTag;
-    
+
     @SelendroidFindBy(linkText = "Accessibility")
     private WebElement textLink;
-    
+
     @SelendroidFindBy(partialLinkText = "ccessibilit")
     private WebElement textPartialLink;
 
-	@BeforeClass
+    @BeforeClass
     public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.AUTOMATION_NAME, AutomationName.SELENDROID);
         service = builder.build();
@@ -114,10 +123,25 @@ public class SelendroidModeTest {
     public void findByIdElementTest() {
         assertNotEquals(null, textId.getAttribute("text"));
     }
-    
-        @Test
+
+    @Test
     public void findBySelendroidSelectorTest() {
         assertNotEquals(null, textSelendroidId.getAttribute("text"));
+    }
+
+    @Test
+    public void findByElementByNameTest() {
+        assertEquals("Accessibility", textName.getText());
+    }
+
+    @Test
+    public void findByElementByNameAndroidTest() {
+        assertEquals("Accessibility", textNameAndroid.getText());
+    }
+
+    @Test
+    public void findByElementByNameDefaultTest() {
+        assertEquals("Accessibility", textNameDefault.getText());
     }
 
     @Test
@@ -149,12 +173,12 @@ public class SelendroidModeTest {
     public void findByElementByTagTest() {
         assertNotEquals(null, textTag.getAttribute("text"));
     }
-    
+
     @Test
     public void findBySelendroidAnnotationOnlyTest() {
         assertNotEquals(null, textSelendroidId.getAttribute("text"));
     }
-    
+
     @Test
     public void findBySelendroidLinkTextTest() {
         assertEquals("Accessibility", textLink.getText());

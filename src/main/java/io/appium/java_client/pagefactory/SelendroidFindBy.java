@@ -27,12 +27,13 @@ import java.lang.annotation.Target;
  * element or a list of elements. Used in conjunction with
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
- * using Selendroid UI selectors like, id, class name, tag and xpath
+ * using Selendroid UI selectors like, id, name, class name, tag and xpath
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface SelendroidFindBy {
 	String id() default "";
+	String name() default "";
 	String className() default "";
 	String tagName() default "";
 	String xpath()  default "";

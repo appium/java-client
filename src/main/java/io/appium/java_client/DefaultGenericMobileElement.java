@@ -100,17 +100,11 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return super.findElementsByTagName(using);
     }
 
-    /**
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public T findElementByName(String using) throws WebDriverException{
+    public T findElementByName(String using) {
         return (T) super.findElementByName(using);
     }
 
-    /**
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public List findElementsByName(String using) throws WebDriverException{
+    public List findElementsByName(String using) {
         return super.findElementsByName(using);
     }
 

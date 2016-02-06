@@ -124,7 +124,7 @@ public class IOSDriverTest {
 
   @Test
   public void scrollToTest() {
-    MobileElement searchBar = driver.findElementByXpath("//*[@name='Search Bars']");
+    MobileElement searchBar = driver.findElementByName("Search Bars");
     Point before = searchBar.getLocation();
     driver.scrollTo("Search Ba");
     Point after = searchBar.getLocation();
@@ -133,7 +133,7 @@ public class IOSDriverTest {
 
   @Test
   public void scrollToExactTest() {
-    MobileElement searchBar = driver.findElementByXpath("//*[@name='Search Bars']");
+    MobileElement searchBar = driver.findElementByName("Search Bars");
     Point before = searchBar.getLocation();
     driver.scrollToExact("Search Bars");
     Point after = searchBar.getLocation();
