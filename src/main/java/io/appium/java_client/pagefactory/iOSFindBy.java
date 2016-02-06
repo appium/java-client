@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * element or a list of elements. Used in conjunction with
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
- * using iOS UI selectors, accessibility, id, class name, tag and xpath
+ * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
@@ -35,6 +35,10 @@ public @interface iOSFindBy {
 	String uiAutomator() default "";
 	String accessibility()  default "";
 	String id() default "";
+	/**
+	 * By.name selector is not supported by Appium server node since 1.5.x.
+	 * So this option is going to be removed further. Be careful.
+	 */String name() default "";
 	String className() default "";
 	String tagName() default "";
 	String xpath()  default "";
