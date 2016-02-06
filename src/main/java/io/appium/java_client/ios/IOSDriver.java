@@ -38,15 +38,14 @@ import static io.appium.java_client.MobileCommand.*;
 import org.openqa.selenium.remote.http.HttpClient;
 
 /**
- * @param <RequiredElementType> means the required type from the list of allowed types below 
- * that implement {@link WebElement} Instances of the defined type will be 
- * returned via findElement* and findElements*. 
- * Warning (!!!). Allowed types:<br/>
- * {@link WebElement}<br/>
- * {@link TouchableElement}<br/>
- * {@link RemoteWebElement}<br/>
- * {@link MobileElement}
- * {@link IOSElement}
+ * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ * Instances of the defined type will be returned via findElement* and findElements*.
+ * Warning (!!!). Allowed types:
+ * {@link org.openqa.selenium.WebElement}
+ * {@link io.appium.java_client.TouchableElement}
+ * {@link org.openqa.selenium.remote.RemoteWebElement}
+ * {@link io.appium.java_client.MobileElement}
+ * {@link io.appium.java_client.ios.IOSElement}
  */
 public class IOSDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements IOSDeviceActionShortcuts, GetsNamedTextField<RequiredElementType>, 
 FindsByIosUIAutomation<RequiredElementType>{

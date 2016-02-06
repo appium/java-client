@@ -54,15 +54,14 @@ import static io.appium.java_client.remote.MobileCapabilityType.DONT_STOP_APP_ON
 import org.openqa.selenium.remote.http.HttpClient;
 
 /**
- * @param <RequiredElementType> means the required type from the list of allowed types below 
- * that implement {@link WebElement} Instances of the defined type will be 
- * returned via findElement* and findElements*. 
- * Warning (!!!). Allowed types:<br/>
- * {@link WebElement}<br/>
- * {@link TouchableElement}<br/>
- * {@link RemoteWebElement}<br/>
- * {@link MobileElement}
- * {@link AndroidElement}
+ * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ * Instances of the defined type will be returned via findElement* and findElements*.
+ * Warning (!!!). Allowed types:
+ * {@link org.openqa.selenium.WebElement}
+ * {@link io.appium.java_client.TouchableElement}
+ * {@link org.openqa.selenium.remote.RemoteWebElement}
+ * {@link io.appium.java_client.MobileElement}
+ * {@link io.appium.java_client.android.AndroidElement}
  */
 public class AndroidDriver<RequiredElementType extends WebElement> extends AppiumDriver<RequiredElementType> implements
         AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles,
@@ -126,11 +125,6 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
         this.setElementConverter(new JsonToAndroidElementConverter(this));
     }
 
-  /**
-   * Scroll forward to the element which has a description or name which contains the input text.
-   * The scrolling is performed on the first scrollView present on the UI
-   * @param text
-   */
   @Override
   public RequiredElementType scrollTo(String text) {
     String uiScrollables = UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") +
@@ -138,11 +132,6 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
     return findElementByAndroidUIAutomator(uiScrollables);
   }
 
-  /**
-   * Scroll forward to the element which has a description or name which exactly matches the input text.
-   * The scrolling is performed on the first scrollView present on the UI
-   * @param text
-   */
   @Override
   public RequiredElementType scrollToExact(String text) {
     String uiScrollables = UiScrollable("new UiSelector().description(\"" + text + "\")") +
@@ -268,8 +257,6 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
      *            Automation will begin after this activity starts. [Optional]
      * @param stopApp
      * 			  If true, target app will be stopped. [Optional]
-     * @example driver.startActivity("com.foo.bar", ".MyActivity", null, null, true);
-     *
      * @see StartsActivity#startActivity(String, String, String, String)
      */
     public void startActivity(String appPackage, String appActivity,
@@ -303,8 +290,6 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
      *            Automation will begin after this package starts. [Optional]
      * @param appWaitActivity
      *            Automation will begin after this activity starts. [Optional]
-     * @example driver.startActivity("com.foo.bar", ".MyActivity", null, null);
-     *
      * @see StartsActivity#startActivity(String, String, String, String)
      */
     public void startActivity(String appPackage, String appActivity,
@@ -317,8 +302,6 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
     /**
      * @param appPackage The package containing the activity. [Required]
      * @param appActivity The activity to start. [Required]
-     * @example
-     * *.startActivity("com.foo.bar", ".MyActivity");
      * @see StartsActivity#startActivity(String, String)
      */
     @Override
@@ -343,6 +326,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
     /**
      * Get the current activity being run on the mobile device
+     * @return a current activity being run on the mobile device
      */
     public String currentActivity() {
         Response response = execute(CURRENT_ACTIVITY);
