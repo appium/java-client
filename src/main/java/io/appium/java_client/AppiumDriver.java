@@ -168,22 +168,22 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
-                getMobileCommands(), remoteAddress), desiredCapabilities);
+                MobileCommand.commandRepository, remoteAddress), desiredCapabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
-                getMobileCommands(), remoteAddress, httpClientFactory), desiredCapabilities);
+                MobileCommand.commandRepository, remoteAddress, httpClientFactory), desiredCapabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
-                getMobileCommands(), service), desiredCapabilities);
+                MobileCommand.commandRepository, service), desiredCapabilities);
     }
     
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(
-                getMobileCommands(), service, httpClientFactory), desiredCapabilities);
+                MobileCommand.commandRepository, service, httpClientFactory), desiredCapabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
@@ -683,76 +683,6 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
     private TouchAction createTap(int x, int y, int duration) {
         TouchAction tap = new TouchAction(this);
         return tap.press(x, y).waitAction(duration).release();
-    }
-
-    private static CommandInfo getC(String url) {
-        return new CommandInfo(url, HttpMethod.GET);
-    }
-
-    private static CommandInfo postC(String url) {
-        return new CommandInfo(url, HttpMethod.POST);
-    }
-
-    private static ImmutableMap<String, CommandInfo> getMobileCommands(){
-        ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap
-                .builder();
-        builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
-                .put(GET_STRINGS,
-                        postC("/session/:sessionId/appium/app/strings"))
-                .put(PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/press_keycode"))
-                .put(LONG_PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/long_press_keycode"))
-                .put(CURRENT_ACTIVITY,
-                        getC("/session/:sessionId/appium/device/current_activity"))
-                .put(SET_VALUE,
-                        postC("/session/:sessionId/appium/element/:id/value"))
-                .put(REPLACE_VALUE,
-                        postC("/session/:sessionId/appium/element/:id/replace_value"))
-                .put(PULL_FILE,
-                        postC("/session/:sessionId/appium/device/pull_file"))
-                .put(PULL_FOLDER,
-                        postC("/session/:sessionId/appium/device/pull_folder"))
-                .put(HIDE_KEYBOARD,
-                        postC("/session/:sessionId/appium/device/hide_keyboard"))
-                .put(PUSH_FILE,
-                        postC("/session/:sessionId/appium/device/push_file"))
-                .put(RUN_APP_IN_BACKGROUND,
-                        postC("/session/:sessionId/appium/app/background"))
-                .put(PERFORM_TOUCH_ACTION,
-                        postC("/session/:sessionId/touch/perform"))
-                .put(PERFORM_MULTI_TOUCH,
-                        postC("/session/:sessionId/touch/multi/perform"))
-                .put(IS_APP_INSTALLED,
-                        postC("/session/:sessionId/appium/device/app_installed"))
-                .put(INSTALL_APP,
-                        postC("/session/:sessionId/appium/device/install_app"))
-                .put(REMOVE_APP,
-                        postC("/session/:sessionId/appium/device/remove_app"))
-                .put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"))
-                .put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"))
-                .put(END_TEST_COVERAGE,
-                        postC("/session/:sessionId/appium/app/end_test_coverage"))
-                .put(LOCK, postC("/session/:sessionId/appium/device/lock"))
-                .put(IS_LOCKED,
-                        postC("/session/:sessionId/appium/device/is_locked"))
-                .put(SHAKE, postC("/session/:sessionId/appium/device/shake"))
-                .put(COMPLEX_FIND,
-                        postC("/session/:sessionId/appium/app/complex_find"))
-                .put(OPEN_NOTIFICATIONS,
-                        postC("/session/:sessionId/appium/device/open_notifications"))
-                .put(GET_NETWORK_CONNECTION,
-                        getC("/session/:sessionId/network_connection"))
-                .put(SET_NETWORK_CONNECTION,
-                        postC("/session/:sessionId/network_connection"))
-                .put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"))
-                .put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"))
-                .put(START_ACTIVITY,
-                        postC("/session/:sessionId/appium/device/start_activity"))
-                .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"))
-                .put(GET_DEVICE_TIME,getC("/session/:sessionId/appium/device/system_time"));
-
-        return builder.build();
     }
 
     @SuppressWarnings("unused")
