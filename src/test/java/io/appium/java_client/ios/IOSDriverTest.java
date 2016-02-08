@@ -25,6 +25,8 @@ import org.junit.*;
 
 import org.openqa.selenium.Point;
 
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -138,6 +140,31 @@ public class IOSDriverTest {
     driver.scrollToExact("Search Bars");
     Point after = searchBar.getLocation();
     assertNotEquals(before, after);
+  }
+
+  @Test
+  public void geolocationTest() {
+    Location location = new Location(45, 45, 100);
+    driver.setLocation(location);
+  }
+
+  @Test
+  public void orientationTest() {
+    assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
+    driver.rotate(ScreenOrientation.LANDSCAPE);
+    assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
+    driver.rotate(ScreenOrientation.PORTRAIT);
+  }
+
+  @Test
+  public void lockTest() {
+    driver.lockScreen(20);
+  }
+
+  @Test
+  public void pullFileTest() {
+    byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
+    assert(data.length > 0);
   }
 
   @AfterClass

@@ -44,7 +44,7 @@ public class NetworkConnectionSetting {
 
   /**
    * Instantiate Network Connection Settings with the straight-up bitmask. See the Mobile JSON Wire Protocol spec for details.
-   * @param bitmask
+   * @param bitmask a straight-up bitmask
    */
   public NetworkConnectionSetting(int bitmask) {
     value = bitmask;

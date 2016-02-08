@@ -26,7 +26,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -228,6 +230,44 @@ public class AndroidDriverTest {
   @Test
   public void toggleLocationServicesTest() {
     driver.toggleLocationServices();
+  }
+
+  @Test
+  public void geolocationTest() {
+    Location location = new Location(45, 45, 100);
+    driver.setLocation(location);
+  }
+
+  @Test
+  public void orientationTest() {
+    assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
+    driver.rotate(ScreenOrientation.LANDSCAPE);
+    assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
+    driver.rotate(ScreenOrientation.PORTRAIT);
+  }
+
+  @Test
+  public void lockTest() {
+    driver.lockScreen(20);
+  }
+
+  @Test
+  public void runAppInBackgroundTest() {
+    long time = System.currentTimeMillis();
+    driver.runAppInBackground(4);
+    long timeAfter = System.currentTimeMillis();
+    assert(timeAfter - time > 3000);
+  }
+
+  @Test
+  public void pullFileTest() {
+    byte[] data = driver.pullFile("data/system/registered_services/android.content.SyncAdapter.xml");
+    assert(data.length > 0);
+  }
+
+  @Test
+  public void resetTest() {
+    driver.resetApp();
   }
 
   @AfterClass

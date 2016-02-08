@@ -14,35 +14,33 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.ios;
 
-import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.NoSuchContextException;
 import io.appium.java_client.remote.MobileCapabilityType;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+
 import static org.junit.Assert.assertEquals;
 
 /**
  * Test context-related features
  */
-public class ContextTest {
+public class IOSContextTest {
 
-  private AppiumDriver<?> driver;
+  private static AppiumDriver<?> driver;
   private static AppiumDriverLocalService service;
 
   @BeforeClass
   public static void beforeClass() throws Exception{
      service = AppiumDriverLocalService.buildDefaultService();
      service.start();
-  }
 
-  @Before
-  public void setUp() throws Exception {
     if (service == null || !service.isRunning())
       throw new RuntimeException("An appium server node is not started!");
 
@@ -56,9 +54,15 @@ public class ContextTest {
     driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
   }
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    if (driver != null) {
+      driver.quit();
+    }
+
+    if (service.isRunning()) {
+      service.stop();
+    }
   }
 
   @Test
@@ -76,17 +80,11 @@ public class ContextTest {
     driver.getContextHandles();
     driver.context("WEBVIEW_1");
     assertEquals(driver.getContext(), "WEBVIEW_1");
+    driver.context("NATIVE_APP");
   }
 
   @Test(expected = NoSuchContextException.class)
   public void testContextError() {
     driver.context("Planet of the Ape-ium");
   }
-
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-      service.stop();
-  }
-
 }

@@ -38,8 +38,8 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
     /**
      * The environmental variable used to define
-     * the path to executable appium.js (node server v<=1.4.x) or
-     * main.js (node server v>=1.5.x)
+     * the path to executable appium.js (1.4.x and lower) or
+     * main.js (1.5.x and higher)
      */
     public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
 

@@ -26,8 +26,6 @@ public interface StartsActivity {
        * @param appWaitPackage Automation will begin after this package starts. [Optional]
        * @param appWaitActivity Automation will begin after this activity starts. [Optional]
        * @param stopApp If true, target app will be stopped. [Optional]
-       * @example
-       * *.startActivity("com.foo.bar", ".MyActivity", null, null, true);
        */
     void startActivity(String appPackage, String appActivity, String appWaitPackage, String appWaitActivity,
                        boolean stopApp) throws IllegalArgumentException;
@@ -40,8 +38,6 @@ public interface StartsActivity {
        * @param appActivity The activity to start. [Required]
        * @param appWaitPackage Automation will begin after this package starts. [Optional]
        * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-       * @example
-       * *.startActivity("com.foo.bar", ".MyActivity", null, null);
        */
     void startActivity(String appPackage, String appActivity, String appWaitPackage, String appWaitActivity)
                                                                                       throws IllegalArgumentException;
@@ -52,8 +48,6 @@ public interface StartsActivity {
        *
        * @param appPackage The package containing the activity. [Required]
        * @param appActivity The activity to start. [Required]
-       * @example
-       * *.startActivity("com.foo.bar", ".MyActivity");
        */
     void startActivity(String appPackage, String appActivity)
               throws IllegalArgumentException;	  
