@@ -690,6 +690,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(SWIPE_UP_HOME_BUTTON, postC("/session/:sessionId/appium/device/swipe_up_home_button"))
                 .put(CLEAR_DATA, postC("/session/:sessionId/appium/device/clear_data"))
                 .put(ADB_SWIPE, postC("/session/:sessionId/appium/device/adb_swipe"))
+                .put(ADB_TAP, postC("/session/:sessionId/appium/device/adb_tap"))
                 .put(ADB_INPUT_TEXT, postC("/session/:sessionId/appium/device/adb_input_text"))
                 .put(GET_NAVIGATION_BAR_REGION, getC("/session/:sessionId/appium/device/get_navigation_bar_region"))
                 .put(GET_DISPLAY_METRICS, getC("/session/:sessionId/appium/device/get_display_metrics"))

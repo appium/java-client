@@ -42,6 +42,7 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.ADB_INPUT_TEXT;
 import static io.appium.java_client.MobileCommand.ADB_SWIPE;
+import static io.appium.java_client.MobileCommand.ADB_TAP;
 import static io.appium.java_client.MobileCommand.GET_DATE;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
 import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
@@ -452,6 +453,12 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 		String[] parameters = new String[] { "x1", "y1", "x2", "y2", "duration", "sleep"};
 		Object[] values = new Object[] { x1, y1, x2, y2, duration, sleep };
 		execute(ADB_SWIPE, getCommandImmutableMap(parameters, values));
+	}
+
+	public void adbTap(int x, int y) {
+		String[] parameters = new String[] { "x", "y"};
+		Object[] values = new Object[] { x, y };
+		execute(ADB_TAP, getCommandImmutableMap(parameters, values));
 	}
 
 	public Rectangle getNavigationBarRegion() {
