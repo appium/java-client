@@ -110,7 +110,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
 *3.4.0 (still not released)*
-- Update to Selenium v2.50.0
+- Update to Selenium v2.51.0
 - `getAppStrings()` methods are deprecated now. They are going to be removed. `getAppStringMap()` methods were added and now return a map with app strings (keys and values)
 instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the contribution.
 - Add `getAppStringMap(String language, String stringFile)` method to allow searching app strings in the specified file
