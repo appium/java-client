@@ -16,9 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.remote.MobilePlatform.*;
-import static io.appium.java_client.remote.AutomationName.*;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.HashMap;
@@ -117,8 +114,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        if (ANDROID.toUpperCase().equals(platform)
-                && SELENDROID.toUpperCase().equals(automation)) {
+        if (isSelendroidAutomation()) {
             SelendroidFindBy selendroidFindBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
             SelendroidFindBys selendroidFindBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
             SelendroidFindAll selendroidFindByAll = annotatedElement.getAnnotation(SelendroidFindAll.class);
@@ -136,7 +132,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
             }
         }
 
-        if (ANDROID.toUpperCase().equals(platform)) {
+        if (isAndroid()) {
             AndroidFindBy androidFindBy = annotatedElement.getAnnotation(AndroidFindBy.class);
             AndroidFindBys androidFindBys= annotatedElement.getAnnotation(AndroidFindBys.class);
             AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
@@ -154,7 +150,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
             }
         }
 
-        if (IOS.toUpperCase().equals(platform)) {
+        if (isIOS()) {
             iOSFindBy iOSFindBy = annotatedElement.getAnnotation(iOSFindBy.class);
             iOSFindBys iOSFindBys= annotatedElement.getAnnotation(iOSFindBys.class);
             iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
@@ -181,6 +177,13 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         return (annotatedElement.getAnnotation(CacheLookup.class) != null);
     }
 
+    private By returnMappedBy(By byDefault, By nativeAppBy) {
+        Map<ContentType, By> contentMap = new HashMap<>();
+        contentMap.put(ContentType.HTML_OR_DEFAULT, byDefault);
+        contentMap.put(ContentType.NATIVE_MOBILE_SPECIFIC, nativeAppBy);
+        return new ContentMappedBy(contentMap);
+    }
+
     @Override
     public By buildBy() {
         assertValidAnnotations();
@@ -188,18 +191,24 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         By defaultBy = buildDefaultBy();
         By mobileNativeBy = buildMobileNativeBy();
 
-        if (defaultBy == null) {
+        String idOrName = ((Field) annotatedElementContainer.getAnnotated()).getName();
+
+        if (defaultBy == null && mobileNativeBy == null) {
             defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+            mobileNativeBy = new By.ById(idOrName);
+            return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
+        if (defaultBy == null) {
+            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+            return returnMappedBy(defaultBy, mobileNativeBy);
+        }
 
         if (mobileNativeBy == null) {
             mobileNativeBy = defaultBy;
+            return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
-        Map<ContentType, By> contentMap = new HashMap<>();
-        contentMap.put(ContentType.HTML_OR_DEFAULT, defaultBy);
-        contentMap.put(ContentType.NATIVE_MOBILE_SPECIFIC, mobileNativeBy);
-        return new ContentMappedBy(contentMap);
+        return returnMappedBy(defaultBy, mobileNativeBy);
     }
 }

@@ -41,18 +41,18 @@ import java.util.concurrent.TimeUnit;
 public class MobileBrowserCompatibilityTest {
 
 	private WebDriver driver;
-	
-	@FindBy(name = "q")
-	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
-	private WebElement searchTextField;
+
     private AppiumDriverLocalService service;
 	
 	@AndroidFindBys({
 		@AndroidFindBy(className = "someClass"),
 		@AndroidFindBy(xpath = "//someTag")})
-	@FindBy(name="btnG")
-	private RemoteWebElement searchButton;
-	
+	private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
+
+	@FindBy(name = "q")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
+	private WebElement searchTextField;
+
 	@AndroidFindBy(className = "someClass")
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> foundLinks;
@@ -84,7 +84,7 @@ public class MobileBrowserCompatibilityTest {
 		driver.get("https://www.google.com");
 
 		searchTextField.sendKeys("Hello");
-		searchButton.click();
+		btnG.click();
 		Assert.assertNotEquals(0, foundLinks.size());
 	}
 
