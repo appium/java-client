@@ -37,9 +37,9 @@ import java.util.List;
 
 public class iOSPageObjectTest {
 
-    private static WebDriver driver;
-    private static AppiumDriverLocalService service;
-    private boolean populated = false;
+	private static WebDriver driver;
+	private static AppiumDriverLocalService service;
+	private boolean populated = false;
 
 	@FindBy(className = "UIAButton")
 	private List<WebElement> uiButtons;
@@ -67,9 +67,9 @@ public class iOSPageObjectTest {
 	private List<RemoteWebElement> remoteElementViews;
 
 	@AndroidFindBys({
-		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-		@AndroidFindBy(className = "android.widget.TextView")
-		})
+			@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+			@AndroidFindBy(className = "android.widget.TextView")
+	})
 	private List<WebElement> chainElementViews;
 
 
@@ -92,11 +92,11 @@ public class iOSPageObjectTest {
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private MobileElement mobileButton;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]")
-    private TouchableElement touchableButton;
+	@iOSFindBy(uiAutomator = ".elements()[0]")
+	private TouchableElement touchableButton;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]")
-    private List<TouchableElement> touchableButtons;
+	@iOSFindBy(uiAutomator = ".elements()[0]")
+	private List<TouchableElement> touchableButtons;
 
 	@FindBy(className = "UIAButton")
 	private MobileElement mobiletFindBy_Button;
@@ -105,69 +105,70 @@ public class iOSPageObjectTest {
 	private RemoteWebElement remotetextVieW;
 
 	@AndroidFindBys({
-		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-		@AndroidFindBy(className = "android.widget.TextView")
-		})
+			@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+			@AndroidFindBy(className = "android.widget.TextView")
+	})
 	private WebElement chainElementView;
-	
+
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private IOSElement iosButton;
-	
+
 	@iOSFindBy(uiAutomator = ".elements()[0]")
 	private List<IOSElement> iosButtons;
-	
+
 	@iOSFindAll({
-		@iOSFindBy(xpath = "ComputeSumButton_Test"),
-		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
+			@iOSFindBy(xpath = "ComputeSumButton_Test"),
+			@iOSFindBy(name = "ComputeSumButton")	//it is real locator
 	})
 	private WebElement findAllElement;
-	
+
 	@iOSFindAll({
-		@iOSFindBy(xpath = "ComputeSumButton_Test"),
-		@iOSFindBy(name = "ComputeSumButton")	//it is real locator
+			@iOSFindBy(xpath = "ComputeSumButton_Test"),
+			@iOSFindBy(name = "ComputeSumButton")	//it is real locator
 	})
 	private List<WebElement> findAllElements;
 
-    @AndroidFindBy(className = "android.widget.TextView")
-    @FindBy(css = "e.e1.e2")
-    private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+	@AndroidFindBy(className = "android.widget.TextView")
+	@FindBy(css = "e.e1.e2")
+	private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
-    @AndroidFindBy(className = "android.widget.TextView")
-    @FindBy(css = "e.e1.e2")
-    private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+	@AndroidFindBy(className = "android.widget.TextView")
+	@FindBy(css = "e.e1.e2")
+	private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		service = AppiumDriverLocalService.buildDefaultService();
+		service.start();
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "TestApp.app.zip");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
-    }
-
-	@Before
-	public void setUp() throws Exception {
-        if (!populated)
-		    PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-
-        populated = true;
+		File appDir = new File("src/test/java/io/appium/java_client");
+		File app = new File(appDir, "TestApp.app.zip");
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
+		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+		capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+		driver = new IOSDriver(service.getUrl(), capabilities);
 	}
 
-    @AfterClass
-    public static void afterClass() throws Exception {
-        if (driver != null)
-            driver.quit();
+	@SuppressWarnings("rawtypes")
+	@Before
+	public void setUp() throws Exception {
+		if (!populated)
+			PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 
-        if (service != null)
-            service.stop();
-    }
+		populated = true;
+	}
+
+	@AfterClass
+	public static void afterClass() throws Exception {
+		if (driver != null)
+			driver.quit();
+
+		if (service != null)
+			service.stop();
+	}
 
 	@Test
 	public void findByElementsTest() {
@@ -273,7 +274,7 @@ public class iOSPageObjectTest {
 		}
 		Assert.assertNotNull(nsee);
 	}
-	
+
 	@Test
 	public void isIOSElementTest(){
 		Assert.assertNotEquals(null, iosButton.getText());
@@ -294,38 +295,38 @@ public class iOSPageObjectTest {
 		Assert.assertNotEquals(null, findAllElement.getText());
 	}
 
-    @Test
-    public void isTouchAbleElement(){
-        Assert.assertNotEquals(null, touchableButton.getText());
-    }
+	@Test
+	public void isTouchAbleElement(){
+		Assert.assertNotEquals(null, touchableButton.getText());
+	}
 
-    @Test
-    public void areTouchAbleElements(){
-        Assert.assertNotEquals(0, touchableButtons.size());
-    }
+	@Test
+	public void areTouchAbleElements(){
+		Assert.assertNotEquals(0, touchableButtons.size());
+	}
 
-    @Test
-	@SuppressWarnings("unused")
-    public void isTheFieldIOSElement(){
+	@Test
+	public void isTheFieldIOSElement(){
+		@SuppressWarnings("unused")
 		IOSElement iOSElement = (IOSElement) mobileButton; //declared as MobileElement
-        iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
-        iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
-        iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
-    }
+		iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
+		iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
+		iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
+	}
 
-    @Test
-    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy(){
-        try {
-            Assert.assertNotEquals(null, elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
-        }
-        catch (NoSuchElementException ignored){
-            return;
-        }
-        throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
-    }
+	@Test
+	public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy(){
+		try {
+			Assert.assertNotEquals(null, elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+		}
+		catch (NoSuchElementException ignored){
+			return;
+		}
+		throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
+	}
 
-    @Test
-    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List(){
-        Assert.assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
-    }
+	@Test
+	public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List(){
+		Assert.assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
+	}
 }

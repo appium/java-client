@@ -35,7 +35,11 @@ public @interface iOSFindBy {
 	String uiAutomator() default "";
 	String accessibility()  default "";
 	String id() default "";
-	String name() default "";
+	@Deprecated
+	/**
+	 * By.name selector is not supported by Appium server node since 1.5.x.
+	 * So this option is going to be removed further. Be careful.
+	 */String name() default "";
 	String className() default "";
 	String tagName() default "";
 	String xpath()  default "";
