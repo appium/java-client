@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.StaleElementReferenceException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +29,11 @@ class ThrowableUtil {
             return false;
         }
 
-        if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN)) {
+        if (InvalidSelectorException.class.isAssignableFrom(e.getClass())) {
+            return true;
+        }
+
+        if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN) || String.valueOf(e.getMessage()).contains("Locator Strategy \\w+ is not supported")) {
             return true;
         }
 

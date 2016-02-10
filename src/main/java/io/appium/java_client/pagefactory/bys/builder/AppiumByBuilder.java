@@ -24,6 +24,10 @@ import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.appium.java_client.remote.AutomationName.SELENDROID;
+import static io.appium.java_client.remote.MobilePlatform.ANDROID;
+import static io.appium.java_client.remote.MobilePlatform.IOS;
+
 /**
  * It is the basic handler of Appium-specific page object annotations
  * About the Page Object design pattern please read these documents:
@@ -161,6 +165,18 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
      */
     public void setAnnotated(AnnotatedElement annotated) {
         this.annotatedElementContainer.setAnnotated(annotated);
+    }
+
+    protected boolean isAndroid() {
+        return ANDROID.toUpperCase().equals(platform);
+    }
+
+    protected boolean isSelendroidAutomation() {
+        return isAndroid() && SELENDROID.toUpperCase().equals(automation);
+    }
+
+    protected boolean isIOS() {
+        return IOS.toUpperCase().equals(platform);
     }
 
     /**
