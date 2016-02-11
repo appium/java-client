@@ -168,11 +168,6 @@ public class AndroidDriverTest {
   }
 
   @Test
-  public void isLockedTest() {
-    assertEquals(false, driver.isLocked());
-  }
-
-  @Test
   public void ignoreUnimportantViews() {
     driver.ignoreUnimportantViews(true);
     boolean ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString()).getAsBoolean();
@@ -248,7 +243,10 @@ public class AndroidDriverTest {
 
   @Test
   public void lockTest() {
-    driver.lockScreen(20);
+    driver.lockDevice();
+    assertEquals(true, driver.isLocked());
+    driver.unlockDevice();
+    assertEquals(false, driver.isLocked());
   }
 
   @Test

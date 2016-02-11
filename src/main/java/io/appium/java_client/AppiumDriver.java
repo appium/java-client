@@ -536,18 +536,20 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
         setSettings(getCommandImmutableMap(setting.toString(), value));
     }
 
+
+    @Deprecated
     /**
-     * Lock the device (bring it to the lock screen) for a given number of
-     * seconds
+     * This method works incorrectly. It is deprecated and it is going to be removed further.
+     * Be careful.
      *
-     * @param seconds
-     *            number of seconds to lock the screen for
+     * Since Appium node 1.5.x you are free to use
+     * IOSDriver.lockDevice(int seconds) or AndroidDriver.lockDevice()...AndroidDriver.unlockDevice() instead
      */
     public void lockScreen(int seconds) {
         execute(LOCK, ImmutableMap.of("seconds", seconds));
     }
 
-  @Override
+    @Override
     public WebDriver context(String name) {
         if (!_isNotNullOrEmpty(name)) {
             throw new IllegalArgumentException("Must supply a context name");

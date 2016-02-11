@@ -180,4 +180,15 @@ FindsByIosUIAutomation<RequiredElementType>{
     public List<RequiredElementType> findElementsByIosUIAutomation(String using) throws WebDriverException {
         return (List<RequiredElementType>) findElements("-ios uiautomation", using);
     }
+
+    /**
+     * Lock the device (bring it to the lock screen) for a given number of
+     * seconds
+     *
+     * @param seconds
+     *            number of seconds to lock the screen for
+     */
+    public void lockDevice(int seconds) {
+        execute(LOCK, ImmutableMap.of("seconds", seconds));
+    }
 }
