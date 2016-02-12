@@ -158,7 +158,7 @@ public class IOSDriverTest {
 
   @Test
   public void lockTest() {
-    driver.lockScreen(20);
+    driver.lockDevice(20);
   }
 
   @Test

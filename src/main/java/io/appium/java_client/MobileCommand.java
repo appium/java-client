@@ -61,6 +61,7 @@ public class MobileCommand {
   public final static String START_ACTIVITY = "startActivity";
   public final static String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
   public final static String GET_DEVICE_TIME = "getDeviceTime";
+  public final static String UNLOCK = "unlock";
 
   static CommandInfo getC(String url) {
     return new CommandInfo(url, HttpMethod.GET);
@@ -133,7 +134,8 @@ public class MobileCommand {
             .put(START_ACTIVITY,
                     postC("/session/:sessionId/appium/device/start_activity"))
             .put(TOGGLE_LOCATION_SERVICES, postC("/session/:sessionId/appium/device/toggle_location_services"))
-            .put(GET_DEVICE_TIME,getC("/session/:sessionId/appium/device/system_time"));
+            .put(GET_DEVICE_TIME,getC("/session/:sessionId/appium/device/system_time"))
+            .put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
 
     return builder.build();
   }

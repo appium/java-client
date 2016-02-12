@@ -85,7 +85,6 @@ More can be found in the docs, but here's a quick list of features which this pr
 - launchApp()
 - closeApp()
 - endTestCoverage()
-- lockScreen()
 - isLocked()
 - shake()
 - scrollTo()
@@ -95,6 +94,8 @@ More can be found in the docs, but here's a quick list of features which this pr
 - getNetworkConnection(), setNetworkConnection()
 - ignoreUnimportantViews(), getSettings()
 - toggleLocationServices()
+- lockDevice()
+- unlockDevice()
 
 Locators:
 - findElementByAccessibilityId()
@@ -121,6 +122,9 @@ instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the co
 - FIXED `longPressKeyCode()` methods. Now they use the convenient JSONWP command.Thanks to [@kirillbilchenko](https://github.com/kirillbilchenko) for the proposed fix.
 - FIXED javadoc.
 - Page object tools were updated. Details read here: [#311](https://github.com/appium/java-client/issues/311), [#313](https://github.com/appium/java-client/pull/313), [#317](https://github.com/appium/java-client/pull/317). By.name locator strategy is deprecated for Android and iOS. It is still valid for the Selendroid mode. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the helping.
+- The method `lockScreen(seconds)` is deprecated and it is going to be removed in the next release. Since Appium node server v1.5.x it is recommended to use
+`AndroidDriver.lockDevice()...AndroidDriver.unlockDevice()` or `IOSDriver.lockDevice(int seconds)` instead. Thanks to [@namannigam](https://github.com/namannigam) for
+the catching. Read [#315](https://github.com/appium/java-client/issues/315)
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2

@@ -35,17 +35,7 @@ import java.net.URL;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
-import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
-import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.IS_LOCKED;
-import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
-import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
-import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
-import static io.appium.java_client.MobileCommand.PUSH_FILE;
-import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
-import static io.appium.java_client.MobileCommand.START_ACTIVITY;
-import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+import static io.appium.java_client.MobileCommand.*;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.MobileCapabilityType.APP_WAIT_ACTIVITY;
@@ -388,4 +378,17 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
         return (List<RequiredElementType>) findElements("-android uiautomator", using);
     }
 
+    /**
+     * This method locks a device.
+     */
+    public void lockDevice() {
+        execute(LOCK, ImmutableMap.of("seconds", 0));
+    }
+
+    /**
+     * This method unlocks a device.
+     */
+    public void unlockDevice() {
+        execute(UNLOCK);
+    }
 }
