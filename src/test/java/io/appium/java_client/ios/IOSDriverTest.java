@@ -71,7 +71,10 @@ public class IOSDriverTest {
     driver.quit();
   }
 
-  @Test
+  /**
+   * @Test
+   * TODO There is no ability to check this function usibg simulators. When CI will have been set up then this test will be returned
+   */
   public void getDeviceTimeTest() {
     String time = driver.getDeviceTime();
     assertTrue(time.length() == 28);
