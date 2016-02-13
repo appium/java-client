@@ -16,10 +16,15 @@
 
 package io.appium.java_client.service.local.flags;
 
+@Deprecated
 /**
  * Here is the list of common Appium server arguments.
  * All flags are optional, but some are required in conjunction with certain others.
  * The full list is available here: @link http://appium.io/slate/en/master/?ruby#appium-server-arguments
+ *
+ *
+ * This flags are deprecated since appium node 1.5.x. This list will be removed in the next release.
+ * Be careful.
  */
 public enum GeneralServerFlag implements ServerArgument{
     /**

@@ -16,6 +16,10 @@
 
 package io.appium.java_client.service.local.flags;
 
+@Deprecated
+/**
+ * This interface is going to removed further. Be careful.
+ */
 public interface ServerArgument {
     String getArgument();
 }
