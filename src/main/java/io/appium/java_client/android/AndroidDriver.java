@@ -37,6 +37,7 @@ import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -500,6 +501,10 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public List<PackageVersion> getVersions(String pkg) {
 		Response response = execute(GET_VERSIONS, ImmutableMap.of(PKG, pkg));
-		return (List<PackageVersion>) response.getValue();
+		List<PackageVersion> versions = new ArrayList<>();
+		for (Object o : ((ArrayList<Map<String, String>>) response.getValue())) {
+			versions.add(new PackageVersion((Map<String, String>) o));
+		}
+		return versions;
 	}
 }
