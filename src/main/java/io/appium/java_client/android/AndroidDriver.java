@@ -23,6 +23,7 @@ import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.DisplayMetrics;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.NetworkConnectionSetting;
+import io.appium.java_client.PackageVersion;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -46,6 +47,7 @@ import static io.appium.java_client.MobileCommand.ADB_TAP;
 import static io.appium.java_client.MobileCommand.GET_DATE;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
 import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
+import static io.appium.java_client.MobileCommand.GET_VERSIONS;
 import static io.appium.java_client.MobileCommand.HAS_ROOT;
 import static io.appium.java_client.MobileCommand.SET_DATE;
 import static io.appium.java_client.MobileCommand.SWIPE_UP_HOME_BUTTON;
@@ -493,5 +495,11 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public void adbInputText(String text) {
 		execute(ADB_INPUT_TEXT, ImmutableMap.of("text", text));
+	}
+
+
+	public List<PackageVersion> getVersions(String pkg) {
+		Response response = execute(GET_VERSIONS, ImmutableMap.of(PKG, pkg));
+		return (List<PackageVersion>) response.getValue();
 	}
 }

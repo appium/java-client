@@ -61,6 +61,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 	// frequently used command parameters
 	protected final String KEY_CODE = "keycode";
 	protected final String PATH = "path";
+	protected final String PKG = "pkg";
 	private final String SETTINGS = "settings";
 
 	private final String LANGUAGE_PARAM = "language";
@@ -697,6 +698,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(GET_DATE, getC("/session/:sessionId/appium/device/get_date"))
                 .put(SET_DATE, postC("/session/:sessionId/appium/device/set_date"))
                 .put(HAS_ROOT, getC("/session/:sessionId/appium/device/has_root"))
+                .put(GET_VERSIONS, postC("/session/:sessionId/appium/device/get_versions"))
                 .put(IS_SOFT_KEYBOARD_PRESENT, getC("/session/:sessionId/appium/device/is_soft_keyboard_present"));
 
         return builder.build();

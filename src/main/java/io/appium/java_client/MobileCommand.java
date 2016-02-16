@@ -70,4 +70,5 @@ public interface MobileCommand {
   String GET_DATE = "getDate";
   String SET_DATE = "setDate";
   String HAS_ROOT = "hasRoot";
+  String GET_VERSIONS = "getVersions";
 }
