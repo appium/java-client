@@ -111,7 +111,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
 *3.4.0 (still not released)*
-- Update to Selenium v2.51.0
+- Update to Selenium v2.52.0
 - `getAppStrings()` methods are deprecated now. They are going to be removed. `getAppStringMap()` methods were added and now return a map with app strings (keys and values)
 instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the contribution.
 - Add `getAppStringMap(String language, String stringFile)` method to allow searching app strings in the specified file
@@ -125,6 +125,7 @@ instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the co
 - The method `lockScreen(seconds)` is deprecated and it is going to be removed in the next release. Since Appium node server v1.5.x it is recommended to use
 `AndroidDriver.lockDevice()...AndroidDriver.unlockDevice()` or `IOSDriver.lockDevice(int seconds)` instead. Thanks to [@namannigam](https://github.com/namannigam) for
 the catching. Read [#315](https://github.com/appium/java-client/issues/315)
+- `maven-release-plugin` was added to POM.XML configuration
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2

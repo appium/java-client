@@ -92,7 +92,7 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                ping(500, TimeUnit.MILLISECONDS);
+                ping(1500, TimeUnit.MILLISECONDS);
                 return true;
             } catch (UrlChecker.TimeoutException e) {
                 return false;
