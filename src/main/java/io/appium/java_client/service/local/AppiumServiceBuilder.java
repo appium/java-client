@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.CommandLine;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.*;
@@ -79,6 +80,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
     private File npmScript;
     private File getNodeJSExecutable;
+    private DesiredCapabilities capabilities;
 
     //The first starting is slow sometimes on some
     //environment
@@ -211,9 +213,12 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      * Boolean arguments have a special moment:
      *              the presence of an arguments means "true". This method
      *              was designed for these cases
+     * Note!!! This method is deprecated since appium node 1.5.x. It is going to be removed soom.
+     * Be careful. Use {@link AppiumServiceBuilder#withCapabilities} instead
      * @param argument is an instance which contains the argument name
      * @return the self-reference
      */
+    @Deprecated
     public AppiumServiceBuilder withArgument(ServerArgument argument) {
         serverArguments.put(argument.getArgument(), "");
         return this;
@@ -225,10 +230,22 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      * @param value A non null string value. (Warn!!!) Boolean arguments have a special moment:
      *              the presence of an arguments means "true". At this case an empty string
      *              should be defined
+     * Note!!! This method is deprecated since appium node 1.5.x. It is going to be removed soom.
+     * Be careful. Use {@link AppiumServiceBuilder#withCapabilities} instead
      * @return the self-reference
      */
+    @Deprecated
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value){
         serverArguments.put(argument.getArgument(), value);
+        return this;
+    }
+
+    /**
+     * @param capabilities is an instance of {@link org.openqa.selenium.remote.DesiredCapabilities}
+     * @return the self-reference
+     */
+    public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
+        this.capabilities = capabilities;
         return this;
     }
 
