@@ -18,6 +18,8 @@ package io.appium.java_client.service.local;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.ServerArgument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +53,14 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
 
+    private static final List<String> PATH_CAPABILITIES = new ArrayList<String>() {
+        {
+            add(AndroidMobileCapabilityType.KEYSTORE_PATH);
+            add(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE);
+            add(MobileCapabilityType.APP);
+        }
+    };
+
     private static final String APPIUM_FOLDER = "appium";
 
     private static final String BIN_FOLDER = "bin";
@@ -74,7 +84,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private final static String BASH = "bash";
     private final static String CMD_EXE = "cmd.exe";
     private final static String NODE = "node";
-
+    @Deprecated
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
@@ -293,6 +303,44 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         this.appiumJS = findNodeInCurrentFileSystem();
     }
 
+    @SuppressWarnings("unchecked")
+    private String parseCapabilities() {
+        String result = StringUtils.EMPTY;
+
+        if (capabilities != null) {
+            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
+            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+
+            for (Map.Entry<String, Object> entry : entries) {
+                Object value = entry.getValue();
+
+                if (value == null) {
+                    continue;
+                }
+
+                if (String.class.isAssignableFrom(value.getClass())) {
+                    if (PATH_CAPABILITIES.contains(entry.getKey())) {
+                        value = "\\\"" + new File(String.valueOf(value)).toURI().toString() + "\\\"";
+                    }
+                    else {
+                        value = "\\\"" + String.valueOf(value) + "\\\"";
+                    }
+                } else {
+                    value = String.valueOf(value);
+                }
+
+                String key = "\\\"" + String.valueOf(entry.getKey()) + "\\\"";
+                if (StringUtils.isBlank(result)) {
+                    result = key + ": " + value;
+                } else {
+                    result = result + ", " + key + ": " + value;
+                }
+            }
+        }
+
+        return "{" + result + "}";
+    }
+
     @Override
     protected ImmutableList<String> createArgs() {
         List<String> argList = new ArrayList<>();
@@ -319,16 +367,23 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             argList.add(log.getAbsolutePath());
         }
 
-        Set<Map.Entry<String, String>> entries = serverArguments.entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            String argument = entry.getKey();
-            String value = entry.getValue();
-            if (StringUtils.isBlank(argument) || value == null)
-                continue;
+        if (capabilities == null) {
+            @Deprecated
+            Set<Map.Entry<String, String>> entries = serverArguments.entrySet();
+            for (Map.Entry<String, String> entry : entries) {
+                String argument = entry.getKey();
+                String value = entry.getValue();
+                if (StringUtils.isBlank(argument) || value == null)
+                    continue;
 
-            argList.add(argument);
-            if (!StringUtils.isBlank(value))
-                argList.add(value);
+                argList.add(argument);
+                if (!StringUtils.isBlank(value))
+                    argList.add(value);
+            }
+        }
+        else {
+            argList.add("--default-capabilities");
+            argList.add(parseCapabilities());
         }
 
         return new ImmutableList.Builder<String>().addAll(argList).build();
