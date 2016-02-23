@@ -22,7 +22,7 @@ public class RottenTomatoesIOSApp {
     @iOSFindBy(className = "UIATableView")
     private IOSMovies simpleMovies;
 
-    @iOSFindBy(className = "UIAWindow")
+    @iOSFindBy(xpath = ".//UIAWindow[2]")
     private IOSReview simpleReview;
 
     private AnnotatedIOSMovies annotatedIOSMovies;
