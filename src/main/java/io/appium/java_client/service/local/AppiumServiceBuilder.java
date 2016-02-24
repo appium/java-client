@@ -84,7 +84,6 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private final static String BASH = "bash";
     private final static String CMD_EXE = "cmd.exe";
     private final static String NODE = "node";
-    @Deprecated
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
@@ -223,12 +222,9 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      * Boolean arguments have a special moment:
      *              the presence of an arguments means "true". This method
      *              was designed for these cases
-     * Note!!! This method is deprecated since appium node 1.5.x. It is going to be removed soom.
-     * Be careful. Use {@link AppiumServiceBuilder#withCapabilities} instead
      * @param argument is an instance which contains the argument name
      * @return the self-reference
      */
-    @Deprecated
     public AppiumServiceBuilder withArgument(ServerArgument argument) {
         serverArguments.put(argument.getArgument(), "");
         return this;
@@ -240,11 +236,8 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      * @param value A non null string value. (Warn!!!) Boolean arguments have a special moment:
      *              the presence of an arguments means "true". At this case an empty string
      *              should be defined
-     * Note!!! This method is deprecated since appium node 1.5.x. It is going to be removed soom.
-     * Be careful. Use {@link AppiumServiceBuilder#withCapabilities} instead
      * @return the self-reference
      */
-    @Deprecated
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value){
         serverArguments.put(argument.getArgument(), value);
         return this;
@@ -259,6 +252,11 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         return this;
     }
 
+    /**
+     * @param appiumJS an executable appium.js (1.4.x and lower) or
+     * main.js (1.5.x and higher)
+     * @return the self-reference
+     */
     public AppiumServiceBuilder withAppiumJS(File appiumJS){
         this.appiumJS = appiumJS;
         return this;
@@ -320,7 +318,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
 
                 if (String.class.isAssignableFrom(value.getClass())) {
                     if (PATH_CAPABILITIES.contains(entry.getKey())) {
-                        value = "\\\"" + new File(String.valueOf(value)).toURI().toString() + "\\\"";
+                        value = "\\\"" + String.valueOf(value).replace("\\", "/") + "\\\"";
                     }
                     else {
                         value = "\\\"" + String.valueOf(value) + "\\\"";
@@ -367,21 +365,19 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             argList.add(log.getAbsolutePath());
         }
 
-        if (capabilities == null) {
-            @Deprecated
-            Set<Map.Entry<String, String>> entries = serverArguments.entrySet();
-            for (Map.Entry<String, String> entry : entries) {
-                String argument = entry.getKey();
-                String value = entry.getValue();
-                if (StringUtils.isBlank(argument) || value == null)
-                    continue;
+        Set<Map.Entry<String, String>> entries = serverArguments.entrySet();
+        for (Map.Entry<String, String> entry : entries) {
+            String argument = entry.getKey();
+            String value = entry.getValue();
+            if (StringUtils.isBlank(argument) || value == null)
+                continue;
 
-                argList.add(argument);
-                if (!StringUtils.isBlank(value))
-                    argList.add(value);
-            }
+            argList.add(argument);
+            if (!StringUtils.isBlank(value))
+                argList.add(value);
         }
-        else {
+
+        if (capabilities != null) {
             argList.add("--default-capabilities");
             argList.add(parseCapabilities());
         }

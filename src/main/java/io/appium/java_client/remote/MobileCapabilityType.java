@@ -106,9 +106,6 @@ public interface MobileCapabilityType extends CapabilityType {
   @Deprecated
   String DONT_STOP_APP_ON_RESET = "dontStopAppOnReset";
 
-
-  String SELENDROID_PORT  = "selendroidPort";
-
   /**
    * Unique device identifier of the connected physical device
    */
@@ -155,4 +152,10 @@ public interface MobileCapabilityType extends CapabilityType {
    * On Android, this will also remove the app after the session is complete. Default false
    */
   String FULL_RESET = "fullReset";
+
+  @Deprecated
+  /**
+   * Deprecated. Moved to {@link AndroidMobileCapabilityType#SELENDROID_PORT}
+   */
+  String SELENDROID_PORT  = "selendroidPort";
 }

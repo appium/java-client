@@ -64,9 +64,10 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
-        AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.AUTOMATION_NAME, AutomationName.APPIUM).
-                withArgument(GeneralServerFlag.APP, app.getAbsolutePath());
+        AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
+                withArgument(GeneralServerFlag.STRICT_CAPS);
 
         AndroidDriver<MobileElement> driver = new AndroidDriver<>(builder, capabilities);;
         try {
@@ -114,9 +115,12 @@ public class StartingAppLocallyTest {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
 
-        AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.AUTOMATION_NAME, AutomationName.APPIUM).
-                withArgument(GeneralServerFlag.APP, app.getAbsolutePath()).withArgument(GeneralServerFlag.PLATFORM_VERSION, "8.4");
+        AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
+                withArgument(GeneralServerFlag.STRICT_CAPS);
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(builder, capabilities);;
         try {

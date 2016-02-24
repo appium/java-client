@@ -204,4 +204,6 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * Kill ChromeDriver session when moving to a non-ChromeDriver webview. Defaults to false
      */
     String RECREATE_CHROME_DRIVER_SESSIONS = "recreateChromeDriverSessions";
+
+    String SELENDROID_PORT  = "selendroidPort";
 }

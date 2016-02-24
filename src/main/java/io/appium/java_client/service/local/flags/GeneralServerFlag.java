@@ -16,31 +16,34 @@
 
 package io.appium.java_client.service.local.flags;
 
-@Deprecated
+
 /**
  * Here is the list of common Appium server arguments.
- * All flags are optional, but some are required in conjunction with certain others.
- * The full list is available here: @link http://appium.io/slate/en/master/?ruby#appium-server-arguments
- *
- *
- * This flags are deprecated since appium node 1.5.x. This list will be removed in the next release.
- * Be careful.
  */
 public enum GeneralServerFlag implements ServerArgument{
     /**
      * Enter REPL mode
      */
     SHELL("--shell"),
+
+    @Deprecated
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * IOS: abs path to simulator-compiled .app file or the bundle_id of the desired target on device; Android: abs path to .apk file.
      * Sample: --app /abs/path/to/my.app
      */
     APP("--app"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Unique device identifier of the connected physical device.
      * Sample:
      * --udid 1adsf-sdfas-asdf-123sdf
      */
+    @Deprecated
     UIID("--udid"),
     /**
      * callback IP Address (default: same as address).
@@ -57,9 +60,13 @@ public enum GeneralServerFlag implements ServerArgument{
      */
     SESSION_OVERRIDE("--session-override"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Don’t reset app state between sessions (IOS: don’t delete app plist files; Android: don’t uninstall app before new session).
      * Default: false
      */
+    @Deprecated
     NO_RESET("--no-reset"),
     /**
      * Pre-launch the application before allowing the first session (Requires –app and, for Android, –app-pkg and –app-activity).
@@ -92,34 +99,62 @@ public enum GeneralServerFlag implements ServerArgument{
      */
     WEB_HOOK("--webhook"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Name of the mobile device to use.
      * Sample: --device-name iPhone Retina (4-inch), Android Emulator
      */
+    @Deprecated
     DEVICE_NAME("--device-name"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Name of the mobile platform: iOS, Android, or FirefoxOS
      * Sample: --platform-name iOS
      */
+    @Deprecated
     PLATFORM_NAME("--platform-name"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Version of the mobile platform. Sample: --platform-version 7.1
      */
+    @Deprecated
     PLATFORM_VERSION("--platform-version"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Name of the automation tool: Appium or Selendroid. Sample: --automation-name Appium
      */
+    @Deprecated
     AUTOMATION_NAME("--automation-name"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Name of the mobile browser: Safari or Chrome. Sample: --browser-name Safari
      */
+    @Deprecated
     BROWSER_NAME("--browser-name"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Language for the iOS simulator / Android Emulator. Sample: --language en
      */
+    @Deprecated
     LANGUAGE("--language"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Locale for the iOS simulator / Android Emulator. Sample: --locale en_US
      */
+    @Deprecated
     LOCALE("--locale"),
     /**
      * Configuration JSON file to register Appium with selenium grid. Sample:
@@ -134,11 +169,20 @@ public enum GeneralServerFlag implements ServerArgument{
      * Port for robot. Sample: --robot-port 4242
      */
     ROBOT_PORT("--robot-port"),
+
+    @Deprecated
     /**
+     * This flag IS deprecated because it is moved to
+     * {@link AndroidServerFlag#CHROME_DRIVER_PORT}
+     *
      * Port upon which ChromeDriver will run. Sample: --chromedriver-port 9515
      */
     CHROME_DRIVER_PORT("--chromedriver-port"),
+    @Deprecated
     /**
+     * This flag IS deprecated because it is moved to
+     * {@link AndroidServerFlag#CHROME_DRIVER_EXECUTABLE}
+     *
      * ChromeDriver executable full path
      */
     CHROME_DRIVER_EXECUTABLE("--chromedriver-executable"),
@@ -151,9 +195,13 @@ public enum GeneralServerFlag implements ServerArgument{
      */
     NO_PERMS_CHECKS( "--no-perms-check"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * The default command timeout for the server to use for all sessions. Will
      * still be overridden by newCommandTimeout cap. Default: 60
      */
+    @Deprecated
     COMMAND_TIMEOUT("--command-timeout"),
     /**
      * Cause sessions to fail if desired caps are sent in that Appium does not

@@ -16,21 +16,18 @@
 
 package io.appium.java_client.service.local.flags;
 
-@Deprecated
 /**
 * Here is the list of iOS specific server arguments.
-* All flags are optional, but some are required in conjunction with certain others.
-* The full list is available here: http://appium.io/slate/en/master/?ruby#appium-server-arguments
-* iOS specific arguments are marked by (IOS-only)
- *
- * This flags are deprecated since appium node 1.5.x. This list will be removed in the next release.
- * Be careful.
 */
 public enum IOSServerFlag implements ServerArgument{
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * the relative path of the dir where Localizable.strings file
      * resides. Default: en.lproj. Sample: --localizable-strings-dir en.lproj
      */
+    @Deprecated
     LOCALIZABLE_STRING_PATH("--localizable-strings-dir"),
     /**
      * absolute path to compiled .ipa file. Sample: --ipa /abs/path/to/my.ipa
@@ -42,13 +39,21 @@ public enum IOSServerFlag implements ServerArgument{
      */
     BACK_END_RETRIES("--backend-retries"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      *  how long in ms to wait for Instruments to launch. Default: 90000
      */
+    @Deprecated
     LAUNCH_TIMEOUT("--launch-timeout"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * IOS has a weird built-in unavoidable delay. We patch this in
      * appium. If you do not want it patched, pass in this flag. Default: false
      */
+    @Deprecated
     USE_NATIVE_INSTRUMENTS("--native-instruments-lib"),
     /**
      * Use the safari app. Default: false
@@ -69,15 +74,23 @@ public enum IOSServerFlag implements ServerArgument{
      */
     FORCE_IPAD_SIMULATOR("--force-ipad"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Calendar format for the iOS simulator.
      * Default: null
      * Sample: --calendar-format gregorian
      */
+    @Deprecated
     CALENDAR_FORMAT("--calendar-format"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * use LANDSCAPE or PORTRAIT to initialize all requests to this
      * orientation. Sample: --orientation LANDSCAPE
      */
+    @Deprecated
     ORIENTATION("--orientation"),
     /**
      * .tracetemplate file to use with Instruments. Sample: --tracetemplate /Users/me/Automation.tracetemplate
@@ -88,17 +101,29 @@ public enum IOSServerFlag implements ServerArgument{
      */
     CUSTOM_INSTRUMENTS_PATH("--instruments"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * if set, the iOS simulator log will be written to the console. Default: false
      */
+    @Deprecated
     SHOW_SIMULATOR_LOG("--show-sim-log"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * if set, the iOS system log will be written to the console. Default: false
      */
+    @Deprecated
     SHOW_IOS_LOG("--show-ios-log"),
     /**
+     * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
+     * Be careful.
+     *
      * Whether to keep keychains (Library/Keychains) when reset app
      * between sessions. Default: false
      */
+    @Deprecated
     KEEP_KEYCHAINS("--keep-keychains"),
     /**
      * Xcode 6 has a bug on some platforms where a certain simulator can only be
