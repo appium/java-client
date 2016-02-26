@@ -3,6 +3,7 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -30,7 +31,7 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        AppiumServiceBuilder builder = new AppiumServiceBuilder().withArgument(GeneralServerFlag.AUTOMATION_NAME, AutomationName.SELENDROID);
+        AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
     }
@@ -42,7 +43,8 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
+        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);

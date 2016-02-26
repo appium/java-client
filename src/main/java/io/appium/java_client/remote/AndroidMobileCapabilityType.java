@@ -138,7 +138,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String INTENT_ACTION = "intentAction";
 
     /**
-     * ntent category which will be used to start activity (default android.intent.category.LAUNCHER)
+     * Intent category which will be used to start activity (default android.intent.category.LAUNCHER)
      */
     String INTENT_CATEGORY = "intentCategory";
 

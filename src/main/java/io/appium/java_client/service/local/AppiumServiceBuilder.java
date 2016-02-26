@@ -252,7 +252,9 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             this.capabilities = capabilities;
         }
         else {
-            this.capabilities.merge(capabilities);
+            DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+            desiredCapabilities.merge(this.capabilities).merge(capabilities);
+            this.capabilities = desiredCapabilities;
         }
         return this;
     }
@@ -306,8 +308,8 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         this.appiumJS = findNodeInCurrentFileSystem();
     }
 
-    @SuppressWarnings("unchecked")
-    private String parseCapabilities() {
+
+    private String parseCapabilitiesIfWindows() {
         String result = StringUtils.EMPTY;
 
         if (capabilities != null) {
@@ -342,6 +344,46 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         }
 
         return "{" + result + "}";
+    }
+
+    private String parseCapabilitiesIfUNIX() {
+        String result = StringUtils.EMPTY;
+
+        if (capabilities != null) {
+            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
+            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+
+            for (Map.Entry<String, Object> entry : entries) {
+                Object value = entry.getValue();
+
+                if (value == null) {
+                    continue;
+                }
+
+                if (String.class.isAssignableFrom(value.getClass())) {
+                    value = "\"" + String.valueOf(value) + "\"";
+                } else {
+                    value = String.valueOf(value);
+                }
+
+                String key = "\"" + String.valueOf(entry.getKey()) + "\"";
+                if (StringUtils.isBlank(result)) {
+                    result = key + ": " + value;
+                } else {
+                    result = result + ", " + key + ": " + value;
+                }
+            }
+        }
+
+        return "'{" + result + "}'";
+    }
+
+    @SuppressWarnings("unchecked")
+    private String parseCapabilities() {
+        if (Platform.getCurrent().is(Platform.WINDOWS)) {
+            return parseCapabilitiesIfWindows();
+        }
+        return parseCapabilitiesIfUNIX();
     }
 
     @Override
