@@ -248,7 +248,12 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      * @return the self-reference
      */
     public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
-        this.capabilities = capabilities;
+        if (this.capabilities == null) {
+            this.capabilities = capabilities;
+        }
+        else {
+            this.capabilities.merge(capabilities);
+        }
         return this;
     }
 
