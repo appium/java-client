@@ -375,7 +375,7 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             }
         }
 
-        return "'{" + result + "}'";
+        return "{" + result + "}";
     }
 
     @SuppressWarnings("unchecked")
