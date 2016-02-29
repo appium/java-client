@@ -3,6 +3,8 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
+import io.appium.java_client.pagefactory_tests.widgets.ios.annotated.AnnotatedIOSMovie;
+import io.appium.java_client.pagefactory_tests.widgets.ios.simple.IOSMovie;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.lang3.StringUtils;
@@ -68,6 +70,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
 
         rottenTomatoes.checkSimpleReview();
+        assertTrue(movie.getSelfReference().getClass().equals(IOSMovie.class));
     }
 
     @Override
@@ -81,6 +84,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
 
         rottenTomatoes.checkAnnotatedReview();
+        assertTrue(movie.getSelfReference().getClass().equals(AnnotatedIOSMovie.class));
     }
 
 
@@ -95,6 +99,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
 
         rottenTomatoes.checkExtendedReview();
+        assertTrue(movie.getSelfReference().getClass().equals(AnnotatedIOSMovie.class));
     }
 
     @Override

@@ -16,4 +16,9 @@ public abstract class Review extends Widget{
     public abstract String info();
 
     public abstract Object getPoster();
+
+    @Override
+    public Review getSelfReference() {
+        return (Review) super.getSelfReference();
+    }
 }
