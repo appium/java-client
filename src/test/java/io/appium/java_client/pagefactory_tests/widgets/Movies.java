@@ -12,4 +12,9 @@ public abstract class Movies extends Widget{
     public abstract int getMovieCount();
 
     public abstract Movie getMovie(int index);
+
+    @Override
+    public Movies getSelfReference() {
+        return (Movies) super.getSelfReference();
+    }
 }

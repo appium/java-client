@@ -2,6 +2,8 @@ package io.appium.java_client.pagefactory_tests.widgets;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
+import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlMovie;
+import io.appium.java_client.pagefactory_tests.widgets.html.simple.HtmlMovie;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,7 +47,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
     @Before
     public void setUp() throws Exception {
         if (driver != null)
-            driver.get("file:///" + new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").getAbsolutePath());
+            driver.get( new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").toURI().toString());
     }
 
     @AfterClass
@@ -65,6 +67,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
 
         rottenTomatoes.checkSimpleReview();
+        assertTrue(movie.getSelfReference().getClass().equals(HtmlMovie.class));
     }
 
     @Override
@@ -78,6 +81,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
 
         rottenTomatoes.checkAnnotatedReview();
+        assertTrue(movie.getSelfReference().getClass().equals(AnnotatedHtmlMovie.class));
     }
 
 
@@ -92,6 +96,7 @@ public class HtmlOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
 
         rottenTomatoes.checkExtendedReview();
+        assertTrue(movie.getSelfReference().getClass().equals(AnnotatedHtmlMovie.class));
     }
 
     @Override
