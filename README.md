@@ -126,7 +126,10 @@ instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the co
 `AndroidDriver.lockDevice()...AndroidDriver.unlockDevice()` or `IOSDriver.lockDevice(int seconds)` instead. Thanks to [@namannigam](https://github.com/namannigam) for
 the catching. Read [#315](https://github.com/appium/java-client/issues/315)
 - `maven-release-plugin` was added to POM.XML configuration
-- [#320](https://github.com/appium/java-client/issues/320) fix. The `Widget.getSelfReference()` was added. This method allows to extract a real widget-object from inside a proxy at some extraordinary situations. Read: [PR](https://github.com/appium/java-client/pull/327). Thanks to [SergeyErmakovMercDev](https://github.com/SergeyErmakovMercDev) fpr the reporting.
+- [#320](https://github.com/appium/java-client/issues/320) fix. The `Widget.getSelfReference()` was added. This method allows to extract a real widget-object from inside a proxy at some extraordinary situations. Read: [PR](https://github.com/appium/java-client/pull/327). Thanks to [SergeyErmakovMercDev](https://github.com/SergeyErmakovMercDev) for the reporting.
+- all capabilities were added according to [this description](https://github.com/appium/appium/blob/1.5/docs/en/writing-running-appium/caps.md). There are three classes: `io.appium.java_client.remote.MobileCapabilityType` (just modified), `io.appium.java_client.remote.AndroidMobileCapabilityType` (android-specific capabilities), `io.appium.java_client.remote.IOSMobileCapabilityType` (iOS-specific capabilities). Details are here: [#326](https://github.com/appium/java-client/pull/326)
+- some server flags were marked `deprecated` because they are deprecated since server node v1.5.x. These flags are going to be removed at the java client release. Details are here: [#326](https://github.com/appium/java-client/pull/326)
+- The ability to start Appium node programmatically using desired capabilities. This feature is compatible with Appium node server v >= 1.5.x. Details are here: [#326](https://github.com/appium/java-client/pull/326)
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2
