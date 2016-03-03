@@ -126,6 +126,7 @@ instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the co
 `AndroidDriver.lockDevice()...AndroidDriver.unlockDevice()` or `IOSDriver.lockDevice(int seconds)` instead. Thanks to [@namannigam](https://github.com/namannigam) for
 the catching. Read [#315](https://github.com/appium/java-client/issues/315)
 - `maven-release-plugin` was added to POM.XML configuration
+- [#320](https://github.com/appium/java-client/issues/320) fix. The `Widget.getSelfReference()` was added. This method allows to extract a real widget-object from inside a proxy at some extraordinary situations. Read: [PR](https://github.com/appium/java-client/pull/327). Thanks to [SergeyErmakovMercDev](https://github.com/SergeyErmakovMercDev) fpr the reporting.
 
 *3.3.0*
 - updated the dependency on Selenium to version 2.48.2

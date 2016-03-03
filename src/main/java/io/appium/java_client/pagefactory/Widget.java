@@ -61,4 +61,8 @@ public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement
     public WebElement getWrappedElement() {
         return (WebElement) element;
     }
+
+    public Widget getSelfReference() {
+        return this;
+    }
 }

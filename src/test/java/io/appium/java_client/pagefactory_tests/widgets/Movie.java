@@ -15,4 +15,9 @@ public abstract class Movie extends Widget{
     public abstract Object getPoster();
 
     public abstract void goToReview();
+
+    @Override
+    public Movie getSelfReference() {
+        return (Movie) super.getSelfReference();
+    }
 }
