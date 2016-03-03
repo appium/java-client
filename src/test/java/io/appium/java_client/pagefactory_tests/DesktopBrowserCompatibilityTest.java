@@ -71,7 +71,7 @@ public class DesktopBrowserCompatibilityTest {
 		WebDriver driver = new ChromeDriver();
 		try {
 			PageFactory.initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS), this);
-			driver.get("file:///" + new File("src/test/java/io/appium/java_client/hello appium - saved page.htm").getAbsolutePath());
+			driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm").toURI().toString());
 			assertNotEquals(0, foundLinks.size());
 			assertNotEquals(0, main.size());
 			assertEquals(null, trap1);
