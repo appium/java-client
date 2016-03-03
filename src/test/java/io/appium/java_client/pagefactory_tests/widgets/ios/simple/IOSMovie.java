@@ -4,12 +4,13 @@ import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import org.openqa.selenium.WebElement;
+import java.util.List;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 public class IOSMovie extends Movie{
 
     @iOSFindBy(className = "UIAStaticText")
-    private IOSElement staticText;
+    private List<IOSElement> staticTexts;
 
     protected IOSMovie(WebElement element) {
         super(element);
@@ -17,12 +18,12 @@ public class IOSMovie extends Movie{
 
     @Override
     public String title() {
-        return staticText.getText().split(",")[0];
+        return staticTexts.get(0).getText();
     }
 
     @Override
     public String score() {
-        return staticText.getText().split(",")[3];
+        return staticTexts.get(3).getText();
     }
 
     @Override
