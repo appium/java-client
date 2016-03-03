@@ -3,8 +3,6 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
-import io.appium.java_client.pagefactory_tests.widgets.selendroid.annotated.AnnotatedSelendroidMovie;
-import io.appium.java_client.pagefactory_tests.widgets.selendroid.simple.SelendroidMovie;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -74,7 +72,6 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
         rottenTomatoes.checkSimpleReview();
-        assertTrue(movie.getSelfReference().getClass().equals(SelendroidMovie.class));
     }
 
     @Override
@@ -88,7 +85,6 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
         rottenTomatoes.checkAnnotatedReview();
-        assertTrue(movie.getSelfReference().getClass().equals(AnnotatedSelendroidMovie.class));
     }
 
 
@@ -103,7 +99,6 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
         movie.goToReview();
         driver.getPageSource();  //forcing the refreshing hierarchy
         rottenTomatoes.checkExtendedReview();
-        assertTrue(movie.getSelfReference().getClass().equals(AnnotatedSelendroidMovie.class));
     }
 
     @Override

@@ -18,12 +18,15 @@ package io.appium.java_client.service.local;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.ServerArgument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.CommandLine;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.*;
@@ -50,6 +53,14 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
 
+    private static final List<String> PATH_CAPABILITIES = new ArrayList<String>() {
+        {
+            add(AndroidMobileCapabilityType.KEYSTORE_PATH);
+            add(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE);
+            add(MobileCapabilityType.APP);
+        }
+    };
+
     private static final String APPIUM_FOLDER = "appium";
 
     private static final String BIN_FOLDER = "bin";
@@ -73,12 +84,12 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
     private final static String BASH = "bash";
     private final static String CMD_EXE = "cmd.exe";
     private final static String NODE = "node";
-
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
     private File npmScript;
     private File getNodeJSExecutable;
+    private DesiredCapabilities capabilities;
 
     //The first starting is slow sometimes on some
     //environment
@@ -232,6 +243,27 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         return this;
     }
 
+    /**
+     * @param capabilities is an instance of {@link org.openqa.selenium.remote.DesiredCapabilities}
+     * @return the self-reference
+     */
+    public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
+        if (this.capabilities == null) {
+            this.capabilities = capabilities;
+        }
+        else {
+            DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+            desiredCapabilities.merge(this.capabilities).merge(capabilities);
+            this.capabilities = desiredCapabilities;
+        }
+        return this;
+    }
+
+    /**
+     * @param appiumJS an executable appium.js (1.4.x and lower) or
+     * main.js (1.5.x and higher)
+     * @return the self-reference
+     */
     public AppiumServiceBuilder withAppiumJS(File appiumJS){
         this.appiumJS = appiumJS;
         return this;
@@ -276,6 +308,84 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
         this.appiumJS = findNodeInCurrentFileSystem();
     }
 
+
+    private String parseCapabilitiesIfWindows() {
+        String result = StringUtils.EMPTY;
+
+        if (capabilities != null) {
+            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
+            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+
+            for (Map.Entry<String, Object> entry : entries) {
+                Object value = entry.getValue();
+
+                if (value == null) {
+                    continue;
+                }
+
+                if (String.class.isAssignableFrom(value.getClass())) {
+                    if (PATH_CAPABILITIES.contains(entry.getKey())) {
+                        value = "\\\"" + String.valueOf(value).replace("\\", "/") + "\\\"";
+                    }
+                    else {
+                        value = "\\\"" + String.valueOf(value) + "\\\"";
+                    }
+                } else {
+                    value = String.valueOf(value);
+                }
+
+                String key = "\\\"" + String.valueOf(entry.getKey()) + "\\\"";
+                if (StringUtils.isBlank(result)) {
+                    result = key + ": " + value;
+                } else {
+                    result = result + ", " + key + ": " + value;
+                }
+            }
+        }
+
+        return "{" + result + "}";
+    }
+
+    private String parseCapabilitiesIfUNIX() {
+        String result = StringUtils.EMPTY;
+
+        if (capabilities != null) {
+            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
+            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+
+            for (Map.Entry<String, Object> entry : entries) {
+                Object value = entry.getValue();
+
+                if (value == null) {
+                    continue;
+                }
+
+                if (String.class.isAssignableFrom(value.getClass())) {
+                    value = "\"" + String.valueOf(value) + "\"";
+                } else {
+                    value = String.valueOf(value);
+                }
+
+                String key = "\"" + String.valueOf(entry.getKey()) + "\"";
+                if (StringUtils.isBlank(result)) {
+                    result = key + ": " + value;
+                } else {
+                    result = result + ", " + key + ": " + value;
+                }
+            }
+        }
+
+        return "{" + result + "}";
+    }
+
+    @SuppressWarnings("unchecked")
+    private String parseCapabilities() {
+        if (Platform.getCurrent().is(Platform.WINDOWS)) {
+            return parseCapabilitiesIfWindows();
+        }
+        return parseCapabilitiesIfUNIX();
+    }
+
     @Override
     protected ImmutableList<String> createArgs() {
         List<String> argList = new ArrayList<>();
@@ -312,6 +422,11 @@ public final class AppiumServiceBuilder extends DriverService.Builder<AppiumDriv
             argList.add(argument);
             if (!StringUtils.isBlank(value))
                 argList.add(value);
+        }
+
+        if (capabilities != null) {
+            argList.add("--default-capabilities");
+            argList.add(parseCapabilities());
         }
 
         return new ImmutableList.Builder<String>().addAll(argList).build();
