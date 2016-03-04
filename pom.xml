@@ -21,7 +21,7 @@
 
     <groupId>io.appium</groupId>
     <artifactId>java-client</artifactId>
-    <version>3.3.0</version>
+    <version>4.0.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
