@@ -18,7 +18,6 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.remote.MobileBrowserType;
@@ -31,7 +30,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
@@ -48,13 +46,6 @@ public class IOSfMobileBrowserCompatibilityTest {
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
 	@iOSFindBy(className = "someClass")
 	private WebElement searchTextField;
-	
-	@AndroidFindBys({
-		@AndroidFindBy(className = "someClass"),
-		@AndroidFindBy(xpath = "//someTag")})
-	@iOSFindBy(className = "someClass")
-	@FindBy(name="btnG")
-	private RemoteWebElement searchButton;
 	
 	@AndroidFindBy(className = "someClass")
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
@@ -88,11 +79,11 @@ public class IOSfMobileBrowserCompatibilityTest {
 		driver.get("https://www.google.com");
 
 		searchTextField.sendKeys("Hello");
-		searchButton.click();
+		searchTextField.submit();
 		Assert.assertNotEquals(0, foundLinks.size());
 		searchTextField.clear();
 		searchTextField.sendKeys("Hello, Appium!");
-		searchButton.click();
+		searchTextField.submit();
 	}
 
 }
