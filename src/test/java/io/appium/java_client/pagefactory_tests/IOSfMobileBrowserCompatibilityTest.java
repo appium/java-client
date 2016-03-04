@@ -44,7 +44,7 @@ public class IOSfMobileBrowserCompatibilityTest {
 	private WebDriver driver;
     private AppiumDriverLocalService service;
 	
-	@FindBy(name = "q")
+	@FindBy(className = "gsfi")
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
 	@iOSFindBy(className = "someClass")
 	private WebElement searchTextField;
