@@ -46,6 +46,7 @@ public class SelendroidOverrideWidgetTest implements WidgetTest{
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
         rottenTomatoes = new RottenTomatoes();
+        driver.context("NATIVE_APP");
         PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 

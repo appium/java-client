@@ -74,9 +74,10 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/appium/java-client</url>
-        <connection>scm:git:git://github.com/appium/java-client.git</connection>
+        <url>scm:git:git@github.com:/appium/java-client</url>
+        <connection>scm:git:git@github.com:appium/java-client.git</connection>
         <developerConnection>scm:git:git@github.com:appium/java-client.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>

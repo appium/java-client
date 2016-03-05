@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.*;
@@ -40,7 +41,7 @@ import static org.junit.Assert.*;
 public class SelendroidModeTest {
     private static int SELENDROID_PORT = 9999;
 
-    private static WebDriver driver;
+    private static AppiumDriver<WebElement> driver;
     private static AppiumDriverLocalService service;
     private boolean populated = false;
 
@@ -101,6 +102,7 @@ public class SelendroidModeTest {
         capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
+        driver.context("NATIVE_APP");
     }
 
     @Before

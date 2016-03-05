@@ -48,6 +48,7 @@ public class SelendroidWidgetTest implements WidgetTest{
         capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver.context("NATIVE_APP");
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
         rottenTomatoesApp = new RottenTomatoesSelendroidApp();
