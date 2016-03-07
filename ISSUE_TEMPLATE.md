@@ -5,8 +5,8 @@ If there is the feature you want to see added to Appium Java client so please de
 
 ## Environment
 
-* java client build version or git revision you use some shapshot:
-* Appium server version or git revision you use some shapshot:
+* java client build version or git revision if you use some shapshot:
+* Appium server version or git revision you is use some shapshot:
 * Desktop OS/version used to run Appium if necessary:
 * Node.js version (unless using Appium.app|exe) or Appium CLI or Appium.app|exe:
 * Mobile platform/version under test:
