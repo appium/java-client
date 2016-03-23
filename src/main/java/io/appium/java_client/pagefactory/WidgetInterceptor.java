@@ -58,6 +58,7 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
             PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
         }
         try {
+            method.setAccessible(true);
             return method.invoke(cachedInstances.get(type), args);
         }
         catch (Throwable t) {
