@@ -110,8 +110,13 @@ If you are working on this project and use Intellij Idea, you need to change the
 If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
-*4.0.0 (still not released)*
+*4.0.0 (under construction yet)*
 ...
+
+*3.4.1 (is coming soon)*
+Server flags were added:
+- GeneralServerFlag.ASYNC_TRACE
+- IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT
 
 *3.4.0*
 - Update to Selenium v2.52.0
