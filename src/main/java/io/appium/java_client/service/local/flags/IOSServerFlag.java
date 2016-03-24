@@ -138,7 +138,16 @@ public enum IOSServerFlag implements ServerArgument{
      * Absolute path to directory Appium use to save ios instruments traces,
      * defaults to /appium-instruments. Default: null
      */
-    TRACE_DIRECTORY_ABSOLUTE_PATH("--trace-dir");
+    TRACE_DIRECTORY_ABSOLUTE_PATH("--trace-dir"),
+
+    /**
+     * Local port used for communication with ios-webkit-debug-proxy
+     *
+     * Default value: 27753
+     *
+     * Sample: --webkit-debug-proxy-port 27753
+     */
+    WEBKIT_DEBUG_PROXY_PORT("--webkit-debug-proxy-port");
 
     private final String arg;
 

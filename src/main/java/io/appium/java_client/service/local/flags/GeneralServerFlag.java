@@ -217,7 +217,14 @@ public enum GeneralServerFlag implements ServerArgument{
     /**
      * Add exaggerated spacing in logs to help with visual inspection. Default: false
      */
-    DEBUG_LOG_SPACING("--debug-log-spacing");
+    DEBUG_LOG_SPACING("--debug-log-spacing"),
+
+    /**
+     * Add long stack traces to log entries. Recommended for debugging only.
+     *
+     * Default: false
+     */
+    ASYNC_TRACE("--async-trace");
 
     private final String arg;
 
