@@ -21,21 +21,21 @@ package io.appium.java_client.android;
  */
 public interface AndroidKeyMetastate {
 
-  int META_ALT_LEFT_ON = 16;
-  int META_ALT_ON = 2;
-  int META_ALT_RIGHT_ON = 32;
-  int META_CAPS_LOCK_ON = 1048576;
-  int META_CTRL_LEFT_ON = 8192;
-  int META_CTRL_ON = 4096;
-  int META_CTRL_RIGHT_ON = 16384;
-  int META_FUNCTION_ON = 8;
-  int META_META_LEFT_ON = 131072;
-  int META_META_ON = 65536;
-  int META_META_RIGHT_ON = 262144;
-  int META_NUM_LOCK_ON = 2097152;
-  int META_SCROLL_LOCK_ON = 4194304;
-  int META_SHIFT_LEFT_ON = 64;
-  int META_SHIFT_ON = 1;
-  int META_SHIFT_RIGHT_ON = 128;
-  int META_SYM_ON = 4;
+    int META_ALT_LEFT_ON = 16;
+    int META_ALT_ON = 2;
+    int META_ALT_RIGHT_ON = 32;
+    int META_CAPS_LOCK_ON = 1048576;
+    int META_CTRL_LEFT_ON = 8192;
+    int META_CTRL_ON = 4096;
+    int META_CTRL_RIGHT_ON = 16384;
+    int META_FUNCTION_ON = 8;
+    int META_META_LEFT_ON = 131072;
+    int META_META_ON = 65536;
+    int META_META_RIGHT_ON = 262144;
+    int META_NUM_LOCK_ON = 2097152;
+    int META_SCROLL_LOCK_ON = 4194304;
+    int META_SHIFT_LEFT_ON = 64;
+    int META_SHIFT_ON = 1;
+    int META_SHIFT_RIGHT_ON = 128;
+    int META_SYM_ON = 4;
 }

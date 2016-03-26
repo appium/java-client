@@ -7,8 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-@FindBy(id = "movies-collection")
-public class AnnotatedHtmlMovies extends Movies{
+@FindBy(id = "movies-collection") public class AnnotatedHtmlMovies extends Movies {
     List<AnnotatedHtmlMovie> movieList;
 
     /*
@@ -20,13 +19,11 @@ public class AnnotatedHtmlMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }

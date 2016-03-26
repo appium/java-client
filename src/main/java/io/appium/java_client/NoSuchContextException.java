@@ -18,15 +18,14 @@ package io.appium.java_client;
 
 import org.openqa.selenium.NotFoundException;
 
-@SuppressWarnings("serial")
-public class NoSuchContextException extends NotFoundException {
+@SuppressWarnings("serial") public class NoSuchContextException extends NotFoundException {
 
-  public NoSuchContextException(String reason) {
-    super(reason);
-  }
+    public NoSuchContextException(String reason) {
+        super(reason);
+    }
 
-  public NoSuchContextException(String reason, Throwable cause) {
-    super(reason, cause);
-  }
+    public NoSuchContextException(String reason, Throwable cause) {
+        super(reason, cause);
+    }
 
 }

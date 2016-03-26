@@ -21,7 +21,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
- * Original class is a super class of a 
+ * Original class is a super class of a
  * proxy object here
  */
 public final class ProxyFactory {
@@ -30,13 +30,13 @@ public final class ProxyFactory {
         super();
     }
 
-    public static <T> T getEnhancedProxy(Class<T> requiredClazz, MethodInterceptor interceptor){
+    public static <T> T getEnhancedProxy(Class<T> requiredClazz, MethodInterceptor interceptor) {
         return getEnhancedProxy(requiredClazz, new Class<?>[] {}, new Object[] {}, interceptor);
     }
 
     @SuppressWarnings("unchecked")
     public static <T> T getEnhancedProxy(Class<T> requiredClazz, Class[] params, Object[] values,
-                                                        MethodInterceptor interceptor){
+        MethodInterceptor interceptor) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(requiredClazz);
         enhancer.setCallback(interceptor);

@@ -20,7 +20,7 @@ package io.appium.java_client.service.local.flags;
 /**
  * Here is the list of common Appium server arguments.
  */
-public enum GeneralServerFlag implements ServerArgument{
+public enum GeneralServerFlag implements ServerArgument {
     /**
      * Enter REPL mode
      */
@@ -34,17 +34,16 @@ public enum GeneralServerFlag implements ServerArgument{
      * IOS: abs path to simulator-compiled .app file or the bundle_id of the desired target on device; Android: abs path to .apk file.
      * Sample: --app /abs/path/to/my.app
      */
-    APP("--app"),
+        APP("--app"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Unique device identifier of the connected physical device.
      * Sample:
      * --udid 1adsf-sdfas-asdf-123sdf
      */
-    @Deprecated
-    UIID("--udid"),
+    @Deprecated UIID("--udid"),
     /**
      * callback IP Address (default: same as address).
      * Sample: --callback-address 127.0.0.1
@@ -62,12 +61,11 @@ public enum GeneralServerFlag implements ServerArgument{
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Don’t reset app state between sessions (IOS: don’t delete app plist files; Android: don’t uninstall app before new session).
      * Default: false
      */
-    @Deprecated
-    NO_RESET("--no-reset"),
+    @Deprecated NO_RESET("--no-reset"),
     /**
      * Pre-launch the application before allowing the first session (Requires –app and, for Android, –app-pkg and –app-activity).
      * Default: false
@@ -101,61 +99,54 @@ public enum GeneralServerFlag implements ServerArgument{
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Name of the mobile device to use.
      * Sample: --device-name iPhone Retina (4-inch), Android Emulator
      */
-    @Deprecated
-    DEVICE_NAME("--device-name"),
+    @Deprecated DEVICE_NAME("--device-name"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Name of the mobile platform: iOS, Android, or FirefoxOS
      * Sample: --platform-name iOS
      */
-    @Deprecated
-    PLATFORM_NAME("--platform-name"),
+    @Deprecated PLATFORM_NAME("--platform-name"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Version of the mobile platform. Sample: --platform-version 7.1
      */
-    @Deprecated
-    PLATFORM_VERSION("--platform-version"),
+    @Deprecated PLATFORM_VERSION("--platform-version"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Name of the automation tool: Appium or Selendroid. Sample: --automation-name Appium
      */
-    @Deprecated
-    AUTOMATION_NAME("--automation-name"),
+    @Deprecated AUTOMATION_NAME("--automation-name"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Name of the mobile browser: Safari or Chrome. Sample: --browser-name Safari
      */
-    @Deprecated
-    BROWSER_NAME("--browser-name"),
+    @Deprecated BROWSER_NAME("--browser-name"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Language for the iOS simulator / Android Emulator. Sample: --language en
      */
-    @Deprecated
-    LANGUAGE("--language"),
+    @Deprecated LANGUAGE("--language"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * Locale for the iOS simulator / Android Emulator. Sample: --locale en_US
      */
-    @Deprecated
-    LOCALE("--locale"),
+    @Deprecated LOCALE("--locale"),
     /**
      * Configuration JSON file to register Appium with selenium grid. Sample:
      * --nodeconfig /abs/path/to/nodeconfig.json
@@ -177,7 +168,7 @@ public enum GeneralServerFlag implements ServerArgument{
      *
      * Port upon which ChromeDriver will run. Sample: --chromedriver-port 9515
      */
-    CHROME_DRIVER_PORT("--chromedriver-port"),
+        CHROME_DRIVER_PORT("--chromedriver-port"),
     @Deprecated
     /**
      * This flag IS deprecated because it is moved to
@@ -185,7 +176,7 @@ public enum GeneralServerFlag implements ServerArgument{
      *
      * ChromeDriver executable full path
      */
-    CHROME_DRIVER_EXECUTABLE("--chromedriver-executable"),
+        CHROME_DRIVER_EXECUTABLE("--chromedriver-executable"),
     /**
      * Show info about the Appium server configuration and exit. Default: false
      */
@@ -193,16 +184,15 @@ public enum GeneralServerFlag implements ServerArgument{
     /**
      * Bypass Appium’s checks to ensure we can read/write necessary files. Default: false
      */
-    NO_PERMS_CHECKS( "--no-perms-check"),
+    NO_PERMS_CHECKS("--no-perms-check"),
     /**
      * This flag IS deprecated since appium node 1.5.x. It will be removed in the next release.
      * Be careful.
-     *
+     * <p/>
      * The default command timeout for the server to use for all sessions. Will
      * still be overridden by newCommandTimeout cap. Default: 60
      */
-    @Deprecated
-    COMMAND_TIMEOUT("--command-timeout"),
+    @Deprecated COMMAND_TIMEOUT("--command-timeout"),
     /**
      * Cause sessions to fail if desired caps are sent in that Appium does not
      * recognize as valid for the selected device. Default: false
@@ -221,7 +211,7 @@ public enum GeneralServerFlag implements ServerArgument{
 
     /**
      * Add long stack traces to log entries. Recommended for debugging only.
-     *
+     * <p/>
      * Default: false
      */
     ASYNC_TRACE("--async-trace");
@@ -232,8 +222,7 @@ public enum GeneralServerFlag implements ServerArgument{
         this.arg = arg;
     }
 
-    @Override
-    public String getArgument() {
+    @Override public String getArgument() {
         return arg;
     }
 }

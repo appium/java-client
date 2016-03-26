@@ -16,12 +16,12 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.NoSuchContextException;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -34,64 +34,58 @@ import static org.junit.Assert.assertEquals;
  */
 public class AndroidContextTest {
 
-  private static AndroidDriver<?> driver;
-  private static AppiumDriverLocalService service;
+    private static AndroidDriver<?> driver;
+    private static AppiumDriverLocalService service;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-     service = AppiumDriverLocalService.buildDefaultService();
-     service.start();
+    @BeforeClass public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
 
-    if (service == null || !service.isRunning())
-      throw new RuntimeException("An appium server node is not started!");
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
 
-    if (service == null || !service.isRunning())
-      throw new RuntimeException("An appium server node is not started!");
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
 
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "ApiDemos-debug.apk");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-    driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
-    driver.startActivity("io.appium.android.apis", ".view.WebView1");
-    Thread.sleep(20000);
-  }
-
-  @AfterClass
-  public static void tearDown() throws Exception {
-    if (driver != null) {
-      driver.quit();
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "ApiDemos-debug.apk");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
+        driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
+        driver.startActivity("io.appium.android.apis", ".view.WebView1");
+        Thread.sleep(20000);
     }
 
-    if (service.isRunning()) {
-      service.stop();
+    @AfterClass public static void tearDown() throws Exception {
+        if (driver != null) {
+            driver.quit();
+        }
+
+        if (service.isRunning()) {
+            service.stop();
+        }
     }
-  }
 
-  @Test
-  public void testGetContext() {
-    assertEquals("NATIVE_APP", driver.getContext());
-  }
+    @Test public void testGetContext() {
+        assertEquals("NATIVE_APP", driver.getContext());
+    }
 
-  @Test
-  public void testGetContextHandles() {
-    assertEquals(driver.getContextHandles().size(), 2);
-  }
+    @Test public void testGetContextHandles() {
+        assertEquals(driver.getContextHandles().size(), 2);
+    }
 
-  @Test
-  public void testSwitchContext() {
-    driver.getContextHandles();
-    driver.context("WEBVIEW_io.appium.android.apis");
-    assertEquals(driver.getContext(), "WEBVIEW_io.appium.android.apis");
-    driver.context("NATIVE_APP");
-  }
+    @Test public void testSwitchContext() {
+        driver.getContextHandles();
+        driver.context("WEBVIEW_io.appium.android.apis");
+        assertEquals(driver.getContext(), "WEBVIEW_io.appium.android.apis");
+        driver.context("NATIVE_APP");
+    }
 
-  @Test(expected = NoSuchContextException.class)
-  public void testContextError() {
-    driver.context("Planet of the Ape-ium");
-  }
+    @Test(expected = NoSuchContextException.class) public void testContextError() {
+        driver.context("Planet of the Ape-ium");
+    }
 
 }

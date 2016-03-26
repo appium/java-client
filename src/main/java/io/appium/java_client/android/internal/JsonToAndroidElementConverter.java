@@ -23,15 +23,14 @@ import io.appium.java_client.internal.JsonToMobileElementConverter;
 
 public class JsonToAndroidElementConverter extends JsonToMobileElementConverter {
 
-	public JsonToAndroidElementConverter(AppiumDriver<?> driver) {
-		super(driver);
-	}
+    public JsonToAndroidElementConverter(AppiumDriver<?> driver) {
+        super(driver);
+    }
 
-	@Override
-	protected MobileElement newMobileElement() {
-		AndroidElement toReturn = new AndroidElement();
-		toReturn.setParent(driver);
-		return toReturn;
-	}
+    @Override protected MobileElement newMobileElement() {
+        AndroidElement toReturn = new AndroidElement();
+        toReturn.setParent(driver);
+        return toReturn;
+    }
 
 }

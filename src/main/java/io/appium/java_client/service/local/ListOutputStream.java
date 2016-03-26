@@ -31,35 +31,32 @@ class ListOutputStream extends OutputStream {
         return this;
     }
 
-    @Override
-    public void write(int i) throws IOException {
-        for (OutputStream stream: streams) {
+    @Override public void write(int i) throws IOException {
+        for (OutputStream stream : streams) {
             stream.write(i);
         }
     }
 
-    @Override
-    public void write(byte[] var1) throws IOException {
-        for (OutputStream stream: streams) {
+    @Override public void write(byte[] var1) throws IOException {
+        for (OutputStream stream : streams) {
             stream.write(var1, 0, var1.length);
         }
     }
 
-    @Override
-    public void write(byte[] var1, int var2, int var3) throws IOException {
-        for (OutputStream stream: streams) {
+    @Override public void write(byte[] var1, int var2, int var3) throws IOException {
+        for (OutputStream stream : streams) {
             stream.write(var1, var2, var3);
         }
     }
 
     public void flush() throws IOException {
-        for (OutputStream stream: streams) {
+        for (OutputStream stream : streams) {
             stream.flush();
         }
     }
 
     public void close() throws IOException {
-        for (OutputStream stream: streams) {
+        for (OutputStream stream : streams) {
             stream.close();
         }
     }

@@ -21,11 +21,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -40,97 +36,90 @@ import static org.junit.Assert.assertTrue;
  */
 public class AndroidUIAutomatorTest {
 
-  private AndroidDriver<AndroidElement> driver;
-  private static AppiumDriverLocalService service;
+    private static AppiumDriverLocalService service;
+    private AndroidDriver<AndroidElement> driver;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-     service = AppiumDriverLocalService.buildDefaultService();
-     service.start();
-  }
+    @BeforeClass public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+    }
 
-  @Before
-  public void setup() throws Exception {
-    if (service == null || !service.isRunning())
-       throw new RuntimeException("An appium server node is not started!");
+    @AfterClass public static void afterClass() {
+        if (service != null)
+            service.stop();
+    }
 
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "ApiDemos-debug.apk");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new AndroidDriver<AndroidElement>(service.getUrl(), capabilities);
-  }
+    @Before public void setup() throws Exception {
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-  }
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "ApiDemos-debug.apk");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        driver = new AndroidDriver<AndroidElement>(service.getUrl(), capabilities);
+    }
 
-  @Test
-  public void findElementTest() {
-    WebElement element = driver.findElementByAndroidUIAutomator("new UiSelector().index(0)");
-    assertEquals("android.widget.FrameLayout", element.getTagName());
-  }
+    @After public void tearDown() throws Exception {
+        driver.quit();
+    }
 
-  @Test
-  public void findElementsTest() {
-    List<AndroidElement> elements = driver.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)");
-    assertTrue(elements.size() > 10);
-  }
+    @Test public void findElementTest() {
+        WebElement element = driver.findElementByAndroidUIAutomator("new UiSelector().index(0)");
+        assertEquals("android.widget.FrameLayout", element.getTagName());
+    }
 
-  @Test
-  public void findElementByTest() {
-    AndroidElement element = driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().index(0)"));
-    assertEquals("android.widget.FrameLayout", element.getTagName());
-  }
+    @Test public void findElementsTest() {
+        List<AndroidElement> elements =
+            driver.findElementsByAndroidUIAutomator("new UiSelector().clickable(true)");
+        assertTrue(elements.size() > 10);
+    }
 
-  @Test
-  public void findElementsByTest() {
-    List<AndroidElement> elements = driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)"));
-    assertTrue(elements.size() > 10);
-  }
+    @Test public void findElementByTest() {
+        AndroidElement element =
+            driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().index(0)"));
+        assertEquals("android.widget.FrameLayout", element.getTagName());
+    }
 
-  @Test
-  public void findChainedElementsTest() {
-	  AndroidElement el1 = driver.findElementByAndroidUIAutomator("resourceId(\"android:id/content\")");
-	  MobileElement el2 = el1.findElement(MobileBy.AndroidUIAutomator("text(\"Accessibility\")"));
-	  el2.click();
-	  AndroidElement el3 = driver.findElementByAndroidUIAutomator("text(\"Custom View\")");
-	  assertTrue(el3.isDisplayed());
-  }
+    @Test public void findElementsByTest() {
+        List<AndroidElement> elements =
+            driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)"));
+        assertTrue(elements.size() > 10);
+    }
 
-  @Test
-  public void replaceValue() {
-    String originalValue = "original value";
-    String replacedValue = "replaced value";
+    @Test public void findChainedElementsTest() {
+        AndroidElement el1 =
+            driver.findElementByAndroidUIAutomator("resourceId(\"android:id/content\")");
+        MobileElement el2 = el1.findElement(MobileBy.AndroidUIAutomator("text(\"Accessibility\")"));
+        el2.click();
+        AndroidElement el3 = driver.findElementByAndroidUIAutomator("text(\"Custom View\")");
+        assertTrue(el3.isDisplayed());
+    }
 
-    driver.scrollToExact("Views").click();
-    driver.findElementByAndroidUIAutomator("text(\"Controls\")").click();
-    driver.findElementByAndroidUIAutomator("text(\"1. Light Theme\")").click();
+    @Test public void replaceValue() {
+        String originalValue = "original value";
+        String replacedValue = "replaced value";
 
-    AndroidElement editElement = driver.findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
+        driver.scrollToExact("Views").click();
+        driver.findElementByAndroidUIAutomator("text(\"Controls\")").click();
+        driver.findElementByAndroidUIAutomator("text(\"1. Light Theme\")").click();
 
-    editElement.sendKeys(originalValue);
+        AndroidElement editElement = driver
+            .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
 
-    assertEquals(originalValue, editElement.getText());
+        editElement.sendKeys(originalValue);
 
-    editElement.replaceValue(replacedValue);
+        assertEquals(originalValue, editElement.getText());
 
-    assertEquals(replacedValue, editElement.getText());
-  }
+        editElement.replaceValue(replacedValue);
 
-  @Test(expected = IllegalArgumentException.class)
-  public void ErrorTest() {
-    driver.findElementByAndroidUIAutomator(null);
-  }
+        assertEquals(replacedValue, editElement.getText());
+    }
 
-
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-       service.stop();
-  }
+    @Test(expected = IllegalArgumentException.class) public void ErrorTest() {
+        driver.findElementByAndroidUIAutomator(null);
+    }
 }

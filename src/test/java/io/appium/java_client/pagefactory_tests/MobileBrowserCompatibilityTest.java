@@ -40,52 +40,47 @@ import java.util.concurrent.TimeUnit;
 
 public class MobileBrowserCompatibilityTest {
 
-	private WebDriver driver;
+    private WebDriver driver;
 
     private AppiumDriverLocalService service;
-	
-	@AndroidFindBys({
-		@AndroidFindBy(className = "someClass"),
-		@AndroidFindBy(xpath = "//someTag")})
-	private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
 
-	@FindBy(className = "gsfi")
-	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
-	private WebElement searchTextField;
+    @AndroidFindBys({@AndroidFindBy(className = "someClass"), @AndroidFindBy(xpath = "//someTag")})
+    private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
 
-	@AndroidFindBy(className = "someClass")
-	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
-	private List<WebElement> foundLinks;
-	
-	@Before
-	public void setUp() throws Exception {
+    @FindBy(className = "gsfi")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
+    private WebElement searchTextField;
+
+    @AndroidFindBy(className = "someClass")
+    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) private List<WebElement>
+        foundLinks;
+
+    @Before public void setUp() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-		driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
-		//This time out is set because test can be run on slow Android SDK emulator
-		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
-	}
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+        driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
+        //This time out is set because test can be run on slow Android SDK emulator
+        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+    }
 
-	@After
-	public void tearDown() throws Exception {
+    @After public void tearDown() throws Exception {
         if (driver != null)
             driver.quit();
 
         if (service != null)
             service.stop();
-	}
+    }
 
-	@Test
-	public void test() {
-		driver.get("https://www.google.com");
+    @Test public void test() {
+        driver.get("https://www.google.com");
 
-		searchTextField.sendKeys("Hello");
-		btnG.click();
-		Assert.assertNotEquals(0, foundLinks.size());
-	}
+        searchTextField.sendKeys("Hello");
+        btnG.click();
+        Assert.assertNotEquals(0, foundLinks.size());
+    }
 
 }

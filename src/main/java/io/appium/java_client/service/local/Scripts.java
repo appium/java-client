@@ -17,12 +17,12 @@
 package io.appium.java_client.service.local;
 
 import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 
 enum Scripts {
     GET_PATH_TO_DEFAULT_NODE_UNIX("get_path_to_default_node.sh"),
-    GET_NODE_JS_EXECUTABLE("getExe.js")
-    ;
+    GET_NODE_JS_EXECUTABLE("getExe.js");
     private static final String RESOURCE_FOLDER = "/scripts/";
     private final String script;
 
@@ -39,7 +39,7 @@ enum Scripts {
             throw new RuntimeException(e);
         }
 
-        String[] splittedName =  this.script.split("\\.");
+        String[] splittedName = this.script.split("\\.");
         File scriptFile;
         try {
             scriptFile = File.createTempFile(splittedName[0], "." + splittedName[1]);

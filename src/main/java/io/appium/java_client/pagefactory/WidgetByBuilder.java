@@ -17,6 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 import org.openqa.selenium.By;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -27,11 +28,6 @@ import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultO
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 
 class WidgetByBuilder extends DefaultElementByBuilder {
-
-    private enum WhatIsNeeded {
-        DEFAULT_OR_HTML,
-        MOBILE_NATIVE
-    }
 
     protected WidgetByBuilder(String platform, String automation) {
         super(platform, automation);
@@ -51,8 +47,7 @@ class WidgetByBuilder extends DefaultElementByBuilder {
         return (Class<?>) listType;
     }
 
-    @SuppressWarnings("unchecked")
-    private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
+    @SuppressWarnings("unchecked") private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         Field field = Field.class.cast(annotatedElement);
         Class<?> declaredClass;
@@ -61,61 +56,61 @@ class WidgetByBuilder extends DefaultElementByBuilder {
         try {
             if (List.class.isAssignableFrom(field.getType())) {
                 declaredClass = getClassFromAListField(field);
-            }
-            else {
+            } else {
                 declaredClass = field.getType();
             }
 
             Class<?> convenientClass;
 
             if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
-                convenientClass = getDefaultOrHTMLWidgetClass((Class<? extends Widget>) declaredClass, field);
-            }
-            else {
-                convenientClass = getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field, platform, automation);
+                convenientClass =
+                    getDefaultOrHTMLWidgetClass((Class<? extends Widget>) declaredClass, field);
+            } else {
+                convenientClass =
+                    getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field,
+                        platform, automation);
             }
 
             while (result == null && !convenientClass.equals(Object.class)) {
                 setAnnotated(convenientClass);
                 if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
                     result = super.buildDefaultBy();
-                }
-                else {
+                } else {
                     result = super.buildMobileNativeBy();
                 }
 
                 convenientClass = convenientClass.getSuperclass();
             }
             return result;
-        }
-        finally {
+        } finally {
             if (field != null) {
                 setAnnotated(field);
             }
         }
     }
 
-    @Override
-    protected By buildDefaultBy() {
+    @Override protected By buildDefaultBy() {
         By defaultBy = super.buildDefaultBy();
 
         if (defaultBy != null) {
             return defaultBy;
-        }
-        else {
+        } else {
             return getByFromDeclaredClass(WhatIsNeeded.DEFAULT_OR_HTML);
         }
     }
 
-    @Override
-    protected By buildMobileNativeBy() {
+    @Override protected By buildMobileNativeBy() {
         By mobileBy = super.buildMobileNativeBy();
 
         if (mobileBy != null) {
             return mobileBy;
-        }
-        else {
+        } else {
             return getByFromDeclaredClass(WhatIsNeeded.MOBILE_NATIVE);
         }
+    }
+
+    private enum WhatIsNeeded {
+        DEFAULT_OR_HTML,
+        MOBILE_NATIVE
     }
 }

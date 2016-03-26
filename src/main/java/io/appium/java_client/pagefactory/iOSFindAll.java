@@ -26,8 +26,7 @@ import java.lang.annotation.Target;
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface iOSFindAll {
-	iOSFindBy[] value();
+    iOSFindBy[] value();
 }

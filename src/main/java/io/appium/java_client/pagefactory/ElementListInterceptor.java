@@ -17,32 +17,29 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
-
-import java.lang.reflect.Method;
-import java.util.List;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 /**
- *
  * Intercepts requests to the list of {@link MobileElement}
- *
  */
-class ElementListInterceptor extends InterceptorOfAListOfElements{
+class ElementListInterceptor extends InterceptorOfAListOfElements {
 
-	ElementListInterceptor(ElementLocator locator){
-		super(locator);
-	}
+    ElementListInterceptor(ElementLocator locator) {
+        super(locator);
+    }
 
-	@Override
-	protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws Throwable {
-		try {
-			return method.invoke(elements, args);
-		}
-		catch (Throwable t){
-			throw ThrowableUtil.extractReadableException(t);
-		}
-	}
+    @Override protected Object getObject(List<WebElement> elements, Method method, Object[] args)
+        throws Throwable {
+        try {
+            return method.invoke(elements, args);
+        } catch (Throwable t) {
+            throw ThrowableUtil.extractReadableException(t);
+        }
+    }
 
 }

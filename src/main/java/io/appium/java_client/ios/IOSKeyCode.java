@@ -21,9 +21,9 @@ package io.appium.java_client.ios;
  */
 public interface IOSKeyCode {
 
-  int BACKSPACE = 8;
-  int ENTER = 13;
-  int RETURN = 13;
-  int SPACE = 32;
+    int BACKSPACE = 8;
+    int ENTER = 13;
+    int RETURN = 13;
+    int SPACE = 32;
 
 }

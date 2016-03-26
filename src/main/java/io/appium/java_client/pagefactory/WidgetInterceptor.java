@@ -30,16 +30,16 @@ import java.util.Map;
 
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
-class WidgetInterceptor extends InterceptorOfASingleElement{
+class WidgetInterceptor extends InterceptorOfASingleElement {
 
-    private WebElement cachedElement;
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final TimeOutDuration duration;
+    private WebElement cachedElement;
 
     WidgetInterceptor(CacheableLocator locator, WebDriver driver, WebElement cachedElement,
-                             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-                             TimeOutDuration duration) {
+        Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+        TimeOutDuration duration) {
         super(locator, driver);
         this.cachedElement = cachedElement;
         this.instantiationMap = instantiationMap;
@@ -47,11 +47,12 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
     }
 
 
-    @Override
-    protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
+    @Override protected Object getObject(WebElement element, Method method, Object[] args)
+        throws Throwable {
         ContentType type = getCurrentContentType(element);
-        if (cachedElement == null || (locator !=null && !((CacheableLocator) locator).isLookUpCached()) ||
-                cachedInstances.size() == 0) {
+        if (cachedElement == null || (locator != null && !((CacheableLocator) locator)
+            .isLookUpCached()) ||
+            cachedInstances.size() == 0) {
             cachedElement = element;
             Widget widget = instantiationMap.get(type).newInstance(cachedElement);
             cachedInstances.put(type, widget);
@@ -59,14 +60,13 @@ class WidgetInterceptor extends InterceptorOfASingleElement{
         }
         try {
             return method.invoke(cachedInstances.get(type), args);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw ThrowableUtil.extractReadableException(t);
         }
     }
 
-    public Object intercept(Object obj, Method method, Object[] args,
-                            MethodProxy proxy) throws Throwable {
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
+        throws Throwable {
         if (locator != null) {
             return super.intercept(obj, method, args, proxy);
         }

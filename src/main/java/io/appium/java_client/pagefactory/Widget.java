@@ -21,6 +21,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
+
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
@@ -29,7 +30,7 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unp
  * It is the Appium-specific extension of the Page Object design pattern. It allows user
  * to create objects which typify some element with nested sub-elements. Also it allows to describe and encapsulate
  * logic of interaction/behavior within.
- *
+ * <p/>
  * About the Page Object design pattern please read these documents:
  * - https://code.google.com/p/selenium/wiki/PageObjects
  * - https://code.google.com/p/selenium/wiki/PageFactory
@@ -42,23 +43,19 @@ public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement
         this.element = element;
     }
 
-    @Override
-    public List<WebElement> findElements(By by) {
+    @Override public List<WebElement> findElements(By by) {
         return element.findElements(by);
     }
 
-    @Override
-    public WebElement findElement(By by) {
+    @Override public WebElement findElement(By by) {
         return element.findElement(by);
     }
 
-    @Override
-    public WebDriver getWrappedDriver() {
+    @Override public WebDriver getWrappedDriver() {
         return unpackWebDriverFromSearchContext(element);
     }
 
-    @Override
-    public WebElement getWrappedElement() {
+    @Override public WebElement getWrappedElement() {
         return (WebElement) element;
     }
 

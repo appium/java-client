@@ -8,70 +8,29 @@ import static org.junit.Assert.assertTrue;
 
 public class ThreadSafetyTest {
 
-    private static abstract class Action implements Cloneable {
-        abstract Object perform();
-
-        public Action clone() {
-            try {
-                return (Action) super.clone();
-            }
-            catch (Throwable t) {
-                throw new RuntimeException(t);
-            }
-        }
-    }
-
-    private static class TestThread implements Runnable {
-        private final Action action;
-        private Object result;
-        private Throwable t;
-
-        TestThread(Action action) {
-            this.action = action;
-        }
-
-        @Override
-        public void run() {
-            try {
-                result = action.perform();
-            }
-            catch (Throwable t) {
-                this.t = t;
-            }
-
-        }
-    }
-
     final AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
     final Action run = new Action() {
-        @Override
-        Object perform() {
+        @Override Object perform() {
             service.start();
             return "OK";
         }
     };
     final Action run2 = run.clone();
-
     final Action isRunning = new Action() {
-        @Override
-        Object perform() {
+        @Override Object perform() {
             return service.isRunning();
         }
     };
     final Action isRunning2 = isRunning.clone();
-
     final Action stop = new Action() {
-        @Override
-        Object perform() {
+        @Override Object perform() {
             service.stop();
             return "OK";
         }
     };
-
     final Action stop2 = stop.clone();
 
-    @Test
-    public void whenFewTreadsDoTheSameWork() throws Throwable {
+    @Test public void whenFewTreadsDoTheSameWork() throws Throwable {
 
         TestThread runTestThread = new TestThread(run);
         TestThread runTestThread2 = new TestThread(run2);
@@ -147,8 +106,7 @@ public class ThreadSafetyTest {
             assertTrue(stopTestThread.result.equals("OK"));
             assertTrue(stopTestThread2.result.equals("OK"));
             assertTrue(!service.isRunning());
-        }
-        finally {
+        } finally {
             if (service.isRunning()) {
                 service.stop();
             }
@@ -156,8 +114,7 @@ public class ThreadSafetyTest {
 
     }
 
-    @Test
-    public void whenFewTreadsDoDifferentWork() throws Throwable {
+    @Test public void whenFewTreadsDoDifferentWork() throws Throwable {
         TestThread runTestThread = new TestThread(run);
         TestThread runTestThread2 = new TestThread(run2);
 
@@ -199,9 +156,11 @@ public class ThreadSafetyTest {
                 throw stopTestThread.t;
             }
 
-            assertTrue(runTestThread.result.equals("OK")); //the service had been started firstly (see (1))
+            assertTrue(
+                runTestThread.result.equals("OK")); //the service had been started firstly (see (1))
             assertTrue(isRunningTestThread.result.equals(true)); //it was running (see (2))
-            assertTrue(stopTestThread.result.equals("OK")); //and then the test tried to shut down it (see (3))
+            assertTrue(stopTestThread.result
+                .equals("OK")); //and then the test tried to shut down it (see (3))
             assertTrue(!service.isRunning());
 
             isRunningThread2.start(); // (1)
@@ -226,15 +185,49 @@ public class ThreadSafetyTest {
                 throw stopTestThread.t;
             }
 
-            assertTrue(isRunningTestThread2.result.equals(false)); //the service wasn't being running (see (1))
-            assertTrue(stopTestThread2.result.equals("OK")); //the service had not been started firstly (see (2)), it is ok
+            assertTrue(isRunningTestThread2.result
+                .equals(false)); //the service wasn't being running (see (1))
+            assertTrue(stopTestThread2.result
+                .equals("OK")); //the service had not been started firstly (see (2)), it is ok
             assertTrue(runTestThread2.result.equals("OK")); //and then it was started (see (3))
             assertTrue(service.isRunning());
-        }
-        finally {
+        } finally {
             if (service.isRunning()) {
                 service.stop();
             }
+        }
+    }
+
+
+    private static abstract class Action implements Cloneable {
+        abstract Object perform();
+
+        public Action clone() {
+            try {
+                return (Action) super.clone();
+            } catch (Throwable t) {
+                throw new RuntimeException(t);
+            }
+        }
+    }
+
+
+    private static class TestThread implements Runnable {
+        private final Action action;
+        private Object result;
+        private Throwable t;
+
+        TestThread(Action action) {
+            this.action = action;
+        }
+
+        @Override public void run() {
+            try {
+                result = action.perform();
+            } catch (Throwable t) {
+                this.t = t;
+            }
+
         }
     }
 }

@@ -24,8 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use a series of @SelendroidFindBy tags
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface SelendroidFindBys {
-	SelendroidFindBy[] value();
+    SelendroidFindBy[] value();
 }

@@ -22,14 +22,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.SearchContext;
@@ -40,10 +32,18 @@ import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getAutomation;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getPlatform;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.*;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -51,36 +51,40 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unp
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory.
- *
+ * <p/>
  * Please pay attention: fields of {@link WebElement}, {@link RemoteWebElement},
- * {@link MobileElement}, {@link AndroidElement} and {@link IOSElement} are allowed 
+ * {@link MobileElement}, {@link AndroidElement} and {@link IOSElement} are allowed
  * to use with this decorator
  */
-public class AppiumFieldDecorator implements FieldDecorator{
+public class AppiumFieldDecorator implements FieldDecorator {
 
     private static final List<Class<? extends WebElement>> availableElementClasses =
-            new ArrayList<Class<? extends WebElement>>() {
-                private static final long serialVersionUID = 1L;
-                {
-                    add(WebElement.class);
-                    add(RemoteWebElement.class);
-                    add(MobileElement.class);
-                    add(TouchableElement.class);
-                    add(AndroidElement.class);
-                    add(IOSElement.class);
-                }
+        new ArrayList<Class<? extends WebElement>>() {
+            private static final long serialVersionUID = 1L;
 
-            };
+            {
+                add(WebElement.class);
+                add(RemoteWebElement.class);
+                add(MobileElement.class);
+                add(TouchableElement.class);
+                add(AndroidElement.class);
+                add(IOSElement.class);
+            }
 
-    private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>> elementRuleMap =
-            new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
-                private static final long serialVersionUID = 1L;
-                {
-                    put(AndroidDriver.class, AndroidElement.class);
-                    put(IOSDriver.class, IOSElement.class);
-                }
-            };
+        };
 
+    private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>>
+        elementRuleMap =
+        new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
+            private static final long serialVersionUID = 1L;
+
+            {
+                put(AndroidDriver.class, AndroidElement.class);
+                put(IOSDriver.class, IOSElement.class);
+            }
+        };
+    public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
+    public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver originalDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
@@ -88,10 +92,8 @@ public class AppiumFieldDecorator implements FieldDecorator{
     private final String automation;
     private final TimeOutDuration timeOutDuration;
 
-    public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
-    public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
-
-    public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut, TimeUnit timeUnit) {
+    public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
+        TimeUnit timeUnit) {
         this(context, new TimeOutDuration(implicitlyWaitTimeOut, timeUnit));
     }
 
@@ -102,23 +104,21 @@ public class AppiumFieldDecorator implements FieldDecorator{
         this.timeOutDuration = timeOutDuration;
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
-                        new DefaultElementByBuilder(platform, automation))) {
+            new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
+                new DefaultElementByBuilder(platform, automation))) {
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
                 return proxyForAnElement(locator);
             }
 
-            @Override
-            @SuppressWarnings("unchecked")
-            protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator)  {
+            @Override @SuppressWarnings("unchecked")
+            protected List<WebElement> proxyForListLocator(ClassLoader ignored,
+                ElementLocator locator) {
                 ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
-                return  getEnhancedProxy(ArrayList.class,
-                        elementInterceptor);
+                return getEnhancedProxy(ArrayList.class, elementInterceptor);
             }
 
-            @Override
-            protected boolean isDecoratableList(Field field) {
+            @Override protected boolean isDecoratableList(Field field) {
                 if (!List.class.isAssignableFrom(field.getType())) {
                     return false;
                 }
@@ -131,8 +131,7 @@ public class AppiumFieldDecorator implements FieldDecorator{
                 Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
 
                 boolean result = false;
-                for (Class<? extends WebElement> webElementClass:
-                        availableElementClasses) {
+                for (Class<? extends WebElement> webElementClass : availableElementClasses) {
                     if (!webElementClass.equals(listType)) {
                         continue;
                     }
@@ -143,7 +142,8 @@ public class AppiumFieldDecorator implements FieldDecorator{
             }
         };
 
-        widgetLocatorFactory = new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
+        widgetLocatorFactory =
+            new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
                 new WidgetByBuilder(platform, automation));
     }
 
@@ -160,8 +160,7 @@ public class AppiumFieldDecorator implements FieldDecorator{
         return decorateWidget(field);
     }
 
-    @SuppressWarnings("unchecked")
-    private Object decorateWidget(Field field) {
+    @SuppressWarnings("unchecked") private Object decorateWidget(Field field) {
         Class<?> type = field.getType();
         if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
             return null;
@@ -187,29 +186,31 @@ public class AppiumFieldDecorator implements FieldDecorator{
             }
 
             widgetType = Class.class.cast(listType);
-        }
-        else {
+        } else {
             widgetType = (Class<? extends Widget>) field.getType();
         }
 
         CacheableLocator locator = widgetLocatorFactory.createLocator(field);
         Map<ContentType, Constructor<? extends Widget>> map =
-                OverrideWidgetReader.read(widgetType, field, platform, automation);
+            OverrideWidgetReader.read(widgetType, field, platform, automation);
 
         if (isAlist) {
             return getEnhancedProxy(ArrayList.class,
-                    new WidgetListInterceptor(locator, originalDriver, map, widgetType, timeOutDuration));
+                new WidgetListInterceptor(locator, originalDriver, map, widgetType,
+                    timeOutDuration));
         }
 
-        Constructor<? extends Widget> constructor = WidgetConstructorUtil.findConvenientConstructor(widgetType);
+        Constructor<? extends Widget> constructor =
+            WidgetConstructorUtil.findConvenientConstructor(widgetType);
         return getEnhancedProxy(widgetType, new Class[] {constructor.getParameterTypes()[0]},
-                new Object[] {proxyForAnElement(locator)}, new WidgetInterceptor(locator, originalDriver, null, map,
-                        timeOutDuration));
+            new Object[] {proxyForAnElement(locator)},
+            new WidgetInterceptor(locator, originalDriver, null, map, timeOutDuration));
     }
 
     private Class<?> getTypeForProxy() {
         Class<? extends SearchContext> driverClass = originalDriver.getClass();
-        Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules = elementRuleMap.entrySet();
+        Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules =
+            elementRuleMap.entrySet();
         //it will return MobileElement subclass when here is something
         for (Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e : rules) {
             //that extends AppiumDriver or MobileElement
@@ -220,7 +221,7 @@ public class AppiumFieldDecorator implements FieldDecorator{
         return RemoteWebElement.class;
     }
 
-    private WebElement proxyForAnElement(ElementLocator locator)  {
+    private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
         return (WebElement) getEnhancedProxy(getTypeForProxy(), elementInterceptor);
     }

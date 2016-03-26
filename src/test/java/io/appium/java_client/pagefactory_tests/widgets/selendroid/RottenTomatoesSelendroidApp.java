@@ -18,11 +18,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class RottenTomatoesSelendroidApp {
 
-    @SelendroidFindBy(id = "lvMovies")
-    private SelendroidMovies simpleMovies;
+    @SelendroidFindBy(id = "lvMovies") private SelendroidMovies simpleMovies;
 
-    @SelendroidFindBy(className = "android.widget.RelativeLayout")
-    private SelendroidReview simpleReview;
+    @SelendroidFindBy(className = "android.widget.RelativeLayout") private SelendroidReview
+        simpleReview;
 
     private AnnotatedSelendroidMovies annotatedSelendroidMovies;
 
@@ -32,22 +31,20 @@ public class RottenTomatoesSelendroidApp {
 
     private ExtendedSelendroidReview extendedSelendroidReview;
 
-    @SelendroidFindBy(id = "fakeId")
-    private ExtendedSelendroidMovies fakeMovies;
+    @SelendroidFindBy(id = "fakeId") private ExtendedSelendroidMovies fakeMovies;
 
-    @SelendroidFindBy(id = "fakeId")
-    private ExtendedSelendroidReview fakeReview;
+    @SelendroidFindBy(id = "fakeId") private ExtendedSelendroidReview fakeReview;
 
 
-    public int getSimpleMovieCount(){
+    public int getSimpleMovieCount() {
         return simpleMovies.getMovieCount();
     }
 
-    public Movie getASimpleMovie(int index){
+    public Movie getASimpleMovie(int index) {
         return simpleMovies.getMovie(index);
     }
 
-    public void checkSimpleReview(){
+    public void checkSimpleReview() {
         assertTrue(!StringUtils.isBlank(simpleReview.title()));
         assertTrue(!StringUtils.isBlank(simpleReview.score()));
         assertTrue(!StringUtils.isBlank(simpleReview.info()));
@@ -55,15 +52,15 @@ public class RottenTomatoesSelendroidApp {
     }
 
     /////////////////////////////////////////////////////////
-    public int getAnnotatedMovieCount(){
+    public int getAnnotatedMovieCount() {
         return annotatedSelendroidMovies.getMovieCount();
     }
 
-    public Movie getAnAnnotatedMovie(int index){
+    public Movie getAnAnnotatedMovie(int index) {
         return annotatedSelendroidMovies.getMovie(index);
     }
 
-    public void checkAnnotatedReview(){
+    public void checkAnnotatedReview() {
         assertTrue(!StringUtils.isBlank(annotatedSelendroidReview.title()));
         assertTrue(!StringUtils.isBlank(annotatedSelendroidReview.score()));
         assertTrue(!StringUtils.isBlank(annotatedSelendroidReview.info()));
@@ -71,15 +68,15 @@ public class RottenTomatoesSelendroidApp {
     }
     /////////////////////////////////////////////////////////
 
-    public int getExtendeddMovieCount(){
+    public int getExtendeddMovieCount() {
         return extendedSelendroidMovies.getMovieCount();
     }
 
-    public Movie getAnExtendedMovie(int index){
+    public Movie getAnExtendedMovie(int index) {
         return extendedSelendroidMovies.getMovie(index);
     }
 
-    public void checkExtendedReview(){
+    public void checkExtendedReview() {
         assertTrue(!StringUtils.isBlank(extendedSelendroidReview.title()));
         assertTrue(!StringUtils.isBlank(extendedSelendroidReview.score()));
         assertTrue(!StringUtils.isBlank(extendedSelendroidReview.info()));
@@ -88,11 +85,11 @@ public class RottenTomatoesSelendroidApp {
 
     /////////////////////////////////////////////////////////
 
-    public int getFakedMovieCount(){
+    public int getFakedMovieCount() {
         return fakeMovies.getMovieCount();
     }
 
-    public void checkFakeReview(){
+    public void checkFakeReview() {
         assertTrue(!StringUtils.isBlank(fakeReview.title()));
         assertTrue(!StringUtils.isBlank(fakeReview.score()));
         assertTrue(!StringUtils.isBlank(fakeReview.info()));

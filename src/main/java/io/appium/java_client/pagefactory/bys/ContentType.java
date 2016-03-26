@@ -17,6 +17,6 @@
 package io.appium.java_client.pagefactory.bys;
 
 public enum ContentType {
-	HTML_OR_DEFAULT,
-	NATIVE_MOBILE_SPECIFIC;
+    HTML_OR_DEFAULT,
+    NATIVE_MOBILE_SPECIFIC;
 }

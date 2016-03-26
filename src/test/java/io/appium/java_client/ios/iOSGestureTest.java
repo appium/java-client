@@ -33,124 +33,116 @@ import java.io.File;
  */
 public class iOSGestureTest {
 
-  private AppiumDriver<WebElement> driver;
-  private static AppiumDriverLocalService service;
+    private static AppiumDriverLocalService service;
+    private AppiumDriver<WebElement> driver;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-     service = AppiumDriverLocalService.buildDefaultService();
-     service.start();
-  }
+    @BeforeClass public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+    }
 
-  @Before
-  public void setup() throws Exception {
-    if (service == null || !service.isRunning())
-      throw new RuntimeException("An appium server node is not started!");
+    @AfterClass public static void afterClass() {
+        if (service != null)
+            service.stop();
+    }
 
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "TestApp.app.zip");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
-  }
+    @Before public void setup() throws Exception {
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-  }
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "TestApp.app.zip");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
+    }
 
-  @Test
-  public void TouchActionTest() throws InterruptedException {
-    WebElement button = driver.findElementsByClassName("UIAButton").get(3);
-    TouchAction action = new TouchAction(driver);
-    action.press(button).perform();
-    Thread.sleep(2000);
-  }
+    @After public void tearDown() throws Exception {
+        driver.quit();
+    }
 
-  @Test
-  public void TouchActionChainTest() throws InterruptedException {
-    WebDriverWait wait = new WebDriverWait(driver, 2);
+    @Test public void TouchActionTest() throws InterruptedException {
+        WebElement button = driver.findElementsByClassName("UIAButton").get(3);
+        TouchAction action = new TouchAction(driver);
+        action.press(button).perform();
+        Thread.sleep(2000);
+    }
 
-    WebElement button = driver.findElementsByClassName("UIAButton").get(5);
-    TouchAction action = new TouchAction(driver);
-    action.press(button).perform();
+    @Test public void TouchActionChainTest() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, 2);
 
-    wait.until(ExpectedConditions.alertIsPresent());
-    Alert alert = driver.switchTo().alert();
-    alert.accept();
+        WebElement button = driver.findElementsByClassName("UIAButton").get(5);
+        TouchAction action = new TouchAction(driver);
+        action.press(button).perform();
 
-    WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
-    action = new TouchAction(driver);
-    action.press(mapview).moveTo(mapview, 0, 100).release().perform();
-    Thread.sleep(2000);
-  }
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
 
-  @Test
-  public void MultiGestureTest() throws InterruptedException {
-    WebDriverWait wait = new WebDriverWait(driver, 2);
+        WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
+        action = new TouchAction(driver);
+        action.press(mapview).moveTo(mapview, 0, 100).release().perform();
+        Thread.sleep(2000);
+    }
 
-    WebElement button = driver.findElementsByClassName("UIAButton").get(5);
-    TouchAction action = new TouchAction(driver);
-    action.press(button).perform();
+    @Test public void MultiGestureTest() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, 2);
 
-    wait.until(ExpectedConditions.alertIsPresent());
-    Alert alert = driver.switchTo().alert();
-    alert.accept();
+        WebElement button = driver.findElementsByClassName("UIAButton").get(5);
+        TouchAction action = new TouchAction(driver);
+        action.press(button).perform();
 
-    WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
 
-    MultiTouchAction multiTouch = new MultiTouchAction(driver);
-    TouchAction action0 = new TouchAction(driver).press(mapview, 100, 0).moveTo(mapview, 0,-80).release();
-    TouchAction action1 = new TouchAction(driver).press(mapview, 100, 50).moveTo(mapview, 0,80).release();
-    multiTouch.add(action0).add(action1).perform();
-    Thread.sleep(2000);
-  }
+        WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
 
-  @Test
-  public void ZoomTest() throws InterruptedException {
-    WebDriverWait wait = new WebDriverWait(driver, 2);
+        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+        TouchAction action0 =
+            new TouchAction(driver).press(mapview, 100, 0).moveTo(mapview, 0, -80).release();
+        TouchAction action1 =
+            new TouchAction(driver).press(mapview, 100, 50).moveTo(mapview, 0, 80).release();
+        multiTouch.add(action0).add(action1).perform();
+        Thread.sleep(2000);
+    }
 
-    WebElement button = driver.findElementsByClassName("UIAButton").get(5);
-    TouchAction action = new TouchAction(driver);
-    action.press(button).perform();
+    @Test public void ZoomTest() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, 2);
 
-    wait.until(ExpectedConditions.alertIsPresent());
-    Alert alert = driver.switchTo().alert();
-    alert.accept();
+        WebElement button = driver.findElementsByClassName("UIAButton").get(5);
+        TouchAction action = new TouchAction(driver);
+        action.press(button).perform();
 
-    WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
 
-    driver.zoom(mapview);
-    Thread.sleep(2000);
-  }
+        WebElement mapview = driver.findElementByXPath("//UIAWindow[1]/UIAMapView[1]");
 
-  @Test
-  public void TapSingleFingerTest() {
-    driver.tap(1,100,200,1000);
-  }
+        driver.zoom(mapview);
+        Thread.sleep(2000);
+    }
 
-  @Test
-  public void elementGestureTest(){
-	  MobileElement e = (MobileElement) driver.findElementByName("TextField1");
-	  e.tap(1, 1500);
-	  e.zoom();
-	  e.pinch();
-	  e.swipe(SwipeElementDirection.UP,2000);
-	  e.swipe(SwipeElementDirection.UP, 5, 5, 2000);
-	  e.swipe(SwipeElementDirection.DOWN,2000);
-	  e.swipe(SwipeElementDirection.DOWN, 5, 5, 2000);
-	  e.swipe(SwipeElementDirection.LEFT,2000);
-	  e.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
-	  e.swipe(SwipeElementDirection.RIGHT,2000);
-	  e.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
-  }
+    @Test public void TapSingleFingerTest() {
+        driver.tap(1, 100, 200, 1000);
+    }
 
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-      service.stop();
-  }
+    @Test public void elementGestureTest() {
+        MobileElement e = (MobileElement) driver.findElementByName("TextField1");
+        e.tap(1, 1500);
+        e.zoom();
+        e.pinch();
+        e.swipe(SwipeElementDirection.UP, 2000);
+        e.swipe(SwipeElementDirection.UP, 5, 5, 2000);
+        e.swipe(SwipeElementDirection.DOWN, 2000);
+        e.swipe(SwipeElementDirection.DOWN, 5, 5, 2000);
+        e.swipe(SwipeElementDirection.LEFT, 2000);
+        e.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
+        e.swipe(SwipeElementDirection.RIGHT, 2000);
+        e.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
+    }
 }

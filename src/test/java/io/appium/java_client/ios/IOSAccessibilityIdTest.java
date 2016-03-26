@@ -35,62 +35,55 @@ import static org.junit.Assert.assertTrue;
  */
 public class IOSAccessibilityIdTest {
 
-  private AppiumDriver<?> driver;
-  private static AppiumDriverLocalService service;
+    private static AppiumDriverLocalService service;
+    private AppiumDriver<?> driver;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-    service = AppiumDriverLocalService.buildDefaultService();
-    service.start();
-  }
+    @BeforeClass public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+    }
 
-    @Before
-  public void setup() throws Exception {
-    if (service == null || !service.isRunning())
-       throw new RuntimeException("An appium server node is not started!");
+    @AfterClass public static void afterClass() {
+        if (service != null)
+            service.stop();
+    }
 
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "UICatalog.app.zip");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
-  }
+    @Before public void setup() throws Exception {
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-  }
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "UICatalog.app.zip");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
+    }
 
-  @Test
-  public void findElementTest() {
-    WebElement element = driver.findElementByAccessibilityId("UICatalog");
-    assertNotNull(element);
-  }
+    @After public void tearDown() throws Exception {
+        driver.quit();
+    }
 
-  @Test
-  public void findElementsTest() {
-    List<? extends WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
-    assertTrue(elements.size() > 0);
-  }
+    @Test public void findElementTest() {
+        WebElement element = driver.findElementByAccessibilityId("UICatalog");
+        assertNotNull(element);
+    }
 
-  @Test
-  public void MobileElementByTest() {
-    WebElement element = driver.findElement(MobileBy.AccessibilityId("UICatalog"));
-    assertNotNull(element);
-  }
+    @Test public void findElementsTest() {
+        List<? extends WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
+        assertTrue(elements.size() > 0);
+    }
 
-  @Test
-  public void MobileElementsByTest() {
-    List<? extends WebElement> elements = driver.findElements(MobileBy.AccessibilityId("UICatalog"));
-    assertTrue(elements.size() > 0);
-  }
+    @Test public void MobileElementByTest() {
+        WebElement element = driver.findElement(MobileBy.AccessibilityId("UICatalog"));
+        assertNotNull(element);
+    }
 
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-      service.stop();
-  }
+    @Test public void MobileElementsByTest() {
+        List<? extends WebElement> elements =
+            driver.findElements(MobileBy.AccessibilityId("UICatalog"));
+        assertTrue(elements.size() > 0);
+    }
 }
