@@ -114,6 +114,10 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 ...
 
 *3.4.1 (is coming soon)*
+- Update to Selenium v2.53.0
+- all dependencies were updated to latest versions
+- the dependency on org.apache.commons commons-lang3 v3.4 was added
+- the fix of Widget method invocation.[#340](https://github.com/appium/java-client/issues/340). A class visibility was taken into account. Thanks to [aznime](https://github.com/aznime) for the catching.
 Server flags were added:
 - GeneralServerFlag.ASYNC_TRACE
 - IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT
