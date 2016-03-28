@@ -37,106 +37,98 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TimeOutResetTest {
-	private WebDriver driver;
-	private final static long ACCEPTABLE_DELTA_MILLS = 1500;
-
-
-	@FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
-	@FindBy(className = "OneAnotherClassWhichDoesNotExist")})
-	private List<WebElement> stubElements;
+    private final static long ACCEPTABLE_DELTA_MILLS = 1500;
+    private WebDriver driver;
+    @FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
+        @FindBy(className = "OneAnotherClassWhichDoesNotExist")}) private List<WebElement>
+        stubElements;
 
     @WithTimeout(time = 5, unit = TimeUnit.SECONDS)
     @FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
-            @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
-    private List<WebElement> stubElements2;
+        @FindBy(className = "OneAnotherClassWhichDoesNotExist")}) private List<WebElement>
+        stubElements2;
 
     private TimeOutDuration timeOutDuration;
 
-	@Before
-	public void setUp() throws Exception {
-		if (Platform.getCurrent().is(Platform.WINDOWS)) {
-			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
-		}
-		else {
-			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
-		}
-		driver = new ChromeDriver();
-		timeOutDuration = new TimeOutDuration(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
-                AppiumFieldDecorator.DEFAULT_TIMEUNIT);
-		PageFactory.initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
-	}
+    private static void checkTimeDifference(long expectedTime, TimeUnit expectedTimeUnit,
+        long currentMillis) {
+        long expectedMillis = TimeUnit.MILLISECONDS.convert(expectedTime, expectedTimeUnit);
+        try {
+            Assert.assertEquals(true,
+                ((currentMillis - expectedMillis) < ACCEPTABLE_DELTA_MILLS) && (
+                    (currentMillis - expectedMillis) >= 0));
+        } catch (Error e) {
+            String message = String.valueOf(expectedTime) + " " + expectedTimeUnit.toString()
+                + " current duration in millis " +
+                String.valueOf(currentMillis) + " Failed";
+            throw new RuntimeException(message, e);
+        }
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		driver.quit();
-	}
+    @Before public void setUp() throws Exception {
+        if (Platform.getCurrent().is(Platform.WINDOWS)) {
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
+        } else {
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
+        }
+        driver = new ChromeDriver();
+        timeOutDuration = new TimeOutDuration(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+            AppiumFieldDecorator.DEFAULT_TIMEUNIT);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
+    }
 
-	private static void checkTimeDifference(long expectedTime,
-			TimeUnit expectedTimeUnit, long currentMillis) {
-		long expectedMillis = TimeUnit.MILLISECONDS.convert(expectedTime,
-				expectedTimeUnit);
-		try{
-			Assert.assertEquals(true,
-					((currentMillis - expectedMillis) < ACCEPTABLE_DELTA_MILLS)
-							&& ((currentMillis - expectedMillis) >= 0));
-		}
-		catch (Error e){
-			String message = String.valueOf(expectedTime) + " "  + expectedTimeUnit.toString() + " current duration in millis " +
-					String.valueOf(currentMillis) + " Failed";
-			throw new RuntimeException(message, e);
-		}
-	}
+    @After public void tearDown() throws Exception {
+        driver.quit();
+    }
 
-	private long getBenchMark(List<WebElement> stubElements) {
-		long startMark = Calendar.getInstance().getTimeInMillis();
-		stubElements.size();
-		long endMark = Calendar.getInstance().getTimeInMillis();
-		return endMark - startMark;
-	}
+    private long getBenchMark(List<WebElement> stubElements) {
+        long startMark = Calendar.getInstance().getTimeInMillis();
+        stubElements.size();
+        long endMark = Calendar.getInstance().getTimeInMillis();
+        return endMark - startMark;
+    }
 
-	@Test
-	public void test() {
-		checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT, AppiumFieldDecorator.DEFAULT_TIMEUNIT,
-				getBenchMark(stubElements));
-		System.out.println(String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT)
-				+ " " + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
+    @Test public void test() {
+        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+            AppiumFieldDecorator.DEFAULT_TIMEUNIT, getBenchMark(stubElements));
+        System.out.println(
+            String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT) + " "
+                + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
 
-		timeOutDuration.setTime(15500000, TimeUnit.MICROSECONDS);
-		checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements));
-		System.out.println("Change time: " + String.valueOf(15500000) + " "
-				+ TimeUnit.MICROSECONDS.toString() + ": Fine");
+        timeOutDuration.setTime(15500000, TimeUnit.MICROSECONDS);
+        checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements));
+        System.out.println(
+            "Change time: " + String.valueOf(15500000) + " " + TimeUnit.MICROSECONDS.toString()
+                + ": Fine");
 
         timeOutDuration.setTime(3, TimeUnit.SECONDS);
-		checkTimeDifference(3, TimeUnit.SECONDS, getBenchMark(stubElements));
-		System.out.println("Change time: " + String.valueOf(3) + " "
-				+ TimeUnit.SECONDS.toString() + ": Fine");
+        checkTimeDifference(3, TimeUnit.SECONDS, getBenchMark(stubElements));
+        System.out.println(
+            "Change time: " + String.valueOf(3) + " " + TimeUnit.SECONDS.toString() + ": Fine");
 
-	}
+    }
 
-    @Test
-    public void test2() {
-        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT, AppiumFieldDecorator.DEFAULT_TIMEUNIT,
-                getBenchMark(stubElements));
-        System.out.println(String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT)
-                + " " + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
+    @Test public void test2() {
+        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+            AppiumFieldDecorator.DEFAULT_TIMEUNIT, getBenchMark(stubElements));
+        System.out.println(
+            String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT) + " "
+                + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
 
-        checkTimeDifference(5, TimeUnit.SECONDS,
-                getBenchMark(stubElements2));
-        System.out.println(String.valueOf(5)
-                + " " + TimeUnit.SECONDS.toString() + ": Fine");
+        checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2));
+        System.out.println(String.valueOf(5) + " " + TimeUnit.SECONDS.toString() + ": Fine");
 
 
         timeOutDuration.setTime(15500000, TimeUnit.MICROSECONDS);
         checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements));
-        System.out.println("Change time: " + String.valueOf(15500000) + " "
-                + TimeUnit.MICROSECONDS.toString() + ": Fine");
+        System.out.println(
+            "Change time: " + String.valueOf(15500000) + " " + TimeUnit.MICROSECONDS.toString()
+                + ": Fine");
 
-        checkTimeDifference(5, TimeUnit.SECONDS,
-                getBenchMark(stubElements2));
-        System.out.println(String.valueOf(5)
-                + " " + TimeUnit.SECONDS.toString() + ": Fine");
+        checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2));
+        System.out.println(String.valueOf(5) + " " + TimeUnit.SECONDS.toString() + ": Fine");
 
     }
 

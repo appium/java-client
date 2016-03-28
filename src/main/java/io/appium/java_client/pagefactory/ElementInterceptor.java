@@ -17,29 +17,28 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.MobileElement;
-import java.lang.reflect.Method;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
+import java.lang.reflect.Method;
+
 /**
  * Intercepts requests to {@link MobileElement}
- *
  */
 class ElementInterceptor extends InterceptorOfASingleElement {
-	
-	ElementInterceptor(ElementLocator locator, WebDriver driver) {
-		super(locator, driver);
-	}
 
-	@Override
-	protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
-		try {
-			return method.invoke(element, args);
-		}
-		catch (Throwable t){
-			throw ThrowableUtil.extractReadableException(t);
-		}
-	}
+    ElementInterceptor(ElementLocator locator, WebDriver driver) {
+        super(locator, driver);
+    }
+
+    @Override protected Object getObject(WebElement element, Method method, Object[] args)
+        throws Throwable {
+        try {
+            return method.invoke(element, args);
+        } catch (Throwable t) {
+            throw ThrowableUtil.extractReadableException(t);
+        }
+    }
 }

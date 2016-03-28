@@ -22,5 +22,6 @@ import java.util.List;
 
 public interface GenericFindsByXPath<T extends WebElement> {
     T findElementByXPath(String xPath);
+
     List<T> findElementsByXPath(String xPath);
 }

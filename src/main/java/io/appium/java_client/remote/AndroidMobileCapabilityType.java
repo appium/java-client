@@ -205,5 +205,5 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      */
     String RECREATE_CHROME_DRIVER_SESSIONS = "recreateChromeDriverSessions";
 
-    String SELENDROID_PORT  = "selendroidPort";
+    String SELENDROID_PORT = "selendroidPort";
 }

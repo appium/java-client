@@ -9,10 +9,9 @@ import io.appium.java_client.pagefactory_tests.widgets.combined.simple.CombinedR
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@FindBy(id = "main_container")
-@SelendroidFindBy(className = "android.widget.RelativeLayout")
+@FindBy(id = "main_container") @SelendroidFindBy(className = "android.widget.RelativeLayout")
 @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-        @AndroidFindBy(className = "android.widget.RelativeLayout")})
+    @AndroidFindBy(className = "android.widget.RelativeLayout")})
 public class AnnotatedCombinedReview extends CombinedReview {
     protected AnnotatedCombinedReview(WebElement element) {
         super(element);

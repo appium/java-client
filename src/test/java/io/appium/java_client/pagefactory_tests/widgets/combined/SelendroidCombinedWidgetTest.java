@@ -9,7 +9,6 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -22,23 +21,25 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class SelendroidCombinedWidgetTest implements WidgetTest{
+public class SelendroidCombinedWidgetTest implements WidgetTest {
     private static int SELENDROID_PORT = 9999;
-
-    private AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
+    private AndroidDriver<?> driver;
     private RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
     private TimeOutDuration duration;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
     }
 
-    @Before
-    public void setUp() throws Exception {
+    @AfterClass public static void afterClass() throws Exception {
+        if (service != null)
+            service.stop();
+    }
+
+    @Before public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "android-rottentomatoes-demo-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -52,20 +53,11 @@ public class SelendroidCombinedWidgetTest implements WidgetTest{
         PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @After public void tearDown() throws Exception {
         driver.quit();
     }
 
-    @AfterClass
-    public static void afterClass() throws Exception {
-        if (service != null)
-            service.stop();
-    }
-
-    @Test
-    @Override
-    public void checkACommonWidget() {
+    @Test @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -76,9 +68,7 @@ public class SelendroidCombinedWidgetTest implements WidgetTest{
         rottenTomatoes.checkSimpleReview();
     }
 
-    @Override
-    @Test
-    public void checkAnAnnotatedWidget() {
+    @Override @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -90,9 +80,7 @@ public class SelendroidCombinedWidgetTest implements WidgetTest{
     }
 
 
-    @Override
-    @Test
-    public void checkAnExtendedWidget() {
+    @Override @Test public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -103,14 +91,11 @@ public class SelendroidCombinedWidgetTest implements WidgetTest{
         rottenTomatoes.checkExtendedReview();
     }
 
-    @Override
-    @Test
-    public void checkTheLocatorOverridingOnAWidget() {
+    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
         duration.setTime(5);
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 throw e;
         }
@@ -119,8 +104,7 @@ public class SelendroidCombinedWidgetTest implements WidgetTest{
         driver.getPageSource();  //forcing the refreshing hierarchy
         try {
             rottenTomatoes.checkFakeReview();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 return;
             else

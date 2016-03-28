@@ -19,11 +19,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class RottenTomatoesIOSApp {
 
-    @iOSFindBy(className = "UIATableView")
-    private IOSMovies simpleMovies;
+    @iOSFindBy(className = "UIATableView") private IOSMovies simpleMovies;
 
-    @iOSFindBy(xpath = ".//UIAWindow[2]")
-    private IOSReview simpleReview;
+    @iOSFindBy(xpath = ".//UIAWindow[2]") private IOSReview simpleReview;
 
     private AnnotatedIOSMovies annotatedIOSMovies;
 
@@ -33,22 +31,20 @@ public class RottenTomatoesIOSApp {
 
     private ExtendedIOSReview extendedIOSReview;
 
-    @iOSFindBy(id = "fakeId")
-    private ExtendedIOSMovies fakeMovies;
+    @iOSFindBy(id = "fakeId") private ExtendedIOSMovies fakeMovies;
 
-    @iOSFindBy(id = "fakeId")
-    private ExtendedIOSReview fakeReview;
+    @iOSFindBy(id = "fakeId") private ExtendedIOSReview fakeReview;
 
 
-    public int getSimpleMovieCount(){
+    public int getSimpleMovieCount() {
         return simpleMovies.getMovieCount();
     }
 
-    public Movie getASimpleMovie(int index){
+    public Movie getASimpleMovie(int index) {
         return simpleMovies.getMovie(index);
     }
 
-    public void checkSimpleReview(){
+    public void checkSimpleReview() {
         assertTrue(!StringUtils.isBlank(simpleReview.title()));
         assertTrue(!StringUtils.isBlank(simpleReview.score()));
         assertTrue(!StringUtils.isBlank(simpleReview.info()));
@@ -56,15 +52,15 @@ public class RottenTomatoesIOSApp {
     }
 
     /////////////////////////////////////////////////////////
-    public int getAnnotatedMovieCount(){
+    public int getAnnotatedMovieCount() {
         return annotatedIOSMovies.getMovieCount();
     }
 
-    public Movie getAnAnnotatedMovie(int index){
+    public Movie getAnAnnotatedMovie(int index) {
         return annotatedIOSMovies.getMovie(index);
     }
 
-    public void checkAnnotatedReview(){
+    public void checkAnnotatedReview() {
         assertTrue(!StringUtils.isBlank(annotatedIOSReview.title()));
         assertTrue(!StringUtils.isBlank(annotatedIOSReview.score()));
         assertTrue(!StringUtils.isBlank(annotatedIOSReview.info()));
@@ -72,15 +68,15 @@ public class RottenTomatoesIOSApp {
     }
     /////////////////////////////////////////////////////////
 
-    public int getExtendeddMovieCount(){
+    public int getExtendeddMovieCount() {
         return extendedIOSMovies.getMovieCount();
     }
 
-    public Movie getAnExtendedMovie(int index){
+    public Movie getAnExtendedMovie(int index) {
         return extendedIOSMovies.getMovie(index);
     }
 
-    public void checkExtendedReview(){
+    public void checkExtendedReview() {
         assertTrue(!StringUtils.isBlank(extendedIOSReview.title()));
         assertTrue(!StringUtils.isBlank(extendedIOSReview.score()));
         assertTrue(!StringUtils.isBlank(extendedIOSReview.info()));
@@ -89,11 +85,11 @@ public class RottenTomatoesIOSApp {
 
     /////////////////////////////////////////////////////////
 
-    public int getFakedMovieCount(){
+    public int getFakedMovieCount() {
         return fakeMovies.getMovieCount();
     }
 
-    public void checkFakeReview(){
+    public void checkFakeReview() {
         assertTrue(!StringUtils.isBlank(fakeReview.title()));
         assertTrue(!StringUtils.isBlank(fakeReview.score()));
         assertTrue(!StringUtils.isBlank(fakeReview.info()));

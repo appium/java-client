@@ -19,20 +19,23 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class IOSOverrideWidgetTest implements WidgetTest{
+public class IOSOverrideWidgetTest implements WidgetTest {
 
-    private IOSDriver<?> driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
+    private IOSDriver<?> driver;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }
 
-    @Before
-    public void setUp() throws Exception {
+    @AfterClass public static void afterClass() throws Exception {
+        if (service != null)
+            service.stop();
+    }
+
+    @Before public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "RottenTomatoes.zip");
 
@@ -44,24 +47,17 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         driver = new IOSDriver<>(service.getUrl(), capabilities);
 
         rottenTomatoes = new RottenTomatoes();
-        PageFactory.initElements(new AppiumFieldDecorator(driver, new TimeOutDuration(5, TimeUnit.SECONDS)), rottenTomatoes);
+        PageFactory.initElements(
+            new AppiumFieldDecorator(driver, new TimeOutDuration(5, TimeUnit.SECONDS)),
+            rottenTomatoes);
     }
 
-    @After
-    public void tearDown() {
+    @After public void tearDown() {
         if (driver != null)
             driver.quit();
     }
 
-    @AfterClass
-    public static void afterClass() throws Exception {
-        if (service != null)
-            service.stop();
-    }
-
-    @Test
-    @Override
-    public void checkACommonWidget() {
+    @Test @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -73,9 +69,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         assertTrue(movie.getSelfReference().getClass().equals(IOSMovie.class));
     }
 
-    @Override
-    @Test
-    public void checkAnAnnotatedWidget() {
+    @Override @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -88,9 +82,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
     }
 
 
-    @Override
-    @Test
-    public void checkAnExtendedWidget() {
+    @Override @Test public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -102,13 +94,10 @@ public class IOSOverrideWidgetTest implements WidgetTest{
         assertTrue(movie.getSelfReference().getClass().equals(AnnotatedIOSMovie.class));
     }
 
-    @Override
-    @Test
-    public void checkTheLocatorOverridingOnAWidget() {
+    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 throw e;
         }
@@ -117,8 +106,7 @@ public class IOSOverrideWidgetTest implements WidgetTest{
 
         try {
             rottenTomatoes.checkFakeReview();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 return;
             else

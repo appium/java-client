@@ -18,15 +18,16 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.*;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.junit.*;
-import org.openqa.selenium.WebDriver;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.FindBy;
@@ -45,51 +46,34 @@ public class SelendroidModeTest {
     private static AppiumDriverLocalService service;
     private boolean populated = false;
 
-    @SelendroidFindBy(id = "text1")
-    private WebElement textId;
+    @SelendroidFindBy(id = "text1") private WebElement textId;
 
-    @AndroidFindBy(id = "Invalid Identifier")
-    @SelendroidFindBy(id = "text1")
-    private WebElement textSelendroidId;
+    @AndroidFindBy(id = "Invalid Identifier") @SelendroidFindBy(id = "text1") private WebElement
+        textSelendroidId;
 
-    @SelendroidFindBy(name = "Accessibility")
-    private WebElement textName;
+    @SelendroidFindBy(name = "Accessibility") private WebElement textName;
 
-    @AndroidFindBy(name = "Accessibility")
-    private WebElement textNameAndroid;
+    @AndroidFindBy(name = "Accessibility") private WebElement textNameAndroid;
 
-    @FindBy(name = "Accessibility")
-    private WebElement textNameDefault;
+    @FindBy(name = "Accessibility") private WebElement textNameDefault;
 
-    @SelendroidFindBy(xpath = "//TextView[@value='Accessibility']")
-    private WebElement textXpath;
+    @SelendroidFindBy(xpath = "//TextView[@value='Accessibility']") private WebElement textXpath;
 
-    @SelendroidFindBys({
-            @SelendroidFindBy(id = "text1")})
-    private WebElement textIds;
+    @SelendroidFindBys({@SelendroidFindBy(id = "text1")}) private WebElement textIds;
 
-    @SelendroidFindAll({
-            @SelendroidFindBy(id = "text1")})
-    private WebElement textAll;
+    @SelendroidFindAll({@SelendroidFindBy(id = "text1")}) private WebElement textAll;
 
-    @SelendroidFindAll({
-            @SelendroidFindBy(id = "text1")})
-    private List<WebElement> textsAll;
+    @SelendroidFindAll({@SelendroidFindBy(id = "text1")}) private List<WebElement> textsAll;
 
-    @SelendroidFindBy(className = "android.widget.TextView")
-    private WebElement textClass;
+    @SelendroidFindBy(className = "android.widget.TextView") private WebElement textClass;
 
-    @SelendroidFindBy(tagName = "TextView")
-    private WebElement textTag;
+    @SelendroidFindBy(tagName = "TextView") private WebElement textTag;
 
-    @SelendroidFindBy(linkText = "Accessibility")
-    private WebElement textLink;
+    @SelendroidFindBy(linkText = "Accessibility") private WebElement textLink;
 
-    @SelendroidFindBy(partialLinkText = "ccessibilit")
-    private WebElement textPartialLink;
+    @SelendroidFindBy(partialLinkText = "ccessibilit") private WebElement textPartialLink;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
@@ -105,17 +89,7 @@ public class SelendroidModeTest {
         driver.context("NATIVE_APP");
     }
 
-    @Before
-    public void setUp() throws Exception {
-        if (!populated)
-            //This time out is set because test can be run on slow Android SDK emulator
-            PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
-
-        populated = true;
-    }
-
-    @AfterClass
-    public static void afterClass() throws Exception {
+    @AfterClass public static void afterClass() throws Exception {
         if (driver != null)
             driver.quit();
 
@@ -123,68 +97,63 @@ public class SelendroidModeTest {
             service.stop();
     }
 
-    @Test
-    public void findByIdElementTest() {
+    @Before public void setUp() throws Exception {
+        if (!populated)
+            //This time out is set because test can be run on slow Android SDK emulator
+            PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+
+        populated = true;
+    }
+
+    @Test public void findByIdElementTest() {
         assertNotEquals(null, textId.getAttribute("text"));
     }
 
-    @Test
-    public void findBySelendroidSelectorTest() {
+    @Test public void findBySelendroidSelectorTest() {
         assertNotEquals(null, textSelendroidId.getAttribute("text"));
     }
 
-    @Test
-    public void findByElementByNameTest() {
+    @Test public void findByElementByNameTest() {
         assertEquals("Accessibility", textName.getText());
     }
 
-    @Test
-    public void findByElementByNameAndroidTest() {
+    @Test public void findByElementByNameAndroidTest() {
         assertEquals("Accessibility", textNameAndroid.getText());
     }
 
-    @Test
-    public void findByElementByNameDefaultTest() {
+    @Test public void findByElementByNameDefaultTest() {
         assertEquals("Accessibility", textNameDefault.getText());
     }
 
-    @Test
-    public void findByElementByXpathTest() {
+    @Test public void findByElementByXpathTest() {
         assertEquals("Accessibility", textXpath.getText());
     }
 
-    @Test
-    public void findByElementByIdsTest() {
+    @Test public void findByElementByIdsTest() {
         assertNotNull(textIds.getText());
     }
 
-    @Test
-    public void findByElementByTestAllTest() {
+    @Test public void findByElementByTestAllTest() {
         assertNotNull(textAll.getText());
     }
 
-    @Test
-    public void findByElementByTextsAllTest() {
+    @Test public void findByElementByTextsAllTest() {
         assertTrue(textsAll.size() > 1);
     }
 
-    @Test
-    public void findByElementByCalssTest() {
+    @Test public void findByElementByCalssTest() {
         assertNotEquals(null, textClass.getAttribute("text"));
     }
 
-    @Test
-    public void findByElementByTagTest() {
+    @Test public void findByElementByTagTest() {
         assertNotEquals(null, textTag.getAttribute("text"));
     }
 
-    @Test
-    public void findBySelendroidAnnotationOnlyTest() {
+    @Test public void findBySelendroidAnnotationOnlyTest() {
         assertNotEquals(null, textSelendroidId.getAttribute("text"));
     }
 
-    @Test
-    public void findBySelendroidLinkTextTest() {
+    @Test public void findBySelendroidLinkTextTest() {
         assertEquals("Accessibility", textLink.getText());
 
     }

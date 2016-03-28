@@ -16,9 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
-
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -26,16 +23,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+
 class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
     private final TimeOutDuration timeOutDuration;
     private final WebDriver originalWebDriver;
     private final AppiumByBuilder builder;
 
-    public AppiumElementLocatorFactory(SearchContext searchContext,
-                                       TimeOutDuration timeOutDuration,
-                                       WebDriver originalWebDriver,
-                                       AppiumByBuilder builder) {
+    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration timeOutDuration,
+        WebDriver originalWebDriver, AppiumByBuilder builder) {
         this.searchContext = searchContext;
         this.originalWebDriver = originalWebDriver;
         this.timeOutDuration = timeOutDuration;
@@ -46,21 +44,20 @@ class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
         return this.createLocator((AnnotatedElement) field);
     }
 
-    @Override
-    public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
+    @Override public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
         TimeOutDuration customDuration;
         if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
             customDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
-        }
-        else {
+        } else {
             customDuration = timeOutDuration;
         }
 
         builder.setAnnotated(annotatedElement);
         By by = builder.buildBy();
         if (by != null)
-            return new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration, originalWebDriver);
+            return new AppiumElementLocator(searchContext, by, builder.isLookupCached(),
+                customDuration, originalWebDriver);
         return null;
     }
 

@@ -23,15 +23,14 @@ import io.appium.java_client.ios.IOSElement;
 
 public class JsonToIOSElementConverter extends JsonToMobileElementConverter {
 
-	public JsonToIOSElementConverter(AppiumDriver<?> driver) {
-		super(driver);
-	}
+    public JsonToIOSElementConverter(AppiumDriver<?> driver) {
+        super(driver);
+    }
 
-	@Override
-	protected MobileElement newMobileElement() {
-		IOSElement toReturn = new IOSElement();
-		toReturn.setParent(driver);
-		return toReturn;
-	}
+    @Override protected MobileElement newMobileElement() {
+        IOSElement toReturn = new IOSElement();
+        toReturn.setParent(driver);
+        return toReturn;
+    }
 
 }

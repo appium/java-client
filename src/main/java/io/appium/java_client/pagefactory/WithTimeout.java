@@ -23,13 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
 /**
  This annotation is used when some element waits for time
  that differs from defined by default
- */
-public @interface WithTimeout {
+ */ public @interface WithTimeout {
     long time();
+
     TimeUnit unit();
 }

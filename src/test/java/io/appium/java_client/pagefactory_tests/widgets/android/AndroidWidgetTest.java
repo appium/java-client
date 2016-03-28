@@ -22,14 +22,13 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class AndroidWidgetTest implements WidgetTest{
+public class AndroidWidgetTest implements WidgetTest {
 
     private static AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoesApp rottenTomatoesApp;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -41,17 +40,12 @@ public class AndroidWidgetTest implements WidgetTest{
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
 
         rottenTomatoesApp = new RottenTomatoesApp();
-        PageFactory.initElements(new AppiumFieldDecorator(driver, new TimeOutDuration(5, TimeUnit.SECONDS)), rottenTomatoesApp);
+        PageFactory.initElements(
+            new AppiumFieldDecorator(driver, new TimeOutDuration(5, TimeUnit.SECONDS)),
+            rottenTomatoesApp);
     }
 
-    @Before
-    public void setUp() throws Exception {
-        if (driver != null)
-            driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
-    }
-
-    @AfterClass
-    public static void afterClass() throws Exception {
+    @AfterClass public static void afterClass() throws Exception {
         if (driver != null)
             driver.quit();
 
@@ -59,9 +53,12 @@ public class AndroidWidgetTest implements WidgetTest{
             service.stop();
     }
 
-    @Test
-    @Override
-    public void checkACommonWidget() {
+    @Before public void setUp() throws Exception {
+        if (driver != null)
+            driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
+    }
+
+    @Test @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoesApp.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -72,9 +69,7 @@ public class AndroidWidgetTest implements WidgetTest{
         rottenTomatoesApp.checkSimpleReview();
     }
 
-    @Override
-    @Test
-    public void checkAnAnnotatedWidget() {
+    @Override @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -86,9 +81,7 @@ public class AndroidWidgetTest implements WidgetTest{
     }
 
 
-    @Override
-    @Test
-    public void checkAnExtendedWidget() {
+    @Override @Test public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoesApp.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -99,13 +92,10 @@ public class AndroidWidgetTest implements WidgetTest{
         rottenTomatoesApp.checkExtendedReview();
     }
 
-    @Override
-    @Test
-    public void checkTheLocatorOverridingOnAWidget() {
+    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoesApp.getFakedMovieCount() == 0);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 throw e;
         }
@@ -114,8 +104,7 @@ public class AndroidWidgetTest implements WidgetTest{
 
         try {
             rottenTomatoesApp.checkFakeReview();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
                 return;
             else

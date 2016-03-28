@@ -24,8 +24,7 @@ public interface GetsNamedTextField<T extends WebElement> {
      * containing TableElement. This is a convenience method for getting the
      * named TextField, rather than its containing element.
      *
-     * @param name
-     *            accessiblity id of TextField
+     * @param name accessiblity id of TextField
      * @return The textfield with the given accessibility id
      */
     T getNamedTextField(String name);

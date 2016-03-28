@@ -35,66 +35,60 @@ public class RottenTomatoes {
 
     @FindBy(id = "movies-collection")
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/lvMovies")
-    @SelendroidFindBy(id = "lvMovies")
-    @iOSFindBy(className = "UIATableView")
+    @SelendroidFindBy(id = "lvMovies") @iOSFindBy(className = "UIATableView")
     @OverrideWidget(html = HtmlMovies.class, selendroid = SelendroidMovies.class,
-    androidUIAutomator = AndroidMovies.class, iOSUIAutomation = IOSMovies.class)
-    private Movies simpleMovies;
+        androidUIAutomator = AndroidMovies.class, iOSUIAutomation = IOSMovies.class) private Movies
+        simpleMovies;
 
 
     @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-            @AndroidFindBy(className = "android.widget.RelativeLayout")})
-    @FindBy(id = "main_container")
+        @AndroidFindBy(className = "android.widget.RelativeLayout")}) @FindBy(id = "main_container")
     @SelendroidFindBy(className = "android.widget.RelativeLayout")
     @iOSFindBy(className = "UIAWindow")
     @OverrideWidget(html = HtmlReview.class, selendroid = SelendroidReview.class,
-            androidUIAutomator = AndroidReview.class, iOSUIAutomation = IOSReview.class)
-    private Review simpleReview;
+        androidUIAutomator = AndroidReview.class, iOSUIAutomation = IOSReview.class) private Review
+        simpleReview;
 
     @OverrideWidget(html = AnnotatedHtmlMovies.class, selendroid = AnnotatedSelendroidMovies.class,
-    androidUIAutomator = AnnotatedAndroidMovies.class, iOSUIAutomation = AnnotatedIOSMovies.class)
+        androidUIAutomator = AnnotatedAndroidMovies.class, iOSUIAutomation = AnnotatedIOSMovies.class)
     private Movies annotatedMovies;
 
     @OverrideWidget(html = AnnotatedHtmlReview.class, selendroid = AnnotatedSelendroidReview.class,
-            androidUIAutomator = AnnotatedAndroidReview.class, iOSUIAutomation = AnnotatedIOSReview.class)
+        androidUIAutomator = AnnotatedAndroidReview.class, iOSUIAutomation = AnnotatedIOSReview.class)
     private Review annotatedReview;
 
     @OverrideWidget(html = ExtendedHtmlMovies.class, selendroid = ExtendedSelendroidMovies.class,
-            androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
+        androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
     private Movies extendedMovies;
 
     @OverrideWidget(html = ExtendedHtmlReview.class, selendroid = ExtendedSelendroidReview.class,
-            androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
+        androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
     private Review extendedReview;
 
 
-    @FindBy(id = "Fake_ID_For_All_Platforms")
-    @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
-    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms")
-    @iOSFindBy(id = "Fake_ID_For_All_Platforms")
+    @FindBy(id = "Fake_ID_For_All_Platforms") @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
+    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms") @iOSFindBy(id = "Fake_ID_For_All_Platforms")
     @OverrideWidget(html = ExtendedHtmlMovies.class, selendroid = ExtendedSelendroidMovies.class,
-            androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
+        androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
     private Movies fakeMovies;
 
-    @FindBy(id = "Fake_ID_For_All_Platforms")
-    @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
-    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms")
-    @iOSFindBy(id = "Fake_ID_For_All_Platforms")
+    @FindBy(id = "Fake_ID_For_All_Platforms") @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
+    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms") @iOSFindBy(id = "Fake_ID_For_All_Platforms")
     @OverrideWidget(html = ExtendedHtmlReview.class, selendroid = ExtendedSelendroidReview.class,
-            androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
+        androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
     private Review fakeReview;
 
 
 
-    public int getSimpleMovieCount(){
+    public int getSimpleMovieCount() {
         return simpleMovies.getMovieCount();
     }
 
-    public Movie getASimpleMovie(int index){
+    public Movie getASimpleMovie(int index) {
         return simpleMovies.getMovie(index);
     }
 
-    public void checkSimpleReview(){
+    public void checkSimpleReview() {
         assertTrue(!StringUtils.isBlank(simpleReview.title()));
         assertTrue(!StringUtils.isBlank(simpleReview.score()));
         assertTrue(!StringUtils.isBlank(simpleReview.info()));
@@ -102,15 +96,15 @@ public class RottenTomatoes {
     }
 
     /////////////////////////////////////////////////////////
-    public int getAnnotatedMovieCount(){
+    public int getAnnotatedMovieCount() {
         return annotatedMovies.getMovieCount();
     }
 
-    public Movie getAnAnnotatedMovie(int index){
+    public Movie getAnAnnotatedMovie(int index) {
         return annotatedMovies.getMovie(index);
     }
 
-    public void checkAnnotatedReview(){
+    public void checkAnnotatedReview() {
         assertTrue(!StringUtils.isBlank(annotatedReview.title()));
         assertTrue(!StringUtils.isBlank(annotatedReview.score()));
         assertTrue(!StringUtils.isBlank(annotatedReview.info()));
@@ -118,15 +112,15 @@ public class RottenTomatoes {
     }
     /////////////////////////////////////////////////////////
 
-    public int getExtendeddMovieCount(){
+    public int getExtendeddMovieCount() {
         return extendedMovies.getMovieCount();
     }
 
-    public Movie getAnExtendedMovie(int index){
+    public Movie getAnExtendedMovie(int index) {
         return extendedMovies.getMovie(index);
     }
 
-    public void checkExtendedReview(){
+    public void checkExtendedReview() {
         assertTrue(!StringUtils.isBlank(extendedReview.title()));
         assertTrue(!StringUtils.isBlank(extendedReview.score()));
         assertTrue(!StringUtils.isBlank(extendedReview.info()));
@@ -135,11 +129,11 @@ public class RottenTomatoes {
 
     /////////////////////////////////////////////////////////
 
-    public int getFakedMovieCount(){
+    public int getFakedMovieCount() {
         return fakeMovies.getMovieCount();
     }
 
-    public void checkFakeReview(){
+    public void checkFakeReview() {
         assertTrue(!StringUtils.isBlank(fakeReview.title()));
         assertTrue(!StringUtils.isBlank(fakeReview.score()));
         assertTrue(!StringUtils.isBlank(fakeReview.info()));

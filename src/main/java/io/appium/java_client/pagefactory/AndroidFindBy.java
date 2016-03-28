@@ -29,18 +29,24 @@ import java.lang.annotation.Target;
  * this allows users to quickly and easily create PageObjects.
  * using Android UI selectors, accessibility, id, name, class name, tag and xpath
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface AndroidFindBy {
-	String uiAutomator() default "";
-	String accessibility()  default "";
-	String id() default "";
-	@Deprecated
-	/**
-	 * By.name selector is not supported by Appium server node since 1.5.x.
-	 * So this option is going to be removed further. Be careful.
-	 */String name() default "";
-	String className() default "";
-	String tagName() default "";
-	String xpath()  default "";
+    String uiAutomator() default "";
+
+    String accessibility() default "";
+
+    String id() default "";
+
+    @Deprecated
+    /**
+     * By.name selector is not supported by Appium server node since 1.5.x.
+     * So this option is going to be removed further. Be careful.
+     */
+        String name() default "";
+
+    String className() default "";
+
+    String tagName() default "";
+
+    String xpath() default "";
 }

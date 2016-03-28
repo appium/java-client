@@ -22,15 +22,13 @@ import static org.junit.Assert.assertTrue;
 public class RottenTomatoesAppWithCombinedWidgets {
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/lvMovies")
-    @SelendroidFindBy(id = "lvMovies")
-    @FindBy(id = "movies-collection")
-    private CombinedMovies simpleMovies;
+    @SelendroidFindBy(id = "lvMovies") @FindBy(id = "movies-collection") private CombinedMovies
+        simpleMovies;
 
     @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-            @AndroidFindBy(className = "android.widget.RelativeLayout")})
-    @FindBy(id = "main_container")
-    @SelendroidFindBy(className = "android.widget.RelativeLayout")
-    private CombinedReview simpleReview;
+        @AndroidFindBy(className = "android.widget.RelativeLayout")}) @FindBy(id = "main_container")
+    @SelendroidFindBy(className = "android.widget.RelativeLayout") private CombinedReview
+        simpleReview;
 
     private AnnotatedCombinedMovies annotatedCombinedMovies;
 
@@ -40,24 +38,20 @@ public class RottenTomatoesAppWithCombinedWidgets {
 
     private ExtendedCombinedReview extendedCombinedReview;
 
-    @AndroidFindBy(id = "fakeId")
-    @FindBy(id = "fakeId")
-    private ExtendedCombinedMovies fakeMovies;
+    @AndroidFindBy(id = "fakeId") @FindBy(id = "fakeId") private ExtendedCombinedMovies fakeMovies;
 
-    @AndroidFindBy(id = "fakeId")
-    @FindBy(id = "fakeId")
-    private ExtendedCombinedReview fakeReview;
+    @AndroidFindBy(id = "fakeId") @FindBy(id = "fakeId") private ExtendedCombinedReview fakeReview;
 
 
-    public int getSimpleMovieCount(){
+    public int getSimpleMovieCount() {
         return simpleMovies.getMovieCount();
     }
 
-    public Movie getASimpleMovie(int index){
+    public Movie getASimpleMovie(int index) {
         return simpleMovies.getMovie(index);
     }
 
-    public void checkSimpleReview(){
+    public void checkSimpleReview() {
         assertTrue(!StringUtils.isBlank(simpleReview.title()));
         assertTrue(!StringUtils.isBlank(simpleReview.score()));
         assertTrue(!StringUtils.isBlank(simpleReview.info()));
@@ -65,15 +59,15 @@ public class RottenTomatoesAppWithCombinedWidgets {
     }
 
     /////////////////////////////////////////////////////////
-    public int getAnnotatedMovieCount(){
+    public int getAnnotatedMovieCount() {
         return annotatedCombinedMovies.getMovieCount();
     }
 
-    public Movie getAnAnnotatedMovie(int index){
+    public Movie getAnAnnotatedMovie(int index) {
         return annotatedCombinedMovies.getMovie(index);
     }
 
-    public void checkAnnotatedReview(){
+    public void checkAnnotatedReview() {
         assertTrue(!StringUtils.isBlank(annotatedCombinedReview.title()));
         assertTrue(!StringUtils.isBlank(annotatedCombinedReview.score()));
         assertTrue(!StringUtils.isBlank(annotatedCombinedReview.info()));
@@ -81,15 +75,15 @@ public class RottenTomatoesAppWithCombinedWidgets {
     }
     /////////////////////////////////////////////////////////
 
-    public int getExtendeddMovieCount(){
+    public int getExtendeddMovieCount() {
         return extendedCombinedMovies.getMovieCount();
     }
 
-    public Movie getAnExtendedMovie(int index){
+    public Movie getAnExtendedMovie(int index) {
         return extendedCombinedMovies.getMovie(index);
     }
 
-    public void checkExtendedReview(){
+    public void checkExtendedReview() {
         assertTrue(!StringUtils.isBlank(extendedCombinedReview.title()));
         assertTrue(!StringUtils.isBlank(extendedCombinedReview.score()));
         assertTrue(!StringUtils.isBlank(extendedCombinedReview.info()));
@@ -98,11 +92,11 @@ public class RottenTomatoesAppWithCombinedWidgets {
 
     /////////////////////////////////////////////////////////
 
-    public int getFakedMovieCount(){
+    public int getFakedMovieCount() {
         return fakeMovies.getMovieCount();
     }
 
-    public void checkFakeReview(){
+    public void checkFakeReview() {
         assertTrue(!StringUtils.isBlank(fakeReview.title()));
         assertTrue(!StringUtils.isBlank(fakeReview.score()));
         assertTrue(!StringUtils.isBlank(fakeReview.info()));

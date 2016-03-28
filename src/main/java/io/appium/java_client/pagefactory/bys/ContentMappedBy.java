@@ -16,37 +16,36 @@
 
 package io.appium.java_client.pagefactory.bys;
 
-import java.util.List;
-    import java.util.Map;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
 
-    import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.*;
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.SearchContext;
-    import org.openqa.selenium.WebElement;
+import java.util.List;
+import java.util.Map;
+
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 public class ContentMappedBy extends By {
-    private final Map<ContentType, By> map;
     private final static String NATIVE_APP_PATTERN = "NATIVE_APP";
+    private final Map<ContentType, By> map;
 
     public ContentMappedBy(Map<ContentType, By> map) {
-            this.map = map;
-        }
+        this.map = map;
+    }
 
-    @Override
-    public List<WebElement> findElements(SearchContext context) {
+    @Override public List<WebElement> findElements(SearchContext context) {
         return context.findElements(map.get(getCurrentContentType(context)));
     }
 
-    @Override
-    public String toString(){
+    @Override public String toString() {
         By defaultBy = map.get(ContentType.HTML_OR_DEFAULT);
-        By nativeBy  = map.get(ContentType.NATIVE_MOBILE_SPECIFIC);
+        By nativeBy = map.get(ContentType.NATIVE_MOBILE_SPECIFIC);
 
         if (defaultBy.equals(nativeBy))
             return defaultBy.toString();
 
-        return  "Locator map: " + "\n" +
-                    "- native content: \"" + nativeBy.toString() + "\" \n" +
-                    "- html content: \"" + defaultBy.toString() + "\"";
+        return "Locator map: " + "\n" +
+            "- native content: \"" + nativeBy.toString() + "\" \n" +
+            "- html content: \"" + defaultBy.toString() + "\"";
     }
 }

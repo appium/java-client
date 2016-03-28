@@ -7,41 +7,34 @@ import io.appium.java_client.pagefactory_tests.widgets.Review;
 import org.openqa.selenium.WebElement;
 
 //className = UIAWindow
-public class IOSReview extends Review{
+public class IOSReview extends Review {
 
     @iOSFindBys({@iOSFindBy(className = "UIANavigationBar"),
-            @iOSFindBy(className = "UIAStaticText")})
-    private IOSElement title;
+        @iOSFindBy(className = "UIAStaticText")}) private IOSElement title;
 
-    @iOSFindBys({@iOSFindBy(className = "UIAScrollView"),
-    @iOSFindBy(className = "UIAStaticText")})
+    @iOSFindBys({@iOSFindBy(className = "UIAScrollView"), @iOSFindBy(className = "UIAStaticText")})
     private IOSElement synopsis;
 
-    @iOSFindBy(className = "UIAImage")
-    private IOSElement poster;
+    @iOSFindBy(className = "UIAImage") private IOSElement poster;
 
 
     protected IOSReview(WebElement element) {
         super(element);
     }
 
-    @Override
-    public String title() {
+    @Override public String title() {
         return title.getText();
     }
 
-    @Override
-    public String score() {
+    @Override public String score() {
         return "100";
     }
 
-    @Override
-    public String info() {
+    @Override public String info() {
         return synopsis.getText();
     }
 
-    @Override
-    public Object getPoster() {
+    @Override public Object getPoster() {
         return poster.getSize();
     }
 }

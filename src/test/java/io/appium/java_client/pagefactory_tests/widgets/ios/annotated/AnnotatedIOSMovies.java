@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-@iOSFindBy(className = "UIATableView")
-public class AnnotatedIOSMovies extends Movies{
+@iOSFindBy(className = "UIATableView") public class AnnotatedIOSMovies extends Movies {
 
     List<AnnotatedIOSMovie> movieList;
 
@@ -21,13 +20,11 @@ public class AnnotatedIOSMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }

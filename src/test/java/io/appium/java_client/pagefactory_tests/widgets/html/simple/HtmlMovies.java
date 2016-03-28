@@ -7,10 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class HtmlMovies extends Movies{
+public class HtmlMovies extends Movies {
 
-    @FindBy(className = "mb-movie")
-    List<HtmlMovie> movieList;
+    @FindBy(className = "mb-movie") List<HtmlMovie> movieList;
 
     /*
     There could be additional behavior.
@@ -21,13 +20,11 @@ public class HtmlMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }

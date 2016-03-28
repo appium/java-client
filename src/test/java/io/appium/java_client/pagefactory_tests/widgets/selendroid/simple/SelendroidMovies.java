@@ -8,10 +8,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class SelendroidMovies extends Movies{
+public class SelendroidMovies extends Movies {
 
-    @SelendroidFindBy(className = "android.widget.RelativeLayout")
-    List<SelendroidMovie> movieList;
+    @SelendroidFindBy(className = "android.widget.RelativeLayout") List<SelendroidMovie> movieList;
 
     /*
     There could be additional behavior.
@@ -22,13 +21,11 @@ public class SelendroidMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }
