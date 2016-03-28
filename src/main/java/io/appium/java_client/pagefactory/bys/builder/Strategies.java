@@ -28,8 +28,7 @@ import java.util.List;
  */
 enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             String value = getValue(annotation, this);
             if (annotation.annotationType().equals(AndroidFindBy.class)) {
                 return MobileBy.AndroidUIAutomator(value);
@@ -41,59 +40,47 @@ enum Strategies {
         }
     },
     BYACCESSABILITY("accessibility") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return MobileBy.AccessibilityId(getValue(annotation, this));
         }
     },
     BYCLASSNAME("className") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.className(getValue(annotation, this));
         }
     },
     BYID("id") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.id(getValue(annotation, this));
         }
     },
     BYTAG("tagName") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.tagName(getValue(annotation, this));
         }
     },
     BYNAME("name") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.name(getValue(annotation, this));
         }
     },
     BYXPATH("xpath") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.xpath(getValue(annotation, this));
         }
     },
     BYLINKTEXT("linkText") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.linkText(getValue(annotation, this));
         }
     },
     BYPARTIALLINKTEXT("partialLinkText") {
-        @Override
-        By getBy(Annotation annotation) {
+        @Override By getBy(Annotation annotation) {
             return By.partialLinkText(getValue(annotation, this));
         }
     };
 
     private final String valueName;
-
-    String returnValueName() {
-        return valueName;
-    }
 
     Strategies(String valueName) {
         this.valueName = valueName;
@@ -110,15 +97,18 @@ enum Strategies {
         return result;
     }
 
-    private static String getValue(Annotation annotation,
-                                   Strategies strategy) {
+    private static String getValue(Annotation annotation, Strategies strategy) {
         try {
-            Method m = annotation.getClass().getMethod(strategy.valueName,
-                    AppiumByBuilder.DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
+            Method m = annotation.getClass()
+                .getMethod(strategy.valueName, AppiumByBuilder.DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
             return m.invoke(annotation, new Object[] {}).toString();
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    String returnValueName() {
+        return valueName;
     }
 
     By getBy(Annotation annotation) {

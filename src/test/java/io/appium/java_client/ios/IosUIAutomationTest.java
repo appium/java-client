@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.remote.MobileCapabilityType;
-
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.*;
 import org.openqa.selenium.WebElement;
@@ -34,67 +33,58 @@ import static org.junit.Assert.assertEquals;
  */
 public class IosUIAutomationTest {
 
-  private IOSDriver<WebElement> driver;
-  private static AppiumDriverLocalService service;
+    private static AppiumDriverLocalService service;
+    private IOSDriver<WebElement> driver;
 
-  @BeforeClass
-  public static void beforeClass() throws Exception{
-    service = AppiumDriverLocalService.buildDefaultService();
-    service.start();
-  }
+    @BeforeClass public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
+    }
 
-  @Before
-  public void setup() throws Exception {
-    if (service == null || !service.isRunning())
-      throw new RuntimeException("An appium server node is not started!");
+    @AfterClass public static void afterClass() {
+        if (service != null)
+            service.stop();
+    }
 
-    File appDir = new File("src/test/java/io/appium/java_client");
-    File app = new File(appDir, "UICatalog.app.zip");
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
-  }
+    @Before public void setup() throws Exception {
+        if (service == null || !service.isRunning())
+            throw new RuntimeException("An appium server node is not started!");
 
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-  }
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "UICatalog.app.zip");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
+    }
 
-  @Test
-  public void findElementTest() {
-    WebElement element = driver.findElementByIosUIAutomation(".elements()[0]");
-    assertEquals(element.getAttribute("name"), "UICatalog");
-  }
+    @After public void tearDown() throws Exception {
+        driver.quit();
+    }
 
-  @Test
-  public void findElementsTest() {
-    List<WebElement> elements = driver.findElementsByIosUIAutomation(".elements()");
-    assertEquals(3, elements.size());
-  }
+    @Test public void findElementTest() {
+        WebElement element = driver.findElementByIosUIAutomation(".elements()[0]");
+        assertEquals(element.getAttribute("name"), "UICatalog");
+    }
 
-  @Test
-  public void MobileElementByTest() {
-    WebElement element = driver.findElement(MobileBy.IosUIAutomation(".elements()[0]"));
-    assertEquals(element.getAttribute("name"), "UICatalog");
-  }
+    @Test public void findElementsTest() {
+        List<WebElement> elements = driver.findElementsByIosUIAutomation(".elements()");
+        assertEquals(3, elements.size());
+    }
 
-  @Test
-  public void MobileElementsByTest() {
-    List<WebElement> elements = driver.findElements(MobileBy.IosUIAutomation(".elements()"));
-    assertEquals(3, elements.size());
-  }
+    @Test public void MobileElementByTest() {
+        WebElement element = driver.findElement(MobileBy.IosUIAutomation(".elements()[0]"));
+        assertEquals(element.getAttribute("name"), "UICatalog");
+    }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void ErrorTest() {
-    driver.findElementByIosUIAutomation(null);
-  }
+    @Test public void MobileElementsByTest() {
+        List<WebElement> elements = driver.findElements(MobileBy.IosUIAutomation(".elements()"));
+        assertEquals(3, elements.size());
+    }
 
-  @AfterClass
-  public static void afterClass(){
-    if (service != null)
-      service.stop();
-  }
+    @Test(expected = IllegalArgumentException.class) public void ErrorTest() {
+        driver.findElementByIosUIAutomation(null);
+    }
 }

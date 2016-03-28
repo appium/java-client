@@ -33,7 +33,8 @@ class ThrowableUtil {
             return true;
         }
 
-        if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN) || String.valueOf(e.getMessage()).contains("Locator Strategy \\w+ is not supported")) {
+        if (String.valueOf(e.getMessage()).contains(INVALID_SELECTOR_PATTERN) || String
+            .valueOf(e.getMessage()).contains("Locator Strategy \\w+ is not supported")) {
             return true;
         }
 
@@ -53,7 +54,8 @@ class ThrowableUtil {
     }
 
     static Throwable extractReadableException(Throwable e) {
-        if (!RuntimeException.class.equals(e.getClass()) && !InvocationTargetException.class.equals(e.getClass())) {
+        if (!RuntimeException.class.equals(e.getClass()) && !InvocationTargetException.class
+            .equals(e.getClass())) {
             return e;
         }
 

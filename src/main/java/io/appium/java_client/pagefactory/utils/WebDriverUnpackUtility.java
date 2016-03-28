@@ -31,27 +31,26 @@ import org.openqa.selenium.internal.WrapsElement;
 public final class WebDriverUnpackUtility {
     private final static String NATIVE_APP_PATTERN = "NATIVE_APP";
 
-    public static WebDriver unpackWebDriverFromSearchContext(
-            SearchContext searchContext) {
+    public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
         WebDriver driver = null;
         if (searchContext instanceof WebDriver)
             return (WebDriver) searchContext;
 
         if (searchContext instanceof WrapsDriver)
-            return unpackWebDriverFromSearchContext(((WrapsDriver) searchContext)
-                    .getWrappedDriver());
+            return unpackWebDriverFromSearchContext(
+                ((WrapsDriver) searchContext).getWrappedDriver());
 
         // Search context it is not only Webdriver. Webelement is search context
         // too.
         // RemoteWebElement and MobileElement implement WrapsDriver
         if (searchContext instanceof WrapsElement)
-            return unpackWebDriverFromSearchContext(((WrapsElement) searchContext)
-                    .getWrappedElement());
+            return unpackWebDriverFromSearchContext(
+                ((WrapsElement) searchContext).getWrappedElement());
 
         return driver;
     }
 
-    public static String getPlatform(WebDriver driver){
+    public static String getPlatform(WebDriver driver) {
         if (driver == null)
             return null;
 
@@ -67,25 +66,25 @@ public final class WebDriverUnpackUtility {
         //to detect platform
         if (HasCapabilities.class.isAssignableFrom(driverClass))
             return String.valueOf(((HasCapabilities) driver).getCapabilities().
-                    getCapability(MobileCapabilityType.PLATFORM_NAME));
+                getCapability(MobileCapabilityType.PLATFORM_NAME));
 
         return null;
     }
 
-    public static String getAutomation(WebDriver driver){
+    public static String getAutomation(WebDriver driver) {
         if (driver == null)
             return null;
 
         if (HasCapabilities.class.isAssignableFrom(driver.getClass()))
             return String.valueOf(((HasCapabilities) driver).getCapabilities().
-                    getCapability(MobileCapabilityType.AUTOMATION_NAME));
+                getCapability(MobileCapabilityType.AUTOMATION_NAME));
 
         return null;
     }
 
-    public static ContentType getCurrentContentType(SearchContext context){
+    public static ContentType getCurrentContentType(SearchContext context) {
         WebDriver driver = WebDriverUnpackUtility.unpackWebDriverFromSearchContext(context);
-        if (!ContextAware.class.isAssignableFrom(driver.getClass())){ //it is desktop browser
+        if (!ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
             return ContentType.HTML_OR_DEFAULT;
         }
 

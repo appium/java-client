@@ -30,56 +30,55 @@ import java.util.Map;
  */
 public class ErrorCodesMobile extends ErrorCodes {
 
-  public static final int NO_SUCH_CONTEXT = 35;
+    public static final int NO_SUCH_CONTEXT = 35;
 
-  private static Map<Integer, String> statusToState = ImmutableMap.<Integer, String>builder()
-          .put(NO_SUCH_CONTEXT, "No such context found")
-          .build();
+    private static Map<Integer, String> statusToState =
+        ImmutableMap.<Integer, String>builder().put(NO_SUCH_CONTEXT, "No such context found")
+            .build();
 
-  /**
-   * Returns the exception type that corresponds to the given {@code statusCode}. All unrecognized
-   * status codes will be mapped to {@link WebDriverException WebDriverException.class}.
-   *
-   * @param statusCode The status code to convert.
-   * @return The exception type that corresponds to the provided status code or {@code null} if
-   * {@code statusCode == 0}.
-   */
-  public Class<? extends WebDriverException> getExceptionType(int statusCode) {
-    switch (statusCode) {
-      case NO_SUCH_CONTEXT:
-        return NoSuchContextException.class;
-      default:
-        return super.getExceptionType(statusCode);
+    /**
+     * Returns the exception type that corresponds to the given {@code statusCode}. All unrecognized
+     * status codes will be mapped to {@link WebDriverException WebDriverException.class}.
+     *
+     * @param statusCode The status code to convert.
+     * @return The exception type that corresponds to the provided status code or {@code null} if
+     * {@code statusCode == 0}.
+     */
+    public Class<? extends WebDriverException> getExceptionType(int statusCode) {
+        switch (statusCode) {
+            case NO_SUCH_CONTEXT:
+                return NoSuchContextException.class;
+            default:
+                return super.getExceptionType(statusCode);
+        }
     }
-  }
 
-  /**
-   *
-   * @param message An error message returned by Appium server
-   * @return The exception type that corresponds to the provided error message or {@code null} if
-   * there are no matching mobile exceptions.
-   */
-  public Class<? extends WebDriverException> getExceptionType(String message) {
-    for (Map.Entry<Integer, String> entry: statusToState.entrySet()) {
-      if (message.contains(entry.getValue())) {
-        return getExceptionType(entry.getKey());
-      }
+    /**
+     * @param message An error message returned by Appium server
+     * @return The exception type that corresponds to the provided error message or {@code null} if
+     * there are no matching mobile exceptions.
+     */
+    public Class<? extends WebDriverException> getExceptionType(String message) {
+        for (Map.Entry<Integer, String> entry : statusToState.entrySet()) {
+            if (message.contains(entry.getValue())) {
+                return getExceptionType(entry.getKey());
+            }
+        }
+        return null;
     }
-    return null;
-  }
 
-  /**
-   * Converts a thrown error into the corresponding status code.
-   *
-   * @param thrown The thrown error.
-   * @return The corresponding status code for the given thrown error.
-   */
-  public int toStatusCode(Throwable thrown) {
-    if (thrown instanceof NoSuchContextException) {
-      return NO_SUCH_CONTEXT;
-    } else {
-      return super.toStatusCode(thrown);
+    /**
+     * Converts a thrown error into the corresponding status code.
+     *
+     * @param thrown The thrown error.
+     * @return The corresponding status code for the given thrown error.
+     */
+    public int toStatusCode(Throwable thrown) {
+        if (thrown instanceof NoSuchContextException) {
+            return NO_SUCH_CONTEXT;
+        } else {
+            return super.toStatusCode(thrown);
+        }
     }
-  }
 
 }

@@ -18,19 +18,18 @@ package io.appium.java_client;
 
 /**
  * Enums defining constants for Appium Settings which can be set and toggled during a test session.
- * 
  */
 public enum AppiumSetting {
 
-  IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");
-  private String name;
+    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");
+    private String name;
 
-  private AppiumSetting(String name) {
-    this.name = name;
-  }
+    private AppiumSetting(String name) {
+        this.name = name;
+    }
 
-  public String toString() {
-    return this.name;
-  }
+    public String toString() {
+        return this.name;
+    }
 
 }

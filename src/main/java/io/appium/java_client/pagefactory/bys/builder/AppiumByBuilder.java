@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 package io.appium.java_client.pagefactory.bys.builder;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,18 +41,29 @@ import static io.appium.java_client.remote.MobilePlatform.IOS;
 public abstract class AppiumByBuilder extends AbstractAnnotations {
     final static Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
 
-    private final static List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ = new ArrayList<String>() {
-        private static final long serialVersionUID = 1L;
-        {
-            List<String> objectClassMethodNames = getMethodNames(Object.class
-                    .getDeclaredMethods());
-            addAll(objectClassMethodNames);
-            List<String> annotationClassMethodNames = getMethodNames(Annotation.class
-                    .getDeclaredMethods());
-            annotationClassMethodNames.removeAll(objectClassMethodNames);
-            addAll(annotationClassMethodNames);
-        }
-    };
+    private final static List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
+        new ArrayList<String>() {
+            private static final long serialVersionUID = 1L;
+
+            {
+                List<String> objectClassMethodNames =
+                    getMethodNames(Object.class.getDeclaredMethods());
+                addAll(objectClassMethodNames);
+                List<String> annotationClassMethodNames =
+                    getMethodNames(Annotation.class.getDeclaredMethods());
+                annotationClassMethodNames.removeAll(objectClassMethodNames);
+                addAll(annotationClassMethodNames);
+            }
+        };
+    protected final AnnotatedElementContainer annotatedElementContainer;
+    protected final String platform;
+    protected final String automation;
+
+    protected AppiumByBuilder(String platform, String automation) {
+        this.annotatedElementContainer = new AnnotatedElementContainer();
+        this.platform = String.valueOf(platform).toUpperCase().trim();
+        this.automation = String.valueOf(automation).toUpperCase().trim();
+    }
 
     private static List<String> getMethodNames(Method[] methods) {
         List<String> names = new ArrayList<>();
@@ -58,18 +73,15 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         return names;
     }
 
-    private static Method[] prepareAnnotationMethods(
-            Class<? extends Annotation> annotation) {
-        List<String> targeAnnotationMethodNamesList = getMethodNames(annotation
-                .getDeclaredMethods());
-        targeAnnotationMethodNamesList
-                .removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
+    private static Method[] prepareAnnotationMethods(Class<? extends Annotation> annotation) {
+        List<String> targeAnnotationMethodNamesList =
+            getMethodNames(annotation.getDeclaredMethods());
+        targeAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
         Method[] result = new Method[targeAnnotationMethodNamesList.size()];
         for (String methodName : targeAnnotationMethodNamesList) {
             try {
-                result[targeAnnotationMethodNamesList.indexOf(methodName)] = annotation
-                        .getMethod(methodName,
-                                DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
+                result[targeAnnotationMethodNamesList.indexOf(methodName)] =
+                    annotation.getMethod(methodName, DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
             } catch (NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
             }
@@ -81,8 +93,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         Method[] values = prepareAnnotationMethods(mobileBy.getClass());
         for (Method value : values) {
             try {
-                String strategyParameter = value.invoke(mobileBy,
-                        new Object[] {}).toString();
+                String strategyParameter = value.invoke(mobileBy, new Object[] {}).toString();
                 if (!"".equals(strategyParameter)) {
                     return value.getName();
                 }
@@ -90,9 +101,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 throw new RuntimeException(e);
             }
         }
-        throw new IllegalArgumentException("@"
-                + mobileBy.getClass().getSimpleName() + ": one of "
-                + Strategies.strategiesNames().toString() + " should be filled");
+        throw new IllegalArgumentException(
+            "@" + mobileBy.getClass().getSimpleName() + ": one of " + Strategies.strategiesNames()
+                .toString() + " should be filled");
     }
 
     private static By getMobileBy(Annotation annotation, String valueName) {
@@ -102,22 +113,21 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 return strategy.getBy(annotation);
             }
         }
-        throw new IllegalArgumentException("@"
-                + annotation.getClass().getSimpleName()
-                + ": There is an unknown strategy " + valueName);
+        throw new IllegalArgumentException(
+            "@" + annotation.getClass().getSimpleName() + ": There is an unknown strategy "
+                + valueName);
     }
 
     @SuppressWarnings("unchecked")
     private static <T extends By> T getComplexMobileBy(Annotation[] annotations,
-                                                Class<T> requiredByClass) {
+        Class<T> requiredByClass) {
         By[] byArray = new By[annotations.length];
         for (int i = 0; i < annotations.length; i++) {
-            byArray[i] = getMobileBy(annotations[i],
-                    getFilledValue(annotations[i]));
+            byArray[i] = getMobileBy(annotations[i], getFilledValue(annotations[i]));
         }
         try {
             Constructor<?> c = requiredByClass.getConstructor(By[].class);
-            Object[] values = new Object[] { byArray };
+            Object[] values = new Object[] {byArray};
             return (T) c.newInstance(values);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -129,7 +139,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             return null;
         }
 
-        switch (howToUseLocators ) {
+        switch (howToUseLocators) {
             case USE_ONE: {
                 return getMobileBy(annotations[0], getFilledValue(annotations[0]));
             }
@@ -145,23 +155,13 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         }
     }
 
-    protected final AnnotatedElementContainer annotatedElementContainer;
-    protected final String platform;
-    protected final String automation;
-
-    protected AppiumByBuilder(String platform, String automation) {
-        this.annotatedElementContainer = new AnnotatedElementContainer();
-        this.platform = String.valueOf(platform).toUpperCase().trim();
-        this.automation = String.valueOf(automation).toUpperCase().trim();
-    }
-
     /**
      * This method should be used for the setting up of
      * AnnotatedElement instances before the building of
      * By-locator strategies
      *
-     * @param annotated  is an instance of class which type extends
-     *                   {@link java.lang.reflect.AnnotatedElement}
+     * @param annotated is an instance of class which type extends
+     *                  {@link java.lang.reflect.AnnotatedElement}
      */
     public void setAnnotated(AnnotatedElement annotated) {
         this.annotatedElementContainer.setAnnotated(annotated);

@@ -23,5 +23,6 @@ import java.util.List;
 
 public interface GenericSearchContext<T extends WebElement> {
     List<T> findElements(By by);
+
     T findElement(By by);
 }

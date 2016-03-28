@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/lvMovies")
-public class AnnotatedAndroidMovies extends Movies{
+public class AnnotatedAndroidMovies extends Movies {
 
     List<AnnotatedAndroidMovie> movieList;
 
@@ -21,13 +21,11 @@ public class AnnotatedAndroidMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }

@@ -41,49 +41,44 @@ import static org.junit.Assert.assertNotEquals;
 public class DesktopBrowserCompatibilityTest {
 
 
-	public void setUp() {
-		if (current.is(Platform.WINDOWS)) {
-			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
-		}
-		else {
-			System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-					"src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
-		}
-	}
-	
-	private final Platform current = Platform.getCurrent();
-	private final long IMPLICITLY_WAIT = 15;
-	
-	@AndroidFindBy(className = "someClass")
-	@iOSFindBys({
-		@iOSFindBy(xpath = "//selector[1]"),
-		@iOSFindBy(xpath = "//someTag")})
-	@FindBys({@FindBy(id="main"), @FindBy(tagName = "p")})
-	private List<WebElement> foundLinks;
-	
-	private List<WebElement> main; //this list is located by id="main"
+    private final Platform current = Platform.getCurrent();
+    private final long IMPLICITLY_WAIT = 15;
+    @AndroidFindBy(className = "someClass")
+    @iOSFindBys({@iOSFindBy(xpath = "//selector[1]"), @iOSFindBy(xpath = "//someTag")})
+    @FindBys({@FindBy(id = "main"), @FindBy(tagName = "p")}) private List<WebElement> foundLinks;
+    private List<WebElement> main; //this list is located by id="main"
+    private WebDriver trap1;
+    private List<AndroidDriver<?>> trap2;
 
-	private WebDriver trap1;
-	private List<AndroidDriver<?>> trap2;
-	
-	private void test(){
-		WebDriver driver = new ChromeDriver();
-		try {
-			PageFactory.initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS), this);
-			driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm").toURI().toString());
-			assertNotEquals(0, foundLinks.size());
-			assertNotEquals(0, main.size());
-			assertEquals(null, trap1);
-			assertEquals(null, trap2);
-		} finally {
-			driver.quit();
-		}
-	}
+    public void setUp() {
+        if (current.is(Platform.WINDOWS)) {
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
+        } else {
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
+        }
+    }
 
-	@Test
-	public void chromeTest() {
-		setUp();
-		test();
-	}
+    private void test() {
+        WebDriver driver = new ChromeDriver();
+        try {
+            PageFactory
+                .initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS),
+                    this);
+            driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm")
+                .toURI().toString());
+            assertNotEquals(0, foundLinks.size());
+            assertNotEquals(0, main.size());
+            assertEquals(null, trap1);
+            assertEquals(null, trap2);
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test public void chromeTest() {
+        setUp();
+        test();
+    }
 }

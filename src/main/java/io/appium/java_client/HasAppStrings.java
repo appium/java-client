@@ -24,8 +24,7 @@ public interface HasAppStrings {
     /**
      * This method is deprecated. It is going to be removed in the next release.
      * Be careful.
-     */
-    public String getAppStrings();
+     */ public String getAppStrings();
 
     @Deprecated
     /**
@@ -44,8 +43,7 @@ public interface HasAppStrings {
     /**
      * Get all defined Strings from an app for the specified language
      *
-     * @param language
-     *            strings language code
+     * @param language strings language code
      * @return a map with localized strings defined in the app
      */
     Map<String, String> getAppStringMap(String language);
@@ -54,10 +52,8 @@ public interface HasAppStrings {
      * Get all defined Strings from an app for the specified language and
      * strings filename
      *
-     * @param language
-     *            strings language code
-     * @param stringFile
-     *            strings filename
+     * @param language   strings language code
+     * @param stringFile strings filename
      * @return a map with localized strings defined in the app
      */
     Map<String, String> getAppStringMap(String language, String stringFile);

@@ -16,18 +16,16 @@
 
 package io.appium.java_client.internal;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-
-import java.util.Collection;
-import java.util.Map;
-
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
-
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Reconstitutes {@link WebElement}s from their JSON representation. Will recursively convert Lists
@@ -70,8 +68,8 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
     }
 
     protected abstract MobileElement newMobileElement(); //{
-        //MobileElement toReturn = new MobileElement();
-        //toReturn.setParent(driver);
-        //return toReturn;
+    //MobileElement toReturn = new MobileElement();
+    //toReturn.setParent(driver);
+    //return toReturn;
     //}
 }

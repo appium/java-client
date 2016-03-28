@@ -8,10 +8,9 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 //classNme = UIATableView
-public class IOSMovies extends Movies{
+public class IOSMovies extends Movies {
 
-    @iOSFindBy(className = "UIATableCell")
-    List<IOSMovie> movieList;
+    @iOSFindBy(className = "UIATableCell") List<IOSMovie> movieList;
 
     /*
     There could be additional behavior.
@@ -22,13 +21,11 @@ public class IOSMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }

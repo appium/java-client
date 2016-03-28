@@ -16,11 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
@@ -28,34 +23,38 @@ import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.*;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 class DefaultElementByBuilder extends AppiumByBuilder {
 
-    private static void checkDisallowedAnnotationPairs(Annotation a1,
-                                                       Annotation a2) throws IllegalArgumentException {
+    protected DefaultElementByBuilder(String platform, String automation) {
+        super(platform, automation);
+    }
+
+    private static void checkDisallowedAnnotationPairs(Annotation a1, Annotation a2)
+        throws IllegalArgumentException {
         if (a1 != null && a2 != null) {
-            throw new IllegalArgumentException("If you use a '@"
-                    + a1.getClass().getSimpleName() + "' annotation, "
-                    + "you must not also use a '@"
-                    + a2.getClass().getSimpleName() + "' annotation");
+            throw new IllegalArgumentException(
+                "If you use a '@" + a1.getClass().getSimpleName() + "' annotation, "
+                    + "you must not also use a '@" + a2.getClass().getSimpleName()
+                    + "' annotation");
         }
     }
 
-    @Override
-    protected void assertValidAnnotations() {
+    @Override protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        AndroidFindBy androidBy = annotatedElement
-                .getAnnotation(AndroidFindBy.class);
-        AndroidFindBys androidBys = annotatedElement
-                .getAnnotation(AndroidFindBys.class);
-        AndroidFindAll androidFindAll = annotatedElement
-                .getAnnotation(AndroidFindAll.class);
+        AndroidFindBy androidBy = annotatedElement.getAnnotation(AndroidFindBy.class);
+        AndroidFindBys androidBys = annotatedElement.getAnnotation(AndroidFindBys.class);
+        AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
 
-        SelendroidFindBy selendroidBy = annotatedElement
-                .getAnnotation(SelendroidFindBy.class);
-        SelendroidFindBys selendroidBys = annotatedElement
-                .getAnnotation(SelendroidFindBys.class);
-        SelendroidFindAll selendroidFindAll = annotatedElement
-                .getAnnotation(SelendroidFindAll.class);
+        SelendroidFindBy selendroidBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
+        SelendroidFindBys selendroidBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
+        SelendroidFindAll selendroidFindAll =
+            annotatedElement.getAnnotation(SelendroidFindAll.class);
 
         iOSFindBy iOSBy = annotatedElement.getAnnotation(iOSFindBy.class);
         iOSFindBys iOSBys = annotatedElement.getAnnotation(iOSFindBys.class);
@@ -82,12 +81,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         checkDisallowedAnnotationPairs(findBys, findAll);
     }
 
-    protected DefaultElementByBuilder(String platform, String automation) {
-        super(platform, automation);
-    }
-
-    @Override
-    protected By buildDefaultBy() {
+    @Override protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         By defaultBy = null;
         FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
@@ -111,16 +105,18 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         return defaultBy;
     }
 
-    @Override
-    protected By buildMobileNativeBy() {
+    @Override protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         if (isSelendroidAutomation()) {
-            SelendroidFindBy selendroidFindBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
-            SelendroidFindBys selendroidFindBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
-            SelendroidFindAll selendroidFindByAll = annotatedElement.getAnnotation(SelendroidFindAll.class);
+            SelendroidFindBy selendroidFindBy =
+                annotatedElement.getAnnotation(SelendroidFindBy.class);
+            SelendroidFindBys selendroidFindBys =
+                annotatedElement.getAnnotation(SelendroidFindBys.class);
+            SelendroidFindAll selendroidFindByAll =
+                annotatedElement.getAnnotation(SelendroidFindAll.class);
 
             if (selendroidFindBy != null) {
-                return createBy(new Annotation[]{selendroidFindBy}, HowToUseSelectors.USE_ONE);
+                return createBy(new Annotation[] {selendroidFindBy}, HowToUseSelectors.USE_ONE);
             }
 
             if (selendroidFindBys != null) {
@@ -134,11 +130,11 @@ class DefaultElementByBuilder extends AppiumByBuilder {
 
         if (isAndroid()) {
             AndroidFindBy androidFindBy = annotatedElement.getAnnotation(AndroidFindBy.class);
-            AndroidFindBys androidFindBys= annotatedElement.getAnnotation(AndroidFindBys.class);
+            AndroidFindBys androidFindBys = annotatedElement.getAnnotation(AndroidFindBys.class);
             AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
 
             if (androidFindBy != null) {
-                return createBy(new Annotation[]{androidFindBy}, HowToUseSelectors.USE_ONE);
+                return createBy(new Annotation[] {androidFindBy}, HowToUseSelectors.USE_ONE);
             }
 
             if (androidFindBys != null) {
@@ -152,11 +148,11 @@ class DefaultElementByBuilder extends AppiumByBuilder {
 
         if (isIOS()) {
             iOSFindBy iOSFindBy = annotatedElement.getAnnotation(iOSFindBy.class);
-            iOSFindBys iOSFindBys= annotatedElement.getAnnotation(iOSFindBys.class);
+            iOSFindBys iOSFindBys = annotatedElement.getAnnotation(iOSFindBys.class);
             iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
 
             if (iOSFindBy != null) {
-                return createBy(new Annotation[]{iOSFindBy}, HowToUseSelectors.USE_ONE);
+                return createBy(new Annotation[] {iOSFindBy}, HowToUseSelectors.USE_ONE);
             }
 
             if (iOSFindBys != null) {
@@ -171,8 +167,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         return null;
     }
 
-    @Override
-    public boolean isLookupCached() {
+    @Override public boolean isLookupCached() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         return (annotatedElement.getAnnotation(CacheLookup.class) != null);
     }
@@ -184,8 +179,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         return new ContentMappedBy(contentMap);
     }
 
-    @Override
-    public By buildBy() {
+    @Override public By buildBy() {
         assertValidAnnotations();
 
         By defaultBy = buildDefaultBy();
@@ -194,13 +188,15 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         String idOrName = ((Field) annotatedElementContainer.getAnnotated()).getName();
 
         if (defaultBy == null && mobileNativeBy == null) {
-            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+            defaultBy =
+                new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
             mobileNativeBy = new By.ById(idOrName);
             return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
         if (defaultBy == null) {
-            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+            defaultBy =
+                new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
             return returnMappedBy(defaultBy, mobileNativeBy);
         }
 

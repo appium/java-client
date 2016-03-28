@@ -21,44 +21,41 @@ import com.google.common.base.Throwables;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.*;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.internal.ApacheHttpClient;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
-import org.openqa.selenium.remote.internal.ApacheHttpClient;
 
-public class AppiumCommandExecutor extends HttpCommandExecutor{
+public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final DriverService service;
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 URL addressOfRemoteServer, 
-                                 HttpClient.Factory httpClientFactory) {
+        URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
         super(additionalCommands, addressOfRemoteServer, httpClientFactory);
         service = null;
     }
-    
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, 
-                                 DriverService service,
-                                 HttpClient.Factory httpClientFactory) {
+
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
+        HttpClient.Factory httpClientFactory) {
         super(additionalCommands, service.getUrl(), httpClientFactory);
         this.service = service;
     }
-    
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, 
-                                 URL addressOfRemoteServer) {
+
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
+        URL addressOfRemoteServer) {
         this(additionalCommands, addressOfRemoteServer, new ApacheHttpClient.Factory());
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, 
-                                 DriverService service) {
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
+        DriverService service) {
         this(additionalCommands, service, new ApacheHttpClient.Factory());
     }
 
-    @Override
-    public Response execute(Command command) throws IOException, WebDriverException {
+    @Override public Response execute(Command command) throws IOException, WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName()) && service != null) {
             service.start();
         }
@@ -68,7 +65,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor{
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException &&
-                    rootCause.getMessage().contains("Connection refused") && service != null){
+                rootCause.getMessage().contains("Connection refused") && service != null) {
                 if (service.isRunning())
                     throw new WebDriverException("The session is closed!", t);
 

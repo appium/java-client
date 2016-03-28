@@ -52,10 +52,8 @@ public final class AppiumDriverLocalService extends DriverService {
     private CommandLine process = null;
 
     AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort,
-                             ImmutableList<String> nodeJSArgs,
-                             ImmutableMap<String, String> nodeJSEnvironment,
-                             long startupTimeout,
-                             TimeUnit timeUnit) throws IOException {
+        ImmutableList<String> nodeJSArgs, ImmutableMap<String, String> nodeJSEnvironment,
+        long startupTimeout, TimeUnit timeUnit) throws IOException {
         super(nodeJSExec, nodeJSPort, nodeJSArgs, nodeJSEnvironment);
         this.ipAddress = ipAddress;
         this.nodeJSExec = nodeJSExec;
@@ -66,21 +64,26 @@ public final class AppiumDriverLocalService extends DriverService {
         this.timeUnit = timeUnit;
     }
 
+    public static AppiumDriverLocalService buildDefaultService() {
+        return buildService(new AppiumServiceBuilder());
+    }
+
+    public static AppiumDriverLocalService buildService(AppiumServiceBuilder builder) {
+        return builder.build();
+    }
+
     /**
      * @return The base URL for the managed appium server.
      */
-    @Override
-    public URL getUrl() {
+    @Override public URL getUrl() {
         try {
-            return new URL(String.format(URL_MASK, ipAddress,
-                    nodeJSPort));
+            return new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public boolean isRunning() {
+    @Override public boolean isRunning() {
         lock.lock();
         try {
             if (process == null) {
@@ -103,18 +106,20 @@ public final class AppiumDriverLocalService extends DriverService {
 
     }
 
-    private void ping(long time, TimeUnit timeUnit) throws UrlChecker.TimeoutException{
+    private void ping(long time, TimeUnit timeUnit) throws UrlChecker.TimeoutException {
         URL url = getUrl();
         try {
             URL status = new URL(url.toString() + "/status");
             new UrlChecker().waitUntilAvailable(time, timeUnit, status);
         } catch (MalformedURLException e) {
-            throw new RuntimeException("There is something wrong with the URL " + url.toString().toString() + "/status");
+            throw new RuntimeException(
+                "There is something wrong with the URL " + url.toString().toString() + "/status");
         }
     }
 
     /**
      * Starts the defined appium server
+     *
      * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
      * @see #stop()
      */
@@ -126,7 +131,8 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                process = new CommandLine(this.nodeJSExec.getCanonicalPath(), nodeJSArgs.toArray(new String[]{}));
+                process = new CommandLine(this.nodeJSExec.getCanonicalPath(),
+                    nodeJSArgs.toArray(new String[] {}));
                 process.setEnvironmentVariables(nodeJSEnvironment);
                 process.copyOutputTo(stream);
                 process.executeAsync();
@@ -134,15 +140,15 @@ public final class AppiumDriverLocalService extends DriverService {
             } catch (Throwable e) {
                 destroyProcess();
                 String msgTxt = "The local appium server has not been started. " +
-                        "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath() + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
+                    "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
+                    + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
                 if (process != null) {
                     String processStream = process.getStdOut();
                     if (!StringUtils.isBlank(processStream))
                         msgTxt = msgTxt + "Process output: " + processStream + "\n";
                 }
 
-                throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt,
-                        e);
+                throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt, e);
             }
         } finally {
             lock.unlock();
@@ -155,22 +161,19 @@ public final class AppiumDriverLocalService extends DriverService {
      *
      * @see #start()
      */
-    @Override
-    public void stop() {
+    @Override public void stop() {
         lock.lock();
         try {
             if (process != null) {
                 destroyProcess();
             }
             process = null;
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
     }
 
-
-    private void destroyProcess(){
+    private void destroyProcess() {
         if (process.isRunning()) {
             process.destroy();
         }
@@ -187,24 +190,16 @@ public final class AppiumDriverLocalService extends DriverService {
         return null;
     }
 
-    public void addOutPutStream(OutputStream outputStream){
+    public void addOutPutStream(OutputStream outputStream) {
         checkNotNull(outputStream, "outputStream parameter is NULL!");
         stream.add(outputStream);
     }
 
-    public void addOutPutStreams(List<OutputStream> outputStreams){
+    public void addOutPutStreams(List<OutputStream> outputStreams) {
         checkNotNull(outputStreams, "outputStreams parameter is NULL!");
-        for (OutputStream stream: outputStreams){
+        for (OutputStream stream : outputStreams) {
             addOutPutStream(stream);
         }
-    }
-
-    public static AppiumDriverLocalService buildDefaultService(){
-        return buildService(new AppiumServiceBuilder());
-    }
-
-    public static  AppiumDriverLocalService buildService(AppiumServiceBuilder builder){
-        return builder.build();
     }
 
 }

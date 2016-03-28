@@ -39,51 +39,46 @@ import java.util.concurrent.TimeUnit;
 
 public class IOSfMobileBrowserCompatibilityTest {
 
-	private WebDriver driver;
+    private WebDriver driver;
     private AppiumDriverLocalService service;
-	
-	@FindBy(className = "gsfi")
-	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
-	@iOSFindBy(className = "someClass")
-	private WebElement searchTextField;
-	
-	@AndroidFindBy(className = "someClass")
-	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
-	@iOSFindBy(className = "someClass")
-	private List<WebElement> foundLinks;
-	
-	@Before
-	public void setUp() throws Exception {
+
+    @FindBy(className = "gsfi")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
+    @iOSFindBy(className = "someClass") private WebElement searchTextField;
+
+    @AndroidFindBy(className = "someClass")
+    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) @iOSFindBy(className = "someClass")
+    private List<WebElement> foundLinks;
+
+    @Before public void setUp() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-		driver = new IOSDriver<>(service.getUrl(), capabilities);
-		PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
-	}
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+    }
 
-	@After
-	public void tearDown() throws Exception {
+    @After public void tearDown() throws Exception {
         if (driver != null)
             driver.quit();
 
         if (service != null)
             service.stop();
-	}
+    }
 
-	@Test
-	public void test() {
-		driver.get("https://www.google.com");
+    @Test public void test() {
+        driver.get("https://www.google.com");
 
-		searchTextField.sendKeys("Hello");
-		searchTextField.submit();
-		Assert.assertNotEquals(0, foundLinks.size());
-		searchTextField.clear();
-		searchTextField.sendKeys("Hello, Appium!");
-		searchTextField.submit();
-	}
+        searchTextField.sendKeys("Hello");
+        searchTextField.submit();
+        Assert.assertNotEquals(0, foundLinks.size());
+        searchTextField.clear();
+        searchTextField.sendKeys("Hello, Appium!");
+        searchTextField.submit();
+    }
 
 }

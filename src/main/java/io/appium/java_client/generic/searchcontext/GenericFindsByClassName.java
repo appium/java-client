@@ -22,5 +22,6 @@ import java.util.List;
 
 public interface GenericFindsByClassName<T extends WebElement> {
     T findElementByClassName(String className);
+
     List<T> findElementsByClassName(String className);
 }

@@ -32,11 +32,12 @@ public abstract class InterceptorOfAListOfElements implements MethodInterceptor 
         this.locator = locator;
     }
 
-    protected abstract Object getObject(List<WebElement> elements, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, InstantiationException, Throwable;
+    protected abstract Object getObject(List<WebElement> elements, Method method, Object[] args)
+        throws InvocationTargetException, IllegalAccessException, InstantiationException, Throwable;
 
-    public Object intercept(Object obj, Method method, Object[] args,
-                            MethodProxy proxy) throws Throwable {
-        if(Object.class.equals(method.getDeclaringClass())) {
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
+        throws Throwable {
+        if (Object.class.equals(method.getDeclaringClass())) {
             return proxy.invokeSuper(obj, args);
         }
 

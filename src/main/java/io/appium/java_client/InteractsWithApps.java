@@ -25,16 +25,14 @@ public interface InteractsWithApps {
     /**
      * Install an app on the mobile device
      *
-     * @param appPath
-     *            path to app to install
+     * @param appPath path to app to install
      */
     void installApp(String appPath);
 
     /**
      * Checks if an app is installed on the device
      *
-     * @param bundleId
-     *            bundleId of the app
+     * @param bundleId bundleId of the app
      * @return True if app is installed, false otherwise
      */
     boolean isAppInstalled(String bundleId);
@@ -49,16 +47,14 @@ public interface InteractsWithApps {
      * requested. This is a synchronous method, it returns after the back has
      * been returned to the foreground.
      *
-     * @param seconds
-     *            Number of seconds to run App in background
+     * @param seconds Number of seconds to run App in background
      */
     void runAppInBackground(int seconds);
 
     /**
      * Remove the specified app from the device (uninstall)
      *
-     * @param bundleId
-     *            the bunble identifier (or app id) of the app to remove
+     * @param bundleId the bunble identifier (or app id) of the app to remove
      */
     void removeApp(String bundleId);
 

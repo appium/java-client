@@ -9,10 +9,9 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class CombinedMovies extends Movies{
+public class CombinedMovies extends Movies {
 
-    @AndroidFindBy(className = "android.widget.RelativeLayout")
-    @FindBy(className = "mb-movie")
+    @AndroidFindBy(className = "android.widget.RelativeLayout") @FindBy(className = "mb-movie")
     List<CombinedMovie> movieList;
 
     /*
@@ -24,13 +23,11 @@ public class CombinedMovies extends Movies{
         super(element);
     }
 
-    @Override
-    public int getMovieCount() {
+    @Override public int getMovieCount() {
         return movieList.size();
     }
 
-    @Override
-    public Movie getMovie(int index) {
+    @Override public Movie getMovie(int index) {
         return movieList.get(index);
     }
 }
