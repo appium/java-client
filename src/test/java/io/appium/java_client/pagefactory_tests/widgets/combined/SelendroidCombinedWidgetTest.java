@@ -50,6 +50,7 @@ public class SelendroidCombinedWidgetTest implements WidgetTest {
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
         rottenTomatoes = new RottenTomatoesAppWithCombinedWidgets();
+        driver.context("NATIVE_APP");
         PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 
