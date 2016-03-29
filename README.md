@@ -119,8 +119,9 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 - the dependency on org.apache.commons commons-lang3 v3.4 was added
 - the fix of Widget method invocation.[#340](https://github.com/appium/java-client/issues/340). A class visibility was taken into account. Thanks to [aznime](https://github.com/aznime) for the catching.
 Server flags were added:
-- GeneralServerFlag.ASYNC_TRACE
-- IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT
+  - GeneralServerFlag.ASYNC_TRACE
+  - IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT
+- Source code was formatted using [eclipse-java-google-style.xml](https://google-styleguide.googlecode.com/svn/trunk/eclipse-java-google-style.xml). This is not the complete solution. The code style checking is going to be added further. Thanks to [SrinivasanTarget](https://github.com/SrinivasanTarget) for the work!
 
 *3.4.0*
 - Update to Selenium v2.52.0
