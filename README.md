@@ -11,17 +11,17 @@ Depends upon the Selenium Java client library, available [here](http://docs.sele
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.4.0</version>
+  <version>3.4.1</version>
 </dependency>
 ```
 
-It currently depends on selenium-java 2.52.0. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
+It currently depends on selenium-java 2.53.0. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
 
 ```
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.4.0</version>
+  <version>3.4.1</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -113,7 +113,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 *4.0.0 (under construction yet)*
 ...
 
-*3.4.1 (is coming soon)*
+*3.4.1*
 - Update to Selenium v2.53.0
 - all dependencies were updated to latest versions
 - the dependency on org.apache.commons commons-lang3 v3.4 was added
