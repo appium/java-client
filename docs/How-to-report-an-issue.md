@@ -25,7 +25,7 @@ If it is the feature request then there should be the description of this featur
 If it is necessary there should provided more details
 
 
-## Code To Reproduce Issue [ Good To Have ] (bug report)
+## Code To Reproduce Issue (good to Have if you report a bug)
 
 It's easier to reproduce bug and much faster to fix it.
 You can git clone https://github.com/appium/sample-code or https://github.com/appium/sample-code/tree/master/sample-code/apps and reproduce an issue using Java and sample apps.
