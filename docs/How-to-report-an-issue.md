@@ -6,12 +6,12 @@ no progress on this issue.
 
 #The good issue report should contain
 
-## Description
+### Description
 
 The bug report should contain a brief description of a bug.
 If it is the feature request then there should be the description of this feature and the way that it should work.
 
-## Environment (bug report)
+### Environment (bug report)
 
 * java client build version or git revision if you use some shapshot:
 * Appium server version or git revision if you use some shapshot:
@@ -20,23 +20,23 @@ If it is the feature request then there should be the description of this featur
 * Mobile platform/version under test:
 * Real device or emulator/simulator:
 
-## Details
+### Details
 
 If it is necessary there should provided more details
 
 
-## Code To Reproduce Issue (good to Have if you report a bug)
+### Code To Reproduce Issue (good to Have if you report a bug)
 
 It's easier to reproduce bug and much faster to fix it.
 You can git clone https://github.com/appium/sample-code or https://github.com/appium/sample-code/tree/master/sample-code/apps and reproduce an issue using Java and sample apps.
 Also you can create a [gist](https://gist.github.com) with pasted java code sample or paste it at ussue description using markdown. About markdown please read [Mastering markdown](https://guides.github.com/features/mastering-markdown/) and 
 [Writing on GitHub](https://help.github.com/categories/writing-on-github/)
 
-## Ecxeption stacktraces (bug report)
+### Ecxeption stacktraces (bug report)
 
 There should be created a [gist](https://gist.github.com) with pasted stacktrace of exception thrown by java.
 
-## Link to Appium logs
+### Link to Appium logs
 
 There should be created a [gist](https://gist.github.com) which is a paste of your _full_ Appium logs, and link them here. Do _not_ paste your full Appium logs at the issue description, as it will make this issue very long and hard to read! 
 If you are reporting a bug, _always_ include Appium logs as linked gists! It helps to define the problem correctly and clearly. 
