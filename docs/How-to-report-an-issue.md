@@ -38,7 +38,7 @@ There should be created a [gist](https://gist.github.com) with pasted stacktrace
 
 ### Link to Appium logs
 
-There should be created a [gist](https://gist.github.com) which is a paste of your _full_ Appium logs, and link them here. Do _not_ paste your full Appium logs at the issue description, as it will make this issue very long and hard to read! 
+There should be created a [gist](https://gist.github.com) which is a paste of your _full_ Appium logs, and link them to a new issue. Do _not_ paste your full Appium logs at the issue description, as it will make this issue very long and hard to read! 
 If you are reporting a bug, _always_ include Appium logs as linked gists! It helps to define the problem correctly and clearly. 
 
 
