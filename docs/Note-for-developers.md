@@ -1,3 +1,12 @@
+### IDE
+
+If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compiler instead of the default javac. 
+
+
+
+
+If you are using the Eclipse IDE, make sure you are using version Luna or later.
+
 ### Coding Standards
 
 Appium java-client strictly follows [Google Java Style](http://google-styleguide.googlecode.com/svn/trunk/javaguide.html) as a coding standards. Contributors are requested to follow this by configuring in their IDE's Editor Code style,
