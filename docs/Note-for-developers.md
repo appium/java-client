@@ -2,7 +2,7 @@
 
 If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compiler instead of the default javac. 
 
-
+![eclipse compiler](https://cloud.githubusercontent.com/assets/4927589/14228367/6fce184e-f91b-11e5-837c-2673446d24ea.png)
 
 
 If you are using the Eclipse IDE, make sure you are using version Luna or later.
