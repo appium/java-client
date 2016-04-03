@@ -13,39 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.appium.java_client.android;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-public class AndroidAccessibilityTest {
+public class KeyCodeTest {
 
     private static AppiumDriverLocalService service;
-    private AppiumDriver<MobileElement> driver;
+    private static AndroidDriver<AndroidElement> driver;
 
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
-    }
 
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
-    }
-
-    @Before public void setUp() throws Exception {
         if (service == null || !service.isRunning())
             throw new RuntimeException("An appium server node is not started!");
 
@@ -54,33 +42,34 @@ public class AndroidAccessibilityTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
-    @After public void tearDown() throws Exception {
-        driver.quit();
+    @Before public void setup() throws Exception {
+        driver.resetApp();
     }
 
-    @Test public void findElementsTest() {
-        List<MobileElement> elements = driver.findElementsByAccessibilityId("Accessibility");
-        assertTrue(elements.size() > 0);
+    @AfterClass public static void afterClass() {
+        if (driver != null) {
+            driver.quit();
+        }
+        if (service != null)
+            service.stop();
     }
 
-    @Test public void findElementTest() {
-        //WebElement element =
-        MobileElement element = driver.findElementByAccessibilityId("Accessibility");
-        assertNotNull(element);
+    @Test public void pressKeyCodeTest() {
+        driver.pressKeyCode(AndroidKeyCode.HOME);
     }
 
-    @Test public void MobileElementByTest() {
-        MobileElement element = driver.findElement(MobileBy.AccessibilityId("Accessibility"));
-        assertNotNull(element);
+    @Test public void pressKeyCodeWithMetastateTest() {
+        driver.pressKeyCode(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
     }
 
-    @Test public void MobileElementsByTest() {
-        List<MobileElement> elements =
-            driver.findElements(MobileBy.AccessibilityId("Accessibility"));
-        assertTrue(elements.size() > 0);
+    @Test public void longPressKeyCodeTest() {
+        driver.longPressKeyCode(AndroidKeyCode.HOME);
     }
 
+    @Test public void longPressKeyCodeWithMetastateTest() {
+        driver.longPressKeyCode(AndroidKeyCode.HOME, AndroidKeyMetastate.META_SHIFT_ON);
+    }
 }
