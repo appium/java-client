@@ -312,9 +312,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     @SuppressWarnings("rawtypes") @Override public TouchAction performTouchAction(
         TouchAction touchAction) {
         ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
-        touchAction.clearParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
-
         return touchAction;
     }
 

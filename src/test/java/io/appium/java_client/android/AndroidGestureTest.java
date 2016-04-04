@@ -21,6 +21,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -35,55 +36,72 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class AndroidGestureTest {
     private static AppiumDriverLocalService service;
-    private AndroidDriver<MobileElement> driver;
+    private static AndroidDriver<AndroidElement> driver;
 
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
-    }
 
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
-    }
-
-    @Before public void setup() throws Exception {
         if (service == null || !service.isRunning())
             throw new RuntimeException("An appium server node is not started!");
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
-    @After public void tearDown() throws Exception {
-        driver.quit();
+    @AfterClass public static void afterClass() {
+        if (driver != null) {
+            driver.quit();
+        }
+        if (service != null)
+            service.stop();
     }
 
-    @Test public void MultiGestureSingleActionTest() throws InterruptedException {
-        //the underlying java library for Appium doesn't like multi-gestures with only a single action.
-        //but java-client should handle it, silently falling back to just performing a single action.
-
-        MultiTouchAction multiTouch = new MultiTouchAction(driver);
-        TouchAction action0 = new TouchAction(driver).tap(100, 300);
-        multiTouch.add(action0).perform();
+    @Test public void singleTapTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        Point point =
+            driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
+        driver.tap(1, point.x + 20, point.y + 30, 1000);
+        Assert.assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
-    @Test public void dragNDropTest() {
+    @Test public void singleElementTapTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
+        Assert.assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+    }
 
-        driver.findElementByAndroidUIAutomator(
-            "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().description(\"Views\"))");
-        driver.findElementByAccessibilityId("Views").click();
+    @Test public void multiTapActionTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.ChronometerDemo");
+        AndroidElement chronometer =
+            driver.findElementById("io.appium.android.apis:id/chronometer");
 
-        driver.findElement(MobileBy.AndroidUIAutomator("description(\"Drag and Drop\")")).click();
-        WebElement actionBarTitle =
-            driver.findElement(MobileBy.AndroidUIAutomator("text(\"Views/Drag and Drop\")"));
+        TouchAction startStop = new TouchAction(driver).
+            tap(driver.findElementById("io.appium.android.apis:id/start")).waitAction(2000).
+            tap(driver.findElementById("io.appium.android.apis:id/stop"));
+        TouchAction reset = new TouchAction(driver).
+            tap(driver.findElementById("io.appium.android.apis:id/reset"));
 
-        assertEquals("Wrong title.", "Views/Drag and Drop", actionBarTitle.getText());
+        MultiTouchAction m1 = new MultiTouchAction(driver).add(startStop);
+        m1.perform();
+
+        String time = chronometer.getText();
+        assertNotEquals(time, "Initial format: 00:00");
+        Thread.sleep(2500);
+        assertEquals(time, chronometer.getText());
+
+        MultiTouchAction m2 = new MultiTouchAction(driver).add(startStop).add(reset);
+        m2.perform();
+
+        assertEquals("Initial format: 00:00", chronometer.getText());
+    }
+
+    @Test public void dragNDropTest() throws Exception  {
+        driver.startActivity("io.appium.android.apis", ".view.DragAndDropDemo");
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -97,12 +115,15 @@ public class AndroidGestureTest {
         assertNotEquals("Drag text empty", "", dragText.getText());
     }
 
-    @Test public void TapSingleFingerTest() throws InterruptedException {
-        Thread.sleep(2500);
-        driver.tap(1, 200, 300, 1000);
+    @Test public void zoomAndPinchTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
+        e.zoom();
+        e.pinch();
     }
 
-    @Test public void elementGestureTest() {
+    /*
+    public void elementGestureTest() {
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
         e.tap(1, 1500);
@@ -141,6 +162,6 @@ public class AndroidGestureTest {
         e2 = driver.findElementByClassName("android.widget.TextView");
         e2.swipe(SwipeElementDirection.UP, 1, 2, 1000);
         System.out.println("UP Bottom + 10 Top - 20");
-
     }
+    */
 }
