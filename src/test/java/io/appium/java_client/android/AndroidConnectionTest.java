@@ -67,7 +67,7 @@ public class AndroidConnectionTest {
     }
 
     @Test public void setAirplane() {
-        driver.setNetworkConnection(new NetworkConnectionSetting(false, false, false));
+        driver.setNetworkConnection(new NetworkConnectionSetting(true, false, false));
         Assert.assertEquals(new NetworkConnectionSetting(true, false, false), driver.getNetworkConnection());
     }
 }
