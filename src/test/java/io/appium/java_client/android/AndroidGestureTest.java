@@ -31,9 +31,6 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-/**
- * Test Mobile Driver features
- */
 public class AndroidGestureTest {
     private static AppiumDriverLocalService service;
     private static AndroidDriver<AndroidElement> driver;
@@ -122,46 +119,44 @@ public class AndroidGestureTest {
         e.pinch();
     }
 
-    /*
-    public void elementGestureTest() {
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
-        e.tap(1, 1500);
-        System.out.println("tap");
-        MobileElement e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.zoom();
-        System.out.println("zoom");
-        e2.swipe(SwipeElementDirection.RIGHT, 1000);
-        System.out.println("RIGHT");
+    @Test public void reusableTapTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        AndroidElement element = driver.findElementById("io.appium.android.apis:id/button_toggle");
+        TouchAction tap = new TouchAction(driver).tap(element);
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.RIGHT, 1, 2, 1000);
-        System.out.println("RIGHT Left border + 10 Right border - 20");
+        driver.performTouchAction(tap);
+        Assert.assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.LEFT, 1000);
-        System.out.println("LEFT");
-
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.LEFT, 1, 2, 1000);
-        System.out.println("LEFT Right border - 10 Left border + 20");
-
-        driver.pressKeyCode(AndroidKeyCode.BACK);
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.DOWN, 1000);
-        System.out.println("DOWN");
-
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.DOWN, 1, 2, 1000);
-        System.out.println("DOWN Top - 10 Bottom + 20");
-
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.UP, 1000);
-        System.out.println("UP");
-
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.UP, 1, 2, 1000);
-        System.out.println("UP Bottom + 10 Top - 20");
+        driver.performTouchAction(tap);
+        Assert.assertEquals("OFF" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
-    */
+
+    @Test public void verticalSwipingTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.DateWidgets2");
+        AndroidElement numberPicker = driver.findElementByClassName("android.widget.NumberPicker");
+        MobileElement numberInput = numberPicker.findElementById("android:id/numberpicker_input");
+
+        String originalNumber = numberInput.getText();
+
+        numberPicker.swipe(SwipeElementDirection.UP, 20, 10, 1000);
+        Assert.assertNotEquals(originalNumber, numberInput.getText());
+
+        numberPicker.swipe(SwipeElementDirection.DOWN, 20, 10, 1000);
+        Assert.assertEquals(originalNumber, numberInput.getText());
+    }
+
+    @Test public void horizontalSwipingTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
+
+        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
+        int originalImageCount = gallery.findElementsByClassName("android.widget.ImageView").size();
+
+        gallery.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
+        Assert.assertNotEquals(originalImageCount, gallery.
+            findElementsByClassName("android.widget.ImageView").size());
+
+        gallery.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
+        Assert.assertEquals(originalImageCount, gallery.
+            findElementsByClassName("android.widget.ImageView").size());
+    }
 }
