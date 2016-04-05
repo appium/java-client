@@ -17,21 +17,21 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumSetting;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Test Mobile Driver features
