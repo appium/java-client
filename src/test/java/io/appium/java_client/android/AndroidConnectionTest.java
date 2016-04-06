@@ -16,36 +16,28 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-public class AndroidAccessibilityTest {
+public class AndroidConnectionTest {
 
     private static AppiumDriverLocalService service;
-    private AppiumDriver<MobileElement> driver;
+    private static AndroidDriver<MobileElement> driver;
 
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
-    }
 
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
-    }
-
-    @Before public void setUp() throws Exception {
         if (service == null || !service.isRunning())
             throw new RuntimeException("An appium server node is not started!");
 
@@ -54,33 +46,29 @@ public class AndroidAccessibilityTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<MobileElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
-    @After public void tearDown() throws Exception {
-        driver.quit();
+    @AfterClass public static void afterClass() {
+        if (driver != null) {
+            try {
+                driver.setNetworkConnection(new NetworkConnectionSetting(false, false, true));
+            }
+            finally {
+                driver.quit();
+            }
+        }
+        if (service != null)
+            service.stop();
     }
 
-    @Test public void findElementsTest() {
-        List<MobileElement> elements = driver.findElementsByAccessibilityId("Accessibility");
-        assertTrue(elements.size() > 0);
+    @Test public void setWiFiTest() {
+        driver.setNetworkConnection(new NetworkConnectionSetting(false, true, false));
+        assertEquals(new NetworkConnectionSetting(false, true, false), driver.getNetworkConnection());
     }
 
-    @Test public void findElementTest() {
-        //WebElement element =
-        MobileElement element = driver.findElementByAccessibilityId("Accessibility");
-        assertNotNull(element);
+    @Test public void setAirplane() {
+        driver.setNetworkConnection(new NetworkConnectionSetting(true, false, false));
+        assertEquals(new NetworkConnectionSetting(true, false, false), driver.getNetworkConnection());
     }
-
-    @Test public void MobileElementByTest() {
-        MobileElement element = driver.findElement(MobileBy.AccessibilityId("Accessibility"));
-        assertNotNull(element);
-    }
-
-    @Test public void MobileElementsByTest() {
-        List<MobileElement> elements =
-            driver.findElements(MobileBy.AccessibilityId("Accessibility"));
-        assertTrue(elements.size() > 0);
-    }
-
 }

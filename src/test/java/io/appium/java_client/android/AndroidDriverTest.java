@@ -17,100 +17,23 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumSetting;
-import io.appium.java_client.NetworkConnectionSetting;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.*;
+import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
-import java.util.Map;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Test Mobile Driver features
  */
-public class AndroidDriverTest {
-
-    private static AppiumDriverLocalService service;
-    private AndroidDriver<?> driver;
-
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-    }
-
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
-    }
-
-    @Before public void setup() throws Exception {
-        if (service == null || !service.isRunning())
-            throw new RuntimeException("An appium server node is not started!");
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-        driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
-    }
-
-    @After public void tearDown() throws Exception {
-        driver.quit();
-    }
-
-    private String currentActivity() {
-        String currentActivity = null;
-        while (currentActivity == null) {
-            currentActivity = driver.currentActivity();
-            Thread.yield();
-        }
-        return currentActivity;
-    }
+public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
         assertTrue(time.length() == 28);
-    }
-
-    @Test public void getStringsTest() {
-        Map<String, String> strings = driver.getAppStringMap();
-        assertTrue(strings.size() > 100);
-    }
-
-    @Test public void getStringsWithLanguageTest() {
-        Map<String, String> strings = driver.getAppStringMap("en");
-        assertTrue(strings.size() > 100);
-    }
-
-    @Test public void pressKeyCodeTest() {
-        driver.pressKeyCode(AndroidKeyCode.HOME);
-    }
-
-    @Test public void pressKeyCodeWithMetastateTest() {
-        driver.pressKeyCode(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
-    }
-
-    @Test public void longPressKeyCodeTest() {
-        driver.longPressKeyCode(AndroidKeyCode.HOME);
-    }
-
-    @Test public void longPressKeyCodeWithMetastateTest() {
-        driver.longPressKeyCode(AndroidKeyCode.HOME, AndroidKeyMetastate.META_SHIFT_ON);
-    }
-
-    @Test public void currentActivityTest() {
-        String activity = driver.currentActivity();
-        assertEquals(".ApiDemos", activity);
     }
 
     @Test public void isAppInstalledTest() {
@@ -139,21 +62,6 @@ public class AndroidDriverTest {
             returnDataDecoded);
     }
 
-    @Test public void networkConnectionTest() {
-        NetworkConnectionSetting networkConnection =
-            new NetworkConnectionSetting(false, true, true);
-
-        networkConnection.setData(false);
-        networkConnection.setWifi(false);
-
-
-        driver.setNetworkConnection(networkConnection);
-        networkConnection = driver.getNetworkConnection();
-
-        assertEquals(new NetworkConnectionSetting(false, false, false), networkConnection);
-
-    }
-
     @Test public void ignoreUnimportantViews() {
         driver.ignoreUnimportantViews(true);
         boolean ignoreViews =
@@ -164,48 +72,6 @@ public class AndroidDriverTest {
         ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString())
             .getAsBoolean();
         assertFalse(ignoreViews);
-    }
-
-    @Test public void startActivityInThisAppTest() {
-        driver.startActivity("io.appium.android.apis", ".os.MorseCode", null, null, false);
-        assertTrue(currentActivity().endsWith(".os.MorseCode"));
-        driver.findElementById("text").sendKeys("Text must be here!");
-        driver.startActivity("io.appium.android.apis",
-            ".accessibility.AccessibilityNodeProviderActivity", null, null, false);
-        assertTrue(currentActivity().endsWith(".accessibility.AccessibilityNodeProviderActivity"));
-        driver.pressKeyCode(AndroidKeyCode.BACK);
-        assertTrue(currentActivity().endsWith(".os.MorseCode"));
-        assertEquals("Text must be here!", driver.findElementById("text").getText());
-    }
-
-    @Test public void stopAndStartActivityInThisAppTest() {
-        driver.startActivity("io.appium.android.apis", ".os.MorseCode", null, null);
-        assertTrue(currentActivity().endsWith(".os.MorseCode"));
-        driver.startActivity("io.appium.android.apis",
-            ".accessibility.AccessibilityNodeProviderActivity", null, null);
-        assertTrue(currentActivity().endsWith(".accessibility.AccessibilityNodeProviderActivity"));
-        driver.pressKeyCode(AndroidKeyCode.BACK);
-        assertFalse(currentActivity().endsWith(".os.MorseCode"));
-    }
-
-    //TODO hideKeyboard() test
-
-    @Test public void startActivityInAnotherAppTest() {
-        driver.startActivity("com.android.contacts", ".ContactsListActivity", null, null);
-        String activity = driver.currentActivity();
-        assertTrue(activity.contains("Contact"));
-    }
-
-    @Test public void scrollToTest() {
-        driver.scrollTo("View");
-        WebElement views = driver.findElementByAccessibilityId("Views");
-        assertNotNull(views);
-    }
-
-    @Test public void scrollToExactTest() {
-        driver.scrollToExact("Views");
-        WebElement views = driver.findElementByAccessibilityId("Views");
-        assertNotNull(views);
     }
 
     @Test public void toggleLocationServicesTest() {

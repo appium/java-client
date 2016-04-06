@@ -16,74 +16,62 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.*;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
+import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-/**
- * Test Mobile Driver features
- */
-public class AndroidGestureTest {
-    private static AppiumDriverLocalService service;
-    private AndroidDriver<MobileElement> driver;
+public class AndroidGestureTest extends BaseAndroidTest {
 
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
+    @Test public void singleTapTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        Point point =
+            driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
+        driver.tap(1, point.x + 20, point.y + 30, 1000);
+        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
+    @Test public void singleElementTapTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
+        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
-    @Before public void setup() throws Exception {
-        if (service == null || !service.isRunning())
-            throw new RuntimeException("An appium server node is not started!");
+    @Test public void multiTapActionTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.ChronometerDemo");
+        AndroidElement chronometer =
+            driver.findElementById("io.appium.android.apis:id/chronometer");
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        TouchAction startStop = new TouchAction(driver).
+            tap(driver.findElementById("io.appium.android.apis:id/start")).waitAction(2000).
+            tap(driver.findElementById("io.appium.android.apis:id/stop"));
+        TouchAction reset = new TouchAction(driver).
+            tap(driver.findElementById("io.appium.android.apis:id/reset"));
+
+        MultiTouchAction m1 = new MultiTouchAction(driver).add(startStop);
+        m1.perform();
+
+        String time = chronometer.getText();
+        assertNotEquals(time, "Initial format: 00:00");
+        Thread.sleep(2500);
+        assertEquals(time, chronometer.getText());
+
+        MultiTouchAction m2 = new MultiTouchAction(driver).add(startStop).add(reset);
+        m2.perform();
+
+        assertEquals("Initial format: 00:00", chronometer.getText());
     }
 
-    @After public void tearDown() throws Exception {
-        driver.quit();
-    }
-
-    @Test public void MultiGestureSingleActionTest() throws InterruptedException {
-        //the underlying java library for Appium doesn't like multi-gestures with only a single action.
-        //but java-client should handle it, silently falling back to just performing a single action.
-
-        MultiTouchAction multiTouch = new MultiTouchAction(driver);
-        TouchAction action0 = new TouchAction(driver).tap(100, 300);
-        multiTouch.add(action0).perform();
-    }
-
-    @Test public void dragNDropTest() {
-
-        driver.findElementByAndroidUIAutomator(
-            "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().description(\"Views\"))");
-        driver.findElementByAccessibilityId("Views").click();
-
-        driver.findElement(MobileBy.AndroidUIAutomator("description(\"Drag and Drop\")")).click();
-        WebElement actionBarTitle =
-            driver.findElement(MobileBy.AndroidUIAutomator("text(\"Views/Drag and Drop\")"));
-
-        assertEquals("Wrong title.", "Views/Drag and Drop", actionBarTitle.getText());
+    @Test public void dragNDropTest() throws Exception  {
+        driver.startActivity("io.appium.android.apis", ".view.DragAndDropDemo");
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -97,50 +85,51 @@ public class AndroidGestureTest {
         assertNotEquals("Drag text empty", "", dragText.getText());
     }
 
-    @Test public void TapSingleFingerTest() throws InterruptedException {
-        Thread.sleep(2500);
-        driver.tap(1, 200, 300, 1000);
+    @Test public void zoomAndPinchTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
+        e.zoom();
+        e.pinch();
     }
 
-    @Test public void elementGestureTest() {
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        MobileElement e = driver.findElement(MobileBy.AccessibilityId("App"));
-        e.tap(1, 1500);
-        System.out.println("tap");
-        MobileElement e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.zoom();
-        System.out.println("zoom");
-        e2.swipe(SwipeElementDirection.RIGHT, 1000);
-        System.out.println("RIGHT");
+    @Test public void reusableTapTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        AndroidElement element = driver.findElementById("io.appium.android.apis:id/button_toggle");
+        TouchAction tap = new TouchAction(driver).tap(element);
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.RIGHT, 1, 2, 1000);
-        System.out.println("RIGHT Left border + 10 Right border - 20");
+        driver.performTouchAction(tap);
+        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.LEFT, 1000);
-        System.out.println("LEFT");
+        driver.performTouchAction(tap);
+        assertEquals("OFF" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+    }
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.LEFT, 1, 2, 1000);
-        System.out.println("LEFT Right border - 10 Left border + 20");
+    @Test public void verticalSwipingTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.DateWidgets2");
+        AndroidElement numberPicker = driver.findElementByClassName("android.widget.NumberPicker");
+        MobileElement numberInput = numberPicker.findElementById("android:id/numberpicker_input");
 
-        driver.pressKeyCode(AndroidKeyCode.BACK);
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.DOWN, 1000);
-        System.out.println("DOWN");
+        String originalNumber = numberInput.getText();
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.DOWN, 1, 2, 1000);
-        System.out.println("DOWN Top - 10 Bottom + 20");
+        numberPicker.swipe(SwipeElementDirection.UP, 20, 10, 1000);
+        assertNotEquals(originalNumber, numberInput.getText());
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.UP, 1000);
-        System.out.println("UP");
+        numberPicker.swipe(SwipeElementDirection.DOWN, 20, 10, 1000);
+        assertEquals(originalNumber, numberInput.getText());
+    }
 
-        e2 = driver.findElementByClassName("android.widget.TextView");
-        e2.swipe(SwipeElementDirection.UP, 1, 2, 1000);
-        System.out.println("UP Bottom + 10 Top - 20");
+    @Test public void horizontalSwipingTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
 
+        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
+        int originalImageCount = gallery.findElementsByClassName("android.widget.ImageView").size();
+
+        gallery.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
+        assertNotEquals(originalImageCount, gallery.
+            findElementsByClassName("android.widget.ImageView").size());
+
+        gallery.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
+        assertEquals(originalImageCount, gallery.
+            findElementsByClassName("android.widget.ImageView").size());
     }
 }
