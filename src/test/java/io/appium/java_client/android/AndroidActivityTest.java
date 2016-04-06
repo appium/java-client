@@ -17,45 +17,11 @@
 package io.appium.java_client.android;
 
 
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
-
-public class AndroidActivityTest {
-
-    private static AppiumDriverLocalService service;
-    private static AndroidDriver<MobileElement> driver;
-
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        if (service == null || !service.isRunning())
-            throw new RuntimeException("An appium server node is not started!");
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
-    }
-
-    @AfterClass public static void afterClass() {
-        if (driver != null) {
-            driver.quit();
-        }
-        if (service != null)
-            service.stop();
-    }
+public class AndroidActivityTest extends BaseAndroidTest {
 
     @Before public void setUp() throws Exception {
         driver.startActivity("io.appium.android.apis", ".ApiDemos");

@@ -16,50 +16,21 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.*;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 import org.junit.Test;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class AndroidGestureTest {
-    private static AppiumDriverLocalService service;
-    private static AndroidDriver<AndroidElement> driver;
-
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        if (service == null || !service.isRunning())
-            throw new RuntimeException("An appium server node is not started!");
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
-    }
-
-    @AfterClass public static void afterClass() {
-        if (driver != null) {
-            driver.quit();
-        }
-        if (service != null)
-            service.stop();
-    }
+public class AndroidGestureTest extends BaseAndroidTest {
 
     @Test public void singleTapTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
