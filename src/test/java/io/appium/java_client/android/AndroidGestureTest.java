@@ -22,7 +22,6 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 import org.junit.Test;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -37,13 +36,13 @@ public class AndroidGestureTest extends BaseAndroidTest {
         Point point =
             driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
         driver.tap(1, point.x + 20, point.y + 30, 1000);
-        Assert.assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void singleElementTapTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
         driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
-        Assert.assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void multiTapActionTest() throws Exception {
@@ -99,10 +98,10 @@ public class AndroidGestureTest extends BaseAndroidTest {
         TouchAction tap = new TouchAction(driver).tap(element);
 
         driver.performTouchAction(tap);
-        Assert.assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
 
         driver.performTouchAction(tap);
-        Assert.assertEquals("OFF" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("OFF" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void verticalSwipingTest() throws Exception {
@@ -113,10 +112,10 @@ public class AndroidGestureTest extends BaseAndroidTest {
         String originalNumber = numberInput.getText();
 
         numberPicker.swipe(SwipeElementDirection.UP, 20, 10, 1000);
-        Assert.assertNotEquals(originalNumber, numberInput.getText());
+        assertNotEquals(originalNumber, numberInput.getText());
 
         numberPicker.swipe(SwipeElementDirection.DOWN, 20, 10, 1000);
-        Assert.assertEquals(originalNumber, numberInput.getText());
+        assertEquals(originalNumber, numberInput.getText());
     }
 
     @Test public void horizontalSwipingTest() throws Exception {
@@ -126,11 +125,11 @@ public class AndroidGestureTest extends BaseAndroidTest {
         int originalImageCount = gallery.findElementsByClassName("android.widget.ImageView").size();
 
         gallery.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
-        Assert.assertNotEquals(originalImageCount, gallery.
+        assertNotEquals(originalImageCount, gallery.
             findElementsByClassName("android.widget.ImageView").size());
 
         gallery.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
-        Assert.assertEquals(originalImageCount, gallery.
+        assertEquals(originalImageCount, gallery.
             findElementsByClassName("android.widget.ImageView").size());
     }
 }

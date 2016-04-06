@@ -20,13 +20,15 @@ package io.appium.java_client.android;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class AndroidAppStringsTest extends BaseAndroidTest {
 
     @Test public void getAppStrings() {
-        Assert.assertNotEquals(0, driver.getAppStringMap().size());
+        assertNotEquals(0, driver.getAppStringMap().size());
     }
 
     @Test public void getGetAppStringsUsingLang() {
-        Assert.assertNotEquals(0, driver.getAppStringMap("en").size());
+        assertNotEquals(0, driver.getAppStringMap("en").size());
     }
 }

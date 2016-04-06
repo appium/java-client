@@ -28,6 +28,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
+import static org.junit.Assert.assertEquals;
+
 public class AndroidConnectionTest {
 
     private static AppiumDriverLocalService service;
@@ -63,11 +65,11 @@ public class AndroidConnectionTest {
 
     @Test public void setWiFiTest() {
         driver.setNetworkConnection(new NetworkConnectionSetting(false, true, false));
-        Assert.assertEquals(new NetworkConnectionSetting(false, true, false), driver.getNetworkConnection());
+        assertEquals(new NetworkConnectionSetting(false, true, false), driver.getNetworkConnection());
     }
 
     @Test public void setAirplane() {
         driver.setNetworkConnection(new NetworkConnectionSetting(true, false, false));
-        Assert.assertEquals(new NetworkConnectionSetting(true, false, false), driver.getNetworkConnection());
+        assertEquals(new NetworkConnectionSetting(true, false, false), driver.getNetworkConnection());
     }
 }

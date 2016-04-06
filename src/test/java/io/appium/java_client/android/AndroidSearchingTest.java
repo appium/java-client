@@ -16,30 +16,33 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.MobileBy;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AndroidSearchingTest extends BaseAndroidTest{
 
 
     @Test  public void findByAccessibilityIdTest() {
-        Assert.assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
-        Assert.assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
+        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
+        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
     }
 
     @Test  public void findByAndroidUIAutomatorTest() {
-        Assert.assertNotEquals(driver.
+        assertNotEquals(driver.
             findElement(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
-        Assert.assertNotEquals(driver.
+        assertNotEquals(driver.
             findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
-        Assert.assertNotEquals(driver.
+        assertNotEquals(driver.
             findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
     @Test public void findByXPathTest()
     {
         String byXPath = "//android.widget.TextView[contains(@text, 'Animat')]";
-        Assert.assertNotNull(driver.findElementByXPath(byXPath).getText());
-        Assert.assertEquals(driver.findElementsByXPath(byXPath).size(), 1);
+        assertNotNull(driver.findElementByXPath(byXPath).getText());
+        assertEquals(driver.findElementsByXPath(byXPath).size(), 1);
     }
 }

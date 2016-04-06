@@ -18,7 +18,9 @@ package io.appium.java_client.android;
 import io.appium.java_client.MobileBy;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertEquals;
 
 public class AndroidElementTest extends BaseAndroidTest {
 
@@ -28,18 +30,18 @@ public class AndroidElementTest extends BaseAndroidTest {
 
 
     @Test public void findByAccessibilityIdTest() {
-        Assert.assertNotEquals(driver.findElementById("android:id/content").
+        assertNotEquals(driver.findElementById("android:id/content").
             findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
-        Assert.assertEquals(driver.findElementById("android:id/content").
+        assertEquals(driver.findElementById("android:id/content").
             findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
     }
 
     @Test public void findByAndroidUIAutomatorTest() {
-        Assert.assertNotEquals(driver.findElementById("android:id/content").
+        assertNotEquals(driver.findElementById("android:id/content").
             findElement(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
-        Assert.assertNotEquals(driver.findElementById("android:id/content").
+        assertNotEquals(driver.findElementById("android:id/content").
             findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
-        Assert.assertNotEquals(driver.findElementById("android:id/content").
+        assertNotEquals(driver.findElementById("android:id/content").
             findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
@@ -50,8 +52,8 @@ public class AndroidElementTest extends BaseAndroidTest {
         driver.startActivity("io.appium.android.apis", ".view.Controls1");
         AndroidElement editElement = driver.findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
         editElement.sendKeys(originalValue);
-        Assert.assertEquals(originalValue, editElement.getText());
+        assertEquals(originalValue, editElement.getText());
         editElement.replaceValue(replacedValue);
-        Assert.assertEquals(replacedValue, editElement.getText());
+        assertEquals(replacedValue, editElement.getText());
     }
 }
