@@ -111,6 +111,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
 *4.0.0 (under construction yet)*
+- FIX of TouchAction. Instances of the TouchAction class are reusable now
 ...
 
 *3.4.1*
