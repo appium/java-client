@@ -16,74 +16,45 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
-import org.openqa.selenium.WebElement;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-/**
- * Test context-related features
- */
-public class IOSAccessibilityIdTest {
+public class BaseIOSTest {
 
     private static AppiumDriverLocalService service;
-    private AppiumDriver<?> driver;
+    protected static IOSDriver<MobileElement> driver;
 
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
-    }
 
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
-    }
-
-    @Before public void setup() throws Exception {
         if (service == null || !service.isRunning())
             throw new RuntimeException("An appium server node is not started!");
 
         File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "UICatalog.app.zip");
+        File app = new File(appDir, "TestApp.app.zip");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        //sometimes environment has performance problems
+        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
-    @After public void tearDown() throws Exception {
-        driver.quit();
-    }
-
-    @Test public void findElementTest() {
-        WebElement element = driver.findElementByAccessibilityId("UICatalog");
-        assertNotNull(element);
-    }
-
-    @Test public void findElementsTest() {
-        List<? extends WebElement> elements = driver.findElementsByAccessibilityId("UICatalog");
-        assertTrue(elements.size() > 0);
-    }
-
-    @Test public void MobileElementByTest() {
-        WebElement element = driver.findElement(MobileBy.AccessibilityId("UICatalog"));
-        assertNotNull(element);
-    }
-
-    @Test public void MobileElementsByTest() {
-        List<? extends WebElement> elements =
-            driver.findElements(MobileBy.AccessibilityId("UICatalog"));
-        assertTrue(elements.size() > 0);
+    @AfterClass public static void afterClass() {
+        if (driver != null) {
+            driver.quit();
+        }
+        if (service != null)
+            service.stop();
     }
 }

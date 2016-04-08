@@ -109,6 +109,13 @@ public class AndroidDriver<RequiredElementType extends WebElement>
         this.setElementConverter(new JsonToAndroidElementConverter(this));
     }
 
+    /**
+     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
+     */
+    @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
+        doSwipe(startx, starty, endx, endy, duration);
+    }
+
     static String UiScrollable(String uiSelector) {
         return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView("
             + uiSelector + ".instance(0));";

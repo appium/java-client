@@ -351,10 +351,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
         multiTouch.perform();
     }
 
-    /**
-     * @see TouchShortcuts#swipe(int, int, int, int, int)
-     */
-    @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
+    protected void doSwipe(int startx, int starty, int endx, int endy, int duration) {
         TouchAction touchAction = new TouchAction(this);
 
         // appium converts press-wait-moveto-release to a swipe action
@@ -362,6 +359,11 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
 
         touchAction.perform();
     }
+
+    /**
+     * @see TouchShortcuts#swipe(int, int, int, int, int)
+     */
+    @Override public abstract void swipe(int startx, int starty, int endx, int endy, int duration);
 
     /**
      * Convenience method for pinching an element on the screen.

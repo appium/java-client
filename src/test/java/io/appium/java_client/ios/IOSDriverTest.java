@@ -35,38 +35,7 @@ import static org.junit.Assert.*;
 /**
  * Test Mobile Driver features
  */
-public class IOSDriverTest {
-
-    private static AppiumDriverLocalService service;
-    private IOSDriver<MobileElement> driver;
-
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-    }
-
-    @AfterClass public static void afterClass() {
-        if (service != null)
-            service.stop();
-    }
-
-    @Before public void setup() throws Exception {
-        if (service == null || !service.isRunning())
-            throw new RuntimeException("An appium server node is not started!");
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "UICatalog.app.zip");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<MobileElement>(service.getUrl(), capabilities);
-    }
-
-    @After public void tearDown() throws Exception {
-        driver.quit();
-    }
+public class IOSDriverTest extends BaseIOSTest {
 
     /**
      * @Test TODO There is no ability to check this function usibg simulators. When CI will have been set up then this test will be returned
@@ -76,62 +45,14 @@ public class IOSDriverTest {
         assertTrue(time.length() == 28);
     }
 
-    @Test public void getStringsTest() {
-        Map<String, String> strings = driver.getAppStringMap();
-        assertTrue(strings.size() > 10);
-    }
-
-    @Test public void getStringsWithLanguageTest() {
-        Map<String, String> strings = driver.getAppStringMap("en");
-        assertTrue(strings.size() > 10);
-    }
-
-    @Test public void getStringsWithLanguageAndStringFileTest() {
-        Map<String, String> strings = driver.getAppStringMap("en", "Localizable.strings");
-        assertTrue(strings.size() > 10);
-    }
-
-    @Test public void getStringsWithUnknownStringFileTest() {
-        Map<String, String> strings = driver.getAppStringMap("en", "Unknown.strings");
-        assertTrue(strings.size() > 10);
-    }
-
     @Test public void resetTest() {
         driver.resetApp();
     }
 
-    @Test public void namedTextFieldTest() {
-        MobileElement element =
-            driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
-        element.click();
-        element = driver.getNamedTextField("DEFAULT");
-        ((IOSElement) element).setValue("Grace Hopper");
-        assertEquals("Grace Hopper", element.getText());
-    }
-
     @Test public void hideKeyboardWithParametersTest() {
-        MobileElement element =
-            driver.findElementByAccessibilityId("Text Fields, AAPLTextFieldViewController");
-        element.click();
-        element = driver.findElementByAccessibilityId("DEFAULT");
+        MobileElement element = driver.findElementById("IntegerA");
         element.click();
         driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
-    }
-
-    @Test public void scrollToTest() {
-        MobileElement searchBar = driver.findElementByName("Search Bars");
-        Point before = searchBar.getLocation();
-        driver.scrollTo("Search Ba");
-        Point after = searchBar.getLocation();
-        assertNotEquals(before, after);
-    }
-
-    @Test public void scrollToExactTest() {
-        MobileElement searchBar = driver.findElementByName("Search Bars");
-        Point before = searchBar.getLocation();
-        driver.scrollToExact("Search Bars");
-        Point after = searchBar.getLocation();
-        assertNotEquals(before, after);
     }
 
     @Test public void geolocationTest() {

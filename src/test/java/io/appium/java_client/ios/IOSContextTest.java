@@ -18,6 +18,7 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.NoSuchContextException;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
@@ -33,37 +34,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test context-related features
  */
-public class IOSContextTest {
-
-    private static AppiumDriver<?> driver;
-    private static AppiumDriverLocalService service;
-
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        if (service == null || !service.isRunning())
-            throw new RuntimeException("An appium server node is not started!");
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "WebViewApp.app.zip");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
-    }
-
-    @AfterClass public static void tearDown() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
-
-        if (service.isRunning()) {
-            service.stop();
-        }
-    }
+public class IOSContextTest extends BaseIOSWebViewTest {
 
     @Test public void testGetContext() {
         assertEquals("NATIVE_APP", driver.getContext());
