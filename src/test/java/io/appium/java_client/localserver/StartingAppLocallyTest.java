@@ -42,7 +42,6 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
         AndroidDriver<MobileElement> driver = new AndroidDriver<>(capabilities);
-        ;
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -161,13 +160,12 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(capabilities);
-        ;
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -177,7 +175,7 @@ public class StartingAppLocallyTest {
                 caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("8.4"));
+                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("9.2"));
             assertEquals(true,
                 caps.getCapability(MobileCapabilityType.APP).equals(app.getAbsolutePath()));
         } finally {
@@ -194,7 +192,7 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
 
         AppiumServiceBuilder builder =
             new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
@@ -219,7 +217,7 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
 
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
@@ -229,7 +227,6 @@ public class StartingAppLocallyTest {
             new AppiumServiceBuilder().withCapabilities(serverCapabilities);
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(builder, clientCapabilities);
-        ;
         try {
             Capabilities caps = driver.getCapabilities();
             assertEquals(true,
@@ -248,7 +245,7 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
 
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
@@ -259,7 +256,6 @@ public class StartingAppLocallyTest {
                 withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(builder, clientCapabilities);
-        ;
         try {
             Capabilities caps = driver.getCapabilities();
             assertEquals(true,

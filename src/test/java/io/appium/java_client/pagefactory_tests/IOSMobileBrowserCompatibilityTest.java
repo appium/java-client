@@ -20,6 +20,7 @@ import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -37,7 +38,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class IOSfMobileBrowserCompatibilityTest {
+public class IOSMobileBrowserCompatibilityTest {
 
     private WebDriver driver;
     private AppiumDriverLocalService service;
@@ -56,8 +57,10 @@ public class IOSfMobileBrowserCompatibilityTest {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.4");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        //sometimes environment has performance problems
+        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         driver = new IOSDriver<>(service.getUrl(), capabilities);
         PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
     }
