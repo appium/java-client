@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class IOSGestureTest extends BaseIOSTest {
+public class IOSGesturesTest extends BaseIOSTest {
 
 
     @Test public void tapTest() {
@@ -51,3 +51,4 @@ public class IOSGestureTest extends BaseIOSTest {
         assertEquals("100%", slider.getAttribute("value"));
     }
 }
+

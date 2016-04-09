@@ -160,7 +160,9 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.3");
+        //sometimes environment has performance problems
+        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
@@ -175,7 +177,7 @@ public class StartingAppLocallyTest {
                 caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("9.2"));
+                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("9.3"));
             assertEquals(true,
                 caps.getCapability(MobileCapabilityType.APP).equals(app.getAbsolutePath()));
         } finally {
@@ -192,7 +194,9 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.3");
+        //sometimes environment has performance problems
+        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
         AppiumServiceBuilder builder =
             new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
@@ -217,7 +221,7 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.3");
 
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
@@ -245,7 +249,7 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.3");
 
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
