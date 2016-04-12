@@ -37,13 +37,6 @@ public @interface AndroidFindBy {
 
     String id() default "";
 
-    @Deprecated
-    /**
-     * By.name selector is not supported by Appium server node since 1.5.x.
-     * So this option is going to be removed further. Be careful.
-     */
-        String name() default "";
-
     String className() default "";
 
     String tagName() default "";

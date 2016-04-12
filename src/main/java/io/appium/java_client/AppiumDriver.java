@@ -526,17 +526,6 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
         setSettings(getCommandImmutableMap(setting.toString(), value));
     }
 
-    @Deprecated
-    /**
-     * This method works incorrectly. It is deprecated and it is going to be removed further.
-     * Be careful.
-     *
-     * Since Appium node 1.5.x you are free to use
-     * IOSDriver.lockDevice(int seconds) or AndroidDriver.lockDevice()...AndroidDriver.unlockDevice() instead
-     */ public void lockScreen(int seconds) {
-        execute(LOCK, ImmutableMap.of("seconds", seconds));
-    }
-
     @Override public WebDriver context(String name) {
         if (!_isNotNullOrEmpty(name)) {
             throw new IllegalArgumentException("Must supply a context name");
@@ -590,24 +579,6 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
 
     @Override public void setLocation(Location location) {
         locationContext.setLocation(location);
-    }
-
-    @Deprecated
-    /**
-     * This method is deprecated. It is going to be removed in the next release.
-     * Be careful.
-     */ public String getAppStrings() {
-        Response response = execute(GET_STRINGS);
-        return response.getValue().toString();
-    }
-
-    @Deprecated
-    /**
-     * This method is deprecated. It is going to be removed in the next release.
-     * Be careful.
-     */ public String getAppStrings(String language) {
-        Response response = execute(GET_STRINGS, getCommandImmutableMap(LANGUAGE_PARAM, language));
-        return response.getValue().toString();
     }
 
     /**

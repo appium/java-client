@@ -66,11 +66,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException &&
                 rootCause.getMessage().contains("Connection refused") && service != null) {
-                if (service.isRunning())
+                if (service.isRunning()) {
                     throw new WebDriverException("The session is closed!", t);
+                }
 
-                if (!service.isRunning())
+                if (!service.isRunning()) {
                     throw new WebDriverException("The appium server has accidentally died!", t);
+                }
             }
             Throwables.propagateIfPossible(t);
             throw new WebDriverException(t);

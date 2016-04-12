@@ -63,17 +63,13 @@ public final class AppiumServiceBuilder
         }
     };
     private static final String APPIUM_FOLDER = "appium";
-    private static final String BIN_FOLDER = "bin";
     private static final String BUILD_FOLDER = "build";
     private static final String LIB_FOLDER = "lib";
-    private static final String APPIUM_JS = "appium.js";
     private static final String MAIN_JS = "main.js";
     private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please " +
         "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and "
         +
         "install Appium app (http://appium.io/downloads.html)";
-    private static final String APPIUM_NODE_MASK_OLD =
-        File.separator + BIN_FOLDER + File.separator + APPIUM_JS;
     private static final String APPIUM_NODE_MASK =
         File.separator + BUILD_FOLDER + File.separator + LIB_FOLDER +
             File.separator + MAIN_JS;
@@ -160,20 +156,14 @@ public final class AppiumServiceBuilder
                 throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND,
                     new IOException(errorOutput));
             }
-
-            File oldResult;
-            //older appium server
-            if ((oldResult = new File(defaultAppiumNode, APPIUM_NODE_MASK_OLD)).exists()) {
-                return oldResult;
-            }
             //appium servers v1.5.x and higher
-            File newResult;
-            if ((newResult = new File(defaultAppiumNode, APPIUM_NODE_MASK)).exists()) {
-                return newResult;
+            File result;
+            if ((result = new File(defaultAppiumNode, APPIUM_NODE_MASK)).exists()) {
+                return result;
             }
 
             throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND, new IOException(
-                "Could not find file neither " + APPIUM_NODE_MASK_OLD + " nor " + APPIUM_NODE_MASK
+                "Could not find a file " + APPIUM_NODE_MASK
                     + " in the " +
                     defaultAppiumNode + " directory"));
         } finally {
@@ -397,9 +387,10 @@ public final class AppiumServiceBuilder
         } else {
             InetAddressValidator validator = InetAddressValidator.getInstance();
             if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress) &&
-                !validator.isValidInet6Address(ipAddress))
+                !validator.isValidInet6Address(ipAddress)) {
                 throw new IllegalArgumentException(
-                    "The invalid IP address " + ipAddress + " is defined");
+                        "The invalid IP address " + ipAddress + " is defined");
+            }
         }
         argList.add("--address");
         argList.add(ipAddress);
@@ -414,12 +405,14 @@ public final class AppiumServiceBuilder
         for (Map.Entry<String, String> entry : entries) {
             String argument = entry.getKey();
             String value = entry.getValue();
-            if (StringUtils.isBlank(argument) || value == null)
+            if (StringUtils.isBlank(argument) || value == null) {
                 continue;
+            }
 
             argList.add(argument);
-            if (!StringUtils.isBlank(value))
+            if (!StringUtils.isBlank(value)) {
                 argList.add(value);
+            }
         }
 
         if (capabilities != null) {

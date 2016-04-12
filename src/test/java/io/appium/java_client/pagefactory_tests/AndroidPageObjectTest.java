@@ -176,17 +176,20 @@ public class AndroidPageObjectTest {
     }
 
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Before public void setUp() throws Exception {
-        if (!populated)
+        if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
             PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        }
 
         populated = true;
     }

@@ -32,8 +32,9 @@ public class IOSWidgetTest implements WidgetTest {
     }
 
     @AfterClass public static void afterClass() throws Exception {
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Before public void setUp() throws Exception {
@@ -56,8 +57,9 @@ public class IOSWidgetTest implements WidgetTest {
     }
 
     @After public void tearDown() {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
     }
 
     @Test @Override public void checkACommonWidget() {
@@ -98,8 +100,9 @@ public class IOSWidgetTest implements WidgetTest {
         try {
             assertTrue(rottenTomatoesApp.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoesApp.getASimpleMovie(0).goToReview();
@@ -107,10 +110,11 @@ public class IOSWidgetTest implements WidgetTest {
         try {
             rottenTomatoesApp.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            } else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }

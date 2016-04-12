@@ -46,16 +46,19 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
     }
 
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Before public void setUp() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
+        }
     }
 
     @Test @Override public void checkACommonWidget() {
@@ -108,10 +111,12 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         try {
             rottenTomatoes.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            }
+            else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }

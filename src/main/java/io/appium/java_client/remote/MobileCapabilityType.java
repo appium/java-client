@@ -51,16 +51,6 @@ public interface MobileCapabilityType extends CapabilityType {
     String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
 
     /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#DEVICE_READY_TIMEOUT}
-     */
-    @Deprecated String DEVICE_READY_TIMEOUT = "deviceReadyTimeout";
-
-    /**
-     * Deprecated. Moved to {@link IOSMobileCapabilityType#LAUNCH_TIMEOUT}
-     */
-    @Deprecated String LAUNCH_TIMEOUT = "launchTimeout";
-
-    /**
      * The absolute local path or remote http URL to an .ipa or .apk file, or a .zip containing one of these.
      * Appium will attempt to install this app binary on the appropriate device first.
      * Note that this capability is not required for Android if you specify appPackage and appActivity
@@ -73,32 +63,6 @@ public interface MobileCapabilityType extends CapabilityType {
      */
     String BROWSER_NAME = "browserName";
 
-
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#APP_PACKAGE}
-     */
-    @Deprecated String APP_PACKAGE = "appPackage";
-
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#APP_ACTIVITY}
-     */
-    @Deprecated String APP_ACTIVITY = "appActivity";
-
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#APP_WAIT_ACTIVITY}
-     */
-    @Deprecated String APP_WAIT_ACTIVITY = "appWaitActivity";
-
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#APP_WAIT_PACKAGE}
-     */
-    @Deprecated String APP_WAIT_PACKAGE = "appWaitPackage";
-
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#DONT_STOP_APP_ON_RESET}
-     */
-    @Deprecated String DONT_STOP_APP_ON_RESET = "dontStopAppOnReset";
-
     /**
      * Unique device identifier of the connected physical device
      */
@@ -108,11 +72,6 @@ public interface MobileCapabilityType extends CapabilityType {
      * Sauce-specific
      */
     String APPIUM_VERSION = "appiumVersion";
-
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#UNICODE_KEYBOARD}
-     */
-    @Deprecated String UNICODE_KEYBOARD = "unicodeKeyboard";
 
     /**
      * (Sim/Emu-only) Language to set for the simulator / emulator
@@ -144,10 +103,4 @@ public interface MobileCapabilityType extends CapabilityType {
      * On Android, this will also remove the app after the session is complete. Default false
      */
     String FULL_RESET = "fullReset";
-
-    @Deprecated
-    /**
-     * Deprecated. Moved to {@link AndroidMobileCapabilityType#SELENDROID_PORT}
-     */
-        String SELENDROID_PORT = "selendroidPort";
 }

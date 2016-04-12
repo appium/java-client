@@ -127,7 +127,7 @@
                     <downloadJavadocs>true</downloadJavadocs>
                     <workspace>${basedir}</workspace>
                     <workspaceCodeStylesURL>
-                        https://google-styleguide.googlecode.com/svn/trunk/intellij-java-google-style.xml
+                        https://google-styleguide.googlecode.com/svn/trunk/eclipse-java-google-style.xml
                     </workspaceCodeStylesURL>
                 </configuration>
             </plugin>

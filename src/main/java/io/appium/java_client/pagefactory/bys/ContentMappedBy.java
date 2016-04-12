@@ -41,8 +41,9 @@ public class ContentMappedBy extends By {
         By defaultBy = map.get(ContentType.HTML_OR_DEFAULT);
         By nativeBy = map.get(ContentType.NATIVE_MOBILE_SPECIFIC);
 
-        if (defaultBy.equals(nativeBy))
+        if (defaultBy.equals(nativeBy)) {
             return defaultBy.toString();
+        }
 
         return "Locator map: " + "\n" +
             "- native content: \"" + nativeBy.toString() + "\" \n" +

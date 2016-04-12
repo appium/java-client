@@ -33,51 +33,60 @@ public final class WebDriverUnpackUtility {
 
     public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
         WebDriver driver = null;
-        if (searchContext instanceof WebDriver)
+        if (searchContext instanceof WebDriver) {
             return (WebDriver) searchContext;
+        }
 
-        if (searchContext instanceof WrapsDriver)
+        if (searchContext instanceof WrapsDriver) {
             return unpackWebDriverFromSearchContext(
-                ((WrapsDriver) searchContext).getWrappedDriver());
+                    ((WrapsDriver) searchContext).getWrappedDriver());
+        }
 
         // Search context it is not only Webdriver. Webelement is search context
         // too.
         // RemoteWebElement and MobileElement implement WrapsDriver
-        if (searchContext instanceof WrapsElement)
+        if (searchContext instanceof WrapsElement) {
             return unpackWebDriverFromSearchContext(
-                ((WrapsElement) searchContext).getWrappedElement());
+                    ((WrapsElement) searchContext).getWrappedElement());
+        }
 
         return driver;
     }
 
     public static String getPlatform(WebDriver driver) {
-        if (driver == null)
+        if (driver == null) {
             return null;
+        }
 
         Class<?> driverClass = driver.getClass();
-        if (AndroidDriver.class.isAssignableFrom(driverClass))
+        if (AndroidDriver.class.isAssignableFrom(driverClass)) {
             return MobilePlatform.ANDROID;
+        }
 
-        if (IOSDriver.class.isAssignableFrom(driverClass))
+        if (IOSDriver.class.isAssignableFrom(driverClass)) {
             return MobilePlatform.IOS;
+        }
 
         //it is possible that somebody uses RemoteWebDriver or their
         //own WebDriver implementation. At this case capabilities are used
         //to detect platform
-        if (HasCapabilities.class.isAssignableFrom(driverClass))
+        if (HasCapabilities.class.isAssignableFrom(driverClass)) {
             return String.valueOf(((HasCapabilities) driver).getCapabilities().
-                getCapability(MobileCapabilityType.PLATFORM_NAME));
+                    getCapability(MobileCapabilityType.PLATFORM_NAME));
+        }
 
         return null;
     }
 
     public static String getAutomation(WebDriver driver) {
-        if (driver == null)
+        if (driver == null) {
             return null;
+        }
 
-        if (HasCapabilities.class.isAssignableFrom(driver.getClass()))
+        if (HasCapabilities.class.isAssignableFrom(driver.getClass())) {
             return String.valueOf(((HasCapabilities) driver).getCapabilities().
-                getCapability(MobileCapabilityType.AUTOMATION_NAME));
+                    getCapability(MobileCapabilityType.AUTOMATION_NAME));
+        }
 
         return null;
     }
@@ -90,8 +99,9 @@ public final class WebDriverUnpackUtility {
 
         ContextAware contextAware = ContextAware.class.cast(driver);
         String currentContext = contextAware.getContext();
-        if (currentContext.contains(NATIVE_APP_PATTERN))
+        if (currentContext.contains(NATIVE_APP_PATTERN)) {
             return ContentType.NATIVE_MOBILE_SPECIFIC;
+        }
 
         return ContentType.HTML_OR_DEFAULT;
     }

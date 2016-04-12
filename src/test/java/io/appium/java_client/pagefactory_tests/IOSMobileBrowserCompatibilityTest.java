@@ -66,11 +66,13 @@ public class IOSMobileBrowserCompatibilityTest {
     }
 
     @After public void tearDown() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Test public void test() {

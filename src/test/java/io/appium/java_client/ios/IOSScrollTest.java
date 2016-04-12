@@ -38,8 +38,9 @@ public class IOSScrollTest {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "UICatalog.app.zip");

@@ -60,11 +60,13 @@ public class ServerBuilderTest {
 
     private static File findCustomNode() {
         Platform current = Platform.getCurrent();
-        if (current.is(Platform.WINDOWS))
+        if (current.is(Platform.WINDOWS)) {
             return new File(String.valueOf(properties.get("path.to.custom.node.win")));
+        }
 
-        if (current.is(Platform.MAC))
+        if (current.is(Platform.MAC)) {
             return new File(String.valueOf(properties.get("path.to.custom.node.macos")));
+        }
 
         return new File(String.valueOf(properties.get("path.to.custom.node.linux")));
     }
@@ -228,11 +230,13 @@ public class ServerBuilderTest {
             assertTrue(file.length() > 0);
         } finally {
             service.stop();
-            if (stream != null)
+            if (stream != null) {
                 stream.close();
+            }
 
-            if (file.exists())
+            if (file.exists()) {
                 file.delete();
+            }
         }
     }
 
@@ -248,11 +252,13 @@ public class ServerBuilderTest {
             assertTrue(file.length() > 0);
         } finally {
             service.stop();
-            if (stream != null)
+            if (stream != null) {
                 stream.close();
+            }
 
-            if (file.exists())
+            if (file.exists()) {
                 file.delete();
+            }
         }
     }
 

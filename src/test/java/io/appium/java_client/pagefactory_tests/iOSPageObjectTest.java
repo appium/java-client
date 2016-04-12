@@ -128,11 +128,13 @@ public class iOSPageObjectTest {
     }
 
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @SuppressWarnings("rawtypes") @Before public void setUp() throws Exception {

@@ -144,8 +144,9 @@ public final class AppiumDriverLocalService extends DriverService {
                     + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
                 if (process != null) {
                     String processStream = process.getStdOut();
-                    if (!StringUtils.isBlank(processStream))
+                    if (!StringUtils.isBlank(processStream)) {
                         msgTxt = msgTxt + "Process output: " + processStream + "\n";
+                    }
                 }
 
                 throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt, e);
@@ -184,8 +185,9 @@ public final class AppiumDriverLocalService extends DriverService {
      * null is returned otherwise.
      */
     public String getStdOut() {
-        if (process != null)
+        if (process != null) {
             return process.getStdOut();
+        }
 
         return null;
     }

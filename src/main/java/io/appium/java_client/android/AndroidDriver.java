@@ -36,7 +36,6 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.*;
-import static io.appium.java_client.remote.MobileCapabilityType.*;
 
 /**
  * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
@@ -60,6 +59,11 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     private final String CONNECTION_PARAM_PARAM = "parameters";
     private final String DATA_PARAM = "data";
     private final String INTENT_PARAM = "intent";
+    private final String APP_ACTIVITY = "appActivity";
+    private final String APP_PACKAGE = "appPackage";
+    private final String APP_WAIT_ACTIVITY = "appWaitActivity";
+    private final String APP_WAIT_PACKAGE = "appWaitPackage";
+    private final String DONT_STOP_APP_ON_RESET = "dontStopAppOnReset";
 
     private final String CONNECTION_NAME_VALUE = "network_connection";
 

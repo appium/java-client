@@ -45,15 +45,17 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
     }
 
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
     }
 
     @Before public void setUp() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.get(
-                new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").toURI()
-                    .toString());
+                    new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").toURI()
+                            .toString());
+        }
     }
 
     @Test @Override public void checkACommonWidget() {
@@ -97,8 +99,9 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoes.getASimpleMovie(0).goToReview();
@@ -106,10 +109,11 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
         try {
             rottenTomatoes.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            } else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }
