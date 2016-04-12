@@ -98,6 +98,13 @@ public class IOSDriver<RequiredElementType extends WebElement>
     }
 
     /**
+     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
+     */
+    @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
+        doSwipe(startx, starty, endx - startx, endy - starty, duration);
+    }
+
+    /**
      * Scroll to the element whose 'text' attribute contains the input text.
      * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
      *
