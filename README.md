@@ -112,6 +112,7 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 ##Changelog##
 *4.0.0 (under construction yet)*
 - FIX of TouchAction. Instances of the TouchAction class are reusable now
+- FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
 ...
 
 *3.4.1*
