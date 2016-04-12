@@ -18,7 +18,9 @@ package io.appium.java_client.service.local;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;

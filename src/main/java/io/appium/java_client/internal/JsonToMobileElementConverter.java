@@ -19,8 +19,10 @@ package io.appium.java_client.internal;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 

@@ -21,16 +21,31 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.openqa.selenium.*;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.ErrorHandler;
+import org.openqa.selenium.remote.ExecuteMethod;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
+import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 
 import javax.xml.bind.DatatypeConverter;
 import java.net.URL;

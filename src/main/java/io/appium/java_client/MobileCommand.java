@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 

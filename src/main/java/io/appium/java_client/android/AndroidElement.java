@@ -17,9 +17,11 @@
 package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
+
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 

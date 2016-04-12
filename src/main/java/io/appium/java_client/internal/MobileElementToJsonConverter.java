@@ -20,7 +20,9 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import io.appium.java_client.MobileElement;
+
 import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.internal.WebElementToJsonConverter;

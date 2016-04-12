@@ -18,6 +18,7 @@ package io.appium.java_client.remote;
 
 
 import com.google.common.base.Throwables;
+
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.*;
 import org.openqa.selenium.remote.http.HttpClient;

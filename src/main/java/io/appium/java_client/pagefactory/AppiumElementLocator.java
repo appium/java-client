@@ -17,7 +17,9 @@
 package io.appium.java_client.pagefactory;
 
 import com.google.common.base.Function;
+
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 

@@ -17,6 +17,7 @@
 package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
@@ -25,6 +26,7 @@ import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
