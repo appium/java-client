@@ -30,15 +30,17 @@ import com.google.common.collect.ImmutableMap;
  * Add multiple TouchAction objects using the add() method.
  * When perform() method is called, all actions are sent to the driver.
  * <p/>
- * The driver performs the first step of each TouchAction object simultaneously as a multi-touch "execution group".
- * Conceptually, the number of TouchAction objects added to the MultiTouchAction is equal to the number of "fingers" or
- * other appendages or tools touching the screen at the same time as part of this multi-gesture.
- * Then the driver performs the second step of each TouchAction object and another "execution group", and the third, and so on.
+ * The driver performs the first step of each TouchAction object simultaneously as a multi-touch
+ * "execution group". Conceptually, the number of TouchAction objects added to the MultiTouchAction
+ * is equal to the number of "fingers" or  other appendages or tools touching the screen at the
+ * same time as part of this multi-gesture. Then the driver performs the second step of each
+ * TouchAction object and another "execution group", and the third, and so on.
  * <p/>
- * Using a waitAction() action within a TouchAction takes up one of the slots in an "execution group", so these can be used to
- * sync up complex actions.
+ * Using a waitAction() action within a TouchAction takes up one of the slots in an
+ * "execution group", so these can be used to sync up complex actions.
  * <p/>
- * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
+ * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
+ * more actions can be chained.
  */
 @SuppressWarnings({"rawtypes", "unchecked"}) public class MultiTouchAction {
 
@@ -51,7 +53,7 @@ import com.google.common.collect.ImmutableMap;
     }
 
     /**
-     * Add a TouchAction to this multi-touch gesture
+     * Add a TouchAction to this multi-touch gesture.
      *
      * @param action TouchAction to add to this gesture
      * @return This MultiTouchAction, for chaining
@@ -74,7 +76,8 @@ import com.google.common.collect.ImmutableMap;
             driver.performTouchAction((TouchAction) actions.build().get(0));
         } else {
             throw new MissingParameterException(
-                "MultiTouch action must have at least one TouchAction added before it can be performed");
+                "MultiTouch action must have at least one TouchAction "
+                    + "added before it can be performed");
         }
 
     }

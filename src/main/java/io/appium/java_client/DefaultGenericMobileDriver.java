@@ -16,7 +16,15 @@
 
 package io.appium.java_client;
 
-import io.appium.java_client.generic.searchcontext.*;
+import io.appium.java_client.generic.searchcontext.GenericFindsByClassName;
+import io.appium.java_client.generic.searchcontext.GenericFindsByCssSelector;
+import io.appium.java_client.generic.searchcontext.GenericFindsById;
+import io.appium.java_client.generic.searchcontext.GenericFindsByLinkText;
+import io.appium.java_client.generic.searchcontext.GenericFindsByName;
+import io.appium.java_client.generic.searchcontext.GenericFindsByTagName;
+import io.appium.java_client.generic.searchcontext.GenericFindsByXPath;
+import io.appium.java_client.generic.searchcontext.GenericSearchContext;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
@@ -133,22 +141,22 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         return super.findElementsByXPath(using);
     }
 
-    @Override
     /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */ public T findElementByAccessibilityId(String using) throws WebDriverException {
+    * @throws WebDriverException This method is not applicable with browser/webview UI.
+    */
+    @Override public T findElementByAccessibilityId(String using) throws WebDriverException {
         return (T) findElement("accessibility id", using);
     }
 
-    @Override
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */ public List findElementsByAccessibilityId(String using) throws WebDriverException {
+     */
+    @Override public List findElementsByAccessibilityId(String using) throws WebDriverException {
         return (List<T>) findElements("accessibility id", using);
     }
 
     /**
-     * Mouse doesn't work on mobile devices and emulators
+     * Mouse doesn't work on mobile devices and emulators.
      */
     @Deprecated public Mouse getMouse() {
         return super.getMouse();

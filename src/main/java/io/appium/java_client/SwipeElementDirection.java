@@ -21,7 +21,7 @@ import org.openqa.selenium.Point;
 
 public enum SwipeElementDirection {
     /**
-     * Up from the center of the lower
+     * Up from the center of the lower.
      */
     UP {
         @Override int getStartX(Point center, Point location, Dimension size, int ignored) {
@@ -53,7 +53,7 @@ public enum SwipeElementDirection {
         }
     },
     /**
-     * Down from the center of the upper
+     * Down from the center of the upper.
      */
     DOWN {
         @Override int getStartX(Point center, Point location, Dimension size, int offSet) {
@@ -81,7 +81,7 @@ public enum SwipeElementDirection {
         }
     },
     /**
-     * To the left from the center of the rightmost
+     * To the left from the center of the rightmost.
      */
     LEFT {
         @Override int getStartX(Point center, Point location, Dimension size, int offSet) {
@@ -114,7 +114,7 @@ public enum SwipeElementDirection {
         }
     },
     /**
-     * To the right from the center of the leftmost
+     * To the right from the center of the leftmost.
      */
     RIGHT {
         @Override int getStartX(Point center, Point location, Dimension size, int offSet) {

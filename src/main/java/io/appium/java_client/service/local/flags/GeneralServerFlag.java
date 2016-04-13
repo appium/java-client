@@ -22,7 +22,7 @@ package io.appium.java_client.service.local.flags;
  */
 public enum GeneralServerFlag implements ServerArgument {
     /**
-     * Enter REPL mode
+     * Enter REPL mode.
      */
     SHELL("--shell"),
     /**
@@ -40,7 +40,8 @@ public enum GeneralServerFlag implements ServerArgument {
      */
     SESSION_OVERRIDE("--session-override"),
     /**
-     * Pre-launch the application before allowing the first session (Requires –app and, for Android, –app-pkg and –app-activity).
+     * Pre-launch the application before allowing the first session
+     * (Requires –app and, for Android, –app-pkg and –app-activity).
      * Default: false
      */
     PRE_LAUNCH("--pre-launch"),

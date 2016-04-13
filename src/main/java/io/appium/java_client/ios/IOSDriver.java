@@ -38,14 +38,15 @@ import java.util.List;
 import static io.appium.java_client.MobileCommand.*;
 
 /**
- * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *                              Instances of the defined type will be returned via findElement* and findElements*.
- *                              Warning (!!!). Allowed types:
- *                              {@link org.openqa.selenium.WebElement}
- *                              {@link io.appium.java_client.TouchableElement}
- *                              {@link org.openqa.selenium.remote.RemoteWebElement}
- *                              {@link io.appium.java_client.MobileElement}
- *                              {@link io.appium.java_client.ios.IOSElement}
+ * @param <RequiredElementType> the required type of class which implement
+ * {@link org.openqa.selenium.WebElement}.
+ * Instances of the defined type will be returned via findElement* and findElements*.
+ * Warning (!!!). Allowed types:
+ * {@link org.openqa.selenium.WebElement}
+ * {@link io.appium.java_client.TouchableElement}
+ * {@link org.openqa.selenium.remote.RemoteWebElement}
+ * {@link io.appium.java_client.MobileElement}
+ * {@link io.appium.java_client.ios.IOSElement}
  */
 public class IOSDriver<RequiredElementType extends WebElement>
     extends AppiumDriver<RequiredElementType>
@@ -100,7 +101,7 @@ public class IOSDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
+     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int).
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
         doSwipe(startx, starty, endx - startx, endy - starty, duration);
@@ -108,9 +109,10 @@ public class IOSDriver<RequiredElementType extends WebElement>
 
     /**
      * Scroll to the element whose 'text' attribute contains the input text.
-     * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
+     * This scrolling happens within the first UIATableView on the UI.
+     * Use the method on IOSElement to scroll from a different ScrollView.
      *
-     * @param text input text contained in text attribute
+     * @param text input text contained in text attribute.
      */
     @SuppressWarnings("unchecked") @Override public RequiredElementType scrollTo(String text) {
         return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
@@ -119,9 +121,10 @@ public class IOSDriver<RequiredElementType extends WebElement>
 
     /**
      * Scroll to the element whose 'text' attribute is equal to the input text.
-     * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
+     * This scrolling happens within the first UIATableView on the UI.
+     * Use the method on IOSElement to scroll from a different ScrollView.
      *
-     * @param text input text to match
+     * @param text input text to match.
      */
     @SuppressWarnings("unchecked") @Override public RequiredElementType scrollToExact(String text) {
         return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
@@ -129,7 +132,7 @@ public class IOSDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
+     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
      */
     @Override public void hideKeyboard(String strategy, String keyName) {
         String[] parameters = new String[] {"strategy", "key"};
@@ -138,21 +141,21 @@ public class IOSDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String)
+     * @see IOSDeviceActionShortcuts#hideKeyboard(String).
      */
     @Override public void hideKeyboard(String keyName) {
         execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
     }
 
     /**
-     * @see IOSDeviceActionShortcuts#shake()
+     * @see IOSDeviceActionShortcuts#shake().
      */
     @Override public void shake() {
         execute(SHAKE);
     }
 
     /**
-     * @see GetsNamedTextField#getNamedTextField(String)
+     * @see GetsNamedTextField#getNamedTextField(String).
      */
     @SuppressWarnings("unchecked") @Override public RequiredElementType getNamedTextField(
         String name) {
@@ -165,7 +168,8 @@ public class IOSDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     * @throws org.openqa.selenium.WebDriverException
+     * This method is not applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked") @Override
     public RequiredElementType findElementByIosUIAutomation(String using)
@@ -184,7 +188,7 @@ public class IOSDriver<RequiredElementType extends WebElement>
 
     /**
      * Lock the device (bring it to the lock screen) for a given number of
-     * seconds
+     * seconds.
      *
      * @param seconds number of seconds to lock the screen for
      */

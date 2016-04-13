@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TimeOutResetTest {
-    private final static long ACCEPTABLE_DELTA_MILLS = 1500;
+    private static final long ACCEPTABLE_DELTA_MILLS = 1500;
     private WebDriver driver;
     @FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
         @FindBy(className = "OneAnotherClassWhichDoesNotExist")}) private List<WebElement>
@@ -58,7 +58,8 @@ public class TimeOutResetTest {
                 ((currentMillis - expectedMillis) < ACCEPTABLE_DELTA_MILLS) && (
                     (currentMillis - expectedMillis) >= 0));
         } catch (Error e) {
-            String message = String.valueOf(expectedTime) + " " + expectedTimeUnit.toString()
+            String message = String.valueOf(expectedTime) + " "
+                + expectedTimeUnit.toString()
                 + " current duration in millis " +
                 String.valueOf(currentMillis) + " Failed";
             throw new RuntimeException(message, e);

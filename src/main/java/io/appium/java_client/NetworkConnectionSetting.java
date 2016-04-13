@@ -29,9 +29,9 @@ public class NetworkConnectionSetting {
     private int data = 4;
 
     /**
-     * @param airplaneMode boolean for airplane mode enabled
-     * @param wifi         boolean for wifi enabled
-     * @param data         boolean for data enabled
+     * @param airplaneMode boolean for airplane mode enabled.
+     * @param wifi         boolean for wifi enabled.
+     * @param data         boolean for data enabled.
      */
     public NetworkConnectionSetting(boolean airplaneMode, boolean wifi, boolean data) {
         int a = airplaneMode ? this.airplaneMode : 0;
@@ -42,9 +42,10 @@ public class NetworkConnectionSetting {
     }
 
     /**
-     * Instantiate Network Connection Settings with the straight-up bitmask. See the Mobile JSON Wire Protocol spec for details.
+     * Instantiate Network Connection Settings with the straight-up bitmask.
+     * See the Mobile JSON Wire Protocol spec for details.
      *
-     * @param bitmask a straight-up bitmask
+     * @param bitmask a straight-up bitmask.
      */
     public NetworkConnectionSetting(int bitmask) {
         value = bitmask;

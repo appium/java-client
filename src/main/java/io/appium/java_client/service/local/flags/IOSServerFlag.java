@@ -47,7 +47,8 @@ public enum IOSServerFlag implements ServerArgument {
      */
     FORCE_IPAD_SIMULATOR("--force-ipad"),
     /**
-     * .tracetemplate file to use with Instruments. Sample: --tracetemplate /Users/me/Automation.tracetemplate
+     * .tracetemplate file to use with Instruments.
+     * Sample: --tracetemplate /Users/me/Automation.tracetemplate
      */
     TRACE_TEMPLATE_FILE_PATH("--tracetemplate"),
     /**
@@ -70,7 +71,7 @@ public enum IOSServerFlag implements ServerArgument {
     TRACE_DIRECTORY_ABSOLUTE_PATH("--trace-dir"),
 
     /**
-     * Local port used for communication with ios-webkit-debug-proxy
+     * Local port used for communication with ios-webkit-debug-proxy.
      * <p/>
      * Default value: 27753
      * <p/>

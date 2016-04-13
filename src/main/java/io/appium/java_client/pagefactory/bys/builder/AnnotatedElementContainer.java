@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.pagefactory.bys.builder;
 
 import java.lang.reflect.AnnotatedElement;
 
 /**
- * This is the POJO for the setting/getting of an AnnotatedElement instances
+ * This is the POJO for the setting/getting of an AnnotatedElement instances.
  */
 public class AnnotatedElementContainer {
     private AnnotatedElement annotated;

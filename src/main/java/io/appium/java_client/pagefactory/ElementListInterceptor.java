@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * Intercepts requests to the list of {@link MobileElement}
+ * Intercepts requests to the list of {@link MobileElement}.
  */
 class ElementListInterceptor extends InterceptorOfAListOfElements {
 

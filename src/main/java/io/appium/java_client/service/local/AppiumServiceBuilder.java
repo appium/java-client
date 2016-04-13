@@ -46,14 +46,14 @@ public final class AppiumServiceBuilder
     /**
      * The environmental variable used to define
      * the path to executable appium.js (1.4.x and lower) or
-     * main.js (1.5.x and higher)
+     * main.js (1.5.x and higher).
      */
     public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
 
     /**
      * The environmental variable used to define
      * the path to executable NodeJS file (node.exe for WIN and
-     * node for Linux/MacOS X)
+     * node for Linux/MacOS X).
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
@@ -76,9 +76,9 @@ public final class AppiumServiceBuilder
         File.separator + BUILD_FOLDER + File.separator + LIB_FOLDER +
             File.separator + MAIN_JS;
     private static final int DEFAULT_APPIUM_PORT = 4723;
-    private final static String BASH = "bash";
-    private final static String CMD_EXE = "cmd.exe";
-    private final static String NODE = "node";
+    private static final String BASH = "bash";
+    private static final String CMD_EXE = "cmd.exe";
+    private static final String NODE = "node";
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
@@ -217,10 +217,10 @@ public final class AppiumServiceBuilder
     /**
      * Boolean arguments have a special moment:
      * the presence of an arguments means "true". This method
-     * was designed for these cases
+     * was designed for these cases.
      *
-     * @param argument is an instance which contains the argument name
-     * @return the self-reference
+     * @param argument is an instance which contains the argument name.
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument) {
         serverArguments.put(argument.getArgument(), "");
@@ -228,11 +228,11 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param argument is an instance which contains the argument name
+     * @param argument is an instance which contains the argument name.
      * @param value    A non null string value. (Warn!!!) Boolean arguments have a special moment:
      *                 the presence of an arguments means "true". At this case an empty string
-     *                 should be defined
-     * @return the self-reference
+     *                 should be defined.
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
         serverArguments.put(argument.getArgument(), value);
@@ -240,8 +240,9 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param capabilities is an instance of {@link org.openqa.selenium.remote.DesiredCapabilities}
-     * @return the self-reference
+     * @param capabilities is an instance of
+     * {@link org.openqa.selenium.remote.DesiredCapabilities}.
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
         if (this.capabilities == null) {
@@ -256,8 +257,8 @@ public final class AppiumServiceBuilder
 
     /**
      * @param appiumJS an executable appium.js (1.4.x and lower) or
-     *                 main.js (1.5.x and higher)
-     * @return the self-reference
+     *                 main.js (1.5.x and higher).
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withAppiumJS(File appiumJS) {
         this.appiumJS = appiumJS;
@@ -270,9 +271,9 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param time     a time value for the service starting up
-     * @param timeUnit a time unit for the service starting up
-     * @return self-reference
+     * @param time     a time value for the service starting up.
+     * @param timeUnit a time unit for the service starting up.
+     * @return self-reference.
      */
     public AppiumServiceBuilder withStartUpTimeOut(long time, TimeUnit timeUnit) {
         checkNotNull(timeUnit);

@@ -41,7 +41,7 @@ public enum AndroidServerFlag implements ServerArgument {
      */
     CHROME_DRIVER_PORT("--chromedriver-port"),
     /**
-     * ChromeDriver executable full path
+     * ChromeDriver executable full path.
      */
     CHROME_DRIVER_EXECUTABLE("--chromedriver-executable");
 

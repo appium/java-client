@@ -22,7 +22,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import java.lang.reflect.InvocationTargetException;
 
 class ThrowableUtil {
-    private final static String INVALID_SELECTOR_PATTERN = "Invalid locator strategy:";
+    private static final String INVALID_SELECTOR_PATTERN = "Invalid locator strategy:";
 
     static boolean isInvalidSelectorRootCause(Throwable e) {
         if (e == null) {

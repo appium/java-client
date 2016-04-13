@@ -59,17 +59,20 @@ public class AndroidConnectionTest {
                 driver.quit();
             }
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Test public void setWiFiTest() {
         driver.setNetworkConnection(new NetworkConnectionSetting(false, true, false));
-        assertEquals(new NetworkConnectionSetting(false, true, false), driver.getNetworkConnection());
+        assertEquals(new NetworkConnectionSetting(false, true, false),
+            driver.getNetworkConnection());
     }
 
     @Test public void setAirplane() {
         driver.setNetworkConnection(new NetworkConnectionSetting(true, false, false));
-        assertEquals(new NetworkConnectionSetting(true, false, false), driver.getNetworkConnection());
+        assertEquals(new NetworkConnectionSetting(true, false, false),
+            driver.getNetworkConnection());
     }
 }

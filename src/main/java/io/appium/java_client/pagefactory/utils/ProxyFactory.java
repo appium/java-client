@@ -22,7 +22,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
  * Original class is a super class of a
- * proxy object here
+ * proxy object here.
  */
 public final class ProxyFactory {
 

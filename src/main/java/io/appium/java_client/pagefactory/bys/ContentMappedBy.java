@@ -26,7 +26,7 @@ import java.util.Map;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 public class ContentMappedBy extends By {
-    private final static String NATIVE_APP_PATTERN = "NATIVE_APP";
+    private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
     private final Map<ContentType, By> map;
 
     public ContentMappedBy(Map<ContentType, By> map) {

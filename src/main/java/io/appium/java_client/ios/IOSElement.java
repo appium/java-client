@@ -33,7 +33,8 @@ public class IOSElement extends MobileElement
     implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     * @throws WebDriverException
+     * This method is not applicable with browser/webview UI.
      */
     @Override public MobileElement findElementByIosUIAutomation(String using)
         throws WebDriverException {
@@ -47,34 +48,41 @@ public class IOSElement extends MobileElement
         throws WebDriverException {
         List<MobileElement> result = new ArrayList<MobileElement>();
         List<WebElement> found = findElements("-ios uiautomation", using);
-        for (WebElement e : found)
+        for (WebElement e : found) {
             result.add((IOSElement) e);
+        }
         return result;
     }
 
     /**
-     * Scroll to the element whose 'text' attribute contains the input text.
-     * Scrolling happens within this element
-     *
-     * @param text input text contained in text attribute
-     */
+    * Scroll to the element whose 'text' attribute contains the input text.
+    * Scrolling happens within this element.
+    *
+    * @param text input text contained in text attribute.
+    */
     @Override public MobileElement scrollTo(String text) {
         return (IOSElement) findElementByIosUIAutomation(
             ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
     }
 
     /**
-     * Scroll to the element whose 'text' attribute matches the input text.
-     * Scrolling happens within this element
-     *
-     * @param text input text contained in text attribute
-     */
+    * Scroll to the element whose 'text' attribute matches the input text.
+    * Scrolling happens within this element.
+    *
+    * @param text input text contained in text attribute.
+    */
     @Override public MobileElement scrollToExact(String text) {
         return (IOSElement) findElementByIosUIAutomation(
             ".scrollToElementWithName(\"" + text + "\")");
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"}) public void setValue(String value) {
+    /**
+     * This method sets the new value of the attribute "value".
+     *
+     * @param value
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void setValue(String value) {
         ImmutableMap.Builder builder = ImmutableMap.builder();
         builder.put("id", id).put("value", value);
         execute(MobileCommand.SET_VALUE, builder.build());

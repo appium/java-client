@@ -37,45 +37,63 @@ public class RottenTomatoes {
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/lvMovies")
     @SelendroidFindBy(id = "lvMovies") @iOSFindBy(className = "UIATableView")
     @OverrideWidget(html = HtmlMovies.class, selendroid = SelendroidMovies.class,
-        androidUIAutomator = AndroidMovies.class, iOSUIAutomation = IOSMovies.class) private Movies
+        androidUIAutomator = AndroidMovies.class,
+        iOSUIAutomation = IOSMovies.class) private Movies
         simpleMovies;
 
 
     @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-        @AndroidFindBy(className = "android.widget.RelativeLayout")}) @FindBy(id = "main_container")
+        @AndroidFindBy(className = "android.widget.RelativeLayout")})
+    @FindBy(id = "main_container")
     @SelendroidFindBy(className = "android.widget.RelativeLayout")
     @iOSFindBy(className = "UIAWindow")
     @OverrideWidget(html = HtmlReview.class, selendroid = SelendroidReview.class,
-        androidUIAutomator = AndroidReview.class, iOSUIAutomation = IOSReview.class) private Review
+        androidUIAutomator = AndroidReview.class,
+        iOSUIAutomation = IOSReview.class) private Review
         simpleReview;
 
-    @OverrideWidget(html = AnnotatedHtmlMovies.class, selendroid = AnnotatedSelendroidMovies.class,
-        androidUIAutomator = AnnotatedAndroidMovies.class, iOSUIAutomation = AnnotatedIOSMovies.class)
+    @OverrideWidget(html = AnnotatedHtmlMovies.class,
+        selendroid = AnnotatedSelendroidMovies.class,
+        androidUIAutomator = AnnotatedAndroidMovies.class,
+        iOSUIAutomation = AnnotatedIOSMovies.class)
     private Movies annotatedMovies;
 
-    @OverrideWidget(html = AnnotatedHtmlReview.class, selendroid = AnnotatedSelendroidReview.class,
-        androidUIAutomator = AnnotatedAndroidReview.class, iOSUIAutomation = AnnotatedIOSReview.class)
+    @OverrideWidget(html = AnnotatedHtmlReview.class,
+        selendroid = AnnotatedSelendroidReview.class,
+        androidUIAutomator = AnnotatedAndroidReview.class,
+        iOSUIAutomation = AnnotatedIOSReview.class)
     private Review annotatedReview;
 
-    @OverrideWidget(html = ExtendedHtmlMovies.class, selendroid = ExtendedSelendroidMovies.class,
-        androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
+    @OverrideWidget(html = ExtendedHtmlMovies.class,
+        selendroid = ExtendedSelendroidMovies.class,
+        androidUIAutomator = ExtendedAndroidMovies.class,
+        iOSUIAutomation = ExtendedIOSMovies.class)
     private Movies extendedMovies;
 
-    @OverrideWidget(html = ExtendedHtmlReview.class, selendroid = ExtendedSelendroidReview.class,
-        androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
+    @OverrideWidget(html = ExtendedHtmlReview.class,
+        selendroid = ExtendedSelendroidReview.class,
+        androidUIAutomator = ExtendedAndroidReview.class,
+        iOSUIAutomation = ExtendedIOSReview.class)
     private Review extendedReview;
 
 
     @FindBy(id = "Fake_ID_For_All_Platforms") @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
-    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms") @iOSFindBy(id = "Fake_ID_For_All_Platforms")
-    @OverrideWidget(html = ExtendedHtmlMovies.class, selendroid = ExtendedSelendroidMovies.class,
-        androidUIAutomator = ExtendedAndroidMovies.class, iOSUIAutomation = ExtendedIOSMovies.class)
+    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms")
+    @iOSFindBy(id = "Fake_ID_For_All_Platforms")
+    @OverrideWidget(html = ExtendedHtmlMovies.class,
+        selendroid = ExtendedSelendroidMovies.class,
+        androidUIAutomator = ExtendedAndroidMovies.class,
+        iOSUIAutomation = ExtendedIOSMovies.class)
     private Movies fakeMovies;
 
-    @FindBy(id = "Fake_ID_For_All_Platforms") @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
-    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms") @iOSFindBy(id = "Fake_ID_For_All_Platforms")
-    @OverrideWidget(html = ExtendedHtmlReview.class, selendroid = ExtendedSelendroidReview.class,
-        androidUIAutomator = ExtendedAndroidReview.class, iOSUIAutomation = ExtendedIOSReview.class)
+    @FindBy(id = "Fake_ID_For_All_Platforms")
+    @AndroidFindBy(id = "Fake_ID_For_All_Platforms")
+    @SelendroidFindBy(id = "Fake_ID_For_All_Platforms")
+    @iOSFindBy(id = "Fake_ID_For_All_Platforms")
+    @OverrideWidget(html = ExtendedHtmlReview.class,
+        selendroid = ExtendedSelendroidReview.class,
+        androidUIAutomator = ExtendedAndroidReview.class,
+        iOSUIAutomation = ExtendedIOSReview.class)
     private Review fakeReview;
 
 

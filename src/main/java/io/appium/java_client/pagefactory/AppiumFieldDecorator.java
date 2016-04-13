@@ -73,7 +73,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         };
 
-    private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>>
+    private static final Map<Class<? extends SearchContext>, Class<? extends WebElement>>
         elementRuleMap =
         new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
             private static final long serialVersionUID = 1L;

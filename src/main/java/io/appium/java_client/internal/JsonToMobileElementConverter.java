@@ -41,6 +41,12 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
         this.driver = driver;
     }
 
+    /**
+     * This method converts a command result.
+     *
+     * @param result is the result of a command execution.
+     * @return
+     */
     public Object apply(Object result) {
         if (result instanceof Collection<?>) {
             Collection<?> results = (Collection<?>) result;
@@ -69,9 +75,5 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
         return result;
     }
 
-    protected abstract MobileElement newMobileElement(); //{
-    //MobileElement toReturn = new MobileElement();
-    //toReturn.setParent(driver);
-    //return toReturn;
-    //}
+    protected abstract MobileElement newMobileElement();
 }

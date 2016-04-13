@@ -29,7 +29,7 @@ import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
 public final class WebDriverUnpackUtility {
-    private final static String NATIVE_APP_PATTERN = "NATIVE_APP";
+    private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
 
     public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
         WebDriver driver = null;

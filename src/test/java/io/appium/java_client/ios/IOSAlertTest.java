@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.ios;
 
 import io.appium.java_client.MobileBy;
@@ -24,13 +25,15 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 public class IOSAlertTest extends BaseIOSTest {
 
     @Test public void acceptAlertTest() {
-        driver.findElement(MobileBy.IosUIAutomation(".elements().withName(\"show alert\")")).click();
+        driver.findElement(MobileBy
+            .IosUIAutomation(".elements().withName(\"show alert\")")).click();
         WebDriverWait wating = new WebDriverWait(driver, 10000);
         wating.until(alertIsPresent()).accept();
     }
 
     @Test public void dismissAlertTest() {
-        driver.findElement(MobileBy.IosUIAutomation(".elements().withName(\"show alert\")")).click();
+        driver.findElement(MobileBy
+            .IosUIAutomation(".elements().withName(\"show alert\")")).click();
         WebDriverWait wating = new WebDriverWait(driver, 10000);
         wating.until(alertIsPresent()).dismiss();
     }

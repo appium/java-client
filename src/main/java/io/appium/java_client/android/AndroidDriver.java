@@ -40,19 +40,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.*;
 
 /**
- * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *                              Instances of the defined type will be returned via findElement* and findElements*.
- *                              Warning (!!!). Allowed types:
- *                              {@link org.openqa.selenium.WebElement}
- *                              {@link io.appium.java_client.TouchableElement}
- *                              {@link org.openqa.selenium.remote.RemoteWebElement}
- *                              {@link io.appium.java_client.MobileElement}
- *                              {@link io.appium.java_client.android.AndroidElement}
+ * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ * Instances of the defined type will be returned via findElement* and findElements*.
+ * Warning (!!!). Allowed types:
+ * {@link org.openqa.selenium.WebElement}
+ * {@link io.appium.java_client.TouchableElement}
+ * {@link org.openqa.selenium.remote.RemoteWebElement}
+ * {@link io.appium.java_client.MobileElement}
+ * {@link io.appium.java_client.android.AndroidElement}
  */
-public class AndroidDriver<RequiredElementType extends WebElement>
-    extends AppiumDriver<RequiredElementType>
+public class AndroidDriver<T extends WebElement>
+    extends AppiumDriver<T>
     implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<RequiredElementType> {
+    FindsByAndroidUIAutomator<T> {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -127,14 +127,14 @@ public class AndroidDriver<RequiredElementType extends WebElement>
             + uiSelector + ".instance(0));";
     }
 
-    @Override public RequiredElementType scrollTo(String text) {
+    @Override public T scrollTo(String text) {
         String uiScrollables =
             UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + UiScrollable(
                 "new UiSelector().textContains(\"" + text + "\")");
         return findElementByAndroidUIAutomator(uiScrollables);
     }
 
-    @Override public RequiredElementType scrollToExact(String text) {
+    @Override public T scrollToExact(String text) {
         String uiScrollables =
             UiScrollable("new UiSelector().description(\"" + text + "\")") + UiScrollable(
                 "new UiSelector().text(\"" + text + "\")");
@@ -142,20 +142,20 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Send a key event to the device
+     * Send a key event to the device.
      *
-     * @param key code for the key pressed on the device
+     * @param key code for the key pressed on the device.
      */
     @Override public void pressKeyCode(int key) {
         execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
     }
 
     /**
-     * @param key       code for the key pressed on the Android device
-     * @param metastate metastate for the keypress
+     * @param key       code for the key pressed on the Android device.
+     * @param metastate metastate for the keypress.
      * @see AndroidKeyCode
      * @see AndroidKeyMetastate
-     * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
+     * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer).
      */
     @Override public void pressKeyCode(int key, Integer metastate) {
         String[] parameters = new String[] {KEY_CODE, METASTATE_PARAM};
@@ -164,17 +164,17 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Send a long key event to the device
+     * Send a long key event to the device.
      *
-     * @param key code for the long key pressed on the device
+     * @param key code for the long key pressed on the device.
      */
     @Override public void longPressKeyCode(int key) {
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
     }
 
     /**
-     * @param key       code for the long key pressed on the Android device
-     * @param metastate metastate for the long key press
+     * @param key       code for the long key pressed on the Android device.
+     * @param metastate metastate for the long key press.
      * @see AndroidKeyCode
      * @see AndroidKeyMetastate
      * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
@@ -186,7 +186,7 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see HasNetworkConnection#getNetworkConnection()
+     * @see HasNetworkConnection#getNetworkConnection().
      */
     @Override public NetworkConnectionSetting getNetworkConnection() {
         Response response = execute(GET_NETWORK_CONNECTION);
@@ -195,7 +195,7 @@ public class AndroidDriver<RequiredElementType extends WebElement>
 
     /**
      * @param connection The NetworkConnectionSetting configuration to use for the
-     *                   device
+     *                   device.
      * @see HasNetworkConnection#setNetworkConnection(NetworkConnectionSetting)
      */
     @Override public void setNetworkConnection(NetworkConnectionSetting connection) {
@@ -212,8 +212,8 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @param remotePath Path to file to write data to on remote device
-     * @param base64Data Base64 encoded byte array of data to write to remote device
+     * @param remotePath Path to file to write data to on remote device.
+     * @param base64Data Base64 encoded byte array of data to write to remote device.
      * @see PushesFiles#pushFile(String, byte[])
      */
     @Override public void pushFile(String remotePath, byte[] base64Data) {
@@ -271,10 +271,10 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Get test-coverage data
+     * Get test-coverage data.
      *
-     * @param intent intent to broadcast
-     * @param path   path to .ec file
+     * @param intent intent to broadcast.
+     * @param path   path to .ec file.
      */
     public void endTestCoverage(String intent, String path) {
         String[] parameters = new String[] {INTENT_PARAM, PATH};
@@ -283,9 +283,9 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Get the current activity being run on the mobile device
+     * Get the current activity being run on the mobile device.
      *
-     * @return a current activity being run on the mobile device
+     * @return a current activity being run on the mobile device.
      */
     public String currentActivity() {
         Response response = execute(CURRENT_ACTIVITY);
@@ -314,7 +314,7 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Set the `ignoreUnimportantViews` setting. *Android-only method*
+     * Set the `ignoreUnimportantViews` setting. *Android-only method*.
      * <p/>
      * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
      * which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO
@@ -329,21 +329,22 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     * @throws org.openqa.selenium.WebDriverException This method is not
+     * applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked") @Override
-    public RequiredElementType findElementByAndroidUIAutomator(String using)
+    public T findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return (RequiredElementType) findElement("-android uiautomator", using);
+        return (T) findElement("-android uiautomator", using);
     }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked") @Override
-    public List<RequiredElementType> findElementsByAndroidUIAutomator(String using)
+    public List<T> findElementsByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return (List<RequiredElementType>) findElements("-android uiautomator", using);
+        return (List<T>) findElements("-android uiautomator", using);
     }
 
     /**

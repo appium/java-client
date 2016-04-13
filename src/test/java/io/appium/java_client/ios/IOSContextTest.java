@@ -31,9 +31,6 @@ import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Test context-related features
- */
 public class IOSContextTest extends BaseIOSWebViewTest {
 
     @Test public void testGetContext() {

@@ -199,7 +199,7 @@ public class ThreadSafetyTest {
     }
 
 
-    private static abstract class Action implements Cloneable {
+    private abstract static class Action implements Cloneable {
         abstract Object perform();
 
         public Action clone() {

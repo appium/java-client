@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.android;
 
 import io.appium.java_client.MobileBy;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class AndroidSearchingTest extends BaseAndroidTest{
+public class AndroidSearchingTest extends BaseAndroidTest {
 
 
     @Test  public void findByAccessibilityIdTest() {
@@ -32,11 +33,14 @@ public class AndroidSearchingTest extends BaseAndroidTest{
 
     @Test  public void findByAndroidUIAutomatorTest() {
         assertNotEquals(driver.
-            findElement(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
+            findElement(MobileBy
+                .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
         assertNotEquals(driver.
-            findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
+            findElements(MobileBy
+                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
         assertNotEquals(driver.
-            findElements(MobileBy.AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
+            findElements(MobileBy
+                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
     @Test public void findByXPathTest()

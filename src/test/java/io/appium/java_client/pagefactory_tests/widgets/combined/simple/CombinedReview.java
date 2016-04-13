@@ -11,19 +11,22 @@ import org.openqa.selenium.support.FindBy;
 public class CombinedReview extends Review {
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvTitle")
-    @FindBy(id = "movie-title") @SelendroidFindBy(id = "tvTitle") private RemoteWebElement title;
+    @FindBy(id = "movie-title") @SelendroidFindBy(id = "tvTitle")
+    private RemoteWebElement title;
 
-    @AndroidFindBy(uiAutomator = "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
+    @AndroidFindBy(uiAutomator =
+        "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
     @SelendroidFindBy(id = "tvCriticsScore")
     @FindBy(xpath = ".//*[@id=\"tomato_meter_link\"]//*[@itemprop=\"ratingValue\"]")
     private RemoteWebElement score;
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvSynopsis")
-    @SelendroidFindBy(id = "tvSynopsis") private RemoteWebElement movieSynopsis;
+    @SelendroidFindBy(id = "tvSynopsis")
+    private RemoteWebElement movieSynopsis;
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/ivPosterImage")
-    @SelendroidFindBy(id = "ivPosterImage") @FindBy(className = "videoPic") private RemoteWebElement
-        poster;
+    @SelendroidFindBy(id = "ivPosterImage") @FindBy(className = "videoPic")
+    private RemoteWebElement poster;
 
 
     protected CombinedReview(WebElement element) {

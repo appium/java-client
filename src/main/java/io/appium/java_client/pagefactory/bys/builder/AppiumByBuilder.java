@@ -39,9 +39,9 @@ import static io.appium.java_client.remote.MobilePlatform.IOS;
  * - https://code.google.com/p/selenium/wiki/PageFactory
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
-    final static Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
+    static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
 
-    private final static List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
+    private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
             private static final long serialVersionUID = 1L;
 
@@ -97,7 +97,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 if (!"".equals(strategyParameter)) {
                     return value.getName();
                 }
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            } catch (IllegalAccessException |
+                IllegalArgumentException |
+                InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }

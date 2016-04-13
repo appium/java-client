@@ -25,7 +25,7 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import java.lang.reflect.Method;
 
 /**
- * Intercepts requests to {@link MobileElement}
+ * Intercepts requests to {@link MobileElement}.
  */
 class ElementInterceptor extends InterceptorOfASingleElement {
 

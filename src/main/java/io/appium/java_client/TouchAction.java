@@ -31,7 +31,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
  * TouchAction action = new TouchAction(driver);
  * action.press(element).waitAction(300).moveTo(element1).release().perform();
  * <p/>
- * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and more actions can be chained.
+ * Calling perform() sends the action command to the Mobile Driver. Otherwise,
+ * more and more actions can be chained.
  */
 @SuppressWarnings({"rawtypes", "unchecked"}) public class TouchAction {
 
@@ -46,8 +47,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
     /**
      * Press on the center of an element.
      *
-     * @param el element to press on
-     * @return this TouchAction, for chaining
+     * @param el element to press on.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction press(WebElement el) {
         ActionParameter action = new ActionParameter("press", (RemoteWebElement) el);
@@ -56,11 +57,11 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Press on an absolute position on the screen
+     * Press on an absolute position on the screen.
      *
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return this TouchAction, for chaining
+     * @param x x coordinate.
+     * @param y y coordinate.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction press(int x, int y) {
         ActionParameter action = new ActionParameter("press");
@@ -71,12 +72,12 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Press on an element, offset from upper left corner by a number of pixels
+     * Press on an element, offset from upper left corner by a number of pixels.
      *
-     * @param el element to press on
-     * @param x  x offset
-     * @param y  y offset
-     * @return this TouchAction, for chaining
+     * @param el element to press on.
+     * @param x  x offset.
+     * @param y  y offset.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction press(WebElement el, int x, int y) {
         ActionParameter action = new ActionParameter("press", (RemoteWebElement) el);
@@ -87,9 +88,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Remove the current touching implement from the screen (withdraw your touch)
+     * Remove the current touching implement from the screen (withdraw your touch).
      *
-     * @return this TouchAction, for chaining
+     * @return this TouchAction, for chaining.
      */
     public TouchAction release() {
         ActionParameter action = new ActionParameter("release");
@@ -100,8 +101,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
     /**
      * Move current touch to center of an element.
      *
-     * @param el element to move to
-     * @return this TouchAction, for chaining
+     * @param el element to move to.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction moveTo(WebElement el) {
         ActionParameter action = new ActionParameter("moveTo", (RemoteWebElement) el);
@@ -114,9 +115,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * the screen. If the current position of this TouchAction is (xOld, yOld),
      * then this method will move the TouchAction to (xOld + x, yOld + y).
      *
-     * @param x change in x coordinate to move through
-     * @param y change in y coordinate to move through
-     * @return this TouchAction, for chaining
+     * @param x change in x coordinate to move through.
+     * @param y change in y coordinate to move through.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction moveTo(int x, int y) {
         ActionParameter action = new ActionParameter("moveTo");
@@ -127,12 +128,12 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Move current touch to an element, offset from upper left corner
+     * Move current touch to an element, offset from upper left corner.
      *
-     * @param el element to move current touch to
-     * @param x  x offset
-     * @param y  y offset
-     * @return this TouchAction, for chaining
+     * @param el element to move current touch to.
+     * @param x  x offset.
+     * @param y  y offset.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction moveTo(WebElement el, int x, int y) {
         ActionParameter action = new ActionParameter("moveTo", (RemoteWebElement) el);
@@ -145,8 +146,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
     /**
      * Tap the center of an element.
      *
-     * @param el element to tap
-     * @return this TouchAction, for chaining
+     * @param el element to tap.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction tap(WebElement el) {
         ActionParameter action = new ActionParameter("tap", (RemoteWebElement) el);
@@ -155,11 +156,11 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Tap an absolute position on the screen
+     * Tap an absolute position on the screen.
      *
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return this TouchAction, for chaining
+     * @param x x coordinate.
+     * @param y y coordinate.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction tap(int x, int y) {
         ActionParameter action = new ActionParameter("tap");
@@ -170,12 +171,12 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Tap an element, offset from upper left corner
+     * Tap an element, offset from upper left corner.
      *
-     * @param el element to tap
-     * @param x  x offset
-     * @param y  y offset
-     * @return this TouchAction, for chaining
+     * @param el element to tap.
+     * @param x  x offset.
+     * @param y  y offset.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction tap(WebElement el, int x, int y) {
         ActionParameter action = new ActionParameter("tap", (RemoteWebElement) el);
@@ -186,9 +187,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * A wait action, used as a NOP in multi-chaining
+     * A wait action, used as a NOP in multi-chaining.
      *
-     * @return this TouchAction, for chaining
+     * @return this TouchAction, for chaining.
      */
     public TouchAction waitAction() {
         ActionParameter action = new ActionParameter("wait");
@@ -197,10 +198,10 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Waits for specified amount of time to pass before continue to next touch action
+     * Waits for specified amount of time to pass before continue to next touch action.
      *
-     * @param ms time in milliseconds to wait
-     * @return this TouchAction, for chaining
+     * @param ms time in milliseconds to wait.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction waitAction(int ms) {
         ActionParameter action = new ActionParameter("wait");
@@ -212,8 +213,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
     /**
      * Press and hold the at the center of an element until the contextmenu event has fired.
      *
-     * @param el element to long-press
-     * @return this TouchAction, for chaining
+     * @param el element to long-press.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el) {
         ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
@@ -224,9 +225,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
     /**
      * Press and hold the at the center of an element until the contextmenu event has fired.
      *
-     * @param el       element to long-press
-     * @param duration of the long-press, in milliseconds
-     * @return this TouchAction, for chaining
+     * @param el       element to long-press.
+     * @param duration of the long-press, in milliseconds.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el, int duration) {
         ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
@@ -236,11 +237,12 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Press and hold the at an absolute position on the screen until the contextmenu event has fired.
+     * Press and hold the at an absolute position on the screen
+     * until the contextmenu event has fired.
      *
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return this TouchAction, for chaining
+     * @param x x coordinate.
+     * @param y y coordinate.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(int x, int y) {
         ActionParameter action = new ActionParameter("longPress");
@@ -251,12 +253,13 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Press and hold the at an absolute position on the screen until the contextmenu event has fired.
+     * Press and hold the at an absolute position on the screen until the
+     * contextmenu event has fired.
      *
-     * @param x        x coordinate
-     * @param y        y coordinate
-     * @param duration of the long-press, in milliseconds
-     * @return this TouchAction, for chaining
+     * @param x        x coordinate.
+     * @param y        y coordinate.
+     * @param duration of the long-press, in milliseconds.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(int x, int y, int duration) {
         ActionParameter action = new ActionParameter("longPress");
@@ -268,12 +271,13 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Press and hold the at an elements upper-left corner, offset by the given amount, until the contextmenu event has fired.
+     * Press and hold the at an elements upper-left corner, offset by the given amount,
+     * until the contextmenu event has fired.
      *
-     * @param el element to long-press
-     * @param x  x offset
-     * @param y  y offset
-     * @return this TouchAction, for chaining
+     * @param el element to long-press.
+     * @param x  x offset.
+     * @param y  y offset.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el, int x, int y) {
         ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
@@ -284,13 +288,14 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Press and hold the at an elements upper-left corner, offset by the given amount, until the contextmenu event has fired.
+     * Press and hold the at an elements upper-left corner, offset by the
+     * given amount, until the contextmenu event has fired.
      *
-     * @param el       element to long-press
-     * @param x        x offset
-     * @param y        y offset
-     * @param duration of the long-press, in milliseconds
-     * @return this TouchAction, for chaining
+     * @param el       element to long-press.
+     * @param x        x offset.
+     * @param y        y offset.
+     * @param duration of the long-press, in milliseconds.
+     * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el, int x, int y, int duration) {
         ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
@@ -302,7 +307,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Cancel this action, if it was partially completed by the driver
+     * Cancel this action, if it was partially completed by the driver.
      */
     public void cancel() {
         ActionParameter action = new ActionParameter("wait");
@@ -321,9 +326,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Get the mjsonwp parameters for this Action
+     * Get the mjsonwp parameters for this Action.
      *
-     * @return A map of parameters for this touch action to pass as part of mjsonwp
+     * @return A map of parameters for this touch action to pass as part of mjsonwp.
      */
     protected ImmutableMap<String, ImmutableList> getParameters() {
 
@@ -340,7 +345,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
     }
 
     /**
-     * Just holds values to eventually return the parameters required for the mjsonwp
+     * Just holds values to eventually return the parameters required for the mjsonwp.
      */
     private class ActionParameter {
         private String actionName;

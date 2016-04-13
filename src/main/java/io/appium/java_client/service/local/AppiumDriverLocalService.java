@@ -122,7 +122,8 @@ public final class AppiumDriverLocalService extends DriverService {
     /**
      * Starts the defined appium server
      *
-     * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
+     * @throws AppiumServerHasNotBeenStartedLocallyException
+     * If an error occurs while spawning the child process.
      * @see #stop()
      */
     public void start() throws AppiumServerHasNotBeenStartedLocallyException {

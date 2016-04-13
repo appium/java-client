@@ -19,7 +19,6 @@ package io.appium.java_client.android;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,14 +29,18 @@ public class AndroidActivityTest extends BaseAndroidTest {
     }
 
     @Test public void startActivityInThisAppTestCase() {
-        driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity");
-        assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
+        driver.startActivity("io.appium.android.apis",
+            ".accessibility.AccessibilityNodeProviderActivity");
+        assertEquals(driver.currentActivity(),
+            ".accessibility.AccessibilityNodeProviderActivity");
     }
 
     @Test public void startActivityWithWaitingAppTestCase() {
-        driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity",
+        driver.startActivity("io.appium.android.apis",
+            ".accessibility.AccessibilityNodeProviderActivity",
             "io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity");
-        assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
+        assertEquals(driver.currentActivity(),
+            ".accessibility.AccessibilityNodeProviderActivity");
     }
 
     @Test public void startActivityInNewAppTestCase() {
@@ -48,11 +51,14 @@ public class AndroidActivityTest extends BaseAndroidTest {
     }
 
     @Test public void startActivityInNewAppTestCaseWithoutClosingApp() {
-        driver.startActivity("io.appium.android.apis", ".accessibility.AccessibilityNodeProviderActivity");
+        driver.startActivity("io.appium.android.apis",
+            ".accessibility.AccessibilityNodeProviderActivity");
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
-        driver.startActivity("com.android.contacts", ".ContactsListActivity", "com.android.contacts", ".ContactsListActivity", false);
+        driver.startActivity("com.android.contacts", ".ContactsListActivity",
+            "com.android.contacts", ".ContactsListActivity", false);
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
         driver.pressKeyCode(AndroidKeyCode.BACK);
-        assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
+        assertEquals(driver.currentActivity(),
+            ".accessibility.AccessibilityNodeProviderActivity");
     }
 }

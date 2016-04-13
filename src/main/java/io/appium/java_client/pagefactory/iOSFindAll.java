@@ -22,7 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series of {@link iOSFindBy} tags
+ * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
+ * of {@link iOSFindBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */

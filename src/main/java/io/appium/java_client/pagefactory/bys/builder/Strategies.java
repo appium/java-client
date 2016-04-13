@@ -1,16 +1,3 @@
-package io.appium.java_client.pagefactory.bys.builder;
-
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.iOSFindBy;
-import org.openqa.selenium.By;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +13,20 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package io.appium.java_client.pagefactory.bys.builder;
+
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.iOSFindBy;
+import org.openqa.selenium.By;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
         @Override By getBy(Annotation annotation) {
@@ -56,27 +57,32 @@ enum Strategies {
     },
     BYTAG("tagName") {
         @Override By getBy(Annotation annotation) {
-            return By.tagName(getValue(annotation, this));
+            return By
+                .tagName(getValue(annotation, this));
         }
     },
     BYNAME("name") {
         @Override By getBy(Annotation annotation) {
-            return By.name(getValue(annotation, this));
+            return By
+                .name(getValue(annotation, this));
         }
     },
     BYXPATH("xpath") {
         @Override By getBy(Annotation annotation) {
-            return By.xpath(getValue(annotation, this));
+            return By
+                .xpath(getValue(annotation, this));
         }
     },
     BYLINKTEXT("linkText") {
         @Override By getBy(Annotation annotation) {
-            return By.linkText(getValue(annotation, this));
+            return By
+                .linkText(getValue(annotation, this));
         }
     },
     BYPARTIALLINKTEXT("partialLinkText") {
         @Override By getBy(Annotation annotation) {
-            return By.partialLinkText(getValue(annotation, this));
+            return By
+                .partialLinkText(getValue(annotation, this));
         }
     };
 

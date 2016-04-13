@@ -30,6 +30,13 @@ public class AppiumExecutionMethod implements ExecuteMethod {
         this.driver = driver;
     }
 
+    /**
+     * This method executes a command supported by Appium JSONWP.
+     *
+     * @param commandName
+     * @param parameters
+     * @return
+     */
     public Object execute(String commandName, Map<String, ?> parameters) {
         Response response;
 

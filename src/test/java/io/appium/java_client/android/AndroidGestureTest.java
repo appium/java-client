@@ -36,13 +36,15 @@ public class AndroidGestureTest extends BaseAndroidTest {
         Point point =
             driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
         driver.tap(1, point.x + 20, point.y + 30, 1000);
-        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON" ,driver
+            .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void singleElementTapTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
         driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
-        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON" ,driver
+            .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void multiTapActionTest() throws Exception {
@@ -50,11 +52,11 @@ public class AndroidGestureTest extends BaseAndroidTest {
         AndroidElement chronometer =
             driver.findElementById("io.appium.android.apis:id/chronometer");
 
-        TouchAction startStop = new TouchAction(driver).
-            tap(driver.findElementById("io.appium.android.apis:id/start")).waitAction(2000).
-            tap(driver.findElementById("io.appium.android.apis:id/stop"));
-        TouchAction reset = new TouchAction(driver).
-            tap(driver.findElementById("io.appium.android.apis:id/reset"));
+        TouchAction startStop = new TouchAction(driver)
+            .tap(driver.findElementById("io.appium.android.apis:id/start")).waitAction(2000)
+            .tap(driver.findElementById("io.appium.android.apis:id/stop"));
+        TouchAction reset = new TouchAction(driver)
+            .tap(driver.findElementById("io.appium.android.apis:id/reset"));
 
         MultiTouchAction m1 = new MultiTouchAction(driver).add(startStop);
         m1.perform();
@@ -98,10 +100,12 @@ public class AndroidGestureTest extends BaseAndroidTest {
         TouchAction tap = new TouchAction(driver).tap(element);
 
         driver.performTouchAction(tap);
-        assertEquals("ON" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON" ,driver
+            .findElementById("io.appium.android.apis:id/button_toggle").getText());
 
         driver.performTouchAction(tap);
-        assertEquals("OFF" ,driver.findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("OFF" ,driver
+            .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void verticalSwipingTest() throws Exception {
@@ -122,7 +126,8 @@ public class AndroidGestureTest extends BaseAndroidTest {
         driver.startActivity("io.appium.android.apis", ".view.Gallery1");
 
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
-        int originalImageCount = gallery.findElementsByClassName("android.widget.ImageView").size();
+        int originalImageCount = gallery
+            .findElementsByClassName("android.widget.ImageView").size();
 
         gallery.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
         assertNotEquals(originalImageCount, gallery.

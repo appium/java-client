@@ -18,28 +18,22 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.HideKeyboardStrategy;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
-import java.util.Map;
-
+import org.junit.Test;
 import static org.junit.Assert.*;
 
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.html5.Location;
 
-/**
- * Test Mobile Driver features
- */
+
+
 public class IOSDriverTest extends BaseIOSTest {
 
     /**
-     * @Test TODO There is no ability to check this function usibg simulators. When CI will have been set up then this test will be returned
+     * @Test
      */
+    //TODO There is no ability to check this function usibg simulators.
+    // When CI will have been set up then this test will be returned
     public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
         assertTrue(time.length() == 28);

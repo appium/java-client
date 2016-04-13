@@ -41,8 +41,18 @@ import java.util.Map;
  */
 public class MobileElementToJsonConverter extends WebElementToJsonConverter {
 
+    /**
+     * Converts {@link RemoteWebElement} objects, which may be
+     * {@link WrapsElement wrapped}, into their JSON representation as defined by
+     * the WebDriver wire protocol.
+     *
+     * @param arg
+     * @return
+     */
     public Object apply(Object arg) {
-        if (arg == null || arg instanceof String || arg instanceof Boolean ||
+        if (arg == null
+            || arg instanceof String
+            || arg instanceof Boolean ||
             arg instanceof Number) {
             return arg;
         }

@@ -25,11 +25,16 @@ import org.openqa.selenium.remote.FileDetector;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"unchecked"}) public abstract class MobileElement
+@SuppressWarnings({"unchecked"})
+public abstract class MobileElement
     extends DefaultGenericMobileElement<MobileElement> {
 
     protected FileDetector fileDetector;
 
+    /**
+     * @return The instance of the {@link org.openqa.selenium.Point}.
+     * It contains central coordinates of an element.
+     */
     public Point getCenter() {
         Point upperLeft = this.getLocation();
         Dimension dimensions = this.getSize();
@@ -99,8 +104,9 @@ import java.util.List;
     @Override public List<MobileElement> findElementsByAccessibilityId(String using) {
         List<MobileElement> result = new ArrayList<MobileElement>();
         List<WebElement> found = findElements("accessibility id", using);
-        for (WebElement e : found)
+        for (WebElement e : found) {
             result.add((MobileElement) e);
+        }
         return result;
     }
 }

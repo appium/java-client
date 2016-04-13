@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets
- * instead of WebElement
+ * instead of WebElement.
  */
 public class RottenTomatoesIOSApp {
 
