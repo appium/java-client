@@ -250,8 +250,8 @@ public class AndroidDriver<T extends WebElement>
                 && !StringUtils.isBlank(appActivity)),
             String.format("'%s' and '%s' are required.", APP_PACKAGE, APP_ACTIVITY));
 
-        appWaitPackage = StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
-        appWaitActivity = StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
+        appWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
+        appWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
             .of(APP_PACKAGE, appPackage, APP_ACTIVITY, appActivity, APP_WAIT_PACKAGE,
