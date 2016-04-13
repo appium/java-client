@@ -137,7 +137,7 @@ public class iOSPageObjectTest {
         }
     }
 
-    @SuppressWarnings("rawtypes") @Before public void setUp() throws Exception {
+    @Before public void setUp() throws Exception {
         if (!populated)
             PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 

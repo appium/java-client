@@ -16,6 +16,21 @@
 
 package io.appium.java_client.android;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
+import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
+import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.IS_LOCKED;
+import static io.appium.java_client.MobileCommand.LOCK;
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
+import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.PUSH_FILE;
+import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+import static io.appium.java_client.MobileCommand.UNLOCK;
+
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
@@ -27,6 +42,7 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -35,9 +51,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static io.appium.java_client.MobileCommand.*;
 
 /**
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
@@ -233,11 +246,12 @@ public class AndroidDriver<T extends WebElement>
     public void startActivity(String appPackage, String appActivity, String appWaitPackage,
         String appWaitActivity, boolean stopApp) throws IllegalArgumentException {
 
-        checkArgument((_isNotNullOrEmpty(appPackage) && _isNotNullOrEmpty(appActivity)),
+        checkArgument((!StringUtils.isBlank(appPackage)
+                && !StringUtils.isBlank(appActivity)),
             String.format("'%s' and '%s' are required.", APP_PACKAGE, APP_ACTIVITY));
 
-        appWaitPackage = _isNotNullOrEmpty(appWaitPackage) ? appWaitPackage : "";
-        appWaitActivity = _isNotNullOrEmpty(appWaitActivity) ? appWaitActivity : "";
+        appWaitPackage = StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
+        appWaitActivity = StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
             .of(APP_PACKAGE, appPackage, APP_ACTIVITY, appActivity, APP_WAIT_PACKAGE,
@@ -332,7 +346,8 @@ public class AndroidDriver<T extends WebElement>
      * @throws org.openqa.selenium.WebDriverException This method is not
      * applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
+    @SuppressWarnings("unchecked")
+    @Override
     public T findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
         return (T) findElement("-android uiautomator", using);
@@ -341,7 +356,8 @@ public class AndroidDriver<T extends WebElement>
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
+    @SuppressWarnings("unchecked")
+    @Override
     public List<T> findElementsByAndroidUIAutomator(String using)
         throws WebDriverException {
         return (List<T>) findElements("-android uiautomator", using);

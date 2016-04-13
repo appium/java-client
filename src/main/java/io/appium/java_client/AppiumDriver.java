@@ -27,6 +27,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.*;
 
 /**
@@ -163,29 +165,16 @@ public abstract class AppiumDriver<T extends WebElement>
         Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
-            if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])) {
+            if (!StringUtils.isBlank(params[i]) && (values[i] != null)) {
                 builder.put(params[i], values[i]);
             }
         }
         return builder.build();
     }
 
-    @SuppressWarnings("unused") private static CommandInfo deleteC(String url) {
+    @SuppressWarnings("unused")
+    private static CommandInfo deleteC(String url) {
         return new CommandInfo(url, HttpMethod.DELETE);
-    }
-
-    /**
-     * Checks if a string is null, empty, or whitespace.
-     *
-     * @param str String to check.
-     * @return True if str is not null or empty.
-     */
-    protected static boolean _isNotNullOrEmpty(String str) {
-        return str != null && !str.isEmpty() && str.trim().length() > 0;
-    }
-
-    protected static boolean _isNotNullOrEmpty(Object ob) {
-        return ob != null;
     }
 
     @Override public List<T> findElements(By by) {
@@ -315,7 +304,8 @@ public abstract class AppiumDriver<T extends WebElement>
     /**
      * @see InteractsWithFiles#pullFolder(String).
      */
-    @Override public byte[] pullFolder(String remotePath) {
+    @Override
+    public byte[] pullFolder(String remotePath) {
         Response response = execute(PULL_FOLDER, ImmutableMap.of(PATH, remotePath));
         String base64String = response.getValue().toString();
 
@@ -325,7 +315,8 @@ public abstract class AppiumDriver<T extends WebElement>
     /**
      * @see PerformsTouchActions#performTouchAction(TouchAction).
      */
-    @SuppressWarnings("rawtypes") @Override public TouchAction performTouchAction(
+    @SuppressWarnings("rawtypes")
+    @Override public TouchAction performTouchAction(
         TouchAction touchAction) {
         ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
@@ -335,7 +326,9 @@ public abstract class AppiumDriver<T extends WebElement>
     /**
      * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction).
      */
-    @Override @SuppressWarnings({"rawtypes"}) public void performMultiTouchAction(
+    @Override
+    @SuppressWarnings({"rawtypes"})
+    public void performMultiTouchAction(
         MultiTouchAction multiAction) {
         ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
@@ -548,10 +541,7 @@ public abstract class AppiumDriver<T extends WebElement>
     }
 
     @Override public WebDriver context(String name) {
-        if (!_isNotNullOrEmpty(name)) {
-            throw new IllegalArgumentException("Must supply a context name");
-        }
-
+        checkNotNull(name, "Must supply a context name");
         execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
         return AppiumDriver.this;
     }

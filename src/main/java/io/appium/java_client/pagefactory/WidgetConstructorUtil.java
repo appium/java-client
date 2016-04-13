@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.pagefactory;
 
 import org.openqa.selenium.WebElement;
@@ -43,9 +44,9 @@ class WidgetConstructorUtil {
         }
         List<Constructor<?>> declared = Arrays.asList(clazz.getDeclaredConstructors());
         throw new NoSuchMethodError(
-            clazz.getName() + " has no convenient constructor which could pass a " +
-                WebElement.class.getName()
-                + " instance as a parameter. The actual list of constructors: " +
-                declared.toString());
+            clazz.getName() + " has no convenient constructor which could pass a "
+                    + WebElement.class.getName()
+                    + " instance as a parameter. The actual list of constructors: "
+                    + declared.toString());
     }
 }

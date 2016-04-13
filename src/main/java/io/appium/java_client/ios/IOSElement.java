@@ -79,7 +79,7 @@ public class IOSElement extends MobileElement
     /**
      * This method sets the new value of the attribute "value".
      *
-     * @param value
+     * @param value is the new value which should be set
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void setValue(String value) {

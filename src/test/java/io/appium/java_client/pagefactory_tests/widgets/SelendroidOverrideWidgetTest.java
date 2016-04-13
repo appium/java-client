@@ -26,18 +26,21 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
     private RottenTomatoes rottenTomatoes;
     private TimeOutDuration duration;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass
+    public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }
 
-    @AfterClass public static void afterClass() throws Exception {
+    @AfterClass
+    public static void afterClass() throws Exception {
         if (service != null) {
             service.stop();
         }
     }
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "android-rottentomatoes-demo-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -53,11 +56,14 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 
-    @After public void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         driver.quit();
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override
+    public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -68,7 +74,9 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         rottenTomatoes.checkSimpleReview();
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test
+    public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -80,7 +88,9 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test
+    public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -91,7 +101,9 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         rottenTomatoes.checkExtendedReview();
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test
+    public void checkTheLocatorOverridingOnAWidget() {
         duration.setTime(5);
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);

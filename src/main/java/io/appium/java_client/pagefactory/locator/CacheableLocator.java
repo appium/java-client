@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.pagefactory.locator;
 
 import org.openqa.selenium.support.pagefactory.ElementLocator;

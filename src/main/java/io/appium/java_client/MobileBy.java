@@ -26,7 +26,8 @@ import java.util.List;
 /**
  * Created by jonahss on 4/10/14.
  */
-@SuppressWarnings("serial") public abstract class MobileBy extends By {
+@SuppressWarnings("serial")
+public abstract class MobileBy extends By {
 
     public static By IosUIAutomation(final String uiautomationText) {
         if (uiautomationText == null) {
@@ -60,10 +61,11 @@ import java.util.List;
             automationText = uiautomationText;
         }
 
-        @SuppressWarnings("unchecked") @Override
+        @SuppressWarnings("unchecked")
+        @Override
         public List<WebElement> findElements(SearchContext context) {
-            return (List<WebElement>) ((FindsByIosUIAutomation<?>) context).
-                findElementsByIosUIAutomation(automationText);
+            return (List<WebElement>) ((FindsByIosUIAutomation<?>) context)
+                    .findElementsByIosUIAutomation(automationText);
         }
 
         @Override public WebElement findElement(SearchContext context) {
@@ -85,10 +87,11 @@ import java.util.List;
             automatorText = uiautomatorText;
         }
 
-        @SuppressWarnings("unchecked") @Override
+        @SuppressWarnings("unchecked")
+        @Override
         public List<WebElement> findElements(SearchContext context) {
-            return (List<WebElement>) ((FindsByAndroidUIAutomator<?>) context).
-                findElementsByAndroidUIAutomator(automatorText);
+            return (List<WebElement>) ((FindsByAndroidUIAutomator<?>) context)
+                    .findElementsByAndroidUIAutomator(automatorText);
         }
 
         @Override public WebElement findElement(SearchContext context) {
@@ -110,7 +113,8 @@ import java.util.List;
             this.id = id;
         }
 
-        @SuppressWarnings("unchecked") @Override
+        @SuppressWarnings("unchecked")
+        @Override
         public List<WebElement> findElements(SearchContext context) {
             return (List<WebElement>) ((FindsByAccessibilityId<?>) context)
                 .findElementsByAccessibilityId(id);

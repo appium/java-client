@@ -68,13 +68,13 @@ public final class AppiumServiceBuilder
     private static final String BUILD_FOLDER = "build";
     private static final String LIB_FOLDER = "lib";
     private static final String MAIN_JS = "main.js";
-    private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please " +
-        "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and "
-        +
-        "install Appium app (http://appium.io/downloads.html)";
+    private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please "
+            + "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and "
+            + "install Appium app (http://appium.io/downloads.html)";
     private static final String APPIUM_NODE_MASK =
-        File.separator + BUILD_FOLDER + File.separator + LIB_FOLDER +
-            File.separator + MAIN_JS;
+        File.separator + BUILD_FOLDER
+                + File.separator + LIB_FOLDER
+                + File.separator + MAIN_JS;
     private static final int DEFAULT_APPIUM_PORT = 4723;
     private static final String BASH = "bash";
     private static final String CMD_EXE = "cmd.exe";
@@ -371,7 +371,8 @@ public final class AppiumServiceBuilder
         return "{" + result + "}";
     }
 
-    @SuppressWarnings("unchecked") private String parseCapabilities() {
+    @SuppressWarnings("unchecked")
+    private String parseCapabilities() {
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             return parseCapabilitiesIfWindows();
         }

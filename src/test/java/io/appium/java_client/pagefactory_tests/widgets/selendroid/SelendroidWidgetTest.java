@@ -61,7 +61,8 @@ public class SelendroidWidgetTest implements WidgetTest {
         driver.quit();
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoesApp.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -72,7 +73,8 @@ public class SelendroidWidgetTest implements WidgetTest {
         rottenTomatoesApp.checkSimpleReview();
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -84,7 +86,8 @@ public class SelendroidWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoesApp.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -95,7 +98,8 @@ public class SelendroidWidgetTest implements WidgetTest {
         rottenTomatoesApp.checkExtendedReview();
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test public void checkTheLocatorOverridingOnAWidget() {
         duration.setTime(5);
         try {
             assertTrue(rottenTomatoesApp.getFakedMovieCount() == 0);

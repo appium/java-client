@@ -57,7 +57,8 @@ public class HtmlWidgetTest implements WidgetTest {
                 .getAbsolutePath());
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoesSite.getSimpleMovieCount() == 30);
         Movie movie = rottenTomatoesSite.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -68,7 +69,8 @@ public class HtmlWidgetTest implements WidgetTest {
         rottenTomatoesSite.checkSimpleReview();
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoesSite.getAnnotatedMovieCount() == 30);
         Movie movie = rottenTomatoesSite.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -80,7 +82,8 @@ public class HtmlWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoesSite.getExtendeddMovieCount() == 30);
         Movie movie = rottenTomatoesSite.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -91,7 +94,8 @@ public class HtmlWidgetTest implements WidgetTest {
         rottenTomatoesSite.checkExtendedReview();
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoesSite.getFakedMovieCount() == 0);
         } catch (Exception e) {

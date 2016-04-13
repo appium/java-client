@@ -47,7 +47,8 @@ class WidgetByBuilder extends DefaultElementByBuilder {
         return (Class<?>) listType;
     }
 
-    @SuppressWarnings("unchecked") private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
+    @SuppressWarnings("unchecked")
+    private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         Field field = Field.class.cast(annotatedElement);
         Class<?> declaredClass;

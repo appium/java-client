@@ -43,7 +43,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.*;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getAutomation;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getPlatform;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -111,7 +113,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 return proxyForAnElement(locator);
             }
 
-            @Override @SuppressWarnings("unchecked")
+            @Override
+            @SuppressWarnings("unchecked")
             protected List<WebElement> proxyForListLocator(ClassLoader ignored,
                 ElementLocator locator) {
                 ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
@@ -160,7 +163,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
         return decorateWidget(field);
     }
 
-    @SuppressWarnings("unchecked") private Object decorateWidget(Field field) {
+    @SuppressWarnings("unchecked")
+    private Object decorateWidget(Field field) {
         Class<?> type = field.getType();
         if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
             return null;

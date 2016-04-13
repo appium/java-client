@@ -163,7 +163,7 @@ public class AndroidPageObjectTest {
 
     @FindBy(id = "fakeId") private List<WebElement> fakeElements;
 
-    @SuppressWarnings("rawtypes") @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -323,7 +323,9 @@ public class AndroidPageObjectTest {
         assertNotEquals(0, touchabletextVieWs.size());
     }
 
-    @Test @SuppressWarnings("unused") public void isTheFieldAndroidElement() {
+    @Test
+    @SuppressWarnings("unused")
+    public void isTheFieldAndroidElement() {
         AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement

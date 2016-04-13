@@ -28,7 +28,8 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass
+    public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -45,7 +46,8 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
-    @AfterClass public static void afterClass() throws Exception {
+    @AfterClass
+    public static void afterClass() throws Exception {
         if (driver != null) {
             driver.quit();
         }
@@ -55,13 +57,15 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         }
     }
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         if (driver != null) {
             driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
         }
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -73,7 +77,8 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         assertTrue(movie.getSelfReference().getClass().equals(AndroidMovie.class));
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -86,7 +91,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test
+    public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -98,7 +105,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         assertTrue(movie.getSelfReference().getClass().equals(AnnotatedAndroidMovie.class));
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test
+    public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         } catch (Exception e) {

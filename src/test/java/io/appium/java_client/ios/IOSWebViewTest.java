@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.ios;
 
 
@@ -28,7 +29,7 @@ public class IOSWebViewTest extends BaseIOSWebViewTest {
         driver.findElementByXPath("//UIATextField[@value='Enter URL']")
             .sendKeys("www.google.com");
         driver.findElementByClassName("UIAButton").click();
-        driver.findElementByClassName("UIAWebView").click (); // dismissing keyboard
+        driver.findElementByClassName("UIAWebView").click ();
         Thread.sleep(10000);
         driver.context("WEBVIEW");
         Thread.sleep(10000);

@@ -26,7 +26,8 @@ public class HtmlCombinedWidgetTest implements WidgetTest {
     private static ChromeDriver driver;
     private static RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass
+    public static void beforeClass() throws Exception {
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
@@ -44,13 +45,15 @@ public class HtmlCombinedWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
-    @AfterClass public static void afterClass() throws Exception {
+    @AfterClass
+    public static void afterClass() throws Exception {
         if (driver != null) {
             driver.quit();
         }
     }
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         if (driver != null) {
             driver.get("file:///" + new File(
                     "src/test/java/io/appium/java_client/"
@@ -59,7 +62,9 @@ public class HtmlCombinedWidgetTest implements WidgetTest {
         }
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override
+    public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -70,7 +75,9 @@ public class HtmlCombinedWidgetTest implements WidgetTest {
         rottenTomatoes.checkSimpleReview();
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test
+    public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -82,7 +89,9 @@ public class HtmlCombinedWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test
+    public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -93,7 +102,9 @@ public class HtmlCombinedWidgetTest implements WidgetTest {
         rottenTomatoes.checkExtendedReview();
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test
+    public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         } catch (Exception e) {

@@ -11,7 +11,8 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/lvMovies")
-@SelendroidFindBy(id = "lvMovies") @FindBy(id = "movies-collection")
+@SelendroidFindBy(id = "lvMovies")
+@FindBy(id = "movies-collection")
 public class AnnotatedCombinedMovies extends Movies {
 
     List<AnnotatedCombinedMovie> movieList;

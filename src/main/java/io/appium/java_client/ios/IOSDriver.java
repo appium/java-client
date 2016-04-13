@@ -114,7 +114,9 @@ public class IOSDriver<RequiredElementType extends WebElement>
      *
      * @param text input text contained in text attribute.
      */
-    @SuppressWarnings("unchecked") @Override public RequiredElementType scrollTo(String text) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public RequiredElementType scrollTo(String text) {
         return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
             .scrollTo(text);
     }
@@ -126,7 +128,9 @@ public class IOSDriver<RequiredElementType extends WebElement>
      *
      * @param text input text to match.
      */
-    @SuppressWarnings("unchecked") @Override public RequiredElementType scrollToExact(String text) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public RequiredElementType scrollToExact(String text) {
         return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
             .scrollToExact(text);
     }
@@ -157,12 +161,14 @@ public class IOSDriver<RequiredElementType extends WebElement>
     /**
      * @see GetsNamedTextField#getNamedTextField(String).
      */
-    @SuppressWarnings("unchecked") @Override public RequiredElementType getNamedTextField(
+    @SuppressWarnings("unchecked")
+    @Override
+    public RequiredElementType getNamedTextField(
         String name) {
         RequiredElementType element = findElementByAccessibilityId(name);
         if (element.getTagName() != "TextField") {
-            return (RequiredElementType) ((FindsByAccessibilityId<?>) element).
-                findElementByAccessibilityId(name);
+            return (RequiredElementType) ((FindsByAccessibilityId<?>) element)
+                    .findElementByAccessibilityId(name);
         }
         return element;
     }
@@ -171,7 +177,8 @@ public class IOSDriver<RequiredElementType extends WebElement>
      * @throws org.openqa.selenium.WebDriverException
      * This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
+    @SuppressWarnings("unchecked")
+    @Override
     public RequiredElementType findElementByIosUIAutomation(String using)
         throws WebDriverException {
         return (RequiredElementType) findElement("-ios uiautomation", using);
