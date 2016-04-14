@@ -16,10 +16,10 @@
 
 package io.appium.java_client.ios;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class IOSElementTest extends BaseIOSTest {
 

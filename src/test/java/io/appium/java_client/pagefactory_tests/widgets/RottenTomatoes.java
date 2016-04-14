@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widgets;
 
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.*;
 import io.appium.java_client.pagefactory_tests.widgets.android.annotated.AnnotatedAndroidMovies;
@@ -28,8 +29,6 @@ import io.appium.java_client.pagefactory_tests.widgets.selendroid.simple.Selendr
 import io.appium.java_client.pagefactory_tests.widgets.selendroid.simple.SelendroidReview;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
-
-import static org.junit.Assert.assertTrue;
 
 public class RottenTomatoes {
 

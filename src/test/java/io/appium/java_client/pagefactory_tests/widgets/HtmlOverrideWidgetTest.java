@@ -1,5 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widgets;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
 import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlMovie;
@@ -17,9 +20,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class HtmlOverrideWidgetTest implements WidgetTest {
 

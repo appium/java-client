@@ -16,6 +16,9 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.MobileElement;
@@ -25,9 +28,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class AndroidGestureTest extends BaseAndroidTest {
 

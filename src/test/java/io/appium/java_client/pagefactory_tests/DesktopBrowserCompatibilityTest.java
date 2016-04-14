@@ -16,6 +16,9 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -34,9 +37,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class DesktopBrowserCompatibilityTest {
 

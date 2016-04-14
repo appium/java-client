@@ -1,5 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widgets.combined;
 
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
@@ -12,8 +14,6 @@ import io.appium.java_client.pagefactory_tests.widgets.combined.simple.CombinedM
 import io.appium.java_client.pagefactory_tests.widgets.combined.simple.CombinedReview;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

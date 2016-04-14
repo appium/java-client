@@ -18,8 +18,10 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;

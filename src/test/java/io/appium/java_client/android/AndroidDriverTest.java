@@ -16,15 +16,15 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.AppiumSetting;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 

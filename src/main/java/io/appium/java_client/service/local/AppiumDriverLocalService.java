@@ -16,6 +16,8 @@
 
 package io.appium.java_client.service.local;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -33,8 +35,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class AppiumDriverLocalService extends DriverService {
 

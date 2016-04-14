@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widgets.ios;
 
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
@@ -10,8 +11,6 @@ import io.appium.java_client.pagefactory_tests.widgets.ios.extended.ExtendedIOSR
 import io.appium.java_client.pagefactory_tests.widgets.ios.simple.IOSMovies;
 import io.appium.java_client.pagefactory_tests.widgets.ios.simple.IOSReview;
 import org.apache.commons.lang3.StringUtils;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

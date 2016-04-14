@@ -16,14 +16,14 @@
 
 package io.appium.java_client.pagefactory.bys;
 
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;
-
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 public class ContentMappedBy extends By {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
@@ -45,8 +45,8 @@ public class ContentMappedBy extends By {
             return defaultBy.toString();
         }
 
-        return "Locator map: " + "\n" +
-            "- native content: \"" + nativeBy.toString() + "\" \n" +
-            "- html content: \"" + defaultBy.toString() + "\"";
+        return "Locator map: " + "\n"
+            + "- native content: \"" + nativeBy.toString() + "\" \n"
+            + "- html content: \"" + defaultBy.toString() + "\"";
     }
 }

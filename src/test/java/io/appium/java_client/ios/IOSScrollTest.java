@@ -16,6 +16,9 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -26,9 +29,6 @@ import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class IOSScrollTest {
 

@@ -16,10 +16,10 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents an duration of waiting for element rendering.

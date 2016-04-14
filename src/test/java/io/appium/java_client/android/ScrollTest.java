@@ -16,11 +16,11 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertNotNull;
+
 import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertNotNull;
 
 public class ScrollTest extends BaseAndroidTest {
 

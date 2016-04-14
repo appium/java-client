@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -28,8 +30,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 class WidgetInterceptor extends InterceptorOfASingleElement {
 
@@ -51,9 +51,10 @@ class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override protected Object getObject(WebElement element, Method method, Object[] args)
         throws Throwable {
         ContentType type = getCurrentContentType(element);
-        if (cachedElement == null || (locator != null && !((CacheableLocator) locator)
-            .isLookUpCached()) ||
-            cachedInstances.size() == 0) {
+        if (cachedElement == null
+            || (locator != null && !((CacheableLocator) locator)
+            .isLookUpCached())
+            || cachedInstances.size() == 0) {
             cachedElement = element;
             Widget widget = instantiationMap.get(type).newInstance(cachedElement);
             cachedInstances.put(type, widget);

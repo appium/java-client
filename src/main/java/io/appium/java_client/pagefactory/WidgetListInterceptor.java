@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -28,8 +30,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 class WidgetListInterceptor extends InterceptorOfAListOfElements {
 

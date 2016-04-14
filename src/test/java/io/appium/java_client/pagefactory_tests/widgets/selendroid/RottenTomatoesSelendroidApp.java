@@ -1,5 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widgets.selendroid;
 
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import io.appium.java_client.pagefactory_tests.widgets.selendroid.annotated.AnnotatedSelendroidMovies;
@@ -9,8 +11,6 @@ import io.appium.java_client.pagefactory_tests.widgets.selendroid.extended.Exten
 import io.appium.java_client.pagefactory_tests.widgets.selendroid.simple.SelendroidMovies;
 import io.appium.java_client.pagefactory_tests.widgets.selendroid.simple.SelendroidReview;
 import org.apache.commons.lang3.StringUtils;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

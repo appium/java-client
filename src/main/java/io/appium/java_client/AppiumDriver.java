@@ -17,6 +17,23 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.CLOSE_APP;
+import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
+import static io.appium.java_client.MobileCommand.GET_SETTINGS;
+import static io.appium.java_client.MobileCommand.GET_STRINGS;
+import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
+import static io.appium.java_client.MobileCommand.INSTALL_APP;
+import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
+import static io.appium.java_client.MobileCommand.LAUNCH_APP;
+import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
+import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
+import static io.appium.java_client.MobileCommand.REMOVE_APP;
+import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+import static io.appium.java_client.MobileCommand.SET_SETTINGS;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
@@ -32,6 +49,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -39,46 +60,35 @@ import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 
-import javax.xml.bind.DatatypeConverter;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.MobileCommand.*;
+import javax.xml.bind.DatatypeConverter;
 
 /**
- * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- * Instances of the defined type will be returned via findElement* and findElements*.
- * Warning (!!!). Allowed types:
- * {@link org.openqa.selenium.WebElement}
- * {@link io.appium.java_client.TouchableElement}
- * {@link org.openqa.selenium.remote.RemoteWebElement}
- * {@link io.appium.java_client.MobileElement} and its subclasses that designed specifically
- * for each target mobile OS (still Android and iOS)
- */
+* @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ *          Instances of the defined type will be returned via findElement* and findElements*
+ *          Warning (!!!). Allowed types:
+ *          {@link org.openqa.selenium.WebElement}
+ *          {@link io.appium.java_client.TouchableElement}
+ *          {@link org.openqa.selenium.remote.RemoteWebElement}
+ *          {@link io.appium.java_client.MobileElement} and its subclasses that designed
+ *          specifically
+ *          for each target mobile OS (still Android and iOS)
+*/
 @SuppressWarnings("unchecked")
 public abstract class AppiumDriver<T extends WebElement>
     extends DefaultGenericMobileDriver<T> {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
-    protected final String KEY_CODE = "keycode";
-    protected final String PATH = "path";
-    private final String SETTINGS = "settings";
-    private final String LANGUAGE_PARAM = "language";
-    private final String STRING_FILE_PARAM = "stringFile";
     private URL remoteAddress;
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
@@ -134,7 +144,7 @@ public abstract class AppiumDriver<T extends WebElement>
     /**
      * @param originalCapabilities the given {@link Capabilities}.
      * @param newPlatform a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     * to be set up
+     *                    to be set up
      * @return {@link Capabilities} with changed mobile platform value
      */
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
@@ -295,7 +305,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @see InteractsWithFiles#pullFile(String).
      */
     @Override public byte[] pullFile(String remotePath) {
-        Response response = execute(PULL_FILE, ImmutableMap.of(PATH, remotePath));
+        Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
         String base64String = response.getValue().toString();
 
         return DatatypeConverter.parseBase64Binary(base64String);
@@ -306,7 +316,7 @@ public abstract class AppiumDriver<T extends WebElement>
      */
     @Override
     public byte[] pullFolder(String remotePath) {
-        Response response = execute(PULL_FOLDER, ImmutableMap.of(PATH, remotePath));
+        Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
         String base64String = response.getValue().toString();
 
         return DatatypeConverter.parseBase64Binary(base64String);
@@ -512,9 +522,7 @@ public abstract class AppiumDriver<T extends WebElement>
         Response response = execute(GET_SETTINGS);
 
         JsonParser parser = new JsonParser();
-        JsonObject settings = (JsonObject) parser.parse(response.getValue().toString());
-
-        return settings;
+        return  (JsonObject) parser.parse(response.getValue().toString());
     }
 
     /**
@@ -525,7 +533,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @param settings Map of setting keys and values.
      */
     private void setSettings(ImmutableMap<?, ?> settings) {
-        execute(SET_SETTINGS, getCommandImmutableMap(SETTINGS, settings));
+        execute(SET_SETTINGS, getCommandImmutableMap("settings", settings));
     }
 
     /**
@@ -543,7 +551,7 @@ public abstract class AppiumDriver<T extends WebElement>
     @Override public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
         execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-        return AppiumDriver.this;
+        return this;
     }
 
     @Override public Set<String> getContextHandles() {
@@ -551,7 +559,7 @@ public abstract class AppiumDriver<T extends WebElement>
         Object value = response.getValue();
         try {
             List<String> returnedValues = (List<String>) value;
-            return new LinkedHashSet<String>(returnedValues);
+            return new LinkedHashSet<>(returnedValues);
         } catch (ClassCastException ex) {
             throw new WebDriverException(
                 "Returned value cannot be converted to List<String>: " + value, ex);
@@ -607,7 +615,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @see HasAppStrings#getAppStringMap(String).
      */
     @Override public Map<String, String> getAppStringMap(String language) {
-        Response response = execute(GET_STRINGS, getCommandImmutableMap(LANGUAGE_PARAM, language));
+        Response response = execute(GET_STRINGS, getCommandImmutableMap("language", language));
         return (Map<String, String>) response.getValue();
     }
 
@@ -618,7 +626,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @see HasAppStrings#getAppStringMap(String, String).
      */
     @Override public Map<String, String> getAppStringMap(String language, String stringFile) {
-        String[] parameters = new String[] {LANGUAGE_PARAM, STRING_FILE_PARAM};
+        String[] parameters = new String[] {"language", "stringFile"};
         Object[] values = new Object[] {language, stringFile};
         Response response = execute(GET_STRINGS, getCommandImmutableMap(parameters, values));
         return (Map<String, String>) response.getValue();

@@ -16,6 +16,9 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.
+    unpackWebDriverFromSearchContext;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -24,8 +27,6 @@ import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
 import java.util.List;
-
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
  * It is the Appium-specific extension of the Page Object design pattern. It allows user

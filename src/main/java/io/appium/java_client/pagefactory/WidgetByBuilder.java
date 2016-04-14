@@ -18,14 +18,14 @@ package io.appium.java_client.pagefactory;
 
 import org.openqa.selenium.By;
 
+import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultOrHTMLWidgetClass;
+import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
-
-import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultOrHTMLWidgetClass;
-import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 
 class WidgetByBuilder extends DefaultElementByBuilder {
 

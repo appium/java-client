@@ -16,6 +16,10 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -40,10 +44,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class AndroidPageObjectTest {
 

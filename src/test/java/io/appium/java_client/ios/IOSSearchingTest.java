@@ -15,9 +15,9 @@
  */
 package io.appium.java_client.ios;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertNotEquals;
+
+import org.junit.Test;
 
 public class IOSSearchingTest extends BaseIOSTest {
 

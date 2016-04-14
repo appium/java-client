@@ -1,5 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widgets.android;
 
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
@@ -10,8 +12,6 @@ import io.appium.java_client.pagefactory_tests.widgets.android.extended.Extended
 import io.appium.java_client.pagefactory_tests.widgets.android.simple.AndroidMovies;
 import io.appium.java_client.pagefactory_tests.widgets.android.simple.AndroidReview;
 import org.apache.commons.lang3.StringUtils;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

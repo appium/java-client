@@ -16,16 +16,16 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
-
-
 
 public class IOSDriverTest extends BaseIOSTest {
 

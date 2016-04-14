@@ -16,6 +16,12 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getAutomation;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getPlatform;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
+    .unpackWebDriverFromSearchContext;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -41,11 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getAutomation;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getPlatform;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the

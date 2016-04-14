@@ -16,6 +16,10 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+import static io.appium.java_client.remote.MobilePlatform.ANDROID;
+import static io.appium.java_client.remote.MobilePlatform.IOS;
+import static io.appium.java_client.remote.AutomationName.SELENDROID;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 import org.openqa.selenium.support.pagefactory.ByAll;
@@ -28,10 +32,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.appium.java_client.remote.AutomationName.SELENDROID;
-import static io.appium.java_client.remote.MobilePlatform.ANDROID;
-import static io.appium.java_client.remote.MobilePlatform.IOS;
 
 /**
  * It is the basic handler of Appium-specific page object annotations
@@ -98,9 +98,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 if (!"".equals(strategyParameter)) {
                     return value.getName();
                 }
-            } catch (IllegalAccessException |
-                IllegalArgumentException |
-                InvocationTargetException e) {
+            } catch (IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }

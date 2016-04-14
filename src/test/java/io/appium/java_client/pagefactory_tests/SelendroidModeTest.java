@@ -16,6 +16,11 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.*;
@@ -36,8 +41,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.*;
 
 public class SelendroidModeTest {
     private static int SELENDROID_PORT = 9999;

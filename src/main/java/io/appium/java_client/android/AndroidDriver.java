@@ -160,7 +160,7 @@ public class AndroidDriver<T extends WebElement>
      * @param key code for the key pressed on the device.
      */
     @Override public void pressKeyCode(int key) {
-        execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+        execute(PRESS_KEY_CODE, getCommandImmutableMap("keycode", key));
     }
 
     /**
@@ -171,7 +171,7 @@ public class AndroidDriver<T extends WebElement>
      * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer).
      */
     @Override public void pressKeyCode(int key, Integer metastate) {
-        String[] parameters = new String[] {KEY_CODE, METASTATE_PARAM};
+        String[] parameters = new String[] {"keycode", METASTATE_PARAM};
         Object[] values = new Object[] {key, metastate};
         execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
@@ -182,7 +182,7 @@ public class AndroidDriver<T extends WebElement>
      * @param key code for the long key pressed on the device.
      */
     @Override public void longPressKeyCode(int key) {
-        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap("keycode", key));
     }
 
     /**
@@ -193,7 +193,7 @@ public class AndroidDriver<T extends WebElement>
      * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
      */
     @Override public void longPressKeyCode(int key, Integer metastate) {
-        String[] parameters = new String[] {KEY_CODE, METASTATE_PARAM};
+        String[] parameters = new String[] {"keycode", METASTATE_PARAM};
         Object[] values = new Object[] {key, metastate};
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
@@ -230,7 +230,7 @@ public class AndroidDriver<T extends WebElement>
      * @see PushesFiles#pushFile(String, byte[])
      */
     @Override public void pushFile(String remotePath, byte[] base64Data) {
-        String[] parameters = new String[] {PATH, DATA_PARAM};
+        String[] parameters = new String[] {"path", DATA_PARAM};
         Object[] values = new Object[] {remotePath, base64Data};
         execute(PUSH_FILE, getCommandImmutableMap(parameters, values));
     }
@@ -291,7 +291,7 @@ public class AndroidDriver<T extends WebElement>
      * @param path   path to .ec file.
      */
     public void endTestCoverage(String intent, String path) {
-        String[] parameters = new String[] {INTENT_PARAM, PATH};
+        String[] parameters = new String[] {INTENT_PARAM, "path"};
         Object[] values = new Object[] {intent, path};
         execute(END_TEST_COVERAGE, getCommandImmutableMap(parameters, values));
     }

@@ -1,5 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widgets.html;
 
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlMovies;
 import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlReview;
@@ -9,8 +11,6 @@ import io.appium.java_client.pagefactory_tests.widgets.html.simple.HtmlMovies;
 import io.appium.java_client.pagefactory_tests.widgets.html.simple.HtmlReview;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.FindBy;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * This is the example of page object with declared Widgets

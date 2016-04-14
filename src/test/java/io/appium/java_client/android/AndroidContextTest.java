@@ -16,6 +16,8 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+
 import io.appium.java_client.NoSuchContextException;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -26,8 +28,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-
-import static org.junit.Assert.assertEquals;
 
 public class AndroidContextTest {
 

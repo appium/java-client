@@ -32,8 +32,8 @@ public abstract class MobileElement
     protected FileDetector fileDetector;
 
     /**
-     * @return The instance of the {@link org.openqa.selenium.Point}.
-     * It contains central coordinates of an element.
+     * Method returns central coordinates of an element.
+     * @return The instance of the {@link org.openqa.selenium.Point}
      */
     public Point getCenter() {
         Point upperLeft = this.getLocation();

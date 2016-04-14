@@ -18,6 +18,11 @@ package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
 
+
+import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
+import static io.appium.java_client.MobileCommand.LOCK;
+import static io.appium.java_client.MobileCommand.SHAKE;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
@@ -34,8 +39,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 import java.util.List;
-
-import static io.appium.java_client.MobileCommand.*;
 
 /**
  * @param <RequiredElementType> the required type of class which implement

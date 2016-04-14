@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertEquals;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class IOSGesturesTest extends BaseIOSTest {
 

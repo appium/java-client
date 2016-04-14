@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+
 import io.appium.java_client.MobileBy;
 import org.junit.Test;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 public class IOSAlertTest extends BaseIOSTest {
 

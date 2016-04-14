@@ -1,10 +1,9 @@
 package io.appium.java_client.localserver;
 
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
 
 public class ThreadSafetyTest {
 
