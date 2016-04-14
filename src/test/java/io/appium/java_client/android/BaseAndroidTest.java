@@ -50,7 +50,8 @@ public class BaseAndroidTest {
         if (driver != null) {
             driver.quit();
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 }

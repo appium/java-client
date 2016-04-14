@@ -16,9 +16,9 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+import static io.appium.java_client.remote.AutomationName.SELENDROID;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
-import static io.appium.java_client.remote.AutomationName.SELENDROID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
@@ -44,9 +44,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
-            private static final long serialVersionUID = 1L;
-
-            {
+            private static final long serialVersionUID = 1L; {
                 List<String> objectClassMethodNames =
                     getMethodNames(Object.class.getDeclaredMethods());
                 addAll(objectClassMethodNames);

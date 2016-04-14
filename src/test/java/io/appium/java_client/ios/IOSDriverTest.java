@@ -29,9 +29,6 @@ import org.openqa.selenium.html5.Location;
 
 public class IOSDriverTest extends BaseIOSTest {
 
-    /**
-     * @Test
-     */
     //TODO There is no ability to check this function usibg simulators.
     // When CI will have been set up then this test will be returned
     public void getDeviceTimeTest() {

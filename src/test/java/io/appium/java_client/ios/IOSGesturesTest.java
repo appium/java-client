@@ -27,7 +27,7 @@ public class IOSGesturesTest extends BaseIOSTest {
 
     @Test public void tapTest() {
         ((IOSElement) driver.findElementById("IntegerA")).setValue("2");
-        ((IOSElement) driver.findElementById("IntegerB")).setValue ("4");
+        ((IOSElement) driver.findElementById("IntegerB")).setValue("4");
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
         driver.tap(2, e, 2000);
@@ -35,17 +35,17 @@ public class IOSGesturesTest extends BaseIOSTest {
     }
 
     @Test public void zoomTest() {
-        MobileElement e = driver.findElementById ("IntegerA");
+        MobileElement e = driver.findElementById("IntegerA");
         driver.zoom(e);
     }
 
     @Test public void pinchTest() {
-        MobileElement e = driver.findElementById ("IntegerA");
+        MobileElement e = driver.findElementById("IntegerA");
         driver.pinch(e);
     }
 
     @Test public void horizontalSwipingTest() {
-        MobileElement slider = driver.findElementByClassName ("UIASlider");
+        MobileElement slider = driver.findElementByClassName("UIASlider");
         slider.swipe(SwipeElementDirection.LEFT, 2, 0, 3000);
         assertEquals("0%", slider.getAttribute("value"));
         slider.swipe(SwipeElementDirection.RIGHT, 2, 0, 3000);

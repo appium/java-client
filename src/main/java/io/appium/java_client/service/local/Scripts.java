@@ -18,7 +18,12 @@ package io.appium.java_client.service.local;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 
 enum Scripts {
     GET_PATH_TO_DEFAULT_NODE_UNIX("get_path_to_default_node.sh"),

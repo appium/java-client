@@ -54,8 +54,7 @@ public class AndroidConnectionTest {
         if (driver != null) {
             try {
                 driver.setNetworkConnection(new NetworkConnectionSetting(false, false, true));
-            }
-            finally {
+            } finally {
                 driver.quit();
             }
         }

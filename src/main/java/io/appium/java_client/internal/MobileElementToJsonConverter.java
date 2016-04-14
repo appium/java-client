@@ -46,14 +46,14 @@ public class MobileElementToJsonConverter extends WebElementToJsonConverter {
      * {@link WrapsElement wrapped}, into their JSON representation as defined by
      * the WebDriver wire protocol.
      *
-     * @param arg
-     * @return
+     * @param arg is the argument
+     * @return the result
      */
     public Object apply(Object arg) {
         if (arg == null
             || arg instanceof String
-            || arg instanceof Boolean ||
-            arg instanceof Number) {
+            || arg instanceof Boolean
+            || arg instanceof Number) {
             return arg;
         }
 

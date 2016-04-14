@@ -45,7 +45,7 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
      * This method converts a command result.
      *
      * @param result is the result of a command execution.
-     * @return
+     * @return the result
      */
     public Object apply(Object result) {
         if (result instanceof Collection<?>) {

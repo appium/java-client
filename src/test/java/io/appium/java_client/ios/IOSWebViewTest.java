@@ -28,11 +28,11 @@ public class IOSWebViewTest extends BaseIOSWebViewTest {
         driver.findElementByXPath("//UIATextField[@value='Enter URL']")
             .sendKeys("www.google.com");
         driver.findElementByClassName("UIAButton").click();
-        driver.findElementByClassName("UIAWebView").click ();
+        driver.findElementByClassName("UIAWebView").click();
         Thread.sleep(10000);
         driver.context("WEBVIEW");
         Thread.sleep(10000);
-        WebElement el = driver.findElementByClassName ("gsfi");
+        WebElement el = driver.findElementByClassName("gsfi");
         el.sendKeys("Appium");
         el.sendKeys(Keys.RETURN);
         Thread.sleep(1000);

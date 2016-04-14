@@ -40,7 +40,7 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * @param <RequiredElementType> the required type of class which implement
+ * @param <T> the required type of class which implement
  * {@link org.openqa.selenium.WebElement}.
  * Instances of the defined type will be returned via findElement* and findElements*.
  * Warning (!!!). Allowed types:
@@ -50,10 +50,10 @@ import java.util.List;
  * {@link io.appium.java_client.MobileElement}
  * {@link io.appium.java_client.ios.IOSElement}
  */
-public class IOSDriver<RequiredElementType extends WebElement>
-    extends AppiumDriver<RequiredElementType>
-    implements IOSDeviceActionShortcuts, GetsNamedTextField<RequiredElementType>,
-    FindsByIosUIAutomation<RequiredElementType> {
+public class IOSDriver<T extends WebElement>
+    extends AppiumDriver<T>
+    implements IOSDeviceActionShortcuts, GetsNamedTextField<T>,
+    FindsByIosUIAutomation<T> {
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -118,8 +118,8 @@ public class IOSDriver<RequiredElementType extends WebElement>
      */
     @SuppressWarnings("unchecked")
     @Override
-    public RequiredElementType scrollTo(String text) {
-        return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
+    public T scrollTo(String text) {
+        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
             .scrollTo(text);
     }
 
@@ -132,8 +132,8 @@ public class IOSDriver<RequiredElementType extends WebElement>
      */
     @SuppressWarnings("unchecked")
     @Override
-    public RequiredElementType scrollToExact(String text) {
-        return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
+    public T scrollToExact(String text) {
+        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
             .scrollToExact(text);
     }
 
@@ -165,11 +165,11 @@ public class IOSDriver<RequiredElementType extends WebElement>
      */
     @SuppressWarnings("unchecked")
     @Override
-    public RequiredElementType getNamedTextField(
+    public T getNamedTextField(
         String name) {
-        RequiredElementType element = findElementByAccessibilityId(name);
+        T element = findElementByAccessibilityId(name);
         if (element.getTagName() != "TextField") {
-            return (RequiredElementType) ((FindsByAccessibilityId<?>) element)
+            return (T) ((FindsByAccessibilityId<?>) element)
                     .findElementByAccessibilityId(name);
         }
         return element;
@@ -181,9 +181,9 @@ public class IOSDriver<RequiredElementType extends WebElement>
      */
     @SuppressWarnings("unchecked")
     @Override
-    public RequiredElementType findElementByIosUIAutomation(String using)
+    public T findElementByIosUIAutomation(String using)
         throws WebDriverException {
-        return (RequiredElementType) findElement("-ios uiautomation", using);
+        return (T) findElement("-ios uiautomation", using);
     }
 
     /**
@@ -191,9 +191,9 @@ public class IOSDriver<RequiredElementType extends WebElement>
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<RequiredElementType> findElementsByIosUIAutomation(String using)
+    public List<T> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
-        return (List<RequiredElementType>) findElements("-ios uiautomation", using);
+        return (List<T>) findElements("-ios uiautomation", using);
     }
 
     /**

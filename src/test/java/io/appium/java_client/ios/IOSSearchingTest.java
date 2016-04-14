@@ -26,17 +26,17 @@ public class IOSSearchingTest extends BaseIOSTest {
         assertNotEquals(driver
             .findElementByAccessibilityId("ComputeSumButton")
             .getText(), null);
-        assertNotEquals(driver.
-            findElementsByAccessibilityId("ComputeSumButton")
-            .size(), 0);
+        assertNotEquals(driver
+                .findElementsByAccessibilityId("ComputeSumButton")
+                .size(), 0);
     }
 
     @Test public void findByByIosUIAutomationTest() {
         assertNotEquals(driver
             .findElementByIosUIAutomation(".elements().withName(\"Answer\")")
             .getText(), null);
-        assertNotEquals(driver.
-            findElementsByIosUIAutomation(".elements().withName(\"Answer\")")
-            .size(), 0);
+        assertNotEquals(driver
+                .findElementsByIosUIAutomation(".elements().withName(\"Answer\")")
+                .size(), 0);
     }
 }

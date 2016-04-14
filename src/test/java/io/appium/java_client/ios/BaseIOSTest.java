@@ -55,7 +55,8 @@ public class BaseIOSTest {
         if (driver != null) {
             driver.quit();
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 }

@@ -32,19 +32,18 @@ public class AndroidSearchingTest extends BaseAndroidTest {
     }
 
     @Test  public void findByAndroidUIAutomatorTest() {
-        assertNotEquals(driver.
-            findElement(MobileBy
+        assertNotEquals(driver
+                .findElement(MobileBy
                 .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
-        assertNotEquals(driver.
-            findElements(MobileBy
+        assertNotEquals(driver
+                .findElements(MobileBy
                 .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
-        assertNotEquals(driver.
-            findElements(MobileBy
+        assertNotEquals(driver
+                .findElements(MobileBy
                 .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
-    @Test public void findByXPathTest()
-    {
+    @Test public void findByXPathTest() {
         String byXPath = "//android.widget.TextView[contains(@text, 'Animat')]";
         assertNotNull(driver.findElementByXPath(byXPath).getText());
         assertEquals(driver.findElementsByXPath(byXPath).size(), 1);
