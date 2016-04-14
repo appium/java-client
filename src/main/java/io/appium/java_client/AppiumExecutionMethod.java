@@ -33,9 +33,9 @@ public class AppiumExecutionMethod implements ExecuteMethod {
     /**
      * This method executes a command supported by Appium JSONWP.
      *
-     * @param commandName
-     * @param parameters
-     * @return
+     * @param commandName a JSONWP command
+     * @param parameters is a map which contains parameter names as keys and parameter values
+     * @return a command execution result
      */
     public Object execute(String commandName, Map<String, ?> parameters) {
         Response response;

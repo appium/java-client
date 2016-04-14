@@ -33,8 +33,7 @@ public class AndroidElement extends MobileElement
     implements FindsByAndroidUIAutomator<MobileElement> {
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is
-     * not applicable with browser/webview UI.
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     @Override public MobileElement findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
@@ -56,7 +55,7 @@ public class AndroidElement extends MobileElement
 
     /**
      * This method replace current text value.
-     * @param value
+     * @param value a new value
      */
     @SuppressWarnings({"rawtypes", "unchecked"}) public void replaceValue(String value) {
         ImmutableMap.Builder builder = ImmutableMap.builder();

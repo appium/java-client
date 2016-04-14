@@ -20,9 +20,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -55,8 +55,6 @@ public class AndroidGestureTest extends BaseAndroidTest {
         TouchAction startStop = new TouchAction(driver)
             .tap(driver.findElementById("io.appium.android.apis:id/start")).waitAction(2000)
             .tap(driver.findElementById("io.appium.android.apis:id/stop"));
-        TouchAction reset = new TouchAction(driver)
-            .tap(driver.findElementById("io.appium.android.apis:id/reset"));
 
         MultiTouchAction m1 = new MultiTouchAction(driver).add(startStop);
         m1.perform();
@@ -66,6 +64,8 @@ public class AndroidGestureTest extends BaseAndroidTest {
         Thread.sleep(2500);
         assertEquals(time, chronometer.getText());
 
+        TouchAction reset = new TouchAction(driver)
+            .tap(driver.findElementById("io.appium.android.apis:id/reset"));
         MultiTouchAction m2 = new MultiTouchAction(driver).add(startStop).add(reset);
         m2.perform();
 
@@ -130,11 +130,11 @@ public class AndroidGestureTest extends BaseAndroidTest {
             .findElementsByClassName("android.widget.ImageView").size();
 
         gallery.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
-        assertNotEquals(originalImageCount, gallery.
-            findElementsByClassName("android.widget.ImageView").size());
+        assertNotEquals(originalImageCount, gallery
+            .findElementsByClassName("android.widget.ImageView").size());
 
         gallery.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
-        assertEquals(originalImageCount, gallery.
-            findElementsByClassName("android.widget.ImageView").size());
+        assertEquals(originalImageCount, gallery
+            .findElementsByClassName("android.widget.ImageView").size());
     }
 }

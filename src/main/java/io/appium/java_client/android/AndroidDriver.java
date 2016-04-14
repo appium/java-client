@@ -69,19 +69,6 @@ public class AndroidDriver<T extends WebElement>
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
-    private final String METASTATE_PARAM = "metastate";
-    private final String CONNECTION_NAME_PARAM = "name";
-    private final String CONNECTION_PARAM_PARAM = "parameters";
-    private final String DATA_PARAM = "data";
-    private final String INTENT_PARAM = "intent";
-    private final String APP_ACTIVITY = "appActivity";
-    private final String APP_PACKAGE = "appPackage";
-    private final String APP_WAIT_ACTIVITY = "appWaitActivity";
-    private final String APP_WAIT_PACKAGE = "appWaitPackage";
-    private final String DONT_STOP_APP_ON_RESET = "dontStopAppOnReset";
-
-    private final String CONNECTION_NAME_VALUE = "network_connection";
-
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
         this.setElementConverter(new JsonToAndroidElementConverter(this));
@@ -135,21 +122,21 @@ public class AndroidDriver<T extends WebElement>
         doSwipe(startx, starty, endx, endy, duration);
     }
 
-    static String UiScrollable(String uiSelector) {
+    static String uiScrollable(String uiSelector) {
         return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView("
             + uiSelector + ".instance(0));";
     }
 
     @Override public T scrollTo(String text) {
         String uiScrollables =
-            UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + UiScrollable(
+            uiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + uiScrollable(
                 "new UiSelector().textContains(\"" + text + "\")");
         return findElementByAndroidUIAutomator(uiScrollables);
     }
 
     @Override public T scrollToExact(String text) {
         String uiScrollables =
-            UiScrollable("new UiSelector().description(\"" + text + "\")") + UiScrollable(
+            uiScrollable("new UiSelector().description(\"" + text + "\")") + uiScrollable(
                 "new UiSelector().text(\"" + text + "\")");
         return findElementByAndroidUIAutomator(uiScrollables);
     }
@@ -171,7 +158,7 @@ public class AndroidDriver<T extends WebElement>
      * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer).
      */
     @Override public void pressKeyCode(int key, Integer metastate) {
-        String[] parameters = new String[] {"keycode", METASTATE_PARAM};
+        String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
         execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
@@ -193,7 +180,7 @@ public class AndroidDriver<T extends WebElement>
      * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
      */
     @Override public void longPressKeyCode(int key, Integer metastate) {
-        String[] parameters = new String[] {"keycode", METASTATE_PARAM};
+        String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
@@ -218,9 +205,9 @@ public class AndroidDriver<T extends WebElement>
         // this is for webdrivers which run on protocols besides HTTP (like TCP)
         // we're implementing that pattern here, for this new method, but
         // haven't translated it to all other commands yet
-        String[] parameters = new String[] {CONNECTION_NAME_PARAM, CONNECTION_PARAM_PARAM};
+        String[] parameters = new String[] {"name", "parameters"};
         Object[] values =
-            new Object[] {CONNECTION_NAME_VALUE, ImmutableMap.of("type", connection.value)};
+            new Object[] {"network_connection", ImmutableMap.of("type", connection.value)};
         execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
     }
 
@@ -230,7 +217,7 @@ public class AndroidDriver<T extends WebElement>
      * @see PushesFiles#pushFile(String, byte[])
      */
     @Override public void pushFile(String remotePath, byte[] base64Data) {
-        String[] parameters = new String[] {"path", DATA_PARAM};
+        String[] parameters = new String[] {"path", "data"};
         Object[] values = new Object[] {remotePath, base64Data};
         execute(PUSH_FILE, getCommandImmutableMap(parameters, values));
     }
@@ -248,14 +235,14 @@ public class AndroidDriver<T extends WebElement>
 
         checkArgument((!StringUtils.isBlank(appPackage)
                 && !StringUtils.isBlank(appActivity)),
-            String.format("'%s' and '%s' are required.", APP_PACKAGE, APP_ACTIVITY));
+            String.format("'%s' and '%s' are required.", "appPackage", "appActivity"));
 
         appWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
         appWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
-            .of(APP_PACKAGE, appPackage, APP_ACTIVITY, appActivity, APP_WAIT_PACKAGE,
-                appWaitPackage, APP_WAIT_ACTIVITY, appWaitActivity, DONT_STOP_APP_ON_RESET,
+            .of("appPackage", appPackage, "appActivity", appActivity, "appWaitPackage",
+                appWaitPackage, "appWaitActivity", appWaitActivity, "dontStopAppOnReset",
                 !stopApp);
 
         execute(START_ACTIVITY, parameters);
@@ -291,7 +278,7 @@ public class AndroidDriver<T extends WebElement>
      * @param path   path to .ec file.
      */
     public void endTestCoverage(String intent, String path) {
-        String[] parameters = new String[] {INTENT_PARAM, "path"};
+        String[] parameters = new String[] {"intent", "path"};
         Object[] values = new Object[] {intent, path};
         execute(END_TEST_COVERAGE, getCommandImmutableMap(parameters, values));
     }

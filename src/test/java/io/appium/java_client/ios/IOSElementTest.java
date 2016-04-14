@@ -16,28 +16,28 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
 public class IOSElementTest extends BaseIOSTest {
 
     @Test public void findByAccessibilityIdTest() {
-        assertNotEquals(driver.findElementsByClassName("UIAWindow").
-            get(0).
-            findElementByAccessibilityId("ComputeSumButton").getText(), null);
+        assertNotEquals(driver.findElementsByClassName("UIAWindow")
+            .get(0)
+            .findElementByAccessibilityId("ComputeSumButton").getText(), null);
         assertNotEquals(driver.findElementsByClassName("UIAWindow").get(0)
             .findElementsByAccessibilityId("ComputeSumButton").size(), 0);
     }
 
     @Test public void findByByIosUIAutomationTest() {
-        assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow").
-            get(0)).
-            findElementByIosUIAutomation(".elements().withName(\"Answer\")").getText(), null);
-        assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow").
-            get(0)).
-            findElementsByIosUIAutomation(".elements().withName(\"Answer\")").size(), 0);
+        assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow")
+            .get(0))
+            .findElementByIosUIAutomation(".elements().withName(\"Answer\")").getText(), null);
+        assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow")
+            .get(0))
+            .findElementsByIosUIAutomation(".elements().withName(\"Answer\")").size(), 0);
     }
 
     @Test public void setValueTest() {

@@ -49,34 +49,30 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         AndroidFindBy androidBy = annotatedElement.getAnnotation(AndroidFindBy.class);
         AndroidFindBys androidBys = annotatedElement.getAnnotation(AndroidFindBys.class);
-        AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
-
-        SelendroidFindBy selendroidBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
-        SelendroidFindBys selendroidBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
-        SelendroidFindAll selendroidFindAll =
-            annotatedElement.getAnnotation(SelendroidFindAll.class);
-
-        iOSFindBy iOSBy = annotatedElement.getAnnotation(iOSFindBy.class);
-        iOSFindBys iOSBys = annotatedElement.getAnnotation(iOSFindBys.class);
-        iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
-
-        FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
-        FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
-        FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
-
         checkDisallowedAnnotationPairs(androidBy, androidBys);
+        AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
         checkDisallowedAnnotationPairs(androidBy, androidFindAll);
         checkDisallowedAnnotationPairs(androidBys, androidFindAll);
 
+        SelendroidFindBy selendroidBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
+        SelendroidFindBys selendroidBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
         checkDisallowedAnnotationPairs(selendroidBy, selendroidBys);
+        SelendroidFindAll selendroidFindAll =
+            annotatedElement.getAnnotation(SelendroidFindAll.class);
         checkDisallowedAnnotationPairs(selendroidBy, selendroidFindAll);
         checkDisallowedAnnotationPairs(selendroidBys, selendroidFindAll);
 
+        iOSFindBy iOSBy = annotatedElement.getAnnotation(iOSFindBy.class);
+        iOSFindBys iOSBys = annotatedElement.getAnnotation(iOSFindBys.class);
         checkDisallowedAnnotationPairs(iOSBy, iOSBys);
+        iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
         checkDisallowedAnnotationPairs(iOSBy, iOSFindAll);
         checkDisallowedAnnotationPairs(iOSBys, iOSFindAll);
 
+        FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
+        FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
         checkDisallowedAnnotationPairs(findBy, findBys);
+        FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
         checkDisallowedAnnotationPairs(findBy, findAll);
         checkDisallowedAnnotationPairs(findBys, findAll);
     }

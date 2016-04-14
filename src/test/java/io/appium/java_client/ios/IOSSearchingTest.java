@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.ios;
 
 import static org.junit.Assert.assertNotEquals;
@@ -22,20 +23,20 @@ import org.junit.Test;
 public class IOSSearchingTest extends BaseIOSTest {
 
     @Test public void findByAccessibilityIdTest() {
+        assertNotEquals(driver
+            .findElementByAccessibilityId("ComputeSumButton")
+            .getText(), null);
         assertNotEquals(driver.
-            findElementByAccessibilityId("ComputeSumButton").
-            getText(), null);
-        assertNotEquals(driver.
-            findElementsByAccessibilityId("ComputeSumButton").
-            size(), 0);
+            findElementsByAccessibilityId("ComputeSumButton")
+            .size(), 0);
     }
 
     @Test public void findByByIosUIAutomationTest() {
+        assertNotEquals(driver
+            .findElementByIosUIAutomation(".elements().withName(\"Answer\")")
+            .getText(), null);
         assertNotEquals(driver.
-            findElementByIosUIAutomation(".elements().withName(\"Answer\")").
-            getText(), null);
-        assertNotEquals(driver.
-            findElementsByIosUIAutomation(".elements().withName(\"Answer\")").
-            size(), 0);
+            findElementsByIosUIAutomation(".elements().withName(\"Answer\")")
+            .size(), 0);
     }
 }

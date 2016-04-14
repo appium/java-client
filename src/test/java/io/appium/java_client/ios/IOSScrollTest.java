@@ -59,8 +59,9 @@ public class IOSScrollTest {
         if (driver != null) {
             driver.quit();
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Test public void scrollToTestCase() {

@@ -65,8 +65,8 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
         AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
-                withArgument(GeneralServerFlag.STRICT_CAPS);
+            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.STRICT_CAPS);
 
         AndroidDriver<MobileElement> driver = new AndroidDriver<>(builder, capabilities);
         try {
@@ -134,8 +134,8 @@ public class StartingAppLocallyTest {
             chrome.getAbsolutePath());
 
         AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
-                withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
+            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
         clientCapabilities
@@ -199,8 +199,8 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
         AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
-                withArgument(GeneralServerFlag.STRICT_CAPS);
+            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.STRICT_CAPS);
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(builder, capabilities);
         try {
@@ -214,16 +214,14 @@ public class StartingAppLocallyTest {
     }
 
     @Test public void startingIOSAppWithCapabilitiesOnServerSideTest() {
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "UICatalog.app.zip");
-
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
 
-
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "UICatalog.app.zip");
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
         clientCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
@@ -242,22 +240,20 @@ public class StartingAppLocallyTest {
     }
 
     @Test public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "UICatalog.app.zip");
-
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
 
-
+        File appDir = new File("src/test/java/io/appium/java_client");
+        File app = new File(appDir, "UICatalog.app.zip");
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
         clientCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
         AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE).
-                withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
+            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
         IOSDriver<MobileElement> driver = new IOSDriver<>(builder, clientCapabilities);
         try {

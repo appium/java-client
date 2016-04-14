@@ -51,13 +51,13 @@ public class AndroidElementTest extends BaseAndroidTest {
 
     @Test public void replaceValueTest() {
         String originalValue = "original value";
-        String replacedValue = "replaced value";
 
         driver.startActivity("io.appium.android.apis", ".view.Controls1");
         AndroidElement editElement = driver
             .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
         editElement.sendKeys(originalValue);
         assertEquals(originalValue, editElement.getText());
+        String replacedValue = "replaced value";
         editElement.replaceValue(replacedValue);
         assertEquals(replacedValue, editElement.getText());
     }

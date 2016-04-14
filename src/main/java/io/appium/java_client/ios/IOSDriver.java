@@ -16,12 +16,11 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
-
-
 import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
 import static io.appium.java_client.MobileCommand.LOCK;
 import static io.appium.java_client.MobileCommand.SHAKE;
+
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
@@ -190,7 +189,8 @@ public class IOSDriver<RequiredElementType extends WebElement>
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
+    @SuppressWarnings("unchecked")
+    @Override
     public List<RequiredElementType> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
         return (List<RequiredElementType>) findElements("-ios uiautomation", using);

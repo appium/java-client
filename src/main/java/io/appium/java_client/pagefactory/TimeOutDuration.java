@@ -41,13 +41,13 @@ public class TimeOutDuration {
         return time;
     }
 
+    public TimeUnit getTimeUnit() {
+        return unit;
+    }
+
     public void setTime(TimeUnit newTimeUnit) {
         checkNotNull(newTimeUnit);
         unit = newTimeUnit;
-    }
-
-    public TimeUnit getTimeUnit() {
-        return unit;
     }
 
     public void setTime(long newTime) {

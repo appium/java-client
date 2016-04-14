@@ -140,8 +140,8 @@ public class ServerBuilderTest {
         AppiumDriverLocalService service = null;
         try {
             service =
-                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP).
-                    withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP)
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                     .withArgument(GeneralServerFlag.PRE_LAUNCH).build();
             service.start();
             assertEquals(true, service.isRunning());
@@ -205,10 +205,10 @@ public class ServerBuilderTest {
         AppiumDriverLocalService service = null;
         try {
             service =
-                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP).
-                    withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                    .withArgument(GeneralServerFlag.PRE_LAUNCH).
-                    withCapabilities(capabilities).build();
+                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP)
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                    .withArgument(GeneralServerFlag.PRE_LAUNCH)
+                    .withCapabilities(capabilities).build();
             service.start();
             assertEquals(true, service.isRunning());
         } finally {
@@ -270,12 +270,12 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartAndShutDownFewServices() throws Exception {
         AppiumDriverLocalService service1 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        AppiumDriverLocalService service2 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        AppiumDriverLocalService service3 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        AppiumDriverLocalService service4 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service1.start();
+        AppiumDriverLocalService service2 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service2.start();
+        AppiumDriverLocalService service3 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service3.start();
+        AppiumDriverLocalService service4 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service4.start();
         service1.stop();
         Thread.sleep(1000);

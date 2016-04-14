@@ -57,12 +57,12 @@ public class ThreadSafetyTest {
                 //do nothing
             }
 
-            if (runTestThread.t != null) {
-                throw runTestThread.t;
+            if (runTestThread.throwable != null) {
+                throw runTestThread.throwable;
             }
 
-            if (runTestThread2.t != null) {
-                throw runTestThread2.t;
+            if (runTestThread2.throwable != null) {
+                throw runTestThread2.throwable;
             }
 
             assertTrue(runTestThread.result.equals("OK"));
@@ -76,12 +76,12 @@ public class ThreadSafetyTest {
                 //do nothing
             }
 
-            if (isRunningTestThread.t != null) {
-                throw isRunningTestThread.t;
+            if (isRunningTestThread.throwable != null) {
+                throw isRunningTestThread.throwable;
             }
 
-            if (isRunningTestThread2.t != null) {
-                throw isRunningTestThread2.t;
+            if (isRunningTestThread2.throwable != null) {
+                throw isRunningTestThread2.throwable;
             }
 
             assertTrue(isRunningTestThread.result.equals(true));
@@ -94,12 +94,12 @@ public class ThreadSafetyTest {
                 //do nothing
             }
 
-            if (stopTestThread.t != null) {
-                throw stopTestThread.t;
+            if (stopTestThread.throwable != null) {
+                throw stopTestThread.throwable;
             }
 
-            if (stopTestThread2.t != null) {
-                throw stopTestThread2.t;
+            if (stopTestThread2.throwable != null) {
+                throw stopTestThread2.throwable;
             }
 
             assertTrue(stopTestThread.result.equals("OK"));
@@ -143,16 +143,16 @@ public class ThreadSafetyTest {
                 //do nothing
             }
 
-            if (runTestThread.t != null) {
-                throw runTestThread.t;
+            if (runTestThread.throwable != null) {
+                throw runTestThread.throwable;
             }
 
-            if (isRunningTestThread.t != null) {
-                throw isRunningTestThread.t;
+            if (isRunningTestThread.throwable != null) {
+                throw isRunningTestThread.throwable;
             }
 
-            if (stopTestThread.t != null) {
-                throw stopTestThread.t;
+            if (stopTestThread.throwable != null) {
+                throw stopTestThread.throwable;
             }
 
             assertTrue(
@@ -172,20 +172,20 @@ public class ThreadSafetyTest {
                 //do nothing
             }
 
-            if (runTestThread2.t != null) {
-                throw runTestThread.t;
+            if (runTestThread2.throwable != null) {
+                throw runTestThread.throwable;
             }
 
-            if (isRunningTestThread2.t != null) {
-                throw isRunningTestThread.t;
+            if (isRunningTestThread2.throwable != null) {
+                throw isRunningTestThread.throwable;
             }
 
-            if (stopTestThread2.t != null) {
-                throw stopTestThread.t;
+            if (stopTestThread2.throwable != null) {
+                throw stopTestThread.throwable;
             }
 
             assertTrue(isRunningTestThread2.result
-                .equals(false)); //the service wasn't being running (see (1))
+                .equals(false)); //the service wasn'throwable being running (see (1))
             assertTrue(stopTestThread2.result
                 .equals("OK")); //the service had not been started firstly (see (2)), it is ok
             assertTrue(runTestThread2.result.equals("OK")); //and then it was started (see (3))
@@ -214,7 +214,7 @@ public class ThreadSafetyTest {
     private static class TestThread implements Runnable {
         private final Action action;
         private Object result;
-        private Throwable t;
+        private Throwable throwable;
 
         TestThread(Action action) {
             this.action = action;
@@ -224,7 +224,7 @@ public class ThreadSafetyTest {
             try {
                 result = action.perform();
             } catch (Throwable t) {
-                this.t = t;
+                this.throwable = t;
             }
 
         }
