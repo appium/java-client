@@ -51,7 +51,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.List;
 
-public class IOSPageObjectTest {
+public class IOSPageFactoryTest {
 
     private static WebDriver driver;
     private static AppiumDriverLocalService service;
@@ -76,9 +76,9 @@ public class IOSPageObjectTest {
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<RemoteWebElement> remoteElementViews;
 
     @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(className = "android.widget.TextView")}) private List<WebElement>
-        chainElementViews;
+            @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+            @AndroidFindBy(className = "android.widget.TextView")}) private List<WebElement>
+            chainElementViews;
 
 
     @FindBy(className = "UIAButton") private WebElement uiButton;
@@ -104,19 +104,20 @@ public class IOSPageObjectTest {
     @iOSFindBy(uiAutomator = ".elements()[0]") private RemoteWebElement remotetextVieW;
 
     @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(className = "android.widget.TextView")}) private WebElement chainElementView;
+            @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+            @AndroidFindBy(className = "android.widget.TextView")})
+    private WebElement chainElementView;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private IOSElement iosButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<IOSElement> iosButtons;
 
     @iOSFindAll({@iOSFindBy(id = "ComputeSumButton_Test"),
-        @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
+            @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
     }) private WebElement findAllElement;
 
     @iOSFindAll({@iOSFindBy(id = "ComputeSumButton_Test"),
-        @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
+            @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
     }) private List<WebElement> findAllElements;
 
     @AndroidFindBy(className = "android.widget.TextView") @FindBy(css = "e.e1.e2")
@@ -125,7 +126,9 @@ public class IOSPageObjectTest {
     @AndroidFindBy(className = "android.widget.TextView") @FindBy(css = "e.e1.e2")
     private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
-
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -142,6 +145,9 @@ public class IOSPageObjectTest {
         driver = new IOSDriver(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (driver != null) {
             driver.quit();
@@ -152,6 +158,9 @@ public class IOSPageObjectTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         if (!populated) {
             PageFactory.initElements(new AppiumFieldDecorator(driver), this);
@@ -272,7 +281,7 @@ public class IOSPageObjectTest {
     @SuppressWarnings("unused")
     @Test public void isTheFieldIOSElement() {
         IOSElement iOSElement =
-            (IOSElement) mobileButton; //declared as MobileElement
+                (IOSElement) mobileButton; //declared as MobileElement
         iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
         iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
         iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
@@ -281,7 +290,8 @@ public class IOSPageObjectTest {
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
         try {
             assertNotEquals(null,
-                elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+                    elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy
+                            .getAttribute("text"));
         } catch (NoSuchElementException ignored) {
             return;
         }

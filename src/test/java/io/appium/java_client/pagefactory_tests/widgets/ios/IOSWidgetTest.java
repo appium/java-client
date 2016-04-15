@@ -30,17 +30,26 @@ public class IOSWidgetTest implements WidgetTest {
     private IOSDriver<?> driver;
     private RottenTomatoesIOSApp rottenTomatoesApp;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (service != null) {
             service.stop();
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "RottenTomatoes.zip");
@@ -60,6 +69,9 @@ public class IOSWidgetTest implements WidgetTest {
             rottenTomatoesApp);
     }
 
+    /**
+     * after each test.
+     */
     @After public void tearDown() {
         if (driver != null) {
             driver.quit();

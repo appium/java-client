@@ -31,12 +31,18 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
     private RottenTomatoes rottenTomatoes;
     private TimeOutDuration duration;
 
+    /**
+     * initialization.
+     */
     @BeforeClass
     public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass
     public static void afterClass() throws Exception {
         if (service != null) {
@@ -44,6 +50,9 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before
     public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
@@ -61,6 +70,9 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 
+    /**
+     * finishing.
+     */
     @After
     public void tearDown() throws Exception {
         driver.quit();

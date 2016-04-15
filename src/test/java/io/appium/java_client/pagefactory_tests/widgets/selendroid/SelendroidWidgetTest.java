@@ -32,18 +32,27 @@ public class SelendroidWidgetTest implements WidgetTest {
     private AndroidDriver<?> driver;
     private RottenTomatoesSelendroidApp rottenTomatoesApp;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (service != null) {
             service.stop();
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "android-rottentomatoes-demo-debug.apk");

@@ -169,6 +169,9 @@ public class AndroidPageObjectTest {
 
     @FindBy(id = "fakeId") private List<WebElement> fakeElements;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -181,6 +184,9 @@ public class AndroidPageObjectTest {
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (driver != null) {
             driver.quit();
@@ -191,6 +197,9 @@ public class AndroidPageObjectTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator

@@ -195,11 +195,21 @@ public final class AppiumDriverLocalService extends DriverService {
         return null;
     }
 
+    /**
+     * Adds other output stream which should accept server output data
+     * @param outputStream is an instance of {@link java.io.OutputStream}
+     *                     that is ready to accept server output
+     */
     public void addOutPutStream(OutputStream outputStream) {
         checkNotNull(outputStream, "outputStream parameter is NULL!");
         stream.add(outputStream);
     }
 
+    /**
+     * Adds other output streams which should accept server output data
+     * @param outputStreams is a list of additional {@link java.io.OutputStream}
+     *                      that are ready to accept server output
+     */
     public void addOutPutStreams(List<OutputStream> outputStreams) {
         checkNotNull(outputStreams, "outputStreams parameter is NULL!");
         for (OutputStream stream : outputStreams) {

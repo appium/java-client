@@ -51,6 +51,9 @@ public class IOSMobileBrowserCompatibilityTest {
     @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) @iOSFindBy(className = "someClass")
     private List<WebElement> foundLinks;
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -65,6 +68,9 @@ public class IOSMobileBrowserCompatibilityTest {
         PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
     }
 
+    /**
+     * finishing.
+     */
     @After public void tearDown() throws Exception {
         if (driver != null) {
             driver.quit();

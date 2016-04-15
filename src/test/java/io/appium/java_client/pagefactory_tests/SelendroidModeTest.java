@@ -81,6 +81,9 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(partialLinkText = "ccessibilit") private WebElement textPartialLink;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
@@ -97,6 +100,9 @@ public class SelendroidModeTest {
         driver.context("NATIVE_APP");
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (driver != null) {
             driver.quit();
@@ -107,6 +113,9 @@ public class SelendroidModeTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator

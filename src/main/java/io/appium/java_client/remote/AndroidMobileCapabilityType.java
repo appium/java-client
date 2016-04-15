@@ -68,7 +68,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String ANDROID_DEVICE_READY_TIMEOUT = "androidDeviceReadyTimeout";
 
     /**
-     * Port used to connect to the ADB server (default 5037)
+     * Port used to connect to the ADB server (default 5037).
      */
     String ADB_PORT = "adbPort";
 
@@ -199,7 +199,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     /**
      * Disables android watchers that watch for application not responding and application crash,
      * this will reduce cpu usage on android device/emulator. This capability will work only with
-     * UiAutomator and not with selendroid, default false
+     * UiAutomator and not with selendroid, default false.
      */
     String DISABLE_ANDROID_WATCHERS = "disableAndroidWatchers";
 

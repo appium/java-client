@@ -32,12 +32,18 @@ public class IOSOverrideWidgetTest implements WidgetTest {
     private static RottenTomatoes rottenTomatoes;
     private IOSDriver<?> driver;
 
+    /**
+     * initialization.
+     */
     @BeforeClass
     public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass
     public static void afterClass() throws Exception {
         if (service != null) {
@@ -45,6 +51,9 @@ public class IOSOverrideWidgetTest implements WidgetTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before
     public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
@@ -65,6 +74,9 @@ public class IOSOverrideWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
+    /**
+     * finishing.
+     */
     @After
     public void tearDown() {
         if (driver != null) {

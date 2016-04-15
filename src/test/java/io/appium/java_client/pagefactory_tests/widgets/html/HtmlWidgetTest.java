@@ -26,6 +26,9 @@ public class HtmlWidgetTest implements WidgetTest {
     private static ChromeDriver driver;
     private static RottenTomatoesSite rottenTomatoesSite;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
@@ -44,12 +47,18 @@ public class HtmlWidgetTest implements WidgetTest {
             rottenTomatoesSite);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (driver != null) {
             driver.quit();
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         if (driver != null) {
             driver.get("file:///" + new File(

@@ -49,6 +49,9 @@ public class DesktopBrowserCompatibilityTest {
     private WebDriver trap1;
     private List<AndroidDriver<?>> trap2;
 
+    /**
+     * The starting.
+     */
     public void setUp() {
         if (current.is(Platform.WINDOWS)) {
             System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,

@@ -32,18 +32,27 @@ public class SelendroidCombinedWidgetTest implements WidgetTest {
     private RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
     private TimeOutDuration duration;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
         if (service != null) {
             service.stop();
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "android-rottentomatoes-demo-debug.apk");
@@ -59,6 +68,9 @@ public class SelendroidCombinedWidgetTest implements WidgetTest {
         PageFactory.initElements(new AppiumFieldDecorator(driver, duration), rottenTomatoes);
     }
 
+    /**
+     * after each test.
+     */
     @After public void tearDown() throws Exception {
         driver.quit();
     }

@@ -26,6 +26,9 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
     private static ChromeDriver driver;
     private static RottenTomatoes rottenTomatoes;
 
+    /**
+     * initialization.
+     */
     @BeforeClass
     public static void beforeClass() throws Exception {
 
@@ -45,6 +48,9 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass
     public static void afterClass() throws Exception {
         if (driver != null) {
@@ -52,6 +58,9 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before
     public void setUp() throws Exception {
         if (driver != null) {

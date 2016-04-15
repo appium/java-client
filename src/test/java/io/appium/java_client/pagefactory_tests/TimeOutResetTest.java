@@ -66,6 +66,9 @@ public class TimeOutResetTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
@@ -80,6 +83,9 @@ public class TimeOutResetTest {
         PageFactory.initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
     }
 
+    /**
+     * finishing.
+     */
     @After public void tearDown() throws Exception {
         driver.quit();
     }

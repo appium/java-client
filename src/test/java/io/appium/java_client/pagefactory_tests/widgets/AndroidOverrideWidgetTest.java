@@ -28,6 +28,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
 
+    /**
+     * initialization.
+     */
     @BeforeClass
     public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
@@ -46,6 +49,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass
     public static void afterClass() throws Exception {
         if (driver != null) {
@@ -57,6 +63,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         }
     }
 
+    /**
+     * The setting up.
+     */
     @Before
     public void setUp() throws Exception {
         if (driver != null) {
