@@ -24,7 +24,7 @@ public interface HasNetworkConnection {
     * Get the current network settings of the device.
     *
     * @return NetworkConnectionSetting objects will let you inspect the status
-    * of AirplaneMode, Wifi, Data connections
+    *     of AirplaneMode, Wifi, Data connections
     */
     NetworkConnectionSetting getNetworkConnection();
 

@@ -111,8 +111,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoes.getASimpleMovie(0).goToReview();
@@ -122,8 +123,7 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         } catch (Exception e) {
             if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            }
-            else {
+            } else {
                 throw e;
             }
         }

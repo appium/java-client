@@ -2,7 +2,12 @@ package io.appium.java_client.pagefactory_tests.widgets;
 
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.pagefactory.*;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
+import io.appium.java_client.pagefactory.OverrideWidget;
+import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.pagefactory.SelendroidFindBy;
+
 import io.appium.java_client.pagefactory_tests.widgets.android.annotated.AnnotatedAndroidMovies;
 import io.appium.java_client.pagefactory_tests.widgets.android.annotated.AnnotatedAndroidReview;
 import io.appium.java_client.pagefactory_tests.widgets.android.extended.ExtendedAndroidMovies;

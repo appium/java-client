@@ -42,7 +42,6 @@ public class DesktopBrowserCompatibilityTest {
 
 
     private final Platform current = Platform.getCurrent();
-    private final long IMPLICITLY_WAIT = 15;
     @AndroidFindBy(className = "someClass")
     @iOSFindBys({@iOSFindBy(xpath = "//selector[1]"), @iOSFindBy(xpath = "//someTag")})
     @FindBys({@FindBy(id = "main"), @FindBy(tagName = "p")}) private List<WebElement> foundLinks;
@@ -64,7 +63,7 @@ public class DesktopBrowserCompatibilityTest {
         WebDriver driver = new ChromeDriver();
         try {
             PageFactory
-                .initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS),
+                .initElements(new AppiumFieldDecorator(driver, 15, TimeUnit.SECONDS),
                     this);
             driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm")
                 .toURI().toString());

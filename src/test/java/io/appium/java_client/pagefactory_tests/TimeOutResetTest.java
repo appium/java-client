@@ -60,8 +60,8 @@ public class TimeOutResetTest {
         } catch (Error e) {
             String message = String.valueOf(expectedTime) + " "
                 + expectedTimeUnit.toString()
-                + " current duration in millis " +
-                String.valueOf(currentMillis) + " Failed";
+                + " current duration in millis "
+                + String.valueOf(currentMillis) + " Failed";
             throw new RuntimeException(message, e);
         }
     }

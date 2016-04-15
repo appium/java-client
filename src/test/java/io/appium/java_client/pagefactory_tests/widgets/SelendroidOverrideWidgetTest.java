@@ -11,7 +11,13 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.*;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
@@ -20,7 +26,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class SelendroidOverrideWidgetTest implements WidgetTest {
-    private static int SELENDROID_PORT = 9999;
     private static AppiumDriverLocalService service;
     private AndroidDriver<?> driver;
     private RottenTomatoes rottenTomatoes;
@@ -47,7 +52,7 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
-        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
+        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, 9999);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
@@ -120,8 +125,7 @@ public class SelendroidOverrideWidgetTest implements WidgetTest {
         } catch (Exception e) {
             if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            }
-            else {
+            } else {
                 throw e;
             }
         }

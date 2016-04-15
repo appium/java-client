@@ -36,7 +36,12 @@ import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
@@ -105,12 +110,9 @@ public final class AppiumServiceBuilder
         }
     }
 
-    private static void disposeCachedFile(File file) {
+    private static void disposeCachedFile(File file) throws Throwable {
         if (file != null) {
-            try {
-                FileUtils.forceDelete(file);
-            } catch (IOException ignored) {
-            }
+            FileUtils.forceDelete(file);
         }
     }
 
@@ -152,8 +154,8 @@ public final class AppiumServiceBuilder
         try {
             File defaultAppiumNode;
             if (StringUtils.isBlank(instancePath) || !(defaultAppiumNode =
-                new File(instancePath + File.separator +
-                    APPIUM_FOLDER)).exists()) {
+                new File(instancePath + File.separator
+                    + APPIUM_FOLDER)).exists()) {
                 String errorOutput = commandLine.getStdOut();
                 throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND,
                     new IOException(errorOutput));
@@ -166,8 +168,8 @@ public final class AppiumServiceBuilder
 
             throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND, new IOException(
                 "Could not find a file " + APPIUM_NODE_MASK
-                    + " in the " +
-                    defaultAppiumNode + " directory"));
+                    + " in the "
+                    + defaultAppiumNode + " directory"));
         } finally {
             commandLine.destroy();
         }
@@ -390,8 +392,8 @@ public final class AppiumServiceBuilder
             ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
         } else {
             InetAddressValidator validator = InetAddressValidator.getInstance();
-            if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress) &&
-                !validator.isValidInet6Address(ipAddress)) {
+            if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress)
+                && !validator.isValidInet6Address(ipAddress)) {
                 throw new IllegalArgumentException(
                         "The invalid IP address " + ipAddress + " is defined");
             }
@@ -490,8 +492,11 @@ public final class AppiumServiceBuilder
     }
 
     @Override protected void finalize() throws Throwable {
-        disposeCachedFile(npmScript);
-        disposeCachedFile(getNodeJSExecutable);
-        super.finalize();
+        try {
+            disposeCachedFile(npmScript);
+            disposeCachedFile(getNodeJSExecutable);
+        } finally {
+            super.finalize();
+        }
     }
 }

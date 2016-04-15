@@ -51,10 +51,11 @@ public class HtmlWidgetTest implements WidgetTest {
     }
 
     @Before public void setUp() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.get("file:///" + new File(
                 "src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html")
                 .getAbsolutePath());
+        }
     }
 
     @Test

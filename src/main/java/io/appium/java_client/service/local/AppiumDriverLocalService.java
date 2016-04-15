@@ -142,8 +142,8 @@ public final class AppiumDriverLocalService extends DriverService {
                 ping(startupTimeout, timeUnit);
             } catch (Throwable e) {
                 destroyProcess();
-                String msgTxt = "The local appium server has not been started. " +
-                    "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
+                String msgTxt = "The local appium server has not been started. "
+                    + "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
                     + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
                 if (process != null) {
                     String processStream = process.getStdOut();
@@ -185,7 +185,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     /**
      * @return String logs if the server has been run.
-     * null is returned otherwise.
+     *     null is returned otherwise.
      */
     public String getStdOut() {
         if (process != null) {

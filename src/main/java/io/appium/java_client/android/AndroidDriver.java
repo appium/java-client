@@ -54,8 +54,8 @@ import java.util.List;
 
 /**
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- * Instances of the defined type will be returned via findElement* and findElements*.
- * Warning (!!!). Allowed types:
+ *     Instances of the defined type will be returned via findElement* and findElements*.
+ *     Warning (!!!). Allowed types:
  * {@link org.openqa.selenium.WebElement}
  * {@link io.appium.java_client.TouchableElement}
  * {@link org.openqa.selenium.remote.RemoteWebElement}
@@ -331,7 +331,7 @@ public class AndroidDriver<T extends WebElement>
 
     /**
      * @throws org.openqa.selenium.WebDriverException This method is not
-     * applicable with browser/webview UI.
+     *     applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked")
     @Override

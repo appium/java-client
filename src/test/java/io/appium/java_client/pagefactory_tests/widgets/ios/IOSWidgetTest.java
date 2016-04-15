@@ -12,13 +12,17 @@ import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;;
+import java.util.concurrent.TimeUnit;
 
 public class IOSWidgetTest implements WidgetTest {
 

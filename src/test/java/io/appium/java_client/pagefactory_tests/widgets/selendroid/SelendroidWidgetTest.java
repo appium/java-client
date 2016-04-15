@@ -14,7 +14,11 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
@@ -23,7 +27,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class SelendroidWidgetTest implements WidgetTest {
-    private static int SELENDROID_PORT = 9999;
     private static AppiumDriverLocalService service;
     TimeOutDuration duration;
     private AndroidDriver<?> driver;
@@ -47,7 +50,7 @@ public class SelendroidWidgetTest implements WidgetTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
+        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, 9999);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
         driver.context("NATIVE_APP");

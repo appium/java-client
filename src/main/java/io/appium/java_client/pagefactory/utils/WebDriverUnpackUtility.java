@@ -32,7 +32,6 @@ public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
 
     public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
-        WebDriver driver = null;
         if (searchContext instanceof WebDriver) {
             return (WebDriver) searchContext;
         }
@@ -50,7 +49,7 @@ public final class WebDriverUnpackUtility {
                     ((WrapsElement) searchContext).getWrappedElement());
         }
 
-        return driver;
+        return null;
     }
 
     public static String getPlatform(WebDriver driver) {
@@ -71,8 +70,8 @@ public final class WebDriverUnpackUtility {
         //own WebDriver implementation. At this case capabilities are used
         //to detect platform
         if (HasCapabilities.class.isAssignableFrom(driverClass)) {
-            return String.valueOf(((HasCapabilities) driver).getCapabilities().
-                    getCapability(MobileCapabilityType.PLATFORM_NAME));
+            return String.valueOf(((HasCapabilities) driver).getCapabilities()
+                .getCapability(MobileCapabilityType.PLATFORM_NAME));
         }
 
         return null;
@@ -84,8 +83,8 @@ public final class WebDriverUnpackUtility {
         }
 
         if (HasCapabilities.class.isAssignableFrom(driver.getClass())) {
-            return String.valueOf(((HasCapabilities) driver).getCapabilities().
-                    getCapability(MobileCapabilityType.AUTOMATION_NAME));
+            return String.valueOf(((HasCapabilities) driver).getCapabilities()
+                .getCapability(MobileCapabilityType.AUTOMATION_NAME));
         }
 
         return null;

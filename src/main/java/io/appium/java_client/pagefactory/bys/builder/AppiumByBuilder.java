@@ -108,7 +108,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     }
 
     private static By getMobileBy(Annotation annotation, String valueName) {
-        Strategies strategies[] = Strategies.values();
+        Strategies[] strategies = Strategies.values();
         for (Strategies strategy : strategies) {
             if (strategy.returnValueName().equals(valueName)) {
                 return strategy.getBy(annotation);

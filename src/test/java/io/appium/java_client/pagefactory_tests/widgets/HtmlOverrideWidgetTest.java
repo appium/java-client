@@ -56,8 +56,8 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
     public void setUp() throws Exception {
         if (driver != null) {
             driver.get(
-                    new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").toURI()
-                            .toString());
+                    new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html")
+                        .toURI().toString());
         }
     }
 

@@ -57,7 +57,8 @@ class AppiumElementLocator implements CacheableLocator {
      * @param shouldCache       is the flag that signalizes that elements which
      *                          are found once should be cached
      * @param duration          is a POJO which contains timeout parameters
-     * @param originalWebDriver is an instance of WebDriver that is going to be used by a proxied element
+     * @param originalWebDriver is an instance of WebDriver that is going to be
+     *                          used by a proxied element
      */
 
     public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,

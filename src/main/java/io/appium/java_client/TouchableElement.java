@@ -87,7 +87,7 @@ public interface TouchableElement extends WebElement {
      * @param duration            amount of time in milliseconds for the entire swipe action to
      *                            take.
      * @throws IllegalCoordinatesException when resulted coordinates are out of the
-     * element borders or disagree with the given direction.
+     *     element borders or disagree with the given direction.
      */
     void swipe(SwipeElementDirection direction, int offsetFromStartBorder, int offsetFromEndBorder,
         int duration) throws IllegalCoordinatesException;
