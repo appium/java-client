@@ -29,7 +29,13 @@ import java.util.concurrent.TimeUnit;
  *that differs from defined by default
  */
 public @interface WithTimeout {
+    /**
+     * Desired waiting duration
+     */
     long time();
 
+    /**
+     * Desired time unit
+     */
     TimeUnit unit();
 }

@@ -34,6 +34,9 @@ public class AndroidConnectionTest {
     private static AppiumDriverLocalService service;
     private static AndroidDriver<MobileElement> driver;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -50,6 +53,9 @@ public class AndroidConnectionTest {
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() {
         if (driver != null) {
             try {

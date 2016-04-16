@@ -36,6 +36,10 @@ public abstract class InterceptorOfAListOfElements implements MethodInterceptor 
     protected abstract Object getObject(List<WebElement> elements, Method method, Object[] args)
         throws InvocationTargetException, IllegalAccessException, InstantiationException, Throwable;
 
+    /**
+     * Look at
+     * {@link net.sf.cglib.proxy.MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}
+     */
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
         throws Throwable {
         if (Object.class.equals(method.getDeclaringClass())) {

@@ -28,6 +28,9 @@ public class ServerBuilderTest {
     private static Properties properties;
     private static String testIP;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         File file =
             new File("src/test/java/io/appium/java_client/localserver/custom_node_path.properties");

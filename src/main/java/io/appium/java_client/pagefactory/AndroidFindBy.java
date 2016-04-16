@@ -31,15 +31,37 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface AndroidFindBy {
+    /**
+     * It is an is Android UIAutomator string.
+     * Read {@link http://developer.android.com/intl/ru/tools/testing-support-library/
+     * index.html#uia-apis}
+     */
     String uiAutomator() default "";
 
+    /**
+     * It an UI automation accessibility Id which is a convenient to Android.
+     * About Android accessibility
+     * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
+     */
     String accessibility() default "";
 
+    /**
+     * It is an id of the target element.
+     */
     String id() default "";
 
+    /**
+     * It is a className of the target element.
+     */
     String className() default "";
 
+    /**
+     * It is a desired element tag.
+     */
     String tagName() default "";
 
+    /**
+     * It is a xpath to the target element.
+     */
     String xpath() default "";
 }

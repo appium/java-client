@@ -30,6 +30,9 @@ public class BaseAndroidTest {
     private static AppiumDriverLocalService service;
     protected static AndroidDriver<AndroidElement> driver;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -46,6 +49,9 @@ public class BaseAndroidTest {
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() {
         if (driver != null) {
             driver.quit();

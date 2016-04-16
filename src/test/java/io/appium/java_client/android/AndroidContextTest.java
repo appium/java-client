@@ -34,6 +34,9 @@ public class AndroidContextTest {
     private static AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -58,6 +61,9 @@ public class AndroidContextTest {
         Thread.sleep(20000);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void tearDown() throws Exception {
         if (driver != null) {
             driver.quit();

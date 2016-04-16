@@ -23,9 +23,13 @@ import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of @iOSFindBy tags.
+ * a series of {@link io.appium.java_client.pagefactory.iOSFindBy} tags.
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface iOSFindBys {
+    /**
+     * It is a set of {@link io.appium.java_client.pagefactory.iOSFindBy} strategies which build
+     * the chain of the searching for the target element.
+     */
     iOSFindBy[] value();
 }

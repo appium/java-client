@@ -44,7 +44,7 @@ import com.google.common.collect.ImmutableMap;
  */
 @SuppressWarnings({"rawtypes", "unchecked"}) public class MultiTouchAction {
 
-    ImmutableList.Builder actions;
+    ImmutableList.Builder<TouchAction> actions;
     private MobileDriver driver;
 
     public MultiTouchAction(MobileDriver driver) {
@@ -73,7 +73,7 @@ import com.google.common.collect.ImmutableMap;
             driver.performMultiTouchAction(this);
         } else if (size == 1) {
             //android doesn't like having multi-touch actions with only a single TouchAction...
-            driver.performTouchAction((TouchAction) actions.build().get(0));
+            driver.performTouchAction(actions.build().get(0));
         } else {
             throw new MissingParameterException(
                 "MultiTouch action must have at least one TouchAction "
@@ -83,7 +83,7 @@ import com.google.common.collect.ImmutableMap;
     }
 
     protected ImmutableMap getParameters() {
-        ImmutableList.Builder listOfActionChains = ImmutableList.builder();
+        ImmutableList.Builder<Object> listOfActionChains = ImmutableList.builder();
         ImmutableList<TouchAction> touchActions = actions.build();
 
         for (TouchAction action : touchActions) {

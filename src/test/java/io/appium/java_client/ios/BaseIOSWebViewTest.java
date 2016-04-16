@@ -31,6 +31,9 @@ public class BaseIOSWebViewTest {
     protected static AppiumDriver<?> driver;
     private static AppiumDriverLocalService service;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -51,6 +54,9 @@ public class BaseIOSWebViewTest {
         driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void tearDown() throws Exception {
         if (driver != null) {
             driver.quit();

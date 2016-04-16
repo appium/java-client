@@ -24,9 +24,6 @@ import org.openqa.selenium.WebElement;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by jonahss on 4/10/14.
- */
 @SuppressWarnings("serial")
 public abstract class MobileBy extends By {
     /**
@@ -45,10 +42,10 @@ public abstract class MobileBy extends By {
     }
 
     /**
-     * Read {@link http://developer.android.com/intl/ru/tools/testing-support-library/
-     * index.html#uia-apis}
+     * Read http://developer.android.com/intl/ru/tools/testing-support-library/
+     * index.html#uia-apis
      * @param uiautomatorText is Android UIAutomator string
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator)
+     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
      */
     public static By AndroidUIAutomator(final String uiautomatorText) {
         if (StringUtils.isBlank(uiautomatorText)) {
@@ -58,15 +55,14 @@ public abstract class MobileBy extends By {
         return new ByAndroidUIAutomator(uiautomatorText);
     }
 
-     /**
+    /**
      * About Android accessibility
      * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
      * About iOS accessibility
      * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
      * UIAccessibilityIdentification_Protocol/index.html
-     *
-     * @param id is a convenient UI automation accessibility Id.
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator)
+     * @param id id is a convenient UI automation accessibility Id.
+     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
      */
     public static By AccessibilityId(final String id) {
         if (StringUtils.isBlank(id)) {

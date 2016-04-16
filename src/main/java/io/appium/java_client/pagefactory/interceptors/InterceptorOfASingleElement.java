@@ -39,6 +39,10 @@ public abstract class InterceptorOfASingleElement implements MethodInterceptor {
     protected abstract Object getObject(WebElement element, Method method, Object[] args)
         throws InvocationTargetException, IllegalAccessException, InstantiationException, Throwable;
 
+    /**
+     * Look at
+     * {@link net.sf.cglib.proxy.MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}
+     */
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
         throws Throwable {
         if (Object.class.equals(method.getDeclaringClass())) {

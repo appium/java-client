@@ -31,6 +31,9 @@ public class BaseIOSTest {
     private static AppiumDriverLocalService service;
     protected static IOSDriver<MobileElement> driver;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -51,6 +54,9 @@ public class BaseIOSTest {
         driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() {
         if (driver != null) {
             driver.quit();

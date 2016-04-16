@@ -23,11 +23,15 @@ import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a
- * series of {@link SelendroidFindBy} tags
+ * series of {@link io.appium.java_client.pagefactory.SelendroidFindBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface SelendroidFindAll {
+    /**
+     * It is a set of {@link io.appium.java_client.pagefactory.SelendroidFindBy} strategies which
+     * may be used to find the target element.
+     */
     SelendroidFindBy[] value();
 }

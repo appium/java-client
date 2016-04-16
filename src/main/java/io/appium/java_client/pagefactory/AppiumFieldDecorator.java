@@ -100,6 +100,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this(context, new TimeOutDuration(implicitlyWaitTimeOut, timeUnit));
     }
 
+    /**
+     * @param context is an instance of {@link org.openqa.selenium.SearchContext}
+     *                It may be the instance of {@link org.openqa.selenium.WebDriver}
+     *                or {@link org.openqa.selenium.WebElement} or
+     *                {@link io.appium.java_client.pagefactory.Widget} or some other user's
+     *                extension/implementation.
+     * @param timeOutDuration is a desired duration of the waiting for an element presence.
+     */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
         platform = getPlatform(originalDriver);
@@ -155,6 +163,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this(context, DEFAULT_IMPLICITLY_WAIT_TIMEOUT, DEFAULT_TIMEUNIT);
     }
 
+    /**
+     * @param ignored class loader is ignored by current implementation
+     * @param field is {@link java.lang.reflect.Field} of page object which is supposed to be
+     *              decorated.
+     * @return a field value or null.
+     */
     public Object decorate(ClassLoader ignored, Field field) {
         Object result = defaultElementFieldDecoracor.decorate(ignored, field);
         if (result != null) {
