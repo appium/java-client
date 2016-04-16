@@ -69,50 +69,102 @@ public class AndroidDriver<T extends WebElement>
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
+    /**
+     * @param remoteAddress is the address of remotely/locally
+     *                      started Appium server
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param remoteAddress is the address of remotely/locally
+     *                      started Appium server
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
     /**

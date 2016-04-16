@@ -56,50 +56,102 @@ public class IOSDriver<T extends WebElement>
     FindsByIosUIAutomation<T> {
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
+    /**
+     * @param remoteAddress is the address
+     *                      of remotely/locally started Appium server
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param remoteAddress is the address
+     *                      of remotely/locally started Appium server
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
+    /**
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
     /**

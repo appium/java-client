@@ -20,10 +20,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
 import java.util.Collection;
@@ -34,9 +34,9 @@ import java.util.Map;
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {
-    protected AppiumDriver<?> driver;
+    protected RemoteWebDriver driver;
 
-    public JsonToMobileElementConverter(AppiumDriver<?> driver) {
+    public JsonToMobileElementConverter(RemoteWebDriver driver) {
         super(driver);
         this.driver = driver;
     }

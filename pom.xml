@@ -98,6 +98,11 @@
             <url>https://github.com/TikhomirovSergey</url>
             <id>TikhomirovSergey</id>
         </developer>
+        <developer>
+            <name>Srinivasan Sekar</name>
+            <url>https://github.com/SrinivasanTarget</url>
+            <id>SrinivasanTarget</id>
+        </developer>
     </developers>
 
     <distributionManagement>

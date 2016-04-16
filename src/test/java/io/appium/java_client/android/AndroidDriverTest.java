@@ -110,4 +110,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
     @Test public void resetTest() {
         driver.resetApp();
     }
+
+    @Test public void endTestCoverage() {
+        driver.endTestCoverage("android.intent.action.MAIN", "");
+    }
 }

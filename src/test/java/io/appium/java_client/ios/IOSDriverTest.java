@@ -66,4 +66,8 @@ public class IOSDriverTest extends BaseIOSTest {
         byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
         assert (data.length > 0);
     }
+
+    @Test public void shakeTest() {
+        driver.shake();
+    }
 }

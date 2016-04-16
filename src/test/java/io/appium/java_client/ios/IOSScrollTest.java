@@ -35,9 +35,6 @@ public class IOSScrollTest {
     private static AppiumDriverLocalService service;
     protected static IOSDriver<MobileElement> driver;
 
-    /**
-     * initialization.
-     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();

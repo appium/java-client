@@ -54,17 +54,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
+
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
+import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -93,52 +98,69 @@ public abstract class AppiumDriver<T extends WebElement>
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
 
-    private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
+        try {
+            Constructor<? extends JsonToWebElementConverter> constructor =
+                    converterClazz.getConstructor(RemoteWebDriver.class);
+            this.setElementConverter(constructor.newInstance(this));
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException
+                | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+        Capabilities desiredCapabilities,
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-            httpClientFactory), desiredCapabilities);
+            httpClientFactory), desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+        Capabilities desiredCapabilities,
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        this(builder.build(), desiredCapabilities);
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
+        this(builder.build(), desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        this(builder.build(), httpClientFactory, desiredCapabilities);
+        Capabilities desiredCapabilities,
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
+        this(builder.build(), httpClientFactory, desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(Capabilities desiredCapabilities) {
-        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+    public AppiumDriver(Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
+        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities, converterClazz);
     }
 
     /**
