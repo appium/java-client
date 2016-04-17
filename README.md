@@ -115,6 +115,8 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 - FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by 
 AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
 - the project was integrated with [maven-checkstyle-plugin](https://maven.apache.org/plugins/maven-checkstyle-plugin/). Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the work
+- all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
+anymore.
 - source code was improved according to code style checking rules. 
 - The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
 `org.openqa.selenium.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
