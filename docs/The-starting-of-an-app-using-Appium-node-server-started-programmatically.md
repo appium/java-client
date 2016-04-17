@@ -213,35 +213,63 @@ new AndroidDriver<>(service.getUrl(), clientCapabilities);
 
 # How to create an AppiumDriver instance
 
-The list of constructors is below. All constructors are declared by [AppiumDriver](http://appium.github.io/java-client/io/appium/java_client/AppiumDriver.html) subclasses. Many of them use [AppiumDriverLocalService](http://appium.github.io/java-client/io/appium/java_client/service/local/AppiumDriverLocalService.html) or [AppiumServiceBuilder](http://appium.github.io/java-client/io/appium/java_client/service/local/AppiumServiceBuilder.html) as parameters.
-
+Many constructors of [AndroidDriver](http://appium.github.io/java-client/io/appium/java_client/android/AndroidDriver.html)/[IOSDriver](http://appium.github.io/java-client/io/appium/java_client/ios/IOSDriver.html) use [AppiumDriverLocalService](http://appium.github.io/java-client/io/appium/java_client/service/local/AppiumDriverLocalService.html) or [AppiumServiceBuilder](http://appium.github.io/java-client/io/appium/java_client/service/local/AppiumServiceBuilder.html) as parameters.
+The list of constructors is below.
 
 ```java
-public AppiumDriver(URL remoteAddress,
+public AndroidDriver(URL remoteAddress,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(URL remoteAddress,
+public AndroidDriver(URL remoteAddress,
             org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(AppiumDriverLocalService service,
+public AndroidDriver(AppiumDriverLocalService service,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(AppiumDriverLocalService service,
+public AndroidDriver(AppiumDriverLocalService service,
             org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(AppiumServiceBuilder builder,
+public AndroidDriver(AppiumServiceBuilder builder,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(AppiumServiceBuilder builder,
+public AndroidDriver(AppiumServiceBuilder builder,
             org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
+public AndroidDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
             org.openqa.selenium.Capabilities desiredCapabilities)
 
-public AppiumDriver(org.openqa.selenium.Capabilities desiredCapabilities)
+public AndroidDriver(org.openqa.selenium.Capabilities desiredCapabilities)
+``` 
+
+```java
+public IOSDriver(URL remoteAddress,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(URL remoteAddress,
+            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(AppiumDriverLocalService service,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(AppiumDriverLocalService service,
+            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(AppiumServiceBuilder builder,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(AppiumServiceBuilder builder,
+            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.selenium.Capabilities desiredCapabilities)
+
+public IOSDriver(org.openqa.selenium.Capabilities desiredCapabilities)
 ``` 
 
 An instance of __AppiumDriverLocalService__ which has passed through constructors will be stopped when

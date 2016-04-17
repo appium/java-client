@@ -112,7 +112,18 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 ##Changelog##
 *4.0.0 (under construction yet)*
 - FIX of TouchAction. Instances of the TouchAction class are reusable now
-- FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
+- FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by 
+AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
+- the project was integrated with [maven-checkstyle-plugin](https://maven.apache.org/plugins/maven-checkstyle-plugin/). Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the work
+- source code was improved according to code style checking rules. 
+- The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
+`org.openqa.selenium.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
+`io.appium.java_client.android.internal.JsonToAndroidElementConverter` or 
+`io.appium.java_client.ios.internal.JsonToIOSElementConverter` by RemoteWebDriver when it is needed.
+- Constructors of the abstract `io.appium.java_client.AppiumDriver` were redesigned. Now they require 
+a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Constructors of 
+`io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver` are same still.
+
 ...
 
 *3.4.1*
