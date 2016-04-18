@@ -28,6 +28,7 @@ public interface CustomCommands {
     Rectangle getNavigationBarRegion();
     DisplayMetrics getDisplayMetrics();
     long getDate();
+    String getDateString();
     void setDate(long time);
     boolean hasRoot();
     List<PackageVersion> getVersions(String pkg);

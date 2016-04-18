@@ -68,6 +68,7 @@ public interface MobileCommand {
   String GET_NAVIGATION_BAR_REGION = "getNavigationBarRegion";
   String GET_DISPLAY_METRICS = "getDisplayMetrics";
   String GET_DATE = "getDate";
+  String GET_DATE_STRING = "getDateString";
   String SET_DATE = "setDate";
   String HAS_ROOT = "hasRoot";
   String GET_VERSIONS = "getVersions";

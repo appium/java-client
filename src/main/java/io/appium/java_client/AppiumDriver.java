@@ -696,6 +696,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(GET_NAVIGATION_BAR_REGION, getC("/session/:sessionId/appium/device/get_navigation_bar_region"))
                 .put(GET_DISPLAY_METRICS, getC("/session/:sessionId/appium/device/get_display_metrics"))
                 .put(GET_DATE, getC("/session/:sessionId/appium/device/get_date"))
+                .put(GET_DATE_STRING, getC("/session/:sessionId/appium/device/get_date_string"))
                 .put(SET_DATE, postC("/session/:sessionId/appium/device/set_date"))
                 .put(HAS_ROOT, getC("/session/:sessionId/appium/device/has_root"))
                 .put(GET_VERSIONS, postC("/session/:sessionId/appium/device/get_versions"))

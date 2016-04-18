@@ -46,6 +46,7 @@ import static io.appium.java_client.MobileCommand.ADB_INPUT_TEXT;
 import static io.appium.java_client.MobileCommand.ADB_SWIPE;
 import static io.appium.java_client.MobileCommand.ADB_TAP;
 import static io.appium.java_client.MobileCommand.GET_DATE;
+import static io.appium.java_client.MobileCommand.GET_DATE_STRING;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
 import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
 import static io.appium.java_client.MobileCommand.GET_VERSIONS;
@@ -488,6 +489,11 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 	public long getDate() {
 		Response response = execute(GET_DATE);
 		return (long) response.getValue();
+	}
+
+	public String getDateString() {
+		Response response = execute(GET_DATE_STRING);
+		return (String) response.getValue();
 	}
 
 	public void setDate(long time) {
