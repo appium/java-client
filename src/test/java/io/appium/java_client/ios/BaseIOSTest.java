@@ -31,12 +31,16 @@ public class BaseIOSTest {
     private static AppiumDriverLocalService service;
     protected static IOSDriver<MobileElement> driver;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "TestApp.app.zip");
@@ -50,11 +54,15 @@ public class BaseIOSTest {
         driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 }

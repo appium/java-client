@@ -16,7 +16,23 @@
 
 package io.appium.java_client.android;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
+import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
+import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.IS_LOCKED;
+import static io.appium.java_client.MobileCommand.LOCK;
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.OPEN_NOTIFICATIONS;
+import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.PUSH_FILE;
+import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+import static io.appium.java_client.MobileCommand.UNLOCK;
+
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
@@ -25,6 +41,8 @@ import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -34,79 +52,119 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static io.appium.java_client.MobileCommand.*;
-import static io.appium.java_client.remote.MobileCapabilityType.*;
-
 /**
- * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *                              Instances of the defined type will be returned via findElement* and findElements*.
- *                              Warning (!!!). Allowed types:
- *                              {@link org.openqa.selenium.WebElement}
- *                              {@link io.appium.java_client.TouchableElement}
- *                              {@link org.openqa.selenium.remote.RemoteWebElement}
- *                              {@link io.appium.java_client.MobileElement}
- *                              {@link io.appium.java_client.android.AndroidElement}
+ * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ *     Instances of the defined type will be returned via findElement* and findElements*.
+ *     Warning (!!!). Allowed types:
+ * {@link org.openqa.selenium.WebElement}
+ * {@link io.appium.java_client.TouchableElement}
+ * {@link org.openqa.selenium.remote.RemoteWebElement}
+ * {@link io.appium.java_client.MobileElement}
+ * {@link io.appium.java_client.android.AndroidElement}
  */
-public class AndroidDriver<RequiredElementType extends WebElement>
-    extends AppiumDriver<RequiredElementType>
+public class AndroidDriver<T extends WebElement>
+    extends AppiumDriver<T>
     implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<RequiredElementType> {
+    FindsByAndroidUIAutomator<T> {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
-    private final String METASTATE_PARAM = "metastate";
-    private final String CONNECTION_NAME_PARAM = "name";
-    private final String CONNECTION_PARAM_PARAM = "parameters";
-    private final String DATA_PARAM = "data";
-    private final String INTENT_PARAM = "intent";
-
-    private final String CONNECTION_NAME_VALUE = "network_connection";
-
+    /**
+     * @param remoteAddress is the address of remotely/locally
+     *                      started Appium server
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param remoteAddress is the address of remotely/locally
+     *                      started Appium server
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
+    /**
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public AndroidDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
-        this.setElementConverter(new JsonToAndroidElementConverter(this));
+        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
+                JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -116,71 +174,71 @@ public class AndroidDriver<RequiredElementType extends WebElement>
         doSwipe(startx, starty, endx, endy, duration);
     }
 
-    static String UiScrollable(String uiSelector) {
+    static String uiScrollable(String uiSelector) {
         return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView("
             + uiSelector + ".instance(0));";
     }
 
-    @Override public RequiredElementType scrollTo(String text) {
+    @Override public T scrollTo(String text) {
         String uiScrollables =
-            UiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + UiScrollable(
+            uiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + uiScrollable(
                 "new UiSelector().textContains(\"" + text + "\")");
         return findElementByAndroidUIAutomator(uiScrollables);
     }
 
-    @Override public RequiredElementType scrollToExact(String text) {
+    @Override public T scrollToExact(String text) {
         String uiScrollables =
-            UiScrollable("new UiSelector().description(\"" + text + "\")") + UiScrollable(
+            uiScrollable("new UiSelector().description(\"" + text + "\")") + uiScrollable(
                 "new UiSelector().text(\"" + text + "\")");
         return findElementByAndroidUIAutomator(uiScrollables);
     }
 
     /**
-     * Send a key event to the device
+     * Send a key event to the device.
      *
-     * @param key code for the key pressed on the device
+     * @param key code for the key pressed on the device.
      */
     @Override public void pressKeyCode(int key) {
-        execute(PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+        execute(PRESS_KEY_CODE, getCommandImmutableMap("keycode", key));
     }
 
     /**
-     * @param key       code for the key pressed on the Android device
-     * @param metastate metastate for the keypress
+     * @param key       code for the key pressed on the Android device.
+     * @param metastate metastate for the keypress.
      * @see AndroidKeyCode
      * @see AndroidKeyMetastate
-     * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
+     * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer).
      */
     @Override public void pressKeyCode(int key, Integer metastate) {
-        String[] parameters = new String[] {KEY_CODE, METASTATE_PARAM};
+        String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
         execute(PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
 
     /**
-     * Send a long key event to the device
+     * Send a long key event to the device.
      *
-     * @param key code for the long key pressed on the device
+     * @param key code for the long key pressed on the device.
      */
     @Override public void longPressKeyCode(int key) {
-        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(KEY_CODE, key));
+        execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap("keycode", key));
     }
 
     /**
-     * @param key       code for the long key pressed on the Android device
-     * @param metastate metastate for the long key press
+     * @param key       code for the long key pressed on the Android device.
+     * @param metastate metastate for the long key press.
      * @see AndroidKeyCode
      * @see AndroidKeyMetastate
      * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
      */
     @Override public void longPressKeyCode(int key, Integer metastate) {
-        String[] parameters = new String[] {KEY_CODE, METASTATE_PARAM};
+        String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
 
     /**
-     * @see HasNetworkConnection#getNetworkConnection()
+     * @see HasNetworkConnection#getNetworkConnection().
      */
     @Override public NetworkConnectionSetting getNetworkConnection() {
         Response response = execute(GET_NETWORK_CONNECTION);
@@ -189,7 +247,7 @@ public class AndroidDriver<RequiredElementType extends WebElement>
 
     /**
      * @param connection The NetworkConnectionSetting configuration to use for the
-     *                   device
+     *                   device.
      * @see HasNetworkConnection#setNetworkConnection(NetworkConnectionSetting)
      */
     @Override public void setNetworkConnection(NetworkConnectionSetting connection) {
@@ -199,19 +257,19 @@ public class AndroidDriver<RequiredElementType extends WebElement>
         // this is for webdrivers which run on protocols besides HTTP (like TCP)
         // we're implementing that pattern here, for this new method, but
         // haven't translated it to all other commands yet
-        String[] parameters = new String[] {CONNECTION_NAME_PARAM, CONNECTION_PARAM_PARAM};
+        String[] parameters = new String[] {"name", "parameters"};
         Object[] values =
-            new Object[] {CONNECTION_NAME_VALUE, ImmutableMap.of("type", connection.value)};
+            new Object[] {"network_connection", ImmutableMap.of("type", connection.value)};
         execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
     }
 
     /**
-     * @param remotePath Path to file to write data to on remote device
-     * @param base64Data Base64 encoded byte array of data to write to remote device
+     * @param remotePath Path to file to write data to on remote device.
+     * @param base64Data Base64 encoded byte array of data to write to remote device.
      * @see PushesFiles#pushFile(String, byte[])
      */
     @Override public void pushFile(String remotePath, byte[] base64Data) {
-        String[] parameters = new String[] {PATH, DATA_PARAM};
+        String[] parameters = new String[] {"path", "data"};
         Object[] values = new Object[] {remotePath, base64Data};
         execute(PUSH_FILE, getCommandImmutableMap(parameters, values));
     }
@@ -227,15 +285,16 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     public void startActivity(String appPackage, String appActivity, String appWaitPackage,
         String appWaitActivity, boolean stopApp) throws IllegalArgumentException {
 
-        checkArgument((_isNotNullOrEmpty(appPackage) && _isNotNullOrEmpty(appActivity)),
-            String.format("'%s' and '%s' are required.", APP_PACKAGE, APP_ACTIVITY));
+        checkArgument((!StringUtils.isBlank(appPackage)
+                && !StringUtils.isBlank(appActivity)),
+            String.format("'%s' and '%s' are required.", "appPackage", "appActivity"));
 
-        appWaitPackage = _isNotNullOrEmpty(appWaitPackage) ? appWaitPackage : "";
-        appWaitActivity = _isNotNullOrEmpty(appWaitActivity) ? appWaitActivity : "";
+        appWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
+        appWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
-            .of(APP_PACKAGE, appPackage, APP_ACTIVITY, appActivity, APP_WAIT_PACKAGE,
-                appWaitPackage, APP_WAIT_ACTIVITY, appWaitActivity, DONT_STOP_APP_ON_RESET,
+            .of("appPackage", appPackage, "appActivity", appActivity, "appWaitPackage",
+                appWaitPackage, "appWaitActivity", appWaitActivity, "dontStopAppOnReset",
                 !stopApp);
 
         execute(START_ACTIVITY, parameters);
@@ -265,21 +324,21 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Get test-coverage data
+     * Get test-coverage data.
      *
-     * @param intent intent to broadcast
-     * @param path   path to .ec file
+     * @param intent intent to broadcast.
+     * @param path   path to .ec file.
      */
     public void endTestCoverage(String intent, String path) {
-        String[] parameters = new String[] {INTENT_PARAM, PATH};
+        String[] parameters = new String[] {"intent", "path"};
         Object[] values = new Object[] {intent, path};
         execute(END_TEST_COVERAGE, getCommandImmutableMap(parameters, values));
     }
 
     /**
-     * Get the current activity being run on the mobile device
+     * Get the current activity being run on the mobile device.
      *
-     * @return a current activity being run on the mobile device
+     * @return a current activity being run on the mobile device.
      */
     public String currentActivity() {
         Response response = execute(CURRENT_ACTIVITY);
@@ -308,7 +367,7 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * Set the `ignoreUnimportantViews` setting. *Android-only method*
+     * Set the `ignoreUnimportantViews` setting. *Android-only method*.
      * <p/>
      * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
      * which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO
@@ -323,21 +382,24 @@ public class AndroidDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     * @throws org.openqa.selenium.WebDriverException This method is not
+     *     applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
-    public RequiredElementType findElementByAndroidUIAutomator(String using)
+    @SuppressWarnings("unchecked")
+    @Override
+    public T findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return (RequiredElementType) findElement("-android uiautomator", using);
+        return (T) findElement("-android uiautomator", using);
     }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
-    public List<RequiredElementType> findElementsByAndroidUIAutomator(String using)
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> findElementsByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return (List<RequiredElementType>) findElements("-android uiautomator", using);
+        return (List<T>) findElements("-android uiautomator", using);
     }
 
     /**

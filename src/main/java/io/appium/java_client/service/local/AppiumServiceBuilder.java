@@ -16,11 +16,16 @@
 
 package io.appium.java_client.service.local;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.ServerArgument;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
@@ -31,11 +36,13 @@ import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public final class AppiumServiceBuilder
@@ -44,14 +51,14 @@ public final class AppiumServiceBuilder
     /**
      * The environmental variable used to define
      * the path to executable appium.js (1.4.x and lower) or
-     * main.js (1.5.x and higher)
+     * main.js (1.5.x and higher).
      */
     public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
 
     /**
      * The environmental variable used to define
      * the path to executable NodeJS file (node.exe for WIN and
-     * node for Linux/MacOS X)
+     * node for Linux/MacOS X).
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
@@ -63,24 +70,20 @@ public final class AppiumServiceBuilder
         }
     };
     private static final String APPIUM_FOLDER = "appium";
-    private static final String BIN_FOLDER = "bin";
     private static final String BUILD_FOLDER = "build";
     private static final String LIB_FOLDER = "lib";
-    private static final String APPIUM_JS = "appium.js";
     private static final String MAIN_JS = "main.js";
-    private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please " +
-        "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and "
-        +
-        "install Appium app (http://appium.io/downloads.html)";
-    private static final String APPIUM_NODE_MASK_OLD =
-        File.separator + BIN_FOLDER + File.separator + APPIUM_JS;
+    private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please "
+            + "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and "
+            + "install Appium app (http://appium.io/downloads.html)";
     private static final String APPIUM_NODE_MASK =
-        File.separator + BUILD_FOLDER + File.separator + LIB_FOLDER +
-            File.separator + MAIN_JS;
+        File.separator + BUILD_FOLDER
+                + File.separator + LIB_FOLDER
+                + File.separator + MAIN_JS;
     private static final int DEFAULT_APPIUM_PORT = 4723;
-    private final static String BASH = "bash";
-    private final static String CMD_EXE = "cmd.exe";
-    private final static String NODE = "node";
+    private static final String BASH = "bash";
+    private static final String CMD_EXE = "cmd.exe";
+    private static final String NODE = "node";
     final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
@@ -107,12 +110,9 @@ public final class AppiumServiceBuilder
         }
     }
 
-    private static void disposeCachedFile(File file) {
+    private static void disposeCachedFile(File file) throws Throwable {
         if (file != null) {
-            try {
-                FileUtils.forceDelete(file);
-            } catch (IOException ignored) {
-            }
+            FileUtils.forceDelete(file);
         }
     }
 
@@ -154,28 +154,22 @@ public final class AppiumServiceBuilder
         try {
             File defaultAppiumNode;
             if (StringUtils.isBlank(instancePath) || !(defaultAppiumNode =
-                new File(instancePath + File.separator +
-                    APPIUM_FOLDER)).exists()) {
+                new File(instancePath + File.separator
+                    + APPIUM_FOLDER)).exists()) {
                 String errorOutput = commandLine.getStdOut();
                 throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND,
                     new IOException(errorOutput));
             }
-
-            File oldResult;
-            //older appium server
-            if ((oldResult = new File(defaultAppiumNode, APPIUM_NODE_MASK_OLD)).exists()) {
-                return oldResult;
-            }
             //appium servers v1.5.x and higher
-            File newResult;
-            if ((newResult = new File(defaultAppiumNode, APPIUM_NODE_MASK)).exists()) {
-                return newResult;
+            File result;
+            if ((result = new File(defaultAppiumNode, APPIUM_NODE_MASK)).exists()) {
+                return result;
             }
 
             throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND, new IOException(
-                "Could not find file neither " + APPIUM_NODE_MASK_OLD + " nor " + APPIUM_NODE_MASK
-                    + " in the " +
-                    defaultAppiumNode + " directory"));
+                "Could not find a file " + APPIUM_NODE_MASK
+                    + " in the "
+                    + defaultAppiumNode + " directory"));
         } finally {
             commandLine.destroy();
         }
@@ -225,10 +219,10 @@ public final class AppiumServiceBuilder
     /**
      * Boolean arguments have a special moment:
      * the presence of an arguments means "true". This method
-     * was designed for these cases
+     * was designed for these cases.
      *
-     * @param argument is an instance which contains the argument name
-     * @return the self-reference
+     * @param argument is an instance which contains the argument name.
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument) {
         serverArguments.put(argument.getArgument(), "");
@@ -236,11 +230,11 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param argument is an instance which contains the argument name
+     * @param argument is an instance which contains the argument name.
      * @param value    A non null string value. (Warn!!!) Boolean arguments have a special moment:
      *                 the presence of an arguments means "true". At this case an empty string
-     *                 should be defined
-     * @return the self-reference
+     *                 should be defined.
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
         serverArguments.put(argument.getArgument(), value);
@@ -248,8 +242,9 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param capabilities is an instance of {@link org.openqa.selenium.remote.DesiredCapabilities}
-     * @return the self-reference
+     * @param capabilities is an instance of
+     * {@link org.openqa.selenium.remote.DesiredCapabilities}.
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
         if (this.capabilities == null) {
@@ -264,8 +259,8 @@ public final class AppiumServiceBuilder
 
     /**
      * @param appiumJS an executable appium.js (1.4.x and lower) or
-     *                 main.js (1.5.x and higher)
-     * @return the self-reference
+     *                 main.js (1.5.x and higher).
+     * @return the self-reference.
      */
     public AppiumServiceBuilder withAppiumJS(File appiumJS) {
         this.appiumJS = appiumJS;
@@ -278,9 +273,9 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param time     a time value for the service starting up
-     * @param timeUnit a time unit for the service starting up
-     * @return self-reference
+     * @param time     a time value for the service starting up.
+     * @param timeUnit a time unit for the service starting up.
+     * @return self-reference.
      */
     public AppiumServiceBuilder withStartUpTimeOut(long time, TimeUnit timeUnit) {
         checkNotNull(timeUnit);
@@ -378,7 +373,8 @@ public final class AppiumServiceBuilder
         return "{" + result + "}";
     }
 
-    @SuppressWarnings("unchecked") private String parseCapabilities() {
+    @SuppressWarnings("unchecked")
+    private String parseCapabilities() {
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             return parseCapabilitiesIfWindows();
         }
@@ -396,10 +392,11 @@ public final class AppiumServiceBuilder
             ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
         } else {
             InetAddressValidator validator = InetAddressValidator.getInstance();
-            if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress) &&
-                !validator.isValidInet6Address(ipAddress))
+            if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress)
+                && !validator.isValidInet6Address(ipAddress)) {
                 throw new IllegalArgumentException(
-                    "The invalid IP address " + ipAddress + " is defined");
+                        "The invalid IP address " + ipAddress + " is defined");
+            }
         }
         argList.add("--address");
         argList.add(ipAddress);
@@ -414,12 +411,14 @@ public final class AppiumServiceBuilder
         for (Map.Entry<String, String> entry : entries) {
             String argument = entry.getKey();
             String value = entry.getValue();
-            if (StringUtils.isBlank(argument) || value == null)
+            if (StringUtils.isBlank(argument) || value == null) {
                 continue;
+            }
 
             argList.add(argument);
-            if (!StringUtils.isBlank(value))
+            if (!StringUtils.isBlank(value)) {
                 argList.add(value);
+            }
         }
 
         if (capabilities != null) {
@@ -493,8 +492,11 @@ public final class AppiumServiceBuilder
     }
 
     @Override protected void finalize() throws Throwable {
-        disposeCachedFile(npmScript);
-        disposeCachedFile(getNodeJSExecutable);
-        super.finalize();
+        try {
+            disposeCachedFile(npmScript);
+            disposeCachedFile(getNodeJSExecutable);
+        } finally {
+            super.finalize();
+        }
     }
 }

@@ -22,11 +22,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series of {@link AndroidFindBy} tags
+ * Used to mark a field on a Page/Screen Object to indicate that lookup should use a
+ * series of {@link io.appium.java_client.pagefactory.AndroidFindBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface AndroidFindAll {
+    /**
+     * It is a set of {@link io.appium.java_client.pagefactory.AndroidFindBy} strategies which may
+     * be used to find the target element.
+     */
     AndroidFindBy[] value();
 }

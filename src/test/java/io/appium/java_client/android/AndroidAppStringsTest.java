@@ -16,11 +16,9 @@
 
 package io.appium.java_client.android;
 
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import static org.junit.Assert.assertNotEquals;
+
+import org.junit.Test;
 
 public class AndroidAppStringsTest extends BaseAndroidTest {
 

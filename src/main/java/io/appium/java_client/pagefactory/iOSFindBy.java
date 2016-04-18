@@ -31,22 +31,38 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface iOSFindBy {
+    /**
+     * It is is iOS UIAutomation string.
+     * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
+     * Conceptual/InstrumentsUserGuide/UIAutomation.html
+     */
     String uiAutomator() default "";
 
+    /**
+     * It an UI automation accessibility Id which is a convenient to iOS.
+     * About iOS accessibility
+     * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
+     * UIAccessibilityIdentification_Protocol/index.html
+     */
     String accessibility() default "";
 
+    /**
+     * It is an id of the target element.
+     */
     String id() default "";
 
-    @Deprecated
     /**
-     * By.name selector is not supported by Appium server node since 1.5.x.
-     * So this option is going to be removed further. Be careful.
+     * It is a name of a type/class of the target element.
      */
-        String name() default "";
-
     String className() default "";
 
+    /**
+     * It is a desired element tag.
+     */
     String tagName() default "";
 
+    /**
+     * It is a xpath to the target element.
+     */
     String xpath() default "";
 }

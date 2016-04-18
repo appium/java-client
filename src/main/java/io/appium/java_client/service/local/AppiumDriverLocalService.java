@@ -16,9 +16,13 @@
 
 package io.appium.java_client.service.local;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
@@ -31,8 +35,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class AppiumDriverLocalService extends DriverService {
 
@@ -120,7 +122,8 @@ public final class AppiumDriverLocalService extends DriverService {
     /**
      * Starts the defined appium server
      *
-     * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
+     * @throws AppiumServerHasNotBeenStartedLocallyException
+     * If an error occurs while spawning the child process.
      * @see #stop()
      */
     public void start() throws AppiumServerHasNotBeenStartedLocallyException {
@@ -139,13 +142,14 @@ public final class AppiumDriverLocalService extends DriverService {
                 ping(startupTimeout, timeUnit);
             } catch (Throwable e) {
                 destroyProcess();
-                String msgTxt = "The local appium server has not been started. " +
-                    "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
+                String msgTxt = "The local appium server has not been started. "
+                    + "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
                     + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
                 if (process != null) {
                     String processStream = process.getStdOut();
-                    if (!StringUtils.isBlank(processStream))
+                    if (!StringUtils.isBlank(processStream)) {
                         msgTxt = msgTxt + "Process output: " + processStream + "\n";
+                    }
                 }
 
                 throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt, e);
@@ -181,20 +185,31 @@ public final class AppiumDriverLocalService extends DriverService {
 
     /**
      * @return String logs if the server has been run.
-     * null is returned otherwise.
+     *     null is returned otherwise.
      */
     public String getStdOut() {
-        if (process != null)
+        if (process != null) {
             return process.getStdOut();
+        }
 
         return null;
     }
 
+    /**
+     * Adds other output stream which should accept server output data
+     * @param outputStream is an instance of {@link java.io.OutputStream}
+     *                     that is ready to accept server output
+     */
     public void addOutPutStream(OutputStream outputStream) {
         checkNotNull(outputStream, "outputStream parameter is NULL!");
         stream.add(outputStream);
     }
 
+    /**
+     * Adds other output streams which should accept server output data
+     * @param outputStreams is a list of additional {@link java.io.OutputStream}
+     *                      that are ready to accept server output
+     */
     public void addOutPutStreams(List<OutputStream> outputStreams) {
         checkNotNull(outputStreams, "outputStreams parameter is NULL!");
         for (OutputStream stream : outputStreams) {

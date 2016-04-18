@@ -16,6 +16,8 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -27,19 +29,21 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-
 public class AndroidConnectionTest {
 
     private static AppiumDriverLocalService service;
     private static AndroidDriver<MobileElement> driver;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
@@ -49,26 +53,31 @@ public class AndroidConnectionTest {
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() {
         if (driver != null) {
             try {
                 driver.setNetworkConnection(new NetworkConnectionSetting(false, false, true));
-            }
-            finally {
+            } finally {
                 driver.quit();
             }
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Test public void setWiFiTest() {
         driver.setNetworkConnection(new NetworkConnectionSetting(false, true, false));
-        assertEquals(new NetworkConnectionSetting(false, true, false), driver.getNetworkConnection());
+        assertEquals(new NetworkConnectionSetting(false, true, false),
+            driver.getNetworkConnection());
     }
 
     @Test public void setAirplane() {
         driver.setNetworkConnection(new NetworkConnectionSetting(true, false, false));
-        assertEquals(new NetworkConnectionSetting(true, false, false), driver.getNetworkConnection());
+        assertEquals(new NetworkConnectionSetting(true, false, false),
+            driver.getNetworkConnection());
     }
 }

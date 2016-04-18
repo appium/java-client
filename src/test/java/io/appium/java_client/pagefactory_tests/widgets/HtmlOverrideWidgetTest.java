@@ -1,5 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widgets;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
 import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlMovie;
@@ -18,15 +21,16 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 public class HtmlOverrideWidgetTest implements WidgetTest {
 
     private static ChromeDriver driver;
     private static RottenTomatoes rottenTomatoes;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    /**
+     * initialization.
+     */
+    @BeforeClass
+    public static void beforeClass() throws Exception {
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
@@ -44,19 +48,31 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
-    @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+    /**
+     * finishing.
+     */
+    @AfterClass
+    public static void afterClass() throws Exception {
+        if (driver != null) {
             driver.quit();
+        }
     }
 
-    @Before public void setUp() throws Exception {
-        if (driver != null)
+    /**
+     * The setting up.
+     */
+    @Before
+    public void setUp() throws Exception {
+        if (driver != null) {
             driver.get(
-                new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html").toURI()
-                    .toString());
+                    new File("src/test/java/io/appium/java_client/RottenTomatoesSnapshot.html")
+                        .toURI().toString());
+        }
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override
+    public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -68,7 +84,9 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
         assertTrue(movie.getSelfReference().getClass().equals(HtmlMovie.class));
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test
+    public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -81,7 +99,9 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test
+    public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -93,12 +113,15 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
         assertTrue(movie.getSelfReference().getClass().equals(AnnotatedHtmlMovie.class));
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test
+    public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoes.getASimpleMovie(0).goToReview();
@@ -106,10 +129,11 @@ public class HtmlOverrideWidgetTest implements WidgetTest {
         try {
             rottenTomatoes.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            } else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }

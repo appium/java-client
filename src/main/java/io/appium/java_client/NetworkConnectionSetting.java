@@ -29,9 +29,9 @@ public class NetworkConnectionSetting {
     private int data = 4;
 
     /**
-     * @param airplaneMode boolean for airplane mode enabled
-     * @param wifi         boolean for wifi enabled
-     * @param data         boolean for data enabled
+     * @param airplaneMode boolean for airplane mode enabled.
+     * @param wifi         boolean for wifi enabled.
+     * @param data         boolean for data enabled.
      */
     public NetworkConnectionSetting(boolean airplaneMode, boolean wifi, boolean data) {
         int a = airplaneMode ? this.airplaneMode : 0;
@@ -42,9 +42,10 @@ public class NetworkConnectionSetting {
     }
 
     /**
-     * Instantiate Network Connection Settings with the straight-up bitmask. See the Mobile JSON Wire Protocol spec for details.
+     * Instantiate Network Connection Settings with the straight-up bitmask.
+     * See the Mobile JSON Wire Protocol spec for details.
      *
-     * @param bitmask a straight-up bitmask
+     * @param bitmask a straight-up bitmask.
      */
     public NetworkConnectionSetting(int bitmask) {
         value = bitmask;
@@ -62,6 +63,10 @@ public class NetworkConnectionSetting {
         return (value & data) != 0;
     }
 
+    /**
+     * it is used for the switching on/off airplane mode.
+     * @param enable if flag that twitches on/off airplane mode
+     */
     public void setAirplaneMode(boolean enable) {
         if (enable) {
             value = value | airplaneMode;
@@ -70,6 +75,10 @@ public class NetworkConnectionSetting {
         }
     }
 
+    /**
+     * it is used for the switching on/off Wi-Fi mode.
+     * @param enable if flag that twitches on/off Wi-Fi mode
+     */
     public void setWifi(boolean enable) {
         if (enable) {
             value = value | wifi;
@@ -78,6 +87,10 @@ public class NetworkConnectionSetting {
         }
     }
 
+    /**
+     * it is used for the switching on/off mobile internet.
+     * @param enable if flag that twitches on/off mobile internet
+     */
     public void setData(boolean enable) {
         if (enable) {
             value = value | data;
@@ -90,6 +103,10 @@ public class NetworkConnectionSetting {
         return value;
     }
 
+    /**
+     * {@link java.lang.Object#equals(Object)}
+     * it compares integer bitmask values.
+     */
     public boolean equals(Object obj) {
         if (obj instanceof Integer) {
             return value == (Integer) obj;

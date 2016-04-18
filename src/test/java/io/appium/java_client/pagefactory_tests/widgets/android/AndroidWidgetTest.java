@@ -1,5 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widgets.android;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -19,16 +22,17 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 public class AndroidWidgetTest implements WidgetTest {
 
     private static AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoesApp rottenTomatoesApp;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    /**
+     * initialization.
+     */
+    @BeforeClass
+    public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -45,20 +49,33 @@ public class AndroidWidgetTest implements WidgetTest {
             rottenTomatoesApp);
     }
 
-    @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+    /**
+     * finishing.
+     */
+    @AfterClass
+    public static void afterClass() throws Exception {
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
-    @Before public void setUp() throws Exception {
-        if (driver != null)
+    /**
+     * The setting up.
+     */
+    @Before
+    public void setUp() throws Exception {
+        if (driver != null) {
             driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
+        }
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override
+    public void checkACommonWidget() {
         assertTrue(rottenTomatoesApp.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -69,7 +86,9 @@ public class AndroidWidgetTest implements WidgetTest {
         rottenTomatoesApp.checkSimpleReview();
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test
+    public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -81,7 +100,9 @@ public class AndroidWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test
+    public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoesApp.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -92,12 +113,15 @@ public class AndroidWidgetTest implements WidgetTest {
         rottenTomatoesApp.checkExtendedReview();
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test
+    public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoesApp.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoesApp.getASimpleMovie(0).goToReview();
@@ -105,10 +129,11 @@ public class AndroidWidgetTest implements WidgetTest {
         try {
             rottenTomatoesApp.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            } else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }

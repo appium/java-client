@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.pagefactory;
+
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
+    .unpackWebDriverFromSearchContext;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -24,12 +28,10 @@ import org.openqa.selenium.internal.WrapsElement;
 
 import java.util.List;
 
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
-
 /**
  * It is the Appium-specific extension of the Page Object design pattern. It allows user
- * to create objects which typify some element with nested sub-elements. Also it allows to describe and encapsulate
- * logic of interaction/behavior within.
+ * to create objects which typify some element with nested sub-elements. Also it allows to
+ * describe and encapsulate logic of interaction/behavior within.
  * <p/>
  * About the Page Object design pattern please read these documents:
  * - https://code.google.com/p/selenium/wiki/PageObjects

@@ -21,7 +21,7 @@ import org.openqa.selenium.Point;
 
 public enum SwipeElementDirection {
     /**
-     * Up from the center of the lower
+     * Up from the center of the lower.
      */
     UP {
         @Override int getStartX(Point center, Point location, Dimension size, int ignored) {
@@ -45,14 +45,15 @@ public enum SwipeElementDirection {
         }
 
         @Override void checkDirection(int x1, int y1, int x2, int y2) {
-            if (y1 < y2)
+            if (y1 < y2) {
                 throw new IllegalCoordinatesException(
-                    "Y1 " + y1 + " and Y2 " + y2 + " are inconsistent. It looks like you are "
-                        + "trying to perform the swiping down");
+                        "Y1 " + y1 + " and Y2 " + y2 + " are inconsistent. It looks like you are "
+                                + "trying to perform the swiping down");
+            }
         }
     },
     /**
-     * Down from the center of the upper
+     * Down from the center of the upper.
      */
     DOWN {
         @Override int getStartX(Point center, Point location, Dimension size, int offSet) {
@@ -72,14 +73,15 @@ public enum SwipeElementDirection {
         }
 
         @Override void checkDirection(int x1, int y1, int x2, int y2) {
-            if (y1 > y2)
+            if (y1 > y2) {
                 throw new IllegalCoordinatesException(
-                    "Y1 " + y1 + " and Y2 " + y2 + " are inconsistent. It looks like you are "
-                        + "trying to perform the swiping up");
+                        "Y1 " + y1 + " and Y2 " + y2 + " are inconsistent. It looks like you are "
+                                + "trying to perform the swiping up");
+            }
         }
     },
     /**
-     * To the left from the center of the rightmost
+     * To the left from the center of the rightmost.
      */
     LEFT {
         @Override int getStartX(Point center, Point location, Dimension size, int offSet) {
@@ -103,15 +105,16 @@ public enum SwipeElementDirection {
         }
 
         @Override void checkDirection(int x1, int y1, int x2, int y2) {
-            if (x1 < x2)
+            if (x1 < x2) {
                 throw new IllegalCoordinatesException(
-                    "X1 " + x1 + " and X2 " + x2 + " are inconsistent. It looks like you are "
-                        + "trying to perform the swiping right");
+                        "X1 " + x1 + " and X2 " + x2 + " are inconsistent. It looks like you are "
+                                + "trying to perform the swiping right");
+            }
 
         }
     },
     /**
-     * To the right from the center of the leftmost
+     * To the right from the center of the leftmost.
      */
     RIGHT {
         @Override int getStartX(Point center, Point location, Dimension size, int offSet) {
@@ -131,10 +134,11 @@ public enum SwipeElementDirection {
         }
 
         @Override void checkDirection(int x1, int y1, int x2, int y2) {
-            if (x1 > x2)
+            if (x1 > x2) {
                 throw new IllegalCoordinatesException(
-                    "X1 " + x1 + " and X2 " + x2 + " are inconsistent. It looks like you are "
-                        + "trying to perform the swiping left");
+                        "X1 " + x1 + " and X2 " + x2 + " are inconsistent. It looks like you are "
+                                + "trying to perform the swiping left");
+            }
         }
     };
 
@@ -142,12 +146,14 @@ public enum SwipeElementDirection {
         throws IllegalCoordinatesException {
         int bottom = location.getY() + size.getHeight();
         int top = location.getY();
-        if (y > bottom)
+        if (y > bottom) {
             throw new IllegalCoordinatesException(
-                "The result Y " + y + " is lower than target element bottom " + bottom);
-        if (y < top)
+                    "The result Y " + y + " is lower than target element bottom " + bottom);
+        }
+        if (y < top) {
             throw new IllegalCoordinatesException(
-                "The result Y " + y + " is higher than target element top " + top);
+                    "The result Y " + y + " is higher than target element top " + top);
+        }
 
     }
 
@@ -155,12 +161,14 @@ public enum SwipeElementDirection {
         throws IllegalCoordinatesException {
         int right = location.getX() + size.getWidth();
         int left = location.getX();
-        if (x > right)
+        if (x > right) {
             throw new IllegalCoordinatesException(
-                "The result X " + x + " is righter than target element right border " + right);
-        if (x < left)
+                    "The result X " + x + " is righter than target element right border " + right);
+        }
+        if (x < left) {
             throw new IllegalCoordinatesException(
-                "The result X " + x + " is lefter than target element left border " + left);
+                    "The result X " + x + " is lefter than target element left border " + left);
+        }
 
     }
 

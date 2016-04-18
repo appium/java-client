@@ -1,5 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widgets.selendroid;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -11,7 +14,11 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
@@ -19,34 +26,40 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 public class SelendroidWidgetTest implements WidgetTest {
-    private static int SELENDROID_PORT = 9999;
     private static AppiumDriverLocalService service;
     TimeOutDuration duration;
     private AndroidDriver<?> driver;
     private RottenTomatoesSelendroidApp rottenTomatoesApp;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "android-rottentomatoes-demo-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
+        capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, 9999);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
         driver.context("NATIVE_APP");
@@ -60,7 +73,8 @@ public class SelendroidWidgetTest implements WidgetTest {
         driver.quit();
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoesApp.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -71,7 +85,8 @@ public class SelendroidWidgetTest implements WidgetTest {
         rottenTomatoesApp.checkSimpleReview();
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoesApp.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -83,7 +98,8 @@ public class SelendroidWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoesApp.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoesApp.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -94,13 +110,15 @@ public class SelendroidWidgetTest implements WidgetTest {
         rottenTomatoesApp.checkExtendedReview();
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test public void checkTheLocatorOverridingOnAWidget() {
         duration.setTime(5);
         try {
             assertTrue(rottenTomatoesApp.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoesApp.getASimpleMovie(0).goToReview();
@@ -108,10 +126,11 @@ public class SelendroidWidgetTest implements WidgetTest {
         try {
             rottenTomatoesApp.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            } else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }

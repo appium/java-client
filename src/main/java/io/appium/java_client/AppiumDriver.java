@@ -17,106 +17,156 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.CLOSE_APP;
+import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
+import static io.appium.java_client.MobileCommand.GET_SETTINGS;
+import static io.appium.java_client.MobileCommand.GET_STRINGS;
+import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
+import static io.appium.java_client.MobileCommand.INSTALL_APP;
+import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
+import static io.appium.java_client.MobileCommand.LAUNCH_APP;
+import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
+import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
+import static io.appium.java_client.MobileCommand.REMOVE_APP;
+import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+import static io.appium.java_client.MobileCommand.SET_SETTINGS;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.openqa.selenium.*;
+
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.*;
+
+import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.ErrorHandler;
+import org.openqa.selenium.remote.ExecuteMethod;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
+import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
-import javax.xml.bind.DatatypeConverter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static io.appium.java_client.MobileCommand.*;
+import javax.xml.bind.DatatypeConverter;
 
 /**
- * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *                              Instances of the defined type will be returned via findElement* and findElements*.
- *                              Warning (!!!). Allowed types:
- *                              {@link org.openqa.selenium.WebElement}
- *                              {@link io.appium.java_client.TouchableElement}
- *                              {@link org.openqa.selenium.remote.RemoteWebElement}
- *                              {@link io.appium.java_client.MobileElement} and its subclasses that designed specifically for each target mobile OS (still Android and iOS)
- */
+* @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ *          Instances of the defined type will be returned via findElement* and findElements*
+ *          Warning (!!!). Allowed types:
+ *          {@link org.openqa.selenium.WebElement}
+ *          {@link io.appium.java_client.TouchableElement}
+ *          {@link org.openqa.selenium.remote.RemoteWebElement}
+ *          {@link io.appium.java_client.MobileElement} and its subclasses that designed
+ *          specifically
+ *          for each target mobile OS (still Android and iOS)
+*/
 @SuppressWarnings("unchecked")
-public abstract class AppiumDriver<RequiredElementType extends WebElement>
-    extends DefaultGenericMobileDriver<RequiredElementType> {
+public abstract class AppiumDriver<T extends WebElement>
+    extends DefaultGenericMobileDriver<T> {
 
-    private final static ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
+    private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
-    protected final String KEY_CODE = "keycode";
-    protected final String PATH = "path";
-    private final String SETTINGS = "settings";
-    private final String LANGUAGE_PARAM = "language";
-    private final String STRING_FILE_PARAM = "stringFile";
     private URL remoteAddress;
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
 
-    private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
+        try {
+            Constructor<? extends JsonToWebElementConverter> constructor =
+                    converterClazz.getConstructor(RemoteWebDriver.class);
+            this.setElementConverter(constructor.newInstance(this));
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException
+                | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+        Capabilities desiredCapabilities,
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-            httpClientFactory), desiredCapabilities);
+            httpClientFactory), desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+        Capabilities desiredCapabilities,
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        this(builder.build(), desiredCapabilities);
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
+        this(builder.build(), desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        this(builder.build(), httpClientFactory, desiredCapabilities);
+        Capabilities desiredCapabilities,
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
+        this(builder.build(), httpClientFactory, desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-            desiredCapabilities);
+            desiredCapabilities, converterClazz);
     }
 
-    public AppiumDriver(Capabilities desiredCapabilities) {
-        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+    public AppiumDriver(Capabilities desiredCapabilities,
+        Class<? extends JsonToWebElementConverter> converterClazz) {
+        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities, converterClazz);
     }
 
     /**
-     * @param originalCapabilities the given {@link Capabilities}
-     * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     *                             to be set up
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param newPlatform a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     *                    to be set up
      * @return {@link Capabilities} with changed mobile platform value
      */
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
@@ -127,9 +177,9 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @param param is a parameter name
-     * @param value is the parameter value
-     * @return built {@link ImmutableMap}
+     * @param param is a parameter name.
+     * @param value is the parameter value.
+     * @return built {@link ImmutableMap}.
      */
     protected static ImmutableMap<String, Object> getCommandImmutableMap(String param,
         Object value) {
@@ -139,77 +189,64 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @param params is the array with parameter names
-     * @param values is the array with parameter values
-     * @return built {@link ImmutableMap}
+     * @param params is the array with parameter names.
+     * @param values is the array with parameter values.
+     * @return built {@link ImmutableMap}.
      */
     protected static ImmutableMap<String, Object> getCommandImmutableMap(String[] params,
         Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
-            if (_isNotNullOrEmpty(params[i]) && _isNotNullOrEmpty(values[i])) {
+            if (!StringUtils.isBlank(params[i]) && (values[i] != null)) {
                 builder.put(params[i], values[i]);
             }
         }
         return builder.build();
     }
 
-    @SuppressWarnings("unused") private static CommandInfo deleteC(String url) {
+    @SuppressWarnings("unused")
+    private static CommandInfo deleteC(String url) {
         return new CommandInfo(url, HttpMethod.DELETE);
     }
 
-    /**
-     * Checks if a string is null, empty, or whitespace.
-     *
-     * @param str String to check.
-     * @return True if str is not null or empty.
-     */
-    protected static boolean _isNotNullOrEmpty(String str) {
-        return str != null && !str.isEmpty() && str.trim().length() > 0;
-    }
-
-    protected static boolean _isNotNullOrEmpty(Object ob) {
-        return ob != null;
-    }
-
-    @Override public List<RequiredElementType> findElements(By by) {
+    @Override public List<T> findElements(By by) {
         return super.findElements(by);
     }
 
-    @Override public List<RequiredElementType> findElementsById(String id) {
+    @Override public List<T> findElementsById(String id) {
         return super.findElementsById(id);
     }
 
-    public List<RequiredElementType> findElementsByLinkText(String using) {
+    public List<T> findElementsByLinkText(String using) {
         return super.findElementsByLinkText(using);
     }
 
-    public List<RequiredElementType> findElementsByPartialLinkText(String using) {
+    public List<T> findElementsByPartialLinkText(String using) {
         return super.findElementsByPartialLinkText(using);
     }
 
-    public List<RequiredElementType> findElementsByTagName(String using) {
+    public List<T> findElementsByTagName(String using) {
         return super.findElementsByTagName(using);
     }
 
-    public List<RequiredElementType> findElementsByName(String using) {
+    public List<T> findElementsByName(String using) {
         return super.findElementsByName(using);
     }
 
-    public List<RequiredElementType> findElementsByClassName(String using) {
+    public List<T> findElementsByClassName(String using) {
         return super.findElementsByClassName(using);
     }
 
-    public List<RequiredElementType> findElementsByCssSelector(String using) {
+    public List<T> findElementsByCssSelector(String using) {
         return super.findElementsByCssSelector(using);
     }
 
-    public List<RequiredElementType> findElementsByXPath(String using) {
+    public List<T> findElementsByXPath(String using) {
         return super.findElementsByXPath(using);
     }
 
-    @Override public List<RequiredElementType> findElementsByAccessibilityId(String using) {
-        return (List<RequiredElementType>) findElements("accessibility id", using);
+    @Override public List<T> findElementsByAccessibilityId(String using) {
+        return (List<T>) findElements("accessibility id", using);
     }
 
     @Override protected Response execute(String command) {
@@ -221,14 +258,14 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see InteractsWithApps#resetApp()
+     * @see InteractsWithApps#resetApp().
      */
     @Override public void resetApp() {
         execute(MobileCommand.RESET);
     }
 
     /**
-     * @see InteractsWithApps#isAppInstalled(String)
+     * @see InteractsWithApps#isAppInstalled(String).
      */
     @Override public boolean isAppInstalled(String bundleId) {
         Response response = execute(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId));
@@ -237,42 +274,42 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see InteractsWithApps#installApp(String)
+     * @see InteractsWithApps#installApp(String).
      */
     @Override public void installApp(String appPath) {
         execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
     }
 
     /**
-     * @see InteractsWithApps#removeApp(String)
+     * @see InteractsWithApps#removeApp(String).
      */
     @Override public void removeApp(String bundleId) {
         execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
     }
 
     /**
-     * @see InteractsWithApps#launchApp()
+     * @see InteractsWithApps#launchApp().
      */
     @Override public void launchApp() {
         execute(LAUNCH_APP);
     }
 
     /**
-     * @see InteractsWithApps#closeApp()
+     * @see InteractsWithApps#closeApp().
      */
     @Override public void closeApp() {
         execute(CLOSE_APP);
     }
 
     /**
-     * @see InteractsWithApps#runAppInBackground(int)
+     * @see InteractsWithApps#runAppInBackground(int).
      */
     @Override public void runAppInBackground(int seconds) {
         execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
     }
 
     /**
-     * @see DeviceActionShortcuts#getDeviceTime()
+     * @see DeviceActionShortcuts#getDeviceTime().
      */
     @Override public String getDeviceTime() {
         Response response = execute(GET_DEVICE_TIME);
@@ -280,36 +317,38 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see DeviceActionShortcuts#hideKeyboard()
+     * @see DeviceActionShortcuts#hideKeyboard().
      */
     @Override public void hideKeyboard() {
         execute(HIDE_KEYBOARD);
     }
 
     /**
-     * @see InteractsWithFiles#pullFile(String)
+     * @see InteractsWithFiles#pullFile(String).
      */
     @Override public byte[] pullFile(String remotePath) {
-        Response response = execute(PULL_FILE, ImmutableMap.of(PATH, remotePath));
+        Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
         String base64String = response.getValue().toString();
 
         return DatatypeConverter.parseBase64Binary(base64String);
     }
 
     /**
-     * @see InteractsWithFiles#pullFolder(String)
+     * @see InteractsWithFiles#pullFolder(String).
      */
-    @Override public byte[] pullFolder(String remotePath) {
-        Response response = execute(PULL_FOLDER, ImmutableMap.of(PATH, remotePath));
+    @Override
+    public byte[] pullFolder(String remotePath) {
+        Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
         String base64String = response.getValue().toString();
 
         return DatatypeConverter.parseBase64Binary(base64String);
     }
 
     /**
-     * @see PerformsTouchActions#performTouchAction(TouchAction)
+     * @see PerformsTouchActions#performTouchAction(TouchAction).
      */
-    @SuppressWarnings("rawtypes") @Override public TouchAction performTouchAction(
+    @SuppressWarnings("rawtypes")
+    @Override public TouchAction performTouchAction(
         TouchAction touchAction) {
         ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
@@ -317,16 +356,18 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction)
+     * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction).
      */
-    @Override @SuppressWarnings({"rawtypes"}) public void performMultiTouchAction(
+    @Override
+    @SuppressWarnings({"rawtypes"})
+    public void performMultiTouchAction(
         MultiTouchAction multiAction) {
         ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
     }
 
     /**
-     * @see TouchShortcuts#tap(int, WebElement, int)
+     * @see TouchShortcuts#tap(int, WebElement, int).
      */
     @Override public void tap(int fingers, WebElement element, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -339,7 +380,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see TouchShortcuts#tap(int, int, int, int)
+     * @see TouchShortcuts#tap(int, int, int, int).
      */
     @Override public void tap(int fingers, int x, int y, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -361,19 +402,20 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see TouchShortcuts#swipe(int, int, int, int, int)
+     * @see TouchShortcuts#swipe(int, int, int, int, int).
      */
     @Override public abstract void swipe(int startx, int starty, int endx, int endy, int duration);
 
     /**
      * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the screen and sliding towards each other.
+     * "pinching" refers to the action of two appendages pressing the
+     * screen and sliding towards each other.
      * NOTE:
-     * This convenience method places the initial touches around the element, if this would happen to place one of them
-     * off the screen, appium with return an outOfBounds error. In this case, revert to using the MultiTouchAction api
-     * instead of this method.
+     * This convenience method places the initial touches around the element, if this would
+     * happen to place one of them off the screen, appium with return an outOfBounds error.
+     * In this case, revert to using the MultiTouchAction api instead of this method.
      *
-     * @param el The element to pinch
+     * @param el The element to pinch.
      */
     public void pinch(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -398,14 +440,16 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
 
     /**
      * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the screen and sliding towards each other.
+     * "pinching" refers to the action of two appendages pressing the screen and
+     * sliding towards each other.
      * NOTE:
-     * This convenience method places the initial touches around the element at a distance, if this would happen to place
-     * one of them off the screen, appium will return an outOfBounds error. In this case, revert to using the
-     * MultiTouchAction api instead of this method.
+     * This convenience method places the initial touches around the element at a distance,
+     * if this would happen to place one of them off the screen, appium will return an
+     * outOfBounds error. In this case, revert to using the MultiTouchAction api instead of this
+     * method.
      *
-     * @param x x coordinate to terminate the pinch on
-     * @param y y coordinate to terminate the pinch on
+     * @param x x coordinate to terminate the pinch on.
+     * @param y y coordinate to terminate the pinch on.
      */
     public void pinch(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -429,13 +473,14 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
 
     /**
      * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen and sliding away from each other.
+     * "zooming in" refers to the action of two appendages pressing the screen and sliding
+     * away from each other.
      * NOTE:
-     * This convenience method slides touches away from the element, if this would happen to place one of them
-     * off the screen, appium will return an outOfBounds error. In this case, revert to using the MultiTouchAction api
-     * instead of this method.
+     * This convenience method slides touches away from the element, if this would happen
+     * to place one of them off the screen, appium will return an outOfBounds error.
+     * In this case, revert to using the MultiTouchAction api instead of this method.
      *
-     * @param el The element to pinch
+     * @param el The element to pinch.
      */
     public void zoom(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -458,14 +503,15 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
 
     /**
      * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen and sliding away from each other.
+     * "zooming in" refers to the action of two appendages pressing the screen
+     * and sliding away from each other.
      * NOTE:
-     * This convenience method slides touches away from the element, if this would happen to place one of them
-     * off the screen, appium will return an outOfBounds error. In this case, revert to using the MultiTouchAction api
-     * instead of this method.
+     * This convenience method slides touches away from the element, if this would happen to
+     * place one of them off the screen, appium will return an outOfBounds error. In this case,
+     * revert to using the MultiTouchAction api instead of this method.
      *
-     * @param x x coordinate to start zoom on
-     * @param y y coordinate to start zoom on
+     * @param x x coordinate to start zoom on.
+     * @param y y coordinate to start zoom on.
      */
     public void zoom(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -490,60 +536,44 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     /**
      * Get settings stored for this test session It's probably better to use a
      * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to read
+     * the method for the specific setting you want to read.
      *
-     * @return JsonObject, a straight-up hash of settings
+     * @return JsonObject, a straight-up hash of settings.
      */
     public JsonObject getSettings() {
         Response response = execute(GET_SETTINGS);
 
         JsonParser parser = new JsonParser();
-        JsonObject settings = (JsonObject) parser.parse(response.getValue().toString());
-
-        return settings;
+        return  (JsonObject) parser.parse(response.getValue().toString());
     }
 
     /**
      * Set settings for this test session It's probably better to use a
      * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to change
+     * the method for the specific setting you want to change.
      *
-     * @param settings Map of setting keys and values
+     * @param settings Map of setting keys and values.
      */
     private void setSettings(ImmutableMap<?, ?> settings) {
-        execute(SET_SETTINGS, getCommandImmutableMap(SETTINGS, settings));
+        execute(SET_SETTINGS, getCommandImmutableMap("settings", settings));
     }
 
     /**
      * Set a setting for this test session It's probably better to use a
      * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to change
+     * the method for the specific setting you want to change.
      *
-     * @param setting AppiumSetting you wish to set
-     * @param value   value of the setting
+     * @param setting AppiumSetting you wish to set.
+     * @param value   value of the setting.
      */
     protected void setSetting(AppiumSetting setting, Object value) {
         setSettings(getCommandImmutableMap(setting.toString(), value));
     }
 
-    @Deprecated
-    /**
-     * This method works incorrectly. It is deprecated and it is going to be removed further.
-     * Be careful.
-     *
-     * Since Appium node 1.5.x you are free to use
-     * IOSDriver.lockDevice(int seconds) or AndroidDriver.lockDevice()...AndroidDriver.unlockDevice() instead
-     */ public void lockScreen(int seconds) {
-        execute(LOCK, ImmutableMap.of("seconds", seconds));
-    }
-
     @Override public WebDriver context(String name) {
-        if (!_isNotNullOrEmpty(name)) {
-            throw new IllegalArgumentException("Must supply a context name");
-        }
-
+        checkNotNull(name, "Must supply a context name");
         execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-        return AppiumDriver.this;
+        return this;
     }
 
     @Override public Set<String> getContextHandles() {
@@ -551,7 +581,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
         Object value = response.getValue();
         try {
             List<String> returnedValues = (List<String>) value;
-            return new LinkedHashSet<String>(returnedValues);
+            return new LinkedHashSet<>(returnedValues);
         } catch (ClassCastException ex) {
             throw new WebDriverException(
                 "Returned value cannot be converted to List<String>: " + value, ex);
@@ -592,27 +622,9 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
         locationContext.setLocation(location);
     }
 
-    @Deprecated
     /**
-     * This method is deprecated. It is going to be removed in the next release.
-     * Be careful.
-     */ public String getAppStrings() {
-        Response response = execute(GET_STRINGS);
-        return response.getValue().toString();
-    }
-
-    @Deprecated
-    /**
-     * This method is deprecated. It is going to be removed in the next release.
-     * Be careful.
-     */ public String getAppStrings(String language) {
-        Response response = execute(GET_STRINGS, getCommandImmutableMap(LANGUAGE_PARAM, language));
-        return response.getValue().toString();
-    }
-
-    /**
-     * @return a map with localized strings defined in the app
-     * @see HasAppStrings#getAppStringMap()
+     * @return a map with localized strings defined in the app.
+     * @see HasAppStrings#getAppStringMap().
      */
     @Override public Map<String, String> getAppStringMap() {
         Response response = execute(GET_STRINGS);
@@ -620,23 +632,23 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @param language strings language code
-     * @return a map with localized strings defined in the app
-     * @see HasAppStrings#getAppStringMap(String)
+     * @param language strings language code.
+     * @return a map with localized strings defined in the app.
+     * @see HasAppStrings#getAppStringMap(String).
      */
     @Override public Map<String, String> getAppStringMap(String language) {
-        Response response = execute(GET_STRINGS, getCommandImmutableMap(LANGUAGE_PARAM, language));
+        Response response = execute(GET_STRINGS, getCommandImmutableMap("language", language));
         return (Map<String, String>) response.getValue();
     }
 
     /**
-     * @param language   strings language code
-     * @param stringFile strings filename
-     * @return a map with localized strings defined in the app
-     * @see HasAppStrings#getAppStringMap(String, String)
+     * @param language   strings language code.
+     * @param stringFile strings filename.
+     * @return a map with localized strings defined in the app.
+     * @see HasAppStrings#getAppStringMap(String, String).
      */
     @Override public Map<String, String> getAppStringMap(String language, String stringFile) {
-        String[] parameters = new String[] {LANGUAGE_PARAM, STRING_FILE_PARAM};
+        String[] parameters = new String[] {"language", "stringFile"};
         Object[] values = new Object[] {language, stringFile};
         Response response = execute(GET_STRINGS, getCommandImmutableMap(parameters, values));
         return (Map<String, String>) response.getValue();
@@ -656,7 +668,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement>
         return remoteAddress;
     }
 
-    @Override public abstract RequiredElementType scrollTo(String text);
+    @Override public abstract T scrollTo(String text);
 
-    @Override public abstract RequiredElementType scrollToExact(String text);
+    @Override public abstract T scrollToExact(String text);
 }

@@ -98,6 +98,11 @@
             <url>https://github.com/TikhomirovSergey</url>
             <id>TikhomirovSergey</id>
         </developer>
+        <developer>
+            <name>Srinivasan Sekar</name>
+            <url>https://github.com/SrinivasanTarget</url>
+            <id>SrinivasanTarget</id>
+        </developer>
     </developers>
 
     <distributionManagement>
@@ -227,6 +232,64 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>LATEST</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>${basedir}/google-style.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <linkXRef>false</linkXRef>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <configLocation>${basedir}/google-style.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <linkXRef>false</linkXRef>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

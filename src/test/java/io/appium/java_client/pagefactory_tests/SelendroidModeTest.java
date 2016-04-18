@@ -16,9 +16,19 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.pagefactory.*;
+
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.SelendroidFindAll;
+import io.appium.java_client.pagefactory.SelendroidFindBy;
+import io.appium.java_client.pagefactory.SelendroidFindBys;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -37,8 +47,6 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
-
 public class SelendroidModeTest {
     private static int SELENDROID_PORT = 9999;
 
@@ -53,7 +61,7 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(name = "Accessibility") private WebElement textName;
 
-    @AndroidFindBy(name = "Accessibility") private WebElement textNameAndroid;
+    @AndroidFindBy(id = "Accessibility") private WebElement textNameAndroid;
 
     @FindBy(name = "Accessibility") private WebElement textNameDefault;
 
@@ -73,6 +81,9 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(partialLinkText = "ccessibilit") private WebElement textPartialLink;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
@@ -89,18 +100,27 @@ public class SelendroidModeTest {
         driver.context("NATIVE_APP");
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
-        if (!populated)
+        if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
             PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        }
 
         populated = true;
     }

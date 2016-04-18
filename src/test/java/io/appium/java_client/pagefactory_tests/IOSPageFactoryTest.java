@@ -16,15 +16,30 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
-import io.appium.java_client.pagefactory.*;
+
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSFindAll;
+import io.appium.java_client.pagefactory.iOSFindBy;
+
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.*;
+
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,7 +51,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.List;
 
-public class iOSPageObjectTest {
+public class IOSPageFactoryTest {
 
     private static WebDriver driver;
     private static AppiumDriverLocalService service;
@@ -56,14 +71,14 @@ public class iOSPageObjectTest {
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<MobileElement> mobileButtons;
 
-    @FindBy(className = "UIAButton") private List<MobileElement> mobiletFindBy_Buttons;
+    @FindBy(className = "UIAButton") private List<MobileElement> mobiletFindByButtons;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<RemoteWebElement> remoteElementViews;
 
     @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(className = "android.widget.TextView")}) private List<WebElement>
-        chainElementViews;
+            @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+            @AndroidFindBy(className = "android.widget.TextView")}) private List<WebElement>
+            chainElementViews;
 
 
     @FindBy(className = "UIAButton") private WebElement uiButton;
@@ -84,24 +99,25 @@ public class iOSPageObjectTest {
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<TouchableElement> touchableButtons;
 
-    @FindBy(className = "UIAButton") private MobileElement mobiletFindBy_Button;
+    @FindBy(className = "UIAButton") private MobileElement mobiletFindByButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private RemoteWebElement remotetextVieW;
 
     @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(className = "android.widget.TextView")}) private WebElement chainElementView;
+            @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+            @AndroidFindBy(className = "android.widget.TextView")})
+    private WebElement chainElementView;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private IOSElement iosButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<IOSElement> iosButtons;
 
     @iOSFindAll({@iOSFindBy(id = "ComputeSumButton_Test"),
-        @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
+            @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
     }) private WebElement findAllElement;
 
     @iOSFindAll({@iOSFindBy(id = "ComputeSumButton_Test"),
-        @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
+            @iOSFindBy(xpath = "//*[@name = \"ComputeSumButton\"]")  //it is real locator
     }) private List<WebElement> findAllElements;
 
     @AndroidFindBy(className = "android.widget.TextView") @FindBy(css = "e.e1.e2")
@@ -110,7 +126,9 @@ public class iOSPageObjectTest {
     @AndroidFindBy(className = "android.widget.TextView") @FindBy(css = "e.e1.e2")
     private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
-
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -127,40 +145,49 @@ public class iOSPageObjectTest {
         driver = new IOSDriver(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
-    @SuppressWarnings("rawtypes") @Before public void setUp() throws Exception {
-        if (!populated)
+    /**
+     * The setting up.
+     */
+    @Before public void setUp() throws Exception {
+        if (!populated) {
             PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        }
 
         populated = true;
     }
 
     @Test public void findByElementsTest() {
-        Assert.assertNotEquals(0, uiButtons.size());
+        assertNotEquals(0, uiButtons.size());
     }
 
     @Test public void findByElementTest() {
-        Assert.assertNotEquals(null, uiButton.getText());
+        assertNotEquals(null, uiButton.getText());
     }
 
 
-    @Test public void iOSFindByElementsTest() {
-        Assert.assertNotEquals(0, iosUIButtons.size());
+    @Test public void iosFindByElementsTest() {
+        assertNotEquals(0, iosUIButtons.size());
     }
 
     @Test public void iosFindByElementTest() {
-        Assert.assertNotEquals(null, iosUIButton.getText());
+        assertNotEquals(null, iosUIButton.getText());
     }
 
     @Test public void checkThatElementsWereNotFoundByAndroidUIAutomator() {
-        Assert.assertEquals(0, androidUIAutomatorViews.size());
+        assertEquals(0, androidUIAutomatorViews.size());
     }
 
     @Test public void checkThatElementWasNotFoundByAndroidUIAutomator() {
@@ -170,51 +197,51 @@ public class iOSPageObjectTest {
         } catch (Exception e) {
             nsee = (NoSuchElementException) e;
         }
-        Assert.assertNotNull(nsee);
+        assertNotNull(nsee);
     }
 
-    @Test public void androidOrIOSFindByElementsTest() {
-        Assert.assertNotEquals(0, androidOriOsTextViews.size());
+    @Test public void androidOriOSFindByElementsTest() {
+        assertNotEquals(0, androidOriOsTextViews.size());
     }
 
     @Test public void androidOrIOSFindByElementTest() {
-        Assert.assertNotEquals(null, androidOriOsTextView.getText());
+        assertNotEquals(null, androidOriOsTextView.getText());
     }
 
-    @Test public void iOSFindByUIAutomatorElementsTest() {
-        Assert.assertNotEquals(0, iosUIAutomatorButtons.size());
+    @Test public void iosFindByUIAutomatorElementsTest() {
+        assertNotEquals(0, iosUIAutomatorButtons.size());
     }
 
-    @Test public void iOSFindByUIAutomatorElementTest() {
-        Assert.assertNotEquals(null, iosUIAutomatorButton.getText());
+    @Test public void iosFindByUIAutomatorElementTest() {
+        assertNotEquals(null, iosUIAutomatorButton.getText());
     }
 
     @Test public void areMobileElementsTest() {
-        Assert.assertNotEquals(0, mobileButtons.size());
+        assertNotEquals(0, mobileButtons.size());
     }
 
     @Test public void isMobileElementTest() {
-        Assert.assertNotEquals(null, mobileButton.getText());
+        assertNotEquals(null, mobileButton.getText());
     }
 
     @Test public void areMobileElements_FindByTest() {
-        Assert.assertNotEquals(0, mobiletFindBy_Buttons.size());
+        assertNotEquals(0, mobiletFindByButtons.size());
     }
 
     @Test public void isMobileElement_FindByTest() {
-        Assert.assertNotEquals(null, mobiletFindBy_Button.getText());
+        assertNotEquals(null, mobiletFindByButton.getText());
     }
 
     @Test public void areRemoteElementsTest() {
-        Assert.assertNotEquals(0, remoteElementViews.size());
+        assertNotEquals(0, remoteElementViews.size());
     }
 
     @Test public void isRemoteElementTest() {
-        Assert.assertNotEquals(null, remotetextVieW.getText());
+        assertNotEquals(null, remotetextVieW.getText());
     }
 
     @Test public void checkThatElementsWereNotFoundByAndroidUIAutomator_Chain() {
-        Assert.assertEquals(0, chainElementViews.size());
+        assertEquals(0, chainElementViews.size());
     }
 
     @Test public void checkThatElementWasNotFoundByAndroidUIAutomator_Chain() {
@@ -224,37 +251,37 @@ public class iOSPageObjectTest {
         } catch (Exception e) {
             nsee = (NoSuchElementException) e;
         }
-        Assert.assertNotNull(nsee);
+        assertNotNull(nsee);
     }
 
     @Test public void isIOSElementTest() {
-        Assert.assertNotEquals(null, iosButton.getText());
+        assertNotEquals(null, iosButton.getText());
     }
 
     @Test public void areIOSElements_FindByTest() {
-        Assert.assertNotEquals(0, iosButtons.size());
+        assertNotEquals(0, iosButtons.size());
     }
 
     @Test public void findAllElementsTest() {
-        Assert.assertNotEquals(0, findAllElements.size());
+        assertNotEquals(0, findAllElements.size());
     }
 
     @Test public void findAllElementTest() {
-        Assert.assertNotEquals(null, findAllElement.getText());
+        assertNotEquals(null, findAllElement.getText());
     }
 
     @Test public void isTouchAbleElement() {
-        Assert.assertNotEquals(null, touchableButton.getText());
+        assertNotEquals(null, touchableButton.getText());
     }
 
     @Test public void areTouchAbleElements() {
-        Assert.assertNotEquals(0, touchableButtons.size());
+        assertNotEquals(0, touchableButtons.size());
     }
 
     @SuppressWarnings("unused")
     @Test public void isTheFieldIOSElement() {
         IOSElement iOSElement =
-            (IOSElement) mobileButton; //declared as MobileElement
+                (IOSElement) mobileButton; //declared as MobileElement
         iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
         iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
         iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
@@ -262,8 +289,9 @@ public class iOSPageObjectTest {
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
         try {
-            Assert.assertNotEquals(null,
-                elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+            assertNotEquals(null,
+                    elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy
+                            .getAttribute("text"));
         } catch (NoSuchElementException ignored) {
             return;
         }
@@ -271,7 +299,6 @@ public class iOSPageObjectTest {
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List() {
-        Assert
-            .assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
+        assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
     }
 }

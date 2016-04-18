@@ -1,5 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widgets;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -19,16 +22,17 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 public class AndroidOverrideWidgetTest implements WidgetTest {
 
     private static AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    /**
+     * initialization.
+     */
+    @BeforeClass
+    public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -45,20 +49,32 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
             rottenTomatoes);
     }
 
-    @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+    /**
+     * finishing.
+     */
+    @AfterClass
+    public static void afterClass() throws Exception {
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
-    @Before public void setUp() throws Exception {
-        if (driver != null)
+    /**
+     * The setting up.
+     */
+    @Before
+    public void setUp() throws Exception {
+        if (driver != null) {
             driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
+        }
     }
 
-    @Test @Override public void checkACommonWidget() {
+    @Test
+    @Override public void checkACommonWidget() {
         assertTrue(rottenTomatoes.getSimpleMovieCount() >= 1);
         Movie movie = rottenTomatoes.getASimpleMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -70,7 +86,8 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         assertTrue(movie.getSelfReference().getClass().equals(AndroidMovie.class));
     }
 
-    @Override @Test public void checkAnAnnotatedWidget() {
+    @Override
+    @Test public void checkAnAnnotatedWidget() {
         assertTrue(rottenTomatoes.getAnnotatedMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnAnnotatedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -83,7 +100,9 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
     }
 
 
-    @Override @Test public void checkAnExtendedWidget() {
+    @Override
+    @Test
+    public void checkAnExtendedWidget() {
         assertTrue(rottenTomatoes.getExtendeddMovieCount() >= 1);
         Movie movie = rottenTomatoes.getAnExtendedMovie(0);
         assertTrue(!StringUtils.isBlank(movie.title()));
@@ -95,12 +114,15 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         assertTrue(movie.getSelfReference().getClass().equals(AnnotatedAndroidMovie.class));
     }
 
-    @Override @Test public void checkTheLocatorOverridingOnAWidget() {
+    @Override
+    @Test
+    public void checkTheLocatorOverridingOnAWidget() {
         try {
             assertTrue(rottenTomatoes.getFakedMovieCount() == 0);
         } catch (Exception e) {
-            if (!NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (!NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 throw e;
+            }
         }
 
         rottenTomatoes.getASimpleMovie(0).goToReview();
@@ -108,10 +130,11 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         try {
             rottenTomatoes.checkFakeReview();
         } catch (Exception e) {
-            if (NoSuchElementException.class.isAssignableFrom(e.getClass()))
+            if (NoSuchElementException.class.isAssignableFrom(e.getClass())) {
                 return;
-            else
+            } else {
                 throw e;
+            }
         }
         throw new RuntimeException("Any exception was expected");
     }

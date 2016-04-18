@@ -16,6 +16,9 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -35,14 +38,10 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
 public class DesktopBrowserCompatibilityTest {
 
 
     private final Platform current = Platform.getCurrent();
-    private final long IMPLICITLY_WAIT = 15;
     @AndroidFindBy(className = "someClass")
     @iOSFindBys({@iOSFindBy(xpath = "//selector[1]"), @iOSFindBy(xpath = "//someTag")})
     @FindBys({@FindBy(id = "main"), @FindBy(tagName = "p")}) private List<WebElement> foundLinks;
@@ -50,6 +49,9 @@ public class DesktopBrowserCompatibilityTest {
     private WebDriver trap1;
     private List<AndroidDriver<?>> trap2;
 
+    /**
+     * The starting.
+     */
     public void setUp() {
         if (current.is(Platform.WINDOWS)) {
             System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
@@ -64,7 +66,7 @@ public class DesktopBrowserCompatibilityTest {
         WebDriver driver = new ChromeDriver();
         try {
             PageFactory
-                .initElements(new AppiumFieldDecorator(driver, IMPLICITLY_WAIT, TimeUnit.SECONDS),
+                .initElements(new AppiumFieldDecorator(driver, 15, TimeUnit.SECONDS),
                     this);
             driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm")
                 .toURI().toString());

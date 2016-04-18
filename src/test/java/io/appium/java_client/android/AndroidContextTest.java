@@ -16,6 +16,8 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+
 import io.appium.java_client.NoSuchContextException;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -27,25 +29,25 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * Test context-related features
- */
 public class AndroidContextTest {
 
     private static AndroidDriver<?> driver;
     private static AppiumDriverLocalService service;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
@@ -59,6 +61,9 @@ public class AndroidContextTest {
         Thread.sleep(20000);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void tearDown() throws Exception {
         if (driver != null) {
             driver.quit();

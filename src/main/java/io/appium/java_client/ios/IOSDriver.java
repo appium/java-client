@@ -16,7 +16,12 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
+import static io.appium.java_client.MobileCommand.LOCK;
+import static io.appium.java_client.MobileCommand.SHAKE;
+
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
@@ -25,6 +30,7 @@ import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -33,72 +39,123 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 import java.util.List;
 
-import static io.appium.java_client.MobileCommand.*;
-
 /**
- * @param <RequiredElementType> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *                              Instances of the defined type will be returned via findElement* and findElements*.
- *                              Warning (!!!). Allowed types:
- *                              {@link org.openqa.selenium.WebElement}
- *                              {@link io.appium.java_client.TouchableElement}
- *                              {@link org.openqa.selenium.remote.RemoteWebElement}
- *                              {@link io.appium.java_client.MobileElement}
- *                              {@link io.appium.java_client.ios.IOSElement}
+ * @param <T> the required type of class which implement
+ *            {@link org.openqa.selenium.WebElement}.
+ *            Instances of the defined type will be returned via findElement* and findElements*.
+ *            Warning (!!!). Allowed types:
+ * {@link org.openqa.selenium.WebElement}
+ * {@link io.appium.java_client.TouchableElement}
+ * {@link org.openqa.selenium.remote.RemoteWebElement}
+ * {@link io.appium.java_client.MobileElement}
+ * {@link io.appium.java_client.ios.IOSElement}
  */
-public class IOSDriver<RequiredElementType extends WebElement>
-    extends AppiumDriver<RequiredElementType>
-    implements IOSDeviceActionShortcuts, GetsNamedTextField<RequiredElementType>,
-    FindsByIosUIAutomation<RequiredElementType> {
+public class IOSDriver<T extends WebElement>
+    extends AppiumDriver<T>
+    implements IOSDeviceActionShortcuts, GetsNamedTextField<T>,
+    FindsByIosUIAutomation<T> {
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
+    /**
+     * @param remoteAddress is the address
+     *                      of remotely/locally started Appium server
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
-    }
-
-    public IOSDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
-        this.setElementConverter(new JsonToIOSElementConverter(this));
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
     }
 
     /**
-     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
+     * @param remoteAddress is the address
+     *                      of remotely/locally started Appium server
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
+        Capabilities desiredCapabilities) {
+        super(remoteAddress, httpClientFactory,
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @param service take a look
+     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
+        Capabilities desiredCapabilities) {
+        super(service, httpClientFactory,
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @param builder take a look
+     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
+        Capabilities desiredCapabilities) {
+        super(builder, httpClientFactory,
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @param httpClientFactory take a look
+     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @param desiredCapabilities take a look
+     *                            at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(Capabilities desiredCapabilities) {
+        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+                JsonToIOSElementConverter.class);
+    }
+
+    /**
+     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int).
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
         doSwipe(startx, starty, endx - startx, endy - starty, duration);
@@ -106,28 +163,34 @@ public class IOSDriver<RequiredElementType extends WebElement>
 
     /**
      * Scroll to the element whose 'text' attribute contains the input text.
-     * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
+     * This scrolling happens within the first UIATableView on the UI.
+     * Use the method on IOSElement to scroll from a different ScrollView.
      *
-     * @param text input text contained in text attribute
+     * @param text input text contained in text attribute.
      */
-    @SuppressWarnings("unchecked") @Override public RequiredElementType scrollTo(String text) {
-        return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
+    @SuppressWarnings("unchecked")
+    @Override
+    public T scrollTo(String text) {
+        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
             .scrollTo(text);
     }
 
     /**
      * Scroll to the element whose 'text' attribute is equal to the input text.
-     * This scrolling happens within the first UIATableView on the UI. Use the method on IOSElement to scroll from a different ScrollView.
+     * This scrolling happens within the first UIATableView on the UI.
+     * Use the method on IOSElement to scroll from a different ScrollView.
      *
-     * @param text input text to match
+     * @param text input text to match.
      */
-    @SuppressWarnings("unchecked") @Override public RequiredElementType scrollToExact(String text) {
-        return (RequiredElementType) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
+    @SuppressWarnings("unchecked")
+    @Override
+    public T scrollToExact(String text) {
+        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
             .scrollToExact(text);
     }
 
     /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String)
+     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
      */
     @Override public void hideKeyboard(String strategy, String keyName) {
         String[] parameters = new String[] {"strategy", "key"};
@@ -136,53 +199,58 @@ public class IOSDriver<RequiredElementType extends WebElement>
     }
 
     /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String)
+     * @see IOSDeviceActionShortcuts#hideKeyboard(String).
      */
     @Override public void hideKeyboard(String keyName) {
         execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
     }
 
     /**
-     * @see IOSDeviceActionShortcuts#shake()
+     * @see IOSDeviceActionShortcuts#shake().
      */
     @Override public void shake() {
         execute(SHAKE);
     }
 
     /**
-     * @see GetsNamedTextField#getNamedTextField(String)
+     * @see GetsNamedTextField#getNamedTextField(String).
      */
-    @SuppressWarnings("unchecked") @Override public RequiredElementType getNamedTextField(
+    @SuppressWarnings("unchecked")
+    @Override
+    public T getNamedTextField(
         String name) {
-        RequiredElementType element = findElementByAccessibilityId(name);
+        T element = findElementByAccessibilityId(name);
         if (element.getTagName() != "TextField") {
-            return (RequiredElementType) ((FindsByAccessibilityId<?>) element).
-                findElementByAccessibilityId(name);
+            return (T) ((FindsByAccessibilityId<?>) element)
+                    .findElementByAccessibilityId(name);
         }
         return element;
     }
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is not applicable with browser/webview UI.
+     * @throws org.openqa.selenium.WebDriverException
+     *     This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
-    public RequiredElementType findElementByIosUIAutomation(String using)
+    @SuppressWarnings("unchecked")
+    @Override
+    public T findElementByIosUIAutomation(String using)
         throws WebDriverException {
-        return (RequiredElementType) findElement("-ios uiautomation", using);
+        return (T) findElement("-ios uiautomation", using);
     }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked") @Override
-    public List<RequiredElementType> findElementsByIosUIAutomation(String using)
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
-        return (List<RequiredElementType>) findElements("-ios uiautomation", using);
+        return (List<T>) findElements("-ios uiautomation", using);
     }
 
     /**
      * Lock the device (bring it to the lock screen) for a given number of
-     * seconds
+     * seconds.
      *
      * @param seconds number of seconds to lock the screen for
      */

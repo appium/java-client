@@ -18,27 +18,27 @@ package io.appium.java_client;
 
 public interface InteractsWithApps {
     /**
-     * Launch the app which was provided in the capabilities at session creation
+     * Launch the app which was provided in the capabilities at session creation.
      */
     void launchApp();
 
     /**
-     * Install an app on the mobile device
+     * Install an app on the mobile device.
      *
-     * @param appPath path to app to install
+     * @param appPath path to app to install.
      */
     void installApp(String appPath);
 
     /**
-     * Checks if an app is installed on the device
+     * Checks if an app is installed on the device.
      *
-     * @param bundleId bundleId of the app
-     * @return True if app is installed, false otherwise
+     * @param bundleId bundleId of the app.
+     * @return True if app is installed, false otherwise.
      */
     boolean isAppInstalled(String bundleId);
 
     /**
-     * Reset the currently running app for this session
+     * Reset the currently running app for this session.
      */
     void resetApp();
 
@@ -47,19 +47,19 @@ public interface InteractsWithApps {
      * requested. This is a synchronous method, it returns after the back has
      * been returned to the foreground.
      *
-     * @param seconds Number of seconds to run App in background
+     * @param seconds Number of seconds to run App in background.
      */
     void runAppInBackground(int seconds);
 
     /**
-     * Remove the specified app from the device (uninstall)
+     * Remove the specified app from the device (uninstall).
      *
-     * @param bundleId the bunble identifier (or app id) of the app to remove
+     * @param bundleId the bunble identifier (or app id) of the app to remove.
      */
     void removeApp(String bundleId);
 
     /**
-     * Close the app which was provided in the capabilities at session creation
+     * Close the app which was provided in the capabilities at session creation.
      */
     void closeApp();
 

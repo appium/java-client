@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.ios;
 
 import io.appium.java_client.AppiumDriver;
@@ -30,12 +31,16 @@ public class BaseIOSWebViewTest {
     protected static AppiumDriver<?> driver;
     private static AppiumDriverLocalService service;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "WebViewApp.app.zip");
@@ -49,6 +54,9 @@ public class BaseIOSWebViewTest {
         driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void tearDown() throws Exception {
         if (driver != null) {
             driver.quit();

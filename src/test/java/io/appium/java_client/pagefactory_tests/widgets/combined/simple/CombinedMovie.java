@@ -10,18 +10,25 @@ import org.openqa.selenium.support.FindBy;
 public class CombinedMovie extends Movie {
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvTitle")
-    @SelendroidFindBy(id = "tvTitle") @FindBy(className = "movieTitle") private RemoteWebElement
-        title;
+    @SelendroidFindBy(id = "tvTitle")
+    @FindBy(className = "movieTitle")
+    private RemoteWebElement title;
 
-    @AndroidFindBy(uiAutomator = "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
-    @FindBy(className = "tMeterScore") @SelendroidFindBy(id = "tvCriticsScore")
+    @AndroidFindBy(uiAutomator =
+        "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
+    @FindBy(className = "tMeterScore")
+    @SelendroidFindBy(id = "tvCriticsScore")
     private RemoteWebElement score;
 
-    @AndroidFindBy(accessibility = "poster image") @SelendroidFindBy(id = "ivPosterImage")
-    @FindBy(className = "poster_container") private RemoteWebElement poster;
+    @AndroidFindBy(accessibility = "poster image")
+    @SelendroidFindBy(id = "ivPosterImage")
+    @FindBy(className = "poster_container")
+    private RemoteWebElement poster;
 
-    @AndroidFindBy(accessibility = "poster image") @SelendroidFindBy(id = "ivPosterImage")
-    @FindBy(xpath = ".//*[@class=\"movie_info\"]/a/h3") private RemoteWebElement movieSwitcher;
+    @AndroidFindBy(accessibility = "poster image")
+    @SelendroidFindBy(id = "ivPosterImage")
+    @FindBy(xpath = ".//*[@class=\"movie_info\"]/a/h3")
+    private RemoteWebElement movieSwitcher;
 
     protected CombinedMovie(WebElement element) {
         super(element);

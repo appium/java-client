@@ -22,7 +22,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
  * Original class is a super class of a
- * proxy object here
+ * proxy object here.
  */
 public final class ProxyFactory {
 
@@ -34,8 +34,21 @@ public final class ProxyFactory {
         return getEnhancedProxy(requiredClazz, new Class<?>[] {}, new Object[] {}, interceptor);
     }
 
+    /**
+     * It returns some proxies created by CGLIB.
+     *
+     * @param requiredClazz is a {@link java.lang.Class} whose instance should be created
+     * @param params is an array of @link java.lang.Class}. It should be convenient to
+     *               parameter types of some declared constructor which belongs to desired
+     *               class.
+     * @param values is an array of @link java.lang.Object}. It should be convenient to
+     *               parameter types of some declared constructor which belongs to desired
+     *               class.
+     * @param interceptor is the instance of {@link net.sf.cglib.proxy.MethodInterceptor}
+     * @return a proxied instance of the desired class
+     */
     @SuppressWarnings("unchecked")
-    public static <T> T getEnhancedProxy(Class<T> requiredClazz, Class[] params, Object[] values,
+    public static <T> T getEnhancedProxy(Class<T> requiredClazz, Class<?>[] params, Object[] values,
         MethodInterceptor interceptor) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(requiredClazz);

@@ -1,5 +1,7 @@
 package io.appium.java_client.localserver;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -21,14 +23,14 @@ import java.net.NetworkInterface;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class ServerBuilderTest {
 
     private static Properties properties;
     private static String testIP;
 
+    /**
+     * initialization.
+     */
     @BeforeClass public static void beforeClass() throws Exception {
         File file =
             new File("src/test/java/io/appium/java_client/localserver/custom_node_path.properties");
@@ -60,11 +62,13 @@ public class ServerBuilderTest {
 
     private static File findCustomNode() {
         Platform current = Platform.getCurrent();
-        if (current.is(Platform.WINDOWS))
+        if (current.is(Platform.WINDOWS)) {
             return new File(String.valueOf(properties.get("path.to.custom.node.win")));
+        }
 
-        if (current.is(Platform.MAC))
+        if (current.is(Platform.MAC)) {
             return new File(String.valueOf(properties.get("path.to.custom.node.macos")));
+        }
 
         return new File(String.valueOf(properties.get("path.to.custom.node.linux")));
     }
@@ -139,8 +143,8 @@ public class ServerBuilderTest {
         AppiumDriverLocalService service = null;
         try {
             service =
-                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP).
-                    withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP)
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                     .withArgument(GeneralServerFlag.PRE_LAUNCH).build();
             service.start();
             assertEquals(true, service.isRunning());
@@ -204,10 +208,10 @@ public class ServerBuilderTest {
         AppiumDriverLocalService service = null;
         try {
             service =
-                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP).
-                    withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                    .withArgument(GeneralServerFlag.PRE_LAUNCH).
-                    withCapabilities(capabilities).build();
+                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP)
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                    .withArgument(GeneralServerFlag.PRE_LAUNCH)
+                    .withCapabilities(capabilities).build();
             service.start();
             assertEquals(true, service.isRunning());
         } finally {
@@ -228,11 +232,13 @@ public class ServerBuilderTest {
             assertTrue(file.length() > 0);
         } finally {
             service.stop();
-            if (stream != null)
+            if (stream != null) {
                 stream.close();
+            }
 
-            if (file.exists())
+            if (file.exists()) {
                 file.delete();
+            }
         }
     }
 
@@ -248,11 +254,13 @@ public class ServerBuilderTest {
             assertTrue(file.length() > 0);
         } finally {
             service.stop();
-            if (stream != null)
+            if (stream != null) {
                 stream.close();
+            }
 
-            if (file.exists())
+            if (file.exists()) {
                 file.delete();
+            }
         }
     }
 
@@ -265,12 +273,12 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartAndShutDownFewServices() throws Exception {
         AppiumDriverLocalService service1 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        AppiumDriverLocalService service2 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        AppiumDriverLocalService service3 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        AppiumDriverLocalService service4 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service1.start();
+        AppiumDriverLocalService service2 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service2.start();
+        AppiumDriverLocalService service3 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service3.start();
+        AppiumDriverLocalService service4 = new AppiumServiceBuilder().usingAnyFreePort().build();
         service4.start();
         service1.stop();
         Thread.sleep(1000);

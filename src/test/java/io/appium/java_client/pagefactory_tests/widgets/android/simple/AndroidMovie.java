@@ -10,7 +10,8 @@ public class AndroidMovie extends Movie {
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvTitle") private AndroidElement
         title;
 
-    @AndroidFindBy(uiAutomator = "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
+    @AndroidFindBy(uiAutomator =
+        "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
     private AndroidElement score;
 
     @AndroidFindBy(accessibility = "poster image") private AndroidElement poster;

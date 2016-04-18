@@ -25,7 +25,7 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
      * showing.
      *
      * @param keyName The button pressed by the mobile driver to attempt hiding the
-     *                keyboard
+     *                keyboard.
      */
     void hideKeyboard(String keyName);
 
@@ -36,14 +36,14 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
      * depends on the way an app is implemented, no single strategy always
      * works.
      *
-     * @param strategy HideKeyboardStrategy
+     * @param strategy HideKeyboardStrategy.
      * @param keyName  a String, representing the text displayed on the button of the
-     *                 keyboard you want to press. For example: "Done"
+     *                 keyboard you want to press. For example: "Done".
      */
     void hideKeyboard(String strategy, String keyName);
 
     /**
-     * Simulate shaking the device
+     * Simulate shaking the device.
      */
     void shake();
 

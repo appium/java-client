@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.Response;
 
@@ -29,6 +30,13 @@ public class AppiumExecutionMethod implements ExecuteMethod {
         this.driver = driver;
     }
 
+    /**
+     * This method executes a command supported by Appium JSONWP.
+     *
+     * @param commandName a JSONWP command
+     * @param parameters is a map which contains parameter names as keys and parameter values
+     * @return a command execution result
+     */
     public Object execute(String commandName, Map<String, ?> parameters) {
         Response response;
 

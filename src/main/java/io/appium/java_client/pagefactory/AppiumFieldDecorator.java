@@ -16,6 +16,12 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getAutomation;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getPlatform;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
+    .unpackWebDriverFromSearchContext;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -41,9 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.*;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -73,7 +76,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         };
 
-    private final static Map<Class<? extends SearchContext>, Class<? extends WebElement>>
+    private static final Map<Class<? extends SearchContext>, Class<? extends WebElement>>
         elementRuleMap =
         new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
             private static final long serialVersionUID = 1L;
@@ -97,6 +100,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this(context, new TimeOutDuration(implicitlyWaitTimeOut, timeUnit));
     }
 
+    /**
+     * @param context is an instance of {@link org.openqa.selenium.SearchContext}
+     *                It may be the instance of {@link org.openqa.selenium.WebDriver}
+     *                or {@link org.openqa.selenium.WebElement} or
+     *                {@link io.appium.java_client.pagefactory.Widget} or some other user's
+     *                extension/implementation.
+     * @param timeOutDuration is a desired duration of the waiting for an element presence.
+     */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
         platform = getPlatform(originalDriver);
@@ -111,7 +122,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 return proxyForAnElement(locator);
             }
 
-            @Override @SuppressWarnings("unchecked")
+            @Override
+            @SuppressWarnings("unchecked")
             protected List<WebElement> proxyForListLocator(ClassLoader ignored,
                 ElementLocator locator) {
                 ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
@@ -151,6 +163,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this(context, DEFAULT_IMPLICITLY_WAIT_TIMEOUT, DEFAULT_TIMEUNIT);
     }
 
+    /**
+     * @param ignored class loader is ignored by current implementation
+     * @param field is {@link java.lang.reflect.Field} of page object which is supposed to be
+     *              decorated.
+     * @return a field value or null.
+     */
     public Object decorate(ClassLoader ignored, Field field) {
         Object result = defaultElementFieldDecoracor.decorate(ignored, field);
         if (result != null) {
@@ -160,7 +178,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
         return decorateWidget(field);
     }
 
-    @SuppressWarnings("unchecked") private Object decorateWidget(Field field) {
+    @SuppressWarnings("unchecked")
+    private Object decorateWidget(Field field) {
         Class<?> type = field.getType();
         if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
             return null;

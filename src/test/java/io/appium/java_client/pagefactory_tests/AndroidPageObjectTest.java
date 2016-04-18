@@ -16,11 +16,21 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.pagefactory.*;
+import io.appium.java_client.pagefactory.AndroidFindAll;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.SelendroidFindBy;
+import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.pagefactory.iOSFindBys;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
@@ -40,10 +50,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class AndroidPageObjectTest {
 
@@ -163,7 +169,10 @@ public class AndroidPageObjectTest {
 
     @FindBy(id = "fakeId") private List<WebElement> fakeElements;
 
-    @SuppressWarnings("rawtypes") @BeforeClass public static void beforeClass() throws Exception {
+    /**
+     * initialization.
+     */
+    @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -175,18 +184,27 @@ public class AndroidPageObjectTest {
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() throws Exception {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
 
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
+    /**
+     * The setting up.
+     */
     @Before public void setUp() throws Exception {
-        if (!populated)
+        if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
             PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        }
 
         populated = true;
     }
@@ -320,7 +338,9 @@ public class AndroidPageObjectTest {
         assertNotEquals(0, touchabletextVieWs.size());
     }
 
-    @Test @SuppressWarnings("unused") public void isTheFieldAndroidElement() {
+    @Test
+    @SuppressWarnings("unused")
+    public void isTheFieldAndroidElement() {
         AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement

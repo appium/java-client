@@ -31,17 +31,38 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface SelendroidFindBy {
+    /**
+     * It is an id of the target element.
+     */
     String id() default "";
 
+    /**
+     * It is used in Selendroid mode instead of accessibility id.
+     */
     String name() default "";
 
+    /**
+     * It is a className of the target element.
+     */
     String className() default "";
 
+    /**
+     * It is a desired element tag.
+     */
     String tagName() default "";
 
+    /**
+     * It is a xpath to the target element.
+     */
     String xpath() default "";
 
+    /**
+     * It is a text of the desired element.
+     */
     String linkText() default "";
 
+    /**
+     * It is a part of the text of the desired element.
+     */
     String partialLinkText() default "";
 }

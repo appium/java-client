@@ -18,8 +18,13 @@ package io.appium.java_client.remote;
 
 
 import com.google.common.base.Throwables;
+
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.Command;
+import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.internal.ApacheHttpClient;
 import org.openqa.selenium.remote.service.DriverService;
@@ -64,13 +69,16 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             return super.execute(command);
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
-            if (rootCause instanceof ConnectException &&
-                rootCause.getMessage().contains("Connection refused") && service != null) {
-                if (service.isRunning())
+            if (rootCause instanceof ConnectException
+                && rootCause.getMessage().contains("Connection refused")
+                && service != null) {
+                if (service.isRunning()) {
                     throw new WebDriverException("The session is closed!", t);
+                }
 
-                if (!service.isRunning())
+                if (!service.isRunning()) {
                     throw new WebDriverException("The appium server has accidentally died!", t);
+                }
             }
             Throwables.propagateIfPossible(t);
             throw new WebDriverException(t);

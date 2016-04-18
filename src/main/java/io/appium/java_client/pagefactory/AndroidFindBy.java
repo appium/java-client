@@ -31,22 +31,37 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface AndroidFindBy {
+    /**
+     * It is an is Android UIAutomator string.
+     * Read {@link http://developer.android.com/intl/ru/tools/testing-support-library/
+     * index.html#uia-apis}
+     */
     String uiAutomator() default "";
 
+    /**
+     * It an UI automation accessibility Id which is a convenient to Android.
+     * About Android accessibility
+     * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
+     */
     String accessibility() default "";
 
+    /**
+     * It is an id of the target element.
+     */
     String id() default "";
 
-    @Deprecated
     /**
-     * By.name selector is not supported by Appium server node since 1.5.x.
-     * So this option is going to be removed further. Be careful.
+     * It is a className of the target element.
      */
-        String name() default "";
-
     String className() default "";
 
+    /**
+     * It is a desired element tag.
+     */
     String tagName() default "";
 
+    /**
+     * It is a xpath to the target element.
+     */
     String xpath() default "";
 }

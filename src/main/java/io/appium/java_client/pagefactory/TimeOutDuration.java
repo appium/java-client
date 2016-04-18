@@ -16,10 +16,10 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents an duration of waiting for element rendering.
@@ -41,13 +41,13 @@ public class TimeOutDuration {
         return time;
     }
 
+    public TimeUnit getTimeUnit() {
+        return unit;
+    }
+
     public void setTime(TimeUnit newTimeUnit) {
         checkNotNull(newTimeUnit);
         unit = newTimeUnit;
-    }
-
-    public TimeUnit getTimeUnit() {
-        return unit;
     }
 
     public void setTime(long newTime) {

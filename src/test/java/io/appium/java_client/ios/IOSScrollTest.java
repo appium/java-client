@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.ios;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
@@ -26,9 +30,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 public class IOSScrollTest {
 
     private static AppiumDriverLocalService service;
@@ -38,8 +39,9 @@ public class IOSScrollTest {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        if (service == null || !service.isRunning())
+        if (service == null || !service.isRunning()) {
             throw new RuntimeException("An appium server node is not started!");
+        }
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "UICatalog.app.zip");
@@ -53,12 +55,16 @@ public class IOSScrollTest {
         driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
+    /**
+     * finishing.
+     */
     @AfterClass public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }
-        if (service != null)
+        if (service != null) {
             service.stop();
+        }
     }
 
     @Test public void scrollToTestCase() {

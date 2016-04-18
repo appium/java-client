@@ -8,14 +8,15 @@ import org.openqa.selenium.WebElement;
 
 public class AndroidReview extends Review {
 
-    @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvTitle") private AndroidElement
-        title;
+    @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvTitle")
+    private AndroidElement title;
 
-    @AndroidFindBy(uiAutomator = "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
+    @AndroidFindBy(uiAutomator =
+        "resourceId(\"com.codepath.example.rottentomatoes:id/tvCriticsScore\")")
     private AndroidElement score;
 
-    @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvSynopsis") private AndroidElement
-        synopsis;
+    @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvSynopsis")
+    private AndroidElement synopsis;
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/ivPosterImage")
     private AndroidElement poster;

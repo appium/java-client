@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.pagefactory.bys.builder;
+
+import static io.appium.java_client.remote.AutomationName.SELENDROID;
+import static io.appium.java_client.remote.MobilePlatform.ANDROID;
+import static io.appium.java_client.remote.MobilePlatform.IOS;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
@@ -28,10 +33,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.appium.java_client.remote.AutomationName.SELENDROID;
-import static io.appium.java_client.remote.MobilePlatform.ANDROID;
-import static io.appium.java_client.remote.MobilePlatform.IOS;
-
 /**
  * It is the basic handler of Appium-specific page object annotations
  * About the Page Object design pattern please read these documents:
@@ -39,13 +40,11 @@ import static io.appium.java_client.remote.MobilePlatform.IOS;
  * - https://code.google.com/p/selenium/wiki/PageFactory
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
-    final static Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
+    static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
 
-    private final static List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
+    private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
-            private static final long serialVersionUID = 1L;
-
-            {
+            private static final long serialVersionUID = 1L; {
                 List<String> objectClassMethodNames =
                     getMethodNames(Object.class.getDeclaredMethods());
                 addAll(objectClassMethodNames);
@@ -97,7 +96,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 if (!"".equals(strategyParameter)) {
                     return value.getName();
                 }
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            } catch (IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -107,7 +108,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     }
 
     private static By getMobileBy(Annotation annotation, String valueName) {
-        Strategies strategies[] = Strategies.values();
+        Strategies[] strategies = Strategies.values();
         for (Strategies strategy : strategies) {
             if (strategy.returnValueName().equals(valueName)) {
                 return strategy.getBy(annotation);

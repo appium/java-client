@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConvenientConstructor;
+import static io.appium.java_client.remote.MobilePlatform.ANDROID;
+import static io.appium.java_client.remote.MobilePlatform.IOS;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.remote.AutomationName;
@@ -25,10 +29,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConvenientConstructor;
-import static io.appium.java_client.remote.MobilePlatform.ANDROID;
-import static io.appium.java_client.remote.MobilePlatform.IOS;
 
 class OverrideWidgetReader {
     private static final Class<? extends Widget> EMPTY = Widget.class;
@@ -47,23 +47,26 @@ class OverrideWidgetReader {
             if (overrideWidget == null || (convenientClass =
                 (Class<? extends Widget>) OverrideWidget.class
                     .getDeclaredMethod(method, new Class[] {}).invoke(overrideWidget))
-                .equals(EMPTY))
+                .equals(EMPTY)) {
                 convenientClass = declaredClass;
+            }
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
         if (!declaredClass.isAssignableFrom(convenientClass)) {
             throw new IllegalArgumentException(
-                new InstantiationException(declaredClass.getName() + " is not assignable from " +
-                    convenientClass.getName()));
+                new InstantiationException(declaredClass.getName()
+                    + " is not assignable from "
+                    + convenientClass.getName()));
         }
 
         int modifiers = convenientClass.getModifiers();
         if (Modifier.isAbstract(modifiers)) {
             throw new IllegalArgumentException(
-                new InstantiationException(convenientClass.getName() + " is abstract so " +
-                    "it can't be instantiated"));
+                new InstantiationException(convenientClass.getName()
+                    + " is abstract so "
+                    + "it can't be instantiated"));
         }
 
         return convenientClass;

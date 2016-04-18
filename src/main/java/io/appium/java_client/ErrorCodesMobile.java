@@ -18,6 +18,7 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.ErrorCodes;
 
@@ -37,13 +38,12 @@ public class ErrorCodesMobile extends ErrorCodes {
             .build();
 
     /**
-     * Returns the exception type that corresponds to the given {@code statusCode}. All unrecognized
-     * status codes will be mapped to {@link WebDriverException WebDriverException.class}.
-     *
-     * @param statusCode The status code to convert.
-     * @return The exception type that corresponds to the provided status code or {@code null} if
-     * {@code statusCode == 0}.
-     */
+    * Returns the exception type that corresponds to the given {@code statusCode}. All unrecognized
+    * status codes will be mapped to {@link WebDriverException WebDriverException.class}.
+    *
+    * @param statusCode The status code to convert.
+    * @return The exception type that corresponds to the provided status
+    */
     public Class<? extends WebDriverException> getExceptionType(int statusCode) {
         switch (statusCode) {
             case NO_SUCH_CONTEXT:
@@ -54,9 +54,9 @@ public class ErrorCodesMobile extends ErrorCodes {
     }
 
     /**
-     * @param message An error message returned by Appium server
+     * @param message message An error message returned by Appium server
      * @return The exception type that corresponds to the provided error message or {@code null} if
-     * there are no matching mobile exceptions.
+     *     there are no matching mobile exceptions.
      */
     public Class<? extends WebDriverException> getExceptionType(String message) {
         for (Map.Entry<Integer, String> entry : statusToState.entrySet()) {
@@ -68,11 +68,11 @@ public class ErrorCodesMobile extends ErrorCodes {
     }
 
     /**
-     * Converts a thrown error into the corresponding status code.
-     *
-     * @param thrown The thrown error.
-     * @return The corresponding status code for the given thrown error.
-     */
+    * Converts a thrown error into the corresponding status code.
+    *
+    * @param thrown The thrown error.
+    * @return The corresponding status code for the given thrown error.
+    */
     public int toStatusCode(Throwable thrown) {
         if (thrown instanceof NoSuchContextException) {
             return NO_SUCH_CONTEXT;

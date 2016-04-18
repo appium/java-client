@@ -21,19 +21,18 @@ import io.appium.java_client.NetworkConnectionSetting;
 public interface HasNetworkConnection {
 
     /**
-     * Get the current network settings of the device.
-     *
-     * @return NetworkConnectionSetting objects will let you inspect the status
-     * of AirplaneMode, Wifi, Data connections
-     */
+    * Get the current network settings of the device.
+    *
+    * @return NetworkConnectionSetting objects will let you inspect the status
+    *     of AirplaneMode, Wifi, Data connections
+    */
     NetworkConnectionSetting getNetworkConnection();
 
     /**
-     * Set the network connection of the device. This is an Android-only method
-     *
-     * @param connection The NetworkConnectionSetting configuration to use for the
-     *                   device
-     */
+    * Set the network connection of the device. This is an Android-only method
+    *
+    * @param connection The NetworkConnectionSetting configuration to use for the device
+    */
     void setNetworkConnection(NetworkConnectionSetting connection);
 
 }
