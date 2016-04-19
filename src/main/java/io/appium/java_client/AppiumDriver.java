@@ -61,6 +61,7 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
 	// frequently used command parameters
 	protected final String KEY_CODE = "keycode";
 	protected final String PATH = "path";
+	protected final String PKG = "pkg";
 	private final String SETTINGS = "settings";
 
 	private final String LANGUAGE_PARAM = "language";
@@ -690,12 +691,15 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(SWIPE_UP_HOME_BUTTON, postC("/session/:sessionId/appium/device/swipe_up_home_button"))
                 .put(CLEAR_DATA, postC("/session/:sessionId/appium/device/clear_data"))
                 .put(ADB_SWIPE, postC("/session/:sessionId/appium/device/adb_swipe"))
+                .put(ADB_TAP, postC("/session/:sessionId/appium/device/adb_tap"))
                 .put(ADB_INPUT_TEXT, postC("/session/:sessionId/appium/device/adb_input_text"))
                 .put(GET_NAVIGATION_BAR_REGION, getC("/session/:sessionId/appium/device/get_navigation_bar_region"))
                 .put(GET_DISPLAY_METRICS, getC("/session/:sessionId/appium/device/get_display_metrics"))
                 .put(GET_DATE, getC("/session/:sessionId/appium/device/get_date"))
+                .put(GET_DATE_STRING, getC("/session/:sessionId/appium/device/get_date_string"))
                 .put(SET_DATE, postC("/session/:sessionId/appium/device/set_date"))
                 .put(HAS_ROOT, getC("/session/:sessionId/appium/device/has_root"))
+                .put(GET_VERSIONS, postC("/session/:sessionId/appium/device/get_versions"))
                 .put(IS_SOFT_KEYBOARD_PRESENT, getC("/session/:sessionId/appium/device/is_soft_keyboard_present"));
 
         return builder.build();

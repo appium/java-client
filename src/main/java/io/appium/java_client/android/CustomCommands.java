@@ -1,6 +1,7 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.DisplayMetrics;
+import io.appium.java_client.PackageVersion;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -22,10 +23,13 @@ public interface CustomCommands {
     void clearData(String pkg);
     void adbSwipe(int x1, int y1, int x2, int y2, int duration, int sleep);
     void adbSwipe(int x1, int y1, int x2, int y2, int duration);
+    void adbTap(int x, int y);
     void adbInputText(String text);
     Rectangle getNavigationBarRegion();
     DisplayMetrics getDisplayMetrics();
     long getDate();
+    String getDateString();
     void setDate(long time);
     boolean hasRoot();
+    List<PackageVersion> getVersions(String pkg);
 }

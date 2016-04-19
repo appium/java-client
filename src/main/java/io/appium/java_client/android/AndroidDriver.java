@@ -23,6 +23,7 @@ import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.DisplayMetrics;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.NetworkConnectionSetting;
+import io.appium.java_client.PackageVersion;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -36,15 +37,19 @@ import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.ADB_INPUT_TEXT;
 import static io.appium.java_client.MobileCommand.ADB_SWIPE;
+import static io.appium.java_client.MobileCommand.ADB_TAP;
 import static io.appium.java_client.MobileCommand.GET_DATE;
+import static io.appium.java_client.MobileCommand.GET_DATE_STRING;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
 import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
+import static io.appium.java_client.MobileCommand.GET_VERSIONS;
 import static io.appium.java_client.MobileCommand.HAS_ROOT;
 import static io.appium.java_client.MobileCommand.SET_DATE;
 import static io.appium.java_client.MobileCommand.SWIPE_UP_HOME_BUTTON;
@@ -454,6 +459,12 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 		execute(ADB_SWIPE, getCommandImmutableMap(parameters, values));
 	}
 
+	public void adbTap(int x, int y) {
+		String[] parameters = new String[] { "x", "y"};
+		Object[] values = new Object[] { x, y };
+		execute(ADB_TAP, getCommandImmutableMap(parameters, values));
+	}
+
 	public Rectangle getNavigationBarRegion() {
 		Response response = execute(GET_NAVIGATION_BAR_REGION);
 		ArrayList<String> data = (ArrayList<String>) response.getValue();
@@ -477,7 +488,12 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public long getDate() {
 		Response response = execute(GET_DATE);
-		return (long) response.getValue();
+		return Long.parseLong((String) response.getValue());
+	}
+
+	public String getDateString() {
+		Response response = execute(GET_DATE_STRING);
+		return (String) response.getValue();
 	}
 
 	public void setDate(long time) {
@@ -486,5 +502,15 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public void adbInputText(String text) {
 		execute(ADB_INPUT_TEXT, ImmutableMap.of("text", text));
+	}
+
+
+	public List<PackageVersion> getVersions(String pkg) {
+		Response response = execute(GET_VERSIONS, ImmutableMap.of(PKG, pkg));
+		List<PackageVersion> versions = new ArrayList<>();
+		for (Object o : ((ArrayList<Map<String, String>>) response.getValue())) {
+			versions.add(new PackageVersion((Map<String, String>) o));
+		}
+		return versions;
 	}
 }

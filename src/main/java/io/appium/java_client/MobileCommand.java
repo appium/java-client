@@ -63,10 +63,13 @@ public interface MobileCommand {
   String CLEAR_DATA = "clearData";
   String SWIPE_UP_HOME_BUTTON = "swipeUpHomeButton";
   String ADB_SWIPE = "adbSwipe";
+  String ADB_TAP = "adbTap";
   String ADB_INPUT_TEXT = "adbInputText";
   String GET_NAVIGATION_BAR_REGION = "getNavigationBarRegion";
   String GET_DISPLAY_METRICS = "getDisplayMetrics";
   String GET_DATE = "getDate";
+  String GET_DATE_STRING = "getDateString";
   String SET_DATE = "setDate";
   String HAS_ROOT = "hasRoot";
+  String GET_VERSIONS = "getVersions";
 }
