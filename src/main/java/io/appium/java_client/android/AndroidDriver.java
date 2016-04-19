@@ -488,7 +488,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	public long getDate() {
 		Response response = execute(GET_DATE);
-		return (long) response.getValue();
+		return Long.parseLong((String) response.getValue());
 	}
 
 	public String getDateString() {
