@@ -670,5 +670,7 @@ public abstract class AppiumDriver<T extends WebElement>
 
     @Override public abstract T scrollTo(String text);
 
+    @Override public abstract T scrollToUsingPredicates(String predicateString);
+
     @Override public abstract T scrollToExact(String text);
 }

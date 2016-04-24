@@ -35,6 +35,17 @@ public class ScrollTest extends BaseAndroidTest {
         assertNotNull(radioGroup.getLocation());
     }
 
+    @Test public void scrollToUsingPredicatesTest() {
+        driver.findElementByAccessibilityId("Views").click();
+        driver.scrollToUsingPredicates("new UiScrollable(new UiSelector()"
+            + ".scrollable(true).instance(0))"
+            + ".scrollIntoView(new UiSelector()"
+            + ".descriptionContains(\"Radio G\").instance(0));"
+            + "new UiScrollable(new UiSelector().scrollable(true).instance(0))"
+            + ".scrollIntoView(new UiSelector()"
+            + ".textContains(\"Radio G\").instance(0));");
+    }
+
     @Test public void scrollToExactTest() {
         driver.findElementByAccessibilityId("Views").click();
         driver.scrollToExact("Radio Group");

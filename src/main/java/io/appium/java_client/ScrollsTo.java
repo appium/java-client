@@ -29,6 +29,14 @@ public interface ScrollsTo<T extends WebElement> {
     T scrollTo(String text);
 
     /**
+     * Scroll to the element whose 'predicateString' is predicate of an element..
+     * Scrolling happens within this element.
+     *
+     * @param predicateString iOS predicate of an element.
+     */
+    T scrollToUsingPredicates(String predicateString);
+
+    /**
      * Scroll to an element with the given text.
      *
      * @param text description or text of an element scroll to

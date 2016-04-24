@@ -176,6 +176,18 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
+     * Scroll to the element whose 'predicateString' is an iOS predicate of an element..
+     * Scrolling happens within this element.
+     *
+     * @param predicateString iOS predicate of an element.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public T scrollToUsingPredicates(String predicateString) {
+        return (T) findElementByIosUIAutomation(predicateString);
+    }
+
+    /**
      * Scroll to the element whose 'text' attribute is equal to the input text.
      * This scrolling happens within the first UIATableView on the UI.
      * Use the method on IOSElement to scroll from a different ScrollView.
