@@ -269,7 +269,6 @@
                 <configuration>
                     <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
                     <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
-                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
