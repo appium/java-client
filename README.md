@@ -125,6 +125,8 @@ anymore.
 - Constructors of the abstract `io.appium.java_client.AppiumDriver` were redesigned. Now they require 
 a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Constructors of 
 `io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver` are same still.
+- the integration with `org.owasp dependency-check-maven` was added. Thanks to [#saikrishna321](https://github.com/saikrishna321) 
+for the work.
 
 ...
 
