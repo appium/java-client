@@ -11,7 +11,7 @@ _Put an `x` in the boxes that apply_
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
-##Details
+## Details
 
 Please provide more details about changes if it is necessary. If there are new features you can provide code samples which show the way they
 work and possible use cases. Also you can create [gists](https://gist.github.com) with pasted java code samples or put them here using markdown. 
