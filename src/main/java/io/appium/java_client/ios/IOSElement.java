@@ -66,16 +66,6 @@ public class IOSElement extends MobileElement
     }
 
     /**
-     * Scroll to the element whose 'predicateString' is an iOS predicate of an element..
-     * Scrolling happens within this element.
-     *
-     * @param predicateString iOS predicate of an element.
-     */
-    @Override public MobileElement scrollToUsingPredicates(String predicateString) {
-        return (MobileElement) findElementByIosUIAutomation(predicateString);
-    }
-
-    /**
     * Scroll to the element whose 'text' attribute matches the input text.
     * Scrolling happens within this element.
     *

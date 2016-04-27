@@ -186,10 +186,6 @@ public class AndroidDriver<T extends WebElement>
         return findElementByAndroidUIAutomator(uiScrollables);
     }
 
-    @Override public T scrollToUsingPredicates(String predicateString) {
-        return (T) findElementByAndroidUIAutomator(predicateString);
-    }
-
     @Override public T scrollToExact(String text) {
         String uiScrollables =
             uiScrollable("new UiSelector().description(\"" + text + "\")") + uiScrollable(

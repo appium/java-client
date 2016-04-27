@@ -67,12 +67,6 @@ public class IOSScrollTest {
         }
     }
 
-    @Test public void ScrollToUsingPredicateTestcase() {
-        assertEquals(driver.scrollToUsingPredicates(
-            ".tableViews()[0].scrollToElementWithPredicate(\"name CONTAINS \'Sliders\'\")")
-            .getAttribute("name"), "Sliders");
-    }
-
     @Test public void scrollToTestCase() {
         assertEquals(driver.scrollTo("Slider").getAttribute("name"), "Sliders");
     }
