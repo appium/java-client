@@ -47,3 +47,10 @@ choose the `Checkstyle`. If there are errors please fix them. Please keep the co
 it possible.
 
 ![](https://cloud.githubusercontent.com/assets/4927589/14589025/e817bed8-04e0-11e6-9eb9-8987f24672e0.png)
+
+# Code Coverage
+
+`jacoco-maven-plugin` generates the coverage reports, once integration tests are successfully run by `maven-surefire-plugin`
+
+**Intellij IDEA** user's can configure and view this way,
+`Analyse -> show coverage Data -> Add -> Select ${basedir}/target/coverage-reports/jacoco-unit.exec (jacoco-unit.exec generated after integration test run) -> Click Show Selected -> Coverage Results displayed in IDE`
