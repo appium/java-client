@@ -24,10 +24,8 @@ import java.lang.annotation.Target;
 /**
  * This annotation should mark an abstract/certain Widget object class
  * or field that declares some abstract/certain Widget object class.
- * <p/>
  * io.appium.java_client.pagefactory.Widget is the Appium-specific extension of the
  * Page Object design pattern.
- * <p/>
  * About the Page Object design pattern please read these documents:
  * - https://code.google.com/p/selenium/wiki/PageObjects
  * - https://code.google.com/p/selenium/wiki/PageFactory
@@ -35,7 +33,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD}) public @interface OverrideWidget {
     /**
      * This property is designed for HTML (browser or web view) content.
-     * <p/>
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      *
@@ -45,7 +42,6 @@ import java.lang.annotation.Target;
 
     /**
      * This property is designed for Android native content.
-     * <p/>
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      *
@@ -55,7 +51,6 @@ import java.lang.annotation.Target;
 
     /**
      * This property is designed for iOS native content.
-     * <p/>
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      *
@@ -65,7 +60,6 @@ import java.lang.annotation.Target;
 
     /**
      * This property is designed for Android native content when Selendroid automation is used.
-     * <p/>
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
      *

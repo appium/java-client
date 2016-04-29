@@ -54,7 +54,6 @@ import java.util.concurrent.TimeUnit;
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory.
- * <p/>
  * Please pay attention: fields of {@link WebElement}, {@link RemoteWebElement},
  * {@link MobileElement}, {@link AndroidElement} and {@link IOSElement} are allowed
  * to use with this decorator

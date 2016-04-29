@@ -21,8 +21,8 @@ import org.openqa.selenium.remote.CapabilityType;
 /**
  * The list of common capabilities.
  * Read:
- * https://github.com/appium/appium/blob/1.5/docs/en/writing-running-appium/
- * caps.md#appium-server-capabilities
+ * https://github.com/appium/appium/blob/1.5/docs/en/
+ * writing-running-appium/caps.md#appium-server-capabilities
  */
 public interface MobileCapabilityType extends CapabilityType {
 

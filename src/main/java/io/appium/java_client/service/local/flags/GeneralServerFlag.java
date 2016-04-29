@@ -110,7 +110,6 @@ public enum GeneralServerFlag implements ServerArgument {
 
     /**
      * Add long stack traces to log entries. Recommended for debugging only.
-     * <p/>
      * Default: false
      */
     ASYNC_TRACE("--async-trace");

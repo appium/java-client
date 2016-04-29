@@ -21,7 +21,6 @@ public interface PerformsTouchActions {
      * Performs a chain of touch actions, which together can be considered an
      * entire gesture. See the Webriver 3 spec
      * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
-     * <p/>
      * It's more convenient to call the perform() method of the TouchAction
      * object itself.
      *
@@ -35,7 +34,6 @@ public interface PerformsTouchActions {
      * Performs multiple TouchAction gestures at the same time, to simulate
      * multiple fingers/touch inputs. See the Webriver 3 spec
      * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
-     * <p/>
      * It's more convenient to call the perform() method of the MultiTouchAction
      * object.
      *

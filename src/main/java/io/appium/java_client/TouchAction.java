@@ -25,12 +25,11 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 /**
  * Used for Webdriver 3 touch actions
- * See the Webriver 3 spec https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
- * <p/>
+ * See the Webriver 3 spec
+ * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
  * The flow is to chain individual touch actions into an entire gesture. e.g.
  * TouchAction action = new TouchAction(driver);
  * action.press(element).waitAction(300).moveTo(element1).release().perform();
- * <p/>
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */

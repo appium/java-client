@@ -72,9 +72,7 @@ public enum IOSServerFlag implements ServerArgument {
 
     /**
      * Local port used for communication with ios-webkit-debug-proxy.
-     * <p/>
      * Default value: 27753
-     * <p/>
      * Sample: --webkit-debug-proxy-port 27753
      */
     WEBKIT_DEBUG_PROXY_PORT("--webkit-debug-proxy-port");

@@ -32,7 +32,6 @@ import java.util.List;
  * It is the Appium-specific extension of the Page Object design pattern. It allows user
  * to create objects which typify some element with nested sub-elements. Also it allows to
  * describe and encapsulate logic of interaction/behavior within.
- * <p/>
  * About the Page Object design pattern please read these documents:
  * - https://code.google.com/p/selenium/wiki/PageObjects
  * - https://code.google.com/p/selenium/wiki/PageFactory

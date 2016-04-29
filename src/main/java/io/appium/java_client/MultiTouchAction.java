@@ -23,22 +23,17 @@ import com.google.common.collect.ImmutableMap;
 /**
  * Used for Webdriver 3 multi-touch gestures
  * See the Webriver 3 spec https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
- * <p/>
  * The MultiTouchAction object is a collection of TouchAction objects
  * (remember that TouchAction objects are in turn, a chain of individual actions)
- * <p/>
  * Add multiple TouchAction objects using the add() method.
  * When perform() method is called, all actions are sent to the driver.
- * <p/>
  * The driver performs the first step of each TouchAction object simultaneously as a multi-touch
  * "execution group". Conceptually, the number of TouchAction objects added to the MultiTouchAction
  * is equal to the number of "fingers" or  other appendages or tools touching the screen at the
  * same time as part of this multi-gesture. Then the driver performs the second step of each
  * TouchAction object and another "execution group", and the third, and so on.
- * <p/>
  * Using a waitAction() action within a TouchAction takes up one of the slots in an
  * "execution group", so these can be used to sync up complex actions.
- * <p/>
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
  * more actions can be chained.
  */

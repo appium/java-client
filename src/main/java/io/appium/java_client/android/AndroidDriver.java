@@ -368,7 +368,6 @@ public class AndroidDriver<T extends WebElement>
 
     /**
      * Set the `ignoreUnimportantViews` setting. *Android-only method*.
-     * <p/>
      * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
      * which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO
      * or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important

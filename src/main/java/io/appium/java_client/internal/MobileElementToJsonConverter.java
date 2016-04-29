@@ -35,9 +35,6 @@ import java.util.Map;
  * {@link WrapsElement wrapped}, into their JSON representation as defined by
  * the WebDriver wire protocol. This class will recursively convert Lists and
  * Maps to catch nested references.
- *
- * @see <a href="http://code.google.com/p/selenium/wiki/JsonWireProtocol#WebElement_JSON_Object">
- * WebDriver JSON Wire Protocol</a>
  */
 public class MobileElementToJsonConverter extends WebElementToJsonConverter {
 
