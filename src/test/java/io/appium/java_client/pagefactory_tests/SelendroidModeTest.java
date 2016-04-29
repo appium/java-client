@@ -61,7 +61,7 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(name = "Accessibility") private WebElement textName;
 
-    @AndroidFindBy(id = "Accessibility") private WebElement textNameAndroid;
+    @AndroidFindBy(xpath = ".//*[@name = 'Accessibility']") private WebElement textNameAndroid;
 
     @FindBy(name = "Accessibility") private WebElement textNameDefault;
 
