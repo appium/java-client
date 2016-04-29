@@ -199,7 +199,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 listType = ((ParameterizedType) listType).getRawType();
             }
 
-            if (!Widget.class.isAssignableFrom((Class) listType)) {
+            if (!Widget.class.isAssignableFrom(listType.getClass())) {
                 return null;
             }
 
