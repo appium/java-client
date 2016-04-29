@@ -33,8 +33,8 @@ import java.lang.annotation.Target;
 public @interface AndroidFindBy {
     /**
      * It is an is Android UIAutomator string.
-     * Read {@link http://developer.android.com/intl/ru/tools/testing-support-library/
-     * index.html#uia-apis}
+     * Read {@link "http://developer.android.com/intl/ru/tools/testing-support-library/
+     * index.html#uia-apis"}
      */
     String uiAutomator() default "";
 
