@@ -68,6 +68,8 @@ public class IOSDriver<T extends WebElement>
                 JsonToIOSElementConverter.class);
     }
 
+    }
+
     /**
      * @param remoteAddress is the address
      *                      of remotely/locally started Appium server

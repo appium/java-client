@@ -57,7 +57,7 @@ public class IOSDriverTest extends BaseIOSTest {
         assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
         driver.rotate(ScreenOrientation.PORTRAIT);
     }
-    
+
     @Test public void lockTest() {
         driver.lockDevice(20);
     }

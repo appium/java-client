@@ -43,7 +43,8 @@ public class IOSElement extends MobileElement
     }
 
     /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     * @throws WebDriverException
+     * This method is not applicable with browser/webview UI.
      */
     @Override public List<MobileElement> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
@@ -83,6 +84,17 @@ public class IOSElement extends MobileElement
      *
      * @param text input text contained in text attribute
      */
+    @Override public MobileElement scrollTo(String text) {
+        return (IOSElement) findElementByIosUIAutomation(
+            ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+    }
+
+    /**
+    * Scroll to the element whose 'text' attribute contains the input text.
+    * Scrolling happens within this element.
+    *
+    * @param text input text contained in text attribute.
+    */
     @Override public MobileElement scrollTo(String text) {
         return (IOSElement) findElementByIosUIAutomation(
             ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
