@@ -185,7 +185,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             return null;
         }
 
-        Class<? extends Widget> widgetType;
+        Class<? extends Widget> widgetType = null;
         boolean isAlist = false;
         if (List.class.isAssignableFrom(type)) {
             isAlist = true;
@@ -200,11 +200,15 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 listType = ((ParameterizedType) listType).getRawType();
             }
 
-            if (!Widget.class.isAssignableFrom(listType.getClass())) {
+            if (listType instanceof Class) {
+                if (!Widget.class.isAssignableFrom((Class) listType)) {
+                    return null;
+                }
+                widgetType = Class.class.cast(listType);
+            } else {
                 return null;
             }
 
-            widgetType = Class.class.cast(listType);
         } else {
             widgetType = (Class<? extends Widget>) field.getType();
         }
