@@ -92,6 +92,8 @@ public class GenericTest {
 
     @Test
     public void genericTestCse() {
-        PageFactory.initElements(new AppiumFieldDecorator(new MockWebDriver()), new TempGenericPage<Object>());
+        PageFactory
+                .initElements(new AppiumFieldDecorator(new MockWebDriver()),
+                        new TempGenericPage<>());
     }
 }
