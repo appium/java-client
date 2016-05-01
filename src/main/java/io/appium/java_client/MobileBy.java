@@ -71,7 +71,15 @@ public abstract class MobileBy extends By {
 
         return new ByAccessibilityId(id);
     }
-
+    
+    public static By IosNsPredicateString(final String iOSNsPredicateString) {
+    	if (iOSNsPredicateString == null) {
+    	  throw new IllegalArgumentException("Must supply an iOS NsPredicate String");
+        }
+    	
+        return new ByIosNsPredicate(iOSNsPredicateString);
+    }
+    
     public static class ByIosUIAutomation extends By implements Serializable {
 
         private final String automationText;
@@ -96,6 +104,29 @@ public abstract class MobileBy extends By {
             return "By.IosUIAutomation: " + automationText;
         }
     }
+    public static class ByIosNsPredicate extends By implements Serializable {
+        
+        private final String automationText;
+        
+        public ByIosNsPredicate(String uiautomationText) {
+            automationText = uiautomationText;
+        }
+        
+        @SuppressWarnings("unchecked") @Override
+        public List<WebElement> findElements(SearchContext context) {
+            return (List<WebElement>) ((FindsByIosNsPredicate<?>) context).
+            findElementsByIosNsPredicate(automationText);
+        }
+        
+        @Override public WebElement findElement(SearchContext context) {
+            return ((FindsByIosNsPredicate<?>) context)
+            .findElementByIosNsPredicate(automationText);
+        }
+        
+        @Override public String toString() {
+            return "By.IosNsPredicate: " + automationText;
+        }
+      }
 
 
     public static class ByAndroidUIAutomator extends By implements Serializable {
