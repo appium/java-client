@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
+import io.appium.java_client.FindsByIosNsPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
@@ -53,9 +54,10 @@ import java.util.List;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts, GetsNamedTextField<T>,
-    FindsByIosUIAutomation<T> {
-    private static final String IOS_PLATFORM = MobilePlatform.IOS;
+    FindsByIosUIAutomation<T>, FindsByIosNsPredicate<T> {
 
+    private static final String IOS_PLATFORM = MobilePlatform.IOS;
+    
     /**
      * @param remoteAddress is the address
      *                      of remotely/locally started Appium server
@@ -246,6 +248,28 @@ public class IOSDriver<T extends WebElement>
     public List<T> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
         return (List<T>) findElements("-ios uiautomation", using);
+    }
+    
+    /**
+     * @throws org.openqa.selenium.WebDriverException 
+     * This method is not applicable with browser/webview UI.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public T findElementByIosNsPredicate(String using)
+    throws WebDriverException {
+        return (T) findElement("-ios predicate string", using);
+    }
+    
+    /**
+     * @throws org.openqa.selenium.WebDriverException 
+     * This method is not applicable with browser/webview UI.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> findElementsByIosNsPredicate(String using)
+    throws WebDriverException {
+        return (List<T>) findElements("-ios predicate string", using);
     }
 
     /**
