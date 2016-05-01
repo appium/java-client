@@ -18,6 +18,7 @@ package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.FindsByIosNsPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
@@ -30,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IOSElement extends MobileElement
-    implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
-
+    implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement>,
+    FindsByIosNsPredicate<MobileElement> {
     /**
      * @throws WebDriverException
      * This method is not applicable with browser/webview UI.
@@ -42,7 +43,8 @@ public class IOSElement extends MobileElement
     }
 
     /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     * @throws WebDriverException
+     * This method is not applicable with browser/webview UI.
      */
     @Override public List<MobileElement> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
@@ -53,16 +55,48 @@ public class IOSElement extends MobileElement
         }
         return result;
     }
+    
+    /**
+     * @throws org.openqa.selenium.WebDriverException 
+     * This method is not applicable with browser/webview UI.
+     */
+    @Override public MobileElement findElementByIosNsPredicate(String using)
+        throws WebDriverException {
+        return (IOSElement) findElement("-ios predicate string", using);
+    }
+
+    /**
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     */
+    @Override public List<MobileElement> findElementsByIosNsPredicate(String using)
+        throws WebDriverException {
+        List<MobileElement> result = new ArrayList<MobileElement>();
+        List<WebElement> found = findElements("-ios predicate string", using);
+        for (WebElement e : found) {
+            result.add((IOSElement) e);
+        }
+        return result;
+    }
+    
+    /**
+     * Scroll to the element whose 'text' attribute contains the input text.
+     * Scrolling happens within this element
+     *
+     * @param text input text contained in text attribute
+     */
+    @Override public MobileElement scrollTo(String text) {
+        return (IOSElement) findElementByIosUIAutomation(
+            ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+    }
 
     /**
     * Scroll to the element whose 'text' attribute contains the input text.
     * Scrolling happens within this element.
     *
-    * @param text input text contained in text attribute.
+    * @param xpath xpath of an element to scrollTo
     */
-    @Override public MobileElement scrollTo(String text) {
-        return (IOSElement) findElementByIosUIAutomation(
-            ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+    @Override public MobileElement scrollTo(String xpath) {
+        return (IOSElement) findElementByIosUIAutomation(xpath);
     }
 
     /**
