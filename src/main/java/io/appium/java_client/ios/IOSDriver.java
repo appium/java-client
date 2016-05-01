@@ -54,7 +54,8 @@ import java.util.List;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts, GetsNamedTextField<T>,
-    FindsByIosUIAutomation<T>, FindsByIosNsPredicate<T>{
+    FindsByIosUIAutomation<T>, FindsByIosNsPredicate<T> {
+
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
     
     /**
@@ -66,8 +67,6 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
                 JsonToIOSElementConverter.class);
-    }
-
     }
 
     /**

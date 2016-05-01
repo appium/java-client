@@ -16,34 +16,26 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.io.IOException;
 
-import net.lingala.zip4j.exception.ZipException;
-import net.lingala.zip4j.core.ZipFile;
-import org.apache.commons.io.FileUtils;
-
-import io.appium.java_client.remote.HideKeyboardStrategy;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-
-import org.junit.Test;
-
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-
-import org.junit.*;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.html5.Location;
-	
 public class XCUIDriverTest {
-	
+
     private static final String SOURCE = "src/test/java/io/appium/java_client/";
     private static AppiumDriverLocalService service;
     protected static IOSDriver<MobileElement> driver;
@@ -51,7 +43,8 @@ public class XCUIDriverTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass
+    public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -62,11 +55,11 @@ public class XCUIDriverTest {
         String source = SOURCE + "UICatalog.app.zip";
 
         try {
-             ZipFile zipFile = new ZipFile(source);
-             zipFile.extractAll(SOURCE);
+            ZipFile zipFile = new ZipFile(source);
+            zipFile.extractAll(SOURCE);
         } catch (ZipException e) {
-        	String msg = "Could not extract file";
-        	throw new ZipException(msg, e);
+            String msg = "Could not extract file";
+            throw new ZipException(msg, e);
         }
 
         File appDir = new File(SOURCE);
@@ -84,7 +77,8 @@ public class XCUIDriverTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterClass
+    public static void afterClass() throws IOException {
         if (driver != null) {
             driver.quit();
         }
@@ -92,9 +86,9 @@ public class XCUIDriverTest {
             service.stop();
         }
         try {
-        	FileUtils.deleteDirectory(new File(SOURCE + "/UICatalog.app"));
+            FileUtils.deleteDirectory(new File(SOURCE + "/UICatalog.app"));
         } catch (IOException e) {
-        	e.printStackTrace();
+            throw e;
         }
 
     }
@@ -109,9 +103,10 @@ public class XCUIDriverTest {
     /**
      * Verifies UICatalog element is present in view.
      */
-    @Test public void getiOSElementByPredicate() {
-    	//Needs to run on the XCUITest ios Driver (https://github.com/appium/appium-xcuitest-driver.git).
-    	driver.findElement(MobileBy.IosNsPredicateString("identifier == \"UICatalog\""));
+    @Test
+    public void getiOSElementByPredicate() {
+        //Needs to run on the XCUITest ios Driver (https://github.com/appium/appium-xcuitest-driver.git).
+        driver.findElement(MobileBy.IosNsPredicateString("identifier == \"UICatalog\""));
     }
 
 }
