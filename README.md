@@ -104,6 +104,8 @@ Locators:
 - findElementsByIosUIAutomation()
 - findElementByAndroidUIAutomator()
 - findElementsByAndroidUIAutomator()
+- findElementByIosNsPredicate()
+- findElementsByIosNsPredicate()
 
 ## Note to developers! ##
 If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
