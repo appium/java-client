@@ -84,7 +84,14 @@ enum Strategies {
             return By
                 .partialLinkText(getValue(annotation, this));
         }
-    };
+    },
+    BYNSPREDICATE("nsPredicate") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .IosNsPredicateString(getValue(annotation, this));
+        }
+    }
+    ;
 
     private final String valueName;
 
