@@ -104,6 +104,8 @@ Locators:
 - findElementsByIosUIAutomation()
 - findElementByAndroidUIAutomator()
 - findElementsByAndroidUIAutomator()
+- findElementByIosNsPredicate()
+- findElementsByIosNsPredicate()
 
 ## Note to developers! ##
 If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
@@ -128,6 +130,7 @@ a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Con
 - the integration with `org.owasp dependency-check-maven` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) 
 for the work.
 - the integration with `org.jacoco jacoco-maven-plugin` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
+- the searching for elements by nspredicate string was added. It requires the [XCUITest mode](https://github.com/appium/java-client/blob/master/docs/Installing-xcuitest-driver.md). Thanks to [@rafael-chavez](https://github.com/appium/java-client/pull/352) for the contribution
 
 ...
 
