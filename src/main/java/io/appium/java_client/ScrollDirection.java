@@ -13,30 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.appium.java_client;
 
-import org.openqa.selenium.WebElement;
-
-@Deprecated
-public interface ScrollsTo<T extends WebElement> {
-
-    /**
-     * Scroll to an element which contains the given text.
-     *
-     * @param text description or text of an element scroll to
-     * @return an element that matches
-     */
-    @Deprecated
-    T scrollTo(String text);
-
-    /**
-     * Scroll to an element with the given text.
-     *
-     * @param text description or text of an element scroll to
-     * @return an element that matches
-     */
-    @Deprecated
-    T scrollToExact(String text);
-
+public enum ScrollDirection {
+	UP("up"),	
+	RIGHT("right"),
+	DOWN("down"), 
+	LEFT("left");
+	
+	private String directionStr;
+	
+	private ScrollDirection(String direction) {
+		this.directionStr = direction;
+	}
+	
+	public String toString() {
+		return this.directionStr;
+	}
 }

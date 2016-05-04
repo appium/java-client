@@ -72,10 +72,7 @@ public class MobileCommand {
         return new CommandInfo(url, HttpMethod.POST);
     }
 
-    private static Map<String, CommandInfo> getMobileCommands() {
-        if (commandRepository != null) {
-            return commandRepository;
-        }
+    protected static ImmutableMap.Builder<String, CommandInfo> getCommandsBuilder() {
 
         ImmutableMap.Builder<String, CommandInfo> builder = ImmutableMap.builder();
         builder.put(RESET, postC("/session/:sessionId/appium/app/reset"))
@@ -113,6 +110,14 @@ public class MobileCommand {
             .put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"))
             .put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
 
-        return builder.build();
+        return builder;
+    }
+    
+    public static Map<String, CommandInfo> getMobileCommands() {
+        if (commandRepository != null) {
+            return commandRepository;
+        }
+        
+    	return getCommandsBuilder().build();
     }
 }

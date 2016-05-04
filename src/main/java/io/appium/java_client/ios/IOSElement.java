@@ -20,10 +20,12 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.FindsByIosNsPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
+import io.appium.java_client.IOSMobileCommand;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.ScrollDirection;
 import io.appium.java_client.ScrollsTo;
-
+import io.appium.java_client.SwipeElementDirection;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
@@ -32,7 +34,7 @@ import java.util.List;
 
 public class IOSElement extends MobileElement
     implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement>,
-    FindsByIosNsPredicate<MobileElement> {
+        FindsByIosNsPredicate<MobileElement> {
     /**
      * @throws WebDriverException
      * This method is not applicable with browser/webview UI.
@@ -77,28 +79,61 @@ public class IOSElement extends MobileElement
         }
         return result;
     }
-    
+
     /**
-     * Scroll to the element whose 'text' attribute contains the input text.
-     * Scrolling happens within this element
-     *
-     * @param text input text contained in text attribute
+     * This method is deprecated because it is not consistent and it is going to be removed.
+     * It is workaround actually.
+     * Recommended to use instead:
+     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
+     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
      */
+    @Deprecated
     @Override public MobileElement scrollTo(String text) {
         return (IOSElement) findElementByIosUIAutomation(
             ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
     }
 
     /**
-    * Scroll to the element whose 'text' attribute matches the input text.
-    * Scrolling happens within this element.
-    *
-    * @param text input text contained in text attribute.
-    */
+     * This method is deprecated because it is not consistent and it is going to be removed.
+     * It is workaround actually.
+     * Recommended to use instead:
+     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
+     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
+     */
+    @Deprecated
     @Override public MobileElement scrollToExact(String text) {
         return (IOSElement) findElementByIosUIAutomation(
             ".scrollToElementWithName(\"" + text + "\")");
     }
+    
+    /**
+     * This method sets the new value of the attribute "value".
+     *
+     * @param value is the new value which should be set
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void scrollToChildElement(String childIdentifier) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("id", id).put("name", childIdentifier);
+        execute(IOSMobileCommand.SCROLL, builder.build());
+    }
+    
+    /**
+     * This method sets the new value of the attribute "value".
+     *
+     * @param value is the new value which should be set
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void scrollWithDirection(ScrollDirection direction) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("id", id).put("direction", direction.toString());
+        execute(IOSMobileCommand.SCROLL, builder.build());
+    }
+
 
     /**
      * This method sets the new value of the attribute "value".

@@ -15,28 +15,22 @@
  */
 
 package io.appium.java_client;
+import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.WebElement;
+import java.util.Map;
 
-@Deprecated
-public interface ScrollsTo<T extends WebElement> {
+import org.openqa.selenium.remote.CommandInfo;
 
-    /**
-     * Scroll to an element which contains the given text.
-     *
-     * @param text description or text of an element scroll to
-     * @return an element that matches
-     */
-    @Deprecated
-    T scrollTo(String text);
+public class IOSMobileCommand extends MobileCommand {
+    public static final String SCROLL = "scroll";
 
-    /**
-     * Scroll to an element with the given text.
-     *
-     * @param text description or text of an element scroll to
-     * @return an element that matches
-     */
-    @Deprecated
-    T scrollToExact(String text);
-
+    private static ImmutableMap.Builder<String, CommandInfo> addiOSCommands(ImmutableMap.Builder<String, CommandInfo> builder) {
+    	builder.put(SCROLL, postC("/session/:sessionId/uiaElement/:id/scroll"));
+    	return builder;
+    }
+        
+    public static Map<String, CommandInfo> getMobileCommands() {
+    	return addiOSCommands(getCommandsBuilder()).build();
+    }
 }
+    

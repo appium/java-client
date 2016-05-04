@@ -26,19 +26,29 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public abstract class MobileBy extends By {
+
+    private final String locatorString;
+
+    protected MobileBy(String locatorString) {
+        if (StringUtils.isBlank(locatorString)) {
+            throw new IllegalArgumentException("Must supply a not empty locator value.");
+        }
+        this.locatorString = locatorString;
+    }
+
+    protected String getLocatorString() {
+        return locatorString;
+    }
+
     /**
      * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
      * Conceptual/InstrumentsUserGuide/UIAutomation.html
      *
-     * @param uiautomationText is iOS UIAutomation string
+     * @param iOSAutomationText is iOS UIAutomation string
      * @return an instance of {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
      */
-    public static By IosUIAutomation(final String uiautomationText) {
-        if (StringUtils.isBlank(uiautomationText)) {
-            throw new IllegalArgumentException("Must supply an iOS UIAutomation string");
-        }
-
-        return new ByIosUIAutomation(uiautomationText);
+    public static By IosUIAutomation(final String iOSAutomationText) {
+        return new ByIosUIAutomation(iOSAutomationText);
     }
 
     /**
@@ -48,10 +58,6 @@ public abstract class MobileBy extends By {
      * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
      */
     public static By AndroidUIAutomator(final String uiautomatorText) {
-        if (StringUtils.isBlank(uiautomatorText)) {
-            throw new IllegalArgumentException("Must supply an Android UIAutomator string");
-        }
-
         return new ByAndroidUIAutomator(uiautomatorText);
     }
 
@@ -61,15 +67,11 @@ public abstract class MobileBy extends By {
      * About iOS accessibility
      * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
      * UIAccessibilityIdentification_Protocol/index.html
-     * @param id id is a convenient UI automation accessibility Id.
+     * @param accessibilityId id is a convenient UI automation accessibility Id.
      * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
      */
-    public static By AccessibilityId(final String id) {
-        if (StringUtils.isBlank(id)) {
-            throw new IllegalArgumentException("Must supply a uiautomationText");
-        }
-
-        return new ByAccessibilityId(id);
+    public static By AccessibilityId(final String accessibilityId) {
+        return new ByAccessibilityId(accessibilityId);
     }
 
     /**
@@ -78,110 +80,100 @@ public abstract class MobileBy extends By {
      * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
      */
     public static By IosNsPredicateString(final String iOSNsPredicateString) {
-        if (iOSNsPredicateString == null) {
-            throw new IllegalArgumentException("Must supply an iOS NsPredicate String");
-        }
-
         return new ByIosNsPredicate(iOSNsPredicateString);
     }
     
-    public static class ByIosUIAutomation extends By implements Serializable {
+    public static class ByIosUIAutomation extends MobileBy implements Serializable {
 
-        private final String automationText;
-
-        public ByIosUIAutomation(String uiautomationText) {
-            automationText = uiautomationText;
+        public ByIosUIAutomation(String iOSAutomationText) {
+            super(iOSAutomationText);
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public List<WebElement> findElements(SearchContext context) {
             return (List<WebElement>) ((FindsByIosUIAutomation<?>) context)
-                    .findElementsByIosUIAutomation(automationText);
+                    .findElementsByIosUIAutomation(getLocatorString());
         }
 
         @Override public WebElement findElement(SearchContext context) {
             return ((FindsByIosUIAutomation<?>) context)
-                .findElementByIosUIAutomation(automationText);
+                .findElementByIosUIAutomation(getLocatorString());
         }
 
         @Override public String toString() {
-            return "By.IosUIAutomation: " + automationText;
+            return "By.IosUIAutomation: " + getLocatorString();
         }
     }
 
-    public static class ByIosNsPredicate extends By implements Serializable {
-        
-        private final String automationText;
-        
-        public ByIosNsPredicate(String uiautomationText) {
-            automationText = uiautomationText;
+    public static class ByIosNsPredicate extends MobileBy implements Serializable {
+
+        public ByIosNsPredicate(String iOSNsPredicate) {
+            super(iOSNsPredicate);
         }
         
         @SuppressWarnings("unchecked")
         @Override public List<WebElement> findElements(SearchContext context) {
             return (List<WebElement>) ((FindsByIosNsPredicate<?>) context)
-                    .findElementsByIosNsPredicate(automationText);
+                    .findElementsByIosNsPredicate(getLocatorString());
         }
         
         @Override public WebElement findElement(SearchContext context) {
             return ((FindsByIosNsPredicate<?>) context)
-                    .findElementByIosNsPredicate(automationText);
+                    .findElementByIosNsPredicate(getLocatorString());
         }
         
         @Override public String toString() {
-            return "By.IosNsPredicate: " + automationText;
+            return "By.IosNsPredicate: " + getLocatorString();
         }
     }
 
 
-    public static class ByAndroidUIAutomator extends By implements Serializable {
+    public static class ByAndroidUIAutomator extends MobileBy implements Serializable {
 
-        private final String automatorText;
 
         public ByAndroidUIAutomator(String uiautomatorText) {
-            automatorText = uiautomatorText;
+            super(uiautomatorText);
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public List<WebElement> findElements(SearchContext context) {
             return (List<WebElement>) ((FindsByAndroidUIAutomator<?>) context)
-                    .findElementsByAndroidUIAutomator(automatorText);
+                    .findElementsByAndroidUIAutomator(getLocatorString());
         }
 
         @Override public WebElement findElement(SearchContext context) {
             return ((FindsByAndroidUIAutomator<?>) context)
-                .findElementByAndroidUIAutomator(automatorText);
+                .findElementByAndroidUIAutomator(getLocatorString());
         }
 
         @Override public String toString() {
-            return "By.AndroidUIAutomator: " + automatorText;
+            return "By.AndroidUIAutomator: " + getLocatorString();
         }
     }
 
 
-    public static class ByAccessibilityId extends By implements Serializable {
+    public static class ByAccessibilityId extends MobileBy implements Serializable {
 
-        private final String id;
-
-        public ByAccessibilityId(String id) {
-            this.id = id;
+        public ByAccessibilityId(String accessibilityId) {
+            super(accessibilityId);
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public List<WebElement> findElements(SearchContext context) {
             return (List<WebElement>) ((FindsByAccessibilityId<?>) context)
-                .findElementsByAccessibilityId(id);
+                .findElementsByAccessibilityId(getLocatorString());
         }
 
         @Override public WebElement findElement(SearchContext context) {
-            return ((FindsByAccessibilityId<?>) context).findElementByAccessibilityId(id);
+            return ((FindsByAccessibilityId<?>) context)
+                    .findElementByAccessibilityId(getLocatorString());
         }
 
         @Override public String toString() {
-            return "By.AccessibilityId: " + id;
+            return "By.AccessibilityId: " + getLocatorString();
         }
     }
 }

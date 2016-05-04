@@ -120,6 +120,12 @@ public abstract class AppiumDriver<T extends WebElement>
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
             desiredCapabilities, converterClazz);
     }
+    
+    public AppiumDriver(URL remoteAddress, Map<String, CommandInfo> commandRepository, 
+    		Capabilities desiredCapabilities, Class<? extends JsonToWebElementConverter> converterClazz) {
+            this(new AppiumCommandExecutor(commandRepository, remoteAddress),
+                desiredCapabilities, converterClazz);
+        }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities,
@@ -667,8 +673,4 @@ public abstract class AppiumDriver<T extends WebElement>
     public URL getRemoteAddress() {
         return remoteAddress;
     }
-
-    @Override public abstract T scrollTo(String text);
-
-    @Override public abstract T scrollToExact(String text);
 }
