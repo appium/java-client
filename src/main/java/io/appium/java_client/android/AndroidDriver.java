@@ -41,7 +41,6 @@ import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
@@ -274,16 +273,12 @@ public class AndroidDriver<T extends WebElement>
         execute(PUSH_FILE, getCommandImmutableMap(parameters, values));
     }
 
-    /**
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     * @param stopApp         If true, target app will be stopped. [Optional]
-     * @see StartsActivity#startActivity(String, String, String, String)
-     */
-    public void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity, boolean stopApp) throws IllegalArgumentException {
+    @Override public void startActivity(String appPackage, String appActivity,
+                                        String appWaitPackage,
+                                        String appWaitActivity, String intentAction,
+                                        String intentCategory, String intentFlags,
+                                        String optionalIntentArguments,boolean stopApp )
+            throws IllegalArgumentException {
 
         checkArgument((!StringUtils.isBlank(appPackage)
                 && !StringUtils.isBlank(appActivity)),
@@ -291,36 +286,58 @@ public class AndroidDriver<T extends WebElement>
 
         appWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
         appWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
+        intentAction = !StringUtils.isBlank(intentAction) ? intentAction : "";
+        intentCategory = !StringUtils.isBlank(intentCategory) ? intentCategory : "";
+        intentFlags = !StringUtils.isBlank(intentFlags) ? intentFlags : "";
+        optionalIntentArguments = !StringUtils.isBlank(optionalIntentArguments)
+                ? optionalIntentArguments : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
-            .of("appPackage", appPackage, "appActivity", appActivity, "appWaitPackage",
-                appWaitPackage, "appWaitActivity", appWaitActivity, "dontStopAppOnReset",
-                !stopApp);
-
+                .<String, Object>builder().put("appPackage", appPackage)
+                .put("appActivity", appActivity)
+                .put("appWaitPackage", appWaitPackage)
+                .put("appWaitActivity", appWaitActivity)
+                .put("dontStopAppOnReset", !stopApp)
+                .put("intentAction", intentAction)
+                .put("intentCategory", intentCategory)
+                .put("intentFlags", intentFlags)
+                .put("optionalIntentArguments", optionalIntentArguments)
+                .build();
         execute(START_ACTIVITY, parameters);
     }
 
-    /**
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     * @see StartsActivity#startActivity(String, String, String, String)
-     */
-    public void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity) throws IllegalArgumentException {
 
-        this.startActivity(appPackage, appActivity, null, null, true);
+    @Override
+    public void startActivity(String appPackage, String appActivity,
+                              String appWaitPackage, String appWaitActivity, boolean stopApp)
+            throws IllegalArgumentException {
+        this.startActivity(appPackage,appActivity,appWaitPackage,
+                appWaitActivity,null,null,null,null,stopApp);
+
     }
 
-    /**
-     * @param appPackage  The package containing the activity. [Required]
-     * @param appActivity The activity to start. [Required]
-     * @see StartsActivity#startActivity(String, String)
-     */
+    @Override public void startActivity(String appPackage, String appActivity,
+                                        String appWaitPackage,
+                                        String appWaitActivity) throws IllegalArgumentException {
+
+        this.startActivity(appPackage, appActivity,
+                appWaitPackage, appWaitActivity,null,null,null,null,true);
+    }
+
     @Override public void startActivity(String appPackage, String appActivity)
         throws IllegalArgumentException {
-        this.startActivity(appPackage, appActivity, null, null);
+        this.startActivity(appPackage, appActivity, null, null,
+                                        null,null,null,null,true);
+    }
+
+    @Override public void startActivity(String appPackage, String appActivity,
+                              String appWaitPackage, String appWaitActivity,
+                                        String intentAction,String intentCategory,
+                                        String intentFlags,String intentOptionalArgs)
+            throws IllegalArgumentException {
+        this.startActivity(appPackage,appActivity,
+                appWaitPackage,appWaitActivity,
+                intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
     }
 
     /**
