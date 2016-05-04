@@ -77,7 +77,8 @@ public interface StartsActivity {
      * @param intentFlags  Flags that will be used to start activity [Optional]
      * @param optionalIntentArguments
      * Additional intent arguments that will be used to start activity [Optional]
-     * @see StartsActivity#startActivity(String, String, String, String)
+     * @see StartsActivity#startActivity(String, String, String, String,
+     *                                          String,String, String, String,boolean)
      */
     void startActivity(String appPackage, String appActivity, String appWaitPackage,
                        String appWaitActivity, String intentAction,
