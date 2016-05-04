@@ -62,7 +62,7 @@ public class MobileCommand {
     public static final String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
     public static final String GET_DEVICE_TIME = "getDeviceTime";
     public static final String UNLOCK = "unlock";
-    static final  Map<String, CommandInfo> commandRepository = getMobileCommands();
+    public static final  Map<String, CommandInfo> commandRepository = getMobileCommands();
 
     static CommandInfo getC(String url) {
         return new CommandInfo(url, HttpMethod.GET);
