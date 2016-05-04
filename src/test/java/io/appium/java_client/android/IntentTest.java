@@ -50,7 +50,7 @@ public class IntentTest {
     @Test public void startActivityWithIntent() {
         driver.startActivity("com.android.mms", ".ui.ComposeMessageActivity", null, null,
             "android.intent.action.SEND", "android.intent.category.DEFAULT", "0x4000000",
-            "-d \"TestIntent\"-t text/plain");
+            "-d \"TestIntent\" -t \"text/plain\"");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
