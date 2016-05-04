@@ -131,6 +131,8 @@ a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Con
 for the work.
 - the integration with `org.jacoco jacoco-maven-plugin` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
 - the searching for elements by nspredicate string was added. It requires the [XCUITest mode](https://github.com/appium/java-client/blob/master/docs/Installing-xcuitest-driver.md). Thanks to [@rafael-chavez](https://github.com/appium/java-client/pull/352) for the contribution
+- the `nsPredicate` parameter was added to the `iOSFindBy` annotation
+- the `commandRepository` field is public now. The modification of the `MobileCommand`
 
 ...
 
