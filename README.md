@@ -113,13 +113,13 @@ If you are using the Eclipse IDE, make sure you are using version Luna or later.
 
 ##Changelog##
 *4.0.0 (under construction yet)*
-- FIX of TouchAction. Instances of the TouchAction class are reusable now
-- FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by 
-AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
-- the project was integrated with [maven-checkstyle-plugin](https://maven.apache.org/plugins/maven-checkstyle-plugin/). Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the work
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
 anymore.
-- source code was improved according to code style checking rules. 
+- the searching for elements by nspredicate string was added. It requires the [XCUITest mode](https://github.com/appium/java-client/blob/master/docs/Installing-xcuitest-driver.md). Thanks to [@rafael-chavez](https://github.com/appium/java-client/pull/352) for the contribution
+- the ability to start an activity using Android intent actions, intent categories, flags and arguments
+was added to `AndroidDriver`. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
+- the `nsPredicate` parameter was added to the `iOSFindBy` annotation
+- the `commandRepository` field is public now. The modification of the `MobileCommand`
 - The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
 `org.openqa.selenium.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
 `io.appium.java_client.android.internal.JsonToAndroidElementConverter` or 
@@ -127,12 +127,14 @@ anymore.
 - Constructors of the abstract `io.appium.java_client.AppiumDriver` were redesigned. Now they require 
 a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Constructors of 
 `io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver` are same still.
+- FIX of TouchAction. Instances of the TouchAction class are reusable now
+- FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by 
+AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
+- the project was integrated with [maven-checkstyle-plugin](https://maven.apache.org/plugins/maven-checkstyle-plugin/). Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the work
+- source code was improved according to code style checking rules. 
 - the integration with `org.owasp dependency-check-maven` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) 
 for the work.
 - the integration with `org.jacoco jacoco-maven-plugin` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
-- the searching for elements by nspredicate string was added. It requires the [XCUITest mode](https://github.com/appium/java-client/blob/master/docs/Installing-xcuitest-driver.md). Thanks to [@rafael-chavez](https://github.com/appium/java-client/pull/352) for the contribution
-- the `nsPredicate` parameter was added to the `iOSFindBy` annotation
-- the `commandRepository` field is public now. The modification of the `MobileCommand`
 
 ...
 
