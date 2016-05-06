@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import org.openqa.selenium.WebElement;
 
+@Deprecated
 public interface ScrollsTo<T extends WebElement> {
 
     /**
@@ -26,6 +27,7 @@ public interface ScrollsTo<T extends WebElement> {
      * @param text description or text of an element scroll to
      * @return an element that matches
      */
+    @Deprecated
     T scrollTo(String text);
 
     /**
@@ -34,6 +36,7 @@ public interface ScrollsTo<T extends WebElement> {
      * @param text description or text of an element scroll to
      * @return an element that matches
      */
+    @Deprecated
     T scrollToExact(String text);
 
 }
