@@ -77,16 +77,15 @@ public class IOSElement extends MobileElement
         }
         return result;
     }
-    
+
     /**
-     * Scroll to the element whose 'text' attribute contains the input text.
-     * Scrolling happens within this element
-     *
-     * @param text input text contained in text attribute
-     */
-    @Override public MobileElement scrollTo(String text) {
-        return (IOSElement) findElementByIosUIAutomation(
-            ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
+    * Scroll to the element whose 'text' attribute contains the input text.
+    * Scrolling happens within this element.
+    *
+    * @param xpath xpath of an element to scrollTo
+    */
+    @Override public MobileElement scrollTo(String xpath) {
+        return (IOSElement) findElementByIosUIAutomation(xpath);
     }
 
     /**

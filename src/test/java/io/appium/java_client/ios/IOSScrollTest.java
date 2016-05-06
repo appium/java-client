@@ -68,7 +68,8 @@ public class IOSScrollTest {
     }
 
     @Test public void scrollToTestCase() {
-        assertEquals(driver.scrollTo("Slider").getAttribute("name"), "Sliders");
+        assertEquals(driver.scrollTo("//UIAStaticText[@name='Toolbars']")
+            .getAttribute("name"), "Toolbars");
     }
 
     @Test public void scrollToExactTestCase() {

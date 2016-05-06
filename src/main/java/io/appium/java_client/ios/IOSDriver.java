@@ -168,13 +168,13 @@ public class IOSDriver<T extends WebElement>
      * This scrolling happens within the first UIATableView on the UI.
      * Use the method on IOSElement to scroll from a different ScrollView.
      *
-     * @param text input text contained in text attribute.
+     * @param xpath xpath of an element to scrollTo
      */
     @SuppressWarnings("unchecked")
     @Override
-    public T scrollTo(String text) {
-        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
-            .scrollTo(text);
+    public T scrollTo(String xpath) {
+        return (T) ((ScrollsTo<?>) findElementByXPath(xpath))
+            .scrollTo(".scrollToVisible()");
     }
 
     /**
