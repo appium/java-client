@@ -18,10 +18,13 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 public class AndroidElementTest extends BaseAndroidTest {
 
@@ -60,5 +63,15 @@ public class AndroidElementTest extends BaseAndroidTest {
         String replacedValue = "replaced value";
         editElement.replaceValue(replacedValue);
         assertEquals(replacedValue, editElement.getText());
+    }
+
+    @Test public void scrollingToSubElement() {
+        driver.findElementByAccessibilityId("Views").click();
+        AndroidElement list = driver.findElement(By.id("android:id/list"));
+        MobileElement radioGroup = list
+                .findElement(MobileBy
+                        .AndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView("
+                        + "new UiSelector().text(\"Radio Group\"));"));
+        assertNotNull(radioGroup.getLocation());
     }
 }
