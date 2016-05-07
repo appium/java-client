@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -30,12 +28,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-public class IOSScrollTest {
+import static org.junit.Assert.assertEquals;
+
+public class IOSScrollingSearchingTest {
 
     private static AppiumDriverLocalService service;
     protected static IOSDriver<MobileElement> driver;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass
+    public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -58,7 +59,8 @@ public class IOSScrollTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterClass
+    public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }
@@ -67,11 +69,19 @@ public class IOSScrollTest {
         }
     }
 
-    @Test public void scrollToTestCase() {
-        assertEquals(driver.scrollTo("Slider").getAttribute("name"), "Sliders");
+    @Test public void scrollByDriver() {
+        MobileElement slider = driver
+                .findElement(MobileBy
+                        .IosUIAutomation(".tableViews()[0]"
+                                + ".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
+        assertEquals(slider.getAttribute("name"), "Sliders");
     }
 
-    @Test public void scrollToExactTestCase() {
-        assertNotNull(driver.scrollToExact("Slider"));
+    @Test public void scrollByElement() {
+        MobileElement table = driver.findElement(MobileBy
+                .IosUIAutomation(".tableViews()[0]"));
+        MobileElement slider =table.findElement(MobileBy
+                .IosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
+        assertEquals(slider.getAttribute("name"), "Sliders");
     }
 }
