@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
@@ -27,8 +29,6 @@ import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-
-import static org.junit.Assert.assertEquals;
 
 public class IOSScrollingSearchingTest {
 
@@ -80,7 +80,7 @@ public class IOSScrollingSearchingTest {
     @Test public void scrollByElement() {
         MobileElement table = driver.findElement(MobileBy
                 .IosUIAutomation(".tableViews()[0]"));
-        MobileElement slider =table.findElement(MobileBy
+        MobileElement slider = table.findElement(MobileBy
                 .IosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
         assertEquals(slider.getAttribute("name"), "Sliders");
     }
