@@ -22,7 +22,6 @@ import io.appium.java_client.FindsByIosNsPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
-
 import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.SwipeElementDirection;
 import org.openqa.selenium.WebDriverException;
