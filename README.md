@@ -118,7 +118,7 @@ anymore.
 - the searching for elements by nspredicate string was added. It requires the [XCUITest mode](https://github.com/appium/java-client/blob/master/docs/Installing-xcuitest-driver.md). Thanks to [@rafael-chavez](https://github.com/appium/java-client/pull/352) for the contribution
 - the ability to start an activity using Android intent actions, intent categories, flags and arguments
 was added to `AndroidDriver`. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
-- `scrollTo()` and `scrollToExact` became deprecated. They are going to be removed in the next release.
+- `scrollTo()` and `scrollToExact()` became deprecated. They are going to be removed in the next release.
 - the `nsPredicate` parameter was added to the `iOSFindBy` annotation
 - the `commandRepository` field is public now. The modification of the `MobileCommand`
 - The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
