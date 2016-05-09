@@ -27,6 +27,7 @@ import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosNsPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.ScrollsTo;
+import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -54,7 +55,7 @@ import java.util.List;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts, GetsNamedTextField<T>,
-    FindsByIosUIAutomation<T>, FindsByIosNsPredicate<T> {
+        FindsByIosUIAutomation<T>, FindsByIosNsPredicate<T> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
     
@@ -164,12 +165,15 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * Scroll to the element whose 'text' attribute contains the input text.
-     * This scrolling happens within the first UIATableView on the UI.
-     * Use the method on IOSElement to scroll from a different ScrollView.
-     *
-     * @param text input text contained in text attribute.
+     * This method is deprecated because it is not consistent and it is going to be removed.
+     * It is workaround actually.
+     * Recommended to use instead:
+     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
+     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     @Override
     public T scrollTo(String text) {
@@ -178,13 +182,15 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * Scroll to the element whose 'text' attribute is equal to the input text.
-     * This scrolling happens within the first UIATableView on the UI.
-     * Use the method on IOSElement to scroll from a different ScrollView.
-     *
-     * @param text input text to match.
+     * This method is deprecated because it is not consistent and it is going to be removed.
+     * It is workaround actually.
+     * Recommended to use instead:
+     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
+     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
+     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
      */
-    @SuppressWarnings("unchecked")
+    @Deprecated
     @Override
     public T scrollToExact(String text) {
         return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))

@@ -667,8 +667,4 @@ public abstract class AppiumDriver<T extends WebElement>
     public URL getRemoteAddress() {
         return remoteAddress;
     }
-
-    @Override public abstract T scrollTo(String text);
-
-    @Override public abstract T scrollToExact(String text);
 }
