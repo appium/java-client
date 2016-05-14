@@ -18,14 +18,26 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.InteractsWithFiles;
 
+import java.io.File;
+import java.io.IOException;
+
 public interface PushesFiles extends InteractsWithFiles {
 
     /**
-     * Save base64 encoded data as a file on the remote mobile device.
+     * Saves base64 encoded data as a file on the remote mobile device.
      *
      * @param remotePath Path to file to write data to on remote device
      * @param base64Data Base64 encoded byte array of data to write to remote device
      */
     void pushFile(String remotePath, byte[] base64Data);
+
+    /**
+     * Saves given file as a file on the remote mobile device.
+     *
+     * @param remotePath Path to file to write data to on remote device
+     * @param file is a file to write to remote device
+     * @throws IOException when there are problems with a file or current file system
+     */
+    void pushFile(String remotePath, File file) throws IOException;
 
 }

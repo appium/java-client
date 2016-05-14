@@ -22,9 +22,12 @@ import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.AppiumSetting;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
+
+import java.io.File;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
@@ -57,6 +60,23 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertEquals(
             "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
             returnDataDecoded);
+    }
+
+    @Test public void pushTempFileTest() throws Exception {
+        File temp = File.createTempFile("Temp_", "_test");
+        try {
+            FileUtils.writeStringToFile(temp, "The eventual code is no "
+                + "more than the deposit of your understanding. ~E. W. Dijkstra", "UTF-8", true);
+            driver.pushFile("/data/local/tmp/remote2.txt", temp);
+            byte[] returnData = driver.pullFile("/data/local/tmp/remote2.txt");
+            String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+            assertEquals(
+                "The eventual code is no more than the deposit of "
+                    + "your understanding. ~E. W. Dijkstra",
+                returnDataDecoded);
+        } finally {
+            FileUtils.forceDelete(temp);
+        }
     }
 
     @Test public void ignoreUnimportantViews() {
