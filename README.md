@@ -128,6 +128,7 @@ was added to `AndroidDriver`. Thanks to [@saikrishna321](https://github.com/saik
 - Constructors of the abstract `io.appium.java_client.AppiumDriver` were redesigned. Now they require 
 a subclass of `io.appium.java_client.internal.JsonToMobileElementConverter`. Constructors of 
 `io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver` are same still.
+- The `pushFile(String remotePath, File file)` was added to AndroidDriver
 - FIX of TouchAction. Instances of the TouchAction class are reusable now
 - FIX of the swiping issue (iOS, server version >= 1.5.0). Now the swiping is implemented differently by 
 AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) and [@nuggit32](https://github.com/nuggit32) for the catching.
