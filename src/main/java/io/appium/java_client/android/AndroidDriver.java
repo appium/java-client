@@ -28,7 +28,10 @@ import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.PUSH_FILE;
 import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
 import static io.appium.java_client.MobileCommand.START_ACTIVITY;
+import static io.appium.java_client.MobileCommand.TOGGLE_AIRPLANE_MODE;
+import static io.appium.java_client.MobileCommand.TOGGLE_DATA;
 import static io.appium.java_client.MobileCommand.TOGGLE_LOCATION_SERVICES;
+import static io.appium.java_client.MobileCommand.TOGGLE_WIFI;
 import static io.appium.java_client.MobileCommand.UNLOCK;
 
 import com.google.common.collect.ImmutableMap;
@@ -403,6 +406,18 @@ public class AndroidDriver<T extends WebElement>
 
     public void toggleLocationServices() {
         execute(TOGGLE_LOCATION_SERVICES);
+    }
+
+    public void toggleFlightMode() {
+        execute(TOGGLE_AIRPLANE_MODE);
+    }
+
+    public void toggleData() {
+        execute(TOGGLE_DATA);
+    }
+
+    public void toggleWiFi() {
+        execute(TOGGLE_WIFI);
     }
 
     /**

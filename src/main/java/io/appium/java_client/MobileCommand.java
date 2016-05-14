@@ -60,6 +60,9 @@ public class MobileCommand {
     public static final String SET_SETTINGS = "setSettings";
     public static final String START_ACTIVITY = "startActivity";
     public static final String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
+    public static final String TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
+    public static final String TOGGLE_DATA = "toggleData";
+    public static final String TOGGLE_WIFI = "toggleWiFi";
     public static final String GET_DEVICE_TIME = "getDeviceTime";
     public static final String UNLOCK = "unlock";
     public static final  Map<String, CommandInfo> commandRepository = getMobileCommands();
@@ -110,6 +113,12 @@ public class MobileCommand {
             .put(START_ACTIVITY, postC("/session/:sessionId/appium/device/start_activity"))
             .put(TOGGLE_LOCATION_SERVICES,
                 postC("/session/:sessionId/appium/device/toggle_location_services"))
+            .put(TOGGLE_AIRPLANE_MODE,
+                postC("/session/:sessionId/appium/device/toggle_airplane_mode"))
+            .put(TOGGLE_DATA,
+                postC("/session/:sessionId/appium/device/toggle_data"))
+            .put(TOGGLE_WIFI,
+                postC("/session/:sessionId/appium/device/toggle_wifi"))
             .put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"))
             .put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
 
