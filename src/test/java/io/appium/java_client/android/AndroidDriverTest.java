@@ -75,18 +75,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
         driver.toggleLocationServices();
     }
 
-    @Test public void toggleFlightModeTest() {
-        driver.toggleFlightMode();
-    }
-
-    @Test public void toggleDataTest() {
-        driver.toggleData();
-    }
-
-    @Test public void toggleWiFiTest() {
-        driver.toggleWiFi();
-    }
-
     @Test public void geolocationTest() {
         Location location = new Location(45, 45, 100);
         driver.setLocation(location);
