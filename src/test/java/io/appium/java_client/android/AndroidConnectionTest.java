@@ -19,7 +19,6 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
@@ -59,7 +58,7 @@ public class AndroidConnectionTest {
     @AfterClass public static void afterClass() {
         if (driver != null) {
             try {
-                driver.setNetworkConnection(new NetworkConnectionSetting(false, false, true));
+                driver.setConnection(Connection.DATA);
             } finally {
                 driver.quit();
             }
@@ -69,15 +68,24 @@ public class AndroidConnectionTest {
         }
     }
 
-    @Test public void setWiFiTest() {
-        driver.setNetworkConnection(new NetworkConnectionSetting(false, true, false));
-        assertEquals(new NetworkConnectionSetting(false, true, false),
-            driver.getNetworkConnection());
+    @Test public void setWiFi() {
+        driver.setConnection(Connection.WIFI);
+        assertEquals(Connection.WIFI,
+            driver.getConnection());
     }
 
-    @Test public void setAirplane() {
-        driver.setNetworkConnection(new NetworkConnectionSetting(true, false, false));
-        assertEquals(new NetworkConnectionSetting(true, false, false),
-            driver.getNetworkConnection());
+    @Test public void setNoneAndAirplane() {
+        driver.setConnection(Connection.NONE);
+        assertEquals(Connection.NONE,
+            driver.getConnection());
+        driver.setConnection(Connection.AIRPLANE);
+        assertEquals(Connection.AIRPLANE,
+            driver.getConnection());
+    }
+
+    @Test public void setAll() {
+        driver.setConnection(Connection.ALL);
+        assertEquals(Connection.ALL,
+            driver.getConnection());
     }
 }
