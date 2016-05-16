@@ -17,6 +17,7 @@
 package io.appium.java_client.android;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
 import static io.appium.java_client.MobileCommand.END_TEST_COVERAGE;
 import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
@@ -42,6 +43,8 @@ import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
@@ -49,6 +52,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
@@ -258,19 +263,14 @@ public class AndroidDriver<T extends WebElement>
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
 
-    /**
-     * @see HasNetworkConnection#getNetworkConnection().
-     */
+
+    @Deprecated
     @Override public NetworkConnectionSetting getNetworkConnection() {
         Response response = execute(GET_NETWORK_CONNECTION);
         return new NetworkConnectionSetting(Integer.parseInt(response.getValue().toString()));
     }
 
-    /**
-     * @param connection The NetworkConnectionSetting configuration to use for the
-     *                   device.
-     * @see HasNetworkConnection#setNetworkConnection(NetworkConnectionSetting)
-     */
+    @Deprecated
     @Override public void setNetworkConnection(NetworkConnectionSetting connection) {
         // the new version of the webdriver protocol is going forward with
         // sending JSON message which look like
@@ -284,15 +284,41 @@ public class AndroidDriver<T extends WebElement>
         execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
     }
 
-    /**
-     * @param remotePath Path to file to write data to on remote device.
-     * @param base64Data Base64 encoded byte array of data to write to remote device.
-     * @see PushesFiles#pushFile(String, byte[])
-     */
+    @Override public void setConnection(Connection connection) {
+        String[] parameters = new String[] {"name", "parameters"};
+        Object[] values =
+            new Object[] {"network_connection", ImmutableMap.of("type", connection.bitMask)};
+        execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
+    }
+
+    @Override public Connection getConnection() {
+        Response response = execute(GET_NETWORK_CONNECTION);
+        int bitMask = Integer.parseInt(response.getValue().toString());
+        Connection[] types = Connection.values();
+
+        for (Connection connection: types) {
+            if (connection.bitMask == bitMask) {
+                return connection;
+            }
+        }
+        throw new WebDriverException("The unknown network connection "
+            + "type has been returned. The bitmask is " + bitMask);
+    }
+
     @Override public void pushFile(String remotePath, byte[] base64Data) {
         String[] parameters = new String[] {"path", "data"};
         Object[] values = new Object[] {remotePath, base64Data};
         execute(PUSH_FILE, getCommandImmutableMap(parameters, values));
+    }
+
+    @Override public void pushFile(String remotePath, File file) throws IOException {
+        checkNotNull(file, "A reference to file should not be NULL");
+        if (!file.exists()) {
+            throw new IOException("The given file "
+                + file.getAbsolutePath() + " doesn't exist");
+        }
+        pushFile(remotePath,
+            Base64.encodeBase64(FileUtils.readFileToByteArray(file)));
     }
 
     @Override public void startActivity(String appPackage, String appActivity,

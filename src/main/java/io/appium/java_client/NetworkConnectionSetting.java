@@ -20,7 +20,9 @@ package io.appium.java_client;
  * for use with setting Network Connections on a mobile device.
  * Each network option can be enabled or disabled.
  * Current network options available: Airplane Mode, Wifi, Data
+ * This class is deprecated and it is going to be removed in the next release
  */
+@Deprecated
 public class NetworkConnectionSetting {
 
     public int value = 0;
