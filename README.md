@@ -119,6 +119,10 @@ anymore.
 - the ability to start an activity using Android intent actions, intent categories, flags and arguments
 was added to `AndroidDriver`. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
 - `scrollTo()` and `scrollToExact()` became deprecated. They are going to be removed in the next release.
+- the `io.appium.java_client.NetworkConnectionSetting` class was marked deprecated
+- the enum `io.appium.java_client.android.Connection` was added. All supported network bitmasks are defined there.
+- Android. Old methods which get/set connection were marked  `@Deprecated`
+- Android. New methods which consume/return `io.appium.java_client.android.Connection` were added.
 - the `nsPredicate` parameter was added to the `iOSFindBy` annotation
 - the `commandRepository` field is public now. The modification of the `MobileCommand`
 - The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
