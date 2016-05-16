@@ -70,7 +70,7 @@ import java.util.List;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T> {
+    FindsByAndroidUIAutomator<T> {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -82,7 +82,7 @@ public class AndroidDriver<T extends WebElement>
      */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -97,7 +97,7 @@ public class AndroidDriver<T extends WebElement>
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
             substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -108,7 +108,7 @@ public class AndroidDriver<T extends WebElement>
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -123,7 +123,7 @@ public class AndroidDriver<T extends WebElement>
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
             substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -134,7 +134,7 @@ public class AndroidDriver<T extends WebElement>
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
         super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -149,7 +149,7 @@ public class AndroidDriver<T extends WebElement>
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
             substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -160,7 +160,7 @@ public class AndroidDriver<T extends WebElement>
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -169,7 +169,7 @@ public class AndroidDriver<T extends WebElement>
      */
     public AndroidDriver(Capabilities desiredCapabilities) {
         super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-                JsonToAndroidElementConverter.class);
+            JsonToAndroidElementConverter.class);
     }
 
     /**
@@ -263,19 +263,14 @@ public class AndroidDriver<T extends WebElement>
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
     }
 
-    /**
-     * @see HasNetworkConnection#getNetworkConnection().
-     */
+
+    @Deprecated
     @Override public NetworkConnectionSetting getNetworkConnection() {
         Response response = execute(GET_NETWORK_CONNECTION);
         return new NetworkConnectionSetting(Integer.parseInt(response.getValue().toString()));
     }
 
-    /**
-     * @param connection The NetworkConnectionSetting configuration to use for the
-     *                   device.
-     * @see HasNetworkConnection#setNetworkConnection(NetworkConnectionSetting)
-     */
+    @Deprecated
     @Override public void setNetworkConnection(NetworkConnectionSetting connection) {
         // the new version of the webdriver protocol is going forward with
         // sending JSON message which look like
@@ -287,6 +282,27 @@ public class AndroidDriver<T extends WebElement>
         Object[] values =
             new Object[] {"network_connection", ImmutableMap.of("type", connection.value)};
         execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
+    }
+
+    @Override public void setConnection(Connection connection) {
+        String[] parameters = new String[] {"name", "parameters"};
+        Object[] values =
+            new Object[] {"network_connection", ImmutableMap.of("type", connection.bitMask)};
+        execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
+    }
+
+    @Override public Connection getConnection() {
+        Response response = execute(GET_NETWORK_CONNECTION);
+        int bitMask = Integer.parseInt(response.getValue().toString());
+        Connection[] types = Connection.values();
+
+        for (Connection connection: types) {
+            if (connection.bitMask == bitMask) {
+                return connection;
+            }
+        }
+        throw new WebDriverException("The unknown network connection "
+            + "type has been returned. The bitmask is " + bitMask);
     }
 
     @Override public void pushFile(String remotePath, byte[] base64Data) {
@@ -306,11 +322,11 @@ public class AndroidDriver<T extends WebElement>
     }
 
     @Override public void startActivity(String appPackage, String appActivity,
-                                        String appWaitPackage,
-                                        String appWaitActivity, String intentAction,
-                                        String intentCategory, String intentFlags,
-                                        String optionalIntentArguments,boolean stopApp )
-            throws IllegalArgumentException {
+        String appWaitPackage,
+        String appWaitActivity, String intentAction,
+        String intentCategory, String intentFlags,
+        String optionalIntentArguments,boolean stopApp )
+        throws IllegalArgumentException {
 
         checkArgument((!StringUtils.isBlank(appPackage)
                 && !StringUtils.isBlank(appActivity)),
@@ -322,54 +338,54 @@ public class AndroidDriver<T extends WebElement>
         intentCategory = !StringUtils.isBlank(intentCategory) ? intentCategory : "";
         intentFlags = !StringUtils.isBlank(intentFlags) ? intentFlags : "";
         optionalIntentArguments = !StringUtils.isBlank(optionalIntentArguments)
-                ? optionalIntentArguments : "";
+            ? optionalIntentArguments : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
-                .<String, Object>builder().put("appPackage", appPackage)
-                .put("appActivity", appActivity)
-                .put("appWaitPackage", appWaitPackage)
-                .put("appWaitActivity", appWaitActivity)
-                .put("dontStopAppOnReset", !stopApp)
-                .put("intentAction", intentAction)
-                .put("intentCategory", intentCategory)
-                .put("intentFlags", intentFlags)
-                .put("optionalIntentArguments", optionalIntentArguments)
-                .build();
+            .<String, Object>builder().put("appPackage", appPackage)
+            .put("appActivity", appActivity)
+            .put("appWaitPackage", appWaitPackage)
+            .put("appWaitActivity", appWaitActivity)
+            .put("dontStopAppOnReset", !stopApp)
+            .put("intentAction", intentAction)
+            .put("intentCategory", intentCategory)
+            .put("intentFlags", intentFlags)
+            .put("optionalIntentArguments", optionalIntentArguments)
+            .build();
         execute(START_ACTIVITY, parameters);
     }
 
 
     @Override
     public void startActivity(String appPackage, String appActivity,
-                              String appWaitPackage, String appWaitActivity, boolean stopApp)
-            throws IllegalArgumentException {
+        String appWaitPackage, String appWaitActivity, boolean stopApp)
+        throws IllegalArgumentException {
         this.startActivity(appPackage,appActivity,appWaitPackage,
-                appWaitActivity,null,null,null,null,stopApp);
+            appWaitActivity,null,null,null,null,stopApp);
 
     }
 
     @Override public void startActivity(String appPackage, String appActivity,
-                                        String appWaitPackage,
-                                        String appWaitActivity) throws IllegalArgumentException {
+        String appWaitPackage,
+        String appWaitActivity) throws IllegalArgumentException {
 
         this.startActivity(appPackage, appActivity,
-                appWaitPackage, appWaitActivity,null,null,null,null,true);
+            appWaitPackage, appWaitActivity,null,null,null,null,true);
     }
 
     @Override public void startActivity(String appPackage, String appActivity)
         throws IllegalArgumentException {
         this.startActivity(appPackage, appActivity, null, null,
-                                        null,null,null,null,true);
+            null,null,null,null,true);
     }
 
     @Override public void startActivity(String appPackage, String appActivity,
-                              String appWaitPackage, String appWaitActivity,
-                                        String intentAction,String intentCategory,
-                                        String intentFlags,String intentOptionalArgs)
-            throws IllegalArgumentException {
+        String appWaitPackage, String appWaitActivity,
+        String intentAction,String intentCategory,
+        String intentFlags,String intentOptionalArgs)
+        throws IllegalArgumentException {
         this.startActivity(appPackage,appActivity,
-                appWaitPackage,appWaitActivity,
-                intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
+            appWaitPackage,appWaitActivity,
+            intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
     }
 
     /**
