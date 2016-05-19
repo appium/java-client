@@ -98,7 +98,18 @@ public abstract class AppiumDriver<T extends WebElement>
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
 
-    private AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities,
+    /**
+     * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
+     *                 or class that extends it. Default commands or another vendor-specific
+     *                 commands may be specified there.
+     * @param capabilities take a look
+     *                     at {@link org.openqa.selenium.Capabilities}
+     * @param converterClazz is an instance of a class that extends
+     * {@link org.openqa.selenium.remote.internal.JsonToWebElementConverter}. It converts
+     *                       JSON response to an instance of
+     *                       {@link org.openqa.selenium.WebElement}
+     */
+    protected AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities,
         Class<? extends JsonToWebElementConverter> converterClazz) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);

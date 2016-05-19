@@ -36,6 +36,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
@@ -58,7 +59,18 @@ public class IOSDriver<T extends WebElement>
         FindsByIosUIAutomation<T>, FindsByIosNsPredicate<T> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
-    
+
+    /**
+     * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
+     *                 or class that extends it. Default commands or another vendor-specific
+     *                 commands may be specified there.
+     * @param capabilities take a look
+     *                     at {@link org.openqa.selenium.Capabilities}
+     */
+    public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+        super(executor, capabilities, JsonToIOSElementConverter.class);
+    }
+
     /**
      * @param remoteAddress is the address
      *                      of remotely/locally started Appium server
