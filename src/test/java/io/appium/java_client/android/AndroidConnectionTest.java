@@ -88,4 +88,16 @@ public class AndroidConnectionTest {
         assertEquals(Connection.ALL,
             driver.getConnection());
     }
+
+    @Test public void toggleFlightModeTest() {
+        driver.toggleFlightMode();
+    }
+
+    @Test public void toggleDataTest() {
+        driver.toggleData();
+    }
+
+    @Test public void toggleWiFiTest() {
+        driver.toggleWiFi();
+    }
 }

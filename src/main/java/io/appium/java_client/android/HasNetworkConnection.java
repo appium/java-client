@@ -21,13 +21,26 @@ import io.appium.java_client.NetworkConnectionSetting;
 public interface HasNetworkConnection {
 
     /**
-     * Get the current network settings of the device.
-     * This method is deprecated and it is going to be removed in the next release.
-     * Use {@link #getConnection()} instead.
-     *
-     * @return NetworkConnectionSetting objects will let you inspect the status
-     *     of AirplaneMode, Wifi, Data connections
+     * Toggles FigthtMode ON/OFF on the device. This is an Android-only method
      */
+    void toggleFlightMode();
+
+    /**
+     * Toggles Mobile Data ON/OFF on the device. This is an Android-only method
+     */
+    void toggleData();
+
+    /**
+     * Toggles Wifi ON/OFF on the device. This is an Android-only method
+     */
+    void toggleWiFi();
+
+    /**
+    * Get the current network settings of the device.
+    *
+    * @return NetworkConnectionSetting objects will let you inspect the status
+    *     of AirplaneMode, Wifi, Data connections
+    */
     @Deprecated
     NetworkConnectionSetting getNetworkConnection();
 
