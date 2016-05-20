@@ -49,6 +49,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -73,6 +74,17 @@ public class AndroidDriver<T extends WebElement>
     FindsByAndroidUIAutomator<T> {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
+
+    /**
+     * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
+     *                 or class that extends it. Default commands or another vendor-specific
+     *                 commands may be specified there.
+     * @param capabilities take a look
+     *                     at {@link org.openqa.selenium.Capabilities}
+     */
+    public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+        super(executor, capabilities, JsonToAndroidElementConverter.class);
+    }
 
     /**
      * @param remoteAddress is the address of remotely/locally

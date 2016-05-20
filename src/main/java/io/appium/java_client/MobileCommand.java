@@ -64,11 +64,11 @@ public class MobileCommand {
     public static final String UNLOCK = "unlock";
     public static final  Map<String, CommandInfo> commandRepository = getMobileCommands();
 
-    static CommandInfo getC(String url) {
+    public static CommandInfo getC(String url) {
         return new CommandInfo(url, HttpMethod.GET);
     }
 
-    static CommandInfo postC(String url) {
+    public static CommandInfo postC(String url) {
         return new CommandInfo(url, HttpMethod.POST);
     }
 
