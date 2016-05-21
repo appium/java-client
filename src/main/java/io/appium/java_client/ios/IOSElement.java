@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.FindsByIosNsPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
@@ -31,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IOSElement extends MobileElement
-    implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement>,
-        FindsByIosNsPredicate<MobileElement> {
+    implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
     /**
      * @throws WebDriverException
      * This method is not applicable with browser/webview UI.
@@ -50,28 +48,6 @@ public class IOSElement extends MobileElement
         throws WebDriverException {
         List<MobileElement> result = new ArrayList<MobileElement>();
         List<WebElement> found = findElements("-ios uiautomation", using);
-        for (WebElement e : found) {
-            result.add((IOSElement) e);
-        }
-        return result;
-    }
-    
-    /**
-     * @throws org.openqa.selenium.WebDriverException 
-     * This method is not applicable with browser/webview UI.
-     */
-    @Override public MobileElement findElementByIosNsPredicate(String using)
-        throws WebDriverException {
-        return (IOSElement) findElement("-ios predicate string", using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override public List<MobileElement> findElementsByIosNsPredicate(String using)
-        throws WebDriverException {
-        List<MobileElement> result = new ArrayList<MobileElement>();
-        List<WebElement> found = findElements("-ios predicate string", using);
         for (WebElement e : found) {
             result.add((IOSElement) e);
         }

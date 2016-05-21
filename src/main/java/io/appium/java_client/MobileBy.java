@@ -73,15 +73,6 @@ public abstract class MobileBy extends By {
     public static By AccessibilityId(final String accessibilityId) {
         return new ByAccessibilityId(accessibilityId);
     }
-
-    /**
-     * This locator strategy is available in XCUITest Driver mode
-     * @param iOSNsPredicateString is an an iOS NsPredicate String
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
-     */
-    public static By IosNsPredicateString(final String iOSNsPredicateString) {
-        return new ByIosNsPredicate(iOSNsPredicateString);
-    }
     
     public static class ByIosUIAutomation extends MobileBy implements Serializable {
 
@@ -103,28 +94,6 @@ public abstract class MobileBy extends By {
 
         @Override public String toString() {
             return "By.IosUIAutomation: " + getLocatorString();
-        }
-    }
-
-    public static class ByIosNsPredicate extends MobileBy implements Serializable {
-
-        public ByIosNsPredicate(String iOSNsPredicate) {
-            super(iOSNsPredicate);
-        }
-        
-        @SuppressWarnings("unchecked")
-        @Override public List<WebElement> findElements(SearchContext context) {
-            return (List<WebElement>) ((FindsByIosNsPredicate<?>) context)
-                    .findElementsByIosNsPredicate(getLocatorString());
-        }
-        
-        @Override public WebElement findElement(SearchContext context) {
-            return ((FindsByIosNsPredicate<?>) context)
-                    .findElementByIosNsPredicate(getLocatorString());
-        }
-        
-        @Override public String toString() {
-            return "By.IosNsPredicate: " + getLocatorString();
         }
     }
 

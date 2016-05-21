@@ -65,15 +65,4 @@ public @interface iOSFindBy {
      * It is a xpath to the target element.
      */
     String xpath() default "";
-
-    /**
-     * This parameter makes perform the searching by iOS NSPredicate.
-     * This locator strategy is available in XCUITest Driver mode.
-     * Documentation to read:
-     * https://github.com/appium/java-client/blob/master/docs/
-     * Installing-xcuitest-driver.md
-     *
-     * https://github.com/appium/appium-xcuitest-driver/blob/master/README.md
-     */
-    String nsPredicate()  default "";
 }

@@ -224,6 +224,10 @@ public abstract class AppiumDriver<T extends WebElement>
         return super.findElements(by);
     }
 
+    @Override public List<T> findElements(String by, String using) {
+        return super.findElements(by, using);
+    }
+
     @Override public List<T> findElementsById(String id) {
         return super.findElementsById(id);
     }
