@@ -55,8 +55,16 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         return super.findElements(by);
     }
 
+    @Override public List findElements(String by, String using) {
+        return super.findElements(by, using);
+    }
+
     @Override public T findElement(By by) {
         return (T) super.findElement(by);
+    }
+
+    @Override public T findElement(String by, String using) {
+        return (T) super.findElement(by, using);
     }
 
     @Override public List findElementsById(String id) {
