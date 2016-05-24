@@ -116,11 +116,14 @@ anymore.
 - the ability to start an activity using Android intent actions, intent categories, flags and arguments
 was added to `AndroidDriver`. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
 - `scrollTo()` and `scrollToExact()` became deprecated. They are going to be removed in the next release.
+- Methods `findElements(String by, String using)` and `findElement(String by, String using)` of `org.openga.selenium.remote.RemoteWebdriver` are public now. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget).
 - the `io.appium.java_client.NetworkConnectionSetting` class was marked deprecated
 - the enum `io.appium.java_client.android.Connection` was added. All supported network bitmasks are defined there.
 - Android. Old methods which get/set connection were marked  `@Deprecated`
 - Android. New methods which consume/return `io.appium.java_client.android.Connection` were added.
 - the `commandRepository` field is public now. The modification of the `MobileCommand`
+- Constructors like `AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities)` were added to 
+`io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver`
 - The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
 `org.openqa.selenium.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
 `io.appium.java_client.android.internal.JsonToAndroidElementConverter` or 
