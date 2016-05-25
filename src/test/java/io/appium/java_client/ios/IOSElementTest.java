@@ -24,23 +24,17 @@ import org.junit.Test;
 public class IOSElementTest extends BaseIOSTest {
 
     @Test public void findByAccessibilityIdTest() {
-        assertNotEquals(driver.findElementsByClassName("UIAWindow")
-            .get(0)
-            .findElementByAccessibilityId("ComputeSumButton").getText(), null);
-        assertNotEquals(driver.findElementsByClassName("UIAWindow").get(0)
+        assertNotEquals(driver.findElementsByClassName("UIAWindow").get(1)
             .findElementsByAccessibilityId("ComputeSumButton").size(), 0);
     }
 
     @Test public void findByByIosUIAutomationTest() {
         assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow")
-            .get(0))
+            .get(1))
             .findElementByIosUIAutomation(".elements().withName(\"Answer\")").getText(), null);
-        assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow")
-            .get(0))
-            .findElementsByIosUIAutomation(".elements().withName(\"Answer\")").size(), 0);
     }
 
-    @Test public void setValueTest() {
+    @Test public void setValueNunslaughterTest() {
         IOSElement slider = (IOSElement) driver.findElementByClassName("UIASlider");
         slider.setValue("0%");
         assertEquals("0%", slider.getAttribute("value"));
