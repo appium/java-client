@@ -109,17 +109,17 @@ public class AndroidGestureTest extends BaseAndroidTest {
     }
 
     @Test public void verticalSwipingTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.DateWidgets2");
-        AndroidElement numberPicker = driver.findElementByClassName("android.widget.NumberPicker");
-        MobileElement numberInput = numberPicker.findElementById("android:id/numberpicker_input");
+        driver.findElementByAccessibilityId("Views").click();
+        AndroidElement listView = driver.findElementByClassName("android.widget.ListView");
+        MobileElement textView = driver.findElementById("android:id/text1");
 
-        String originalNumber = numberInput.getText();
+        String originalText = textView.getText();
 
-        numberPicker.swipe(SwipeElementDirection.UP, 20, 10, 1000);
-        assertNotEquals(originalNumber, numberInput.getText());
+        listView.swipe(SwipeElementDirection.UP, 20, 15, 1000);
+        assertNotEquals(originalText, textView.getText());
 
-        numberPicker.swipe(SwipeElementDirection.DOWN, 20, 10, 1000);
-        assertEquals(originalNumber, numberInput.getText());
+        listView.swipe(SwipeElementDirection.DOWN, 20, 15, 1000);
+        assertEquals(originalText, textView.getText());
     }
 
     @Test public void horizontalSwipingTest() throws Exception {
