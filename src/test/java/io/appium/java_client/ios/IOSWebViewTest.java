@@ -34,7 +34,7 @@ public class IOSWebViewTest extends BaseIOSWebViewTest {
         Thread.sleep(10000);
         WebElement el = driver.findElementByClassName("gsfi");
         el.sendKeys("Appium");
-        el.sendKeys(Keys.RETURN);
+        el.sendKeys(Keys.ENTER);
         Thread.sleep(1000);
         assertEquals(true, driver.getTitle().contains("Appium"));
     }
