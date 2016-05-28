@@ -18,11 +18,16 @@ package io.appium.java_client.ios;
 
 import org.openqa.selenium.WebElement;
 
+@Deprecated
+/**
+ * This interface is deprecated and it is going to be removed further.
+ */
 public interface GetsNamedTextField<T extends WebElement> {
     /**
      * In iOS apps, named TextFields have the same accessibility Id as their
      * containing TableElement. This is a convenience method for getting the
-     * named TextField, rather than its containing element.
+     * named TextField, rather than its containing element.     *
+     * This method is deprecated and it is going to be removed further.
      *
      * @param name accessiblity id of TextField
      * @return The textfield with the given accessibility id

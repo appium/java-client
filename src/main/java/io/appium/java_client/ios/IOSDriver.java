@@ -231,9 +231,7 @@ public class IOSDriver<T extends WebElement>
         execute(SHAKE);
     }
 
-    /**
-     * @see GetsNamedTextField#getNamedTextField(String).
-     */
+    @Deprecated
     @SuppressWarnings("unchecked")
     @Override
     public T getNamedTextField(
