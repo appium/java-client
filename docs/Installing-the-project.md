@@ -4,7 +4,7 @@
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.4.1</version>
+  <version>4.0.0</version>
 </dependency>
 ```
 
@@ -14,7 +14,7 @@ It currently depends on selenium-java 2.53.0. If it is necessary to use another 
 <dependency>
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
-  <version>3.4.1</version>
+  <version>4.0.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.seleniumhq.selenium</groupId>

@@ -1,58 +1,22 @@
 java-client
 ===========
 
-Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
+This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
 
-Depends upon the Selenium Java client library, available [here](http://docs.seleniumhq.org/download/)
+[How to install it and to use it](https://github.com/appium/java-client/blob/master/docs/Installing-the-project.md)
 
-[Download the jar from Maven](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.appium%22%20AND%20a%3A%22java-client%22) or add the following to pom.xml:
-
-```
-<dependency>
-  <groupId>io.appium</groupId>
-  <artifactId>java-client</artifactId>
-  <version>3.4.1</version>
-</dependency>
-```
-
-It currently depends on selenium-java 2.53.0. If it is necessary to use another version of Selenium then you can configure pom.xml as follows:
-
-```
-<dependency>
-  <groupId>io.appium</groupId>
-  <artifactId>java-client</artifactId>
-  <version>3.4.1</version>
-  <exclusions>
-    <exclusion>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-    </exclusion>
-  </exclusions>
-</dependency>
-
-<dependency>
-  <groupId>org.seleniumhq.selenium</groupId>
-  <artifactId>selenium-java</artifactId>
-  <version>${selenium.version.you.require}</version>
-</dependency>
-```
-
-Javadocs: http://appium.github.io/java-client/
+[API docs](http://appium.github.io/java-client/)
 
 ###Structure###
 
-There is an abstract _AppiumDriver_ class which inherits from the Selenium Java Client.
-The _AppiumDriver_ class contains all methods shared by iOS and Android.
-_IOSDriver_ and _AndroidDriver_ both extend _AppiumDriver_ and provide more methods, and specific implementations for some methods.
+There is an abstract `io.appium.java_client.AppiumDriver` class which extends `org.openqa.selenium.remote.RemoteWebDriver` 
+from the Selenium Java Client. The `io.appium.java_client.AppiumDriver` class contains all methods shared by iOS and Android.
+`io.appium.java_client.ios.IOSDriver` and `io.appium.java_client.android.AndroidDriver` both extend `io.appium.java_client.AppiumDriver` 
+and provide more methods, and specific implementations for some methods.
 
-In the same way, _IOSElement_ and _AndroidElement_ both are subclasses of _MobileElement_
+In the same way, `io.appium.java_client.ios.IOSElement` and `io.appium.java_client.android.AndroidElement` both are subclasses of 
+`io.appium.java_client.MobileElement`
 
-You can instantiate and AppiumDriver with the class of element you want commands to return. For example
-`AppiumDriver<MobileElement> driver;`
-and now when you call the Find functions, they return elements of class MobileElement.
-You can also instantiate drivers like this, to make things simpler:
-`AndroidDriver<AndroidElement> driver = new AndroidDriver(.......`
-`IOSElement el = driver.findElementByAccessiblityId('sample');`
 
 ###Added functions###
 More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
@@ -105,12 +69,14 @@ Locators:
 - findElementByAndroidUIAutomator()
 - findElementsByAndroidUIAutomator()
 
-## Note to developers! ##
-If you are working on this project and use Intellij Idea, you need to change the compiler to the Eclipse compilers instead of the default.
-If you are using the Eclipse IDE, make sure you are using version Luna or later.
+### Features and other interesting information###
 
-##Changelog##
-*4.0.0 (under construction yet)*
+You can get it on [WIKI](https://github.com/appium/java-client/wiki)
+
+## Changelog#
+*4.1.0 (under construction yet)*
+...
+*4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
 anymore.
 - the ability to start an activity using Android intent actions, intent categories, flags and arguments
