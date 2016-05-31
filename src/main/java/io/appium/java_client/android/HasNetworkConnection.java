@@ -16,31 +16,7 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.NetworkConnectionSetting;
-
 public interface HasNetworkConnection {
-
-    /**
-     * Get the current network settings of the device.
-     * This method is deprecated and it is going to be removed in the next release.
-     * Use {@link #getConnection()} instead.
-     *
-     * @return NetworkConnectionSetting objects will let you inspect the status
-     *     of AirplaneMode, Wifi, Data connections
-     */
-    @Deprecated
-    NetworkConnectionSetting getNetworkConnection();
-
-    /**
-     * Set the network connection of the device. This is an Android-only method
-     * This method is deprecated and it is going to be removed in the next release.
-     * Use {@link #setConnection(Connection)} instead.
-     *
-     * @param connection The NetworkConnectionSetting configuration to use for the device
-     */
-    @Deprecated
-    void setNetworkConnection(NetworkConnectionSetting connection);
-
 
     /**
      * Set the network connection of the device.

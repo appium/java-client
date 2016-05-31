@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -54,7 +53,7 @@ import java.util.List;
  */
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements IOSDeviceActionShortcuts, GetsNamedTextField<T>,
+    implements IOSDeviceActionShortcuts,
         FindsByIosUIAutomation<T> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
@@ -176,39 +175,6 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * This method is deprecated because it is not consistent and it is going to be removed.
-     * It is workaround actually.
-     * Recommended to use instead:
-     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
-     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    @Override
-    public T scrollTo(String text) {
-        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
-            .scrollTo(text);
-    }
-
-    /**
-     * This method is deprecated because it is not consistent and it is going to be removed.
-     * It is workaround actually.
-     * Recommended to use instead:
-     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
-     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
-     */
-    @Deprecated
-    @Override
-    public T scrollToExact(String text) {
-        return (T) ((ScrollsTo<?>) findElementByClassName("UIATableView"))
-            .scrollToExact(text);
-    }
-
-    /**
      * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
      */
     @Override public void hideKeyboard(String strategy, String keyName) {
@@ -229,19 +195,6 @@ public class IOSDriver<T extends WebElement>
      */
     @Override public void shake() {
         execute(SHAKE);
-    }
-
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    @Override
-    public T getNamedTextField(
-        String name) {
-        T element = findElementByAccessibilityId(name);
-        if (element.getTagName() != "TextField") {
-            return (T) ((FindsByAccessibilityId<?>) element)
-                    .findElementByAccessibilityId(name);
-        }
-        return element;
     }
 
     /**

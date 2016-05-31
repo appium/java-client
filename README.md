@@ -76,6 +76,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 ## Changelog#
 *4.1.0 (under construction yet)*
 ...
+- all code marked `@Deprecated` was removed.
 
 *4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)

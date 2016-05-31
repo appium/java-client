@@ -39,9 +39,9 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWebDriver
-    implements MobileDriver, GenericSearchContext<T>, GenericFindsById<T>, GenericFindsByXPath<T>,
+    implements GenericSearchContext<T>, GenericFindsById<T>, GenericFindsByXPath<T>,
     GenericFindsByLinkText<T>, GenericFindsByTagName<T>, GenericFindsByClassName<T>,
-    GenericFindsByCssSelector<T>, GenericFindsByName<T> {
+    GenericFindsByCssSelector<T>, GenericFindsByName<T>, MobileDriver {
 
     public DefaultGenericMobileDriver(CommandExecutor executor, Capabilities desiredCapabilities) {
         super(executor, desiredCapabilities);
