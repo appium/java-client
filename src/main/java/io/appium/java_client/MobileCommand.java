@@ -72,4 +72,9 @@ public interface MobileCommand {
   String SET_DATE = "setDate";
   String HAS_ROOT = "hasRoot";
   String GET_VERSIONS = "getVersions";
+  String REMOVE_FOLDER = "removeFolder";
+  String LIST_FOLDER = "listFolder";
+  String CP = "cp";
+  String GET_OWNER = "getOwner";
+  String SET_OWNER = "setOwner";
 }
