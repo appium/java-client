@@ -686,8 +686,10 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(STOP_APP, postC("/session/:sessionId/appium/device/stop_app"))
                 .put(REPLACE_APP, postC("/session/:sessionId/appium/device/replace_app"))
                 .put(REMOVE_FILE, postC("/session/:sessionId/appium/device/remove_file"))
+                .put(REMOVE_FOLDER, postC("/session/:sessionId/appium/device/remove_folder"))
                 .put(BROADCAST_INTENT, postC("/session/:sessionId/appium/device/broadcast_intent"))
                 .put(LIST_FILES, postC("/session/:sessionId/appium/device/list_files"))
+                .put(LIST_FOLDER, postC("/session/:sessionId/appium/device/list_folder"))
                 .put(SWIPE_UP_HOME_BUTTON, postC("/session/:sessionId/appium/device/swipe_up_home_button"))
                 .put(CLEAR_DATA, postC("/session/:sessionId/appium/device/clear_data"))
                 .put(ADB_SWIPE, postC("/session/:sessionId/appium/device/adb_swipe"))
@@ -700,6 +702,9 @@ public abstract class AppiumDriver<RequiredElementType extends WebElement> exten
                 .put(SET_DATE, postC("/session/:sessionId/appium/device/set_date"))
                 .put(HAS_ROOT, getC("/session/:sessionId/appium/device/has_root"))
                 .put(GET_VERSIONS, postC("/session/:sessionId/appium/device/get_versions"))
+                .put(CP, postC("/session/:sessionId/appium/device/cp"))
+                .put(GET_OWNER, postC("/session/:sessionId/appium/device/get_owner"))
+                .put(SET_OWNER, postC("/session/:sessionId/appium/device/set_owner"))
                 .put(IS_SOFT_KEYBOARD_PRESENT, getC("/session/:sessionId/appium/device/is_soft_keyboard_present"));
 
         return builder.build();

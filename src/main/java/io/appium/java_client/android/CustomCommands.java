@@ -1,6 +1,7 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.DisplayMetrics;
+import io.appium.java_client.Owner;
 import io.appium.java_client.PackageVersion;
 
 import java.awt.*;
@@ -15,7 +16,9 @@ public interface CustomCommands {
     void stopApp(String pkg);
     void replaceApp(String path);
     List<String> listFiles(String dir);
+    List<String> listFolder(String dir);
     void removeFile(String path);
+    void removeFolder(String path);
     void broadcastIntent(String intent, String receiver, HashMap<String, Object> keys);
     boolean isSoftKeyboardPresent();
     void swipeUpHomeButton();
@@ -32,4 +35,7 @@ public interface CustomCommands {
     void setDate(long time);
     boolean hasRoot();
     List<PackageVersion> getVersions(String pkg);
+    Owner getOwner(String path);
+    void setOwner(String path, Owner owner);
+    void cp(String source, String destination);
 }

@@ -23,6 +23,7 @@ import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.DisplayMetrics;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.NetworkConnectionSetting;
+import io.appium.java_client.Owner;
 import io.appium.java_client.PackageVersion;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -45,13 +46,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static io.appium.java_client.MobileCommand.ADB_INPUT_TEXT;
 import static io.appium.java_client.MobileCommand.ADB_SWIPE;
 import static io.appium.java_client.MobileCommand.ADB_TAP;
+import static io.appium.java_client.MobileCommand.CP;
 import static io.appium.java_client.MobileCommand.GET_DATE;
 import static io.appium.java_client.MobileCommand.GET_DATE_STRING;
 import static io.appium.java_client.MobileCommand.GET_DISPLAY_METRICS;
 import static io.appium.java_client.MobileCommand.GET_NAVIGATION_BAR_REGION;
+import static io.appium.java_client.MobileCommand.GET_OWNER;
 import static io.appium.java_client.MobileCommand.GET_VERSIONS;
 import static io.appium.java_client.MobileCommand.HAS_ROOT;
+import static io.appium.java_client.MobileCommand.LIST_FOLDER;
 import static io.appium.java_client.MobileCommand.SET_DATE;
+import static io.appium.java_client.MobileCommand.SET_OWNER;
 import static io.appium.java_client.MobileCommand.SWIPE_UP_HOME_BUTTON;
 import static io.appium.java_client.MobileCommand.BROADCAST_INTENT;
 import static io.appium.java_client.MobileCommand.CLEAR_DATA;
@@ -512,5 +517,37 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 			versions.add(new PackageVersion((Map<String, String>) o));
 		}
 		return versions;
+	}
+
+	@Override
+	public List<String> listFolder(String dir) {
+		Response response = execute(LIST_FOLDER, ImmutableMap.of(PATH, dir));
+		return (List<String>) response.getValue();
+	}
+
+	@Override
+	public void removeFolder(String path) {
+		execute(REMOVE_FILE, ImmutableMap.of(PATH, path));
+	}
+
+	@Override
+	public Owner getOwner(String path) {
+		Response response = execute(GET_OWNER, ImmutableMap.of(PATH, path));
+		Map<String, String> map = (Map<String, String>) response.getValue();
+		return new Owner(map);
+	}
+
+	@Override
+	public void setOwner(String path, Owner owner) {
+		String[] parameters = new String[] { "user", "group", "path"};
+		Object[] values = new Object[] { owner.getUser(), owner.getGroup(), path };
+		execute(SET_OWNER, getCommandImmutableMap(parameters, values));
+	}
+
+	@Override
+	public void cp(String source, String destination) {
+		String[] parameters = new String[] { "source", "destination"};
+		Object[] values = new Object[] { source, destination };
+		execute(CP, getCommandImmutableMap(parameters, values));
 	}
 }
