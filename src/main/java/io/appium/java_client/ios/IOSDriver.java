@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
+import io.appium.java_client.IOSMobileCommand;
+import io.appium.java_client.MobileCommand;
 import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
@@ -40,6 +42,7 @@ import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @param <T> the required type of class which implement
@@ -77,8 +80,9 @@ public class IOSDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+        super(remoteAddress, IOSMobileCommand.getMobileCommands(), 
+        		substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
+               JsonToIOSElementConverter.class);
     }
 
     /**

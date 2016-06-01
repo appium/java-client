@@ -131,6 +131,12 @@ public abstract class AppiumDriver<T extends WebElement>
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
             desiredCapabilities, converterClazz);
     }
+    
+    public AppiumDriver(URL remoteAddress, Map<String, CommandInfo> commandRepository, 
+    		Capabilities desiredCapabilities, Class<? extends JsonToWebElementConverter> converterClazz) {
+            this(new AppiumCommandExecutor(commandRepository, remoteAddress),
+                desiredCapabilities, converterClazz);
+        }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities,

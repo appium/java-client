@@ -19,8 +19,10 @@ package io.appium.java_client.ios;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.FindsByIosUIAutomation;
+import io.appium.java_client.IOSMobileCommand;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.ScrollDirection;
 import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.SwipeElementDirection;
 import org.openqa.selenium.WebDriverException;
@@ -83,6 +85,31 @@ public class IOSElement extends MobileElement
         return (IOSElement) findElementByIosUIAutomation(
             ".scrollToElementWithName(\"" + text + "\")");
     }
+    
+    /**
+     * This method sets the new value of the attribute "value".
+     *
+     * @param value is the new value which should be set
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void scrollToChildElement(String childIdentifier) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("id", id).put("name", childIdentifier);
+        execute(IOSMobileCommand.SCROLL, builder.build());
+    }
+    
+    /**
+     * This method sets the new value of the attribute "value".
+     *
+     * @param value is the new value which should be set
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void scrollWithDirection(ScrollDirection direction) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("id", id).put("direction", direction.toString());
+        execute(IOSMobileCommand.SCROLL, builder.build());
+    }
+
 
     /**
      * This method sets the new value of the attribute "value".
