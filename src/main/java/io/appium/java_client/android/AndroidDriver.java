@@ -37,7 +37,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -191,46 +190,6 @@ public class AndroidDriver<T extends WebElement>
         doSwipe(startx, starty, endx, endy, duration);
     }
 
-    @Deprecated
-    static String uiScrollable(String uiSelector) {
-        return "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView("
-            + uiSelector + ".instance(0));";
-    }
-
-    /**
-     * This method is deprecated because it is not consistent and it is going to be removed.
-     * It is workaround actually.
-     * Recommended to use instead:
-     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
-     * or search for elements using {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
-     */
-    @Deprecated
-    @Override public T scrollTo(String text) {
-        String uiScrollables =
-            uiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + uiScrollable(
-                "new UiSelector().textContains(\"" + text + "\")");
-        return findElementByAndroidUIAutomator(uiScrollables);
-    }
-
-    /**
-     * This method is deprecated because it is not consistent and it is going to be removed.
-     * It is workaround actually.
-     * Recommended to use instead:
-     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
-     * or search for elements using {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
-     */
-    @Deprecated
-    @Override public T scrollToExact(String text) {
-        String uiScrollables =
-            uiScrollable("new UiSelector().description(\"" + text + "\")") + uiScrollable(
-                "new UiSelector().text(\"" + text + "\")");
-        return findElementByAndroidUIAutomator(uiScrollables);
-    }
-
     /**
      * Send a key event to the device.
      *
@@ -273,27 +232,6 @@ public class AndroidDriver<T extends WebElement>
         String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
         execute(LONG_PRESS_KEY_CODE, getCommandImmutableMap(parameters, values));
-    }
-
-
-    @Deprecated
-    @Override public NetworkConnectionSetting getNetworkConnection() {
-        Response response = execute(GET_NETWORK_CONNECTION);
-        return new NetworkConnectionSetting(Integer.parseInt(response.getValue().toString()));
-    }
-
-    @Deprecated
-    @Override public void setNetworkConnection(NetworkConnectionSetting connection) {
-        // the new version of the webdriver protocol is going forward with
-        // sending JSON message which look like
-        // {name: "name of endpoint", parameters: "JSON parameters"}
-        // this is for webdrivers which run on protocols besides HTTP (like TCP)
-        // we're implementing that pattern here, for this new method, but
-        // haven't translated it to all other commands yet
-        String[] parameters = new String[] {"name", "parameters"};
-        Object[] values =
-            new Object[] {"network_connection", ImmutableMap.of("type", connection.value)};
-        execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
     }
 
     @Override public void setConnection(Connection connection) {

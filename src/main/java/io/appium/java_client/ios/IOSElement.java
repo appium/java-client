@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.SwipeElementDirection;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IOSElement extends MobileElement
-    implements FindsByIosUIAutomation<MobileElement>, ScrollsTo<MobileElement> {
+    implements FindsByIosUIAutomation<MobileElement> {
     /**
      * @throws WebDriverException
      * This method is not applicable with browser/webview UI.
@@ -52,36 +51,6 @@ public class IOSElement extends MobileElement
             result.add((IOSElement) e);
         }
         return result;
-    }
-
-    /**
-     * This method is deprecated because it is not consistent and it is going to be removed.
-     * It is workaround actually.
-     * Recommended to use instead:
-     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
-     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
-     */
-    @Deprecated
-    @Override public MobileElement scrollTo(String text) {
-        return (IOSElement) findElementByIosUIAutomation(
-            ".scrollToElementWithPredicate(\"name CONTAINS '" + text + "'\")");
-    }
-
-    /**
-     * This method is deprecated because it is not consistent and it is going to be removed.
-     * It is workaround actually.
-     * Recommended to use instead:
-     * {@link io.appium.java_client.AppiumDriver#swipe(int, int, int, int, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int)}
-     * {@link io.appium.java_client.MobileElement#swipe(SwipeElementDirection, int, int, int)}
-     * or search for elements using {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
-     */
-    @Deprecated
-    @Override public MobileElement scrollToExact(String text) {
-        return (IOSElement) findElementByIosUIAutomation(
-            ".scrollToElementWithName(\"" + text + "\")");
     }
 
     /**

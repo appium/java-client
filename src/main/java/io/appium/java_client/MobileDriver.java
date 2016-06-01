@@ -27,6 +27,6 @@ import java.util.Map;
 
 public interface MobileDriver extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
     FindsByAccessibilityId<WebElement>, LocationContext, DeviceActionShortcuts, TouchShortcuts,
-    InteractsWithFiles, InteractsWithApps, ScrollsTo<WebElement>, HasAppStrings {
+    InteractsWithFiles, InteractsWithApps, HasAppStrings {
     Response execute(String driverCommand, Map<String, ?> parameters);
 }
