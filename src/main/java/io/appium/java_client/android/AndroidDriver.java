@@ -55,6 +55,7 @@ import static io.appium.java_client.MobileCommand.GET_OWNER;
 import static io.appium.java_client.MobileCommand.GET_VERSIONS;
 import static io.appium.java_client.MobileCommand.HAS_ROOT;
 import static io.appium.java_client.MobileCommand.LIST_FOLDER;
+import static io.appium.java_client.MobileCommand.REMOVE_FOLDER;
 import static io.appium.java_client.MobileCommand.SET_DATE;
 import static io.appium.java_client.MobileCommand.SET_OWNER;
 import static io.appium.java_client.MobileCommand.SWIPE_UP_HOME_BUTTON;
@@ -527,7 +528,7 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 
 	@Override
 	public void removeFolder(String path) {
-		execute(REMOVE_FILE, ImmutableMap.of(PATH, path));
+		execute(REMOVE_FOLDER, ImmutableMap.of(PATH, path));
 	}
 
 	@Override
