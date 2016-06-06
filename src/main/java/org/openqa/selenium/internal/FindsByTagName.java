@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public interface FindsByTagName {
-  WebElement findElementByTagName(String using);
+    WebElement findElementByTagName(String using);
 
-  List<WebElement> findElementsByTagName(String using);
+    List<WebElement> findElementsByTagName(String using);
 }
