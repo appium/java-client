@@ -90,7 +90,7 @@ public interface WebDriver extends SearchContext {
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
-    List<WebElement> findElements(By by);
+    <T extends WebElement> List<T>  findElements(By by);
 
 
     /**
@@ -108,7 +108,7 @@ public interface WebDriver extends SearchContext {
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
-    WebElement findElement(By by);
+    <T extends WebElement> T findElement(By by);
 
     // Misc
 
