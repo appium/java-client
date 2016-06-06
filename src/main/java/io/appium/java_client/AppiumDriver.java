@@ -33,6 +33,7 @@ import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.SET_SETTINGS;
+import static io.appium.java_client.MobileCommand.GET_SESSION;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -681,5 +682,14 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public URL getRemoteAddress() {
         return remoteAddress;
+    }
+
+    /**
+     * @return a map with values that hold session details.
+     *
+     */
+    public Map<String, String> getSessionDetails() {
+        Response response = execute(GET_SESSION);
+        return (Map<String, String>) response.getValue();
     }
 }
