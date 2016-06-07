@@ -1,5 +1,7 @@
-java-client
-===========
+#java-client
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
+[![Javadoc](https://javadoc-emblem.rhcloud.com/doc/io.appium/java-client/badge.svg)](http://www.javadoc.io/doc/io.appium/java-client)
 
 This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
 
