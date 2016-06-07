@@ -20,6 +20,12 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Deprecated
+/**
+ * This interface became deprecated. Use
+ * {@link org.openqa.selenium.internal.FindsById}
+ * instead.
+ */
 public interface GenericFindsById<T extends WebElement> {
     T findElementById(String id);
 

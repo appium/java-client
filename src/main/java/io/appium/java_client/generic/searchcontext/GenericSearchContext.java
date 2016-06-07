@@ -21,6 +21,12 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Deprecated
+/**
+ * This interface became deprecated. Use
+ * {@link org.openqa.selenium.SearchContext}
+ * instead.
+ */
 public interface GenericSearchContext<T extends WebElement> {
     List<T> findElements(By by);
 

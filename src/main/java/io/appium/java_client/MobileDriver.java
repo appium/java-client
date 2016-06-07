@@ -16,17 +16,54 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.html5.LocationContext;
+import org.openqa.selenium.internal.*;
 import org.openqa.selenium.remote.Response;
 
+import java.util.List;
 import java.util.Map;
 
-public interface MobileDriver extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
-    FindsByAccessibilityId<WebElement>, LocationContext, DeviceActionShortcuts, TouchShortcuts,
-    InteractsWithFiles, InteractsWithApps, HasAppStrings {
+public interface MobileDriver<T extends WebElement> extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
+    FindsByAccessibilityId<T>, LocationContext, DeviceActionShortcuts, TouchShortcuts,
+    InteractsWithFiles, InteractsWithApps, HasAppStrings, FindsByClassName, FindsByCssSelector, FindsById,
+        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath {
+
     Response execute(String driverCommand, Map<String, ?> parameters);
+
+    List<T> findElements(By by);
+
+    T findElement(By by);
+
+    T findElementByClassName(String className);
+
+    List<T> findElementsByClassName(String className);
+
+    T findElementByCssSelector(String cssSelector);
+
+    List<T> findElementsByCssSelector(String cssSelector);
+
+    T findElementById(String id);
+
+    List<T> findElementsById(String id);
+
+    T findElementByLinkText(String linkText);
+
+    List<T> findElementsByLinkText(String linkText);
+
+    T findElementByPartialLinkText(String partialLinkText);
+
+    List<T> findElementsByPartialLinkText(String partialLinkText);
+
+    T findElementByName(String name);
+
+    List<T> findElementsByName(String name);
+
+    T findElementByTagName(String tagName);
+
+    List<T> findElementsByTagName(String tagName);
+
+    T findElementByXPath(String xPath);
+
+    List<T> findElementsByXPath(String xPath);
 }
