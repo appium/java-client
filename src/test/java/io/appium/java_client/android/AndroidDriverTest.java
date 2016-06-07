@@ -29,6 +29,8 @@ import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
+import java.io.File;
+
 public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void getDeviceTimeTest() {
