@@ -19,10 +19,8 @@ package io.appium.java_client;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"unchecked"})
@@ -69,6 +67,10 @@ public abstract class MobileElement
         return super.findElements(by);
     }
 
+    @Override public List<MobileElement> findElements(String by, String using) {
+        return super.findElements(by, using);
+    }
+
     @Override public List<MobileElement> findElementsById(String id) {
         return super.findElementsById(id);
     }
@@ -102,11 +104,6 @@ public abstract class MobileElement
     }
 
     @Override public List<MobileElement> findElementsByAccessibilityId(String using) {
-        List<MobileElement> result = new ArrayList<MobileElement>();
-        List<WebElement> found = findElements("accessibility id", using);
-        for (WebElement e : found) {
-            result.add((MobileElement) e);
-        }
-        return result;
+        return super.findElementsByAccessibilityId(using);
     }
 }

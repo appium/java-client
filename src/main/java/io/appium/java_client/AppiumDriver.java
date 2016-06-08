@@ -261,7 +261,7 @@ public abstract class AppiumDriver<T extends WebElement>
     }
 
     @Override public List<T> findElementsByAccessibilityId(String using) {
-        return (List<T>) findElements("accessibility id", using);
+        return super.findElementsByAccessibilityId(using);
     }
 
     @Override protected Response execute(String command) {
