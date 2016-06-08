@@ -37,7 +37,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -394,6 +393,65 @@ public class AndroidDriver<T extends WebElement>
     public void ignoreUnimportantViews(Boolean compress) {
         setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
     }
+
+    /**
+     * Set the `configurator` setting. *Android-only method*.
+     * Sets the timeouts and delays in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param method set method names in {@code com.android.uiautomator.core.Configurator}
+     * @param value set method argument, in milliseconds, 0 would reset to their default values
+     */
+    private void configuratorSet(String method, int value) {
+        setSetting(AppiumSetting.CONFIGURATOR,
+            String.format("{\"method\":\"%s\",\"value\":%d}", method, value));
+    }
+
+    /**
+     * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param timeout in milliseconds, 0 would reset to its default value
+     */
+    public void configuratorSetWaitForIdleTimeout(int timeout) {
+        configuratorSet("setWaitForIdleTimeout", timeout);
+    }
+
+    /**
+     * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param timeout in milliseconds, 0 would reset to its default value
+     */
+    public void configuratorSetWaitForSelectorTimeout(int timeout) {
+        configuratorSet("setWaitForSelectorTimeout", timeout);
+    }
+
+    /**
+     * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param timeout in milliseconds, 0 would reset to its default value
+     */
+    public void configuratorSetScrollAcknowledgmentTimeout(int timeout) {
+        configuratorSet("setScrollAcknowledgmentTimeout", timeout);
+    }
+
+    /**
+     * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param delay in milliseconds, 0 would reset to its default value
+     */
+    public void configuratorSetKeyInjectionDelay(int delay) {
+        configuratorSet("setKeyInjectionDelay", delay);
+    }
+
+    /**
+     * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param timeout in milliseconds, 0 would reset to its default value
+     */
+    public void configuratorSetActionAcknowledgmentTimeout(int timeout) {
+        configuratorSet("setActionAcknowledgmentTimeout", timeout);
+    }
+
+
 
     /**
      * @throws org.openqa.selenium.WebDriverException This method is not

@@ -21,7 +21,8 @@ package io.appium.java_client;
  */
 public enum AppiumSetting {
 
-    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");
+    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews"),
+    CONFIGURATOR("configurator");
     private String name;
 
     private AppiumSetting(String name) {
