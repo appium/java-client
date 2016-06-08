@@ -18,7 +18,9 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 
 import io.appium.java_client.AppiumSetting;
 import org.apache.commons.codec.binary.Base64;
@@ -133,5 +135,10 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void endTestCoverage() {
         driver.endTestCoverage("android.intent.action.MAIN", "");
+    }
+
+    @Test public void getDeviceUDIDTest() {
+        String deviceSerial = driver.getSessionDetails().get("deviceUDID");
+        assertNotNull(deviceSerial);
     }
 }

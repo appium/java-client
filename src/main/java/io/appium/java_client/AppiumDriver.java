@@ -18,8 +18,10 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import static io.appium.java_client.MobileCommand.CLOSE_APP;
 import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
+import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static io.appium.java_client.MobileCommand.GET_SETTINGS;
 import static io.appium.java_client.MobileCommand.GET_STRINGS;
 import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
@@ -681,5 +683,14 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public URL getRemoteAddress() {
         return remoteAddress;
+    }
+
+    /**
+     * @return a map with values that hold session details.
+     *
+     */
+    public Map<String, String> getSessionDetails() {
+        Response response = execute(GET_SESSION);
+        return (Map<String, String>) response.getValue();
     }
 }
