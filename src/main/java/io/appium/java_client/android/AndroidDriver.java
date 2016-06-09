@@ -37,7 +37,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -396,7 +395,7 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * @throws org.openqa.selenium.WebDriverException This method is not
+     * @throws WebDriverException This method is not
      *     applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked")
@@ -407,7 +406,8 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     * @throws WebDriverException This method is not
+     *      applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked")
     @Override
