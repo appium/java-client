@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ContentMappedBy extends By {
-    private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
     private final Map<ContentType, By> map;
 
     public ContentMappedBy(Map<ContentType, By> map) {

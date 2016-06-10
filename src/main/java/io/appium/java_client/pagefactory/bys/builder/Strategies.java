@@ -95,10 +95,8 @@ enum Strategies {
     static List<String> strategiesNames() {
         Strategies[] strategies = values();
         List<String> result = new ArrayList<>();
-        int i = 0;
         for (Strategies strategy : strategies) {
             result.add(strategy.valueName);
-            i++;
         }
         return result;
     }

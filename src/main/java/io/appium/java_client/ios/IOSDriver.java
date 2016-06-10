@@ -23,9 +23,7 @@ import static io.appium.java_client.MobileCommand.SHAKE;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -198,7 +196,7 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * @throws org.openqa.selenium.WebDriverException
+     * @throws WebDriverException
      *     This method is not applicable with browser/webview UI.
      */
     @SuppressWarnings("unchecked")
