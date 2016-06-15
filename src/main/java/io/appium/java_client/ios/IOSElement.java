@@ -22,9 +22,7 @@ import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IOSElement extends MobileElement
@@ -35,7 +33,7 @@ public class IOSElement extends MobileElement
      */
     @Override public MobileElement findElementByIosUIAutomation(String using)
         throws WebDriverException {
-        return (IOSElement) findElement("-ios uiautomation", using);
+        return findElement("-ios uiautomation", using);
     }
 
     /**
@@ -44,12 +42,7 @@ public class IOSElement extends MobileElement
      */
     @Override public List<MobileElement> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
-        List<MobileElement> result = new ArrayList<MobileElement>();
-        List<WebElement> found = findElements("-ios uiautomation", using);
-        for (WebElement e : found) {
-            result.add((IOSElement) e);
-        }
-        return result;
+        return findElements("-ios uiautomation", using);
     }
 
     /**

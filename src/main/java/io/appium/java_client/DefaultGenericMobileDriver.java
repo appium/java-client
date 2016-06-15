@@ -16,15 +16,6 @@
 
 package io.appium.java_client;
 
-import io.appium.java_client.generic.searchcontext.GenericFindsByClassName;
-import io.appium.java_client.generic.searchcontext.GenericFindsByCssSelector;
-import io.appium.java_client.generic.searchcontext.GenericFindsById;
-import io.appium.java_client.generic.searchcontext.GenericFindsByLinkText;
-import io.appium.java_client.generic.searchcontext.GenericFindsByName;
-import io.appium.java_client.generic.searchcontext.GenericFindsByTagName;
-import io.appium.java_client.generic.searchcontext.GenericFindsByXPath;
-import io.appium.java_client.generic.searchcontext.GenericSearchContext;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
@@ -39,9 +30,7 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWebDriver
-    implements GenericSearchContext<T>, GenericFindsById<T>, GenericFindsByXPath<T>,
-    GenericFindsByLinkText<T>, GenericFindsByTagName<T>, GenericFindsByClassName<T>,
-    GenericFindsByCssSelector<T>, GenericFindsByName<T>, MobileDriver {
+    implements MobileDriver<T> {
 
     public DefaultGenericMobileDriver(CommandExecutor executor, Capabilities desiredCapabilities) {
         super(executor, desiredCapabilities);

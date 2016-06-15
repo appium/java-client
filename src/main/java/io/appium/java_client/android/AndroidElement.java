@@ -23,9 +23,7 @@ import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +35,7 @@ public class AndroidElement extends MobileElement
      */
     @Override public MobileElement findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return (MobileElement) findElement("-android uiautomator", using);
+        return findElement("-android uiautomator", using);
     }
 
     /**
@@ -45,12 +43,7 @@ public class AndroidElement extends MobileElement
      */
     @Override public List<MobileElement> findElementsByAndroidUIAutomator(String using)
         throws WebDriverException {
-        List<MobileElement> result = new ArrayList<MobileElement>();
-        List<WebElement> found = findElements("-android uiautomator", using);
-        for (WebElement e : found) {
-            result.add((AndroidElement) e);
-        }
-        return result;
+        return findElements("-android uiautomator", using);
     }
 
     /**

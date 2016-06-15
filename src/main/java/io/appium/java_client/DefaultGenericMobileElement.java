@@ -16,16 +16,6 @@
 
 package io.appium.java_client;
 
-import io.appium.java_client.generic.searchcontext.GenericFindsByClassName;
-import io.appium.java_client.generic.searchcontext.GenericFindsByCssSelector;
-import io.appium.java_client.generic.searchcontext.GenericFindsById;
-import io.appium.java_client.generic.searchcontext.GenericFindsByLinkText;
-import io.appium.java_client.generic.searchcontext.GenericFindsByName;
-import io.appium.java_client.generic.searchcontext.GenericFindsByTagName;
-import io.appium.java_client.generic.searchcontext.GenericFindsByXPath;
-import io.appium.java_client.generic.searchcontext.GenericSearchContext;
-
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -37,10 +27,7 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement
-    implements GenericSearchContext<T>, GenericFindsById<T>, GenericFindsByXPath<T>,
-    GenericFindsByLinkText<T>, GenericFindsByTagName<T>, GenericFindsByClassName<T>,
-    GenericFindsByCssSelector<T>, GenericFindsByName<T>, FindsByAccessibilityId<T>,
-    TouchableElement {
+    implements FindsByAccessibilityId<T>, TouchableElement<T> {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
@@ -50,8 +37,16 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return super.findElements(by);
     }
 
+    @Override public List findElements(String by, String using) {
+        return super.findElements(by, using);
+    }
+
     @Override public T findElement(By by) {
         return (T) super.findElement(by);
+    }
+
+    @Override public T findElement(String by, String using) {
+        return (T) super.findElement(by, using);
     }
 
     @Override public List findElementsById(String id) {

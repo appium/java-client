@@ -20,6 +20,12 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Deprecated
+/**
+ * This interface became deprecated. Use
+ * {@link org.openqa.selenium.internal.FindsByXPath}
+ * instead.
+ */
 public interface GenericFindsByXPath<T extends WebElement> {
     T findElementByXPath(String xPath);
 

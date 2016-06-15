@@ -42,7 +42,7 @@
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <module name="LineLength">
-            <property name="max" value="100"/>
+            <property name="max" value="120"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         </module>
         <module name="AvoidStarImport">
@@ -181,9 +181,12 @@
             <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
-        <module name="JavadocTagContinuationIndentation"/>
+        <module name="JavadocTagContinuationIndentation">
+			<property name="severity" value="warning"/>
+		</module>
         <module name="SummaryJavadoc">
             <property name="forbiddenSummaryFragments" value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
+			<property name="severity" value="warning"/>
         </module>
         <module name="JavadocParagraph">
 			<property name="severity" value="warning"/>
