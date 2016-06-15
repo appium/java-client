@@ -80,7 +80,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 ...
 - all code marked `@Deprecated` was removed.
 - `getSessionDetails()` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
-- Fix of the #362. Details read there: #413 
+- Fix of [#362](https://github.com/appium/java-client/issues/362), [#220](https://github.com/appium/java-client/issues/220), [#323](https://github.com/appium/java-client/issues/323). Details read there: [#413](https://github.com/appium/java-client/pull/413) 
 
 *4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
