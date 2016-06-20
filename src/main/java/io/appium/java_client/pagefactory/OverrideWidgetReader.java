@@ -26,7 +26,6 @@ import io.appium.java_client.remote.AutomationName;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,14 +58,6 @@ class OverrideWidgetReader {
                 new InstantiationException(declaredClass.getName()
                     + " is not assignable from "
                     + convenientClass.getName()));
-        }
-
-        int modifiers = convenientClass.getModifiers();
-        if (Modifier.isAbstract(modifiers)) {
-            throw new IllegalArgumentException(
-                new InstantiationException(convenientClass.getName()
-                    + " is abstract so "
-                    + "it can't be instantiated"));
         }
 
         return convenientClass;

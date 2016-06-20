@@ -28,6 +28,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +57,18 @@ class WidgetInterceptor extends InterceptorOfASingleElement {
             .isLookUpCached())
             || cachedInstances.size() == 0) {
             cachedElement = element;
-            Widget widget = instantiationMap.get(type).newInstance(cachedElement);
+
+            Constructor<? extends Widget> constructor = instantiationMap.get(type);
+            Class<? extends Widget> clazz = constructor.getDeclaringClass();
+
+            int modifiers = clazz.getModifiers();
+            if (Modifier.isAbstract(modifiers)) {
+                new InstantiationException(clazz.getName()
+                        + " is abstract so "
+                        + "it can't be instantiated");
+            }
+
+            Widget widget = constructor.newInstance(cachedElement);
             cachedInstances.put(type, widget);
             PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
         }
