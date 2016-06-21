@@ -63,7 +63,7 @@ class WidgetInterceptor extends InterceptorOfASingleElement {
 
             int modifiers = clazz.getModifiers();
             if (Modifier.isAbstract(modifiers)) {
-                new InstantiationException(clazz.getName()
+                throw new InstantiationException(clazz.getName()
                         + " is abstract so "
                         + "it can't be instantiated");
             }
