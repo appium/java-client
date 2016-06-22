@@ -80,7 +80,9 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 ...
 - all code marked `@Deprecated` was removed.
 - `getSessionDetails()` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
-- Fix of [#362](https://github.com/appium/java-client/issues/362), [#220](https://github.com/appium/java-client/issues/220), [#323](https://github.com/appium/java-client/issues/323). Details read there: [#413](https://github.com/appium/java-client/pull/413) 
+- FIX [#362](https://github.com/appium/java-client/issues/362), [#220](https://github.com/appium/java-client/issues/220), [#323](https://github.com/appium/java-client/issues/323). Details read there: [#413](https://github.com/appium/java-client/pull/413)
+- FIX [#392](https://github.com/appium/java-client/issues/392). Thanks to [@truebit](https://github.com/truebit) for the bug report.
+- The dependency on `cglib` was replaced by the dependency on `cglib-nodep`. FIX [#418](https://github.com/appium/java-client/issues/418)  
 
 *4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
