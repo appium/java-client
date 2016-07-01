@@ -1,10 +1,10 @@
 package io.appium.java_client.pagefactory_tests.widgets.ios.simple;
 
+import io.appium.java_client.TouchableElement;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ public class IOSMovie extends Movie {
     }
 
     @Override public Object getPoster() {
-        return ((RemoteWebElement) getWrappedElement()).getSize();
+        return getWrappedElement().getSize();
     }
 
     @Override public void goToReview() {
-        ((IOSElement) getWrappedElement()).tap(1, 1500);
+        ((TouchableElement) getWrappedElement()).tap(1, 1500);
     }
 }
