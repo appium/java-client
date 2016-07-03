@@ -39,6 +39,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Aspect
@@ -107,7 +108,7 @@ class DefaultAspect {
 
     }
 
-    void add(List<Listener> listeners) {
+    void add(Collection<Listener> listeners) {
         listener.add(listeners);
     }
 
@@ -459,6 +460,7 @@ class DefaultAspect {
         + "execution(* org.openqa.selenium.WebDriver.Window.*(..)) || "
         + "execution(* io.appium.java_client.android.AndroidElement.*(..)) || "
         + "execution(* io.appium.java_client.ios.IOSElement.*(..)) || "
+        + "execution(* org.openqa.selenium.remote.RemoteWebDriver.*(..)) || "
         + "execution(* org.openqa.selenium.Alert.*(..))")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
         Throwable t = null;
