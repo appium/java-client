@@ -38,6 +38,7 @@ import org.openqa.selenium.security.Credentials;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class DefaultListener implements AppiumWebDriverEventListener, AlertEventListener,
@@ -120,7 +121,7 @@ public class DefaultListener implements AppiumWebDriverEventListener, AlertEvent
         ((ListensToException) dispatcher).onException(throwable, driver);
     }
 
-    void add(List<Listener> listeners) {
+    void add(Collection<Listener> listeners) {
         this.listeners.addAll(listeners);
     }
 

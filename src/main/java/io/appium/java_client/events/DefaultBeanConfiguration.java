@@ -46,6 +46,7 @@ class DefaultBeanConfiguration {
         AbstractApplicationContext context) {
         this.driver = driver;
         this.listeners.addAll(listeners);
+        this.context = context;
         return driver;
     }
 
