@@ -69,6 +69,18 @@
             <artifactId>cglib-nodep</artifactId>
             <version>3.2.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.3.0.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.9</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <packaging>jar</packaging>
     <name>java-client</name>
