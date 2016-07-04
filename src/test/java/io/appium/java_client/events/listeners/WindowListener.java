@@ -5,7 +5,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
-class WindowListener extends TestListener implements WindowEventListener {
+public class WindowListener extends TestListener implements WindowEventListener {
 
     @Override void add() {
         SingleListeners.listeners.put(WindowListener.class, this);
@@ -36,10 +36,10 @@ class WindowListener extends TestListener implements WindowEventListener {
     }
 
     @Override public void beforeWindowIsMaximized(WebDriver driver, WebDriver.Window window) {
-        messages.add("Attempt to refresh the window.");
+        messages.add("Attempt to maximize the window.");
     }
 
     @Override public void afterWindowIsMaximized(WebDriver driver, WebDriver.Window window) {
-        messages.add("The window has been refreshed");
+        messages.add("The window has been maximized");
     }
 }

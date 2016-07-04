@@ -7,6 +7,6 @@ import java.util.Map;
 
 public class SingleListeners {
 
-    public static final Map<Class<? extends Listener>, Listener> listeners = new HashMap<>();
+    public static final Map<Class<? extends Listener>, TestListener> listeners = new HashMap<>();
 
 }

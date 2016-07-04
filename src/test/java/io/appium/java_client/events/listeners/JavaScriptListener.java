@@ -3,13 +3,13 @@ package io.appium.java_client.events.listeners;
 import io.appium.java_client.events.api.general.JavaScriptEventListener;
 import org.openqa.selenium.WebDriver;
 
-class JavaScriptListener extends TestListener implements JavaScriptEventListener {
+public class JavaScriptListener extends TestListener implements JavaScriptEventListener {
     @Override public void beforeScript(String script, WebDriver driver) {
-        messages.add("Attempt to perform java script");
+        messages.add("Attempt to perform java script: " + script);
     }
 
     @Override public void afterScript(String script, WebDriver driver) {
-        messages.add("Java script was performed");
+        messages.add("Java script " + script + " was performed");
     }
 
     @Override void add() {

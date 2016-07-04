@@ -113,22 +113,24 @@ class DefaultAspect {
     }
 
     @Before("execution(* org.openqa.selenium.WebDriver.Navigation.get(..))  || "
-        + "execution(* org.openqa.selenium.WebDriver.Navigation.to(..))")
+        + "execution(* org.openqa.selenium.WebDriver.Navigation.to(..)) || "
+        + "execution(* org.openqa.selenium.WebDriver.get(..))")
     public void beforeNavigateTo(JoinPoint joinPoint) throws Throwable {
         try {
-            String url = String.valueOf(joinPoint.getArgs()[0]);
-            listener.beforeNavigateTo(url, driver);
+            Object url = String.valueOf(joinPoint.getArgs()[0]);
+            listener.beforeNavigateTo(String.valueOf(url), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
     }
 
     @After("execution(* org.openqa.selenium.WebDriver.Navigation.get(..))  || "
-        + "execution(* org.openqa.selenium.WebDriver.Navigation.to(..))")
+        + "execution(* org.openqa.selenium.WebDriver.Navigation.to(..)) || "
+        + "execution(* org.openqa.selenium.WebDriver.get(..))")
     public void afterNavigateTo(JoinPoint joinPoint)  throws Throwable {
         try {
-            String url = String.valueOf(joinPoint.getArgs()[0]);
-            listener.afterNavigateTo(url, driver);
+            Object url = String.valueOf(joinPoint.getArgs()[0]);
+            listener.afterNavigateTo(String.valueOf(url), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -418,6 +420,26 @@ class DefaultAspect {
         }
     }
 
+    @Before("execution(* org.openqa.selenium.WebDriver.Window.maximize(..))")
+    public void beforeMaximization(JoinPoint joinPoint) throws Throwable {
+        try {
+            WebDriver.Window window = (WebDriver.Window) joinPoint.getTarget();
+            listener.beforeWindowIsMaximized(driver, window);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @After("execution(* org.openqa.selenium.WebDriver.Window.maximize(..))")
+    public void afterMaximization(JoinPoint joinPoint) throws Throwable {
+        try {
+            WebDriver.Window window = (WebDriver.Window) joinPoint.getTarget();
+            listener.afterWindowIsMaximized(driver, window);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
     @Before("execution(* org.openqa.selenium.Rotatable.rotate(..))")
     public void beforeRotation(JoinPoint joinPoint) throws Throwable {
         try {
@@ -434,6 +456,27 @@ class DefaultAspect {
         try {
             ScreenOrientation orientation = (ScreenOrientation) joinPoint.getArgs()[0];
             listener.afterRotation(driver, orientation);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @Before("execution(* org.openqa.selenium.ContextAware.context(..))")
+    public void beforeSwitchingToContext(JoinPoint joinPoint) throws Throwable {
+        try {
+            String context = (String) joinPoint.getArgs()[0];
+            listener.beforeSwitchingToContext(driver, context);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+
+    }
+
+    @After("execution(* org.openqa.selenium.ContextAware.context(..))")
+    public void afterSwitchingToContextn(JoinPoint joinPoint) throws Throwable {
+        try {
+            String context = (String) joinPoint.getArgs()[0];
+            listener.afterSwitchingToContext(driver, context);
         } catch (Throwable t) {
             throw getRootCause(t);
         }

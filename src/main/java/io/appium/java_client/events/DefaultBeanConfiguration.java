@@ -51,7 +51,7 @@ class DefaultBeanConfiguration {
     }
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Bean(name = "webdriverAspect", destroyMethod = "quit")
+    @Bean(name = "webdriverAspect")
     DefaultAspect getAspect() {
         DefaultAspect aspect = new DefaultAspect(context, driver);
         aspect.add(listeners);
@@ -59,7 +59,7 @@ class DefaultBeanConfiguration {
     }
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Bean(name = COMPONENT_BEAN, destroyMethod = "quit")
+    @Bean(name = COMPONENT_BEAN)
     Object  getComponent(Object component) {
         return component;
     }

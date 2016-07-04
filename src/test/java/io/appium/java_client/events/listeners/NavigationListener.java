@@ -3,7 +3,7 @@ package io.appium.java_client.events.listeners;
 import io.appium.java_client.events.api.general.NavigationEventListener;
 import org.openqa.selenium.WebDriver;
 
-class NavigationListener extends TestListener implements NavigationEventListener {
+public class NavigationListener extends TestListener implements NavigationEventListener {
 
     @Override public void beforeNavigateTo(String url, WebDriver driver) {
         messages.add("Attempt to navigate to " + url);

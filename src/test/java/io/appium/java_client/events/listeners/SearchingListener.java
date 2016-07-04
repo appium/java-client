@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-class SearchingListener extends TestListener implements SearchingEventListener {
+public class SearchingListener extends TestListener implements SearchingEventListener {
 
     @Override public void beforeFindBy(By by, WebElement element, WebDriver driver) {
         messages.add("Attempt to find something using " + by.toString() + ". The root element is "

@@ -5,11 +5,11 @@ import io.appium.java_client.events.api.Listener;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class TestListener implements Listener {
+public abstract class TestListener implements Listener {
 
     public final List<String> messages = new ArrayList<>();
 
-    TestListener() {
+    public TestListener() {
         add();
     }
 
