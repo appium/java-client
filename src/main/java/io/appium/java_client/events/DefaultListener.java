@@ -35,22 +35,26 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.security.Credentials;
+import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class DefaultListener implements AppiumWebDriverEventListener, AlertEventListener,
+public class DefaultListener implements Listener, AppiumWebDriverEventListener, ListensToException,
+    SearchingEventListener, NavigationEventListener,
+    JavaScriptEventListener, ElementEventListener, AlertEventListener,
     WindowEventListener, ContextEventListener, RotationEventListener {
 
     private final List<Listener> listeners = new ArrayList<>();
 
     Object dispatcher  = Proxy.newProxyInstance(Listener.class.getClassLoader(),
-        new Class[] {AlertEventListener.class, AppiumWebDriverEventListener.class,
+        new Class[] {AlertEventListener.class,
             ContextEventListener.class, ElementEventListener.class, JavaScriptEventListener.class,
             ListensToException.class, NavigationEventListener.class, RotationEventListener.class,
-            SearchingEventListener.class, WindowEventListener.class},
+            SearchingEventListener.class, WindowEventListener.class,
+            WebDriverEventListener.class},
         new ListenerInvocationHandler(listeners));
 
     @Override public void beforeNavigateTo(String url, WebDriver driver) {
@@ -86,11 +90,11 @@ public class DefaultListener implements AppiumWebDriverEventListener, AlertEvent
     }
 
     @Override public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-        ((SearchingEventListener) driver).beforeFindBy(by, element, driver);
+        ((SearchingEventListener) dispatcher).beforeFindBy(by, element, driver);
     }
 
     @Override public void afterFindBy(By by, WebElement element, WebDriver driver) {
-        ((SearchingEventListener) driver).afterFindBy(by, element, driver);
+        ((SearchingEventListener) dispatcher).afterFindBy(by, element, driver);
     }
 
     @Override public void beforeClickOn(WebElement element, WebDriver driver) {

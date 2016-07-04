@@ -89,7 +89,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public String getWindowHandle() {
-        throw  new RuntimeException("Test exception");
+        throw new RuntimeException("Test WebDriver exception");
     }
 
     @Override public TargetLocator switchTo() {

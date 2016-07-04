@@ -5,7 +5,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.security.Credentials;
 
-class AlertListener extends TestListener implements AlertEventListener {
+public class AlertListener extends TestListener implements AlertEventListener {
     @Override public void beforeAlertAccept(WebDriver driver, Alert alert) {
         messages.add("Attempt to accept alert");
     }
@@ -32,12 +32,12 @@ class AlertListener extends TestListener implements AlertEventListener {
 
     @Override
     public void beforeAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
-        messages.add("Attempt to send credentials to alert");
+        messages.add("Attempt to send credentials " + credentials.toString() + " to alert");
     }
 
     @Override
     public void afterAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
-        messages.add("Credentials were sent to alert");
+        messages.add("Credentials " + credentials.toString() + " were sent to alert");
     }
 
     @Override void add() {

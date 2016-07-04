@@ -4,7 +4,7 @@ import io.appium.java_client.events.api.mobile.RotationEventListener;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 
-class RotationListener extends TestListener implements RotationEventListener {
+public class RotationListener extends TestListener implements RotationEventListener {
 
     @Override public void beforeRotation(WebDriver driver, ScreenOrientation orientation) {
         messages.add("Attempt to change screen orientation. The new screen orientation is "

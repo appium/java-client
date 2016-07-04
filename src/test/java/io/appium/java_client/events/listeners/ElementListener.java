@@ -4,7 +4,7 @@ import io.appium.java_client.events.api.general.ElementEventListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-class ElementListener extends TestListener implements ElementEventListener {
+public class ElementListener extends TestListener implements ElementEventListener {
 
     @Override public void beforeClickOn(WebElement element, WebDriver driver) {
         messages.add("Attempt to click on the element");

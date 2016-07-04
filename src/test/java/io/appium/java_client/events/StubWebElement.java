@@ -1,5 +1,7 @@
 package io.appium.java_client.events;
 
+import com.google.common.collect.ImmutableList;
+
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByIosUIAutomation;
@@ -20,86 +22,86 @@ import org.openqa.selenium.internal.FindsByXPath;
 import java.util.List;
 
 public class StubWebElement implements WebElement, FindsByClassName, FindsByCssSelector, FindsById,
-    FindsByLinkText, FindsByTagName, FindsByXPath, FindsByAccessibilityId,
-    FindsByAndroidUIAutomator, FindsByIosUIAutomation {
-    @Override public WebElement findElementByAccessibilityId(String using) {
-        return null;
+    FindsByLinkText, FindsByTagName, FindsByXPath, FindsByAccessibilityId<StubWebElement>,
+    FindsByAndroidUIAutomator<StubWebElement>, FindsByIosUIAutomation<StubWebElement> {
+    @Override public StubWebElement findElementByAccessibilityId(String using) {
+        return new StubWebElement();
     }
 
-    @Override public List findElementsByAccessibilityId(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByAccessibilityId(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public WebElement findElementByAndroidUIAutomator(String using) {
-        return null;
+    @Override public StubWebElement findElementByAndroidUIAutomator(String using) {
+        return new StubWebElement();
     }
 
-    @Override public List findElementsByAndroidUIAutomator(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByAndroidUIAutomator(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementByClassName(String using) {
-        return null;
+    @Override public StubWebElement findElementByClassName(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsByClassName(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByClassName(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementByCssSelector(String using) {
-        return null;
+    @Override public StubWebElement findElementByCssSelector(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsByCssSelector(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByCssSelector(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementById(String using) {
-        return null;
+    @Override public StubWebElement findElementById(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsById(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsById(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public WebElement findElementByIosUIAutomation(String using) {
-        return null;
+    @Override public StubWebElement findElementByIosUIAutomation(String using) {
+        return new StubWebElement();
     }
 
-    @Override public List findElementsByIosUIAutomation(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByIosUIAutomation(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementByLinkText(String using) {
-        return null;
+    @Override public StubWebElement findElementByLinkText(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsByLinkText(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByLinkText(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementByPartialLinkText(String using) {
-        return null;
+    @Override public StubWebElement findElementByPartialLinkText(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsByPartialLinkText(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByPartialLinkText(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementByTagName(String using) {
-        return null;
+    @Override public StubWebElement findElementByTagName(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsByTagName(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByTagName(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElementByXPath(String using) {
-        return null;
+    @Override public StubWebElement findElementByXPath(String using) {
+        return new StubWebElement();
     }
 
-    @Override public <T extends WebElement> List<T> findElementsByXPath(String using) {
-        return null;
+    @Override public List<StubWebElement> findElementsByXPath(String using) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
     @Override public void click() {
@@ -138,12 +140,12 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
         return null;
     }
 
-    @Override public <T extends WebElement> List<T> findElements(By by) {
-        return null;
+    @Override public List<StubWebElement> findElements(By by) {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
     }
 
-    @Override public <T extends WebElement> T findElement(By by) {
-        return null;
+    @Override public StubWebElement findElement(By by) {
+        return new StubWebElement();
     }
 
     @Override public boolean isDisplayed() {
@@ -167,7 +169,7 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
     }
 
     @Override public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
-        return null;
+        throw new RuntimeException("Test web element exception");
     }
 
     @Override public String toString() {
