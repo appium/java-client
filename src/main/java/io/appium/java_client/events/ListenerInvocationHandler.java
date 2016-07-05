@@ -43,14 +43,12 @@ public class ListenerInvocationHandler implements InvocationHandler {
         for (Listener l: listeners) {
             if (method.getDeclaringClass().isAssignableFrom(l.getClass())) {
                 method.invoke(l, args);
-                return null;
             }
 
             Method webDriverEventListenerMethod = findElementInWebDriverEventListener(method);
             if (webDriverEventListenerMethod != null
                 && WebDriverEventListener.class.isAssignableFrom(l.getClass())) {
                 webDriverEventListenerMethod.invoke(l, args);
-                return null;
             }
         }
         return null;
