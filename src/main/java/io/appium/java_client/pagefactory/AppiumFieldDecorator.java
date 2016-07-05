@@ -43,7 +43,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -75,16 +74,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         };
 
-    private static final Map<Class<? extends SearchContext>, Class<? extends WebElement>>
-        elementRuleMap =
-        new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
-            private static final long serialVersionUID = 1L;
-
-            {
-                put(AndroidDriver.class, AndroidElement.class);
-                put(IOSDriver.class, IOSElement.class);
-            }
-        };
     public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver originalDriver;
@@ -231,15 +220,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
     private Class<?> getTypeForProxy() {
         Class<? extends SearchContext> driverClass = originalDriver.getClass();
-        Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules =
-            elementRuleMap.entrySet();
-        //it will return MobileElement subclass when here is something
-        for (Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e : rules) {
-            //that extends AppiumDriver or MobileElement
-            if (e.getKey().isAssignableFrom(driverClass)) {
-                return e.getValue();
-            }
-        } //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
+        //it will return MobileElement if it is mobile platform
+        if (AndroidDriver.class.isAssignableFrom(driverClass)
+                || IOSDriver.class.isAssignableFrom(driverClass)) {
+            return MobileElement.class;
+        }
+        //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
         return RemoteWebElement.class;
     }
 
