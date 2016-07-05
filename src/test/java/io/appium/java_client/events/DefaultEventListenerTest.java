@@ -28,7 +28,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
