@@ -503,7 +503,12 @@ class DefaultAspect {
         + "execution(* org.openqa.selenium.WebDriver.Window.*(..)) || "
         + "execution(* io.appium.java_client.android.AndroidElement.*(..)) || "
         + "execution(* io.appium.java_client.ios.IOSElement.*(..)) || "
+        + "execution(* io.appium.java_client.android.AndroidDriver.*(..)) || "
+        + "execution(* io.appium.java_client.ios.IOSDriver.*(..)) || "
+        + "execution(* io.appium.java_client.AppiumDriver.*(..)) || "
+        + "execution(* io.appium.java_client.MobileElement.*(..)) || "
         + "execution(* org.openqa.selenium.remote.RemoteWebDriver.*(..)) || "
+        + "execution(* org.openqa.selenium.remote.RemoteWebElement.*(..)) || "
         + "execution(* org.openqa.selenium.Alert.*(..))")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
         Throwable t = null;
