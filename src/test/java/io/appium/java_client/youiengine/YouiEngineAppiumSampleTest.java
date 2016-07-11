@@ -81,7 +81,9 @@ public class YouiEngineAppiumSampleTest {
         }
     };
 
-    /** Run before each test. **/
+    /**
+     * Run before each test.
+     **/
     @Before
     public void setUp() throws Exception {
         // Toggle this to switch between Android and iOS
@@ -107,7 +109,9 @@ public class YouiEngineAppiumSampleTest {
         app = new YouiEngineAppiumSampleApp(driver);
     }
 
-    /** Run after each test. **/
+    /**
+     * Run after each test.
+     **/
     @After
     public void tearDown() throws Exception {
         if (driver != null) {
@@ -196,5 +200,4 @@ public class YouiEngineAppiumSampleTest {
 
         Assert.assertEquals(toggleOff, app.buttonsScreen.getToggleButtonCaption());
     }
-
 }
