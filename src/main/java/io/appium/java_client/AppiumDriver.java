@@ -52,6 +52,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -225,11 +226,11 @@ public abstract class AppiumDriver<T extends WebElement>
     @Override public List<T> findElements(By by) {
         return super.findElements(by);
     }
-
+    
     @Override public List<T> findElements(String by, String using) {
         return super.findElements(by, using);
     }
-
+    
     @Override public List<T> findElementsById(String id) {
         return super.findElementsById(id);
     }
@@ -630,7 +631,22 @@ public abstract class AppiumDriver<T extends WebElement>
             throw new WebDriverException("Unexpected orientation returned: " + orientation);
         }
     }
-
+    
+    @Override
+    public void rotate(DeviceRotation rotation) {
+        execute(DriverCommand.SET_SCREEN_ROTATION, rotation.parameters());
+    }
+    
+    @Override
+    public DeviceRotation rotation() {
+        Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
+        DeviceRotation deviceRotation = new DeviceRotation((Map<String, Number>)response.getValue());
+        if (deviceRotation.getX() < 0 || deviceRotation.getY() < 0 || deviceRotation.getZ() < 0) {
+            throw new WebDriverException("Unexpected orientation returned: " + deviceRotation);
+        }
+        return deviceRotation;
+    }
+    
     @Override public Location location() {
         return locationContext.location();
     }
