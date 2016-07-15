@@ -1,9 +1,11 @@
-package io.appium.java_client.YouiEngine;
+package io.appium.java_client.youiengine;
 
-import io.appium.java_client.YouiEngine.util.TestUtility;
+import static org.hamcrest.CoreMatchers.not;
+
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.YouiEngineCapabilityType;
+import io.appium.java_client.youiengine.util.TestUtility;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Assert;
@@ -16,18 +18,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.CoreMatchers.not;
-
 
 /**
  * This YouiEngineAppiumSampleTest class is available to illustrate how to create a simple test
@@ -55,11 +52,7 @@ public class YouiEngineAppiumSampleTest {
 
     private boolean isAndroid;
 
-    private static WebDriverWait driverWait;
     private DesiredCapabilities capabilities;
-
-    /** Keep the same date prefix to identify job sets. **/
-    private static Date date = new Date();
 
     /**
      * Initialize the webdriver. Must be called before using any helper methods. We call this
@@ -68,8 +61,6 @@ public class YouiEngineAppiumSampleTest {
     public static void init(YouiEngineDriver webDriver, URL driverServerAddress) {
         driver = webDriver;
         serverAddress = driverServerAddress;
-        int timeoutInSeconds = 30;
-        driverWait = new WebDriverWait(webDriver, timeoutInSeconds);
     }
 
     /**

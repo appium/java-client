@@ -1,16 +1,23 @@
-package io.appium.java_client.YouiEngine;
+package io.appium.java_client.youiengine;
+
+import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.SHAKE;
+
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.YouiEngine.internal.JsonToYouiEngineElementConverter;
+import io.appium.java_client.android.Connection;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.youiengine.internal.JsonToYouiEngineElementConverter;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.remote.Response;
 
 import java.net.URL;
 import java.util.Set;
-
 
 public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
 
@@ -61,7 +68,8 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
     }
 
     /** Asks the device to lock itself for the given amount of time in seconds then it will
-     * request the device unlock itself. */
+     * request the device unlock itself. This commands is meant to allow the Android
+     * implementation to behave the same way as the iOS implementation (if desired) */
     public void lockFor(int seconds) throws InterruptedException, NoSuchMethodException {
         if (appPlatform.equals(IOS)) {
             super.execute("lock", getCommandImmutableMap("secs", seconds));
@@ -76,76 +84,73 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
 
     /** Requests the device emit a shake action.
      * Only available on iOS. */
-    public void mobileShake() throws NoSuchMethodException {
-        if (!appPlatform.equals(IOS)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        this.execute("mobileShake");
+    public void shake() throws NoSuchMethodException {
+        super.execute(SHAKE);
     }
+
+    /** Requests press key code.
+     * Only available on Android. */
+    public void pressKeyCode(int keyCode) throws NoSuchMethodException {
+        super.execute("pressKeyCode",  getCommandImmutableMap("keycode", keyCode));
+    }
+
+    /** Requests press key code.
+     * Only available on Android. */
+    public void longPressKeyCode(int keyCode) throws NoSuchMethodException {
+        super.execute("longPressKeyCode",  getCommandImmutableMap("keycode", keyCode));
+    }
+
+    /** Set Network Connection.
+     * Only available on Android. */
+    public void setConnection(Connection connection) {
+        String[] parameters = new String[] {"name", "parameters"};
+        Object[] values =
+                new Object[] {"network_connection", ImmutableMap.of("type", connection.GetBitMask())};
+        super.execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
+    }
+
+    /** Get Network Connection.
+     * Only available on Android. */
+    public Connection getConnection() {
+        Response response = super.execute(GET_NETWORK_CONNECTION);
+        int bitMask = Integer.parseInt(response.getValue().toString());
+        Connection[] types = Connection.values();
+
+        for (Connection connection: types) {
+            if (connection.GetBitMask() == bitMask) {
+                return connection;
+            }
+        }
+        throw new WebDriverException("The unknown network connection "
+                + "type has been returned. The bitmask is " + bitMask);
+    }
+
+
 
     /** Requests toggling the Location Service setting.
+     *
      * Only available on Android. */
     public void toggleLocationServices() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
         super.execute("toggleLocationServices");
-    }
-
-    /** Requests toggling the device's Flight Mode setting.
-     * Only available on Android. */
-    public void toggleFlightMode() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        super.execute("toggleFlightMode");
-    }
-
-    /** Requests toggling the device's WiFi setting.
-     * Only available on Android. */
-    public void toggleWiFi() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        super.execute("toggleWiFi");
-    }
-
-    /** Requests toggling the device's Data setting.
-     * Only available on Android. */
-    public void toggleData() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        super.execute("toggleData");
     }
 
     /** Requests that the device locks itself.
      * Only available on Android. */
     public void lock() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
         super.execute("lock");
     }
 
     /** Requests that the device unlocks itself.
      * Only available on Android. */
     public void unlock() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
         super.execute("unlock");
     }
 
     /** Requests device's lock state, returning True if it is locked and False if not.
      * Only available on Android. */
     public boolean isLocked() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
         Response response = super.execute("isLocked");
         System.out.println(response);
         return true;
     }
 }
-
