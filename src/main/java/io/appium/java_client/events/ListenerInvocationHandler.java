@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class ListenerInvocationHandler implements InvocationHandler {
+class ListenerInvocationHandler implements InvocationHandler {
 
     private final List<Listener> listeners;
 
@@ -41,8 +41,14 @@ public class ListenerInvocationHandler implements InvocationHandler {
 
     @Override public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         for (Listener l: listeners) {
+            boolean isInvoked = false;
             if (method.getDeclaringClass().isAssignableFrom(l.getClass())) {
                 method.invoke(l, args);
+                isInvoked = true;
+            }
+
+            if (isInvoked) {
+                continue;
             }
 
             Method webDriverEventListenerMethod = findElementInWebDriverEventListener(method);
