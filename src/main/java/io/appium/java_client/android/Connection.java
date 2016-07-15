@@ -26,7 +26,7 @@ public enum Connection {
     DATA(4),
     ALL(6);
 
-    final int bitMask;
+    public final int bitMask;
 
     Connection(int bitMask) {
         this.bitMask = bitMask;

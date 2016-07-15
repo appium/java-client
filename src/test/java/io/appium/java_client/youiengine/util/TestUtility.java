@@ -1,4 +1,4 @@
-package io.appium.java_client.YouiEngine.util;
+package io.appium.java_client.youiengine.util;
 
 import org.openqa.selenium.WebElement;
 
@@ -12,8 +12,8 @@ import java.util.List;
 public class TestUtility {
     /** Causes a delay in the provided number of seconds on the calling thread. */
     public static void delayInSeconds(long delay) throws InterruptedException {
-        delay = delay * 1000;
-        Thread.sleep(delay);
+        long delaySec = delay * 1000;
+        Thread.sleep(delaySec);
     }
 
     /** This will print out the provided list to the console in a simple format. */

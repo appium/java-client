@@ -1,16 +1,22 @@
-package io.appium.java_client.YouiEngine;
+package io.appium.java_client.youiengine;
+
+import static io.appium.java_client.MobileCommand.GET_NETWORK_CONNECTION;
+import static io.appium.java_client.MobileCommand.SET_NETWORK_CONNECTION;
+
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.YouiEngine.internal.JsonToYouiEngineElementConverter;
+import io.appium.java_client.android.Connection;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.youiengine.internal.JsonToYouiEngineElementConverter;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.remote.Response;
 
 import java.net.URL;
 import java.util.Set;
-
 
 public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
 
@@ -80,8 +86,53 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
         if (!appPlatform.equals(IOS)) {
             throw new NoSuchMethodException(unsupportedMethodForPlatform);
         }
-        this.execute("mobileShake");
+        this.execute("shake");
     }
+
+    /** Requests press key code.
+     * Only available on Android. */
+    public void pressKeyCode(int keyCode) throws NoSuchMethodException {
+        if (!appPlatform.equals(ANDROID)) {
+            throw new NoSuchMethodException(unsupportedMethodForPlatform);
+        }
+        super.execute("pressKeyCode",  getCommandImmutableMap("keycode", keyCode));
+    }
+
+    /** Requests press key code.
+     * Only available on Android. */
+    public void longPressKeyCode(int keyCode) throws NoSuchMethodException {
+        if (!appPlatform.equals(ANDROID)) {
+            throw new NoSuchMethodException(unsupportedMethodForPlatform);
+        }
+        super.execute("longPressKeyCode",  getCommandImmutableMap("keycode", keyCode));
+    }
+
+    /** Set Network Connection.
+     * Only available on Android. */
+    public void setConnection(Connection connection) {
+        String[] parameters = new String[] {"name", "parameters"};
+        Object[] values =
+                new Object[] {"network_connection", ImmutableMap.of("type", connection.bitMask)};
+        super.execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
+    }
+
+    /** Get Network Connection.
+     * Only available on Android. */
+    public Connection getConnection() {
+        Response response = super.execute(GET_NETWORK_CONNECTION);
+        int bitMask = Integer.parseInt(response.getValue().toString());
+        Connection[] types = Connection.values();
+
+        for (Connection connection: types) {
+            if (connection.bitMask == bitMask) {
+                return connection;
+            }
+        }
+        throw new WebDriverException("The unknown network connection "
+                + "type has been returned. The bitmask is " + bitMask);
+    }
+
+
 
     /** Requests toggling the Location Service setting.
      * Only available on Android. */
@@ -90,33 +141,6 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
             throw new NoSuchMethodException(unsupportedMethodForPlatform);
         }
         super.execute("toggleLocationServices");
-    }
-
-    /** Requests toggling the device's Flight Mode setting.
-     * Only available on Android. */
-    public void toggleFlightMode() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        super.execute("toggleFlightMode");
-    }
-
-    /** Requests toggling the device's WiFi setting.
-     * Only available on Android. */
-    public void toggleWiFi() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        super.execute("toggleWiFi");
-    }
-
-    /** Requests toggling the device's Data setting.
-     * Only available on Android. */
-    public void toggleData() throws NoSuchMethodException {
-        if (!appPlatform.equals(ANDROID)) {
-            throw new NoSuchMethodException(unsupportedMethodForPlatform);
-        }
-        super.execute("toggleData");
     }
 
     /** Requests that the device locks itself.
@@ -148,4 +172,3 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
         return true;
     }
 }
-
