@@ -12,7 +12,7 @@ public class JavaScriptListener extends TestListener implements JavaScriptEventL
         messages.add("Java script " + script + " was performed");
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(JavaScriptListener.class, this);
     }
 }

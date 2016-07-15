@@ -49,7 +49,7 @@ public class DefaultListener implements Listener, AppiumWebDriverEventListener, 
 
     private final List<Listener> listeners = new ArrayList<>();
 
-    Object dispatcher  = Proxy.newProxyInstance(Listener.class.getClassLoader(),
+    private Object dispatcher  = Proxy.newProxyInstance(Listener.class.getClassLoader(),
         new Class[] {AlertEventListener.class,
             ContextEventListener.class, ElementEventListener.class, JavaScriptEventListener.class,
             ListensToException.class, NavigationEventListener.class, RotationEventListener.class,
@@ -125,7 +125,7 @@ public class DefaultListener implements Listener, AppiumWebDriverEventListener, 
         ((ListensToException) dispatcher).onException(throwable, driver);
     }
 
-    void add(Collection<Listener> listeners) {
+    public void add(Collection<Listener> listeners) {
         this.listeners.addAll(listeners);
     }
 

@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriver;
 
 public class ExceptionListener2 extends TestListener implements ListensToException {
     @Override public void onException(Throwable throwable, WebDriver driver) {
-        messages.add("Externally defined listener: The exception was thrown: " + throwable.toString());
+        messages.add("Externally defined listener: The exception was thrown: " + throwable.getClass());
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(ExceptionListener2.class, this);
     }
 }

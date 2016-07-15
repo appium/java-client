@@ -2,7 +2,7 @@ since 4.1.0
 
 # The purpose
 
-This feature allows end user to organize the event logging on the client side. Also these feature may be useful in a binding with standard or custom reporting
+This feature allows end user to organize the event logging on the client side. Also this feature may be useful in a binding with standard or custom reporting
 frameworks. 
   
   
@@ -29,7 +29,7 @@ user's implementation of `org.openqa.selenium.support.events.WebDriverEventListe
 This is pretty similar solution as the `org.openqa.selenium.support.events.EventFiringWebDriver` of the Selenium project. You 
 can read about this thing there [The blog post](http://seleniumworks.blogspot.ru/2014/02/eventfiringwebdriver.html).  
 
-Here we were trying to improve existing drawbacks and restrictins using: 
+Here we were trying to improve existing drawbacks and restrictions using: 
 
 - API splitting, see above.
 
@@ -71,7 +71,7 @@ listeners.add(new ElementListener());
 driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver2, listeners);
 ```
 
-## What if there are listeners which uses everywhere by default.
+## What if there are listeners which used everywhere by default.
 
 In order to avoid the repeating actions an end user is free to do these things: 
  
@@ -98,3 +98,28 @@ driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver);
 ```
 
 If there are listeners defined externally when this collection is merged with default set of listeners.
+
+# How to reuse customized WebDriverEventListener
+
+If an end user has their own `org.openqa.selenium.support.events.WebDriverEventListener` implementation then in order to 
+make it compatible with this engine it is enough to do the following.
+
+
+```java
+import org.openqa.selenium.support.events.WebDriverEventListener;
+import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
+
+public class UsersWebDriverEventListener implements WebDriverEventListener, AppiumWebDriverEventListener {
+...
+}
+```
+
+or just 
+
+```java
+import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
+
+public class UsersWebDriverEventListener implements AppiumWebDriverEventListener {
+...
+}
+```

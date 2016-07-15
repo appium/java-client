@@ -13,5 +13,5 @@ public abstract class TestListener implements Listener {
         add();
     }
 
-    abstract void add();
+    protected abstract void add();
 }

@@ -23,5 +23,6 @@ public class StubAndroidElement extends AndroidElement {
     }
 
     public void replaceValue(String value) {
+        //STUB it does nothing
     }
 }
