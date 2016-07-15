@@ -7,12 +7,12 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Set;
 
-public class StubWebDriver2 implements WebDriver {
+public class ExtendedWebDriver implements WebDriver {
 
 
 
     @Override public void get(String url) {
-
+        //STUB it does nothing
     }
 
     @Override public String getCurrentUrl() {
@@ -36,11 +36,11 @@ public class StubWebDriver2 implements WebDriver {
     }
 
     @Override public void close() {
-
+        //STUB it does nothing
     }
 
     @Override public void quit() {
-
+        //STUB it does nothing
     }
 
     @Override public Set<String> getWindowHandles() {

@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 
 public class WindowListener extends TestListener implements WindowEventListener {
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(WindowListener.class, this);
     }
 

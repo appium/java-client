@@ -22,7 +22,7 @@ public class ElementListener extends TestListener implements ElementEventListene
         messages.add("The value of the element was changed");
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(ElementListener.class, this);
     }
 }

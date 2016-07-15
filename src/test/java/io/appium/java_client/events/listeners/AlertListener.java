@@ -40,7 +40,7 @@ public class AlertListener extends TestListener implements AlertEventListener {
         messages.add("Credentials " + credentials.toString() + " were sent to alert");
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(AlertListener.class, this);
     }
 }

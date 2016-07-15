@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class AppiumListener extends TestListener implements AppiumWebDriverEventListener {
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(AppiumListener.class, this);
     }
 
@@ -80,6 +80,6 @@ public class AppiumListener extends TestListener implements AppiumWebDriverEvent
     }
 
     @Override public void onException(Throwable throwable, WebDriver driver) {
-        messages.add("WebDriverEventListener: The exception was thrown: " + throwable.toString());
+        messages.add("WebDriverEventListener: The exception was thrown: " + throwable.getClass());
     }
 }

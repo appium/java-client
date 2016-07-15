@@ -15,6 +15,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.FindsByClassName;
 import org.openqa.selenium.internal.FindsByCssSelector;
@@ -28,10 +29,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
-public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
+public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
     FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
     FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
     FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor {
+
+    private static List<StubWebElement> createStubList() {
+        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+    }
+
     @Override public WebDriver context(String name) {
         return null;
     }
@@ -45,7 +51,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public void rotate(ScreenOrientation orientation) {
-
+        //The rotation does nothing there
     }
 
     @Override public ScreenOrientation getOrientation() {
@@ -53,7 +59,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public void get(String url) {
-
+        //There is no navigation. It is added only for event firing
     }
 
     @Override public String getCurrentUrl() {
@@ -65,7 +71,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElements(By by) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElement(By by) {
@@ -77,11 +83,11 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public void close() {
-
+        //There is no closing
     }
 
     @Override public void quit() {
-
+        //It is only the stub
     }
 
     @Override public Set<String> getWindowHandles() {
@@ -89,7 +95,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public String getWindowHandle() {
-        throw new RuntimeException("Test WebDriver exception");
+        throw new WebDriverException();
     }
 
     @Override public TargetLocator switchTo() {
@@ -109,7 +115,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByClassName(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByCssSelector(String using) {
@@ -117,7 +123,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByCssSelector(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementById(String using) {
@@ -125,7 +131,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsById(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByLinkText(String using) {
@@ -133,7 +139,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByLinkText(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByPartialLinkText(String using) {
@@ -141,7 +147,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByPartialLinkText(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByTagName(String using) {
@@ -149,7 +155,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByTagName(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByXPath(String using) {
@@ -157,7 +163,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByXPath(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByAccessibilityId(String using) {
@@ -165,7 +171,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByAccessibilityId(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByAndroidUIAutomator(String using) {
@@ -173,7 +179,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByAndroidUIAutomator(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public StubWebElement findElementByIosUIAutomation(String using) {
@@ -181,7 +187,7 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     }
 
     @Override public List<StubWebElement> findElementsByIosUIAutomation(String using) {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return createStubList();
     }
 
     @Override public Object executeScript(String script, Object... args) {
@@ -236,19 +242,19 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     private class StubOptions implements Options {
 
         @Override public void addCookie(Cookie cookie) {
-
+            //STUB: No adding cookie
         }
 
         @Override public void deleteCookieNamed(String name) {
-
+            //STUB No removal cookie
         }
 
         @Override public void deleteCookie(Cookie cookie) {
-
+            //STUB No deleting cookie
         }
 
         @Override public void deleteAllCookies() {
-
+            //STUB it does nothing
         }
 
         @Override public Set<Cookie> getCookies() {
@@ -279,23 +285,23 @@ public class StubWebDriver implements WebDriver, ContextAware, Rotatable, FindsB
     private class StubNavigation implements Navigation {
 
         @Override public void back() {
-
+            //STUB: It doesn't navigate back
         }
 
         @Override public void forward() {
-
+            //STUB: No the navigation forward
         }
 
         @Override public void to(String url) {
-
+            //STUB: Added only for event firing
         }
 
         @Override public void to(URL url) {
-
+            //STUB: Event firing of the navigation to some URL
         }
 
         @Override public void refresh() {
-
+            //STUB: The firing of the refreshing
         }
     }
 }

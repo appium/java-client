@@ -42,7 +42,7 @@ public class AlertListener2 extends TestListener implements AlertEventListener {
             + " were sent to alert");
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(AlertListener2.class, this);
     }
 }

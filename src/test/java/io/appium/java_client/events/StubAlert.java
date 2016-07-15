@@ -6,11 +6,11 @@ import org.openqa.selenium.security.Credentials;
 
 public class StubAlert implements Alert {
     @Override public void dismiss() {
-
+        //STUB it does nothing
     }
 
     @Override public void accept() {
-
+        //STUB it does nothing
     }
 
     @Override public String getText() {
@@ -18,14 +18,14 @@ public class StubAlert implements Alert {
     }
 
     @Override public void sendKeys(String keysToSend) {
-
+        //STUB it does nothing
     }
 
     @Override public void setCredentials(Credentials credentials) {
-
+        //STUB it does nothing
     }
 
     @Override public void authenticateUsing(Credentials credentials) {
-
+        //STUB it does nothing
     }
 }

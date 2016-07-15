@@ -20,7 +20,7 @@ public class SearchingListener2 extends TestListener implements SearchingEventLi
             + String.valueOf(element));
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(SearchingListener2.class, this);
     }
 }

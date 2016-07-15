@@ -17,7 +17,7 @@ public class RotationListener2 extends TestListener implements RotationEventList
             + orientation.toString());
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(RotationListener2.class, this);
     }
 }

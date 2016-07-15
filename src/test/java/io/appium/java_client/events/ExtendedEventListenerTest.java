@@ -14,10 +14,10 @@ import org.openqa.selenium.By;
 
 public class ExtendedEventListenerTest {
 
-    private static StubWebDriver2 stubWebDriver;
+    private static ExtendedWebDriver stubWebDriver;
 
     @BeforeClass public static void beforeClass() throws Exception {
-        stubWebDriver = new StubWebDriver2();
+        stubWebDriver = new ExtendedWebDriver();
         stubWebDriver = EventFiringWebDriverFactory.getEventFiringWebDriver(stubWebDriver);
     }
 

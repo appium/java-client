@@ -37,7 +37,7 @@ public class NavigationListener2 extends TestListener implements NavigationEvent
         messages.add("Externally defined listener: The refreshing was successful");
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(NavigationListener2.class, this);
     }
 }

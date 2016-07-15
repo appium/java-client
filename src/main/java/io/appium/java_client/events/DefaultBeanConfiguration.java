@@ -32,9 +32,8 @@ import java.util.List;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 class DefaultBeanConfiguration {
 
-    static final String COMPONENT_BEAN = "component";
-    static final String WEB_DRIVER_BEAN = "webdriver";
-    static final String ASPECT = "aspect";
+    public static final String COMPONENT_BEAN = "component";
+    public static final String WEB_DRIVER_BEAN = "webdriver";
 
     private  final List<Listener> listeners = new ArrayList<>();
     private WebDriver driver;
@@ -42,7 +41,7 @@ class DefaultBeanConfiguration {
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean(name = WEB_DRIVER_BEAN)
-    <T extends WebDriver> T getListenableWebdriver(T driver, List<Listener> listeners,
+    public <T extends WebDriver> T getListenableWebdriver(T driver, List<Listener> listeners,
         AbstractApplicationContext context) {
         this.driver = driver;
         this.listeners.addAll(listeners);
@@ -52,7 +51,7 @@ class DefaultBeanConfiguration {
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean(name = "webdriverAspect")
-    DefaultAspect getAspect() {
+    public DefaultAspect getAspect() {
         DefaultAspect aspect = new DefaultAspect(context, driver);
         aspect.add(listeners);
         return aspect;
@@ -60,7 +59,7 @@ class DefaultBeanConfiguration {
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean(name = COMPONENT_BEAN)
-    Object  getComponent(Object component) {
+    public Object  getComponent(Object component) {
         return component;
     }
 }

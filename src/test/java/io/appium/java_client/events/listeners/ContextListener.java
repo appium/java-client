@@ -12,7 +12,7 @@ public class ContextListener extends TestListener implements ContextEventListene
         messages.add("The previous context has been changed to " + context);
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(ContextListener.class, this);
     }
 }

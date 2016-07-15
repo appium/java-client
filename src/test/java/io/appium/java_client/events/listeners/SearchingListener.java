@@ -18,7 +18,7 @@ public class SearchingListener extends TestListener implements SearchingEventLis
             + String.valueOf(element));
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(SearchingListener.class, this);
     }
 }

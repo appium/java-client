@@ -12,7 +12,7 @@ public class JavaScriptListener2 extends TestListener implements JavaScriptEvent
         messages.add("Externally defined listener: Java script " + script + " was performed");
     }
 
-    @Override void add() {
+    @Override protected void add() {
         SingleListeners.listeners.put(JavaScriptListener2.class, this);
     }
 }
