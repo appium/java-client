@@ -689,8 +689,8 @@ public abstract class AppiumDriver<T extends WebElement>
      * @return a map with values that hold session details.
      *
      */
-    public Map<String, String> getSessionDetails() {
+    public Map<String, Object> getSessionDetails() {
         Response response = execute(GET_SESSION);
-        return (Map<String, String>) response.getValue();
+        return (Map<String, Object>) response.getValue();
     }
 }
