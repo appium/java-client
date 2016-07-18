@@ -18,9 +18,9 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 
 import io.appium.java_client.AppiumSetting;
 import org.apache.commons.codec.binary.Base64;
@@ -30,6 +30,7 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
 import java.io.File;
+import java.util.Map;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
@@ -138,7 +139,12 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getDeviceUDIDTest() {
-        String deviceSerial = driver.getSessionDetails().get("deviceUDID");
+        String deviceSerial = driver.getSessionDetails().get("deviceUDID").toString();
         assertNotNull(deviceSerial);
+    }
+
+    @Test public void getSessionMapData() {
+        Map<?,?> map = (Map<?, ?>) driver.getSessionDetails().get("desired");
+        assertNotEquals(map.size(), 0);
     }
 }
