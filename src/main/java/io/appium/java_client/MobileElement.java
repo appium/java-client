@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -105,5 +107,17 @@ public abstract class MobileElement
 
     @Override public List<MobileElement> findElementsByAccessibilityId(String using) {
         return super.findElementsByAccessibilityId(using);
+    }
+
+    /**
+     * This method sets the new value of the attribute "value".
+     *
+     * @param value is the new value which should be set
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void setValue(String value) {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("id", id).put("value", value);
+        execute(MobileCommand.SET_VALUE, builder.build());
     }
 }
