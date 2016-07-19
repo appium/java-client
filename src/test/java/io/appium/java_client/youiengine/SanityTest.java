@@ -1,7 +1,7 @@
 package io.appium.java_client.youiengine;
 
-import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_I;
 import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_H;
+import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_I;
 
 import static org.hamcrest.CoreMatchers.not;
 
@@ -354,10 +354,10 @@ public class SanityTest extends BaseYouiEngineTest {
             driver.longPressKeyCode(KEYCODE_H);
 
             String myText = myTextEditView.findElement(By.name("Text")).getText();
-            char a_char0 = myText.charAt(0);
-            char a_char1 = myText.charAt(1);
+            char myChar0 = myText.charAt(0);
+            char myChar1 = myText.charAt(1);
 
-            if ((Objects.equals(a_char0, 'h')) && (Objects.equals(a_char1, 'h'))) {
+            if ((Objects.equals(myChar0, 'h')) && (Objects.equals(myChar1, 'h'))) {
                 actual = true;
             }
 

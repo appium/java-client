@@ -128,7 +128,6 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
 
 
     /** Requests toggling the Location Service setting.
-     *
      * Only available on Android. */
     public void toggleLocationServices() throws NoSuchMethodException {
         super.execute("toggleLocationServices");
