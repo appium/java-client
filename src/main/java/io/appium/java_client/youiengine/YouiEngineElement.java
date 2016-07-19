@@ -1,4 +1,4 @@
-package io.appium.java_client.YouiEngine;
+package io.appium.java_client.youiengine;
 
 import io.appium.java_client.MobileElement;
 

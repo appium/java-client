@@ -1,23 +1,32 @@
-package io.appium.java_client.YouiEngine;
+package io.appium.java_client.youiengine;
 
-import io.appium.java_client.YouiEngine.util.AppiumTest;
+import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_I;
+import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_H;
+
+import static org.hamcrest.CoreMatchers.not;
+
+import io.appium.java_client.android.Connection;
+import io.appium.java_client.youiengine.util.BaseYouiEngineTest;
+import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.remote.SessionId;
+import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-
-import org.apache.commons.io.FileUtils;
-
-import org.junit.Assert;
-
-import org.openqa.selenium.*;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.remote.SessionId;
-import org.openqa.selenium.remote.UnreachableBrowserException;
-
-import static org.hamcrest.CoreMatchers.not;
 
 /**
  * This test class performs a simple series of tests to confirm our implementation in the
@@ -29,7 +38,7 @@ import static org.hamcrest.CoreMatchers.not;
  *
  * <p>Uncompress the iOS YouiEngineAppiumSample.app.zip before using this with iOS as a target.
  */
-public class SanityTest extends AppiumTest {
+public class SanityTest extends BaseYouiEngineTest {
 
     // Confirm we can get the page source and it is not empty.
     @org.junit.Test
@@ -94,13 +103,15 @@ public class SanityTest extends AppiumTest {
     @org.junit.Test
     public void findElementNotFoundTest() throws Exception {
         boolean exceptionThrown = false;
+        WebElement posterItem = null;
 
         try {
-            WebElement posterItem = driver.findElement(By.className("DoesNotExistView"));
+            posterItem = driver.findElement(By.className("DoesNotExistView"));
         } catch (NoSuchElementException exception) {
             exceptionThrown = true;
         }
         Assert.assertTrue(exceptionThrown);
+        Assert.assertNull(posterItem);
     }
 
     // Confirm we can find multiple elements using the class name strategy.
@@ -108,7 +119,7 @@ public class SanityTest extends AppiumTest {
     public void findMultipleElementsTest() throws Exception {
         int expectedCount = 4;
         List<WebElement> atlasTextSceneViewList = driver
-                .findElementsByClassName("CYIAtlasTextSceneNode");
+                .findElements(By.className("CYIAtlasTextSceneNode"));
         utils.outputListContents(atlasTextSceneViewList);
 
         Assert.assertEquals(atlasTextSceneViewList.size(), expectedCount);
@@ -189,8 +200,7 @@ public class SanityTest extends AppiumTest {
     @org.junit.Test
     public void runInBackgroundTest() throws Exception {
         // TODO US-3491 - backgrounding our app closes the socket server
-        if (driver.appPlatform.equals(driver.ANDROID))
-        {
+        if (driver.appPlatform.equals(driver.ANDROID)) {
             Assert.fail("US-3491 - backgrounding our app closes the socket server on Android.");
         }
 
@@ -222,57 +232,6 @@ public class SanityTest extends AppiumTest {
         } catch (UnreachableBrowserException ubException) {
             Assert.fail("UnreachableBrowserException was thrown. Method may not work for the "
                     + "supplied device.");
-        }
-    }
-
-    // Confirm we can toggle the Android device's wifi setting.
-    @org.junit.Test
-    public void toggleWifiTest() throws Exception {
-        try {
-            driver.toggleWiFi(); // off
-            utils.delayInSeconds(2);
-            driver.toggleWiFi(); // on
-            utils.delayInSeconds(2);
-        } catch (NoSuchMethodException nsmException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
-                Assert.fail("NoSuchMethodException was thrown when not on iOS.");
-            } else {
-                System.out.println("\nExpected exception was thrown.");
-            }
-        }
-    }
-
-    // Confirm we can toggle the Android device's data setting.
-    @org.junit.Test
-    public void toggleDataTest() throws Exception {
-        try {
-            driver.toggleData(); // off
-            utils.delayInSeconds(2);
-            driver.toggleData(); // on
-            utils.delayInSeconds(2);
-        } catch (NoSuchMethodException nsmException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
-                Assert.fail("NoSuchMethodException was thrown when not on iOS.");
-            } else {
-                System.out.println("\nExpected exception was thrown.");
-            }
-        }
-    }
-
-    // Confirm we can toggle the Android device's flight mode setting.
-    @org.junit.Test
-    public void toggleFlightModeTest() throws Exception {
-        try {
-            driver.toggleFlightMode(); // off
-            utils.delayInSeconds(2);
-            driver.toggleFlightMode(); // on
-            utils.delayInSeconds(2);
-        } catch (NoSuchMethodException nsmException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
-                Assert.fail("NoSuchMethodException was thrown when not on iOS.");
-            } else {
-                System.out.println("\nExpected exception was thrown.");
-            }
         }
     }
 
@@ -353,6 +312,126 @@ public class SanityTest extends AppiumTest {
         }
         boolean expected = true;
         Assert.assertEquals(expected, actual);
+    }
+
+    // Confirm we can press a key code
+    @org.junit.Test
+    public void pressKeyCodeTest() throws Exception {
+        boolean actual = false;
+        try {
+            WebElement myTextEditView = driver.findElement(By.className("CYITextEditView"));
+            myTextEditView.click();
+            utils.delayInSeconds(1);
+            driver.pressKeyCode(KEYCODE_H);
+            driver.pressKeyCode(KEYCODE_I);
+
+            String myText = myTextEditView.findElement(By.name("Text")).getText();
+
+            if (Objects.equals(myText, "hi")) {
+                actual = true;
+            }
+
+        } catch (WebDriverException wdException) {
+            if (!driver.appPlatform.equals(driver.IOS)) {
+                Assert.fail("WebDriverException was thrown when not on iOS.");
+            } else {
+                System.out.println("\nExpected exception was thrown.");
+                actual = true; // did not get a value, but we threw an exception for iOS
+            }
+        }
+        boolean expected = true;
+        Assert.assertEquals(expected, actual);
+    }
+
+    // Confirm we can long press a key code
+    @org.junit.Test
+    public void longPressKeyCodeTest() throws Exception {
+        boolean actual = false;
+        try {
+            WebElement myTextEditView = driver.findElement(By.className("CYITextEditView"));
+            myTextEditView.click();
+            utils.delayInSeconds(1);
+            driver.longPressKeyCode(KEYCODE_H);
+
+            String myText = myTextEditView.findElement(By.name("Text")).getText();
+            char a_char0 = myText.charAt(0);
+            char a_char1 = myText.charAt(1);
+
+            if ((Objects.equals(a_char0, 'h')) && (Objects.equals(a_char1, 'h'))) {
+                actual = true;
+            }
+
+        } catch (WebDriverException wdException) {
+            if (!driver.appPlatform.equals(driver.IOS)) {
+                Assert.fail("WebDriverException was thrown when not on iOS.");
+            } else {
+                System.out.println("\nExpected exception was thrown.");
+                actual = true; // did not get a value, but we threw an exception for iOS
+            }
+        }
+        boolean expected = true;
+        Assert.assertEquals(expected, actual);
+    }
+
+    /** Helper to test NetworkConnections. */
+    public void NetworkConnectionTest(Connection stateToTest) throws Exception {
+        boolean actual = false;
+        try {
+            Connection stateToSet;
+
+            // Get initial state
+            Connection statePrior = Connection.NONE;
+            statePrior = driver.getConnection();
+            Assert.assertNotEquals(Connection.NONE, statePrior);
+
+            // Set state to Airplane
+            Connection stateAfter = Connection.NONE;
+            stateToSet = Connection.AIRPLANE;
+            driver.setConnection(stateToSet);
+            stateAfter = driver.getConnection();
+            Assert.assertEquals(stateToSet, stateAfter);
+
+            // Set state to test
+            stateToSet = stateToTest;
+            driver.setConnection(stateToSet);
+            stateAfter = driver.getConnection();
+            Assert.assertEquals(stateToSet, stateAfter);
+
+            // Set state to initial state
+            stateToSet = statePrior;
+            driver.setConnection(stateToSet);
+            stateAfter = driver.getConnection();
+            Assert.assertEquals(stateToSet, stateAfter);
+            actual = true; // Passed all tests
+
+        } catch (WebDriverException wdException) {
+            if (!driver.appPlatform.equals(driver.IOS)) {
+                Assert.fail("WebDriverException was thrown when not on iOS.");
+            } else {
+                System.out.println("\nExpected exception was thrown.");
+                actual = true; // did not get a value, but we threw an exception for iOS
+            }
+        }
+        boolean expected = true;
+        Assert.assertEquals(expected, actual);
+    }
+
+    // Confirm we can set Network to WIFI only
+    @org.junit.Test
+    public void NetworkConnectionWiFiTest() throws Exception {
+        NetworkConnectionTest(Connection.WIFI);
+    }
+
+    // Confirm we can set Network to DATA only
+    @org.junit.Test
+    public void NetworkConnectionDataTest() throws Exception {
+        NetworkConnectionTest(Connection.DATA);
+    }
+
+    // Confirm we can set Network to ALL
+    @org.junit.Test
+    public void NetworkConnectionAllTest() throws Exception {
+        NetworkConnectionTest(Connection.ALL);
     }
 
     /* Performs a device level orientation change and confirms we can retrieve the expected
@@ -465,62 +544,6 @@ public class SanityTest extends AppiumTest {
         System.out.println("\nLogs: " + logs.toString());
     }
 
-
-    /* Disabled lock/unlock tests - Android implementation doesn't think it unlocks correctly.
-    // Confirm the lockFor call works. NOTE: Only works with swipe to unlock.
-    @org.junit.Test
-    public void lockForTest() throws Exception {
-        driver.lockFor(5);
-        utils.delayInSeconds(2);
-        try {
-            WebElement pushButton = driver.findElement(By.name("PushButton"));
-            pushButton.click();
-        } catch (Exception ex) {
-            Assert.fail("Failed to find or interact with the button after unlocking. May not have"
-                    + " unlocked properly.");
-        }
-    }
-
-    // Confirm the lock call works. NOTE: Only works with swipe to unlock.
-    @org.junit.Test
-    public void lockTest() throws Exception {
-        if (driver.appPlatform.equals(driver.IOS)) {
-            System.out.println("lock() is covered by the lockFor() test for iOS.");
-            return;
-        }
-        driver.lock();
-    }
-
-    // Confirm the isLocked call works.
-    @org.junit.Test
-    public void isLockedTest() throws Exception {
-        if (driver.appPlatform.equals(driver.IOS)) {
-            System.out.println("isLocked() is not supported for iOS.");
-            return;
-        }
-        driver.lock();
-        utils.delayInSeconds(2);
-        boolean actual = driver.isLocked();
-        Assert.assertTrue(actual);
-    }
-
-    // Confirm the Unlock call works. NOTE: Only works with swipe to unlock.
-    @org.junit.Test
-    public void unlockTest() throws Exception {
-        if (driver.appPlatform.equals(driver.IOS)) {
-            System.out.println("Unlock() is not supported for iOS.");
-            return;
-        }
-        driver.lock();
-        utils.delayInSeconds(2);
-        driver.unlock();
-        utils.delayInSeconds(2);
-        boolean actual = driver.isLocked();
-        Assert.assertFalse(actual);
-    }
-    */
-
-    /*
     // Confirm the mobileShake call works.
     @org.junit.Test
     public void mobileShakeTest() throws Exception {
@@ -528,9 +551,8 @@ public class SanityTest extends AppiumTest {
             System.out.println("mobileShake() is not supported for Android.");
             return;
         }
-        driver.mobileShake();
-    } */
-
+        driver.shake();
+    }
 
     // Regression - ensure no exceptions occur when sending a click to a CYIAtlasTextSceneNode.
     @org.junit.Test
@@ -551,8 +573,9 @@ public class SanityTest extends AppiumTest {
         WebElement textEdit;
         try {
             textEdit = driver.findElement(By.xpath(".//CYISceneView//CYITextEditView"));
+            Assert.assertNotNull(textEdit);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -564,8 +587,9 @@ public class SanityTest extends AppiumTest {
         List<WebElement> textEdits;
         try {
             textEdits = driver.findElements(By.xpath(".//CYISceneView//CYITextEditView"));
+            Assert.assertNotNull(textEdits);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -577,8 +601,9 @@ public class SanityTest extends AppiumTest {
         WebElement textEdit;
         try {
             textEdit = driver.findElement(By.cssSelector(".something"));
+            Assert.assertNotNull(textEdit);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -590,8 +615,9 @@ public class SanityTest extends AppiumTest {
         List<WebElement> textEdits;
         try {
             textEdits = driver.findElements(By.cssSelector(".something"));
+            Assert.assertNotNull(textEdits);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -603,8 +629,9 @@ public class SanityTest extends AppiumTest {
         WebElement textEdit;
         try {
             textEdit = driver.findElement(By.linkText("Link"));
+            Assert.assertNotNull(textEdit);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -616,8 +643,9 @@ public class SanityTest extends AppiumTest {
         List<WebElement> textEdits;
         try {
             textEdits = driver.findElements(By.linkText("Link"));
+            Assert.assertNotNull(textEdits);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -629,8 +657,9 @@ public class SanityTest extends AppiumTest {
         WebElement textEdit;
         try {
             textEdit = driver.findElement(By.partialLinkText("Link"));
+            Assert.assertNotNull(textEdit);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
@@ -642,32 +671,18 @@ public class SanityTest extends AppiumTest {
         List<WebElement> textEdits;
         try {
             textEdits = driver.findElements(By.partialLinkText("Link"));
+            Assert.assertNotNull(textEdits);
         } catch (Exception ex) {
-            OutputException(ex, "Expected exception was thrown.");
+            outputException(ex, "Expected exception was thrown.");
             return;
         }
         //shouldn't get this far.
         Assert.fail("Did not throw the expected exception.");
     }
 
-    private void OutputException(Exception ex, String message) {
-        System.out.println("\n" + message + "\nClass: " + ex.getClass() + "\nMessage: "
-                + ex.getMessage() + "\nCause: " + ex.getCause() + "\nStackTrace: "
-                + ex.getStackTrace());
-    }
-
-    /* TODO coming soon....
-    @org.junit.Test
-    public void findElementByTagNameTest() throws Exception {
-    }
-
-    @org.junit.Test
-    public void findElementsByTagNameTest() throws Exception {
-    }
-
     @org.junit.Test
     public void isSelectedTest() throws Exception {
-        WebElement toggleButton = driver.findElement(By.className("CYIToggleButton"));
+        WebElement toggleButton = driver.findElement(By.className("CYIToggleButtonView"));
 
         // Initial state should be 'off'.
         Assert.assertFalse(toggleButton.isSelected());
@@ -681,33 +696,9 @@ public class SanityTest extends AppiumTest {
         Assert.assertFalse(toggleButton.isSelected());
     }
 
-    @org.junit.Test
-    public void isEnabledTest() throws Exception {
-        boolean inputEnabled = driver.findElement(By.name("TextEdit")).isEnabled();
-        boolean passwordEnabled = driver.findElement(By.name("PasswordEdit")).isEnabled();
-        boolean buttonEnabled = driver.findElement(By.name("PushButton")).isEnabled();
-        boolean toggleEnabled = driver.findElement(By.name("ToggleButton")).isEnabled();
-
-        // TODO need a test for a false return - finish and report
+    private void outputException(Exception ex, String message) {
+        System.out.println("\n" + message + "\nClass: " + ex.getClass() + "\nMessage: "
+                + ex.getMessage() + "\nCause: " + ex.getCause() + "\nStackTrace: "
+                + ex.getStackTrace());
     }
-    */
-
-    // TODO the following tests need more testing or actual implementation in the YouiEngine driver
-    /* @org.junit.Test
-    public void isLockedTest() throws Exception {
-    } */
-
-    /* @org.junit.Test
-    public void findElementByIdTest() throws Exception {
-    } */
-
-    // Confirm the getLogs call works with LOG_PERFORMANCE.
-    /* @org.junit.Test
-    public void getPerformanceLogTest() throws Exception {
-        LogEntries logs = driver.getLogs(driver.LOG_PERFORMANCE);
-        Assert.assertNotNull(logs);
-        System.out.println("\nLogs: " + logs.toString());
-    } */
-
 }
-

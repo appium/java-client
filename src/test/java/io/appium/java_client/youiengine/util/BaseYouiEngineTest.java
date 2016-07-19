@@ -1,10 +1,10 @@
-package io.appium.java_client.YouiEngine.util;
+package io.appium.java_client.youiengine.util;
 
-import io.appium.java_client.YouiEngine.YouiEngineDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.YouiEngineCapabilityType;
+import io.appium.java_client.youiengine.YouiEngineDriver;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -13,11 +13,9 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
@@ -28,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  *
  * This follows the pattern found in the tutorial for writing Appium java_client tests.
  */
-public class AppiumTest {
+public class BaseYouiEngineTest {
 
     static {
         // Disable annoying cookie warnings.
@@ -45,12 +43,7 @@ public class AppiumTest {
     public boolean isAndroid;
     public String bundleId;
 
-    private static WebDriverWait driverWait;
     private DesiredCapabilities capabilities = new DesiredCapabilities();
-
-    /** Keep the same date prefix to identify job sets. **/
-    private static Date date = new Date();
-
 
     @Rule
     public TestRule printTests = new TestWatcher() {
@@ -70,7 +63,6 @@ public class AppiumTest {
         driver = webDriver;
         serverAddress = driverServerAddress;
         int timeoutInSeconds = 30;
-        driverWait = new WebDriverWait(webDriver, timeoutInSeconds);
     }
 
     /**
@@ -86,8 +78,6 @@ public class AppiumTest {
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "0");
 
         if (isAndroid) {
-            bundleId = "tv.youi.youiengine.youiengineappiumsample";
-            capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, bundleId);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
 
             // The lines below can be modified to target a device or an AVD. Update accordingly.
@@ -97,8 +87,6 @@ public class AppiumTest {
             //capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res.ss");
             capabilities.setCapability(AndroidMobileCapabilityType.AVD, "nexus5intel");
         } else {
-            bundleId = "tv.youi.YouiEngineAppiumSample";
-            capabilities.setCapability(IOSMobileCapabilityType.BUNDLE_ID, bundleId);
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
 
             // Modify the lines below to change to an actual device or use a different simulator.
@@ -106,6 +94,7 @@ public class AppiumTest {
             //capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "devicename");
             capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "localhost");
             //capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res.ss");
+            //capabilities.setCapability(MobileCapabilityType.UDID, "deviceUdid");
         }
     }
 
@@ -116,8 +105,7 @@ public class AppiumTest {
         isAndroid = false;
 
         String currentPath = System.getProperty("user.dir");
-        //String javaClientPath = "src/test/java/io/appium/java_client/";
-        String javaClientPath = "java/io/appium/java_client/";
+        String javaClientPath = "src/test/java/io/appium/java_client/";
 
         String appName = "YouiEngineAppiumSample";
         String fullAppName = isAndroid ? appName + "-debug.apk" : appName + ".app.zip";
