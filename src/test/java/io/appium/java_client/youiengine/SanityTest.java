@@ -369,7 +369,7 @@ public class SanityTest extends BaseYouiEngineTest {
     }
 
     /** Helper to test NetworkConnections. */
-    public void NetworkConnectionTest(Connection stateToTest) throws Exception {
+    public void networkConnectionTest(Connection stateToTest) throws Exception {
         boolean actual = false;
         try {
             Connection stateToSet;
@@ -413,20 +413,20 @@ public class SanityTest extends BaseYouiEngineTest {
 
     // Confirm we can set Network to WIFI only
     @org.junit.Test
-    public void NetworkConnectionWiFiTest() throws Exception {
-        NetworkConnectionTest(Connection.WIFI);
+    public void networkConnectionWiFiTest() throws Exception {
+        networkConnectionTest(Connection.WIFI);
     }
 
     // Confirm we can set Network to DATA only
     @org.junit.Test
-    public void NetworkConnectionDataTest() throws Exception {
-        NetworkConnectionTest(Connection.DATA);
+    public void networkConnectionDataTest() throws Exception {
+        networkConnectionTest(Connection.DATA);
     }
 
     // Confirm we can set Network to ALL
     @org.junit.Test
-    public void NetworkConnectionAllTest() throws Exception {
-        NetworkConnectionTest(Connection.ALL);
+    public void networkConnectionAllTest() throws Exception {
+        networkConnectionTest(Connection.ALL);
     }
 
     /* Performs a device level orientation change and confirms we can retrieve the expected

@@ -105,7 +105,7 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
     public void setConnection(Connection connection) {
         String[] parameters = new String[] {"name", "parameters"};
         Object[] values =
-                new Object[] {"network_connection", ImmutableMap.of("type", connection.GetBitMask())};
+                new Object[] {"network_connection", ImmutableMap.of("type", connection.getBitMask())};
         super.execute(SET_NETWORK_CONNECTION, getCommandImmutableMap(parameters, values));
     }
 
@@ -117,7 +117,7 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
         Connection[] types = Connection.values();
 
         for (Connection connection: types) {
-            if (connection.GetBitMask() == bitMask) {
+            if (connection.getBitMask() == bitMask) {
                 return connection;
             }
         }
