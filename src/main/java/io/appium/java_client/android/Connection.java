@@ -32,7 +32,7 @@ public enum Connection {
         this.bitMask = bitMask;
     }
 
-    public int GetBitMask() {
+    public int getBitMask() {
         return this.bitMask;
     }
 }

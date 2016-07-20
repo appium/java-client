@@ -1,7 +1,6 @@
 package io.appium.java_client.youiengine.util;
 
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.YouiEngineCapabilityType;
 import io.appium.java_client.youiengine.YouiEngineDriver;
@@ -62,7 +61,6 @@ public class BaseYouiEngineTest {
     public static void init(YouiEngineDriver webDriver, URL driverServerAddress) {
         driver = webDriver;
         serverAddress = driverServerAddress;
-        int timeoutInSeconds = 30;
     }
 
     /**
