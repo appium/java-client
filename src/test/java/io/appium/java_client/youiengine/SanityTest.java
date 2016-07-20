@@ -199,11 +199,6 @@ public class SanityTest extends BaseYouiEngineTest {
     // Confirm we can send the app to the background for a short time.
     @org.junit.Test
     public void runInBackgroundTest() throws Exception {
-        // TODO US-3491 - backgrounding our app closes the socket server
-        if (driver.appPlatform.equals(driver.ANDROID)) {
-            Assert.fail("US-3491 - backgrounding our app closes the socket server on Android.");
-        }
-
         driver.runAppInBackground(10);
         try {
             WebElement pushButton = driver.findElement(By.name("PushButton"));
