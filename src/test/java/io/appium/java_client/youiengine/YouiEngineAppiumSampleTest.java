@@ -12,6 +12,12 @@ import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
@@ -119,7 +125,6 @@ public class YouiEngineAppiumSampleTest {
         }
     }
 
-
     // Retrieves the source from the app and that it is not empty.
     @org.junit.Test
     public void pageSourceTest() throws Exception {
@@ -199,5 +204,50 @@ public class YouiEngineAppiumSampleTest {
         app.buttonsScreen.getToggleButton().click();
 
         Assert.assertEquals(toggleOff, app.buttonsScreen.getToggleButtonCaption());
+    }
+
+    /* Set the text of an input field and delete a portion of it using BACK_SPACE.
+     *  */
+    @org.junit.Test
+    public void sendKeysBackspaceTest() throws Exception {
+        String expectedText = "You.i";
+        String deletedText = " Engine";
+        String sentText = expectedText + deletedText;
+
+        WebElement field = driver.findElement(By.name("TextEdit"));
+        field.sendKeys(sentText);
+        utils.delayInSeconds(2);
+        Assert.assertEquals(sentText, field.getText());
+
+        for (int i = 0; i < deletedText.length(); ++i) {
+            field.sendKeys(Keys.BACK_SPACE);
+        }
+        Assert.assertEquals(expectedText, field.getText());
+    }
+
+    /* Set the text of an input field and delete a portion of it using ARROW_LEFT and DELETE.
+     *  */
+    @org.junit.Test
+    public void sendKeysDeleteTest() throws Exception {
+        String expectedText = "You.i";
+        String deletedText = " Engine";
+        String sentText = expectedText + deletedText;
+
+        WebElement field = driver.findElement(By.name("TextEdit"));
+        field.sendKeys(sentText);
+        utils.delayInSeconds(2);
+        Assert.assertEquals(sentText, field.getText());
+
+        // move the cursor to the front of the text to be deleted
+        for (int i = 0; i < deletedText.length(); ++i) {
+            field.sendKeys(Keys.ARROW_LEFT);
+        }
+        utils.delayInSeconds(2);
+        Assert.assertEquals(sentText, field.getText());
+
+        for (int i = 0; i < deletedText.length(); ++i) {
+            field.sendKeys(Keys.DELETE);
+        }
+        Assert.assertEquals(expectedText, field.getText());
     }
 }
