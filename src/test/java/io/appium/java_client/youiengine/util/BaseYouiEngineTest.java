@@ -1,9 +1,9 @@
 package io.appium.java_client.youiengine.util;
 
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.YouiEngineCapabilityType;
 import io.appium.java_client.youiengine.YouiEngineDriver;
+import io.appium.java_client.youiengine.frames.YouiEngineAppiumSampleApp;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +37,7 @@ public class BaseYouiEngineTest {
     public static TestUtility utils;
     public static YouiEngineDriver driver;
     public static URL serverAddress;
+    public static YouiEngineAppiumSampleApp app;
 
     public String appPath;
     public boolean isAndroid;
@@ -55,44 +56,23 @@ public class BaseYouiEngineTest {
         }
     };
 
-    /**
-     * Initialize the webdriver. Must be called before using any helper methods. *
-     */
-    public static void init(YouiEngineDriver webDriver, URL driverServerAddress) {
-        driver = webDriver;
-        serverAddress = driverServerAddress;
-    }
-
-    /**
-     * Set implicit wait in seconds.
-     */
-    public static void setWait(int seconds) {
-        driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
-    }
-
     private void setupCaps(String appPath) {
         capabilities.setCapability(MobileCapabilityType.APP, appPath);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "YouiEngine");
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "0");
 
         if (isAndroid) {
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
-
             // The lines below can be modified to target a device or an AVD. Update accordingly.
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android");
-            //capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "devicename");
-            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "localhost");
-            //capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res.ss");
-            capabilities.setCapability(AndroidMobileCapabilityType.AVD, "nexus5intel");
-        } else {
-            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "device name");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
+            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res");
+            //capabilities.setCapability(AndroidMobileCapabilityType.AVD, "AVD name goes here");
 
-            // Modify the lines below to change to an actual device or use a different simulator.
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-            //capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "devicename");
+        } else {
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6s Plus");
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
             capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "localhost");
-            //capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res.ss");
-            //capabilities.setCapability(MobileCapabilityType.UDID, "deviceUdid");
+            //capabilities.setCapability(MobileCapabilityType.UDID, "some UDID goes here");
         }
     }
 
@@ -112,14 +92,15 @@ public class BaseYouiEngineTest {
         String androidAppPath = Paths.get(currentPath, javaClientPath + fullAppName)
                 .toAbsolutePath().toString();
         appPath = isAndroid ? androidAppPath : iosAppPath;
+        bundleId = isAndroid ? "tv.youi.youiengine.youiengineappiumsample" :
+                "tv.youi.YouiEngineAppiumSample";
         setupCaps(appPath);
 
-        URL serverAddress;
         serverAddress = new URL("http://127.0.0.1:4723/wd/hub");
 
         driver = new YouiEngineDriver(serverAddress, capabilities);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        init(driver, serverAddress);
+        app = new YouiEngineAppiumSampleApp(driver);
     }
 
     /** Run after each test. **/
