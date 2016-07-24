@@ -18,6 +18,7 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import static io.appium.java_client.MobileCommand.CLOSE_APP;
 import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
@@ -46,7 +47,6 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
@@ -187,34 +187,6 @@ public abstract class AppiumDriver<T extends WebElement>
         DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
         dc.setCapability(MobileCapabilityType.PLATFORM_NAME, newPlatform);
         return dc;
-    }
-
-    /**
-     * @param param is a parameter name.
-     * @param value is the parameter value.
-     * @return built {@link ImmutableMap}.
-     */
-    protected static ImmutableMap<String, Object> getCommandImmutableMap(String param,
-        Object value) {
-        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        builder.put(param, value);
-        return builder.build();
-    }
-
-    /**
-     * @param params is the array with parameter names.
-     * @param values is the array with parameter values.
-     * @return built {@link ImmutableMap}.
-     */
-    protected static ImmutableMap<String, Object> getCommandImmutableMap(String[] params,
-        Object[] values) {
-        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        for (int i = 0; i < params.length; i++) {
-            if (!StringUtils.isBlank(params[i]) && (values[i] != null)) {
-                builder.put(params[i], values[i]);
-            }
-        }
-        return builder.build();
     }
 
     @SuppressWarnings("unused")
@@ -572,7 +544,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @param settings Map of setting keys and values.
      */
     private void setSettings(ImmutableMap<?, ?> settings) {
-        execute(SET_SETTINGS, getCommandImmutableMap("settings", settings));
+        execute(SET_SETTINGS, MobileCommand.prepareArguments("settings", settings));
     }
 
     /**
@@ -584,7 +556,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @param value   value of the setting.
      */
     protected void setSetting(AppiumSetting setting, Object value) {
-        setSettings(getCommandImmutableMap(setting.toString(), value));
+        setSettings(MobileCommand.prepareArguments(setting.toString(), value));
     }
 
     @Override public WebDriver context(String name) {
@@ -654,7 +626,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @see HasAppStrings#getAppStringMap(String).
      */
     @Override public Map<String, String> getAppStringMap(String language) {
-        Response response = execute(GET_STRINGS, getCommandImmutableMap("language", language));
+        Response response = execute(GET_STRINGS, MobileCommand.prepareArguments("language", language));
         return (Map<String, String>) response.getValue();
     }
 
@@ -667,7 +639,7 @@ public abstract class AppiumDriver<T extends WebElement>
     @Override public Map<String, String> getAppStringMap(String language, String stringFile) {
         String[] parameters = new String[] {"language", "stringFile"};
         Object[] values = new Object[] {language, stringFile};
-        Response response = execute(GET_STRINGS, getCommandImmutableMap(parameters, values));
+        Response response = execute(GET_STRINGS, prepareArguments(parameters, values));
         return (Map<String, String>) response.getValue();
     }
 
