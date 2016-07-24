@@ -16,10 +16,10 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.replaceElementValueCommand;
 
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 
 import org.openqa.selenium.WebDriverException;
@@ -50,9 +50,7 @@ public class AndroidElement extends MobileElement
      * This method replace current text value.
      * @param value a new value
      */
-    @SuppressWarnings({"rawtypes", "unchecked"}) public void replaceValue(String value) {
-        ImmutableMap.Builder builder = ImmutableMap.builder();
-        builder.put("id", getId()).put("value", new String[] {value});
-        execute(MobileCommand.REPLACE_VALUE, builder.build());
+    public void replaceValue(String value) {
+        CommandExecutionHelper.execute(this, replaceElementValueCommand(this, value));
     }
 }
