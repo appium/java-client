@@ -57,7 +57,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
 
-import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
@@ -67,7 +66,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
 import java.lang.reflect.Constructor;
@@ -187,11 +185,6 @@ public abstract class AppiumDriver<T extends WebElement>
         DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
         dc.setCapability(MobileCapabilityType.PLATFORM_NAME, newPlatform);
         return dc;
-    }
-
-    @SuppressWarnings("unused")
-    private static CommandInfo deleteC(String url) {
-        return new CommandInfo(url, HttpMethod.DELETE);
     }
 
     @Override public List<T> findElements(By by) {
