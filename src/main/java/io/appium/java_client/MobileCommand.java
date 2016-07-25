@@ -126,6 +126,10 @@ public class MobileCommand {
         return new CommandInfo(url, HttpMethod.POST);
     }
 
+    public static CommandInfo deleteC(String url) {
+        return new CommandInfo(url, HttpMethod.DELETE);
+    }
+
     /**
      * @param param is a parameter name.
      * @param value is the parameter value.
