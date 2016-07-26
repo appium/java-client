@@ -27,16 +27,32 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 /**
- * The repository of Android-specific mobile commands defined in the Mobile JSON
- * wire protocol.
+ * This util class helps to prepare parameters of Android-specific JSONWP
+ * commands.
  */
 public class AndroidMobileCommandHelper extends MobileCommand {
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * getting of the current activity.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> currentActivityCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(CURRENT_ACTIVITY, ImmutableMap.<String, Object>of());
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * ending of the test coverage.
+     *
+     * @param intent intent to broadcast.
+     * @param path   path to .ec file.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> endTestCoverageCommand(String intent,
         String path) {
         String[] parameters = new String[] {"intent", "path"};
@@ -45,21 +61,52 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             Map<String, ?>>(END_TEST_COVERAGE, prepareArguments(parameters, values));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * getting of a network connection value.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(GET_NETWORK_CONNECTION, ImmutableMap.<String, Object>of());
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * checking of the device state (is it locked or not).
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(IS_LOCKED, ImmutableMap.<String, Object>of());
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * key event invocation.
+     *
+     * @param key code for the key pressed on the device.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * key event invocation.
+     *
+     * @param key       code for the key pressed on the Android device.
+     * @param metastate metastate for the keypress.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
         Integer metastate) {
         String[] parameters = new String[] {"keycode", "metastate"};
@@ -68,11 +115,28 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             Map<String, ?>>(PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * long key event invocation.
+     *
+     * @param key code for the long key pressed on the device.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * long key event invocation.
+     *
+     * @param key       code for the long key pressed on the Android device.
+     * @param metastate metastate for the long key press.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
         Integer metastate) {
         String[] parameters = new String[] {"keycode", "metastate"};
@@ -81,11 +145,27 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             Map<String, ?>>(LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * notification opening.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(OPEN_NOTIFICATIONS, ImmutableMap.<String, Object>of());
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * file pushing
+     *
+     * @param remotePath Path to file to write data to on remote device
+     * @param base64Data Base64 encoded byte array of data to write to remote device
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>>  pushFileCommandCommand(String remotePath,
         byte[] base64Data) {
         String[] parameters = new String[] {"path", "data"};
@@ -94,6 +174,14 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             Map<String, ?>>(PUSH_FILE, prepareArguments(parameters, values));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * setting of device network connection.
+     *
+     * @param connection The bitmask of the desired connection
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> setConnectionCommand(Connection connection) {
         String[] parameters = new String[] {"name", "parameters"};
         Object[] values =
@@ -102,6 +190,23 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             Map<String, ?>>(SET_NETWORK_CONNECTION, prepareArguments(parameters, values));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * activity starting.
+     *
+     * @param appPackage      The package containing the activity. [Required]
+     * @param appActivity     The activity to start. [Required]
+     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
+     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
+     * @param intentAction  Intent action which will be used to start activity [Optional]
+     * @param intentCategory  Intent category which will be used to start activity [Optional]
+     * @param intentFlags  Flags that will be used to start activity [Optional]
+     * @param optionalIntentArguments Additional intent arguments that will be used to
+     *                                start activity [Optional]
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     * @throws IllegalArgumentException
+     */
     public static Map.Entry<String, Map<String, ?>> startActivityCommand(String appPackage,
         String appActivity,
         String appWaitPackage,
@@ -137,21 +242,51 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             Map<String, ?>>(START_ACTIVITY, parameters);
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * toggling of  location services.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(TOGGLE_LOCATION_SERVICES, ImmutableMap.<String, Object>of());
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device unlocking.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>> unlockCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(UNLOCK, ImmutableMap.<String, Object>of());
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device locking.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand() {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(LOCK, prepareArguments("seconds", 0));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param hasIdentityObject an instance which contains an element ID
+     * @param value a new value
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
     public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
         HasIdentity hasIdentityObject, String value) {
         String[] parameters = new String[] {"id", "value"};
