@@ -118,14 +118,32 @@ public class MobileCommand {
         }
     };
 
+    /**
+     * This methods forms GET commands.
+     *
+     * @param url is the command URL
+     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     */
     public static CommandInfo getC(String url) {
         return new CommandInfo(url, HttpMethod.GET);
     }
 
+    /**
+     * This methods forms POST commands.
+     *
+     * @param url is the command URL
+     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     */
     public static CommandInfo postC(String url) {
         return new CommandInfo(url, HttpMethod.POST);
     }
 
+    /**
+     * This methods forms DELETE commands.
+     *
+     * @param url is the command URL
+     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     */
     public static CommandInfo deleteC(String url) {
         return new CommandInfo(url, HttpMethod.DELETE);
     }
