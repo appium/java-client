@@ -19,8 +19,8 @@ package io.appium.java_client.android;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.isLockedCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.lockDeviceCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.longPressKeyCodeCommand;

@@ -18,7 +18,6 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import static io.appium.java_client.MobileCommand.CLOSE_APP;
 import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
@@ -36,6 +35,7 @@ import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.SET_SETTINGS;
+import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

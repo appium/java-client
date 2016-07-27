@@ -69,53 +69,53 @@ public class MobileCommand {
     protected static final String REPLACE_VALUE = "replaceValue";
 
     public static final  Map<String, CommandInfo> commandRepository =
-        new HashMap<String, CommandInfo>(){
-        {
-            put(RESET, postC("/session/:sessionId/appium/app/reset"));
-            put(GET_STRINGS, postC("/session/:sessionId/appium/app/strings"));
-            put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"));
-            put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"));
-            put(PULL_FOLDER, postC("/session/:sessionId/appium/device/pull_folder"));
-            put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"));
-            put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"));
-            put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"));
-            put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"));
-            put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
-            put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"));
-            put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
-            put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"));
-            put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"));
-            put(LOCK, postC("/session/:sessionId/appium/device/lock"));
-            put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"));
-            put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"));
-            put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"));
-            put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"));
-            put(GET_SESSION,getC("/session/:sessionId/"));
-            //iOS
-            put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
-            //Android
-            put(CURRENT_ACTIVITY,
-                    getC("/session/:sessionId/appium/device/current_activity"));
-            put(END_TEST_COVERAGE,
-                    postC("/session/:sessionId/appium/app/end_test_coverage"));
-            put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"));
-            put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
-            put(LONG_PRESS_KEY_CODE,
-                    postC("/session/:sessionId/appium/device/long_press_keycode"));
-            put(OPEN_NOTIFICATIONS,
-                    postC("/session/:sessionId/appium/device/open_notifications"));
-            put(PRESS_KEY_CODE,
-                    postC("/session/:sessionId/appium/device/press_keycode"));
-            put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"));
-            put(SET_NETWORK_CONNECTION,
-                    postC("/session/:sessionId/network_connection"));
-            put(START_ACTIVITY,
-                    postC("/session/:sessionId/appium/device/start_activity"));
-            put(TOGGLE_LOCATION_SERVICES,
-                    postC("/session/:sessionId/appium/device/toggle_location_services"));
-            put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
-            put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
-        }
+        new HashMap<String, CommandInfo>() {
+            {
+                put(RESET, postC("/session/:sessionId/appium/app/reset"));
+                put(GET_STRINGS, postC("/session/:sessionId/appium/app/strings"));
+                put(SET_VALUE, postC("/session/:sessionId/appium/element/:id/value"));
+                put(PULL_FILE, postC("/session/:sessionId/appium/device/pull_file"));
+                put(PULL_FOLDER, postC("/session/:sessionId/appium/device/pull_folder"));
+                put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"));
+                put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"));
+                put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"));
+                put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"));
+                put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
+                put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"));
+                put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
+                put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"));
+                put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"));
+                put(LOCK, postC("/session/:sessionId/appium/device/lock"));
+                put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"));
+                put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"));
+                put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"));
+                put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"));
+                put(GET_SESSION,getC("/session/:sessionId/"));
+                //iOS
+                put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
+                //Android
+                put(CURRENT_ACTIVITY,
+                        getC("/session/:sessionId/appium/device/current_activity"));
+                put(END_TEST_COVERAGE,
+                        postC("/session/:sessionId/appium/app/end_test_coverage"));
+                put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"));
+                put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
+                put(LONG_PRESS_KEY_CODE,
+                        postC("/session/:sessionId/appium/device/long_press_keycode"));
+                put(OPEN_NOTIFICATIONS,
+                        postC("/session/:sessionId/appium/device/open_notifications"));
+                put(PRESS_KEY_CODE,
+                        postC("/session/:sessionId/appium/device/press_keycode"));
+                put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"));
+                put(SET_NETWORK_CONNECTION,
+                        postC("/session/:sessionId/network_connection"));
+                put(START_ACTIVITY,
+                        postC("/session/:sessionId/appium/device/start_activity"));
+                put(TOGGLE_LOCATION_SERVICES,
+                        postC("/session/:sessionId/appium/device/toggle_location_services"));
+                put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
+                put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
+            }
     };
 
     /**
