@@ -19,7 +19,9 @@ package io.appium.java_client.android;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.MobileCommand;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.internal.HasIdentity;
 
@@ -205,7 +207,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *                                start activity [Optional]
      * @return a key-value pair. The key is the command name. The value is a
      * {@link java.util.Map} command arguments.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException when any required argument is empty
      */
     public static Map.Entry<String, Map<String, ?>> startActivityCommand(String appPackage,
         String appActivity,
