@@ -389,4 +389,18 @@ public class AndroidDriver<T extends WebElement>
     public void unlockDevice() {
         CommandExecutionHelper.execute(this, unlockCommand());
     }
+    
+    /**
+     * @see TouchShortcuts#doubleTap(WebElement, int, int).
+     */
+    @Override public void doubleTap(WebElement element, int x, int y) {
+        throw new UnsupportedOperationException("Support has not been added in the android driver.");
+    }
+    
+    /**
+     * @see TouchShortcuts#doubleTap(WebElement).
+     */
+    @Override public void doubleTap(WebElement element) {
+        throw new UnsupportedOperationException("Support has not been added in the android driver.");
+    }
 }

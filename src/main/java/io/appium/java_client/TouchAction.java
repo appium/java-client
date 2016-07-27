@@ -184,7 +184,35 @@ import org.openqa.selenium.internal.HasIdentity;
         parameterBuilder.add(action);
         return this;
     }
+    
+    /**
+     * Double taps an element, offset from upper left corner.
+     *
+     * @param el element to tap.
+     * @param x  x offset.
+     * @param y  y offset.
+     * @return this TouchAction, for chaining.
+     */    
+    public TouchAction doubleTap(WebElement el, int x, int y) {
+        ActionParameter action = new ActionParameter("doubleTap", (HasIdentity) el);
+        action.addParameter("x", x);
+        action.addParameter("y", y);
+        parameterBuilder.add(action);
+        return this;
+    }
 
+    /**
+     * Double taps an element, offset from upper left corner.
+     *
+     * @param el element to tap.
+     * @return this TouchAction, for chaining.
+     */    
+    public TouchAction doubleTap(WebElement el) {
+        ActionParameter action = new ActionParameter("doubleTap", (HasIdentity) el);
+        parameterBuilder.add(action);
+        return this;
+    }
+    
     /**
      * A wait action, used as a NOP in multi-chaining.
      *

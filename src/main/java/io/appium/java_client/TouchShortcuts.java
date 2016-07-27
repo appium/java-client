@@ -48,6 +48,22 @@ public interface TouchShortcuts {
      * @param el The element to pinch.
      */
     void zoom(WebElement el);
+    
+    /**
+     * Convenience method for double tapping element at a coordinate.
+     * 
+     * @param element we want to double tap.
+     * @param x       x coordinate.
+     * @param y       y coordinate.
+     */
+    void doubleTap(WebElement element, int x, int y);
+
+    /**
+     * Convenience method for double tapping center of an element.
+     * 
+     * @param element we want to double tap.
+     */
+    void doubleTap(WebElement element);
 
     /**
      * Convenience method for tapping a position on the screen.

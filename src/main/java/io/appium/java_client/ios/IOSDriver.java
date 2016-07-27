@@ -25,6 +25,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileSelector;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -271,5 +272,21 @@ public class IOSDriver<T extends WebElement>
             alert.authenticateUsing(credentials);
         }
 
+    }
+    
+    /**
+     * @see TouchShortcuts#doubleTap(WebElement, int, int).
+     */
+    @Override public void doubleTap(WebElement element, int x, int y) {
+        TouchAction action = new TouchAction(this);
+        action.doubleTap(element, x, y).perform();
+    }
+    
+    /**
+     * @see TouchShortcuts#doubleTap(WebElement).
+     */
+    @Override public void doubleTap(WebElement element) {
+        TouchAction action = new TouchAction(this);
+        action.doubleTap(element).perform();
     }
 }
