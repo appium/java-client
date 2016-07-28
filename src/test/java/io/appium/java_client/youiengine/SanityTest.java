@@ -765,6 +765,80 @@ public class SanityTest extends BaseYouiEngineTest {
         Assert.assertTrue(staleElementReferenceExceptionThrown);
     }
 
+    /* Set the text of an input field and delete a portion of it using BACK_SPACE.
+     *  */
+    @org.junit.Test
+    public void sendKeysBackspaceTest() throws Exception {
+        app.goToTextEditScreen();
+        String expectedText = "You.i";
+        String deletedText = " Engine";
+        String sentText = expectedText + deletedText;
+
+        app.textEditScreen.setTextEditValue(sentText);
+        utils.delayInSeconds(2);
+        Assert.assertEquals(sentText, app.textEditScreen.getTextEditValue());
+
+        for (int i = 0; i < deletedText.length(); ++i) {
+            app.textEditScreen.getTextEdit().sendKeys(Keys.BACK_SPACE);
+        }
+        Assert.assertEquals(expectedText, app.textEditScreen.getTextEditValue());
+    }
+
+    /* Set the text of an input field and delete a portion of it using ARROW_LEFT and DELETE.
+     *  */
+    @org.junit.Test
+    public void sendKeysDeleteTest() throws Exception {
+        app.goToTextEditScreen();
+        String expectedText = "You.i";
+        String deletedText = " Engine";
+        String sentText = expectedText + deletedText;
+
+        app.textEditScreen.setTextEditValue(sentText);
+        utils.delayInSeconds(2);
+        Assert.assertEquals(sentText, app.textEditScreen.getTextEditValue());
+
+        // move the cursor to the front of the text to be deleted
+        for (int i = 0; i < deletedText.length(); ++i) {
+            app.textEditScreen.getTextEdit().sendKeys(Keys.ARROW_LEFT);
+        }
+        utils.delayInSeconds(2);
+        Assert.assertEquals(sentText, app.textEditScreen.getTextEditValue());
+
+        for (int i = 0; i < deletedText.length(); ++i) {
+            app.textEditScreen.getTextEdit().sendKeys(Keys.DELETE);
+        }
+        Assert.assertEquals(expectedText, app.textEditScreen.getTextEditValue());
+    }
+
+    @org.junit.Test
+    public void lockDeviceTest() throws Exception {
+        driver.lockFor(5);
+
+        boolean result = true;
+        try {
+            app.goToButtonsScreen();
+        } catch (Exception ex) {
+            Assert.fail(ex.getMessage());
+        }
+        Assert.assertTrue(result);
+    }
+
+    @org.junit.Test
+    public void isLockedTest() throws Exception {
+        boolean result = false;
+
+        try {
+            Assert.assertFalse(driver.isLocked()); // should not be locked
+            driver.lock();
+            utils.delayInSeconds(5);
+            Assert.assertTrue(driver.isLocked()); // should now be locked
+            // at this point we don't need to unlock
+        } catch (NoSuchMethodException nsmEx) {
+            result = isAndroid ? false : true; // expected for iOS
+        }
+        Assert.assertTrue(result);
+    }
+
     private void outputException(Exception ex, String message) {
         System.out.println("\n" + message + "\nClass: " + ex.getClass() + "\nMessage: "
                 + ex.getMessage() + "\nCause: " + ex.getCause() + "\nStackTrace: "
