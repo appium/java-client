@@ -537,7 +537,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @param settings Map of setting keys and values.
      */
     private void setSettings(ImmutableMap<?, ?> settings) {
-        execute(SET_SETTINGS, MobileCommand.prepareArguments("settings", settings));
+        execute(SET_SETTINGS, prepareArguments("settings", settings));
     }
 
     /**
@@ -549,7 +549,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @param value   value of the setting.
      */
     protected void setSetting(AppiumSetting setting, Object value) {
-        setSettings(MobileCommand.prepareArguments(setting.toString(), value));
+        setSettings(prepareArguments(setting.toString(), value));
     }
 
     @Override public WebDriver context(String name) {
@@ -619,7 +619,7 @@ public abstract class AppiumDriver<T extends WebElement>
      * @see HasAppStrings#getAppStringMap(String).
      */
     @Override public Map<String, String> getAppStringMap(String language) {
-        Response response = execute(GET_STRINGS, MobileCommand.prepareArguments("language", language));
+        Response response = execute(GET_STRINGS, prepareArguments("language", language));
         return (Map<String, String>) response.getValue();
     }
 

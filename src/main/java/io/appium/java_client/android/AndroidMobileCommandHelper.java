@@ -210,35 +210,32 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @throws IllegalArgumentException when any required argument is empty
      */
     public static Map.Entry<String, Map<String, ?>> startActivityCommand(String appPackage,
-        String appActivity,
-        String appWaitPackage,
-        String appWaitActivity, String intentAction,
-        String intentCategory, String intentFlags,
-        String optionalIntentArguments,boolean stopApp )
-        throws IllegalArgumentException {
+        String appActivity, String appWaitPackage, String appWaitActivity,
+        String intentAction, String intentCategory, String intentFlags,
+        String optionalIntentArguments, boolean stopApp) throws IllegalArgumentException {
 
         checkArgument((!StringUtils.isBlank(appPackage)
                 && !StringUtils.isBlank(appActivity)),
             String.format("'%s' and '%s' are required.", "appPackage", "appActivity"));
 
-        appWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
-        appWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
-        intentAction = !StringUtils.isBlank(intentAction) ? intentAction : "";
-        intentCategory = !StringUtils.isBlank(intentCategory) ? intentCategory : "";
-        intentFlags = !StringUtils.isBlank(intentFlags) ? intentFlags : "";
-        optionalIntentArguments = !StringUtils.isBlank(optionalIntentArguments)
+        String targetWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
+        String targetWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
+        String targetIntentAction = !StringUtils.isBlank(intentAction) ? intentAction : "";
+        String targetIntentCategory = !StringUtils.isBlank(intentCategory) ? intentCategory : "";
+        String targetIntentFlags = !StringUtils.isBlank(intentFlags) ? intentFlags : "";
+        String targetOptionalIntentArguments = !StringUtils.isBlank(optionalIntentArguments)
             ? optionalIntentArguments : "";
 
         ImmutableMap<String, ?> parameters = ImmutableMap
             .<String, Object>builder().put("appPackage", appPackage)
             .put("appActivity", appActivity)
-            .put("appWaitPackage", appWaitPackage)
-            .put("appWaitActivity", appWaitActivity)
+            .put("appWaitPackage", targetWaitPackage)
+            .put("appWaitActivity", targetWaitActivity)
             .put("dontStopAppOnReset", !stopApp)
-            .put("intentAction", intentAction)
-            .put("intentCategory", intentCategory)
-            .put("intentFlags", intentFlags)
-            .put("optionalIntentArguments", optionalIntentArguments)
+            .put("intentAction", targetIntentAction)
+            .put("intentCategory", targetIntentCategory)
+            .put("intentFlags", targetIntentFlags)
+            .put("optionalIntentArguments", targetOptionalIntentArguments)
             .build();
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(START_ACTIVITY, parameters);
