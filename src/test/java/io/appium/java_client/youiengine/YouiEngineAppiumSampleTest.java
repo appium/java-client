@@ -1,10 +1,8 @@
 package io.appium.java_client.youiengine;
 
-import static org.hamcrest.CoreMatchers.not;
-
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.YouiEngineCapabilityType;
+import io.appium.java_client.youiengine.frames.YouiEngineAppiumSampleApp;
 import io.appium.java_client.youiengine.util.TestUtility;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -14,17 +12,13 @@ import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.CoreMatchers.not;
 
 /**
  * This YouiEngineAppiumSampleTest class is available to illustrate how to create a simple test
@@ -49,26 +43,11 @@ public class YouiEngineAppiumSampleTest {
     public static TestUtility utils;
     public static YouiEngineDriver driver;
     public static URL serverAddress;
+    public static YouiEngineAppiumSampleApp app;
 
     private boolean isAndroid;
 
     private DesiredCapabilities capabilities;
-
-    /**
-     * Initialize the webdriver. Must be called before using any helper methods. We call this
-     * in the setup phase of the test. *
-     */
-    public static void init(YouiEngineDriver webDriver, URL driverServerAddress) {
-        driver = webDriver;
-        serverAddress = driverServerAddress;
-    }
-
-    /**
-     * Set implicit wait in seconds. *
-     */
-    public static void setWait(int seconds) {
-        driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
-    }
 
     // Adjust the capabilities you wish to use in here.
     private void setupCaps(String appPath) {
@@ -78,17 +57,16 @@ public class YouiEngineAppiumSampleTest {
 
         if (isAndroid) {
             // The lines below can be modified to target a device or an AVD. Update accordingly.
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "device name");
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
-            //capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "devicename");
-            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "localhost");
-            //capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res.ss");
-            capabilities.setCapability(AndroidMobileCapabilityType.AVD, "nexus5intel");
+            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res");
+            //capabilities.setCapability(AndroidMobileCapabilityType.AVD, "AVD name goes here");
 
         } else {
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6s Plus");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "device name");
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "localhost");
+            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res");
+            //capabilities.setCapability(MobileCapabilityType.UDID, "some UDID goes here");
         }
     }
 
@@ -107,10 +85,10 @@ public class YouiEngineAppiumSampleTest {
     @Before
     public void setUp() throws Exception {
         // Toggle this to switch between Android and iOS
-        isAndroid = true;
+        isAndroid = false;
 
         String currentPath = System.getProperty("user.dir");
-        String javaClientPath = "java/io/appium/java_client/";
+        String javaClientPath = "src/test/java/io/appium/java_client/";
         String appName = "YouiEngineAppiumSample";
         String fullAppName = isAndroid ? appName + "-debug.apk" : appName + ".app.zip";
 
@@ -122,12 +100,11 @@ public class YouiEngineAppiumSampleTest {
 
         setupCaps(myAppPath);
 
-        URL serverAddress;
         serverAddress = new URL("http://127.0.0.1:4723/wd/hub");
 
         driver = new YouiEngineDriver(serverAddress, capabilities);
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        init(driver, serverAddress);
+        app = new YouiEngineAppiumSampleApp(driver);
     }
 
     /** Run after each test. **/
@@ -142,8 +119,7 @@ public class YouiEngineAppiumSampleTest {
     // Retrieves the source from the app and that it is not empty.
     @org.junit.Test
     public void pageSourceTest() throws Exception {
-        String source;
-        source = driver.getPageSource();
+        String source = driver.getPageSource();
 
         System.out.println("\nPageSource: " + source);
 
@@ -153,21 +129,16 @@ public class YouiEngineAppiumSampleTest {
     // Sets the input field's value then retrieves that value to confirm it was set.
     @org.junit.Test
     public void findInputFieldAndSetGetTextTest() throws Exception {
-        final String expected;
-        expected = "Something";
-
-        // If it was not found, then we would get an ElementNodeFoundException which will fail the
-        // test.
-        WebElement textField;
-        textField = driver.findElement(By.name("TextEdit"));
+        final String expected = "Something";
+        app.goToTextEditScreen();
 
         // Set the value of the field by sending it a sequence of keys.
-        textField.sendKeys(expected);
+        // If it was not found, then we would get an ElementNodeFoundException which will fail the
+        // test.
+        app.textEditScreen.setTextEditValue(expected);
         utils.delayInSeconds(2);
 
-        String actual = textField.findElement(By.name("Text")).getText();
-
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(expected, app.textEditScreen.getTextEditValue());
     }
 
     /* Sets the password field's value then retrieves that value to confirm it was set but also
@@ -177,15 +148,13 @@ public class YouiEngineAppiumSampleTest {
     public void findPasswordFieldAndSetGetTextTest() throws Exception {
         final String expected = "Something";
 
-        WebElement passwordField = driver.findElement(By.name("PasswordEdit"));
-        passwordField.sendKeys(expected);
+        app.goToTextEditScreen();
+        app.textEditScreen.setTextEditValue(expected);
         utils.delayInSeconds(2);
-
-        String actual = passwordField.findElement(By.name("Text")).getText();
 
         // Text returned from a get should be the masked text, not the real text we set because
         // this is a password field.
-        Assert.assertThat(expected, not(actual));
+        Assert.assertThat(expected, not(app.textEditScreen.getPasswordEditValue()));
     }
 
     /* Click on the button 10 times. The button in this app is designed to update its caption
@@ -196,16 +165,14 @@ public class YouiEngineAppiumSampleTest {
     public void findPushButtonAndClickSeveralTimesTest() throws Exception {
         final String expected = "Pushed 10 Times";
 
-        WebElement pushButton = driver.findElement(By.name("PushButton"));
+        app.goToButtonsScreen();
 
         for (int i = 0; i < 10; i++) {
-            pushButton.click();
+            app.buttonsScreen.getPushButton().click();
             utils.delayInSeconds(1);
         }
 
-        String actual = pushButton.findElement(By.name("Text")).getText();
-
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(expected, app.buttonsScreen.getPushButtonCaption());
     }
 
     /* Click on the toggle button and confirm it is on or off. This toggle button updates its
@@ -216,47 +183,18 @@ public class YouiEngineAppiumSampleTest {
         final String toggleOn = "Toggled ON";
         final String toggleOff = "Toggled OFF";
 
-        WebElement toggleButton;
-        toggleButton = driver.findElement(By.name("ToggleButton"));
+        app.goToButtonsScreen();
 
         // Toggle the button on
-        toggleButton.click();
+        app.buttonsScreen.getToggleButton().click();
         utils.delayInSeconds(2);
 
-        String captionFound = toggleButton.findElement(By.name("Text")).getText();
-        Assert.assertEquals(toggleOn, captionFound);
+        Assert.assertEquals(toggleOn, app.buttonsScreen.getToggleButtonCaption());
 
         // Toggle the button off
-        toggleButton.click();
-        captionFound = toggleButton.findElement(By.name("Text")).getText();
+        app.buttonsScreen.getToggleButton().click();
 
-        Assert.assertEquals(toggleOff, captionFound);
+        Assert.assertEquals(toggleOff, app.buttonsScreen.getToggleButtonCaption());
     }
 
-    /* This test iterates through an array that contains the names of all the GUI objects on
-     * this screen and confirms they can be found.
-     *  */
-    @org.junit.Test
-    public void verifyUiItemsExistTest() throws Exception {
-        List<String> uiControlNames = Arrays.asList(
-                "TextEdit",
-                "PasswordEdit",
-                "PushButton",
-                "ToggleButton");
-        boolean allFound;
-        allFound = true;
-
-        for (Iterator<String> item = uiControlNames.iterator(); item.hasNext(); ) {
-            String toFind = item.next();
-            System.out.println("\n\tLooking for: " + toFind + "...");
-            try {
-                driver.findElement(By.name(toFind));
-                System.out.println("\tFound: " + toFind + ".");
-            } catch (NoSuchElementException nseException) {
-                System.out.println("\tDid not find: " + toFind + ".");
-                allFound = false;
-            }
-        }
-        Assert.assertTrue(allFound);
-    }
 }

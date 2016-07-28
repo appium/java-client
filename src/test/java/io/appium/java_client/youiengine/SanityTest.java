@@ -1,25 +1,12 @@
 package io.appium.java_client.youiengine;
 
-import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_H;
-import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_I;
-
-import static org.hamcrest.CoreMatchers.not;
-
 import io.appium.java_client.android.Connection;
 import io.appium.java_client.youiengine.util.BaseYouiEngineTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.remote.SessionId;
-import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -27,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_H;
+import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_I;
+import static org.hamcrest.CoreMatchers.not;
 
 /**
  * This test class performs a simple series of tests to confirm our implementation in the
@@ -76,48 +67,48 @@ public class SanityTest extends BaseYouiEngineTest {
     // Confirm we can find an element using the class name strategy.
     @org.junit.Test
     public void findElementByClassTest() throws Exception {
-        WebElement posterItem = null;
+        WebElement button = null;
         try {
-            posterItem = driver.findElement(By.className("CYIPushButtonView"));
+            button = driver.findElement(By.className("CYIPushButtonView"));
         } catch (NoSuchElementException exception) {
             Assert.fail("Did not find the control.");
         }
-
-        Assert.assertNotNull(posterItem);
+        Assert.assertNotNull(button);
     }
 
     // Confirm we can find an element using the name strategy.
     @org.junit.Test
     public void findElementByNameTest() throws Exception {
-        WebElement posterList = null;
+        WebElement buttonsButton = null;
         try {
-            posterList = driver.findElement(By.name("TextEdit"));
+            buttonsButton = driver.findElement(By.name("Buttons"));
         } catch (NoSuchElementException exception) {
             Assert.fail("Did not find the control.");
         }
 
-        Assert.assertNotNull(posterList);
+        Assert.assertNotNull(buttonsButton);
     }
 
     // Confirm we throw a NoSuchElementException when the element was not found.
     @org.junit.Test
     public void findElementNotFoundTest() throws Exception {
         boolean exceptionThrown = false;
-        WebElement posterItem = null;
+        WebElement noSuchElement = null;
 
         try {
-            posterItem = driver.findElement(By.className("DoesNotExistView"));
+            noSuchElement = driver.findElement(By.className("DoesNotExistView"));
         } catch (NoSuchElementException exception) {
             exceptionThrown = true;
         }
         Assert.assertTrue(exceptionThrown);
-        Assert.assertNull(posterItem);
     }
 
     // Confirm we can find multiple elements using the class name strategy.
     @org.junit.Test
     public void findMultipleElementsTest() throws Exception {
-        int expectedCount = 4;
+        app.goToTextEditScreen();
+
+        int expectedCount = 2;
         List<WebElement> atlasTextSceneViewList = driver
                 .findElements(By.className("CYIAtlasTextSceneNode"));
         utils.outputListContents(atlasTextSceneViewList);
@@ -129,8 +120,10 @@ public class SanityTest extends BaseYouiEngineTest {
      * and the child is found using the name strategy. */
     @org.junit.Test
     public void findSingleElementFromElementTest() throws Exception {
-        WebElement buttonView = driver.findElement(By.className("CYITextEditView"));
-        WebElement childItem = buttonView.findElement(By.name("Text"));
+        app.goToTextEditScreen();
+
+        WebElement field = driver.findElement(By.className("CYITextEditView"));
+        WebElement childItem = field.findElement(By.name("Text"));
 
         String foundText = childItem.getText();
         String expectedText = "TextEdit";
@@ -142,12 +135,14 @@ public class SanityTest extends BaseYouiEngineTest {
      * */
     @org.junit.Test
     public void findMultipleElementsFromElementTest() throws Exception {
-        WebElement listContainer = driver.findElement(By.className("CYIScreenView"));
-        List<WebElement> labelItems = listContainer.findElements(
+        app.goToTextEditScreen();
+
+        WebElement sceneView = driver.findElement(By.className("CYISceneView"));
+        List<WebElement> labelItems = sceneView.findElements(
                 By.className("CYIAtlasTextSceneNode"));
         utils.outputListContents(labelItems);
 
-        int expectedCount = 4;
+        int expectedCount = 2;
         int actualCount = labelItems.size();
         Assert.assertEquals(expectedCount, actualCount);
     }
@@ -155,34 +150,31 @@ public class SanityTest extends BaseYouiEngineTest {
     // Confirm we get the text of a button.
     @org.junit.Test
     public void getTextTest() throws Exception {
-        WebElement pushButton = driver.findElement(By.className("CYIPushButtonView"));
+        app.goToButtonsScreen();
 
-        String foundText = pushButton.findElement(By.name("Text")).getText();
         String expectedText = "Pushed 0 Times";
-        Assert.assertEquals(expectedText, foundText);
+        Assert.assertEquals(expectedText, app.buttonsScreen.getPushButtonCaption());
     }
 
     // Confirm we can retrieve the name attribute of an input field.
     @org.junit.Test
     public void getNameTest() throws Exception {
+        app.goToTextEditScreen();
         String expected = "TextEdit";
 
-        WebElement inputField = driver.findElementByName(expected);
-        String actual = inputField.getAttribute("name");
-
-        Assert.assertEquals(expected, actual);
+        WebElement inputField = app.textEditScreen.getTextEdit();
+        Assert.assertEquals(expected, inputField.getAttribute("name"));
     }
 
     // Confirm we can set the text of an input field.
     @org.junit.Test
     public void valueSetTest() throws Exception {
+        app.goToTextEditScreen();
         String expected = "One Two 3";
-        WebElement field = driver.findElement(By.name("TextEdit"));
-        field.sendKeys(expected);
+        app.textEditScreen.setTextEditValue(expected);
         utils.delayInSeconds(2);
 
-        String found = field.findElement(By.name("Text")).getText();
-        Assert.assertEquals(expected, found);
+        Assert.assertEquals(expected, app.textEditScreen.getTextEditValue());
     }
 
     //TODO create one with special keys to validate we support special keys
@@ -191,6 +183,9 @@ public class SanityTest extends BaseYouiEngineTest {
     @org.junit.Test
     public void startStopAppTest() throws Exception {
         driver.closeApp();
+        // NOTE: utils.delayInSeconds allows time for the app to update between commands. It will
+        //  be replaced in the future with app side signals or events to notify the Appium the
+        //  app is ready.
         utils.delayInSeconds(2);
         driver.launchApp();
         utils.delayInSeconds(2);
@@ -201,33 +196,27 @@ public class SanityTest extends BaseYouiEngineTest {
     public void runInBackgroundTest() throws Exception {
         driver.runAppInBackground(10);
         try {
-            WebElement pushButton = driver.findElement(By.name("PushButton"));
-            pushButton.click();
+            app.goToButtonsScreen();
         } catch (Exception ex) {
             Assert.fail("Failed to find or interact with the button after backgrounding the app. "
                     + "May not have restored properly.");
         }
     }
-    //
 
     // Confirm we can toggle the Android device's location services.
     @org.junit.Test
     public void toggleLocationServicesTest() throws Exception {
+        boolean pass;
         try {
             driver.toggleLocationServices(); // off
             utils.delayInSeconds(2);
             driver.toggleLocationServices(); // on
             utils.delayInSeconds(2);
-        } catch (NoSuchMethodException nsmException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
-                Assert.fail("NoSuchMethodException was thrown when not on iOS.");
-            } else {
-                System.out.println("\nExpected exception was thrown.");
-            }
-        } catch (UnreachableBrowserException ubException) {
-            Assert.fail("UnreachableBrowserException was thrown. Method may not work for the "
-                    + "supplied device.");
+            pass = true;
+        } catch (WebDriverException wdEx) {
+            pass = isAndroid ? false : true;
         }
+        Assert.assertTrue(pass);
     }
 
     // Confirm we can get the context.
@@ -269,8 +258,7 @@ public class SanityTest extends BaseYouiEngineTest {
         } catch (WebDriverException wdException) {
             Assert.fail("WebDriverException was thrown.");
         }
-        boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(actual);
     }
 
     /* Confirm we can remove the app.
@@ -285,10 +273,13 @@ public class SanityTest extends BaseYouiEngineTest {
             utils.delayInSeconds(5);
             actual = driver.isAppInstalled(bundleId);
         } catch (WebDriverException wdException) {
-            Assert.fail("WebDriverException was thrown.");
+            if (isAndroid) {
+                Assert.fail("WebDriverException was thrown while on Android.");
+            } else {
+                actual = true;
+            }
         }
-        boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(actual);
     }
 
     // Confirm we can determine if an app is installed.
@@ -305,26 +296,22 @@ public class SanityTest extends BaseYouiEngineTest {
                 actual = true; // did not get a value, but we threw an exception for iOS
             }
         }
-        boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(actual);
     }
 
     // Confirm we can press a key code
     @org.junit.Test
     public void pressKeyCodeTest() throws Exception {
+        app.goToTextEditScreen();
         boolean actual = false;
+        app.textEditScreen.getTextEdit().click();
+        utils.delayInSeconds(1);
         try {
-            WebElement myTextEditView = driver.findElement(By.className("CYITextEditView"));
-            myTextEditView.click();
-            utils.delayInSeconds(1);
             driver.pressKeyCode(KEYCODE_H);
             driver.pressKeyCode(KEYCODE_I);
 
-            String myText = myTextEditView.findElement(By.name("Text")).getText();
-
-            if (Objects.equals(myText, "hi")) {
-                actual = true;
-            }
+            String myText = app.textEditScreen.getTextEditValue();
+            actual = Objects.equals(myText, "hi");
 
         } catch (WebDriverException wdException) {
             if (!driver.appPlatform.equals(driver.IOS)) {
@@ -334,27 +321,29 @@ public class SanityTest extends BaseYouiEngineTest {
                 actual = true; // did not get a value, but we threw an exception for iOS
             }
         }
-        boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(actual);
     }
 
     // Confirm we can long press a key code
     @org.junit.Test
     public void longPressKeyCodeTest() throws Exception {
+        app.goToTextEditScreen();
+
         boolean actual = false;
+
+        app.textEditScreen.getTextEdit().click();
+        utils.delayInSeconds(2);
+
         try {
-            WebElement myTextEditView = driver.findElement(By.className("CYITextEditView"));
-            myTextEditView.click();
-            utils.delayInSeconds(1);
             driver.longPressKeyCode(KEYCODE_H);
 
-            String myText = myTextEditView.findElement(By.name("Text")).getText();
+            utils.delayInSeconds(5);
+            String myText = app.textEditScreen.getTextEditValue();
             char myChar0 = myText.charAt(0);
             char myChar1 = myText.charAt(1);
 
-            if ((Objects.equals(myChar0, 'h')) && (Objects.equals(myChar1, 'h'))) {
-                actual = true;
-            }
+            System.out.println("Resulting text: " + myText);
+            actual = (Objects.equals(myChar0, 'h')) && (Objects.equals(myChar1, 'h'));
 
         } catch (WebDriverException wdException) {
             if (!driver.appPlatform.equals(driver.IOS)) {
@@ -364,8 +353,7 @@ public class SanityTest extends BaseYouiEngineTest {
                 actual = true; // did not get a value, but we threw an exception for iOS
             }
         }
-        boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(actual);
     }
 
     /** Helper to test NetworkConnections. */
@@ -375,12 +363,12 @@ public class SanityTest extends BaseYouiEngineTest {
             Connection stateToSet;
 
             // Get initial state
-            Connection statePrior = Connection.NONE;
+            Connection statePrior;
             statePrior = driver.getConnection();
             Assert.assertNotEquals(Connection.NONE, statePrior);
 
             // Set state to Airplane
-            Connection stateAfter = Connection.NONE;
+            Connection stateAfter;
             stateToSet = Connection.AIRPLANE;
             driver.setConnection(stateToSet);
             stateAfter = driver.getConnection();
@@ -407,8 +395,7 @@ public class SanityTest extends BaseYouiEngineTest {
                 actual = true; // did not get a value, but we threw an exception for iOS
             }
         }
-        boolean expected = true;
-        Assert.assertEquals(expected, actual);
+        Assert.assertTrue(actual);
     }
 
     // Confirm we can set Network to WIFI only
@@ -442,9 +429,11 @@ public class SanityTest extends BaseYouiEngineTest {
             Assert.fail("\nOrientation was not Portrait.");
         }
 
+        utils.delayInSeconds(10);
+
         // Switch the orientation to Landscape
         driver.rotate(ScreenOrientation.LANDSCAPE);
-        utils.delayInSeconds(2);
+        utils.delayInSeconds(10);
 
         currentOrientation =  driver.getOrientation();
         if (currentOrientation == ScreenOrientation.LANDSCAPE) {
@@ -455,7 +444,7 @@ public class SanityTest extends BaseYouiEngineTest {
 
         // Switch back to Portrait
         driver.rotate(ScreenOrientation.PORTRAIT);
-        utils.delayInSeconds(2);
+        utils.delayInSeconds(10);
 
         currentOrientation =  driver.getOrientation();
         if (currentOrientation == ScreenOrientation.PORTRAIT) {
@@ -465,12 +454,18 @@ public class SanityTest extends BaseYouiEngineTest {
         }
     }
 
-    // Call the get app string and ensure we get something back.
+    // Call the get app string and ensure we do not throw any exception.
     @org.junit.Test
     public void getStringsTest() throws Exception {
         Map appStringMap = driver.getAppStringMap();
-        Assert.assertNotNull(appStringMap);
-        System.out.println("\nMap: " + appStringMap.toString());
+        // we expect null for iOS because this does not have a localizable string file
+        // for Android it returns a value
+        if (isAndroid) {
+            Assert.assertNotNull(appStringMap);
+            System.out.println("\nMap: " + appStringMap.toString());
+        } else {
+            Assert.assertEquals(null, appStringMap);
+        }
     }
 
     // TODO These overloads do not currently apply to You.i Engine applications.
@@ -552,6 +547,7 @@ public class SanityTest extends BaseYouiEngineTest {
     // Regression - ensure no exceptions occur when sending a click to a CYIAtlasTextSceneNode.
     @org.junit.Test
     public void clickOnCyiTextAtlasTest() throws Exception {
+        app.goToTextEditScreen();
         WebElement textLabel = driver.findElement(By.className("CYIAtlasTextSceneNode"));
         try {
             textLabel.click();
@@ -677,18 +673,96 @@ public class SanityTest extends BaseYouiEngineTest {
 
     @org.junit.Test
     public void isSelectedTest() throws Exception {
-        WebElement toggleButton = driver.findElement(By.className("CYIToggleButtonView"));
+        app.goToButtonsScreen();
+        WebElement toggleButton = app.buttonsScreen.getToggleButton();
 
         // Initial state should be 'off'.
         Assert.assertFalse(toggleButton.isSelected());
 
         // Toggle this to on and check again.
         toggleButton.click();
+        utils.delayInSeconds(1);
         Assert.assertTrue(toggleButton.isSelected());
 
         // Toggle this back off and confirm it is off.
         toggleButton.click();
+        utils.delayInSeconds(1);
         Assert.assertFalse(toggleButton.isSelected());
+    }
+
+    @org.junit.Test
+    public void isEnabledYes() throws Exception {
+        app.goToButtonsScreen();
+        boolean result = app.buttonsScreen.getPushButton().isEnabled();
+        Assert.assertTrue(result);
+    }
+
+    @org.junit.Test
+    public void isEnabledNo() throws Exception {
+        app.goToButtonsScreen();
+
+        boolean result =  app.buttonsScreen.getDisabledButton().isEnabled();
+        Assert.assertEquals(false, result);
+    }
+
+    @org.junit.Test
+    public void isEnabledNotSupported() throws Exception {
+        boolean result = false;
+        app.goToButtonsScreen();
+        try {
+            app.buttonsScreen.getImage().isEnabled();
+        } catch (UnsupportedCommandException ucEx) {
+            result = true;
+        }
+        Assert.assertTrue(result);
+    }
+
+    @org.junit.Test
+    public void isDisplayedYes() {
+        app.goToButtonsScreen();
+        boolean result = app.buttonsScreen.getPushButton().isDisplayed();
+        Assert.assertTrue(result);
+    }
+
+    @org.junit.Test
+    public void isDisplayedPartial() {
+        app.goToButtonsScreen();
+        boolean result = app.buttonsScreen.getPartiallyObscuredButton().isDisplayed();
+        // partially obscured views are still visible so this would return true
+        Assert.assertTrue(result);
+    }
+
+    @org.junit.Test
+    public void isDisplayedNo() {
+        app.goToButtonsScreen();
+        boolean result = app.buttonsScreen.getOpaqueButton().isDisplayed();
+        Assert.assertEquals(false, result);
+    }
+
+    @org.junit.Test
+    public void isDisplayedFullyObscured() {
+        app.goToButtonsScreen();
+        // even though this is fully obscured, it is still rendered
+        boolean result = app.buttonsScreen.getFullyObscuredButton().isDisplayed();
+        Assert.assertEquals(true, result);
+    }
+
+    // Attempting to use a stale element reference should throw the appropriate exception.
+    @org.junit.Test
+    public void clickStaleElementTest() throws Exception {
+        WebElement textEditButton = app.landerScreen.getTextEditButton();
+
+        textEditButton.click();
+        utils.delayInSeconds(2);
+
+        boolean staleElementReferenceExceptionThrown = false;
+        try {
+            // Click the button on the previous page
+            textEditButton.click();
+        } catch (StaleElementReferenceException sere) {
+            staleElementReferenceExceptionThrown = true;
+        }
+        Assert.assertTrue(staleElementReferenceExceptionThrown);
     }
 
     private void outputException(Exception ex, String message) {

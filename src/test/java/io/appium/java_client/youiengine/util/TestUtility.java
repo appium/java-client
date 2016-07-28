@@ -10,10 +10,20 @@ import java.util.List;
  * single class which can be instantiated in their test classes.
  */
 public class TestUtility {
-    /** Causes a delay in the provided number of seconds on the calling thread. */
-    public static void delayInSeconds(long delay) throws InterruptedException {
+    /** Causes a delay in the provided number of seconds on the calling thread.
+     * This practice of a hard set delay is not a good practice. The specified delay may work for
+     * one device but not another, slower, device. This method is in place as a temporary work
+     * around until an additional timeout option is added into the automation layer. */
+    public static void delayInSeconds(long delay) {
         long delaySec = delay * 1000;
-        Thread.sleep(delaySec);
+        long currentTime = System.currentTimeMillis();
+        long startTime = currentTime;
+        do {
+            try {
+                Thread.sleep(currentTime + delaySec - startTime);
+            } catch (InterruptedException iEx) { }
+            currentTime = System.currentTimeMillis();
+        } while (currentTime < startTime + delaySec);
     }
 
     /** This will print out the provided list to the console in a simple format. */
