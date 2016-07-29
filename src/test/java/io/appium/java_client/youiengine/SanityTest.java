@@ -839,6 +839,62 @@ public class SanityTest extends BaseYouiEngineTest {
         Assert.assertTrue(result);
     }
 
+    /* This test utilizes the TouchAction methods and tests the Youi Engine implementation.
+     *  */
+    @org.junit.Test
+    public void textEditLocationTest() {
+        app.goToTextEditScreen();
+        Point actual = app.textEditScreen.getTextEdit().getLocation();
+        Point expected = new Point(220, 196);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @org.junit.Test
+    public void passwordEditLocationTest() {
+        app.goToTextEditScreen();
+        Point actual = app.textEditScreen.getPasswordEdit().getLocation();
+        Point expected = new Point(218, 327);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @org.junit.Test
+    public void toggleButtonLocationTest() {
+        app.goToButtonsScreen();
+        Point actual = app.buttonsScreen.getToggleButton().getLocation();
+        Point expected = new Point(208, 217);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @org.junit.Test
+    public void textEditSizeTest() throws Exception {
+        app.goToTextEditScreen();
+        Dimension actual = app.textEditScreen.getTextEdit().getSize();
+        Dimension expected = new Dimension(525, 102);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @org.junit.Test
+    public void passwordEditSizeTest() throws Exception {
+        app.goToTextEditScreen();
+        Dimension actual = app.textEditScreen.getPasswordEdit().getSize();
+        Dimension expected = new Dimension(525, 102);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @org.junit.Test
+    public void partiallyHiddenButtonSizeTest() throws Exception {
+        app.goToButtonsScreen();
+        Dimension actual = app.buttonsScreen.getPartiallyObscuredButton().getSize();
+        Dimension expected = new Dimension(513, 113);
+
+        Assert.assertEquals(expected, actual);
+    }
+
     private void outputException(Exception ex, String message) {
         System.out.println("\n" + message + "\nClass: " + ex.getClass() + "\nMessage: "
                 + ex.getMessage() + "\nCause: " + ex.getCause() + "\nStackTrace: "
