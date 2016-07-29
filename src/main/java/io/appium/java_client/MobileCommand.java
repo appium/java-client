@@ -53,6 +53,7 @@ public class MobileCommand {
     protected static final String GET_SESSION = "getSession";
     //iOS
     protected static final String SHAKE = "shake";
+    protected static final String HOME_SCREEN = "homeScreen";
     //Android
     protected static final String CURRENT_ACTIVITY = "currentActivity";
     protected static final String END_TEST_COVERAGE = "endTestCoverage";

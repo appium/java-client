@@ -19,6 +19,8 @@ package io.appium.java_client.ios;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.homeScreenCommand;
+
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
@@ -190,6 +192,13 @@ public class IOSDriver<T extends WebElement>
      */
     @Override public void shake() {
         CommandExecutionHelper.execute(this, shakeCommand());
+    }
+
+    /**
+     * @see IOSDeviceActionShortcuts#homeScreen().
+     */
+    @Override public void homeScreen() {
+        CommandExecutionHelper.execute(this, homeScreenCommand());
     }
 
     /**

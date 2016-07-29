@@ -81,4 +81,16 @@ public class IOSMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<String,
             Map<String, ?>>(SHAKE, ImmutableMap.<String, Object>of());
     }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * tapping home button.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> homeScreenCommand() {
+        return new AbstractMap.SimpleEntry<String,
+            Map<String, ?>>(HOME_SCREEN, ImmutableMap.<String, Object>of());
+    }
 }
