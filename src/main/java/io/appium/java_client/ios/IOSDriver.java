@@ -16,13 +16,12 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-import static io.appium.java_client.MobileCommand.LOCK;
-import static io.appium.java_client.MobileCommand.SHAKE;
-
-import com.google.common.collect.ImmutableMap;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -176,44 +175,40 @@ public class IOSDriver<T extends WebElement>
      * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
      */
     @Override public void hideKeyboard(String strategy, String keyName) {
-        String[] parameters = new String[] {"strategy", "key"};
-        Object[] values = new Object[] {strategy, keyName};
-        execute(HIDE_KEYBOARD, getCommandImmutableMap(parameters, values));
+        CommandExecutionHelper.execute(this, hideKeyboardCommand(strategy, keyName));
     }
 
     /**
      * @see IOSDeviceActionShortcuts#hideKeyboard(String).
      */
     @Override public void hideKeyboard(String keyName) {
-        execute(HIDE_KEYBOARD, ImmutableMap.of("keyName", keyName));
+        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
     }
 
     /**
      * @see IOSDeviceActionShortcuts#shake().
      */
     @Override public void shake() {
-        execute(SHAKE);
+        CommandExecutionHelper.execute(this, shakeCommand());
     }
 
     /**
      * @throws WebDriverException
      *     This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked")
     @Override
     public T findElementByIosUIAutomation(String using)
         throws WebDriverException {
-        return (T) findElement("-ios uiautomation", using);
+        return findElement("-ios uiautomation", using);
     }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
-        return (List<T>) findElements("-ios uiautomation", using);
+        return findElements("-ios uiautomation", using);
     }
 
     /**
@@ -223,6 +218,6 @@ public class IOSDriver<T extends WebElement>
      * @param seconds number of seconds to lock the screen for
      */
     public void lockDevice(int seconds) {
-        execute(LOCK, ImmutableMap.of("seconds", seconds));
+        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
     }
 }
