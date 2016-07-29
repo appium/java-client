@@ -1,11 +1,14 @@
 package io.appium.java_client.youiengine;
 
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.android.Connection;
 import io.appium.java_client.youiengine.util.BaseYouiEngineTest;
+import io.appium.java_client.youiengine.util.TestUtility;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.SessionId;
 
 import java.io.File;
@@ -17,11 +20,13 @@ import java.util.Set;
 
 import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_H;
 import static io.appium.java_client.android.AndroidKeyCode.KEYCODE_I;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.*;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 import static org.hamcrest.CoreMatchers.not;
 
 /**
  * This test class performs a simple series of tests to confirm our implementation in the
- * YouiEngine driver and in this java_client. This test class uses the included
+ * youiengine driver and in this java_client. This test class uses the included
  * YouiEngineAppiumSample app as a target for these tests. The intent of each test can be found
  * before each of the test methods.
  *
@@ -93,10 +98,9 @@ public class SanityTest extends BaseYouiEngineTest {
     @org.junit.Test
     public void findElementNotFoundTest() throws Exception {
         boolean exceptionThrown = false;
-        WebElement noSuchElement = null;
 
         try {
-            noSuchElement = driver.findElement(By.className("DoesNotExistView"));
+            driver.findElement(By.className("DoesNotExistView"));
         } catch (NoSuchElementException exception) {
             exceptionThrown = true;
         }
@@ -111,7 +115,7 @@ public class SanityTest extends BaseYouiEngineTest {
         int expectedCount = 2;
         List<WebElement> atlasTextSceneViewList = driver
                 .findElements(By.className("CYIAtlasTextSceneNode"));
-        utils.outputListContents(atlasTextSceneViewList);
+        TestUtility.outputListContents(atlasTextSceneViewList);
 
         Assert.assertEquals(atlasTextSceneViewList.size(), expectedCount);
     }
@@ -140,7 +144,7 @@ public class SanityTest extends BaseYouiEngineTest {
         WebElement sceneView = driver.findElement(By.className("CYISceneView"));
         List<WebElement> labelItems = sceneView.findElements(
                 By.className("CYIAtlasTextSceneNode"));
-        utils.outputListContents(labelItems);
+        TestUtility.outputListContents(labelItems);
 
         int expectedCount = 2;
         int actualCount = labelItems.size();
@@ -172,7 +176,7 @@ public class SanityTest extends BaseYouiEngineTest {
         app.goToTextEditScreen();
         String expected = "One Two 3";
         app.textEditScreen.setTextEditValue(expected);
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
 
         Assert.assertEquals(expected, app.textEditScreen.getTextEditValue());
     }
@@ -186,9 +190,9 @@ public class SanityTest extends BaseYouiEngineTest {
         // NOTE: utils.delayInSeconds allows time for the app to update between commands. It will
         //  be replaced in the future with app side signals or events to notify the Appium the
         //  app is ready.
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
         driver.launchApp();
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
     }
 
     // Confirm we can send the app to the background for a short time.
@@ -208,10 +212,10 @@ public class SanityTest extends BaseYouiEngineTest {
     public void toggleLocationServicesTest() throws Exception {
         boolean pass;
         try {
-            driver.toggleLocationServices(); // off
-            utils.delayInSeconds(2);
-            driver.toggleLocationServices(); // on
-            utils.delayInSeconds(2);
+            CommandExecutionHelper.execute(driver, toggleLocationServicesCommand()); //off
+            TestUtility.delayInSeconds(2);
+            CommandExecutionHelper.execute(driver, toggleLocationServicesCommand()); //on
+            TestUtility.delayInSeconds(2);
             pass = true;
         } catch (WebDriverException wdEx) {
             pass = isAndroid ? false : true;
@@ -229,7 +233,7 @@ public class SanityTest extends BaseYouiEngineTest {
     }
 
     /* Confirm we can get all contexts.
-     * NOTE: YouiEngine currently only supports one context. */
+     * NOTE: youiengine currently only supports one context. */
     @org.junit.Test
     public void getContextsTest() throws Exception {
         Set<String> contextValues = driver.getContextHandles();
@@ -268,9 +272,9 @@ public class SanityTest extends BaseYouiEngineTest {
         boolean actual = false;
         try {
             driver.removeApp(bundleId);
-            utils.delayInSeconds(5);
+            TestUtility.delayInSeconds(5);
             driver.installApp(appPath);
-            utils.delayInSeconds(5);
+            TestUtility.delayInSeconds(5);
             actual = driver.isAppInstalled(bundleId);
         } catch (WebDriverException wdException) {
             if (isAndroid) {
@@ -289,7 +293,7 @@ public class SanityTest extends BaseYouiEngineTest {
         try {
             actual = driver.isAppInstalled(bundleId);
         } catch (WebDriverException wdException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
+            if (isAndroid) {
                 Assert.fail("WebDriverException was thrown when not on iOS.");
             } else {
                 System.out.println("\nExpected exception was thrown.");
@@ -305,16 +309,16 @@ public class SanityTest extends BaseYouiEngineTest {
         app.goToTextEditScreen();
         boolean actual = false;
         app.textEditScreen.getTextEdit().click();
-        utils.delayInSeconds(1);
+        TestUtility.delayInSeconds(1);
         try {
-            driver.pressKeyCode(KEYCODE_H);
-            driver.pressKeyCode(KEYCODE_I);
+            CommandExecutionHelper.execute(driver, pressKeyCodeCommand(KEYCODE_H));
+            CommandExecutionHelper.execute(driver, pressKeyCodeCommand(KEYCODE_I));
 
             String myText = app.textEditScreen.getTextEditValue();
             actual = Objects.equals(myText, "hi");
 
         } catch (WebDriverException wdException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
+            if (isAndroid) {
                 Assert.fail("WebDriverException was thrown when not on iOS.");
             } else {
                 System.out.println("\nExpected exception was thrown.");
@@ -332,12 +336,12 @@ public class SanityTest extends BaseYouiEngineTest {
         boolean actual = false;
 
         app.textEditScreen.getTextEdit().click();
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
 
         try {
-            driver.longPressKeyCode(KEYCODE_H);
+            CommandExecutionHelper.execute(driver, longPressKeyCodeCommand(KEYCODE_H));
 
-            utils.delayInSeconds(5);
+            TestUtility.delayInSeconds(5);
             String myText = app.textEditScreen.getTextEditValue();
             char myChar0 = myText.charAt(0);
             char myChar1 = myText.charAt(1);
@@ -346,7 +350,7 @@ public class SanityTest extends BaseYouiEngineTest {
             actual = (Objects.equals(myChar0, 'h')) && (Objects.equals(myChar1, 'h'));
 
         } catch (WebDriverException wdException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
+            if (isAndroid) {
                 Assert.fail("WebDriverException was thrown when not on iOS.");
             } else {
                 System.out.println("\nExpected exception was thrown.");
@@ -356,46 +360,10 @@ public class SanityTest extends BaseYouiEngineTest {
         Assert.assertTrue(actual);
     }
 
-    /** Helper to test NetworkConnections. */
-    public void networkConnectionTest(Connection stateToTest) throws Exception {
-        boolean actual = false;
-        try {
-            Connection stateToSet;
-
-            // Get initial state
-            Connection statePrior;
-            statePrior = driver.getConnection();
-            Assert.assertNotEquals(Connection.NONE, statePrior);
-
-            // Set state to Airplane
-            Connection stateAfter;
-            stateToSet = Connection.AIRPLANE;
-            driver.setConnection(stateToSet);
-            stateAfter = driver.getConnection();
-            Assert.assertEquals(stateToSet, stateAfter);
-
-            // Set state to test
-            stateToSet = stateToTest;
-            driver.setConnection(stateToSet);
-            stateAfter = driver.getConnection();
-            Assert.assertEquals(stateToSet, stateAfter);
-
-            // Set state to initial state
-            stateToSet = statePrior;
-            driver.setConnection(stateToSet);
-            stateAfter = driver.getConnection();
-            Assert.assertEquals(stateToSet, stateAfter);
-            actual = true; // Passed all tests
-
-        } catch (WebDriverException wdException) {
-            if (!driver.appPlatform.equals(driver.IOS)) {
-                Assert.fail("WebDriverException was thrown when not on iOS.");
-            } else {
-                System.out.println("\nExpected exception was thrown.");
-                actual = true; // did not get a value, but we threw an exception for iOS
-            }
-        }
-        Assert.assertTrue(actual);
+    // Confirm we can set Network to WIFI only
+    @org.junit.Test
+    public void networkConnectionAirplaneModeTest() throws Exception {
+        networkConnectionTest(Connection.AIRPLANE);
     }
 
     // Confirm we can set Network to WIFI only
@@ -429,11 +397,11 @@ public class SanityTest extends BaseYouiEngineTest {
             Assert.fail("\nOrientation was not Portrait.");
         }
 
-        utils.delayInSeconds(10);
+        TestUtility.delayInSeconds(10);
 
         // Switch the orientation to Landscape
         driver.rotate(ScreenOrientation.LANDSCAPE);
-        utils.delayInSeconds(10);
+        TestUtility.delayInSeconds(10);
 
         currentOrientation =  driver.getOrientation();
         if (currentOrientation == ScreenOrientation.LANDSCAPE) {
@@ -444,7 +412,7 @@ public class SanityTest extends BaseYouiEngineTest {
 
         // Switch back to Portrait
         driver.rotate(ScreenOrientation.PORTRAIT);
-        utils.delayInSeconds(10);
+        TestUtility.delayInSeconds(10);
 
         currentOrientation =  driver.getOrientation();
         if (currentOrientation == ScreenOrientation.PORTRAIT) {
@@ -482,54 +450,49 @@ public class SanityTest extends BaseYouiEngineTest {
         }
     }
 
-    // Confirm the getLogTypes call works.
     @org.junit.Test
     public void getLogTypesTest() throws Exception {
-        Set<String> logTypes = driver.getLogTypes();
+        Set<String> logTypes = driver.manage().logs().getAvailableLogTypes();
         Assert.assertNotNull(logTypes);
         System.out.println("\nLog Types: " + logTypes);
     }
 
-    // Confirm the getLogs call works with LOG_SYSTEM.
     @org.junit.Test
     public void getSysLogTest() throws Exception {
-        if (driver.appPlatform.equals(driver.ANDROID)) {
+        if (isAndroid) {
             System.out.println("Not a supported Log Type for Android.");
             return;
         }
-        LogEntries logs = driver.getLogs(driver.LOG_SYSTEM);
+        LogEntries logs = driver.manage().logs().get("syslog");
         Assert.assertNotNull(logs);
         System.out.println("\nLogs: " + logs.toString());
     }
 
-    // Confirm the getLogs call works with LOG_CRASH.
     @org.junit.Test
     public void getCrashLogTest() throws Exception {
-        if (driver.appPlatform.equals(driver.ANDROID)) {
+        if (isAndroid) {
             System.out.println("Not a supported Log Type for Android.");
             return;
         }
-        LogEntries logs = driver.getLogs(driver.LOG_CRASH);
+        LogEntries logs = driver.manage().logs().get("crashlog");
         Assert.assertNotNull(logs);
         System.out.println("\nLogs: " + logs.toString());
     }
 
-    // Confirm the getLogs call works with LOG_CLIENT.
     @org.junit.Test
     public void getClientLogTest() throws Exception {
-        LogEntries logs = driver.getLogs(driver.LOG_CLIENT);
+        LogEntries logs = driver.manage().logs().get("client");
         Assert.assertNotNull(logs);
         System.out.println("\nLogs: " + logs.toString());
     }
 
-    // Confirm the getLogs call works with LOG_LOGCAT.
     @org.junit.Test
     public void getLogCatLogTest() throws Exception {
-        if (driver.appPlatform.equals(driver.IOS)) {
+        if (!isAndroid) {
             System.out.println("Not a supported Log Type for iOS.");
             return;
         }
-        LogEntries logs = driver.getLogs(driver.LOG_LOGCAT);
+        LogEntries logs = driver.manage().logs().get("logcat");
         Assert.assertNotNull(logs);
         System.out.println("\nLogs: " + logs.toString());
     }
@@ -537,11 +500,11 @@ public class SanityTest extends BaseYouiEngineTest {
     // Confirm the mobileShake call works.
     @org.junit.Test
     public void mobileShakeTest() throws Exception {
-        if (driver.appPlatform.equals(driver.ANDROID)) {
+        if (isAndroid) {
             System.out.println("mobileShake() is not supported for Android.");
             return;
         }
-        driver.shake();
+        CommandExecutionHelper.execute(driver, shakeCommand());
     }
 
     // Regression - ensure no exceptions occur when sending a click to a CYIAtlasTextSceneNode.
@@ -681,12 +644,12 @@ public class SanityTest extends BaseYouiEngineTest {
 
         // Toggle this to on and check again.
         toggleButton.click();
-        utils.delayInSeconds(1);
+        TestUtility.delayInSeconds(1);
         Assert.assertTrue(toggleButton.isSelected());
 
         // Toggle this back off and confirm it is off.
         toggleButton.click();
-        utils.delayInSeconds(1);
+        TestUtility.delayInSeconds(1);
         Assert.assertFalse(toggleButton.isSelected());
     }
 
@@ -753,7 +716,7 @@ public class SanityTest extends BaseYouiEngineTest {
         WebElement textEditButton = app.landerScreen.getTextEditButton();
 
         textEditButton.click();
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
 
         boolean staleElementReferenceExceptionThrown = false;
         try {
@@ -775,7 +738,7 @@ public class SanityTest extends BaseYouiEngineTest {
         String sentText = expectedText + deletedText;
 
         app.textEditScreen.setTextEditValue(sentText);
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
         Assert.assertEquals(sentText, app.textEditScreen.getTextEditValue());
 
         for (int i = 0; i < deletedText.length(); ++i) {
@@ -794,14 +757,14 @@ public class SanityTest extends BaseYouiEngineTest {
         String sentText = expectedText + deletedText;
 
         app.textEditScreen.setTextEditValue(sentText);
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
         Assert.assertEquals(sentText, app.textEditScreen.getTextEditValue());
 
         // move the cursor to the front of the text to be deleted
         for (int i = 0; i < deletedText.length(); ++i) {
             app.textEditScreen.getTextEdit().sendKeys(Keys.ARROW_LEFT);
         }
-        utils.delayInSeconds(2);
+        TestUtility.delayInSeconds(2);
         Assert.assertEquals(sentText, app.textEditScreen.getTextEditValue());
 
         for (int i = 0; i < deletedText.length(); ++i) {
@@ -811,30 +774,17 @@ public class SanityTest extends BaseYouiEngineTest {
     }
 
     @org.junit.Test
-    public void lockDeviceTest() throws Exception {
-        driver.lockFor(5);
-
-        boolean result = true;
-        try {
-            app.goToButtonsScreen();
-        } catch (Exception ex) {
-            Assert.fail(ex.getMessage());
-        }
-        Assert.assertTrue(result);
-    }
-
-    @org.junit.Test
     public void isLockedTest() throws Exception {
         boolean result = false;
 
         try {
-            Assert.assertFalse(driver.isLocked()); // should not be locked
-            driver.lock();
-            utils.delayInSeconds(5);
-            Assert.assertTrue(driver.isLocked()); // should now be locked
-            // at this point we don't need to unlock
-        } catch (NoSuchMethodException nsmEx) {
-            result = isAndroid ? false : true; // expected for iOS
+            Assert.assertFalse(isDeviceLocked()); // should not be locked
+            CommandExecutionHelper.execute(driver, lockDeviceCommand());
+            TestUtility.delayInSeconds(5);
+            Assert.assertTrue(isDeviceLocked()); // should now be locked
+            // at this point we don't need to unlockDevice
+        } catch (Exception ex) {
+            result = !isAndroid; // expected for iOS
         }
         Assert.assertTrue(result);
     }
@@ -895,9 +845,58 @@ public class SanityTest extends BaseYouiEngineTest {
         Assert.assertEquals(expected, actual);
     }
 
+    // Private Helper methods for testing purposes
     private void outputException(Exception ex, String message) {
         System.out.println("\n" + message + "\nClass: " + ex.getClass() + "\nMessage: "
                 + ex.getMessage() + "\nCause: " + ex.getCause() + "\nStackTrace: "
                 + ex.getStackTrace());
+    }
+
+    private boolean isDeviceLocked() {
+        Response response = CommandExecutionHelper.execute(driver, isLockedCommand());
+        System.out.println(response.toString());
+        return response.toString().toLowerCase().contains("true");
+    }
+
+    private void setConnection(Connection connection) {
+        CommandExecutionHelper.execute(driver, setConnectionCommand(connection));
+    }
+
+    private Connection getConnection() throws WebDriverException {
+        long response = CommandExecutionHelper.execute(driver, getNetworkConnectionCommand());
+        int bitMask = (int)response;
+        Connection[] types = Connection.values();
+
+        for (Connection connection: types) {
+            if (connection.getBitMask() == bitMask) {
+                return connection;
+            }
+        }
+        throw new WebDriverException("The unknown network connection "
+                + "type has been returned. The bitmask is " + bitMask);
+    }
+
+    private void networkConnectionTest(Connection stateToTest) throws Exception {
+        boolean actual;
+        try {
+            // Get initial state
+            Connection statePrior = getConnection();
+            Assert.assertNotEquals(Connection.NONE, statePrior);
+
+            // Set state to test
+            setConnection(stateToTest);
+            Connection stateAfter = getConnection();
+            Assert.assertEquals(stateToTest, stateAfter);
+
+            // Set state to initial state
+            setConnection(statePrior);
+            stateAfter = getConnection();
+            Assert.assertEquals(stateAfter, stateAfter);
+            actual = true; // Passed all tests
+
+        } catch (WebDriverException wdException) {
+            actual = isAndroid ? false : true;
+        }
+        Assert.assertTrue(actual);
     }
 }

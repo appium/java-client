@@ -34,7 +34,6 @@ public class BaseYouiEngineTest {
                 "org.apache.commons.logging.impl.NoOpLog");
     }
 
-    public static TestUtility utils;
     public static YouiEngineDriver driver;
     public static URL serverAddress;
     public static YouiEngineAppiumSampleApp app;
@@ -58,14 +57,14 @@ public class BaseYouiEngineTest {
 
     private void setupCaps(String appPath) {
         capabilities.setCapability(MobileCapabilityType.APP, appPath);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "YouiEngine");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "youiengine");
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "0");
 
         if (isAndroid) {
             // The lines below can be modified to target a device or an AVD. Update accordingly.
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "device name");
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "30044d90e35c6200");
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "android");
-            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "ip.add.res");
+            capabilities.setCapability(YouiEngineCapabilityType.APP_ADDRESS, "192.168.1.181");
             //capabilities.setCapability(AndroidMobileCapabilityType.AVD, "AVD name goes here");
 
         } else {
