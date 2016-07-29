@@ -90,6 +90,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - The dependency on `org.aspectj` `aspectjweaver` v`1.8.9` was added
 - ENHANCEMENT: The alternative event firing engine. The feature request: [#242](https://github.com/appium/java-client/issues/242). 
 Implementation: [#437](https://github.com/appium/java-client/pull/437). Also [new WIKI chapter](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md) was added.
+- ENHANCEMENT: Convenient access to specific commands for each supported mobile OS. Details: [#445](https://github.com/appium/java-client/pull/445)  
 
 *4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
