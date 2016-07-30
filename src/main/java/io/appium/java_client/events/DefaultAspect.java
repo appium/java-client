@@ -67,7 +67,7 @@ class DefaultAspect {
         + "sendKeys(..)) || "
         + "execution(* org.openqa.selenium.WebElement.clear(..))  || "
         + "execution(* io.appium.java_client.android.AndroidElement.replaceValue(..))  || "
-        + "execution(* io.appium.java_client.ios.IOSElement.setValue(..))";
+        + "execution(* io.appium.java_client.MobileElement.setValue(..))";
     private static final String EXECUTION_SCRIPT = "execution(* org.openqa.selenium.JavascriptExecutor."
         + "executeScript(..)) || "
         + "execution(* org.openqa.selenium.JavascriptExecutor.executeAsyncScript(..))";
