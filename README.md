@@ -86,11 +86,12 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - The dependency on `cglib` was replaced by the dependency on `cglib-nodep`. FIX [#418](https://github.com/appium/java-client/issues/418)
 - The casting to the weaker interface `HasIdentity`  instead of class `RemoteWebElement` was added. It is the internal refactoring of the `TouchAction`. [#432](https://github.com/appium/java-client/pull/432). Thanks to [@asolntsev](https://github.com/asolntsev) for the contribution.
 - The `setValue` method was moved to `MobileElement`. It works against text input elements on Android.
-- The dependency on `org.springframework` `spring-context` v`4.3.1.RELEASE` was added
+- The dependency on `org.springframework` `spring-context` v`4.3.2.RELEASE` was added
 - The dependency on `org.aspectj` `aspectjweaver` v`1.8.9` was added
 - ENHANCEMENT: The alternative event firing engine. The feature request: [#242](https://github.com/appium/java-client/issues/242). 
 Implementation: [#437](https://github.com/appium/java-client/pull/437). Also [new WIKI chapter](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md) was added.
 - ENHANCEMENT: Convenient access to specific commands for each supported mobile OS. Details: [#445](https://github.com/appium/java-client/pull/445)  
+- dependencies and plugins were updated
 
 *4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
