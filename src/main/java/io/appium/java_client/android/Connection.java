@@ -31,4 +31,8 @@ public enum Connection {
     Connection(int bitMask) {
         this.bitMask = bitMask;
     }
+
+    public int getBitMask() {
+        return this.bitMask;
+    }
 }
