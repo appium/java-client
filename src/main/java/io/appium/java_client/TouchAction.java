@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.internal.HasIdentity;
 
 
 /**
@@ -50,7 +50,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction press(WebElement el) {
-        ActionParameter action = new ActionParameter("press", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("press", (HasIdentity) el);
         parameterBuilder.add(action);
         return this;
     }
@@ -79,7 +79,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction press(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("press", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("press", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
         parameterBuilder.add(action);
@@ -104,7 +104,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction moveTo(WebElement el) {
-        ActionParameter action = new ActionParameter("moveTo", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("moveTo", (HasIdentity) el);
         parameterBuilder.add(action);
         return this;
     }
@@ -135,7 +135,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction moveTo(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("moveTo", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("moveTo", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
         parameterBuilder.add(action);
@@ -149,7 +149,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction tap(WebElement el) {
-        ActionParameter action = new ActionParameter("tap", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("tap", (HasIdentity) el);
         parameterBuilder.add(action);
         return this;
     }
@@ -178,7 +178,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction tap(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("tap", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("tap", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
         parameterBuilder.add(action);
@@ -216,7 +216,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el) {
-        ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
         parameterBuilder.add(action);
         return this;
     }
@@ -229,7 +229,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el, int duration) {
-        ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
         action.addParameter("duration", duration);
         parameterBuilder.add(action);
         return this;
@@ -279,7 +279,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
         parameterBuilder.add(action);
@@ -297,7 +297,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
      * @return this TouchAction, for chaining.
      */
     public TouchAction longPress(WebElement el, int x, int y, int duration) {
-        ActionParameter action = new ActionParameter("longPress", (RemoteWebElement) el);
+        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
         action.addParameter("duration", duration);
@@ -355,7 +355,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
             optionsBuilder = ImmutableMap.builder();
         }
 
-        public ActionParameter(String actionName, RemoteWebElement el) {
+        public ActionParameter(String actionName, HasIdentity el) {
             this.actionName = actionName;
             optionsBuilder = ImmutableMap.builder();
             addParameter("element", el.getId());

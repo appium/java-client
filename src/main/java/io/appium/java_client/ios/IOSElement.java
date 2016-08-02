@@ -16,10 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.MobileCommand;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.WebDriverException;
 
@@ -43,17 +40,5 @@ public class IOSElement extends MobileElement
     @Override public List<MobileElement> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
         return findElements("-ios uiautomation", using);
-    }
-
-    /**
-     * This method sets the new value of the attribute "value".
-     *
-     * @param value is the new value which should be set
-     */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void setValue(String value) {
-        ImmutableMap.Builder builder = ImmutableMap.builder();
-        builder.put("id", id).put("value", value);
-        execute(MobileCommand.SET_VALUE, builder.build());
     }
 }

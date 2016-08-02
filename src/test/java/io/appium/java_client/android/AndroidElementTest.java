@@ -74,4 +74,14 @@ public class AndroidElementTest extends BaseAndroidTest {
                         + "new UiSelector().text(\"Radio Group\"));"));
         assertNotNull(radioGroup.getLocation());
     }
+
+    @Test public void setValueTest() {
+        String value = "new value";
+
+        driver.startActivity("io.appium.android.apis", ".view.Controls1");
+        AndroidElement editElement = driver
+            .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
+        editElement.setValue(value);
+        assertEquals(value, editElement.getText());
+    }
 }

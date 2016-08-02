@@ -3,7 +3,7 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
- * The list of YouiEngine-specific capabilities.
+ * The list of youiengine-specific capabilities.
  */
 public interface YouiEngineCapabilityType extends CapabilityType {
     /**
