@@ -92,6 +92,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 Implementation: [#437](https://github.com/appium/java-client/pull/437). Also [new WIKI chapter](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md) was added.
 - ENHANCEMENT: Convenient access to specific commands for each supported mobile OS. Details: [#445](https://github.com/appium/java-client/pull/445)  
 - dependencies and plugins were updated
+- ENHANCEMENT: `YouiEngineDriver` was added. Details: [appium server #6215](https://github.com/appium/appium/pull/6215), [#429](https://github.com/appium/java-client/pull/429), [#448](https://github.com/appium/java-client/pull/448). It is just the draft of the new solution that is going to be extended further. Please stay tuned. There are many interesting things are coming up. Thanks to `You I Engine` team for the contribution. 
 
 *4.0.0*
 - all code marked `@Deprecated` was removed. Java client won't support old servers (v<1.5.0)
