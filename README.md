@@ -45,7 +45,6 @@ More can be found in the docs, but here's a quick list of features which this pr
 - swipe()
 - pinch()
 - zoom()
-- getNamedTextField()
 - isAppInstalled()
 - installApp()
 - removeApp()
@@ -54,11 +53,10 @@ More can be found in the docs, but here's a quick list of features which this pr
 - endTestCoverage()
 - isLocked()
 - shake()
-- scrollTo()
-- scrollToExact()
+- getSessionDetails()
 - openNotifications()
 - Context Switching: .context(), .getContextHandles(), getContext())
-- getNetworkConnection(), setNetworkConnection()
+- setConnection(), getConnection()
 - ignoreUnimportantViews(), getSettings()
 - toggleLocationServices()
 - lockDevice()
@@ -127,8 +125,6 @@ AndroidDriver and IOSDriver. Thanks to [@truebit](https://github.com/truebit) an
 - the integration with `org.owasp dependency-check-maven` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) 
 for the work.
 - the integration with `org.jacoco jacoco-maven-plugin` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
-
-...
 
 *3.4.1*
 - Update to Selenium v2.53.0
