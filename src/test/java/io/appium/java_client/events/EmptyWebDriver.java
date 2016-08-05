@@ -10,7 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ContextAware;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
@@ -24,15 +26,18 @@ import org.openqa.selenium.internal.FindsByLinkText;
 import org.openqa.selenium.internal.FindsByTagName;
 import org.openqa.selenium.internal.FindsByXPath;
 import org.openqa.selenium.logging.Logs;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
     FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
     FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
-    FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor {
+    FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor, HasCapabilities {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -196,6 +201,13 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
 
     @Override public Object executeAsyncScript(String script, Object... args) {
         return null;
+    }
+
+    @Override public Capabilities getCapabilities() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("0",StringUtils.EMPTY);
+        map.put("1",StringUtils.EMPTY);
+        return new DesiredCapabilities(map);
     }
 
     private class StubTargetLocator implements TargetLocator {
