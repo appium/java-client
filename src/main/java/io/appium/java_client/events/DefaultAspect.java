@@ -156,7 +156,7 @@ class DefaultAspect {
             return null;
         }
 
-        Object result = null;
+        Object result = toBeTransformed;
         if (getClassForProxy(toBeTransformed.getClass()) != null) {
             result = context.getBean(DefaultBeanConfiguration.COMPONENT_BEAN, toBeTransformed);
         }

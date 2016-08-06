@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class DefaultListener implements Listener, AppiumWebDriverEventListener, ListensToException,
+class DefaultListener implements Listener, AppiumWebDriverEventListener, ListensToException,
     SearchingEventListener, NavigationEventListener,
     JavaScriptEventListener, ElementEventListener, AlertEventListener,
     WindowEventListener, ContextEventListener, RotationEventListener {

@@ -1,6 +1,8 @@
 package io.appium.java_client.events;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.events.listeners.AlertListener;
@@ -18,6 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.Capabilities;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultEventListenerTest extends BaseListenerTest {
@@ -87,5 +90,12 @@ public class DefaultEventListenerTest extends BaseListenerTest {
     public void windowEventListener() {
         assertThat(super.assertThatWindowListenerWorks(driver, SingleListeners
             .listeners.get(WindowListener.class), StringUtils.EMPTY), is(true));
+    }
+
+    @Test
+    public void whenNonListenableObjectIsReturned() {
+        Capabilities capabilities = driver.getCapabilities();
+        assertNotNull(capabilities);
+        assertEquals(capabilities.asMap().size(), 2);
     }
 }
