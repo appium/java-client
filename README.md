@@ -77,6 +77,10 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 ## Changelog#
 *5.0.0 (under construction yet)*
 
+*4.1.1*
+
+BUG FIX: Issue [#450](https://github.com/appium/java-client/issues/450). Fix: [#451](https://github.com/appium/java-client/issues/451). Thanks to [@tutunang](https://github.com/appium/java-client/pull/451) for the report.
+
 *4.1.0*
 - all code marked `@Deprecated` was removed.
 - `getSessionDetails()` was added. Thanks to [@saikrishna321](https://github.com/saikrishna321) for the contribution.
