@@ -79,6 +79,11 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String ANDROID_DEVICE_SOCKET = "androidDeviceSocket";
 
     /**
+     * Timeout in milliseconds used to wait for an apk to install to the device. Defaults to `90000`.
+     */
+    String ANDROID_INSTALL_TIMEOUT = "androidInstallTimeout";
+
+    /**
      * Name of avd to launch.
      */
     String AVD = "avd";
@@ -156,7 +161,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
      * Additional intent arguments that will be used to start activity. See Intent arguments:
-     * http://developer.android.com/tools/help/adb.html#IntentSpec
+     * http://developer.android.com/reference/android/content/Intent.html
      */
     String OPTIONAL_INTENT_ARGUMENTS = "optionalIntentArguments";
 
@@ -215,6 +220,18 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * Defaults to false
      */
     String RECREATE_CHROME_DRIVER_SESSIONS = "recreateChromeDriverSessions";
+
+    /**
+     * In a web context, use native (adb) method for taking a screenshot, rather than proxying
+     * to ChromeDriver, default false.
+     */
+    String NATIVE_WEB_SCREENSHOT = "nativeWebScreenshot";
+
+    /**
+     * The name of the directory on the device in which the screenshot will be put.
+     * Defaults to /data/local/tmp.
+     */
+    String ANDROID_SCREENSHOT_PATH = "androidScreenshotPath";
 
     String SELENDROID_PORT = "selendroidPort";
 }
