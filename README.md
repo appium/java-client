@@ -76,6 +76,10 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 
 ## Changelog#
 *5.0.0 (under construction yet)*
+- Following capabilities were added: 
+  - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT`
+  - `io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT`
+  - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_SCREENSHOT_PATH`. The pull request: [#452](https://github.com/appium/java-client/pull/452)
 
 *4.1.1*
 
