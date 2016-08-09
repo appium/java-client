@@ -62,7 +62,7 @@ At this case user is able to set up values of the **NODE_BINARY_PATH** (The envi
 System.setProperty(AppiumServiceBuilder.NODE_PATH , 
 "the path to the desired node.js executable");
 
-System.setProperty(AppiumServiceBuilder.APPIUM_BINARY_PATH , 
+System.setProperty(AppiumServiceBuilder.APPIUM_PATH , 
 "the path to the desired appium.js or main.js");
 
 AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
