@@ -20,6 +20,10 @@ package io.appium.java_client;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
+
 /**
  * Used for Webdriver 3 multi-touch gestures
  * See the Webriver 3 spec https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
@@ -85,5 +89,89 @@ import com.google.common.collect.ImmutableMap;
             listOfActionChains.add(action.getParameters().get("actions"));
         }
         return ImmutableMap.of("actions", listOfActionChains.build());
+    }
+
+    /**
+     * @see TouchableElement#pinch(WebElement).
+     */
+    public MultiTouchAction pinch(WebElement el) {
+        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+
+        Dimension dimensions = el.getSize();
+        Point upperLeft = el.getLocation();
+        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
+            upperLeft.getY() + dimensions.getHeight() / 2);
+        int yOffset = center.getY() - upperLeft.getY();
+
+        TouchAction action0 =
+            new TouchAction(driver).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
+                .release();
+        TouchAction action1 =
+            new TouchAction(driver).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
+                .release();
+
+        return multiTouch.add(action0).add(action1);
+    }
+
+    /**
+     * @see TouchableElement#pinch(int, int).
+     */
+    public MultiTouchAction pinch(int x, int y) {
+        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+
+        int scrHeight = driver.manage().window().getSize().getHeight();
+        int yOffset = 100;
+
+        if (y - 100 < 0) {
+            yOffset = y;
+        } else if (y + 100 > scrHeight) {
+            yOffset = scrHeight - y;
+        }
+
+        TouchAction action0 = new TouchAction(driver).press(x, y - yOffset).moveTo(x, y).release();
+        TouchAction action1 = new TouchAction(driver).press(x, y + yOffset).moveTo(x, y).release();
+
+        return multiTouch.add(action0).add(action1);
+    }
+
+    /**
+     * @see TouchableElement#zoom(WebElement).
+     */
+    public MultiTouchAction zoom(WebElement el) {
+        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+
+        Dimension dimensions = el.getSize();
+        Point upperLeft = el.getLocation();
+        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
+            upperLeft.getY() + dimensions.getHeight() / 2);
+        int yOffset = center.getY() - upperLeft.getY();
+
+        TouchAction action0 = new TouchAction(driver).press(center.getX(), center.getY())
+            .moveTo(el, center.getX(), center.getY() - yOffset).release();
+        TouchAction action1 = new TouchAction(driver).press(center.getX(), center.getY())
+            .moveTo(el, center.getX(), center.getY() + yOffset).release();
+
+        return multiTouch.add(action0).add(action1);
+    }
+
+    /**
+     * @see TouchableElement#zoom(int, int).
+     */
+    public MultiTouchAction zoom(int x, int y) {
+        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+
+        int scrHeight = driver.manage().window().getSize().getHeight();
+        int yOffset = 100;
+
+        if (y - 100 < 0) {
+            yOffset = y;
+        } else if (y + 100 > scrHeight) {
+            yOffset = scrHeight - y;
+        }
+
+        TouchAction action0 = new TouchAction(driver).press(x, y).moveTo(0, -yOffset).release();
+        TouchAction action1 = new TouchAction(driver).press(x, y).moveTo(0, yOffset).release();
+
+        return multiTouch.add(action0).add(action1);
     }
 }

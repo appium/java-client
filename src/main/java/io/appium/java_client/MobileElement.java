@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.FileDetector;
 
 import java.util.List;
@@ -42,18 +43,45 @@ public abstract class MobileElement
             upperLeft.getY() + dimensions.getHeight() / 2);
     }
 
+    @Override public void tap(int fingers, int duration) {
+        ((AppiumDriver<?>) parent).tap(fingers, this, duration);
+    }
+
+    @Override public void tap(int fingers, int x, int y, int duration) {
+        ((AppiumDriver<?>) parent).tap(fingers, x, y, duration);
+    }
+
+    @Override public void tap(int fingers, WebElement element, int duration) {
+        ((AppiumDriver<?>) parent).tap(fingers, element, duration);
+    }
+
     @Override public void pinch() {
         ((AppiumDriver<?>) parent).pinch(this);
     }
 
-    @Override public void tap(int fingers, int duration) {
-        ((AppiumDriver<?>) parent).tap(fingers, this, duration);
+    @Override public void pinch(int x, int y) {
+        ((AppiumDriver<?>) parent).pinch(x, y);
+    }
+
+    @Override public void pinch(WebElement el) {
+        ((AppiumDriver<?>) parent).pinch(el);
     }
 
     @Override public void zoom() {
         ((AppiumDriver<?>) parent).zoom(this);
     }
 
+    @Override public void zoom(int x, int y) {
+        ((AppiumDriver<?>) parent).zoom(x, y);
+    }
+
+    @Override public void zoom(WebElement el) {
+        ((AppiumDriver<?>) parent).zoom(el);
+    }
+
+    @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
+        ((AppiumDriver<?>) parent).swipe(startx, startx, endx, endy ,duration);
+    }
 
     @Override public void swipe(SwipeElementDirection direction, int duration) {
         direction.swipe((AppiumDriver<?>) parent, this, 0, 0, duration);

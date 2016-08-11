@@ -35,7 +35,7 @@ import org.openqa.selenium.internal.HasIdentity;
  */
 @SuppressWarnings({"rawtypes", "unchecked"}) public class TouchAction {
 
-    ImmutableList.Builder parameterBuilder;
+    protected ImmutableList.Builder parameterBuilder;
     private MobileDriver driver;
 
     public TouchAction(MobileDriver driver) {
@@ -346,7 +346,7 @@ import org.openqa.selenium.internal.HasIdentity;
     /**
      * Just holds values to eventually return the parameters required for the mjsonwp.
      */
-    private class ActionParameter {
+    protected class ActionParameter {
         private String actionName;
         private ImmutableMap.Builder optionsBuilder;
 
