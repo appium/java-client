@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.MobileCommand.prepareArguments;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
@@ -27,15 +28,19 @@ import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
 import java.util.List;
+
 
 /**
  * @param <T> the required type of class which implement
@@ -219,5 +224,51 @@ public class IOSDriver<T extends WebElement>
      */
     public void lockDevice(int seconds) {
         CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
+    }
+
+    @Override public TargetLocator switchTo() {
+        return new InnerTargetLocator();
+    }
+
+    private class InnerTargetLocator extends RemoteTargetLocator {
+        @Override public Alert alert() {
+            return new IOSAlert(super.alert());
+        }
+    }
+
+
+    class IOSAlert implements Alert {
+
+        private final Alert alert;
+
+        IOSAlert(Alert alert) {
+            this.alert = alert;
+        }
+
+        @Override public void dismiss() {
+            execute(DriverCommand.DISMISS_ALERT);
+        }
+
+        @Override public void accept() {
+            execute(DriverCommand.ACCEPT_ALERT);
+        }
+
+        @Override public String getText() {
+            Response response = execute(DriverCommand.GET_ALERT_TEXT);
+            return response.getValue().toString();
+        }
+
+        @Override public void sendKeys(String keysToSend) {
+            execute(DriverCommand.SET_ALERT_VALUE, prepareArguments("value", keysToSend));
+        }
+
+        @Override public void setCredentials(Credentials credentials) {
+            alert.setCredentials(credentials);
+        }
+
+        @Override public void authenticateUsing(Credentials credentials) {
+            alert.authenticateUsing(credentials);
+        }
+
     }
 }

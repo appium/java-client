@@ -154,7 +154,7 @@ public class MobileCommand {
      * @param value is the parameter value.
      * @return built {@link ImmutableMap}.
      */
-    protected static ImmutableMap<String, Object> prepareArguments(String param,
+    public static ImmutableMap<String, Object> prepareArguments(String param,
                                                                    Object value) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.put(param, value);
@@ -166,7 +166,7 @@ public class MobileCommand {
      * @param values is the array with parameter values.
      * @return built {@link ImmutableMap}.
      */
-    protected static ImmutableMap<String, Object> prepareArguments(String[] params,
+    public static ImmutableMap<String, Object> prepareArguments(String[] params,
                                                                    Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
