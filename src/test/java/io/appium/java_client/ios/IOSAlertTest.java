@@ -16,9 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileBy;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,13 +30,23 @@ public class IOSAlertTest extends BaseIOSTest {
         driver.findElement(MobileBy
             .IosUIAutomation(".elements().withName(\"show alert\")")).click();
         WebDriverWait wating = new WebDriverWait(driver, 10000);
-        wating.until(alertIsPresent()).accept();
+        wating.until(alertIsPresent());
+        driver.switchTo().alert().accept();
     }
 
     @Test public void dismissAlertTest() {
         driver.findElement(MobileBy
             .IosUIAutomation(".elements().withName(\"show alert\")")).click();
         WebDriverWait wating = new WebDriverWait(driver, 10000);
-        wating.until(alertIsPresent()).dismiss();
+        wating.until(alertIsPresent());
+        driver.switchTo().alert().dismiss();
+    }
+
+    @Test public void getAlertTextTest() {
+        driver.findElement(MobileBy
+            .IosUIAutomation(".elements().withName(\"show alert\")")).click();
+        WebDriverWait wating = new WebDriverWait(driver, 10000);
+        wating.until(alertIsPresent());
+        assertFalse(StringUtils.isBlank(driver.switchTo().alert().getText()));
     }
 }
