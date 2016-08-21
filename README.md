@@ -81,6 +81,11 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT`
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_SCREENSHOT_PATH`. The pull request: [#452](https://github.com/appium/java-client/pull/452)
 - `org.openqa.selenium.Alert` was reimplemented for iOS. Details: [#459](https://github.com/appium/java-client/pull/459) 
+- The deprecated `io.appium.java_client.generic.searchcontext` was removed.
+- The dependency on `com.google.code.gson` was updated to 2.7. Also it was adde to exclusions
+for `org.seleniumhq.selenium` `selenium-java`. 
+- The new AutomationName was added. IOS_XCUI_TEST. It is needed for the further development.
+- The new MobilePlatform was added.  WINDOWS.  It is needed for the further development.
 
 *4.1.1*
 
