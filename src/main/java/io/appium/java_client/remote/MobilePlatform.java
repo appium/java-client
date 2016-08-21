@@ -21,4 +21,5 @@ public interface MobilePlatform {
     String ANDROID = "Android";
     String IOS = "iOS";
     String FIREFOX_OS = "FirefoxOS";
+    String WINDOWS = "Windows";
 }
