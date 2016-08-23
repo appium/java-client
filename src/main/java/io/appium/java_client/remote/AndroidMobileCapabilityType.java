@@ -47,6 +47,11 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String APP_WAIT_PACKAGE = "appWaitPackage";
 
     /**
+     * Timeout in milliseconds used to wait for the appWaitActivity to launch (default 20000).
+     */
+    String APP_WAIT_DURATION = "appWaitDuration";
+
+    /**
      * Timeout in seconds while waiting for device to become ready.
      */
     String DEVICE_READY_TIMEOUT = "deviceReadyTimeout";
