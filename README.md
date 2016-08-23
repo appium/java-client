@@ -77,6 +77,8 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 ## Changelog#
 *5.0.0 (under construction yet)*
 
+- Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
+
 *4.1.2*
 
 - Following capabilities were added: 
