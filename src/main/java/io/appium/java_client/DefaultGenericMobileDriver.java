@@ -142,14 +142,14 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     * @throws WebDriverException This method is not applicable with browser/webview UI.
     */
     @Override public T findElementByAccessibilityId(String using) throws WebDriverException {
-        return (T) findElement("accessibility id", using);
+        return (T) findElement(MobileSelector.ACCESSIBILITY.toString(), using);
     }
 
     /**
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     @Override public List findElementsByAccessibilityId(String using) throws WebDriverException {
-        return (List<T>) findElements("accessibility id", using);
+        return (List<T>) findElements(MobileSelector.ACCESSIBILITY.toString(), using);
     }
 
     /**

@@ -36,6 +36,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.MobileSelector;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -362,7 +363,7 @@ public class AndroidDriver<T extends WebElement>
     @Override
     public T findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return findElement("-android uiautomator", using);
+        return findElement(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
     }
 
     /**
@@ -372,7 +373,7 @@ public class AndroidDriver<T extends WebElement>
     @Override
     public List<T> findElementsByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return findElements("-android uiautomator", using);
+        return findElements(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
     }
 
     /**

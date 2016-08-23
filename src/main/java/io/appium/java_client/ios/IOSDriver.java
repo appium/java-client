@@ -24,6 +24,7 @@ import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
+import io.appium.java_client.MobileSelector;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -204,7 +205,7 @@ public class IOSDriver<T extends WebElement>
     @Override
     public T findElementByIosUIAutomation(String using)
         throws WebDriverException {
-        return findElement("-ios uiautomation", using);
+        return findElement(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
     }
 
     /**
@@ -213,7 +214,7 @@ public class IOSDriver<T extends WebElement>
     @Override
     public List<T> findElementsByIosUIAutomation(String using)
         throws WebDriverException {
-        return findElements("-ios uiautomation", using);
+        return findElements(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
     }
 
     /**
