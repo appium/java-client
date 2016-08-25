@@ -20,7 +20,8 @@ public enum MobileSelector {
     ACCESSIBILITY("accessibility id"),
     ANDROID_UI_AUTOMATOR("-android uiautomator"),
     IOS_UI_AUTOMATION("-ios uiautomation"),
-    IOS_PREDICATE_STRING("-ios predicate string");
+    IOS_PREDICATE_STRING("-ios predicate string"),
+    WINDOWS_UI_AUTOMATION("-windows uiautomation");
 
     private final String selector;
 

@@ -341,6 +341,58 @@ public abstract class MobileBy extends By {
             return "By.IosNsPredicate: " + getLocatorString();
         }
     }
+
+    public static class ByWindowsAutomation extends MobileBy implements Serializable {
+
+        protected ByWindowsAutomation(String locatorString) {
+            super(MobileSelector.WINDOWS_UI_AUTOMATION, locatorString);
+        }
+
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByWindowsAutomation.class.isAssignableFrom(contextClass)) {
+                return FindsByWindowsAutomation.class.cast(context)
+                    .findElementsByWindowsUIAutomation(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByWindowsAutomation.class,
+                FindsByFluentSelector.class);
+        }
+
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByWindowsAutomation.class.isAssignableFrom(contextClass)) {
+                return FindsByWindowsAutomation.class.cast(context)
+                    .findElementByWindowsUIAutomation(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByIosNSPredicate.class,
+                FindsByWindowsAutomation.class);
+        }
+    }
 }
 
 
