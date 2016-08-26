@@ -102,8 +102,12 @@ public abstract class MobileBy extends By {
     * @param iOSNsPredicateString is an an iOS NsPredicate String
     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
     */
-    public static By IosNsPredicateString(final String iOSNsPredicateString) {
+    public static By iOSNsPredicateString(final String iOSNsPredicateString) {
         return new ByIosNsPredicate(iOSNsPredicateString);
+    }
+
+    public static By windowsAutomation(final String windowsAutomation) {
+        return new ByWindowsAutomation(windowsAutomation);
     }
     
     public static class ByIosUIAutomation extends MobileBy implements Serializable {
