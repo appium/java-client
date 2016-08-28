@@ -21,6 +21,7 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.replaceEl
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MobileSelector;
 
 import org.openqa.selenium.WebDriverException;
 
@@ -35,7 +36,7 @@ public class AndroidElement extends MobileElement
      */
     @Override public MobileElement findElementByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return findElement("-android uiautomator", using);
+        return findElement(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
     }
 
     /**
@@ -43,7 +44,7 @@ public class AndroidElement extends MobileElement
      */
     @Override public List<MobileElement> findElementsByAndroidUIAutomator(String using)
         throws WebDriverException {
-        return findElements("-android uiautomator", using);
+        return findElements(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
     }
 
     /**

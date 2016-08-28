@@ -19,6 +19,7 @@ package io.appium.java_client;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
@@ -27,17 +28,39 @@ import java.util.List;
 @SuppressWarnings("serial")
 public abstract class MobileBy extends By {
 
-    private final String locatorString;
+    private static final String ERROR_TEXT = "The class %s of the given context "
+        + "doesn't implement %s nor %s. Sorry. It is impossible to find something.";
 
-    protected MobileBy(String locatorString) {
+    private final String locatorString;
+    private final MobileSelector selector;
+
+    private static IllegalArgumentException formIllegalArgumentException(Class<?> givenClass,
+        Class<?> class1, Class<?> class2) {
+        return new IllegalArgumentException(String.format(ERROR_TEXT, givenClass.getCanonicalName(),
+            class1.getCanonicalName(), class2.getCanonicalName()));
+    }
+
+    protected MobileBy(MobileSelector selector, String locatorString) {
         if (StringUtils.isBlank(locatorString)) {
             throw new IllegalArgumentException("Must supply a not empty locator value.");
         }
         this.locatorString = locatorString;
+        this.selector = selector;
     }
 
     protected String getLocatorString() {
         return locatorString;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public List<WebElement> findElements(SearchContext context) {
+        return (List<WebElement>) ((FindsByFluentSelector<?>) context)
+            .findElements(selector.toString(), getLocatorString());
+    }
+
+    @Override public WebElement findElement(SearchContext context) {
+        return ((FindsByFluentSelector<?>) context)
+            .findElement(selector.toString(), getLocatorString());
     }
 
     /**
@@ -73,23 +96,72 @@ public abstract class MobileBy extends By {
     public static By AccessibilityId(final String accessibilityId) {
         return new ByAccessibilityId(accessibilityId);
     }
+
+    /**
+    * This locator strategy is available in XCUITest Driver mode
+    * @param iOSNsPredicateString is an an iOS NsPredicate String
+    * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
+    */
+    public static By iOSNsPredicateString(final String iOSNsPredicateString) {
+        return new ByIosNsPredicate(iOSNsPredicateString);
+    }
+
+    public static By windowsAutomation(final String windowsAutomation) {
+        return new ByWindowsAutomation(windowsAutomation);
+    }
     
     public static class ByIosUIAutomation extends MobileBy implements Serializable {
 
         public ByIosUIAutomation(String iOSAutomationText) {
-            super(iOSAutomationText);
+            super(MobileSelector.IOS_UI_AUTOMATION, iOSAutomationText);
         }
 
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
         @SuppressWarnings("unchecked")
         @Override
-        public List<WebElement> findElements(SearchContext context) {
-            return (List<WebElement>) ((FindsByIosUIAutomation<?>) context)
+        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
+            IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByIosUIAutomation.class.isAssignableFrom(contextClass)) {
+                return FindsByIosUIAutomation.class.cast(context)
                     .findElementsByIosUIAutomation(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByIosUIAutomation.class,
+                FindsByFluentSelector.class);
         }
 
-        @Override public WebElement findElement(SearchContext context) {
-            return ((FindsByIosUIAutomation<?>) context)
-                .findElementByIosUIAutomation(getLocatorString());
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
+            IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByIosUIAutomation.class.isAssignableFrom(contextClass)) {
+                return ((FindsByIosUIAutomation<?>) context)
+                    .findElementByIosUIAutomation(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByIosUIAutomation.class,
+                FindsByFluentSelector.class);
         }
 
         @Override public String toString() {
@@ -102,19 +174,55 @@ public abstract class MobileBy extends By {
 
 
         public ByAndroidUIAutomator(String uiautomatorText) {
-            super(uiautomatorText);
+            super(MobileSelector.ANDROID_UI_AUTOMATOR, uiautomatorText);
         }
 
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
         @SuppressWarnings("unchecked")
         @Override
-        public List<WebElement> findElements(SearchContext context) {
-            return (List<WebElement>) ((FindsByAndroidUIAutomator<?>) context)
+        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
+            IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidUIAutomator.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidUIAutomator.class.cast(context)
                     .findElementsByAndroidUIAutomator(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidUIAutomator.class,
+                FindsByFluentSelector.class);
         }
 
-        @Override public WebElement findElement(SearchContext context) {
-            return ((FindsByAndroidUIAutomator<?>) context)
-                .findElementByAndroidUIAutomator(getLocatorString());
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
+            IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidUIAutomator.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidUIAutomator.class.cast(context)
+                    .findElementByAndroidUIAutomator(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidUIAutomator.class,
+                FindsByFluentSelector.class);
         }
 
         @Override public String toString() {
@@ -126,23 +234,167 @@ public abstract class MobileBy extends By {
     public static class ByAccessibilityId extends MobileBy implements Serializable {
 
         public ByAccessibilityId(String accessibilityId) {
-            super(accessibilityId);
+            super(MobileSelector.ACCESSIBILITY, accessibilityId);
         }
 
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
         @SuppressWarnings("unchecked")
         @Override
-        public List<WebElement> findElements(SearchContext context) {
-            return (List<WebElement>) ((FindsByAccessibilityId<?>) context)
-                .findElementsByAccessibilityId(getLocatorString());
+        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
+            IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAccessibilityId.class.isAssignableFrom(contextClass)) {
+                return FindsByAccessibilityId.class.cast(context)
+                    .findElementsByAccessibilityId(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAccessibilityId.class,
+                FindsByFluentSelector.class);
         }
 
-        @Override public WebElement findElement(SearchContext context) {
-            return ((FindsByAccessibilityId<?>) context)
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
+            IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAccessibilityId.class.isAssignableFrom(contextClass)) {
+                return FindsByAccessibilityId.class.cast(context)
                     .findElementByAccessibilityId(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAccessibilityId.class,
+                FindsByFluentSelector.class);
         }
 
         @Override public String toString() {
             return "By.AccessibilityId: " + getLocatorString();
+        }
+    }
+
+    public static class ByIosNsPredicate extends MobileBy implements Serializable {
+
+        protected ByIosNsPredicate(String locatorString) {
+            super(MobileSelector.IOS_PREDICATE_STRING, locatorString);
+        }
+
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByIosNSPredicate.class.isAssignableFrom(contextClass)) {
+                return FindsByIosNSPredicate.class.cast(context)
+                        .findElementsByIosNsPredicate(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByIosNSPredicate.class,
+                    FindsByFluentSelector.class);
+        }
+
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByIosNSPredicate.class.isAssignableFrom(contextClass)) {
+                return FindsByIosNSPredicate.class.cast(context)
+                        .findElementByIosNsPredicate(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByIosNSPredicate.class,
+                    FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.IosNsPredicate: " + getLocatorString();
+        }
+    }
+
+    public static class ByWindowsAutomation extends MobileBy implements Serializable {
+
+        protected ByWindowsAutomation(String locatorString) {
+            super(MobileSelector.WINDOWS_UI_AUTOMATION, locatorString);
+        }
+
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByWindowsAutomation.class.isAssignableFrom(contextClass)) {
+                return FindsByWindowsAutomation.class.cast(context)
+                    .findElementsByWindowsUIAutomation(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByWindowsAutomation.class,
+                FindsByFluentSelector.class);
+        }
+
+        /**
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByWindowsAutomation.class.isAssignableFrom(contextClass)) {
+                return FindsByWindowsAutomation.class.cast(context)
+                    .findElementByWindowsUIAutomation(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByIosNSPredicate.class,
+                FindsByWindowsAutomation.class);
         }
     }
 }

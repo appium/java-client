@@ -132,11 +132,11 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
     }
 
     @Override public T findElementByAccessibilityId(String using) {
-        return (T) findElement("accessibility id", using);
+        return (T) findElement(MobileSelector.ACCESSIBILITY.toString(), using);
     }
 
     @Override public List findElementsByAccessibilityId(String using) {
-        return findElements("accessibility id", using);
+        return findElements(MobileSelector.ACCESSIBILITY.toString(), using);
     }
 
     /**
