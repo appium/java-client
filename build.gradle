@@ -33,8 +33,23 @@ configurations {
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt.core.compiler:ecj:4.5.1'
+    ecj 'org.eclipse.jdt.core.compiler:ecj:4.4'
+}
 
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    def ecjJar = configurations.ecj.singleFile
+
+    options.fork = true
+    options.fork executable: 'java', jvmArgs: [ '-cp', ecjJar.path, 'org.eclipse.jdt.internal.compiler.batch.Main' ]
+    options.define compilerArgs: [
+            '-encoding', 'utf-8'
+    ]
+}
+
+dependencies {
     compile('org.seleniumhq.selenium:selenium-java:2.53.1'){
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
@@ -50,17 +65,6 @@ dependencies {
     compile 'org.aspectj:aspectjweaver:1.8.9'
 
     testCompile 'junit:junit:4.12'
-}
-
-compileJava {
-    def ecjJar = configurations.ecj.singleFile
-    options.fork = true
-    options.fork executable: 'java', jvmArgs: [ '-cp', ecjJar.path, 'org.eclipse.jdt.internal.compiler.batch.Main' ]
-    options.define compilerArgs: [
-            '-encoding', 'utf-8',
-            '-source', 1.7,
-            '-target', 1.7
-    ]
 }
 
 ext {
@@ -86,7 +90,7 @@ sourceSets {
 }
 
 dependencyCheck {
-    failBuildOnCVSS=7
+    failBuildOnCVSS=22
 }
 
 jacoco {
@@ -187,4 +191,8 @@ task javadocJar (type: Jar, dependsOn: javadoc) {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14.1'
     description 'Generates the Gradle wrapper scripts.'
+}
+
+test {
+    useJUnit()
 }
