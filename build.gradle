@@ -33,7 +33,7 @@ configurations {
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt.core.compiler:ecj:4.4'
+    ecj 'org.eclipse.jdt.core.compiler:ecj:4.5.1'
 }
 
 compileJava {
