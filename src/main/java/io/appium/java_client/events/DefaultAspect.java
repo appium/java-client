@@ -108,6 +108,8 @@ class DefaultAspect {
         + "execution(* org.openqa.selenium.internal.FindsByName.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByTagName.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByXPath.*(..)) || "
+        + "execution(* io.appium.java_client.FindsByFluentSelector.*(..)) || "
+        + "execution(* io.appium.java_client.FindsByWindowsAutomation.*(..)) || "
         + "execution(* org.openqa.selenium.WebDriver.Window.*(..)) || "
         + "execution(* io.appium.java_client.android.AndroidElement.*(..)) || "
         + "execution(* io.appium.java_client.ios.IOSElement.*(..)) || "

@@ -7,6 +7,9 @@ target/test-classes/*
 target/surefire-reports/*
 settings.xml
 *.iml
+build/
+.gradle
+.gradle/*
 
 # Eclipse
 /bin

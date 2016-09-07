@@ -1,0 +1,198 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'checkstyle'
+
+group 'io.appium'
+version '5.0.0-SNAPSHOT'
+
+repositories {
+    jcenter()
+    maven {
+        url "http://repo.maven.apache.org/maven2"
+    }
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "http://repo.maven.apache.org/maven2"
+        }
+    }
+    dependencies {
+        classpath "org.owasp:dependency-check-gradle:1.4.0"
+    }
+}
+
+apply plugin: "org.owasp.dependencycheck"
+
+configurations {
+    ecj
+}
+
+dependencies {
+    ecj 'org.eclipse.jdt.core.compiler:ecj:4.5.1'
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    def ecjJar = configurations.ecj.singleFile
+
+    options.fork = true
+    options.fork executable: 'java', jvmArgs: [ '-cp', ecjJar.path, 'org.eclipse.jdt.internal.compiler.batch.Main' ]
+    options.define compilerArgs: [
+            '-encoding', 'utf-8'
+    ]
+}
+
+dependencies {
+    compile('org.seleniumhq.selenium:selenium-java:2.53.1'){
+        exclude module: 'cglib'
+        exclude group: 'com.google.code.gson'
+    }
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
+    compile 'com.google.guava:guava:19.0'
+    compile 'cglib:cglib:3.2.4'
+    compile 'commons-validator:commons-validator:1.5.1'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'org.springframework:spring-context:4.3.2.RELEASE'
+    compile 'org.aspectj:aspectjweaver:1.8.9'
+
+    testCompile 'junit:junit:4.12'
+}
+
+ext {
+    Sources = fileTree("$buildDir/src/main/java").include('**/*.java')
+    Tests = fileTree("$buildDir/src/test/java").include('**/*.java')
+    Docs = file("$buildDir/doc")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir('src/main/java')
+        }
+        resources {
+            srcDir('src/main/resources')
+        }
+    }
+    test {
+        java {
+            srcDir('src/test/java')
+        }
+    }
+}
+
+dependencyCheck {
+    failBuildOnCVSS=22
+}
+
+jacoco {
+    toolVersion = "0.7.7.201606060606"
+}
+
+tasks.withType(JacocoReport) {
+    description = "Generate Jacoco coverage reports after running tests"
+    sourceSets sourceSets.main
+    reports {
+        html.enabled true
+        html.destination "${buildDir}/Reports/jacoco"
+    }
+}
+jacocoTestReport.dependsOn test
+
+checkstyle {
+    toolVersion = "7.0"
+    showViolations = true
+}
+
+dependencies {
+    checkstyle( 'com.puppycrawl.tools:checkstyle:7.0' )
+}
+
+tasks.withType(Checkstyle) {
+    ignoreFailures = false
+    configFile = file("$projectDir/google-style.xml")
+}
+
+task javadocs(type: Javadoc) {
+    source = sourceSets.main.java
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name 'java-client'
+                    description 'Java client for Appium Mobile Webdriver'
+                    url 'http://appium.io'
+                    developers {
+                        developer {
+                            name 'Jonah Stiennon'
+                            email 'jonahss@gmail.com'
+                            url 'https://github.com/jonahss'
+                            id 'jonahss'
+                        };
+                        developer {
+                            name 'Sergey Tikhomirov'
+                            email 'tichomirovsergey@gmail.com'
+                            url 'https://github.com/TikhomirovSergey'
+                            id 'TikhomirovSergey'
+                        };
+                        developer {
+                            name 'Srinivasan Sekar'
+                            email 'srinivasan.sekar1990@gmail.com'
+                            url 'https://github.com/SrinivasanTarget'
+                            id 'SrinivasanTarget'
+                        };
+                    }
+                    licenses {
+                        license {
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    scm {
+                        url 'https://github.com/appium/java-client'
+                        connection 'scm:git:ssh://git@github.com/appium/java-client.git'
+                        developerConnection 'scm:git:ssh://git@github.com/appium/java-client.git'
+                        tag 'HEAD'
+                    }
+                }
+            }
+            from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.java
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    from javadoc
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+    description 'Generates the Gradle wrapper scripts.'
+}
+
+test {
+    useJUnit()
+}
