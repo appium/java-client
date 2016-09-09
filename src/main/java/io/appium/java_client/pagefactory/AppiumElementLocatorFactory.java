@@ -57,7 +57,7 @@ class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
         By by = builder.buildBy();
         if (by != null) {
             return new AppiumElementLocator(searchContext, by, builder.isLookupCached(),
-                    customDuration, originalWebDriver);
+                    customDuration, timeOutDuration, originalWebDriver);
         }
         return null;
     }
