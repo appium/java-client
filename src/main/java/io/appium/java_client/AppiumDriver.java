@@ -19,18 +19,10 @@ package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import static io.appium.java_client.MobileCommand.CLOSE_APP;
-import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static io.appium.java_client.MobileCommand.GET_SETTINGS;
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-import static io.appium.java_client.MobileCommand.INSTALL_APP;
-import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.LAUNCH_APP;
 import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
 import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
-import static io.appium.java_client.MobileCommand.REMOVE_APP;
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.SET_SETTINGS;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
@@ -72,7 +64,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.xml.bind.DatatypeConverter;
 
 /**
 * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
@@ -230,72 +221,6 @@ public abstract class AppiumDriver<T extends WebElement>
 
     @Override public ExecuteMethod getExecuteMethod() {
         return executeMethod;
-    }
-
-    /**
-     * @see InteractsWithApps#resetApp().
-     */
-    @Override public void resetApp() {
-        execute(MobileCommand.RESET);
-    }
-
-    /**
-     * @see InteractsWithApps#isAppInstalled(String).
-     */
-    @Override public boolean isAppInstalled(String bundleId) {
-        Response response = execute(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId));
-
-        return Boolean.parseBoolean(response.getValue().toString());
-    }
-
-    /**
-     * @see InteractsWithApps#installApp(String).
-     */
-    @Override public void installApp(String appPath) {
-        execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
-    }
-
-    /**
-     * @see InteractsWithApps#removeApp(String).
-     */
-    @Override public void removeApp(String bundleId) {
-        execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
-    }
-
-    /**
-     * @see InteractsWithApps#launchApp().
-     */
-    @Override public void launchApp() {
-        execute(LAUNCH_APP);
-    }
-
-    /**
-     * @see InteractsWithApps#closeApp().
-     */
-    @Override public void closeApp() {
-        execute(CLOSE_APP);
-    }
-
-    /**
-     * @see InteractsWithApps#runAppInBackground(int).
-     */
-    @Override public void runAppInBackground(int seconds) {
-        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
-    }
-
-    /**
-     * @see DeviceActionShortcuts#getDeviceTime().
-     */
-    @Override public String getDeviceTime() {
-        Response response = execute(GET_DEVICE_TIME);
-        return response.getValue().toString();
-    }
-
-    /**
-     * @see DeviceActionShortcuts#hideKeyboard().
-     */
-    @Override public void hideKeyboard() {
-        execute(HIDE_KEYBOARD);
     }
 
     /**

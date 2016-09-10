@@ -16,12 +16,11 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.remote.Response;
-
-import java.util.Map;
-
 import static io.appium.java_client.MobileCommand.GET_STRINGS;
 import static io.appium.java_client.MobileCommand.prepareArguments;
+
+import java.util.AbstractMap;
+import java.util.Map;
 
 public interface HasAppStrings extends ExecutesMethod {
     /**
@@ -30,8 +29,7 @@ public interface HasAppStrings extends ExecutesMethod {
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap() {
-        Response response = execute(GET_STRINGS);
-        return (Map<String, String>) response.getValue();
+        return CommandExecutionHelper.execute(this, GET_STRINGS);
     }
 
     /**
@@ -41,8 +39,8 @@ public interface HasAppStrings extends ExecutesMethod {
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap(String language) {
-        Response response = execute(GET_STRINGS, prepareArguments("language", language));
-        return (Map<String, String>) response.getValue();
+        return CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(GET_STRINGS,
+                prepareArguments("language", language)));
     }
 
     /**
@@ -56,8 +54,8 @@ public interface HasAppStrings extends ExecutesMethod {
     default Map<String, String> getAppStringMap(String language, String stringFile) {
         String[] parameters = new String[] {"language", "stringFile"};
         Object[] values = new Object[] {language, stringFile};
-        Response response = execute(GET_STRINGS, prepareArguments(parameters, values));
-        return (Map<String, String>) response.getValue();
+        return CommandExecutionHelper.execute(this,
+                new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments(parameters, values)));
     }
 
 }

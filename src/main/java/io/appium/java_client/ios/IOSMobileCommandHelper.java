@@ -35,8 +35,8 @@ public class IOSMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(HIDE_KEYBOARD, prepareArguments("keyName", keyName));
+        return new AbstractMap.SimpleEntry<>(
+                HIDE_KEYBOARD, prepareArguments("keyName", keyName));
     }
 
     /**
@@ -53,8 +53,8 @@ public class IOSMobileCommandHelper extends MobileCommand {
         String keyName) {
         String[] parameters = new String[] {"strategy", "key"};
         Object[] values = new Object[] {strategy, keyName};
-        return new AbstractMap.SimpleEntry<String,
-                Map<String, ?>>(HIDE_KEYBOARD, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(
+                HIDE_KEYBOARD, prepareArguments(parameters, values));
     }
 
     /**
@@ -66,8 +66,8 @@ public class IOSMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(LOCK, prepareArguments("seconds", seconds));
+        return new AbstractMap.SimpleEntry<>(
+                LOCK, prepareArguments("seconds", seconds));
     }
 
     /**
@@ -78,7 +78,7 @@ public class IOSMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  shakeCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(SHAKE, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(
+                SHAKE, ImmutableMap.<String, Object>of());
     }
 }

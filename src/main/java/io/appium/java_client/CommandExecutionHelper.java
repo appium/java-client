@@ -27,6 +27,10 @@ public final class CommandExecutionHelper {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
+    public static <T extends Object> T execute(ExecutesMethod executesMethod, String command) {
+        return handleResponse(executesMethod.execute(command));
+    }
+
     private static <T extends Object> T handleResponse(Response responce) {
         if (responce != null) {
             return (T) responce.getValue();

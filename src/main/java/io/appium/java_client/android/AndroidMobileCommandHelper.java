@@ -42,8 +42,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> currentActivityCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(CURRENT_ACTIVITY, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(
+                CURRENT_ACTIVITY, ImmutableMap.<String, Object>of());
     }
 
     /**
@@ -59,8 +59,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         String path) {
         String[] parameters = new String[] {"intent", "path"};
         Object[] values = new Object[] {intent, path};
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(END_TEST_COVERAGE, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(
+                END_TEST_COVERAGE, prepareArguments(parameters, values));
     }
 
     /**
@@ -71,8 +71,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(GET_NETWORK_CONNECTION, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(
+                GET_NETWORK_CONNECTION, ImmutableMap.<String, Object>of());
     }
 
     /**
@@ -83,8 +83,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(IS_LOCKED, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(
+                IS_LOCKED, ImmutableMap.<String, Object>of());
     }
 
     /**
@@ -96,8 +96,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(PRESS_KEY_CODE, prepareArguments("keycode", key));
+        return new AbstractMap.SimpleEntry<>(
+                PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
     /**
@@ -113,8 +113,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         Integer metastate) {
         String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(PRESS_KEY_CODE, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(
+                PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 
     /**
@@ -126,8 +126,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
+        return new AbstractMap.SimpleEntry<>(
+                LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
     /**
@@ -143,8 +143,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         Integer metastate) {
         String[] parameters = new String[] {"keycode", "metastate"};
         Object[] values = new Object[] {key, metastate};
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(
+                LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 
     /**
@@ -155,8 +155,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(OPEN_NOTIFICATIONS, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(
+                OPEN_NOTIFICATIONS, ImmutableMap.<String, Object>of());
     }
 
     /**
@@ -172,8 +172,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         byte[] base64Data) {
         String[] parameters = new String[] {"path", "data"};
         Object[] values = new Object[] {remotePath, base64Data};
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(PUSH_FILE, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
 
     /**
@@ -188,8 +187,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         String[] parameters = new String[] {"name", "parameters"};
         Object[] values =
             new Object[] {"network_connection", ImmutableMap.of("type", connection.bitMask)};
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(SET_NETWORK_CONNECTION, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(
+                SET_NETWORK_CONNECTION, prepareArguments(parameters, values));
     }
 
     /**
@@ -237,8 +236,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             .put("intentFlags", targetIntentFlags)
             .put("optionalIntentArguments", targetOptionalIntentArguments)
             .build();
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(START_ACTIVITY, parameters);
+        return new AbstractMap.SimpleEntry<>(START_ACTIVITY, parameters);
     }
 
     /**
@@ -249,8 +247,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(TOGGLE_LOCATION_SERVICES, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.<String, Object>of());
     }
 
     /**
@@ -261,8 +258,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> unlockCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(UNLOCK, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
     }
 
     /**
@@ -273,8 +269,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand() {
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(LOCK, prepareArguments("seconds", 0));
+        return new AbstractMap.SimpleEntry<>(LOCK, prepareArguments("seconds", 0));
     }
 
     /**
@@ -292,7 +287,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         Object[] values =
             new Object[] {hasIdentityObject.getId(), value};
 
-        return new AbstractMap.SimpleEntry<String,
-            Map<String, ?>>(REPLACE_VALUE, prepareArguments(parameters, values));
+        return new AbstractMap.SimpleEntry<>(
+                REPLACE_VALUE, prepareArguments(parameters, values));
     }
 }

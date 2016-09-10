@@ -16,8 +16,12 @@
 
 package io.appium.java_client;
 
+import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
+import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
 
-public interface DeviceActionShortcuts {
+import org.openqa.selenium.remote.Response;
+
+public interface DeviceActionShortcuts extends ExecutesMethod {
 
     /**
      * Hides the keyboard if it is showing.
@@ -25,11 +29,16 @@ public interface DeviceActionShortcuts {
      * Defaults to the "tapOutside" strategy (taps outside the keyboard).
      * Switch to using hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done") if this doesn't work.
      */
-    void hideKeyboard();
+    default void hideKeyboard() {
+        execute(HIDE_KEYBOARD);
+    }
 
     /*
         Gets device date and time for both iOS(Supports only real device) and Android devices
      */
-    String getDeviceTime();
+    default String getDeviceTime() {
+        Response response = execute(GET_DEVICE_TIME);
+        return response.getValue().toString();
+    }
 
 }
