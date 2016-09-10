@@ -16,26 +16,25 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.Response;
 
-import java.util.List;
+import java.util.Map;
 
-public interface FindsByAndroidUIAutomator<T extends WebElement> extends FindsByFluentSelector<T> {
+public interface ExecutesMethod {
+    /**
+     * Executes JSONWP command and returns a response
+     *
+     * @param driverCommand a JSONWP command
+     * @param parameters map of command parameters
+     * @return a result response
+     */
+    Response execute(String driverCommand, Map<String, ?> parameters);
 
     /**
-     * @throws WebDriverException This method is not
-     *      applicable with browser/webview UI.
+     * Executes JSONWP command and returns a response
+     *
+     * @param driverCommand a JSONWP command
+     * @return a result response
      */
-    default T findElementByAndroidUIAutomator(String using) {
-        return findElement(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not
-     *     applicable with browser/webview UI.
-     */
-    default List<T> findElementsByAndroidUIAutomator(String using) {
-        return findElements(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
-    }
+    Response execute(String driverCommand);
 }

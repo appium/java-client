@@ -16,15 +16,23 @@
 
 package io.appium.java_client;
 
+import org.openqa.selenium.remote.Response;
+
 import java.util.Map;
 
-public interface HasAppStrings {
+import static io.appium.java_client.MobileCommand.GET_STRINGS;
+import static io.appium.java_client.MobileCommand.prepareArguments;
+
+public interface HasAppStrings extends ExecutesMethod {
     /**
      * Get all defined Strings from an app for the default language.
      *
      * @return a map with localized strings defined in the app
      */
-    Map<String, String> getAppStringMap();
+    default Map<String, String> getAppStringMap() {
+        Response response = execute(GET_STRINGS);
+        return (Map<String, String>) response.getValue();
+    }
 
     /**
      * Get all defined Strings from an app for the specified language.
@@ -32,7 +40,10 @@ public interface HasAppStrings {
      * @param language strings language code
      * @return a map with localized strings defined in the app
      */
-    Map<String, String> getAppStringMap(String language);
+    default Map<String, String> getAppStringMap(String language) {
+        Response response = execute(GET_STRINGS, prepareArguments("language", language));
+        return (Map<String, String>) response.getValue();
+    }
 
     /**
      * Get all defined Strings from an app for the specified language and
@@ -42,6 +53,11 @@ public interface HasAppStrings {
      * @param stringFile strings filename
      * @return a map with localized strings defined in the app
      */
-    Map<String, String> getAppStringMap(String language, String stringFile);
+    default Map<String, String> getAppStringMap(String language, String stringFile) {
+        String[] parameters = new String[] {"language", "stringFile"};
+        Object[] values = new Object[] {language, stringFile};
+        Response response = execute(GET_STRINGS, prepareArguments(parameters, values));
+        return (Map<String, String>) response.getValue();
+    }
 
 }

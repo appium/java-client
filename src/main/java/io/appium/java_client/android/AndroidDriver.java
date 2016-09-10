@@ -28,7 +28,6 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotif
 import static io.appium.java_client.android.AndroidMobileCommandHelper.pressKeyCodeCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.pushFileCommandCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.unlockCommand;
 
@@ -36,7 +35,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.MobileSelector;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -52,7 +50,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
@@ -258,51 +255,6 @@ public class AndroidDriver<T extends WebElement>
             Base64.encodeBase64(FileUtils.readFileToByteArray(file)));
     }
 
-    @Override public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage,
-        String appWaitActivity, String intentAction,
-        String intentCategory, String intentFlags,
-        String optionalIntentArguments,boolean stopApp )
-        throws IllegalArgumentException {
-        CommandExecutionHelper.execute(this, startActivityCommand(appPackage, appActivity,
-            appWaitPackage, appWaitActivity, intentAction, intentCategory, intentFlags,
-            optionalIntentArguments, stopApp));
-    }
-
-
-    @Override
-    public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage, String appWaitActivity, boolean stopApp)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage,appActivity,appWaitPackage,
-            appWaitActivity,null,null,null,null,stopApp);
-
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage,
-        String appWaitActivity) throws IllegalArgumentException {
-
-        this.startActivity(appPackage, appActivity,
-            appWaitPackage, appWaitActivity,null,null,null,null,true);
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage, appActivity, null, null,
-            null,null,null,null,true);
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage, String appWaitActivity,
-        String intentAction,String intentCategory,
-        String intentFlags,String intentOptionalArgs)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage,appActivity,
-            appWaitPackage,appWaitActivity,
-            intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
-    }
-
     /**
      * Get test-coverage data.
      *
@@ -354,26 +306,6 @@ public class AndroidDriver<T extends WebElement>
     // Should be moved to the subclass
     public void ignoreUnimportantViews(Boolean compress) {
         setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
-    }
-
-    /**
-     * @throws WebDriverException This method is not
-     *     applicable with browser/webview UI.
-     */
-    @Override
-    public T findElementByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElement(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not
-     *      applicable with browser/webview UI.
-     */
-    @Override
-    public List<T> findElementsByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElements(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
     }
 
     /**

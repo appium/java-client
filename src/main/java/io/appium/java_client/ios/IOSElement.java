@@ -18,28 +18,7 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.MobileSelector;
-import org.openqa.selenium.WebDriverException;
-
-import java.util.List;
 
 public class IOSElement extends MobileElement
     implements FindsByIosUIAutomation<MobileElement> {
-    /**
-     * @throws WebDriverException
-     * This method is not applicable with browser/webview UI.
-     */
-    @Override public MobileElement findElementByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElement(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
-    }
-
-    /**
-     * @throws WebDriverException
-     * This method is not applicable with browser/webview UI.
-     */
-    @Override public List<MobileElement> findElementsByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElements(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
-    }
 }

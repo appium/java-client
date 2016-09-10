@@ -21,32 +21,9 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.replaceEl
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.MobileSelector;
-
-import org.openqa.selenium.WebDriverException;
-
-import java.util.List;
-
 
 public class AndroidElement extends MobileElement
     implements FindsByAndroidUIAutomator<MobileElement> {
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override public MobileElement findElementByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElement(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override public List<MobileElement> findElementsByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElements(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
-    }
-
     /**
      * This method replace current text value.
      * @param value a new value

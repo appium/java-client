@@ -20,9 +20,13 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public interface FindsByIosNSPredicate<T extends WebElement> {
+public interface FindsByIosNSPredicate<T extends WebElement> extends FindsByFluentSelector<T> {
 
-    T findElementByIosNsPredicate(String using);
+    default T findElementByIosNsPredicate(String using) {
+        return findElement(MobileSelector.IOS_PREDICATE_STRING.toString(), using);
+    }
 
-    List<T> findElementsByIosNsPredicate(String using);
+    default List<T> findElementsByIosNsPredicate(String using) {
+        return findElements(MobileSelector.IOS_PREDICATE_STRING.toString(), using);
+    }
 }

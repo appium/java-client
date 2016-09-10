@@ -24,14 +24,12 @@ import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.MobileSelector;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -40,7 +38,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
-import java.util.List;
 
 
 /**
@@ -196,25 +193,6 @@ public class IOSDriver<T extends WebElement>
      */
     @Override public void shake() {
         CommandExecutionHelper.execute(this, shakeCommand());
-    }
-
-    /**
-     * @throws WebDriverException
-     *     This method is not applicable with browser/webview UI.
-     */
-    @Override
-    public T findElementByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElement(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override
-    public List<T> findElementsByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElements(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
     }
 
     /**

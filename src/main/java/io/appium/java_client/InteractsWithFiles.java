@@ -16,7 +16,15 @@
 
 package io.appium.java_client;
 
-public interface InteractsWithFiles {
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.remote.Response;
+
+import javax.xml.bind.DatatypeConverter;
+
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
+
+public interface InteractsWithFiles extends ExecutesMethod {
 
     /**
      * @param remotePath On Android and iOS, this is either the path to the file
@@ -25,7 +33,12 @@ public interface InteractsWithFiles {
      *                   the application's .app directory
      * @return A byte array of Base64 encoded data.
      */
-    byte[] pullFile(String remotePath);
+    default byte[] pullFile(String remotePath) {
+        Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
+        String base64String = response.getValue().toString();
+
+        return DatatypeConverter.parseBase64Binary(base64String);
+    }
 
     /**
      * Pull a folder from the simulator/device. Does not work on iOS Real
@@ -38,6 +51,11 @@ public interface InteractsWithFiles {
      * @return A byte array of Base64 encoded data, representing a ZIP ARCHIVE
      * of the contents of the requested folder.
      */
-    byte[] pullFolder(String remotePath);
+    default byte[] pullFolder(String remotePath) {
+        Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
+        String base64String = response.getValue().toString();
+
+        return DatatypeConverter.parseBase64Binary(base64String);
+    }
 
 }

@@ -16,7 +16,12 @@
 
 package io.appium.java_client.android;
 
-public interface StartsActivity {
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
+
+import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
+
+public interface StartsActivity extends ExecutesMethod {
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
      * another application, that application is started and the activity is opened.
@@ -27,8 +32,11 @@ public interface StartsActivity {
      * @param appWaitActivity Automation will begin after this activity starts. [Optional]
      * @param stopApp         If true, target app will be stopped. [Optional]
      */
-    void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity, boolean stopApp) throws IllegalArgumentException;
+    default void startActivity(String appPackage, String appActivity, String appWaitPackage,
+        String appWaitActivity, boolean stopApp) throws IllegalArgumentException {
+        this.startActivity(appPackage,appActivity,appWaitPackage,
+            appWaitActivity,null,null,null,null,stopApp);
+    }
 
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
@@ -39,8 +47,11 @@ public interface StartsActivity {
      * @param appWaitPackage  Automation will begin after this package starts. [Optional]
      * @param appWaitActivity Automation will begin after this activity starts. [Optional]
      */
-    void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity) throws IllegalArgumentException;
+    default void startActivity(String appPackage, String appActivity, String appWaitPackage,
+        String appWaitActivity) throws IllegalArgumentException {
+        this.startActivity(appPackage, appActivity,
+            appWaitPackage, appWaitActivity,null,null,null,null,true);
+    }
 
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
@@ -49,7 +60,10 @@ public interface StartsActivity {
      * @param appPackage  The package containing the activity. [Required]
      * @param appActivity The activity to start. [Required]
      */
-    void startActivity(String appPackage, String appActivity) throws IllegalArgumentException;
+    default void startActivity(String appPackage, String appActivity) throws IllegalArgumentException {
+        this.startActivity(appPackage, appActivity, null, null,
+            null,null,null,null,true);
+    }
 
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
@@ -65,11 +79,15 @@ public interface StartsActivity {
      * @param intentOptionalArgs Additional intent arguments that will be used to
      *                                start activity [Optional]
      */
-    void startActivity(String appPackage, String appActivity,
-                       String appWaitPackage, String appWaitActivity,
-                       String intentAction, String intentCategory,
-                                 String intentFlags, String intentOptionalArgs)
-            throws IllegalArgumentException;
+    default void startActivity(String appPackage, String appActivity,
+        String appWaitPackage, String appWaitActivity,
+        String intentAction, String intentCategory,
+        String intentFlags, String intentOptionalArgs)
+        throws IllegalArgumentException {
+        this.startActivity(appPackage,appActivity,
+            appWaitPackage,appWaitActivity,
+            intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
+    }
 
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
@@ -86,10 +104,13 @@ public interface StartsActivity {
      *                                start activity [Optional]
      * @param stopApp         If true, target app will be stopped. [Optional]
      */
-    void startActivity(String appPackage, String appActivity, String appWaitPackage,
-                       String appWaitActivity, String intentAction,
-                       String intentCategory, String intentFlags,
-                       String optionalIntentArguments,boolean stopApp )
-            throws IllegalArgumentException;
-
+    default void startActivity(String appPackage, String appActivity, String appWaitPackage,
+        String appWaitActivity, String intentAction,
+        String intentCategory, String intentFlags,
+        String optionalIntentArguments,boolean stopApp )
+        throws IllegalArgumentException {
+        CommandExecutionHelper.execute(this, startActivityCommand(appPackage, appActivity,
+            appWaitPackage, appWaitActivity, intentAction, intentCategory, intentFlags,
+            optionalIntentArguments, stopApp));
+    }
 }
