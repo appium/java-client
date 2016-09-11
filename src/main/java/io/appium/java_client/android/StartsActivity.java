@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android;
 
+import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
@@ -112,5 +113,14 @@ public interface StartsActivity extends ExecutesMethod {
         CommandExecutionHelper.execute(this, startActivityCommand(appPackage, appActivity,
             appWaitPackage, appWaitActivity, intentAction, intentCategory, intentFlags,
             optionalIntentArguments, stopApp));
+    }
+
+    /**
+     * Get the current activity being run on the mobile device.
+     *
+     * @return a current activity being run on the mobile device.
+     */
+    default String currentActivity() {
+        return CommandExecutionHelper.execute(this, currentActivityCommand());
     }
 }

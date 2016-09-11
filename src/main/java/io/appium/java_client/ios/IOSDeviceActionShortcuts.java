@@ -16,7 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.DeviceActionShortcuts;
+
+import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
 public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
 
@@ -27,7 +31,9 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
      * @param keyName The button pressed by the mobile driver to attempt hiding the
      *                keyboard.
      */
-    void hideKeyboard(String keyName);
+    default void hideKeyboard(String keyName) {
+        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
+    }
 
     /**
      * Hides the keyboard if it is showing. Available strategies are PRESS_KEY
@@ -40,11 +46,15 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
      * @param keyName  a String, representing the text displayed on the button of the
      *                 keyboard you want to press. For example: "Done".
      */
-    void hideKeyboard(String strategy, String keyName);
+    default void hideKeyboard(String strategy, String keyName) {
+        CommandExecutionHelper.execute(this, hideKeyboardCommand(strategy, keyName));
+    }
 
     /**
      * Simulate shaking the device.
      */
-    void shake();
+    default void shake() {
+        CommandExecutionHelper.execute(this, shakeCommand());
+    }
 
 }

@@ -21,12 +21,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static io.appium.java_client.MobileCommand.GET_SETTINGS;
-import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
-import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
 import static io.appium.java_client.MobileCommand.SET_SETTINGS;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -221,28 +218,6 @@ public abstract class AppiumDriver<T extends WebElement>
 
     @Override public ExecuteMethod getExecuteMethod() {
         return executeMethod;
-    }
-
-    /**
-     * @see PerformsTouchActions#performTouchAction(TouchAction).
-     */
-    @SuppressWarnings("rawtypes")
-    @Override public TouchAction performTouchAction(
-        TouchAction touchAction) {
-        ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
-        execute(PERFORM_TOUCH_ACTION, parameters);
-        return touchAction;
-    }
-
-    /**
-     * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction).
-     */
-    @Override
-    @SuppressWarnings({"rawtypes"})
-    public void performMultiTouchAction(
-        MultiTouchAction multiAction) {
-        ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
-        execute(PERFORM_MULTI_TOUCH, parameters);
     }
 
     /**

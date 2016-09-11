@@ -17,12 +17,8 @@
 package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.prepareArguments;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -54,7 +50,7 @@ import java.net.URL;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts,
-        FindsByIosUIAutomation<T> {
+        FindsByIosUIAutomation<T>, LocksIOSDevice {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
@@ -172,37 +168,6 @@ public class IOSDriver<T extends WebElement>
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
         doSwipe(startx, starty, endx - startx, endy - starty, duration);
-    }
-
-    /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
-     */
-    @Override public void hideKeyboard(String strategy, String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(strategy, keyName));
-    }
-
-    /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String).
-     */
-    @Override public void hideKeyboard(String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
-    }
-
-    /**
-     * @see IOSDeviceActionShortcuts#shake().
-     */
-    @Override public void shake() {
-        CommandExecutionHelper.execute(this, shakeCommand());
-    }
-
-    /**
-     * Lock the device (bring it to the lock screen) for a given number of
-     * seconds.
-     *
-     * @param seconds number of seconds to lock the screen for
-     */
-    public void lockDevice(int seconds) {
-        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
     }
 
     @Override public TargetLocator switchTo() {
