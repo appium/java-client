@@ -46,5 +46,12 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
      * Simulate shaking the device.
      */
     void shake();
+    
+    /**
+     * Simulate tapping the home button.
+     */
+    void homeScreen();
+
+
 
 }
