@@ -39,4 +39,18 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
                 .release();
         swipeAction.perform();
     }
+    
+    /**
+     * @see TouchShortcuts#doubleTap(WebElement, int, int).
+     */
+    @Override public void doubleTap(WebElement element, int x, int y) {
+        throw new UnsupportedOperationException("Support has not been added in the YouiEngineDriver.");
+    }
+    
+    /**
+     * @see TouchShortcuts#doubleTap(WebElement).
+     */
+    @Override public void doubleTap(WebElement element) {
+        throw new UnsupportedOperationException("Support has not been added in the YouiEngineDriver.");
+    }
 }

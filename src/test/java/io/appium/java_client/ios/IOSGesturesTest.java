@@ -17,6 +17,7 @@
 package io.appium.java_client.ios;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
@@ -32,6 +33,14 @@ public class IOSGesturesTest extends BaseIOSTest {
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
         driver.tap(2, e, 2000);
         assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
+    }
+    
+    @Test public void doubleTapTest() {
+        IOSElement firstField = (IOSElement) driver.findElementById("IntegerA");
+        firstField.sendKeys("2");
+        driver.doubleTap(firstField);
+        IOSElement editingMenu = (IOSElement) driver.findElementByClassName("UIAEditingMenu");
+        assertNotNull(editingMenu);
     }
 
     @Test public void zoomTest() {

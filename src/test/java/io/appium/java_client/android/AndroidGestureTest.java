@@ -39,7 +39,7 @@ public class AndroidGestureTest extends BaseAndroidTest {
         assertEquals("ON" ,driver
             .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
-
+    
     @Test public void singleElementTapTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
         driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
