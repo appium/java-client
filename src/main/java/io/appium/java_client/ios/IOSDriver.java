@@ -17,21 +17,15 @@
 package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.prepareArguments;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.MobileSelector;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -40,7 +34,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
-import java.util.List;
 
 
 /**
@@ -57,7 +50,7 @@ import java.util.List;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts,
-        FindsByIosUIAutomation<T> {
+        FindsByIosUIAutomation<T>, LocksIOSDevice {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
@@ -175,56 +168,6 @@ public class IOSDriver<T extends WebElement>
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
         doSwipe(startx, starty, endx - startx, endy - starty, duration);
-    }
-
-    /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
-     */
-    @Override public void hideKeyboard(String strategy, String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(strategy, keyName));
-    }
-
-    /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String).
-     */
-    @Override public void hideKeyboard(String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
-    }
-
-    /**
-     * @see IOSDeviceActionShortcuts#shake().
-     */
-    @Override public void shake() {
-        CommandExecutionHelper.execute(this, shakeCommand());
-    }
-
-    /**
-     * @throws WebDriverException
-     *     This method is not applicable with browser/webview UI.
-     */
-    @Override
-    public T findElementByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElement(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override
-    public List<T> findElementsByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElements(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
-    }
-
-    /**
-     * Lock the device (bring it to the lock screen) for a given number of
-     * seconds.
-     *
-     * @param seconds number of seconds to lock the screen for
-     */
-    public void lockDevice(int seconds) {
-        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
     }
 
     @Override public TargetLocator switchTo() {

@@ -21,7 +21,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public interface FindsByWindowsAutomation<T extends WebElement>  {
+public interface FindsByWindowsAutomation<T extends WebElement> extends FindsByFluentSelector<T> {
 
     /**
      * Finds the first of elements that match the Windows UIAutomation selector supplied.
@@ -29,7 +29,9 @@ public interface FindsByWindowsAutomation<T extends WebElement>  {
      * @param selector a Windows UIAutomation selector
      * @return The first element that matches the given selector
      */
-    T findElementByWindowsUIAutomation(String selector);
+    default T findElementByWindowsUIAutomation(String selector) {
+        return findElement(MobileSelector.WINDOWS_UI_AUTOMATION.toString(), selector);
+    }
 
     /**
      * Finds a list of elements that match the Windows UIAutomation selector supplied.
@@ -37,5 +39,7 @@ public interface FindsByWindowsAutomation<T extends WebElement>  {
      * @param selector a Windows UIAutomation selector
      * @return a list of elements that match the given selector
      */
-    List<T> findElementsByWindowsUIAutomation(String selector);
+    default List<T> findElementsByWindowsUIAutomation(String selector) {
+        return findElements(MobileSelector.WINDOWS_UI_AUTOMATION.toString(), selector);
+    }
 }

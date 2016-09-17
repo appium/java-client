@@ -16,18 +16,35 @@
 
 package io.appium.java_client;
 
-public interface InteractsWithApps {
+import static io.appium.java_client.MobileCommand.CLOSE_APP;
+import static io.appium.java_client.MobileCommand.INSTALL_APP;
+import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
+import static io.appium.java_client.MobileCommand.LAUNCH_APP;
+import static io.appium.java_client.MobileCommand.prepareArguments;
+import static io.appium.java_client.MobileCommand.RESET;
+import static io.appium.java_client.MobileCommand.REMOVE_APP;
+import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+
+import com.google.common.collect.ImmutableMap;
+
+import java.util.AbstractMap;
+
+public interface InteractsWithApps extends ExecutesMethod {
     /**
      * Launch the app which was provided in the capabilities at session creation.
      */
-    void launchApp();
+    default void launchApp() {
+        execute(LAUNCH_APP);
+    }
 
     /**
      * Install an app on the mobile device.
      *
      * @param appPath path to app to install.
      */
-    void installApp(String appPath);
+    default void installApp(String appPath) {
+        execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
+    }
 
     /**
      * Checks if an app is installed on the device.
@@ -35,12 +52,17 @@ public interface InteractsWithApps {
      * @param bundleId bundleId of the app.
      * @return True if app is installed, false otherwise.
      */
-    boolean isAppInstalled(String bundleId);
+    default boolean isAppInstalled(String bundleId) {
+        return CommandExecutionHelper.execute(this,
+                new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, prepareArguments("bundleId", bundleId)));
+    }
 
     /**
      * Reset the currently running app for this session.
      */
-    void resetApp();
+    default void resetApp() {
+        execute(RESET);
+    }
 
     /**
      * Runs the current app as a background app for the number of seconds
@@ -49,18 +71,24 @@ public interface InteractsWithApps {
      *
      * @param seconds Number of seconds to run App in background.
      */
-    void runAppInBackground(int seconds);
+    default void runAppInBackground(int seconds) {
+        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
+    }
 
     /**
      * Remove the specified app from the device (uninstall).
      *
      * @param bundleId the bunble identifier (or app id) of the app to remove.
      */
-    void removeApp(String bundleId);
+    default void removeApp(String bundleId) {
+        execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
+    }
 
     /**
      * Close the app which was provided in the capabilities at session creation.
      */
-    void closeApp();
+    default void closeApp() {
+        execute(CLOSE_APP);
+    }
 
 }

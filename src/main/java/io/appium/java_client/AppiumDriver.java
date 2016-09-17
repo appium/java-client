@@ -19,25 +19,11 @@ package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import static io.appium.java_client.MobileCommand.CLOSE_APP;
-import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static io.appium.java_client.MobileCommand.GET_SETTINGS;
-import static io.appium.java_client.MobileCommand.GET_STRINGS;
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-import static io.appium.java_client.MobileCommand.INSTALL_APP;
-import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.LAUNCH_APP;
-import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
-import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
-import static io.appium.java_client.MobileCommand.PULL_FILE;
-import static io.appium.java_client.MobileCommand.PULL_FOLDER;
-import static io.appium.java_client.MobileCommand.REMOVE_APP;
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.SET_SETTINGS;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -75,7 +61,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.xml.bind.DatatypeConverter;
 
 /**
 * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
@@ -231,121 +216,8 @@ public abstract class AppiumDriver<T extends WebElement>
         return super.findElementsByAccessibilityId(using);
     }
 
-    @Override protected Response execute(String command) {
-        return super.execute(command, ImmutableMap.<String, Object>of());
-    }
-
     @Override public ExecuteMethod getExecuteMethod() {
         return executeMethod;
-    }
-
-    /**
-     * @see InteractsWithApps#resetApp().
-     */
-    @Override public void resetApp() {
-        execute(MobileCommand.RESET);
-    }
-
-    /**
-     * @see InteractsWithApps#isAppInstalled(String).
-     */
-    @Override public boolean isAppInstalled(String bundleId) {
-        Response response = execute(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId));
-
-        return Boolean.parseBoolean(response.getValue().toString());
-    }
-
-    /**
-     * @see InteractsWithApps#installApp(String).
-     */
-    @Override public void installApp(String appPath) {
-        execute(INSTALL_APP, ImmutableMap.of("appPath", appPath));
-    }
-
-    /**
-     * @see InteractsWithApps#removeApp(String).
-     */
-    @Override public void removeApp(String bundleId) {
-        execute(REMOVE_APP, ImmutableMap.of("bundleId", bundleId));
-    }
-
-    /**
-     * @see InteractsWithApps#launchApp().
-     */
-    @Override public void launchApp() {
-        execute(LAUNCH_APP);
-    }
-
-    /**
-     * @see InteractsWithApps#closeApp().
-     */
-    @Override public void closeApp() {
-        execute(CLOSE_APP);
-    }
-
-    /**
-     * @see InteractsWithApps#runAppInBackground(int).
-     */
-    @Override public void runAppInBackground(int seconds) {
-        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
-    }
-
-    /**
-     * @see DeviceActionShortcuts#getDeviceTime().
-     */
-    @Override public String getDeviceTime() {
-        Response response = execute(GET_DEVICE_TIME);
-        return response.getValue().toString();
-    }
-
-    /**
-     * @see DeviceActionShortcuts#hideKeyboard().
-     */
-    @Override public void hideKeyboard() {
-        execute(HIDE_KEYBOARD);
-    }
-
-    /**
-     * @see InteractsWithFiles#pullFile(String).
-     */
-    @Override public byte[] pullFile(String remotePath) {
-        Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
-        String base64String = response.getValue().toString();
-
-        return DatatypeConverter.parseBase64Binary(base64String);
-    }
-
-    /**
-     * @see InteractsWithFiles#pullFolder(String).
-     */
-    @Override
-    public byte[] pullFolder(String remotePath) {
-        Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
-        String base64String = response.getValue().toString();
-
-        return DatatypeConverter.parseBase64Binary(base64String);
-    }
-
-    /**
-     * @see PerformsTouchActions#performTouchAction(TouchAction).
-     */
-    @SuppressWarnings("rawtypes")
-    @Override public TouchAction performTouchAction(
-        TouchAction touchAction) {
-        ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
-        execute(PERFORM_TOUCH_ACTION, parameters);
-        return touchAction;
-    }
-
-    /**
-     * @see PerformsTouchActions#performMultiTouchAction(MultiTouchAction).
-     */
-    @Override
-    @SuppressWarnings({"rawtypes"})
-    public void performMultiTouchAction(
-        MultiTouchAction multiAction) {
-        ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
-        execute(PERFORM_MULTI_TOUCH, parameters);
     }
 
     /**
@@ -602,38 +474,6 @@ public abstract class AppiumDriver<T extends WebElement>
 
     @Override public void setLocation(Location location) {
         locationContext.setLocation(location);
-    }
-
-    /**
-     * @return a map with localized strings defined in the app.
-     * @see HasAppStrings#getAppStringMap().
-     */
-    @Override public Map<String, String> getAppStringMap() {
-        Response response = execute(GET_STRINGS);
-        return (Map<String, String>) response.getValue();
-    }
-
-    /**
-     * @param language strings language code.
-     * @return a map with localized strings defined in the app.
-     * @see HasAppStrings#getAppStringMap(String).
-     */
-    @Override public Map<String, String> getAppStringMap(String language) {
-        Response response = execute(GET_STRINGS, prepareArguments("language", language));
-        return (Map<String, String>) response.getValue();
-    }
-
-    /**
-     * @param language   strings language code.
-     * @param stringFile strings filename.
-     * @return a map with localized strings defined in the app.
-     * @see HasAppStrings#getAppStringMap(String, String).
-     */
-    @Override public Map<String, String> getAppStringMap(String language, String stringFile) {
-        String[] parameters = new String[] {"language", "stringFile"};
-        Object[] values = new Object[] {language, stringFile};
-        Response response = execute(GET_STRINGS, prepareArguments(parameters, values));
-        return (Map<String, String>) response.getValue();
     }
 
     private TouchAction createTap(WebElement element, int duration) {

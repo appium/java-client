@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android;
+package io.appium.java_client.ios;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.replaceElementValueCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.MobileElement;
+import io.appium.java_client.ExecutesMethod;
 
-public class AndroidElement extends MobileElement
-    implements FindsByAndroidUIAutomator<MobileElement> {
+public interface LocksIOSDevice extends ExecutesMethod {
     /**
-     * This method replace current text value.
-     * @param value a new value
+     * Lock the device (bring it to the lock screen) for a given number of
+     * seconds.
+     *
+     * @param seconds number of seconds to lock the screen for
      */
-    public void replaceValue(String value) {
-        CommandExecutionHelper.execute(this, replaceElementValueCommand(this, value));
+    default void lockDevice(int seconds) {
+        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
     }
 }
