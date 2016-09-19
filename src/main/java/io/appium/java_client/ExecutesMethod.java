@@ -22,7 +22,7 @@ import java.util.Map;
 
 public interface ExecutesMethod {
     /**
-     * Executes JSONWP command and returns a response
+     * Executes JSONWP command and returns a response.
      *
      * @param driverCommand a JSONWP command
      * @param parameters map of command parameters
@@ -31,7 +31,7 @@ public interface ExecutesMethod {
     Response execute(String driverCommand, Map<String, ?> parameters);
 
     /**
-     * Executes JSONWP command and returns a response
+     * Executes JSONWP command and returns a response.
      *
      * @param driverCommand a JSONWP command
      * @return a result response

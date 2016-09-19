@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.DeviceActionShortcuts;
-
 import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
+
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.DeviceActionShortcuts;
 
 public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
 

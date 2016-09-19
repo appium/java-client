@@ -20,10 +20,10 @@ import static io.appium.java_client.MobileCommand.CLOSE_APP;
 import static io.appium.java_client.MobileCommand.INSTALL_APP;
 import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
 import static io.appium.java_client.MobileCommand.LAUNCH_APP;
-import static io.appium.java_client.MobileCommand.prepareArguments;
-import static io.appium.java_client.MobileCommand.RESET;
 import static io.appium.java_client.MobileCommand.REMOVE_APP;
+import static io.appium.java_client.MobileCommand.RESET;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import com.google.common.collect.ImmutableMap;
 

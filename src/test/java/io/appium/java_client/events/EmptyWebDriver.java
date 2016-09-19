@@ -8,7 +8,19 @@ import io.appium.java_client.FindsByFluentSelector;
 import io.appium.java_client.FindsByIosUIAutomation;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ContextAware;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Rotatable;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.FindsByClassName;
 import org.openqa.selenium.internal.FindsByCssSelector;
 import org.openqa.selenium.internal.FindsById;
@@ -65,12 +77,22 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         return null;
     }
 
+    @Override public StubWebElement findElement(By by) {
+        return new StubWebElement();
+    }
+
+    @Override
+    public StubWebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
+        return new StubWebElement();
+    }
+
     @Override public List<StubWebElement> findElements(By by) {
         return createStubList();
     }
 
-    @Override public StubWebElement findElement(By by) {
-        return new StubWebElement();
+    @Override
+    public List<StubWebElement> findElements(String by, String using) throws WebDriverException {
+        return createStubList();
     }
 
     @Override public String getPageSource() {
@@ -198,16 +220,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         map.put("0",StringUtils.EMPTY);
         map.put("1",StringUtils.EMPTY);
         return new DesiredCapabilities(map);
-    }
-
-    @Override
-    public StubWebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
-        return new StubWebElement();
-    }
-
-    @Override
-    public List<StubWebElement> findElements(String by, String using) throws WebDriverException {
-        return createStubList();
     }
 
     private class StubTargetLocator implements TargetLocator {

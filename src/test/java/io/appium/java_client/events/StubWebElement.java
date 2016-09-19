@@ -6,7 +6,14 @@ import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByFluentSelector;
 import io.appium.java_client.FindsByIosUIAutomation;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.FindsByClassName;
 import org.openqa.selenium.internal.FindsByCssSelector;
 import org.openqa.selenium.internal.FindsById;
@@ -148,7 +155,17 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
         return createStubSubElementList();
     }
 
+    @Override
+    public List<WebElement> findElements(String by, String using) throws WebDriverException {
+        return createStubSubElementList();
+    }
+
     @Override public WebElement findElement(By by) {
+        return new StubWebElement();
+    }
+
+    @Override
+    public WebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
         return new StubWebElement();
     }
 
@@ -178,15 +195,5 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
 
     @Override public String toString() {
         return this.getClass().getCanonicalName();
-    }
-
-    @Override
-    public WebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
-        return new StubWebElement();
-    }
-
-    @Override
-    public List<WebElement> findElements(String by, String using) throws WebDriverException {
-        return createStubSubElementList();
     }
 }

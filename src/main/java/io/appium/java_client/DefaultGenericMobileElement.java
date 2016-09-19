@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
