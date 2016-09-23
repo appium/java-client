@@ -21,10 +21,10 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotif
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
+import io.appium.java_client.android.settings.Setting;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -48,7 +48,7 @@ import java.net.URL;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<T>, LocksAndroidDevice {
+    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -189,17 +189,13 @@ public class AndroidDriver<T extends WebElement>
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
+    @Deprecated
     /**
-     * Set the `ignoreUnimportantViews` setting. *Android-only method*.
-     * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
-     * which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO
-     * or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important
-     * by the system), in an attempt to make things less confusing or faster.
-     *
-     * @param compress ignores unimportant views if true, doesn't ignore otherwise.
+     * This method is deprecated. Use {@link #setSetting(Setting, Object)} method
+     * with {@link Setting} and {@link Setting.IgnoreUnimportantViews#value()}
+     * as parameters
      */
-    // Should be moved to the subclass
     public void ignoreUnimportantViews(Boolean compress) {
-        setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
+        setSetting(Setting.IGNORE_UNIMPORTANT_VIEWS, compress);
     }
 }

@@ -20,13 +20,8 @@ package io.appium.java_client;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
-import static io.appium.java_client.MobileCommand.GET_SETTINGS;
-import static io.appium.java_client.MobileCommand.SET_SETTINGS;
-import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -385,43 +380,6 @@ public abstract class AppiumDriver<T extends WebElement>
         multiTouch.add(action0).add(action1);
 
         multiTouch.perform();
-    }
-
-    /**
-     * Get settings stored for this test session It's probably better to use a
-     * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to read.
-     *
-     * @return JsonObject, a straight-up hash of settings.
-     */
-    public JsonObject getSettings() {
-        Response response = execute(GET_SETTINGS);
-
-        JsonParser parser = new JsonParser();
-        return  (JsonObject) parser.parse(response.getValue().toString());
-    }
-
-    /**
-     * Set settings for this test session It's probably better to use a
-     * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to change.
-     *
-     * @param settings Map of setting keys and values.
-     */
-    private void setSettings(ImmutableMap<?, ?> settings) {
-        execute(SET_SETTINGS, prepareArguments("settings", settings));
-    }
-
-    /**
-     * Set a setting for this test session It's probably better to use a
-     * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to change.
-     *
-     * @param setting AppiumSetting you wish to set.
-     * @param value   value of the setting.
-     */
-    protected void setSetting(AppiumSetting setting, Object value) {
-        setSettings(prepareArguments(setting.toString(), value));
     }
 
     @Override public WebDriver context(String name) {
