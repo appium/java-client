@@ -40,6 +40,15 @@ enum Strategies {
             return super.getBy(annotation);
         }
     },
+    BYPREDICATE("predicate") {
+        @Override By getBy(Annotation annotation) {
+            String value = getValue(annotation, this);
+            if(annotation.annotationType().equals(iOSFindBy.class)) {
+                return MobileBy.iOSNsPredicateString(value);
+            }
+            return super.getBy(annotation);
+        }
+    },
     BYACCESSABILITY("accessibility") {
         @Override By getBy(Annotation annotation) {
             return MobileBy.AccessibilityId(getValue(annotation, this));

@@ -39,4 +39,14 @@ public class IOSSearchingTest extends BaseIOSTest {
                 .findElementsByIosUIAutomation(".elements().withName(\"Answer\")")
                 .size(), 0);
     }
+
+    @Test public void findByPredicateTest() {
+        assertNotEquals(driver
+            .findElementByIosNsPredicate("name CONTAINS 'Compute'")
+            .getText(), null);
+        assertNotEquals(driver
+                .findElementsByIosNsPredicate("name CONTAINS 'Compute'")
+                .size(), 0);
+    }
+
 }
