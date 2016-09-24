@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.settings;
+package io.appium.java_client.android;
 
 /**
  * Enums defining constants for Appium Settings which can be set and toggled during a test session.
@@ -32,31 +32,4 @@ public enum Setting {
     public String toString() {
         return this.name;
     }
-
-    /**
-     * Contains possible values of the `ignoreUnimportantViews` setting.
-     * It helps to define whether Android devices should use `setCompressedLayoutHeirarchy()`
-     * which ignores all views that are marked IMPORTANT_FOR_ACCESSIBILITY_NO
-     * or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important
-     * by the system), in an attempt to make things less confusing or faster.
-     */
-    public static enum IgnoreUnimportantViews {
-        YES(true),
-        NO(false);
-
-        private final Boolean ignore;
-
-        IgnoreUnimportantViews(Boolean ignore) {
-            this.ignore = ignore;
-        }
-
-        /**
-         * @return value which means to ignore unimportant views if true,
-         * doesn't ignore otherwise.
-         */
-        public Boolean value() {
-            return ignore;
-        }
-    }
-
 }

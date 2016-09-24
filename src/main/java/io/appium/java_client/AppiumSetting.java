@@ -16,7 +16,7 @@
 
 package io.appium.java_client;
 
-import io.appium.java_client.android.settings.Setting;
+import io.appium.java_client.android.Setting;
 
 /**
  * This enum is deprecated. Was moved to {@link Setting}

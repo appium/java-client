@@ -25,7 +25,6 @@ import com.google.gson.JsonParser;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
-import io.appium.java_client.android.settings.Setting;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
@@ -57,5 +56,18 @@ public interface HasSettings extends ExecutesMethod {
 
         JsonParser parser = new JsonParser();
         return  (JsonObject) parser.parse(response.getValue().toString());
+    }
+
+    /**
+     * Set the `ignoreUnimportantViews` setting. *Android-only method*.
+     * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
+     * which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO
+     * or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important
+     * by the system), in an attempt to make things less confusing or faster.
+     *
+     * @param compress ignores unimportant views if true, doesn't ignore otherwise.
+     */
+    default void ignoreUnimportantViews(Boolean compress) {
+        setSetting(Setting.IGNORE_UNIMPORTANT_VIEWS, compress);
     }
 }

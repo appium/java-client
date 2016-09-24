@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.MobileCommand;
 
-import io.appium.java_client.android.settings.Setting;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.internal.HasIdentity;
 

@@ -24,7 +24,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
-import io.appium.java_client.android.settings.Setting;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -187,15 +186,5 @@ public class AndroidDriver<T extends WebElement>
 
     public void toggleLocationServices() {
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
-    }
-
-    @Deprecated
-    /**
-     * This method is deprecated. Use {@link #setSetting(Setting, Object)} method
-     * with {@link Setting} and {@link Setting.IgnoreUnimportantViews#value()}
-     * as parameters
-     */
-    public void ignoreUnimportantViews(Boolean compress) {
-        setSetting(Setting.IGNORE_UNIMPORTANT_VIEWS, compress);
     }
 }
