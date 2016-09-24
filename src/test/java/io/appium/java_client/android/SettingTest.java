@@ -39,9 +39,9 @@ public class SettingTest extends BaseAndroidTest {
 
     private void assertJSONElementContains(String method, int value) {
         driver.getSettings().get(Setting.CONFIGURATOR.toString());
-        assertEquals(driver.getSettings().get(Setting.CONFIGURATOR.toString()).
-                getAsJsonObject().get("method").getAsString(), method);
-        assertEquals(driver.getSettings().get(Setting.CONFIGURATOR.toString()).
-                getAsJsonObject().get("value").getAsInt(), value);
+        assertEquals(driver.getSettings().get(Setting.CONFIGURATOR.toString())
+                .getAsJsonObject().get("method").getAsString(), method);
+        assertEquals(driver.getSettings().get(Setting.CONFIGURATOR.toString())
+                .getAsJsonObject().get("value").getAsInt(), value);
     }
 }

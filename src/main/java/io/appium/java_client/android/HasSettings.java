@@ -107,8 +107,7 @@ interface HasSettings extends ExecutesMethod {
      */
     default void configuratorSetKeyInjectionDelay(int delay) {
         setSetting(Setting.CONFIGURATOR,
-            ConfiguratorParameters.
-                KEY_INJECTION_DELAY.format(delay));
+            ConfiguratorParameters.KEY_INJECTION_DELAY.format(delay));
     }
 
     /**
