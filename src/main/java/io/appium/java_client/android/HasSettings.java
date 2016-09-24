@@ -30,9 +30,6 @@ import org.openqa.selenium.remote.Response;
 import java.util.Map;
 
 interface HasSettings extends ExecutesMethod {
-
-    static final String configuratorPattern = "{\"method\":\"%s\",\"value\":%d}";
-
     /**
      * Set a setting for this test session It's probably better to use a
      * convenience function, rather than use this function directly. Try finding
