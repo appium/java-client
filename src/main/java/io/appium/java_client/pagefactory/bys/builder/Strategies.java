@@ -43,7 +43,7 @@ enum Strategies {
     BYPREDICATE("predicate") {
         @Override By getBy(Annotation annotation) {
             String value = getValue(annotation, this);
-            if(annotation.annotationType().equals(iOSFindBy.class)) {
+            if (annotation.annotationType().equals(iOSFindBy.class)) {
                 return MobileBy.iOSNsPredicateString(value);
             }
             return super.getBy(annotation);
