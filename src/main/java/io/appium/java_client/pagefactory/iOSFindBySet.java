@@ -22,22 +22,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
- * of {@link io.appium.java_client.pagefactory.iOSFindBy} tags
- * It will then search for all elements that match any criteria. Note that elements
- * are not guaranteed to be in document order.
- *
- * It is deprecated. Set of {@link io.appium.java_client.pagefactory.iOSFindBy}
- * can be defined without this annotation. To define the correct way how to use
- * the defined set please take a look at {@link HowToUseLocators}. The article.
- * https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html.
+ * Defines set of chained/possible locators. Each one locator
+ * should be defined with {@link iOSFindBy}
  */
-@Deprecated
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
-public @interface iOSFindAll {
-    /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSFindBy} strategies which may be
-     * used to find the target element.
-     */
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface iOSFindBySet {
     iOSFindBy[] value();
 }
