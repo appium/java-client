@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.android;
 
-import io.appium.java_client.android.Setting;
+enum ConfiguratorParameters {
+    WAIT_FOR_IDLE_TIMEOUT("setWaitForIdleTimeout"),
+    WAIT_FOR_SELECTOR_TIMEOUT("setWaitForSelectorTimeout"),
+    WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
+    WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
+    KEY_INJECTION_DELAY("setKeyInjectionDelay");
 
-/**
- * This enum is deprecated. Was moved to {@link Setting}
- */
-@Deprecated
-public enum AppiumSetting {
+    private final String name;
 
-    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");
-    private String name;
-
-    private AppiumSetting(String name) {
+    ConfiguratorParameters(String name) {
         this.name = name;
     }
 
-    public String toString() {
-        return this.name;
+    String format(int value) {
+        return String.format("{\"method\":\"%s\",\"value\":%d}", name, value);
     }
-
 }

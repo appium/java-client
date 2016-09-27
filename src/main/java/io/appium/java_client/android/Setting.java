@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
-
-import io.appium.java_client.android.Setting;
+package io.appium.java_client.android;
 
 /**
- * This enum is deprecated. Was moved to {@link Setting}
+ * Enums defining constants for Appium Settings which can be set and toggled during a test session.
  */
-@Deprecated
-public enum AppiumSetting {
+public enum Setting {
 
-    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");
+    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews"),
+    CONFIGURATOR("configurator");
+
     private String name;
 
-    private AppiumSetting(String name) {
+    Setting(String name) {
         this.name = name;
     }
 
     public String toString() {
         return this.name;
     }
-
 }

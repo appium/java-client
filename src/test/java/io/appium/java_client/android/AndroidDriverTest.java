@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.AppiumSetting;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -80,18 +79,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
         } finally {
             FileUtils.forceDelete(temp);
         }
-    }
-
-    @Test public void ignoreUnimportantViews() {
-        driver.ignoreUnimportantViews(true);
-        boolean ignoreViews =
-            driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString())
-                .getAsBoolean();
-        assertTrue(ignoreViews);
-        driver.ignoreUnimportantViews(false);
-        ignoreViews = driver.getSettings().get(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS.toString())
-            .getAsBoolean();
-        assertFalse(ignoreViews);
     }
 
     @Test public void toggleLocationServicesTest() {

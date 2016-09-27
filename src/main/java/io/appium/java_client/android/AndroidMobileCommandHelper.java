@@ -290,4 +290,13 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<>(
                 REPLACE_VALUE, prepareArguments(parameters, values));
     }
+
+    public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
+        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
+    }
+
+    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
+        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings",
+                prepareArguments(setting.toString(), value)));
+    }
 }
