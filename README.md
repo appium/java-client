@@ -87,8 +87,11 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship.
-- Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
+- [ENHANCEMENT] Added the ability to set UiAutomator Congfigurator values. [#410](https://github.com/appium/java-client/pull/410). 
+[#477](https://github.com/appium/java-client/pull/477).
 - [BUG FIX]: There was the issue when "@WithTimeout" was changing general timeout of the waiting for elements. Bug report: [#467](https://github.com/appium/java-client/issues/467). Fixes: [#468](https://github.com/appium/java-client/issues/468), [#469](https://github.com/appium/java-client/issues/469)
+- Added the server flag `io.appium.java_client.service.local.flags.AndroidServerFlag#REBOOT`. [#476](https://github.com/appium/java-client/pull/476)
+- Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
 
 *4.1.2*
 
