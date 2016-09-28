@@ -22,26 +22,23 @@ public class SettingTest extends BaseAndroidTest {
 
     @Test public void configuratorTest() {
         driver.configuratorSetActionAcknowledgmentTimeout(5);
-        assertJSONElementContains("setActionAcknowledgmentTimeout", 5);
+        assertJSONElementContains(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, 5);
 
         driver.configuratorSetKeyInjectionDelay(4);
-        assertJSONElementContains("setKeyInjectionDelay", 4);
+        assertJSONElementContains(Setting.KEY_INJECTION_DELAY, 4);
 
         driver.configuratorSetScrollAcknowledgmentTimeout(3);
-        assertJSONElementContains("setScrollAcknowledgmentTimeout", 3);
+        assertJSONElementContains(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, 3);
 
         driver.configuratorSetWaitForIdleTimeout(6);
-        assertJSONElementContains("setWaitForIdleTimeout", 6);
+        assertJSONElementContains(Setting.WAIT_FOR_IDLE_TIMEOUT, 6);
 
         driver.configuratorSetWaitForSelectorTimeout(1);
-        assertJSONElementContains("setWaitForSelectorTimeout", 1);
+        assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1);
     }
 
-    private void assertJSONElementContains(String method, int value) {
-        driver.getSettings().get(Setting.CONFIGURATOR.toString());
-        assertEquals(driver.getSettings().get(Setting.CONFIGURATOR.toString())
-                .getAsJsonObject().get("method").getAsString(), method);
-        assertEquals(driver.getSettings().get(Setting.CONFIGURATOR.toString())
-                .getAsJsonObject().get("value").getAsInt(), value);
+    private void assertJSONElementContains(Setting setting, int value) {
+        assertEquals(driver.getSettings().get(setting.toString())
+                .getAsInt(), value);
     }
 }
