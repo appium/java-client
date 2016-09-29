@@ -21,20 +21,20 @@ public class SettingTest extends BaseAndroidTest {
     }
 
     @Test public void configuratorTest() {
-        driver.configuratorSetActionAcknowledgmentTimeout(5);
-        assertJSONElementContains(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, 5);
+        driver.configuratorSetActionAcknowledgmentTimeout(500);
+        assertJSONElementContains(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, 500);
 
-        driver.configuratorSetKeyInjectionDelay(4);
-        assertJSONElementContains(Setting.KEY_INJECTION_DELAY, 4);
+        driver.configuratorSetKeyInjectionDelay(400);
+        assertJSONElementContains(Setting.KEY_INJECTION_DELAY, 400);
 
-        driver.configuratorSetScrollAcknowledgmentTimeout(3);
-        assertJSONElementContains(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, 3);
+        driver.configuratorSetScrollAcknowledgmentTimeout(300);
+        assertJSONElementContains(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, 300);
 
-        driver.configuratorSetWaitForIdleTimeout(6);
-        assertJSONElementContains(Setting.WAIT_FOR_IDLE_TIMEOUT, 6);
+        driver.configuratorSetWaitForIdleTimeout(600);
+        assertJSONElementContains(Setting.WAIT_FOR_IDLE_TIMEOUT, 600);
 
-        driver.configuratorSetWaitForSelectorTimeout(1);
-        assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1);
+        driver.configuratorSetWaitForSelectorTimeout(1000);
+        assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1000);
     }
 
     private void assertJSONElementContains(Setting setting, int value) {
