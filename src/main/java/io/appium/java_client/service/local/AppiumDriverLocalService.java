@@ -114,6 +114,7 @@ public final class AppiumDriverLocalService extends DriverService {
             URL status = new URL(url.toString() + "/status");
             new UrlChecker().waitUntilAvailable(time, timeUnit, status);
         } catch (MalformedURLException e) {
+			String msg = "There is something wrong with the url";
             throw new RuntimeException(
                 "There is something wrong with the URL " + url.toString().toString() + "/status");
         }
