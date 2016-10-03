@@ -42,10 +42,10 @@ public class IOSSearchingTest extends BaseIOSTest {
 
     @Test public void findByPredicateTest() {
         assertNotEquals(driver
-            .findElementByIosNsPredicate("name CONTAINS 'Compute'")
+            .findElementByIosNsPredicate("label CONTAINS 'Compute'")
             .getText(), null);
         assertNotEquals(driver
-                .findElementsByIosNsPredicate("name CONTAINS 'Compute'")
+                .findElementsByIosNsPredicate("label CONTAINS 'Compute'")
                 .size(), 0);
     }
 

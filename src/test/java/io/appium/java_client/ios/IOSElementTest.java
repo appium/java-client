@@ -37,7 +37,7 @@ public class IOSElementTest extends BaseIOSTest {
     @Test public void findByPredicateTest() {
         assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow")
             .get(1))
-            .findElementByIosNsPredicate("name CONTAINS 'Compute'").getText(), null);
+            .findElementByIosNsPredicate("label CONTAINS 'Compute'").getText(), null);
     }
 
     @Test public void setValueNunslaughterTest() {

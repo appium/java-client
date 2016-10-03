@@ -63,7 +63,7 @@ public class IOSPageFactoryTest {
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<WebElement> iosUIAutomatorButtons;
 
-    @iOSFindBy(predicate = "name CONTAINS 'Compute'") private List<WebElement> iosPredicateButtons;
+    @iOSFindBy(predicate = "label CONTAINS 'Compute'") private List<WebElement> iosPredicateButtons;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") @AndroidFindBy(className = "android.widget.TextView")
     private List<WebElement> androidOriOsTextViews;
@@ -89,7 +89,7 @@ public class IOSPageFactoryTest {
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private WebElement iosUIAutomatorButton;
 
-    @iOSFindBy(predicate = "name CONTAINS 'Compute'") private WebElement iosPredicateButton;
+    @iOSFindBy(predicate = "label CONTAINS 'Compute'") private WebElement iosPredicateButton;
 
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
