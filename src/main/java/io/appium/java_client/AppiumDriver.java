@@ -30,6 +30,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
@@ -408,6 +409,20 @@ public abstract class AppiumDriver<T extends WebElement>
         }
         return contextName;
     }
+
+    @Override public DeviceRotation rotation() {
+        Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
+        DeviceRotation deviceRotation = new DeviceRotation((Map<String, Number>)response.getValue());
+        if (deviceRotation.getX() < 0 || deviceRotation.getY() < 0 || deviceRotation.getZ() < 0) {
+            throw new WebDriverException("Unexpected orientation returned: " + deviceRotation);
+        }
+        return deviceRotation;
+    }
+
+    @Override public void rotate(DeviceRotation rotation) {
+        execute(DriverCommand.SET_SCREEN_ROTATION, rotation.parameters());
+    }
+
 
     @Override public void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
