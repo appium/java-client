@@ -109,8 +109,18 @@ class DefaultListener implements Listener, AppiumWebDriverEventListener, Listens
         ((ElementEventListener) dispatcher).beforeChangeValueOf(element, driver);
     }
 
+    @Override
+    public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
+        ((ElementEventListener) dispatcher).beforeChangeValueOf(element, driver, keysToSend);
+    }
+
     @Override public void afterChangeValueOf(WebElement element, WebDriver driver) {
         ((ElementEventListener) dispatcher).afterChangeValueOf(element, driver);
+    }
+
+    @Override
+    public void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
+        ((ElementEventListener) dispatcher).afterChangeValueOf(element, driver, keysToSend);
     }
 
     @Override public void beforeScript(String script, WebDriver driver) {
@@ -164,12 +174,12 @@ class DefaultListener implements Listener, AppiumWebDriverEventListener, Listens
     }
 
     @Override public void beforeWindowChangeSize(WebDriver driver, WebDriver.Window window,
-        Dimension targetSize) {
+                                                 Dimension targetSize) {
         ((WindowEventListener) dispatcher).beforeWindowChangeSize(driver, window, targetSize);
     }
 
     @Override public void afterWindowChangeSize(WebDriver driver, WebDriver.Window window,
-        Dimension targetSize) {
+                                                Dimension targetSize) {
         ((WindowEventListener) dispatcher).afterWindowChangeSize(driver, window, targetSize);
     }
 
