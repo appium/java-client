@@ -92,6 +92,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - [BUG FIX]: There was the issue when "@WithTimeout" was changing general timeout of the waiting for elements. Bug report: [#467](https://github.com/appium/java-client/issues/467). Fixes: [#468](https://github.com/appium/java-client/issues/468), [#469](https://github.com/appium/java-client/issues/469), [#480](https://github.com/appium/java-client/issues/480). Read: [supported-settings](https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/settings.md#supported-settings)
 - Added the server flag `io.appium.java_client.service.local.flags.AndroidServerFlag#REBOOT`. [#476](https://github.com/appium/java-client/pull/476)
 - Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
+- the new automation type `io.appium.java_client.remote.MobilePlatform#ANDROID_UIAUTOMATOR2` was add.
 
 *4.1.2*
 
