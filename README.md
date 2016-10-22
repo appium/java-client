@@ -306,4 +306,4 @@ The mentioned framework and the current solution use different approaches.
 
 Run a test using
 
->  mvn -Dtest=io.appium.java_client.MobileDriverAndroidTest clean test
+>  gradle clean -Dtest.single=IOSAlertTest test
