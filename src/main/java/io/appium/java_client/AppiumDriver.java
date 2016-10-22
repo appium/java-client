@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import static io.appium.java_client.MobileCommand.GET_SESSION;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -54,7 +51,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -446,14 +442,5 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public URL getRemoteAddress() {
         return remoteAddress;
-    }
-
-    /**
-     * @return a map with values that hold session details.
-     *
-     */
-    public Map<String, Object> getSessionDetails() {
-        Response response = execute(GET_SESSION);
-        return (Map<String, Object>) response.getValue();
     }
 }
