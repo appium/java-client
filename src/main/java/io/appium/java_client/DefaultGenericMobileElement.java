@@ -29,7 +29,7 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement
-    implements TouchableElement<T>, HasSessionDetails {
+    implements TouchableElement<T> {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
