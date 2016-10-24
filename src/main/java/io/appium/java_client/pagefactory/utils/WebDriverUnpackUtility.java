@@ -16,13 +16,8 @@
 
 package io.appium.java_client.pagefactory.utils;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.bys.ContentType;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
@@ -65,62 +60,6 @@ public final class WebDriverUnpackUtility {
         if (searchContext instanceof WrapsElement) {
             return unpackWebDriverFromSearchContext(
                     ((WrapsElement) searchContext).getWrappedElement());
-        }
-
-        return null;
-    }
-
-    /**
-     * @param driver is an instance of {@link org.openqa.selenium.WebDriver}.
-     * @return it returns current mobile platform name. Take a look at
-     *     {@link io.appium.java_client.remote.MobilePlatform}.
-     *     Note: the given {@link org.openqa.selenium.WebDriver} should implement
-     *     @link org.openqa.selenium.HasCapabilities} also. This method will return null
-     *     otherwise.
-     */
-    public static String getPlatform(WebDriver driver) {
-        if (driver == null) {
-            return null;
-        }
-
-        Class<?> driverClass = driver.getClass();
-        if (AndroidDriver.class.isAssignableFrom(driverClass)) {
-            return MobilePlatform.ANDROID;
-        }
-
-        if (IOSDriver.class.isAssignableFrom(driverClass)) {
-            return MobilePlatform.IOS;
-        }
-
-        //it is possible that somebody uses RemoteWebDriver or their
-        //own WebDriver implementation. At this case capabilities are used
-        //to detect platform
-        if (HasCapabilities.class.isAssignableFrom(driverClass)) {
-            return String.valueOf(((HasCapabilities) driver).getCapabilities()
-                .getCapability(MobileCapabilityType.PLATFORM_NAME));
-        }
-
-        return null;
-    }
-
-    /**
-     *
-     * @param driver is an instance of {@link org.openqa.selenium.WebDriver}.
-     * @return it returns current automation type. Take a look at
-     * {@link io.appium.java_client.remote.AutomationName}.
-     *     Note: the given {@link org.openqa.selenium.WebDriver} should implement
-     * {@link org.openqa.selenium.HasCapabilities} also. This method will return null
-     *      otherwise.
-     *
-     */
-    public static String getAutomation(WebDriver driver) {
-        if (driver == null) {
-            return null;
-        }
-
-        if (HasCapabilities.class.isAssignableFrom(driver.getClass())) {
-            return String.valueOf(((HasCapabilities) driver).getCapabilities()
-                .getCapability(MobileCapabilityType.AUTOMATION_NAME));
         }
 
         return null;
