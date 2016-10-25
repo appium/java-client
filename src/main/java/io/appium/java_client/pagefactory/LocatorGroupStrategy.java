@@ -17,5 +17,5 @@
 package io.appium.java_client.pagefactory;
 
 public enum LocatorGroupStrategy {
-    CHAIN, ALL;
+    CHAIN, ALL_POSSIBLE;
 }
