@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,9 +27,8 @@ import io.appium.java_client.android.AndroidDriver;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.SelendroidFindAll;
+import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
-import io.appium.java_client.pagefactory.SelendroidFindBys;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -56,22 +56,32 @@ public class SelendroidModeTest {
 
     @SelendroidFindBy(id = "text1") private WebElement textId;
 
-    @AndroidFindBy(id = "Invalid Identifier") @SelendroidFindBy(id = "text1") private WebElement
-        textSelendroidId;
+    @AndroidFindBy(id = "Invalid Identifier") @SelendroidFindBy(id = "text1")
+    private WebElement textSelendroidId;
 
-    @SelendroidFindBy(name = "Accessibility") private WebElement textName;
+    @SelendroidFindBy(name = "Accessibility")
+    private WebElement textName;
 
-    @AndroidFindBy(xpath = ".//*[@name = 'Accessibility']") private WebElement textNameAndroid;
+    @AndroidFindBy(xpath = ".//*[@name = 'Accessibility']")
+    private WebElement textNameAndroid;
 
-    @FindBy(name = "Accessibility") private WebElement textNameDefault;
+    @FindBy(name = "Accessibility")
+    private WebElement textNameDefault;
 
-    @SelendroidFindBy(xpath = "//TextView[@value='Accessibility']") private WebElement textXpath;
+    @SelendroidFindBy(xpath = "//TextView[@value='Accessibility']")
+    private WebElement textXpath;
 
-    @SelendroidFindBys({@SelendroidFindBy(id = "text1")}) private WebElement textIds;
+    @SelendroidFindBy(id = "content")
+    @SelendroidFindBy(id = "text1")
+    private WebElement textIds;
 
-    @SelendroidFindAll({@SelendroidFindBy(id = "text1")}) private WebElement textAll;
+    @HowToUseLocators(selendroidAutomation = ALL_POSSIBLE)
+    @SelendroidFindBy(id = "text999") @SelendroidFindBy(id = "text1")
+    private WebElement textAll;
 
-    @SelendroidFindAll({@SelendroidFindBy(id = "text1")}) private List<WebElement> textsAll;
+    @HowToUseLocators(selendroidAutomation = ALL_POSSIBLE)
+    @SelendroidFindBy(id = "text999") @SelendroidFindBy(id = "text1")
+    private List<WebElement> textsAll;
 
     @SelendroidFindBy(className = "android.widget.TextView") private WebElement textClass;
 

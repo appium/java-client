@@ -3,7 +3,6 @@ package io.appium.java_client.pagefactory_tests.widgets.combined;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import io.appium.java_client.pagefactory_tests.widgets.RottenTomatoesAbstractApp;
@@ -26,8 +25,8 @@ public class RottenTomatoesAppWithCombinedWidgets implements RottenTomatoesAbstr
     @SelendroidFindBy(id = "lvMovies") @FindBy(id = "movies-collection") private CombinedMovies
         simpleMovies;
 
-    @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-        @AndroidFindBy(className = "android.widget.RelativeLayout")})
+    @AndroidFindBy(id = "android:id/content")
+    @AndroidFindBy(className = "android.widget.RelativeLayout")
     @FindBy(id = "main_container")
     @SelendroidFindBy(className = "android.widget.RelativeLayout") private CombinedReview
         simpleReview;
