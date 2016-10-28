@@ -37,7 +37,8 @@ import java.util.Map;
 public interface MobileDriver<T extends WebElement> extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
     FindsByAccessibilityId<T>, LocationContext, DeviceActionShortcuts, TouchShortcuts,
     InteractsWithFiles, InteractsWithApps, HasAppStrings, FindsByClassName, FindsByCssSelector, FindsById,
-        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, ExecutesMethod, HasSessionDetails {
+        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, ExecutesMethod,
+        HasSessionDetails {
 
     List<T> findElements(By by);
 

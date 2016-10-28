@@ -23,10 +23,14 @@ import java.lang.annotation.Target;
 
 /**
  * Defines set of chained/possible locators. Each one locator
- * should be defined with {@link SelendroidFindBy}
+ * should be defined with {@link io.appium.java_client.pagefactory.SelendroidFindBy}
  */
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface SelendroidFindBySet {
+    /**
+     * @return an array of {@link io.appium.java_client.pagefactory.SelendroidFindBy} which builds a sequence of
+     * the chained searching for elements or a set of possible locators
+     */
     SelendroidFindBy[] value();
 }

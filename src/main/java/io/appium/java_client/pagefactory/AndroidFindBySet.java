@@ -23,10 +23,14 @@ import java.lang.annotation.Target;
 
 /**
  * Defines set of chained/possible locators. Each one locator
- * should be defined with {@link AndroidFindBy}
+ * should be defined with {@link io.appium.java_client.pagefactory.AndroidFindBy}
  */
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface AndroidFindBySet {
+    /**
+     * @return an array of {@link io.appium.java_client.pagefactory.AndroidFindBy} which builds a sequence of
+     * the chained searching for elements or a set of possible locators
+     */
     AndroidFindBy[] value();
 }

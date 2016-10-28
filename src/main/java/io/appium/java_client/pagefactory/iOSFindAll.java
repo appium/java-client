@@ -26,7 +26,6 @@ import java.lang.annotation.Target;
  * of {@link io.appium.java_client.pagefactory.iOSFindBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
- *
  * It is deprecated. Set of {@link io.appium.java_client.pagefactory.iOSFindBy}
  * can be defined without this annotation. To define the correct way how to use
  * the defined set please take a look at {@link HowToUseLocators}. The article.

@@ -29,8 +29,8 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
-import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
+import io.appium.java_client.pagefactory.iOSFindBy;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -157,7 +157,7 @@ public class AndroidPageObjectTest {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")")
     @AndroidFindBy(id = "android:id/Faketext1")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
-        //by this locator element is found
+    //by this locator element is found
     @AndroidFindBy(id = "android:id/FakeId")
     private WebElement findAllElementView;
 

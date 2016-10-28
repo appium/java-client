@@ -16,9 +16,9 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.remote.Response;
-
 import static io.appium.java_client.MobileCommand.GET_SESSION;
+
+import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 
