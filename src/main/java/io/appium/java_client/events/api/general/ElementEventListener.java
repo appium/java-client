@@ -48,6 +48,15 @@ public interface ElementEventListener extends Listener {
     void beforeChangeValueOf(WebElement element, WebDriver driver);
 
     /**
+     * Called before {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
+     * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)}.
+     *
+     * @param driver WebDriver
+     * @param element the WebElement being used for the action
+     */
+    void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend);
+
+    /**
      * Called after {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
      * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)} .
      * Not called, if an exception is thrown.
@@ -56,4 +65,14 @@ public interface ElementEventListener extends Listener {
      * @param element the WebElement being used for the action
      */
     void afterChangeValueOf(WebElement element, WebDriver driver);
+
+    /**
+     * Called after {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
+     * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)} .
+     * Not called, if an exception is thrown.
+     *
+     * @param driver WebDriver
+     * @param element the WebElement being used for the action
+     */
+    void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend);
 }

@@ -73,50 +73,45 @@ interface HasSettings extends ExecutesMethod {
     /**
      * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param timeout in milliseconds, 0 would reset to its default value
+     * @param timeout in milliseconds. A negative value would reset to its default value
      */
     default void configuratorSetWaitForIdleTimeout(int timeout) {
-        setSetting(Setting.CONFIGURATOR,
-            ConfiguratorParameters.WAIT_FOR_IDLE_TIMEOUT.format(timeout));
+        setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, timeout);
     }
 
     /**
      * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param timeout in milliseconds, 0 would reset to its default value
+     * @param timeout in milliseconds. A negative value would reset to its default value
      */
     default void configuratorSetWaitForSelectorTimeout(int timeout) {
-        setSetting(Setting.CONFIGURATOR,
-            ConfiguratorParameters.WAIT_FOR_SELECTOR_TIMEOUT.format(timeout));
+        setSetting(Setting.WAIT_FOR_SELECTOR_TIMEOUT, timeout);
     }
 
     /**
      * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param timeout in milliseconds, 0 would reset to its default value
+     * @param timeout in milliseconds. A negative value would reset to its default value
      */
     default void configuratorSetScrollAcknowledgmentTimeout(int timeout) {
-        setSetting(Setting.CONFIGURATOR,
-            ConfiguratorParameters.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT.format(timeout));
+        setSetting(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, timeout);
     }
 
     /**
      * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param delay in milliseconds, 0 would reset to its default value
+     * @param delay in milliseconds. A negative value would reset to its default value
      */
     default void configuratorSetKeyInjectionDelay(int delay) {
-        setSetting(Setting.CONFIGURATOR,
-            ConfiguratorParameters.KEY_INJECTION_DELAY.format(delay));
+        setSetting(Setting.KEY_INJECTION_DELAY, delay);
     }
 
     /**
      * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param timeout in milliseconds, 0 would reset to its default value
+     * @param timeout in milliseconds. A negative value would reset to its default value
      */
     default void configuratorSetActionAcknowledgmentTimeout(int timeout) {
-        setSetting(Setting.CONFIGURATOR,
-            ConfiguratorParameters.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT.format(timeout));
+        setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout);
     }
 }

@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -61,7 +62,15 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         //The rotation does nothing there
     }
 
+    @Override public void rotate(DeviceRotation rotation) {
+        //The rotation does nothing there
+    }
+
     @Override public ScreenOrientation getOrientation() {
+        return null;
+    }
+
+    @Override public DeviceRotation rotation() {
         return null;
     }
 

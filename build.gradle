@@ -50,7 +50,7 @@ compileJava {
 }
 
 dependencies {
-    compile('org.seleniumhq.selenium:selenium-java:2.53.1'){
+    compile('org.seleniumhq.selenium:selenium-java:3.0.0'){
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
     }
@@ -60,6 +60,7 @@ dependencies {
     compile 'cglib:cglib:3.2.4'
     compile 'commons-validator:commons-validator:1.5.1'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'commons-io:commons-io:2.5'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'org.springframework:spring-context:4.3.2.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.8.9'

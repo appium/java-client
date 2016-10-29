@@ -63,12 +63,22 @@ public class AppiumListener extends TestListener implements AppiumWebDriverEvent
         messages.add("WebDriverEventListener: Thee element was clicked");
     }
 
+    @Override public void beforeChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
+        messages.add("WebDriverEventListener: Attempt to click on the element");
+    }
+
     @Override public void beforeChangeValueOf(WebElement element, WebDriver driver) {
         messages.add("WebDriverEventListener: Attempt to change value of the element");
     }
 
     @Override public void afterChangeValueOf(WebElement element, WebDriver driver) {
         messages.add("WebDriverEventListener: The value of the element was changed");
+    }
+
+    @Override public void afterChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
+        messages.add("WebDriverEventListener: Thee element was clicked");
     }
 
     @Override public void beforeScript(String script, WebDriver driver) {

@@ -22,7 +22,11 @@ package io.appium.java_client.android;
 public enum Setting {
 
     IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews"),
-    CONFIGURATOR("configurator");
+    WAIT_FOR_IDLE_TIMEOUT("setWaitForIdleTimeout"),
+    WAIT_FOR_SELECTOR_TIMEOUT("setWaitForSelectorTimeout"),
+    WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
+    WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
+    KEY_INJECTION_DELAY("setKeyInjectionDelay");
 
     private String name;
 

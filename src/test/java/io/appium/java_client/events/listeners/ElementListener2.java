@@ -18,7 +18,17 @@ public class ElementListener2 extends TestListener implements ElementEventListen
         messages.add("Externally defined listener: Attempt to change value of the element");
     }
 
+    @Override public void beforeChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
+        messages.add("Externally defined listener: Attempt to change value of the element");
+    }
+
     @Override public void afterChangeValueOf(WebElement element, WebDriver driver) {
+        messages.add("Externally defined listener: The value of the element was changed");
+    }
+
+    @Override public void afterChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
         messages.add("Externally defined listener: The value of the element was changed");
     }
 

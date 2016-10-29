@@ -18,7 +18,17 @@ public class ElementListener extends TestListener implements ElementEventListene
         messages.add("Attempt to change value of the element");
     }
 
+    @Override public void beforeChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
+        messages.add("Attempt to change value of the element");
+    }
+
     @Override public void afterChangeValueOf(WebElement element, WebDriver driver) {
+        messages.add("The value of the element was changed");
+    }
+
+    @Override public void afterChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
         messages.add("The value of the element was changed");
     }
 
