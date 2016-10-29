@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * element or a list of elements. Used in conjunction with
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
- * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
+ * using iOS UI selectors, predicate, accessibility, id, name, class name, tag and xpath
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface iOSFindBy {
@@ -37,6 +37,13 @@ public @interface iOSFindBy {
      * Conceptual/InstrumentsUserGuide/UIAutomation.html
      */
     String uiAutomator() default "";
+
+    /**
+     * It is a properly formatted string for an NSPredicate.
+     * {@link "https://developer.apple.com/library/content/documentation/Cocoa/
+     * Conceptual/Predicates/AdditionalChapters/Introduction.html"}
+     */
+    String predicate() default "";
 
     /**
      * It an UI automation accessibility Id which is a convenient to iOS.

@@ -63,6 +63,8 @@ public class IOSPageFactoryTest {
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private List<WebElement> iosUIAutomatorButtons;
 
+    @iOSFindBy(predicate = "label CONTAINS 'Compute'") private List<WebElement> iosPredicateButtons;
+
     @iOSFindBy(uiAutomator = ".elements()[0]") @AndroidFindBy(className = "android.widget.TextView")
     private List<WebElement> androidOriOsTextViews;
 
@@ -86,6 +88,8 @@ public class IOSPageFactoryTest {
     @FindBy(className = "UIAButton") private WebElement iosUIButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") private WebElement iosUIAutomatorButton;
+
+    @iOSFindBy(predicate = "label CONTAINS 'Compute'") private WebElement iosPredicateButton;
 
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
@@ -214,6 +218,14 @@ public class IOSPageFactoryTest {
 
     @Test public void iosFindByUIAutomatorElementTest() {
         assertNotEquals(null, iosUIAutomatorButton.getText());
+    }
+
+    @Test public void iosFindByPredicateElementsTest() {
+        assertNotEquals(0, iosPredicateButtons.size());
+    }
+
+    @Test public void iosFindByPredicateElementTest() {
+        assertNotEquals(null, iosPredicateButton.getText());
     }
 
     @Test public void areMobileElementsTest() {

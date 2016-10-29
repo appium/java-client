@@ -34,6 +34,12 @@ public class IOSElementTest extends BaseIOSTest {
             .findElementByIosUIAutomation(".elements().withName(\"Answer\")").getText(), null);
     }
 
+    @Test public void findByPredicateTest() {
+        assertNotEquals(((IOSElement) driver.findElementsByClassName("UIAWindow")
+            .get(1))
+            .findElementByIosNsPredicate("label CONTAINS 'Compute'").getText(), null);
+    }
+
     @Test public void setValueNunslaughterTest() {
         IOSElement slider = (IOSElement) driver.findElementByClassName("UIASlider");
         slider.setValue("0%");
