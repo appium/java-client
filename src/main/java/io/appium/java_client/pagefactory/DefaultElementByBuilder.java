@@ -197,7 +197,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                     return createBy(iOSFindByArray, HowToUseSelectors.BUILD_CHAINED);
                 }
 
-                if (howToUseLocators.androidAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
+                if (howToUseLocators.iOSAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
                     return createBy(iOSFindByArray, HowToUseSelectors.USE_ANY);
                 }
             }

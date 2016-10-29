@@ -187,6 +187,55 @@ RemoteWebElement someElement;
 List<RemoteWebElement> someElements;
 ```
 
+## Also possible combined variants: 
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindByAll;
+
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+
+@HowToUseLocators(androidAutomation = CHAIN, iOSAutomation = ALL_POSSIBLE)
+@FindAll{@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) 
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
+RemoteWebElement someElement;
+
+@HowToUseLocators(androidAutomation = CHAIN, iOSAutomation = ALL_POSSIBLE)
+@FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
+List<RemoteWebElement> someElements;
+``` 
+
+or 
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindByAll;
+
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+
+@HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+@FindAll{@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) //this is the chain 
+//by default
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
+RemoteWebElement someElement;
+
+@HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+@FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) //this is the chain 
+//by default
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
+List<RemoteWebElement> someElements;
+``` 
+
 # Appium Java client is integrated with Selenium PageFactory by AppiumFieldDecorator. 
 
 Object fields are populated as below: 
