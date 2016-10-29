@@ -138,6 +138,8 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 if (howToUseLocators.selendroidAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
                     return createBy(selendroidFindByArray, HowToUseSelectors.USE_ANY);
                 }
+
+                return createBy(selendroidFindByArray, HowToUseSelectors.BUILD_CHAINED);
             }
         }
 
@@ -169,6 +171,8 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 if (howToUseLocators.androidAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
                     return createBy(androidFindByArray, HowToUseSelectors.USE_ANY);
                 }
+
+                return createBy(androidFindByArray, HowToUseSelectors.BUILD_CHAINED);
             }
         }
 
@@ -200,6 +204,8 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 if (howToUseLocators.iOSAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
                     return createBy(iOSFindByArray, HowToUseSelectors.USE_ANY);
                 }
+                
+                return createBy(iOSFindByArray, HowToUseSelectors.BUILD_CHAINED);
             }
         }
 
