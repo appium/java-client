@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.generic.searchcontext;
+package io.appium.java_client;
 
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.Response;
 
-import java.util.List;
+import java.util.Map;
 
-@Deprecated
-/**
- * This interface became deprecated. Use
- * {@link org.openqa.selenium.internal.FindsByXPath}
- * instead.
- */
-public interface GenericFindsByXPath<T extends WebElement> {
-    T findElementByXPath(String xPath);
+public interface ExecutesMethod {
+    /**
+     * Executes JSONWP command and returns a response.
+     *
+     * @param driverCommand a JSONWP command
+     * @param parameters map of command parameters
+     * @return a result response
+     */
+    Response execute(String driverCommand, Map<String, ?> parameters);
 
-    List<T> findElementsByXPath(String xPath);
+    /**
+     * Executes JSONWP command and returns a response.
+     *
+     * @param driverCommand a JSONWP command
+     * @return a result response
+     */
+    Response execute(String driverCommand);
 }

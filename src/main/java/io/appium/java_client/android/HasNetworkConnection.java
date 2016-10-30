@@ -16,14 +16,23 @@
 
 package io.appium.java_client.android;
 
-public interface HasNetworkConnection {
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
+
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
+import org.openqa.selenium.WebDriverException;
+
+public interface HasNetworkConnection extends ExecutesMethod {
 
     /**
      * Set the network connection of the device.
      *
      * @param connection The bitmask of the desired connection
      */
-    void setConnection(Connection connection);
+    default void setConnection(Connection connection) {
+        CommandExecutionHelper.execute(this, setConnectionCommand(connection));
+    }
 
 
     /**
@@ -32,5 +41,16 @@ public interface HasNetworkConnection {
      * @return Connection object will let you inspect the status
      *     of None, AirplaneMode, Wifi, Data and All connections
      */
-    Connection getConnection();
+    default Connection getConnection() {
+        long bitMask = CommandExecutionHelper.execute(this, getNetworkConnectionCommand());
+        Connection[] types = Connection.values();
+
+        for (Connection connection: types) {
+            if (connection.bitMask == bitMask) {
+                return connection;
+            }
+        }
+        throw new WebDriverException("The unknown network connection "
+            + "type has been returned. The bitmask is " + bitMask);
+    }
 }

@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.generic.searchcontext;
+package io.appium.java_client.android;
 
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-@Deprecated
 /**
- * This interface became deprecated. Use
- * {@link org.openqa.selenium.internal.FindsByLinkText}
- * instead.
+ * Enums defining constants for Appium Settings which can be set and toggled during a test session.
  */
-public interface GenericFindsByLinkText<T extends WebElement> {
-    T findElementByLinkText(String linkText);
+public enum Setting {
 
-    List<T> findElementsByLinkText(String linkText);
+    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews"),
+    WAIT_FOR_IDLE_TIMEOUT("setWaitForIdleTimeout"),
+    WAIT_FOR_SELECTOR_TIMEOUT("setWaitForSelectorTimeout"),
+    WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
+    WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
+    KEY_INJECTION_DELAY("setKeyInjectionDelay");
 
-    T findElementByPartialLinkText(String partialLinkText);
+    private String name;
 
-    List<T> findElementsByPartialLinkText(String partialLinkText);
+    Setting(String name) {
+        this.name = name;
+    }
+
+    public String toString() {
+        return this.name;
+    }
 }

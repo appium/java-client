@@ -42,6 +42,7 @@ class AppiumElementLocator implements CacheableLocator {
     final boolean shouldCache;
     final By by;
     final TimeOutDuration timeOutDuration;
+    private final TimeOutDuration originalTimeOutDuration;
     final WebDriver originalWebDriver;
     private final SearchContext searchContext;
     private final WaitingFunction waitingFunction;
@@ -56,16 +57,18 @@ class AppiumElementLocator implements CacheableLocator {
      * @param by                a By locator strategy
      * @param shouldCache       is the flag that signalizes that elements which
      *                          are found once should be cached
-     * @param duration          is a POJO which contains timeout parameters
+     * @param duration          is a POJO which contains timeout parameters for the element to be searched
+     * @param originalDuration  is a POJO which contains timeout parameters from page object which contains the element
      * @param originalWebDriver is an instance of WebDriver that is going to be
      *                          used by a proxied element
      */
 
     public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,
-        TimeOutDuration duration, WebDriver originalWebDriver) {
+        TimeOutDuration duration, TimeOutDuration originalDuration, WebDriver originalWebDriver) {
         this.searchContext = searchContext;
         this.shouldCache = shouldCache;
         this.timeOutDuration = duration;
+        this.originalTimeOutDuration = originalDuration;
         this.by = by;
         this.originalWebDriver = originalWebDriver;
         waitingFunction = new WaitingFunction(this.searchContext);
@@ -89,7 +92,7 @@ class AppiumElementLocator implements CacheableLocator {
         } catch (TimeoutException e) {
             return new ArrayList<>();
         } finally {
-            changeImplicitlyWaitTimeOut(timeOutDuration.getTime(), timeOutDuration.getTimeUnit());
+            changeImplicitlyWaitTimeOut(originalTimeOutDuration.getTime(), originalTimeOutDuration.getTimeUnit());
         }
     }
 

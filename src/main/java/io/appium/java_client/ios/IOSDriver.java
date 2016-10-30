@@ -16,26 +16,25 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
+import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
-import java.util.List;
+
 
 /**
  * @param <T> the required type of class which implement
@@ -51,7 +50,7 @@ import java.util.List;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts,
-        FindsByIosUIAutomation<T> {
+        FindsByIosUIAutomation<T>, LocksIOSDevice {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
@@ -173,53 +172,49 @@ public class IOSDriver<T extends WebElement>
         touchaction.swipe(startx, starty, endx, endy, duration).perform();
     }
 
-    /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String, String).
-     */
-    @Override public void hideKeyboard(String strategy, String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(strategy, keyName));
+    @Override public TargetLocator switchTo() {
+        return new InnerTargetLocator();
     }
 
-    /**
-     * @see IOSDeviceActionShortcuts#hideKeyboard(String).
-     */
-    @Override public void hideKeyboard(String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
+    private class InnerTargetLocator extends RemoteTargetLocator {
+        @Override public Alert alert() {
+            return new IOSAlert(super.alert());
+        }
     }
 
-    /**
-     * @see IOSDeviceActionShortcuts#shake().
-     */
-    @Override public void shake() {
-        CommandExecutionHelper.execute(this, shakeCommand());
-    }
 
-    /**
-     * @throws WebDriverException
-     *     This method is not applicable with browser/webview UI.
-     */
-    @Override
-    public T findElementByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElement("-ios uiautomation", using);
-    }
+    class IOSAlert implements Alert {
 
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override
-    public List<T> findElementsByIosUIAutomation(String using)
-        throws WebDriverException {
-        return findElements("-ios uiautomation", using);
-    }
+        private final Alert alert;
 
-    /**
-     * Lock the device (bring it to the lock screen) for a given number of
-     * seconds.
-     *
-     * @param seconds number of seconds to lock the screen for
-     */
-    public void lockDevice(int seconds) {
-        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
+        IOSAlert(Alert alert) {
+            this.alert = alert;
+        }
+
+        @Override public void dismiss() {
+            execute(DriverCommand.DISMISS_ALERT);
+        }
+
+        @Override public void accept() {
+            execute(DriverCommand.ACCEPT_ALERT);
+        }
+
+        @Override public String getText() {
+            Response response = execute(DriverCommand.GET_ALERT_TEXT);
+            return response.getValue().toString();
+        }
+
+        @Override public void sendKeys(String keysToSend) {
+            execute(DriverCommand.SET_ALERT_VALUE, prepareArguments("value", keysToSend));
+        }
+
+        @Override public void setCredentials(Credentials credentials) {
+            alert.setCredentials(credentials);
+        }
+
+        @Override public void authenticateUsing(Credentials credentials) {
+            alert.authenticateUsing(credentials);
+        }
+
     }
 }

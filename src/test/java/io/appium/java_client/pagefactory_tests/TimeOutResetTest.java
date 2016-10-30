@@ -23,6 +23,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -136,7 +137,16 @@ public class TimeOutResetTest {
 
         checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2));
         System.out.println(String.valueOf(5) + " " + TimeUnit.SECONDS.toString() + ": Fine");
+    }
 
+    @Test public void checkThatCustomizedTimeOutDoesNotChangeGeneralValue() {
+        stubElements2.size(); //time out differs from the general value there
+
+        long startMark = Calendar.getInstance().getTimeInMillis();
+        driver.findElements(By.id("FakeId"));
+        long endMark = Calendar.getInstance().getTimeInMillis();
+        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+                AppiumFieldDecorator.DEFAULT_TIMEUNIT, endMark - startMark);
     }
 
 }

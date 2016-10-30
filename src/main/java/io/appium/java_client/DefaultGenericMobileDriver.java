@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
@@ -38,6 +40,10 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
+    }
+
+    @Override public Response execute(String command) {
+        return super.execute(command, ImmutableMap.<String, Object>of());
     }
 
     @Override public List findElements(By by) {
@@ -136,20 +142,6 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
 
     public List findElementsByXPath(String using) {
         return super.findElementsByXPath(using);
-    }
-
-    /**
-    * @throws WebDriverException This method is not applicable with browser/webview UI.
-    */
-    @Override public T findElementByAccessibilityId(String using) throws WebDriverException {
-        return (T) findElement("accessibility id", using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override public List findElementsByAccessibilityId(String using) throws WebDriverException {
-        return (List<T>) findElements("accessibility id", using);
     }
 
     /**

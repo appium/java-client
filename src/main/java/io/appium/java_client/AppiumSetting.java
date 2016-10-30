@@ -16,9 +16,12 @@
 
 package io.appium.java_client;
 
+import io.appium.java_client.android.Setting;
+
 /**
- * Enums defining constants for Appium Settings which can be set and toggled during a test session.
+ * This enum is deprecated. Was moved to {@link Setting}
  */
+@Deprecated
 public enum AppiumSetting {
 
     IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");

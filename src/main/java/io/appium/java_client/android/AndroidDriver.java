@@ -16,42 +16,23 @@
 
 package io.appium.java_client.android;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.isLockedCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.lockDeviceCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.longPressKeyCodeCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.pressKeyCodeCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.pushFileCommandCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.unlockCommand;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.AppiumSetting;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
@@ -66,7 +47,7 @@ import java.util.List;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<T> {
+    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -189,122 +170,6 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * Send a key event to the device.
-     *
-     * @param key code for the key pressed on the device.
-     */
-    @Override public void pressKeyCode(int key) {
-        CommandExecutionHelper.execute(this, pressKeyCodeCommand(key));
-    }
-
-    /**
-     * @param key       code for the key pressed on the Android device.
-     * @param metastate metastate for the keypress.
-     * @see AndroidKeyCode
-     * @see AndroidKeyMetastate
-     * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer).
-     */
-    @Override public void pressKeyCode(int key, Integer metastate) {
-        CommandExecutionHelper.execute(this, pressKeyCodeCommand(key, metastate));
-    }
-
-    /**
-     * Send a long key event to the device.
-     *
-     * @param key code for the long key pressed on the device.
-     */
-    @Override public void longPressKeyCode(int key) {
-        CommandExecutionHelper.execute(this, longPressKeyCodeCommand(key));
-    }
-
-    /**
-     * @param key       code for the long key pressed on the Android device.
-     * @param metastate metastate for the long key press.
-     * @see AndroidKeyCode
-     * @see AndroidKeyMetastate
-     * @see AndroidDeviceActionShortcuts#pressKeyCode(int, Integer)
-     */
-    @Override public void longPressKeyCode(int key, Integer metastate) {
-        CommandExecutionHelper.execute(this, longPressKeyCodeCommand(key, metastate));
-    }
-
-    @Override public void setConnection(Connection connection) {
-        CommandExecutionHelper.execute(this, setConnectionCommand(connection));
-    }
-
-    @Override public Connection getConnection() {
-        long bitMask = CommandExecutionHelper.execute(this, getNetworkConnectionCommand());
-        Connection[] types = Connection.values();
-
-        for (Connection connection: types) {
-            if (connection.bitMask == bitMask) {
-                return connection;
-            }
-        }
-        throw new WebDriverException("The unknown network connection "
-            + "type has been returned. The bitmask is " + bitMask);
-    }
-
-    @Override public void pushFile(String remotePath, byte[] base64Data) {
-        CommandExecutionHelper.execute(this, pushFileCommandCommand(remotePath, base64Data));
-    }
-
-    @Override public void pushFile(String remotePath, File file) throws IOException {
-        checkNotNull(file, "A reference to file should not be NULL");
-        if (!file.exists()) {
-            throw new IOException("The given file "
-                + file.getAbsolutePath() + " doesn't exist");
-        }
-        pushFile(remotePath,
-            Base64.encodeBase64(FileUtils.readFileToByteArray(file)));
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage,
-        String appWaitActivity, String intentAction,
-        String intentCategory, String intentFlags,
-        String optionalIntentArguments,boolean stopApp )
-        throws IllegalArgumentException {
-        CommandExecutionHelper.execute(this, startActivityCommand(appPackage, appActivity,
-            appWaitPackage, appWaitActivity, intentAction, intentCategory, intentFlags,
-            optionalIntentArguments, stopApp));
-    }
-
-
-    @Override
-    public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage, String appWaitActivity, boolean stopApp)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage,appActivity,appWaitPackage,
-            appWaitActivity,null,null,null,null,stopApp);
-
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage,
-        String appWaitActivity) throws IllegalArgumentException {
-
-        this.startActivity(appPackage, appActivity,
-            appWaitPackage, appWaitActivity,null,null,null,null,true);
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage, appActivity, null, null,
-            null,null,null,null,true);
-    }
-
-    @Override public void startActivity(String appPackage, String appActivity,
-        String appWaitPackage, String appWaitActivity,
-        String intentAction,String intentCategory,
-        String intentFlags,String intentOptionalArgs)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage,appActivity,
-            appWaitPackage,appWaitActivity,
-            intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
-    }
-
-    /**
      * Get test-coverage data.
      *
      * @param intent intent to broadcast.
@@ -315,79 +180,13 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * Get the current activity being run on the mobile device.
-     *
-     * @return a current activity being run on the mobile device.
-     */
-    public String currentActivity() {
-        return CommandExecutionHelper.execute(this, currentActivityCommand());
-    }
-
-    /**
      * Open the notification shade, on Android devices.
      */
     public void openNotifications() {
         CommandExecutionHelper.execute(this, openNotificationsCommand());
     }
 
-    /**
-     * Check if the device is locked.
-     *
-     * @return true if device is locked. False otherwise
-     */
-    public boolean isLocked() {
-        return CommandExecutionHelper.execute(this, isLockedCommand());
-    }
-
     public void toggleLocationServices() {
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
-    }
-
-    /**
-     * Set the `ignoreUnimportantViews` setting. *Android-only method*.
-     * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
-     * which ignores all views which are marked IMPORTANT_FOR_ACCESSIBILITY_NO
-     * or IMPORTANT_FOR_ACCESSIBILITY_AUTO (and have been deemed not important
-     * by the system), in an attempt to make things less confusing or faster.
-     *
-     * @param compress ignores unimportant views if true, doesn't ignore otherwise.
-     */
-    // Should be moved to the subclass
-    public void ignoreUnimportantViews(Boolean compress) {
-        setSetting(AppiumSetting.IGNORE_UNIMPORTANT_VIEWS, compress);
-    }
-
-    /**
-     * @throws WebDriverException This method is not
-     *     applicable with browser/webview UI.
-     */
-    @Override
-    public T findElementByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElement("-android uiautomator", using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not
-     *      applicable with browser/webview UI.
-     */
-    @Override
-    public List<T> findElementsByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElements("-android uiautomator", using);
-    }
-
-    /**
-     * This method locks a device.
-     */
-    public void lockDevice() {
-        CommandExecutionHelper.execute(this, lockDeviceCommand());
-    }
-
-    /**
-     * This method unlocks a device.
-     */
-    public void unlockDevice() {
-        CommandExecutionHelper.execute(this, unlockCommand());
     }
 }

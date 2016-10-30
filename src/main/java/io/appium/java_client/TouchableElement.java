@@ -34,7 +34,8 @@ import java.util.List;
  */
 public interface TouchableElement<T extends WebElement> extends WebElement, FindsByClassName,
         FindsByCssSelector, FindsById,
-        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath {
+        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, FindsByAccessibilityId<T>,
+        ExecutesMethod {
 
     List<T> findElements(By by);
 

@@ -22,30 +22,8 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileElement;
 
-import org.openqa.selenium.WebDriverException;
-
-import java.util.List;
-
-
 public class AndroidElement extends MobileElement
     implements FindsByAndroidUIAutomator<MobileElement> {
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override public MobileElement findElementByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElement("-android uiautomator", using);
-    }
-
-    /**
-     * @throws WebDriverException This method is not applicable with browser/webview UI.
-     */
-    @Override public List<MobileElement> findElementsByAndroidUIAutomator(String using)
-        throws WebDriverException {
-        return findElements("-android uiautomator", using);
-    }
-
     /**
      * This method replace current text value.
      * @param value a new value

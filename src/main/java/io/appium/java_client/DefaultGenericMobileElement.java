@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -27,10 +29,14 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement
-    implements FindsByAccessibilityId<T>, TouchableElement<T> {
+    implements TouchableElement<T> {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
+    }
+
+    @Override public Response execute(String command) {
+        return super.execute(command, ImmutableMap.<String, Object>of());
     }
 
     @Override public List findElements(By by) {
@@ -129,14 +135,6 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
 
     public List findElementsByXPath(String using) {
         return super.findElementsByXPath(using);
-    }
-
-    @Override public T findElementByAccessibilityId(String using) {
-        return (T) findElement("accessibility id", using);
-    }
-
-    @Override public List findElementsByAccessibilityId(String using) {
-        return findElements("accessibility id", using);
     }
 
     /**

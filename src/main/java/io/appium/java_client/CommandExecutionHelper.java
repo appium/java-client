@@ -22,14 +22,13 @@ import java.util.Map;
 
 public final class CommandExecutionHelper {
 
-    public static <T extends Object> T execute(MobileElement element,
+    public static <T extends Object> T execute(ExecutesMethod executesMethod,
         Map.Entry<String, Map<String, ?>> keyValuePair) {
-        return handleResponse(element.execute(keyValuePair.getKey(), keyValuePair.getValue()));
+        return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
-    public static <T extends Object> T execute(MobileDriver driver,
-        Map.Entry<String, Map<String, ?>> keyValuePair) {
-        return handleResponse(driver.execute(keyValuePair.getKey(), keyValuePair.getValue()));
+    public static <T extends Object> T execute(ExecutesMethod executesMethod, String command) {
+        return handleResponse(executesMethod.execute(command));
     }
 
     private static <T extends Object> T handleResponse(Response responce) {

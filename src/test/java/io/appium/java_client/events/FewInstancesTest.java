@@ -1,7 +1,7 @@
 package io.appium.java_client.events;
 
-import static com.thoughtworks.selenium.SeleneseTestCase.assertNotEquals;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.events.listeners.AlertListener;

@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.generic.searchcontext;
+package io.appium.java_client;
 
-import org.openqa.selenium.WebElement;
+public enum MobileSelector {
+    ACCESSIBILITY("accessibility id"),
+    ANDROID_UI_AUTOMATOR("-android uiautomator"),
+    IOS_UI_AUTOMATION("-ios uiautomation"),
+    IOS_PREDICATE_STRING("-ios predicate string"),
+    WINDOWS_UI_AUTOMATION("-windows uiautomation");
 
-import java.util.List;
+    private final String selector;
 
-@Deprecated
-/**
- * This interface became deprecated. Use
- * {@link org.openqa.selenium.internal.FindsById}
- * instead.
- */
-public interface GenericFindsById<T extends WebElement> {
-    T findElementById(String id);
+    MobileSelector(String selector) {
+        this.selector = selector;
+    }
 
-    List<T> findElementsById(String id);
+    @Override public String toString() {
+        return selector;
+    }
 }

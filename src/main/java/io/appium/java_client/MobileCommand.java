@@ -47,8 +47,6 @@ public class MobileCommand {
     protected static final String CLOSE_APP = "closeApp";
     protected static final String LOCK = "lock";
     protected static final String COMPLEX_FIND = "complexFind";
-    protected static final String GET_SETTINGS = "getSettings";
-    protected static final String SET_SETTINGS = "setSettings";
     protected static final String GET_DEVICE_TIME = "getDeviceTime";
     protected static final String GET_SESSION = "getSession";
     //iOS
@@ -67,6 +65,8 @@ public class MobileCommand {
     protected static final String TOGGLE_LOCATION_SERVICES = "toggleLocationServices";
     protected static final String UNLOCK = "unlock";
     protected static final String REPLACE_VALUE = "replaceValue";
+    protected static final String GET_SETTINGS = "getSettings";
+    protected static final String SET_SETTINGS = "setSettings";
 
     public static final  Map<String, CommandInfo> commandRepository = createCommandRepository();
 
@@ -154,7 +154,7 @@ public class MobileCommand {
      * @param value is the parameter value.
      * @return built {@link ImmutableMap}.
      */
-    protected static ImmutableMap<String, Object> prepareArguments(String param,
+    public static ImmutableMap<String, Object> prepareArguments(String param,
                                                                    Object value) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.put(param, value);
@@ -166,7 +166,7 @@ public class MobileCommand {
      * @param values is the array with parameter values.
      * @return built {@link ImmutableMap}.
      */
-    protected static ImmutableMap<String, Object> prepareArguments(String[] params,
+    public static ImmutableMap<String, Object> prepareArguments(String[] params,
                                                                    Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {

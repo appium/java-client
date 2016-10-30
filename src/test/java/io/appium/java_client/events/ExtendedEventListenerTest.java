@@ -14,30 +14,16 @@ import org.openqa.selenium.By;
 
 public class ExtendedEventListenerTest {
 
-    private static ExtendedWebDriver stubWebDriver;
+    private static EmptyWebDriver stubWebDriver;
 
     @BeforeClass public static void beforeClass() throws Exception {
-        stubWebDriver = new ExtendedWebDriver();
+        stubWebDriver = new EmptyWebDriver();
         stubWebDriver = EventFiringWebDriverFactory.getEventFiringWebDriver(stubWebDriver);
     }
 
     @Test
-    public void replaceValueTest() {
-        AndroidElement androidElement = stubWebDriver.findElement(By.id("someId"));
-        androidElement.replaceValue("New value");
-
-        ElementListener listener = (ElementListener) SingleListeners
-            .listeners.get(ElementListener.class);
-
-        assertThat(listener.messages,
-            hasItems(
-                "Attempt to change value of the element",
-                "The value of the element was changed"));
-    }
-
-    @Test
     public void searchingTest() {
-        AndroidElement androidElement = stubWebDriver.findElement(By.id("someId"));
+        StubWebElement androidElement = stubWebDriver.findElement(By.id("someId"));
         androidElement.findElement("-some-criteria", "some value")
             .findElements(MobileBy.AndroidUIAutomator("Android UI Automator"));
         androidElement.findElements("-some-criteria2", "some value2").get(0)
@@ -47,14 +33,14 @@ public class ExtendedEventListenerTest {
             .listeners.get(SearchingListener.class);
         assertThat(listener.messages,
             hasItems("Attempt to find something using By.AndroidUIAutomator: Android UI Automator. "
-                    + "The root element is io.appium.java_client.events.StubAndroidElement",
+                    + "The root element is io.appium.java_client.events.StubWebElement",
                 "The searching for something using By.AndroidUIAutomator: Android UI Automator has "
                     + "beed finished. "
-                    + "The root element was io.appium.java_client.events.StubAndroidElement",
+                    + "The root element was io.appium.java_client.events.StubWebElement",
                 "Attempt to find something using By.AndroidUIAutomator: Android UI Automator2. "
-                    + "The root element is io.appium.java_client.events.StubAndroidElement",
+                    + "The root element is io.appium.java_client.events.StubWebElement",
                 "The searching for something using By.AndroidUIAutomator: Android UI Automator2 "
                     + "has beed finished. "
-                    + "The root element was io.appium.java_client.events.StubAndroidElement"));
+                    + "The root element was io.appium.java_client.events.StubWebElement"));
     }
 }

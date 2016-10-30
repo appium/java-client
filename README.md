@@ -76,10 +76,37 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 
 ## Changelog#
 *5.0.0 (under construction yet)*
+- **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
+  - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
+  
+  ... *the list of changes is going to be filled*
+- **[MAJOR ENHANCEMENT]**: Migration from Maven to Gradle. Feature request is [#214](https://github.com/appium/java-client/issues/214). Fixes: [#442](https://github.com/appium/java-client/pull/442), [#465](https://github.com/appium/java-client/pull/465).
+- **[MAJOR ENHANCEMENT]**: Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
+- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
+- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
+- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
+- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
+- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship.
+- [ENHANCEMENT] Added the ability to set UiAutomator Congfigurator values. [#410](https://github.com/appium/java-client/pull/410). 
+[#477](https://github.com/appium/java-client/pull/477).
+- **[UPDATE]** to Selenium 3.0. [#489](https://github.com/appium/java-client/pull/489)
+- [BUG FIX]: There was the issue when "@WithTimeout" was changing general timeout of the waiting for elements. Bug report: [#467](https://github.com/appium/java-client/issues/467). Fixes: [#468](https://github.com/appium/java-client/issues/468), [#469](https://github.com/appium/java-client/issues/469), [#480](https://github.com/appium/java-client/issues/480). Read: [supported-settings](https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/settings.md#supported-settings)
+- Added the server flag `io.appium.java_client.service.local.flags.AndroidServerFlag#REBOOT`. [#476](https://github.com/appium/java-client/pull/476)
+- Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
+- the new automation type `io.appium.java_client.remote.MobilePlatform#ANDROID_UIAUTOMATOR2` was add.
+
+*4.1.2*
+
 - Following capabilities were added: 
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT`
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT`
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_SCREENSHOT_PATH`. The pull request: [#452](https://github.com/appium/java-client/pull/452)
+- `org.openqa.selenium.Alert` was reimplemented for iOS. Details: [#459](https://github.com/appium/java-client/pull/459) 
+- The deprecated `io.appium.java_client.generic.searchcontext` was removed.
+- The dependency on `com.google.code.gson` was updated to 2.7. Also it was adde to exclusions
+for `org.seleniumhq.selenium` `selenium-java`. 
+- The new AutomationName was added. IOS_XCUI_TEST. It is needed for the further development.
+- The new MobilePlatform was added.  WINDOWS.  It is needed for the further development.
 
 *4.1.1*
 
@@ -280,4 +307,4 @@ The mentioned framework and the current solution use different approaches.
 
 Run a test using
 
->  mvn -Dtest=io.appium.java_client.MobileDriverAndroidTest clean test
+>  gradle clean -Dtest.single=IOSAlertTest test

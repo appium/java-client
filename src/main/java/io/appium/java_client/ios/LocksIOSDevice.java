@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.generic.searchcontext;
+package io.appium.java_client.ios;
 
-import org.openqa.selenium.WebElement;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
 
-import java.util.List;
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
 
-@Deprecated
-/**
- * This interface became deprecated. Use
- * {@link org.openqa.selenium.internal.FindsByTagName}
- * instead.
- */
-public interface GenericFindsByTagName<T extends WebElement> {
-    T findElementByTagName(String tagName);
-
-    List<T> findElementsByTagName(String tagName);
+public interface LocksIOSDevice extends ExecutesMethod {
+    /**
+     * Lock the device (bring it to the lock screen) for a given number of
+     * seconds.
+     *
+     * @param seconds number of seconds to lock the screen for
+     */
+    default void lockDevice(int seconds) {
+        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
+    }
 }

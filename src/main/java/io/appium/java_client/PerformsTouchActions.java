@@ -16,7 +16,13 @@
 
 package io.appium.java_client;
 
-public interface PerformsTouchActions {
+import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
+import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
+public interface PerformsTouchActions extends ExecutesMethod {
     /**
      * Performs a chain of touch actions, which together can be considered an
      * entire gesture. See the Webriver 3 spec
@@ -28,7 +34,11 @@ public interface PerformsTouchActions {
      *                    touch actions to perform
      * @return the same touch action object
      */
-    public TouchAction performTouchAction(TouchAction touchAction);
+    default TouchAction performTouchAction(TouchAction touchAction) {
+        ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
+        execute(PERFORM_TOUCH_ACTION, parameters);
+        return touchAction;
+    }
 
     /**
      * Performs multiple TouchAction gestures at the same time, to simulate
@@ -39,5 +49,8 @@ public interface PerformsTouchActions {
      *
      * @param multiAction the MultiTouchAction object to perform.
      */
-    public void performMultiTouchAction(MultiTouchAction multiAction);
+    default void performMultiTouchAction(MultiTouchAction multiAction) {
+        ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
+        execute(PERFORM_MULTI_TOUCH, parameters);
+    }
 }

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.generic.searchcontext;
+package io.appium.java_client;
 
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-@Deprecated
-/**
- * This interface became deprecated. Use
- * {@link org.openqa.selenium.internal.FindsByCssSelector}
- * instead.
- */
-public interface GenericFindsByCssSelector<T extends WebElement> {
-    T findElementByCssSelector(String cssSelector);
+public interface FindsByIosNSPredicate<T extends WebElement> extends FindsByFluentSelector<T> {
 
-    List<T> findElementsByCssSelector(String cssSelector);
+    default T findElementByIosNsPredicate(String using) {
+        return findElement(MobileSelector.IOS_PREDICATE_STRING.toString(), using);
+    }
+
+    default List<T> findElementsByIosNsPredicate(String using) {
+        return findElements(MobileSelector.IOS_PREDICATE_STRING.toString(), using);
+    }
 }
