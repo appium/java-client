@@ -441,6 +441,12 @@ public class AndroidDriver<RequiredElementType extends WebElement> extends Appiu
 		execute(BROADCAST_INTENT, getCommandImmutableMap(parameters, values));
 	}
 
+	public void broadcastIntent(String intent, String pkg, String receiver, HashMap<String, Object> keys) {
+		String[] parameters = new String[] { "intent", "pkg", "receiver", "keys" };
+		Object[] values = new Object[] { intent, pkg, receiver, keys };
+		execute(BROADCAST_INTENT, getCommandImmutableMap(parameters, values));
+	}
+
 	public void clearData() {
 		execute(CLEAR_DATA);
 	}
