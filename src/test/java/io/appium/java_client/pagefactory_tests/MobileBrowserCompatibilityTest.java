@@ -18,7 +18,6 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -44,7 +43,7 @@ public class MobileBrowserCompatibilityTest {
 
     private AppiumDriverLocalService service;
 
-    @AndroidFindBys({@AndroidFindBy(className = "someClass"), @AndroidFindBy(xpath = "//someTag")})
+    @AndroidFindBy(className = "someClass") @AndroidFindBy(xpath = "//someTag")
     private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
 
     @FindBy(className = "gsfi")
@@ -52,7 +51,8 @@ public class MobileBrowserCompatibilityTest {
     private WebElement searchTextField;
 
     @AndroidFindBy(className = "someClass")
-    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) private List<WebElement>
+    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
+    private List<WebElement>
         foundLinks;
 
     /**

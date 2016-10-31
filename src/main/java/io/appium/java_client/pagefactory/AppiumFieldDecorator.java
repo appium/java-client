@@ -17,11 +17,10 @@
 package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getAutomation;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getPlatform;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
     .unpackWebDriverFromSearchContext;
 
+import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -94,6 +93,24 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String automation;
     private final TimeOutDuration timeOutDuration;
 
+    private static String extractSessionData(WebDriver driver, String parameter) {
+        if (driver == null) {
+            return null;
+        }
+
+        if (!(driver instanceof HasSessionDetails)) {
+            return null;
+        }
+
+        Object parameterValue = HasSessionDetails.class.cast(driver).getSessionDetail(parameter);
+
+        if (parameterValue == null) {
+            return null;
+        }
+
+        return String.valueOf(parameterValue);
+    }
+
     public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
         TimeUnit timeUnit) {
         this(context, new TimeOutDuration(implicitlyWaitTimeOut, timeUnit));
@@ -109,8 +126,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
-        platform = getPlatform(originalDriver);
-        automation = getAutomation(originalDriver);
+        platform = extractSessionData(originalDriver, "platformName");
+        automation = extractSessionData(originalDriver, "automationName");
         this.timeOutDuration = timeOutDuration;
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(

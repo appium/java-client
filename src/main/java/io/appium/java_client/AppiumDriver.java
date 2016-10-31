@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import static io.appium.java_client.MobileCommand.GET_SESSION;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -58,18 +55,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
- * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *            Instances of the defined type will be returned via findElement* and findElements*
- *            Warning (!!!). Allowed types:
- *            {@link org.openqa.selenium.WebElement}
- *            {@link io.appium.java_client.TouchableElement}
- *            {@link org.openqa.selenium.remote.RemoteWebElement}
- *            {@link io.appium.java_client.MobileElement} and its subclasses that designed
- *            specifically
- *            for each target mobile OS (still Android and iOS)
- */
+* @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ *          Instances of the defined type will be returned via findElement* and findElements*
+ *          Warning (!!!). Allowed types:
+ *          {@link org.openqa.selenium.WebElement}
+ *          {@link io.appium.java_client.TouchableElement}
+ *          {@link org.openqa.selenium.remote.RemoteWebElement}
+ *          {@link io.appium.java_client.MobileElement} and its subclasses that designed
+ *          specifically
+ *          for each target mobile OS (still Android and iOS)
+*/
 @SuppressWarnings("unchecked")
 public abstract class AppiumDriver<T extends WebElement>
     extends DefaultGenericMobileDriver<T> {
@@ -81,13 +77,13 @@ public abstract class AppiumDriver<T extends WebElement>
     private ExecuteMethod executeMethod;
 
     /**
-     * @param executor       is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
-     *                       or class that extends it. Default commands or another vendor-specific
-     *                       commands may be specified there.
-     * @param capabilities   take a look
-     *                       at {@link org.openqa.selenium.Capabilities}
+     * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
+     *                 or class that extends it. Default commands or another vendor-specific
+     *                 commands may be specified there.
+     * @param capabilities take a look
+     *                     at {@link org.openqa.selenium.Capabilities}
      * @param converterClazz is an instance of a class that extends
-     *                       {@link org.openqa.selenium.remote.internal.JsonToWebElementConverter}. It converts
+     * {@link org.openqa.selenium.remote.internal.JsonToWebElementConverter}. It converts
      *                       JSON response to an instance of
      *                       {@link org.openqa.selenium.WebElement}
      */
@@ -100,10 +96,10 @@ public abstract class AppiumDriver<T extends WebElement>
         this.remoteAddress = executor.getAddressOfRemoteServer();
         try {
             Constructor<? extends JsonToWebElementConverter> constructor =
-                converterClazz.getConstructor(RemoteWebDriver.class);
+                    converterClazz.getConstructor(RemoteWebDriver.class);
             this.setElementConverter(constructor.newInstance(this));
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException
-            | InvocationTargetException e) {
+                | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
@@ -116,7 +112,7 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
             httpClientFactory), desiredCapabilities, converterClazz);
     }
@@ -129,7 +125,7 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
             desiredCapabilities, converterClazz);
     }
@@ -141,14 +137,14 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+                        Class<? extends JsonToWebElementConverter> converterClazz) {
         this(builder.build(), httpClientFactory, desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities,
         Class<? extends JsonToWebElementConverter> converterClazz) {
-        this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory, desiredCapabilities,
-            converterClazz);
+        this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
+            desiredCapabilities, converterClazz);
     }
 
     public AppiumDriver(Capabilities desiredCapabilities,
@@ -158,8 +154,8 @@ public abstract class AppiumDriver<T extends WebElement>
 
     /**
      * @param originalCapabilities the given {@link Capabilities}.
-     * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     *                             to be set up
+     * @param newPlatform a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     *                    to be set up
      * @return {@link Capabilities} with changed mobile platform value
      */
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
@@ -414,7 +410,7 @@ public abstract class AppiumDriver<T extends WebElement>
     @Override public DeviceRotation rotation() {
         Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
         DeviceRotation deviceRotation =
-            new DeviceRotation((Map<String, Number>) response.getValue());
+                new DeviceRotation((Map<String, Number>) response.getValue());
         if (deviceRotation.getX() < 0 || deviceRotation.getY() < 0 || deviceRotation.getZ() < 0) {
             throw new WebDriverException("Unexpected orientation returned: " + deviceRotation);
         }
@@ -428,7 +424,7 @@ public abstract class AppiumDriver<T extends WebElement>
 
     @Override public void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
-            ImmutableMap.of("orientation", orientation.value().toUpperCase()));
+                ImmutableMap.of("orientation", orientation.value().toUpperCase()));
     }
 
     @Override public ScreenOrientation getOrientation() {
@@ -463,13 +459,5 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public URL getRemoteAddress() {
         return remoteAddress;
-    }
-
-    /**
-     * @return a map with values that hold session details.
-     */
-    public Map<String, Object> getSessionDetails() {
-        Response response = execute(GET_SESSION);
-        return (Map<String, Object>) response.getValue();
     }
 }

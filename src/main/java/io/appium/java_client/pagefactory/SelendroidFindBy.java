@@ -17,6 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -30,6 +31,7 @@ import java.lang.annotation.Target;
  * using Selendroid UI selectors like, id, name, class name, tag and xpath
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+@Repeatable(SelendroidFindBySet.class)
 public @interface SelendroidFindBy {
     /**
      * It is an id of the target element.

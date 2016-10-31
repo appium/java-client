@@ -24,7 +24,12 @@ import java.lang.annotation.Target;
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
  * a series of {@link io.appium.java_client.pagefactory.iOSFindBy} tags.
+ * It is deprecated. Set of {@link io.appium.java_client.pagefactory.iOSFindBy}
+ * can be defined without this annotation. To define the correct way how to use
+ * the defined set please take a look at {@link HowToUseLocators}. The article.
+ * https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html.
  */
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface iOSFindBys {
     /**
