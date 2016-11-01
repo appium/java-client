@@ -30,7 +30,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class IOSAlertTest extends BaseIOSTest {
 
     WebDriverWait waiting = new WebDriverWait(driver, 10000);
-    String iOSAutomationText = ".elements().withName(\"show alert\")";
+    static final String iOSAutomationText = ".elements().withName(\"show alert\")";
 
     @Test public void acceptAlertTest() {
         driver.findElement(MobileBy
