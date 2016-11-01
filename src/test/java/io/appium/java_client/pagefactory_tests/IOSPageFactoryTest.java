@@ -44,6 +44,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -98,12 +99,14 @@ public class IOSPageFactoryTest {
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
 
+    @CacheLookup
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private WebElement androidUIAutomatorView;
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private MobileElement mobileButton;
 
+    @CacheLookup
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private TouchableElement touchableButton;
 
@@ -153,8 +156,8 @@ public class IOSPageFactoryTest {
         File app = new File(appDir, "TestApp.app.zip");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.3");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
@@ -210,6 +213,7 @@ public class IOSPageFactoryTest {
         NoSuchElementException nsee = null;
         try {
             androidUIAutomatorView.getText();
+            androidUIAutomatorView.getSize();
         } catch (Exception e) {
             nsee = (NoSuchElementException) e;
         }
@@ -288,6 +292,7 @@ public class IOSPageFactoryTest {
 
     @Test public void isTouchAbleElement() {
         assertNotEquals(null, touchableButton.getText());
+        assertNotEquals(null, touchableButton.getSize());
     }
 
     @Test public void areTouchAbleElements() {

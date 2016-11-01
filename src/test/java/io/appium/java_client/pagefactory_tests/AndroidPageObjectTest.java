@@ -44,6 +44,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -110,6 +111,7 @@ public class AndroidPageObjectTest {
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
 
+    @CacheLookup
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private WebElement androidUIAutomatorView;
 
@@ -264,6 +266,7 @@ public class AndroidPageObjectTest {
 
     @Test public void androidFindByUIAutomatorElementTest() {
         assertNotEquals(null, androidUIAutomatorView.getAttribute("text"));
+        assertNotEquals(null, androidUIAutomatorView.getSize());
     }
 
     @Test public void areMobileElementsTest() {
