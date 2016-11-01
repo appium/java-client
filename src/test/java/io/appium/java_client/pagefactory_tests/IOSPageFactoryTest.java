@@ -44,6 +44,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -88,6 +89,10 @@ public class IOSPageFactoryTest {
 
     @FindBy(className = "UIAButton")
     private WebElement uiButton;
+
+    @CacheLookup
+    @FindBy(className = "UIAButton")
+    private MobileElement cached;
 
     @FindBy(className = "UIAButton")
     private WebElement iosUIButton;
@@ -153,8 +158,8 @@ public class IOSPageFactoryTest {
         File app = new File(appDir, "TestApp.app.zip");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.3");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
@@ -191,6 +196,10 @@ public class IOSPageFactoryTest {
 
     @Test public void findByElementTest() {
         assertNotEquals(null, uiButton.getText());
+    }
+
+    @Test public void checkCached() {
+        assertEquals(cached.getId(), cached.getId());
     }
 
 

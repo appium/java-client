@@ -16,6 +16,8 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertEquals;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
@@ -30,8 +32,6 @@ import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-
-import static org.junit.Assert.assertEquals;
 
 public class XCUIAutomationTest {
 
