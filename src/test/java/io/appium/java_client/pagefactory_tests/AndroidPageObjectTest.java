@@ -111,7 +111,6 @@ public class AndroidPageObjectTest {
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
 
-    @CacheLookup
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private WebElement androidUIAutomatorView;
 
@@ -180,6 +179,10 @@ public class AndroidPageObjectTest {
 
     @FindBy(id = "fakeId")
     private List<WebElement> fakeElements;
+
+    @CacheLookup
+    @FindBy(className = "android.widget.TextView")
+    private MobileElement cached;
 
     /**
      * initialization.
@@ -266,7 +269,6 @@ public class AndroidPageObjectTest {
 
     @Test public void androidFindByUIAutomatorElementTest() {
         assertNotEquals(null, androidUIAutomatorView.getAttribute("text"));
-        assertNotEquals(null, androidUIAutomatorView.getSize());
     }
 
     @Test public void areMobileElementsTest() {
@@ -383,5 +385,9 @@ public class AndroidPageObjectTest {
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
         assertEquals(true, List.class.isAssignableFrom(fakeElements.getClass()));
         assertEquals(false, ArrayList.class.equals(fakeElements.getClass()));
+    }
+
+    @Test public void checkCached() {
+        assertEquals(cached.getId(), cached.getId());
     }
 }

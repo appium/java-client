@@ -90,6 +90,10 @@ public class IOSPageFactoryTest {
     @FindBy(className = "UIAButton")
     private WebElement uiButton;
 
+    @CacheLookup
+    @FindBy(className = "UIAButton")
+    private MobileElement cached;
+
     @FindBy(className = "UIAButton")
     private WebElement iosUIButton;
 
@@ -99,14 +103,12 @@ public class IOSPageFactoryTest {
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
 
-    @CacheLookup
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private WebElement androidUIAutomatorView;
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private MobileElement mobileButton;
 
-    @CacheLookup
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private TouchableElement touchableButton;
 
@@ -196,6 +198,10 @@ public class IOSPageFactoryTest {
         assertNotEquals(null, uiButton.getText());
     }
 
+    @Test public void checkCached() {
+        assertEquals(cached.getId(), cached.getId());
+    }
+
 
     @Test public void iosFindByElementsTest() {
         assertNotEquals(0, iosUIButtons.size());
@@ -213,7 +219,6 @@ public class IOSPageFactoryTest {
         NoSuchElementException nsee = null;
         try {
             androidUIAutomatorView.getText();
-            androidUIAutomatorView.getSize();
         } catch (Exception e) {
             nsee = (NoSuchElementException) e;
         }
@@ -292,7 +297,6 @@ public class IOSPageFactoryTest {
 
     @Test public void isTouchAbleElement() {
         assertNotEquals(null, touchableButton.getText());
-        assertNotEquals(null, touchableButton.getSize());
     }
 
     @Test public void areTouchAbleElements() {
