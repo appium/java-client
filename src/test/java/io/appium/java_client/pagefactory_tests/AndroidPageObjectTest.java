@@ -44,6 +44,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -178,6 +179,10 @@ public class AndroidPageObjectTest {
 
     @FindBy(id = "fakeId")
     private List<WebElement> fakeElements;
+
+    @CacheLookup
+    @FindBy(className = "android.widget.TextView")
+    private MobileElement cached;
 
     /**
      * initialization.
@@ -380,5 +385,9 @@ public class AndroidPageObjectTest {
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
         assertEquals(true, List.class.isAssignableFrom(fakeElements.getClass()));
         assertEquals(false, ArrayList.class.equals(fakeElements.getClass()));
+    }
+
+    @Test public void checkCached() {
+        assertEquals(cached.getId(), cached.getId());
     }
 }

@@ -44,6 +44,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -88,6 +89,10 @@ public class IOSPageFactoryTest {
 
     @FindBy(className = "UIAButton")
     private WebElement uiButton;
+
+    @CacheLookup
+    @FindBy(className = "UIAButton")
+    private MobileElement cached;
 
     @FindBy(className = "UIAButton")
     private WebElement iosUIButton;
@@ -191,6 +196,10 @@ public class IOSPageFactoryTest {
 
     @Test public void findByElementTest() {
         assertNotEquals(null, uiButton.getText());
+    }
+
+    @Test public void checkCached() {
+        assertEquals(cached.getId(), cached.getId());
     }
 
 
