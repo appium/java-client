@@ -214,9 +214,9 @@ public abstract class AppiumDriver<T extends WebElement>
     }
 
     /**
-     * @see TouchShortcuts#tap(int, WebElement, int).
+     * @see TouchableElement#tap(int, WebElement, int).
      */
-    @Override public void tap(int fingers, WebElement element, int duration) {
+    public void tap(int fingers, WebElement element, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         for (int i = 0; i < fingers; i++) {
@@ -227,9 +227,9 @@ public abstract class AppiumDriver<T extends WebElement>
     }
 
     /**
-     * @see TouchShortcuts#tap(int, int, int, int).
+     * @see TouchableElement#tap(int, int, int, int).
      */
-    @Override public void tap(int fingers, int x, int y, int duration) {
+    public void tap(int fingers, int x, int y, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         for (int i = 0; i < fingers; i++) {
@@ -239,145 +239,45 @@ public abstract class AppiumDriver<T extends WebElement>
         multiTouch.perform();
     }
 
-    protected void doSwipe(int startx, int starty, int endx, int endy, int duration) {
-        TouchAction touchAction = new TouchAction(this);
-
-        // appium converts press-wait-moveto-release to a swipe action
-        touchAction.press(startx, starty).waitAction(duration).moveTo(endx, endy).release();
-
-        touchAction.perform();
-    }
-
     /**
-     * @see TouchShortcuts#swipe(int, int, int, int, int).
+     * @see TouchableElement#swipe(int, int, int, int, int).
      */
-    @Override public abstract void swipe(int startx, int starty, int endx, int endy, int duration);
+    public abstract void swipe(int startx, int starty, int endx, int endy, int duration);
 
     /**
-     * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the
-     * screen and sliding towards each other.
-     * NOTE:
-     * This convenience method places the initial touches around the element, if this would
-     * happen to place one of them off the screen, appium with return an outOfBounds error.
-     * In this case, revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param el The element to pinch.
+     * @see TouchableElement#pinch(WebElement).
      */
     public void pinch(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        Dimension dimensions = el.getSize();
-        Point upperLeft = el.getLocation();
-        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
-            upperLeft.getY() + dimensions.getHeight() / 2);
-        int yOffset = center.getY() - upperLeft.getY();
-
-        TouchAction action0 =
-            new TouchAction(this).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
-                .release();
-        TouchAction action1 =
-            new TouchAction(this).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
-                .release();
-
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.pinch(el).perform();
     }
 
     /**
-     * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the screen and
-     * sliding towards each other.
-     * NOTE:
-     * This convenience method places the initial touches around the element at a distance,
-     * if this would happen to place one of them off the screen, appium will return an
-     * outOfBounds error. In this case, revert to using the MultiTouchAction api instead of this
-     * method.
-     *
-     * @param x x coordinate to terminate the pinch on.
-     * @param y y coordinate to terminate the pinch on.
+     * @see TouchableElement#pinch(int, int).
      */
     public void pinch(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        int scrHeight = manage().window().getSize().getHeight();
-        int yOffset = 100;
-
-        if (y - 100 < 0) {
-            yOffset = y;
-        } else if (y + 100 > scrHeight) {
-            yOffset = scrHeight - y;
-        }
-
-        TouchAction action0 = new TouchAction(this).press(x, y - yOffset).moveTo(x, y).release();
-        TouchAction action1 = new TouchAction(this).press(x, y + yOffset).moveTo(x, y).release();
-
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.pinch(x, y).perform();
     }
 
     /**
-     * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen and sliding
-     * away from each other.
-     * NOTE:
-     * This convenience method slides touches away from the element, if this would happen
-     * to place one of them off the screen, appium will return an outOfBounds error.
-     * In this case, revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param el The element to pinch.
+     * @see TouchableElement#zoom(WebElement).
      */
     public void zoom(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        Dimension dimensions = el.getSize();
-        Point upperLeft = el.getLocation();
-        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
-            upperLeft.getY() + dimensions.getHeight() / 2);
-        int yOffset = center.getY() - upperLeft.getY();
-
-        TouchAction action0 = new TouchAction(this).press(center.getX(), center.getY())
-            .moveTo(el, center.getX(), center.getY() - yOffset).release();
-        TouchAction action1 = new TouchAction(this).press(center.getX(), center.getY())
-            .moveTo(el, center.getX(), center.getY() + yOffset).release();
-
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.zoom(el).perform();
     }
 
     /**
-     * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen
-     * and sliding away from each other.
-     * NOTE:
-     * This convenience method slides touches away from the element, if this would happen to
-     * place one of them off the screen, appium will return an outOfBounds error. In this case,
-     * revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param x x coordinate to start zoom on.
-     * @param y y coordinate to start zoom on.
+     * @see TouchableElement#zoom(int, int).
      */
     public void zoom(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        int scrHeight = manage().window().getSize().getHeight();
-        int yOffset = 100;
-
-        if (y - 100 < 0) {
-            yOffset = y;
-        } else if (y + 100 > scrHeight) {
-            yOffset = scrHeight - y;
-        }
-
-        TouchAction action0 = new TouchAction(this).press(x, y).moveTo(0, -yOffset).release();
-        TouchAction action1 = new TouchAction(this).press(x, y).moveTo(0, yOffset).release();
-
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.zoom(x, y).perform();
     }
 
     @Override public WebDriver context(String name) {
