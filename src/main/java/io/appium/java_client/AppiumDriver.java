@@ -67,7 +67,7 @@ import java.util.Set;
  *          for each target mobile OS (still Android and iOS)
 */
 @SuppressWarnings("unchecked")
-public abstract class AppiumDriver<T extends WebElement>
+public class AppiumDriver<T extends WebElement>
     extends DefaultGenericMobileDriver<T> {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
@@ -235,14 +235,16 @@ public abstract class AppiumDriver<T extends WebElement>
         for (int i = 0; i < fingers; i++) {
             multiTouch.add(createTap(x, y, duration));
         }
-
         multiTouch.perform();
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#swipe(int, int, int, int, int).
+     * This method is deprecated due to it was moved to {@link TouchAction#}
      */
-    public abstract void swipe(int startx, int starty, int endx, int endy, int duration);
+    public void swipe(int startx, int starty, int endx, int endy, int duration) {
+
+    }
 
     /**
      * @see TouchableElement#pinch(WebElement).

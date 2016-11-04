@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android;
+package io.appium.java_client;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.longPressKeyCodeCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.pressKeyCodeCommand;
+import static io.appium.java_client.MobileCommand.longPressKeyCodeCommand;
+import static io.appium.java_client.MobileCommand.pressKeyCodeCommand;
 
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.DeviceActionShortcuts;
-
-@Deprecated
-/**
- * This interface is deprecated and won't be supported anymore.
- * Please use {@link io.appium.java_client.PressesKeyCode} API instead
- */
-public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {
+public interface PressesKeyCode extends ExecutesMethod {
 
     /**
      * Send a key event to the device.
@@ -44,8 +36,6 @@ public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {
      *
      * @param key       code for the key pressed on the Android device.
      * @param metastate metastate for the keypress.
-     * @see AndroidKeyCode
-     * @see AndroidKeyMetastate
      */
     default void pressKeyCode(int key, Integer metastate) {
         CommandExecutionHelper.execute(this, pressKeyCodeCommand(key, metastate));
@@ -66,8 +56,6 @@ public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {
      *
      * @param key       code for the key pressed on the Android device.
      * @param metastate metastate for the keypress.
-     * @see AndroidKeyCode
-     * @see AndroidKeyMetastate
      */
     default void longPressKeyCode(int key, Integer metastate) {
         CommandExecutionHelper.execute(this, longPressKeyCodeCommand(key, metastate));

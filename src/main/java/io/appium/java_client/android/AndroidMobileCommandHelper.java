@@ -87,27 +87,18 @@ public class AndroidMobileCommandHelper extends MobileCommand {
                 IS_LOCKED, ImmutableMap.<String, Object>of());
     }
 
+    @Deprecated
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * key event invocation.
-     *
-     * @param key code for the key pressed on the device.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int)} instead.
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
                 PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
+    @Deprecated
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * key event invocation.
-     *
-     * @param key       code for the key pressed on the Android device.
-     * @param metastate metastate for the keypress.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int, Integer)} instead.
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
         Integer metastate) {
@@ -117,27 +108,18 @@ public class AndroidMobileCommandHelper extends MobileCommand {
                 PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 
+    @Deprecated
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * long key event invocation.
-     *
-     * @param key code for the long key pressed on the device.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int)} instead.
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
                 LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
+    @Deprecated
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * long key event invocation.
-     *
-     * @param key       code for the long key pressed on the Android device.
-     * @param metastate metastate for the long key press.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int, Integer)} instead.
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
         Integer metastate) {
