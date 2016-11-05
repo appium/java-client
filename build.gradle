@@ -61,7 +61,6 @@ dependencies {
     compile 'commons-validator:commons-validator:1.5.1'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'commons-io:commons-io:2.5'
-    compile 'com.google.code.gson:gson:2.6.2'
     compile 'org.springframework:spring-context:4.3.2.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.8.9'
 
