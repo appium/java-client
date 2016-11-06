@@ -28,8 +28,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -213,8 +211,10 @@ public class AppiumDriver<T extends WebElement>
         return executeMethod;
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#tap(int, WebElement, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#tap(int, WebElement, int)}.
      */
     public void tap(int fingers, WebElement element, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -226,8 +226,10 @@ public class AppiumDriver<T extends WebElement>
         multiTouch.perform();
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#tap(int, int, int, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#tap(int, int, int, int)}.
      */
     public void tap(int fingers, int x, int y, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -246,8 +248,10 @@ public class AppiumDriver<T extends WebElement>
 
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#pinch(WebElement).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#pinch(WebElement)}.
      */
     public void pinch(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -255,17 +259,34 @@ public class AppiumDriver<T extends WebElement>
         multiTouch.pinch(el).perform();
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#pinch(int, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#pinch(int, int, int, int)} or
+     * {@link MultiTouchAction#pinch(int, int, int)}
      */
     public void pinch(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        multiTouch.pinch(x, y).perform();
+        int scrHeight = this.manage().window().getSize().getHeight();
+        int yOffset = 100;
+
+        if (y - 100 < 0) {
+            yOffset = y;
+        } else if (y + 100 > scrHeight) {
+            yOffset = scrHeight - y;
+        }
+
+        TouchAction action0 = new TouchAction(this).press(x, y - yOffset).moveTo(x, y).release();
+        TouchAction action1 = new TouchAction(this).press(x, y + yOffset).moveTo(x, y).release();
+
+        multiTouch.add(action0).add(action1).perform();
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#zoom(WebElement).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#zoom(WebElement)}.
      */
     public void zoom(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
@@ -273,13 +294,28 @@ public class AppiumDriver<T extends WebElement>
         multiTouch.zoom(el).perform();
     }
 
+    @Deprecated
     /**
-     * @see TouchableElement#zoom(int, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#zoom(int, int, int, int)} or
+     * {@link MultiTouchAction#zoom(int, int, int)}.
      */
     public void zoom(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        multiTouch.zoom(x, y).perform();
+        int scrHeight = this.manage().window().getSize().getHeight();
+        int yOffset = 100;
+
+        if (y - 100 < 0) {
+            yOffset = y;
+        } else if (y + 100 > scrHeight) {
+            yOffset = scrHeight - y;
+        }
+
+        TouchAction action0 = new TouchAction(this).press(x, y).moveTo(0, -yOffset).release();
+        TouchAction action1 = new TouchAction(this).press(x, y).moveTo(0, yOffset).release();
+
+        multiTouch.add(action0).add(action1).perform();
     }
 
     @Override public WebDriver context(String name) {
@@ -349,11 +385,13 @@ public class AppiumDriver<T extends WebElement>
         locationContext.setLocation(location);
     }
 
+    @Deprecated
     private TouchAction createTap(WebElement element, int duration) {
         TouchAction tap = new TouchAction(this);
         return tap.press(element).waitAction(duration).release();
     }
 
+    @Deprecated
     private TouchAction createTap(int x, int y, int duration) {
         TouchAction tap = new TouchAction(this);
         return tap.press(x, y).waitAction(duration).release();

@@ -19,6 +19,7 @@ package io.appium.java_client.ios;
 import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.SwipeElementDirection;
 import org.junit.Test;
 
@@ -30,18 +31,18 @@ public class IOSGesturesTest extends BaseIOSTest {
          driver.findElementById("IntegerB").sendKeys("4");
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        driver.tap(2, e, 2000);
+        new MultiTouchAction(driver).tap(2, e, 2000).perform();
         assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
     }
 
     @Test public void zoomTest() {
         MobileElement e = driver.findElementById("IntegerA");
-        driver.zoom(e);
+        new MultiTouchAction(driver).zoom(e).perform();
     }
 
     @Test public void pinchTest() {
         MobileElement e = driver.findElementById("IntegerA");
-        driver.pinch(e);
+        new MultiTouchAction(driver).pinch(e).perform();
     }
 
     @Test public void horizontalSwipingTest() {

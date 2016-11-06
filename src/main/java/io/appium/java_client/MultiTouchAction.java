@@ -41,12 +41,13 @@ import org.openqa.selenium.WebElement;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
  * more actions can be chained.
  */
-@SuppressWarnings({"rawtypes", "unchecked"}) public class MultiTouchAction {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class MultiTouchAction {
 
-    ImmutableList.Builder<TouchAction> actions;
-    private MobileDriver driver;
+    private ImmutableList.Builder<TouchAction> actions;
+    private PerformsTouchActions driver;
 
-    public MultiTouchAction(MobileDriver driver) {
+    public MultiTouchAction(PerformsTouchActions driver) {
         this.driver = driver;
         actions = ImmutableList.builder();
     }
@@ -92,11 +93,9 @@ import org.openqa.selenium.WebElement;
     }
 
     /**
-     * @see TouchableElement#pinch(WebElement).
+     * Creates few combined touch actions which performs the pinching on the given elements.
      */
     public MultiTouchAction pinch(WebElement el) {
-        MultiTouchAction multiTouch = new MultiTouchAction(driver);
-
         Dimension dimensions = el.getSize();
         Point upperLeft = el.getLocation();
         Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
@@ -110,36 +109,45 @@ import org.openqa.selenium.WebElement;
             new TouchAction(driver).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
                 .release();
 
-        return multiTouch.add(action0).add(action1);
+        this.add(action0).add(action1);
+        return this;
     }
 
     /**
-     * @see TouchableElement#pinch(int, int).
+     * Creates few combined touch actions which performs the pinching by given coordinates and offsets.
+     *
+     * @param x is a x-coordinate to perform the pinching to
+     * @param y is an y-coordinate to perform the pinching to
+     * @param xOffset is an +/- offset from the given x-coordinate to perform the pinching to
+     * @param yOffset is an +/- offset from the given y-coordinate to perform the pinching to
+     * @return the self-reference
      */
-    public MultiTouchAction pinch(int x, int y) {
-        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+    public MultiTouchAction pinch(int x, int y, int xOffset, int yOffset) {
+        TouchAction action0 = new TouchAction(driver).press(x + xOffset, y - yOffset)
+                .moveTo(- xOffset, yOffset).release();
+        TouchAction action1 = new TouchAction(driver).press(x - xOffset, y + yOffset)
+                .moveTo(xOffset, -yOffset).release();
 
-        int scrHeight = driver.manage().window().getSize().getHeight();
-        int yOffset = 100;
-
-        if (y - 100 < 0) {
-            yOffset = y;
-        } else if (y + 100 > scrHeight) {
-            yOffset = scrHeight - y;
-        }
-
-        TouchAction action0 = new TouchAction(driver).press(x, y - yOffset).moveTo(x, y).release();
-        TouchAction action1 = new TouchAction(driver).press(x, y + yOffset).moveTo(x, y).release();
-
-        return multiTouch.add(action0).add(action1);
+        this.add(action0).add(action1);
+        return this;
     }
 
     /**
-     * @see TouchableElement#zoom(WebElement).
+     * Creates few combined touch actions which performs the vertical pinching by given coordinates and y-Offset.
+     *
+     * @param x is a x-coordinate to perform the pinching to
+     * @param y is an y-coordinate to perform the pinching to
+     * @param yOffset is an +/- offset from the given y-coordinate to perform the pinching to
+     * @return the self-reference
+     */
+    public MultiTouchAction pinch(int x, int y, int yOffset) {
+        return pinch(x, y, 0, yOffset);
+    }
+
+    /**
+     * Creates few combined touch actions which performs the zooming on the given elements.
      */
     public MultiTouchAction zoom(WebElement el) {
-        MultiTouchAction multiTouch = new MultiTouchAction(driver);
-
         Dimension dimensions = el.getSize();
         Point upperLeft = el.getLocation();
         Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
@@ -151,27 +159,70 @@ import org.openqa.selenium.WebElement;
         TouchAction action1 = new TouchAction(driver).press(center.getX(), center.getY())
             .moveTo(el, center.getX(), center.getY() + yOffset).release();
 
-        return multiTouch.add(action0).add(action1);
+        this.add(action0).add(action1);
+        return this;
     }
 
     /**
-     * @see TouchableElement#zoom(int, int).
+     * Creates few combined touch actions which performs the zooming by given coordinates and x/y-Offset value.
+     *
+     * @param x is a x-coordinate to perform the zooming from
+     * @param y is a y-coordinate to perform the zooming from
+     * @param xOffset is an +/- offset from the given x-coordinate to perform the zooming from
+     * @param yOffset is an +/- offset from the given y-coordinate to perform the zooming from
+     * @return the self-reference
      */
-    public MultiTouchAction zoom(int x, int y) {
-        MultiTouchAction multiTouch = new MultiTouchAction(driver);
+    public MultiTouchAction zoom(int x, int y, int xOffset, int yOffset) {
+        TouchAction action0 = new TouchAction(driver).press(x, y)
+                .moveTo(xOffset, -yOffset).release();
+        TouchAction action1 = new TouchAction(driver).press(x, y)
+                .moveTo(-xOffset, yOffset).release();
 
-        int scrHeight = driver.manage().window().getSize().getHeight();
-        int yOffset = 100;
+        return this.add(action0).add(action1);
+    }
 
-        if (y - 100 < 0) {
-            yOffset = y;
-        } else if (y + 100 > scrHeight) {
-            yOffset = scrHeight - y;
+    /**
+     * Creates few combined touch actions which performs the vertical zooming by given coordinates and x/y-Offset value.
+     *
+     * @param x is a x-coordinate to perform the zooming from
+     * @param y is a y-coordinate to perform the zooming from
+     * @param yOffset is an +/- offset from the given y-coordinate to perform the zooming from
+     * @return the self-reference
+     */
+    public MultiTouchAction zoom(int x, int y, int yOffset) {
+        return zoom(x, y, 0, yOffset);
+    }
+
+    /**
+     * Creates the tapping by few finders using given coordinates.
+     *
+     * @param fingers is a count of fingers to tap
+     * @param x coordinate
+     * @param y coordinate
+     * @param duration is a time for the tapping in milliseconds
+     * @return
+     */
+    public MultiTouchAction tap(int fingers, int x, int y, int duration) {
+        for (int i = 0; i < fingers; i++) {
+            TouchAction tap = new TouchAction(driver);
+            this.add(tap.press(x, y).waitAction(duration).release());
         }
+        return this;
+    }
 
-        TouchAction action0 = new TouchAction(driver).press(x, y).moveTo(0, -yOffset).release();
-        TouchAction action1 = new TouchAction(driver).press(x, y).moveTo(0, yOffset).release();
-
-        return multiTouch.add(action0).add(action1);
+    /**
+     * Creates the tapping by few finders on the element.
+     *
+     * @param fingers is a count of fingers to tap
+     * @param element to be tapped
+     * @param duration is a time for the tapping in milliseconds
+     * @return
+     */
+    public MultiTouchAction tap(int fingers, WebElement element, int duration) {
+        for (int i = 0; i < fingers; i++) {
+            TouchAction tap = new TouchAction(driver);
+            this.add(tap.press(element).waitAction(duration).release());
+        }
+        return this;
     }
 }

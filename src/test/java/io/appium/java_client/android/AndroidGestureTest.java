@@ -35,14 +35,15 @@ public class AndroidGestureTest extends BaseAndroidTest {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
         Point point =
             driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
-        driver.tap(1, point.x + 20, point.y + 30, 1000);
+        new MultiTouchAction(driver).tap(1, point.x + 20, point.y + 30, 1000).perform();
         assertEquals("ON" ,driver
             .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void singleElementTapTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
-        driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
+        new MultiTouchAction(driver).tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000)
+                .perform();
         assertEquals("ON" ,driver
             .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }

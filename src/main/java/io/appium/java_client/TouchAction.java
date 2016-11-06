@@ -28,18 +28,19 @@ import org.openqa.selenium.internal.HasIdentity;
  * See the Webriver 3 spec
  * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
  * The flow is to chain individual touch actions into an entire gesture. e.g.
- * TouchAction action = new TouchAction(driver);
+ * TouchAction action = new TouchAction(performsTouchActions);
  * action.press(element).waitAction(300).moveTo(element1).release().perform();
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */
-@SuppressWarnings({"rawtypes", "unchecked"}) public class TouchAction {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class TouchAction {
 
-    protected ImmutableList.Builder parameterBuilder;
-    private MobileDriver driver;
+    private ImmutableList.Builder<ActionParameter> parameterBuilder;
+    private PerformsTouchActions performsTouchActions;
 
-    public TouchAction(MobileDriver driver) {
-        this.driver = driver;
+    public TouchAction(PerformsTouchActions driver) {
+        this.performsTouchActions = driver;
         parameterBuilder = ImmutableList.builder();
     }
 
@@ -306,7 +307,7 @@ import org.openqa.selenium.internal.HasIdentity;
     }
 
     /**
-     * Cancel this action, if it was partially completed by the driver.
+     * Cancel this action, if it was partially completed by the performsTouchActions.
      */
     public void cancel() {
         ActionParameter action = new ActionParameter("wait");
@@ -315,12 +316,12 @@ import org.openqa.selenium.internal.HasIdentity;
     }
 
     /**
-     * Perform this chain of actions on the driver.
+     * Perform this chain of actions on the performsTouchActions.
      *
      * @return this TouchAction, for possible segmented-touches.
      */
     public TouchAction perform() {
-        driver.performTouchAction(this);
+        performsTouchActions.performTouchAction(this);
         return this;
     }
 
@@ -348,7 +349,7 @@ import org.openqa.selenium.internal.HasIdentity;
      */
     protected class ActionParameter {
         private String actionName;
-        private ImmutableMap.Builder optionsBuilder;
+        private ImmutableMap.Builder<String, Object> optionsBuilder;
 
         public ActionParameter(String actionName) {
             this.actionName = actionName;
@@ -362,7 +363,7 @@ import org.openqa.selenium.internal.HasIdentity;
         }
 
         public ImmutableMap<String, Object> getParameterMap() {
-            ImmutableMap.Builder builder = ImmutableMap.builder();
+            ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
             builder.put("action", actionName).put("options", optionsBuilder.build());
             return builder.build();
         }
