@@ -53,6 +53,7 @@ More can be found in the docs, but here's a quick list of features which this pr
 - endTestCoverage()
 - isLocked()
 - shake()
+- touchId()
 - getSessionDetails()
 - openNotifications()
 - Context Switching: .context(), .getContextHandles(), getContext())
