@@ -61,7 +61,7 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
     /**
      * Simulate touchId event
      *
-     * @param match Are we simulating a successful fingerprint scan?
+     * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan
      */
     default void touchId(boolean match) {
     	CommandExecutionHelper.execute(this, touchIdCommand(match));
