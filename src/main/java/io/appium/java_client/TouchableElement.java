@@ -74,61 +74,6 @@ public interface TouchableElement<T extends WebElement> extends WebElement, Find
     List<T> findElementsByXPath(String xPath);
 
     /**
-     * Convenience method for tapping the center of the given element.
-     *
-     * @param fingers  number of fingers/appendages to tap with.
-     * @param duration how long between pressing down, and lifting fingers/appendages.
-     */
-    void tap(int fingers, int duration);
-
-    /**
-     * Convenience method for tapping a position on the screen.
-     *
-     * @param fingers  number of fingers/appendages to tap with.
-     * @param x        x coordinate.
-     * @param y        y coordinate.
-     * @param duration how long between pressing down, and lifting fingers/appendages.
-     */
-    void tap(int fingers, int x, int y, int duration);
-
-    /**
-     * Convenience method for tapping the center of an element on the screen.
-     *
-     * @param fingers  number of fingers/appendages to tap with.
-     * @param element  element to tap.
-     * @param duration how long between pressing down, and lifting fingers/appendages.
-     */
-    void tap(int fingers, WebElement element, int duration);
-
-    /**
-     * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the screen
-     * and sliding towards each other.
-     * NOTE:
-     * This convenience method places the initial touches around the element at a distance,
-     * if this would happen to place one of them off the screen, appium will return an
-     * outOfBounds error. In this case, revert to using the MultiTouchAction api
-     * instead of this method.
-     *
-     * @param x x coordinate to terminate the pinch on.
-     * @param y y coordinate to terminate the pinch on.
-     */
-    void pinch(int x, int y);
-
-    /**
-     * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the screen and
-     * sliding towards each other.
-     * NOTE:
-     * This convenience method places the initial touches around the element, if this would
-     * happen to place one of them off the screen, appium with return an outOfBounds error.
-     * In this case, revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param el The element to pinch.
-     */
-    void pinch(WebElement el);
-
-    /**
      * Convenience method for pinching the given element.
      * "pinching" refers to the action of two appendages pressing the screen
      * and sliding towards each other.
@@ -141,33 +86,12 @@ public interface TouchableElement<T extends WebElement> extends WebElement, Find
     void pinch();
 
     /**
-     * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the
-     * screen and sliding away from each other.
-     * NOTE:
-     * This convenience method slides touches away from the element,
-     * if this would happen to place one of them off the screen, appium will return an
-     * outOfBounds error. In this case, revert to using the MultiTouchAction api
-     * instead of this method.
+     * Convenience method for tapping the center of the given element.
      *
-     * @param x x coordinate to start zoom on.
-     * @param y y coordinate to start zoom on.
+     * @param fingers  number of fingers/appendages to tap with.
+     * @param duration how long between pressing down, and lifting fingers/appendages.
      */
-    void zoom(int x, int y);
-
-    /**
-     * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen
-     * and sliding away from each other.
-     * NOTE:
-     * This convenience method slides touches away from the element, if this would
-     * happen to place one of them off the screen, appium will return an outOfBounds
-     * error. In this case, revert to using the MultiTouchAction api
-     * instead of this method.
-     *
-     * @param el The element to pinch.
-     */
-    void zoom(WebElement el);
+    void tap(int fingers, int duration);
 
     /**
      * Convenience method for "zooming in" on the given element.
@@ -180,50 +104,22 @@ public interface TouchableElement<T extends WebElement> extends WebElement, Find
      */
     void zoom();
 
+
+    @Deprecated
     /**
-     * Convenience method for swiping on the given element to the given direction.
-     *
-     * @param direction UP, DOWN, LEFT, RIGHT.
-     * @param duration  amount of time in milliseconds for the entire swipe action to
-     *                  take.
+     * This method is deprecated and it is going to be removed.
+     * Please use the {@link CreatesSwipeAction#swipe(WebElement, SwipeElementDirection, int)}
+     * instead.
      */
     void swipe(SwipeElementDirection direction, int duration);
 
-    /**
-     * Convenience method for swiping across the screen.
-     *
-     * @param startx   starting x coordinate.
-     * @param starty   starting y coordinate.
-     * @param endx     ending x coordinate.
-     * @param endy     ending y coordinate.
-     * @param duration amount of time in milliseconds for the entire swipe action to take
-     */
-    void swipe(int startx, int starty, int endx, int endy, int duration);
 
+    @Deprecated
     /**
-     * Convenience method for swiping on the given element to the given direction.
-     *
-     * @param direction           direction UP, DOWN, LEFT, RIGHT.
-     * @param offsetFromStartBorder is the offset from the border of the element where the
-     *                            swiping should be started. If direction is UP then
-     *                            this is offset from the bottom of the element.
-     *                            If direction is DOWN then this is offset from the top of
-     *                            the element. If direction is RIGHT then this is offset from
-     *                            the left border of the element. If direction is LEFT then
-     *                            this is offset from the right border of the element.
-     * @param offsetFromEndBorder is the offset from the border of the element where
-     *                            the swiping should be finished. If direction is UP then
-     *                            this is offset from the top of the element.
-     *                            If direction is DOWN then this is offset from the bottom
-     *                            of the element. If direction is RIGHT then
-     *                            this is offset from the right border of the element.
-     *                            If direction is LEFT then this is offset from the
-     *                            left border of the element.
-     * @param duration            amount of time in milliseconds for the entire swipe action to
-     *                            take.
-     * @throws IllegalCoordinatesException when resulted coordinates are out of the
-     *     element borders or disagree with the given direction.
+     * This method is deprecated and it is going to be removed.
+     * Please use the {@link CreatesSwipeAction#swipe(WebElement, SwipeElementDirection, int, int, int)}
+     * instead.
      */
     void swipe(SwipeElementDirection direction, int offsetFromStartBorder, int offsetFromEndBorder,
-        int duration) throws IllegalCoordinatesException;
+               int duration) throws IllegalCoordinatesException;
 }
