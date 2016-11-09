@@ -16,6 +16,7 @@
 
 package io.appium.java_client;
 
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
@@ -142,6 +143,7 @@ public enum SwipeElementDirection {
         }
     };
 
+    @SuppressAjWarnings("unused")
     static void checkYCoordinate(int y, Point location, Dimension size, int offSet)
         throws IllegalCoordinatesException {
         int bottom = location.getY() + size.getHeight();
@@ -157,6 +159,7 @@ public enum SwipeElementDirection {
 
     }
 
+    @SuppressAjWarnings("unused")
     static void checkXCoordinate(int x, Point location, Dimension size, int offSet)
         throws IllegalCoordinatesException {
         int right = location.getX() + size.getWidth();
@@ -182,7 +185,7 @@ public enum SwipeElementDirection {
 
     abstract void checkDirection(int x1, int y1, int x2, int y2);
 
-    void swipe(AppiumDriver<?> driver, MobileElement element, int offset1, int offset2,
+    public TouchAction swipe(CreatesSwipeAction createsSwipeAction, MobileElement element, int offset1, int offset2,
         int duration) throws IllegalCoordinatesException {
         Point p = element.getCenter();
         Point location = element.getLocation();
@@ -193,6 +196,6 @@ public enum SwipeElementDirection {
         int endY = getEndY(p, location, size, offset2);
         checkDirection(startX, startY, endX, endY);
 
-        driver.swipe(startX, startY, endX, endY, duration);
+        return  createsSwipeAction.swipe(startX, startY, endX, endY, duration);
     }
 }

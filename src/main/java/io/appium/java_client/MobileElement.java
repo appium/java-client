@@ -26,7 +26,7 @@ import org.openqa.selenium.remote.FileDetector;
 import java.util.List;
 
 @SuppressWarnings({"unchecked"})
-public abstract class MobileElement
+public class MobileElement
     extends DefaultGenericMobileElement<MobileElement> {
 
     protected FileDetector fileDetector;
@@ -54,14 +54,23 @@ public abstract class MobileElement
         ((AppiumDriver<?>) parent).zoom(this);
     }
 
+    @Deprecated
+    /**
+     * This method does nothing. It is going to be removed.
+     * Please use {@link CreatesSwipeAction#swipe(MobileElement, SwipeElementDirection, int)} instead.
+     */
     @Override public void swipe(SwipeElementDirection direction, int duration) {
-        direction.swipe((AppiumDriver<?>) parent, this, 0, 0, duration);
+        //does nothing
     }
 
+    @Deprecated
+    /**
+     * This method does nothing. It is going to be removed.
+     * Please use {@link CreatesSwipeAction#swipe(MobileElement, SwipeElementDirection, int, int, int)} instead.
+     */
     @Override public void swipe(SwipeElementDirection direction, int offsetFromStartBorder,
         int offsetFromEndBorder, int duration) throws IllegalCoordinatesException {
-        direction.swipe((AppiumDriver<?>) parent, this, offsetFromStartBorder, offsetFromEndBorder,
-            duration);
+        //does nothing
     }
 
     @Override public List<MobileElement> findElements(By by) {

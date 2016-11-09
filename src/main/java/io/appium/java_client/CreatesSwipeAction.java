@@ -62,7 +62,9 @@ public interface CreatesSwipeAction {
      * @param duration in milliseconds
      * @return an instance of combined {@link TouchAction}
      */
-    TouchAction swipe(WebElement element, SwipeElementDirection direction, int duration);
+    default TouchAction swipe(MobileElement element, SwipeElementDirection direction, int duration) {
+        return direction.swipe(this, element, 0, 0, duration);
+    }
 
     /**
      * Creates combined touch action for the swiping inside an element using some offset from its
@@ -90,7 +92,10 @@ public interface CreatesSwipeAction {
      * @throws IllegalCoordinatesException when resulted coordinates are out of the
      *                                     element borders or disagree with the given direction.
      */
-    TouchAction swipe(WebElement element, SwipeElementDirection direction, int offsetFromStartBorder,
+    default TouchAction swipe(MobileElement element, SwipeElementDirection direction, int offsetFromStartBorder,
                       int offsetFromEndBorder,
-                      int duration) throws IllegalCoordinatesException;
+                      int duration) throws IllegalCoordinatesException {
+        return direction.swipe(this, element, offsetFromStartBorder, offsetFromEndBorder,
+                duration);
+    }
 }

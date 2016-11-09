@@ -39,8 +39,8 @@ public class TouchAction {
     private ImmutableList.Builder<ActionParameter> parameterBuilder;
     private PerformsTouchActions performsTouchActions;
 
-    public TouchAction(PerformsTouchActions driver) {
-        this.performsTouchActions = driver;
+    public TouchAction(PerformsTouchActions performsTouchActions) {
+        this.performsTouchActions = performsTouchActions;
         parameterBuilder = ImmutableList.builder();
     }
 

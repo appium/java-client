@@ -30,11 +30,11 @@ import org.openqa.selenium.WebElement;
  * The MultiTouchAction object is a collection of TouchAction objects
  * (remember that TouchAction objects are in turn, a chain of individual actions)
  * Add multiple TouchAction objects using the add() method.
- * When perform() method is called, all actions are sent to the driver.
- * The driver performs the first step of each TouchAction object simultaneously as a multi-touch
+ * When perform() method is called, all actions are sent to the performsTouchActions.
+ * The performsTouchActions performs the first step of each TouchAction object simultaneously as a multi-touch
  * "execution group". Conceptually, the number of TouchAction objects added to the MultiTouchAction
  * is equal to the number of "fingers" or  other appendages or tools touching the screen at the
- * same time as part of this multi-gesture. Then the driver performs the second step of each
+ * same time as part of this multi-gesture. Then the performsTouchActions performs the second step of each
  * TouchAction object and another "execution group", and the third, and so on.
  * Using a waitAction() action within a TouchAction takes up one of the slots in an
  * "execution group", so these can be used to sync up complex actions.
@@ -45,10 +45,10 @@ import org.openqa.selenium.WebElement;
 public class MultiTouchAction {
 
     private ImmutableList.Builder<TouchAction> actions;
-    private PerformsTouchActions driver;
+    private PerformsTouchActions performsTouchActions;
 
-    public MultiTouchAction(PerformsTouchActions driver) {
-        this.driver = driver;
+    public MultiTouchAction(PerformsTouchActions performsTouchActions) {
+        this.performsTouchActions = performsTouchActions;
         actions = ImmutableList.builder();
     }
 
@@ -65,15 +65,15 @@ public class MultiTouchAction {
     }
 
     /**
-     * Perform the multi-touch action on the mobile driver.
+     * Perform the multi-touch action on the mobile performsTouchActions.
      */
     public void perform() {
         int size = actions.build().size();
         if (size > 1) {
-            driver.performMultiTouchAction(this);
+            performsTouchActions.performMultiTouchAction(this);
         } else if (size == 1) {
             //android doesn't like having multi-touch actions with only a single TouchAction...
-            driver.performTouchAction(actions.build().get(0));
+            performsTouchActions.performTouchAction(actions.build().get(0));
         } else {
             throw new MissingParameterException(
                 "MultiTouch action must have at least one TouchAction "
@@ -103,10 +103,10 @@ public class MultiTouchAction {
         int yOffset = center.getY() - upperLeft.getY();
 
         TouchAction action0 =
-            new TouchAction(driver).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
+            new TouchAction(performsTouchActions).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
                 .release();
         TouchAction action1 =
-            new TouchAction(driver).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
+            new TouchAction(performsTouchActions).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
                 .release();
 
         this.add(action0).add(action1);
@@ -123,9 +123,9 @@ public class MultiTouchAction {
      * @return the self-reference
      */
     public MultiTouchAction pinch(int x, int y, int xOffset, int yOffset) {
-        TouchAction action0 = new TouchAction(driver).press(x + xOffset, y - yOffset)
+        TouchAction action0 = new TouchAction(performsTouchActions).press(x + xOffset, y - yOffset)
                 .moveTo(- xOffset, yOffset).release();
-        TouchAction action1 = new TouchAction(driver).press(x - xOffset, y + yOffset)
+        TouchAction action1 = new TouchAction(performsTouchActions).press(x - xOffset, y + yOffset)
                 .moveTo(xOffset, -yOffset).release();
 
         this.add(action0).add(action1);
@@ -145,7 +145,7 @@ public class MultiTouchAction {
     }
 
     /**
-     * Creates few combined touch actions which performs the zooming on the given elements.
+     * Creates few combined touch actions which performs the zooming on the given element.
      */
     public MultiTouchAction zoom(WebElement el) {
         Dimension dimensions = el.getSize();
@@ -154,9 +154,9 @@ public class MultiTouchAction {
             upperLeft.getY() + dimensions.getHeight() / 2);
         int yOffset = center.getY() - upperLeft.getY();
 
-        TouchAction action0 = new TouchAction(driver).press(center.getX(), center.getY())
+        TouchAction action0 = new TouchAction(performsTouchActions).press(center.getX(), center.getY())
             .moveTo(el, center.getX(), center.getY() - yOffset).release();
-        TouchAction action1 = new TouchAction(driver).press(center.getX(), center.getY())
+        TouchAction action1 = new TouchAction(performsTouchActions).press(center.getX(), center.getY())
             .moveTo(el, center.getX(), center.getY() + yOffset).release();
 
         this.add(action0).add(action1);
@@ -173,9 +173,9 @@ public class MultiTouchAction {
      * @return the self-reference
      */
     public MultiTouchAction zoom(int x, int y, int xOffset, int yOffset) {
-        TouchAction action0 = new TouchAction(driver).press(x, y)
+        TouchAction action0 = new TouchAction(performsTouchActions).press(x, y)
                 .moveTo(xOffset, -yOffset).release();
-        TouchAction action1 = new TouchAction(driver).press(x, y)
+        TouchAction action1 = new TouchAction(performsTouchActions).press(x, y)
                 .moveTo(-xOffset, yOffset).release();
 
         return this.add(action0).add(action1);
@@ -200,11 +200,11 @@ public class MultiTouchAction {
      * @param x coordinate
      * @param y coordinate
      * @param duration is a time for the tapping in milliseconds
-     * @return
+     * @return the self-reference
      */
     public MultiTouchAction tap(int fingers, int x, int y, int duration) {
         for (int i = 0; i < fingers; i++) {
-            TouchAction tap = new TouchAction(driver);
+            TouchAction tap = new TouchAction(performsTouchActions);
             this.add(tap.press(x, y).waitAction(duration).release());
         }
         return this;
@@ -216,11 +216,11 @@ public class MultiTouchAction {
      * @param fingers is a count of fingers to tap
      * @param element to be tapped
      * @param duration is a time for the tapping in milliseconds
-     * @return
+     * @return the self-reference
      */
     public MultiTouchAction tap(int fingers, WebElement element, int duration) {
         for (int i = 0; i < fingers; i++) {
-            TouchAction tap = new TouchAction(driver);
+            TouchAction tap = new TouchAction(performsTouchActions);
             this.add(tap.press(element).waitAction(duration).release());
         }
         return this;

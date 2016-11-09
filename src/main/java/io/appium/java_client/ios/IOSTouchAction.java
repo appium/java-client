@@ -1,24 +1,30 @@
 package io.appium.java_client.ios;
 
-import io.appium.java_client.MobileDriver;
+import io.appium.java_client.CreatesSwipeAction;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.TouchableElement;
+import org.openqa.selenium.WebElement;
 
 
-public class IOSTouchAction extends TouchAction {
+public class IOSTouchAction extends TouchAction implements CreatesSwipeAction {
 
-    public IOSTouchAction(MobileDriver driver) {
-        super(driver);
+    public IOSTouchAction(PerformsTouchActions performsTouchActions) {
+        super(performsTouchActions);
     }
 
-    /**
-     * @see TouchableElement#swipe(int, int, int, int, int).
-     */
-    @Deprecated protected TouchAction swipe(int startx, int starty, int endx, int endy, int duration) {
-        int endX = endx - startx;
-        int endY = endy - starty;
+    public TouchAction swipe(int startX, int startY, int endX, int endY, int duration) {
+        int xOffset = endX - startX;
+        int yOffset = endY - startX;
+        return press(startX, startY).waitAction(duration).moveTo(xOffset, yOffset).release();
+    }
 
-        // appium converts press-wait-moveto-release to a swipe action
-        return press(startx, starty).waitAction(duration).moveTo(endX, endY).release();
+    @Override
+    public TouchAction swipe(int startX, int startY, WebElement element, int duration) {
+        return press(startX, startY).waitAction(duration).moveTo(element).release();
+    }
+
+    @Override
+    public TouchAction swipe(WebElement element1, WebElement element2, int duration) {
+        return press(element1).waitAction(duration).moveTo(element2).release();
     }
 }
