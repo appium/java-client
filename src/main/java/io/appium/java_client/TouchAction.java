@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
-
 /**
  * Used for Webdriver 3 touch actions
  * See the Webriver 3 spec
@@ -33,7 +32,6 @@ import org.openqa.selenium.internal.HasIdentity;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class TouchAction {
 
     private ImmutableList.Builder<ActionParameter> parameterBuilder;
@@ -330,13 +328,12 @@ public class TouchAction {
      *
      * @return A map of parameters for this touch action to pass as part of mjsonwp.
      */
-    protected ImmutableMap<String, ImmutableList> getParameters() {
+    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
 
-        ImmutableList.Builder parameters = ImmutableList.builder();
+        ImmutableList.Builder<Object> parameters = ImmutableList.builder();
         ImmutableList<ActionParameter> actionList = parameterBuilder.build();
-        for (ActionParameter action : actionList) {
-            parameters.add(action.getParameterMap());
-        }
+
+        actionList.forEach(action -> {parameters.add(action.getParameterMap());});
         return ImmutableMap.of("actions", parameters.build());
     }
 

@@ -161,9 +161,7 @@ public class AndroidDriver<T extends WebElement>
             JsonToAndroidElementConverter.class);
     }
 
-    /**
-     * @see io.appium.java_client.TouchableElement#swipe(int, int, int, int, int)
-     */
+
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
         AndroidTouchAction touchaction = new AndroidTouchAction(this);
 

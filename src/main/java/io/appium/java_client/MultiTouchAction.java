@@ -41,7 +41,6 @@ import org.openqa.selenium.WebElement;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
  * more actions can be chained.
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class MultiTouchAction {
 
     private ImmutableList.Builder<TouchAction> actions;
@@ -60,7 +59,6 @@ public class MultiTouchAction {
      */
     public MultiTouchAction add(TouchAction action) {
         actions.add(action);
-
         return this;
     }
 
@@ -82,13 +80,13 @@ public class MultiTouchAction {
 
     }
 
-    protected ImmutableMap getParameters() {
+    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
         ImmutableList.Builder<Object> listOfActionChains = ImmutableList.builder();
         ImmutableList<TouchAction> touchActions = actions.build();
 
-        for (TouchAction action : touchActions) {
+        touchActions.forEach(action -> {
             listOfActionChains.add(action.getParameters().get("actions"));
-        }
+        });
         return ImmutableMap.of("actions", listOfActionChains.build());
     }
 
@@ -115,7 +113,6 @@ public class MultiTouchAction {
 
     /**
      * Creates few combined touch actions which performs the pinching by given coordinates and offsets.
-     *
      * @param x is a x-coordinate to perform the pinching to
      * @param y is an y-coordinate to perform the pinching to
      * @param xOffset is an +/- offset from the given x-coordinate to perform the pinching to
@@ -134,7 +131,6 @@ public class MultiTouchAction {
 
     /**
      * Creates few combined touch actions which performs the vertical pinching by given coordinates and y-Offset.
-     *
      * @param x is a x-coordinate to perform the pinching to
      * @param y is an y-coordinate to perform the pinching to
      * @param yOffset is an +/- offset from the given y-coordinate to perform the pinching to
@@ -165,7 +161,6 @@ public class MultiTouchAction {
 
     /**
      * Creates few combined touch actions which performs the zooming by given coordinates and x/y-Offset value.
-     *
      * @param x is a x-coordinate to perform the zooming from
      * @param y is a y-coordinate to perform the zooming from
      * @param xOffset is an +/- offset from the given x-coordinate to perform the zooming from
@@ -183,7 +178,6 @@ public class MultiTouchAction {
 
     /**
      * Creates few combined touch actions which performs the vertical zooming by given coordinates and x/y-Offset value.
-     *
      * @param x is a x-coordinate to perform the zooming from
      * @param y is a y-coordinate to perform the zooming from
      * @param yOffset is an +/- offset from the given y-coordinate to perform the zooming from

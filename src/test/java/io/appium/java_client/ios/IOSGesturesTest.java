@@ -47,9 +47,13 @@ public class IOSGesturesTest extends BaseIOSTest {
 
     @Test public void horizontalSwipingTest() {
         MobileElement slider = driver.findElementByClassName("UIASlider");
-        slider.swipe(SwipeElementDirection.LEFT, slider.getSize().getWidth() / 2, 0, 3000);
+
+        IOSTouchAction touchAction = new IOSTouchAction(driver);
+        touchAction.swipe(slider, SwipeElementDirection.LEFT, slider.getSize().getWidth() / 2, 0, 3000);
         assertEquals("1%", slider.getAttribute("value"));
-        slider.swipe(SwipeElementDirection.RIGHT, 2, 0, 3000);
+
+        IOSTouchAction touchAction2 = new IOSTouchAction(driver);
+        touchAction2.swipe(slider, SwipeElementDirection.RIGHT, 2, 0, 3000);
         assertEquals("100%", slider.getAttribute("value"));
     }
 }
