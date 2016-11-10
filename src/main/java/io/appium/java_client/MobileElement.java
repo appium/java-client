@@ -43,15 +43,21 @@ public class MobileElement
     }
 
     @Override public void tap(int fingers, int duration) {
-        ((AppiumDriver<?>) parent).tap(fingers, this, duration);
+        MultiTouchAction tap =
+                new MultiTouchAction(PerformsTouchActions.class.cast(parent));
+        tap.tap(fingers, this, duration).perform();
     }
 
     @Override public void pinch() {
-        ((AppiumDriver<?>) parent).pinch(this);
+        MultiTouchAction pinch = new MultiTouchAction(
+                PerformsTouchActions.class.cast(parent));
+        pinch.pinch(this).perform();
     }
 
     @Override public void zoom() {
-        ((AppiumDriver<?>) parent).zoom(this);
+        MultiTouchAction zoom = new MultiTouchAction(
+                PerformsTouchActions.class.cast(parent));
+        zoom.zoom(this).perform();
     }
 
     @Deprecated
