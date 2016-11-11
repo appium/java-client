@@ -87,19 +87,20 @@ public class AndroidMobileCommandHelper extends MobileCommand {
                 IS_LOCKED, ImmutableMap.<String, Object>of());
     }
 
-    @Deprecated
+
     /**
      * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int)} instead.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
                 PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
-    @Deprecated
     /**
      * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int, Integer)} instead.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
         Integer metastate) {
         String[] parameters = new String[] {"keycode", "metastate"};
@@ -108,19 +109,19 @@ public class AndroidMobileCommandHelper extends MobileCommand {
                 PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 
-    @Deprecated
     /**
      * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int)} instead.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
                 LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
     }
 
-    @Deprecated
     /**
      * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int, Integer)} instead.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
         Integer metastate) {
         String[] parameters = new String[] {"keycode", "metastate"};

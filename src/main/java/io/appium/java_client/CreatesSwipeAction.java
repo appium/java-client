@@ -46,7 +46,7 @@ public interface CreatesSwipeAction {
     /**
      * Creates combined touch action for the swiping from one element to another.
      *
-     * @param element2  an element to swipe to
+     * @param element1  an element to swipe to
      * @param element2  an element to swipe to
      * @param duration in milliseconds
      * @return an instance of combined {@link TouchAction}

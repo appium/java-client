@@ -333,7 +333,7 @@ public class TouchAction {
         ImmutableList.Builder<Object> parameters = ImmutableList.builder();
         ImmutableList<ActionParameter> actionList = parameterBuilder.build();
 
-        actionList.forEach(action -> {parameters.add(action.getParameterMap());});
+        actionList.forEach(action -> parameters.add(action.getParameterMap()));
         return ImmutableMap.of("actions", parameters.build());
     }
 

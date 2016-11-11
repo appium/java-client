@@ -211,11 +211,11 @@ public class AppiumDriver<T extends WebElement>
         return executeMethod;
     }
 
-    @Deprecated
     /**
      * This method is deprecated and it is going to be removed soon.
      * Please use {@link MultiTouchAction#tap(int, WebElement, int)}.
      */
+    @Deprecated
     public void tap(int fingers, WebElement element, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
@@ -226,11 +226,11 @@ public class AppiumDriver<T extends WebElement>
         multiTouch.perform();
     }
 
-    @Deprecated
     /**
      * This method is deprecated and it is going to be removed soon.
      * Please use {@link MultiTouchAction#tap(int, int, int, int)}.
      */
+    @Deprecated
     public void tap(int fingers, int x, int y, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
@@ -240,31 +240,32 @@ public class AppiumDriver<T extends WebElement>
         multiTouch.perform();
     }
 
-    @Deprecated
     /**
-     * This method is deprecated due to it was moved to {@link TouchAction#}
+     * This method is deprecated.
+     * It was moved to {@link CreatesSwipeAction#swipe(int, int, int, int, int)}.
      */
+    @Deprecated
     public void swipe(int startx, int starty, int endx, int endy, int duration) {
 
     }
 
-    @Deprecated
     /**
      * This method is deprecated and it is going to be removed soon.
      * Please use {@link MultiTouchAction#pinch(WebElement)}.
      */
+    @Deprecated
     public void pinch(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         multiTouch.pinch(el).perform();
     }
 
-    @Deprecated
     /**
      * This method is deprecated and it is going to be removed soon.
      * Please use {@link MultiTouchAction#pinch(int, int, int, int)} or
      * {@link MultiTouchAction#pinch(int, int, int)}
      */
+    @Deprecated
     public void pinch(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
@@ -283,23 +284,23 @@ public class AppiumDriver<T extends WebElement>
         multiTouch.add(action0).add(action1).perform();
     }
 
-    @Deprecated
     /**
      * This method is deprecated and it is going to be removed soon.
      * Please use {@link MultiTouchAction#zoom(WebElement)}.
      */
+    @Deprecated
     public void zoom(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         multiTouch.zoom(el).perform();
     }
 
-    @Deprecated
     /**
      * This method is deprecated and it is going to be removed soon.
      * Please use {@link MultiTouchAction#zoom(int, int, int, int)} or
      * {@link MultiTouchAction#zoom(int, int, int)}.
      */
+    @Deprecated
     public void zoom(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
