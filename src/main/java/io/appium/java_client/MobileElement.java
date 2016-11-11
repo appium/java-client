@@ -43,21 +43,21 @@ public class MobileElement
     }
 
     @Override public void tap(int fingers, int duration) {
-        MultiTouchAction tap =
+        MultiTouchAction tapMultiTouchAction =
                 new MultiTouchAction(PerformsTouchActions.class.cast(parent));
-        tap.tap(fingers, this, duration).perform();
+        tapMultiTouchAction.tap(fingers, this, duration).perform();
     }
 
     @Override public void pinch() {
-        MultiTouchAction pinch = new MultiTouchAction(
+        MultiTouchAction pinchMultiTouchAction = new MultiTouchAction(
                 PerformsTouchActions.class.cast(parent));
-        pinch.pinch(this).perform();
+        pinchMultiTouchAction.pinch(this).perform();
     }
 
     @Override public void zoom() {
-        MultiTouchAction zoom = new MultiTouchAction(
+        MultiTouchAction zoomMultiTouchAction = new MultiTouchAction(
                 PerformsTouchActions.class.cast(parent));
-        zoom.zoom(this).perform();
+        zoomMultiTouchAction.zoom(this).perform();
     }
 
     @Deprecated
