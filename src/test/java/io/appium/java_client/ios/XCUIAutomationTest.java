@@ -95,11 +95,12 @@ public class XCUIAutomationTest {
 
     @Test public void testTouchId() {
         try {
-            driver.touchId(true);
-            driver.touchId(false);
+            driver.performTouchID(true);
+            driver.performTouchID(false);
             assertEquals(true, true);
-        } catch(Exception e){
+        } catch (Exception e) {
             assertEquals(true, false);
         }
+
     }
 }

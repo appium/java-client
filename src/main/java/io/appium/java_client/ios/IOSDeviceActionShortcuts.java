@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.touchIdCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.DeviceActionShortcuts;
@@ -56,15 +55,6 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
      */
     default void shake() {
         CommandExecutionHelper.execute(this, shakeCommand());
-    }
-    
-    /**
-     * Simulate touchId event
-     *
-     * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan
-     */
-    default void touchId(boolean match) {
-    	CommandExecutionHelper.execute(this, touchIdCommand(match));
     }
 
 }

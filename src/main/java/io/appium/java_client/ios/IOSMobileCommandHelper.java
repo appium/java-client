@@ -89,7 +89,7 @@ public class IOSMobileCommandHelper extends MobileCommand {
      * 
      */
     public static Map.Entry<String, Map<String, ?>> touchIdCommand(boolean match) {
-    	return new AbstractMap.SimpleEntry<>(
-    			TOUCH_ID, prepareArguments("match", match));
+        return new AbstractMap.SimpleEntry<>(
+            TOUCH_ID, prepareArguments("match", match));
     }
 }

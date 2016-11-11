@@ -50,7 +50,7 @@ import java.net.URL;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements IOSDeviceActionShortcuts,
-        FindsByIosUIAutomation<T>, LocksIOSDevice {
+        FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
