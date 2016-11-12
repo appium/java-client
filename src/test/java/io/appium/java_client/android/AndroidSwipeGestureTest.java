@@ -1,12 +1,16 @@
 package io.appium.java_client.android;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.SwipeElementDirection;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
 public class AndroidSwipeGestureTest extends BaseAndroidTest {
@@ -79,6 +83,19 @@ public class AndroidSwipeGestureTest extends BaseAndroidTest {
 
         Point newLocation = e2.getLocation();
         assertNotEquals(originalLocation, newLocation);
+    }
+
+    @Test public void whenSwipingIsCombinedWithOtherActions() {
+        driver.findElementByAccessibilityId("Views").click();
+
+        AndroidElement chronometer = driver.findElementByAccessibilityId("Chronometer");
+        AndroidElement focus = driver.findElementByAccessibilityId("Focus");
+
+        AndroidTouchAction touchAction = new AndroidTouchAction(driver);
+        touchAction.swipe(focus, chronometer, 2000)
+                .tap(driver.findElementByAccessibilityId("Gallery")).perform();
+
+        assertThat(driver.findElementsByClassName("android.widget.TextView").size(), is(3));
     }
 
 }
