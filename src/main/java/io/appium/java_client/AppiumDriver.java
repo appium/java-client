@@ -246,7 +246,7 @@ public class AppiumDriver<T extends WebElement>
      */
     @Deprecated
     public void swipe(int startx, int starty, int endx, int endy, int duration) {
-
+        //does nothing
     }
 
     /**
