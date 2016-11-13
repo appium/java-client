@@ -83,9 +83,9 @@ public class IOSMobileCommandHelper extends MobileCommand {
     }
     
     /**
-     * This method forms a {@link java.util.Map} of parameters for the touchId simulator
+     * This method forms a {@link java.util.Map} of parameters for the touchId simulator.
      * 
-     * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan
+     * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan.
      * 
      */
     public static Map.Entry<String, Map<String, ?>> touchIdCommand(boolean match) {
