@@ -104,40 +104,22 @@ public interface TouchableElement<T extends WebElement> extends WebElement, Find
      */
     void zoom();
 
+
+    @Deprecated
     /**
-     * Convenience method for swiping on the given element to the given direction.
-     *
-     * @param direction UP, DOWN, LEFT, RIGHT.
-     * @param duration  amount of time in milliseconds for the entire swipe action to
-     *                  take.
+     * This method is deprecated and it is going to be removed.
+     * Please use the {@link CreatesSwipeAction#swipe(WebElement, SwipeElementDirection, int)}
+     * instead.
      */
     void swipe(SwipeElementDirection direction, int duration);
 
 
+    @Deprecated
     /**
-     * Convenience method for swiping on the given element to the given direction.
-     *
-     * @param direction           direction UP, DOWN, LEFT, RIGHT.
-     * @param offsetFromStartBorder is the offset from the border of the element where the
-     *                            swiping should be started. If direction is UP then
-     *                            this is offset from the bottom of the element.
-     *                            If direction is DOWN then this is offset from the top of
-     *                            the element. If direction is RIGHT then this is offset from
-     *                            the left border of the element. If direction is LEFT then
-     *                            this is offset from the right border of the element.
-     * @param offsetFromEndBorder is the offset from the border of the element where
-     *                            the swiping should be finished. If direction is UP then
-     *                            this is offset from the top of the element.
-     *                            If direction is DOWN then this is offset from the bottom
-     *                            of the element. If direction is RIGHT then
-     *                            this is offset from the right border of the element.
-     *                            If direction is LEFT then this is offset from the
-     *                            left border of the element.
-     * @param duration            amount of time in milliseconds for the entire swipe action to
-     *                            take.
-     * @throws IllegalCoordinatesException when resulted coordinates are out of the
-     *     element borders or disagree with the given direction.
+     * This method is deprecated and it is going to be removed.
+     * Please use the {@link CreatesSwipeAction#swipe(WebElement, SwipeElementDirection, int, int, int)}
+     * instead.
      */
     void swipe(SwipeElementDirection direction, int offsetFromStartBorder, int offsetFromEndBorder,
-        int duration) throws IllegalCoordinatesException;
+               int duration) throws IllegalCoordinatesException;
 }

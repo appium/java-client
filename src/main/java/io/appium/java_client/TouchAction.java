@@ -22,24 +22,23 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
-
 /**
  * Used for Webdriver 3 touch actions
  * See the Webriver 3 spec
  * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
  * The flow is to chain individual touch actions into an entire gesture. e.g.
- * TouchAction action = new TouchAction(driver);
+ * TouchAction action = new TouchAction(performsTouchActions);
  * action.press(element).waitAction(300).moveTo(element1).release().perform();
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */
-@SuppressWarnings({"rawtypes", "unchecked"}) public class TouchAction {
+public class TouchAction {
 
-    ImmutableList.Builder parameterBuilder;
-    private MobileDriver driver;
+    private ImmutableList.Builder<ActionParameter> parameterBuilder;
+    private PerformsTouchActions performsTouchActions;
 
-    public TouchAction(MobileDriver driver) {
-        this.driver = driver;
+    public TouchAction(PerformsTouchActions performsTouchActions) {
+        this.performsTouchActions = performsTouchActions;
         parameterBuilder = ImmutableList.builder();
     }
 
@@ -306,7 +305,7 @@ import org.openqa.selenium.internal.HasIdentity;
     }
 
     /**
-     * Cancel this action, if it was partially completed by the driver.
+     * Cancel this action, if it was partially completed by the performsTouchActions.
      */
     public void cancel() {
         ActionParameter action = new ActionParameter("wait");
@@ -315,12 +314,12 @@ import org.openqa.selenium.internal.HasIdentity;
     }
 
     /**
-     * Perform this chain of actions on the driver.
+     * Perform this chain of actions on the performsTouchActions.
      *
      * @return this TouchAction, for possible segmented-touches.
      */
     public TouchAction perform() {
-        driver.performTouchAction(this);
+        performsTouchActions.performTouchAction(this);
         return this;
     }
 
@@ -329,13 +328,12 @@ import org.openqa.selenium.internal.HasIdentity;
      *
      * @return A map of parameters for this touch action to pass as part of mjsonwp.
      */
-    protected ImmutableMap<String, ImmutableList> getParameters() {
+    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
 
-        ImmutableList.Builder parameters = ImmutableList.builder();
+        ImmutableList.Builder<Object> parameters = ImmutableList.builder();
         ImmutableList<ActionParameter> actionList = parameterBuilder.build();
-        for (ActionParameter action : actionList) {
-            parameters.add(action.getParameterMap());
-        }
+
+        actionList.forEach(action -> parameters.add(action.getParameterMap()));
         return ImmutableMap.of("actions", parameters.build());
     }
 
@@ -346,9 +344,9 @@ import org.openqa.selenium.internal.HasIdentity;
     /**
      * Just holds values to eventually return the parameters required for the mjsonwp.
      */
-    private class ActionParameter {
+    protected class ActionParameter {
         private String actionName;
-        private ImmutableMap.Builder optionsBuilder;
+        private ImmutableMap.Builder<String, Object> optionsBuilder;
 
         public ActionParameter(String actionName) {
             this.actionName = actionName;
@@ -362,7 +360,7 @@ import org.openqa.selenium.internal.HasIdentity;
         }
 
         public ImmutableMap<String, Object> getParameterMap() {
-            ImmutableMap.Builder builder = ImmutableMap.builder();
+            ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
             builder.put("action", actionName).put("options", optionsBuilder.build());
             return builder.build();
         }
