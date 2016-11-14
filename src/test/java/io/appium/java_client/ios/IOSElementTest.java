@@ -34,7 +34,7 @@ public class IOSElementTest extends BaseIOSTest {
             .findElementByIosUIAutomation(".elements().withName(\"Answer\")").getText(), null);
     }
 
-    @Test public void setValueNunslaughterTest() {
+    @Test public void setValuerTest() {
         IOSElement slider = (IOSElement) driver.findElementByClassName("UIASlider");
         slider.setValue("0%");
         assertEquals("0%", slider.getAttribute("value"));

@@ -23,6 +23,7 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLoc
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.PressesKeyCode;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -46,7 +47,7 @@ import java.net.URL;
  */
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
+    implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
     FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
@@ -160,11 +161,11 @@ public class AndroidDriver<T extends WebElement>
             JsonToAndroidElementConverter.class);
     }
 
-    /**
-     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
-     */
+
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        doSwipe(startx, starty, endx, endy, duration);
+        AndroidTouchAction touchaction = new AndroidTouchAction(this);
+
+        touchaction.swipe(startx, starty, endx, endy, duration).perform();
     }
 
     /**

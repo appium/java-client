@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotEquals;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -35,14 +34,15 @@ public class AndroidGestureTest extends BaseAndroidTest {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
         Point point =
             driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
-        driver.tap(1, point.x + 20, point.y + 30, 1000);
+        new MultiTouchAction(driver).tap(1, point.x + 20, point.y + 30, 1000).perform();
         assertEquals("ON" ,driver
             .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
     @Test public void singleElementTapTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
-        driver.tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000);
+        new MultiTouchAction(driver).tap(1, driver.findElementById("io.appium.android.apis:id/button_toggle"), 1000)
+                .perform();
         assertEquals("ON" ,driver
             .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
@@ -106,35 +106,5 @@ public class AndroidGestureTest extends BaseAndroidTest {
         driver.performTouchAction(tap);
         assertEquals("OFF" ,driver
             .findElementById("io.appium.android.apis:id/button_toggle").getText());
-    }
-
-    @Test public void verticalSwipingTest() throws Exception {
-        driver.findElementByAccessibilityId("Views").click();
-        AndroidElement listView = driver.findElementByClassName("android.widget.ListView");
-        MobileElement textView = driver.findElementById("android:id/text1");
-
-        String originalText = textView.getText();
-
-        listView.swipe(SwipeElementDirection.UP, 20, 15, 1000);
-        assertNotEquals(originalText, textView.getText());
-
-        listView.swipe(SwipeElementDirection.DOWN, 20, 15, 1000);
-        assertEquals(originalText, textView.getText());
-    }
-
-    @Test public void horizontalSwipingTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
-
-        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
-        int originalImageCount = gallery
-            .findElementsByClassName("android.widget.ImageView").size();
-
-        gallery.swipe(SwipeElementDirection.LEFT, 5, 5, 2000);
-        assertNotEquals(originalImageCount, gallery
-            .findElementsByClassName("android.widget.ImageView").size());
-
-        gallery.swipe(SwipeElementDirection.RIGHT, 5, 5, 2000);
-        assertEquals(originalImageCount, gallery
-            .findElementsByClassName("android.widget.ImageView").size());
     }
 }

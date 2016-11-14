@@ -372,8 +372,7 @@ public final class AppiumServiceBuilder
 
         return "{" + result + "}";
     }
-
-    @SuppressWarnings("unchecked")
+    
     private String parseCapabilities() {
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             return parseCapabilitiesIfWindows();

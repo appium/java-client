@@ -19,37 +19,28 @@ package io.appium.java_client.ios;
 import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.MultiTouchAction;
 import org.junit.Test;
 
 public class IOSGesturesTest extends BaseIOSTest {
 
-
     @Test public void tapTest() {
-         driver.findElementById("IntegerA").sendKeys("2");
-         driver.findElementById("IntegerB").sendKeys("4");
+        driver.findElementById("IntegerA").sendKeys("2");
+        driver.findElementById("IntegerB").sendKeys("4");
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        driver.tap(2, e, 2000);
+        new MultiTouchAction(driver).tap(2, e, 2000).perform();
         assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
     }
 
     @Test public void zoomTest() {
         MobileElement e = driver.findElementById("IntegerA");
-        driver.zoom(e);
+        new MultiTouchAction(driver).zoom(e).perform();
     }
 
     @Test public void pinchTest() {
         MobileElement e = driver.findElementById("IntegerA");
-        driver.pinch(e);
-    }
-
-    @Test public void horizontalSwipingTest() {
-        MobileElement slider = driver.findElementByClassName("UIASlider");
-        slider.swipe(SwipeElementDirection.LEFT, slider.getSize().getWidth() / 2, 0, 3000);
-        assertEquals("1%", slider.getAttribute("value"));
-        slider.swipe(SwipeElementDirection.RIGHT, 2, 0, 3000);
-        assertEquals("100%", slider.getAttribute("value"));
+        new MultiTouchAction(driver).pinch(e).perform();
     }
 }
 

@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -175,5 +176,65 @@ public class MobileCommand {
             }
         }
         return builder.build();
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * key event invocation.
+     *
+     * @param key code for the key pressed on the device.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
+        return new AbstractMap.SimpleEntry<>(
+                PRESS_KEY_CODE, prepareArguments("keycode", key));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * key event invocation.
+     *
+     * @param key       code for the key pressed on the Android device.
+     * @param metastate metastate for the keypress.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
+                                                                        Integer metastate) {
+        String[] parameters = new String[] {"keycode", "metastate"};
+        Object[] values = new Object[] {key, metastate};
+        return new AbstractMap.SimpleEntry<>(
+                PRESS_KEY_CODE, prepareArguments(parameters, values));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * long key event invocation.
+     *
+     * @param key code for the long key pressed on the device.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
+        return new AbstractMap.SimpleEntry<>(
+                LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * long key event invocation.
+     *
+     * @param key       code for the long key pressed on the Android device.
+     * @param metastate metastate for the long key press.
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
+                                                                            Integer metastate) {
+        String[] parameters = new String[] {"keycode", "metastate"};
+        Object[] values = new Object[] {key, metastate};
+        return new AbstractMap.SimpleEntry<>(
+                LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
 }
