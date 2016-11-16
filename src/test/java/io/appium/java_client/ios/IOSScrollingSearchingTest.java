@@ -23,6 +23,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,7 +42,8 @@ public class IOSScrollingSearchingTest {
         service.start();
 
         if (service == null || !service.isRunning()) {
-            throw new RuntimeException("An appium server node is not started!");
+            throw new AppiumServerHasNotBeenStartedLocallyException(
+                "An appium server node is not started!");
         }
 
         File appDir = new File("src/test/java/io/appium/java_client");
