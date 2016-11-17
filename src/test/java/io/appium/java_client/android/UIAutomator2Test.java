@@ -1,7 +1,8 @@
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
 
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -10,10 +11,17 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class UIAutomator2Test {
     private static AppiumDriverLocalService service;
@@ -38,6 +46,7 @@ public class UIAutomator2Test {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     /**
@@ -73,5 +82,30 @@ public class UIAutomator2Test {
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 180);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
+    }
+
+    @Test public void testToastMSGIsDisplayed() throws InterruptedException {
+        final WebDriverWait wait = new WebDriverWait(driver, 10);
+        driver.startActivity("io.appium.android.apis", ".view.PopupMenu1");
+
+        MobileElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));
+        popUpElement.click();
+        driver.findElement(By.xpath(".//*[@text='Search']")).click();
+        assertNotNull(wait.until(ExpectedConditions.presenceOfElementLocated(
+            By.xpath("//*[@text='Clicked popup menu item Search']"))));
+
+        popUpElement.click();
+        driver.findElement(By.xpath(".//*[@text='Add']")).click();
+        assertNotNull(wait.until(ExpectedConditions
+            .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Add']"))));
+
+        popUpElement.click();
+        driver.findElement(By.xpath(".//*[@text='Edit']")).click();
+        assertNotNull(wait.until(ExpectedConditions
+            .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Edit']"))));
+
+        driver.findElement(By.xpath(".//*[@text='Share']")).click();
+        assertNotNull(wait.until(ExpectedConditions
+            .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Share']"))));
     }
 }
