@@ -99,7 +99,7 @@ public class XCUIAutomationTest {
             driver.performTouchID(false);
             assertEquals(true, true);
         } catch (Exception e) {
-            assertEquals(true, false);
+            throw e;
         }
 
     }
