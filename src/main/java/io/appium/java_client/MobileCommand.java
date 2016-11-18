@@ -52,6 +52,7 @@ public class MobileCommand {
     protected static final String GET_SESSION = "getSession";
     //iOS
     protected static final String SHAKE = "shake";
+    protected static final String TOUCH_ID = "touchId";
     //Android
     protected static final String CURRENT_ACTIVITY = "currentActivity";
     protected static final String END_TEST_COVERAGE = "endTestCoverage";
@@ -95,6 +96,7 @@ public class MobileCommand {
         result.put(GET_SESSION,getC("/session/:sessionId/"));
         //iOS
         result.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
+        result.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
         //Android
         result.put(CURRENT_ACTIVITY,
             getC("/session/:sessionId/appium/device/current_activity"));
