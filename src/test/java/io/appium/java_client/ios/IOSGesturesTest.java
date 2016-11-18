@@ -26,8 +26,8 @@ public class IOSGesturesTest extends BaseIOSTest {
 
 
     @Test public void tapTest() {
-         driver.findElementById("IntegerA").sendKeys("2");
-         driver.findElementById("IntegerB").sendKeys("4");
+        driver.findElementById("IntegerA").sendKeys("2");
+        driver.findElementById("IntegerB").sendKeys("4");
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
         driver.tap(2, e, 2000);
