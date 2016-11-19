@@ -91,4 +91,15 @@ public class XCUIAutomationTest {
         driver.rotate(landscapeLeftRotation);
         assertEquals(driver.rotation(), landscapeLeftRotation);
     }
+
+    @Test public void testTouchId() {
+        try {
+            driver.performTouchID(true);
+            driver.performTouchID(false);
+            assertEquals(true, true);
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
 }
