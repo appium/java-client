@@ -16,20 +16,55 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class AndroidSearchingTest extends BaseAndroidTest {
 
+    @Before
+    public void setup() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+    }
+
     @Test  public void findByAccessibilityIdTest() {
-        driver.isKeyboardShown();
-        System.out.println(driver.getDisplayDensity());
-        System.out.println(driver.getSystemBars());
+        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
+        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
+    }
+
+    @Test  public void findByAndroidUIAutomatorTest() {
+        assertNotEquals(driver
+                .findElement(MobileBy
+                .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
+        assertNotEquals(driver
+                .findElements(MobileBy
+                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
+        assertNotEquals(driver
+                .findElements(MobileBy
+                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
+    }
+
+    @Test public void findByXPathTest() {
+        String byXPath = "//android.widget.TextView[contains(@text, 'Animat')]";
+        assertNotNull(driver.findElementByXPath(byXPath).getText());
+        assertEquals(driver.findElementsByXPath(byXPath).size(), 1);
+    }
+
+    @Test public void findScrollable() {
+        driver.findElementByAccessibilityId("Views").click();
+        MobileElement radioGroup = driver
+                .findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()"
+                + ".resourceId(\"android:id/list\")).scrollIntoView("
+                + "new UiSelector().text(\"Radio Group\"));");
+        assertNotNull(radioGroup.getLocation());
+    }
+
+    @Test public void deviceDetailsAndKeyboardTest() {
+        assertFalse(driver.isKeyboardShown());
+        assertNotNull(driver.getDisplayDensity());
+        assertNotNull(driver.getSystemBars());
     }
 }
