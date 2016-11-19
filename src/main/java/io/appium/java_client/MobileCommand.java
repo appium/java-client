@@ -55,7 +55,10 @@ public class MobileCommand {
     //Android
     protected static final String CURRENT_ACTIVITY = "currentActivity";
     protected static final String END_TEST_COVERAGE = "endTestCoverage";
+    protected static final String GET_DISPLAY_DENSITY = "getDisplayDensity";
     protected static final String GET_NETWORK_CONNECTION = "getNetworkConnection";
+    protected static final String GET_SYSTEM_BARS = "getSystemBars";
+    protected static final String IS_KEYBOARD_SHOWN = "isKeyboardShown";
     protected static final String IS_LOCKED = "isLocked";
     protected static final String LONG_PRESS_KEY_CODE = "longPressKeyCode";
     protected static final String OPEN_NOTIFICATIONS = "openNotifications";
@@ -100,7 +103,10 @@ public class MobileCommand {
             getC("/session/:sessionId/appium/device/current_activity"));
         result.put(END_TEST_COVERAGE,
             postC("/session/:sessionId/appium/app/end_test_coverage"));
+        result.put(GET_DISPLAY_DENSITY, getC("/session/:sessionId/appium/device/display_density"));
         result.put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"));
+        result.put(GET_SYSTEM_BARS, getC("/session/:sessionId/appium/device/system_bars"));
+        result.put(IS_KEYBOARD_SHOWN, postC("/session/:sessionId/appium/device/is_keyboard_shown"));
         result.put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
         result.put(LONG_PRESS_KEY_CODE,
             postC("/session/:sessionId/appium/device/long_press_keycode"));

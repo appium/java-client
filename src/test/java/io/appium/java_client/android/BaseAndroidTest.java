@@ -25,6 +25,7 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.net.URL;
 
 public class BaseAndroidTest {
     private static AppiumDriverLocalService service;
@@ -34,19 +35,13 @@ public class BaseAndroidTest {
      * initialization.
      */
     @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
 
-        if (service == null || !service.isRunning()) {
-            throw new RuntimeException("An appium server node is not started!");
-        }
-
-        File appDir = new File("src/test/java/io/appium/java_client");
+        File appDir = new File("/Users/ssekar");
         File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
 
     /**

@@ -27,40 +27,9 @@ import org.junit.Test;
 
 public class AndroidSearchingTest extends BaseAndroidTest {
 
-    @Before
-    public void setup() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
-    }
-
     @Test  public void findByAccessibilityIdTest() {
-        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
-        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
-    }
-
-    @Test  public void findByAndroidUIAutomatorTest() {
-        assertNotEquals(driver
-                .findElement(MobileBy
-                .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
-        assertNotEquals(driver
-                .findElements(MobileBy
-                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
-        assertNotEquals(driver
-                .findElements(MobileBy
-                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
-    }
-
-    @Test public void findByXPathTest() {
-        String byXPath = "//android.widget.TextView[contains(@text, 'Animat')]";
-        assertNotNull(driver.findElementByXPath(byXPath).getText());
-        assertEquals(driver.findElementsByXPath(byXPath).size(), 1);
-    }
-
-    @Test public void findScrollable() {
-        driver.findElementByAccessibilityId("Views").click();
-        MobileElement radioGroup = driver
-                .findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()"
-                + ".resourceId(\"android:id/list\")).scrollIntoView("
-                + "new UiSelector().text(\"Radio Group\"));");
-        assertNotNull(radioGroup.getLocation());
+        driver.isKeyboardShown();
+        System.out.println(driver.getDisplayDensity());
+        System.out.println(driver.getSystemBars());
     }
 }
