@@ -65,6 +65,6 @@ public class AndroidSearchingTest extends BaseAndroidTest {
     @Test public void deviceDetailsAndKeyboardTest() {
         assertFalse(driver.isKeyboardShown());
         assertNotNull(driver.getDisplayDensity());
-        assertNotNull(driver.getSystemBars());
+        assertNotEquals(0, driver.getSystemBars().size());
     }
 }

@@ -65,18 +65,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
-     * getting of a display density value.
-     *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>> getDeviceDensityCommand() {
-        return new AbstractMap.SimpleEntry<>(
-            GET_DISPLAY_DENSITY, ImmutableMap.<String, Object>of());
-    }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
      * getting of a network connection value.
      *
      * @return a key-value pair. The key is the command name. The value is a
@@ -85,18 +73,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
         return new AbstractMap.SimpleEntry<>(
                 GET_NETWORK_CONNECTION, ImmutableMap.<String, Object>of());
-    }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * getting of a display density value.
-     *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>> getSystemBarsCommand() {
-        return new AbstractMap.SimpleEntry<>(
-            GET_SYSTEM_BARS, ImmutableMap.<String, Object>of());
     }
 
     /**

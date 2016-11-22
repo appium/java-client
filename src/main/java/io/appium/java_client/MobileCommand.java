@@ -108,7 +108,7 @@ public class MobileCommand {
         result.put(GET_DISPLAY_DENSITY, getC("/session/:sessionId/appium/device/display_density"));
         result.put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"));
         result.put(GET_SYSTEM_BARS, getC("/session/:sessionId/appium/device/system_bars"));
-        result.put(IS_KEYBOARD_SHOWN, postC("/session/:sessionId/appium/device/is_keyboard_shown"));
+        result.put(IS_KEYBOARD_SHOWN, getC("/session/:sessionId/appium/device/is_keyboard_shown"));
         result.put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
         result.put(LONG_PRESS_KEY_CODE,
             postC("/session/:sessionId/appium/device/long_press_keycode"));
