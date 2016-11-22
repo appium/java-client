@@ -27,8 +27,8 @@ public class UIAutomator2Test {
         service.start();
 
         if (service == null || !service.isRunning()) {
-            throw new AppiumServerHasNotBeenStartedLocallyException
-                ("An appium server node is not started!");
+            throw new AppiumServerHasNotBeenStartedLocallyException(
+                "An appium server node is not started!");
         }
 
         File appDir = new File("src/test/java/io/appium/java_client");
