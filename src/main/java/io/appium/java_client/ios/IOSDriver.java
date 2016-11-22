@@ -164,10 +164,12 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int).
+     * @see io.appium.java_client.TouchableElement#swipe(int, int, int, int, int).
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        doSwipe(startx, starty, endx - startx, endy - starty, duration);
+        IOSTouchAction touchaction = new IOSTouchAction(this);
+
+        touchaction.swipe(startx, starty, endx, endy, duration).perform();
     }
 
     @Override public TargetLocator switchTo() {
