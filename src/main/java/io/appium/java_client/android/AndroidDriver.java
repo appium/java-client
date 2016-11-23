@@ -164,7 +164,7 @@ public class AndroidDriver<T extends WebElement>
      * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        doSwipe(startx, starty, endx, endy, duration);
+        doSwipe(startx, starty, endx - startx, endy - starty, duration);
     }
 
     /**
