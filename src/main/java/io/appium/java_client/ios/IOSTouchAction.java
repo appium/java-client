@@ -15,7 +15,7 @@ public class IOSTouchAction extends TouchAction implements CreatesSwipeAction {
     @Override
     public TouchAction swipe(int startX, int startY, int endX, int endY, int duration) {
         int xOffset = endX - startX;
-        int yOffset = endY - startX;
+        int yOffset = endY - startY;
         return press(startX, startY).waitAction(duration).moveTo(xOffset, yOffset).release();
     }
 
