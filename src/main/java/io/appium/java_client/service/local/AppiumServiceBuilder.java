@@ -238,7 +238,7 @@ public final class AppiumServiceBuilder
      */
 	public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
 		String argName = argument.getArgument().trim();
-		if (argName.equals("--port") || argName.equals("-p")) {
+		if (argName.equalsIgnoreCase("--port") || argName.equals("-p")) {
 			usingPort(Integer.valueOf(value));
 		} else {
 			serverArguments.put(argName, value);
