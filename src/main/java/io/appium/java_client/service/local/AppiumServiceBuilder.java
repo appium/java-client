@@ -236,14 +236,14 @@ public final class AppiumServiceBuilder
      *                 should be defined.
      * @return the self-reference.
      */
-	public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
-		String argName = argument.getArgument().trim().toLowerCase();
-		if ("--port".equals(argName) || "-p".equals(argName)) {
-			usingPort(Integer.valueOf(value));
-		} else {
-			serverArguments.put(argName, value);
-		}
-		return this;
+    public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
+        String argName = argument.getArgument().trim().toLowerCase();
+        if ("--port".equals(argName) || "-p".equals(argName)) {
+            usingPort(Integer.valueOf(value));
+        } else {
+            serverArguments.put(argName, value);
+        }
+        return this;
     }
 
     /**
@@ -441,7 +441,7 @@ public final class AppiumServiceBuilder
      * @return A self reference.
      */
     @Override
-	public AppiumServiceBuilder usingDriverExecutable(File nodeJSExecutable) {
+    public AppiumServiceBuilder usingDriverExecutable(File nodeJSExecutable) {
         return super.usingDriverExecutable(nodeJSExecutable);
     }
 
@@ -453,7 +453,7 @@ public final class AppiumServiceBuilder
      * @return A self reference.
      */
     @Override
-	public AppiumServiceBuilder usingPort(int port) {
+    public AppiumServiceBuilder usingPort(int port) {
         return super.usingPort(port);
     }
 
@@ -463,7 +463,7 @@ public final class AppiumServiceBuilder
      * @return A self reference.
      */
     @Override
-	public AppiumServiceBuilder usingAnyFreePort() {
+    public AppiumServiceBuilder usingAnyFreePort() {
         return super.usingAnyFreePort();
     }
 
@@ -485,7 +485,7 @@ public final class AppiumServiceBuilder
      * @return A self reference.
      */
     @Override
-	public AppiumServiceBuilder withLogFile(File logFile) {
+    public AppiumServiceBuilder withLogFile(File logFile) {
         return super.withLogFile(logFile);
     }
 
