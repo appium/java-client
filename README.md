@@ -3,6 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/io.appium/java-client/badge.svg)](http://www.javadoc.io/doc/io.appium/java-client)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
+[![Build Status](https://travis-ci.org/appium/java-client.svg?branch=master)](https://travis-ci.org/appium/java-client)
 
 This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
 
@@ -80,15 +81,51 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
   - Tools that provide _Page Object_ engines were redesigned. The migration to [repeatable annotations](http://docs.oracle.com/javase/tutorial/java/annotations/repeating.html). Details you can read there: [#497](https://github.com/appium/java-client/pull/497). [Documentation was synced as well](https://github.com/appium/java-client/blob/master/docs/Page-objects.md#also-it-is-possible-to-define-chained-or-any-possible-locators).
 - **[MAJOR ENHANCEMENT]**: Migration from Maven to Gradle. Feature request is [#214](https://github.com/appium/java-client/issues/214). Fixes: [#442](https://github.com/appium/java-client/pull/442), [#465](https://github.com/appium/java-client/pull/465).
-- **[MAJOR ENHANCEMENT]**: Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
-- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
+- **[MAJOR ENHANCEMENT]****[MAJOR REFACTORING]**. Non-abstract **AppiumDriver** and **MobileElement**: 
+  - Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
+  - The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
+  - API was redesigned: 
+  
+    these interfaces were marked deprecated and they are going to be removed [#513](https://github.com/appium/java-client/pull/513)[#514](https://github.com/appium/java-client/pull/514):
+      - `io.appium.java_client.DeviceActionShortcuts`
+      - `io.appium.java_client.android.AndroidDeviceActionShortcuts`
+      - `io.appium.java_client.ios.IOSDeviceActionShortcuts`
+      
+    instead following inerfaces were designed:
+      - `io.appium.java_client.HasDeviceTime`
+      - `io.appium.java_client.HidesKeyboard`
+      - `io.appium.java_client.HidesKeyboardWithKeyName`
+      - `io.appium.java_client.PressesKeyCode`
+      - `io.appium.java_client.ios.ShakesDevice`
+      - `io.appium.java_client.HasSessionDetails`
+       _That was done because Windows automation tools have some features that were considered as Android-specific and iOS-specific._
+      - `io.appium.java_client.CreatesSwipeAction`  
+      
+    The list of methods which were marked _deprecated_ and they are going to be removed
+      - `AppiumDriver#swipe(int, int, int, int, int)`
+      - `AppiumDriver#pinch(WebElement)`
+      - `AppiumDriver#pinch(int, int)`
+      - `AppiumDriver#zoom(WebElement)`
+      - `AppiumDriver#zoom(int, int)`
+      - `AppiumDriver#tap(int, WebElement, int)`
+      - `AppiumDriver#tap(int, int, int, int)`
+      - `AppiumDriver#swipe(int, int, int, int, int)`
+      - `MobileElement#swipe(SwipeElementDirection, int)`
+      - `MobileElement#swipe(SwipeElementDirection, int, int, int)`
+      
+    redesign of `TouchAction` and `MultiTouchAction`
+      - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can pass any instance of a class that implements `PerformsTouchActions`.
+      - deprecated methods of `AppiumDriver`/`MobileElement` were moved to `TouchAction`/`MultiTouchAction`.
+      - `io.appium.java_client.android.AndroidTouchAction` and `io.appium.java_client.ios.IOSTouchAction` were added. They create the swiping gesture. Both classes implement the new `io.appium.java_client.CreatesSwipeAction` API.   
+      
+      _The work is not finished yet._
+      
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship.
 - [ENHANCEMENT] Added the ability to set UiAutomator Congfigurator values. [#410](https://github.com/appium/java-client/pull/410). 
 [#477](https://github.com/appium/java-client/pull/477).
-- [ENHANCEMENT] The `io.appium.java_client.HasSessionDetails` interface was added. It has methods implemented by default. This interface is implemented by AppiumDriver.
 - **[UPDATE]** to Selenium 3.0. [#489](https://github.com/appium/java-client/pull/489)
 - [ENHANCEMENT]. Additional methods which perform device rotation were implemented. [#489](https://github.com/appium/java-client/pull/489). [#439](https://github.com/appium/java-client/pull/439). But it works only for iOS in XCUIT mode. The feature request: [#7131](https://github.com/appium/appium/issues/7131) 
 - [ENHANCEMENT]. TouchID Implementation (iOS Sim Only). Details: [#509](https://github.com/appium/java-client/pull/509)
