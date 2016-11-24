@@ -237,7 +237,12 @@ public final class AppiumServiceBuilder
      * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
-        serverArguments.put(argument.getArgument(), value);
+        String argName = argument.getArgument().trim().toLowerCase();
+        if ("--port".equals(argName) || "-p".equals(argName)) {
+            usingPort(Integer.valueOf(value));
+        } else {
+            serverArguments.put(argName, value);
+        }
         return this;
     }
 
@@ -434,6 +439,7 @@ public final class AppiumServiceBuilder
      * @param nodeJSExecutable The executable Node.js to use.
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder usingDriverExecutable(File nodeJSExecutable) {
         return super.usingDriverExecutable(nodeJSExecutable);
     }
@@ -445,6 +451,7 @@ public final class AppiumServiceBuilder
      * @param port The port to use; must be non-negative.
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder usingPort(int port) {
         return super.usingPort(port);
     }
@@ -454,6 +461,7 @@ public final class AppiumServiceBuilder
      *
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder usingAnyFreePort() {
         return super.usingAnyFreePort();
     }
@@ -475,6 +483,7 @@ public final class AppiumServiceBuilder
      * @param logFile A file to write log to.
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder withLogFile(File logFile) {
         return super.withLogFile(logFile);
     }
