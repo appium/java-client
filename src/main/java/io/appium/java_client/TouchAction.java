@@ -34,7 +34,7 @@ import org.openqa.selenium.internal.HasIdentity;
  */
 public class TouchAction {
 
-    private ImmutableList.Builder<ActionParameter> parameterBuilder;
+    protected ImmutableList.Builder<ActionParameter> parameterBuilder;
     private PerformsTouchActions performsTouchActions;
 
     public TouchAction(PerformsTouchActions performsTouchActions) {

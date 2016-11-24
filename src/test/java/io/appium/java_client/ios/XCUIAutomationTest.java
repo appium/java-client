@@ -17,6 +17,7 @@
 package io.appium.java_client.ios;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.AutomationName;
@@ -100,6 +101,15 @@ public class XCUIAutomationTest {
         } catch (Exception e) {
             throw e;
         }
+    }
 
+    @Test public void doubleTapTest() {
+        IOSElement firstField = (IOSElement) driver.findElementById("IntegerA");
+        firstField.sendKeys("2");
+
+        IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
+        iosTouchAction.doubleTap(firstField);
+        IOSElement editingMenu = (IOSElement) driver.findElementByClassName("UIAEditingMenu");
+        assertNotNull(editingMenu);
     }
 }
