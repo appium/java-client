@@ -238,8 +238,12 @@ public final class AppiumServiceBuilder
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
         String argName = argument.getArgument().trim().toLowerCase();
-        if ("--port".equals(argName) || "-p".equals(argName)) {
+        if ("--port".equalsIgnoreCase(argName) || "-p".equalsIgnoreCase(argName)) {
             usingPort(Integer.valueOf(value));
+        } else if ("--address".equalsIgnoreCase(argName) || "-a".equalsIgnoreCase(argName)) {
+            withIPAddress(value);
+        } else if ("--log".equalsIgnoreCase(argName) || "-g".equalsIgnoreCase(argName)) {
+            withLogFile(new File(value));
         } else {
             serverArguments.put(argName, value);
         }

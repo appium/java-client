@@ -222,7 +222,7 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToChangeOutputStream() throws Exception {
-        File file = new File("target/test");
+        File file = new File("test");
         file.createNewFile();
         OutputStream stream = new FileOutputStream(file);
         AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
@@ -243,7 +243,7 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
-        File file = new File("target/test");
+        File file = new File("test");
         file.createNewFile();
         OutputStream stream = new FileOutputStream(file);
         AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
@@ -295,8 +295,7 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartServiceWithLogFile() throws Exception {
         AppiumDriverLocalService service = null;
-        File rootLogDir = new File("target/");
-        File log = new File(rootLogDir, "Log.txt");
+        File log = new File("Log.txt");
         log.createNewFile();
         try {
             service = new AppiumServiceBuilder().withLogFile(log).build();
@@ -317,21 +316,119 @@ public class ServerBuilderTest {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
-        AppiumDriverLocalService service = new AppiumServiceBuilder()
-                .withArgument(() -> "--port", port)
-                .build();
-        String actualUrl = service.getUrl().toString();
-        assertEquals(expectedUrl, actualUrl);
+        AppiumDriverLocalService service = null;
+
+        try {
+            service = new AppiumServiceBuilder()
+                    .withArgument(() -> "--port", port)
+                    .build();
+            service.start();
+            String actualUrl = service.getUrl().toString();
+            assertEquals(expectedUrl, actualUrl);
+        } finally {
+            if (service != null) {
+                service.stop();
+            }
+        }
     }
     
     @Test public void checkAbilityToBuildServiceWithPortUsingShortFlag() throws Exception {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
-        AppiumDriverLocalService service = new AppiumServiceBuilder()
-                .withArgument(() -> "-p", port)
-                .build();
-        String actualUrl = service.getUrl().toString();
-        assertEquals(expectedUrl, actualUrl);
+        AppiumDriverLocalService service = null;
+
+        try {
+            service = new AppiumServiceBuilder()
+                    .withArgument(() -> "-p", port)
+                    .build();
+            service.start();
+            String actualUrl = service.getUrl().toString();
+            assertEquals(expectedUrl, actualUrl);
+        } finally {
+            if (service != null) {
+                service.stop();
+            }
+        }
+    }
+
+    @Test public void checkAbilityToBuildServiceWithIpUsingFlag() throws Exception {
+        String expectedUrl = String.format("http://%s:%s/wd/hub", testIP, 4723);
+
+        AppiumDriverLocalService service = null;
+
+        try {
+            service = new AppiumServiceBuilder()
+                    .withArgument(() -> "--address", testIP)
+                    .build();
+            service.start();
+            String actualUrl = service.getUrl().toString();
+            assertEquals(expectedUrl, actualUrl);
+        } finally {
+            if (service != null) {
+                service.stop();
+            }
+        }
+    }
+
+    @Test public void checkAbilityToBuildServiceWithIpUsingShortFlag() throws Exception {
+        String expectedUrl = String.format("http://%s:%s/wd/hub", testIP, 4723);
+
+        AppiumDriverLocalService service = null;
+
+        try {
+            service = new AppiumServiceBuilder()
+                    .withArgument(() -> "-a", testIP)
+                    .build();
+            service.start();
+            String actualUrl = service.getUrl().toString();
+            assertEquals(expectedUrl, actualUrl);
+        } finally {
+            if (service != null) {
+                service.stop();
+            }
+        }
+    }
+
+    @Test public void checkAbilityToBuildServiceWithLogFileUsingFlag() throws Exception {
+        AppiumDriverLocalService service = null;
+
+        File log = new File("Log2.txt");
+
+        try {
+            service = new AppiumServiceBuilder()
+                    .withArgument(() -> "--log", log.getAbsolutePath())
+                    .build();
+            service.start();
+            assertTrue(log.exists());
+        } finally {
+            if (service != null) {
+                service.stop();
+            }
+            if (log.exists()) {
+                log.delete();
+            }
+        }
+    }
+
+    @Test public void checkAbilityToBuildServiceWithLogFileUsingShortFlag() throws Exception {
+        AppiumDriverLocalService service = null;
+
+        File log = new File("Log3.txt");
+
+        try {
+            service = new AppiumServiceBuilder()
+                    .withArgument(() -> "-g", log.getAbsolutePath())
+                    .build();
+            service.start();
+            assertTrue(log.exists());
+        } finally {
+            if (service != null) {
+                service.stop();
+            }
+            if (log.exists()) {
+                log.delete();
+            }
+        }
     }
 }
