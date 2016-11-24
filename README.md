@@ -117,6 +117,9 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
       - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can pass any instance of a class that implements `PerformsTouchActions`.
       - deprecated methods of `AppiumDriver`/`MobileElement` were moved to `TouchAction`/`MultiTouchAction`.
       - `io.appium.java_client.android.AndroidTouchAction` and `io.appium.java_client.ios.IOSTouchAction` were added. They create the swiping gesture. Both classes implement the new `io.appium.java_client.CreatesSwipeAction` API.   
+      
+      _The work is not finished yet._
+      
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
