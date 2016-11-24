@@ -312,4 +312,26 @@ public class ServerBuilderTest {
             }
         }
     }
+
+    @Test public void checkAbilityToStartServiceWithPortUsingFlags() throws Exception {
+    	String port = "8996";
+    	String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
+    	
+    	AppiumDriverLocalService service = new AppiumServiceBuilder()
+    			.withArgument(() -> "--port", port)
+    			.build();
+		String actualUrl = service.getUrl().toString();
+		assertEquals(expectedUrl, actualUrl);
+	}
+    
+    @Test public void checkAbilityToStartServiceWithPortUsingShortFlags() throws Exception {
+    	String port = "8996";
+    	String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
+    	
+    	AppiumDriverLocalService service = new AppiumServiceBuilder()
+    			.withArgument(() -> "-p", port)
+    			.build();
+		String actualUrl = service.getUrl().toString();
+		assertEquals(expectedUrl, actualUrl);
+    }
 }

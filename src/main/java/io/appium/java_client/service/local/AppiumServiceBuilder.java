@@ -236,9 +236,14 @@ public final class AppiumServiceBuilder
      *                 should be defined.
      * @return the self-reference.
      */
-    public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
-        serverArguments.put(argument.getArgument(), value);
-        return this;
+	public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
+		String argName = argument.getArgument().trim();
+		if (argName.equals("--port") || argName.equals("-p")) {
+			usingPort(Integer.valueOf(value));
+		} else {
+			serverArguments.put(argName, value);
+		}
+		return this;
     }
 
     /**
