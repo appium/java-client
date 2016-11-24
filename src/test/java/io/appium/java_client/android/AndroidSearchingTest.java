@@ -16,12 +16,16 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 
 public class AndroidSearchingTest extends BaseAndroidTest {
 
