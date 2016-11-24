@@ -14,36 +14,14 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client;
 
 import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.DeviceActionShortcuts;
-
-@Deprecated
-/**
- * This interface is deprecated and won't be supported anymore.
- * Please use {@link io.appium.java_client.HidesKeyboardWithKeyName} and {@link ShakesDevice} API instead.
- */
-public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
+public interface HidesKeyboardWithKeyName extends HidesKeyboard {
 
     /**
-     * Hides the keyboard by pressing the button specified by keyName if it is
-     * showing.
-     *
-     * @param keyName The button pressed by the mobile driver to attempt hiding the
-     *                keyboard.
-     */
-    default void hideKeyboard(String keyName) {
-        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
-    }
-
-    /**
-     * Hides the keyboard if it is showing. Available strategies are PRESS_KEY
-     * and TAP_OUTSIDE. One taps outside the keyboard, the other presses a key
-     * of your choosing (probably the 'Done' key). Hiding the keyboard often
+     * Hides the keyboard if it is showing. Hiding the keyboard often
      * depends on the way an app is implemented, no single strategy always
      * works.
      *
@@ -54,12 +32,4 @@ public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
     default void hideKeyboard(String strategy, String keyName) {
         CommandExecutionHelper.execute(this, hideKeyboardCommand(strategy, keyName));
     }
-
-    /**
-     * Simulate shaking the device.
-     */
-    default void shake() {
-        CommandExecutionHelper.execute(this, shakeCommand());
-    }
-
 }

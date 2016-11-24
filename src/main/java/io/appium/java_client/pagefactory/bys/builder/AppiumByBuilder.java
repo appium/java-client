@@ -119,7 +119,6 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 + valueName);
     }
 
-    @SuppressWarnings("unchecked")
     private static <T extends By> T getComplexMobileBy(Annotation[] annotations,
         Class<T> requiredByClass) {
         By[] byArray = new By[annotations.length];
@@ -127,9 +126,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             byArray[i] = getMobileBy(annotations[i], getFilledValue(annotations[i]));
         }
         try {
-            Constructor<?> c = requiredByClass.getConstructor(By[].class);
+            Constructor<T> c = requiredByClass.getConstructor(By[].class);
             Object[] values = new Object[] {byArray};
-            return (T) c.newInstance(values);
+            return c.newInstance(values);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

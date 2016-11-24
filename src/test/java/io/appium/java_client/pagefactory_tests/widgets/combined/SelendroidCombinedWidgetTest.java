@@ -26,7 +26,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class SelendroidCombinedWidgetTest implements WidgetTest {
-    private static int SELENDROID_PORT = 9999;
+
     private static AppiumDriverLocalService service;
     private AndroidDriver<?> driver;
     private RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
