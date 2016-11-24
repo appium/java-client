@@ -313,7 +313,7 @@ public class ServerBuilderTest {
         }
     }
 
-    @Test public void checkAbilityToStartServiceWithPortUsingFlags() throws Exception {
+    @Test public void checkAbilityToBuildServiceWithPortUsingFlag() throws Exception {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -324,7 +324,7 @@ public class ServerBuilderTest {
         assertEquals(expectedUrl, actualUrl);
     }
     
-    @Test public void checkAbilityToStartServiceWithPortUsingShortFlags() throws Exception {
+    @Test public void checkAbilityToBuildServiceWithPortUsingShortFlag() throws Exception {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
