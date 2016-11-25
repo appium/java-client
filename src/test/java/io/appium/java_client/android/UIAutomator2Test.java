@@ -1,5 +1,7 @@
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertEquals;
+
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -12,8 +14,6 @@ import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-
-import static org.junit.Assert.assertEquals;
 
 public class UIAutomator2Test {
     private static AppiumDriverLocalService service;
