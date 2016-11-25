@@ -119,6 +119,7 @@ dependencies {
 tasks.withType(Checkstyle) {
     ignoreFailures = false
     configFile = file("$projectDir/google-style.xml")
+    exclude '**/org/openqa/selenium/**'
 }
 
 task javadocs(type: Javadoc) {
