@@ -23,7 +23,6 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLoc
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.HasDeviceDetails;
 import io.appium.java_client.PressesKeyCode;
 import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
@@ -49,8 +48,7 @@ import java.net.URL;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, IsKeyboardShown,
-    HasDeviceDetails {
+    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 

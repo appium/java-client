@@ -65,10 +65,4 @@ public class AndroidSearchingTest extends BaseAndroidTest {
                 + "new UiSelector().text(\"Radio Group\"));");
         assertNotNull(radioGroup.getLocation());
     }
-
-    @Test public void deviceDetailsAndKeyboardTest() {
-        assertFalse(driver.isKeyboardShown());
-        assertNotNull(driver.getDisplayDensity());
-        assertNotEquals(0, driver.getSystemBars().size());
-    }
 }
