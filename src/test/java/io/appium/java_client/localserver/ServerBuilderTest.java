@@ -1,14 +1,28 @@
 package io.appium.java_client.localserver;
 
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
+import static io.appium.java_client.remote.MobileCapabilityType.APP;
+import static io.appium.java_client.remote.MobileCapabilityType.FULL_RESET;
+import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
+import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LAUNCH;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static java.lang.System.setProperty;
+import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.apache.commons.validator.routines.InetAddressValidator;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
@@ -21,12 +35,17 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 
 public class ServerBuilderTest {
 
     private static Properties properties;
     private static String testIP;
+    private AppiumDriverLocalService service;
+    private File file;
+    private OutputStream stream;
+
 
     /**
      * initialization.
@@ -60,6 +79,20 @@ public class ServerBuilderTest {
         }
     }
 
+    @After
+    public void tearDown() throws Exception {
+        if (service != null) {
+            service.stop();
+        }
+        if (stream != null) {
+            stream.close();
+        }
+        if (file != null && file.exists()) {
+            file.delete();
+        }
+        System.clearProperty(APPIUM_PATH);
+    }
+
     private static File findCustomNode() {
         Platform current = Platform.getCurrent();
         if (current.is(Platform.WINDOWS)) {
@@ -73,362 +106,206 @@ public class ServerBuilderTest {
         return new File(String.valueOf(properties.get("path.to.custom.node.linux")));
     }
 
-    @Test public void checkAbilityToBuildDefaultService() {
-        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
-        try {
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            service.stop();
-        }
+    @Test public void checkAbilityToStartDefaultService() {
+        service = buildDefaultService();
+        service.start();
+        assertEquals(true, service.isRunning());
     }
 
-    @Test public void checkAbilityToBuildServiceUsingNodeDefinedInProperties() {
-        AppiumDriverLocalService service = null;
-        try {
-            String definedNode = findCustomNode().getAbsolutePath();
-            System.setProperty(AppiumServiceBuilder.APPIUM_PATH, definedNode);
-            service = AppiumDriverLocalService.buildDefaultService();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-            System.clearProperty(AppiumServiceBuilder.APPIUM_PATH);
-        }
+    @Test public void checkAbilityToStartServiceUsingNodeDefinedInProperties() {
+        String definedNode = findCustomNode().getAbsolutePath();
+        setProperty(APPIUM_PATH, definedNode);
+        service = buildDefaultService();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToBuildServiceUsingNodeDefinedExplicitly() {
-        AppiumDriverLocalService service = null;
-        try {
-            File node = findCustomNode();
-            service = new AppiumServiceBuilder().withAppiumJS(node).build();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+    @Test public void checkAbilityToStartServiceUsingNodeDefinedExplicitly() {
+        File node = findCustomNode();
+        service = new AppiumServiceBuilder().withAppiumJS(node).build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToStartServiceOnAFreePort() {
-        AppiumDriverLocalService service = null;
-        try {
-            service = new AppiumServiceBuilder().usingAnyFreePort().build();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder().usingAnyFreePort().build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToStartServiceUsingNonLocalhostIP() throws Exception {
-        AppiumDriverLocalService service = null;
-        try {
-            service = new AppiumServiceBuilder().withIPAddress(testIP).build();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder().withIPAddress(testIP).build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToStartServiceUsingFlags() throws Exception {
-        AppiumDriverLocalService service = null;
-        try {
-            service =
-                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP)
-                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                    .withArgument(GeneralServerFlag.PRE_LAUNCH).build();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder()
+            .withArgument(CALLBACK_ADDRESS, testIP)
+            .withArgument(SESSION_OVERRIDE)
+            .withArgument(PRE_LAUNCH)
+            .build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToStartServiceUsingCapabilities() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
-
-
         File pageFactoryDir = new File("src/test/java/io/appium/java_client/pagefactory_tests");
         File chrome = new File(pageFactoryDir, "chromedriver.exe");
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        capabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
-        capabilities
-            .setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
-        capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
-            chrome.getAbsolutePath());
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability(PLATFORM_NAME, "Android");
+        caps.setCapability(FULL_RESET, true);
+        caps.setCapability(NEW_COMMAND_TIMEOUT, 60);
+        caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
+        caps.setCapability(APP_ACTIVITY, ".view.WebView1");
+        caps.setCapability(APP, app.getAbsolutePath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chrome.getAbsolutePath());
 
-        AppiumDriverLocalService service = null;
-        try {
-            service = new AppiumServiceBuilder().withCapabilities(capabilities).build();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder().withCapabilities(caps).build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() throws Exception {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
-
-
         File pageFactoryDir = new File("src/test/java/io/appium/java_client/pagefactory_tests");
         File chrome = new File(pageFactoryDir, "chromedriver.exe");
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        capabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
-        capabilities
-            .setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
-        capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
-            chrome.getAbsolutePath());
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability(PLATFORM_NAME, "Android");
+        caps.setCapability(FULL_RESET, true);
+        caps.setCapability(NEW_COMMAND_TIMEOUT, 60);
+        caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
+        caps.setCapability(APP_ACTIVITY, ".view.WebView1");
+        caps.setCapability(APP, app.getAbsolutePath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chrome.getAbsolutePath());
 
-        AppiumDriverLocalService service = null;
-        try {
-            service =
-                new AppiumServiceBuilder().withArgument(GeneralServerFlag.CALLBACK_ADDRESS, testIP)
-                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                    .withArgument(GeneralServerFlag.PRE_LAUNCH)
-                    .withCapabilities(capabilities).build();
-            service.start();
-            assertEquals(true, service.isRunning());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder()
+                .withArgument(CALLBACK_ADDRESS, testIP)
+                .withArgument(SESSION_OVERRIDE)
+                .withArgument(PRE_LAUNCH)
+                .withCapabilities(caps).build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToChangeOutputStream() throws Exception {
-        File file = new File("test");
+        file = new File("test");
         file.createNewFile();
-        OutputStream stream = new FileOutputStream(file);
-        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+        stream = new FileOutputStream(file);
+        service = buildDefaultService();
         service.addOutPutStream(stream);
-        try {
-            service.start();
-            assertTrue(file.length() > 0);
-        } finally {
-            service.stop();
-            if (stream != null) {
-                stream.close();
-            }
-
-            if (file.exists()) {
-                file.delete();
-            }
-        }
+        service.start();
+        assertTrue(file.length() > 0);
     }
 
     @Test public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
-        File file = new File("test");
+        file = new File("test");
         file.createNewFile();
-        OutputStream stream = new FileOutputStream(file);
-        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
-        try {
-            service.start();
-            service.addOutPutStream(stream);
-            service.isRunning();
-            assertTrue(file.length() > 0);
-        } finally {
-            service.stop();
-            if (stream != null) {
-                stream.close();
-            }
-
-            if (file.exists()) {
-                file.delete();
-            }
-        }
+        stream = new FileOutputStream(file);
+        service = buildDefaultService();
+        service.start();
+        service.addOutPutStream(stream);
+        service.isRunning();
+        assertTrue(file.length() > 0);
     }
 
     @Test public void checkAbilityToShutDownService() {
-        AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+        service = buildDefaultService();
         service.start();
         service.stop();
-        assertTrue(!service.isRunning());
+        assertFalse(service.isRunning());
     }
 
     @Test public void checkAbilityToStartAndShutDownFewServices() throws Exception {
-        AppiumDriverLocalService service1 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        service1.start();
-        AppiumDriverLocalService service2 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        service2.start();
-        AppiumDriverLocalService service3 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        service3.start();
-        AppiumDriverLocalService service4 = new AppiumServiceBuilder().usingAnyFreePort().build();
-        service4.start();
-        service1.stop();
-        Thread.sleep(1000);
-        service2.stop();
-        Thread.sleep(1000);
-        service3.stop();
-        Thread.sleep(1000);
-        service4.stop();
-        assertTrue(!service1.isRunning());
-        assertTrue(!service2.isRunning());
-        assertTrue(!service3.isRunning());
-        assertTrue(!service4.isRunning());
+        List<AppiumDriverLocalService> services = asList(
+                new AppiumServiceBuilder().usingAnyFreePort().build(),
+                new AppiumServiceBuilder().usingAnyFreePort().build(),
+                new AppiumServiceBuilder().usingAnyFreePort().build(),
+                new AppiumServiceBuilder().usingAnyFreePort().build());
+        services.parallelStream().forEach(AppiumDriverLocalService::start);
+        assertTrue(services.stream().allMatch(AppiumDriverLocalService::isRunning));
+        SECONDS.sleep(1);
+        services.parallelStream().forEach(AppiumDriverLocalService::stop);
+        assertTrue(services.stream().noneMatch(AppiumDriverLocalService::isRunning));
     }
 
     @Test public void checkAbilityToStartServiceWithLogFile() throws Exception {
-        AppiumDriverLocalService service = null;
-        File log = new File("Log.txt");
-        log.createNewFile();
-        try {
-            service = new AppiumServiceBuilder().withLogFile(log).build();
-            service.start();
-            assertEquals(true, log.exists());
-            assertEquals(true, log.length() > 0);
-        } finally {
-            if (log.exists()) {
-                log.delete();
-            }
-            if (service != null) {
-                service.stop();
-            }
-        }
+        file = new File("Log.txt");
+        file.createNewFile();
+        service = new AppiumServiceBuilder().withLogFile(file).build();
+        service.start();
+        assertTrue(file.exists());
+        assertTrue(file.length() > 0);
     }
 
-    @Test public void checkAbilityToBuildServiceWithPortUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithPortUsingFlag() throws Exception {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
-        AppiumDriverLocalService service = null;
-
-        try {
-            service = new AppiumServiceBuilder()
-                    .withArgument(() -> "--port", port)
-                    .build();
-            service.start();
-            String actualUrl = service.getUrl().toString();
-            assertEquals(expectedUrl, actualUrl);
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "--port", port)
+                .build();
+        String actualUrl = service.getUrl().toString();
+        assertEquals(expectedUrl, actualUrl);
+        service.start();
     }
     
-    @Test public void checkAbilityToBuildServiceWithPortUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithPortUsingShortFlag() throws Exception {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
-        AppiumDriverLocalService service = null;
-
-        try {
-            service = new AppiumServiceBuilder()
-                    .withArgument(() -> "-p", port)
-                    .build();
-            service.start();
-            String actualUrl = service.getUrl().toString();
-            assertEquals(expectedUrl, actualUrl);
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "-p", port)
+                .build();
+        String actualUrl = service.getUrl().toString();
+        assertEquals(expectedUrl, actualUrl);
+        service.start();
     }
 
-    @Test public void checkAbilityToBuildServiceWithIpUsingFlag() throws Exception {
-        String expectedUrl = String.format("http://%s:%s/wd/hub", testIP, 4723);
+    @Test public void checkAbilityToStartServiceWithIpUsingFlag() throws Exception {
+        String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
-        AppiumDriverLocalService service = null;
-
-        try {
-            service = new AppiumServiceBuilder()
-                    .withArgument(() -> "--address", testIP)
-                    .build();
-            service.start();
-            String actualUrl = service.getUrl().toString();
-            assertEquals(expectedUrl, actualUrl);
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "--address", testIP)
+                .build();
+        String actualUrl = service.getUrl().toString();
+        assertEquals(expectedUrl, actualUrl);
+        service.start();
     }
 
-    @Test public void checkAbilityToBuildServiceWithIpUsingShortFlag() throws Exception {
-        String expectedUrl = String.format("http://%s:%s/wd/hub", testIP, 4723);
+    @Test public void checkAbilityToStartServiceWithIpUsingShortFlag() throws Exception {
+        String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
-        AppiumDriverLocalService service = null;
-
-        try {
-            service = new AppiumServiceBuilder()
-                    .withArgument(() -> "-a", testIP)
-                    .build();
-            service.start();
-            String actualUrl = service.getUrl().toString();
-            assertEquals(expectedUrl, actualUrl);
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-        }
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "-a", testIP)
+                .build();
+        String actualUrl = service.getUrl().toString();
+        assertEquals(expectedUrl, actualUrl);
+        service.start();
     }
 
-    @Test public void checkAbilityToBuildServiceWithLogFileUsingFlag() throws Exception {
-        AppiumDriverLocalService service = null;
+    @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() throws Exception {
+        file = new File("Log2.txt");
 
-        File log = new File("Log2.txt");
-
-        try {
-            service = new AppiumServiceBuilder()
-                    .withArgument(() -> "--log", log.getAbsolutePath())
-                    .build();
-            service.start();
-            assertTrue(log.exists());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-            if (log.exists()) {
-                log.delete();
-            }
-        }
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "--log", file.getAbsolutePath())
+                .build();
+        service.start();
+        assertTrue(file.exists());
     }
 
-    @Test public void checkAbilityToBuildServiceWithLogFileUsingShortFlag() throws Exception {
-        AppiumDriverLocalService service = null;
-
-        File log = new File("Log3.txt");
-
-        try {
-            service = new AppiumServiceBuilder()
-                    .withArgument(() -> "-g", log.getAbsolutePath())
-                    .build();
-            service.start();
-            assertTrue(log.exists());
-        } finally {
-            if (service != null) {
-                service.stop();
-            }
-            if (log.exists()) {
-                log.delete();
-            }
-        }
+    @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() throws Exception {
+        file = new File("Log3.txt");
+        
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "-g", file.getAbsolutePath())
+                .build();
+        service.start();
+        assertTrue(file.exists());
     }
 }
