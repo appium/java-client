@@ -80,7 +80,7 @@ public class ServerBuilderTest {
     }
 
     @After
-    public void teardown() throws Exception {
+    public void tearDown() throws Exception {
         if (service != null) {
             service.stop();
         }
