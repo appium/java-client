@@ -26,29 +26,18 @@ import java.util.Map;
 public class IOSMobileCommandHelper extends MobileCommand {
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * keyboard hiding.
-     *
-     * @param keyName The button pressed by the mobile driver to attempt hiding the
-     *                keyboard.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String)}
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
         return new AbstractMap.SimpleEntry<>(
                 HIDE_KEYBOARD, prepareArguments("keyName", keyName));
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * keyboard hiding.
-     *
-     * @param strategy HideKeyboardStrategy.
-     * @param keyName  a String, representing the text displayed on the button of the
-     *                 keyboard you want to press. For example: "Done".
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
         String keyName) {
         String[] parameters = new String[] {"strategy", "key"};

@@ -22,7 +22,6 @@ import com.google.common.collect.Maps;
 
 import io.appium.java_client.MobileElement;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
@@ -30,7 +29,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Reconstitutes {@link WebElement}s from their JSON representation. Will recursively convert Lists
+ * Reconstitutes {@link org.openqa.selenium.WebElement}s from their JSON representation. Will recursively convert Lists
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {

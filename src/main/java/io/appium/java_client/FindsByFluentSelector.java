@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
@@ -32,11 +31,11 @@ public interface FindsByFluentSelector<T extends WebElement> {
     * @param using is a value of the given selector
     * @return the first found element
     *
-    * @throws WebDriverException when current session doesn't support the given selector or when
-    *       value of the selector is not consistent.
-    * @throws NoSuchElementException when no one element is found
+    * @throws {@link org.openqa.selenium.WebDriverException} when current session doesn't
+    *       support the given selector or when value of the selector is not consistent.
+    * @throws {@link org.openqa.selenium.NoSuchElementException} when no one element is found
     */
-    T findElement(String by, String using) throws WebDriverException, NoSuchElementException;
+    T findElement(String by, String using) throws WebDriverException;
 
     /**
     * Method performs the searching for a list of elements by some selector defined by string
@@ -46,8 +45,8 @@ public interface FindsByFluentSelector<T extends WebElement> {
     * @param using is a value of the given selector
     * @return a list of elements
     *
-    * @throws WebDriverException when current session doesn't support the given selector or when
-    *       value of the selector is not consistent.
+    * @throws {@link org.openqa.selenium.WebDriverException} when current session doesn't support
+    *       the given selector or when value of the selector is not consistent.
     */
     List<T> findElements(String by, String using) throws WebDriverException;
 }

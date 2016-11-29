@@ -162,4 +162,21 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * the app in iOS 9+.
      */
     String APP_NAME = "appName";
+
+    /**
+     * Capability to pre-authorize a specific SSL cert in the iOS trust store.
+     */
+    String CUSTOM_SSL_CERT = "customSSLCert";
+
+    /**
+     * The desired capability to specify a length for tapping, if the regular
+     * tap is too long for the app under test. The  XCUITest specific capability.
+     */
+    String TAP_WITH_SHORT_PRESS_DURATION = "tapWithShortPressDuration";
+
+    /**
+     * The capability to direct Appium to set the simulator scale.
+     * The  XCUITest specific capability.
+     */
+    String SCALE_FACTOR = "scaleFactor";
 }
