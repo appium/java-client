@@ -110,7 +110,7 @@ public class IOSPageFactoryTest {
     private MobileElement mobileButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
-    private TouchableElement touchableButton;
+    private TouchableElement<MobileElement> touchableButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private List<TouchableElement> touchableButtons;
@@ -303,13 +303,13 @@ public class IOSPageFactoryTest {
         assertNotEquals(0, touchableButtons.size());
     }
 
-    @SuppressWarnings("unused")
     @Test public void isTheFieldIOSElement() {
         IOSElement iOSElement =
                 (IOSElement) mobileButton; //declared as MobileElement
         iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
         iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
         iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
+        assertNotNull(iOSElement);
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {

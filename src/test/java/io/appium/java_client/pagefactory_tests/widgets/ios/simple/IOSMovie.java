@@ -29,6 +29,6 @@ public class IOSMovie extends Movie {
     }
 
     @Override public void goToReview() {
-        ((TouchableElement) getWrappedElement()).tap(1, 1500);
+        TouchableElement.class.cast(getWrappedElement()).tap(1, 1500);
     }
 }

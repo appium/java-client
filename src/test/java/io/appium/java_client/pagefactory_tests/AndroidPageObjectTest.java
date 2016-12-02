@@ -166,7 +166,7 @@ public class AndroidPageObjectTest {
     private WebElement textAndroidId;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private TouchableElement touchabletextVieW;
+    private TouchableElement<MobileElement> touchabletextVieW;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
     private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
@@ -354,12 +354,12 @@ public class AndroidPageObjectTest {
     }
 
     @Test
-    @SuppressWarnings("unused")
     public void isTheFieldAndroidElement() {
         AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
         androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement
+        assertNotNull(androidElement);
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
