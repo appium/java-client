@@ -201,7 +201,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             return null;
         }
 
-        Class<? extends Widget> widgetType = null;
+        Class<? extends Widget> widgetType;
         boolean isAlist = false;
         if (List.class.isAssignableFrom(type)) {
             isAlist = true;
