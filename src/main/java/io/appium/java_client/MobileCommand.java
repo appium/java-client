@@ -32,24 +32,23 @@ import java.util.Map;
  */
 public class MobileCommand {
     //General
-    protected static final String RESET = "reset";
-    protected static final String GET_STRINGS = "getStrings";
-    protected static final String SET_VALUE = "setValue";
-    protected static final String PULL_FILE = "pullFile";
-    protected static final String PULL_FOLDER = "pullFolder";
+    static final String RESET = "reset";
+    static final String GET_STRINGS = "getStrings";
+    static final String SET_VALUE = "setValue";
+    static final String PULL_FILE = "pullFile";
+    static final String PULL_FOLDER = "pullFolder";
     protected static final String HIDE_KEYBOARD = "hideKeyboard";
-    protected static final String RUN_APP_IN_BACKGROUND = "runAppInBackground";
-    protected static final String PERFORM_TOUCH_ACTION = "performTouchAction";
-    protected static final String PERFORM_MULTI_TOUCH = "performMultiTouch";
-    protected static final String IS_APP_INSTALLED = "isAppInstalled";
-    protected static final String INSTALL_APP = "installApp";
-    protected static final String REMOVE_APP = "removeApp";
-    protected static final String LAUNCH_APP = "launchApp";
-    protected static final String CLOSE_APP = "closeApp";
+    static final String RUN_APP_IN_BACKGROUND = "runAppInBackground";
+    static final String PERFORM_TOUCH_ACTION = "performTouchAction";
+    static final String PERFORM_MULTI_TOUCH = "performMultiTouch";
+    static final String IS_APP_INSTALLED = "isAppInstalled";
+    static final String INSTALL_APP = "installApp";
+    static final String REMOVE_APP = "removeApp";
+    static final String LAUNCH_APP = "launchApp";
+    static final String CLOSE_APP = "closeApp";
     protected static final String LOCK = "lock";
-    protected static final String COMPLEX_FIND = "complexFind";
-    protected static final String GET_DEVICE_TIME = "getDeviceTime";
-    protected static final String GET_SESSION = "getSession";
+    static final String GET_DEVICE_TIME = "getDeviceTime";
+    static final String GET_SESSION = "getSession";
     //iOS
     protected static final String SHAKE = "shake";
     protected static final String TOUCH_ID = "touchId";
@@ -92,7 +91,6 @@ public class MobileCommand {
         result.put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"));
         result.put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"));
         result.put(LOCK, postC("/session/:sessionId/appium/device/lock"));
-        result.put(COMPLEX_FIND, postC("/session/:sessionId/appium/app/complex_find"));
         result.put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"));
         result.put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"));
         result.put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"));
@@ -276,5 +274,18 @@ public class MobileCommand {
         Object[] values = new Object[] {key, metastate};
         return new AbstractMap.SimpleEntry<>(
                 LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device locking.
+     *
+     * @param seconds seconds number of seconds to lock the screen for
+     * @return  a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {
+        return new AbstractMap.SimpleEntry<>(
+                LOCK, prepareArguments("seconds", seconds));
     }
 }

@@ -47,13 +47,9 @@ public class IOSMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * device locking.
-     *
-     * @param seconds seconds number of seconds to lock the screen for
-     * @return  a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * This method was moved to {@link MobileCommand#lockDeviceCommand(int)}
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {
         return new AbstractMap.SimpleEntry<>(
                 LOCK, prepareArguments("seconds", seconds));
