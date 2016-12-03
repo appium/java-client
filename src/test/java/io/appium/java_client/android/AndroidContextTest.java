@@ -19,58 +19,14 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.NoSuchContextException;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
+public class AndroidContextTest extends BaseAndroidTest {
 
-public class AndroidContextTest {
-
-    private static AndroidDriver driver;
-    private static AppiumDriverLocalService service;
-
-    /**
-     * initialization.
-     */
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        if (service == null || !service.isRunning()) {
-            throw new RuntimeException("An appium server node is not started!");
-        }
-
-        if (service == null || !service.isRunning()) {
-            throw new RuntimeException("An appium server node is not started!");
-        }
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+    @BeforeClass public static void beforeClass2() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.WebView1");
         Thread.sleep(20000);
-    }
-
-    /**
-     * finishing.
-     */
-    @AfterClass public static void tearDown() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
-
-        if (service.isRunning()) {
-            service.stop();
-        }
     }
 
     @Test public void testGetContext() {
