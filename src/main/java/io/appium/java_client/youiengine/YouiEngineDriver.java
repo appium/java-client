@@ -18,7 +18,6 @@ package io.appium.java_client.youiengine;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.youiengine.internal.JsonToYouiEngineElementConverter;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 
@@ -29,7 +28,7 @@ public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
     /** Constructor takes in the Appium Server URL and the capabilities you want to use for this
      * test execution. **/
     public YouiEngineDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, desiredCapabilities, JsonToYouiEngineElementConverter.class);
+        super(remoteAddress, desiredCapabilities);
     }
 
     @Override

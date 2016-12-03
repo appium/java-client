@@ -30,7 +30,7 @@ public class IOSOverrideWidgetTest implements WidgetTest {
 
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
-    private IOSDriver<?> driver;
+    private IOSDriver driver;
 
     /**
      * initialization.
@@ -66,7 +66,7 @@ public class IOSOverrideWidgetTest implements WidgetTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        driver = new IOSDriver(service.getUrl(), capabilities);
 
         rottenTomatoes = new RottenTomatoes();
         PageFactory.initElements(

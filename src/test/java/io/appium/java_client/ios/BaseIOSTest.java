@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -29,7 +28,7 @@ import java.io.File;
 public class BaseIOSTest {
 
     private static AppiumDriverLocalService service;
-    protected static IOSDriver<MobileElement> driver;
+    protected static IOSDriver driver;
 
     /**
      * initialization.
@@ -51,7 +50,7 @@ public class BaseIOSTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        driver = new IOSDriver(service.getUrl(), capabilities);
     }
 
     /**

@@ -24,14 +24,13 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
 public class AndroidContextTest {
 
-    private static AndroidDriver<?> driver;
+    private static AndroidDriver driver;
     private static AppiumDriverLocalService service;
 
     /**
@@ -56,7 +55,7 @@ public class AndroidContextTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-        driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
         driver.startActivity("io.appium.android.apis", ".view.WebView1");
         Thread.sleep(20000);
     }

@@ -163,7 +163,7 @@ public class IOSPageFactoryTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        driver = new IOSDriver(service.getUrl(), capabilities);
     }
 
     /**

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AndroidOverrideWidgetTest implements WidgetTest {
 
-    private static AndroidDriver<?> driver;
+    private static AndroidDriver driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
 
@@ -41,7 +41,7 @@ public class AndroidOverrideWidgetTest implements WidgetTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
 
         rottenTomatoes = new RottenTomatoes();
         PageFactory.initElements(

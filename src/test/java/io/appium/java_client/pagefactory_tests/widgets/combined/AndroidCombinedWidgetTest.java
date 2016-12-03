@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AndroidCombinedWidgetTest implements WidgetTest {
 
-    private static AndroidDriver<?> driver;
+    private static AndroidDriver driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
 
@@ -41,7 +41,7 @@ public class AndroidCombinedWidgetTest implements WidgetTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
 
         rottenTomatoes = new RottenTomatoesAppWithCombinedWidgets();
         PageFactory.initElements(

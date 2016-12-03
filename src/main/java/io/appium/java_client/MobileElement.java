@@ -26,7 +26,7 @@ import org.openqa.selenium.remote.FileDetector;
 import java.util.List;
 
 @SuppressWarnings({"unchecked"})
-public class MobileElement
+public abstract class MobileElement
     extends DefaultGenericMobileElement<MobileElement> {
 
     protected FileDetector fileDetector;

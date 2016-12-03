@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class SelendroidCombinedWidgetTest implements WidgetTest {
 
     private static AppiumDriverLocalService service;
-    private AndroidDriver<?> driver;
+    private AndroidDriver driver;
     private RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
     private TimeOutDuration duration;
 
@@ -60,7 +60,7 @@ public class SelendroidCombinedWidgetTest implements WidgetTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
 
         duration = new TimeOutDuration(20, TimeUnit.SECONDS);
         rottenTomatoes = new RottenTomatoesAppWithCombinedWidgets();

@@ -19,7 +19,6 @@ package io.appium.java_client.ios;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -36,7 +35,7 @@ import java.io.File;
 
 public class XCUIAutomationTest {
 
-    protected static IOSDriver<MobileElement> driver;
+    protected static IOSDriver driver;
     private static AppiumDriverLocalService service;
 
     /**
@@ -62,7 +61,7 @@ public class XCUIAutomationTest {
         capabilities
             .setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        driver = new IOSDriver(service.getUrl(), capabilities);
     }
 
     /**

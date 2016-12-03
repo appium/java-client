@@ -51,7 +51,7 @@ public class BaseIOSWebViewTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
+        driver = new IOSDriver(service.getUrl(), capabilities);
     }
 
     /**

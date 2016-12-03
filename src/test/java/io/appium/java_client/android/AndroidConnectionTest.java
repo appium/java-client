@@ -18,7 +18,6 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
@@ -31,7 +30,7 @@ import java.io.File;
 public class AndroidConnectionTest {
 
     private static AppiumDriverLocalService service;
-    private static AndroidDriver<MobileElement> driver;
+    private static AndroidDriver driver;
 
     /**
      * initialization.
@@ -49,7 +48,7 @@ public class AndroidConnectionTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
     }
 
     /**

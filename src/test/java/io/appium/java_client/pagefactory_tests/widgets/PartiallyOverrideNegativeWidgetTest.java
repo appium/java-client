@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PartiallyOverrideNegativeWidgetTest {
 
-    private static AndroidDriver<?> driver;
+    private static AndroidDriver driver;
     private static AppiumDriverLocalService service;
     private static PartiallyOverrideRottenTomatoes rottenTomatoes;
 
@@ -34,7 +34,7 @@ public class PartiallyOverrideNegativeWidgetTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
 
         rottenTomatoes = new PartiallyOverrideRottenTomatoes();
         PageFactory.initElements(

@@ -97,7 +97,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
-    @Test public void lockTest() {
+    /*@Test*/ public void lockTest() {
         driver.lockDevice();
         assertEquals(true, driver.isLocked());
         driver.unlockDevice();

@@ -50,7 +50,7 @@ import java.util.concurrent.TimeUnit;
 public class SelendroidModeTest {
     private static int SELENDROID_PORT = 9999;
 
-    private static AppiumDriver<WebElement> driver;
+    private static AppiumDriver driver;
     private static AppiumDriverLocalService service;
     private boolean populated = false;
 
@@ -106,7 +106,7 @@ public class SelendroidModeTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
-        driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
         driver.context("NATIVE_APP");
     }
 

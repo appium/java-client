@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class IOSWidgetTest implements WidgetTest {
 
     private static AppiumDriverLocalService service;
-    private IOSDriver<?> driver;
+    private IOSDriver driver;
     private RottenTomatoesIOSApp rottenTomatoesApp;
 
     /**
@@ -61,7 +61,7 @@ public class IOSWidgetTest implements WidgetTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        driver = new IOSDriver(service.getUrl(), capabilities);
 
         rottenTomatoesApp = new RottenTomatoesIOSApp();
         PageFactory.initElements(

@@ -13,7 +13,7 @@ import java.io.File;
 
 public class IntentTest {
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver<AndroidElement> driver;
+    protected static AndroidDriver driver;
 
     /**
      * initialization.
@@ -31,7 +31,7 @@ public class IntentTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
     }
 
     /**
