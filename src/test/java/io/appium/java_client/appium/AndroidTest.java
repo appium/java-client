@@ -27,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
 public class AndroidTest {
 
     private static AppiumDriverLocalService service;
-    protected static AppiumDriver<AndroidElement> driver;
+    private static AppiumDriver<AndroidElement> driver;
     private StartsActivity startsActivity;
 
     /**
