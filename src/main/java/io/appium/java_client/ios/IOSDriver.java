@@ -26,6 +26,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
@@ -34,10 +35,21 @@ import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
 
-public class IOSDriver
-    extends AppiumDriver<IOSElement>
+/**
+ * @param <T> the required type of class which implement
+ *           {@link org.openqa.selenium.WebElement}.
+ *           Instances of the defined type will be returned via findElement* and findElements*.
+ *           Warning (!!!). Allowed types:
+ *           {@link org.openqa.selenium.WebElement}
+ *           {@link io.appium.java_client.TouchableElement}
+ *           {@link org.openqa.selenium.remote.RemoteWebElement}
+ *           {@link io.appium.java_client.MobileElement}
+ *           {@link io.appium.java_client.ios.IOSElement}
+ */
+public class IOSDriver<T extends WebElement>
+    extends AppiumDriver<T>
     implements HidesKeyboardWithKeyName, ShakesDevice,
-        FindsByIosUIAutomation<IOSElement>, LocksIOSDevice, PerformsTouchID {
+        FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 

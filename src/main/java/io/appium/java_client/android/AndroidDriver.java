@@ -28,15 +28,26 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 
-public class AndroidDriver
-    extends AppiumDriver<AndroidElement>
+/**
+ * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ *           Instances of the defined type will be returned via findElement* and findElements*.
+ *           Warning (!!!). Allowed types:
+ *           {@link org.openqa.selenium.WebElement}
+ *           {@link io.appium.java_client.TouchableElement}
+ *           {@link org.openqa.selenium.remote.RemoteWebElement}
+ *           {@link io.appium.java_client.MobileElement}
+ *           {@link io.appium.java_client.android.AndroidElement}
+ */
+public class AndroidDriver<T extends WebElement>
+    extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<AndroidElement>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
+    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
