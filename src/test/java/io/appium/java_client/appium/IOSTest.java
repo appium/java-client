@@ -1,5 +1,7 @@
 package io.appium.java_client.appium;
 
+import static org.junit.Assert.assertNotEquals;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.ios.IOSElement;
@@ -13,8 +15,6 @@ import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-
-import static org.junit.Assert.assertNotEquals;
 
 public class IOSTest {
     private static AppiumDriverLocalService service;

@@ -26,7 +26,7 @@ import java.util.Map;
 public class IOSMobileCommandHelper extends MobileCommand {
 
     /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String)}
+     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String)}.
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
@@ -35,7 +35,7 @@ public class IOSMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}
+     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}.
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
@@ -47,7 +47,7 @@ public class IOSMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method was moved to {@link MobileCommand#lockDeviceCommand(int)}
+     * This method was moved to {@link MobileCommand#lockDeviceCommand(int)}.
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {

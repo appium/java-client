@@ -281,7 +281,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}
+     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}.
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand() {

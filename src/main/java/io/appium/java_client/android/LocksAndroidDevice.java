@@ -16,9 +16,9 @@
 
 package io.appium.java_client.android;
 
+import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.isLockedCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.unlockCommand;
-import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;

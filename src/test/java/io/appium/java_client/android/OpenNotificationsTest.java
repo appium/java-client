@@ -3,7 +3,9 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertNotEquals;
 
 import com.google.common.base.Function;
+
 import org.junit.Test;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 

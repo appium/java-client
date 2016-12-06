@@ -57,6 +57,10 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
     private final String automation;
     private final String platform;
 
+    /**
+     * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
+     * @param sessionParameters the map of current session parameters
+     */
     public JsonToMobileElementConverter(RemoteWebDriver driver, Map<String, Object> sessionParameters) {
         super(driver);
         this.driver = driver;
@@ -108,8 +112,8 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
         }
 
         if (target == null) {
-            throw new RuntimeException(new ClassNotFoundException("The class of mobile element is " +
-                    "unknown for current session"));
+            throw new RuntimeException(new ClassNotFoundException("The class of mobile element is "
+                    + "unknown for current session"));
         }
 
         try {
