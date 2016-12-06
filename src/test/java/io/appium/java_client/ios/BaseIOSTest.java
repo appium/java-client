@@ -28,7 +28,7 @@ import java.io.File;
 public class BaseIOSTest {
 
     private static AppiumDriverLocalService service;
-    protected static IOSDriver driver;
+    protected static IOSDriver<IOSElement> driver;
 
     /**
      * initialization.
@@ -50,7 +50,7 @@ public class BaseIOSTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
     /**

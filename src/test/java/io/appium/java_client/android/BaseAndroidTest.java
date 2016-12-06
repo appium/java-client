@@ -29,7 +29,7 @@ import java.io.File;
 
 public class BaseAndroidTest {
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver driver;
+    protected static AndroidDriver<AndroidElement> driver;
 
     /**
      * initialization.
@@ -48,7 +48,7 @@ public class BaseAndroidTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
     /**

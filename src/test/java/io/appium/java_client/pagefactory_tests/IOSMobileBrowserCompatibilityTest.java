@@ -64,7 +64,7 @@ public class IOSMobileBrowserCompatibilityTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        driver = new IOSDriver(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
         PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
     }
 

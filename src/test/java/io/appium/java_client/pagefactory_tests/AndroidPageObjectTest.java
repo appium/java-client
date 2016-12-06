@@ -23,40 +23,31 @@ import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
+import io.appium.java_client.android.BaseAndroidTest;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class AndroidPageObjectTest {
+public class AndroidPageObjectTest extends BaseAndroidTest {
 
-    private static WebDriver driver;
-    private static AppiumDriverLocalService service;
     private boolean populated = false;
 
     @FindBy(className = "android.widget.TextView")
@@ -183,34 +174,6 @@ public class AndroidPageObjectTest {
     @CacheLookup
     @FindBy(className = "android.widget.TextView")
     private MobileElement cached;
-
-    /**
-     * initialization.
-     */
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver(service.getUrl(), capabilities);
-    }
-
-    /**
-     * finishing.
-     */
-    @AfterClass public static void afterClass() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
-
-        if (service != null) {
-            service.stop();
-        }
-    }
 
     /**
      * The setting up.

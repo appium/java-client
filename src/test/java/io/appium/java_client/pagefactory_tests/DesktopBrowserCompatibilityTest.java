@@ -50,7 +50,7 @@ public class DesktopBrowserCompatibilityTest {
     private List<WebElement> foundLinks;
     private List<WebElement> main; //this list is located by id="main"
     private WebDriver trap1;
-    private List<AndroidDriver> trap2;
+    private List<AndroidDriver<?>> trap2;
 
     /**
      * The starting.

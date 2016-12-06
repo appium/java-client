@@ -3,6 +3,7 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -30,7 +31,7 @@ public class IOSOverrideWidgetTest implements WidgetTest {
 
     private static AppiumDriverLocalService service;
     private static RottenTomatoes rottenTomatoes;
-    private IOSDriver driver;
+    private IOSDriver<MobileElement> driver;
 
     /**
      * initialization.
@@ -66,7 +67,7 @@ public class IOSOverrideWidgetTest implements WidgetTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
 
         rottenTomatoes = new RottenTomatoes();
         PageFactory.initElements(

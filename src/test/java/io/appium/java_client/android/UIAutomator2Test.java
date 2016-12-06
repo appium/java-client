@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class UIAutomator2Test {
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver driver;
+    protected static AndroidDriver<AndroidElement> driver;
 
     /**
      * initialization.
@@ -44,7 +44,7 @@ public class UIAutomator2Test {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 

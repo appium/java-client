@@ -3,6 +3,7 @@ package io.appium.java_client.pagefactory_tests.widgets.combined;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AndroidCombinedWidgetTest implements WidgetTest {
 
-    private static AndroidDriver driver;
+    private static AndroidDriver<MobileElement> driver;
     private static AppiumDriverLocalService service;
     private static RottenTomatoesAppWithCombinedWidgets rottenTomatoes;
 
@@ -41,7 +42,7 @@ public class AndroidCombinedWidgetTest implements WidgetTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
 
         rottenTomatoes = new RottenTomatoesAppWithCombinedWidgets();
         PageFactory.initElements(
