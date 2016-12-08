@@ -1,8 +1,6 @@
 package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -10,14 +8,12 @@ public class SettingTest extends BaseAndroidTest {
 
     @Test public void ignoreUnimportantViewsTest() {
         driver.ignoreUnimportantViews(true);
-        boolean ignoreViews =
-                driver.getSettings().get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString())
-                        .getAsBoolean();
-        assertTrue(ignoreViews);
+        assertEquals(true, driver.getSettings()
+                .get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
+
         driver.ignoreUnimportantViews(false);
-        ignoreViews = driver.getSettings().get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString())
-                .getAsBoolean();
-        assertFalse(ignoreViews);
+        assertEquals(false, driver.getSettings()
+                .get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
     }
 
     @Test public void configuratorTest() {
@@ -37,8 +33,7 @@ public class SettingTest extends BaseAndroidTest {
         assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1000);
     }
 
-    private void assertJSONElementContains(Setting setting, int value) {
-        assertEquals(driver.getSettings().get(setting.toString())
-                .getAsInt(), value);
+    private void assertJSONElementContains(Setting setting, long value) {
+        assertEquals(driver.getSettings().get(setting.toString()), value);
     }
 }

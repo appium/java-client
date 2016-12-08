@@ -41,7 +41,6 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.io.File;
 import java.util.List;
 
 public class IOSPageFactoryTest extends BaseIOSTest {

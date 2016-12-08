@@ -28,6 +28,7 @@ import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.youiengine.YouiEngineElement;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
@@ -112,7 +113,7 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
         }
 
         if (target == null) {
-            throw new RuntimeException(new ClassNotFoundException("The class of mobile element is "
+            throw new WebDriverException(new ClassNotFoundException("The class of mobile element is "
                     + "unknown for current session"));
         }
 
@@ -123,7 +124,7 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
             result.setParent(driver);
             return result;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new WebDriverException(e);
         }
     }
 }

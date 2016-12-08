@@ -16,7 +16,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
     public void openNotification() throws Exception {
         driver.closeApp();
         driver.openNotifications();
-        WebDriverWait wait = new WebDriverWait(driver, 20000);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
         assertNotEquals(0, wait.until(new Function<WebDriver, List<AndroidElement>>() {
             @Override
             public List<AndroidElement> apply(WebDriver input) {

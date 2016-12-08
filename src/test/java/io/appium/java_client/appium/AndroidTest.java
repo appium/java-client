@@ -66,7 +66,7 @@ public class AndroidTest {
     }
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         startsActivity = new StartsActivity() {
             @Override
             public Response execute(String driverCommand, Map<String, ?> parameters) {
