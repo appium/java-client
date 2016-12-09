@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
-public class IOSElementTest extends BaseIOSTest {
+public class IOSElementTest extends AppIOSTest {
 
     @Test public void findByAccessibilityIdTest() {
         assertNotEquals(driver.findElementsByClassName("UIAWindow").get(1)

@@ -23,9 +23,9 @@ import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
-import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSElement;
 
+import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
@@ -43,7 +43,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class IOSPageFactoryTest extends BaseIOSTest {
+public class IOSPageFactoryTest extends AppIOSTest {
 
     private boolean populated = false;
 

@@ -27,7 +27,7 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class IOSAlertTest extends BaseIOSTest {
+public class IOSAlertTest extends AppIOSTest {
 
     WebDriverWait waiting = new WebDriverWait(driver, 10000);
     static final String iOSAutomationText = ".elements().withName(\"show alert\")";

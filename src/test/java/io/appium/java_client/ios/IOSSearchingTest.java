@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
-public class IOSSearchingTest extends BaseIOSTest {
+public class IOSSearchingTest extends AppIOSTest {
 
     @Test public void findByAccessibilityIdTest() {
         assertNotEquals(driver
