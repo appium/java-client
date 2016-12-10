@@ -22,7 +22,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import org.junit.Test;
 
-public class IOSGesturesTest extends BaseIOSTest {
+public class IOSGesturesTest extends AppIOSTest {
 
     @Test public void tapTest() {
         driver.findElementById("IntegerA").sendKeys("2");

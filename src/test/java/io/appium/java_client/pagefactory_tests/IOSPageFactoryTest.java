@@ -23,38 +23,28 @@ import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
-import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
 
+import io.appium.java_client.ios.AppIOSTest;
+import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.iOSFindBy;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.io.File;
 import java.util.List;
 
-public class IOSPageFactoryTest {
+public class IOSPageFactoryTest extends AppIOSTest {
 
-    private static WebDriver driver;
-    private static AppiumDriverLocalService service;
     private boolean populated = false;
 
     @FindBy(className = "UIAButton")
@@ -110,7 +100,7 @@ public class IOSPageFactoryTest {
     private MobileElement mobileButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
-    private TouchableElement touchableButton;
+    private TouchableElement<MobileElement> touchableButton;
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private List<TouchableElement> touchableButtons;
@@ -146,38 +136,6 @@ public class IOSPageFactoryTest {
 
     @AndroidFindBy(className = "android.widget.TextView") @FindBy(css = "e.e1.e2")
     private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
-
-    /**
-     * initialization.
-     */
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "TestApp.app.zip");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-        //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
-    }
-
-    /**
-     * finishing.
-     */
-    @AfterClass public static void afterClass() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
-
-        if (service != null) {
-            service.stop();
-        }
-    }
 
     /**
      * The setting up.
@@ -303,13 +261,13 @@ public class IOSPageFactoryTest {
         assertNotEquals(0, touchableButtons.size());
     }
 
-    @SuppressWarnings("unused")
     @Test public void isTheFieldIOSElement() {
         IOSElement iOSElement =
                 (IOSElement) mobileButton; //declared as MobileElement
         iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
         iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
         iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
+        assertNotNull(iOSElement);
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {

@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
@@ -50,7 +51,7 @@ import java.util.concurrent.TimeUnit;
 public class SelendroidModeTest {
     private static int SELENDROID_PORT = 9999;
 
-    private static AppiumDriver<WebElement> driver;
+    private static AppiumDriver<AndroidElement> driver;
     private static AppiumDriverLocalService service;
     private boolean populated = false;
 
@@ -106,7 +107,7 @@ public class SelendroidModeTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(AndroidMobileCapabilityType.SELENDROID_PORT, SELENDROID_PORT);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
-        driver = new AndroidDriver<WebElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver<>(service.getUrl(), capabilities);
         driver.context("NATIVE_APP");
     }
 

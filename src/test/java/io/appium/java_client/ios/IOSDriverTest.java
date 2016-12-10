@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
-public class IOSDriverTest extends BaseIOSTest {
+public class IOSDriverTest extends AppIOSTest {
 
     //TODO There is no ability to check this function usibg simulators.
     // When CI will have been set up then this test will be returned

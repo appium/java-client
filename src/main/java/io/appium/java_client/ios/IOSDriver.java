@@ -19,9 +19,9 @@ package io.appium.java_client.ios;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
-import io.appium.java_client.ios.internal.JsonToIOSElementConverter;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -36,22 +36,21 @@ import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
 
-
 /**
  * @param <T> the required type of class which implement
- *            {@link org.openqa.selenium.WebElement}.
- *            Instances of the defined type will be returned via findElement* and findElements*.
- *            Warning (!!!). Allowed types:
- * {@link org.openqa.selenium.WebElement}
- * {@link io.appium.java_client.TouchableElement}
- * {@link org.openqa.selenium.remote.RemoteWebElement}
- * {@link io.appium.java_client.MobileElement}
- * {@link io.appium.java_client.ios.IOSElement}
+ *           {@link org.openqa.selenium.WebElement}.
+ *           Instances of the defined type will be returned via findElement* and findElements*.
+ *           Warning (!!!). Allowed types:
+ *           {@link org.openqa.selenium.WebElement}
+ *           {@link io.appium.java_client.TouchableElement}
+ *           {@link org.openqa.selenium.remote.RemoteWebElement}
+ *           {@link io.appium.java_client.MobileElement}
+ *           {@link io.appium.java_client.ios.IOSElement}
  */
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements HidesKeyboardWithKeyName, ShakesDevice,
-        FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID {
+        FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID, FindsByIosNSPredicate<T> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
@@ -63,7 +62,7 @@ public class IOSDriver<T extends WebElement>
      *                     at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, capabilities, JsonToIOSElementConverter.class);
+        super(executor, capabilities);
     }
 
     /**
@@ -73,8 +72,7 @@ public class IOSDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -88,8 +86,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -99,8 +96,7 @@ public class IOSDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -114,8 +110,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -125,8 +120,7 @@ public class IOSDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -140,8 +134,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -151,8 +144,7 @@ public class IOSDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**
@@ -160,8 +152,7 @@ public class IOSDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM),
-                JsonToIOSElementConverter.class);
+        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
     }
 
     /**

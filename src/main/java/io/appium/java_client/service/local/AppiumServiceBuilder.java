@@ -318,10 +318,10 @@ public final class AppiumServiceBuilder
         String result = StringUtils.EMPTY;
 
         if (capabilities != null) {
-            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
-            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+            Map<String, ?> capabilitiesMap = capabilities.asMap();
+            Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
 
-            for (Map.Entry<String, Object> entry : entries) {
+            for (Map.Entry<String, ?> entry : entries) {
                 Object value = entry.getValue();
 
                 if (value == null) {
@@ -354,10 +354,10 @@ public final class AppiumServiceBuilder
         String result = StringUtils.EMPTY;
 
         if (capabilities != null) {
-            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
-            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+            Map<String, ?> capabilitiesMap = capabilities.asMap();
+            Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
 
-            for (Map.Entry<String, Object> entry : entries) {
+            for (Map.Entry<String, ?> entry : entries) {
                 Object value = entry.getValue();
 
                 if (value == null) {

@@ -16,10 +16,10 @@
 
 package io.appium.java_client;
 
-import io.appium.java_client.android.Setting;
 
 /**
- * This enum is deprecated. Was moved to {@link Setting}
+ * This enum is deprecated. Was moved to
+ * {@link io.appium.java_client.android.Setting}.
  */
 @Deprecated
 public enum AppiumSetting {

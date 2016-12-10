@@ -16,9 +16,21 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.ios.IOSMobileCommandHelper.hideKeyboardCommand;
+
+import static io.appium.java_client.MobileCommand.hideKeyboardCommand;
 
 public interface HidesKeyboardWithKeyName extends HidesKeyboard {
+
+    /**
+     * Hides the keyboard by pressing the button specified by keyName if it is
+     * showing.
+     *
+     * @param keyName The button pressed by the mobile driver to attempt hiding the
+     *                keyboard.
+     */
+    default void hideKeyboard(String keyName) {
+        CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
+    }
 
     /**
      * Hides the keyboard if it is showing. Hiding the keyboard often

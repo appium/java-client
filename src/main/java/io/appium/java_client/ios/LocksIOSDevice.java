@@ -16,7 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.ios.IOSMobileCommandHelper.lockDeviceCommand;
+import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
