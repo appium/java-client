@@ -99,9 +99,8 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
       - `io.appium.java_client.ios.ShakesDevice`
       - `io.appium.java_client.HasSessionDetails`
        _That was done because Windows automation tools have some features that were considered as Android-specific and iOS-specific._
-      - `io.appium.java_client.CreatesSwipeAction`  
       
-    The list of methods which were marked _deprecated_ and they are going to be removed
+    The list of classes and methods which were marked _deprecated_ and they are going to be removed
       - `AppiumDriver#swipe(int, int, int, int, int)`
       - `AppiumDriver#pinch(WebElement)`
       - `AppiumDriver#pinch(int, int)`
@@ -112,11 +111,13 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
       - `AppiumDriver#swipe(int, int, int, int, int)`
       - `MobileElement#swipe(SwipeElementDirection, int)`
       - `MobileElement#swipe(SwipeElementDirection, int, int, int)`
+      - `MobileElement#zoom()`
+      - `MobileElement#pinch()`
+      - `MobileElement#tap(int, int)`
+      - `io.appium.java_client.SwipeElementDirection` and `io.appium.java_client.TouchebleElement` also were marked deprecated.
       
     redesign of `TouchAction` and `MultiTouchAction`
-      - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can pass any instance of a class that implements `PerformsTouchActions`.
-      - deprecated methods of `AppiumDriver`/`MobileElement` were moved to `TouchAction`/`MultiTouchAction`.
-      - `io.appium.java_client.android.AndroidTouchAction` and `io.appium.java_client.ios.IOSTouchAction` were added. They create the swiping gesture. Both classes implement the new `io.appium.java_client.CreatesSwipeAction` API.   
+      - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can pass any instance of a class that implements `PerformsTouchActions`.  
       
     `JsonToMobileElementConverter` re-design [#532](https://github.com/appium/java-client/pull/532):
        - unused `MobileElementToJsonConverter` was removed

@@ -62,13 +62,8 @@ public final class AppiumServiceBuilder
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
-    private static final List<String> PATH_CAPABILITIES = new ArrayList<String>() {
-        {
-            add(AndroidMobileCapabilityType.KEYSTORE_PATH);
-            add(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE);
-            add(MobileCapabilityType.APP);
-        }
-    };
+    private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
+            AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
     private static final String APPIUM_FOLDER = "appium";
     private static final String BUILD_FOLDER = "build";
     private static final String LIB_FOLDER = "lib";

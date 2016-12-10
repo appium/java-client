@@ -17,6 +17,9 @@
 package io.appium.java_client.service.local;
 
 public class InvalidNodeJSInstance extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
     public InvalidNodeJSInstance(String message, Throwable t) {
         super(message, t);
     }

@@ -28,9 +28,9 @@ import org.openqa.selenium.internal.FindsByXPath;
 
 import java.util.List;
 
+@Deprecated
 /**
- * It supposed that mobile elements could be tappable, swipeable, zoomable and so on.
- * This interface extends {@link WebElement} and describes this behavior.
+ * This API is deprecated and it is going to be removed.
  */
 public interface TouchableElement<T extends WebElement> extends WebElement, FindsByClassName,
         FindsByCssSelector, FindsById,
@@ -105,12 +105,10 @@ public interface TouchableElement<T extends WebElement> extends WebElement, Find
     void zoom();
 
 
-    @Deprecated
     /**
-     * This method is deprecated and it is going to be removed.
-     * Please use the {@link CreatesSwipeAction#swipe(WebElement, SwipeElementDirection, int)}
-     * instead.
+     * This method does nothing. It is going to be removed.
      */
+    @Deprecated
     void swipe(SwipeElementDirection direction, int duration);
 
 
