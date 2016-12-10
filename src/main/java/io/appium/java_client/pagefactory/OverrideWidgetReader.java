@@ -71,8 +71,8 @@ class OverrideWidgetReader {
 
     static Class<? extends Widget> getMobileNativeWidgetClass(Class<? extends Widget> declaredClass,
         AnnotatedElement annotatedElement, String platform, String automation) {
-        String transformedPlatform = platform.toUpperCase().trim();
-        String transformedAutomation = automation.toUpperCase().trim();
+        String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
+        String transformedAutomation = String.valueOf(automation).toUpperCase().trim();
 
         if (ANDROID.toUpperCase().equals(transformedPlatform) && AutomationName.SELENDROID
             .toUpperCase().equals(transformedAutomation)) {

@@ -19,7 +19,6 @@ package io.appium.java_client.localserver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -45,7 +44,7 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
-        AndroidDriver<MobileElement> driver = new AndroidDriver<>(capabilities);
+        AndroidDriver<?> driver = new AndroidDriver<>(capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -72,7 +71,7 @@ public class StartingAppLocallyTest {
             new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
-        AndroidDriver<MobileElement> driver = new AndroidDriver<>(builder, capabilities);
+        AndroidDriver<?> driver = new AndroidDriver<>(builder, capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -109,7 +108,7 @@ public class StartingAppLocallyTest {
         clientCapabilities
             .setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
 
-        AndroidDriver<MobileElement> driver = new AndroidDriver<>(builder, clientCapabilities);
+        AndroidDriver<?> driver = new AndroidDriver<>(builder, clientCapabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -147,7 +146,7 @@ public class StartingAppLocallyTest {
         clientCapabilities
             .setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
 
-        AndroidDriver<MobileElement> driver = new AndroidDriver<>(builder, clientCapabilities);
+        AndroidDriver<?> driver = new AndroidDriver<>(builder, clientCapabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -171,7 +170,7 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
-        IOSDriver<MobileElement> driver = new IOSDriver<>(capabilities);
+        IOSDriver<?> driver = new IOSDriver<>(capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -206,7 +205,7 @@ public class StartingAppLocallyTest {
             new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
-        IOSDriver<MobileElement> driver = new IOSDriver<>(builder, capabilities);
+        IOSDriver<?> driver = new IOSDriver<>(builder, capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
             assertEquals(true,
@@ -232,7 +231,7 @@ public class StartingAppLocallyTest {
         AppiumServiceBuilder builder =
             new AppiumServiceBuilder().withCapabilities(serverCapabilities);
 
-        IOSDriver<MobileElement> driver = new IOSDriver<>(builder, clientCapabilities);
+        IOSDriver<?> driver = new IOSDriver<>(builder, clientCapabilities);
         try {
             Capabilities caps = driver.getCapabilities();
             assertEquals(true,
@@ -259,7 +258,7 @@ public class StartingAppLocallyTest {
             new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
-        IOSDriver<MobileElement> driver = new IOSDriver<>(builder, clientCapabilities);
+        IOSDriver<?> driver = new IOSDriver<>(builder, clientCapabilities);
         try {
             Capabilities caps = driver.getCapabilities();
             assertEquals(true,

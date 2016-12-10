@@ -108,4 +108,10 @@ public interface MobileCapabilityType extends CapabilityType {
      * On Android, this will also remove the app after the session is complete. Default false.
      */
     String FULL_RESET = "fullReset";
+
+    /**
+     * The desired capability which specifies whether to delete any generated files at
+     * the end of a session (see iOS and Android entries for particulars).
+     */
+    String CLEAR_SYSTEM_FILES = "clearSystemFiles";
 }

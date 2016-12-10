@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,7 +24,7 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import java.lang.reflect.Method;
 
 /**
- * Intercepts requests to {@link MobileElement}.
+ * Intercepts requests to {@link io.appium.java_client.MobileElement}.
  */
 class ElementInterceptor extends InterceptorOfASingleElement {
 

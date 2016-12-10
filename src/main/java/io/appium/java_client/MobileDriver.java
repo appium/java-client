@@ -30,15 +30,14 @@ import org.openqa.selenium.internal.FindsByLinkText;
 import org.openqa.selenium.internal.FindsByName;
 import org.openqa.selenium.internal.FindsByTagName;
 import org.openqa.selenium.internal.FindsByXPath;
-import org.openqa.selenium.remote.Response;
 
 import java.util.List;
-import java.util.Map;
 
 public interface MobileDriver<T extends WebElement> extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
-    FindsByAccessibilityId<T>, LocationContext, DeviceActionShortcuts, TouchShortcuts, HasTouchScreen,
+    FindsByAccessibilityId<T>, LocationContext, HidesKeyboard, HasDeviceTime, HasTouchScreen,
     InteractsWithFiles, InteractsWithApps, HasAppStrings, FindsByClassName, FindsByCssSelector, FindsById,
-        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, ExecutesMethod {
+        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, ExecutesMethod,
+        HasSessionDetails {
 
     List<T> findElements(By by);
 

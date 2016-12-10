@@ -3,6 +3,7 @@ package io.appium.java_client.pagefactory_tests.widgets.ios;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class IOSWidgetTest implements WidgetTest {
 
     private static AppiumDriverLocalService service;
-    private IOSDriver<?> driver;
+    private IOSDriver<MobileElement> driver;
     private RottenTomatoesIOSApp rottenTomatoesApp;
 
     /**

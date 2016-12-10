@@ -22,10 +22,14 @@ import io.appium.java_client.youiengine.YouiEngineElement;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-
+/**
+ * It is never used now. Please use {@link io.appium.java_client.internal.JsonToMobileElementConverter}
+ * instead
+ */
+@Deprecated
 public class JsonToYouiEngineElementConverter extends JsonToMobileElementConverter {
     public JsonToYouiEngineElementConverter(RemoteWebDriver driver) {
-        super(driver);
+        super(driver, null);
     }
 
     @Override

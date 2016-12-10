@@ -13,7 +13,7 @@ import java.io.File;
 
 public class IntentTest {
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver<AndroidElement> driver;
+    protected static AndroidDriver<?> driver;
 
     /**
      * initialization.

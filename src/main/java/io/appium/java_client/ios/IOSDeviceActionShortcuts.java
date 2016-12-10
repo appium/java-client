@@ -22,6 +22,11 @@ import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.DeviceActionShortcuts;
 
+@Deprecated
+/**
+ * This interface is deprecated and won't be supported anymore.
+ * Please use {@link io.appium.java_client.HidesKeyboardWithKeyName} and {@link ShakesDevice} API instead.
+ */
 public interface IOSDeviceActionShortcuts extends DeviceActionShortcuts {
 
     /**

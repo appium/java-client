@@ -16,52 +16,48 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.pagefactory.AndroidFindAll;
+
+import io.appium.java_client.android.BaseAndroidTest;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
-import io.appium.java_client.pagefactory.iOSFindBys;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class AndroidPageObjectTest {
+public class AndroidPageObjectTest extends BaseAndroidTest {
 
-    private static WebDriver driver;
-    private static AppiumDriverLocalService service;
     private boolean populated = false;
 
-    @FindBy(className = "android.widget.TextView") private List<WebElement> textVieWs;
+    @FindBy(className = "android.widget.TextView")
+    private List<WebElement> textVieWs;
 
-    @AndroidFindBy(className = "android.widget.TextView") private List<WebElement> androidTextViews;
+    @AndroidFindBy(className = "android.widget.TextView")
+    private List<WebElement> androidTextViews;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") private List<WebElement> iosTextViews;
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    private List<WebElement> iosTextViews;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") @AndroidFindBy(className = "android.widget.TextView")
     private List<WebElement> androidOriOsTextViews;
@@ -72,34 +68,36 @@ public class AndroidPageObjectTest {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private List<MobileElement> mobileElementViews;
 
-    @FindBy(className = "android.widget.TextView") private List<MobileElement> mobiletextVieWs;
+    @FindBy(className = "android.widget.TextView")
+    private List<MobileElement> mobiletextVieWs;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private List<RemoteWebElement> remoteElementViews;
 
-    @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(className = "android.widget.TextView")}) private List<WebElement>
-        chainElementViews;
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(className = "android.widget.TextView")
+    private List<WebElement> chainElementViews;
 
-    @iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"), @iOSFindBy(xpath = "//someElement")})
+    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private List<WebElement> iosChainTextViews;
 
-    @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(id = "android:id/text1")})
-    @iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"), @iOSFindBy(xpath = "//someElement")})
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(id = "android:id/text1")
+    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private List<TouchableElement> touchabletextVieWs;
 
-    @FindBy(id = "android:id/text1") private WebElement textView;
+    @FindBy(id = "android:id/text1")
+    private WebElement textView;
 
-    @AndroidFindBy(className = "android.widget.TextView") private WebElement androidTextView;
+    @AndroidFindBy(className = "android.widget.TextView")
+    private WebElement androidTextView;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") private WebElement iosTextView;
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    private WebElement iosTextView;
 
     @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
     private WebElement androidOriOsTextView;
@@ -110,92 +108,72 @@ public class AndroidPageObjectTest {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private MobileElement mobileElementView;
 
-    @FindBy(className = "android.widget.TextView") private MobileElement mobiletextVieW;
+    @FindBy(className = "android.widget.TextView")
+    private MobileElement mobiletextVieW;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
     private RemoteWebElement remotetextVieW;
 
-    @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(className = "android.widget.TextView")}) private WebElement chainElementView;
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(className = "android.widget.TextView")
+    private WebElement chainElementView;
 
-    @iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"), @iOSFindBy(xpath = "//someElement")})
+    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private WebElement iosChainTextView;
 
-    @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(id = "android:id/text1")})
-    @iOSFindBys({@iOSFindBy(uiAutomator = ".elements()[0]"), @iOSFindBy(xpath = "//someElement")})
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(id = "android:id/text1")
+    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private WebElement chainAndroidOrIOSUIAutomatorView;
 
-    @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(id = "android:id/text1")}) private AndroidElement androidElementView;
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(id = "android:id/text1")
+    private AndroidElement androidElementView;
 
-    @AndroidFindBys({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")"),
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        @AndroidFindBy(id = "android:id/text1")}) private List<AndroidElement> androidElementViews;
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(id = "android:id/text1")
+    private List<AndroidElement> androidElementViews;
 
-    @AndroidFindAll({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),
-        @AndroidFindBy(id = "android:id/Faketext1"),
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        //by this locator element is found
-        @AndroidFindBy(id = "android:id/FakeId")}) private List<WebElement> findAllElementViews;
+    @HowToUseLocators(androidAutomation = ALL_POSSIBLE)
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")")
+    @AndroidFindBy(id = "android:id/Faketext1")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    //by this locator element is found
+    @AndroidFindBy(id = "android:id/FakeId")
+    private List<WebElement> findAllElementViews;
 
-    @AndroidFindAll({
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")"),
-        @AndroidFindBy(id = "android:id/Faketext1"),
-        @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-        //by this locator element is found
-        @AndroidFindBy(id = "android:id/FakeId")}) private WebElement findAllElementView;
+    @HowToUseLocators(androidAutomation = ALL_POSSIBLE)
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/Fakecontent\")")
+    @AndroidFindBy(id = "android:id/Faketext1")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    //by this locator element is found
+    @AndroidFindBy(id = "android:id/FakeId")
+    private WebElement findAllElementView;
 
     @AndroidFindBy(id = "android:id/text1") @SelendroidFindBy(id = "Invalid Identifier")
     private WebElement textAndroidId;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private TouchableElement touchabletextVieW;
+    private TouchableElement<MobileElement> touchabletextVieW;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2") private List<WebElement>
-        elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+    @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
+    private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2") private WebElement
-        elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
+    @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
+    private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
-    @FindBy(id = "fakeId") private WebElement fakeElement;
+    @FindBy(id = "fakeId")
+    private WebElement fakeElement;
 
-    @FindBy(id = "fakeId") private List<WebElement> fakeElements;
+    @FindBy(id = "fakeId")
+    private List<WebElement> fakeElements;
 
-    /**
-     * initialization.
-     */
-    @BeforeClass public static void beforeClass() throws Exception {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
-    }
-
-    /**
-     * finishing.
-     */
-    @AfterClass public static void afterClass() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
-
-        if (service != null) {
-            service.stop();
-        }
-    }
+    @CacheLookup
+    @FindBy(className = "android.widget.TextView")
+    private MobileElement cached;
 
     /**
      * The setting up.
@@ -339,12 +317,12 @@ public class AndroidPageObjectTest {
     }
 
     @Test
-    @SuppressWarnings("unused")
     public void isTheFieldAndroidElement() {
         AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
         androidElement = (AndroidElement) androidTextView; //declared as WedElement
         androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
         androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement
+        assertNotNull(androidElement);
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
@@ -370,5 +348,9 @@ public class AndroidPageObjectTest {
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
         assertEquals(true, List.class.isAssignableFrom(fakeElements.getClass()));
         assertEquals(false, ArrayList.class.equals(fakeElements.getClass()));
+    }
+
+    @Test public void checkCached() {
+        assertEquals(cached.getId(), cached.getId());
     }
 }

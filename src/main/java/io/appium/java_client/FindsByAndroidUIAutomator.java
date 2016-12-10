@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -24,15 +23,16 @@ import java.util.List;
 public interface FindsByAndroidUIAutomator<T extends WebElement> extends FindsByFluentSelector<T> {
 
     /**
-     * @throws WebDriverException This method is not
+     * @throws {@link org.openqa.selenium.WebDriverException} This method is not
      *      applicable with browser/webview UI.
+     * @throws {@link org.openqa.selenium.NoSuchElementException} when no one element is found
      */
     default T findElementByAndroidUIAutomator(String using) {
         return findElement(MobileSelector.ANDROID_UI_AUTOMATOR.toString(), using);
     }
 
     /**
-     * @throws WebDriverException This method is not
+     * @throws {@link org.openqa.selenium.WebDriverException} This method is not
      *     applicable with browser/webview UI.
      */
     default List<T> findElementsByAndroidUIAutomator(String using) {

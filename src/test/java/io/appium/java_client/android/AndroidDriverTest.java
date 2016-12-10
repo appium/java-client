@@ -126,12 +126,18 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getDeviceUDIDTest() {
-        String deviceSerial = driver.getSessionDetails().get("deviceUDID").toString();
+        String deviceSerial = driver.getSessionDetail("deviceUDID").toString();
         assertNotNull(deviceSerial);
     }
 
     @Test public void getSessionMapData() {
-        Map<?,?> map = (Map<?, ?>) driver.getSessionDetails().get("desired");
+        Map<?,?> map = (Map<?, ?>) driver.getSessionDetail("desired");
         assertNotEquals(map.size(), 0);
+    }
+    
+    @Test public void deviceDetailsAndKeyboardTest() {
+        assertFalse(driver.isKeyboardShown());
+        assertNotNull(driver.getDisplayDensity());
+        assertNotEquals(0, driver.getSystemBars().size());
     }
 }

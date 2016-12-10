@@ -3,7 +3,6 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
@@ -46,8 +45,8 @@ public class RottenTomatoes implements RottenTomatoesAbstractApp {
         simpleMovies;
 
 
-    @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-        @AndroidFindBy(className = "android.widget.RelativeLayout")})
+    @AndroidFindBy(id = "android:id/content")
+    @AndroidFindBy(className = "android.widget.RelativeLayout")
     @FindBy(id = "main_container")
     @SelendroidFindBy(className = "android.widget.RelativeLayout")
     @iOSFindBy(className = "UIAWindow")

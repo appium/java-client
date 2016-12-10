@@ -3,7 +3,6 @@ package io.appium.java_client.pagefactory_tests.widgets.android;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import io.appium.java_client.pagefactory_tests.widgets.RottenTomatoesAbstractApp;
 import io.appium.java_client.pagefactory_tests.widgets.android.annotated.AnnotatedAndroidMovies;
@@ -23,9 +22,9 @@ public class RottenTomatoesApp implements RottenTomatoesAbstractApp {
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/lvMovies") private AndroidMovies
         simpleMovies;
 
-    @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-        @AndroidFindBy(className = "android.widget.RelativeLayout")}) private AndroidReview
-        simpleReview;
+    @AndroidFindBy(id = "android:id/content")
+    @AndroidFindBy(className = "android.widget.RelativeLayout")
+    private AndroidReview simpleReview;
 
     private AnnotatedAndroidMovies annotatedAndroidMovies;
 

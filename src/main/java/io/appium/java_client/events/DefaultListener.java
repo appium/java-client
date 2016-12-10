@@ -42,19 +42,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class DefaultListener implements Listener, AppiumWebDriverEventListener, ListensToException,
-    SearchingEventListener, NavigationEventListener,
-    JavaScriptEventListener, ElementEventListener, AlertEventListener,
+class DefaultListener
+    implements Listener, AppiumWebDriverEventListener, ListensToException, SearchingEventListener,
+    NavigationEventListener, JavaScriptEventListener, ElementEventListener, AlertEventListener,
     WindowEventListener, ContextEventListener, RotationEventListener {
 
     private final List<Listener> listeners = new ArrayList<>();
 
-    private Object dispatcher  = Proxy.newProxyInstance(Listener.class.getClassLoader(),
-        new Class[] {AlertEventListener.class,
-            ContextEventListener.class, ElementEventListener.class, JavaScriptEventListener.class,
-            ListensToException.class, NavigationEventListener.class, RotationEventListener.class,
-            SearchingEventListener.class, WindowEventListener.class,
-            WebDriverEventListener.class},
+    private Object dispatcher = Proxy.newProxyInstance(Listener.class.getClassLoader(),
+        new Class[] {AlertEventListener.class, ContextEventListener.class,
+            ElementEventListener.class, JavaScriptEventListener.class, ListensToException.class,
+            NavigationEventListener.class, RotationEventListener.class,
+            SearchingEventListener.class, WindowEventListener.class, WebDriverEventListener.class},
         new ListenerInvocationHandler(listeners));
 
     @Override public void beforeNavigateTo(String url, WebDriver driver) {
@@ -109,8 +108,18 @@ class DefaultListener implements Listener, AppiumWebDriverEventListener, Listens
         ((ElementEventListener) dispatcher).beforeChangeValueOf(element, driver);
     }
 
+    @Override public void beforeChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
+        ((ElementEventListener) dispatcher).beforeChangeValueOf(element, driver, keysToSend);
+    }
+
     @Override public void afterChangeValueOf(WebElement element, WebDriver driver) {
         ((ElementEventListener) dispatcher).afterChangeValueOf(element, driver);
+    }
+
+    @Override public void afterChangeValueOf(WebElement element, WebDriver driver,
+        CharSequence[] keysToSend) {
+        ((ElementEventListener) dispatcher).afterChangeValueOf(element, driver, keysToSend);
     }
 
     @Override public void beforeScript(String script, WebDriver driver) {

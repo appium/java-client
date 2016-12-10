@@ -19,12 +19,10 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getSettingsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setSettingsCommand;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
@@ -49,12 +47,12 @@ interface HasSettings extends ExecutesMethod {
      *
      * @return JsonObject, a straight-up hash of settings.
      */
-    default JsonObject getSettings() {
+    @SuppressAjWarnings("unchecked")
+    default Map<String, Object> getSettings() {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
 
-        JsonParser parser = new JsonParser();
-        return  (JsonObject) parser.parse(response.getValue().toString());
+        return  (Map<String, Object>) response.getValue();
     }
 
     /**

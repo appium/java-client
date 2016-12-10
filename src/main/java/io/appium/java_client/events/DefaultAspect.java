@@ -27,14 +27,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.security.Credentials;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
@@ -273,10 +268,10 @@ class DefaultAspect {
         try {
             Object target =  joinPoint.getTarget();
             if (!WebElement.class.isAssignableFrom(target.getClass())) {
-                listener.beforeFindBy((By) castArgument(joinPoint, 0), null, driver);
+                listener.beforeFindBy(castArgument(joinPoint, 0), null, driver);
             } else {
-                listener.beforeFindBy((By) castArgument(joinPoint, 0),
-                    (WebElement) castTarget(joinPoint), driver);
+                listener.beforeFindBy(castArgument(joinPoint, 0),
+                    castTarget(joinPoint), driver);
             }
         } catch (Throwable t) {
             throw getRootCause(t);
@@ -288,10 +283,10 @@ class DefaultAspect {
         try {
             Object target =  joinPoint.getTarget();
             if (!WebElement.class.isAssignableFrom(target.getClass())) {
-                listener.afterFindBy((By) castArgument(joinPoint, 0), null, driver);
+                listener.afterFindBy(castArgument(joinPoint, 0), null, driver);
             } else {
-                listener.afterFindBy((By) castArgument(joinPoint, 0),
-                    (WebElement) castTarget(joinPoint), driver);
+                listener.afterFindBy(castArgument(joinPoint, 0),
+                    castTarget(joinPoint), driver);
             }
         } catch (Throwable t) {
             throw getRootCause(t);
@@ -301,7 +296,7 @@ class DefaultAspect {
     @Before(EXECUTION_CLICK)
     public void beforeClickOn(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeClickOn((WebElement) castTarget(joinPoint), driver);
+            listener.beforeClickOn(castTarget(joinPoint), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -310,7 +305,7 @@ class DefaultAspect {
     @After(EXECUTION_CLICK)
     public void afterClickOn(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterClickOn((WebElement) castTarget(joinPoint), driver);
+            listener.afterClickOn(castTarget(joinPoint), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -319,7 +314,7 @@ class DefaultAspect {
     @Before(EXECUTION_CHANGE_VALUE)
     public void beforeChangeValueOf(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeChangeValueOf((WebElement) castTarget(joinPoint), driver);
+            listener.beforeChangeValueOf(castTarget(joinPoint), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -328,7 +323,7 @@ class DefaultAspect {
     @After(EXECUTION_CHANGE_VALUE)
     public void afterChangeValueOf(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterChangeValueOf((WebElement) castTarget(joinPoint), driver);
+            listener.afterChangeValueOf(castTarget(joinPoint), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -355,7 +350,7 @@ class DefaultAspect {
     @Before(EXECUTION_ALERT_ACCEPT)
     public void beforeAlertAccept(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeAlertAccept(driver, (Alert) castTarget(joinPoint));
+            listener.beforeAlertAccept(driver, castTarget(joinPoint));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -364,7 +359,7 @@ class DefaultAspect {
     @After(EXECUTION_ALERT_ACCEPT)
     public void afterAlertAccept(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterAlertAccept(driver, (Alert) castTarget(joinPoint));
+            listener.afterAlertAccept(driver, castTarget(joinPoint));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -373,7 +368,7 @@ class DefaultAspect {
     @Before(EXECUTION_ALERT_DISMISS)
     public void beforeAlertDismiss(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeAlertDismiss(driver, (Alert) castTarget(joinPoint));
+            listener.beforeAlertDismiss(driver, castTarget(joinPoint));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -382,7 +377,7 @@ class DefaultAspect {
     @After(EXECUTION_ALERT_DISMISS)
     public void afterAlertDismiss(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterAlertDismiss(driver, (Alert) castTarget(joinPoint));
+            listener.afterAlertDismiss(driver, castTarget(joinPoint));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -391,7 +386,7 @@ class DefaultAspect {
     @Before(EXECUTION_ALERT_SEND_KEYS)
     public void beforeAlertSendKeys(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeAlertSendKeys(driver, (Alert) castTarget(joinPoint),
+            listener.beforeAlertSendKeys(driver, castTarget(joinPoint),
                 String.valueOf(joinPoint.getArgs()[0]));
         } catch (Throwable t) {
             throw getRootCause(t);
@@ -401,7 +396,7 @@ class DefaultAspect {
     @After(EXECUTION_ALERT_SEND_KEYS)
     public void afterAlertSendKeys(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterAlertSendKeys(driver, (Alert) castTarget(joinPoint),
+            listener.afterAlertSendKeys(driver, castTarget(joinPoint),
                 String.valueOf(joinPoint.getArgs()[0]));
         } catch (Throwable t) {
             throw getRootCause(t);
@@ -412,7 +407,7 @@ class DefaultAspect {
     public void beforeAlertAuthentication(JoinPoint joinPoint) throws Throwable {
         try {
             listener.beforeAuthentication(driver,
-                (Alert) castTarget(joinPoint), (Credentials) castArgument(joinPoint, 0));
+                castTarget(joinPoint), castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -421,8 +416,8 @@ class DefaultAspect {
     @After(EXECUTION_ALERT_AUTHENTICATION)
     public void afterAlertAuthentication(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterAuthentication(driver, (Alert) castTarget(joinPoint),
-                (Credentials) castArgument(joinPoint, 0));
+            listener.afterAuthentication(driver, castTarget(joinPoint),
+                castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -432,7 +427,7 @@ class DefaultAspect {
     public void beforeWindowIsResized(JoinPoint joinPoint) throws Throwable {
         try {
             listener.beforeWindowChangeSize(driver,
-                (WebDriver.Window) castTarget(joinPoint), (Dimension) castArgument(joinPoint, 0));
+                castTarget(joinPoint), castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -441,8 +436,8 @@ class DefaultAspect {
     @After(EXECUTION_WINDOW_SET_SIZE)
     public void afterWindowIsResized(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterWindowChangeSize(driver, (WebDriver.Window) castTarget(joinPoint),
-                (Dimension) castArgument(joinPoint, 0));
+            listener.afterWindowChangeSize(driver, castTarget(joinPoint),
+                castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -451,8 +446,8 @@ class DefaultAspect {
     @Before(EXECUTION_WINDOW_SET_POSITION)
     public void beforeWindowIsMoved(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeWindowIsMoved(driver, (WebDriver.Window) castTarget(joinPoint),
-                (Point) castArgument(joinPoint, 0));
+            listener.beforeWindowIsMoved(driver, castTarget(joinPoint),
+                castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -461,8 +456,8 @@ class DefaultAspect {
     @After(EXECUTION_WINDOW_SET_POSITION)
     public void afterWindowIsMoved(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterWindowIsMoved(driver, (WebDriver.Window) castTarget(joinPoint),
-                (Point) castArgument(joinPoint, 0));
+            listener.afterWindowIsMoved(driver, castTarget(joinPoint),
+                castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -471,7 +466,7 @@ class DefaultAspect {
     @Before(EXECUTION_WINDOW_MAXIMIZE)
     public void beforeMaximization(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeWindowIsMaximized(driver, (WebDriver.Window) castTarget(joinPoint));
+            listener.beforeWindowIsMaximized(driver, castTarget(joinPoint));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -480,7 +475,7 @@ class DefaultAspect {
     @After(EXECUTION_WINDOW_MAXIMIZE)
     public void afterMaximization(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterWindowIsMaximized(driver, (WebDriver.Window) castTarget(joinPoint));
+            listener.afterWindowIsMaximized(driver, castTarget(joinPoint));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -489,7 +484,7 @@ class DefaultAspect {
     @Before(EXECUTION_ROTATE)
     public void beforeRotation(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.beforeRotation(driver, (ScreenOrientation) castArgument(joinPoint, 0));
+            listener.beforeRotation(driver, castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -499,7 +494,7 @@ class DefaultAspect {
     @After(EXECUTION_ROTATE)
     public void afterRotation(JoinPoint joinPoint) throws Throwable {
         try {
-            listener.afterRotation(driver, (ScreenOrientation) castArgument(joinPoint, 0));
+            listener.afterRotation(driver, castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -540,10 +535,10 @@ class DefaultAspect {
         }
 
         if (result == null) { // maybe it was "void"
-            return result;
+            return null;
         }
         if (List.class.isAssignableFrom(result.getClass())) {
-            return returnProxyList((List<Object>) result);
+            return returnProxyList((List<Object>) (result));
         }
 
         return transformToListenable(result);

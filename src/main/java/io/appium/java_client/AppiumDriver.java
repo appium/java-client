@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import static io.appium.java_client.MobileCommand.GET_SESSION;
-
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -30,8 +28,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
+import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -50,8 +47,6 @@ import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -70,7 +65,7 @@ import java.util.Set;
  *          for each target mobile OS (still Android and iOS)
 */
 @SuppressWarnings("unchecked")
-public abstract class AppiumDriver<T extends WebElement>
+public class AppiumDriver<T extends WebElement>
     extends DefaultGenericMobileDriver<T> {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
@@ -86,75 +81,55 @@ public abstract class AppiumDriver<T extends WebElement>
      *                 commands may be specified there.
      * @param capabilities take a look
      *                     at {@link org.openqa.selenium.Capabilities}
-     * @param converterClazz is an instance of a class that extends
-     * {@link org.openqa.selenium.remote.internal.JsonToWebElementConverter}. It converts
-     *                       JSON response to an instance of
-     *                       {@link org.openqa.selenium.WebElement}
      */
-    protected AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+    protected AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
         touchScreen = new RemoteTouchScreen(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
-        try {
-            Constructor<? extends JsonToWebElementConverter> constructor =
-                    converterClazz.getConstructor(RemoteWebDriver.class);
-            this.setElementConverter(constructor.newInstance(this));
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException
-                | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+        this.setElementConverter(new JsonToMobileElementConverter(this, getSessionDetails()));
     }
 
-    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-            desiredCapabilities, converterClazz);
+            desiredCapabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities,
-                        Class<? extends JsonToWebElementConverter> converterClazz) {
+        Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-            httpClientFactory), desiredCapabilities, converterClazz);
+            httpClientFactory), desiredCapabilities);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-            desiredCapabilities, converterClazz);
+            desiredCapabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities,
-                        Class<? extends JsonToWebElementConverter> converterClazz) {
+        Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-            desiredCapabilities, converterClazz);
+            desiredCapabilities);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
-        this(builder.build(), desiredCapabilities, converterClazz);
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
+        this(builder.build(), desiredCapabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities,
-                        Class<? extends JsonToWebElementConverter> converterClazz) {
-        this(builder.build(), httpClientFactory, desiredCapabilities, converterClazz);
+        Capabilities desiredCapabilities) {
+        this(builder.build(), httpClientFactory, desiredCapabilities);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-            desiredCapabilities, converterClazz);
+            desiredCapabilities);
     }
 
-    public AppiumDriver(Capabilities desiredCapabilities,
-        Class<? extends JsonToWebElementConverter> converterClazz) {
-        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities, converterClazz);
+    public AppiumDriver(Capabilities desiredCapabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
     }
 
     /**
@@ -219,9 +194,11 @@ public abstract class AppiumDriver<T extends WebElement>
     }
 
     /**
-     * @see TouchShortcuts#tap(int, WebElement, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#tap(int, WebElement, int)}.
      */
-    @Override public void tap(int fingers, WebElement element, int duration) {
+    @Deprecated
+    public void tap(int fingers, WebElement element, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         for (int i = 0; i < fingers; i++) {
@@ -232,81 +209,49 @@ public abstract class AppiumDriver<T extends WebElement>
     }
 
     /**
-     * @see TouchShortcuts#tap(int, int, int, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#tap(int, int, int, int)}.
      */
-    @Override public void tap(int fingers, int x, int y, int duration) {
+    @Deprecated
+    public void tap(int fingers, int x, int y, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         for (int i = 0; i < fingers; i++) {
             multiTouch.add(createTap(x, y, duration));
         }
-
         multiTouch.perform();
     }
 
-    protected void doSwipe(int startx, int starty, int endx, int endy, int duration) {
-        TouchAction touchAction = new TouchAction(this);
-
-        // appium converts press-wait-moveto-release to a swipe action
-        touchAction.press(startx, starty).waitAction(duration).moveTo(endx, endy).release();
-
-        touchAction.perform();
+    /**
+     * This method is deprecated.
+     * It was moved to {@link CreatesSwipeAction#swipe(int, int, int, int, int)}.
+     */
+    @Deprecated
+    public void swipe(int startx, int starty, int endx, int endy, int duration) {
+        //does nothing
     }
 
     /**
-     * @see TouchShortcuts#swipe(int, int, int, int, int).
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#pinch(WebElement)}.
      */
-    @Override public abstract void swipe(int startx, int starty, int endx, int endy, int duration);
-
-    /**
-     * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the
-     * screen and sliding towards each other.
-     * NOTE:
-     * This convenience method places the initial touches around the element, if this would
-     * happen to place one of them off the screen, appium with return an outOfBounds error.
-     * In this case, revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param el The element to pinch.
-     */
+    @Deprecated
     public void pinch(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        Dimension dimensions = el.getSize();
-        Point upperLeft = el.getLocation();
-        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
-            upperLeft.getY() + dimensions.getHeight() / 2);
-        int yOffset = center.getY() - upperLeft.getY();
-
-        TouchAction action0 =
-            new TouchAction(this).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
-                .release();
-        TouchAction action1 =
-            new TouchAction(this).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
-                .release();
-
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.pinch(el).perform();
     }
 
     /**
-     * Convenience method for pinching an element on the screen.
-     * "pinching" refers to the action of two appendages pressing the screen and
-     * sliding towards each other.
-     * NOTE:
-     * This convenience method places the initial touches around the element at a distance,
-     * if this would happen to place one of them off the screen, appium will return an
-     * outOfBounds error. In this case, revert to using the MultiTouchAction api instead of this
-     * method.
-     *
-     * @param x x coordinate to terminate the pinch on.
-     * @param y y coordinate to terminate the pinch on.
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#pinch(int, int, int, int)} or
+     * {@link MultiTouchAction#pinch(int, int, int)}
      */
+    @Deprecated
     public void pinch(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        int scrHeight = manage().window().getSize().getHeight();
+        int scrHeight = this.manage().window().getSize().getHeight();
         int yOffset = 100;
 
         if (y - 100 < 0) {
@@ -318,57 +263,30 @@ public abstract class AppiumDriver<T extends WebElement>
         TouchAction action0 = new TouchAction(this).press(x, y - yOffset).moveTo(x, y).release();
         TouchAction action1 = new TouchAction(this).press(x, y + yOffset).moveTo(x, y).release();
 
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.add(action0).add(action1).perform();
     }
 
     /**
-     * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen and sliding
-     * away from each other.
-     * NOTE:
-     * This convenience method slides touches away from the element, if this would happen
-     * to place one of them off the screen, appium will return an outOfBounds error.
-     * In this case, revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param el The element to pinch.
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#zoom(WebElement)}.
      */
+    @Deprecated
     public void zoom(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        Dimension dimensions = el.getSize();
-        Point upperLeft = el.getLocation();
-        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
-            upperLeft.getY() + dimensions.getHeight() / 2);
-        int yOffset = center.getY() - upperLeft.getY();
-
-        TouchAction action0 = new TouchAction(this).press(center.getX(), center.getY())
-            .moveTo(el, center.getX(), center.getY() - yOffset).release();
-        TouchAction action1 = new TouchAction(this).press(center.getX(), center.getY())
-            .moveTo(el, center.getX(), center.getY() + yOffset).release();
-
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.zoom(el).perform();
     }
 
     /**
-     * Convenience method for "zooming in" on an element on the screen.
-     * "zooming in" refers to the action of two appendages pressing the screen
-     * and sliding away from each other.
-     * NOTE:
-     * This convenience method slides touches away from the element, if this would happen to
-     * place one of them off the screen, appium will return an outOfBounds error. In this case,
-     * revert to using the MultiTouchAction api instead of this method.
-     *
-     * @param x x coordinate to start zoom on.
-     * @param y y coordinate to start zoom on.
+     * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#zoom(int, int, int, int)} or
+     * {@link MultiTouchAction#zoom(int, int, int)}.
      */
+    @Deprecated
     public void zoom(int x, int y) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        int scrHeight = manage().window().getSize().getHeight();
+        int scrHeight = this.manage().window().getSize().getHeight();
         int yOffset = 100;
 
         if (y - 100 < 0) {
@@ -380,9 +298,7 @@ public abstract class AppiumDriver<T extends WebElement>
         TouchAction action0 = new TouchAction(this).press(x, y).moveTo(0, -yOffset).release();
         TouchAction action1 = new TouchAction(this).press(x, y).moveTo(0, yOffset).release();
 
-        multiTouch.add(action0).add(action1);
-
-        multiTouch.perform();
+        multiTouch.add(action0).add(action1).perform();
     }
 
     @Override public WebDriver context(String name) {
@@ -412,9 +328,24 @@ public abstract class AppiumDriver<T extends WebElement>
         return contextName;
     }
 
+    @Override public DeviceRotation rotation() {
+        Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
+        DeviceRotation deviceRotation =
+                new DeviceRotation((Map<String, Number>) response.getValue());
+        if (deviceRotation.getX() < 0 || deviceRotation.getY() < 0 || deviceRotation.getZ() < 0) {
+            throw new WebDriverException("Unexpected orientation returned: " + deviceRotation);
+        }
+        return deviceRotation;
+    }
+
+    @Override public void rotate(DeviceRotation rotation) {
+        execute(DriverCommand.SET_SCREEN_ROTATION, rotation.parameters());
+    }
+
+
     @Override public void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
-            ImmutableMap.of("orientation", orientation.value().toUpperCase()));
+                ImmutableMap.of("orientation", orientation.value().toUpperCase()));
     }
 
     @Override public ScreenOrientation getOrientation() {
@@ -436,16 +367,18 @@ public abstract class AppiumDriver<T extends WebElement>
     @Override public void setLocation(Location location) {
         locationContext.setLocation(location);
     }
-    
+
     @Override public TouchScreen getTouch() {
     	return touchScreen;
     }
 
+    @Deprecated
     private TouchAction createTap(WebElement element, int duration) {
         TouchAction tap = new TouchAction(this);
         return tap.press(element).waitAction(duration).release();
     }
 
+    @Deprecated
     private TouchAction createTap(int x, int y, int duration) {
         TouchAction tap = new TouchAction(this);
         return tap.press(x, y).waitAction(duration).release();
@@ -453,14 +386,5 @@ public abstract class AppiumDriver<T extends WebElement>
 
     public URL getRemoteAddress() {
         return remoteAddress;
-    }
-
-    /**
-     * @return a map with values that hold session details.
-     *
-     */
-    public Map<String, Object> getSessionDetails() {
-        Response response = execute(GET_SESSION);
-        return (Map<String, Object>) response.getValue();
     }
 }

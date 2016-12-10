@@ -22,6 +22,11 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.pressKeyC
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.DeviceActionShortcuts;
 
+@Deprecated
+/**
+ * This interface is deprecated and won't be supported anymore.
+ * Please use {@link io.appium.java_client.PressesKeyCode} API instead
+ */
 public interface AndroidDeviceActionShortcuts extends DeviceActionShortcuts {
 
     /**

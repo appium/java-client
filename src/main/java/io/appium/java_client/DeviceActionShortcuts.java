@@ -21,6 +21,11 @@ import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
 
 import org.openqa.selenium.remote.Response;
 
+@Deprecated
+/**
+ * This interface is deprecated and won't be supported anymore.
+ * Please use {@link HasDeviceTime} and {@link HidesKeyboard} API instead.
+ */
 public interface DeviceActionShortcuts extends ExecutesMethod {
 
     /**
