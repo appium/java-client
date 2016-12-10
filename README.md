@@ -81,7 +81,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
   - Tools that provide _Page Object_ engines were redesigned. The migration to [repeatable annotations](http://docs.oracle.com/javase/tutorial/java/annotations/repeating.html). Details you can read there: [#497](https://github.com/appium/java-client/pull/497). [Documentation was synced as well](https://github.com/appium/java-client/blob/master/docs/Page-objects.md#also-it-is-possible-to-define-chained-or-any-possible-locators).
 - **[MAJOR ENHANCEMENT]**: Migration from Maven to Gradle. Feature request is [#214](https://github.com/appium/java-client/issues/214). Fixes: [#442](https://github.com/appium/java-client/pull/442), [#465](https://github.com/appium/java-client/pull/465).
-- **[MAJOR ENHANCEMENT]****[MAJOR REFACTORING]**. Non-abstract **AppiumDriver** and **MobileElement**: 
+- **[MAJOR ENHANCEMENT]****[MAJOR REFACTORING]**. Non-abstract **AppiumDriver**: 
   - Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
   - The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
   - API was redesigned: 
@@ -118,6 +118,16 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
       - deprecated methods of `AppiumDriver`/`MobileElement` were moved to `TouchAction`/`MultiTouchAction`.
       - `io.appium.java_client.android.AndroidTouchAction` and `io.appium.java_client.ios.IOSTouchAction` were added. They create the swiping gesture. Both classes implement the new `io.appium.java_client.CreatesSwipeAction` API.   
       
+    `JsonToMobileElementConverter` re-design [#532](https://github.com/appium/java-client/pull/532):
+       - unused `MobileElementToJsonConverter` was removed
+       - `JsonToMobileElementConverter` is not rhe abstract class now. It generates instances of MobileElement subclasses according to current session parameters
+       - `JsonToAndroidElementConverter` is deprecated now
+       - `JsonToIOSElementConverter` is depreacated now
+       - `JsonToYouiEngineElementConverter` is deprecated now.   
+       - constructors of 'AppiumDriver' were re-designed.
+       - constructors of 'AndroidDriver' were re-designed.
+       - constructors of 'IOSDriver' were re-designed.
+      
       _The work is not finished yet._
       
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
@@ -136,6 +146,13 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - Added the server flag `io.appium.java_client.service.local.flags.AndroidServerFlag#REBOOT`. [#476](https://github.com/appium/java-client/pull/476)
 - Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
 - the new automation type `io.appium.java_client.remote.MobilePlatform#ANDROID_UIAUTOMATOR2` was add.
+- the new automation type `io.appium.java_client.remote.MobilePlatform#YOUI_ENGINE` was add.
+- Additional capabilities were addede:
+  - `IOSMobileCapabilityType#CUSTOM_SSL_CERT`
+  - `IOSMobileCapabilityType#TAP_WITH_SHORT_PRESS_DURATION`
+  - `IOSMobileCapabilityType#SCALE_FACTOR`
+  - `MobileCapabilityType#CLEAR_SYSTEM_FILES`
+
 
 *4.1.2*
 
