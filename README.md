@@ -131,6 +131,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
       _The work is not finished yet._
       
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
+  It is implemented by `io.appium.java_client.ios.IOSDriver` and `io.appium.java_client.ios.IOSElement`.
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship.
