@@ -370,7 +370,7 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override public TouchScreen getTouch() {
-    	return touchScreen;
+        return touchScreen;
     }
 
     @Deprecated
