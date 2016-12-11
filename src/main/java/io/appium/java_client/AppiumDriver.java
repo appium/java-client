@@ -45,7 +45,6 @@ import org.openqa.selenium.remote.RemoteTouchScreen;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
