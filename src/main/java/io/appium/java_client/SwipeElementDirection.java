@@ -197,7 +197,6 @@ public enum SwipeElementDirection {
      * @param offset1 from the first (starting) element board
      * @param offset2 from the ending element board
      * @param duration in milliseconds
-     * @return an instance of {@link TouchAction}
      * @throws IllegalCoordinatesException when starting/ending coordinates are outside of the given element
      */
     public void swipe(AppiumDriver<?> driver, MobileElement element, int offset1, int offset2,

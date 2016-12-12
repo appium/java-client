@@ -17,6 +17,7 @@
 package io.appium.java_client.internal;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
@@ -40,7 +41,7 @@ public enum ElementMap {
 
     static {
         ImmutableMap.Builder<String, ElementMap> builder = ImmutableMap.builder();
-        for (ElementMap e:values()){
+        for (ElementMap e:values()) {
             builder.put(e.getPlatformOrAutomation(), e);
         }
         mobileElementMap = builder.build();
@@ -64,6 +65,11 @@ public enum ElementMap {
         return elementClass;
     }
 
+    /**
+     * @param platform platform name.
+     * @param automation automation name.
+     * @return subclass of {@link io.appium.java_client.MobileElement} that convenient to current session details.
+     */
     public static Class<? extends MobileElement> getElementClass(String platform, String automation) {
         ElementMap element = Optional.ofNullable(mobileElementMap.get(automation))
                 .orElse(mobileElementMap.get(platform));

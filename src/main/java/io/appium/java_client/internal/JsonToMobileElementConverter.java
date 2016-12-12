@@ -16,6 +16,8 @@
 
 package io.appium.java_client.internal;
 
+import static io.appium.java_client.internal.ElementMap.getElementClass;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -29,8 +31,6 @@ import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Map;
-
-import static io.appium.java_client.internal.ElementMap.getElementClass;
 
 /**
  * Reconstitutes {@link org.openqa.selenium.WebElement}s from their JSON representation. Will recursively convert Lists

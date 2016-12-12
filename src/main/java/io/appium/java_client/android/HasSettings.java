@@ -20,6 +20,7 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.getSettin
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setSettingsCommand;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
@@ -52,8 +53,8 @@ interface HasSettings extends ExecutesMethod {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
 
-        return  ImmutableMap.<String, Object>builder().
-                putAll(Map.class.cast(response.getValue())).build();
+        return  ImmutableMap.<String, Object>builder()
+                .putAll(Map.class.cast(response.getValue())).build();
     }
 
     /**
