@@ -117,7 +117,8 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
       - `io.appium.java_client.SwipeElementDirection` and `io.appium.java_client.TouchebleElement` also were marked deprecated.
       
     redesign of `TouchAction` and `MultiTouchAction`
-      - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can pass any instance of a class that implements `PerformsTouchActions`.  
+      - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can consume any instance of a class that implements `PerformsTouchActions`.  
+      - `io.appium.java_client.ios.IOSTouchAction` was added. It extends `io.appium.java_client.TouchAction`.
       
     `JsonToMobileElementConverter` re-design [#532](https://github.com/appium/java-client/pull/532):
        - unused `MobileElementToJsonConverter` was removed
