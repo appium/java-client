@@ -18,6 +18,8 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
@@ -27,9 +29,11 @@ public interface HasSessionDetails extends ExecutesMethod {
      * @return a map with values that hold session details.
      *
      */
+    @SuppressWarnings("unchecked")
     default Map<String, Object> getSessionDetails() {
         Response response = execute(GET_SESSION);
-        return (Map<String, Object>) response.getValue();
+        return  ImmutableMap.<String, Object>builder()
+                .putAll(Map.class.cast(response.getValue())).build();
     }
 
     default Object getSessionDetail(String detail) {

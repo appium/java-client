@@ -42,41 +42,45 @@ public abstract class MobileElement
             upperLeft.getY() + dimensions.getHeight() / 2);
     }
 
+    /**
+     * This method is deprecated and it is going to be removed soon.
+     */
+    @Deprecated
     @Override public void tap(int fingers, int duration) {
-        MultiTouchAction tapMultiTouchAction =
-                new MultiTouchAction(PerformsTouchActions.class.cast(parent));
-        tapMultiTouchAction.tap(fingers, this, duration).perform();
+        AppiumDriver.class.cast(parent).tap(fingers, this, duration);
     }
 
+    /**
+     * This method is deprecated and it is going to be removed soon.
+     */
+    @Deprecated
     @Override public void pinch() {
-        MultiTouchAction pinchMultiTouchAction = new MultiTouchAction(
-                PerformsTouchActions.class.cast(parent));
-        pinchMultiTouchAction.pinch(this).perform();
+        AppiumDriver.class.cast(parent).pinch(this);
     }
 
+    /**
+     * This method is deprecated and it is going to be removed soon.
+     */
+    @Deprecated
     @Override public void zoom() {
-        MultiTouchAction zoomMultiTouchAction = new MultiTouchAction(
-                PerformsTouchActions.class.cast(parent));
-        zoomMultiTouchAction.zoom(this).perform();
+        AppiumDriver.class.cast(parent).zoom(this);
     }
 
-    @Deprecated
     /**
      * This method does nothing. It is going to be removed.
-     * Please use {@link CreatesSwipeAction#swipe(MobileElement, SwipeElementDirection, int)} instead.
      */
+    @Deprecated
     @Override public void swipe(SwipeElementDirection direction, int duration) {
-        //does nothing
+        direction.swipe(AppiumDriver.class.cast(parent), this, 0, 0, duration);
     }
 
-    @Deprecated
     /**
      * This method does nothing. It is going to be removed.
-     * Please use {@link CreatesSwipeAction#swipe(MobileElement, SwipeElementDirection, int, int, int)} instead.
      */
+    @Deprecated
     @Override public void swipe(SwipeElementDirection direction, int offsetFromStartBorder,
         int offsetFromEndBorder, int duration) throws IllegalCoordinatesException {
-        //does nothing
+        direction.swipe(AppiumDriver.class.cast(parent), this, offsetFromStartBorder, offsetFromEndBorder, duration);
     }
 
     @Override public List<MobileElement> findElements(By by) {

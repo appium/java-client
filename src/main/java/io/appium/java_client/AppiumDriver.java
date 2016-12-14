@@ -29,6 +29,8 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.DeviceRotation;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -43,7 +45,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
@@ -56,7 +57,6 @@ import java.util.Set;
  *          Instances of the defined type will be returned via findElement* and findElements*
  *          Warning (!!!). Allowed types:
  *          {@link org.openqa.selenium.WebElement}
- *          {@link io.appium.java_client.TouchableElement}
  *          {@link org.openqa.selenium.remote.RemoteWebElement}
  *          {@link io.appium.java_client.MobileElement} and its subclasses that designed
  *          specifically
@@ -191,14 +191,14 @@ public class AppiumDriver<T extends WebElement>
 
     /**
      * This method is deprecated and it is going to be removed soon.
-     * Please use {@link MultiTouchAction#tap(int, WebElement, int)}.
      */
     @Deprecated
     public void tap(int fingers, WebElement element, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         for (int i = 0; i < fingers; i++) {
-            multiTouch.add(createTap(element, duration));
+            TouchAction tap = new TouchAction(this);
+            multiTouch.add(tap.press(element).waitAction(duration).release());
         }
 
         multiTouch.perform();
@@ -206,21 +206,20 @@ public class AppiumDriver<T extends WebElement>
 
     /**
      * This method is deprecated and it is going to be removed soon.
-     * Please use {@link MultiTouchAction#tap(int, int, int, int)}.
      */
     @Deprecated
     public void tap(int fingers, int x, int y, int duration) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
         for (int i = 0; i < fingers; i++) {
-            multiTouch.add(createTap(x, y, duration));
+            TouchAction tap = new TouchAction(this);
+            multiTouch.add(tap.press(x,y).waitAction(duration).release());
         }
         multiTouch.perform();
     }
 
     /**
-     * This method is deprecated.
-     * It was moved to {@link CreatesSwipeAction#swipe(int, int, int, int, int)}.
+     * This method is deprecated. It is going to be removed
      */
     @Deprecated
     public void swipe(int startx, int starty, int endx, int endy, int duration) {
@@ -229,19 +228,29 @@ public class AppiumDriver<T extends WebElement>
 
     /**
      * This method is deprecated and it is going to be removed soon.
-     * Please use {@link MultiTouchAction#pinch(WebElement)}.
      */
     @Deprecated
     public void pinch(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        multiTouch.pinch(el).perform();
+        Dimension dimensions = el.getSize();
+        Point upperLeft = el.getLocation();
+        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
+                upperLeft.getY() + dimensions.getHeight() / 2);
+        int yOffset = center.getY() - upperLeft.getY();
+
+        TouchAction action0 =
+                new TouchAction(this).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
+                        .release();
+        TouchAction action1 =
+                new TouchAction(this).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
+                        .release();
+
+        multiTouch.add(action0).add(action1).perform();
     }
 
     /**
      * This method is deprecated and it is going to be removed soon.
-     * Please use {@link MultiTouchAction#pinch(int, int, int, int)} or
-     * {@link MultiTouchAction#pinch(int, int, int)}
      */
     @Deprecated
     public void pinch(int x, int y) {
@@ -264,19 +273,27 @@ public class AppiumDriver<T extends WebElement>
 
     /**
      * This method is deprecated and it is going to be removed soon.
-     * Please use {@link MultiTouchAction#zoom(WebElement)}.
      */
     @Deprecated
     public void zoom(WebElement el) {
         MultiTouchAction multiTouch = new MultiTouchAction(this);
 
-        multiTouch.zoom(el).perform();
+        Dimension dimensions = el.getSize();
+        Point upperLeft = el.getLocation();
+        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
+                upperLeft.getY() + dimensions.getHeight() / 2);
+        int yOffset = center.getY() - upperLeft.getY();
+
+        TouchAction action0 = new TouchAction(this).press(center.getX(), center.getY())
+                .moveTo(el, center.getX(), center.getY() - yOffset).release();
+        TouchAction action1 = new TouchAction(this).press(center.getX(), center.getY())
+                .moveTo(el, center.getX(), center.getY() + yOffset).release();
+
+        multiTouch.add(action0).add(action1).perform();
     }
 
     /**
      * This method is deprecated and it is going to be removed soon.
-     * Please use {@link MultiTouchAction#zoom(int, int, int, int)} or
-     * {@link MultiTouchAction#zoom(int, int, int)}.
      */
     @Deprecated
     public void zoom(int x, int y) {
@@ -362,18 +379,6 @@ public class AppiumDriver<T extends WebElement>
 
     @Override public void setLocation(Location location) {
         locationContext.setLocation(location);
-    }
-
-    @Deprecated
-    private TouchAction createTap(WebElement element, int duration) {
-        TouchAction tap = new TouchAction(this);
-        return tap.press(element).waitAction(duration).release();
-    }
-
-    @Deprecated
-    private TouchAction createTap(int x, int y, int duration) {
-        TouchAction tap = new TouchAction(this);
-        return tap.press(x, y).waitAction(duration).release();
     }
 
     public URL getRemoteAddress() {

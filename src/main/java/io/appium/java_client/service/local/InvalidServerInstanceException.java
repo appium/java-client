@@ -19,6 +19,8 @@ package io.appium.java_client.service.local;
 
 public class InvalidServerInstanceException extends RuntimeException {
 
+    private static final long serialVersionUID = 1L;
+
     private static String MESSAGE_PREFIX = "Invalid server instance exception has occured: ";
 
     public InvalidServerInstanceException(String messege, Throwable t) {

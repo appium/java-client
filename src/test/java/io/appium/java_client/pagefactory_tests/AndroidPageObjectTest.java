@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidElement;
 
 import io.appium.java_client.android.BaseAndroidTest;
@@ -86,9 +85,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(id = "android:id/text1")
     @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
-
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private List<TouchableElement> touchabletextVieWs;
 
     @FindBy(id = "android:id/text1")
     private WebElement textView;
@@ -155,9 +151,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @AndroidFindBy(id = "android:id/text1") @SelendroidFindBy(id = "Invalid Identifier")
     private WebElement textAndroidId;
-
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private TouchableElement<MobileElement> touchabletextVieW;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
     private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
@@ -306,23 +299,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @Test public void findByAndroidAnnotationOnlyTest() {
         assertNotEquals(null, textAndroidId.getAttribute("text"));
-    }
-
-    @Test public void isTouchableElement() {
-        assertNotEquals(null, touchabletextVieW.getAttribute("text"));
-    }
-
-    @Test public void areTouchableElements() {
-        assertNotEquals(0, touchabletextVieWs.size());
-    }
-
-    @Test
-    public void isTheFieldAndroidElement() {
-        AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
-        androidElement = (AndroidElement) androidTextView; //declared as WedElement
-        androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
-        androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement
-        assertNotNull(androidElement);
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {

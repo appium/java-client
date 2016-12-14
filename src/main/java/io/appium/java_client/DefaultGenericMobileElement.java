@@ -21,6 +21,13 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.FindsByClassName;
+import org.openqa.selenium.internal.FindsByCssSelector;
+import org.openqa.selenium.internal.FindsById;
+import org.openqa.selenium.internal.FindsByLinkText;
+import org.openqa.selenium.internal.FindsByName;
+import org.openqa.selenium.internal.FindsByTagName;
+import org.openqa.selenium.internal.FindsByXPath;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 
@@ -29,7 +36,10 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement
-    implements TouchableElement<T> {
+    implements FindsByClassName,
+        FindsByCssSelector, FindsById,
+        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, FindsByAccessibilityId<T>,
+        ExecutesMethod, TouchableElement<T> {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);

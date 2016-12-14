@@ -16,18 +16,14 @@
 
 package io.appium.java_client.internal;
 
-import com.google.common.collect.ImmutableMap;
+import static io.appium.java_client.internal.ElementMap.getElementClass;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import io.appium.java_client.MobileElement;
 
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.ios.IOSElement;
-import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.MobilePlatform;
-import io.appium.java_client.youiengine.YouiEngineElement;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
@@ -42,14 +38,6 @@ import java.util.Map;
  */
 public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
-    private static final Map<String, Class<? extends MobileElement>> mobileElementMap =
-            new ImmutableMap.Builder<String, Class<? extends MobileElement>>()
-                    .put(AutomationName.ANDROID_UIAUTOMATOR2.toLowerCase(), AndroidElement.class)
-                    .put(AutomationName.SELENDROID.toLowerCase(), AndroidElement.class)
-                    .put(AutomationName.YOUI_ENGINE.toLowerCase(), YouiEngineElement.class)
-                    .put(AutomationName.IOS_XCUI_TEST.toLowerCase(), IOSElement.class)
-                    .put(MobilePlatform.ANDROID.toLowerCase(), AndroidElement.class)
-                    .put(MobilePlatform.IOS.toLowerCase(), IOSElement.class).build();
     private static final String AUTOMATION_NAME_PARAMETER = "automationName";
     private static final String PLATFORM_NAME_PARAMETER = "platformName";
 
@@ -106,11 +94,8 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
     }
 
     protected MobileElement newMobileElement() {
-        Class<? extends MobileElement> target = mobileElementMap.get(automation);
-
-        if (target == null) {
-            target = mobileElementMap.get(platform);
-        }
+        Class<? extends MobileElement> target =
+                getElementClass(platform, automation);
 
         if (target == null) {
             throw new WebDriverException(new ClassNotFoundException("The class of mobile element is "

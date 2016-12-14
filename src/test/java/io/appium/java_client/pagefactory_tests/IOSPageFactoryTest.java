@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchableElement;
 
 import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.ios.IOSElement;
@@ -98,12 +97,6 @@ public class IOSPageFactoryTest extends AppIOSTest {
 
     @iOSFindBy(uiAutomator = ".elements()[0]")
     private MobileElement mobileButton;
-
-    @iOSFindBy(uiAutomator = ".elements()[0]")
-    private TouchableElement<MobileElement> touchableButton;
-
-    @iOSFindBy(uiAutomator = ".elements()[0]")
-    private List<TouchableElement> touchableButtons;
 
     @FindBy(className = "UIAButton")
     private MobileElement mobiletFindByButton;
@@ -251,23 +244,6 @@ public class IOSPageFactoryTest extends AppIOSTest {
 
     @Test public void findAllElementTest() {
         assertNotEquals(null, findAllElement.getText());
-    }
-
-    @Test public void isTouchAbleElement() {
-        assertNotEquals(null, touchableButton.getText());
-    }
-
-    @Test public void areTouchAbleElements() {
-        assertNotEquals(0, touchableButtons.size());
-    }
-
-    @Test public void isTheFieldIOSElement() {
-        IOSElement iOSElement =
-                (IOSElement) mobileButton; //declared as MobileElement
-        iOSElement = (IOSElement) iosUIAutomatorButton; //declared as WebElement
-        iOSElement = (IOSElement) remotetextVieW;  //declared as RemoteWebElement
-        iOSElement = (IOSElement) touchableButton; //declared as TouchABLEElement
-        assertNotNull(iOSElement);
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {

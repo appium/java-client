@@ -16,9 +16,10 @@
 
 package io.appium.java_client;
 
-@SuppressWarnings("serial")
 public class MissingParameterException
     extends IllegalArgumentException {
+
+    private static final long serialVersionUID = 1L;
 
     public MissingParameterException(String reason) {
         super(reason);
@@ -27,5 +28,4 @@ public class MissingParameterException
     public MissingParameterException(String reason, Throwable cause) {
         super(reason, cause);
     }
-
 }

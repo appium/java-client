@@ -20,6 +20,10 @@ import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
+/**
+ * This enum is deprecated. It is going to be removed
+ */
+@Deprecated
 public enum SwipeElementDirection {
     /**
      * Up from the center of the lower.
@@ -188,15 +192,14 @@ public enum SwipeElementDirection {
     /**
      * Creates the swiping action. It is supposed to be performed inside the given element.
      *
-     * @param createsSwipeAction an instance that implements {@link CreatesSwipeAction}
+     * @param driver an instance that extends {@link AppiumDriver}
      * @param element the element that is going to be swiped
      * @param offset1 from the first (starting) element board
      * @param offset2 from the ending element board
      * @param duration in milliseconds
-     * @return an instance of {@link TouchAction}
      * @throws IllegalCoordinatesException when starting/ending coordinates are outside of the given element
      */
-    public TouchAction swipe(CreatesSwipeAction createsSwipeAction, MobileElement element, int offset1, int offset2,
+    public void swipe(AppiumDriver<?> driver, MobileElement element, int offset1, int offset2,
         int duration) throws IllegalCoordinatesException {
         Point p = element.getCenter();
         Point location = element.getLocation();
@@ -207,6 +210,6 @@ public enum SwipeElementDirection {
         int endY = getEndY(p, location, size, offset2);
         checkDirection(startX, startY, endX, endY);
 
-        return  createsSwipeAction.swipe(startX, startY, endX, endY, duration);
+        driver.swipe(startX, startY, endX, endY, duration);
     }
 }
