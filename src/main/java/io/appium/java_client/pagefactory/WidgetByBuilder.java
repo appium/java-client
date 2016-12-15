@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 
 class WidgetByBuilder extends DefaultElementByBuilder {
 
@@ -91,23 +92,11 @@ class WidgetByBuilder extends DefaultElementByBuilder {
     }
 
     @Override protected By buildDefaultBy() {
-        By defaultBy = super.buildDefaultBy();
-
-        if (defaultBy != null) {
-            return defaultBy;
-        } else {
-            return getByFromDeclaredClass(WhatIsNeeded.DEFAULT_OR_HTML);
-        }
+        return Optional.ofNullable(super.buildDefaultBy()).orElse(getByFromDeclaredClass(WhatIsNeeded.DEFAULT_OR_HTML));
     }
 
     @Override protected By buildMobileNativeBy() {
-        By mobileBy = super.buildMobileNativeBy();
-
-        if (mobileBy != null) {
-            return mobileBy;
-        } else {
-            return getByFromDeclaredClass(WhatIsNeeded.MOBILE_NATIVE);
-        }
+        return Optional.ofNullable(super.buildMobileNativeBy()).orElse(getByFromDeclaredClass(WhatIsNeeded.MOBILE_NATIVE));
     }
 
     private enum WhatIsNeeded {

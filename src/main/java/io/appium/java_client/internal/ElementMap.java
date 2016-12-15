@@ -23,6 +23,7 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.windows.WindowsElement;
 import io.appium.java_client.youiengine.YouiEngineElement;
 
 import java.util.Map;
@@ -34,7 +35,8 @@ public enum ElementMap {
     YOUI_ENGINE(AutomationName.YOUI_ENGINE.toLowerCase(), YouiEngineElement.class),
     IOS_XCUI_TEST(AutomationName.IOS_XCUI_TEST.toLowerCase(), IOSElement.class),
     ANDROID_UI_AUTOMATOR(MobilePlatform.ANDROID.toLowerCase(), AndroidElement.class),
-    IOS_UI_AUTOMATION(MobilePlatform.IOS.toLowerCase(), IOSElement.class);
+    IOS_UI_AUTOMATION(MobilePlatform.IOS.toLowerCase(), IOSElement.class),
+    WINDOwS(MobilePlatform.WINDOWS, WindowsElement.class);
 
 
     private static final Map<String, ElementMap> mobileElementMap;

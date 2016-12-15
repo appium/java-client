@@ -79,7 +79,7 @@ public class AppiumDriver<T extends WebElement>
      * @param capabilities take a look
      *                     at {@link org.openqa.selenium.Capabilities}
      */
-    protected AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
