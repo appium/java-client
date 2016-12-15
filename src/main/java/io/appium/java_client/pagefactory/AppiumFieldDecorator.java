@@ -149,15 +149,13 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
                 Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
 
-                boolean result = false;
                 for (Class<? extends WebElement> webElementClass : availableElementClasses) {
                     if (!webElementClass.equals(listType)) {
                         continue;
                     }
-                    result = true;
-                    break;
+                    return true;
                 }
-                return result;
+                return false;
             }
         };
 

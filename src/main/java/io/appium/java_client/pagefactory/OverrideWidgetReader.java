@@ -74,16 +74,16 @@ class OverrideWidgetReader {
         String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
         String transformedAutomation = String.valueOf(automation).toUpperCase().trim();
 
-        if (ANDROID.toUpperCase().equals(transformedPlatform) && AutomationName.SELENDROID
-            .toUpperCase().equals(transformedAutomation)) {
+        if (ANDROID.equalsIgnoreCase(transformedPlatform) && AutomationName.SELENDROID
+            .equalsIgnoreCase(transformedAutomation)) {
             return getConvenientClass(declaredClass, annotatedElement, SELENDROID);
         }
 
-        if (ANDROID.toUpperCase().equals(transformedPlatform)) {
+        if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
             return getConvenientClass(declaredClass, annotatedElement, ANDROID_UI_AUTOMATOR);
         }
 
-        if (IOS.toUpperCase().equals(transformedPlatform)) {
+        if (IOS.equalsIgnoreCase(transformedPlatform)) {
             return getConvenientClass(declaredClass, annotatedElement, IOS_UI_AUTOMATION);
         }
 
@@ -105,7 +105,7 @@ class OverrideWidgetReader {
         return findConvenientConstructor(clazz);
     }
 
-    static Map<ContentType, Constructor<? extends Widget>> read(
+    protected static Map<ContentType, Constructor<? extends Widget>> read(
         Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform,
         String automation) {
         Map<ContentType, Constructor<? extends Widget>> result = new HashMap<>();

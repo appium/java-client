@@ -235,11 +235,11 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, mobileElementView.getAttribute("text"));
     }
 
-    @Test public void areMobileElements_FindByTest() {
+    @Test public void areMobileElementsFindByTest() {
         assertNotEquals(0, mobiletextVieWs.size());
     }
 
-    @Test public void isMobileElement_FindByTest() {
+    @Test public void isMobileElementFindByTest() {
         assertNotEquals(null, mobiletextVieW.getAttribute("text"));
     }
 
@@ -259,11 +259,11 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, chainElementView.getAttribute("text"));
     }
 
-    @Test public void checkThatElementsWereNotFoundByIOSUIAutomator_Chain() {
+    @Test public void checkThatElementsWereNotFoundByIOSUIAutomatorChain() {
         assertEquals(0, iosChainTextViews.size());
     }
 
-    @Test public void checkThatElementWasNotFoundByIOSUIAutomator_Chain() {
+    @Test public void checkThatElementWasNotFoundByIOSUIAutomatorChain() {
         NoSuchElementException nsee = null;
         try {
             iosChainTextView.getAttribute("text");
@@ -273,11 +273,11 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotNull(nsee);
     }
 
-    @Test public void androidOrIOSFindByElementsTest_ChainSearches() {
+    @Test public void androidOrIOSFindByElementsTestChainSearches() {
         assertNotEquals(0, chainAndroidOrIOSUIAutomatorViews.size());
     }
 
-    @Test public void androidOrIOSFindByElementTest_ChainSearches() {
+    @Test public void androidOrIOSFindByElementTestChainSearches() {
         assertNotEquals(null, chainAndroidOrIOSUIAutomatorView.getAttribute("text"));
     }
 
@@ -311,7 +311,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
     }
 
-    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List() {
+    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
         assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
     }
 

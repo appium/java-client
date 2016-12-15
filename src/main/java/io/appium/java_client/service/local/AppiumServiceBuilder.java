@@ -289,7 +289,7 @@ public final class AppiumServiceBuilder
         return this;
     }
 
-    void checkAppiumJS() {
+    private void checkAppiumJS() {
         if (appiumJS != null) {
             validateNodeStructure(appiumJS);
             return;
