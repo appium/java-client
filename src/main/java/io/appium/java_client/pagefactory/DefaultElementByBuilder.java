@@ -198,7 +198,7 @@ class DefaultElementByBuilder extends AppiumByBuilder {
 
         if (isWindows()) {
             WindowsFindBy[] windowsFindByArray = annotatedElement.getAnnotationsByType(WindowsFindBy.class);
-            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSAutomation() : null,
+            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.windowsAutomation() : null,
                     windowsFindByArray);
         }
 

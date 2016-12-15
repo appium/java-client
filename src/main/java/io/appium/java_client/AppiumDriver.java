@@ -335,7 +335,7 @@ public class AppiumDriver<T extends WebElement>
     @Override public String getContext() {
         String contextName =
             String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
-        if (contextName.equals("null")) {
+        if ("null".equalsIgnoreCase(String.valueOf(contextName))) {
             return null;
         }
         return contextName;

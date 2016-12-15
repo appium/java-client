@@ -41,7 +41,7 @@ import java.util.List;
  * - https://code.google.com/p/selenium/wiki/PageFactory
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
-    static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
+    protected static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
 
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
