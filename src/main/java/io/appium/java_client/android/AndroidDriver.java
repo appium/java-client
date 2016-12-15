@@ -59,7 +59,7 @@ public class AndroidDriver<T extends WebElement>
      *                     at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, capabilities);
+        super(executor, substituteMobilePlatform(capabilities, ANDROID_PLATFORM));
     }
 
     /**
