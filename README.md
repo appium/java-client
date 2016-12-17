@@ -81,7 +81,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
   - Tools that provide _Page Object_ engines were redesigned. The migration to [repeatable annotations](http://docs.oracle.com/javase/tutorial/java/annotations/repeating.html). Details you can read there: [#497](https://github.com/appium/java-client/pull/497). [Documentation was synced as well](https://github.com/appium/java-client/blob/master/docs/Page-objects.md#also-it-is-possible-to-define-chained-or-any-possible-locators).
 - **[MAJOR ENHANCEMENT]**: Migration from Maven to Gradle. Feature request is [#214](https://github.com/appium/java-client/issues/214). Fixes: [#442](https://github.com/appium/java-client/pull/442), [#465](https://github.com/appium/java-client/pull/465).
-- **[MAJOR ENHANCEMENT]****[MAJOR REFACTORING]**. Non-abstract **AppiumDriver**: 
+- **[MAJOR ENHANCEMENT]** **[MAJOR REFACTORING]**. Non-abstract **AppiumDriver**: 
   - Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
   - The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
   - API was redesigned: 
@@ -129,14 +129,20 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
        - constructors of 'AppiumDriver' were re-designed.
        - constructors of 'AndroidDriver' were re-designed.
        - constructors of 'IOSDriver' were re-designed.
-      
-      _The work is not finished yet._
-      
+       
+- **[MAJOR ENHANCEMENT]** Windows automation. Epic [#471](https://github.com/appium/java-client/issues/471)
+  - The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
+  - The new selector strategy `io.appium.java_client.MobileBy.ByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship.
+  - `io.appium.java_client.windows.WindowsDriver` was designed. [#538](https://github.com/appium/java-client/pull/538)
+  - `io.appium.java_client.windows.WindowsElement` was designed. [#538](https://github.com/appium/java-client/pull/538)
+  - `io.appium.java_client.windows.WindowsKeyCode ` was added. [#538](https://github.com/appium/java-client/pull/538)
+  - Page object tools were updated [#538](https://github.com/appium/java-client/pull/538)
+      - the `io.appium.java_client.pagefactory.WindowsFindBy` annotation was added.
+      - `io.appium.java_client.pagefactory.AppiumFieldDecorator` and supporting tools were actualized.
+  
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
   It is implemented by `io.appium.java_client.ios.IOSDriver` and `io.appium.java_client.ios.IOSElement`.
 - **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
-- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship. 
-- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByWindowsAutomation` was added. [#462](https://github.com/appium/java-client/pull/462). With [@jonstoneman](https://github.com/jonstoneman) 's authorship.
 - [ENHANCEMENT] Added the ability to set UiAutomator Congfigurator values. [#410](https://github.com/appium/java-client/pull/410). 
 [#477](https://github.com/appium/java-client/pull/477).
 - **[UPDATE]** to Selenium 3.0. [#489](https://github.com/appium/java-client/pull/489)
@@ -144,7 +150,8 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - [ENHANCEMENT]. TouchID Implementation (iOS Sim Only). Details: [#509](https://github.com/appium/java-client/pull/509)
 - [ENHANCEMENT]. The ability to use port, ip and log file as server arguments was provided. Feature request: [#521](https://github.com/appium/java-client/issues/521). Fixes: [#522](https://github.com/appium/java-client/issues/522), [#524](https://github.com/appium/java-client/issues/524).
 - [ENHANCEMENT]. The new interface ```io.appium.java_client.android.HasDeviceDetails``` was added. It is implemented by ```io.appium.java_client.android.AndroidDriver``` by default. [#518](https://github.com/appium/java-client/pull/518)
-- [ENHANCEMENT].New touch actions were added. ```io.appium.java_client.ios.IOSTouchAction#doubleTap(WebElement, int, int)``` and ```io.appium.java_client.ios.IOSTouchAction#doubleTap(WebElement)```. [#523](https://github.com/appium/java-client/pull/523), [#444](https://github.com/appium/java-client/pull/444)
+- [ENHANCEMENT]. New touch actions were added. ```io.appium.java_client.ios.IOSTouchAction#doubleTap(WebElement, int, int)``` and ```io.appium.java_client.ios.IOSTouchAction#doubleTap(WebElement)```. [#523](https://github.com/appium/java-client/pull/523), [#444](https://github.com/appium/java-client/pull/444)
+- [ENHANCEMENT]. All constructors declared by `io.appium.java_client.AppiumDriver` are public now.
 - [BUG FIX]: There was the issue when "@WithTimeout" was changing general timeout of the waiting for elements. Bug report: [#467](https://github.com/appium/java-client/issues/467). Fixes: [#468](https://github.com/appium/java-client/issues/468), [#469](https://github.com/appium/java-client/issues/469), [#480](https://github.com/appium/java-client/issues/480). Read: [supported-settings](https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/settings.md#supported-settings)
 - Added the server flag `io.appium.java_client.service.local.flags.AndroidServerFlag#REBOOT`. [#476](https://github.com/appium/java-client/pull/476)
 - Added `io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION ` capability. [#461](https://github.com/appium/java-client/pull/461)
