@@ -16,6 +16,8 @@
 
 package io.appium.java_client.windows;
 
+import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByWindowsAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
@@ -28,8 +30,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-
-import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 public class WindowsDriver<T extends WebElement>
         extends AppiumDriver<T> implements PressesKeyCode, HidesKeyboardWithKeyName,
@@ -51,7 +51,8 @@ public class WindowsDriver<T extends WebElement>
         super(service, substituteMobilePlatform(desiredCapabilities, WINDOWS));
     }
 
-    public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+    public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
+                         Capabilities desiredCapabilities) {
         super(service, httpClientFactory, substituteMobilePlatform(desiredCapabilities, WINDOWS));
     }
 
@@ -59,7 +60,8 @@ public class WindowsDriver<T extends WebElement>
         super(builder, substituteMobilePlatform(desiredCapabilities, WINDOWS));
     }
 
-    public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+    public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
+                         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory, substituteMobilePlatform(desiredCapabilities, WINDOWS));
     }
 

@@ -44,7 +44,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -93,13 +92,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             return null;
         }
 
-        Object parameterValue = HasSessionDetails.class.cast(driver).getSessionDetail(parameter);
-
-        if (parameterValue == null) {
-            return null;
-        }
-
-        return String.valueOf(parameterValue).toLowerCase();
+        return String.valueOf(HasSessionDetails.class.cast(driver).getSessionDetail(parameter));
     }
 
     public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
@@ -150,10 +143,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
 
                 for (Class<? extends WebElement> webElementClass : availableElementClasses) {
-                    if (!webElementClass.equals(listType)) {
-                        continue;
+                    if (webElementClass.equals(listType)) {
+                        return true;
                     }
-                    return true;
                 }
                 return false;
             }
@@ -235,14 +227,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
             new WidgetInterceptor(locator, originalDriver, null, map, timeOutDuration));
     }
 
-    private Class<?> getTypeForProxy() {
-        Optional<Class<?>> optionalClass =
-                Optional.ofNullable(getElementClass(platform, automation));
-        return optionalClass.orElse(RemoteWebElement.class);
-    }
-
     private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
-        return (WebElement) getEnhancedProxy(getTypeForProxy(), elementInterceptor);
+        return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
     }
 }

@@ -61,8 +61,8 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     protected AppiumByBuilder(String platform, String automation) {
         this.annotatedElementContainer = new AnnotatedElementContainer();
-        this.platform = String.valueOf(platform).toUpperCase().trim();
-        this.automation = String.valueOf(automation).toUpperCase().trim();
+        this.platform = String.valueOf(platform);
+        this.automation = String.valueOf(automation);
     }
 
     private static List<String> getMethodNames(Method[] methods) {
@@ -169,19 +169,19 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     }
 
     protected boolean isAndroid() {
-        return ANDROID.toUpperCase().equals(platform);
+        return ANDROID.equalsIgnoreCase(platform);
     }
 
     protected boolean isSelendroidAutomation() {
-        return isAndroid() && SELENDROID.toUpperCase().equals(automation);
+        return isAndroid() && SELENDROID.equalsIgnoreCase(automation);
     }
 
     protected boolean isIOS() {
-        return IOS.toUpperCase().equals(platform);
+        return IOS.equalsIgnoreCase(platform);
     }
 
     protected boolean isWindows() {
-        return WINDOWS.toUpperCase().equals(platform);
+        return WINDOWS.equalsIgnoreCase(platform);
     }
 
     /**
