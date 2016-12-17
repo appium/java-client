@@ -62,7 +62,7 @@ public class IOSDriver<T extends WebElement>
      *                     at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, capabilities);
+        super(executor, substituteMobilePlatform(capabilities, IOS_PLATFORM));
     }
 
     /**

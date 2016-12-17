@@ -43,4 +43,11 @@ public @interface HowToUseLocators {
      * or the searching by all possible locators.
      */
     LocatorGroupStrategy iOSAutomation() default LocatorGroupStrategy.CHAIN;
+
+    /**
+     * @return the strategy which defines how to use locators which are described by
+     * the {@link WindowsFindBy} annotation. These annotations can define the chained searching
+     * or the searching by all possible locators.
+     */
+    LocatorGroupStrategy windowsAutomation() default LocatorGroupStrategy.CHAIN;
 }

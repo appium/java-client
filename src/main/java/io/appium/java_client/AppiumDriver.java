@@ -79,7 +79,7 @@ public class AppiumDriver<T extends WebElement>
      * @param capabilities take a look
      *                     at {@link org.openqa.selenium.Capabilities}
      */
-    protected AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
@@ -335,7 +335,7 @@ public class AppiumDriver<T extends WebElement>
     @Override public String getContext() {
         String contextName =
             String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
-        if (contextName.equals("null")) {
+        if ("null".equalsIgnoreCase(contextName)) {
             return null;
         }
         return contextName;

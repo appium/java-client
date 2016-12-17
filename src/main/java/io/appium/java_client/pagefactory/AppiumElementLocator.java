@@ -39,11 +39,11 @@ import java.util.concurrent.TimeUnit;
 
 class AppiumElementLocator implements CacheableLocator {
 
-    final boolean shouldCache;
-    final By by;
-    final TimeOutDuration timeOutDuration;
+    private final boolean shouldCache;
+    private final By by;
+    private final TimeOutDuration timeOutDuration;
     private final TimeOutDuration originalTimeOutDuration;
-    final WebDriver originalWebDriver;
+    private final WebDriver originalWebDriver;
     private final SearchContext searchContext;
     private final WaitingFunction waitingFunction;
     private WebElement cachedElement;
