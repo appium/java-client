@@ -92,11 +92,13 @@ class WidgetByBuilder extends DefaultElementByBuilder {
     }
 
     @Override protected By buildDefaultBy() {
-        return Optional.ofNullable(super.buildDefaultBy()).orElse(getByFromDeclaredClass(WhatIsNeeded.DEFAULT_OR_HTML));
+        return Optional.ofNullable(super.buildDefaultBy())
+                .orElse(getByFromDeclaredClass(WhatIsNeeded.DEFAULT_OR_HTML));
     }
 
     @Override protected By buildMobileNativeBy() {
-        return Optional.ofNullable(super.buildMobileNativeBy()).orElse(getByFromDeclaredClass(WhatIsNeeded.MOBILE_NATIVE));
+        return Optional.ofNullable(super.buildMobileNativeBy())
+                .orElse(getByFromDeclaredClass(WhatIsNeeded.MOBILE_NATIVE));
     }
 
     private enum WhatIsNeeded {

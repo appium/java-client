@@ -22,10 +22,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import io.appium.java_client.MobileElement;
-
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
 import java.lang.reflect.Constructor;
@@ -74,7 +73,7 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
         if (result instanceof Map<?, ?>) {
             Map<?, ?> resultAsMap = (Map<?, ?>) result;
             if (resultAsMap.containsKey("ELEMENT")) {
-                MobileElement element = newMobileElement();
+                RemoteWebElement element = newMobileElement();
                 element.setId(String.valueOf(resultAsMap.get("ELEMENT")));
                 element.setFileDetector(driver.getFileDetector());
                 return element;
@@ -93,19 +92,13 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
         return result;
     }
 
-    protected MobileElement newMobileElement() {
-        Class<? extends MobileElement> target =
+    protected RemoteWebElement newMobileElement() {
+        Class<? extends RemoteWebElement> target =
                 getElementClass(platform, automation);
-
-        if (target == null) {
-            throw new WebDriverException(new ClassNotFoundException("The class of mobile element is "
-                    + "unknown for current session"));
-        }
-
         try {
-            Constructor<? extends MobileElement> constructor = target.getDeclaredConstructor();
+            Constructor<? extends RemoteWebElement> constructor = target.getDeclaredConstructor();
             constructor.setAccessible(true);
-            MobileElement result = constructor.newInstance();
+            RemoteWebElement result = constructor.newInstance();
             result.setParent(driver);
             return result;
         } catch (Exception e) {
