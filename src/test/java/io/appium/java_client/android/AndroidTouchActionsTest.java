@@ -19,12 +19,11 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.touch.TouchActions;
-
-import io.appium.java_client.MobileElement;
 
 import java.util.List;
 
