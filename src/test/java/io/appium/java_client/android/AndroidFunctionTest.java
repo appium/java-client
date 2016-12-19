@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import io.appium.java_client.functions.AppiumFunction;
 import io.appium.java_client.functions.ExpectedCondition;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -63,8 +64,14 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
+    @BeforeClass public static void startWebViewActivity() throws Exception  {
+        if (driver != null) {
+            driver.startActivity("io.appium.android.apis", ".view.WebView1");
+        }
+    }
+
     @Before public void setUp() {
-        driver.startActivity("io.appium.android.apis", ".view.WebView1");
+        driver.context("NATIVE_APP");
     }
 
     @Test public void complexWaitingTestWithPreCondition() {
