@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.touch.TouchActions;
 
 import java.util.List;
 
@@ -100,15 +99,6 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertEquals("ON" ,driver
                 .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
-    
-    @Test public void clickAndHoldTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
-        new TouchActions(driver)
-        		.clickAndHold(driver.findElementById("io.appium.android.apis:id/button_toggle"))
-				.perform();
-        assertEquals("ON" ,driver
-                .findElementById("io.appium.android.apis:id/button_toggle").getText());
-    }
 
     @Test public void tapActionTestByElement() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.ChronometerDemo");
@@ -143,24 +133,6 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertNotEquals(time, "Initial format: 00:00");
         Thread.sleep(2500);
         assertEquals(time, chronometer.getText());
-    }
-    
-    @Test public void horizontalflickTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
-
-        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
-        List<MobileElement> images = gallery
-                .findElementsByClassName("android.widget.ImageView");
-        int originalImageCount = images.size();
-        Point location = gallery.getLocation();
-        Point center = gallery.getCenter();
-        
-        TouchActions actions = new TouchActions(driver);
-        actions.flick(gallery, -10, center.y - location.y, 1000)
-        		.perform();
-        
-        assertNotEquals(originalImageCount, gallery
-                .findElementsByClassName("android.widget.ImageView").size());
     }
 
     @Test public void horizontalSwipingTest() throws Exception {
