@@ -19,10 +19,11 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getSettingsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setSettingsCommand;
 
+import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
-import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
@@ -47,12 +48,13 @@ interface HasSettings extends ExecutesMethod {
      *
      * @return JsonObject, a straight-up hash of settings.
      */
-    @SuppressAjWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     default Map<String, Object> getSettings() {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
 
-        return  (Map<String, Object>) response.getValue();
+        return  ImmutableMap.<String, Object>builder()
+                .putAll(Map.class.cast(response.getValue())).build();
     }
 
     /**

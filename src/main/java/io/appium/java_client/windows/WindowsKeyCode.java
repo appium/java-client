@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.windows;
 
-public class MissingParameterException
-    extends IllegalArgumentException {
-
-    private static final long serialVersionUID = 1L;
-
-    public MissingParameterException(String reason) {
-        super(reason);
-    }
-
-    public MissingParameterException(String reason, Throwable cause) {
-        super(reason, cause);
-    }
+/**
+ * Created by STikhomirov on 15.12.2016.
+ */
+public interface WindowsKeyCode {
+    int POWER = 0;
+    int WINDOWS = 1;
+    int VOLUME_UP = 2;
+    int VOLUME_DOWN = 3;
+    int ROTATION_LOCK = 4;
+    int COUNT_MIN = 5;
+    int BACK = 5;
+    int SEARCH = 6;
+    int CAMERA_FOCUS = 7;
+    int CAMERA_SHUTTER = 8;
+    int RINGER_TOGGLE = 9;
+    int HEAD_SET = 10;
+    int HWKB_DPLOY = 11;
+    int CAMERA_LENS = 12;
+    int OEM_CUSTOM = 13;
+    int OEM_CUSTOM2 = 14;
+    int OEM_CUSTOM3 = 15;
+    int COUNT = 16;
 }

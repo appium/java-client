@@ -308,7 +308,7 @@ public class TouchAction {
      * Cancel this action, if it was partially completed by the performsTouchActions.
      */
     public void cancel() {
-        ActionParameter action = new ActionParameter("wait");
+        ActionParameter action = new ActionParameter("cancel");
         parameterBuilder.add(action);
         this.perform();
     }

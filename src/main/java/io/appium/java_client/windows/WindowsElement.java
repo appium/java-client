@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.windows;
 
-public class MissingParameterException
-    extends IllegalArgumentException {
+import io.appium.java_client.FindsByWindowsAutomation;
+import io.appium.java_client.MobileElement;
 
-    private static final long serialVersionUID = 1L;
-
-    public MissingParameterException(String reason) {
-        super(reason);
-    }
-
-    public MissingParameterException(String reason, Throwable cause) {
-        super(reason, cause);
-    }
+public class WindowsElement extends MobileElement implements FindsByWindowsAutomation<MobileElement> {
 }

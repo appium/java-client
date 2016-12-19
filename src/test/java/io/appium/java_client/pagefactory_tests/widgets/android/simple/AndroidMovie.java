@@ -1,5 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widgets.android.simple;
 
+import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
@@ -33,6 +35,7 @@ public class AndroidMovie extends Movie {
     }
 
     @Override public void goToReview() {
-        ((AndroidElement) getWrappedElement()).tap(1, 1500);
+        TouchAction tap = new TouchAction(PerformsTouchActions.class.cast(getWrappedDriver()));
+        tap.press(getWrappedElement()).waitAction(1500).release().perform();
     }
 }

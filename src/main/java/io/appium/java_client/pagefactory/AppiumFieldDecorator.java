@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
     .unpackWebDriverFromSearchContext;
@@ -23,12 +24,11 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,7 +42,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -70,20 +69,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 add(TouchableElement.class);
                 add(AndroidElement.class);
                 add(IOSElement.class);
+                add(WindowsElement.class);
             }
 
         };
 
-    private static final Map<Class<? extends SearchContext>, Class<? extends WebElement>>
-        elementRuleMap =
-        new HashMap<Class<? extends SearchContext>, Class<? extends WebElement>>() {
-            private static final long serialVersionUID = 1L;
-
-            {
-                put(AndroidDriver.class, AndroidElement.class);
-                put(IOSDriver.class, IOSElement.class);
-            }
-        };
     public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver originalDriver;
@@ -102,13 +92,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             return null;
         }
 
-        Object parameterValue = HasSessionDetails.class.cast(driver).getSessionDetail(parameter);
-
-        if (parameterValue == null) {
-            return null;
-        }
-
-        return String.valueOf(parameterValue);
+        return String.valueOf(HasSessionDetails.class.cast(driver).getSessionDetail(parameter));
     }
 
     public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
@@ -158,15 +142,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
                 Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
 
-                boolean result = false;
                 for (Class<? extends WebElement> webElementClass : availableElementClasses) {
-                    if (!webElementClass.equals(listType)) {
-                        continue;
+                    if (webElementClass.equals(listType)) {
+                        return true;
                     }
-                    result = true;
-                    break;
                 }
-                return result;
+                return false;
             }
         };
 
@@ -246,22 +227,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
             new WidgetInterceptor(locator, originalDriver, null, map, timeOutDuration));
     }
 
-    private Class<?> getTypeForProxy() {
-        Class<? extends SearchContext> driverClass = originalDriver.getClass();
-        Iterable<Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>>> rules =
-            elementRuleMap.entrySet();
-        //it will return MobileElement subclass when here is something
-        for (Map.Entry<Class<? extends SearchContext>, Class<? extends WebElement>> e : rules) {
-            //that extends AppiumDriver or MobileElement
-            if (e.getKey().isAssignableFrom(driverClass)) {
-                return e.getValue();
-            }
-        } //it is compatible with desktop browser. So at this case it returns RemoteWebElement.class
-        return RemoteWebElement.class;
-    }
-
     private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
-        return (WebElement) getEnhancedProxy(getTypeForProxy(), elementInterceptor);
+        return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
     }
 }

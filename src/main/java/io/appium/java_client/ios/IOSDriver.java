@@ -22,6 +22,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -42,7 +43,6 @@ import java.net.URL;
  *           Instances of the defined type will be returned via findElement* and findElements*.
  *           Warning (!!!). Allowed types:
  *           {@link org.openqa.selenium.WebElement}
- *           {@link io.appium.java_client.TouchableElement}
  *           {@link org.openqa.selenium.remote.RemoteWebElement}
  *           {@link io.appium.java_client.MobileElement}
  *           {@link io.appium.java_client.ios.IOSElement}
@@ -62,7 +62,7 @@ public class IOSDriver<T extends WebElement>
      *                     at {@link org.openqa.selenium.Capabilities}
      */
     public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, capabilities);
+        super(executor, substituteMobilePlatform(capabilities, IOS_PLATFORM));
     }
 
     /**
@@ -156,12 +156,12 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * @see io.appium.java_client.CreatesSwipeAction#swipe(int, int, int, int, int).
+     * This method is deprecated. It is going to be removed
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        IOSTouchAction touchaction = new IOSTouchAction(this);
-
-        touchaction.swipe(startx, starty, endx, endy, duration).perform();
+        int xOffset = endx - startx;
+        int yOffset = endy - starty;
+        new TouchAction(this).press(startx, starty).waitAction(duration).moveTo(xOffset, yOffset).release().perform();
     }
 
     @Override public TargetLocator switchTo() {

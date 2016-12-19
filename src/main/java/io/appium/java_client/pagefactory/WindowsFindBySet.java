@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.pagefactory;
 
-public class MissingParameterException
-    extends IllegalArgumentException {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    private static final long serialVersionUID = 1L;
-
-    public MissingParameterException(String reason) {
-        super(reason);
-    }
-
-    public MissingParameterException(String reason, Throwable cause) {
-        super(reason, cause);
-    }
+/**
+ * Defines set of chained/possible locators. Each one locator
+ * should be defined with {@link WindowsFindBy}
+ */
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface WindowsFindBySet {
+    /**
+     * @return an array of {@link WindowsFindBy} which builds a sequence of
+     * the chained searching for elements or a set of possible locators
+     */
+    WindowsFindBy[] value();
 }

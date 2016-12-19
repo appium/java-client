@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidElement;
 
 import io.appium.java_client.android.BaseAndroidTest;
@@ -86,9 +85,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(id = "android:id/text1")
     @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
-
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private List<TouchableElement> touchabletextVieWs;
 
     @FindBy(id = "android:id/text1")
     private WebElement textView;
@@ -155,9 +151,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @AndroidFindBy(id = "android:id/text1") @SelendroidFindBy(id = "Invalid Identifier")
     private WebElement textAndroidId;
-
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private TouchableElement<MobileElement> touchabletextVieW;
 
     @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
     private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
@@ -242,11 +235,11 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, mobileElementView.getAttribute("text"));
     }
 
-    @Test public void areMobileElements_FindByTest() {
+    @Test public void areMobileElementsFindByTest() {
         assertNotEquals(0, mobiletextVieWs.size());
     }
 
-    @Test public void isMobileElement_FindByTest() {
+    @Test public void isMobileElementFindByTest() {
         assertNotEquals(null, mobiletextVieW.getAttribute("text"));
     }
 
@@ -266,11 +259,11 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, chainElementView.getAttribute("text"));
     }
 
-    @Test public void checkThatElementsWereNotFoundByIOSUIAutomator_Chain() {
+    @Test public void checkThatElementsWereNotFoundByIOSUIAutomatorChain() {
         assertEquals(0, iosChainTextViews.size());
     }
 
-    @Test public void checkThatElementWasNotFoundByIOSUIAutomator_Chain() {
+    @Test public void checkThatElementWasNotFoundByIOSUIAutomatorChain() {
         NoSuchElementException nsee = null;
         try {
             iosChainTextView.getAttribute("text");
@@ -280,11 +273,11 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotNull(nsee);
     }
 
-    @Test public void androidOrIOSFindByElementsTest_ChainSearches() {
+    @Test public void androidOrIOSFindByElementsTestChainSearches() {
         assertNotEquals(0, chainAndroidOrIOSUIAutomatorViews.size());
     }
 
-    @Test public void androidOrIOSFindByElementTest_ChainSearches() {
+    @Test public void androidOrIOSFindByElementTestChainSearches() {
         assertNotEquals(null, chainAndroidOrIOSUIAutomatorView.getAttribute("text"));
     }
 
@@ -308,23 +301,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, textAndroidId.getAttribute("text"));
     }
 
-    @Test public void isTouchableElement() {
-        assertNotEquals(null, touchabletextVieW.getAttribute("text"));
-    }
-
-    @Test public void areTouchableElements() {
-        assertNotEquals(0, touchabletextVieWs.size());
-    }
-
-    @Test
-    public void isTheFieldAndroidElement() {
-        AndroidElement androidElement = (AndroidElement) mobiletextVieW; //declared as MobileElement
-        androidElement = (AndroidElement) androidTextView; //declared as WedElement
-        androidElement = (AndroidElement) remotetextVieW;  //declared as RemoteWedElement
-        androidElement = (AndroidElement) touchabletextVieW; //declared as TouchABLEElement
-        assertNotNull(androidElement);
-    }
-
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
         try {
             assertNotEquals(null,
@@ -335,7 +311,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
     }
 
-    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy_List() {
+    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
         assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
     }
 

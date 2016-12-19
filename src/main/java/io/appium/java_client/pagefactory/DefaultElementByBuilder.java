@@ -32,6 +32,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 class DefaultElementByBuilder extends AppiumByBuilder {
 
@@ -46,6 +47,19 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 "If you use a '@" + a1.getClass().getSimpleName() + "' annotation, "
                     + "you must not also use a '@" + a2.getClass().getSimpleName()
                     + "' annotation");
+        }
+    }
+
+    private static By buildMobileBy(LocatorGroupStrategy locatorGroupStrategy, Annotation[] annotations) {
+        if (annotations.length == 1) {
+            return createBy(new Annotation[] {annotations[0]}, HowToUseSelectors.USE_ONE);
+        } else {
+            LocatorGroupStrategy strategy = Optional.ofNullable(locatorGroupStrategy)
+                    .orElse(LocatorGroupStrategy.CHAIN);
+            if (strategy.equals(LocatorGroupStrategy.ALL_POSSIBLE)) {
+                return createBy(annotations, HowToUseSelectors.USE_ANY);
+            }
+            return createBy(annotations, HowToUseSelectors.BUILD_CHAINED);
         }
     }
 
@@ -107,6 +121,8 @@ class DefaultElementByBuilder extends AppiumByBuilder {
 
     @Override protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
+
         if (isSelendroidAutomation()) {
             SelendroidFindBy[] selendroidFindByArray =
                 annotatedElement.getAnnotationsByType(SelendroidFindBy.class);
@@ -120,7 +136,6 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 return createBy(new Annotation[] {selendroidFindByArray[0]}, HowToUseSelectors.USE_ONE);
             }
 
-            //should be kept for some time
             if (selendroidFindBys != null) {
                 return createBy(selendroidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
             }
@@ -128,18 +143,11 @@ class DefaultElementByBuilder extends AppiumByBuilder {
             if (selendroidFindByAll != null) {
                 return createBy(selendroidFindByAll.value(), HowToUseSelectors.USE_ANY);
             }
-
+            ///////////////////////////////////////
+            //code that supposed to be supported
             if (selendroidFindByArray != null && selendroidFindByArray.length > 0) {
-                HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
-                if (howToUseLocators == null) {
-                    return createBy(selendroidFindByArray, HowToUseSelectors.BUILD_CHAINED);
-                }
-
-                if (howToUseLocators.selendroidAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
-                    return createBy(selendroidFindByArray, HowToUseSelectors.USE_ANY);
-                }
-
-                return createBy(selendroidFindByArray, HowToUseSelectors.BUILD_CHAINED);
+                return buildMobileBy(howToUseLocators != null ? howToUseLocators.selendroidAutomation() : null,
+                        selendroidFindByArray);
             }
         }
 
@@ -153,7 +161,6 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 return createBy(new Annotation[] {androidFindByArray[0]}, HowToUseSelectors.USE_ONE);
             }
 
-            //should be kept for some time
             if (androidFindBys != null) {
                 return createBy(androidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
             }
@@ -161,18 +168,11 @@ class DefaultElementByBuilder extends AppiumByBuilder {
             if (androidFindAll != null) {
                 return createBy(androidFindAll.value(), HowToUseSelectors.USE_ANY);
             }
-
+            ///////////////////////////////////////
+            //code that supposed to be supported
             if (androidFindByArray != null && androidFindByArray.length > 0) {
-                HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
-                if (howToUseLocators == null) {
-                    return createBy(androidFindByArray, HowToUseSelectors.BUILD_CHAINED);
-                }
-
-                if (howToUseLocators.androidAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
-                    return createBy(androidFindByArray, HowToUseSelectors.USE_ANY);
-                }
-
-                return createBy(androidFindByArray, HowToUseSelectors.BUILD_CHAINED);
+                return buildMobileBy(howToUseLocators != null ? howToUseLocators.androidAutomation() : null,
+                        androidFindByArray);
             }
         }
 
@@ -186,7 +186,6 @@ class DefaultElementByBuilder extends AppiumByBuilder {
                 return createBy(new Annotation[] {iOSFindByArray[0]}, HowToUseSelectors.USE_ONE);
             }
 
-            //should be kept for some time
             if (iOSFindBys != null) {
                 return createBy(iOSFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
             }
@@ -194,18 +193,19 @@ class DefaultElementByBuilder extends AppiumByBuilder {
             if (iOSFindAll != null) {
                 return createBy(iOSFindAll.value(), HowToUseSelectors.USE_ANY);
             }
-
+            ///////////////////////////////////////
+            //code that supposed to be supported
             if (iOSFindByArray != null && iOSFindByArray.length > 0) {
-                HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
-                if (howToUseLocators == null) {
-                    return createBy(iOSFindByArray, HowToUseSelectors.BUILD_CHAINED);
-                }
+                return buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSAutomation() : null,
+                        iOSFindByArray);
+            }
+        }
 
-                if (howToUseLocators.iOSAutomation() == LocatorGroupStrategy.ALL_POSSIBLE) {
-                    return createBy(iOSFindByArray, HowToUseSelectors.USE_ANY);
-                }
-                
-                return createBy(iOSFindByArray, HowToUseSelectors.BUILD_CHAINED);
+        if (isWindows()) {
+            WindowsFindBy[] windowsFindByArray = annotatedElement.getAnnotationsByType(WindowsFindBy.class);
+            if (windowsFindByArray != null && windowsFindByArray.length > 0) {
+                return buildMobileBy(howToUseLocators != null ? howToUseLocators.windowsAutomation() : null,
+                        windowsFindByArray);
             }
         }
 

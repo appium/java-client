@@ -24,6 +24,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.PressesKeyCode;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -39,7 +40,6 @@ import java.net.URL;
  *           Instances of the defined type will be returned via findElement* and findElements*.
  *           Warning (!!!). Allowed types:
  *           {@link org.openqa.selenium.WebElement}
- *           {@link io.appium.java_client.TouchableElement}
  *           {@link org.openqa.selenium.remote.RemoteWebElement}
  *           {@link io.appium.java_client.MobileElement}
  *           {@link io.appium.java_client.android.AndroidElement}
@@ -47,7 +47,7 @@ import java.net.URL;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
+        FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -59,7 +59,7 @@ public class AndroidDriver<T extends WebElement>
      *                     at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, capabilities);
+        super(executor, substituteMobilePlatform(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -152,11 +152,11 @@ public class AndroidDriver<T extends WebElement>
         super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
-
+    /**
+     * This method is deprecated. It is going to be removed
+     */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        AndroidTouchAction touchaction = new AndroidTouchAction(this);
-
-        touchaction.swipe(startx, starty, endx, endy, duration).perform();
+        new TouchAction(this).press(startx, starty).waitAction(duration).moveTo(endx, endy).release().perform();
     }
 
     /**
