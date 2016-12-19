@@ -37,8 +37,8 @@ public class AndroidTouchActionsTest extends BaseAndroidTest {
         driver.startActivity("io.appium.android.apis", ".view.Buttons1");
         Thread.sleep(5000);
         new TouchActions(driver)
-        		.singleTap(driver.findElementById("io.appium.android.apis:id/button_toggle"))
-				.perform();
+                .singleTap(driver.findElementById("io.appium.android.apis:id/button_toggle"))
+                .perform();
         Thread.sleep(5000);
         assertEquals("ON" ,driver
                 .findElementById("io.appium.android.apis:id/button_toggle").getText());
@@ -56,7 +56,7 @@ public class AndroidTouchActionsTest extends BaseAndroidTest {
         
         TouchActions actions = new TouchActions(driver);
         actions.flick(gallery, -10, center.y - location.y, 1000)
-        		.perform();
+                .perform();
         
         assertNotEquals(originalImageCount, gallery
                 .findElementsByClassName("android.widget.ImageView").size());
