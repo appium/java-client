@@ -29,7 +29,7 @@ import java.util.List;
 
 public class AndroidTouchActionsTest extends BaseAndroidTest {
 
-    @Before public void setup() throws Exception {
+    @Before public void setUp() throws Exception {
         driver.resetApp();
     }
 
@@ -44,7 +44,7 @@ public class AndroidTouchActionsTest extends BaseAndroidTest {
                 .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
     
-    @Test public void horizontalflickTest() throws Exception {
+    @Test public void horizontalFlickTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".view.Gallery1");
 
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
