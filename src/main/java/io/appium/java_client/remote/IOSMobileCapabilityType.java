@@ -179,4 +179,80 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * The  XCUITest specific capability.
      */
     String SCALE_FACTOR = "scaleFactor";
+
+    /**
+     * This value if specified, will be used to forward traffic from Mac
+     * host to real ios devices over USB. Default value is same as port
+     * number used by WDA on device.
+     * eg: 8100
+     */
+    String WDA_LOCAL_PORT = "wdaLocalPort";
+
+    /**
+     * Whether to display the output of the Xcode command
+     * used to run the tests.If this is true,
+     * there will be lots of extra logging at startup. Defaults to false
+     */
+    String SHOW_XCODE_LOG = "showXcodeLog";
+
+    /**
+     * Device logger for real devices. It could be path to deviceconsole
+     * (installed with npm install deviceconsole, a compiled binary named
+     * deviceconsole will be added to ./node_modules/deviceconsole/)
+     * or idevicesyslog (comes with libimobiledevice). Defaults to idevicesyslog
+     */
+    String REAL_DEVICE_LOGGER = "realDeviceLogger";
+
+    /**
+     * Time in milliseconds to pause between installing the application
+     * and starting WebDriverAgent on the device. Used particularly for larger applications.
+     * Defaults to 0
+     */
+    String IOS_INSTALL_PAUSE = "iosInstallPause";
+
+    /**
+     * Full path to an optional Xcode configuration file that
+     * specifies the code signing identity
+     * and team for running the WebDriverAgent on the real device.
+     * e.g., /path/to/myconfig.xcconfig
+     */
+    String XCODE_CONFIG_FILE = "xcodeConfigFile";
+
+    /**
+     * Password for unlocking keychain specified in keychainPath.
+     */
+    String KEYCHAIN_PASSWORD = "keychainPassword";
+
+    /**
+     * Skips the build phase of running the WDA app.
+     * Building is then the responsibility of the user.
+     * Only works for Xcode 8+. Defaults to false
+     */
+    String USE_PREBUILT_WDA = "usePrebuiltWDA";
+
+    /**
+     * Sets read only permissons to Attachments subfolder of WebDriverAgent
+     * root inside Xcode's DerivedData.
+     * This is necessary to prevent XCTest framework from
+     * creating tons of unnecessary screenshots and logs,
+     * which are impossible to shutdown using programming
+     * interfaces provided by Apple
+     */
+    String PREVENT_WDAATTACHMENTS = "preventWDAAttachments";
+
+    /**
+     * Appium will connect to an existing WebDriverAgent,
+     * instance at this URL instead of starting a new one.
+     * eg : http://localhost:8100
+     */
+    String WEB_DRIVER_AGENT_URL = "webDriverAgentUrl";
+
+    /**
+     * Full path to the private development key exported
+     * from the system keychain. Used in conjunction
+     * with keychainPassword when testing on real devices.
+     * e.g., /path/to/MyPrivateKey.p12
+     */
+    String KEYCHAIN_PATH = "keychainPath";
+
 }
