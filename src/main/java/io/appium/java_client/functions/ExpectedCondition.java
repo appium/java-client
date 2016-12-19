@@ -18,10 +18,6 @@ package io.appium.java_client.functions;
 
 import org.openqa.selenium.WebDriver;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
-
 /**
  * This is extended version of {@link org.openqa.selenium.support.ui.ExpectedCondition}. It is combined
  * with {@link java.util.function.Function}.
@@ -30,21 +26,5 @@ import java.util.function.Function;
  */
 @FunctionalInterface
 public interface ExpectedCondition<T> extends org.openqa.selenium.support.ui.ExpectedCondition<T>,
-        java.util.function.Function<WebDriver, T> {
-
-    @Override default <V> Function<V, T> compose(Function<? super V, ? extends WebDriver> before) {
-        Objects.requireNonNull(before);
-        return (V v) -> {
-            WebDriver driver = before.apply(v);
-            return Optional.ofNullable(driver != null ? apply(driver) : null).orElse(null);
-        };
-    }
-
-    @Override default <V> Function<WebDriver, V> andThen(Function<? super T, ? extends V> after) {
-        Objects.requireNonNull(after);
-        return (WebDriver w) -> {
-            T result = apply(w);
-            return Optional.ofNullable(result != null ? after.apply(result) : null).orElse(null);
-        };
-    }
+        AppiumFunction<WebDriver, T> {
 }
