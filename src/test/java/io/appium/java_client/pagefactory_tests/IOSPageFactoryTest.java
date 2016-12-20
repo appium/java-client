@@ -166,14 +166,8 @@ public class IOSPageFactoryTest extends AppIOSTest {
         assertEquals(0, androidUIAutomatorViews.size());
     }
 
-    @Test public void checkThatElementWasNotFoundByAndroidUIAutomator() {
-        NoSuchElementException nsee = null;
-        try {
-            androidUIAutomatorView.getText();
-        } catch (Exception e) {
-            nsee = (NoSuchElementException) e;
-        }
-        assertNotNull(nsee);
+    @Test(expected = NoSuchElementException.class) public void checkThatElementWasNotFoundByAndroidUIAutomator() {
+        assertNotNull(androidUIAutomatorView.getText());
     }
 
     @Test public void androidOriOSFindByElementsTest() {
@@ -220,14 +214,8 @@ public class IOSPageFactoryTest extends AppIOSTest {
         assertEquals(0, chainElementViews.size());
     }
 
-    @Test public void checkThatElementWasNotFoundByAndroidUIAutomatorChain() {
-        NoSuchElementException nsee = null;
-        try {
-            chainElementView.getText();
-        } catch (Exception e) {
-            nsee = (NoSuchElementException) e;
-        }
-        assertNotNull(nsee);
+    @Test(expected = NoSuchElementException.class) public void checkThatElementWasNotFoundByAndroidUIAutomatorChain() {
+        assertNotNull(chainElementView.getText());
     }
 
     @Test public void isIOSElementTest() {
@@ -246,15 +234,9 @@ public class IOSPageFactoryTest extends AppIOSTest {
         assertNotEquals(null, findAllElement.getText());
     }
 
-    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
-        try {
-            assertNotEquals(null,
-                    elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy
+    @Test(expected = NoSuchElementException.class) public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
+        assertNotNull(elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy
                             .getAttribute("text"));
-        } catch (NoSuchElementException ignored) {
-            return;
-        }
-        throw new RuntimeException(NoSuchElementException.class.getName() + " has been expected.");
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
