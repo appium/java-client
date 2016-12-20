@@ -161,6 +161,16 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - `IOSMobileCapabilityType#CUSTOM_SSL_CERT`
   - `IOSMobileCapabilityType#TAP_WITH_SHORT_PRESS_DURATION`
   - `IOSMobileCapabilityType#SCALE_FACTOR`
+  - `IOSMobileCapabilityType#WDA_LOCAL_PORT`
+  - `IOSMobileCapabilityType#SHOW_XCODE_LOG`
+  - `IOSMobileCapabilityType#REAL_DEVICE_LOGGER`
+  - `IOSMobileCapabilityType#IOS_INSTALL_PAUSE`
+  - `IOSMobileCapabilityType#XCODE_CONFIG_FILE`
+  - `IOSMobileCapabilityType#KEYCHAIN_PASSWORD`
+  - `IOSMobileCapabilityType#USE_PREBUILT_WDA`
+  - `IOSMobileCapabilityType#PREVENT_WDAATTACHMENTS`
+  - `IOSMobileCapabilityType#WEB_DRIVER_AGENT_URL`
+  - `IOSMobileCapabilityType#KEYCHAIN_PATH`
   - `MobileCapabilityType#CLEAR_SYSTEM_FILES`
 
 
