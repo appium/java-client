@@ -43,8 +43,7 @@ public @interface iOSFindBy {
     /**
      * It an UI automation accessibility Id which is a convenient to iOS.
      * About iOS accessibility
-     * {@link "https://developer.apple.com/library/ios/documentation/UIKit/Reference/
-     * UIAccessibilityIdentification_Protocol/index.html"}
+     * See  <a href="https://goo.gl/7sEkoB">UIAccessibilityIdentification</a>
      */
     String accessibility() default "";
 

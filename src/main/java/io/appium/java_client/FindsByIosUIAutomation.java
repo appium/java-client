@@ -16,23 +16,23 @@
 
 package io.appium.java_client;
 
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 public interface FindsByIosUIAutomation<T extends WebElement> extends FindsByFluentSelector<T> {
     /**
-     * @throws {@link org.openqa.selenium.WebDriverException}
-     *     This method is not applicable with browser/webview UI.
-     * @throws {@link org.openqa.selenium.NoSuchElementException} when no one element is found
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     * @throws NoSuchElementException when no one element is found
      */
     default T findElementByIosUIAutomation(String using) {
         return findElement(MobileSelector.IOS_UI_AUTOMATION.toString(), using);
     }
 
     /**
-     * @throws {@link org.openqa.selenium.WebDriverException}
-     *     This method is not applicable with browser/webview UI.
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     default List<T> findElementsByIosUIAutomation(String using) {
         return findElements(MobileSelector.IOS_UI_AUTOMATION.toString(), using);

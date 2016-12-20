@@ -85,7 +85,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String NATIVE_WEB_TAP = "nativeWebTap";
 
     /**
-     * (Sim-only) (>= 8.1) Initial safari url, default is a local welcome page.
+     * (Sim-only) (&gt;= 8.1) Initial safari url, default is a local welcome page.
      */
     String SAFARI_INITIAL_URL = "safariInitialUrl";
 
