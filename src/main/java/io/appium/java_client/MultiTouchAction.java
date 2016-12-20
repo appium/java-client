@@ -37,7 +37,7 @@ import com.google.common.collect.ImmutableMap;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
  * more actions can be chained.
  */
-public class MultiTouchAction {
+public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
 
     private ImmutableList.Builder<TouchAction> actions;
     private PerformsTouchActions performsTouchActions;
@@ -61,7 +61,7 @@ public class MultiTouchAction {
     /**
      * Perform the multi-touch action on the mobile performsTouchActions.
      */
-    public void perform() {
+    public MultiTouchAction perform() {
         int size = actions.build().size();
         if (size > 1) {
             performsTouchActions.performMultiTouchAction(this);
@@ -73,7 +73,7 @@ public class MultiTouchAction {
                 "MultiTouch action must have at least one TouchAction "
                     + "added before it can be performed");
         }
-
+        return this;
     }
 
     protected ImmutableMap<String, ImmutableList<Object>> getParameters() {

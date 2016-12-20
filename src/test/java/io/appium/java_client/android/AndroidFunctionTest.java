@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class AndroidFunctionTest extends BaseAndroidTest {
 
-    private AppiumFunction<WebDriver, List<WebElement>> searchingFunction = input -> {
+    private final AppiumFunction<WebDriver, List<WebElement>> searchingFunction = input -> {
         List<WebElement> result = input.findElements(By.tagName("a"));
 
         if (result.size() > 0) {
@@ -35,7 +35,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
-    private AppiumFunction<Pattern, WebDriver> contextFunction = input -> {
+    private final AppiumFunction<Pattern, WebDriver> contextFunction = input -> {
         Set<String> contexts = driver.getContextHandles();
         String current = driver.getContext();
         contexts.forEach(context -> {
@@ -50,7 +50,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
-    private AppiumFunction<List<WebElement>, List<WebElement>> filteringFunction = input -> {
+    private final AppiumFunction<List<WebElement>, List<WebElement>> filteringFunction = input -> {
         final List<WebElement> result = new ArrayList<>();
         input.forEach(element -> {
             if (element.getText().equals("Hello World! - 1")) {
