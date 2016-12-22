@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertTrue;
+
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
 import io.appium.java_client.pagefactory.WithTimeout;
@@ -51,7 +53,7 @@ public class TimeOutResetTest {
 
     private TimeOutDuration timeOutDuration;
 
-    private static void checkTimeDifference(long expectedTime, TimeUnit expectedTimeUnit,
+    private static boolean checkTimeDifference(long expectedTime, TimeUnit expectedTimeUnit,
         long currentMillis) {
         long expectedMillis = TimeUnit.MILLISECONDS.convert(expectedTime, expectedTimeUnit);
         try {
@@ -63,8 +65,9 @@ public class TimeOutResetTest {
                 + expectedTimeUnit.toString()
                 + " current duration in millis "
                 + String.valueOf(currentMillis) + " Failed";
-            throw new RuntimeException(message, e);
+            throw new AssertionError(message, e);
         }
+        return true;
     }
 
     /**
@@ -99,43 +102,43 @@ public class TimeOutResetTest {
     }
 
     @Test public void test() {
-        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
-            AppiumFieldDecorator.DEFAULT_TIMEUNIT, getBenchMark(stubElements));
+        assertTrue(checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+            AppiumFieldDecorator.DEFAULT_TIMEUNIT, getBenchMark(stubElements)));
         System.out.println(
             String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT) + " "
                 + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
 
         timeOutDuration.setTime(15500000, TimeUnit.MICROSECONDS);
-        checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements));
+        assertTrue(checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements)));
         System.out.println(
             "Change time: " + String.valueOf(15500000) + " " + TimeUnit.MICROSECONDS.toString()
                 + ": Fine");
 
         timeOutDuration.setTime(3, TimeUnit.SECONDS);
-        checkTimeDifference(3, TimeUnit.SECONDS, getBenchMark(stubElements));
+        assertTrue(checkTimeDifference(3, TimeUnit.SECONDS, getBenchMark(stubElements)));
         System.out.println(
             "Change time: " + String.valueOf(3) + " " + TimeUnit.SECONDS.toString() + ": Fine");
 
     }
 
     @Test public void test2() {
-        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
-            AppiumFieldDecorator.DEFAULT_TIMEUNIT, getBenchMark(stubElements));
+        assertTrue(checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+            AppiumFieldDecorator.DEFAULT_TIMEUNIT, getBenchMark(stubElements)));
         System.out.println(
             String.valueOf(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT) + " "
                 + AppiumFieldDecorator.DEFAULT_TIMEUNIT.toString() + ": Fine");
 
-        checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2));
+        assertTrue(checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2)));
         System.out.println(String.valueOf(5) + " " + TimeUnit.SECONDS.toString() + ": Fine");
 
 
         timeOutDuration.setTime(15500000, TimeUnit.MICROSECONDS);
-        checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements));
+        assertTrue(checkTimeDifference(15500000, TimeUnit.MICROSECONDS, getBenchMark(stubElements)));
         System.out.println(
             "Change time: " + String.valueOf(15500000) + " " + TimeUnit.MICROSECONDS.toString()
                 + ": Fine");
 
-        checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2));
+        assertTrue(checkTimeDifference(5, TimeUnit.SECONDS, getBenchMark(stubElements2)));
         System.out.println(String.valueOf(5) + " " + TimeUnit.SECONDS.toString() + ": Fine");
     }
 
@@ -145,8 +148,8 @@ public class TimeOutResetTest {
         long startMark = Calendar.getInstance().getTimeInMillis();
         driver.findElements(By.id("FakeId"));
         long endMark = Calendar.getInstance().getTimeInMillis();
-        checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
-                AppiumFieldDecorator.DEFAULT_TIMEUNIT, endMark - startMark);
+        assertTrue(checkTimeDifference(AppiumFieldDecorator.DEFAULT_IMPLICITLY_WAIT_TIMEOUT,
+                AppiumFieldDecorator.DEFAULT_TIMEUNIT, endMark - startMark));
     }
 
 }

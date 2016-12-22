@@ -32,7 +32,7 @@ import org.openqa.selenium.internal.HasIdentity;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */
-public class TouchAction {
+public class TouchAction implements PerformsActions<TouchAction> {
 
     protected ImmutableList.Builder<ActionParameter> parameterBuilder;
     private PerformsTouchActions performsTouchActions;

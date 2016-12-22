@@ -27,6 +27,8 @@ import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
+import java.util.function.Supplier;
+
 public class IOSDriverTest extends AppIOSTest {
 
     //TODO There is no ability to check this function usibg simulators.
@@ -59,7 +61,11 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void lockTest() {
-        driver.lockDevice(20);
+        Supplier<Boolean> lock = () -> {
+            driver.lockDevice(20);
+            return true;
+        };
+        assertTrue(lock.get());
     }
 
     @Test public void pullFileTest() {
