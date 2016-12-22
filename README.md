@@ -80,7 +80,12 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
   - Tools that provide _Page Object_ engines were redesigned. The migration to [repeatable annotations](http://docs.oracle.com/javase/tutorial/java/annotations/repeating.html). Details you can read there: [#497](https://github.com/appium/java-client/pull/497). [Documentation was synced as well](https://github.com/appium/java-client/blob/master/docs/Page-objects.md#also-it-is-possible-to-define-chained-or-any-possible-locators).
+  - The new functional interface `io.appium.java_client.functions.AppiumFunctio`n was designed. It extends `java.util.function.Function` and `com.google.common.base.Function`. It was designed in order to provide compatibility with the `org.openqa.selenium.support.ui.Wait` [#543](https://github.com/appium/java-client/pull/543)
+  - The new functional interface `io.appium.java_client.functions.ExpectedCondition` was designed. It extends `io.appium.java_client.functions.AppiumFunction` and ```org.openqa.selenium.support.ui.ExpectedCondition```.  [#543](https://github.com/appium/java-client/pull/543)
+  - The new functional interface `io.appium.java_client.functions.ActionSupplier` was designed. It extends ```java.util.function.Supplier```. [#543](https://github.com/appium/java-client/pull/543)
+  
 - **[MAJOR ENHANCEMENT]**: Migration from Maven to Gradle. Feature request is [#214](https://github.com/appium/java-client/issues/214). Fixes: [#442](https://github.com/appium/java-client/pull/442), [#465](https://github.com/appium/java-client/pull/465).
+
 - **[MAJOR ENHANCEMENT]** **[MAJOR REFACTORING]**. Non-abstract **AppiumDriver**: 
   - Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
   - The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
@@ -119,6 +124,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
     redesign of `TouchAction` and `MultiTouchAction`
       - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can consume any instance of a class that implements `PerformsTouchActions`.  
       - `io.appium.java_client.ios.IOSTouchAction` was added. It extends `io.appium.java_client.TouchAction`.
+      - the new interface `io.appium.java_client.PerformsActions` was added. It unifies `TouchAction` and `MultiTouchAction` now.
       
     `JsonToMobileElementConverter` re-design [#532](https://github.com/appium/java-client/pull/532):
        - unused `MobileElementToJsonConverter` was removed
