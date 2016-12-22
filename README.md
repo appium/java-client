@@ -124,7 +124,7 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
     redesign of `TouchAction` and `MultiTouchAction`
       - constructors were redesigned. There is no strict binding of `AppiumDriver` and `TouchAction` /`MultiTouchAction`. They can consume any instance of a class that implements `PerformsTouchActions`.  
       - `io.appium.java_client.ios.IOSTouchAction` was added. It extends `io.appium.java_client.TouchAction`.
-      - the new interface `io.appium.java_client.PerformsActions` was added. It unifies `TouchAction` and `MultiTouchAction` now.
+      - the new interface `io.appium.java_client.PerformsActions` was added. It unifies `TouchAction` and `MultiTouchAction` now. [#543](https://github.com/appium/java-client/pull/543)
       
     `JsonToMobileElementConverter` re-design [#532](https://github.com/appium/java-client/pull/532):
        - unused `MobileElementToJsonConverter` was removed
