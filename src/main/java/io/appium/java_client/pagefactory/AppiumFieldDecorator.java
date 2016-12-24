@@ -21,6 +21,8 @@ import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedPr
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
     .unpackWebDriverFromSearchContext;
 
+import com.google.common.collect.ImmutableList;
+
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchableElement;
@@ -58,22 +60,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
-    private static final List<Class<? extends WebElement>> availableElementClasses =
-        new ArrayList<Class<? extends WebElement>>() {
-            private static final long serialVersionUID = 1L;
-
-            {
-                add(WebElement.class);
-                add(RemoteWebElement.class);
-                add(MobileElement.class);
-                add(TouchableElement.class);
-                add(AndroidElement.class);
-                add(IOSElement.class);
-                add(WindowsElement.class);
-            }
-
-        };
-
+    private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
+            RemoteWebElement.class, MobileElement.class, TouchableElement.class, AndroidElement.class,
+            IOSElement.class, WindowsElement.class);
     public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver originalDriver;

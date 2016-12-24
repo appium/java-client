@@ -177,9 +177,9 @@ class DefaultElementByBuilder extends AppiumByBuilder {
         }
 
         if (isIOSXcuit()) {
-            iOSXcuitFindBy[] xCuitFindByArray = annotatedElement.getAnnotationsByType(iOSXcuitFindBy.class);
+            iOSXCUITFindBy[] xCuitFindByArray = annotatedElement.getAnnotationsByType(iOSXCUITFindBy.class);
             if (xCuitFindByArray != null && xCuitFindByArray.length > 0) {
-                return buildMobileBy(howToUseLocators != null ? howToUseLocators.windowsAutomation() : null,
+                return buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSXCUITAutomation() : null,
                         xCuitFindByArray);
             }
         }

@@ -22,10 +22,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
-public @interface iOSXcuitFindBySet {
+public @interface iOSXCUITFindBySet {
     /**
-     * @return an array of {@link io.appium.java_client.pagefactory.iOSXcuitFindBy} which builds a sequence of
+     * @return an array of {@link iOSXCUITFindBy} which builds a sequence of
      * the chained searching for elements or a set of possible locators
      */
-    iOSXcuitFindBy[] value();
+    iOSXCUITFindBy[] value();
 }

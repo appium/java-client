@@ -23,8 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
-@Repeatable(iOSXcuitFindBySet.class)
-public @interface iOSXcuitFindBy {
+@Repeatable(iOSXCUITFindBySet.class)
+public @interface iOSXCUITFindBy {
 
     /**
      * The NSPredicate class is used to define logical conditions used to constrain
