@@ -9,6 +9,8 @@ This project is built by [gradle](https://gradle.org/)
 
 Also tech stack includes [Spring framework](https://projects.spring.io/spring-framework/) in binding with AspectJ. This is used by [event firing feature](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md). Also **CGlib** is used by [Page Object tools](https://github.com/appium/java-client/blob/master/docs/Page-objects.md). 
 
+It is the client framework. It is the thin client which just sends requests to Appium server and receives responses. Also it has some
+high-level features which were designed to simplify user's work.
 
 #It supports: 
 
