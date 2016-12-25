@@ -31,6 +31,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.AppXCUITTest;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
+import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -72,6 +73,20 @@ public class XCUITModeTest extends AppXCUITTest {
     @iOSXCUITFindBy(className = "XCUIElementTypeSlider")
     private MobileElement slider;
 
+    @iOSFindBy(id = "locationStatus")
+    private MobileElement locationStatus;
+
+    @HowToUseLocators(iOSAutomation = CHAIN)
+    @iOSFindBy(id = "TestApp") @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'contact'")
+    private MobileElement contactAlert;
+
+    @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+    @iOSFindBy(uiAutomator = ".elements()[0]")
+    @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'location'")
+    private MobileElement locationAlert;
+
+
+
     /**
      * The setting up.
      */
@@ -104,6 +119,18 @@ public class XCUITModeTest extends AppXCUITTest {
 
     @Test public void findElementByClassNameTest() {
         assertEquals("50%", slider.getAttribute("Value"));
+    }
+
+    @Test public void pageObjectChainingTest() {
+        assertTrue(contactAlert.isDisplayed());
+    }
+
+    @Test public void findElementByIdTest() {
+        assertTrue(locationStatus.isDisplayed());
+    }
+
+    @Test public void nativeSelectorTest() {
+        assertTrue(locationAlert.isDisplayed());
     }
 
     @Test public void findElementByXUISelectorTest() {
