@@ -17,6 +17,7 @@
 package io.appium.java_client.ios;
 
 import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileBy;
@@ -26,24 +27,34 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.function.Supplier;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSAlertTest extends AppIOSTest {
 
-    WebDriverWait waiting = new WebDriverWait(driver, 10000);
-    static final String iOSAutomationText = ".elements().withName(\"show alert\")";
+    private WebDriverWait waiting = new WebDriverWait(driver, 10000);
+    private static final String iOSAutomationText = ".elements().withName(\"show alert\")";
 
     @Test public void acceptAlertTest() {
-        driver.findElement(MobileBy
-            .IosUIAutomation(iOSAutomationText)).click();
-        waiting.until(alertIsPresent());
-        driver.switchTo().alert().accept();
+        Supplier<Boolean> acceptAlert = () -> {
+            driver.findElement(MobileBy
+                    .IosUIAutomation(iOSAutomationText)).click();
+            waiting.until(alertIsPresent());
+            driver.switchTo().alert().accept();
+            return true;
+        };
+        assertTrue(acceptAlert.get());
     }
 
     @Test public void dismissAlertTest() {
-        driver.findElement(MobileBy
-            .IosUIAutomation(iOSAutomationText)).click();
-        waiting.until(alertIsPresent());
-        driver.switchTo().alert().dismiss();
+        Supplier<Boolean> dismissAlert = () -> {
+            driver.findElement(MobileBy
+                    .IosUIAutomation(iOSAutomationText)).click();
+            waiting.until(alertIsPresent());
+            driver.switchTo().alert().dismiss();
+            return true;
+        };
+        assertTrue(dismissAlert.get());
     }
 
     @Test public void getAlertTextTest() {
