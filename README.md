@@ -145,10 +145,15 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - Page object tools were updated [#538](https://github.com/appium/java-client/pull/538)
       - the `io.appium.java_client.pagefactory.WindowsFindBy` annotation was added.
       - `io.appium.java_client.pagefactory.AppiumFieldDecorator` and supporting tools were actualized.
-  
-- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
-  It is implemented by `io.appium.java_client.ios.IOSDriver` and `io.appium.java_client.ios.IOSElement`.
-- **[MAJOR ENHANCEMENT]**: The new interface `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. 
+      
+- **[MAJOR ENHANCEMENT]** iOS XCUIT mode automation:
+  - `io.appium.java_client.remote.AutomationName#IOS_XCUI_TEST` was added
+  - The new interface `io.appium.java_client.FindsByIosNSPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship. It is implemented by `io.appium.java_client.ios.IOSDriver` and `io.appium.java_client.ios.IOSElement`.
+  - The new selector strategy `io.appium.java_client.MobileBy.ByIosNsPredicate` was added. [#462](https://github.com/appium/java-client/pull/462). With [@rafael-chavez](https://github.com/rafael-chavez) 's authorship.
+  - Page object tools were updated [#545](https://github.com/appium/java-client/pull/545), [#546](https://github.com/appium/java-client/pull/546)
+      - the `io.appium.java_client.pagefactory.iOSXCUITFindBy` annotation was added.
+      - `io.appium.java_client.pagefactory.AppiumFieldDecorator` and supporting tools were actualized.
+
 - [ENHANCEMENT] Added the ability to set UiAutomator Congfigurator values. [#410](https://github.com/appium/java-client/pull/410). 
 [#477](https://github.com/appium/java-client/pull/477).
 - **[UPDATE]** to Selenium 3.0. [#489](https://github.com/appium/java-client/pull/489)
