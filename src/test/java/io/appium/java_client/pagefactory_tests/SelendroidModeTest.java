@@ -186,6 +186,9 @@ public class SelendroidModeTest {
 
     @Test public void findBySelendroidLinkTextTest() {
         assertEquals("Accessibility", textLink.getText());
+    }
 
+    @Test public void findBySelendroidPartialLinkTextTest() {
+        assertEquals("Accessibility", textPartialLink.getText());
     }
 }

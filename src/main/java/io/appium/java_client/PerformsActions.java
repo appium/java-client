@@ -16,7 +16,7 @@
 
 package io.appium.java_client;
 
-public interface PerformsActions<T extends PerformsActions> {
+public interface PerformsActions<T extends PerformsActions<T>> {
 
     T perform();
 }

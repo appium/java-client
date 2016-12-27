@@ -4,26 +4,27 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.Test;
 
 public class ThreadSafetyTest {
 
     private final AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
     private final Action run = new Action() {
-        @Override Object perform() {
+        @Override protected Object perform() {
             service.start();
             return "OK";
         }
     };
     private final Action run2 = run.clone();
     private final Action isRunning = new Action() {
-        @Override Object perform() {
+        @Override protected Object perform() {
             return service.isRunning();
         }
     };
     private final Action isRunning2 = isRunning.clone();
     private final Action stop = new Action() {
-        @Override Object perform() {
+        @Override protected Object perform() {
             service.stop();
             return "OK";
         }
@@ -198,13 +199,13 @@ public class ThreadSafetyTest {
 
 
     private abstract static class Action implements Cloneable {
-        abstract Object perform();
+        protected abstract Object perform();
 
         public Action clone() {
             try {
                 return (Action) super.clone();
             } catch (Throwable t) {
-                throw new RuntimeException(t);
+                throw new AppiumServerHasNotBeenStartedLocallyException(t.getMessage(), t);
             }
         }
     }

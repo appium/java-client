@@ -11,71 +11,14 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [API docs](http://appium.github.io/java-client/)
 
-###Structure###
+###Features and other interesting information###
 
-There is an abstract `io.appium.java_client.AppiumDriver` class which extends `org.openqa.selenium.remote.RemoteWebDriver` 
-from the Selenium Java Client. The `io.appium.java_client.AppiumDriver` class contains all methods shared by iOS and Android.
-`io.appium.java_client.ios.IOSDriver` and `io.appium.java_client.android.AndroidDriver` both extend `io.appium.java_client.AppiumDriver` 
-and provide more methods, and specific implementations for some methods.
+[Tech stack](https://github.com/appium/java-client/blob/master/docs/Tech-stack.md)
+[How to install the project](https://github.com/appium/java-client/blob/master/docs/Installing-the-project.md)
 
-In the same way, `io.appium.java_client.ios.IOSElement` and `io.appium.java_client.android.AndroidElement` both are subclasses of 
-`io.appium.java_client.MobileElement`
+[WIKI](https://github.com/appium/java-client/wiki)
 
-
-###Added functions###
-More can be found in the docs, but here's a quick list of features which this project has added to the usual selenium binding.
-
-
-- startActivity()
-- resetApp()
-- getAppStringMap()
-- pressKeyCode()
-- longPressKeyCode()
-- longPressKey()
-- currentActivity()
-- getDeviceTime()
-- pullFile()
-- pushFile()
-- pullFolder()
-- replaceValue()
-- hideKeyboard()
-- runAppInBackground()
-- performTouchAction()
-- performMultiTouchAction()
-- tap()
-- swipe()
-- pinch()
-- zoom()
-- isAppInstalled()
-- installApp()
-- removeApp()
-- launchApp()
-- closeApp()
-- endTestCoverage()
-- isLocked()
-- shake()
-- getSessionDetails()
-- openNotifications()
-- Context Switching: .context(), .getContextHandles(), getContext())
-- setConnection(), getConnection()
-- ignoreUnimportantViews(), getSettings()
-- toggleLocationServices()
-- lockDevice()
-- unlockDevice()
-
-Locators:
-- findElementByAccessibilityId()
-- findElementsByAccessibilityId()
-- findElementByIosUIAutomation()
-- findElementsByIosUIAutomation()
-- findElementByAndroidUIAutomator()
-- findElementsByAndroidUIAutomator()
-
-### Features and other interesting information###
-
-You can get it on [WIKI](https://github.com/appium/java-client/wiki)
-
-## Changelog#
+##Changelog##
 *5.0.0 (under construction yet)*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
@@ -156,7 +99,6 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
 
 - [ENHANCEMENT] Added the ability to set UiAutomator Congfigurator values. [#410](https://github.com/appium/java-client/pull/410). 
 [#477](https://github.com/appium/java-client/pull/477).
-- **[UPDATE]** to Selenium 3.0. [#489](https://github.com/appium/java-client/pull/489)
 - [ENHANCEMENT]. Additional methods which perform device rotation were implemented. [#489](https://github.com/appium/java-client/pull/489). [#439](https://github.com/appium/java-client/pull/439). But it works for iOS in XCUIT mode and for Android in UIAutomator2 mode only. The feature request: [#7131](https://github.com/appium/appium/issues/7131) 
 - [ENHANCEMENT]. TouchID Implementation (iOS Sim Only). Details: [#509](https://github.com/appium/java-client/pull/509)
 - [ENHANCEMENT]. The ability to use port, ip and log file as server arguments was provided. Feature request: [#521](https://github.com/appium/java-client/issues/521). Fixes: [#522](https://github.com/appium/java-client/issues/522), [#524](https://github.com/appium/java-client/issues/524).
@@ -183,6 +125,10 @@ You can get it on [WIKI](https://github.com/appium/java-client/wiki)
   - `IOSMobileCapabilityType#WEB_DRIVER_AGENT_URL`
   - `IOSMobileCapabilityType#KEYCHAIN_PATH`
   - `MobileCapabilityType#CLEAR_SYSTEM_FILES`
+- **[UPDATE]** to Selenium 3.0.1.
+- **[UPDATE]** to Spring Framework 4.3.5.RELEASE.
+- **[UPDATE]** to AspectJ weaver 1.8.10.
+  
 
 
 *4.1.2*
