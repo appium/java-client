@@ -1,5 +1,5 @@
 # Requirements
-- Installed Node.js 0.12 or greater. 
+- Installed Node.js 4 or greater. 
 
 - At least an appium server instance installed via __npm__. 
 
