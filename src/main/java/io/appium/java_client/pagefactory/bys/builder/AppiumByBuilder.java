@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
 import static io.appium.java_client.remote.AutomationName.SELENDROID;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
@@ -178,6 +179,10 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     protected boolean isIOS() {
         return IOS.equalsIgnoreCase(platform);
+    }
+
+    protected boolean isIOSXcuit() {
+        return isIOS() && IOS_XCUI_TEST.equalsIgnoreCase(automation);
     }
 
     protected boolean isWindows() {
