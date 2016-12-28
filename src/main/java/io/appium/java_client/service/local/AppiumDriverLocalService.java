@@ -48,6 +48,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final TimeUnit timeUnit;
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
+    private final URL url;
 
 
 
@@ -64,6 +65,7 @@ public final class AppiumDriverLocalService extends DriverService {
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
         this.timeUnit = timeUnit;
+        this.url = new URL(String.format(URL_MASK, this.ipAddress, this.nodeJSPort));
     }
 
     public static AppiumDriverLocalService buildDefaultService() {
@@ -78,11 +80,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * @return The base URL for the managed appium server.
      */
     @Override public URL getUrl() {
-        try {
-            return new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        return url;
     }
 
     @Override public boolean isRunning() {
@@ -101,6 +99,8 @@ public final class AppiumDriverLocalService extends DriverService {
                 return true;
             } catch (UrlChecker.TimeoutException e) {
                 return false;
+            } catch (MalformedURLException e) {
+                throw new AppiumServerHasNotBeenStartedLocallyException(e.getMessage(), e);
             }
         } finally {
             lock.unlock();
@@ -108,15 +108,9 @@ public final class AppiumDriverLocalService extends DriverService {
 
     }
 
-    private void ping(long time, TimeUnit timeUnit) throws UrlChecker.TimeoutException {
-        URL url = getUrl();
-        try {
-            URL status = new URL(url.toString() + "/status");
-            new UrlChecker().waitUntilAvailable(time, timeUnit, status);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(
-                "There is something wrong with the URL " + url.toString().toString() + "/status");
-        }
+    private void ping(long time, TimeUnit timeUnit) throws UrlChecker.TimeoutException, MalformedURLException {
+        URL status = new URL(url.toString() + "/status");
+        new UrlChecker().waitUntilAvailable(time, timeUnit, status);
     }
 
     /**

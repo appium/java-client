@@ -28,7 +28,7 @@ public class GenericTest {
 
         @Override
         public void get(String url) {
-
+            System.out.print(url);
         }
 
         @Override
@@ -58,12 +58,12 @@ public class GenericTest {
 
         @Override
         public void close() {
-
+            System.out.print("Closed");
         }
 
         @Override
         public void quit() {
-
+            System.out.print("Died");
         }
 
         @Override
