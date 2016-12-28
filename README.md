@@ -7,13 +7,12 @@
 
 This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
 
-[How to install it and to use it](https://github.com/appium/java-client/blob/master/docs/Installing-the-project.md)
-
 [API docs](http://appium.github.io/java-client/)
 
 ###Features and other interesting information###
 
 [Tech stack](https://github.com/appium/java-client/blob/master/docs/Tech-stack.md)
+
 [How to install the project](https://github.com/appium/java-client/blob/master/docs/Installing-the-project.md)
 
 [WIKI](https://github.com/appium/java-client/wiki)
