@@ -19,6 +19,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 ##Changelog##
 *5.0.0 (under construction yet)*
+
+*5.0.0-BETA1*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
   - Tools that provide _Page Object_ engines were redesigned. The migration to [repeatable annotations](http://docs.oracle.com/javase/tutorial/java/annotations/repeating.html). Details you can read there: [#497](https://github.com/appium/java-client/pull/497). [Documentation was synced as well](https://github.com/appium/java-client/blob/master/docs/Page-objects.md#also-it-is-possible-to-define-chained-or-any-possible-locators).
