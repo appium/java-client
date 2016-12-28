@@ -5,7 +5,7 @@ io.appium.java_client.events
 io.appium.java_client.events.api
 io.appium.java_client.events.api.general
 io.appium.java_client.events.api.mobile
-io.appium.java_client.generic.searchcontext
+io.appium.java_client.functions
 io.appium.java_client.internal
 io.appium.java_client.ios
 io.appium.java_client.ios.internal
@@ -18,6 +18,7 @@ io.appium.java_client.pagefactory.utils
 io.appium.java_client.remote
 io.appium.java_client.service.local
 io.appium.java_client.service.local.flags
+io.appium.java_client.windows
 io.appium.java_client.youiengine
 io.appium.java_client.youiengine.internal
 org.openqa.selenium
