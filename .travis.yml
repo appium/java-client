@@ -5,6 +5,10 @@ jdk:
 
 sudo: required
 
+branches:
+  only:
+  - travisCI
+
 install: true
 
 script: ./gradlew clean -Dtest.single=XCUITModeTest test
