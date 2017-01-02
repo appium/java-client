@@ -28,14 +28,17 @@ import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 class AppiumElementLocator implements CacheableLocator {
 
@@ -45,9 +48,9 @@ class AppiumElementLocator implements CacheableLocator {
     private final TimeOutDuration originalTimeOutDuration;
     private final WebDriver originalWebDriver;
     private final SearchContext searchContext;
-    private final WaitingFunction waitingFunction;
     private WebElement cachedElement;
     private List<WebElement> cachedElementList;
+    private final String exceptionMessageIfElementNotFound;
     /**
      * Creates a new mobile element locator. It instantiates {@link WebElement}
      * using @AndroidFindBy (-s), @iOSFindBy (-s) and @FindBy (-s) annotation
@@ -71,26 +74,27 @@ class AppiumElementLocator implements CacheableLocator {
         this.originalTimeOutDuration = originalDuration;
         this.by = by;
         this.originalWebDriver = originalWebDriver;
-        waitingFunction = new WaitingFunction(this.searchContext);
+        this.exceptionMessageIfElementNotFound =  "Can't locate an element by this strategy: " + by.toString();
     }
 
     private void changeImplicitlyWaitTimeOut(long newTimeOut, TimeUnit newTimeUnit) {
         originalWebDriver.manage().timeouts().implicitlyWait(newTimeOut, newTimeUnit);
     }
 
-    // This method waits for not empty element list using all defined by
-    private List<WebElement> waitFor() {
-        // When we use complex By strategies (like ChainedBy or ByAll)
-        // there are some problems (StaleElementReferenceException, implicitly
-        // wait time out
-        // for each chain By section, etc)
+    private <T extends Object> T waitFor(Supplier<T> supplier) {
+        WaitingFunction<T> function = new WaitingFunction<>();
         try {
             changeImplicitlyWaitTimeOut(0, TimeUnit.SECONDS);
-            FluentWait<By> wait = new FluentWait<>(by);
+            FluentWait<Supplier<T>> wait = new FluentWait<>(supplier)
+                    .ignoring(NoSuchElementException.class);
             wait.withTimeout(timeOutDuration.getTime(), timeOutDuration.getTimeUnit());
-            return wait.until(waitingFunction);
+            return wait.until(function);
         } catch (TimeoutException e) {
-            return new ArrayList<>();
+            if (function.foundStaleElementReferenceException != null) {
+                throw StaleElementReferenceException
+                        .class.cast(function.foundStaleElementReferenceException);
+            }
+            throw e;
         } finally {
             changeImplicitlyWaitTimeOut(originalTimeOutDuration.getTime(), originalTimeOutDuration.getTimeUnit());
         }
@@ -103,19 +107,17 @@ class AppiumElementLocator implements CacheableLocator {
         if (cachedElement != null && shouldCache) {
             return cachedElement;
         }
-        List<WebElement> result = waitFor();
-        if (result.size() == 0) {
-            String message = "Can't locate an element by this strategy: " + by.toString();
-            if (waitingFunction.foundStaleElementReferenceException != null) {
-                throw new NoSuchElementException(message,
-                    waitingFunction.foundStaleElementReferenceException);
+
+        try {
+            WebElement result =  waitFor(() ->
+                    searchContext.findElement(by));
+            if (shouldCache) {
+                cachedElement = result;
             }
-            throw new NoSuchElementException(message);
+            return result;
+        } catch (TimeoutException | StaleElementReferenceException e) {
+            throw new NoSuchElementException(exceptionMessageIfElementNotFound, e);
         }
-        if (shouldCache) {
-            cachedElement = result.get(0);
-        }
-        return result.get(0);
     }
 
     /**
@@ -125,7 +127,20 @@ class AppiumElementLocator implements CacheableLocator {
         if (cachedElementList != null && shouldCache) {
             return cachedElementList;
         }
-        List<WebElement> result = waitFor();
+
+        List<WebElement> result;
+        try {
+            result = waitFor(() -> {
+                List<WebElement> list = searchContext.findElements(by);
+                if (list.size() > 0) {
+                    return list;
+                }
+                return null;
+            });
+        } catch (TimeoutException | StaleElementReferenceException e) {
+            result = new ArrayList<>();
+        }
+
         if (shouldCache) {
             cachedElementList = result;
         }
@@ -138,26 +153,19 @@ class AppiumElementLocator implements CacheableLocator {
 
 
     // This function waits for not empty element list using all defined by
-    private static class WaitingFunction implements Function<By, List<WebElement>> {
-        private final SearchContext searchContext;
-        Throwable foundStaleElementReferenceException;
+    private static class WaitingFunction<T> implements Function<Supplier<T>, T> {
+        private Throwable foundStaleElementReferenceException;
 
-        private WaitingFunction(SearchContext searchContext) {
-            this.searchContext = searchContext;
-        }
-
-        public List<WebElement> apply(By by) {
-            List<WebElement> result = new ArrayList<>();
-            Throwable shouldBeThrown = null;
-            boolean isRootCauseInvalidSelector;
-            boolean isRootCauseStaleElementReferenceException = false;
+        public T apply(Supplier<T> supplier) {
             foundStaleElementReferenceException = null;
 
             try {
-                result.addAll(searchContext.findElements(by));
+                return supplier.get();
             } catch (Throwable e) {
+                boolean isRootCauseStaleElementReferenceException = false;
+                Throwable shouldBeThrown;
+                boolean isRootCauseInvalidSelector = isInvalidSelectorRootCause(e);
 
-                isRootCauseInvalidSelector = isInvalidSelectorRootCause(e);
                 if (!isRootCauseInvalidSelector) {
                     isRootCauseStaleElementReferenceException = isStaleElementReferenceException(e);
                 }
@@ -168,20 +176,18 @@ class AppiumElementLocator implements CacheableLocator {
 
                 if (!isRootCauseInvalidSelector & !isRootCauseStaleElementReferenceException) {
                     shouldBeThrown = extractReadableException(e);
+                    if (shouldBeThrown != null) {
+                        if (NoSuchElementException.class.equals(shouldBeThrown.getClass())) {
+                            throw NoSuchElementException.class.cast(shouldBeThrown);
+                        } else {
+                            throw new WebDriverException(shouldBeThrown);
+                        }
+                    } else {
+                        throw new WebDriverException(e);
+                    }
+                } else {
+                    return null;
                 }
-            }
-
-            if (shouldBeThrown != null) {
-                if (RuntimeException.class.isAssignableFrom(shouldBeThrown.getClass())) {
-                    throw (RuntimeException) shouldBeThrown;
-                }
-                throw new RuntimeException(shouldBeThrown);
-            }
-
-            if (result.size() > 0) {
-                return result;
-            } else {
-                return null;
             }
         }
     }
