@@ -168,6 +168,18 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @FindBy(className = "android.widget.TextView")
     private MobileElement cached;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(id = "android:id/Faketext1")
+    @AndroidFindBy(id = "android:id/text1")
+    private WebElement elementFoundByInvalidChainedSelector;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
+    @AndroidFindBy(id = "android:id/Faketext1")
+    @AndroidFindBy(id = "android:id/text1")
+    private List<WebElement> elementsFoundByInvalidChainedSelector;
+
     /**
      * The setting up.
      */
@@ -311,5 +323,14 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @Test public void checkCached() {
         assertEquals(cached.getId(), cached.getId());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void checkThatElementSearchingThrowsExpectedExceptionIfChainedLocatorIsInvalid() {
+        assertNotNull(elementFoundByInvalidChainedSelector.getAttribute("text"));
+    }
+
+    @Test public void checkThatListSearchingWorksIfChainedLocatorIsInvalid() {
+        assertEquals(0, elementsFoundByInvalidChainedSelector.size());
     }
 }
