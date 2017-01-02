@@ -19,6 +19,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 ##Changelog##
 *5.0.0 (under construction yet)*
+**[BUG FIX]**:Issue report: [#549](https://github.com/appium/java-client/issues/549). Fix: [#551](https://github.com/appium/java-client/pull/551)
 
 *5.0.0-BETA1*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
