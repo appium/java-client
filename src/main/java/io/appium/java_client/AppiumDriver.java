@@ -17,6 +17,9 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
+import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static java.util.Optional.ofNullable;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -71,6 +74,9 @@ public class AppiumDriver<T extends WebElement>
     private URL remoteAddress;
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
+    private final String platformName;
+    private final String automationName;
+
 
     /**
      * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
@@ -85,7 +91,34 @@ public class AppiumDriver<T extends WebElement>
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
-        this.setElementConverter(new JsonToMobileElementConverter(this, getSessionDetails()));
+        final AppiumDriver<?> driver = this;
+
+        HasSessionDetails hasSessionDetails = new HasSessionDetails() {
+            @Override
+            public Response execute(String driverCommand, Map<String, ?> parameters) {
+                return driver.execute(driverCommand, parameters);
+            }
+
+            @Override
+            public Response execute(String driverCommand) {
+                return driver.execute(driverCommand);
+            }
+        };
+
+        Object capabilityPlatform1 = getCapabilities().getCapability(PLATFORM_NAME);
+        Object capabilityAutomation1 = getCapabilities().getCapability(AUTOMATION_NAME);
+
+        Object capabilityPlatform2 = capabilities.getCapability(PLATFORM_NAME);
+        Object capabilityAutomation2 = capabilities.getCapability(AUTOMATION_NAME);
+
+        platformName = ofNullable(ofNullable(hasSessionDetails.getPlatformName())
+                .orElse(capabilityPlatform1 != null ? String.valueOf(capabilityPlatform1) : null))
+                .orElse(capabilityPlatform2 != null ? String.valueOf(capabilityPlatform2) : null);
+        automationName = ofNullable(ofNullable(hasSessionDetails.getAutomationName())
+                .orElse(capabilityAutomation1 != null ? String.valueOf(capabilityAutomation1) : null))
+                .orElse(capabilityAutomation2 != null ? String.valueOf(capabilityAutomation2) : null);
+
+        this.setElementConverter(new JsonToMobileElementConverter(this, platformName, automationName));
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -137,7 +170,7 @@ public class AppiumDriver<T extends WebElement>
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
         String newPlatform) {
         DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
-        dc.setCapability(MobileCapabilityType.PLATFORM_NAME, newPlatform);
+        dc.setCapability(PLATFORM_NAME, newPlatform);
         return dc;
     }
 
@@ -383,5 +416,13 @@ public class AppiumDriver<T extends WebElement>
 
     public URL getRemoteAddress() {
         return remoteAddress;
+    }
+
+    @Override public String getPlatformName() {
+        return platformName;
+    }
+
+    @Override public String getAutomationName() {
+        return automationName;
     }
 }

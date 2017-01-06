@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -72,7 +73,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String automation;
     private final TimeOutDuration timeOutDuration;
 
-    private static String extractSessionData(WebDriver driver, String parameter) {
+    private static String extractSessionData(WebDriver driver, Supplier<String> dataSupplier) {
         if (driver == null) {
             return null;
         }
@@ -81,7 +82,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             return null;
         }
 
-        return String.valueOf(HasSessionDetails.class.cast(driver).getSessionDetail(parameter));
+        return String.valueOf(dataSupplier.get());
     }
 
     public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
@@ -99,8 +100,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
-        platform = extractSessionData(originalDriver, "platformName");
-        automation = extractSessionData(originalDriver, "automationName");
+        platform = extractSessionData(originalDriver, () ->
+                HasSessionDetails.class.cast(originalDriver).getPlatformName());
+        automation = extractSessionData(originalDriver, () ->
+                HasSessionDetails.class.cast(originalDriver).getAutomationName());
         this.timeOutDuration = timeOutDuration;
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(

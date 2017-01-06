@@ -29,7 +29,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class JsonToIOSElementConverter extends JsonToMobileElementConverter {
 
     public JsonToIOSElementConverter(RemoteWebDriver driver) {
-        super(driver, null);
+        super(driver, null, null);
     }
 
     @Override protected MobileElement newMobileElement() {

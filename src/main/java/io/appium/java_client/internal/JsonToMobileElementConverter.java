@@ -37,25 +37,20 @@ import java.util.Map;
  */
 public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
-    private static final String AUTOMATION_NAME_PARAMETER = "automationName";
-    private static final String PLATFORM_NAME_PARAMETER = "platformName";
-
-
     protected final RemoteWebDriver driver;
     private final String automation;
     private final String platform;
 
     /**
      * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
-     * @param sessionParameters the map of current session parameters
+     * @param platform current session platform name
+     * @param automation current session automation name
      */
-    public JsonToMobileElementConverter(RemoteWebDriver driver, Map<String, Object> sessionParameters) {
+    public JsonToMobileElementConverter(RemoteWebDriver driver, String platform, String automation) {
         super(driver);
         this.driver = driver;
-        automation = String.valueOf(sessionParameters
-                .get(AUTOMATION_NAME_PARAMETER)).toLowerCase();
-        platform = String.valueOf(sessionParameters
-                .get(PLATFORM_NAME_PARAMETER)).toLowerCase();
+        this.automation = String.valueOf(automation).toLowerCase();
+        this.platform = String.valueOf(platform).toLowerCase();
     }
 
     /**

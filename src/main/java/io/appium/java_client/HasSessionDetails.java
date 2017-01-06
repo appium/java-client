@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
+import static java.util.Optional.of;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -38,5 +39,15 @@ public interface HasSessionDetails extends ExecutesMethod {
 
     default Object getSessionDetail(String detail) {
         return getSessionDetails().get(detail);
+    }
+
+    default String getPlatformName() {
+        Object platformName = getSessionDetail("platformName");
+        return of(platformName != null ? String.valueOf(platformName) : null).orElse(null);
+    }
+
+    default String  getAutomationName() {
+        Object automationName = getSessionDetail("automationName");
+        return of(automationName != null ? String.valueOf(automationName) : null).orElse(null);
     }
 }
