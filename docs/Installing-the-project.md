@@ -17,7 +17,7 @@ Add the following to pom.xml:
 </dependency>
 ```
 
-If it is necessary to change the version of Selenium then you can configure pom.xml as follows:
+If it is necessary to change the version of Selenium then you can configure pom.xml like following:
 
 ```
 <dependency>
@@ -59,7 +59,7 @@ dependencies {
 }   
 ```
 
-If it is necessary to change the version of Selenium then you can configure pom.xml as follows:
+If it is necessary to change the version of Selenium then you can configure build.gradle like the sample below:
 
 ```
 repositories {
