@@ -196,14 +196,6 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String SHOW_XCODE_LOG = "showXcodeLog";
 
     /**
-     * Device logger for real devices. It could be path to deviceconsole
-     * (installed with npm install deviceconsole, a compiled binary named
-     * deviceconsole will be added to ./node_modules/deviceconsole/)
-     * or idevicesyslog (comes with libimobiledevice). Defaults to idevicesyslog
-     */
-    String REAL_DEVICE_LOGGER = "realDeviceLogger";
-
-    /**
      * Time in milliseconds to pause between installing the application
      * and starting WebDriverAgent on the device. Used particularly for larger applications.
      * Defaults to 0
@@ -254,5 +246,21 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * e.g., /path/to/MyPrivateKey.p12
      */
     String KEYCHAIN_PATH = "keychainPath";
+
+    /**
+     * Forces uninstall of any existing WebDriverAgent app on device.
+     * This can provide stability in some situations. Defaults to false.
+     */
+    String USE_NEW_WDA = "useNewWDA";
+
+    /**
+     * Time, in ms, to wait for WebDriverAgewnt to be pingable. Defaults to 60000ms.
+     */
+    String WDA_LAUNCH_TIMEOUT = "wdaLaunchTimeout";
+
+    /**
+     * Timeout, in ms, for waiting for a resonse from WebDriverAgent. Defaults to 240000ms.
+     */
+    String WDA_CONNECTION_TIMEOUT = "wdaConnectionTimeout";
 
 }
