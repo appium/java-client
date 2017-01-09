@@ -20,7 +20,13 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ##Changelog##
 *5.0.0 (under construction yet)*
 
-**[BUG FIX]**:Issue report: [#549](https://github.com/appium/java-client/issues/549). Fix: [#551](https://github.com/appium/java-client/pull/551)
+- **[BUG FIX]**:Issue report: [#549](https://github.com/appium/java-client/issues/549). Fix: [#551](https://github.com/appium/java-client/pull/551)
+- New capabilities were added [#533](https://github.com/appium/java-client/pull/553):
+  - `IOSMobileCapabilityType#USE_NEW_WDA`
+  - `IOSMobileCapabilityType#WDA_LAUNCH_TIMEOUT`
+  - `IOSMobileCapabilityType#WDA_CONNECTION_TIMEOUT`
+  
+The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](https://github.com/appium/java-client/pull/553)
 
 *5.0.0-BETA1*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
