@@ -40,7 +40,7 @@ If it is necessary to change the version of Selenium then you can configure pom.
 </dependency>
 ```
 
-#Gardle
+#Gradle
 
 Add the following to build.gradle:
 
