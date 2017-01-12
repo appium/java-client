@@ -17,7 +17,7 @@
 package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
-import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -43,11 +43,17 @@ public interface HasSessionDetails extends ExecutesMethod {
 
     default String getPlatformName() {
         Object platformName = getSessionDetail("platformName");
-        return of(platformName != null ? String.valueOf(platformName) : null).orElse(null);
+        return ofNullable(platformName != null ? String.valueOf(platformName) : null).orElse(null);
     }
 
     default String  getAutomationName() {
         Object automationName = getSessionDetail("automationName");
-        return of(automationName != null ? String.valueOf(automationName) : null).orElse(null);
+        return ofNullable(automationName != null ? String.valueOf(automationName) : null).orElse(null);
+    }
+
+    default boolean isBrowser() {
+        Object browserName = getSessionDetail("browserName");
+        return ofNullable(browserName != null ? String
+                .valueOf(browserName) : null).orElse(null) != null;
     }
 }

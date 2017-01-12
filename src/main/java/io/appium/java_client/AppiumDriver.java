@@ -118,7 +118,7 @@ public class AppiumDriver<T extends WebElement>
                 .orElse(capabilityAutomation1 != null ? String.valueOf(capabilityAutomation1) : null))
                 .orElse(capabilityAutomation2 != null ? String.valueOf(capabilityAutomation2) : null);
 
-        this.setElementConverter(new JsonToMobileElementConverter(this, platformName, automationName));
+        this.setElementConverter(new JsonToMobileElementConverter(this, this));
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {

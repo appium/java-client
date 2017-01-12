@@ -83,43 +83,6 @@ public class StartingAppLocallyTest {
         }
     }
 
-    @Test public void startingAndroidAppWithCapabilitiesOnServerSideTest() {
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-
-        File pageFactoryDir = new File("src/test/java/io/appium/java_client/pagefactory_tests");
-        File chrome = new File(pageFactoryDir, "chromedriver.exe");
-
-        DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        serverCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
-        serverCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
-        serverCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
-            chrome.getAbsolutePath());
-
-        AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withCapabilities(serverCapabilities);
-
-        DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-        clientCapabilities
-            .setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
-        clientCapabilities
-            .setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
-
-        AndroidDriver<?> driver = new AndroidDriver<>(builder, clientCapabilities);
-        try {
-            Capabilities caps = driver.getCapabilities();
-
-            assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
-                .equals(MobilePlatform.ANDROID));
-            assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-        } finally {
-            driver.quit();
-        }
-    }
-
     @Test public void startingAndroidAppWithCapabilitiesAndFlagsOnServerSideTest() {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");

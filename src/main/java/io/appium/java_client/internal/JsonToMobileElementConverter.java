@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import io.appium.java_client.HasSessionDetails;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -38,19 +39,16 @@ import java.util.Map;
 public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
     protected final RemoteWebDriver driver;
-    private final String automation;
-    private final String platform;
+    private final HasSessionDetails hasSessionDetails;
 
     /**
      * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
-     * @param platform current session platform name
-     * @param automation current session automation name
+     * @param hasSessionDetails object that has session details
      */
-    public JsonToMobileElementConverter(RemoteWebDriver driver, String platform, String automation) {
+    public JsonToMobileElementConverter(RemoteWebDriver driver, HasSessionDetails hasSessionDetails) {
         super(driver);
         this.driver = driver;
-        this.automation = String.valueOf(automation).toLowerCase();
-        this.platform = String.valueOf(platform).toLowerCase();
+        this.hasSessionDetails = hasSessionDetails;
     }
 
     /**
@@ -88,8 +86,15 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
     }
 
     protected RemoteWebElement newMobileElement() {
-        Class<? extends RemoteWebElement> target =
-                getElementClass(platform, automation);
+        Class<? extends RemoteWebElement> target;
+        if (hasSessionDetails.isBrowser()) {
+            target = getElementClass(null, null);
+        }
+        else {
+            target = getElementClass(hasSessionDetails.getPlatformName(),
+                    hasSessionDetails.getAutomationName());
+        }
+
         try {
             Constructor<? extends RemoteWebElement> constructor = target.getDeclaredConstructor();
             constructor.setAccessible(true);

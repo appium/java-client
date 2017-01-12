@@ -29,7 +29,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 @Deprecated
 public class JsonToYouiEngineElementConverter extends JsonToMobileElementConverter {
     public JsonToYouiEngineElementConverter(RemoteWebDriver driver) {
-        super(driver, null, null);
+        super(driver, null);
     }
 
     @Override
