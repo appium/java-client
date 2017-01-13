@@ -179,32 +179,6 @@ public class StartingAppLocallyTest {
         }
     }
 
-    @Test public void startingIOSAppWithCapabilitiesOnServerSideTest() {
-        DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-        serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
-            500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
-
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "UICatalog.app.zip");
-        DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-        clientCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-
-        AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withCapabilities(serverCapabilities);
-
-        IOSDriver<?> driver = new IOSDriver<>(builder, clientCapabilities);
-        try {
-            Capabilities caps = driver.getCapabilities();
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
-            assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-        } finally {
-            driver.quit();
-        }
-    }
-
     @Test public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
