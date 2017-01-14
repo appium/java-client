@@ -8,16 +8,11 @@ import org.openqa.selenium.WebElement;
 
 public class IOSWebViewTest extends BaseIOSWebViewTest {
 
-    @Test public void webViewPageTestCase() throws Throwable {
+    @Test public void webViewPageTestCase() throws InterruptedException {
         driver.findElementByXPath("//UIATextField[@value='Enter URL']")
             .sendKeys("www.google.com");
         driver.findElementByClassName("UIAButton").click();
-        Thread.sleep(10000);
-        driver.getContextHandles().forEach((handle) -> {
-            if (handle.contains("WEBVIEW")) {
-                driver.context(handle);
-            }
-        });
+        findAndSwitchToWebView();
         WebElement el = driver.findElementByClassName("gsfi");
         el.sendKeys("Appium");
         el.sendKeys(Keys.ENTER);
