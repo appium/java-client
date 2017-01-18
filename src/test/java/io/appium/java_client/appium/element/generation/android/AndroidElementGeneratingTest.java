@@ -31,54 +31,40 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
     };
 
     @Test public void whenAndroidNativeAppIsLaunched() {
-        assertTrue(check(serverCapabilitiesSupplier,
-                () -> {
-                    DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-                    clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
-                    clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
-                    return clientCapabilities;
-                },
-                commonPredicate,
-                AndroidUIAutomator("new UiSelector().clickable(true)"),
-                AndroidElement.class));
+        assertTrue(check(serverCapabilitiesSupplier, () -> {
+            DesiredCapabilities clientCapabilities = new DesiredCapabilities();
+            clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
+            clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
+            return clientCapabilities;
+        }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)"),
+            AndroidElement.class));
     }
 
     @Test public void whenAndroidHybridAppIsLaunched() {
-        assertTrue(check(serverCapabilitiesSupplier,
-                () -> {
-                    DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-                    clientCapabilities
-                            .setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
-                    clientCapabilities
-                            .setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
-                    return clientCapabilities;
-                },
-                (by, aClass) -> {
-                    driver.context("WEBVIEW_io.appium.android.apis");
-                    return commonPredicate.test(by, aClass);
-                },
-                tagName("a"),
-                RemoteWebElement.class));
+        assertTrue(check(serverCapabilitiesSupplier, () -> {
+            DesiredCapabilities clientCapabilities = new DesiredCapabilities();
+            clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
+            clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
+            return clientCapabilities;
+        }, (by, aClass) -> {
+                driver.context("WEBVIEW_io.appium.android.apis");
+                return commonPredicate.test(by, aClass);
+            }, tagName("a"), RemoteWebElement.class));
     }
 
     @Test public void whenAndroidBrowserIsLaunched() {
         assertTrue(check(() -> {
-                    DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-                    serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-                    serverCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-                    return serverCapabilities;
-                },
-                () -> {
-                    DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-                    clientCapabilities
-                            .setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-                    return clientCapabilities;
-                },
-                (by, aClass) -> {
-                    driver.get("https://www.google.com");
-                    return commonPredicate.test(by, aClass);
-                },
-                className("gsfi"),
-                RemoteWebElement.class));
+            DesiredCapabilities serverCapabilities = new DesiredCapabilities();
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+            serverCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+            return serverCapabilities;
+        }, () -> {
+                DesiredCapabilities clientCapabilities = new DesiredCapabilities();
+                clientCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+                return clientCapabilities;
+            }, (by, aClass) -> {
+                driver.get("https://www.google.com");
+                return commonPredicate.test(by, aClass);
+            }, className("gsfi"), RemoteWebElement.class));
     }
 }

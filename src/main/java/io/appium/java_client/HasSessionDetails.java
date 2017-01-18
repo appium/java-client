@@ -51,6 +51,9 @@ public interface HasSessionDetails extends ExecutesMethod {
         return ofNullable(automationName != null ? String.valueOf(automationName) : null).orElse(null);
     }
 
+    /**
+     * @return is focus on browser or on native content.
+     */
     default boolean isBrowser() {
         Object browserName = getSessionDetail("browserName");
         return ofNullable(browserName != null ? String
