@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -56,7 +57,6 @@ public interface HasSessionDetails extends ExecutesMethod {
      */
     default boolean isBrowser() {
         Object browserName = getSessionDetail("browserName");
-        return ofNullable(browserName != null ? String
-                .valueOf(browserName) : null).orElse(null) != null;
+        return browserName != null && !isBlank(String.valueOf(browserName));
     }
 }
