@@ -13,7 +13,7 @@ Add the following to pom.xml:
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
   <version>${version.you.require}</version>
-  <scope>test</test>
+  <scope>test</scope>
 </dependency>
 ```
 
