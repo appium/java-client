@@ -74,59 +74,49 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     @Test public void whenIOSHybridAppIsLaunched() throws Exception {
         assertTrue(check(serverAppCapabilitiesSupplier,
                 appFileSupplierFunction.apply(webViewApp),
-                (by, aClass) -> {
-                    IOSElement element1 = (IOSElement) driver
-                            .findElementByXPath("//UIATextField[@value='Enter URL']");
-                    element1.sendKeys("www.google.com");
-                    driver.findElementByClassName("UIAButton").click();
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            (by, aClass) -> {
+                IOSElement element1 = (IOSElement) driver.findElementByXPath("//UIATextField[@value='Enter URL']");
+                element1.sendKeys("www.google.com");
+                driver.findElementByClassName("UIAButton").click();
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                driver.getContextHandles().forEach((handle) -> {
+                    if (handle.contains("WEBVIEW")) {
+                        driver.context(handle);
                     }
-                    driver.getContextHandles().forEach((handle) -> {
-                        if (handle.contains("WEBVIEW")) {
-                            driver.context(handle);
-                        }
-                    });
-                    return commonPredicate.test(by, aClass);
-                },
-                className("gsfi"),
-                RemoteWebElement.class));
+                });
+                return commonPredicate.test(by, aClass);
+            }, className("gsfi"), RemoteWebElement.class));
     }
 
     @Test public void whenIOSBrowserIsLaunched() {
         assertTrue(check(serverBrowserCapabilitiesSupplier,
-                clientBrowserCapabilitiesSupplier,
-                commonPredicate,
-                className("gsfi"),
-                RemoteWebElement.class));
+                clientBrowserCapabilitiesSupplier, (by, aClass) -> {
+                driver.get("https://www.google.com");
+                return commonPredicate.test(by, aClass);
+            }, className("gsfi"), RemoteWebElement.class));
     }
 
     @Test
     public void whenIOSNativeAppIsLaunched2() {
-        assertTrue(check(
-                () -> {
-                    DesiredCapabilities serverCapabilities = serverAppCapabilitiesSupplier.get();
-                    serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
-                    return serverCapabilities;
-                },
-                appFileSupplierFunction.apply(testApp),
-                commonPredicate,
-                id("IntegerA"),
-                IOSElement.class));
+        assertTrue(check(() -> {
+            DesiredCapabilities serverCapabilities = serverAppCapabilitiesSupplier.get();
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
+            return serverCapabilities;
+        }, appFileSupplierFunction.apply(testApp), commonPredicate, id("IntegerA"), IOSElement.class));
     }
 
     @Test public void whenIOSBrowserIsLaunched2() {
-        assertTrue(check(
-                () -> {
-                    DesiredCapabilities serverCapabilities = serverBrowserCapabilitiesSupplier.get();
-                    serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
-                    return serverCapabilities;
-                },
-                clientBrowserCapabilitiesSupplier,
-                commonPredicate,
-                className("gsfi"),
-                RemoteWebElement.class));
+        assertTrue(check(() -> {
+            DesiredCapabilities serverCapabilities = serverBrowserCapabilitiesSupplier.get();
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
+            return serverCapabilities;
+        }, clientBrowserCapabilitiesSupplier, (by, aClass) -> {
+                driver.get("https://www.google.com");
+                return commonPredicate.test(by, aClass);
+            }, className("gsfi"), RemoteWebElement.class));
     }
 }

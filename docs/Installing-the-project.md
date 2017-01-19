@@ -13,7 +13,7 @@ Add the following to pom.xml:
   <groupId>io.appium</groupId>
   <artifactId>java-client</artifactId>
   <version>${version.you.require}</version>
-  <scope>test</test>
+  <scope>test</scope>
 </dependency>
 ```
 
@@ -40,7 +40,7 @@ If it is necessary to change the version of Selenium then you can configure pom.
 </dependency>
 ```
 
-#Gardle
+#Gradle
 
 Add the following to build.gradle:
 

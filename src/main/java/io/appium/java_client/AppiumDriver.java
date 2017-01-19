@@ -76,6 +76,7 @@ public class AppiumDriver<T extends WebElement>
     private ExecuteMethod executeMethod;
     private final String platformName;
     private final String automationName;
+    private String currentContext;
 
 
     /**
@@ -119,6 +120,7 @@ public class AppiumDriver<T extends WebElement>
                 .orElse(capabilityAutomation2 != null ? String.valueOf(capabilityAutomation2) : null);
 
         this.setElementConverter(new JsonToMobileElementConverter(this, this));
+        currentContext = getContext();
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -350,6 +352,7 @@ public class AppiumDriver<T extends WebElement>
     @Override public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
         execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
+        currentContext = name;
         return this;
     }
 
@@ -424,5 +427,13 @@ public class AppiumDriver<T extends WebElement>
 
     @Override public String getAutomationName() {
         return automationName;
+    }
+
+    @Override public boolean isBrowser() {
+
+        if  (super.isBrowser()) {
+            return true;
+        }
+        return !currentContext.toLowerCase().contains("NATIVE_APP".toLowerCase());
     }
 }

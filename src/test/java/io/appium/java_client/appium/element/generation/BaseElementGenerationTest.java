@@ -35,7 +35,7 @@ public class BaseElementGenerationTest {
                          By by, Class<? extends WebElement> clazz) {
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withCapabilities(serverCapabilitiesSupplier.get());
-        driver = new AppiumDriver<>(builder, clientCapabilitiesSupplier.get());;
+        driver = new AppiumDriver<>(builder, clientCapabilitiesSupplier.get());
         return filter.test(by, clazz);
     }
 
