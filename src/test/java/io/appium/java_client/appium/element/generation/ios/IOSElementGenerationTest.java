@@ -94,10 +94,10 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
 
     @Test public void whenIOSBrowserIsLaunched() {
         assertTrue(check(serverBrowserCapabilitiesSupplier,
-                clientBrowserCapabilitiesSupplier, (by, aClass) -> {
-                driver.get("https://www.google.com");
-                return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+                clientBrowserCapabilitiesSupplier,
+                commonPredicate,
+                className("gsfi"),
+                RemoteWebElement.class));
     }
 
     @Test

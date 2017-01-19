@@ -430,7 +430,6 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override public boolean isBrowser() {
-
         if  (super.isBrowser()) {
             return true;
         }
