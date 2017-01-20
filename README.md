@@ -28,6 +28,13 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
   
 The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](https://github.com/appium/java-client/pull/553)
 
+- **[BUG FIX]/[ENHANCEMENT]**. Issue report: [#552](https://github.com/appium/java-client/issues/552). FIX [#556](https://github.com/appium/java-client/pull/556)
+  - Additional methods were added to the `io.appium.java_client.HasSessionDetails`
+    - `String getPlatformName()`
+    - `String getAutomationName()`
+    - `boolean isBrowser()`
+  -  `io.appium.java_client.HasSessionDetails` is used by the ` io.appium.java_client.internal.JsonToMobileElementConverter ` to define which instance of the `org.openqa.selenium.WebElement` subclass should be created. 
+
 *5.0.0-BETA1*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
