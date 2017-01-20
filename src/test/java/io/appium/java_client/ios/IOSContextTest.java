@@ -16,7 +16,10 @@
 
 package io.appium.java_client.ios;
 
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.NoSuchContextException;
 import org.junit.Test;
@@ -31,14 +34,15 @@ public class IOSContextTest extends BaseIOSWebViewTest {
         assertEquals(driver.getContextHandles().size(), 2);
     }
 
-    @Test public void testSwitchContext() {
+    @Test public void testSwitchContext() throws InterruptedException {
         driver.getContextHandles();
-        driver.context("WEBVIEW_1");
-        assertEquals(driver.getContext(), "WEBVIEW_1");
+        findAndSwitchToWebView();
+        assertThat(driver.getContext(), containsString("WEBVIEW"));
         driver.context("NATIVE_APP");
     }
 
     @Test(expected = NoSuchContextException.class) public void testContextError() {
         driver.context("Planet of the Ape-ium");
+        assertTrue(driver.getContext().equals("Planet of the Ape-ium"));
     }
 }

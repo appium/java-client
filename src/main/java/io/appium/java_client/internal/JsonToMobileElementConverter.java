@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import io.appium.java_client.HasSessionDetails;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -37,25 +38,17 @@ import java.util.Map;
  */
 public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
-    private static final String AUTOMATION_NAME_PARAMETER = "automationName";
-    private static final String PLATFORM_NAME_PARAMETER = "platformName";
-
-
     protected final RemoteWebDriver driver;
-    private final String automation;
-    private final String platform;
+    private final HasSessionDetails hasSessionDetails;
 
     /**
      * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
-     * @param sessionParameters the map of current session parameters
+     * @param hasSessionDetails object that has session details
      */
-    public JsonToMobileElementConverter(RemoteWebDriver driver, Map<String, Object> sessionParameters) {
+    public JsonToMobileElementConverter(RemoteWebDriver driver, HasSessionDetails hasSessionDetails) {
         super(driver);
         this.driver = driver;
-        automation = String.valueOf(sessionParameters
-                .get(AUTOMATION_NAME_PARAMETER)).toLowerCase();
-        platform = String.valueOf(sessionParameters
-                .get(PLATFORM_NAME_PARAMETER)).toLowerCase();
+        this.hasSessionDetails = hasSessionDetails;
     }
 
     /**
@@ -93,8 +86,14 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
     }
 
     protected RemoteWebElement newMobileElement() {
-        Class<? extends RemoteWebElement> target =
-                getElementClass(platform, automation);
+        Class<? extends RemoteWebElement> target;
+        if (hasSessionDetails.isBrowser()) {
+            target = getElementClass(null, null);
+        } else {
+            target = getElementClass(hasSessionDetails.getPlatformName(),
+                    hasSessionDetails.getAutomationName());
+        }
+
         try {
             Constructor<? extends RemoteWebElement> constructor = target.getDeclaredConstructor();
             constructor.setAccessible(true);

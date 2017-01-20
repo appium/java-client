@@ -46,4 +46,13 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
+
+    protected void findAndSwitchToWebView() throws InterruptedException {
+        Thread.sleep(10000);
+        driver.getContextHandles().forEach((handle) -> {
+            if (handle.contains("WEBVIEW")) {
+                driver.context(handle);
+            }
+        });
+    }
 }

@@ -17,6 +17,7 @@
 package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.NoSuchContextException;
 import org.junit.BeforeClass;
@@ -46,6 +47,7 @@ public class AndroidContextTest extends BaseAndroidTest {
 
     @Test(expected = NoSuchContextException.class) public void testContextError() {
         driver.context("Planet of the Ape-ium");
+        assertTrue(driver.getContext().equals("Planet of the Ape-ium"));
     }
 
 }
