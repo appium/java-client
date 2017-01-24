@@ -20,6 +20,7 @@ import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiri
 
 import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.WebDriver;
+
 import java.util.Collection;
 
 public class EventFiringWebDriverFactory {
