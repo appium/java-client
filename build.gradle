@@ -1,3 +1,8 @@
+plugins {
+  id "org.owasp.dependencycheck" version "1.4.5"
+  id "com.github.johnrengelman.shadow" version "1.2.4"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
@@ -15,19 +20,6 @@ repositories {
         url "http://repo.maven.apache.org/maven2"
     }
 }
-
-buildscript {
-    repositories {
-        maven {
-            url "http://repo.maven.apache.org/maven2"
-        }
-    }
-    dependencies {
-        classpath "org.owasp:dependency-check-gradle:1.4.0"
-    }
-}
-
-apply plugin: "org.owasp.dependencycheck"
 
 configurations {
     ecj
