@@ -35,6 +35,8 @@ The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](
     - `boolean isBrowser()`
   -  `io.appium.java_client.HasSessionDetails` is used by the ` io.appium.java_client.internal.JsonToMobileElementConverter ` to define which instance of the `org.openqa.selenium.WebElement` subclass should be created. 
 
+- **[ENHANCEMENT]**: The additional event firing feature. PR: [#559](https://github.com/appium/java-client/pull/559). The [WIKI chapter about the event firing](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md) was updated.
+
 *5.0.0-BETA1*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
