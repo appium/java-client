@@ -123,3 +123,29 @@ public class UsersWebDriverEventListener implements AppiumWebDriverEventListener
 ...
 }
 ```
+# Also
+
+As soon as Appium java client has Java 8-style API  (methods with default implementation) there was provided the ability to get objects created by these interfaces (anonymous types) listenable. Also there is an option is to make some objects (some single element that has been found, for example) listenable too.
+
+```java
+import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiringObject;
+...
+
+AppiumDriver<AndroidElement> appiumDriver = new AppiumDriver<AndroidElement>(parameters);
+FindsByAndroidUIAutomator<AndroidElement> findsByAndroidUIAutomator =
+    new FindsByAndroidUIAutomator<AndroidElement>() {
+
+    @Override
+    public AndroidElement findElement(String by, String using) {
+        return appiumDriver.findElement(String by, String using);
+    }
+
+    @Override
+    public List<AndroidElement> findElements(String by, String using) {
+        return appiumDriver.findElements(by, using);
+    }
+};
+
+findsByAndroidUIAutomator = 
+    getEventFiringObject(findsByAndroidUIAutomator, appiumDriver, listeners);
+```
