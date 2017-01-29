@@ -125,7 +125,7 @@ public class UsersWebDriverEventListener implements AppiumWebDriverEventListener
 ```
 # Also
 
-As soon as Appium java client has Java 8-style API  (methods with default implementation) there was provided the ability to get objects created by these interfaces (anonymous types) listenable. Also there is an option is to make some objects (some single element that has been found, for example) listenable too.
+As soon as Appium java client has *Java 8-style* API  (methods with default implementation) there was provided the ability to get objects created by these interfaces (anonymous types) listenable. Also there is an option to make some objects (some single element that has been found, for example) listenable too.
 
 ```java
 import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiringObject;
