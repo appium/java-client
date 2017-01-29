@@ -30,6 +30,7 @@ import org.openqa.selenium.html5.Location;
 
 import java.io.File;
 import java.util.Map;
+import java.util.List;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
@@ -140,4 +141,33 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertNotNull(driver.getDisplayDensity());
         assertNotEquals(0, driver.getSystemBars().size());
     }
+
+    @Test public void getSupportedPerformanceDataTypesTest() {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
+        assert(supportedPerformanceDataTypes.size() == 4);
+
+    }
+
+    @Test public void getPerformanceDataTest() {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
+
+        for(int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++ i){
+
+            String dataType = supportedPerformanceDataTypes.get(i);
+
+            List<List<Object>> valueTable = driver.getPerformanceData("com.example.android.apis", dataType, 60000);
+
+            int valueTableHeadLength = valueTable.get(0).size();
+
+            for(int j = 1 ; j < valueTable.size() ; ++ j){
+                assert(valueTableHeadLength == valueTable.get(j).size());
+            }
+        }
+
+    }
+
 }
