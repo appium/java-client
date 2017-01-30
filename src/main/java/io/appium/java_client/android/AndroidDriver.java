@@ -193,9 +193,10 @@ public class AndroidDriver<T extends WebElement>
      *                        [1478095200, null, null, 10079213, 19962, 2487705, 20015, 0, 3600],
      *                        [1478098800, null, null, 4444433, 10227, 1430356, 10493, 0, 3600]]
      *          in case of cpu info : [[user, kernel], [0.9, 1.3]]
-     * @throws if the performance data type is not supported, thows Error
+     * @throws Exception if the performance data type is not supported, thows Error
      */
-    public List<List<Object>> getPerformanceData(String packageName, String dataType, int dataReadTimeout) {
+    public List<List<Object>> getPerformanceData(String packageName, String dataType, int dataReadTimeout)
+            throws Exception {
         return CommandExecutionHelper.execute(this,
                                                 getPerformanceDataCommand(packageName, dataType, dataReadTimeout));
     }
