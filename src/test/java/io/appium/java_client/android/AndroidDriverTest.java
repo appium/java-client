@@ -164,7 +164,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     }
 
-    @Test public void getPerformanceDataTest() {
+    @Test public void getPerformanceDataTest() throws Exception {
         driver.startActivity("io.appium.android.apis", ".ApiDemos");
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
