@@ -29,8 +29,10 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
 import java.io.File;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
@@ -145,8 +147,20 @@ public class AndroidDriverTest extends BaseAndroidTest {
     @Test public void getSupportedPerformanceDataTypesTest() {
         driver.startActivity("io.appium.android.apis", ".ApiDemos");
 
+        List<String> dataTypes = new ArrayList<String>();
+        dataTypes.add("cpuinfo");
+        dataTypes.add("memoryinfo");
+        dataTypes.add("batteryinfo");
+        dataTypes.add("networkinfo");
+
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
-        assert(supportedPerformanceDataTypes.size() == 4);
+
+        assertEquals(4, supportedPerformanceDataTypes.size());
+
+        for ( int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++i) {
+            assertEquals(dataTypes.get(i), supportedPerformanceDataTypes.get(i));
+        }
+
 
     }
 
@@ -155,16 +169,14 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
 
-        for(int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++ i){
+        for (int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++ i) {
 
             String dataType = supportedPerformanceDataTypes.get(i);
 
             List<List<Object>> valueTable = driver.getPerformanceData("com.example.android.apis", dataType, 60000);
 
-            int valueTableHeadLength = valueTable.get(0).size();
-
-            for(int j = 1 ; j < valueTable.size() ; ++ j){
-                assert(valueTableHeadLength == valueTable.get(j).size());
+            for ( int j = 1 ; j < valueTable.size() ; ++ j) {
+                assertEquals(valueTable.subList(0,0).size(), valueTable.subList(j, j).size());
             }
         }
 

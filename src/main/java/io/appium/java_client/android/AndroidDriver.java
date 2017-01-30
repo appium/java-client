@@ -33,7 +33,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;

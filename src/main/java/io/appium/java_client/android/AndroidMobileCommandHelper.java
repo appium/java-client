@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.AbstractMap;
-import java.util.List;
 import java.util.Map;
 
 /**
