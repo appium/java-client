@@ -18,16 +18,19 @@ repositories {
 
 buildscript {
     repositories {
+        jcenter()
         maven {
             url "http://repo.maven.apache.org/maven2"
         }
     }
     dependencies {
         classpath "org.owasp:dependency-check-gradle:1.4.0"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 }
 
 apply plugin: "org.owasp.dependencycheck"
+apply plugin: 'com.github.johnrengelman.shadow'
 
 configurations {
     ecj
