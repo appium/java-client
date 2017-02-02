@@ -50,7 +50,8 @@ import java.util.List;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
+        FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails,
+            HasSupportedPerformanceDataType {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
