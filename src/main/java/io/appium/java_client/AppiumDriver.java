@@ -76,7 +76,6 @@ public class AppiumDriver<T extends WebElement>
     private ExecuteMethod executeMethod;
     private final String platformName;
     private final String automationName;
-    private String currentContext;
 
 
     /**
@@ -92,19 +91,6 @@ public class AppiumDriver<T extends WebElement>
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
-        final AppiumDriver<?> driver = this;
-
-        HasSessionDetails hasSessionDetails = new HasSessionDetails() {
-            @Override
-            public Response execute(String driverCommand, Map<String, ?> parameters) {
-                return driver.execute(driverCommand, parameters);
-            }
-
-            @Override
-            public Response execute(String driverCommand) {
-                return driver.execute(driverCommand);
-            }
-        };
 
         Object capabilityPlatform1 = getCapabilities().getCapability(PLATFORM_NAME);
         Object capabilityAutomation1 = getCapabilities().getCapability(AUTOMATION_NAME);
@@ -112,15 +98,14 @@ public class AppiumDriver<T extends WebElement>
         Object capabilityPlatform2 = capabilities.getCapability(PLATFORM_NAME);
         Object capabilityAutomation2 = capabilities.getCapability(AUTOMATION_NAME);
 
-        platformName = ofNullable(ofNullable(hasSessionDetails.getPlatformName())
+        platformName = ofNullable(ofNullable(super.getPlatformName())
                 .orElse(capabilityPlatform1 != null ? String.valueOf(capabilityPlatform1) : null))
                 .orElse(capabilityPlatform2 != null ? String.valueOf(capabilityPlatform2) : null);
-        automationName = ofNullable(ofNullable(hasSessionDetails.getAutomationName())
+        automationName = ofNullable(ofNullable(super.getAutomationName())
                 .orElse(capabilityAutomation1 != null ? String.valueOf(capabilityAutomation1) : null))
                 .orElse(capabilityAutomation2 != null ? String.valueOf(capabilityAutomation2) : null);
 
         this.setElementConverter(new JsonToMobileElementConverter(this, this));
-        currentContext = getContext();
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -352,7 +337,6 @@ public class AppiumDriver<T extends WebElement>
     @Override public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
         execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-        currentContext = name;
         return this;
     }
 
@@ -430,9 +414,6 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override public boolean isBrowser() {
-        if  (super.isBrowser()) {
-            return true;
-        }
-        return !currentContext.toLowerCase().contains("NATIVE_APP".toLowerCase());
+        return !getContext().toLowerCase().contains("NATIVE_APP".toLowerCase());
     }
 }

@@ -55,8 +55,5 @@ public interface HasSessionDetails extends ExecutesMethod {
     /**
      * @return is focus on browser or on native content.
      */
-    default boolean isBrowser() {
-        Object browserName = getSessionDetail("browserName");
-        return browserName != null && !isBlank(String.valueOf(browserName));
-    }
+    boolean isBrowser();
 }

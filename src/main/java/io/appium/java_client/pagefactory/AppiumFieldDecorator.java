@@ -72,18 +72,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String platform;
     private final String automation;
     private final TimeOutDuration timeOutDuration;
+    private final HasSessionDetails hasSessionDetails;
 
-    private static String extractSessionData(WebDriver driver, Supplier<String> dataSupplier) {
-        if (driver == null) {
-            return null;
-        }
-
-        if (!(driver instanceof HasSessionDetails)) {
-            return null;
-        }
-
-        return String.valueOf(dataSupplier.get());
-    }
 
     public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
         TimeUnit timeUnit) {
@@ -100,10 +90,17 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration timeOutDuration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
-        platform = extractSessionData(originalDriver, () ->
-                HasSessionDetails.class.cast(originalDriver).getPlatformName());
-        automation = extractSessionData(originalDriver, () ->
-                HasSessionDetails.class.cast(originalDriver).getAutomationName());
+        if (originalDriver == null
+                || !HasSessionDetails.class.isAssignableFrom(originalDriver.getClass())) {
+            hasSessionDetails = null;
+            platform = null;
+            automation = null;
+        } else {
+            hasSessionDetails = HasSessionDetails.class.cast(originalDriver);
+            platform = hasSessionDetails.getPlatformName();
+            automation = hasSessionDetails.getAutomationName();
+        }
+
         this.timeOutDuration = timeOutDuration;
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(
@@ -221,6 +218,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
     private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
-        return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
+        return getEnhancedProxy(getElementClass(hasSessionDetails), elementInterceptor);
     }
 }
