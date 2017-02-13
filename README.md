@@ -20,6 +20,10 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ##Changelog##
 *5.0.0 (under construction yet)*
 
+*5.0.0-BETA3*
+[BUG FIX]
+- **[BUG FIX]**:Issue report: [#549](https://github.com/appium/java-client/issues/567). Fix: [#568](https://github.com/appium/java-client/pull/568)
+
 *5.0.0-BETA2*
 - **[BUG FIX]**:Issue report: [#549](https://github.com/appium/java-client/issues/549). Fix: [#551](https://github.com/appium/java-client/pull/551)
 - New capabilities were added [#533](https://github.com/appium/java-client/pull/553):
