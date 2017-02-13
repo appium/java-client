@@ -14,7 +14,6 @@ import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.io.File;
 import java.util.function.Function;
@@ -89,7 +88,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                     }
                 });
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, className("gsfi"), IOSElement.class));
     }
 
     @Test public void whenIOSBrowserIsLaunched() {
@@ -97,7 +96,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                 clientBrowserCapabilitiesSupplier, (by, aClass) -> {
                 driver.get("https://www.google.com");
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, className("gsfi"), IOSElement.class));
     }
 
     @Test
@@ -117,6 +116,6 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         }, clientBrowserCapabilitiesSupplier, (by, aClass) -> {
                 driver.get("https://www.google.com");
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, className("gsfi"), IOSElement.class));
     }
 }

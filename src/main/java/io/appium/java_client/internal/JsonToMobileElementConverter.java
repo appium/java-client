@@ -87,13 +87,7 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
     protected RemoteWebElement newMobileElement() {
         Class<? extends RemoteWebElement> target;
-        if (hasSessionDetails.isBrowser()) {
-            target = getElementClass(null, null);
-        } else {
-            target = getElementClass(hasSessionDetails.getPlatformName(),
-                    hasSessionDetails.getAutomationName());
-        }
-
+        target = getElementClass(hasSessionDetails);
         try {
             Constructor<? extends RemoteWebElement> constructor = target.getDeclaredConstructor();
             constructor.setAccessible(true);

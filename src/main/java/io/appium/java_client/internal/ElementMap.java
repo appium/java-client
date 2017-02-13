@@ -18,6 +18,7 @@ package io.appium.java_client.internal;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
@@ -69,14 +70,17 @@ public enum ElementMap {
     }
 
     /**
-     * @param platform platform name.
-     * @param automation automation name.
+     * @param hasSessionDetails something that implements {@link io.appium.java_client.HasSessionDetails}.
      * @return subclass of {@link io.appium.java_client.MobileElement} that convenient to current session details.
      */
-    public static Class<? extends RemoteWebElement> getElementClass(String platform, String automation) {
+    public static Class<? extends RemoteWebElement> getElementClass(HasSessionDetails hasSessionDetails) {
+        if (hasSessionDetails == null) {
+            return RemoteWebElement.class;
+        }
         ElementMap element = Optional.ofNullable(mobileElementMap.get(String
-                .valueOf(automation).toLowerCase().trim()))
-                .orElse(mobileElementMap.get(String.valueOf(platform).toLowerCase().trim()));
+                .valueOf(hasSessionDetails.getAutomationName()).toLowerCase().trim()))
+                .orElse(mobileElementMap
+                        .get(String.valueOf(hasSessionDetails.getPlatformName()).toLowerCase().trim()));
         if (element == null) {
             return RemoteWebElement.class;
         }
