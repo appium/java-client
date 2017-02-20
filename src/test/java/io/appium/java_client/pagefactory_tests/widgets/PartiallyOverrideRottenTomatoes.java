@@ -3,7 +3,6 @@ package io.appium.java_client.pagefactory_tests.widgets;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlMovies;
 import io.appium.java_client.pagefactory_tests.widgets.html.annotated.AnnotatedHtmlReview;
@@ -22,8 +21,8 @@ public class PartiallyOverrideRottenTomatoes implements RottenTomatoesAbstractAp
     private Movies simpleMovies;
 
     @FindBy(id = "main_container")
-    @AndroidFindBys({@AndroidFindBy(id = "android:id/content"),
-            @AndroidFindBy(className = "android.widget.RelativeLayout")})
+    @AndroidFindBy(id = "android:id/content")
+    @AndroidFindBy(className = "android.widget.RelativeLayout")
     @OverrideWidget(html = HtmlReview.class)
     private Review simpleReview;
 

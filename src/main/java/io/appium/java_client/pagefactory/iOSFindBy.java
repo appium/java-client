@@ -17,6 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -30,6 +31,7 @@ import java.lang.annotation.Target;
  * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+@Repeatable(iOSFindBySet.class)
 public @interface iOSFindBy {
     /**
      * It is is iOS UIAutomation string.
@@ -41,8 +43,7 @@ public @interface iOSFindBy {
     /**
      * It an UI automation accessibility Id which is a convenient to iOS.
      * About iOS accessibility
-     * {@link "https://developer.apple.com/library/ios/documentation/UIKit/Reference/
-     * UIAccessibilityIdentification_Protocol/index.html"}
+     * See  <a href="https://goo.gl/7sEkoB">UIAccessibilityIdentification</a>
      */
     String accessibility() default "";
 

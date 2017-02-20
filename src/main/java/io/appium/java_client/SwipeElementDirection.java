@@ -16,9 +16,14 @@
 
 package io.appium.java_client;
 
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
+/**
+ * This enum is deprecated. It is going to be removed
+ */
+@Deprecated
 public enum SwipeElementDirection {
     /**
      * Up from the center of the lower.
@@ -142,6 +147,7 @@ public enum SwipeElementDirection {
         }
     };
 
+    @SuppressAjWarnings("unused")
     static void checkYCoordinate(int y, Point location, Dimension size, int offSet)
         throws IllegalCoordinatesException {
         int bottom = location.getY() + size.getHeight();
@@ -157,6 +163,7 @@ public enum SwipeElementDirection {
 
     }
 
+    @SuppressAjWarnings("unused")
     static void checkXCoordinate(int x, Point location, Dimension size, int offSet)
         throws IllegalCoordinatesException {
         int right = location.getX() + size.getWidth();
@@ -182,7 +189,17 @@ public enum SwipeElementDirection {
 
     abstract void checkDirection(int x1, int y1, int x2, int y2);
 
-    void swipe(AppiumDriver<?> driver, MobileElement element, int offset1, int offset2,
+    /**
+     * Creates the swiping action. It is supposed to be performed inside the given element.
+     *
+     * @param driver an instance that extends {@link AppiumDriver}
+     * @param element the element that is going to be swiped
+     * @param offset1 from the first (starting) element board
+     * @param offset2 from the ending element board
+     * @param duration in milliseconds
+     * @throws IllegalCoordinatesException when starting/ending coordinates are outside of the given element
+     */
+    public void swipe(AppiumDriver<?> driver, MobileElement element, int offset1, int offset2,
         int duration) throws IllegalCoordinatesException {
         Point p = element.getCenter();
         Point location = element.getLocation();

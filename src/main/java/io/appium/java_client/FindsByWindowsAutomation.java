@@ -17,6 +17,8 @@
 
 package io.appium.java_client;
 
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -28,6 +30,8 @@ public interface FindsByWindowsAutomation<T extends WebElement> extends FindsByF
      *
      * @param selector a Windows UIAutomation selector
      * @return The first element that matches the given selector
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
+     * @throws NoSuchElementException when no one element is found
      */
     default T findElementByWindowsUIAutomation(String selector) {
         return findElement(MobileSelector.WINDOWS_UI_AUTOMATION.toString(), selector);
@@ -38,6 +42,7 @@ public interface FindsByWindowsAutomation<T extends WebElement> extends FindsByF
      *
      * @param selector a Windows UIAutomation selector
      * @return a list of elements that match the given selector
+     * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     default List<T> findElementsByWindowsUIAutomation(String selector) {
         return findElements(MobileSelector.WINDOWS_UI_AUTOMATION.toString(), selector);

@@ -19,8 +19,7 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getSettingsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setSettingsCommand;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
@@ -49,12 +48,13 @@ interface HasSettings extends ExecutesMethod {
      *
      * @return JsonObject, a straight-up hash of settings.
      */
-    default JsonObject getSettings() {
+    @SuppressWarnings("unchecked")
+    default Map<String, Object> getSettings() {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
 
-        JsonParser parser = new JsonParser();
-        return  (JsonObject) parser.parse(response.getValue().toString());
+        return  ImmutableMap.<String, Object>builder()
+                .putAll(Map.class.cast(response.getValue())).build();
     }
 
     /**

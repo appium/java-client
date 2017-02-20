@@ -16,29 +16,39 @@
 
 package io.appium.java_client.internal;
 
+import static io.appium.java_client.internal.ElementMap.getElementClass;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import io.appium.java_client.MobileElement;
-
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.HasSessionDetails;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Map;
 
 /**
- * Reconstitutes {@link WebElement}s from their JSON representation. Will recursively convert Lists
+ * Reconstitutes {@link org.openqa.selenium.WebElement}s from their JSON representation. Will recursively convert Lists
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
-public abstract class JsonToMobileElementConverter extends JsonToWebElementConverter {
-    protected RemoteWebDriver driver;
+public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
-    public JsonToMobileElementConverter(RemoteWebDriver driver) {
+    protected final RemoteWebDriver driver;
+    private final HasSessionDetails hasSessionDetails;
+
+    /**
+     * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
+     * @param hasSessionDetails object that has session details
+     */
+    public JsonToMobileElementConverter(RemoteWebDriver driver, HasSessionDetails hasSessionDetails) {
         super(driver);
         this.driver = driver;
+        this.hasSessionDetails = hasSessionDetails;
     }
 
     /**
@@ -56,7 +66,7 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
         if (result instanceof Map<?, ?>) {
             Map<?, ?> resultAsMap = (Map<?, ?>) result;
             if (resultAsMap.containsKey("ELEMENT")) {
-                MobileElement element = newMobileElement();
+                RemoteWebElement element = newMobileElement();
                 element.setId(String.valueOf(resultAsMap.get("ELEMENT")));
                 element.setFileDetector(driver.getFileDetector());
                 return element;
@@ -75,5 +85,17 @@ public abstract class JsonToMobileElementConverter extends JsonToWebElementConve
         return result;
     }
 
-    protected abstract MobileElement newMobileElement();
+    protected RemoteWebElement newMobileElement() {
+        Class<? extends RemoteWebElement> target;
+        target = getElementClass(hasSessionDetails);
+        try {
+            Constructor<? extends RemoteWebElement> constructor = target.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            RemoteWebElement result = constructor.newInstance();
+            result.setParent(driver);
+            return result;
+        } catch (Exception e) {
+            throw new WebDriverException(e);
+        }
+    }
 }

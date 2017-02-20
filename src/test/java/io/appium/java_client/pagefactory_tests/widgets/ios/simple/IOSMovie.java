@@ -1,6 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widgets.ios.simple;
 
-import io.appium.java_client.TouchableElement;
+import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
@@ -29,6 +30,7 @@ public class IOSMovie extends Movie {
     }
 
     @Override public void goToReview() {
-        ((TouchableElement) getWrappedElement()).tap(1, 1500);
+        TouchAction tap = new TouchAction(PerformsTouchActions.class.cast(getWrappedDriver()));
+        tap.press(getWrappedElement()).waitAction(1500).release().perform();
     }
 }

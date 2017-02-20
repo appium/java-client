@@ -2,11 +2,12 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
-apply plugin: 'maven-publish'
 apply plugin: 'checkstyle'
+apply plugin: 'signing'
+apply plugin: 'maven-publish'
 
 group 'io.appium'
-version '5.0.0-SNAPSHOT'
+version '5.0.0-BETA3'
 
 repositories {
     jcenter()
@@ -17,16 +18,19 @@ repositories {
 
 buildscript {
     repositories {
+        jcenter()
         maven {
             url "http://repo.maven.apache.org/maven2"
         }
     }
     dependencies {
         classpath "org.owasp:dependency-check-gradle:1.4.0"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 }
 
 apply plugin: "org.owasp.dependencycheck"
+apply plugin: 'com.github.johnrengelman.shadow'
 
 configurations {
     ecj
@@ -50,19 +54,19 @@ compileJava {
 }
 
 dependencies {
-    compile('org.seleniumhq.selenium:selenium-java:2.53.1'){
+    compile('org.seleniumhq.selenium:selenium-java:3.0.1'){
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
     }
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
-    compile 'com.google.guava:guava:19.0'
+    compile 'com.google.guava:guava:20.0'
     compile 'cglib:cglib:3.2.4'
     compile 'commons-validator:commons-validator:1.5.1'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'org.springframework:spring-context:4.3.2.RELEASE'
-    compile 'org.aspectj:aspectjweaver:1.8.9'
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'commons-io:commons-io:2.5'
+    compile 'org.springframework:spring-context:4.3.5.RELEASE'
+    compile 'org.aspectj:aspectjweaver:1.8.10'
 
     testCompile 'junit:junit:4.12'
 }
@@ -119,73 +123,81 @@ dependencies {
 tasks.withType(Checkstyle) {
     ignoreFailures = false
     configFile = file("$projectDir/google-style.xml")
+    exclude '**/org/openqa/selenium/**'
 }
 
-task javadocs(type: Javadoc) {
-    source = sourceSets.main.java
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            pom.withXml {
-                asNode().children().last() + {
-                    resolveStrategy = Closure.DELEGATE_FIRST
-                    name 'java-client'
-                    description 'Java client for Appium Mobile Webdriver'
-                    url 'http://appium.io'
-                    developers {
-                        developer {
-                            name 'Jonah Stiennon'
-                            email 'jonahss@gmail.com'
-                            url 'https://github.com/jonahss'
-                            id 'jonahss'
-                        };
-                        developer {
-                            name 'Sergey Tikhomirov'
-                            email 'tichomirovsergey@gmail.com'
-                            url 'https://github.com/TikhomirovSergey'
-                            id 'TikhomirovSergey'
-                        };
-                        developer {
-                            name 'Srinivasan Sekar'
-                            email 'srinivasan.sekar1990@gmail.com'
-                            url 'https://github.com/SrinivasanTarget'
-                            id 'SrinivasanTarget'
-                        };
-                    }
-                    licenses {
-                        license {
-                            name 'Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                            distribution 'repo'
-                        }
-                    }
-                    scm {
-                        url 'https://github.com/appium/java-client'
-                        connection 'scm:git:ssh://git@github.com/appium/java-client.git'
-                        developerConnection 'scm:git:ssh://git@github.com/appium/java-client.git'
-                        tag 'HEAD'
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                packaging 'jar'
+                name 'java-client'
+                description 'Java client for Appium Mobile Webdriver'
+                url 'http://appium.io'
+                developers {
+                    developer {
+                        name 'Jonah Stiennon'
+                        email 'jonahss@gmail.com'
+                        url 'https://github.com/jonahss'
+                        id 'jonahss'
+                    };
+                    developer {
+                        name 'Sergey Tikhomirov'
+                        email 'tichomirovsergey@gmail.com'
+                        url 'https://github.com/TikhomirovSergey'
+                        id 'TikhomirovSergey'
+                    };
+                    developer {
+                        name 'Srinivasan Sekar'
+                        email 'srinivasan.sekar1990@gmail.com'
+                        url 'https://github.com/SrinivasanTarget'
+                        id 'SrinivasanTarget'
+                    };
+                }
+                licenses {
+                    license {
+                        name 'Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
                     }
                 }
-            }
-            from components.java
-            artifact sourceJar {
-                classifier 'sources'
-            }
-            artifact javadocJar {
-                classifier 'javadoc'
+                scm {
+                    url 'https://github.com/appium/java-client'
+                    connection 'scm:git:ssh://git@github.com/appium/java-client.git'
+                    developerConnection 'scm:git:ssh://git@github.com/appium/java-client.git'
+                    tag 'HEAD'
+                }
             }
         }
     }
-}
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.java
-}
-
-task javadocJar (type: Jar, dependsOn: javadoc) {
-    from javadoc
 }
 
 task wrapper(type: Wrapper) {

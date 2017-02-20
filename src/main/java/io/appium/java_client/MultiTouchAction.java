@@ -26,24 +26,24 @@ import com.google.common.collect.ImmutableMap;
  * The MultiTouchAction object is a collection of TouchAction objects
  * (remember that TouchAction objects are in turn, a chain of individual actions)
  * Add multiple TouchAction objects using the add() method.
- * When perform() method is called, all actions are sent to the driver.
- * The driver performs the first step of each TouchAction object simultaneously as a multi-touch
+ * When perform() method is called, all actions are sent to the performsTouchActions.
+ * The performsTouchActions performs the first step of each TouchAction object simultaneously as a multi-touch
  * "execution group". Conceptually, the number of TouchAction objects added to the MultiTouchAction
  * is equal to the number of "fingers" or  other appendages or tools touching the screen at the
- * same time as part of this multi-gesture. Then the driver performs the second step of each
+ * same time as part of this multi-gesture. Then the performsTouchActions performs the second step of each
  * TouchAction object and another "execution group", and the third, and so on.
  * Using a waitAction() action within a TouchAction takes up one of the slots in an
  * "execution group", so these can be used to sync up complex actions.
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
  * more actions can be chained.
  */
-@SuppressWarnings({"rawtypes", "unchecked"}) public class MultiTouchAction {
+public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
 
-    ImmutableList.Builder<TouchAction> actions;
-    private MobileDriver driver;
+    private ImmutableList.Builder<TouchAction> actions;
+    private PerformsTouchActions performsTouchActions;
 
-    public MultiTouchAction(MobileDriver driver) {
-        this.driver = driver;
+    public MultiTouchAction(PerformsTouchActions performsTouchActions) {
+        this.performsTouchActions = performsTouchActions;
         actions = ImmutableList.builder();
     }
 
@@ -55,35 +55,34 @@ import com.google.common.collect.ImmutableMap;
      */
     public MultiTouchAction add(TouchAction action) {
         actions.add(action);
-
         return this;
     }
 
     /**
-     * Perform the multi-touch action on the mobile driver.
+     * Perform the multi-touch action on the mobile performsTouchActions.
      */
-    public void perform() {
+    public MultiTouchAction perform() {
         int size = actions.build().size();
         if (size > 1) {
-            driver.performMultiTouchAction(this);
+            performsTouchActions.performMultiTouchAction(this);
         } else if (size == 1) {
             //android doesn't like having multi-touch actions with only a single TouchAction...
-            driver.performTouchAction(actions.build().get(0));
+            performsTouchActions.performTouchAction(actions.build().get(0));
         } else {
             throw new MissingParameterException(
                 "MultiTouch action must have at least one TouchAction "
                     + "added before it can be performed");
         }
-
+        return this;
     }
 
-    protected ImmutableMap getParameters() {
+    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
         ImmutableList.Builder<Object> listOfActionChains = ImmutableList.builder();
         ImmutableList<TouchAction> touchActions = actions.build();
 
-        for (TouchAction action : touchActions) {
+        touchActions.forEach(action -> {
             listOfActionChains.add(action.getParameters().get("actions"));
-        }
+        });
         return ImmutableMap.of("actions", listOfActionChains.build());
     }
 }

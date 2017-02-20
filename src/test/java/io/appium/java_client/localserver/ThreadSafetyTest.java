@@ -1,33 +1,35 @@
 package io.appium.java_client.localserver;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.Test;
 
 public class ThreadSafetyTest {
 
-    final AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
-    final Action run = new Action() {
-        @Override Object perform() {
+    private final AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
+    private final Action run = new Action() {
+        @Override protected Object perform() {
             service.start();
             return "OK";
         }
     };
-    final Action run2 = run.clone();
-    final Action isRunning = new Action() {
-        @Override Object perform() {
+    private final Action run2 = run.clone();
+    private final Action isRunning = new Action() {
+        @Override protected Object perform() {
             return service.isRunning();
         }
     };
-    final Action isRunning2 = isRunning.clone();
-    final Action stop = new Action() {
-        @Override Object perform() {
+    private final Action isRunning2 = isRunning.clone();
+    private final Action stop = new Action() {
+        @Override protected Object perform() {
             service.stop();
             return "OK";
         }
     };
-    final Action stop2 = stop.clone();
+    private final Action stop2 = stop.clone();
 
     @Test public void whenFewTreadsDoTheSameWork() throws Throwable {
 
@@ -65,8 +67,8 @@ public class ThreadSafetyTest {
                 throw runTestThread2.throwable;
             }
 
-            assertTrue(runTestThread.result.equals("OK"));
-            assertTrue(runTestThread2.result.equals("OK"));
+            assertTrue("OK".equals(runTestThread.result));
+            assertTrue("OK".equals(runTestThread2.result));
             assertTrue(service.isRunning());
 
             isRunningThread.start();
@@ -102,9 +104,9 @@ public class ThreadSafetyTest {
                 throw stopTestThread2.throwable;
             }
 
-            assertTrue(stopTestThread.result.equals("OK"));
-            assertTrue(stopTestThread2.result.equals("OK"));
-            assertTrue(!service.isRunning());
+            assertTrue("OK".equals(stopTestThread.result));
+            assertTrue("OK".equals(stopTestThread2.result));
+            assertFalse(service.isRunning());
         } finally {
             if (service.isRunning()) {
                 service.stop();
@@ -155,12 +157,10 @@ public class ThreadSafetyTest {
                 throw stopTestThread.throwable;
             }
 
-            assertTrue(
-                runTestThread.result.equals("OK")); //the service had been started firstly (see (1))
-            assertTrue(isRunningTestThread.result.equals(true)); //it was running (see (2))
-            assertTrue(stopTestThread.result
-                .equals("OK")); //and then the test tried to shut down it (see (3))
-            assertTrue(!service.isRunning());
+            assertTrue("OK".equals(runTestThread.result)); //the service had been started firstly (see (1))
+            assertTrue(Boolean.TRUE.equals(isRunningTestThread.result)); //it was running (see (2))
+            assertTrue("OK".equals(stopTestThread.result)); //and then the test tried to shut down it (see (3))
+            assertFalse(service.isRunning());
 
             isRunningThread2.start(); // (1)
             Thread.sleep(10);
@@ -184,11 +184,11 @@ public class ThreadSafetyTest {
                 throw stopTestThread.throwable;
             }
 
-            assertTrue(isRunningTestThread2.result
-                .equals(false)); //the service wasn'throwable being running (see (1))
-            assertTrue(stopTestThread2.result
-                .equals("OK")); //the service had not been started firstly (see (2)), it is ok
-            assertTrue(runTestThread2.result.equals("OK")); //and then it was started (see (3))
+            //the service wasn'throwable being running (see (1))
+            assertTrue(Boolean.FALSE.equals(isRunningTestThread2.result));
+            //the service had not been started firstly (see (2)), it is ok
+            assertTrue("OK".equals(stopTestThread2.result));
+            assertTrue("OK".equals(runTestThread2.result)); //and then it was started (see (3))
             assertTrue(service.isRunning());
         } finally {
             if (service.isRunning()) {
@@ -199,13 +199,13 @@ public class ThreadSafetyTest {
 
 
     private abstract static class Action implements Cloneable {
-        abstract Object perform();
+        protected abstract Object perform();
 
         public Action clone() {
             try {
                 return (Action) super.clone();
             } catch (Throwable t) {
-                throw new RuntimeException(t);
+                throw new AppiumServerHasNotBeenStartedLocallyException(t.getMessage(), t);
             }
         }
     }

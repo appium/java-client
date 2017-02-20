@@ -17,36 +17,50 @@
 package io.appium.java_client.ios;
 
 import static junit.framework.TestCase.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileBy;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class IOSAlertTest extends BaseIOSTest {
+import java.util.function.Supplier;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class IOSAlertTest extends AppIOSTest {
+
+    private WebDriverWait waiting = new WebDriverWait(driver, 10000);
+    private static final String iOSAutomationText = ".elements().withName(\"show alert\")";
 
     @Test public void acceptAlertTest() {
-        driver.findElement(MobileBy
-            .IosUIAutomation(".elements().withName(\"show alert\")")).click();
-        WebDriverWait wating = new WebDriverWait(driver, 10000);
-        wating.until(alertIsPresent());
-        driver.switchTo().alert().accept();
+        Supplier<Boolean> acceptAlert = () -> {
+            driver.findElement(MobileBy
+                    .IosUIAutomation(iOSAutomationText)).click();
+            waiting.until(alertIsPresent());
+            driver.switchTo().alert().accept();
+            return true;
+        };
+        assertTrue(acceptAlert.get());
     }
 
     @Test public void dismissAlertTest() {
-        driver.findElement(MobileBy
-            .IosUIAutomation(".elements().withName(\"show alert\")")).click();
-        WebDriverWait wating = new WebDriverWait(driver, 10000);
-        wating.until(alertIsPresent());
-        driver.switchTo().alert().dismiss();
+        Supplier<Boolean> dismissAlert = () -> {
+            driver.findElement(MobileBy
+                    .IosUIAutomation(iOSAutomationText)).click();
+            waiting.until(alertIsPresent());
+            driver.switchTo().alert().dismiss();
+            return true;
+        };
+        assertTrue(dismissAlert.get());
     }
 
     @Test public void getAlertTextTest() {
         driver.findElement(MobileBy
-            .IosUIAutomation(".elements().withName(\"show alert\")")).click();
-        WebDriverWait wating = new WebDriverWait(driver, 10000);
-        wating.until(alertIsPresent());
+            .IosUIAutomation(iOSAutomationText)).click();
+        waiting.until(alertIsPresent());
         assertFalse(StringUtils.isBlank(driver.switchTo().alert().getText()));
     }
 }

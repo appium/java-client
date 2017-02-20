@@ -85,7 +85,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String NATIVE_WEB_TAP = "nativeWebTap";
 
     /**
-     * (Sim-only) (>= 8.1) Initial safari url, default is a local welcome page.
+     * (Sim-only) (&gt;= 8.1) Initial safari url, default is a local welcome page.
      */
     String SAFARI_INITIAL_URL = "safariInitialUrl";
 
@@ -162,4 +162,105 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * the app in iOS 9+.
      */
     String APP_NAME = "appName";
+
+    /**
+     * Capability to pre-authorize a specific SSL cert in the iOS trust store.
+     */
+    String CUSTOM_SSL_CERT = "customSSLCert";
+
+    /**
+     * The desired capability to specify a length for tapping, if the regular
+     * tap is too long for the app under test. The  XCUITest specific capability.
+     */
+    String TAP_WITH_SHORT_PRESS_DURATION = "tapWithShortPressDuration";
+
+    /**
+     * The capability to direct Appium to set the simulator scale.
+     * The  XCUITest specific capability.
+     */
+    String SCALE_FACTOR = "scaleFactor";
+
+    /**
+     * This value if specified, will be used to forward traffic from Mac
+     * host to real ios devices over USB. Default value is same as port
+     * number used by WDA on device.
+     * eg: 8100
+     */
+    String WDA_LOCAL_PORT = "wdaLocalPort";
+
+    /**
+     * Whether to display the output of the Xcode command
+     * used to run the tests.If this is true,
+     * there will be lots of extra logging at startup. Defaults to false
+     */
+    String SHOW_XCODE_LOG = "showXcodeLog";
+
+    /**
+     * Time in milliseconds to pause between installing the application
+     * and starting WebDriverAgent on the device. Used particularly for larger applications.
+     * Defaults to 0
+     */
+    String IOS_INSTALL_PAUSE = "iosInstallPause";
+
+    /**
+     * Full path to an optional Xcode configuration file that
+     * specifies the code signing identity
+     * and team for running the WebDriverAgent on the real device.
+     * e.g., /path/to/myconfig.xcconfig
+     */
+    String XCODE_CONFIG_FILE = "xcodeConfigFile";
+
+    /**
+     * Password for unlocking keychain specified in keychainPath.
+     */
+    String KEYCHAIN_PASSWORD = "keychainPassword";
+
+    /**
+     * Skips the build phase of running the WDA app.
+     * Building is then the responsibility of the user.
+     * Only works for Xcode 8+. Defaults to false
+     */
+    String USE_PREBUILT_WDA = "usePrebuiltWDA";
+
+    /**
+     * Sets read only permissons to Attachments subfolder of WebDriverAgent
+     * root inside Xcode's DerivedData.
+     * This is necessary to prevent XCTest framework from
+     * creating tons of unnecessary screenshots and logs,
+     * which are impossible to shutdown using programming
+     * interfaces provided by Apple
+     */
+    String PREVENT_WDAATTACHMENTS = "preventWDAAttachments";
+
+    /**
+     * Appium will connect to an existing WebDriverAgent,
+     * instance at this URL instead of starting a new one.
+     * eg : http://localhost:8100
+     */
+    String WEB_DRIVER_AGENT_URL = "webDriverAgentUrl";
+
+    /**
+     * Full path to the private development key exported
+     * from the system keychain. Used in conjunction
+     * with keychainPassword when testing on real devices.
+     * e.g., /path/to/MyPrivateKey.p12
+     */
+    String KEYCHAIN_PATH = "keychainPath";
+
+    /**
+     * Forces uninstall of any existing WebDriverAgent app on device.
+     * This can provide stability in some situations. Defaults to false.
+     */
+    String USE_NEW_WDA = "useNewWDA";
+
+    /**
+     * Time, in ms, to wait for WebDriverAgewnt to be pingable. Defaults to 60000ms.
+     */
+    String WDA_LAUNCH_TIMEOUT = "wdaLaunchTimeout";
+
+    /**
+     * Timeout, in ms, for waiting for a resonse from WebDriverAgent. Defaults to 240000ms.
+     */
+    String WDA_CONNECTION_TIMEOUT = "wdaConnectionTimeout";
+
 }

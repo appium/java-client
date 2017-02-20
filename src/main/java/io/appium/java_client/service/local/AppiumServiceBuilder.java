@@ -62,13 +62,8 @@ public final class AppiumServiceBuilder
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
     public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
-    private static final List<String> PATH_CAPABILITIES = new ArrayList<String>() {
-        {
-            add(AndroidMobileCapabilityType.KEYSTORE_PATH);
-            add(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE);
-            add(MobileCapabilityType.APP);
-        }
-    };
+    private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
+            AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
     private static final String APPIUM_FOLDER = "appium";
     private static final String BUILD_FOLDER = "build";
     private static final String LIB_FOLDER = "lib";
@@ -237,7 +232,16 @@ public final class AppiumServiceBuilder
      * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
-        serverArguments.put(argument.getArgument(), value);
+        String argName = argument.getArgument().trim().toLowerCase();
+        if ("--port".equals(argName) || "-p".equals(argName)) {
+            usingPort(Integer.valueOf(value));
+        } else if ("--address".equals(argName) || "-a".equals(argName)) {
+            withIPAddress(value);
+        } else if ("--log".equals(argName) || "-g".equals(argName)) {
+            withLogFile(new File(value));
+        } else {
+            serverArguments.put(argName, value);
+        }
         return this;
     }
 
@@ -285,7 +289,7 @@ public final class AppiumServiceBuilder
         return this;
     }
 
-    void checkAppiumJS() {
+    private void checkAppiumJS() {
         if (appiumJS != null) {
             validateNodeStructure(appiumJS);
             return;
@@ -309,10 +313,10 @@ public final class AppiumServiceBuilder
         String result = StringUtils.EMPTY;
 
         if (capabilities != null) {
-            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
-            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+            Map<String, ?> capabilitiesMap = capabilities.asMap();
+            Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
 
-            for (Map.Entry<String, Object> entry : entries) {
+            for (Map.Entry<String, ?> entry : entries) {
                 Object value = entry.getValue();
 
                 if (value == null) {
@@ -345,10 +349,10 @@ public final class AppiumServiceBuilder
         String result = StringUtils.EMPTY;
 
         if (capabilities != null) {
-            Map<String, Object> capabilitiesMap = (Map<String, Object>) capabilities.asMap();
-            Set<Map.Entry<String, Object>> entries = capabilitiesMap.entrySet();
+            Map<String, ?> capabilitiesMap = capabilities.asMap();
+            Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
 
-            for (Map.Entry<String, Object> entry : entries) {
+            for (Map.Entry<String, ?> entry : entries) {
                 Object value = entry.getValue();
 
                 if (value == null) {
@@ -372,8 +376,7 @@ public final class AppiumServiceBuilder
 
         return "{" + result + "}";
     }
-
-    @SuppressWarnings("unchecked")
+    
     private String parseCapabilities() {
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             return parseCapabilitiesIfWindows();
@@ -435,6 +438,7 @@ public final class AppiumServiceBuilder
      * @param nodeJSExecutable The executable Node.js to use.
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder usingDriverExecutable(File nodeJSExecutable) {
         return super.usingDriverExecutable(nodeJSExecutable);
     }
@@ -446,6 +450,7 @@ public final class AppiumServiceBuilder
      * @param port The port to use; must be non-negative.
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder usingPort(int port) {
         return super.usingPort(port);
     }
@@ -455,6 +460,7 @@ public final class AppiumServiceBuilder
      *
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder usingAnyFreePort() {
         return super.usingAnyFreePort();
     }
@@ -476,6 +482,7 @@ public final class AppiumServiceBuilder
      * @param logFile A file to write log to.
      * @return A self reference.
      */
+    @Override
     public AppiumServiceBuilder withLogFile(File logFile) {
         return super.withLogFile(logFile);
     }

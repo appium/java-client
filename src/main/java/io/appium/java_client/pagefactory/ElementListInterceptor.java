@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
@@ -25,7 +24,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * Intercepts requests to the list of {@link MobileElement}.
+ * Intercepts requests to the list of {@link io.appium.java_client.MobileElement}.
  */
 class ElementListInterceptor extends InterceptorOfAListOfElements {
 

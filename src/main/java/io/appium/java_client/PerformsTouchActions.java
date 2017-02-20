@@ -35,7 +35,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * @return the same touch action object
      */
     default TouchAction performTouchAction(TouchAction touchAction) {
-        ImmutableMap<String, ImmutableList> parameters = touchAction.getParameters();
+        ImmutableMap<String, ImmutableList<Object>> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
         return touchAction;
     }
@@ -50,7 +50,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * @param multiAction the MultiTouchAction object to perform.
      */
     default void performMultiTouchAction(MultiTouchAction multiAction) {
-        ImmutableMap<String, ImmutableList> parameters = multiAction.getParameters();
+        ImmutableMap<String, ImmutableList<Object>> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
     }
 }

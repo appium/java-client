@@ -31,35 +31,34 @@ import java.util.List;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 class DefaultBeanConfiguration {
-
+    public static final String LISTENABLE_OBJECT = "object";
     public static final String COMPONENT_BEAN = "component";
-    public static final String WEB_DRIVER_BEAN = "webdriver";
 
-    private  final List<Listener> listeners = new ArrayList<>();
-    private WebDriver driver;
-    private AbstractApplicationContext context;
+    protected final List<Listener> listeners = new ArrayList<>();
+    protected WebDriver driver;
+    protected AbstractApplicationContext context;
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Bean(name = WEB_DRIVER_BEAN)
-    public <T extends WebDriver> T getListenableWebdriver(T driver, List<Listener> listeners,
+    @Bean(name = LISTENABLE_OBJECT)
+    public <T> T init(T t, WebDriver driver, List<Listener> listeners,
         AbstractApplicationContext context) {
         this.driver = driver;
         this.listeners.addAll(listeners);
         this.context = context;
-        return driver;
-    }
-
-    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Bean(name = "webdriverAspect")
-    public DefaultAspect getAspect() {
-        DefaultAspect aspect = new DefaultAspect(context, driver);
-        aspect.add(listeners);
-        return aspect;
+        return t;
     }
 
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Bean(name = COMPONENT_BEAN)
-    public Object  getComponent(Object component) {
-        return component;
+    public <T> T  getComponent(T t) {
+        return t;
+    }
+
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    @Bean(name = "defaultAspect")
+    public DefaultAspect getAspect() {
+        DefaultAspect aspect = new DefaultAspect(context, driver);
+        aspect.add(listeners);
+        return aspect;
     }
 }

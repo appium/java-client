@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
-public class IOSAppStringsTest extends BaseIOSTest {
+public class IOSAppStringsTest extends AppIOSTest {
 
     @Test public void getAppStrings() {
         assertNotEquals(0, driver.getAppStringMap().size());

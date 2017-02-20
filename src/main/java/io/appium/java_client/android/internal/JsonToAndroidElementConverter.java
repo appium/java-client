@@ -21,10 +21,15 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * It is never used now. Please use {@link io.appium.java_client.internal.JsonToMobileElementConverter}
+ * instead
+ */
+@Deprecated
 public class JsonToAndroidElementConverter extends JsonToMobileElementConverter {
 
     public JsonToAndroidElementConverter(RemoteWebDriver driver) {
-        super(driver);
+        super(driver, null);
     }
 
     @Override protected MobileElement newMobileElement() {

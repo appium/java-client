@@ -32,6 +32,10 @@ public class ContentMappedBy extends By {
         this.map = map;
     }
 
+    @Override public WebElement findElement(SearchContext context) {
+        return context.findElement(map.get(getCurrentContentType(context)));
+    }
+
     @Override public List<WebElement> findElements(SearchContext context) {
         return context.findElements(map.get(getCurrentContentType(context)));
     }

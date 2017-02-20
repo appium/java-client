@@ -25,6 +25,7 @@ import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class AndroidSearchingTest extends BaseAndroidTest {
 
     @Before

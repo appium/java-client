@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests;
 
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class GenericTest {
 
@@ -26,7 +28,7 @@ public class GenericTest {
 
         @Override
         public void get(String url) {
-
+            System.out.print(url);
         }
 
         @Override
@@ -56,12 +58,12 @@ public class GenericTest {
 
         @Override
         public void close() {
-
+            System.out.print("Closed");
         }
 
         @Override
         public void quit() {
-
+            System.out.print("Died");
         }
 
         @Override
@@ -92,8 +94,12 @@ public class GenericTest {
 
     @Test
     public void genericTestCse() {
-        PageFactory
-                .initElements(new AppiumFieldDecorator(new MockWebDriver()),
-                        new TempGenericPage<>());
+        Supplier<Boolean> result = () -> {
+            PageFactory
+                    .initElements(new AppiumFieldDecorator(new MockWebDriver()),
+                            new TempGenericPage<>());
+            return true;
+        };
+        assertTrue(result.get());
     }
 }

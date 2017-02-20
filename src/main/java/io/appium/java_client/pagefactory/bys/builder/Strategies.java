@@ -84,6 +84,18 @@ enum Strategies {
             return By
                 .partialLinkText(getValue(annotation, this));
         }
+    },
+    BYWINDOWSAUTOMATION("windowsAutomation") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .windowsAutomation(getValue(annotation, this));
+        }
+    },
+    BY_NS_PREDICATE("iOSNsPredicate") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .iOSNsPredicateString(getValue(annotation, this));
+        }
     };
 
     private final String valueName;

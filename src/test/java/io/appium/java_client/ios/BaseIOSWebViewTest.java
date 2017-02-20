@@ -16,30 +16,23 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 
-public class BaseIOSWebViewTest {
-    protected static AppiumDriver<?> driver;
-    private static AppiumDriverLocalService service;
+public class BaseIOSWebViewTest extends BaseIOSTest {
 
-    /**
-     * initialization.
-     */
     @BeforeClass public static void beforeClass() throws Exception {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
         if (service == null || !service.isRunning()) {
-            throw new RuntimeException("An appium server node is not started!");
+            throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
 
         File appDir = new File("src/test/java/io/appium/java_client");
@@ -51,19 +44,15 @@ public class BaseIOSWebViewTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<WebElement>(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
 
-    /**
-     * finishing.
-     */
-    @AfterClass public static void tearDown() throws Exception {
-        if (driver != null) {
-            driver.quit();
-        }
-
-        if (service.isRunning()) {
-            service.stop();
-        }
+    protected void findAndSwitchToWebView() throws InterruptedException {
+        Thread.sleep(10000);
+        driver.getContextHandles().forEach((handle) -> {
+            if (handle.contains("WEBVIEW")) {
+                driver.context(handle);
+            }
+        });
     }
 }

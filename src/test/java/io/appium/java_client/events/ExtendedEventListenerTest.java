@@ -4,8 +4,6 @@ import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.events.listeners.ElementListener;
 import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SingleListeners;
 import org.junit.BeforeClass;

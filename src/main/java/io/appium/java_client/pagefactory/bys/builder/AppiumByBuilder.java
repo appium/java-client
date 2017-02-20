@@ -16,14 +16,15 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
 import static io.appium.java_client.remote.AutomationName.SELENDROID;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
+import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 import org.openqa.selenium.support.pagefactory.ByAll;
-import org.openqa.selenium.support.pagefactory.ByChained;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -40,7 +41,7 @@ import java.util.List;
  * - https://code.google.com/p/selenium/wiki/PageFactory
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
-    static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
+    protected static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
 
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
@@ -60,8 +61,8 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     protected AppiumByBuilder(String platform, String automation) {
         this.annotatedElementContainer = new AnnotatedElementContainer();
-        this.platform = String.valueOf(platform).toUpperCase().trim();
-        this.automation = String.valueOf(automation).toUpperCase().trim();
+        this.platform = String.valueOf(platform);
+        this.automation = String.valueOf(automation);
     }
 
     private static List<String> getMethodNames(Method[] methods) {
@@ -119,7 +120,6 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                 + valueName);
     }
 
-    @SuppressWarnings("unchecked")
     private static <T extends By> T getComplexMobileBy(Annotation[] annotations,
         Class<T> requiredByClass) {
         By[] byArray = new By[annotations.length];
@@ -127,9 +127,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             byArray[i] = getMobileBy(annotations[i], getFilledValue(annotations[i]));
         }
         try {
-            Constructor<?> c = requiredByClass.getConstructor(By[].class);
+            Constructor<T> c = requiredByClass.getConstructor(By[].class);
             Object[] values = new Object[] {byArray};
-            return (T) c.newInstance(values);
+            return c.newInstance(values);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -169,15 +169,23 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     }
 
     protected boolean isAndroid() {
-        return ANDROID.toUpperCase().equals(platform);
+        return ANDROID.equalsIgnoreCase(platform);
     }
 
     protected boolean isSelendroidAutomation() {
-        return isAndroid() && SELENDROID.toUpperCase().equals(automation);
+        return isAndroid() && SELENDROID.equalsIgnoreCase(automation);
     }
 
     protected boolean isIOS() {
-        return IOS.toUpperCase().equals(platform);
+        return IOS.equalsIgnoreCase(platform);
+    }
+
+    protected boolean isIOSXcuit() {
+        return isIOS() && IOS_XCUI_TEST.equalsIgnoreCase(automation);
+    }
+
+    protected boolean isWindows() {
+        return WINDOWS.equalsIgnoreCase(platform);
     }
 
     /**

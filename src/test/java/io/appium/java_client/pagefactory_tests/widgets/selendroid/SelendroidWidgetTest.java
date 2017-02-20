@@ -3,6 +3,7 @@ package io.appium.java_client.pagefactory_tests.widgets.selendroid;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class SelendroidWidgetTest implements WidgetTest {
     private static AppiumDriverLocalService service;
     TimeOutDuration duration;
-    private AndroidDriver<?> driver;
+    private AndroidDriver<MobileElement> driver;
     private RottenTomatoesSelendroidApp rottenTomatoesApp;
 
     /**

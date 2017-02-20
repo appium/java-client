@@ -23,7 +23,8 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLoc
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.android.internal.JsonToAndroidElementConverter;
+import io.appium.java_client.PressesKeyCode;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -36,18 +37,17 @@ import java.net.URL;
 
 /**
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *     Instances of the defined type will be returned via findElement* and findElements*.
- *     Warning (!!!). Allowed types:
- * {@link org.openqa.selenium.WebElement}
- * {@link io.appium.java_client.TouchableElement}
- * {@link org.openqa.selenium.remote.RemoteWebElement}
- * {@link io.appium.java_client.MobileElement}
- * {@link io.appium.java_client.android.AndroidElement}
+ *           Instances of the defined type will be returned via findElement* and findElements*.
+ *           Warning (!!!). Allowed types:
+ *           {@link org.openqa.selenium.WebElement}
+ *           {@link org.openqa.selenium.remote.RemoteWebElement}
+ *           {@link io.appium.java_client.MobileElement}
+ *           {@link io.appium.java_client.android.AndroidElement}
  */
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements AndroidDeviceActionShortcuts, HasNetworkConnection, PushesFiles, StartsActivity,
-    FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings {
+    implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
+        FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -59,7 +59,7 @@ public class AndroidDriver<T extends WebElement>
      *                     at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, capabilities, JsonToAndroidElementConverter.class);
+        super(executor, substituteMobilePlatform(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -69,8 +69,7 @@ public class AndroidDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -84,8 +83,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -95,8 +93,7 @@ public class AndroidDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -110,8 +107,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -121,8 +117,7 @@ public class AndroidDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -136,8 +131,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -147,8 +141,7 @@ public class AndroidDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -156,15 +149,14 @@ public class AndroidDriver<T extends WebElement>
      *                            at {@link org.openqa.selenium.Capabilities}
      */
     public AndroidDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM),
-            JsonToAndroidElementConverter.class);
+        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
-     * @see io.appium.java_client.TouchShortcuts#swipe(int, int, int, int, int)
+     * This method is deprecated. It is going to be removed
      */
     @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        doSwipe(startx, starty, endx, endy, duration);
+        new TouchAction(this).press(startx, starty).waitAction(duration).moveTo(endx, endy).release().perform();
     }
 
     /**

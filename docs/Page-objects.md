@@ -80,7 +80,8 @@ List<RemoteWebElement> someElements;
 
 # Also it is possible to define chained or any possible locators.
 
-- Chained
+## - Chained
+
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
@@ -88,33 +89,110 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.FindBy;
 
 @FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindBys({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
-@iOSFindBys({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
 RemoteWebElement someElement;
 
 @FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindBys({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
-@iOSFindBys({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
 List<RemoteWebElement> someElements;
 ```
 
-- Any possible
+or 
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.FindBy;
+
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
+
+@HowToUseLocators(androidAutomation = CHAIN, iOSAutomation = CHAIN)
+@FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
+RemoteWebElement someElement;
+
+@HowToUseLocators(androidAutomation = CHAIN, iOSAutomation = CHAIN)
+@FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
+List<RemoteWebElement> someElements;
+```
+
+## - Any possible
+
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindByAll;
 
-@FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindAll({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
-@iOSFindAll({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+
+@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSAutomation = ALL_POSSIBLE)
+@FindAll{@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) 
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
 RemoteWebElement someElement;
 
+@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSAutomation = ALL_POSSIBLE)
 @FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindAll({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
-@iOSFindAll({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
 List<RemoteWebElement> someElements;
 ```
+
+## Also possible combined variants: 
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindByAll;
+
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+
+@HowToUseLocators(androidAutomation = CHAIN, iOSAutomation = ALL_POSSIBLE)
+@FindAll{@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) 
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
+RemoteWebElement someElement;
+
+@HowToUseLocators(androidAutomation = CHAIN, iOSAutomation = ALL_POSSIBLE)
+@FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
+List<RemoteWebElement> someElements;
+``` 
+
+or 
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindByAll;
+
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+
+@HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+@FindAll{@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) //this is the chain 
+//by default
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2) 
+RemoteWebElement someElement;
+
+@HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+@FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
+@AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2) //this is the chain 
+//by default
+@iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
+List<RemoteWebElement> someElements;
+``` 
 
 # Appium Java client is integrated with Selenium PageFactory by AppiumFieldDecorator. 
 

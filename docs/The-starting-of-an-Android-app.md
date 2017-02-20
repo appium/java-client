@@ -1,14 +1,11 @@
 # Steps: 
 
-- you have to prepare environment for Android. Details are provided here: http://appium.io/slate/en/master/?java#setup-(android)
+- you have to prepare environment for Android. [Details are provided here](http://appium.io/slate/en/master/?java#setup-(android))
 
-- you have to download the desktop app [for Windows or Mac OS X](https://bitbucket.org/appium/appium.app/downloads/) or install it using _npm_ 
-_$ npm install -g appium_ or _$ npm install appium@required_version_
+- it needs to launch the appium server. You can launch Appium desktop application. If you use the server installed via npm then 
 
-- it needs to launch the appium server. If you use the server installed via npm then 
-
-  _$ node **the_path_to_js_file** --arg1 value1 --arg2 value2_ 
-where **the_path_to_js_file** is the full path to **appium.js** file (if the node server version version <= 1.4.16) or **main.js** (if the node server version version >= 1.5.0). It is not necessary to use arguments. The list of arguments: http://appium.io/slate/en/master/?java#appium-server-arguments
+  _$ node **the_path_to_main.js_file** --arg1 value1 --arg2 value2_ 
+It is not necessary to use arguments. [The list of arguments](http://appium.io/slate/en/master/?java#appium-server-arguments)
 
 
 # The starting of an app
@@ -36,6 +33,29 @@ File app  = new File("The absolute or relative path to an *.apk file");
 DesiredCapabilities capabilities = new DesiredCapabilities();
 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
 capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+//you are free to set additional capabilities 
+AppiumDriver<MobileElement> driver = new AppiumDriver<>(
+new URL("http://target_ip:used_port/wd/hub"), //if it needs to use locally started server
+//then the target_ip is 127.0.0.1 or 0.0.0.0
+//the default port is 4723
+capabilities);
+```
+
+or
+
+```java
+import java.io.File;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import java.net.URL;
+
+...
+File app  = new File("The absolute or relative path to an *.apk file");
+DesiredCapabilities capabilities = new DesiredCapabilities();
+capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 //you are free to set additional capabilities 
 AppiumDriver<MobileElement> driver = new AndroidDriver<>(
 new URL("http://target_ip:used_port/wd/hub"), //if it needs to use locally started server
@@ -44,45 +64,89 @@ new URL("http://target_ip:used_port/wd/hub"), //if it needs to use locally start
 capabilities);
 ```
 
-If it needs to start browser then: 
+
+##If it needs to start browser then
+
+This capability should be used
 
 ```java
-import org.openqa.selenium.remote.DesiredCapabilities;
-import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
-import java.net.URL;
-
-
-...
-DesiredCapabilities capabilities = new DesiredCapabilities();
-capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
 //if it is necessary to use the default Android browser then MobileBrowserType.BROWSER
-//is your choise
-...
-//you are free to set additional capabilities 
-AppiumDriver<MobileElement> driver = new AndroidDriver<>(
-new URL("http://target_ip:used_port/wd/hub"), capabilities);
+//is your choice
 ```
 
-or 
+##There are three automation types
 
 ```java
-import org.openqa.selenium.remote.DesiredCapabilities;
-import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.remote.MobilePlatform;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import java.net.URL;
+capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
+```
 
+This automation type is usually recommended for old versions (<4.2) of Android.
+
+Default Android UIAutomator does not require any specific capability. However you can 
+```java
+capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+```
+
+You have to define this automation type to be able to use Android UIAutomator2 for new Android versions
+```java
+capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
+```
+
+# Possible cases
+
+You can use ```io.appium.java_client.AppiumDriver``` and ```io.appium.java_client.android.AndroidDriver``` as well. The main difference 
+is that ```AndroidDriver``` implements all API that describes interaction with Android native/hybrid app.   ```AppiumDriver``` allows to
+use Android-specific API eventually.
+ 
+ _The sample of the activity starting by_ ```io.appium.java_client.AppiumDriver```
+ 
+ ```java
+ import io.appium.java_client.android.StartsActivity;
 
 ...
-DesiredCapabilities capabilities = new DesiredCapabilities();
-capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
-//you are free to set additional capabilities 
-RemoteWebDriver driver = new RemoteWebDriver(
-new URL("http://target_ip:used_port/wd/hub"), capabilities);
+
+StartsActivity startsActivity = new StartsActivity() {
+    @Override
+    public Response execute(String driverCommand, Map<String, ?> parameters) {
+        return driver.execute(driverCommand, parameters);
+    }
+
+    @Override
+    public Response execute(String driverCommand) {
+        return driver.execute(driverCommand);
+    }
+};
+
+StartsActivity startsActivity.startActivity("your.package.name", ".ActivityName");
+ ```
+ 
+_Samples of the searching by AndroidUIAutomator using_ ```io.appium.java_client.AppiumDriver``` 
+
+```java
+import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.android.AndroidElement;
+
+...
+
+FindsByAndroidUIAutomator<AndroidElement> findsByAndroidUIAutomator = 
+    new FindsByAndroidUIAutomator<AndroidElement>() {
+    @Override
+    public AndroidElement findElement(String by, String using) {
+        return driver.findElement(by, using);
+    }
+
+    @Override
+    public List<AndroidElement> findElements(String by, String using) {
+        return driver.findElements(by, using);
+    };
+};
+
+findsByAndroidUIAutomator.findElementByAndroidUIAutomator("automatorString");
 ```
+
+```java
+driver.findElement(MobileBy.AndroidUIAutomator("automatorString"));
+```
+
+All that ```AndroidDriver``` can do by design.

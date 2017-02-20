@@ -42,27 +42,45 @@ public abstract class MobileElement
             upperLeft.getY() + dimensions.getHeight() / 2);
     }
 
-    @Override public void pinch() {
-        ((AppiumDriver<?>) parent).pinch(this);
-    }
-
+    /**
+     * This method is deprecated and it is going to be removed soon.
+     */
+    @Deprecated
     @Override public void tap(int fingers, int duration) {
-        ((AppiumDriver<?>) parent).tap(fingers, this, duration);
+        AppiumDriver.class.cast(parent).tap(fingers, this, duration);
     }
 
+    /**
+     * This method is deprecated and it is going to be removed soon.
+     */
+    @Deprecated
+    @Override public void pinch() {
+        AppiumDriver.class.cast(parent).pinch(this);
+    }
+
+    /**
+     * This method is deprecated and it is going to be removed soon.
+     */
+    @Deprecated
     @Override public void zoom() {
-        ((AppiumDriver<?>) parent).zoom(this);
+        AppiumDriver.class.cast(parent).zoom(this);
     }
 
-
+    /**
+     * This method does nothing. It is going to be removed.
+     */
+    @Deprecated
     @Override public void swipe(SwipeElementDirection direction, int duration) {
-        direction.swipe((AppiumDriver<?>) parent, this, 0, 0, duration);
+        direction.swipe(AppiumDriver.class.cast(parent), this, 0, 0, duration);
     }
 
+    /**
+     * This method does nothing. It is going to be removed.
+     */
+    @Deprecated
     @Override public void swipe(SwipeElementDirection direction, int offsetFromStartBorder,
         int offsetFromEndBorder, int duration) throws IllegalCoordinatesException {
-        direction.swipe((AppiumDriver<?>) parent, this, offsetFromStartBorder, offsetFromEndBorder,
-            duration);
+        direction.swipe(AppiumDriver.class.cast(parent), this, offsetFromStartBorder, offsetFromEndBorder, duration);
     }
 
     @Override public List<MobileElement> findElements(By by) {
