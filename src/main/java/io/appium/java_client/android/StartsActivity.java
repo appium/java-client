@@ -26,7 +26,7 @@ public interface StartsActivity extends ExecutesMethod {
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to another application,
      * that application is started and the activity is opened.
-     *
+     * <p>
      * Usage:
      * <pre>
      *     {@code
@@ -36,6 +36,7 @@ public interface StartsActivity extends ExecutesMethod {
      *     driver.startActivity(activity);
      *     }
      * </pre>
+     * </p>
      *
      * @param activity The {@link Activity} object
      */
