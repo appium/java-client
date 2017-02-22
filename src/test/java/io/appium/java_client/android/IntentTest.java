@@ -48,9 +48,7 @@ public class IntentTest {
 
 
     @Test public void startActivityWithIntent() {
-        Activity activity = new Activity();
-        activity.setAppPackage("com.android.mms");
-        activity.setAppActivity(".ui.ComposeMessageActivity");
+        final Activity activity = new Activity("com.android.mms", ".ui.ComposeMessageActivity");
         activity.setIntentAction("android.intent.action.SEND");
         activity.setIntentCategory("android.intent.category.DEFAULT");
         activity.setIntentFlags("0x4000000");
@@ -64,9 +62,7 @@ public class IntentTest {
     }
 
     @Test public void startActivityWithDefaultIntentAndDefaultCategoryWithOptionalArgs() {
-        Activity activity = new Activity();
-        activity.setAppPackage("com.prgguru.android");
-        activity.setAppActivity(".GreetingActivity");
+        final Activity activity = new Activity("com.prgguru.android", ".GreetingActivity");
         activity.setIntentAction("android.intent.action.MAIN");
         activity.setIntentCategory("android.intent.category.DEFAULT");
         activity.setIntentFlags("0x4000000");

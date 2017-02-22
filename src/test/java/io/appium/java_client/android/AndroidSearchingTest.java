@@ -30,9 +30,7 @@ public class AndroidSearchingTest extends BaseAndroidTest {
 
     @Before
     public void setup() throws Exception {
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".ApiDemos");
+        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }
 

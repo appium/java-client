@@ -79,9 +79,7 @@ public class AndroidTest {
                 return driver.execute(driverCommand);
             }
         };
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".ApiDemos");
+        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         startsActivity.startActivity(activity);
     }
 
@@ -125,9 +123,7 @@ public class AndroidTest {
     @Test public void replaceValueTest() {
         String originalValue = "original value";
 
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".view.Controls1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
         startsActivity.startActivity(activity);
         AndroidElement editElement = driver
                 .findElement(MobileBy

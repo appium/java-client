@@ -85,9 +85,7 @@ public class UIAutomator2Test {
 
     @Test public void testToastMSGIsDisplayed() throws InterruptedException {
         final WebDriverWait wait = new WebDriverWait(driver, 10);
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".view.PopupMenu1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
         driver.startActivity(activity);
 
         MobileElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));

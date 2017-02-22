@@ -14,7 +14,9 @@ public class Activity {
     private String optionalIntentArguments;
     private boolean stopApp;
 
-    public Activity() {
+    public Activity(String appPackage, String appActivity) {
+        this.appPackage = appPackage;
+        this.appActivity = appActivity;
         this.stopApp = true;
     }
 

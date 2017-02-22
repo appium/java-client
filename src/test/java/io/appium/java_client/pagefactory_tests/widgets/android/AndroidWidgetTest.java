@@ -71,9 +71,8 @@ public class AndroidWidgetTest implements WidgetTest {
     @Before
     public void setUp() throws Exception {
         if (driver != null) {
-            Activity activity = new Activity();
-            activity.setAppPackage("com.codepath.example.rottentomatoes");
-            activity.setAppActivity("BoxOfficeActivity");
+            Activity activity = new Activity("com.codepath.example.rottentomatoes",
+                "BoxOfficeActivity");
             driver.startActivity(activity);
         }
     }

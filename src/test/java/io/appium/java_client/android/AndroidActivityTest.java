@@ -24,25 +24,21 @@ import org.junit.Test;
 public class AndroidActivityTest extends BaseAndroidTest {
 
     @Before public void setUp() throws Exception {
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".ApiDemos");
+        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }
 
     @Test public void startActivityInThisAppTestCase() {
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".accessibility.AccessibilityNodeProviderActivity");
+        Activity activity = new Activity("io.appium.android.apis",
+            ".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(),
             ".accessibility.AccessibilityNodeProviderActivity");
     }
 
     @Test public void startActivityWithWaitingAppTestCase() {
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".accessibility.AccessibilityNodeProviderActivity");
+        final Activity activity = new Activity("io.appium.android.apis",
+            ".accessibility.AccessibilityNodeProviderActivity");
         activity.setAppWaitPackage("io.appium.android.apis");
         activity.setAppWaitActivity(".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
@@ -51,9 +47,7 @@ public class AndroidActivityTest extends BaseAndroidTest {
     }
 
     @Test public void startActivityInNewAppTestCase() {
-        Activity activity = new Activity();
-        activity.setAppPackage("com.android.contacts");
-        activity.setAppActivity(".ContactsListActivity");
+        Activity activity = new Activity("com.android.contacts", ".ContactsListActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
         driver.pressKeyCode(AndroidKeyCode.BACK);
@@ -61,9 +55,8 @@ public class AndroidActivityTest extends BaseAndroidTest {
     }
 
     @Test public void startActivityInNewAppTestCaseWithoutClosingApp() {
-        Activity activity = new Activity();
-        activity.setAppPackage("io.appium.android.apis");
-        activity.setAppActivity(".accessibility.AccessibilityNodeProviderActivity");
+        final Activity activity = new Activity("io.appium.android.apis",
+            ".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
 
