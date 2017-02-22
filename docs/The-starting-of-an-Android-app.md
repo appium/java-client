@@ -103,6 +103,7 @@ use Android-specific API eventually.
  
  ```java
  import io.appium.java_client.android.StartsActivity;
+ import io.appium.java_client.android.Activity;
 
 ...
 
@@ -118,7 +119,10 @@ StartsActivity startsActivity = new StartsActivity() {
     }
 };
 
-StartsActivity startsActivity.startActivity("your.package.name", ".ActivityName");
+Activity activity = new Activity();
+activity.setAppPackage("your.package.name");
+activity.setAppActivity(".ActivityName");
+StartsActivity startsActivity.startActivity(activity);
  ```
  
 _Samples of the searching by AndroidUIAutomator using_ ```io.appium.java_client.AppiumDriver``` 
