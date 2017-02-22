@@ -22,7 +22,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByElementTest() throws Exception  {
-        driver.startActivity("io.appium.android.apis", ".view.DragAndDropDemo");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.DragAndDropDemo");
+        driver.startActivity(activity);
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -36,7 +39,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByElementAndDurationTest() throws Exception  {
-        driver.startActivity("io.appium.android.apis", ".view.DragAndDropDemo");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.DragAndDropDemo");
+        driver.startActivity(activity);
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -50,7 +56,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByCoordinatesTest() throws Exception  {
-        driver.startActivity("io.appium.android.apis", ".view.DragAndDropDemo");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.DragAndDropDemo");
+        driver.startActivity(activity);
         AndroidElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         AndroidElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -67,7 +76,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByCoordinatesAndDurationTest() throws Exception  {
-        driver.startActivity("io.appium.android.apis", ".view.DragAndDropDemo");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.DragAndDropDemo");
+        driver.startActivity(activity);
         AndroidElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         AndroidElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -84,7 +96,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void pressByCoordinatesTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.Buttons1");
+        driver.startActivity(activity);
         Point point =
                 driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
         new TouchAction(driver).press(point.x + 20, point.y + 30).waitAction(1000).release().perform();
@@ -93,7 +108,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void pressByElementTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.Buttons1");
+        driver.startActivity(activity);
         new TouchAction(driver).press(driver.findElementById("io.appium.android.apis:id/button_toggle"))
                 .waitAction(1000).release().perform();
         assertEquals("ON" ,driver
@@ -101,7 +119,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void tapActionTestByElement() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.ChronometerDemo");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.ChronometerDemo");
+        driver.startActivity(activity);
         AndroidElement chronometer =
                 driver.findElementById("io.appium.android.apis:id/chronometer");
 
@@ -118,7 +139,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void tapActionTestByCoordinates() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.ChronometerDemo");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.ChronometerDemo");
+        driver.startActivity(activity);
         AndroidElement chronometer =
                 driver.findElementById("io.appium.android.apis:id/chronometer");
 
@@ -136,7 +160,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void horizontalSwipingTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.Gallery1");
+        driver.startActivity(activity);
 
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
         List<MobileElement> images = gallery
@@ -153,7 +180,10 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void multiTouchTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Buttons1");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.Buttons1");
+        driver.startActivity(activity);
         TouchAction press = new TouchAction(driver);
         press.press(driver.findElementById("io.appium.android.apis:id/button_toggle")).waitAction(1000).release();
         new MultiTouchAction(driver).add(press)

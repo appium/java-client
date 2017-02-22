@@ -48,9 +48,14 @@ public class IntentTest {
 
 
     @Test public void startActivityWithIntent() {
-        driver.startActivity("com.android.mms", ".ui.ComposeMessageActivity", null, null,
-            "android.intent.action.SEND", "android.intent.category.DEFAULT", "0x4000000",
-            "-d \"TestIntent\" -t \"text/plain\"");
+        Activity activity = new Activity();
+        activity.setAppPackage("com.android.mms");
+        activity.setAppActivity(".ui.ComposeMessageActivity");
+        activity.setIntentAction("android.intent.action.SEND");
+        activity.setIntentCategory("android.intent.category.DEFAULT");
+        activity.setIntentFlags("0x4000000");
+        activity.setOptionalIntentArguments("-d \"TestIntent\" -t \"text/plain\"");
+        driver.startActivity(activity);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -59,9 +64,14 @@ public class IntentTest {
     }
 
     @Test public void startActivityWithDefaultIntentAndDefaultCategoryWithOptionalArgs() {
-        driver.startActivity("com.prgguru.android", ".GreetingActivity", null, null,
-            "android.intent.action.MAIN", "android.intent.category.DEFAULT", "0x4000000",
-            "--es \"USERNAME\" \"AppiumIntentTest\" -t \"text/plain\"");
+        Activity activity = new Activity();
+        activity.setAppPackage("com.prgguru.android");
+        activity.setAppActivity(".GreetingActivity");
+        activity.setIntentAction("android.intent.action.MAIN");
+        activity.setIntentCategory("android.intent.category.DEFAULT");
+        activity.setIntentFlags("0x4000000");
+        activity.setOptionalIntentArguments("--es \"USERNAME\" \"AppiumIntentTest\" -t \"text/plain\"");
+        driver.startActivity(activity);
         assertEquals(driver.findElementById("com.prgguru.android:id/textView1").getText(),
             "Welcome AppiumIntentTest");
     }

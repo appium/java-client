@@ -1,7 +1,5 @@
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertNotEquals;
-
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.functions.ActionSupplier;
@@ -9,6 +7,8 @@ import org.junit.Test;
 import org.openqa.selenium.Point;
 
 import java.util.List;
+
+import static org.junit.Assert.assertNotEquals;
 
 public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
 
@@ -30,7 +30,10 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
                 .waitAction(2000).moveTo(driver.findElementByAccessibilityId("Auto Complete")).release();
 
     @Test public void horizontalSwipingWithSupplier() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
+        Activity activity = new Activity();
+        activity.setAppPackage("io.appium.android.apis");
+        activity.setAppActivity(".view.Gallery1");
+        driver.startActivity(activity);
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
         List<MobileElement> images = gallery
                 .findElementsByClassName("android.widget.ImageView");

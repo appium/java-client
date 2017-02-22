@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.TimeOutDuration;
@@ -70,7 +71,10 @@ public class AndroidCombinedWidgetTest implements WidgetTest {
     @Before
     public void setUp() throws Exception {
         if (driver != null) {
-            driver.startActivity("com.codepath.example.rottentomatoes", "BoxOfficeActivity");
+            Activity activity = new Activity();
+            activity.setAppPackage("com.codepath.example.rottentomatoes");
+            activity.setAppActivity("BoxOfficeActivity");
+            driver.startActivity(activity);
         }
     }
 
