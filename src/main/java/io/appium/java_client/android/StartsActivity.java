@@ -28,6 +28,7 @@ public interface StartsActivity extends ExecutesMethod {
      * that application is started and the activity is opened.
      * <p>
      * Usage:
+     * </p>
      * <pre>
      *     {@code
      *     Activity activity = new Activity();
@@ -36,7 +37,6 @@ public interface StartsActivity extends ExecutesMethod {
      *     driver.startActivity(activity);
      *     }
      * </pre>
-     * </p>
      *
      * @param activity The {@link Activity} object
      */
