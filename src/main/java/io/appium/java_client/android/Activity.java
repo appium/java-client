@@ -14,6 +14,12 @@ public class Activity {
     private String optionalIntentArguments;
     private boolean stopApp;
 
+    /**
+     * A constructor with two mandatory parameters.
+     *
+     * @param appPackage The value for the app package.
+     * @param appActivity The value for the app activity.
+     */
     public Activity(String appPackage, String appActivity) {
         this.appPackage = appPackage;
         this.appActivity = appActivity;
