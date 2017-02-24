@@ -151,6 +151,10 @@ class AppiumElementLocator implements CacheableLocator {
         return shouldCache;
     }
 
+    @Override public String toString() {
+        return String.format("Located by %s", by);
+    }
+
 
     // This function waits for not empty element list using all defined by
     private static class WaitingFunction<T> implements Function<Supplier<T>, T> {
