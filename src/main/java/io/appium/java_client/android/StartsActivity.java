@@ -31,9 +31,9 @@ public interface StartsActivity extends ExecutesMethod {
      * </p>
      * <pre>
      *     {@code
-     *     Activity activity = new Activity();
-     *     activity.setAppPackage("com.foo");
-     *     activity.setAppActivity(".bar");
+     *     Activity activity = new Activity("app package goes here", "app activity goes here");
+     *     activity.setWaitAppPackage("app wait package goes here");
+     *     activity.setWaitAppActivity("app wait activity goes here");
      *     driver.startActivity(activity);
      *     }
      * </pre>

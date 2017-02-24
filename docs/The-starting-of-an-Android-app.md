@@ -119,9 +119,9 @@ StartsActivity startsActivity = new StartsActivity() {
     }
 };
 
-Activity activity = new Activity();
-activity.setAppPackage("your.package.name");
-activity.setAppActivity(".ActivityName");
+Activity activity = new Activity("app package goes here", "app activity goes here");
+activity.setWaitAppPackage("app wait package goes here");
+activity.setWaitAppActivity("app wait activity goes here");
 StartsActivity startsActivity.startActivity(activity);
  ```
  
