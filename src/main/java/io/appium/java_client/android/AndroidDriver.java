@@ -17,8 +17,6 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getPerformanceDataCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getSupportedPerformanceDataTypesCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
 
@@ -36,7 +34,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-import java.util.List;
 
 /**
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
