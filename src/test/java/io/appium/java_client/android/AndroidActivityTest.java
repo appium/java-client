@@ -55,17 +55,16 @@ public class AndroidActivityTest extends BaseAndroidTest {
     }
 
     @Test public void startActivityInNewAppTestCaseWithoutClosingApp() {
-        final Activity activity = new Activity("io.appium.android.apis",
+        Activity activity = new Activity("io.appium.android.apis",
             ".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
 
-        activity.setAppPackage("com.android.contacts");
-        activity.setAppActivity(".ContactsListActivity");
-        activity.setAppWaitPackage("com.android.contacts");
-        activity.setAppWaitActivity(".ContactsListActivity");
-        activity.setStopApp(false);
-        driver.startActivity(activity);
+        Activity newActivity = new Activity("com.android.contacts", ".ContactsListActivity");
+        newActivity.setAppWaitPackage("com.android.contacts");
+        newActivity.setAppWaitActivity(".ContactsListActivity");
+        newActivity.setStopApp(false);
+        driver.startActivity(newActivity);
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
         driver.pressKeyCode(AndroidKeyCode.BACK);
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
