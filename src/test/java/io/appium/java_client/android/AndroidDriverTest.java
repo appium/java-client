@@ -29,7 +29,10 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
@@ -140,4 +143,43 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertNotNull(driver.getDisplayDensity());
         assertNotEquals(0, driver.getSystemBars().size());
     }
+
+    @Test public void getSupportedPerformanceDataTypesTest() {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        List<String> dataTypes = new ArrayList<String>();
+        dataTypes.add("cpuinfo");
+        dataTypes.add("memoryinfo");
+        dataTypes.add("batteryinfo");
+        dataTypes.add("networkinfo");
+
+        List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
+
+        assertEquals(4, supportedPerformanceDataTypes.size());
+
+        for ( int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++i) {
+            assertEquals(dataTypes.get(i), supportedPerformanceDataTypes.get(i));
+        }
+
+
+    }
+
+    @Test public void getPerformanceDataTest() throws Exception {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
+
+        for (int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++ i) {
+
+            String dataType = supportedPerformanceDataTypes.get(i);
+
+            List<List<Object>> valueTable = driver.getPerformanceData("com.example.android.apis", dataType, 60000);
+
+            for ( int j = 1 ; j < valueTable.size() ; ++ j) {
+                assertEquals(valueTable.subList(0,0).size(), valueTable.subList(j, j).size());
+            }
+        }
+
+    }
+
 }

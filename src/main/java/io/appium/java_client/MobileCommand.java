@@ -48,6 +48,10 @@ public class MobileCommand {
     protected static final String GET_DEVICE_TIME;
     protected static final String GET_SESSION;
 
+    protected static final String GET_PERFORMANCE_DATA;
+    protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
+
+
     protected static final String HIDE_KEYBOARD;
     protected static final String LOCK;
     //iOS
@@ -91,6 +95,9 @@ public class MobileCommand {
         CLOSE_APP = "closeApp";
         GET_DEVICE_TIME = "getDeviceTime";
         GET_SESSION = "getSession";
+
+        GET_PERFORMANCE_DATA = "getPerformanceData";
+        GET_SUPPORTED_PERFORMANCE_DATA_TYPES = "getSuppportedPerformanceDataTypes";
 
         HIDE_KEYBOARD = "hideKeyboard";
         LOCK = "lock";
@@ -136,6 +143,11 @@ public class MobileCommand {
         commandRepository.put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"));
         commandRepository.put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"));
         commandRepository.put(GET_SESSION,getC("/session/:sessionId/"));
+        commandRepository.put(GET_SUPPORTED_PERFORMANCE_DATA_TYPES,
+            postC("/session/:sessionId/appium/performanceData/types"));
+        commandRepository.put(GET_PERFORMANCE_DATA,
+            postC("/session/:sessionId/appium/getPerformanceData"));
+
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
         commandRepository.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
