@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
@@ -37,7 +39,7 @@ class ElementListInterceptor extends InterceptorOfAListOfElements {
         try {
             return method.invoke(elements, args);
         } catch (Throwable t) {
-            throw ThrowableUtil.extractReadableException(t);
+            throw extractReadableException(t);
         }
     }
 

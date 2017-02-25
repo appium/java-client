@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
@@ -76,7 +77,7 @@ class WidgetInterceptor extends InterceptorOfASingleElement {
             method.setAccessible(true);
             return method.invoke(cachedInstances.get(type), args);
         } catch (Throwable t) {
-            throw ThrowableUtil.extractReadableException(t);
+            throw extractReadableException(t);
         }
     }
 
