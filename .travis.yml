@@ -7,7 +7,7 @@ sudo: required
 
 branches:
   only:
-  - travisCI
+  - master
 
 install: true
 
