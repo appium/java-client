@@ -9,7 +9,7 @@ import io.appium.java_client.ExecutesMethod;
 import java.util.List;
 
 /**
- * Created by hwangheeseon on 2017. 2. 2..
+ *
  */
 public interface HasSupportedPerformanceDataType extends ExecutesMethod {
 
