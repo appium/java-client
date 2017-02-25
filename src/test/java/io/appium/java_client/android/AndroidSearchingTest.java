@@ -30,7 +30,8 @@ public class AndroidSearchingTest extends BaseAndroidTest {
 
     @Before
     public void setup() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
+        driver.startActivity(activity);
     }
 
     @Test  public void findByAccessibilityIdTest() {

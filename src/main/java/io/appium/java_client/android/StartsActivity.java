@@ -26,13 +26,40 @@ public interface StartsActivity extends ExecutesMethod {
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
      * another application, that application is started and the activity is opened.
+     * <p>
+     * Usage:
+     * </p>
+     * <pre>
+     *     {@code
+     *     Activity activity = new Activity("app package goes here", "app activity goes here");
+     *     activity.setWaitAppPackage("app wait package goes here");
+     *     activity.setWaitAppActivity("app wait activity goes here");
+     *     driver.startActivity(activity);
+     *     }
+     * </pre>
+     *
+     * @param activity The {@link Activity} object
+     */
+    default void startActivity(Activity activity) {
+        CommandExecutionHelper.execute(this,
+            startActivityCommand(activity.getAppPackage(), activity.getAppActivity(),
+                activity.getAppWaitPackage(), activity.getAppWaitActivity(),
+                activity.getIntentAction(), activity.getIntentCategory(), activity.getIntentFlags(),
+                activity.getOptionalIntentArguments(), activity.isStopApp()));
+    }
+
+    /**
+     * This method should start arbitrary activity during a test. If the activity belongs to
+     * another application, that application is started and the activity is opened.
      *
      * @param appPackage      The package containing the activity. [Required]
      * @param appActivity     The activity to start. [Required]
      * @param appWaitPackage  Automation will begin after this package starts. [Optional]
      * @param appWaitActivity Automation will begin after this activity starts. [Optional]
      * @param stopApp         If true, target app will be stopped. [Optional]
+     * @deprecated Instead use {@link #startActivity(Activity)}
      */
+    @Deprecated
     default void startActivity(String appPackage, String appActivity, String appWaitPackage,
         String appWaitActivity, boolean stopApp) throws IllegalArgumentException {
         this.startActivity(appPackage,appActivity,appWaitPackage,
@@ -47,7 +74,9 @@ public interface StartsActivity extends ExecutesMethod {
      * @param appActivity     The activity to start. [Required]
      * @param appWaitPackage  Automation will begin after this package starts. [Optional]
      * @param appWaitActivity Automation will begin after this activity starts. [Optional]
+     * @deprecated Instead use {@link #startActivity(Activity)}
      */
+    @Deprecated
     default void startActivity(String appPackage, String appActivity, String appWaitPackage,
         String appWaitActivity) throws IllegalArgumentException {
         this.startActivity(appPackage, appActivity,
@@ -60,7 +89,9 @@ public interface StartsActivity extends ExecutesMethod {
      *
      * @param appPackage  The package containing the activity. [Required]
      * @param appActivity The activity to start. [Required]
+     * @deprecated Instead use {@link #startActivity(Activity)}
      */
+    @Deprecated
     default void startActivity(String appPackage, String appActivity) throws IllegalArgumentException {
         this.startActivity(appPackage, appActivity, null, null,
             null,null,null,null,true);
@@ -79,7 +110,9 @@ public interface StartsActivity extends ExecutesMethod {
      * @param intentFlags  Flags that will be used to start activity [Optional]
      * @param intentOptionalArgs Additional intent arguments that will be used to
      *                                start activity [Optional]
+     * @deprecated Instead use {@link #startActivity(Activity)}
      */
+    @Deprecated
     default void startActivity(String appPackage, String appActivity,
         String appWaitPackage, String appWaitActivity,
         String intentAction, String intentCategory,
@@ -104,7 +137,9 @@ public interface StartsActivity extends ExecutesMethod {
      * @param optionalIntentArguments Additional intent arguments that will be used to
      *                                start activity [Optional]
      * @param stopApp         If true, target app will be stopped. [Optional]
+     * @deprecated Instead use {@link #startActivity(Activity)}
      */
+    @Deprecated
     default void startActivity(String appPackage, String appActivity, String appWaitPackage,
         String appWaitActivity, String intentAction,
         String intentCategory, String intentFlags,

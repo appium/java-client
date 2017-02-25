@@ -29,7 +29,8 @@ import org.openqa.selenium.By;
 public class AndroidElementTest extends BaseAndroidTest {
 
     @Before public void setup() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
+        driver.startActivity(activity);
     }
 
 
@@ -55,7 +56,8 @@ public class AndroidElementTest extends BaseAndroidTest {
     @Test public void replaceValueTest() {
         String originalValue = "original value";
 
-        driver.startActivity("io.appium.android.apis", ".view.Controls1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
+        driver.startActivity(activity);
         AndroidElement editElement = driver
             .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
         editElement.sendKeys(originalValue);
@@ -78,7 +80,8 @@ public class AndroidElementTest extends BaseAndroidTest {
     @Test public void setValueTest() {
         String value = "new value";
 
-        driver.startActivity("io.appium.android.apis", ".view.Controls1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
+        driver.startActivity(activity);
         AndroidElement editElement = driver
             .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
         editElement.setValue(value);
