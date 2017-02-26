@@ -38,9 +38,9 @@ public class AndroidActivityTest extends BaseAndroidTest {
 
     @Test public void startActivityWithWaitingAppTestCase() {
         final Activity activity = new Activity("io.appium.android.apis",
-            ".accessibility.AccessibilityNodeProviderActivity");
-        activity.setAppWaitPackage("io.appium.android.apis");
-        activity.setAppWaitActivity(".accessibility.AccessibilityNodeProviderActivity");
+            ".accessibility.AccessibilityNodeProviderActivity")
+                .setAppWaitPackage("io.appium.android.apis")
+                .setAppWaitActivity(".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(),
             ".accessibility.AccessibilityNodeProviderActivity");
@@ -60,10 +60,10 @@ public class AndroidActivityTest extends BaseAndroidTest {
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
 
-        Activity newActivity = new Activity("com.android.contacts", ".ContactsListActivity");
-        newActivity.setAppWaitPackage("com.android.contacts");
-        newActivity.setAppWaitActivity(".ContactsListActivity");
-        newActivity.setStopApp(false);
+        Activity newActivity = new Activity("com.android.contacts", ".ContactsListActivity")
+                .setAppWaitPackage("com.android.contacts")
+                .setAppWaitActivity(".ContactsListActivity")
+                .setStopApp(false);
         driver.startActivity(newActivity);
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
         driver.pressKeyCode(AndroidKeyCode.BACK);

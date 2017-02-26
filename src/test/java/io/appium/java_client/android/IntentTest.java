@@ -1,6 +1,7 @@
 package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.util.function.Predicate;
 
 public class IntentTest {
     private static AppiumDriverLocalService service;
@@ -47,26 +49,25 @@ public class IntentTest {
     }
 
 
-    @Test public void startActivityWithIntent() {
-        final Activity activity = new Activity("com.android.mms", ".ui.ComposeMessageActivity");
-        activity.setIntentAction("android.intent.action.SEND");
-        activity.setIntentCategory("android.intent.category.DEFAULT");
-        activity.setIntentFlags("0x4000000");
-        activity.setOptionalIntentArguments("-d \"TestIntent\" -t \"text/plain\"");
-        driver.startActivity(activity);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    @Test public void startActivityWithIntent() throws Exception {
+        assertTrue(((Predicate<AndroidDriver>) driver -> {
+            final Activity activity = new Activity("com.android.mms", ".ui.ComposeMessageActivity");
+            activity.setIntentAction("android.intent.action.SEND");
+            activity.setIntentCategory("android.intent.category.DEFAULT");
+            activity.setIntentFlags("0x4000000");
+            activity.setOptionalIntentArguments("-d \"TestIntent\" -t \"text/plain\"");
+            driver.startActivity(activity);
+            return true;
+        }).test(driver));
+
     }
 
     @Test public void startActivityWithDefaultIntentAndDefaultCategoryWithOptionalArgs() {
-        final Activity activity = new Activity("com.prgguru.android", ".GreetingActivity");
-        activity.setIntentAction("android.intent.action.MAIN");
-        activity.setIntentCategory("android.intent.category.DEFAULT");
-        activity.setIntentFlags("0x4000000");
-        activity.setOptionalIntentArguments("--es \"USERNAME\" \"AppiumIntentTest\" -t \"text/plain\"");
+        final Activity activity = new Activity("com.prgguru.android", ".GreetingActivity")
+                .setIntentAction("android.intent.action.MAIN")
+                .setIntentCategory("android.intent.category.DEFAULT")
+                .setIntentFlags("0x4000000")
+                .setOptionalIntentArguments("--es \"USERNAME\" \"AppiumIntentTest\" -t \"text/plain\"");
         driver.startActivity(activity);
         assertEquals(driver.findElementById("com.prgguru.android:id/textView1").getText(),
             "Welcome AppiumIntentTest");
