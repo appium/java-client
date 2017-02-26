@@ -11,4 +11,4 @@ branches:
 
 install: true
 
-script: ./gradlew clean -Dtest.single=XCUITModeTest test
+script: ./gradlew clean -i -Dtest.single=XCUITModeTest test
