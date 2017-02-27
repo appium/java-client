@@ -50,15 +50,17 @@ public class IntentTest {
 
 
     @Test public void startActivityWithIntent() throws Exception {
-        assertTrue(((Predicate<AndroidDriver>) driver -> {
-            final Activity activity = new Activity("com.android.mms", ".ui.ComposeMessageActivity");
-            activity.setIntentAction("android.intent.action.SEND");
-            activity.setIntentCategory("android.intent.category.DEFAULT");
-            activity.setIntentFlags("0x4000000");
-            activity.setOptionalIntentArguments("-d \"TestIntent\" -t \"text/plain\"");
+        Predicate<AndroidDriver> predicate = driver -> {
+            Activity activity = new Activity("com.android.mms",
+                    ".ui.ComposeMessageActivity")
+                    .setIntentAction("android.intent.action.SEND")
+                    .setIntentCategory("android.intent.category.DEFAULT")
+                    .setIntentFlags("0x4000000")
+                    .setOptionalIntentArguments("-d \"TestIntent\" -t \"text/plain\"");
             driver.startActivity(activity);
             return true;
-        }).test(driver));
+        };
+        assertTrue(predicate.test(driver));
 
     }
 
