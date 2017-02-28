@@ -20,8 +20,9 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ##Changelog##
 *5.0.0 (under construction yet)*
 
+*5.0.0-BETA4*
 - **[ENHANCEMENT]** Android. API to read the performance data was added. [#562](https://github.com/appium/java-client/pull/562)
-- **[REFACTOR]** Android. Simplified the activity starting by reducing the number of parameters through POJO clas. Old methods which start activities were marked `@Deprecated`. [#579](https://github.com/appium/java-client/pull/579)
+- **[REFACTOR]** Android. Simplified the activity starting by reducing the number of parameters through POJO clas. Old methods which start activities were marked `@Deprecated`. [#579](https://github.com/appium/java-client/pull/579) [#585](https://github.com/appium/java-client/pull/585)
 - **[BUG FIX]** Issue report:[#574](https://github.com/appium/java-client/issues/574). Fix:[#582](https://github.com/appium/java-client/pull/582)
 
 *5.0.0-BETA3*
