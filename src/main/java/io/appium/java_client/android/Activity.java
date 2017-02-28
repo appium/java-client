@@ -64,9 +64,11 @@ public class Activity {
      * Sets the app wait package value.
      *
      * @param appWaitPackage The app wait package value.
+     * @return self reference
      */
-    public void setAppWaitPackage(String appWaitPackage) {
+    public Activity setAppWaitPackage(String appWaitPackage) {
         this.appWaitPackage = appWaitPackage;
+        return this;
     }
 
     /**
@@ -82,9 +84,11 @@ public class Activity {
      * Sets the app wait activity value.
      *
      * @param appWaitActivity The app wait activity value.
+     * @return self reference
      */
-    public void setAppWaitActivity(String appWaitActivity) {
+    public Activity setAppWaitActivity(String appWaitActivity) {
         this.appWaitActivity = appWaitActivity;
+        return this;
     }
 
     /**
@@ -100,9 +104,11 @@ public class Activity {
      * Sets the intent action value.
      *
      * @param intentAction The intent action value.
+     * @return self reference
      */
-    public void setIntentAction(String intentAction) {
+    public Activity setIntentAction(String intentAction) {
         this.intentAction = intentAction;
+        return this;
     }
 
     /**
@@ -118,9 +124,11 @@ public class Activity {
      * Sets the intent category value.
      *
      * @param intentCategory The intent category value.
+     * @return self reference
      */
-    public void setIntentCategory(String intentCategory) {
+    public Activity setIntentCategory(String intentCategory) {
         this.intentCategory = intentCategory;
+        return this;
     }
 
     /**
@@ -136,9 +144,11 @@ public class Activity {
      * Sets the intent flags value.
      *
      * @param intentFlags The intent flags value.
+     * @return self reference
      */
-    public void setIntentFlags(String intentFlags) {
+    public Activity setIntentFlags(String intentFlags) {
         this.intentFlags = intentFlags;
+        return this;
     }
 
     /**
@@ -154,9 +164,11 @@ public class Activity {
      * Sets the optional intent arguments value.
      *
      * @param optionalIntentArguments The optional intent arguments value.
+     * @return self reference
      */
-    public void setOptionalIntentArguments(String optionalIntentArguments) {
+    public Activity setOptionalIntentArguments(String optionalIntentArguments) {
         this.optionalIntentArguments = optionalIntentArguments;
+        return this;
     }
 
     /**
@@ -172,9 +184,11 @@ public class Activity {
      * Sets the stop app value.
      *
      * @param stopApp The stop app value.
+     * @return self reference
      */
-    public void setStopApp(boolean stopApp) {
+    public Activity setStopApp(boolean stopApp) {
         this.stopApp = stopApp;
+        return this;
     }
 
     @Override public String toString() {
