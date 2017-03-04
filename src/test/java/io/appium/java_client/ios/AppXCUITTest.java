@@ -7,6 +7,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.net.URL;
@@ -24,8 +25,10 @@ public class AppXCUITTest extends BaseIOSTest {
         caps.setCapability("platformVersion","10.0");
         caps.setCapability("platformName", "iOS");
         caps.setCapability("browserName", "");
+        caps.setCapability("public", "public");
+        caps.setCapability("automationName", "xcuitest");
         caps.setCapability("app","sauce-storage:TestApp.app.zip");
-        driver = new IOSDriver<>(new URL("http://" + System.getenv("SAUCE_USERNAME")
+        driver =  new IOSDriver<IOSElement>(new URL("http://AppiumJavaClient"
             + ":" + System.getenv("SAUCE_API_KEY") + "@ondemand.saucelabs.com:80/wd/hub"), caps);
     }
 }
