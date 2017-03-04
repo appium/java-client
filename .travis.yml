@@ -1,14 +1,12 @@
 language: java
-
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 sudo: required
-
 branches:
   only:
   - master
-
 install: true
-
-script: ./gradlew clean -i -Dtest.single=XCUITModeTest test
+script: "./gradlew clean -i -Dtest.single=XCUITModeTest test"
+env:
+  matrix:
+    secure: T13p+Bo1+PYOE0luadbv6tayGDqDKncxCnDuKFwz7982suEVqDik44djXyStXTMFTbayYhD1MeQECwFv3aaas83OfM6XXyYOH0nrFXOTxmLPfCP+L/cfrbZ2wbCfVs366lRfhsuoOC8MTpvVmSBko9vbiXcPC1TJlZQmvrCYDKM=

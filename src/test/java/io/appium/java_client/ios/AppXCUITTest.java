@@ -18,6 +18,9 @@ public class AppXCUITTest extends BaseIOSTest {
      * initialization.
      */
     @BeforeClass public static void beforeClass() throws Exception {
+        String apiKey = System.getenv("SAUCE_API_KEY");
+        String sauceURL = "http://AppiumJavaClient"
+            + ":" + apiKey + "@ondemand.saucelabs.com:80/wd/hub";
         DesiredCapabilities caps = DesiredCapabilities.iphone();
         caps.setCapability("appiumVersion", "1.6.3");
         caps.setCapability("deviceName","iPhone 7 Simulator");
@@ -28,7 +31,6 @@ public class AppXCUITTest extends BaseIOSTest {
         caps.setCapability("public", "public");
         caps.setCapability("automationName", "xcuitest");
         caps.setCapability("app","sauce-storage:TestApp.app.zip");
-        driver =  new IOSDriver<IOSElement>(new URL("http://AppiumJavaClient"
-            + ":" + System.getenv("SAUCE_API_KEY") + "@ondemand.saucelabs.com:80/wd/hub"), caps);
+        driver =  new IOSDriver<>(new URL(sauceURL), caps);
     }
 }
