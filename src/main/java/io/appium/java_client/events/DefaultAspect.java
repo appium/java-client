@@ -352,6 +352,7 @@ class DefaultAspect {
     public void beforeAlertAccept(JoinPoint joinPoint) throws Throwable {
         try {
             listener.beforeAlertAccept(driver, castTarget(joinPoint));
+            listener.beforeAlertAccept(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -361,6 +362,7 @@ class DefaultAspect {
     public void afterAlertAccept(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterAlertAccept(driver, castTarget(joinPoint));
+            listener.afterAlertAccept(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -370,6 +372,7 @@ class DefaultAspect {
     public void beforeAlertDismiss(JoinPoint joinPoint) throws Throwable {
         try {
             listener.beforeAlertDismiss(driver, castTarget(joinPoint));
+            listener.beforeAlertDismiss(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -379,6 +382,7 @@ class DefaultAspect {
     public void afterAlertDismiss(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterAlertDismiss(driver, castTarget(joinPoint));
+            listener.afterAlertDismiss(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }

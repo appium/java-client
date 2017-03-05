@@ -142,16 +142,36 @@ class DefaultListener
         ((AlertEventListener) dispatcher).beforeAlertAccept(driver, alert);
     }
 
+    @Override
+    public void beforeAlertAccept(WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).beforeAlertAccept(driver);
+    }
+
     @Override public void afterAlertAccept(WebDriver driver, Alert alert) {
         ((AlertEventListener) dispatcher).afterAlertAccept(driver, alert);
+    }
+
+    @Override
+    public void afterAlertAccept(WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).afterAlertAccept(driver);
     }
 
     @Override public void afterAlertDismiss(WebDriver driver, Alert alert) {
         ((AlertEventListener) dispatcher).afterAlertDismiss(driver, alert);
     }
 
+    @Override
+    public void afterAlertDismiss(WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).afterAlertDismiss(driver);
+    }
+
     @Override public void beforeAlertDismiss(WebDriver driver, Alert alert) {
         ((AlertEventListener) dispatcher).beforeAlertDismiss(driver, alert);
+    }
+
+    @Override
+    public void beforeAlertDismiss(WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).beforeAlertDismiss(driver);
     }
 
     @Override public void beforeAlertSendKeys(WebDriver driver, Alert alert, String keys) {
