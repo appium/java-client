@@ -17,8 +17,8 @@
 
 package org.openqa.selenium;
 
-import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.logging.Logs;
 
 import java.net.URL;
 import java.util.List;
@@ -75,7 +75,7 @@ public interface WebDriver extends SearchContext {
      * The title of the current page.
      *
      * @return The title of the current page, with leading and trailing whitespace stripped, or null
-     * if one is not already set
+     *         if one is not already set
      */
     String getTitle();
 
@@ -98,7 +98,7 @@ public interface WebDriver extends SearchContext {
      * This method is affected by the 'implicit wait' times in force at the time of execution.
      * The findElement(..) invocation will return a matching row, or try again repeatedly until
      * the configured timeout is reached.
-     * <p>
+     *
      * findElement should not be used to look for non-present elements, use {@link #findElements(By)}
      * and assert zero length response instead.
      *
@@ -164,7 +164,7 @@ public interface WebDriver extends SearchContext {
      * URL.
      *
      * @return A {@link org.openqa.selenium.WebDriver.Navigation} that allows the selection of what to
-     * do next
+     *         do next
      */
     Navigation navigate();
 
@@ -242,7 +242,7 @@ public interface WebDriver extends SearchContext {
 
         /**
          * Gets the {@link Logs} interface used to fetch different types of logs.
-         * <p>
+         *
          * <p>To set the logging preferences {@link LoggingPreferences}.
          *
          * @return A Logs interface.
@@ -318,7 +318,7 @@ public interface WebDriver extends SearchContext {
          * precedence over those matched by ID.
          *
          * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt;
-         *                 element, or the (zero-based) index
+         *        element, or the (zero-based) index
          * @return This driver focused on the given frame
          * @throws NoSuchFrameException If the frame cannot be found
          */
@@ -329,7 +329,7 @@ public interface WebDriver extends SearchContext {
          *
          * @param frameElement The frame element to switch to.
          * @return This driver focused on the given frame.
-         * @throws NoSuchFrameException           If the given element is neither an IFRAME nor a FRAME element.
+         * @throws NoSuchFrameException If the given element is neither an IFRAME nor a FRAME element.
          * @throws StaleElementReferenceException If the WebElement has gone stale.
          * @see WebDriver#findElement(By)
          */
@@ -347,7 +347,7 @@ public interface WebDriver extends SearchContext {
          * Switch the focus of future commands for this driver to the window with the given name/handle.
          *
          * @param nameOrHandle The name of the window or the handle as returned by
-         *                     {@link WebDriver#getWindowHandle()}
+         *        {@link WebDriver#getWindowHandle()}
          * @return This driver focused on the given window
          * @throws NoSuchWindowException If the window cannot be found
          */
@@ -367,7 +367,7 @@ public interface WebDriver extends SearchContext {
          * "document.activeElement" in Javascript.
          *
          * @return The WebElement with focus, or the body element if no element with focus can be
-         * detected.
+         *         detected.
          */
         WebElement activeElement();
 
@@ -461,10 +461,11 @@ public interface WebDriver extends SearchContext {
          * platform-independent method of activating IME (the platform-specific way being using keyboard
          * shortcuts).
          *
+         *
          * @param engine name of engine to activate.
-         * @throws ImeNotAvailableException     if the host does not support IME.
+         * @throws ImeNotAvailableException if the host does not support IME.
          * @throws ImeActivationFailedException if the engine is not available or if activation failed
-         *                                      for other reasons.
+         *         for other reasons.
          */
         void activateEngine(String engine);
     }
