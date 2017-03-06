@@ -239,4 +239,9 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String ANDROID_SCREENSHOT_PATH = "androidScreenshotPath";
 
     String SELENDROID_PORT = "selendroidPort";
+
+    /**
+     * The port number, which being used by UIAutomator2
+     */
+    String SYSTEM_PORT = "systemPort";
 }
