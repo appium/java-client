@@ -241,7 +241,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String SELENDROID_PORT = "selendroidPort";
 
     /**
-     * The port number, which being used by UIAutomator2
+     * The port number, which being used by UIAutomator2.
      */
     String SYSTEM_PORT = "systemPort";
 }
