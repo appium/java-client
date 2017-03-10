@@ -1,6 +1,7 @@
 package io.appium.java_client.events;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.events.listeners.AppiumListener;
@@ -9,6 +10,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.security.Credentials;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
@@ -54,6 +57,51 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
         assertThat(super.assertThatJavaScriptListenerWorks(driver,
             listener, WEBDRIVER_EVENT_LISTENER),
             is(true));
+    }
+
+    @Test
+    public void alertEventTest() {
+        try {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            alert.dismiss();
+            alert.sendKeys("Keys");
+            Credentials credentials = new Credentials() {
+                @Override
+                public int hashCode() {
+                    return super.hashCode();
+                }
+
+                @Override
+                public String toString() {
+                    return "Test credentials 1";
+                }
+            };
+
+            Credentials credentials2 = new Credentials() {
+                @Override
+                public int hashCode() {
+                    return super.hashCode();
+                }
+
+                @Override
+                public String toString() {
+                    return "Test credentials 2";
+                }
+            };
+
+            alert.setCredentials(credentials);
+            alert.authenticateUsing(credentials2);
+
+            assertThat(listener.messages,
+                    hasItems(WEBDRIVER_EVENT_LISTENER + "Attempt to accept alert",
+                            WEBDRIVER_EVENT_LISTENER + "The alert was accepted",
+                            WEBDRIVER_EVENT_LISTENER + "Attempt to dismiss alert",
+                            WEBDRIVER_EVENT_LISTENER + "The alert was dismissed"));
+            assertThat(listener.messages.size(), is(4));
+        } finally {
+            listener.messages.clear();
+        }
     }
 
     @Test

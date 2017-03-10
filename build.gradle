@@ -7,7 +7,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group 'io.appium'
-version '5.0.0-BETA4'
+version '5.0.0-BETA5'
 
 repositories {
     jcenter()
@@ -54,13 +54,12 @@ compileJava {
 }
 
 dependencies {
-    compile('org.seleniumhq.selenium:selenium-java:3.0.1'){
+    compile('org.seleniumhq.selenium:selenium-java:3.2.0'){
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
     }
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.apache.httpcomponents:httpclient:4.5.2'
-    compile 'com.google.guava:guava:20.0'
     compile 'cglib:cglib:3.2.4'
     compile 'commons-validator:commons-validator:1.5.1'
     compile 'org.apache.commons:commons-lang3:3.5'
