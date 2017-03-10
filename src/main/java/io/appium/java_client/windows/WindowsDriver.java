@@ -22,11 +22,11 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByWindowsAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.PressesKeyCode;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
@@ -35,7 +35,7 @@ public class WindowsDriver<T extends WebElement>
         extends AppiumDriver<T> implements PressesKeyCode, HidesKeyboardWithKeyName,
         FindsByWindowsAutomation<T> {
 
-    public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public WindowsDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, substituteMobilePlatform(capabilities, WINDOWS));
     }
 

@@ -19,7 +19,6 @@ package io.appium.java_client;
 import com.google.common.collect.ImmutableMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.util.AbstractMap;
@@ -77,7 +76,7 @@ public class MobileCommand {
     protected static final String GET_SETTINGS;
     protected static final String SET_SETTINGS;
 
-    public static final  Map<String, CommandInfo> commandRepository;
+    public static final  Map<String, AppiumCommandInfo> commandRepository;
 
     static {
         RESET = "reset";
@@ -184,8 +183,8 @@ public class MobileCommand {
      * @param url is the command URL
      * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
      */
-    public static CommandInfo getC(String url) {
-        return new CommandInfo(url, HttpMethod.GET);
+    public static AppiumCommandInfo getC(String url) {
+        return new AppiumCommandInfo(url, HttpMethod.GET);
     }
 
     /**
@@ -194,8 +193,8 @@ public class MobileCommand {
      * @param url is the command URL
      * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
      */
-    public static CommandInfo postC(String url) {
-        return new CommandInfo(url, HttpMethod.POST);
+    public static AppiumCommandInfo postC(String url) {
+        return new AppiumCommandInfo(url, HttpMethod.POST);
     }
 
     /**
@@ -204,8 +203,8 @@ public class MobileCommand {
      * @param url is the command URL
      * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
      */
-    public static CommandInfo deleteC(String url) {
-        return new CommandInfo(url, HttpMethod.DELETE);
+    public static AppiumCommandInfo deleteC(String url) {
+        return new AppiumCommandInfo(url, HttpMethod.DELETE);
     }
 
     /**
