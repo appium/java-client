@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client;
 
 import org.openqa.selenium.remote.CommandInfo;
@@ -22,6 +23,12 @@ public class AppiumCommandInfo extends CommandInfo {
     private final String url;
     private final HttpMethod method;
 
+    /**
+     * It conntains method and URL of the command.
+     *
+     * @param url command URL
+     * @param method is http-method
+     */
     public AppiumCommandInfo(String url, HttpMethod method) {
         super(url, method);
         this.url = url;

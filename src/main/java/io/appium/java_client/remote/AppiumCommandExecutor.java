@@ -56,6 +56,13 @@ public class AppiumCommandExecutor implements CommandExecutor {
     private ResponseCodec<HttpResponse> responseCodec;
     private DriverService service;
 
+    /**
+     * Cretes an instance that sends requests and receives responses.
+     * 
+     * @param additionalCommands is the mapped command repository
+     * @param addressOfRemoteServer is the url to connect to the Appium remote/local server
+     * @param httpClientFactory is the http client factory
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
         URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
         checkNotNull(addressOfRemoteServer);
