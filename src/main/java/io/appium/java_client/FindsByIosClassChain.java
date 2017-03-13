@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client;
 
-import io.appium.java_client.FindsByIosClassChain;
-import io.appium.java_client.FindsByIosNSPredicate;
-import io.appium.java_client.FindsByIosUIAutomation;
-import io.appium.java_client.MobileElement;
+import org.openqa.selenium.WebElement;
 
-public class IOSElement extends MobileElement
-    implements FindsByIosUIAutomation<MobileElement>, FindsByIosNSPredicate<MobileElement>,
-        FindsByIosClassChain<MobileElement> {
+import java.util.List;
+
+public interface FindsByIosClassChain<T extends WebElement> extends FindsByFluentSelector<T> {
+
+    default T findElementByIosClassChain(String using) {
+        return findElement(MobileSelector.IOS_CLASS_CHAIN.toString(), using);
+    }
+
+    default List<T> findElementsByIosClassChain(String using) {
+        return findElements(MobileSelector.IOS_CLASS_CHAIN.toString(), using);
+    }
 }

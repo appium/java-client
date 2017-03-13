@@ -19,6 +19,7 @@ package io.appium.java_client.ios;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.FindsByIosClassChain;
 import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
@@ -50,7 +51,8 @@ import java.net.URL;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements HidesKeyboardWithKeyName, ShakesDevice,
-        FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID, FindsByIosNSPredicate<T> {
+        FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID, FindsByIosNSPredicate<T>,
+        FindsByIosClassChain<T> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
