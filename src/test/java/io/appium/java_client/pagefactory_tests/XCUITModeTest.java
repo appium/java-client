@@ -19,6 +19,10 @@ package io.appium.java_client.pagefactory_tests;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -41,6 +45,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -85,7 +90,14 @@ public class XCUITModeTest extends AppXCUITTest {
     @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'location'")
     private MobileElement locationAlert;
 
+    @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeTextField[2]")
+    private MobileElement secondTextField;
 
+    @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeButton[-1]")
+    private MobileElement lastButton;
+
+    @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeButton")
+    private List<MobileElement> allButtons;
 
     /**
      * The setting up.
@@ -131,6 +143,18 @@ public class XCUITModeTest extends AppXCUITTest {
 
     @Test public void nativeSelectorTest() {
         assertTrue(locationAlert.isDisplayed());
+    }
+
+    @Test public void findElementByClassChain() {
+        assertThat(secondTextField.getAttribute("name"), equalTo("IntegerB"));
+    }
+
+    @Test public void findElementByClassChainWithNegativeIndex() {
+        assertThat(lastButton.getAttribute("name"), equalTo("Test Gesture"));
+    }
+
+    @Test public void findMultipleElementsByClassChain() {
+        assertThat(allButtons.size(), is(greaterThan(1)));
     }
 
     @Test public void findElementByXUISelectorTest() {
