@@ -37,7 +37,7 @@ public class MobileCommand {
     protected static final String SET_VALUE;
     protected static final String PULL_FILE;
     protected static final String PULL_FOLDER;
-    protected static final String RUN_APP_IN_BACKGROUND;
+    public static final String RUN_APP_IN_BACKGROUND;
     protected static final String PERFORM_TOUCH_ACTION;
     protected static final String PERFORM_MULTI_TOUCH;
     protected static final String IS_APP_INSTALLED;
