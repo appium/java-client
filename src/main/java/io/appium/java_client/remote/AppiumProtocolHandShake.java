@@ -25,6 +25,10 @@ import static org.openqa.selenium.remote.ErrorCodes.SUCCESS;
 
 import com.google.common.base.Preconditions;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.remote.BeanToJsonConverter;
@@ -57,31 +61,28 @@ class AppiumProtocolHandShake {
         Capabilities required = (Capabilities) command.getParameters().get("requiredCapabilities");
         required = required == null ? new DesiredCapabilities() : required;
 
-        String des = new BeanToJsonConverter().convert(desired);
-        String req = new BeanToJsonConverter().convert(required);
+        JsonParser parser = new JsonParser();
+        JsonElement des = parser.parse(new BeanToJsonConverter().convert(desired));
+        JsonElement req = parser.parse(new BeanToJsonConverter().convert(required));
 
-        // Assume the remote end obeys the robustness principle.
-        StringBuilder parameters = new StringBuilder("{");
-        amendW3CParameters(parameters, des, req);
-        parameters.append(",");
-        amendOssParamters(parameters, des, req);
-        parameters.append("}");
-        Optional<Result> result = createSession(client, parameters);
+        JsonObject jsonObject = new JsonObject();
+
+        amendW3CParameters(jsonObject, des, req);
+        amendOssParamters(jsonObject, des, req);
+        Optional<Result> result = createSession(client, jsonObject);
 
         // Assume a fragile OSS webdriver implementation
         if (!result.isPresent()) {
-            parameters = new StringBuilder("{");
-            amendOssParamters(parameters, des, req);
-            parameters.append("}");
-            result = createSession(client, parameters);
+            jsonObject = new JsonObject();
+            amendOssParamters(jsonObject, des, req);
+            result = createSession(client, jsonObject);
         }
 
         // Assume a fragile w3c implementation
         if (!result.isPresent()) {
-            parameters = new StringBuilder("{");
-            amendW3CParameters(parameters, des, req);
-            parameters.append("}");
-            result = createSession(client, parameters);
+            jsonObject = new JsonObject();
+            amendW3CParameters(jsonObject, des, req);
+            result = createSession(client, jsonObject);
         }
 
         if (result.isPresent()) {
@@ -97,7 +98,7 @@ class AppiumProtocolHandShake {
                         required));
     }
 
-    private Optional<Result> createSession(HttpClient client, StringBuilder params)
+    private Optional<Result> createSession(HttpClient client, JsonObject params)
             throws IOException {
         // Create the http request and send it
         HttpRequest request = new HttpRequest(HttpMethod.POST, "/session");
@@ -135,12 +136,11 @@ class AppiumProtocolHandShake {
             capabilities = ((Capabilities) capabilities).asMap();
         }
 
-        if (response.getStatus() == HttpURLConnection.HTTP_OK) {
-            if (sessionId != null && capabilities != null) {
-                Dialect dialect = ossStatus == null ? Dialect.W3C : Dialect.OSS;
-                return Optional.of(
+        if (response.getStatus() == HttpURLConnection.HTTP_OK
+                && sessionId != null && capabilities != null) {
+            Dialect dialect = ossStatus == null ? Dialect.W3C : Dialect.OSS;
+            return Optional.of(
                         new Result(dialect, String.valueOf(sessionId), capabilities));
-            }
         }
 
         // If the result was an error that we believe has to do with the remote end failing to start the
@@ -166,26 +166,27 @@ class AppiumProtocolHandShake {
         return Optional.empty();
     }
 
-    private void amendW3CParameters(
-            StringBuilder params,
-            String desired,
-            String required) {
-        params.append("\"capabilities\": {");
-        params.append("\"desiredCapabilities\": ").append(desired);
-        params.append(",");
-        params.append("\"requiredCapabilities\": ").append(required);
-        params.append("}");
+    private void amendW3CParameters(JsonObject jsonObject, JsonElement desired,
+                                    JsonElement required) {
+        JsonArray result = new JsonArray();
+        JsonObject desiredJson = new JsonObject();
+        JsonObject requiredJson = new JsonObject();
+
+        desiredJson.add("desiredCapabilities", desired);
+        requiredJson.add("requiredCapabilities", required);
+
+        result.add(desiredJson);
+        result.add(requiredJson);
+
+        jsonObject.add("capabilities", result);
     }
 
     private void amendOssParamters(
-            StringBuilder params,
-            String desired,
-            String required) {
-        params.append("\"desiredCapabilities\": ").append(desired);
-        params.append(",");
-        params.append("\"requiredCapabilities\": ").append(required);
+            JsonObject jsonObject, JsonElement desired,
+            JsonElement required) {
+        jsonObject.add("desiredCapabilities", desired);
+        jsonObject.add("requiredCapabilities", required);
     }
-
 
     public class Result {
         private final Dialect dialect;

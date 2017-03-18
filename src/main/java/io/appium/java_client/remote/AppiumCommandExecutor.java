@@ -111,13 +111,13 @@ public class AppiumCommandExecutor implements CommandExecutor {
             AppiumProtocolHandShake.Result result = handshake.createSession(client, command);
             Dialect dialect = result.getDialect();
             commandCodec = dialect.getCommandCodec();
-            for (Map.Entry<String, AppiumCommandInfo> entry : additionalCommands.entrySet()) {
-                String key = entry.getKey();
-                AppiumCommandInfo value = entry.getValue();
+
+            additionalCommands.forEach((key, value) -> {
                 checkNotNull(key);
-                checkNotNull(entry.getValue());
+                checkNotNull(value);
                 commandCodec.defineCommand(key, value.getMethod(), value.getUrl());
-            }
+            } );
+
             responseCodec = dialect.getResponseCodec();
             return result.createResponse();
         }
