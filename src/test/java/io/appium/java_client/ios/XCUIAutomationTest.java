@@ -16,12 +16,17 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.DeviceRotation;
+
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.empty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 public class XCUIAutomationTest extends AppXCUITTest {
 
@@ -49,6 +54,18 @@ public class XCUIAutomationTest extends AppXCUITTest {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Test public void testPutIntoBackgroundAndRestore() {
+        final long msStarted = System.currentTimeMillis();
+        driver.runAppInBackground(4);
+        assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
+    }
+
+    @Test public void testPutIntoBackgroundWithoutRestore() {
+        assertThat(driver.findElementsById("IntegerA"), is(not(empty())));
+        driver.runAppInBackground(-1);
+        assertThat(driver.findElementsById("IntegerA"), is(empty()));
     }
 
     @Test public void doubleTapTest() {

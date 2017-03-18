@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import io.appium.java_client.AppiumDriver;
@@ -162,6 +163,24 @@ public class IOSDriver<T extends WebElement>
         int xOffset = endx - startx;
         int yOffset = endy - starty;
         new TouchAction(this).press(startx, starty).waitAction(duration).moveTo(xOffset, yOffset).release().perform();
+    }
+
+    /**
+     * Runs the current app as a background app for the number of seconds
+     * or minimizes the app
+     *
+     * @param seconds if seconds &gt;= 0: Number of seconds to run App in background.
+     *                This method call will block main thread and restore the application under
+     *                test after the timeout expires.
+     *                if seconds &lt; 0: any negative number of seconds will put the application
+     *                under test into background and return immediately, so iOS dashboard
+     *                will remain on-screen (this, actually, simulates click on Home button)
+     */
+    @Override public void runAppInBackground(int seconds) {
+        // timeout parameter is expected to be in milliseconds
+        // float values are allowed
+        execute(RUN_APP_IN_BACKGROUND,
+                prepareArguments("seconds", prepareArguments("timeout", seconds * 1000)));
     }
 
     @Override public TargetLocator switchTo() {
