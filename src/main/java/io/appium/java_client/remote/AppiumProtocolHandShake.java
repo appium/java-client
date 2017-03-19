@@ -20,6 +20,7 @@ import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.net.HttpHeaders.CONTENT_LENGTH;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.common.net.MediaType.JSON_UTF_8;
+import static java.util.Optional.ofNullable;
 import static org.openqa.selenium.remote.ErrorCodes.SESSION_NOT_CREATED;
 import static org.openqa.selenium.remote.ErrorCodes.SUCCESS;
 
@@ -31,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.BeanToJsonConverter;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -54,12 +56,13 @@ import java.util.Optional;
 class AppiumProtocolHandShake {
 
     public Result createSession(HttpClient client, Command command)
-            throws IOException {
+            throws IOException, WebDriverException {
 
-        Capabilities desired = (Capabilities) command.getParameters().get("desiredCapabilities");
-        desired = desired == null ? new DesiredCapabilities() : desired;
-        Capabilities required = (Capabilities) command.getParameters().get("requiredCapabilities");
-        required = required == null ? new DesiredCapabilities() : required;
+        Capabilities desired = ofNullable((Capabilities) command.getParameters().get("desiredCapabilities"))
+                .orElse(new DesiredCapabilities());
+
+        Capabilities required = ofNullable((Capabilities) command.getParameters().get("requiredCapabilities"))
+                .orElse(new DesiredCapabilities());
 
         JsonParser parser = new JsonParser();
         JsonElement des = parser.parse(new BeanToJsonConverter().convert(desired));
@@ -71,31 +74,30 @@ class AppiumProtocolHandShake {
         amendOssParamters(jsonObject, des, req);
         Optional<Result> result = createSession(client, jsonObject);
 
-        // Assume a fragile OSS webdriver implementation
-        if (!result.isPresent()) {
-            jsonObject = new JsonObject();
-            amendOssParamters(jsonObject, des, req);
-            result = createSession(client, jsonObject);
-        }
+        return ofNullable(result.orElseGet(() -> {
+            JsonObject jsonObject1 = new JsonObject();
+            amendOssParamters(jsonObject1, des, req);
 
-        // Assume a fragile w3c implementation
-        if (!result.isPresent()) {
-            jsonObject = new JsonObject();
-            amendW3CParameters(jsonObject, des, req);
-            result = createSession(client, jsonObject);
-        }
+            try {
+                return createSession(client, jsonObject1).orElseGet(() -> {
+                    JsonObject jsonObject2 = new JsonObject();
+                    amendW3CParameters(jsonObject2, des, req);
 
-        if (result.isPresent()) {
-            Result toReturn = result.get();
-            return toReturn;
-        }
-
-        throw new SessionNotCreatedException(
+                    try {
+                        return createSession(client, jsonObject2).orElse(null);
+                    } catch (IOException e) {
+                        throw new WebDriverException(e);
+                    }
+                });
+            } catch (IOException e) {
+                throw new WebDriverException(e);
+            }
+        })).orElseThrow(() -> new SessionNotCreatedException(
                 String.format(
                         "Unable to create new remote session. "
                                 + "desired capabilities = %s, required capabilities = %s",
                         desired,
-                        required));
+                        required)));
     }
 
     private Optional<Result> createSession(HttpClient client, JsonObject params)
@@ -110,7 +112,7 @@ class AppiumProtocolHandShake {
         request.setContent(data);
         HttpResponse response = client.execute(request, true);
 
-        Map<?, ?> jsonBlob = null;
+        Map<?, ?> jsonBlob = new HashMap<>();
         String resultString = response.getContentString();
         try {
             jsonBlob = new JsonToBeanConverter().convert(Map.class, resultString);
@@ -118,10 +120,6 @@ class AppiumProtocolHandShake {
             return Optional.empty();
         } catch (JsonException e) {
             // Fine. Handle that below
-        }
-
-        if (jsonBlob == null) {
-            jsonBlob = new HashMap<>();
         }
 
         // If the result looks positive, return the result.
