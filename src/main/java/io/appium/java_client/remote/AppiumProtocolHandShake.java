@@ -59,10 +59,10 @@ class AppiumProtocolHandShake {
             throws IOException, WebDriverException {
 
         Capabilities desired = ofNullable((Capabilities) command.getParameters().get("desiredCapabilities"))
-                .orElse(new DesiredCapabilities());
+                .orElseGet(DesiredCapabilities::new);
 
         Capabilities required = ofNullable((Capabilities) command.getParameters().get("requiredCapabilities"))
-                .orElse(new DesiredCapabilities());
+                .orElseGet(DesiredCapabilities::new);
 
         JsonParser parser = new JsonParser();
         JsonElement des = parser.parse(new BeanToJsonConverter().convert(desired));
