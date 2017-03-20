@@ -113,6 +113,41 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
+     * record the display of devices running Android 4.4 (API level 19) and higher.
+     * It records screen activity to an MPEG-4 file. Audio is not recorded with the video file.
+     *
+     * @param filePath the video file name
+     *                 for example, "/sdcard/demo.mp4"
+     * @param videoSize the format is widthxheight.
+     *                  The default value is the device's native display resolution (if supported),
+     *                  1280x720 if not. For best results,
+     *                  use a size supported by your device's Advanced Video Coding (AVC) encoder.
+     *                  for example, "1280x720"
+     * @param timeLimit the maximum recording time, in seconds. The default and maximum value is 180 (3 minutes).
+     * @param bitRate the video bit rate for the video, in megabits per second.
+     *                The default value is 4Mbps. You can increase the bit rate to improve video quality,
+     *                but doing so results in larger movie files.
+     *                for example, 6000000
+     *
+     */
+    public static Map.Entry<String, Map<String, ?>> startRecordingScreenCommand(
+            String filePath, String videoSize, int timeLimit, int bitRate) throws Exception {
+        String[] parameters = new String[] {"filePath", "videoSize", "timeLimit", "bitRate"};
+        Object[] values = new Object[] {filePath, videoSize, timeLimit, bitRate};
+
+        return new AbstractMap.SimpleEntry<>(START_RECORDING_SCREEN, prepareArguments(parameters, values));
+
+    }
+
+    /**
+     * stop recording the screen.
+     */
+    public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand() throws Exception {
+        return new AbstractMap.SimpleEntry<>(STOP_RECORDING_SCREEN, ImmutableMap.<String, Object>of());
+
+    }
+
+    /**
      * This method forms a {@link java.util.Map} of parameters to
      * Retrieve the display density of the Android device.
      *
