@@ -1,4 +1,4 @@
-#java-client
+# java-client
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/io.appium/java-client/badge.svg)](http://www.javadoc.io/doc/io.appium/java-client)
@@ -9,7 +9,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [API docs](http://appium.github.io/java-client/)
 
-###Features and other interesting information###
+### Features and other interesting information
 
 [Tech stack](https://github.com/appium/java-client/blob/master/docs/Tech-stack.md)
 
@@ -17,8 +17,14 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [WIKI](https://github.com/appium/java-client/wiki)
 
-##Changelog##
+## Changelog
+
 *5.0.0 (under construction yet)*
+
+*5.0.0-BETA6*
+- **[UPDATE]** Update to Selenium 3.3.1
+- **[ENHANCEMENT]** iOS XCUIT mode automation: API to run application in background was added. [#593](https://github.com/appium/java-client/pull/593)
+
 
 *5.0.0-BETA5*
 - **[UPDATE]** Update to Selenium 3.2.0
