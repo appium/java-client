@@ -22,6 +22,7 @@ import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.LocationContext;
+import org.openqa.selenium.interactions.HasTouchScreen;
 import org.openqa.selenium.internal.FindsByClassName;
 import org.openqa.selenium.internal.FindsByCssSelector;
 import org.openqa.selenium.internal.FindsById;
@@ -33,7 +34,7 @@ import org.openqa.selenium.internal.FindsByXPath;
 import java.util.List;
 
 public interface MobileDriver<T extends WebElement> extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
-    FindsByAccessibilityId<T>, LocationContext, HidesKeyboard, HasDeviceTime,
+    FindsByAccessibilityId<T>, LocationContext, HidesKeyboard, HasDeviceTime, HasTouchScreen,
     InteractsWithFiles, InteractsWithApps, HasAppStrings, FindsByClassName, FindsByCssSelector, FindsById,
         FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, ExecutesMethod,
         HasSessionDetails {

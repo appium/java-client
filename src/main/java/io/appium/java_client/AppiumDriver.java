@@ -39,12 +39,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.interactions.TouchScreen;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteTouchScreen;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
@@ -73,6 +75,7 @@ public class AppiumDriver<T extends WebElement>
     // frequently used command parameters
     private URL remoteAddress;
     private RemoteLocationContext locationContext;
+    private RemoteTouchScreen touchScreen;
     private ExecuteMethod executeMethod;
     private final String platformName;
     private final String automationName;
@@ -89,6 +92,7 @@ public class AppiumDriver<T extends WebElement>
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
+        touchScreen = new RemoteTouchScreen(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
 
@@ -248,6 +252,7 @@ public class AppiumDriver<T extends WebElement>
 
     /**
      * This method is deprecated and it is going to be removed soon.
+     * Please use {@link MultiTouchAction#pinch(WebElement)}.
      */
     @Deprecated
     public void pinch(WebElement el) {
@@ -399,6 +404,10 @@ public class AppiumDriver<T extends WebElement>
 
     @Override public void setLocation(Location location) {
         locationContext.setLocation(location);
+    }
+
+    @Override public TouchScreen getTouch() {
+        return touchScreen;
     }
 
     public URL getRemoteAddress() {
