@@ -2,7 +2,7 @@ package io.appium.java_client.appium.element.generation.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.tagName;
 
 import io.appium.java_client.android.AndroidElement;
@@ -64,6 +64,8 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
             }, (by, aClass) -> {
                 driver.get("https://www.google.com");
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), AndroidElement.class));
+            }, name("q"), AndroidElement.class));
     }
+
+
 }

@@ -54,7 +54,7 @@ compileJava {
 }
 
 dependencies {
-    compile('org.seleniumhq.selenium:selenium-java:3.2.0'){
+    compile('org.seleniumhq.selenium:selenium-java:3.3.1'){
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
     }
