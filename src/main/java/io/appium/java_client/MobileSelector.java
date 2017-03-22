@@ -21,6 +21,7 @@ public enum MobileSelector {
     ANDROID_UI_AUTOMATOR("-android uiautomator"),
     IOS_UI_AUTOMATION("-ios uiautomation"),
     IOS_PREDICATE_STRING("-ios predicate string"),
+    IOS_CLASS_CHAIN("-ios class chain"),
     WINDOWS_UI_AUTOMATION("-windows uiautomation");
 
     private final String selector;

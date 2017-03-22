@@ -91,6 +91,12 @@ enum Strategies {
                     .windowsAutomation(getValue(annotation, this));
         }
     },
+    BY_CLASS_CHAIN("iOSClassChain") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .iOSClassChain(getValue(annotation, this));
+        }
+    },
     BY_NS_PREDICATE("iOSNsPredicate") {
         @Override By getBy(Annotation annotation) {
             return MobileBy

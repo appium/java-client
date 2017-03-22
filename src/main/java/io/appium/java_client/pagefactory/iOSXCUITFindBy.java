@@ -27,6 +27,14 @@ import java.lang.annotation.Target;
 public @interface iOSXCUITFindBy {
 
     /**
+     * The Class Chain locator is similar to xpath, but it's faster and can only
+     * search direct children elements. See the
+     * <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
+     * documentation</a> for more details.
+     */
+    String iOSClassChain() default "";
+
+    /**
      * The NSPredicate class is used to define logical conditions used to constrain
      * a search either for a fetch or for in-memory filtering.
      */
