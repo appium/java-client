@@ -25,6 +25,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[UPDATE]** Update to Selenium 3.3.1
 - **[ENHANCEMENT]** iOS XCUIT mode automation: API to run application in background was added. [#593](https://github.com/appium/java-client/pull/593)
 - **[BUG FIX]** Issue report: [#594](https://github.com/appium/java-client/issues/594). FIX: [#597](https://github.com/appium/java-client/pull/597)
+- **[ENHANCEMENT]** The class chain locator was added. [#599](https://github.com/appium/java-client/pull/599)
 
 
 *5.0.0-BETA5*
