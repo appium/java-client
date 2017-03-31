@@ -30,9 +30,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 public class AppiumFluentWait<T> extends FluentWait<T> {
     private Function<IterationInfo, Duration> pollingStrategy = null;
 
@@ -198,7 +195,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      *
      * @param pollingStrategy Function instance, where the first parameter
      *                        is the information about the current loop iteration (see {@link IterationInfo})
-     *                        and the expected result is the calculated interval
+     *                        and the expected result is the calculated interval. It is highly
+     *                        recommended that the value returned by this lambda is greater than zero.
      * @return A self reference.
      */
     public AppiumFluentWait<T> withPollingStrategy(Function<IterationInfo, Duration> pollingStrategy) {
@@ -226,7 +224,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
         final long start = getClock().now();
-        final long end = getClock().laterBy(getTimeout().in(MILLISECONDS));
+        final long end = getClock().laterBy(getTimeout().in(TimeUnit.MILLISECONDS));
         long iterationNumber = 1;
         Throwable lastException;
         while (true) {
@@ -252,7 +250,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 String timeoutMessage = String.format(
                         "Expected condition failed: %s (tried for %d second(s) with %s interval)",
                         message == null ? "waiting for " + isTrue : message,
-                        getTimeout().in(SECONDS), getInterval());
+                        getTimeout().in(TimeUnit.SECONDS), getInterval());
                 throw timeoutException(timeoutMessage, lastException);
             }
 
@@ -280,6 +278,6 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
             }
         }
         Throwables.throwIfUnchecked(e);
-        throw new RuntimeException(e);
+        throw new WebDriverException(e);
     }
 }
