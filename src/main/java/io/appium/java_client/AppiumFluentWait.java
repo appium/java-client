@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.base.Throwables;
+
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.Clock;

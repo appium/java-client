@@ -16,6 +16,10 @@
 
 package io.appium.java_client.appium;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 import io.appium.java_client.AppiumFluentWait;
 
 import org.junit.Assert;
@@ -29,10 +33,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-
 public class AppiumFluentWaitTest {
     private static class FakeElement {
         public boolean isDisplayed() {
@@ -40,21 +40,17 @@ public class AppiumFluentWaitTest {
         }
     }
 
-    @Test
+    @Test(expected = TimeoutException.class)
     public void testDefaultStrategy() {
         final FakeElement el = new FakeElement();
         final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
-            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(1)));
+            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(1L)));
             Thread.sleep(duration.in(TimeUnit.MILLISECONDS));
         }).withPollingStrategy(AppiumFluentWait.IterationInfo::getInterval)
                 .withTimeout(3, TimeUnit.SECONDS)
                 .pollingEvery(1, TimeUnit.SECONDS);
-        try {
-            wait.until(FakeElement::isDisplayed);
-            Assert.fail("TimeoutException is expected");
-        } catch (TimeoutException e) {
-            // this is expected
-        }
+        wait.until(FakeElement::isDisplayed);
+        Assert.fail("TimeoutException is expected");
     }
 
     @Test
@@ -63,7 +59,7 @@ public class AppiumFluentWaitTest {
         final AtomicInteger callsCounter = new AtomicInteger(0);
         final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
             callsCounter.incrementAndGet();
-            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(2)));
+            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(2L)));
             Thread.sleep(duration.in(TimeUnit.MILLISECONDS));
         }).withPollingStrategy(info -> new Duration(2, TimeUnit.SECONDS))
                 .withTimeout(3, TimeUnit.SECONDS)
@@ -73,8 +69,8 @@ public class AppiumFluentWaitTest {
             Assert.fail("TimeoutException is expected");
         } catch (TimeoutException e) {
             // this is expected
+            assertThat(callsCounter.get(), is(equalTo(2)));
         }
-        assertThat(callsCounter.get(), is(equalTo(2)));
     }
 
     @Test
@@ -95,7 +91,7 @@ public class AppiumFluentWaitTest {
             Assert.fail("TimeoutException is expected");
         } catch (TimeoutException e) {
             // this is expected
+            assertThat(callsCounter.get(), is(equalTo(2)));
         }
-        assertThat(callsCounter.get(), is(equalTo(2)));
     }
 }

@@ -16,17 +16,17 @@
 
 package io.appium.java_client.ios;
 
-import org.junit.After;
-import org.junit.Test;
-import org.openqa.selenium.DeviceRotation;
-
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import org.junit.After;
+import org.junit.Test;
+import org.openqa.selenium.DeviceRotation;
 
 public class XCUIAutomationTest extends AppXCUITTest {
 
