@@ -20,6 +20,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *5.0.0 (under construction yet)*
+- **[ENHANCEMENT]** The ability to customize the polling strategy of the waiting was provided. [#612](https://github.com/appium/java-client/pull/612) 
+
 
 *5.0.0-BETA6*
 - **[UPDATE]** Update to Selenium 3.3.1
