@@ -29,6 +29,7 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +110,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void runAppInBackgroundTest() {
         long time = System.currentTimeMillis();
-        driver.runAppInBackground(4);
+        driver.runAppInBackground(Duration.ofSeconds(4));
         long timeAfter = System.currentTimeMillis();
         assert (timeAfter - time > 3000);
     }

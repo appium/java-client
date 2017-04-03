@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
+import java.time.Duration;
 import java.util.function.Supplier;
 
 public class IOSDriverTest extends AppIOSTest {
@@ -62,7 +63,7 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test public void lockTest() {
         Supplier<Boolean> lock = () -> {
-            driver.lockDevice(20);
+            driver.lockDevice(Duration.ofSeconds(20));
             return true;
         };
         assertTrue(lock.get());

@@ -7,6 +7,8 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
+
 public class AndroidMovie extends Movie {
 
     @AndroidFindBy(id = "com.codepath.example.rottentomatoes:id/tvTitle") private AndroidElement
@@ -36,6 +38,6 @@ public class AndroidMovie extends Movie {
 
     @Override public void goToReview() {
         TouchAction tap = new TouchAction(PerformsTouchActions.class.cast(getWrappedDriver()));
-        tap.press(getWrappedElement()).waitAction(1500).release().perform();
+        tap.press(getWrappedElement()).waitAction(Duration.ofMillis(1500)).release().perform();
     }
 }
