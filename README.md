@@ -21,6 +21,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *5.0.0 (under construction yet)*
 - **[ENHANCEMENT]** The ability to customize the polling strategy of the waiting was provided. [#612](https://github.com/appium/java-client/pull/612) 
+- **[ENHANCEMENT]** **[REFACTOR]** Methods which were representing time deltas instead of elementary types became `Deprecated`. Methods which use `java.time.Duration` are suugested to be used. [#611](https://github.com/appium/java-client/pull/611)
 
 
 *5.0.0-BETA6*
