@@ -26,6 +26,7 @@ import io.appium.java_client.ExecutesMethod;
 
 import org.openqa.selenium.remote.Response;
 
+import java.time.Duration;
 import java.util.Map;
 
 interface HasSettings extends ExecutesMethod {
@@ -53,7 +54,7 @@ interface HasSettings extends ExecutesMethod {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
 
-        return  ImmutableMap.<String, Object>builder()
+        return ImmutableMap.<String, Object>builder()
                 .putAll(Map.class.cast(response.getValue())).build();
     }
 
@@ -72,46 +73,106 @@ interface HasSettings extends ExecutesMethod {
 
     /**
      * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * This method is deprecated. Please use {@link #configuratorSetWaitForIdleTimeout(Duration)} instead.
      *
      * @param timeout in milliseconds. A negative value would reset to its default value
      */
+    @Deprecated
     default void configuratorSetWaitForIdleTimeout(int timeout) {
-        setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, timeout);
+        configuratorSetWaitForIdleTimeout(Duration.ofMillis(timeout));
+    }
+
+    /**
+     * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
+     *
+     * @param timeout A negative value would reset to its default value. Minimum time unit
+     *                resolution is one millisecond
+     */
+    default void configuratorSetWaitForIdleTimeout(Duration timeout) {
+        setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, timeout.toMillis());
+    }
+
+    /**
+     * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * This method is deprecated. Please use {@link #configuratorSetWaitForSelectorTimeout(Duration)} instead.
+     *
+     * @param timeout in milliseconds. A negative value would reset to its default value
+     */
+    @Deprecated
+    default void configuratorSetWaitForSelectorTimeout(int timeout) {
+        configuratorSetWaitForSelectorTimeout(Duration.ofMillis(timeout));
     }
 
     /**
      * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
+     * @param timeout A negative value would reset to its default value. Minimum time unit
+     *                resolution is one millisecond
+     */
+    default void configuratorSetWaitForSelectorTimeout(Duration timeout) {
+        setSetting(Setting.WAIT_FOR_SELECTOR_TIMEOUT, timeout.toMillis());
+    }
+
+    /**
+     * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * This method is deprecated. Please use {@link #configuratorSetScrollAcknowledgmentTimeout(Duration)} instead.
+     *
      * @param timeout in milliseconds. A negative value would reset to its default value
      */
-    default void configuratorSetWaitForSelectorTimeout(int timeout) {
-        setSetting(Setting.WAIT_FOR_SELECTOR_TIMEOUT, timeout);
+    @Deprecated
+    default void configuratorSetScrollAcknowledgmentTimeout(int timeout) {
+        configuratorSetScrollAcknowledgmentTimeout(Duration.ofMillis(timeout));
     }
 
     /**
      * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param timeout in milliseconds. A negative value would reset to its default value
+     * @param timeout A negative value would reset to its default value. Minimum time unit
+     *                resolution is one millisecond
      */
-    default void configuratorSetScrollAcknowledgmentTimeout(int timeout) {
-        setSetting(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, timeout);
+    default void configuratorSetScrollAcknowledgmentTimeout(Duration timeout) {
+        setSetting(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
+    }
+
+    /**
+     * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
+     * This method is deprecated. Please use {@link #configuratorSetKeyInjectionDelay(Duration)} instead.
+     *
+     * @param delay in milliseconds. A negative value would reset to its default value
+     */
+    @Deprecated
+    default void configuratorSetKeyInjectionDelay(int delay) {
+        configuratorSetKeyInjectionDelay(Duration.ofMillis(delay));
     }
 
     /**
      * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param delay in milliseconds. A negative value would reset to its default value
+     * @param delay A negative value would reset to its default value. Minimum time unit
+     *              resolution is one millisecond
      */
-    default void configuratorSetKeyInjectionDelay(int delay) {
-        setSetting(Setting.KEY_INJECTION_DELAY, delay);
+    default void configuratorSetKeyInjectionDelay(Duration delay) {
+        setSetting(Setting.KEY_INJECTION_DELAY, delay.toMillis());
+    }
+
+    /**
+     * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * This method is deprecated. Please use {@link #configuratorSetActionAcknowledgmentTimeout(Duration)} instead.
+     *
+     * @param timeout in milliseconds. A negative value would reset to its default value
+     */
+    @Deprecated
+    default void configuratorSetActionAcknowledgmentTimeout(int timeout) {
+        configuratorSetActionAcknowledgmentTimeout(Duration.ofMillis(timeout));
     }
 
     /**
      * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
-     * @param timeout in milliseconds. A negative value would reset to its default value
+     * @param timeout A negative value would reset to its default value. Minimum time unit
+     *                resolution is one millisecond
      */
-    default void configuratorSetActionAcknowledgmentTimeout(int timeout) {
-        setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout);
+    default void configuratorSetActionAcknowledgmentTimeout(Duration timeout) {
+        setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
     }
 }

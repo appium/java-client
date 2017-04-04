@@ -7,6 +7,7 @@ import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory_tests.widgets.Movie;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
 import java.util.List;
 
 public class IOSMovie extends Movie {
@@ -31,6 +32,6 @@ public class IOSMovie extends Movie {
 
     @Override public void goToReview() {
         TouchAction tap = new TouchAction(PerformsTouchActions.class.cast(getWrappedDriver()));
-        tap.press(getWrappedElement()).waitAction(1500).release().perform();
+        tap.press(getWrappedElement()).waitAction(Duration.ofMillis(1500)).release().perform();
     }
 }

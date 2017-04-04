@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
+import java.time.Duration;
+
 /**
  * Used for Webdriver 3 touch actions
  * See the Webriver 3 spec
@@ -197,13 +199,25 @@ public class TouchAction implements PerformsActions<TouchAction> {
 
     /**
      * Waits for specified amount of time to pass before continue to next touch action.
+     * The method is deprecated. Please use {@link #waitAction(Duration)} instead.
      *
      * @param ms time in milliseconds to wait.
      * @return this TouchAction, for chaining.
      */
+    @Deprecated
     public TouchAction waitAction(int ms) {
+        return waitAction(Duration.ofMillis(ms));
+    }
+
+    /**
+     * Waits for specified amount of time to pass before continue to next touch action.
+     *
+     * @param duration of the wait action. Minimum time reolution unit is one millisecond.
+     * @return this TouchAction, for chaining.
+     */
+    public TouchAction waitAction(Duration duration) {
         ActionParameter action = new ActionParameter("wait");
-        action.addParameter("ms", ms);
+        action.addParameter("ms", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
@@ -222,14 +236,27 @@ public class TouchAction implements PerformsActions<TouchAction> {
 
     /**
      * Press and hold the at the center of an element until the contextmenu event has fired.
+     * This method is deprecated. Please use {@link #longPress(WebElement, Duration)} instead.
      *
      * @param el       element to long-press.
      * @param duration of the long-press, in milliseconds.
      * @return this TouchAction, for chaining.
      */
+    @Deprecated
     public TouchAction longPress(WebElement el, int duration) {
+        return longPress(el, Duration.ofMillis(duration));
+    }
+
+    /**
+     * Press and hold the at the center of an element until the contextmenu event has fired.
+     *
+     * @param el       element to long-press.
+     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
+     * @return this TouchAction, for chaining.
+     */
+    public TouchAction longPress(WebElement el, Duration duration) {
         ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("duration", duration);
+        action.addParameter("duration", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
@@ -253,20 +280,36 @@ public class TouchAction implements PerformsActions<TouchAction> {
     /**
      * Press and hold the at an absolute position on the screen until the
      * contextmenu event has fired.
+     * The method is deprecated. Please use {@link #longPress(int, int, Duration)} instead.
      *
      * @param x        x coordinate.
      * @param y        y coordinate.
      * @param duration of the long-press, in milliseconds.
      * @return this TouchAction, for chaining.
      */
+    @Deprecated
     public TouchAction longPress(int x, int y, int duration) {
+        return longPress(x, y, Duration.ofMillis(duration));
+    }
+
+    /**
+     * Press and hold the at an absolute position on the screen until the
+     * contextmenu event has fired.
+     *
+     * @param x        x coordinate.
+     * @param y        y coordinate.
+     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
+     * @return this TouchAction, for chaining.
+     */
+    public TouchAction longPress(int x, int y, Duration duration) {
         ActionParameter action = new ActionParameter("longPress");
         action.addParameter("x", x);
         action.addParameter("y", y);
-        action.addParameter("duration", duration);
+        action.addParameter("duration", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
+
 
     /**
      * Press and hold the at an elements upper-left corner, offset by the given amount,
@@ -288,6 +331,7 @@ public class TouchAction implements PerformsActions<TouchAction> {
     /**
      * Press and hold the at an elements upper-left corner, offset by the
      * given amount, until the contextmenu event has fired.
+     * The method is deprecated. Please use {@link #longPress(WebElement, int, int, Duration)} instead.
      *
      * @param el       element to long-press.
      * @param x        x offset.
@@ -295,11 +339,26 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param duration of the long-press, in milliseconds.
      * @return this TouchAction, for chaining.
      */
+    @Deprecated
     public TouchAction longPress(WebElement el, int x, int y, int duration) {
+        return longPress(el, x, y, Duration.ofMillis(duration));
+    }
+
+    /**
+     * Press and hold the at an elements upper-left corner, offset by the
+     * given amount, until the contextmenu event has fired.
+     *
+     * @param el       element to long-press.
+     * @param x        x offset.
+     * @param y        y offset.
+     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
+     * @return this TouchAction, for chaining.
+     */
+    public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
         ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
-        action.addParameter("duration", duration);
+        action.addParameter("duration", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }

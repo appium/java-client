@@ -191,6 +191,7 @@ public enum SwipeElementDirection {
 
     /**
      * Creates the swiping action. It is supposed to be performed inside the given element.
+     * The method is deprecated and has no effect.
      *
      * @param driver an instance that extends {@link AppiumDriver}
      * @param element the element that is going to be swiped
@@ -199,6 +200,7 @@ public enum SwipeElementDirection {
      * @param duration in milliseconds
      * @throws IllegalCoordinatesException when starting/ending coordinates are outside of the given element
      */
+    @Deprecated
     public void swipe(AppiumDriver<?> driver, MobileElement element, int offset1, int offset2,
         int duration) throws IllegalCoordinatesException {
         Point p = element.getCenter();
