@@ -12,7 +12,7 @@ Also tech stack includes [Spring framework](https://projects.spring.io/spring-fr
 It is the client framework. It is the thin client which just sends requests to Appium server and receives responses. Also it has some
 high-level features which were designed to simplify user's work.
 
-#It supports: 
+# It supports: 
 
 ![](https://cloud.githubusercontent.com/assets/4927589/21467612/4b6b3f70-ca05-11e6-9a31-d3820e98dac6.png)  
 ![](https://cloud.githubusercontent.com/assets/4927589/21467614/73883828-ca05-11e6-846d-3ed8847a7e08.jpg)

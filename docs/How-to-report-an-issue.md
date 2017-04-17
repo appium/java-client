@@ -1,10 +1,10 @@
-#Be sure that it is not a server-side problem if you are facing something that looks like a bug
+# Be sure that it is not a server-side problem if you are facing something that looks like a bug
 
 The Appium Java client is the thin client which just sends requests and receives responces generally. 
 Be sure that this bug is not reported [here](https://github.com/appium/appium/issues) and/or there is
 no progress on this issue.
 
-#The good issue report should contain
+# The good issue report should contain
 
 ### Description
 
@@ -42,9 +42,9 @@ There should be created a [gist](https://gist.github.com) which is a paste of yo
 If you are reporting a bug, _always_ include Appium logs as linked gists! It helps to define the problem correctly and clearly. 
 
 
-#Issue template
+# Issue template
 There is [ISSUE_TEMPLATE.md](https://github.com/appium/java-client/blob/master/ISSUE_TEMPLATE.md) which should help you to make a good issue report.
 
-#... And don't say that you weren't warned. 
+# ... And don't say that you weren't warned. 
 
 If a report is not readable and/or there is no response from a reporter and some important details are needed then the issue will be closed after some time.
