@@ -1,6 +1,6 @@
 Appium server side provides abilities to emulate touch actions. It is possible construct single, complex and multiple touch actions.
  
-#How to use a single touch action
+# How to use a single touch action
 
 ```java
 import io.appium.java_client.TouchAction;
@@ -12,7 +12,7 @@ new TouchAction(driver)
                 .findElementById("io.appium.android.apis:id/start")).perform();
 ```
 
-#How to construct complex actions
+# How to construct complex actions
 
 ```java
 import io.appium.java_client.TouchAction;
@@ -24,7 +24,7 @@ TouchAction swipe = new TouchAction(driver).press(images.get(2), -10, center.y -
 swipe.perform();
 ```
 
-#How to construct multiple touch action. 
+# How to construct multiple touch action. 
 
 ```java
 import io.appium.java_client.TouchAction;

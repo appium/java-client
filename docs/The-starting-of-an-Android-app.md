@@ -65,7 +65,7 @@ capabilities);
 ```
 
 
-##If it needs to start browser then
+## If it needs to start browser then
 
 This capability should be used
 
@@ -75,7 +75,7 @@ capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.
 //is your choice
 ```
 
-##There are three automation types
+## There are three automation types
 
 ```java
 capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.SELENDROID);
