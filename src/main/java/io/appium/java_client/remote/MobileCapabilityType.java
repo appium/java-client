@@ -119,5 +119,5 @@ public interface MobileCapabilityType extends CapabilityType {
      * Enable or disable the reporting of the timings for various Appium-internal events
      * (e.g., the start and end of each command, etc.). Defaults to false.
      */
-    String EVENT_TIMINGS= "eventTimings";
+    String EVENT_TIMINGS = "eventTimings";
 }
