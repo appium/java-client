@@ -238,6 +238,18 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      */
     String ANDROID_SCREENSHOT_PATH = "androidScreenshotPath";
 
+    /**
+     * Have Appium automatically determine which permissions your app requires and
+     * grant them to the app on install. Defaults to false.
+     */
+    String AUTO_GRANT_PERMISSIONS = "autoGrantPermissions";
+
+    /**
+     * Add androidNaturalOrientation capability to allow for correct handling of
+     * orientation on landscape-oriented devices.
+     */
+    String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
+
     String SELENDROID_PORT = "selendroidPort";
 
     /**
