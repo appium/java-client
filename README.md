@@ -20,6 +20,24 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *5.0.0 (under construction yet)*
+- New capabilities were added [#626](https://github.com/appium/java-client/pull/626):
+  - `AndroidMobileCapabilityType#AUTO_GRANT_PERMISSIONS`
+  - `AndroidMobileCapabilityType#ANDROID_NATURAL_ORIENTATION`
+  - `IOSMobileCapabilityType#XCODE_ORG_ID`
+  - `IOSMobileCapabilityType#XCODE_SIGNING_ID`
+  - `IOSMobileCapabilityType#UPDATE_WDA_BUNDLEID`
+  - `IOSMobileCapabilityType#RESET_ON_SESSION_START_ONLY`
+  - `IOSMobileCapabilityType#COMMAND_TIMEOUTS`
+  - `IOSMobileCapabilityType#WDA_STARTUP_RETRIES`
+  - `IOSMobileCapabilityType#WDA_STARTUP_RETRY_INTERVAL`
+  - `IOSMobileCapabilityType#CONNECT_HARDWARE_KEYBOARD`
+  - `IOSMobileCapabilityType#MAX_TYPING_FREQUENCY`
+  - `IOSMobileCapabilityType#SIMPLE_ISVISIBLE_CHECK`
+  - `IOSMobileCapabilityType#USE_CARTHAGE_SSL`
+  - `IOSMobileCapabilityType#SHOULD_USE_SINGLETON_TESTMANAGER`
+  - `IOSMobileCapabilityType#START_IWDP`
+  - `IOSMobileCapabilityType#ALLOW_TOUCHID_ENROLL`
+  - `MobileCapabilityType#EVENT_TIMINGS`
 
 *5.0.0-BETA7*
 - **[ENHANCEMENT]** The ability to customize the polling strategy of the waiting was provided. [#612](https://github.com/appium/java-client/pull/612) 
