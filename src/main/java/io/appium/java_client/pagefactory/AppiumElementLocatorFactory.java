@@ -32,6 +32,15 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
     private final WebDriver originalWebDriver;
     private final AppiumByBuilder builder;
 
+    /**
+     * Creates a new mobile element locator factory.
+     *
+     * @param searchContext     The context to use when finding the element
+     * @param timeOutDuration   is a POJO which contains timeout parameters for the element to be searched
+     * @param originalWebDriver is an instance of WebDriver that is going to be used by a proxied element
+     * @param builder           is handler of Appium-specific page object annotations
+     */
+
     public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration timeOutDuration,
         WebDriver originalWebDriver, AppiumByBuilder builder) {
         this.searchContext = searchContext;
