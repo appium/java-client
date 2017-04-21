@@ -34,9 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-class DefaultElementByBuilder extends AppiumByBuilder {
+public class DefaultElementByBuilder extends AppiumByBuilder {
 
-    protected DefaultElementByBuilder(String platform, String automation) {
+    public DefaultElementByBuilder(String platform, String automation) {
         super(platform, automation);
     }
 
