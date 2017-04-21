@@ -28,9 +28,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
-class WidgetByBuilder extends DefaultElementByBuilder {
+public class WidgetByBuilder extends DefaultElementByBuilder {
 
-    protected WidgetByBuilder(String platform, String automation) {
+    public WidgetByBuilder(String platform, String automation) {
         super(platform, automation);
     }
 

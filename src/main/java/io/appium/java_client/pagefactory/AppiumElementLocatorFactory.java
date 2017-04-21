@@ -26,7 +26,7 @@ import org.openqa.selenium.WebDriver;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
-class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
+public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
     private final TimeOutDuration timeOutDuration;
     private final WebDriver originalWebDriver;
