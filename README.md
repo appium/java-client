@@ -20,7 +20,14 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *5.0.0 (under construction yet)*
-- New capabilities were added [#626](https://github.com/appium/java-client/pull/626):
+
+*5.0.0-BETA8*
+- **[ENHANCEMENT]** Page factory classes became which had package visibility are `public` now. [#630](https://github.com/appium/java-client/pull/630)
+  - `io.appium.java_client.pagefactory.AppiumElementLocatorFactory`
+  - `io.appium.java_client.pagefactory.DefaultElementByBuilder`
+  - `io.appium.java_client.pagefactory.WidgetByBuilder`
+
+- **[ENHANCEMENT]** New capabilities were added [#626](https://github.com/appium/java-client/pull/626):
   - `AndroidMobileCapabilityType#AUTO_GRANT_PERMISSIONS`
   - `AndroidMobileCapabilityType#ANDROID_NATURAL_ORIENTATION`
   - `IOSMobileCapabilityType#XCODE_ORG_ID`
@@ -38,6 +45,14 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
   - `IOSMobileCapabilityType#START_IWDP`
   - `IOSMobileCapabilityType#ALLOW_TOUCHID_ENROLL`
   - `MobileCapabilityType#EVENT_TIMINGS`
+
+- **[UPDATE]** Dependencies were updated:
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.4.0
+  - `cglib:cglib` was updated to 3.2.5
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.3
+  - `commons-validator:commons-validator` was updated to 1.6
+  - `org.springframework:spring-context` was updated to 4.3.8.RELEASE
+
 
 *5.0.0-BETA7*
 - **[ENHANCEMENT]** The ability to customize the polling strategy of the waiting was provided. [#612](https://github.com/appium/java-client/pull/612) 
