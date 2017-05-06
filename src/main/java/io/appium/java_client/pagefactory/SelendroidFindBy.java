@@ -67,4 +67,9 @@ public @interface SelendroidFindBy {
      * It is a part of the text of the desired element.
      */
     String partialLinkText() default "";
+
+    /**
+     * @return priority of the searching
+     */
+    int priority() default 0;
 }

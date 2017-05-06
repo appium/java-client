@@ -22,18 +22,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
- * of {@link io.appium.java_client.pagefactory.iOSFindBy} tags
- * It will then search for all elements that match any criteria. Note that elements
- * are not guaranteed to be in document order.
+ * Used to mark a field on a Page Object to indicate that lookup should use
+ * a series of {@link iOSXCUITFindBy} tags.
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
-public @interface iOSFindAll {
+public @interface iOSXCUITFindBys {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSFindBy} strategies which may be
-     * used to find the target element.
+     * It is a set of {@link iOSXCUITFindBy} strategies which build
+     * the chain of the searching for the target element.
      */
-    iOSFindBy[] value();
+    iOSXCUITFindBy[] value();
 
     /**
      * @return priority of the searching

@@ -66,4 +66,9 @@ public @interface iOSFindBy {
      * It is a xpath to the target element.
      */
     String xpath() default "";
+
+    /**
+     * @return priority of the searching
+     */
+    int priority() default 0;
 }
