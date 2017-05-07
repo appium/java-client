@@ -16,17 +16,19 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link WindowsFindBy}
  */
-@Target(value = {ElementType.TYPE, ElementType.FIELD})
-@Retention(value = RetentionPolicy.RUNTIME)
+@Target(value = {TYPE, FIELD})
+@Retention(value = RUNTIME)
 public @interface WindowsFindBySet {
     /**
      * @return an array of {@link WindowsFindBy} which builds a sequence of

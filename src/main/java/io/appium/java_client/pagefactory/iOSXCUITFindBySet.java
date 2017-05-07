@@ -16,12 +16,15 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Retention(RUNTIME) @Target({FIELD, TYPE})
 public @interface iOSXCUITFindBySet {
     /**
      * @return an array of {@link iOSXCUITFindBy} which builds a sequence of
