@@ -30,11 +30,19 @@ import org.openqa.selenium.support.FindBys;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class DefaultElementByBuilder extends AppiumByBuilder {
+
+    private static final String PRIORITY = "priority";
+    private static final String VALUE = "value";
+    private static final Class[] ANNOTATION_ARGUMENTS = new Class[] {};
+    private static final Object[] ANNOTATION_PARAMETERS = new Object[] {};
 
     public DefaultElementByBuilder(String platform, String automation) {
         super(platform, automation);
@@ -65,28 +73,6 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
     @Override protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        AndroidFindBy androidBy = annotatedElement.getAnnotation(AndroidFindBy.class);
-        AndroidFindBys androidBys = annotatedElement.getAnnotation(AndroidFindBys.class);
-        checkDisallowedAnnotationPairs(androidBy, androidBys);
-        AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
-        checkDisallowedAnnotationPairs(androidBy, androidFindAll);
-        checkDisallowedAnnotationPairs(androidBys, androidFindAll);
-
-        SelendroidFindBy selendroidBy = annotatedElement.getAnnotation(SelendroidFindBy.class);
-        SelendroidFindBys selendroidBys = annotatedElement.getAnnotation(SelendroidFindBys.class);
-        checkDisallowedAnnotationPairs(selendroidBy, selendroidBys);
-        SelendroidFindAll selendroidFindAll =
-            annotatedElement.getAnnotation(SelendroidFindAll.class);
-        checkDisallowedAnnotationPairs(selendroidBy, selendroidFindAll);
-        checkDisallowedAnnotationPairs(selendroidBys, selendroidFindAll);
-
-        iOSFindBy iOSBy = annotatedElement.getAnnotation(iOSFindBy.class);
-        iOSFindBys iOSBys = annotatedElement.getAnnotation(iOSFindBys.class);
-        checkDisallowedAnnotationPairs(iOSBy, iOSBys);
-        iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
-        checkDisallowedAnnotationPairs(iOSBy, iOSFindAll);
-        checkDisallowedAnnotationPairs(iOSBys, iOSFindAll);
-
         FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
         FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
         checkDisallowedAnnotationPairs(findBy, findBys);
@@ -259,5 +245,46 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         }
 
         return returnMappedBy(defaultBy, mobileNativeBy);
+    }
+
+    private static class AnnotationComparator implements Comparator<Annotation> {
+
+        @Override
+        public int compare(Annotation o1, Annotation o2) {
+            int priority1;
+            int priority2;
+            Method priority;
+
+            Class<? extends Annotation> c1 = o1.getClass();
+            Class<? extends Annotation> c2 = o2.getClass();
+
+            if (!c1.equals(c2)) {
+                throw new ClassCastException(String.format("Given annotations have different classes (%s, %s). " +
+                                "Annotations of the same classes are required.", c1.getName(), c2.getName()));
+            }
+
+            try {
+                priority = c1.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
+            } catch (NoSuchMethodException e) {
+                throw new ClassCastException(String.format("Class %s has no '%s' method", c1.getName(), PRIORITY));
+            }
+
+            try {
+                priority1 = (int) priority.invoke(o1, ANNOTATION_PARAMETERS);
+                priority2 = (int) priority.invoke(o2, ANNOTATION_PARAMETERS);
+
+                if (priority2 > priority1) {
+                    return -1;
+                }
+                else if (priority2 < priority1){
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            } catch (IllegalAccessException|InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
