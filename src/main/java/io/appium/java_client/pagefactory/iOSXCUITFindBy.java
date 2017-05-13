@@ -70,7 +70,7 @@ public @interface iOSXCUITFindBy {
     String xpath() default "";
 
     /**
-     * @return priority of the searching
+     * @return priority of the searching. Higher number means lower priority.
      */
     int priority() default 0;
 }

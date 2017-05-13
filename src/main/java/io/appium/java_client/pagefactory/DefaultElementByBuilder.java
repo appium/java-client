@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
+import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
@@ -26,6 +27,7 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.pagefactory.ByAll;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -35,7 +37,11 @@ import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+
+import static java.util.Arrays.sort;
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.ArrayUtils.add;
+import static org.apache.commons.lang3.ArrayUtils.addAll;
 
 public class DefaultElementByBuilder extends AppiumByBuilder {
 
@@ -58,17 +64,16 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         }
     }
 
-    private static By buildMobileBy(LocatorGroupStrategy locatorGroupStrategy, Annotation[] annotations) {
-        if (annotations.length == 1) {
-            return createBy(new Annotation[] {annotations[0]}, HowToUseSelectors.USE_ONE);
-        } else {
-            LocatorGroupStrategy strategy = Optional.ofNullable(locatorGroupStrategy)
-                    .orElse(LocatorGroupStrategy.CHAIN);
-            if (strategy.equals(LocatorGroupStrategy.ALL_POSSIBLE)) {
-                return createBy(annotations, HowToUseSelectors.USE_ANY);
-            }
-            return createBy(annotations, HowToUseSelectors.BUILD_CHAINED);
+    private static By buildMobileBy(LocatorGroupStrategy locatorGroupStrategy, By[] bys) {
+        if (bys.length == 0) {
+            return null;
         }
+        LocatorGroupStrategy strategy = ofNullable(locatorGroupStrategy)
+                .orElse(LocatorGroupStrategy.CHAIN);
+        if (strategy.equals(LocatorGroupStrategy.ALL_POSSIBLE)) {
+            return new ByAll(bys);
+        }
+        return new ByChained(bys);
     }
 
     @Override protected void assertValidAnnotations() {
@@ -105,105 +110,80 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return defaultBy;
     }
 
+    private By[] getBys(Class<? extends Annotation> singleLocator, Class<? extends Annotation> chainedLocator,
+                        Class<? extends Annotation> allLocator) {
+        AnnotationComparator comparator = new AnnotationComparator();
+        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+
+        Annotation[] annotations =  annotatedElement.getAnnotationsByType(singleLocator);
+        annotations = addAll(annotations, annotatedElement.getAnnotationsByType(chainedLocator));
+        annotations = addAll(annotations, annotatedElement.getAnnotationsByType(allLocator));
+
+        sort(annotations, comparator);
+        By[] result = new By[] {};
+
+        for (Annotation a: annotations) {
+            Class<?> annotationClass = a.getClass().getInterfaces()[0];
+            if (singleLocator.equals(annotationClass)) {
+                result = add(result, createBy(new Annotation[] {a}, HowToUseSelectors.USE_ONE));
+                continue;
+            }
+
+            Method value;
+            Annotation[] set;
+            try {
+                value = annotationClass.getMethod(VALUE, ANNOTATION_ARGUMENTS);
+                set = (Annotation[]) value.invoke(a, ANNOTATION_PARAMETERS);
+            } catch (NoSuchMethodException| IllegalAccessException| InvocationTargetException e) {
+                throw new ClassCastException(String.format("The annotation '%s' has no convenient '%s' method which " +
+                                "returns array of annotations", annotationClass.getName(), VALUE));
+            }
+
+            sort(set, comparator);
+            if (chainedLocator.equals(annotationClass)) {
+                result = add(result, createBy(set, HowToUseSelectors.BUILD_CHAINED));
+                continue;
+            }
+
+            if (allLocator.equals(annotationClass)) {
+                result = add(result, createBy(set, HowToUseSelectors.USE_ANY));
+            }
+        }
+
+        return result;
+    }
+
     @Override protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
 
+        By result = null;
         if (isSelendroidAutomation()) {
-            SelendroidFindBy[] selendroidFindByArray =
-                annotatedElement.getAnnotationsByType(SelendroidFindBy.class);
-            //should be kept for some time
-            SelendroidFindBys selendroidFindBys =
-                annotatedElement.getAnnotation(SelendroidFindBys.class);
-            SelendroidFindAll selendroidFindByAll =
-                annotatedElement.getAnnotation(SelendroidFindAll.class);
-
-            if (selendroidFindByArray != null && selendroidFindByArray.length == 1) {
-                return createBy(new Annotation[] {selendroidFindByArray[0]}, HowToUseSelectors.USE_ONE);
-            }
-
-            if (selendroidFindBys != null) {
-                return createBy(selendroidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
-            }
-
-            if (selendroidFindByAll != null) {
-                return createBy(selendroidFindByAll.value(), HowToUseSelectors.USE_ANY);
-            }
-            ///////////////////////////////////////
-            //code that supposed to be supported
-            if (selendroidFindByArray != null && selendroidFindByArray.length > 0) {
-                return buildMobileBy(howToUseLocators != null ? howToUseLocators.selendroidAutomation() : null,
-                        selendroidFindByArray);
-            }
+            result =  buildMobileBy(howToUseLocators != null ? howToUseLocators.selendroidAutomation() : null,
+                    getBys(SelendroidFindBy.class, SelendroidFindBys.class, SelendroidFindAll.class));
         }
 
-        if (isAndroid()) {
-            AndroidFindBy[] androidFindByArray = annotatedElement.getAnnotationsByType(AndroidFindBy.class);
-            //should be kept for some time
-            AndroidFindBys androidFindBys = annotatedElement.getAnnotation(AndroidFindBys.class);
-            AndroidFindAll androidFindAll = annotatedElement.getAnnotation(AndroidFindAll.class);
-
-            if (androidFindByArray != null && androidFindByArray.length == 1) {
-                return createBy(new Annotation[] {androidFindByArray[0]}, HowToUseSelectors.USE_ONE);
-            }
-
-            if (androidFindBys != null) {
-                return createBy(androidFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
-            }
-
-            if (androidFindAll != null) {
-                return createBy(androidFindAll.value(), HowToUseSelectors.USE_ANY);
-            }
-            ///////////////////////////////////////
-            //code that supposed to be supported
-            if (androidFindByArray != null && androidFindByArray.length > 0) {
-                return buildMobileBy(howToUseLocators != null ? howToUseLocators.androidAutomation() : null,
-                        androidFindByArray);
-            }
+        if (isAndroid()  && result == null) {
+            result =  buildMobileBy(howToUseLocators != null ? howToUseLocators.androidAutomation() : null,
+                    getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class));
         }
 
-        if (isIOSXcuit()) {
-            iOSXCUITFindBy[] xCuitFindByArray = annotatedElement.getAnnotationsByType(iOSXCUITFindBy.class);
-            if (xCuitFindByArray != null && xCuitFindByArray.length > 0) {
-                return buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSXCUITAutomation() : null,
-                        xCuitFindByArray);
-            }
+        if (isIOSXcuit() && result == null) {
+            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSXCUITAutomation() : null,
+                    getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
         }
 
-        if (isIOS()) {
-            iOSFindBy[] iOSFindByArray = annotatedElement.getAnnotationsByType(iOSFindBy.class);
-            //should be kept for some time
-            iOSFindBys iOSFindBys = annotatedElement.getAnnotation(iOSFindBys.class);
-            iOSFindAll iOSFindAll = annotatedElement.getAnnotation(iOSFindAll.class);
-
-            if (iOSFindByArray != null && iOSFindByArray.length == 1) {
-                return createBy(new Annotation[] {iOSFindByArray[0]}, HowToUseSelectors.USE_ONE);
-            }
-
-            if (iOSFindBys != null) {
-                return createBy(iOSFindBys.value(), HowToUseSelectors.BUILD_CHAINED);
-            }
-
-            if (iOSFindAll != null) {
-                return createBy(iOSFindAll.value(), HowToUseSelectors.USE_ANY);
-            }
-            ///////////////////////////////////////
-            //code that supposed to be supported
-            if (iOSFindByArray != null && iOSFindByArray.length > 0) {
-                return buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSAutomation() : null,
-                        iOSFindByArray);
-            }
+        if (isIOS() && result == null) {
+            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSAutomation() : null,
+                    getBys(iOSFindBy.class, iOSFindBys.class, iOSFindAll.class));
         }
 
-        if (isWindows()) {
-            WindowsFindBy[] windowsFindByArray = annotatedElement.getAnnotationsByType(WindowsFindBy.class);
-            if (windowsFindByArray != null && windowsFindByArray.length > 0) {
-                return buildMobileBy(howToUseLocators != null ? howToUseLocators.windowsAutomation() : null,
-                        windowsFindByArray);
-            }
+        if (isWindows() && result == null) {
+            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.windowsAutomation() : null,
+                    getBys(WindowsFindBy.class, WindowsFindBys.class, WindowsFindAll.class));
         }
 
-        return null;
+        return ofNullable(result).orElse(null);
     }
 
     @Override public boolean isLookupCached() {
@@ -255,8 +235,8 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             int priority2;
             Method priority;
 
-            Class<? extends Annotation> c1 = o1.getClass();
-            Class<? extends Annotation> c2 = o2.getClass();
+            Class<?> c1 = o1.getClass().getInterfaces()[0];
+            Class<?> c2 = o2.getClass().getInterfaces()[0];
 
             if (!c1.equals(c2)) {
                 throw new ClassCastException(String.format("Given annotations have different classes (%s, %s). " +

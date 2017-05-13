@@ -92,6 +92,10 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     private static String getFilledValue(Annotation mobileBy) {
         Method[] values = prepareAnnotationMethods(mobileBy.getClass());
         for (Method value : values) {
+            if (!String.class.equals(value.getReturnType())) {
+                continue;
+            }
+
             try {
                 String strategyParameter = value.invoke(mobileBy, new Object[] {}).toString();
                 if (!"".equals(strategyParameter)) {

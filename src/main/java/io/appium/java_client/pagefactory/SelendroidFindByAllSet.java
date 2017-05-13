@@ -22,19 +22,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used to mark a field on a Page Object to indicate that lookup should
- * use a series of {@link io.appium.java_client.pagefactory.SelendroidFindBy} tags.
+ * Defines set of chained/possible locators. Each one locator
+ * should be defined with {@link SelendroidFindAll}
  */
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
-public @interface SelendroidFindBys {
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface SelendroidFindByAllSet {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.SelendroidFindBy} strategies which
-     * build the chain of the searching for the target element.
+     * @return an array of {@link SelendroidFindAll} which builds a sequence of
+     * the chained searching for elements or a set of possible locators
      */
-    SelendroidFindBy[] value();
-
-    /**
-     * @return priority of the searching. Higher number means lower priority.
-     */
-    int priority() default 0;
+    SelendroidFindAll[] value();
 }

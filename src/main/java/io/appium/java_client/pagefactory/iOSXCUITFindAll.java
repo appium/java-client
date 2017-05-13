@@ -40,7 +40,7 @@ public @interface iOSXCUITFindAll {
     iOSXCUITFindBy[] value();
 
     /**
-     * @return priority of the searching
+     * @return priority of the searching. Higher number means lower priority.
      */
     int priority() default 0;
 }

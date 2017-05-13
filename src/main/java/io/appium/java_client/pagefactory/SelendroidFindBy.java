@@ -69,7 +69,7 @@ public @interface SelendroidFindBy {
     String partialLinkText() default "";
 
     /**
-     * @return priority of the searching
+     * @return priority of the searching. Higher number means lower priority.
      */
     int priority() default 0;
 }
