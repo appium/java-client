@@ -26,16 +26,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link io.appium.java_client.pagefactory.iOSFindBy} tags.
+ * a series of {@link io.appium.java_client.pagefactory.iOSBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSFindByChainSet.class)
 public @interface iOSFindBys {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSFindBy} strategies which build
+     * It is a set of {@link io.appium.java_client.pagefactory.iOSBy} strategies which build
      * the chain of the searching for the target element.
      */
-    iOSFindBy[] value();
+    iOSBy[] value();
 
     /**
      * @return priority of the searching. Higher number means lower priority.

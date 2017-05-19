@@ -34,14 +34,12 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Arrays.asList;
 import static java.util.Arrays.sort;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.ArrayUtils.add;
-import static org.apache.commons.lang3.ArrayUtils.addAll;
 
 public class DefaultElementByBuilder extends AppiumByBuilder {
 
@@ -115,15 +113,16 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         AnnotationComparator comparator = new AnnotationComparator();
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
 
-        Annotation[] annotations =  annotatedElement.getAnnotationsByType(singleLocator);
-        annotations = addAll(annotations, annotatedElement.getAnnotationsByType(chainedLocator));
-        annotations = addAll(annotations, annotatedElement.getAnnotationsByType(allLocator));
+        List<Annotation> annotations =  new ArrayList<>(asList(annotatedElement.getAnnotationsByType(singleLocator)));
+        annotations.addAll(asList(annotatedElement.getAnnotationsByType(chainedLocator)));
+        annotations.addAll(asList(annotatedElement.getAnnotationsByType(allLocator)));
 
-        sort(annotations, comparator);
+        Annotation[] annotationsArray = annotations.toArray(new Annotation[]{});
+        sort(annotationsArray, comparator);
         By[] result = new By[] {};
 
-        for (Annotation a: annotations) {
-            Class<?> annotationClass = a.getClass().getInterfaces()[0];
+        for (Annotation a: annotationsArray) {
+            Class<?> annotationClass = a.annotationType();
             if (singleLocator.equals(annotationClass)) {
                 result = add(result, createBy(new Annotation[] {a}, HowToUseSelectors.USE_ONE));
                 continue;
@@ -231,32 +230,34 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
         @Override
         public int compare(Annotation o1, Annotation o2) {
-            int priority1;
-            int priority2;
-            Method priority;
+            int p1;
+            int p2;
+            Method priority1;
+            Method priority2;
 
-            Class<?> c1 = o1.getClass().getInterfaces()[0];
-            Class<?> c2 = o2.getClass().getInterfaces()[0];
-
-            if (!c1.equals(c2)) {
-                throw new ClassCastException(String.format("Given annotations have different classes (%s, %s). " +
-                                "Annotations of the same classes are required.", c1.getName(), c2.getName()));
-            }
+            Class<?> c1 = o1.annotationType();
+            Class<?> c2 = o2.annotationType();
 
             try {
-                priority = c1.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
+                priority1 = c1.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
             } catch (NoSuchMethodException e) {
                 throw new ClassCastException(String.format("Class %s has no '%s' method", c1.getName(), PRIORITY));
             }
 
             try {
-                priority1 = (int) priority.invoke(o1, ANNOTATION_PARAMETERS);
-                priority2 = (int) priority.invoke(o2, ANNOTATION_PARAMETERS);
+                priority2 = c2.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
+            } catch (NoSuchMethodException e) {
+                throw new ClassCastException(String.format("Class %s has no '%s' method", c2.getName(), PRIORITY));
+            }
 
-                if (priority2 > priority1) {
+            try {
+                p1 = (int) priority1.invoke(o1, ANNOTATION_PARAMETERS);
+                p2 = (int) priority2.invoke(o2, ANNOTATION_PARAMETERS);
+
+                if (p2 > p1) {
                     return -1;
                 }
-                else if (priority2 < priority1){
+                else if (p2 < p1){
                     return 1;
                 }
                 else {

@@ -26,16 +26,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link iOSXCUITFindBy} tags.
+ * a series of {@link iOSXCUITBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSXCUITFindByChainSet.class)
 public @interface iOSXCUITFindBys {
     /**
-     * It is a set of {@link iOSXCUITFindBy} strategies which build
+     * It is a set of {@link iOSXCUITBy} strategies which build
      * the chain of the searching for the target element.
      */
-    iOSXCUITFindBy[] value();
+    iOSXCUITBy[] value();
 
     /**
      * @return priority of the searching. Higher number means lower priority.

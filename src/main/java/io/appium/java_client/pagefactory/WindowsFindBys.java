@@ -26,16 +26,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link WindowsFindBy} tags.
+ * a series of {@link WindowsBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(WindowsFindByChainSet.class)
 public @interface WindowsFindBys {
     /**
-     * It is a set of {@link WindowsFindBy} strategies which build
+     * It is a set of {@link WindowsBy} strategies which build
      * the chain of the searching for the target element.
      */
-    WindowsFindBy[] value();
+    WindowsBy[] value();
 
     /**
      * @return priority of the searching. Higher number means lower priority.

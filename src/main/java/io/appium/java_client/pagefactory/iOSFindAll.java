@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
- * of {@link io.appium.java_client.pagefactory.iOSFindBy} tags
+ * of {@link io.appium.java_client.pagefactory.iOSBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
@@ -34,10 +34,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(iOSFindByAllSet.class)
 public @interface iOSFindAll {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSFindBy} strategies which may be
+     * It is a set of {@link io.appium.java_client.pagefactory.iOSBy} strategies which may be
      * used to find the target element.
      */
-    iOSFindBy[] value();
+    iOSBy[] value();
 
     /**
      * @return priority of the searching. Higher number means lower priority.

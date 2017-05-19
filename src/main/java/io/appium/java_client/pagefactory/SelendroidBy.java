@@ -16,26 +16,45 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link io.appium.java_client.pagefactory.AndroidBy} tags.
+ * Used to build a complex selendroid locator
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
-@Repeatable(AndroidFindByChainSet.class)
-public @interface AndroidFindBys {
+public @interface SelendroidBy {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.AndroidBy} strategies which build
-     * the chain of the searching for the target element.
+     * It is an id of the target element.
      */
-    AndroidBy[] value();
+    String id() default "";
+
+    /**
+     * It is used in Selendroid mode instead of accessibility id.
+     */
+    String name() default "";
+
+    /**
+     * It is a className of the target element.
+     */
+    String className() default "";
+
+    /**
+     * It is a desired element tag.
+     */
+    String tagName() default "";
+
+    /**
+     * It is a xpath to the target element.
+     */
+    String xpath() default "";
+
+    /**
+     * It is a text of the desired element.
+     */
+    String linkText() default "";
+
+    /**
+     * It is a part of the text of the desired element.
+     */
+    String partialLinkText() default "";
 
     /**
      * @return priority of the searching. Higher number means lower priority.

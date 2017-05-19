@@ -16,26 +16,40 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 /**
- * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link io.appium.java_client.pagefactory.AndroidBy} tags.
+ * Used to build a complex Windows automation locator
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
-@Repeatable(AndroidFindByChainSet.class)
-public @interface AndroidFindBys {
+public @interface WindowsBy {
+
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.AndroidBy} strategies which build
-     * the chain of the searching for the target element.
+     * It is an is Windows automator string.
      */
-    AndroidBy[] value();
+    String windowsAutomation()  default "";
+
+    /**
+     * It an UI automation accessibility Id which is a convenient to Windows.
+     */
+    String accessibility() default "";
+
+    /**
+     * It is an id of the target element.
+     */
+    String id() default "";
+
+    /**
+     * It is a className of the target element.
+     */
+    String className() default "";
+
+    /**
+     * It is a desired element tag.
+     */
+    String tagName() default "";
+
+    /**
+     * It is a xpath to the target element.
+     */
+    String xpath() default "";
 
     /**
      * @return priority of the searching. Higher number means lower priority.

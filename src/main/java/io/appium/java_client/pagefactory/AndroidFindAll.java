@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a
- * series of {@link io.appium.java_client.pagefactory.AndroidFindBy} tags
+ * series of {@link io.appium.java_client.pagefactory.AndroidBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
@@ -34,10 +34,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(AndroidFindByAllSet.class)
 public @interface AndroidFindAll {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.AndroidFindBy} strategies which may
+     * It is a set of {@link io.appium.java_client.pagefactory.AndroidBy} strategies which may
      * be used to find the target element.
      */
-    AndroidFindBy[] value();
+    AndroidBy[] value();
 
     /**
      * @return priority of the searching. Higher number means lower priority.
