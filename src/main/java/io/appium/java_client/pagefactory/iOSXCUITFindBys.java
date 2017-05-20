@@ -16,23 +16,23 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link iOSXCUITBy} tags.
+ * a series of {@link io.appium.java_client.pagefactory.iOSXCUITBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSXCUITFindByChainSet.class)
 public @interface iOSXCUITFindBys {
     /**
-     * It is a set of {@link iOSXCUITBy} strategies which build
+     * It is a set of {@link io.appium.java_client.pagefactory.iOSXCUITBy} strategies which build
      * the chain of the searching for the target element.
      */
     iOSXCUITBy[] value();

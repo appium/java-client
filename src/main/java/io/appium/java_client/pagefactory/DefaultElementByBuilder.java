@@ -16,6 +16,11 @@
 
 package io.appium.java_client.pagefactory;
 
+import static java.util.Arrays.asList;
+import static java.util.Arrays.sort;
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.ArrayUtils.add;
+
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
@@ -34,12 +39,11 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-
-import static java.util.Arrays.asList;
-import static java.util.Arrays.sort;
-import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.ArrayUtils.add;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DefaultElementByBuilder extends AppiumByBuilder {
 
@@ -133,9 +137,9 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             try {
                 value = annotationClass.getMethod(VALUE, ANNOTATION_ARGUMENTS);
                 set = (Annotation[]) value.invoke(a, ANNOTATION_PARAMETERS);
-            } catch (NoSuchMethodException| IllegalAccessException| InvocationTargetException e) {
-                throw new ClassCastException(String.format("The annotation '%s' has no convenient '%s' method which " +
-                                "returns array of annotations", annotationClass.getName(), VALUE));
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                throw new ClassCastException(String.format("The annotation '%s' has no convenient '%s' method which "
+                        + "returns array of annotations", annotationClass.getName(), VALUE));
             }
 
             sort(set, comparator);
@@ -256,14 +260,12 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
                 if (p2 > p1) {
                     return -1;
-                }
-                else if (p2 < p1){
+                } else if (p2 < p1) {
                     return 1;
-                }
-                else {
+                } else {
                     return 0;
                 }
-            } catch (IllegalAccessException|InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }

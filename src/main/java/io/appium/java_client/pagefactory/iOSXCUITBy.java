@@ -17,7 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 /**
- * Used to build a complex iOS XCUIT mode locator
+ * Used to build a complex iOS XCUIT mode locator.
  */
 public @interface iOSXCUITBy {
 

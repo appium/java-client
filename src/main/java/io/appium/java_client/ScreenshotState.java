@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import static nu.pattern.OpenCV.loadShared;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -31,8 +33,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import static nu.pattern.OpenCV.loadShared;
 
 public class ScreenshotState {
     private static final Duration DEFAULT_INTERVAL_MS = Duration.ofMillis(500);

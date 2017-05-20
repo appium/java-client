@@ -17,7 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 /**
- * Used to build a complex Windows automation locator
+ * Used to build a complex Windows automation locator.
  */
 public @interface WindowsBy {
 

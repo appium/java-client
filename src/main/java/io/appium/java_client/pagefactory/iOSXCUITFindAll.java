@@ -16,17 +16,17 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
- * of {@link iOSXCUITBy} tags
+ * of {@link io.appium.java_client.pagefactory.iOSXCUITBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(iOSXCUITFindByAllSet.class)
 public @interface iOSXCUITFindAll {
     /**
-     * It is a set of {@link iOSXCUITBy} strategies which may be
+     * It is a set of {@link io.appium.java_client.pagefactory.iOSXCUITBy} strategies which may be
      * used to find the target element.
      */
     iOSXCUITBy[] value();

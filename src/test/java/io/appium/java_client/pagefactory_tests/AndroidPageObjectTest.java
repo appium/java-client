@@ -25,8 +25,15 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 
 import io.appium.java_client.android.BaseAndroidTest;
-import io.appium.java_client.pagefactory.*;
 
+import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.AndroidFindAll;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.HowToUseLocators;
+import io.appium.java_client.pagefactory.SelendroidFindBy;
+import io.appium.java_client.pagefactory.iOSFindBy;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
@@ -179,32 +186,27 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(id = "android:id/text1", priority = 2)
     @AndroidFindAll(value = {
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-            @AndroidBy(id = "android:id/fakeId")
-    }, priority = 1)
+            @AndroidBy(id = "android:id/fakeId")}, priority = 1)
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
     private AndroidElement androidElementViewFoundByMixedSearching;
 
     @AndroidFindBy(id = "android:id/text1", priority = 2)
     @AndroidFindAll(value = {
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-            @AndroidBy(id = "android:id/fakeId")
-    }, priority = 1)
+            @AndroidBy(id = "android:id/fakeId")}, priority = 1)
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
     private List<AndroidElement> androidElementsViewFoundByMixedSearching;
 
     @AndroidFindBys({
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
-            @AndroidBy(className = "android.widget.FrameLayout"),
-    })
-    @AndroidFindBys({
-            @AndroidBy(id = "android:id/text1", priority = 1),
+            @AndroidBy(className = "android.widget.FrameLayout")})
+    @AndroidFindBys({@AndroidBy(id = "android:id/text1", priority = 1),
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
     private AndroidElement androidElementViewFoundByMixedSearching2;
 
     @AndroidFindBys({
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
-            @AndroidBy(className = "android.widget.FrameLayout"),
-    })
+            @AndroidBy(className = "android.widget.FrameLayout")})
     @AndroidFindBys({
             @AndroidBy(id = "android:id/text1", priority = 1),
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
@@ -217,8 +219,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
             @AndroidBy(id = "android:id/text1", priority = 3),
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
-            @AndroidBy(className = "android.widget.FrameLayout"),
-    }, priority = 2)
+            @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
     @AndroidFindBy(id = "android:id/fakeId3", priority = 3)
     @AndroidFindBy(id = "android:id/fakeId4", priority = 4)
     private AndroidElement androidElementViewFoundByMixedSearching3;
@@ -230,8 +231,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
             @AndroidBy(id = "android:id/text1", priority = 3),
             @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
-            @AndroidBy(className = "android.widget.FrameLayout"),
-    }, priority = 2)
+            @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
     @AndroidFindBy(id = "android:id/fakeId3", priority = 3)
     @AndroidFindBy(id = "android:id/fakeId4", priority = 4)
     private List<AndroidElement> androidElementsViewFoundByMixedSearching3;

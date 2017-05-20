@@ -17,7 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 /**
- * Used to build a complex android automator locator
+ * Used to build a complex android automator locator.
  */
 public @interface AndroidBy {
     /**

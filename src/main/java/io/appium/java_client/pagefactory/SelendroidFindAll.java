@@ -16,9 +16,11 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
@@ -27,7 +29,7 @@ import java.lang.annotation.Target;
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RUNTIME) @Target({FIELD, TYPE})
 public @interface SelendroidFindAll {
     /**
      * It is a set of {@link io.appium.java_client.pagefactory.SelendroidBy} strategies which

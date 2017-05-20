@@ -18,7 +18,7 @@ package io.appium.java_client.pagefactory;
 
 
 /**
- * Used to build a complex iOS automation locator
+ * Used to build a complex iOS automation locator.
  */
 public @interface iOSBy {
     /**
