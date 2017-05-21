@@ -145,7 +145,7 @@ RemoteWebElement someElement;
 List<RemoteWebElement> someElements;
 ```
 
-## Also possible combined variants: 
+## Also possible combined variants for target platforms: 
 
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -193,6 +193,67 @@ RemoteWebElement someElement;
 @iOSFindBy(someStrategy1) @iOSFindBy(someStrategy2)
 List<RemoteWebElement> someElements;
 ``` 
+
+## Mixed chain/any locator strategy
+
+Some locator-element could not be defined certainly sometimes. It may be defined as one of possible variants/chained locator.
+If the using of _xpath_ is not convenient for some reasons so there are possible use cases
+
+### the chained searching 
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.FindBy;
+
+//it is necessary to define priorities at this case. The lower number means the higher priority.
+//The default value is 0 (the highest priority)
+@iOSFindBy(someStrategy1)
+@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //there are some variants for 
+// this element at the chain
+@iOSFindBy(someStrategy2, priority = 2) 
+@iOSFindBy(someStrategy3, priority = 3) 
+RemoteWebElement someElement;
+
+
+@iOSFindBy(someStrategy1)
+@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //there are some variants for 
+// this element at the chain
+@iOSFindBy(someStrategy2, priority = 2) 
+@iOSFindBy(someStrategy3, priority = 3) 
+List<RemoteWebElement> someElements;
+```
+
+### all possible
+
+```java
+import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.pagefactory.*;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.FindBy;
+
+//it is not necessary to define priorities at this case. But it can manage the searching.
+//The lower number means the higher priority.
+//The default value is 0 (the highest priority)
+@HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+@iOSFindBy(someStrategy1)
+@iOSFindBys(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
+// the chain
+@iOSFindBy(someStrategy2, priority = 2) 
+@iOSFindBy(someStrategy3, priority = 3) 
+RemoteWebElement someElement;
+
+
+
+@HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+@iOSFindBy(someStrategy1)
+@iOSFindBys(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
+// the chain
+@iOSFindBy(someStrategy2, priority = 2) 
+@iOSFindBy(someStrategy3, priority = 3) 
+List<RemoteWebElement> someElements;
+```
 
 # Appium Java client is integrated with Selenium PageFactory by AppiumFieldDecorator. 
 
