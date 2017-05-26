@@ -238,7 +238,7 @@ import org.openqa.selenium.support.FindBy;
 //The default value is 0 (the highest priority)
 @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
 @iOSFindBy(someStrategy1)
-@iOSFindBys(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
+@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
 // the chain
 @iOSFindBy(someStrategy2, priority = 2) 
 @iOSFindBy(someStrategy3, priority = 3) 
@@ -248,7 +248,7 @@ RemoteWebElement someElement;
 
 @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
 @iOSFindBy(someStrategy1)
-@iOSFindBys(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
+@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
 // the chain
 @iOSFindBy(someStrategy2, priority = 2) 
 @iOSFindBy(someStrategy3, priority = 3) 

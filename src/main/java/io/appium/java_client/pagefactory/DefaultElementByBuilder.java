@@ -232,41 +232,41 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
     private static class AnnotationComparator implements Comparator<Annotation> {
 
+        private static Method getPriorityMethod(Class<? extends Annotation> clazz) {
+            try {
+                return clazz.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
+            } catch (NoSuchMethodException e) {
+                throw new ClassCastException(String.format("Class %s has no '%s' method", clazz.getName(), PRIORITY));
+            }
+        }
+
+        private static int getPriorityValue(Method priorityMethod, Annotation annotation,
+                                            Class<? extends Annotation> clazz) {
+            try {
+                return (int) priorityMethod.invoke(annotation, ANNOTATION_PARAMETERS);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new IllegalArgumentException(String
+                        .format("It is impossible to get priority. Annotation class: %s", clazz.toString()), e);
+            }
+        }
+
         @Override
         public int compare(Annotation o1, Annotation o2) {
-            int p1;
-            int p2;
-            Method priority1;
-            Method priority2;
+            Class<? extends Annotation> c1 = o1.annotationType();
+            Class<? extends Annotation> c2 = o2.annotationType();
 
-            Class<?> c1 = o1.annotationType();
-            Class<?> c2 = o2.annotationType();
+            Method priority1 = getPriorityMethod(c1);
+            Method priority2 = getPriorityMethod(c2);
 
-            try {
-                priority1 = c1.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
-            } catch (NoSuchMethodException e) {
-                throw new ClassCastException(String.format("Class %s has no '%s' method", c1.getName(), PRIORITY));
-            }
+            int p1 = getPriorityValue(priority1, o1, c1);
+            int p2 = getPriorityValue(priority2, o2, c2);
 
-            try {
-                priority2 = c2.getMethod(PRIORITY, ANNOTATION_ARGUMENTS);
-            } catch (NoSuchMethodException e) {
-                throw new ClassCastException(String.format("Class %s has no '%s' method", c2.getName(), PRIORITY));
-            }
-
-            try {
-                p1 = (int) priority1.invoke(o1, ANNOTATION_PARAMETERS);
-                p2 = (int) priority2.invoke(o2, ANNOTATION_PARAMETERS);
-
-                if (p2 > p1) {
-                    return -1;
-                } else if (p2 < p1) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+            if (p2 > p1) {
+                return -1;
+            } else if (p2 < p1) {
+                return 1;
+            } else {
+                return 0;
             }
         }
     }
