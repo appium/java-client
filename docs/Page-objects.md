@@ -210,16 +210,16 @@ import org.openqa.selenium.support.FindBy;
 //it is necessary to define priorities at this case. The lower number means the higher priority.
 //The default value is 0 (the highest priority)
 @iOSFindBy(someStrategy1)
-@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //there are some variants for 
-// this element at the chain
+@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //it means that the chained searching contains
+//the searching by all possible locators as the element of the chain
 @iOSFindBy(someStrategy2, priority = 2) 
 @iOSFindBy(someStrategy3, priority = 3) 
 RemoteWebElement someElement;
 
 
 @iOSFindBy(someStrategy1)
-@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //there are some variants for 
-// this element at the chain
+@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //it means that the chained searching contains
+//the searching by all possible locators as the element of the chain
 @iOSFindBy(someStrategy2, priority = 2) 
 @iOSFindBy(someStrategy3, priority = 3) 
 List<RemoteWebElement> someElements;
@@ -238,8 +238,8 @@ import org.openqa.selenium.support.FindBy;
 //The default value is 0 (the highest priority)
 @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
 @iOSFindBy(someStrategy1)
-@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
-// the chain
+@iOSFindBys(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //it means that the searching by all possible locators
+// contains the searching by chained locator as one of all possible variants
 @iOSFindBy(someStrategy2, priority = 2) 
 @iOSFindBy(someStrategy3, priority = 3) 
 RemoteWebElement someElement;
@@ -248,8 +248,8 @@ RemoteWebElement someElement;
 
 @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
 @iOSFindBy(someStrategy1)
-@iOSFindAll(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //this possible variant is 
-// the chain
+@iOSFindBys(value = {@iOSBy(subloctor1), @iOSBy(subloctor1)}, priority = 1) //it means that the searching by all possible locators
+// contains the searching by chained locator as one of all possible variants
 @iOSFindBy(someStrategy2, priority = 2) 
 @iOSFindBy(someStrategy3, priority = 3) 
 List<RemoteWebElement> someElements;

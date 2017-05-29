@@ -16,10 +16,9 @@
 
 package io.appium.java_client.pagefactory;
 
+import static java.lang.Integer.signum;
 import static java.util.Arrays.asList;
-import static java.util.Arrays.sort;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.ArrayUtils.add;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
@@ -40,29 +39,31 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class DefaultElementByBuilder extends AppiumByBuilder {
 
     private static final String PRIORITY = "priority";
     private static final String VALUE = "value";
-    private static final Class[] ANNOTATION_ARGUMENTS = new Class[] {};
-    private static final Object[] ANNOTATION_PARAMETERS = new Object[] {};
+    private static final Class[] ANNOTATION_ARGUMENTS = new Class[]{};
+    private static final Object[] ANNOTATION_PARAMETERS = new Object[]{};
 
     public DefaultElementByBuilder(String platform, String automation) {
         super(platform, automation);
     }
 
     private static void checkDisallowedAnnotationPairs(Annotation a1, Annotation a2)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         if (a1 != null && a2 != null) {
             throw new IllegalArgumentException(
-                "If you use a '@" + a1.getClass().getSimpleName() + "' annotation, "
-                    + "you must not also use a '@" + a2.getClass().getSimpleName()
-                    + "' annotation");
+                    "If you use a '@" + a1.getClass().getSimpleName() + "' annotation, "
+                            + "you must not also use a '@" + a2.getClass().getSimpleName()
+                            + "' annotation");
         }
     }
 
@@ -78,7 +79,8 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return new ByChained(bys);
     }
 
-    @Override protected void assertValidAnnotations() {
+    @Override
+    protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
         FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
@@ -88,7 +90,8 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         checkDisallowedAnnotationPairs(findBys, findAll);
     }
 
-    @Override protected By buildDefaultBy() {
+    @Override
+    protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         By defaultBy = null;
         FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
@@ -117,79 +120,83 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         AnnotationComparator comparator = new AnnotationComparator();
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
 
-        List<Annotation> annotations =  new ArrayList<>(asList(annotatedElement.getAnnotationsByType(singleLocator)));
+        List<Annotation> annotations = new ArrayList<>(asList(annotatedElement.getAnnotationsByType(singleLocator)));
         annotations.addAll(asList(annotatedElement.getAnnotationsByType(chainedLocator)));
         annotations.addAll(asList(annotatedElement.getAnnotationsByType(allLocator)));
 
-        Annotation[] annotationsArray = annotations.toArray(new Annotation[]{});
-        sort(annotationsArray, comparator);
-        By[] result = new By[] {};
+        annotations.sort(comparator);
+        List<By> result = new ArrayList<>();
 
-        for (Annotation a: annotationsArray) {
+        for (Annotation a : annotations) {
             Class<?> annotationClass = a.annotationType();
             if (singleLocator.equals(annotationClass)) {
-                result = add(result, createBy(new Annotation[] {a}, HowToUseSelectors.USE_ONE));
+                result.add(createBy(new Annotation[]{a}, HowToUseSelectors.USE_ONE));
                 continue;
             }
 
             Method value;
-            Annotation[] set;
+            Annotation[] subLocators;
             try {
                 value = annotationClass.getMethod(VALUE, ANNOTATION_ARGUMENTS);
-                set = (Annotation[]) value.invoke(a, ANNOTATION_PARAMETERS);
+                subLocators = (Annotation[]) value.invoke(a, ANNOTATION_PARAMETERS);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 throw new ClassCastException(String.format("The annotation '%s' has no convenient '%s' method which "
                         + "returns array of annotations", annotationClass.getName(), VALUE));
             }
 
-            sort(set, comparator);
+            Arrays.sort(subLocators, comparator);
             if (chainedLocator.equals(annotationClass)) {
-                result = add(result, createBy(set, HowToUseSelectors.BUILD_CHAINED));
+                result.add(createBy(subLocators, HowToUseSelectors.BUILD_CHAINED));
                 continue;
             }
 
             if (allLocator.equals(annotationClass)) {
-                result = add(result, createBy(set, HowToUseSelectors.USE_ANY));
+                result.add(createBy(subLocators, HowToUseSelectors.USE_ANY));
             }
         }
 
-        return result;
+        return result.toArray(new By[result.size()]);
     }
 
-    @Override protected By buildMobileNativeBy() {
+    @Override
+    protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
 
+        Optional<HowToUseLocators> howToUseLocatorsOptional = ofNullable(howToUseLocators);
+
         By result = null;
         if (isSelendroidAutomation()) {
-            result =  buildMobileBy(howToUseLocators != null ? howToUseLocators.selendroidAutomation() : null,
+            result = buildMobileBy(howToUseLocatorsOptional
+                            .map(HowToUseLocators::selendroidAutomation).orElse(null),
                     getBys(SelendroidFindBy.class, SelendroidFindBys.class, SelendroidFindAll.class));
         }
 
-        if (isAndroid()  && result == null) {
-            result =  buildMobileBy(howToUseLocators != null ? howToUseLocators.androidAutomation() : null,
+        if (isAndroid() && result == null) {
+            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::androidAutomation).orElse(null),
                     getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class));
         }
 
-        if (isIOSXcuit() && result == null) {
-            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSXCUITAutomation() : null,
+        if (isIOSXcuit()) {
+            result = buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
                     getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
         }
 
         if (isIOS() && result == null) {
-            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.iOSAutomation() : null,
+            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSAutomation).orElse(null),
                     getBys(iOSFindBy.class, iOSFindBys.class, iOSFindAll.class));
         }
 
-        if (isWindows() && result == null) {
-            result = buildMobileBy(howToUseLocators != null ? howToUseLocators.windowsAutomation() : null,
+        if (isWindows()) {
+            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::windowsAutomation).orElse(null),
                     getBys(WindowsFindBy.class, WindowsFindBys.class, WindowsFindAll.class));
         }
 
         return ofNullable(result).orElse(null);
     }
 
-    @Override public boolean isLookupCached() {
+    @Override
+    public boolean isLookupCached() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         return (annotatedElement.getAnnotation(CacheLookup.class) != null);
     }
@@ -201,7 +208,8 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return new ContentMappedBy(contentMap);
     }
 
-    @Override public By buildBy() {
+    @Override
+    public By buildBy() {
         assertValidAnnotations();
 
         By defaultBy = buildDefaultBy();
@@ -211,14 +219,14 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
         if (defaultBy == null && mobileNativeBy == null) {
             defaultBy =
-                new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+                    new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
             mobileNativeBy = new By.ById(idOrName);
             return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
         if (defaultBy == null) {
             defaultBy =
-                new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+                    new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
             return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
@@ -261,13 +269,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             int p1 = getPriorityValue(priority1, o1, c1);
             int p2 = getPriorityValue(priority2, o2, c2);
 
-            if (p2 > p1) {
-                return -1;
-            } else if (p2 < p1) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return signum(p1 - p2);
         }
     }
 }
