@@ -1,5 +1,11 @@
 package io.appium.java_client.utils;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThat;
+
 import io.appium.java_client.ScreenshotState;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +16,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.time.Duration;
 import java.util.Random;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.junit.Assert.assertThat;
 
 public class ScreenshotStateTests {
     private static final Random rand = new Random();

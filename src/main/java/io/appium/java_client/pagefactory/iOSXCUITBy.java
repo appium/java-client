@@ -16,36 +16,29 @@
 
 package io.appium.java_client.pagefactory;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-
 /**
- * Used to mark a field on a Page Object to indicate an alternative mechanism for locating the
- * element or a list of elements. Used in conjunction with
- * {@link org.openqa.selenium.support.PageFactory}
- * this allows users to quickly and easily create PageObjects.
- * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
+ * Used to build a complex iOS XCUIT mode locator.
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
-@Repeatable(iOSFindBySet.class)
-public @interface iOSFindBy {
+public @interface iOSXCUITBy {
+
     /**
-     * It is is iOS UIAutomation string.
-     * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
-     * Conceptual/InstrumentsUserGuide/UIAutomation.html
+     * The Class Chain locator is similar to xpath, but it's faster and can only
+     * search direct children elements. See the
+     * <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
+     * documentation</a> for more details.
      */
-    String uiAutomator() default "";
+    String iOSClassChain() default "";
+
+    /**
+     * The NSPredicate class is used to define logical conditions used to constrain
+     * a search either for a fetch or for in-memory filtering.
+     */
+    String iOSNsPredicate() default "";
 
     /**
      * It an UI automation accessibility Id which is a convenient to iOS.
      * About iOS accessibility
-     * See  <a href="https://goo.gl/7sEkoB">UIAccessibilityIdentification</a>
+     * See  <a href="https://goo.gl/a3AivX">UIAccessibilityIdentification</a>
      */
     String accessibility() default "";
 

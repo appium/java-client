@@ -16,25 +16,11 @@
 
 package io.appium.java_client.pagefactory;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 
 /**
- * Used to mark a field on a Page Object to indicate an alternative mechanism for locating the
- * element or a list of elements. Used in conjunction with
- * {@link org.openqa.selenium.support.PageFactory}
- * this allows users to quickly and easily create PageObjects.
- * using Selendroid UI selectors like, id, name, class name, tag and xpath
+ * Used to build a complex selendroid locator.
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
-@Repeatable(SelendroidFindBySet.class)
-public @interface SelendroidFindBy {
+public @interface SelendroidBy {
     /**
      * It is an id of the target element.
      */

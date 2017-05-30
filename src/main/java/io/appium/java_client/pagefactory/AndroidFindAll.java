@@ -16,27 +16,31 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a
- * series of {@link io.appium.java_client.pagefactory.AndroidFindBy} tags
+ * series of {@link io.appium.java_client.pagefactory.AndroidBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
- * It is deprecated. Set of {@link io.appium.java_client.pagefactory.AndroidFindBy}
- * can be defined without this annotation. To define the correct way how to use
- * the defined set please take a look at {@link HowToUseLocators}. The article.
- * https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html.
  */
-@Deprecated
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RUNTIME) @Target({FIELD, TYPE})
+@Repeatable(AndroidFindByAllSet.class)
 public @interface AndroidFindAll {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.AndroidFindBy} strategies which may
+     * It is a set of {@link io.appium.java_client.pagefactory.AndroidBy} strategies which may
      * be used to find the target element.
      */
-    AndroidFindBy[] value();
+    AndroidBy[] value();
+
+    /**
+     * @return priority of the searching. Higher number means lower priority.
+     */
+    int priority() default 0;
 }
