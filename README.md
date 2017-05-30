@@ -20,6 +20,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *5.0.0 (under construction yet)*
+- **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
 
 *5.0.0-BETA8*
 - **[ENHANCEMENT]** Page factory classes became which had package visibility are `public` now. [#630](https://github.com/appium/java-client/pull/630)
