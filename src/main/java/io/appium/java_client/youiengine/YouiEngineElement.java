@@ -18,6 +18,12 @@ package io.appium.java_client.youiengine;
 
 import io.appium.java_client.MobileElement;
 
+@Deprecated
+/**
+ * This class is going to be removed.
+ * Please use any convenient {@link MobileElement} subclass or
+ * {@link org.openqa.selenium.remote.RemoteWebElement} instead.
+ */
 public class YouiEngineElement extends MobileElement {
 
 }
