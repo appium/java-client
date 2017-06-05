@@ -23,11 +23,11 @@ import org.openqa.selenium.WebElement;
 
 import java.net.URL;
 
-@Deprecated
 /**
  * This class is going to be removed.
  * Please use {@link AppiumDriver} instead
  */
+@Deprecated
 public class YouiEngineDriver<T extends WebElement> extends AppiumDriver<T> {
 
     /** Constructor takes in the Appium Server URL and the capabilities you want to use for this
