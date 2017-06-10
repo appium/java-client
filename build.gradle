@@ -58,7 +58,7 @@ dependencies {
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
     }
-    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.code.gson:gson:2.8.1'
     compile 'org.apache.httpcomponents:httpclient:4.5.3'
     compile 'cglib:cglib:3.2.5'
     compile 'commons-validator:commons-validator:1.6'
