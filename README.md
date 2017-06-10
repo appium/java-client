@@ -21,6 +21,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *5.0.0 (under construction yet)*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
+- **[DEPRECATED]** All the content of the `io.appium.java_client.youiengine` package was marked `Deprecated`. It is going to be removed. [#652](https://github.com/appium/java-client/pull/652)
+- **[UPDATE]** Update of the `com.google.code.gson:gson` to v2.8.1.
 
 *5.0.0-BETA8*
 - **[ENHANCEMENT]** Page factory classes became which had package visibility are `public` now. [#630](https://github.com/appium/java-client/pull/630)
