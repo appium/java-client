@@ -19,7 +19,7 @@ package io.appium.java_client;
 
 /**
  * This enum is deprecated. Was moved to
- * {@link io.appium.java_client.android.Setting}.
+ * {@link io.appium.java_client.Setting}.
  */
 @Deprecated
 public enum AppiumSetting {
