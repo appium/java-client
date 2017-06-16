@@ -26,21 +26,21 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class BaseSafariTest extends BaseIOSTest {
 
-  @BeforeClass public static void beforeClass() throws Exception {
-    service = AppiumDriverLocalService.buildDefaultService();
-    service.start();
+    @BeforeClass public static void beforeClass() throws Exception {
+        service = AppiumDriverLocalService.buildDefaultService();
+        service.start();
 
-    if (service == null || !service.isRunning()) {
-      throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
+        if (service == null || !service.isRunning()) {
+            throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
+        }
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Safari");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.2");
+        //sometimes environment has performance problems
+        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        driver = new IOSDriver<>(service.getUrl(), capabilities);
     }
-
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Safari");
-    capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-    capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.2");
-    //sometimes environment has performance problems
-    capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
-    driver = new IOSDriver<>(service.getUrl(), capabilities);
-  }
 }
