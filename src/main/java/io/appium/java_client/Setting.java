@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android;
+package io.appium.java_client;
 
 /**
  * Enums defining constants for Appium Settings which can be set and toggled during a test session.
@@ -26,7 +26,8 @@ public enum Setting {
     WAIT_FOR_SELECTOR_TIMEOUT("setWaitForSelectorTimeout"),
     WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
     WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
-    KEY_INJECTION_DELAY("setKeyInjectionDelay");
+    KEY_INJECTION_DELAY("setKeyInjectionDelay"),
+    NATIVE_WEB_TAP("nativeWebTap");
 
     private String name;
 

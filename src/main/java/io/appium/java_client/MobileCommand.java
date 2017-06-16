@@ -354,4 +354,13 @@ public class MobileCommand {
         return new AbstractMap.SimpleEntry<>(
                 LOCK, prepareArguments("seconds", duration.getSeconds()));
     }
+
+    public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
+        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
+    }
+
+    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
+        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings",
+                prepareArguments(setting.toString(), value)));
+    }
 }
