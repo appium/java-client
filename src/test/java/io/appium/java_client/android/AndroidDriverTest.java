@@ -183,4 +183,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     }
 
+    @Test public void getCurrentPackage() {
+        assertEquals("io.appium.android.apis",driver.getCurrentPackage());
+    }
+
 }
