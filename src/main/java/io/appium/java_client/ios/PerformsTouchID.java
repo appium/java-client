@@ -17,6 +17,7 @@
 package io.appium.java_client.ios;
 
 import static io.appium.java_client.ios.IOSMobileCommandHelper.touchIdCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.toggleTouchIdEnrollmentCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
@@ -30,5 +31,13 @@ public interface PerformsTouchID extends ExecutesMethod {
      */
     default void performTouchID(boolean match) {
         CommandExecutionHelper.execute(this, touchIdCommand(match));
+    }
+
+    /**
+     * Enrolls touchId in iOS Simulators.
+     *
+     */
+    default void performToggleTouchIDEnrollment() {
+        CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand());
     }
 }

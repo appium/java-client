@@ -77,4 +77,14 @@ public class IOSMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<>(
             TOUCH_ID, prepareArguments("match", match));
     }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the toggling touchId
+     * enrollment in simulator.
+     *
+     */
+    public static Map.Entry<String, Map<String, ?>> toggleTouchIdEnrollmentCommand() {
+        return new AbstractMap.SimpleEntry<>(
+                TOUCH_ID_ENROLLMENT, ImmutableMap.<String, Object>of());
+    }
 }
