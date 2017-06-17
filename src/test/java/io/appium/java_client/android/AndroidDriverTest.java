@@ -166,18 +166,16 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getPerformanceDataTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
 
-        for (int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++ i) {
-
-            String dataType = supportedPerformanceDataTypes.get(i);
+        for (String dataType : supportedPerformanceDataTypes) {
 
             List<List<Object>> valueTable = driver.getPerformanceData("com.example.android.apis", dataType, 60000);
 
-            for ( int j = 1 ; j < valueTable.size() ; ++ j) {
-                assertEquals(valueTable.subList(0,0).size(), valueTable.subList(j, j).size());
+            for (int j = 1; j < valueTable.size(); ++j) {
+                assertEquals(valueTable.subList(0, 0).size(), valueTable.subList(j, j).size());
             }
         }
 

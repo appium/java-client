@@ -24,17 +24,6 @@ import io.appium.java_client.ExecutesMethod;
 import java.time.Duration;
 
 public interface LocksIOSDevice extends ExecutesMethod {
-    /**
-     * Lock the device (bring it to the lock screen) for a given number of
-     * seconds.
-     * Thsi method is deprecated. Please use {@link #lockDevice(Duration)} instead.
-     *
-     * @param seconds number of seconds to lock the screen for
-     */
-    @Deprecated
-    default void lockDevice(int seconds) {
-        lockDevice(Duration.ofSeconds(seconds));
-    }
 
     /**
      * Lock the device (bring it to the lock screen) for a given number of

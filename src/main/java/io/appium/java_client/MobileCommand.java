@@ -331,20 +331,6 @@ public class MobileCommand {
     /**
      * This method forms a {@link java.util.Map} of parameters for the
      * device locking.
-     * The method is deprecated. Please use {@link #lockDeviceCommand(Duration)} instead.
-     *
-     * @param seconds seconds number of seconds to lock the screen for
-     * @return  a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(int seconds) {
-        return lockDeviceCommand(Duration.ofSeconds(seconds));
-    }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * device locking.
      *
      * @param duration for how long to lock the screen for. Minimum time resolution is one second
      * @return  a key-value pair. The key is the command name. The value is a

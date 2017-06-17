@@ -26,36 +26,6 @@ import java.util.Map;
 public class IOSMobileCommandHelper extends MobileCommand {
 
     /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
-        return new AbstractMap.SimpleEntry<>(
-                HIDE_KEYBOARD, prepareArguments("keyName", keyName));
-    }
-
-    /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
-        String keyName) {
-        String[] parameters = new String[] {"strategy", "key"};
-        Object[] values = new Object[] {strategy, keyName};
-        return new AbstractMap.SimpleEntry<>(
-                HIDE_KEYBOARD, prepareArguments(parameters, values));
-    }
-
-    /**
-     * This method was moved to {@link MobileCommand#lockDeviceCommand(int)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {
-        return new AbstractMap.SimpleEntry<>(
-                LOCK, prepareArguments("seconds", seconds));
-    }
-
-    /**
      * This method forms a {@link java.util.Map} of parameters for the
      * device shaking.
      *

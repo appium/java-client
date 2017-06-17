@@ -28,6 +28,8 @@ import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.DeviceRotation;
 
+import java.time.Duration;
+
 public class XCUIAutomationTest extends AppXCUITTest {
 
     @After public void afterMethod() {
@@ -58,13 +60,13 @@ public class XCUIAutomationTest extends AppXCUITTest {
 
     @Test public void testPutIntoBackgroundAndRestore() {
         final long msStarted = System.currentTimeMillis();
-        driver.runAppInBackground(4);
+        driver.runAppInBackground(Duration.ofSeconds(4));
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
     }
 
     @Test public void testPutIntoBackgroundWithoutRestore() {
         assertThat(driver.findElementsById("IntegerA"), is(not(empty())));
-        driver.runAppInBackground(-1);
+        driver.runAppInBackground(Duration.ofSeconds(-1));
         assertThat(driver.findElementsById("IntegerA"), is(empty()));
     }
 

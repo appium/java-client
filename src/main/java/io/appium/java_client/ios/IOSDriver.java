@@ -24,7 +24,6 @@ import io.appium.java_client.FindsByIosClassChain;
 import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -38,6 +37,7 @@ import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
+import java.time.Duration;
 
 /**
  * @param <T> the required type of class which implement
@@ -159,30 +159,16 @@ public class IOSDriver<T extends WebElement>
     }
 
     /**
-     * This method is deprecated. It is going to be removed
-     */
-    @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        int xOffset = endx - startx;
-        int yOffset = endy - starty;
-        new TouchAction(this).press(startx, starty).waitAction(duration).moveTo(xOffset, yOffset).release().perform();
-    }
-
-    /**
      * Runs the current app as a background app for the number of seconds
      * or minimizes the app
      *
-     * @param seconds if seconds &gt;= 0: Number of seconds to run App in background.
-     *                This method call will block main thread and restore the application under
-     *                test after the timeout expires.
-     *                if seconds &lt; 0: any negative number of seconds will put the application
-     *                under test into background and return immediately, so iOS dashboard
-     *                will remain on-screen (this, actually, simulates click on Home button)
+     * @param duration The time to run App in background.
      */
-    @Override public void runAppInBackground(int seconds) {
+    @Override public void runAppInBackground(Duration duration) {
         // timeout parameter is expected to be in milliseconds
         // float values are allowed
         execute(RUN_APP_IN_BACKGROUND,
-                prepareArguments("seconds", prepareArguments("timeout", seconds * 1000)));
+                prepareArguments("seconds", prepareArguments("timeout", duration.toMillis())));
     }
 
     @Override public TargetLocator switchTo() {

@@ -66,19 +66,6 @@ public interface InteractsWithApps extends ExecutesMethod {
     }
 
     /**
-     * Runs the current app as a background app for the number of seconds
-     * requested. This is a synchronous method, it returns after the back has
-     * been returned to the foreground.
-     * This method is deprecated. Please use {@link #runAppInBackground(Duration)} instead.
-     *
-     * @param seconds Number of seconds to run App in background.
-     */
-    @Deprecated
-    default void runAppInBackground(int seconds) {
-        runAppInBackground(Duration.ofSeconds(seconds));
-    }
-
-    /**
      * Runs the current app as a background app for the time
      * requested. This is a synchronous method, it returns after the back has
      * been returned to the foreground.

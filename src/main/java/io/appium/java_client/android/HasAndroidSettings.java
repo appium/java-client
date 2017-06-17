@@ -38,34 +38,12 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
-     * This method is deprecated. Please use {@link #configuratorSetWaitForIdleTimeout(Duration)} instead.
-     *
-     * @param timeout in milliseconds. A negative value would reset to its default value
-     */
-    @Deprecated
-    default void configuratorSetWaitForIdleTimeout(int timeout) {
-        configuratorSetWaitForIdleTimeout(Duration.ofMillis(timeout));
-    }
-
-    /**
-     * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
      * @param timeout A negative value would reset to its default value. Minimum time unit
      *                resolution is one millisecond
      */
     default void configuratorSetWaitForIdleTimeout(Duration timeout) {
         setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, timeout.toMillis());
-    }
-
-    /**
-     * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}
-     * This method is deprecated. Please use {@link #configuratorSetWaitForSelectorTimeout(Duration)} instead.
-     *
-     * @param timeout in milliseconds. A negative value would reset to its default value
-     */
-    @Deprecated
-    default void configuratorSetWaitForSelectorTimeout(int timeout) {
-        configuratorSetWaitForSelectorTimeout(Duration.ofMillis(timeout));
     }
 
     /**
@@ -80,17 +58,6 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
-     * This method is deprecated. Please use {@link #configuratorSetScrollAcknowledgmentTimeout(Duration)} instead.
-     *
-     * @param timeout in milliseconds. A negative value would reset to its default value
-     */
-    @Deprecated
-    default void configuratorSetScrollAcknowledgmentTimeout(int timeout) {
-        configuratorSetScrollAcknowledgmentTimeout(Duration.ofMillis(timeout));
-    }
-
-    /**
-     * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
      *
      * @param timeout A negative value would reset to its default value. Minimum time unit
      *                resolution is one millisecond
@@ -101,34 +68,12 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
-     * This method is deprecated. Please use {@link #configuratorSetKeyInjectionDelay(Duration)} instead.
-     *
-     * @param delay in milliseconds. A negative value would reset to its default value
-     */
-    @Deprecated
-    default void configuratorSetKeyInjectionDelay(int delay) {
-        configuratorSetKeyInjectionDelay(Duration.ofMillis(delay));
-    }
-
-    /**
-     * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
      *
      * @param delay A negative value would reset to its default value. Minimum time unit
      *              resolution is one millisecond
      */
     default void configuratorSetKeyInjectionDelay(Duration delay) {
         setSetting(Setting.KEY_INJECTION_DELAY, delay.toMillis());
-    }
-
-    /**
-     * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
-     * This method is deprecated. Please use {@link #configuratorSetActionAcknowledgmentTimeout(Duration)} instead.
-     *
-     * @param timeout in milliseconds. A negative value would reset to its default value
-     */
-    @Deprecated
-    default void configuratorSetActionAcknowledgmentTimeout(int timeout) {
-        configuratorSetActionAcknowledgmentTimeout(Duration.ofMillis(timeout));
     }
 
     /**
