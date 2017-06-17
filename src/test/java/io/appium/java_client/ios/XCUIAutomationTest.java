@@ -48,7 +48,7 @@ public class XCUIAutomationTest extends AppXCUITTest {
 
     @Test public void testTouchId() {
         try {
-            driver.performToggleTouchIDEnrollment();
+            driver.toggleTouchIDEnrollment();
             driver.performTouchID(true);
             driver.performTouchID(false);
             assertEquals(true, true);

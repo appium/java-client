@@ -37,7 +37,7 @@ public interface PerformsTouchID extends ExecutesMethod {
      * Enrolls touchId in iOS Simulators.
      *
      */
-    default void performToggleTouchIDEnrollment() {
+    default void toggleTouchIDEnrollment() {
         CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand());
     }
 }
