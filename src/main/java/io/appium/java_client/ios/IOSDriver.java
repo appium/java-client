@@ -51,7 +51,7 @@ import java.net.URL;
  */
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements HidesKeyboardWithKeyName, ShakesDevice,
+    implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings,
         FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID, FindsByIosNSPredicate<T>,
         FindsByIosClassChain<T> {
 

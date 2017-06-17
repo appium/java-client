@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.ios;
 
 
-/**
- * This enum is deprecated. Was moved to
- * {@link io.appium.java_client.Setting}.
- */
-@Deprecated
-public enum AppiumSetting {
+import io.appium.java_client.HasSettings;
+import io.appium.java_client.Setting;
 
-    IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews");
-    private String name;
-
-    private AppiumSetting(String name) {
-        this.name = name;
+interface HasIOSSettings extends HasSettings {
+    /**
+     * Set the `nativeWebTap` setting. *iOS-only method*.
+     * Sets whether Safari/webviews should convert element taps into x/y taps
+     * @param enabled turns nativeWebTap on if true, off if false
+     */
+    default void nativeWebTap(Boolean enabled) {
+        setSetting(Setting.NATIVE_WEB_TAP, enabled);
     }
-
-    public String toString() {
-        return this.name;
-    }
-
 }

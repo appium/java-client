@@ -16,48 +16,13 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getSettingsCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.setSettingsCommand;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecutesMethod;
-
-import org.openqa.selenium.remote.Response;
+import io.appium.java_client.HasSettings;
+import io.appium.java_client.Setting;
 
 import java.time.Duration;
-import java.util.Map;
 
-interface HasSettings extends ExecutesMethod {
-    /**
-     * Set a setting for this test session It's probably better to use a
-     * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to change.
-     *
-     * @param setting Setting you wish to set.
-     * @param value   value of the setting.
-     */
-    default void setSetting(Setting setting, Object value) {
-        CommandExecutionHelper.execute(this, setSettingsCommand(setting, value));
-    }
-
-    /**
-     * Get settings stored for this test session It's probably better to use a
-     * convenience function, rather than use this function directly. Try finding
-     * the method for the specific setting you want to read.
-     *
-     * @return JsonObject, a straight-up hash of settings.
-     */
-    @SuppressWarnings("unchecked")
-    default Map<String, Object> getSettings() {
-        Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
-        Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
-
-        return ImmutableMap.<String, Object>builder()
-                .putAll(Map.class.cast(response.getValue())).build();
-    }
-
+interface HasAndroidSettings extends HasSettings {
     /**
      * Set the `ignoreUnimportantViews` setting. *Android-only method*.
      * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
