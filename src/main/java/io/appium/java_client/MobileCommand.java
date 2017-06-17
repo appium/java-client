@@ -153,7 +153,8 @@ public class MobileCommand {
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
         commandRepository.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
-        commandRepository.put(TOUCH_ID_ENROLLMENT, postC("/session/:sessionId/appium/simulator/toggle_touch_id_enrollment"));
+        commandRepository.put(TOUCH_ID_ENROLLMENT,
+                postC("/session/:sessionId/appium/simulator/toggle_touch_id_enrollment"));
         //Android
         commandRepository.put(CURRENT_ACTIVITY,
                         getC("/session/:sessionId/appium/device/current_activity"));
