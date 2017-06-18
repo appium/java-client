@@ -16,7 +16,6 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.currentPackageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
@@ -182,7 +181,4 @@ public class AndroidDriver<T extends WebElement>
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
-    public String getCurrentPackage() {
-        return CommandExecutionHelper.execute(this, currentPackageCommand());
-    }
 }
