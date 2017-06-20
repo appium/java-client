@@ -48,6 +48,18 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
+     * getting of the current package.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
+        return new AbstractMap.SimpleEntry<>(
+                GET_CURRENT_PACKAGE, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
      * ending of the test coverage.
      *
      * @param intent intent to broadcast.

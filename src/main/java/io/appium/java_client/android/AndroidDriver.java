@@ -180,4 +180,5 @@ public class AndroidDriver<T extends WebElement>
     public void toggleLocationServices() {
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
+
 }

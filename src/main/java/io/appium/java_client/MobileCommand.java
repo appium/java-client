@@ -76,6 +76,7 @@ public class MobileCommand {
     protected static final String REPLACE_VALUE;
     protected static final String GET_SETTINGS;
     protected static final String SET_SETTINGS;
+    protected static final String GET_CURRENT_PACKAGE;
 
     public static final  Map<String, AppiumCommandInfo> commandRepository;
 
@@ -122,6 +123,7 @@ public class MobileCommand {
         REPLACE_VALUE = "replaceValue";
         GET_SETTINGS = "getSettings";
         SET_SETTINGS = "setSettings";
+        GET_CURRENT_PACKAGE = "getCurrentPackage";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -176,6 +178,7 @@ public class MobileCommand {
                         postC("/session/:sessionId/appium/device/toggle_location_services"));
         commandRepository.put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
         commandRepository. put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
+        commandRepository.put(GET_CURRENT_PACKAGE,getC("/session/:sessionId/appium/device/current_package"));
     }
 
     /**
