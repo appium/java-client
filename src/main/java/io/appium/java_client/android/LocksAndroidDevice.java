@@ -19,9 +19,12 @@ package io.appium.java_client.android;
 import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.isLockedCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.unlockCommand;
+import static java.time.Duration.ofMillis;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+
+import java.time.Duration;
 
 public interface LocksAndroidDevice extends ExecutesMethod {
     /**
@@ -37,7 +40,7 @@ public interface LocksAndroidDevice extends ExecutesMethod {
      * This method locks a device.
      */
     default void lockDevice() {
-        CommandExecutionHelper.execute(this, lockDeviceCommand(0));
+        CommandExecutionHelper.execute(this, lockDeviceCommand(ofMillis(0)));
     }
 
     /**

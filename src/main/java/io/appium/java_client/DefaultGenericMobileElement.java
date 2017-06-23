@@ -39,7 +39,7 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
     implements FindsByClassName,
         FindsByCssSelector, FindsById,
         FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, FindsByAccessibilityId<T>,
-        ExecutesMethod, TouchableElement<T> {
+        ExecutesMethod {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);

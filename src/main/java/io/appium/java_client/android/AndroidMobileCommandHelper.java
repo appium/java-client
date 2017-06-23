@@ -184,49 +184,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
                 IS_LOCKED, ImmutableMap.<String, Object>of());
     }
 
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<>(
-                PRESS_KEY_CODE, prepareArguments("keycode", key));
-    }
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int, Integer)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
-        Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
-        return new AbstractMap.SimpleEntry<>(
-                PRESS_KEY_CODE, prepareArguments(parameters, values));
-    }
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<>(
-                LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
-    }
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int, Integer)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
-        Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
-        return new AbstractMap.SimpleEntry<>(
-                LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
-    }
-
     /**
      * This method forms a {@link java.util.Map} of parameters for the
      * notification opening.
@@ -341,13 +298,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
     }
 
-    /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand() {
-        return new AbstractMap.SimpleEntry<>(LOCK, prepareArguments("seconds", 0));
-    }
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the element

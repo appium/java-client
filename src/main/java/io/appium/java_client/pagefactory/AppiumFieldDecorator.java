@@ -25,7 +25,6 @@ import com.google.common.collect.ImmutableList;
 
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchableElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.bys.ContentType;
@@ -47,7 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -62,7 +60,7 @@ import java.util.function.Supplier;
 public class AppiumFieldDecorator implements FieldDecorator {
 
     private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
-            RemoteWebElement.class, MobileElement.class, TouchableElement.class, AndroidElement.class,
+            RemoteWebElement.class, MobileElement.class, AndroidElement.class,
             IOSElement.class, WindowsElement.class);
     public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
