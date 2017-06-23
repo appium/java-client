@@ -20,6 +20,9 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *5.0.0 (under construction yet)*
+- **[REFACTOR]** **[BREAKING CHANGE]** 5.0.0 finalization. Removal of obsolete code. [#660](https://github.com/appium/java-client/pull/660)
+- **[ENHANCEMENT]** Enable nativeWebTap setting for iOS. [#658](https://github.com/appium/java-client/pull/658)
+- **[ENHANCEMENT]** The `getCurrentPackage` was added. [#657](https://github.com/appium/java-client/pull/657)
 
 *5.0.0-BETA9*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
