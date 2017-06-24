@@ -29,6 +29,7 @@ public class AppXCUITTest extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6");
+        capabilities.setCapability(IOSMobileCapabilityType.ALLOW_TOUCHID_ENROLL, "true");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities

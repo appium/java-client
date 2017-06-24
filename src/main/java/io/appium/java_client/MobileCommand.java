@@ -57,6 +57,7 @@ public class MobileCommand {
     //iOS
     protected static final String SHAKE;
     protected static final String TOUCH_ID;
+    protected static final String TOUCH_ID_ENROLLMENT;
     //Android
     protected static final String CURRENT_ACTIVITY;
     protected static final String END_TEST_COVERAGE;
@@ -104,6 +105,7 @@ public class MobileCommand {
         LOCK = "lock";
         SHAKE = "shake";
         TOUCH_ID = "touchId";
+        TOUCH_ID_ENROLLMENT = "toggleEnrollTouchId";
 
         CURRENT_ACTIVITY = "currentActivity";
         END_TEST_COVERAGE = "endTestCoverage";
@@ -153,6 +155,8 @@ public class MobileCommand {
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
         commandRepository.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
+        commandRepository.put(TOUCH_ID_ENROLLMENT,
+                postC("/session/:sessionId/appium/simulator/toggle_touch_id_enrollment"));
         //Android
         commandRepository.put(CURRENT_ACTIVITY,
                         getC("/session/:sessionId/appium/device/current_activity"));
