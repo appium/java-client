@@ -340,8 +340,14 @@ public class TouchAction implements PerformsActions<TouchAction> {
         return ImmutableMap.of("actions", parameters.build());
     }
 
-    protected void clearParameters() {
+    /**
+     * Clears all the existing action parameters and resets the instance to the initial state.
+     *
+     * @return this TouchAction, for possible segmented-touches.
+     */
+    protected TouchAction clearParameters() {
         parameterBuilder = ImmutableList.builder();
+        return this;
     }
 
     /**
