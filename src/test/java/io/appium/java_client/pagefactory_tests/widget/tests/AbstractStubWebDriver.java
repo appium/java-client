@@ -2,12 +2,16 @@ package io.appium.java_client.pagefactory_tests.widget.tests;
 
 import io.appium.java_client.HasSessionDetails;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Response;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.common.collect.ImmutableList.of;
 import static io.appium.java_client.remote.AutomationName.APPIUM;
@@ -101,7 +105,72 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
 
     @Override
     public Options manage() {
-        return null;
+        return new Options() {
+            @Override
+            public void addCookie(Cookie cookie) {
+                //does nothing
+            }
+
+            @Override
+            public void deleteCookieNamed(String name) {
+                //does nothing
+            }
+
+            @Override
+            public void deleteCookie(Cookie cookie) {
+                //does nothing
+            }
+
+            @Override
+            public void deleteAllCookies() {
+                //does nothing
+            }
+
+            @Override
+            public Set<Cookie> getCookies() {
+                return new HashSet<>();
+            }
+
+            @Override
+            public Cookie getCookieNamed(String name) {
+                return new Cookie(name, EMPTY);
+            }
+
+            @Override
+            public Timeouts timeouts() {
+                return new Timeouts() {
+                    @Override
+                    public Timeouts implicitlyWait(long time, TimeUnit unit) {
+                        return this;
+                    }
+
+                    @Override
+                    public Timeouts setScriptTimeout(long time, TimeUnit unit) {
+                        return this;
+                    }
+
+                    @Override
+                    public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+                        return this;
+                    }
+                };
+            }
+
+            @Override
+            public ImeHandler ime() {
+                return null;
+            }
+
+            @Override
+            public Window window() {
+                return null;
+            }
+
+            @Override
+            public Logs logs() {
+                return null;
+            }
+        };
     }
 
     public static class StubAndroidDriver extends AbstractStubWebDriver {

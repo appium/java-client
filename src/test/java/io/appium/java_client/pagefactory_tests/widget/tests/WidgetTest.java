@@ -1,12 +1,53 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
-public interface WidgetTest {
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-    void checkACommonWidget();
+import java.util.List;
 
-    void checkAnAnnotatedWidget();
+import static java.util.stream.Collectors.toList;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+import static org.openqa.selenium.support.PageFactory.initElements;
 
-    void checkAnExtendedWidget();
+public abstract class WidgetTest {
 
-    void checkTheLocatorOverridingOnAWidget();
+    protected final AbstractApp app;
+
+    protected WidgetTest(AbstractApp app, WebDriver driver) {
+        this.app = app;
+        initElements(new AppiumFieldDecorator(driver), app);
+    }
+
+    @Test
+    public abstract void checkACommonWidget();
+
+    @Test
+    public abstract void checkAnAnnotatedWidget();
+
+    @Test
+    public abstract void checkAnExtendedWidget();
+
+    @Test
+    public abstract void checkTheLocatorOverridingOnAWidget();
+
+    protected static void defaultTest(AbstractWidget single, List<AbstractWidget> multiple, By rootLocator, By subLocator) {
+
+        assertThat(single.toString(), containsString(rootLocator.toString()));
+        assertThat(multiple.stream().map(AbstractWidget::toString).collect(toList()),
+                contains(containsString(rootLocator.toString()),
+                        containsString(rootLocator.toString())));
+
+        assertThat(single.getSubWidget().toString(), containsString(subLocator.toString()));
+        assertThat(single.getSubWidgets().stream().map(Object::toString).collect(toList()),
+                contains(containsString(subLocator.toString()),
+                        containsString(subLocator.toString())));
+
+        assertThat(multiple.stream().map(abstractWidget -> abstractWidget.getSubWidget().toString()).collect(toList()),
+                contains(containsString(subLocator.toString()),
+                        containsString(subLocator.toString())));
+    }
 }
