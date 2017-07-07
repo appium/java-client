@@ -1,13 +1,13 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.android;
 
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
-
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AndroidApp.ANDROID_DEFAULT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AndroidApp.ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AnnotatedAndroidWidget.ANDROID_ROOT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget.ANDROID_SUB_WIDGET_LOCATOR;
+
+import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 
 public class AndroidWidgetTest extends WidgetTest {
 

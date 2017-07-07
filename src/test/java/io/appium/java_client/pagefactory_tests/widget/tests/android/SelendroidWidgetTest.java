@@ -1,13 +1,13 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.android;
 
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
-
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AndroidApp.ANDROID_SELENDROID_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AndroidApp.SELENDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AnnotatedAndroidWidget.SELENDROID_ROOT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget.SELENDROID_SUB_WIDGET_LOCATOR;
 import static org.openqa.selenium.By.linkText;
+
+import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 
 public class SelendroidWidgetTest extends WidgetTest {
     public SelendroidWidgetTest() {

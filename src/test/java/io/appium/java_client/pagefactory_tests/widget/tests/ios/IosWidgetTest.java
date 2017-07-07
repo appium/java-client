@@ -1,13 +1,13 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
-
 import static io.appium.java_client.MobileBy.IosUIAutomation;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.AnnotatedIosWidget.IOS_ROOT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.DefaultIosWidget.IOS_SUB_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.IOS_DEFAULT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
+
+import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 
 public class IosWidgetTest extends WidgetTest {
 
