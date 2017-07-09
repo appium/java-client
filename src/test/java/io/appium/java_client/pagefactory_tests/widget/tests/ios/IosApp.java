@@ -1,14 +1,12 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
 
 import java.util.List;
 
-public class IosApp extends AbstractApp{
+public class IosApp implements ExtendedApp {
 
     public static String IOS_DEFAULT_WIDGET_LOCATOR = "SOME_IOS_DEFAULT_LOCATOR";
     public static String IOS_XCUIT_WIDGET_LOCATOR = "SOME_XCUIT_DEFAULT_LOCATOR";

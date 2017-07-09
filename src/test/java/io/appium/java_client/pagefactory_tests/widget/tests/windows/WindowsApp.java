@@ -3,10 +3,11 @@ package io.appium.java_client.pagefactory_tests.widget.tests.windows;
 import io.appium.java_client.pagefactory.WindowsFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
 
 import java.util.List;
 
-public class WindowsApp extends AbstractApp{
+public class WindowsApp implements ExtendedApp {
 
     public static String WINDOWS_DEFAULT_WIDGET_LOCATOR = "SOME_WINDOWS_DEFAULT_LOCATOR";
 

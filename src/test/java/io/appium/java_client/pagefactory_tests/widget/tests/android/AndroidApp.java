@@ -2,11 +2,11 @@ package io.appium.java_client.pagefactory_tests.widget.tests.android;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
 
 import java.util.List;
 
-public class AndroidApp extends AbstractApp{
+public class AndroidApp implements ExtendedApp {
 
     public static String ANDROID_DEFAULT_WIDGET_LOCATOR = "SOME_ANDROID_DEFAULT_LOCATOR";
     public static String ANDROID_SELENDROID_WIDGET_LOCATOR = "SOME_SELENDROID_DEFAULT_LOCATOR";
