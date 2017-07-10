@@ -24,30 +24,4 @@ public abstract class WidgetTest {
 
     @Test
     public abstract void checkACommonWidget();
-
-    @Test
-    public abstract void checkAnAnnotatedWidget();
-
-    @Test
-    public abstract void checkAnExtendedWidget();
-
-    @Test
-    public abstract void checkTheLocatorOverridingOnAWidget();
-
-    protected static void defaultTest(AbstractWidget single, List<AbstractWidget> multiple, By rootLocator, By subLocator) {
-
-        assertThat(single.toString(), containsString(rootLocator.toString()));
-        assertThat(multiple.stream().map(AbstractWidget::toString).collect(toList()),
-                contains(containsString(rootLocator.toString()),
-                        containsString(rootLocator.toString())));
-
-        assertThat(single.getSubWidget().toString(), containsString(subLocator.toString()));
-        assertThat(single.getSubWidgets().stream().map(Object::toString).collect(toList()),
-                contains(containsString(subLocator.toString()),
-                        containsString(subLocator.toString())));
-
-        assertThat(multiple.stream().map(abstractWidget -> abstractWidget.getSubWidget().toString()).collect(toList()),
-                contains(containsString(subLocator.toString()),
-                        containsString(subLocator.toString())));
-    }
 }

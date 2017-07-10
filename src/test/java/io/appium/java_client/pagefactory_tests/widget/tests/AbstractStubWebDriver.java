@@ -250,4 +250,21 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
             return EMPTY;
         }
     }
+
+    public static class StubAndroidBrowserOrWebViewDriver extends AbstractStubWebDriver {
+
+        @Override
+        public String getPlatformName() {
+            return ANDROID;
+        }
+
+        @Override
+        public String getAutomationName() {
+            return APPIUM;
+        }
+
+        public boolean isBrowser() {
+            return true;
+        }
+    }
 }

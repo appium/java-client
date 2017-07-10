@@ -7,9 +7,10 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.windows.Windo
 import static io.appium.java_client.pagefactory_tests.widget.tests.windows.WindowsApp.WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
 
-public class WindowsWidgetTest extends WidgetTest {
+public class WindowsWidgetTest extends ExtendedWidgetTest {
 
     public WindowsWidgetTest() {
         super(new WindowsApp(), new AbstractStubWebDriver.StubWindowsDriver());
@@ -23,19 +24,19 @@ public class WindowsWidgetTest extends WidgetTest {
 
     @Override
     public void checkAnAnnotatedWidget() {
-        defaultTest(app.getAnnotatedWidget(), app.getAnnotatedWidgets(),
+        defaultTest(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
                 windowsAutomation(WINDOWS_ROOT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkAnExtendedWidget() {
-        defaultTest(app.getExtendedWidget(), app.getExtendedWidgets(),
+        defaultTest(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
                 windowsAutomation(WINDOWS_ROOT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkTheLocatorOverridingOnAWidget() {
-        defaultTest(app.getExtendedWidgetWithOverriddenLocators(), app.getExtendedWidgetsWithOverriddenLocators(),
+        defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(), ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 windowsAutomation(WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 }

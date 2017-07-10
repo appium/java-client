@@ -7,9 +7,10 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.android.Defau
 import static org.openqa.selenium.By.linkText;
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
 
-public class SelendroidWidgetTest extends WidgetTest {
+public class SelendroidWidgetTest extends ExtendedWidgetTest {
     public SelendroidWidgetTest() {
         super(new AndroidApp(), new AbstractStubWebDriver.StubSelendroidDriver());
     }
@@ -22,19 +23,20 @@ public class SelendroidWidgetTest extends WidgetTest {
 
     @Override
     public void checkAnAnnotatedWidget() {
-        defaultTest(app.getAnnotatedWidget(), app.getAnnotatedWidgets(),
+        defaultTest(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
                 linkText(SELENDROID_ROOT_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkAnExtendedWidget() {
-        defaultTest(app.getExtendedWidget(), app.getExtendedWidgets(),
+        defaultTest(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
                 linkText(SELENDROID_ROOT_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkTheLocatorOverridingOnAWidget() {
-        defaultTest(app.getExtendedWidgetWithOverriddenLocators(), app.getExtendedWidgetsWithOverriddenLocators(),
+        defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+                ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 linkText(SELENDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }
 }

@@ -7,9 +7,10 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.IO
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
 
-public class IosWidgetTest extends WidgetTest {
+public class IosWidgetTest extends ExtendedWidgetTest {
 
     public IosWidgetTest() {
         super(new IosApp(), new AbstractStubWebDriver.StubIOSDriver());
@@ -23,19 +24,20 @@ public class IosWidgetTest extends WidgetTest {
 
     @Override
     public void checkAnAnnotatedWidget() {
-        defaultTest(app.getAnnotatedWidget(), app.getAnnotatedWidgets(),
+        defaultTest(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
                 IosUIAutomation(IOS_ROOT_WIDGET_LOCATOR), IosUIAutomation(IOS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkAnExtendedWidget() {
-        defaultTest(app.getExtendedWidget(), app.getExtendedWidgets(),
+        defaultTest(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
                 IosUIAutomation(IOS_ROOT_WIDGET_LOCATOR), IosUIAutomation(IOS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkTheLocatorOverridingOnAWidget() {
-        defaultTest(app.getExtendedWidgetWithOverriddenLocators(), app.getExtendedWidgetsWithOverriddenLocators(),
+        defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+                ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 IosUIAutomation(IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR), IosUIAutomation(IOS_SUB_WIDGET_LOCATOR));
     }
 }

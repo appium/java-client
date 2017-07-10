@@ -13,6 +13,7 @@ public class CombinedApp implements AbstractApp {
 
     @OverrideWidget(html = DefaultFindByWidget.class,
             androidUIAutomator = DefaultAndroidWidget.class,
+            selendroid = DefaultSelendroidWidget.class,
             iOSUIAutomation = DefaultIosWidget.class,
             iOSXCUITAutomation = DefaultIosXCUITWidget.class,
             windowsAutomation = DefaultWindowsWidget.class
@@ -21,6 +22,7 @@ public class CombinedApp implements AbstractApp {
 
     @OverrideWidget(html = DefaultFindByWidget.class,
             androidUIAutomator = DefaultAndroidWidget.class,
+            selendroid = DefaultSelendroidWidget.class,
             iOSUIAutomation = DefaultIosWidget.class,
             iOSXCUITAutomation = DefaultIosXCUITWidget.class,
             windowsAutomation = DefaultWindowsWidget.class
@@ -28,12 +30,12 @@ public class CombinedApp implements AbstractApp {
     private List<AbstractWidget> multipleWidget;
 
     @Override
-    public <T extends AbstractWidget> T getWidget() {
-        return null;
+    public AbstractWidget getWidget() {
+        return singleWidget;
     }
 
     @Override
-    public <T extends AbstractWidget> List<T> getWidgets() {
-        return null;
+    public List<AbstractWidget> getWidgets() {
+        return multipleWidget;
     }
 }
