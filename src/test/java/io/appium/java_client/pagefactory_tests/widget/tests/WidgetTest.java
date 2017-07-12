@@ -1,17 +1,10 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
+import static org.openqa.selenium.support.PageFactory.initElements;
+
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
 public abstract class WidgetTest {
 

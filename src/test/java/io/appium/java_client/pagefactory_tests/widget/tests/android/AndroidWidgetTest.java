@@ -38,6 +38,7 @@ public class AndroidWidgetTest extends ExtendedWidgetTest {
     public void checkTheLocatorOverridingOnAWidget() {
         defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
-                AndroidUIAutomator(ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
+                AndroidUIAutomator(ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
+                AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 }

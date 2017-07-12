@@ -36,7 +36,9 @@ public class WindowsWidgetTest extends ExtendedWidgetTest {
 
     @Override
     public void checkTheLocatorOverridingOnAWidget() {
-        defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(), ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
-                windowsAutomation(WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
+        defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+                ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
+                windowsAutomation(WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
+                windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 }

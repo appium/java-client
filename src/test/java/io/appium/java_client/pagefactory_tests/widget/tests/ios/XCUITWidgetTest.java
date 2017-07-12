@@ -38,6 +38,7 @@ public class XCUITWidgetTest extends ExtendedWidgetTest {
     public void checkTheLocatorOverridingOnAWidget() {
         defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
-                iOSNsPredicateString(XCUIT_EXTERNALLY_DEFINED_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
+                iOSNsPredicateString(XCUIT_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
+                iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 }
