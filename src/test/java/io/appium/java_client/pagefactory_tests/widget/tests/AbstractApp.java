@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface AbstractApp {
 
-    <T extends AbstractWidget> T getWidget();
+    <T extends DefaultStubWidget> T getWidget();
 
-    <T extends AbstractWidget> List<T> getWidgets();
+    <T extends DefaultStubWidget> List<T> getWidgets();
 
 }

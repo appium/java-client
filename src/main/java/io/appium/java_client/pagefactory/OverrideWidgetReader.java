@@ -77,21 +77,19 @@ class OverrideWidgetReader {
         String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
         String transformedAutomation = String.valueOf(automation).toUpperCase().trim();
 
-        if (ANDROID.equalsIgnoreCase(transformedPlatform) && AutomationName.SELENDROID
-            .equalsIgnoreCase(transformedAutomation)) {
-            return getConvenientClass(declaredClass, annotatedElement, SELENDROID);
-        }
-
         if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
+            if (AutomationName.SELENDROID.equalsIgnoreCase(transformedAutomation)) {
+                return getConvenientClass(declaredClass, annotatedElement, SELENDROID);
+            }
+
             return getConvenientClass(declaredClass, annotatedElement, ANDROID_UI_AUTOMATOR);
         }
 
-        if (IOS.equalsIgnoreCase(transformedPlatform) && AutomationName.IOS_XCUI_TEST
-                .equalsIgnoreCase(transformedAutomation)) {
-            return getConvenientClass(declaredClass, annotatedElement, IOS_XCUIT_AUTOMATION);
-        }
-
         if (IOS.equalsIgnoreCase(transformedPlatform)) {
+            if (AutomationName.IOS_XCUI_TEST.equalsIgnoreCase(transformedAutomation)) {
+                return getConvenientClass(declaredClass, annotatedElement, IOS_XCUIT_AUTOMATION);
+            }
+
             return getConvenientClass(declaredClass, annotatedElement, IOS_UI_AUTOMATION);
         }
 

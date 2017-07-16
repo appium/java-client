@@ -17,26 +17,26 @@ public class AndroidWidgetTest extends ExtendedWidgetTest {
     }
 
     @Override
-    public void checkACommonWidget() {
-        defaultTest(app.getWidget(), app.getWidgets(),
+    public void commonTestCase() {
+        testLogigByDefault(app.getWidget(), app.getWidgets(),
                 AndroidUIAutomator(ANDROID_DEFAULT_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
-    public void checkAnAnnotatedWidget() {
-        defaultTest(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
+    public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
+        testLogigByDefault(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
                 AndroidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
-    public void checkAnExtendedWidget() {
-        defaultTest(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
+    public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
+        testLogigByDefault(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
                 AndroidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
-    public void checkTheLocatorOverridingOnAWidget() {
-        defaultTest(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+    public void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations() {
+        testLogigByDefault(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 AndroidUIAutomator(ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
                 AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));

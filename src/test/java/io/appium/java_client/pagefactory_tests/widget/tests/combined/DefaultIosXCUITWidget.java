@@ -1,12 +1,12 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.combined;
 
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractWidget;
+import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class DefaultIosXCUITWidget extends AbstractWidget {
+public class DefaultIosXCUITWidget extends DefaultStubWidget {
 
     @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_SUB_LOCATOR")
     private DefaultIosXCUITWidget singleWidget;

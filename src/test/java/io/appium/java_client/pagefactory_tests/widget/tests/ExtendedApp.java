@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface ExtendedApp extends AbstractApp {
 
-    <T extends AbstractWidget> T getAnnotatedWidget();
+    <T extends DefaultStubWidget> T getAnnotatedWidget();
 
-    <T extends AbstractWidget> List<T> getAnnotatedWidgets();
+    <T extends DefaultStubWidget> List<T> getAnnotatedWidgets();
 
-    <T extends AbstractWidget> T getExtendedWidget();
+    <T extends DefaultStubWidget> T getExtendedWidget();
 
-    <T extends AbstractWidget> List<T> getExtendedWidgets();
+    <T extends DefaultStubWidget> List<T> getExtendedWidgets();
 
-    <T extends AbstractWidget> T getExtendedWidgetWithOverriddenLocators();
+    <T extends DefaultStubWidget> T getExtendedWidgetWithOverriddenLocators();
 
-    <T extends AbstractWidget> List<T> getExtendedWidgetsWithOverriddenLocators();
+    <T extends DefaultStubWidget> List<T> getExtendedWidgetsWithOverriddenLocators();
 }

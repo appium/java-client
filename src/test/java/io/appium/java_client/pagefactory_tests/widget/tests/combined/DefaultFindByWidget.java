@@ -1,12 +1,12 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.combined;
 
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractWidget;
+import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class DefaultFindByWidget extends AbstractWidget {
+public class DefaultFindByWidget extends DefaultStubWidget {
 
     @FindBy(id = "SOME_SUB_LOCATOR")
     private DefaultFindByWidget singleWidget;

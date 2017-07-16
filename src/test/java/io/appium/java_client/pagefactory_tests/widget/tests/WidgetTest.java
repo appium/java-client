@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
+import static java.util.Arrays.copyOf;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -10,11 +11,15 @@ public abstract class WidgetTest {
 
     protected final AbstractApp app;
 
+    protected static Object[] dataArray(Object...objects) {
+        return copyOf(objects, objects.length);
+    }
+
     protected WidgetTest(AbstractApp app, WebDriver driver) {
         this.app = app;
         initElements(new AppiumFieldDecorator(driver), app);
     }
 
     @Test
-    public abstract void checkACommonWidget();
+    public abstract void commonTestCase();
 }

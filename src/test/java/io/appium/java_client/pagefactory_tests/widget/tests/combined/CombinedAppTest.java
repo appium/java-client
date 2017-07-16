@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractWidget;
+import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.ios.DefaultIosWidget;
@@ -24,6 +24,8 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class CombinedAppTest extends WidgetTest {
 
+    private final Class<?> widgetClass;
+
     /**
      * Test data generation.
      *
@@ -31,36 +33,41 @@ public class CombinedAppTest extends WidgetTest {
      */
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        return asList(new Object[][] {
-                {new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class},
-                {new CombinedApp(), new AbstractStubWebDriver.StubSelendroidDriver(), DefaultSelendroidWidget.class},
-                {new CombinedApp(), new AbstractStubWebDriver.StubIOSDriver(), DefaultIosWidget.class},
-                {new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class},
-                {new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class},
-                {new CombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class},
-                {new CombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
-                    DefaultFindByWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubSelendroidDriver(),
-                    DefaultSelendroidWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSDriver(), AbstractWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(), AbstractWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), AbstractWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class},
-                {new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
-                    DefaultFindByWidget.class}
-        });
+        return asList(
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubSelendroidDriver(),
+                        DefaultSelendroidWidget.class),
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSDriver(), DefaultIosWidget.class),
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
+                        DefaultIosXCUITWidget.class),
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
+                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
+                    DefaultFindByWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(),
+                        DefaultAndroidWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubSelendroidDriver(),
+                    DefaultSelendroidWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSDriver(),
+                        DefaultStubWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
+                        DefaultStubWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(),
+                        DefaultStubWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(),
+                        DefaultFindByWidget.class),
+                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
+                    DefaultFindByWidget.class)
+        );
     }
 
-    private final Class<?> widgetClass;
-
-    public CombinedAppTest(AbstractApp app, WebDriver driver, Class<? extends AbstractWidget> widgetClass) {
+    public CombinedAppTest(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
         super(app, driver);
         this.widgetClass = widgetClass;
     }
 
     @Override
-    public void checkACommonWidget() {
+    public void commonTestCase() {
         assertThat("Excpected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));
@@ -81,7 +88,7 @@ public class CombinedAppTest extends WidgetTest {
                 iOSXCUITAutomation = DefaultIosXCUITWidget.class,
                 windowsAutomation = DefaultWindowsWidget.class
         )
-        private AbstractWidget singleWidget;
+        private DefaultStubWidget singleWidget;
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
@@ -90,15 +97,15 @@ public class CombinedAppTest extends WidgetTest {
                 iOSXCUITAutomation = DefaultIosXCUITWidget.class,
                 windowsAutomation = DefaultWindowsWidget.class
         )
-        private List<AbstractWidget> multipleWidget;
+        private List<DefaultStubWidget> multipleWidget;
 
         @Override
-        public AbstractWidget getWidget() {
+        public DefaultStubWidget getWidget() {
             return singleWidget;
         }
 
         @Override
-        public List<AbstractWidget> getWidgets() {
+        public List<DefaultStubWidget> getWidgets() {
             return multipleWidget;
         }
     }
@@ -109,21 +116,21 @@ public class CombinedAppTest extends WidgetTest {
                 androidUIAutomator = DefaultAndroidWidget.class,
                 selendroid = DefaultSelendroidWidget.class
         )
-        private AbstractWidget singleWidget;
+        private DefaultStubWidget singleWidget;
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
                 selendroid = DefaultSelendroidWidget.class
         )
-        private List<AbstractWidget> multipleWidget;
+        private List<DefaultStubWidget> multipleWidget;
 
         @Override
-        public AbstractWidget getWidget() {
+        public DefaultStubWidget getWidget() {
             return singleWidget;
         }
 
         @Override
-        public List<AbstractWidget> getWidgets() {
+        public List<DefaultStubWidget> getWidgets() {
             return multipleWidget;
         }
     }

@@ -13,25 +13,24 @@ import java.util.List;
 
 public abstract class ExtendedWidgetTest extends WidgetTest {
 
-
     protected ExtendedWidgetTest(ExtendedApp app, WebDriver driver) {
         super(app, driver);
     }
 
     @Test
-    public abstract void checkAnAnnotatedWidget();
+    public abstract void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation();
 
     @Test
-    public abstract void checkAnExtendedWidget();
+    public abstract void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass();
 
     @Test
-    public abstract void checkTheLocatorOverridingOnAWidget();
+    public abstract void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations();
 
-    protected static void defaultTest(AbstractWidget single, List<AbstractWidget> multiple, By rootLocator,
-                                      By subLocator) {
+    protected static void testLogigByDefault(DefaultStubWidget single, List<DefaultStubWidget> multiple, By rootLocator,
+                                             By subLocator) {
 
         assertThat(single.toString(), containsString(rootLocator.toString()));
-        assertThat(multiple.stream().map(AbstractWidget::toString).collect(toList()),
+        assertThat(multiple.stream().map(DefaultStubWidget::toString).collect(toList()),
                 contains(containsString(rootLocator.toString()),
                         containsString(rootLocator.toString())));
 

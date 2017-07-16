@@ -2,12 +2,12 @@ package io.appium.java_client.pagefactory_tests.widget.tests.windows;
 
 import io.appium.java_client.pagefactory.WindowsFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractWidget;
+import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class DefaultWindowsWidget extends AbstractWidget {
+public class DefaultWindowsWidget extends DefaultStubWidget {
 
     public static String WINDOWS_SUB_WIDGET_LOCATOR = "SOME_SUB_LOCATOR";
 

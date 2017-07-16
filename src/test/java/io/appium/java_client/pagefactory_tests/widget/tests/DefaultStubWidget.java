@@ -1,14 +1,14 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
-import static com.google.common.collect.ImmutableList.of;
+import com.google.common.collect.ImmutableList;
 
 import io.appium.java_client.pagefactory.Widget;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class AbstractWidget extends Widget {
-    protected AbstractWidget(WebElement element) {
+public class DefaultStubWidget extends Widget {
+    protected DefaultStubWidget(WebElement element) {
         super(element);
     }
 
@@ -17,9 +17,10 @@ public class AbstractWidget extends Widget {
     }
 
     public <T extends Widget> List<T> getSubWidgets() {
-        return of();
+        return ImmutableList.of();
     }
 
+    @Override
     public String toString() {
         return getWrappedElement().toString();
     }

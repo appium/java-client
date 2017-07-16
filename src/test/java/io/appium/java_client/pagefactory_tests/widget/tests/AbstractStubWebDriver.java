@@ -46,7 +46,7 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
 
     @Override
     public void get(String url) {
-
+        //this is just stub and it does nothing.
     }
 
     @Override
@@ -76,11 +76,12 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
 
     @Override
     public void close() {
-
+        //this is just stub and it does nothing.
     }
 
     @Override
     public void quit() {
+        //this is just stub and it does nothing.
     }
 
     @Override

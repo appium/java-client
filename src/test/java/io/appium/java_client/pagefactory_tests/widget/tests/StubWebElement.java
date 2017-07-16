@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.of;
 
 import org.openqa.selenium.By;
@@ -19,28 +20,28 @@ public class StubWebElement implements WebElement, WrapsDriver {
     private final By by;
 
     public StubWebElement(WebDriver driver, By by) {
-        this.driver = driver;
-        this.by = by;
+        this.driver = checkNotNull(driver);
+        this.by = checkNotNull(by);
     }
 
     @Override
     public void click() {
-
+        //this is just stub and it does nothing.
     }
 
     @Override
     public void submit() {
-
+        //this is just stub and it does nothing.
     }
 
     @Override
     public void sendKeys(CharSequence... keysToSend) {
-
+        //this is just stub and it does nothing.
     }
 
     @Override
     public void clear() {
-
+        //this is just stub and it does nothing.
     }
 
     @Override
