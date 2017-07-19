@@ -264,6 +264,7 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
             return APPIUM;
         }
 
+        @Override
         public boolean isBrowser() {
             return true;
         }

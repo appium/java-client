@@ -22,18 +22,52 @@ public class AndroidApp implements ExtendedApp {
     @SelendroidFindBy(linkText = "SOME_SELENDROID_DEFAULT_LOCATOR")
     private List<DefaultAndroidWidget> multipleAndroidWidgets;
 
+    /**
+     * This class is annotated by {@link AndroidFindBy} and @{@link SelendroidFindBy}.
+     * This field was added to check that locator is created correctly according to current platform
+     * and current automation.
+     */
     private AnnotatedAndroidWidget singleAnnotatedAndroidWidget;
 
+    /**
+     * This class is annotated by {@link AndroidFindBy} and @{@link SelendroidFindBy}.
+     * This field was added to check that locator is created correctly according to current platform
+     * and current automation.
+     */
     private List<AnnotatedAndroidWidget> multipleAnnotatedAndroidWidgets;
 
+    /**
+     * This class is not annotated by {@link AndroidFindBy} and {@link SelendroidFindBy}.
+     * But the superclass is annotated by these annotations. This field was added to check that locator is
+     * created correctly according to current platform and current automation.
+     */
     private ExtendedAndroidWidget singleExtendedAndroidWidget;
 
+    /**
+     * This class is not annotated by {@link AndroidFindBy} and {@link SelendroidFindBy}.
+     * But the superclass is annotated by these annotations. This field was added to check that locator is
+     * created correctly according to current platform and current automation.
+     */
     private List<ExtendedAndroidWidget> multipleExtendedAndroidWidgets;
 
+    /**
+     * The superclass is annotated by {@link AndroidFindBy} and {@link SelendroidFindBy}.
+     * However there is the field which is annotated by this annotations.
+     * This field was added to check that locator is
+     * created correctly according to current platform and current automation and
+     * annotations that mark the field.
+     */
     @AndroidFindBy(uiAutomator = "SOME_ANDROID_EXTERNALLY_DEFINED_LOCATOR")
     @SelendroidFindBy(linkText = "SOME_SELENDROID_EXTERNALLY_DEFINED_LOCATOR")
     private ExtendedAndroidWidget singleOverriddenAndroidWidget;
 
+    /**
+     * The superclass is annotated by {@link AndroidFindBy} and {@link SelendroidFindBy}.
+     * However there is the field which is annotated by this annotations.
+     * This field was added to check that locator is
+     * created correctly according to current platform and current automation and
+     * annotations that mark the field.
+     */
     @AndroidFindBy(uiAutomator = "SOME_ANDROID_EXTERNALLY_DEFINED_LOCATOR")
     @SelendroidFindBy(linkText = "SOME_SELENDROID_EXTERNALLY_DEFINED_LOCATOR")
     private List<ExtendedAndroidWidget> multipleOverriddenAndroidWidgets;

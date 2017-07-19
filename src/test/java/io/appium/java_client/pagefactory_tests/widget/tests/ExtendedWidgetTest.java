@@ -26,8 +26,9 @@ public abstract class ExtendedWidgetTest extends WidgetTest {
     @Test
     public abstract void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations();
 
-    protected static void testLogigByDefault(DefaultStubWidget single, List<DefaultStubWidget> multiple, By rootLocator,
-                                             By subLocator) {
+    protected static void checkThatLocatorsAreCreatedCorrectly(DefaultStubWidget single,
+                                                               List<DefaultStubWidget> multiple, By rootLocator,
+                                                               By subLocator) {
 
         assertThat(single.toString(), containsString(rootLocator.toString()));
         assertThat(multiple.stream().map(DefaultStubWidget::toString).collect(toList()),

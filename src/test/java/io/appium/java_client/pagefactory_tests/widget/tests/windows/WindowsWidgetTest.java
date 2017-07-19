@@ -17,26 +17,28 @@ public class WindowsWidgetTest extends ExtendedWidgetTest {
     }
 
     @Override
-    public void commonTestCase() {
-        testLogigByDefault(app.getWidget(), app.getWidgets(),
+    public void checkThatWidgetsAreCreatedCorrectly() {
+        checkThatLocatorsAreCreatedCorrectly(app.getWidget(), app.getWidgets(),
                 windowsAutomation(WINDOWS_DEFAULT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
-        testLogigByDefault(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
+                ((ExtendedApp) app).getAnnotatedWidgets(),
                 windowsAutomation(WINDOWS_ROOT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
-        testLogigByDefault(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
+                ((ExtendedApp) app).getExtendedWidgets(),
                 windowsAutomation(WINDOWS_ROOT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations() {
-        testLogigByDefault(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 windowsAutomation(WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
                 windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));

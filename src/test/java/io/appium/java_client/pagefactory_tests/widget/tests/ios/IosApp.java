@@ -22,18 +22,58 @@ public class IosApp implements ExtendedApp {
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_DEFAULT_LOCATOR")
     private List<DefaultIosWidget> multipleIosWidgets;
 
+    /**
+     * This class is annotated by {@link io.appium.java_client.pagefactory.iOSFindBy} and
+     * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
+     * This field was added to check that locator is created correctly according to current platform
+     * and current automation.
+     */
     private AnnotatedIosWidget singleAnnotatedIosWidget;
 
+    /**
+     * This class is annotated by {@link io.appium.java_client.pagefactory.iOSFindBy} and
+     * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
+     * This field was added to check that locator is created correctly according to current platform
+     * and current automation.
+     */
     private List<AnnotatedIosWidget> multipleIosIosWidgets;
 
+    /**
+     * This class is not annotated by {@link io.appium.java_client.pagefactory.iOSFindBy} and
+     * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
+     * But the superclass is annotated by these annotations. This field was added to check that locator is
+     * created correctly according to current platform and current automation.
+     */
     private ExtendedIosWidget singleExtendedIosWidget;
 
+    /**
+     * This class is not annotated by {@link io.appium.java_client.pagefactory.iOSFindBy} and
+     * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
+     * But the superclass is annotated by these annotations. This field was added to check that locator is
+     * created correctly according to current platform and current automation.
+     */
     private List<ExtendedIosWidget> multipleExtendedIosWidgets;
 
+    /**
+     * The superclass is annotated by {@link io.appium.java_client.pagefactory.iOSFindBy} and
+     * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
+     * However there is the field which is annotated by this annotations.
+     * This field was added to check that locator is
+     * created correctly according to current platform and current automation and
+     * annotations that mark the field.
+     */
     @iOSFindBy(uiAutomator = "IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR")
     private ExtendedIosWidget singleOverriddenIosWidget;
 
+    /**
+     * The superclass is annotated by {@link io.appium.java_client.pagefactory.iOSFindBy} and
+     * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
+     * However there is the field which is annotated by this annotations.
+     * This field was added to check that locator is
+     * created correctly according to current platform and current automation and
+     * annotations that mark the field.
+     */
     @iOSFindBy(uiAutomator = "IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR")
     private List<ExtendedIosWidget> multipleOverriddenIosWidgets;

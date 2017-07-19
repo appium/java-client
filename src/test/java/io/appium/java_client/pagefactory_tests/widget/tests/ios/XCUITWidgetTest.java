@@ -17,26 +17,28 @@ public class XCUITWidgetTest extends ExtendedWidgetTest {
     }
 
     @Override
-    public void commonTestCase() {
-        testLogigByDefault(app.getWidget(), app.getWidgets(),
+    public void checkThatWidgetsAreCreatedCorrectly() {
+        checkThatLocatorsAreCreatedCorrectly(app.getWidget(), app.getWidgets(),
                 iOSNsPredicateString(IOS_XCUIT_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
-        testLogigByDefault(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
+                ((ExtendedApp) app).getAnnotatedWidgets(),
                 iOSNsPredicateString(XCUIT_ROOT_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
-        testLogigByDefault(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
+                ((ExtendedApp) app).getExtendedWidgets(),
                 iOSNsPredicateString(XCUIT_ROOT_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations() {
-        testLogigByDefault(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 iOSNsPredicateString(XCUIT_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
                 iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));

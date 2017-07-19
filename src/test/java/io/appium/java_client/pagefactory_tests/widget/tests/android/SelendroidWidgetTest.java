@@ -16,26 +16,28 @@ public class SelendroidWidgetTest extends ExtendedWidgetTest {
     }
 
     @Override
-    public void commonTestCase() {
-        testLogigByDefault(app.getWidget(), app.getWidgets(),
+    public void checkThatWidgetsAreCreatedCorrectly() {
+        checkThatLocatorsAreCreatedCorrectly(app.getWidget(), app.getWidgets(),
                 linkText(ANDROID_SELENDROID_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
-        testLogigByDefault(((ExtendedApp) app).getAnnotatedWidget(), ((ExtendedApp) app).getAnnotatedWidgets(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
+                ((ExtendedApp) app).getAnnotatedWidgets(),
                 linkText(SELENDROID_ROOT_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
-        testLogigByDefault(((ExtendedApp) app).getExtendedWidget(), ((ExtendedApp) app).getExtendedWidgets(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
+                ((ExtendedApp) app).getExtendedWidgets(),
                 linkText(SELENDROID_ROOT_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations() {
-        testLogigByDefault(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
+        checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 linkText(SELENDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR), linkText(SELENDROID_SUB_WIDGET_LOCATOR));
     }

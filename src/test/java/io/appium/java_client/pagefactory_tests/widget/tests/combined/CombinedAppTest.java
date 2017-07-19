@@ -67,7 +67,7 @@ public class CombinedAppTest extends WidgetTest {
     }
 
     @Override
-    public void commonTestCase() {
+    public void checkThatWidgetsAreCreatedCorrectly() {
         assertThat("Excpected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));

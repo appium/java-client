@@ -21,5 +21,5 @@ public abstract class WidgetTest {
     }
 
     @Test
-    public abstract void commonTestCase();
+    public abstract void checkThatWidgetsAreCreatedCorrectly();
 }
