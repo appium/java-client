@@ -25,6 +25,9 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[ENHANCEMENT]** The `getCurrentPackage` was added. [#657](https://github.com/appium/java-client/pull/657)
 - **[ENHANCEMENT]** The `toggleTouchIDEnrollment` was added. [#659](https://github.com/appium/java-client/pull/659)
 - **[BUG FIX]** The clearing of existing actions/parameters after perform is invoked. [#663](https://github.com/appium/java-client/pull/663)
+- **[BUG FIX]** [#669](https://github.com/appium/java-client/pull/669) missed parameters of the `OverrideWidget` were added:
+    - `iOSXCUITAutomation`
+    - `windowsAutomation`
 
 *5.0.0-BETA9*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
