@@ -7,19 +7,22 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 
 public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
 
-    private By[] bys;
+    private List<By> bys;
 
-    private Function<SearchContext, WebElement> getSearchingFunction(By by) {
+    private Function<SearchContext, Optional<WebElement>> getSearchingFunction(By by) {
         return input -> {
             try {
                 return input.findElement(by);
             } catch (NoSuchElementException e) {
-                return null;
+                return Optional.empty();
             }
         };
     }
@@ -30,18 +33,19 @@ public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
     public ByAll(By[] bys) {
         super(bys);
         checkNotNull(bys);
-        if (bys.length == 0) {
+
+        this.bys = Arrays.asList(bys);
+        if (this.bys.isEmpty()) {
             throw new IllegalArgumentException("By array should not be empty");
         }
-        this.bys = bys;
     }
 
     @Override
     public WebElement findElement(SearchContext context) {
         for (By by : bys) {
-            WebElement element = getSearchingFunction(by).apply(context);
-            if (element != null) {
-                return element;
+            Optional<WebElement> element = getSearchingFunction(by).apply(context);
+            if (element.isPresent()) {
+                return element.get();
             }
         }
         throw new NoSuchElementException("Cannot locate an element using " + toString());
