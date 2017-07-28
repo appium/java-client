@@ -15,12 +15,12 @@ import java.util.function.Function;
 
 public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
 
-    private List<By> bys;
+    private final List<By> bys;
 
     private Function<SearchContext, Optional<WebElement>> getSearchingFunction(By by) {
         return input -> {
             try {
-                return input.findElement(by);
+                return Optional.of(input.findElement(by));
             } catch (NoSuchElementException e) {
                 return Optional.empty();
             }
@@ -42,12 +42,11 @@ public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
 
     @Override
     public WebElement findElement(SearchContext context) {
-        for (By by : bys) {
-            Optional<WebElement> element = getSearchingFunction(by).apply(context);
-            if (element.isPresent()) {
-                return element.get();
-            }
-        }
-        throw new NoSuchElementException("Cannot locate an element using " + toString());
+        return bys.stream()
+                .map(by -> getSearchingFunction(by).apply(context))
+                .filter(Optional::isPresent)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Cannot locate an element using " + toString()))
+                .orElse(null);
     }
 }
