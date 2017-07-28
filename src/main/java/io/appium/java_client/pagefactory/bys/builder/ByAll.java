@@ -45,8 +45,7 @@ public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
         return bys.stream()
                 .map(by -> getSearchingFunction(by).apply(context))
                 .filter(Optional::isPresent)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Cannot locate an element using " + toString()))
-                .orElse(null);
+                .findFirst().map(Optional::get)
+                .orElseThrow(() -> new NoSuchElementException("Cannot locate an element using " + toString()));
     }
 }
