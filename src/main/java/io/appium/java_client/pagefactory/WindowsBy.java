@@ -52,6 +52,11 @@ public @interface WindowsBy {
     String xpath() default "";
 
     /**
+     * It is a name of the target element.
+     */
+    String name() default "";
+
+    /**
      * @return priority of the searching. Higher number means lower priority.
      */
     int priority() default 0;
