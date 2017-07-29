@@ -24,7 +24,6 @@ import io.appium.java_client.FindsByIosClassChain;
 import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
-import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -32,6 +31,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.security.Credentials;
@@ -64,7 +64,7 @@ public class IOSDriver<T extends WebElement>
      * @param capabilities take a look
      *                     at {@link org.openqa.selenium.Capabilities}
      */
-    public IOSDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
+    public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, substituteMobilePlatform(capabilities, IOS_PLATFORM));
     }
 

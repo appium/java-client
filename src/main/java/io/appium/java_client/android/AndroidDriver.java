@@ -24,12 +24,12 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.PressesKeyCode;
-import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
@@ -58,7 +58,7 @@ public class AndroidDriver<T extends WebElement>
      * @param capabilities take a look
      *                     at {@link org.openqa.selenium.Capabilities}
      */
-    public AndroidDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
+    public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, substituteMobilePlatform(capabilities, ANDROID_PLATFORM));
     }
 
