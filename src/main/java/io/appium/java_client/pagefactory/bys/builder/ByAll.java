@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory.bys.builder;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.openqa.selenium.By;
@@ -35,9 +36,8 @@ public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
         checkNotNull(bys);
 
         this.bys = Arrays.asList(bys);
-        if (this.bys.isEmpty()) {
-            throw new IllegalArgumentException("By array should not be empty");
-        }
+
+        checkArgument(this.bys.isEmpty(), "By array should not be empty");
     }
 
     @Override
