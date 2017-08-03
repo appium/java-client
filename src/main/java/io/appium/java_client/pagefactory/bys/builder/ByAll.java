@@ -37,7 +37,7 @@ public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
 
         this.bys = Arrays.asList(bys);
 
-        checkArgument(this.bys.isEmpty(), "By array should not be empty");
+        checkArgument(!this.bys.isEmpty(), "By array should not be empty");
     }
 
     @Override
