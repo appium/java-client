@@ -28,6 +28,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[BUG FIX]** [#669](https://github.com/appium/java-client/pull/669) missed parameters of the `OverrideWidget` were added:
     - `iOSXCUITAutomation`
     - `windowsAutomation`
+- **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680)    
 
 *5.0.0-BETA9*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
