@@ -17,7 +17,9 @@
 package io.appium.java_client.remote;
 
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.util.Optional.ofNullable;
 
+import com.google.common.base.Function;
 import com.google.common.base.Throwables;
 
 import org.openqa.selenium.WebDriverException;
@@ -61,9 +63,15 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, service, new ApacheHttpClient.Factory());
     }
 
-    @Override public Response execute(Command command) throws IOException, WebDriverException {
-        if (DriverCommand.NEW_SESSION.equals(command.getName()) && service != null) {
-            service.start();
+    @Override public Response execute(Command command) throws WebDriverException {
+        if (DriverCommand.NEW_SESSION.equals(command.getName())) {
+            ofNullable(service).ifPresent(driverService -> {
+                try {
+                    driverService.start();
+                } catch (IOException e) {
+                    throw new WebDriverException(e.getMessage(), e);
+                }
+            });
         }
 
         try {
@@ -71,15 +79,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
-                    && rootCause.getMessage().contains("Connection refused")
-                    && service != null) {
-                if (service.isRunning()) {
-                    throw new WebDriverException("The session is closed!", t);
-                }
+                    && rootCause.getMessage().contains("Connection refused")) {
+                throw ofNullable(service).map((Function<DriverService, WebDriverException>) service -> {
+                    if (service.isRunning()) {
+                        return new WebDriverException("The session is closed!", rootCause);
+                    }
 
-                if (!service.isRunning()) {
-                    throw new WebDriverException("The appium server has accidentally died!", t);
-                }
+                    return new WebDriverException("The appium server has accidentally died!", rootCause);
+                }).orElse(new WebDriverException(rootCause.getMessage(), rootCause));
             }
             throwIfUnchecked(t);
             throw new WebDriverException(t);
