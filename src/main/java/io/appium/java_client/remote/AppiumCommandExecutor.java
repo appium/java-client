@@ -16,10 +16,12 @@
 
 package io.appium.java_client.remote;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static java.util.Optional.ofNullable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import org.openqa.selenium.WebDriverException;
@@ -36,22 +38,31 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor {
 
-    private final DriverService service;
+    private final Optional<DriverService> serviceOptional;
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        super(additionalCommands, addressOfRemoteServer, httpClientFactory);
-        service = null;
+    private AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
+                                  URL addressOfRemoteServer,
+                                  HttpClient.Factory httpClientFactory) {
+        super(additionalCommands,
+                ofNullable(service)
+                        .map((Function<DriverService, URL>) DriverService::getUrl)
+                        .orElse(addressOfRemoteServer), httpClientFactory);
+        serviceOptional = ofNullable(service);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        super(additionalCommands, service.getUrl(), httpClientFactory);
-        this.service = service;
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory);
     }
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
+                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory);
+    }
+
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
@@ -65,7 +76,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     @Override public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
-            ofNullable(service).ifPresent(driverService -> {
+            serviceOptional.ifPresent(driverService -> {
                 try {
                     driverService.start();
                 } catch (IOException e) {
@@ -80,21 +91,20 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
                     && rootCause.getMessage().contains("Connection refused")) {
-                throw ofNullable(service).map((Function<DriverService, WebDriverException>) service -> {
+                throw serviceOptional.map((Function<DriverService, WebDriverException>) service -> {
                     if (service.isRunning()) {
                         return new WebDriverException("The session is closed!", rootCause);
                     }
 
                     return new WebDriverException("The appium server has accidentally died!", rootCause);
-                }).orElse(new WebDriverException(rootCause.getMessage(), rootCause));
+                }).orElseGet((Supplier<WebDriverException>) () -> new WebDriverException(rootCause.getMessage(), rootCause));
             }
             throwIfUnchecked(t);
             throw new WebDriverException(t);
         } finally {
-            if (DriverCommand.QUIT.equals(command.getName()) && service != null) {
-                service.stop();
+            if (DriverCommand.QUIT.equals(command.getName())) {
+                serviceOptional.ifPresent(DriverService::stop);
             }
         }
     }
-
 }
