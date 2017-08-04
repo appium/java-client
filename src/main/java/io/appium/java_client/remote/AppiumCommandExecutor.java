@@ -58,6 +58,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                  HttpClient.Factory httpClientFactory) {
         this(additionalCommands, checkNotNull(service), null, httpClientFactory);
     }
+    
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
         this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory);
@@ -97,7 +98,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                     }
 
                     return new WebDriverException("The appium server has accidentally died!", rootCause);
-                }).orElseGet((Supplier<WebDriverException>) () -> new WebDriverException(rootCause.getMessage(), rootCause));
+                }).orElseGet((Supplier<WebDriverException>) () ->
+                        new WebDriverException(rootCause.getMessage(), rootCause));
             }
             throwIfUnchecked(t);
             throw new WebDriverException(t);
