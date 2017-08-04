@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static java.util.Optional.ofNullable;
 
-import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
@@ -49,7 +48,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                   HttpClient.Factory httpClientFactory) {
         super(additionalCommands,
                 ofNullable(service)
-                        .map((Function<DriverService, URL>) DriverService::getUrl)
+                        .map(DriverService::getUrl)
                         .orElse(addressOfRemoteServer), httpClientFactory);
         serviceOptional = ofNullable(service);
     }
@@ -58,7 +57,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                  HttpClient.Factory httpClientFactory) {
         this(additionalCommands, checkNotNull(service), null, httpClientFactory);
     }
-    
+
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
         this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory);
@@ -92,7 +91,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
                     && rootCause.getMessage().contains("Connection refused")) {
-                throw serviceOptional.map((Function<DriverService, WebDriverException>) service -> {
+                throw serviceOptional.map(service -> {
                     if (service.isRunning()) {
                         return new WebDriverException("The session is closed!", rootCause);
                     }
