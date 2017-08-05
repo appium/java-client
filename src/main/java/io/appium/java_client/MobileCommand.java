@@ -19,6 +19,7 @@ package io.appium.java_client;
 import com.google.common.collect.ImmutableMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.time.Duration;
@@ -79,7 +80,7 @@ public class MobileCommand {
     protected static final String SET_SETTINGS;
     protected static final String GET_CURRENT_PACKAGE;
 
-    public static final  Map<String, AppiumCommandInfo> commandRepository;
+    public static final  Map<String, CommandInfo> commandRepository;
 
     static {
         RESET = "reset";
