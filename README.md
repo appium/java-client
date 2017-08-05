@@ -28,7 +28,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[BUG FIX]** [#669](https://github.com/appium/java-client/pull/669) missed parameters of the `OverrideWidget` were added:
     - `iOSXCUITAutomation`
     - `windowsAutomation`
-- **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680)    
+- **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680) 
+- **[BUG FIX]** **[BREAKING CHANGE]** The issue of compliance with Selenium grid 3.x was fixed. This change is breaking because now java_client is compatible with appiun server v>=1.6.5. Issue report [#655](https://github.com/appium/java-client/issues/655). FIX [#682](https://github.com/appium/java-client/pull/682)
 
 *5.0.0-BETA9*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
