@@ -55,6 +55,9 @@ public interface RecordScreen extends ExecutesMethod {
      *
      * @param filePath the video file name
      *                 for example, "/sdcard/demo.mp4"
+     * @throws Exception if devices running  is less than Android 4.4 (API level 19), or
+     *                      running is on emulator,
+     *                      thows Error
      *
      */
     default void startRecordingScreen(String filePath) throws Exception {
@@ -63,6 +66,10 @@ public interface RecordScreen extends ExecutesMethod {
 
     /**
      * stop recording the screen.
+     *
+     * @throws Exception if devices running is less than Android 4.4 (API level 19), or
+     *                      running is on emulator,
+     *                      thows Error
      */
     default void stopRecordingScreen() throws Exception {
         CommandExecutionHelper.execute(this, stopRecordingScreenCommand());

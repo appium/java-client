@@ -128,10 +128,13 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *                The default value is 4Mbps. You can increase the bit rate to improve video quality,
      *                but doing so results in larger movie files.
      *                for example, 6000000
-     *
+     * @throws Exception if devices running  is less than Android 4.4 (API level 19), or
+     *                      running is on emulator,
+     *                      thows Error
      */
     public static Map.Entry<String, Map<String, ?>> startRecordingScreenCommand(
-            String filePath, String videoSize, int timeLimit, int bitRate) throws Exception {
+            String filePath, String videoSize, int timeLimit, int bitRate)
+            throws Exception {
         String[] parameters = new String[] {"filePath", "videoSize", "timeLimit", "bitRate"};
         Object[] values = new Object[] {filePath, videoSize, timeLimit, bitRate};
 
@@ -141,8 +144,12 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * stop recording the screen.
+     * @throws Exception if devices running  is less than Android 4.4 (API level 19), or
+     *                      running is on emulator,
+     *                      thows Error
      */
-    public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand() throws Exception {
+    public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand()
+            throws Exception {
         return new AbstractMap.SimpleEntry<>(STOP_RECORDING_SCREEN, ImmutableMap.<String, Object>of());
 
     }

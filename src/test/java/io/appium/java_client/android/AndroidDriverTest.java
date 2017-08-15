@@ -182,4 +182,40 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     }
 
+    @Test public void getStartRecordingScreenTest() {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        try {
+            driver.startRecordingScreen("/sdcard/demo123.mp4");
+            assertTrue(false);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+
+        try {
+            driver.stopRecordingScreen();
+            assertTrue(false);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test public void getStopRecordingScreenTest() {
+        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        try {
+            driver.startRecordingScreen("/sdcard/demo321.mp4");
+            assertTrue(false);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+
+
+        try {
+            driver.stopRecordingScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
