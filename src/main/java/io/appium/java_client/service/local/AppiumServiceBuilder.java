@@ -237,8 +237,10 @@ public final class AppiumServiceBuilder
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, boolean exists) {
         final String arg = argument.getArgument();
-        if (serverArguments.containsKey(arg) && !exists) {
-            serverArguments.remove(arg);
+        if (serverArguments.containsKey(arg)) {
+            if (!exists) {
+                serverArguments.remove(arg);
+            }
         } else if (exists) {
             serverArguments.put(arg, "");
         }
