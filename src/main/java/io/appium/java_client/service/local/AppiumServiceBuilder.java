@@ -225,6 +225,27 @@ public final class AppiumServiceBuilder
     }
 
     /**
+     * The main difference of this method and {@link #withArgument(ServerArgument)}
+     * is that there is a possibility to exclude the corresponding argument from the list
+     * of server arguments if it has been already added there before (by setting exists
+     * parameter to false).
+     *
+     * @param argument is an instance which contains the argument name.
+     * @param exists whether to add(keep) the argument (true) or remove it from arguments list
+     *               (false) if it is already present there.
+     * @return the self-reference.
+     */
+    public AppiumServiceBuilder withArgument(ServerArgument argument, boolean exists) {
+        final String arg = argument.getArgument();
+        if (serverArguments.containsKey(arg) && !exists) {
+            serverArguments.remove(arg);
+        } else if (exists) {
+            serverArguments.put(arg, "");
+        }
+        return this;
+    }
+
+    /**
      * @param argument is an instance which contains the argument name.
      * @param value    A non null string value. (Warn!!!) Boolean arguments have a special moment:
      *                 the presence of an arguments means "true". At this case an empty string
