@@ -96,20 +96,20 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         By defaultBy = null;
         FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
         if (findBy != null) {
-            defaultBy = super.buildByFromFindBy(findBy);
+            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, (Field) annotatedElement);
         }
 
         if (defaultBy == null) {
             FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
             if (findBys != null) {
-                defaultBy = super.buildByFromFindBys(findBys);
+                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, (Field) annotatedElement);
             }
         }
 
         if (defaultBy == null) {
             FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
             if (findAll != null) {
-                defaultBy = super.buildBysFromFindByOneOf(findAll);
+                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, (Field) annotatedElement);
             }
         }
         return defaultBy;
