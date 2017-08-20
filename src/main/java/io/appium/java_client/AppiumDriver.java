@@ -209,8 +209,13 @@ public class AppiumDriver<T extends WebElement>
 
     @Override public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
-        execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-        return this;
+        try {
+            execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
+            return this;
+        }
+        catch (WebDriverException e) {
+            throw new NoSuchContextException(e.getMessage(), e);
+        }
     }
 
     @Override public Set<String> getContextHandles() {
