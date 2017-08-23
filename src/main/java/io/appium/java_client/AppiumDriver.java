@@ -212,8 +212,7 @@ public class AppiumDriver<T extends WebElement>
         try {
             execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
             return this;
-        }
-        catch (WebDriverException e) {
+        } catch (WebDriverException e) {
             throw new NoSuchContextException(e.getMessage(), e);
         }
     }
