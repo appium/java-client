@@ -30,6 +30,12 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
     - `windowsAutomation`
 - **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680) 
 - **[BUG FIX]** **[BREAKING CHANGE]** The issue of compliance with Selenium grid 3.x was fixed. This change is breaking because now java_client is compatible with appiun server v>=1.6.5. Issue report [#655](https://github.com/appium/java-client/issues/655). FIX [#682](https://github.com/appium/java-client/pull/682)
+- **[BUG FIX]** issues related to latest Selenium changes were fixed. Issue report [#696](https://github.com/appium/java-client/issues/696). Fix: [#699](https://github.com/appium/java-client/pull/699).
+- **[UPDATE]** Dependency update
+    - `selenium-java` was updated to 3.5.x
+    - `org.apache.commons-lang3` was updated to 3.6
+    - `org.springframework.spring-context` was updated to 4.3.10.RELEASE
+    
 
 *5.0.0-BETA9*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
