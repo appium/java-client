@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
@@ -7,7 +8,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group 'io.appium'
-version '5.0.0-BETA9'
+version '5.0.0'
 
 repositories {
     jcenter()
@@ -53,18 +54,28 @@ compileJava {
     ]
 }
 
+ext.seleniumVersion = '3.5.+'
+
 dependencies {
-    compile('org.seleniumhq.selenium:selenium-java:3.4.0'){
+    compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
+        force = true
+
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
+    }
+    compile ("org.seleniumhq.selenium:selenium-support:${seleniumVersion}") {
+        force = true
+    }
+    compile ("org.seleniumhq.selenium:selenium-api:${seleniumVersion}") {
+        force = true
     }
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'org.apache.httpcomponents:httpclient:4.5.3'
     compile 'cglib:cglib:3.2.5'
     compile 'commons-validator:commons-validator:1.6'
-    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'org.apache.commons:commons-lang3:3.6'
     compile 'commons-io:commons-io:2.5'
-    compile 'org.springframework:spring-context:4.3.8.RELEASE'
+    compile 'org.springframework:spring-context:4.3.10.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.8.10'
     compile 'org.openpnp:opencv:3.2.0-1'
 
