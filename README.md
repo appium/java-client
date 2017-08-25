@@ -35,6 +35,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
     - `selenium-java` was updated to 3.5.x
     - `org.apache.commons-lang3` was updated to 3.6
     - `org.springframework.spring-context` was updated to 4.3.10.RELEASE
+- **[ENHANCEMENT]** Update of the touch ID enroll method. The older `PerformsTouchID#toggleTouchIDEnrollment` was marked `Deprecated`.
+It is recoomended to use `PerformsTouchID#toggleTouchIDEnrollment(boolean)` instead.  [#695](https://github.com/appium/java-client/pull/695)
     
 
 *5.0.0-BETA9*
