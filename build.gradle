@@ -54,7 +54,7 @@ compileJava {
     ]
 }
 
-ext.seleniumVersion = '3.5.+'
+ext.seleniumVersion = '[3.5.2,3.5.2]'
 
 dependencies {
     compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
