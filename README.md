@@ -19,7 +19,9 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 ## Changelog
 
-*5.0.0 (under construction yet)*
+*5.1.0 (under construction yet)*
+
+*5.0.0*
 - **[REFACTOR]** **[BREAKING CHANGE]** 5.0.0 finalization. Removal of obsolete code. [#660](https://github.com/appium/java-client/pull/660)
 - **[ENHANCEMENT]** Enable nativeWebTap setting for iOS. [#658](https://github.com/appium/java-client/pull/658)
 - **[ENHANCEMENT]** The `getCurrentPackage` was added. [#657](https://github.com/appium/java-client/pull/657)
