@@ -19,7 +19,9 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 ## Changelog
 
-*5.0.0 (under construction yet)*
+*5.1.0 (under construction yet)*
+
+*5.0.0*
 - **[REFACTOR]** **[BREAKING CHANGE]** 5.0.0 finalization. Removal of obsolete code. [#660](https://github.com/appium/java-client/pull/660)
 - **[ENHANCEMENT]** Enable nativeWebTap setting for iOS. [#658](https://github.com/appium/java-client/pull/658)
 - **[ENHANCEMENT]** The `getCurrentPackage` was added. [#657](https://github.com/appium/java-client/pull/657)
@@ -30,6 +32,14 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
     - `windowsAutomation`
 - **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680) 
 - **[BUG FIX]** **[BREAKING CHANGE]** The issue of compliance with Selenium grid 3.x was fixed. This change is breaking because now java_client is compatible with appiun server v>=1.6.5. Issue report [#655](https://github.com/appium/java-client/issues/655). FIX [#682](https://github.com/appium/java-client/pull/682)
+- **[BUG FIX]** issues related to latest Selenium changes were fixed. Issue report [#696](https://github.com/appium/java-client/issues/696). Fix: [#699](https://github.com/appium/java-client/pull/699).
+- **[UPDATE]** Dependency update
+    - `selenium-java` was updated to 3.5.x
+    - `org.apache.commons-lang3` was updated to 3.6
+    - `org.springframework.spring-context` was updated to 4.3.10.RELEASE
+- **[ENHANCEMENT]** Update of the touch ID enroll method. The older `PerformsTouchID#toggleTouchIDEnrollment` was marked `Deprecated`.
+It is recoomended to use `PerformsTouchID#toggleTouchIDEnrollment(boolean)` instead.  [#695](https://github.com/appium/java-client/pull/695)
+    
 
 *5.0.0-BETA9*
 - **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
