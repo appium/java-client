@@ -21,8 +21,6 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorR
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 
 
-import com.google.common.base.Function;
-
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 
 import org.openqa.selenium.By;
@@ -38,6 +36,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 class AppiumElementLocator implements CacheableLocator {
