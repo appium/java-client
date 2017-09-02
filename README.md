@@ -21,6 +21,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *5.1.0 (under construction yet)*
 
+- **[BUG FIX]** Dependency conflict resolving. The report: [#714](https://github.com/appium/java-client/issues/714). The fix: [#717](https://github.com/appium/java-client/pull/717). This change may affect users who use htmlunit-driver and/or phantomjsdriver. At this case it is necessary to add it to dependency list and to exclude old selenium versions.
+
 *5.0.1* **[BUG FIX RELEASE]**
 - **[BUG FIX]** The fix of the element genering on iOS was fixed. Issue report: [#704](https://github.com/appium/java-client/issues/704). Fix: [#705](https://github.com/appium/java-client/pull/705)
 
