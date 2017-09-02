@@ -20,11 +20,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
             List<AndroidElement> result = input
                     .findElements(id("com.android.systemui:id/carrier_label"));
 
-            if (result.size() == 0) {
-                return null;
-            }
-
-            return result;
+            return result.isEmpty() ? null : result;
         }).size());
     }
 }
