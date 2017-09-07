@@ -189,14 +189,12 @@ public class AndroidDriverTest extends BaseAndroidTest {
             driver.startRecordingScreen("/sdcard/demo123.mp4");
             assertTrue(false);
         } catch (Exception e) {
-            assertTrue(true);
         }
 
         try {
             driver.stopRecordingScreen();
             assertTrue(false);
         } catch (Exception e) {
-            assertTrue(true);
         }
     }
 
@@ -207,7 +205,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
             driver.startRecordingScreen("/sdcard/demo321.mp4");
             assertTrue(false);
         } catch (Exception e) {
-            assertTrue(true);
         }
 
 
