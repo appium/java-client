@@ -53,7 +53,7 @@ public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings,
         FindsByIosUIAutomation<T>, LocksIOSDevice, PerformsTouchID, FindsByIosNSPredicate<T>,
-        FindsByIosClassChain<T> {
+        FindsByIosClassChain<T>, PushesFiles {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 

@@ -198,22 +198,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
-     * file pushing
-     *
-     * @param remotePath Path to file to write data to on remote device
-     * @param base64Data Base64 encoded byte array of data to write to remote device
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>>  pushFileCommandCommand(String remotePath,
-        byte[] base64Data) {
-        String[] parameters = new String[] {"path", "data"};
-        Object[] values = new Object[] {remotePath, base64Data};
-        return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
-    }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
      * setting of device network connection.
      *
      * @param connection The bitmask of the desired connection
