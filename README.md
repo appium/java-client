@@ -21,6 +21,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *5.1.0 (under construction yet)*
 
+*5.0.3*
 - **[BUG FIX]** Selenuim version was reverted from boundaries to the single number. Issue report: [#718](https://github.com/appium/java-client/issues/718). FIX: [#722](https://github.com/appium/java-client/pull/722)
 - **[ENHANCEMENT]** The `pushFile` was added to IOSDriver. Feature request: [#720](https://github.com/appium/java-client/issues/720). Implementation: [#721](https://github.com/appium/java-client/pull/721). This feature requires appium node server v>=1.7.0
 
