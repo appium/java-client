@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.localserver;
+package io.appium.java_client.service.local;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

@@ -1,4 +1,4 @@
-package io.appium.java_client.localserver;
+package io.appium.java_client.service.local;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
