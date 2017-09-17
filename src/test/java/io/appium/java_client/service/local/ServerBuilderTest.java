@@ -46,10 +46,13 @@ public class ServerBuilderTest {
      * appium.js that is supposed to be default.
      */
     private static final String PATH_TO_APPIUM_NODE_IN_PROPERTIES = getProperty(APPIUM_PATH);
+
+    private static final String ROOT_TEST_PATH = "src/test/java/io/appium/java_client/";
+
     /**
      * This is the path to the stub appium.js file
      */
-    private static final String PATH_T0_TEST_APPIUM_JS = "src/test/java/io/appium/java_client/service/local/appium.js";
+    private static final String PATH_T0_TEST_APPIUM_JS = ROOT_TEST_PATH + "service/local/appium.js";
 
     private static String testIP;
     private AppiumDriverLocalService service;
@@ -160,10 +163,8 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() throws Exception {
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        File pageFactoryDir = new File("src/test/java/io/appium/java_client/pagefactory_tests");
-        File chrome = new File(pageFactoryDir, "chromedriver.exe");
+        File app = new File(ROOT_TEST_PATH, "ApiDemos-debug.apk");
+        File chrome = new File(new File(ROOT_TEST_PATH, "pagefactory_tests"), "chromedriver.exe");
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
