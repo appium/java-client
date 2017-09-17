@@ -143,9 +143,8 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToStartServiceUsingCapabilities() throws Exception {
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
-        File pageFactoryDir = new File("src/test/java/io/appium/java_client/pagefactory_tests");
+        File app = new File(ROOT_TEST_PATH, "ApiDemos-debug.apk");
+        File pageFactoryDir = new File(ROOT_TEST_PATH, "pagefactory_tests");
         File chrome = new File(pageFactoryDir, "chromedriver.exe");
 
         DesiredCapabilities caps = new DesiredCapabilities();
