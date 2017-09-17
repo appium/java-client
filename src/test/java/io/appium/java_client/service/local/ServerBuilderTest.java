@@ -12,10 +12,12 @@ import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PA
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LAUNCH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -38,18 +40,26 @@ import java.util.List;
 
 public class ServerBuilderTest {
 
-    private static String pathToAppiumNodeInProperties;
+    /**
+     * It may be impossible to find the path to the instance of appium server due to different circumstance.
+     * So user may use environment variables/system properties to define the full path to the server
+     * appium.js that is supposed to be default.
+     */
+    private static final String PATH_TO_APPIUM_NODE_IN_PROPERTIES = getProperty(APPIUM_PATH);
+    /**
+     * This is the path to the stub appium.js file
+     */
+    private static final String PATH_T0_TEST_APPIUM_JS = "src/test/java/io/appium/java_client/service/local/appium.js";
+
     private static String testIP;
     private AppiumDriverLocalService service;
-    private File file;
+    private File testLogFile;
     private OutputStream stream;
 
     /**
      * initialization.
      */
     @BeforeClass public static void beforeClass() throws Exception {
-        pathToAppiumNodeInProperties = System.getProperty(APPIUM_PATH);
-
         for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
             .hasMoreElements(); ) {
             NetworkInterface intf = en.nextElement();
@@ -58,15 +68,15 @@ public class ServerBuilderTest {
                 InetAddress inetAddress = enumIpAddr.nextElement();
                 if (!inetAddress.isLoopbackAddress()) {
                     InetAddressValidator validator = InetAddressValidator.getInstance();
-                    testIP = inetAddress.getHostAddress().toString();
-                    if (validator.isValid(testIP)) {
-                        break;
-                    }
-                    testIP = null;
+
+                    testIP = ofNullable(testIP).orElseGet(() -> {
+                        String result = inetAddress.getHostAddress();
+                        if (validator.isValid(result)) {
+                            return result;
+                        }
+                        return null;
+                    });
                 }
-            }
-            if (testIP != null) {
-                break;
             }
         }
     }
@@ -79,14 +89,14 @@ public class ServerBuilderTest {
             stream.close();
         }
 
-        ofNullable(file).ifPresent(fileArg -> {
-            if (file.exists()) {
-                file.delete();
+        ofNullable(testLogFile).ifPresent(savedTestLogFile -> {
+            if (savedTestLogFile.exists()) {
+                savedTestLogFile.delete();
             }
         });
 
         System.clearProperty(APPIUM_PATH);
-        ofNullable(pathToAppiumNodeInProperties).ifPresent(s -> System.setProperty(APPIUM_PATH, s));
+        ofNullable(PATH_TO_APPIUM_NODE_IN_PROPERTIES).ifPresent(s -> setProperty(APPIUM_PATH, s));
     }
 
     @Test public void checkAbilityToStartDefaultService() {
@@ -96,13 +106,13 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToFindNodeDefinedInProperties() {
-        String definedNode = new File("src/test/java/io/appium/java_client/service/local/appium.js").getAbsolutePath();
+        String definedNode = new File(PATH_T0_TEST_APPIUM_JS).getAbsolutePath();
         setProperty(APPIUM_PATH, definedNode);
         assertThat(new File(new AppiumServiceBuilder().createArgs().get(0)), is(new File(definedNode)));
     }
 
     @Test public void checkAbilityToUseNodeDefinedExplicitly() {
-        File node = new File("src/test/java/io/appium/java_client/service/local/appium.js");
+        File node = new File(PATH_T0_TEST_APPIUM_JS);
         AppiumServiceBuilder builder = new AppiumServiceBuilder().withAppiumJS(node);
         assertThat(new File(builder.createArgs().get(0)).getAbsolutePath(), is(node.getAbsolutePath()));
     }
@@ -174,24 +184,24 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToChangeOutputStream() throws Exception {
-        file = new File("test");
-        file.createNewFile();
-        stream = new FileOutputStream(file);
+        testLogFile = new File("test");
+        testLogFile.createNewFile();
+        stream = new FileOutputStream(testLogFile);
         service = buildDefaultService();
         service.addOutPutStream(stream);
         service.start();
-        assertTrue(file.length() > 0);
+        assertThat(testLogFile.length(), greaterThan(0L));
     }
 
     @Test public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
-        file = new File("test");
-        file.createNewFile();
-        stream = new FileOutputStream(file);
+        testLogFile = new File("test");
+        testLogFile.createNewFile();
+        stream = new FileOutputStream(testLogFile);
         service = buildDefaultService();
         service.start();
         service.addOutPutStream(stream);
         service.isRunning();
-        assertTrue(file.length() > 0);
+        assertThat(testLogFile.length(), greaterThan(0L));
     }
 
     @Test public void checkAbilityToShutDownService() {
@@ -215,12 +225,12 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToStartServiceWithLogFile() throws Exception {
-        file = new File("Log.txt");
-        file.createNewFile();
-        service = new AppiumServiceBuilder().withLogFile(file).build();
+        testLogFile = new File("Log.txt");
+        testLogFile.createNewFile();
+        service = new AppiumServiceBuilder().withLogFile(testLogFile).build();
         service.start();
-        assertTrue(file.exists());
-        assertTrue(file.length() > 0);
+        assertTrue(testLogFile.exists());
+        assertThat(testLogFile.length(), greaterThan(0L));
     }
 
     @Test public void checkAbilityToStartServiceWithPortUsingFlag() throws Exception {
@@ -270,22 +280,22 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() throws Exception {
-        file = new File("Log2.txt");
+        testLogFile = new File("Log2.txt");
 
         service = new AppiumServiceBuilder()
-                .withArgument(() -> "--log", file.getAbsolutePath())
+                .withArgument(() -> "--log", testLogFile.getAbsolutePath())
                 .build();
         service.start();
-        assertTrue(file.exists());
+        assertTrue(testLogFile.exists());
     }
 
     @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() throws Exception {
-        file = new File("Log3.txt");
+        testLogFile = new File("Log3.txt");
         
         service = new AppiumServiceBuilder()
-                .withArgument(() -> "-g", file.getAbsolutePath())
+                .withArgument(() -> "-g", testLogFile.getAbsolutePath())
                 .build();
         service.start();
-        assertTrue(file.exists());
+        assertTrue(testLogFile.exists());
     }
 }
