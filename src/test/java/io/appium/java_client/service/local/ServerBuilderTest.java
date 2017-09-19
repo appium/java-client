@@ -14,6 +14,7 @@ import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LA
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
+import static java.nio.file.FileSystems.getDefault;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -35,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -43,43 +45,51 @@ public class ServerBuilderTest {
     /**
      * It may be impossible to find the path to the instance of appium server due to different circumstance.
      * So user may use environment variables/system properties to define the full path to the server
-     * appium.js that is supposed to be default.
+     * main.js that is supposed to be default.
      */
     private static final String PATH_TO_APPIUM_NODE_IN_PROPERTIES = getProperty(APPIUM_PATH);
 
-    private static final String ROOT_TEST_PATH = "src/test/java/io/appium/java_client/";
+    private static final Path ROOT_TEST_PATH = getDefault().getPath("src")
+            .resolve("test").resolve("java").resolve("io").resolve("appium").resolve("java_client");
 
     /**
-     * This is the path to the stub appium.js file
+     * This is the path to the stub main.js file
      */
-    private static final String PATH_T0_TEST_APPIUM_JS = ROOT_TEST_PATH + "service/local/appium.js";
+    private static final Path PATH_T0_TEST_MAIN_JS = ROOT_TEST_PATH
+            .resolve("service").resolve("local").resolve("main.js");
 
     private static String testIP;
     private AppiumDriverLocalService service;
     private File testLogFile;
     private OutputStream stream;
 
+    private static String getLocalIP(NetworkInterface intf) {
+        String result = null;
+        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
+                .hasMoreElements(); ) {
+            String calculated;
+            InetAddress inetAddress = enumIpAddr.nextElement();
+            if (!inetAddress.isLoopbackAddress()) {
+                InetAddressValidator validator = InetAddressValidator.getInstance();
+                calculated = inetAddress.getHostAddress().toString();
+                if (validator.isValid(calculated)) {
+                    result = calculated;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
     /**
      * initialization.
      */
     @BeforeClass public static void beforeClass() throws Exception {
         for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
-            .hasMoreElements(); ) {
-            NetworkInterface intf = en.nextElement();
-            for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
                 .hasMoreElements(); ) {
-                InetAddress inetAddress = enumIpAddr.nextElement();
-                if (!inetAddress.isLoopbackAddress()) {
-                    InetAddressValidator validator = InetAddressValidator.getInstance();
-
-                    testIP = ofNullable(testIP).orElseGet(() -> {
-                        String result = inetAddress.getHostAddress();
-                        if (validator.isValid(result)) {
-                            return result;
-                        }
-                        return null;
-                    });
-                }
+            NetworkInterface intf = en.nextElement();
+            if ((testIP = getLocalIP(intf)) != null) {
+                break;
             }
         }
     }
@@ -109,15 +119,17 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToFindNodeDefinedInProperties() {
-        String definedNode = new File(PATH_T0_TEST_APPIUM_JS).getAbsolutePath();
-        setProperty(APPIUM_PATH, definedNode);
-        assertThat(new File(new AppiumServiceBuilder().createArgs().get(0)), is(new File(definedNode)));
+        File definedNode = PATH_T0_TEST_MAIN_JS.toFile();
+        setProperty(APPIUM_PATH, definedNode.getAbsolutePath());
+        assertThat(new AppiumServiceBuilder().createArgs().get(0), is(definedNode.getAbsolutePath()));
     }
 
     @Test public void checkAbilityToUseNodeDefinedExplicitly() {
-        File node = new File(PATH_T0_TEST_APPIUM_JS);
-        AppiumServiceBuilder builder = new AppiumServiceBuilder().withAppiumJS(node);
-        assertThat(new File(builder.createArgs().get(0)).getAbsolutePath(), is(node.getAbsolutePath()));
+        File mainJS = PATH_T0_TEST_MAIN_JS.toFile();
+        AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                .withAppiumJS(mainJS);
+        assertThat(builder.createArgs().get(0),
+                is(mainJS.getAbsolutePath()));
     }
 
     @Test public void checkAbilityToStartServiceOnAFreePort() {
@@ -143,9 +155,8 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToStartServiceUsingCapabilities() throws Exception {
-        File app = new File(ROOT_TEST_PATH, "ApiDemos-debug.apk");
-        File pageFactoryDir = new File(ROOT_TEST_PATH, "pagefactory_tests");
-        File chrome = new File(pageFactoryDir, "chromedriver.exe");
+        File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
+        File chrome = ROOT_TEST_PATH.resolve("pagefactory_tests").resolve("chromedriver.exe").toFile();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
@@ -162,8 +173,8 @@ public class ServerBuilderTest {
     }
 
     @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() throws Exception {
-        File app = new File(ROOT_TEST_PATH, "ApiDemos-debug.apk");
-        File chrome = new File(new File(ROOT_TEST_PATH, "pagefactory_tests"), "chromedriver.exe");
+        File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
+        File chrome = ROOT_TEST_PATH.resolve("pagefactory_tests").resolve("chromedriver.exe").toFile();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
