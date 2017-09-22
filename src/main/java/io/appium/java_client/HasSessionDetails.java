@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.google.common.collect.ImmutableMap;
@@ -34,8 +35,17 @@ public interface HasSessionDetails extends ExecutesMethod {
     @SuppressWarnings("unchecked")
     default Map<String, Object> getSessionDetails() {
         Response response = execute(GET_SESSION);
+        Map<String, Object> resultMap = Map.class.cast(response.getValue());
+
         return  ImmutableMap.<String, Object>builder()
-                .putAll(Map.class.cast(response.getValue())).build();
+                .putAll(resultMap.entrySet()
+                        .stream().filter(entry -> {
+                            String key = entry.getKey();
+                            Object value = entry.getValue();
+                            return !isBlank(key)
+                                && value != null
+                                && !isBlank(String.valueOf(value));}
+                        ).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
     }
 
     default Object getSessionDetail(String detail) {
@@ -43,17 +53,22 @@ public interface HasSessionDetails extends ExecutesMethod {
     }
 
     default String getPlatformName() {
-        Object platformName = getSessionDetail("platformName");
-        return ofNullable(platformName != null ? String.valueOf(platformName) : null).orElse(null);
+        Object platformName = ofNullable(getSessionDetail("platformName"))
+                .orElseGet(() -> getSessionDetail("platform"));
+        return ofNullable(platformName).map(Object::toString).orElse(null);
     }
 
     default String  getAutomationName() {
-        Object automationName = getSessionDetail("automationName");
-        return ofNullable(automationName != null ? String.valueOf(automationName) : null).orElse(null);
+        return ofNullable(getSessionDetail("automationName"))
+                .map(Object::toString).orElse(null);
     }
 
     /**
      * @return is focus on browser or on native content.
      */
-    boolean isBrowser();
+    default boolean isBrowser() {
+        return ofNullable(getSessionDetail("browserName"))
+                .map(browserName -> browserName.toString())
+                .orElse(null) != null;
+    }
 }
