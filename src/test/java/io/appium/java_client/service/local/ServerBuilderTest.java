@@ -64,21 +64,18 @@ public class ServerBuilderTest {
     private OutputStream stream;
 
     private static String getLocalIP(NetworkInterface intf) {
-        String result = null;
         for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
                 .hasMoreElements(); ) {
-            String calculated;
             InetAddress inetAddress = enumIpAddr.nextElement();
             if (!inetAddress.isLoopbackAddress()) {
                 InetAddressValidator validator = InetAddressValidator.getInstance();
-                calculated = inetAddress.getHostAddress().toString();
+                String calculated = inetAddress.getHostAddress().toString();
                 if (validator.isValid(calculated)) {
-                    result = calculated;
-                    break;
+                    return calculated;
                 }
             }
         }
-        return result;
+        return null;
     }
 
     /**
