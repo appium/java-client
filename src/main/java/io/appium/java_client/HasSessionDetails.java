@@ -44,20 +44,26 @@ public interface HasSessionDetails extends ExecutesMethod {
                             Object value = entry.getValue();
                             return !isBlank(key)
                                 && value != null
-                                && !isBlank(String.valueOf(value));}
-                        ).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
+                                && !isBlank(String.valueOf(value));
+                        }).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
     }
 
     default Object getSessionDetail(String detail) {
         return getSessionDetails().get(detail);
     }
 
+    /**
+     * @return name of the current mobile platform.
+     */
     default String getPlatformName() {
         Object platformName = ofNullable(getSessionDetail("platformName"))
                 .orElseGet(() -> getSessionDetail("platform"));
         return ofNullable(platformName).map(Object::toString).orElse(null);
     }
 
+    /**
+     * @return current automation name.
+     */
     default String  getAutomationName() {
         return ofNullable(getSessionDetail("automationName"))
                 .map(Object::toString).orElse(null);

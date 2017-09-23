@@ -264,7 +264,7 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override public boolean isBrowser() {
-        return super.isBrowser() &&
-                !getContext().toLowerCase().contains("NATIVE_APP".toLowerCase());
+        return super.isBrowser()
+                && !getContext().toLowerCase().contains("NATIVE_APP".toLowerCase());
     }
 }
