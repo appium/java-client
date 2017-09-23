@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
+import javax.annotation.Nullable;
 
 public interface HasSessionDetails extends ExecutesMethod {
     /**
@@ -37,6 +38,8 @@ public interface HasSessionDetails extends ExecutesMethod {
         Response response = execute(GET_SESSION);
         Map<String, Object> resultMap = Map.class.cast(response.getValue());
 
+        //this filtering was added to clear returned result.
+        //results of further operations should be simply interpreted by users
         return  ImmutableMap.<String, Object>builder()
                 .putAll(resultMap.entrySet()
                         .stream().filter(entry -> {
@@ -48,25 +51,25 @@ public interface HasSessionDetails extends ExecutesMethod {
                         }).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
     }
 
-    default Object getSessionDetail(String detail) {
+    default @Nullable Object getSessionDetail(String detail) {
         return getSessionDetails().get(detail);
     }
 
     /**
      * @return name of the current mobile platform.
      */
-    default String getPlatformName() {
+    default @Nullable String getPlatformName() {
         Object platformName = ofNullable(getSessionDetail("platformName"))
                 .orElseGet(() -> getSessionDetail("platform"));
-        return ofNullable(platformName).map(Object::toString).orElse(null);
+        return ofNullable(platformName).map(String::valueOf).orElse(null);
     }
 
     /**
      * @return current automation name.
      */
-    default String  getAutomationName() {
+    default @Nullable String  getAutomationName() {
         return ofNullable(getSessionDetail("automationName"))
-                .map(Object::toString).orElse(null);
+                .map(String::valueOf).orElse(null);
     }
 
     /**
@@ -74,7 +77,6 @@ public interface HasSessionDetails extends ExecutesMethod {
      */
     default boolean isBrowser() {
         return ofNullable(getSessionDetail("browserName"))
-                .map(browserName -> browserName.toString())
                 .orElse(null) != null;
     }
 }

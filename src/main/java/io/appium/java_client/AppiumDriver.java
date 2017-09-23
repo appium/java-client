@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -265,6 +266,6 @@ public class AppiumDriver<T extends WebElement>
 
     @Override public boolean isBrowser() {
         return super.isBrowser()
-                && !getContext().toLowerCase().contains("NATIVE_APP".toLowerCase());
+                && !containsIgnoreCase(getContext(), "NATIVE_APP");
     }
 }
