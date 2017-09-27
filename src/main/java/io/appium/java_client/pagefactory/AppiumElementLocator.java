@@ -76,14 +76,9 @@ class AppiumElementLocator implements CacheableLocator {
         this.exceptionMessageIfElementNotFound =  "Can't locate an element by this strategy: " + by.toString();
     }
 
-    private void changeImplicitlyWaitTimeOut(long newTimeOut, TimeUnit newTimeUnit) {
-        originalWebDriver.manage().timeouts().implicitlyWait(newTimeOut, newTimeUnit);
-    }
-
     private <T extends Object> T waitFor(Supplier<T> supplier) {
         WaitingFunction<T> function = new WaitingFunction<>();
         try {
-            changeImplicitlyWaitTimeOut(0, TimeUnit.SECONDS);
             FluentWait<Supplier<T>> wait = new FluentWait<>(supplier)
                     .ignoring(NoSuchElementException.class);
             wait.withTimeout(timeOutDuration.getTime(), timeOutDuration.getTimeUnit());
@@ -94,8 +89,6 @@ class AppiumElementLocator implements CacheableLocator {
                         .class.cast(function.foundStaleElementReferenceException);
             }
             throw e;
-        } finally {
-            changeImplicitlyWaitTimeOut(originalTimeOutDuration.getTime(), originalTimeOutDuration.getTimeUnit());
         }
     }
 
