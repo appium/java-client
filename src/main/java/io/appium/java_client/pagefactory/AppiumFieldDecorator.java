@@ -62,7 +62,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
             RemoteWebElement.class, MobileElement.class, AndroidElement.class,
             IOSElement.class, WindowsElement.class);
-    public static long DEFAULT_IMPLICITLY_WAIT_TIMEOUT = 1;
+    public static long DEFAULT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver originalDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
@@ -73,9 +73,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final HasSessionDetails hasSessionDetails;
 
 
-    public AppiumFieldDecorator(SearchContext context, long implicitlyWaitTimeOut,
+    public AppiumFieldDecorator(SearchContext context, long timeOut,
         TimeUnit timeUnit) {
-        this(context, new TimeOutDuration(implicitlyWaitTimeOut, timeUnit));
+        this(context, new TimeOutDuration(timeOut, timeUnit));
     }
 
     /**
@@ -144,7 +144,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     public AppiumFieldDecorator(SearchContext context) {
-        this(context, DEFAULT_IMPLICITLY_WAIT_TIMEOUT, DEFAULT_TIMEUNIT);
+        this(context, DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT);
     }
 
     /**
