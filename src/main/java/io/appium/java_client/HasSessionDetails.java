@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.google.common.collect.ImmutableMap;
@@ -25,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
+import javax.annotation.Nullable;
 
 public interface HasSessionDetails extends ExecutesMethod {
     /**
@@ -34,26 +36,47 @@ public interface HasSessionDetails extends ExecutesMethod {
     @SuppressWarnings("unchecked")
     default Map<String, Object> getSessionDetails() {
         Response response = execute(GET_SESSION);
+        Map<String, Object> resultMap = Map.class.cast(response.getValue());
+
+        //this filtering was added to clear returned result.
+        //results of further operations should be simply interpreted by users
         return  ImmutableMap.<String, Object>builder()
-                .putAll(Map.class.cast(response.getValue())).build();
+                .putAll(resultMap.entrySet()
+                        .stream().filter(entry -> {
+                            String key = entry.getKey();
+                            Object value = entry.getValue();
+                            return !isBlank(key)
+                                && value != null
+                                && !isBlank(String.valueOf(value));
+                        }).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
     }
 
-    default Object getSessionDetail(String detail) {
+    default @Nullable Object getSessionDetail(String detail) {
         return getSessionDetails().get(detail);
     }
 
-    default String getPlatformName() {
-        Object platformName = getSessionDetail("platformName");
-        return ofNullable(platformName != null ? String.valueOf(platformName) : null).orElse(null);
+    /**
+     * @return name of the current mobile platform.
+     */
+    default @Nullable String getPlatformName() {
+        Object platformName = ofNullable(getSessionDetail("platformName"))
+                .orElseGet(() -> getSessionDetail("platform"));
+        return ofNullable(platformName).map(String::valueOf).orElse(null);
     }
 
-    default String  getAutomationName() {
-        Object automationName = getSessionDetail("automationName");
-        return ofNullable(automationName != null ? String.valueOf(automationName) : null).orElse(null);
+    /**
+     * @return current automation name.
+     */
+    default @Nullable String  getAutomationName() {
+        return ofNullable(getSessionDetail("automationName"))
+                .map(String::valueOf).orElse(null);
     }
 
     /**
      * @return is focus on browser or on native content.
      */
-    boolean isBrowser();
+    default boolean isBrowser() {
+        return ofNullable(getSessionDetail("browserName"))
+                .orElse(null) != null;
+    }
 }

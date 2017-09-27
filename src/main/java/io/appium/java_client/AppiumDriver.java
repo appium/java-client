@@ -17,9 +17,8 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
-import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -72,9 +71,6 @@ public class AppiumDriver<T extends WebElement>
     private URL remoteAddress;
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
-    private final String platformName;
-    private final String automationName;
-
 
     /**
      * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
@@ -89,20 +85,6 @@ public class AppiumDriver<T extends WebElement>
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
-
-        Object capabilityPlatform1 = getCapabilities().getCapability(PLATFORM_NAME);
-        Object capabilityAutomation1 = getCapabilities().getCapability(AUTOMATION_NAME);
-
-        Object capabilityPlatform2 = capabilities.getCapability(PLATFORM_NAME);
-        Object capabilityAutomation2 = capabilities.getCapability(AUTOMATION_NAME);
-
-        platformName = ofNullable(ofNullable(super.getPlatformName())
-                .orElse(capabilityPlatform1 != null ? String.valueOf(capabilityPlatform1) : null))
-                .orElse(capabilityPlatform2 != null ? String.valueOf(capabilityPlatform2) : null);
-        automationName = ofNullable(ofNullable(super.getAutomationName())
-                .orElse(capabilityAutomation1 != null ? String.valueOf(capabilityAutomation1) : null))
-                .orElse(capabilityAutomation2 != null ? String.valueOf(capabilityAutomation2) : null);
-
         this.setElementConverter(new JsonToMobileElementConverter(this, this));
     }
 
@@ -282,15 +264,8 @@ public class AppiumDriver<T extends WebElement>
         return remoteAddress;
     }
 
-    @Override public String getPlatformName() {
-        return platformName;
-    }
-
-    @Override public String getAutomationName() {
-        return automationName;
-    }
-
     @Override public boolean isBrowser() {
-        return !getContext().toLowerCase().contains("NATIVE_APP".toLowerCase());
+        return super.isBrowser()
+                && !containsIgnoreCase(getContext(), "NATIVE_APP");
     }
 }
