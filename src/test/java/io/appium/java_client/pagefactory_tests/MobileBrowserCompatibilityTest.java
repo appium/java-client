@@ -44,7 +44,7 @@ public class MobileBrowserCompatibilityTest {
     private AppiumDriverLocalService service;
 
     @AndroidFindBy(className = "someClass") @AndroidFindBy(xpath = "//someTag")
-    private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
+    private RemoteWebElement btnK; //this element should be found by id = 'btnG' or name = 'btnG'
 
     @FindBy(name = "q")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
@@ -87,7 +87,7 @@ public class MobileBrowserCompatibilityTest {
         driver.get("https://www.google.com");
 
         searchTextField.sendKeys("Hello");
-        btnG.click();
+        btnK.click();
         Assert.assertNotEquals(0, foundLinks.size());
     }
 

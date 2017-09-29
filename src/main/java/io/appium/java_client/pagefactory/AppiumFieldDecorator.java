@@ -102,7 +102,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this.timeOutDuration = timeOutDuration;
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(
-            new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
+            new AppiumElementLocatorFactory(context, timeOutDuration,
                 new DefaultElementByBuilder(platform, automation))) {
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
@@ -139,8 +139,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         };
 
         widgetLocatorFactory =
-            new AppiumElementLocatorFactory(context, timeOutDuration, originalDriver,
-                new WidgetByBuilder(platform, automation));
+            new AppiumElementLocatorFactory(context, timeOutDuration, new WidgetByBuilder(platform, automation));
     }
 
     public AppiumFieldDecorator(SearchContext context) {

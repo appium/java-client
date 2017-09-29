@@ -8,7 +8,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group 'io.appium'
-version '5.0.3'
+version '5.0.4'
 
 repositories {
     jcenter()
@@ -54,7 +54,7 @@ compileJava {
     ]
 }
 
-ext.seleniumVersion = '3.5.3'
+ext.seleniumVersion = '3.6.0'
 
 dependencies {
     compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
@@ -73,14 +73,14 @@ dependencies {
     compile ("org.seleniumhq.selenium:selenium-api:${seleniumVersion}") {
         force = true
     }
-    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile 'org.apache.httpcomponents:httpclient:4.5.3'
     compile 'cglib:cglib:3.2.5'
     compile 'commons-validator:commons-validator:1.6'
     compile 'org.apache.commons:commons-lang3:3.6'
     compile 'commons-io:commons-io:2.5'
-    compile 'org.springframework:spring-context:4.3.10.RELEASE'
-    compile 'org.aspectj:aspectjweaver:1.8.10'
+    compile 'org.springframework:spring-context:5.0.0.RELEASE'
+    compile 'org.aspectj:aspectjweaver:1.8.11'
     compile 'org.openpnp:opencv:3.2.0-1'
 
     testCompile 'junit:junit:4.12'

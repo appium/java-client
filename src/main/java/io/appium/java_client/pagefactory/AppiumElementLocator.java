@@ -35,7 +35,6 @@ import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -45,7 +44,6 @@ class AppiumElementLocator implements CacheableLocator {
     private final By by;
     private final TimeOutDuration timeOutDuration;
     private final TimeOutDuration originalTimeOutDuration;
-    private final WebDriver originalWebDriver;
     private final SearchContext searchContext;
     private WebElement cachedElement;
     private List<WebElement> cachedElementList;
@@ -61,18 +59,15 @@ class AppiumElementLocator implements CacheableLocator {
      *                          are found once should be cached
      * @param duration          is a POJO which contains timeout parameters for the element to be searched
      * @param originalDuration  is a POJO which contains timeout parameters from page object which contains the element
-     * @param originalWebDriver is an instance of WebDriver that is going to be
-     *                          used by a proxied element
      */
 
     public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,
-        TimeOutDuration duration, TimeOutDuration originalDuration, WebDriver originalWebDriver) {
+        TimeOutDuration duration, TimeOutDuration originalDuration) {
         this.searchContext = searchContext;
         this.shouldCache = shouldCache;
         this.timeOutDuration = duration;
         this.originalTimeOutDuration = originalDuration;
         this.by = by;
-        this.originalWebDriver = originalWebDriver;
         this.exceptionMessageIfElementNotFound =  "Can't locate an element by this strategy: " + by.toString();
     }
 
