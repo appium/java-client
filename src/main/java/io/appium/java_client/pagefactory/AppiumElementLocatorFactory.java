@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
+import static java.util.Optional.ofNullable;
+
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -27,21 +29,21 @@ import java.lang.reflect.Field;
 
 public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
-    private final TimeOutDuration timeOutDuration;
+    private final TimeOutDuration duration;
     private final AppiumByBuilder builder;
 
     /**
      * Creates a new mobile element locator factory.
      *
      * @param searchContext     The context to use when finding the element
-     * @param timeOutDuration   is a POJO which contains timeout parameters for the element to be searched
-     * @param builder           is handler of Appium-specific page object annotations
+     * @param duration   is a POJO which contains timeout parameters for the element to be searched
+     * @param builder    is handler of Appium-specific page object annotations
      */
 
-    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration timeOutDuration,
+    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration duration,
                                        AppiumByBuilder builder) {
         this.searchContext = searchContext;
-        this.timeOutDuration = timeOutDuration;
+        this.duration = duration;
         this.builder = builder;
     }
 
@@ -55,16 +57,15 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
             customDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
         } else {
-            customDuration = timeOutDuration;
+            customDuration = duration;
         }
 
         builder.setAnnotated(annotatedElement);
-        By by = builder.buildBy();
-        if (by != null) {
-            return new AppiumElementLocator(searchContext, by, builder.isLookupCached(),
-                    customDuration, timeOutDuration);
-        }
-        return null;
+        By byResult = builder.buildBy();
+
+        return ofNullable(byResult)
+                .map(by -> new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration))
+                .orElse(null);
     }
 
 

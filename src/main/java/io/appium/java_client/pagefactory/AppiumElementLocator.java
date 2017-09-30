@@ -28,7 +28,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -42,8 +41,7 @@ class AppiumElementLocator implements CacheableLocator {
 
     private final boolean shouldCache;
     private final By by;
-    private final TimeOutDuration timeOutDuration;
-    private final TimeOutDuration originalTimeOutDuration;
+    private final TimeOutDuration duration;
     private final SearchContext searchContext;
     private WebElement cachedElement;
     private List<WebElement> cachedElementList;
@@ -58,25 +56,23 @@ class AppiumElementLocator implements CacheableLocator {
      * @param shouldCache       is the flag that signalizes that elements which
      *                          are found once should be cached
      * @param duration          is a POJO which contains timeout parameters for the element to be searched
-     * @param originalDuration  is a POJO which contains timeout parameters from page object which contains the element
      */
 
     public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,
-        TimeOutDuration duration, TimeOutDuration originalDuration) {
+        TimeOutDuration duration) {
         this.searchContext = searchContext;
         this.shouldCache = shouldCache;
-        this.timeOutDuration = duration;
-        this.originalTimeOutDuration = originalDuration;
+        this.duration = duration;
         this.by = by;
         this.exceptionMessageIfElementNotFound =  "Can't locate an element by this strategy: " + by.toString();
     }
 
-    private <T extends Object> T waitFor(Supplier<T> supplier) {
+    private <T> T waitFor(Supplier<T> supplier) {
         WaitingFunction<T> function = new WaitingFunction<>();
         try {
             FluentWait<Supplier<T>> wait = new FluentWait<>(supplier)
                     .ignoring(NoSuchElementException.class);
-            wait.withTimeout(timeOutDuration.getTime(), timeOutDuration.getTimeUnit());
+            wait.withTimeout(duration.getTime(), duration.getTimeUnit());
             return wait.until(function);
         } catch (TimeoutException e) {
             if (function.foundStaleElementReferenceException != null) {

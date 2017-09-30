@@ -18,17 +18,13 @@ public final class ChromeDriverPathUtil {
      * @return the choromedriver file which depends on platform.
      */
     public static File getChromeDriver() {
-        Path resultPath;
         Platform current = getCurrent();
-
         if (current.is(WINDOWS)) {
-            resultPath = ROOT_TEST_PATH.resolve("chromedriver.exe");
+            return ROOT_TEST_PATH.resolve("chromedriver.exe").toFile();
         } else if (current.is(MAC)) {
-            resultPath = ROOT_TEST_PATH.resolve("chromedriver_mac");
+            return ROOT_TEST_PATH.resolve("chromedriver_mac").toFile();
         } else {
-            resultPath = ROOT_TEST_PATH.resolve("chromedriver_linux");
+            return ROOT_TEST_PATH.resolve("chromedriver_linux").toFile();
         }
-
-        return resultPath.toFile();
     }
 }
