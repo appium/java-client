@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeoutTest {
 
-    private static final long ACCEPTABLE_TIME_DIFF = 1500;
+    private static final long ACCEPTABLE_TIME_DIFF_MS = 1500;
     private static final String MESSAGE = "Check difference from the expected waiting duration %s %s";
 
     private WebDriver driver;
@@ -65,15 +65,15 @@ public class TimeoutTest {
 
     private TimeOutDuration timeOutDuration;
 
-    private static long getBenchmark(Runnable runnable) {
+    private static long getExpectedMillis(long value, TimeUnit sourceTimeUnit) {
+        return MILLISECONDS.convert(value, sourceTimeUnit);
+    }
+
+    private static long getPerformanceDiff(long expectedMs, Runnable runnable) {
         long startMark = currentTimeMillis();
         runnable.run();
         long endMark = currentTimeMillis();
-        return endMark - startMark;
-    }
-
-    private static long getExpectedMillis(long value, TimeUnit sourceTimeUnit) {
-        return MILLISECONDS.convert(value, sourceTimeUnit);
+        return abs(expectedMs  - (endMark - startMark));
     }
 
     /**
@@ -96,37 +96,37 @@ public class TimeoutTest {
 
     @Test public void defaultTimeOutTest() {
         assertThat(format(MESSAGE, DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT),
-                abs(getExpectedMillis(DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT) - getBenchmark(() -> stubElements.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT), () -> stubElements.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
 
         timeOutDuration.setTime(15500000, MICROSECONDS);
         assertThat(format(MESSAGE, 15500000, MICROSECONDS),
-                abs(getExpectedMillis(15500000, MICROSECONDS) - getBenchmark(() -> stubElements.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(15500000, MICROSECONDS), () -> stubElements.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
 
         timeOutDuration.setTime(3, SECONDS);
         assertThat(format(MESSAGE, 3, SECONDS),
-                abs(getExpectedMillis(3, SECONDS) - getBenchmark(() -> stubElements.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(3, SECONDS), () -> stubElements.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
     }
 
     @Test public void withCustomizedTimeOutTest() {
         assertThat(format(MESSAGE, DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT),
-                abs(getExpectedMillis(DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT) - getBenchmark(() -> stubElements.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(DEFAULT_TIMEOUT, DEFAULT_TIMEUNIT), () -> stubElements.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
 
         assertThat(format(MESSAGE, 5, SECONDS),
-                abs(getExpectedMillis(5, SECONDS) - getBenchmark(() -> stubElements2.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(5, SECONDS), () -> stubElements2.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
 
         timeOutDuration.setTime(15500000, MICROSECONDS);
 
         assertThat(format(MESSAGE, 15500000, MICROSECONDS),
-                abs(getExpectedMillis(15500000, MICROSECONDS) - getBenchmark(() -> stubElements.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(15500000, MICROSECONDS), () -> stubElements.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
 
         assertThat(format(MESSAGE, 5, SECONDS),
-                abs(getExpectedMillis(5, SECONDS) - getBenchmark(() -> stubElements2.size())),
-                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF));
+                getPerformanceDiff(getExpectedMillis(5, SECONDS), () -> stubElements2.size()),
+                lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));
     }
 }

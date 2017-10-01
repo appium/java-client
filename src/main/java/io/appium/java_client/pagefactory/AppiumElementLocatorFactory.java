@@ -26,6 +26,7 @@ import org.openqa.selenium.SearchContext;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import javax.annotation.Nullable;
 
 public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
@@ -47,11 +48,11 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
         this.builder = builder;
     }
 
-    public CacheableLocator createLocator(Field field) {
+    public @Nullable CacheableLocator createLocator(Field field) {
         return this.createLocator((AnnotatedElement) field);
     }
 
-    @Override public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
+    @Override public @Nullable CacheableLocator createLocator(AnnotatedElement annotatedElement) {
         TimeOutDuration customDuration;
         if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);

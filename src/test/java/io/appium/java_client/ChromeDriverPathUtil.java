@@ -23,8 +23,8 @@ public final class ChromeDriverPathUtil {
             return ROOT_TEST_PATH.resolve("chromedriver.exe").toFile();
         } else if (current.is(MAC)) {
             return ROOT_TEST_PATH.resolve("chromedriver_mac").toFile();
-        } else {
-            return ROOT_TEST_PATH.resolve("chromedriver_linux").toFile();
         }
+
+        return ROOT_TEST_PATH.resolve("chromedriver_linux").toFile();
     }
 }
