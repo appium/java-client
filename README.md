@@ -21,8 +21,14 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *5.1.0 (under construction yet)*
 
+*5.0.4*
 - **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).
 - **[REFACTOR]** **[BREAKING CHANGE]** Excessive invocation of the implicit waiting timeout was removed. This is the breaking change because API of `AppiumElementLocator` and `AppiumElementLocatorFactory` was changed. Request: [#735](https://github.com/appium/java-client/issues/735), FIXES: [#738](https://github.com/appium/java-client/pull/738), [#741](https://github.com/appium/java-client/pull/741)
+- **[DEPENDENCY UPDATES]**
+    - org.seleniumhq.selenium:selenium-java to 3.6.0
+    - com.google.code.gson:gson to 2.8.2
+    - org.springframework:spring-context to 5.0.0.RELEASE
+    - org.aspectj:aspectjweaver to 1.8.11
 
 *5.0.3*
 - **[BUG FIX]** Selenuim version was reverted from boundaries to the single number. Issue report: [#718](https://github.com/appium/java-client/issues/718). FIX: [#722](https://github.com/appium/java-client/pull/722)
