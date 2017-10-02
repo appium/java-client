@@ -16,59 +16,57 @@
 
 package io.appium.java_client.pagefactory;
 
+import static java.util.Optional.ofNullable;
+
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import javax.annotation.Nullable;
 
 public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
-    private final TimeOutDuration timeOutDuration;
-    private final WebDriver originalWebDriver;
+    private final TimeOutDuration duration;
     private final AppiumByBuilder builder;
 
     /**
      * Creates a new mobile element locator factory.
      *
      * @param searchContext     The context to use when finding the element
-     * @param timeOutDuration   is a POJO which contains timeout parameters for the element to be searched
-     * @param originalWebDriver is an instance of WebDriver that is going to be used by a proxied element
-     * @param builder           is handler of Appium-specific page object annotations
+     * @param duration   is a POJO which contains timeout parameters for the element to be searched
+     * @param builder    is handler of Appium-specific page object annotations
      */
 
-    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration timeOutDuration,
-        WebDriver originalWebDriver, AppiumByBuilder builder) {
+    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration duration,
+                                       AppiumByBuilder builder) {
         this.searchContext = searchContext;
-        this.originalWebDriver = originalWebDriver;
-        this.timeOutDuration = timeOutDuration;
+        this.duration = duration;
         this.builder = builder;
     }
 
-    public CacheableLocator createLocator(Field field) {
+    public @Nullable CacheableLocator createLocator(Field field) {
         return this.createLocator((AnnotatedElement) field);
     }
 
-    @Override public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
+    @Override public @Nullable CacheableLocator createLocator(AnnotatedElement annotatedElement) {
         TimeOutDuration customDuration;
         if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
             customDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
         } else {
-            customDuration = timeOutDuration;
+            customDuration = duration;
         }
 
         builder.setAnnotated(annotatedElement);
-        By by = builder.buildBy();
-        if (by != null) {
-            return new AppiumElementLocator(searchContext, by, builder.isLookupCached(),
-                    customDuration, timeOutDuration, originalWebDriver);
-        }
-        return null;
+        By byResult = builder.buildBy();
+
+        return ofNullable(byResult)
+                .map(by -> new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration))
+                .orElse(null);
     }
 
 

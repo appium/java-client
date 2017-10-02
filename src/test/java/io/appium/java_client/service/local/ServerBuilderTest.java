@@ -1,5 +1,6 @@
 package io.appium.java_client.service.local;
 
+import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
@@ -69,7 +70,7 @@ public class ServerBuilderTest {
             InetAddress inetAddress = enumIpAddr.nextElement();
             if (!inetAddress.isLoopbackAddress()) {
                 InetAddressValidator validator = InetAddressValidator.getInstance();
-                String calculated = inetAddress.getHostAddress().toString();
+                String calculated = inetAddress.getHostAddress();
                 if (validator.isValid(calculated)) {
                     return calculated;
                 }
@@ -153,7 +154,7 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartServiceUsingCapabilities() throws Exception {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-        File chrome = ROOT_TEST_PATH.resolve("pagefactory_tests").resolve("chromedriver.exe").toFile();
+        File chrome = getChromeDriver();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
@@ -171,7 +172,7 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() throws Exception {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-        File chrome = ROOT_TEST_PATH.resolve("pagefactory_tests").resolve("chromedriver.exe").toFile();
+        File chrome = getChromeDriver();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");

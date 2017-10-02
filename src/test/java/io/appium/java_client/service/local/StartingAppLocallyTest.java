@@ -16,6 +16,7 @@
 
 package io.appium.java_client.service.local;
 
+import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -87,8 +88,7 @@ public class StartingAppLocallyTest {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
 
-        File pageFactoryDir = new File("src/test/java/io/appium/java_client/pagefactory_tests");
-        File chrome = new File(pageFactoryDir, "chromedriver.exe");
+        File chrome = getChromeDriver();
 
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
