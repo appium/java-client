@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import java.time.Duration;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class MobileCommand {
     protected static final String SET_VALUE;
     protected static final String PULL_FILE;
     protected static final String PULL_FOLDER;
-    protected static final String RUN_APP_IN_BACKGROUND;
+    public static final String RUN_APP_IN_BACKGROUND;
     protected static final String PERFORM_TOUCH_ACTION;
     protected static final String PERFORM_MULTI_TOUCH;
     protected static final String IS_APP_INSTALLED;
@@ -54,12 +55,12 @@ public class MobileCommand {
     protected static final String START_RECORDING_SCREEN;
     protected static final String STOP_RECORDING_SCREEN;
 
-
     protected static final String HIDE_KEYBOARD;
     protected static final String LOCK;
     //iOS
     protected static final String SHAKE;
     protected static final String TOUCH_ID;
+    protected static final String TOUCH_ID_ENROLLMENT;
     //Android
     protected static final String CURRENT_ACTIVITY;
     protected static final String END_TEST_COVERAGE;
@@ -79,6 +80,7 @@ public class MobileCommand {
     protected static final String REPLACE_VALUE;
     protected static final String GET_SETTINGS;
     protected static final String SET_SETTINGS;
+    protected static final String GET_CURRENT_PACKAGE;
 
     public static final  Map<String, CommandInfo> commandRepository;
 
@@ -101,6 +103,7 @@ public class MobileCommand {
 
         GET_PERFORMANCE_DATA = "getPerformanceData";
         GET_SUPPORTED_PERFORMANCE_DATA_TYPES = "getSuppportedPerformanceDataTypes";
+
         START_RECORDING_SCREEN = "startRecordingScreen";
         STOP_RECORDING_SCREEN = "stopRecordingScreen";
 
@@ -108,6 +111,7 @@ public class MobileCommand {
         LOCK = "lock";
         SHAKE = "shake";
         TOUCH_ID = "touchId";
+        TOUCH_ID_ENROLLMENT = "toggleEnrollTouchId";
 
         CURRENT_ACTIVITY = "currentActivity";
         END_TEST_COVERAGE = "endTestCoverage";
@@ -127,6 +131,7 @@ public class MobileCommand {
         REPLACE_VALUE = "replaceValue";
         GET_SETTINGS = "getSettings";
         SET_SETTINGS = "setSettings";
+        GET_CURRENT_PACKAGE = "getCurrentPackage";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -152,6 +157,7 @@ public class MobileCommand {
             postC("/session/:sessionId/appium/performanceData/types"));
         commandRepository.put(GET_PERFORMANCE_DATA,
             postC("/session/:sessionId/appium/getPerformanceData"));
+
         commandRepository.put(START_RECORDING_SCREEN,
                 postC("/session/:sessionId/appium/startRecordingScreen"));
         commandRepository.put(STOP_RECORDING_SCREEN,
@@ -160,6 +166,8 @@ public class MobileCommand {
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
         commandRepository.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
+        commandRepository.put(TOUCH_ID_ENROLLMENT,
+                postC("/session/:sessionId/appium/simulator/toggle_touch_id_enrollment"));
         //Android
         commandRepository.put(CURRENT_ACTIVITY,
                         getC("/session/:sessionId/appium/device/current_activity"));
@@ -185,6 +193,7 @@ public class MobileCommand {
                         postC("/session/:sessionId/appium/device/toggle_location_services"));
         commandRepository.put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
         commandRepository. put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
+        commandRepository.put(GET_CURRENT_PACKAGE,getC("/session/:sessionId/appium/device/current_package"));
     }
 
     /**
@@ -193,8 +202,8 @@ public class MobileCommand {
      * @param url is the command URL
      * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
      */
-    public static CommandInfo getC(String url) {
-        return new CommandInfo(url, HttpMethod.GET);
+    public static AppiumCommandInfo getC(String url) {
+        return new AppiumCommandInfo(url, HttpMethod.GET);
     }
 
     /**
@@ -203,8 +212,8 @@ public class MobileCommand {
      * @param url is the command URL
      * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
      */
-    public static CommandInfo postC(String url) {
-        return new CommandInfo(url, HttpMethod.POST);
+    public static AppiumCommandInfo postC(String url) {
+        return new AppiumCommandInfo(url, HttpMethod.POST);
     }
 
     /**
@@ -213,8 +222,8 @@ public class MobileCommand {
      * @param url is the command URL
      * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
      */
-    public static CommandInfo deleteC(String url) {
-        return new CommandInfo(url, HttpMethod.DELETE);
+    public static AppiumCommandInfo deleteC(String url) {
+        return new AppiumCommandInfo(url, HttpMethod.DELETE);
     }
 
     /**
@@ -341,12 +350,36 @@ public class MobileCommand {
      * This method forms a {@link java.util.Map} of parameters for the
      * device locking.
      *
-     * @param seconds seconds number of seconds to lock the screen for
+     * @param duration for how long to lock the screen for. Minimum time resolution is one second
      * @return  a key-value pair. The key is the command name. The value is a
      * {@link java.util.Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {
+    public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(Duration duration) {
         return new AbstractMap.SimpleEntry<>(
-                LOCK, prepareArguments("seconds", seconds));
+                LOCK, prepareArguments("seconds", duration.getSeconds()));
+    }
+
+    public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
+        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
+    }
+
+    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
+        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings",
+                prepareArguments(setting.toString(), value)));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * file pushing
+     *
+     * @param remotePath Path to file to write data to on remote device
+     * @param base64Data Base64 encoded byte array of data to write to remote device
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
+        String[] parameters = new String[] {"path", "data"};
+        Object[] values = new Object[] {remotePath, base64Data};
+        return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
 }

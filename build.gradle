@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
@@ -7,7 +8,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group 'io.appium'
-version '5.0.0-BETA1'
+version '5.0.4'
 
 repositories {
     jcenter()
@@ -18,23 +19,26 @@ repositories {
 
 buildscript {
     repositories {
+        jcenter()
         maven {
             url "http://repo.maven.apache.org/maven2"
         }
     }
     dependencies {
         classpath "org.owasp:dependency-check-gradle:1.4.0"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 }
 
 apply plugin: "org.owasp.dependencycheck"
+apply plugin: 'com.github.johnrengelman.shadow'
 
 configurations {
     ecj
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt.core.compiler:ecj:4.5.1'
+    ecj 'org.eclipse.jdt.core.compiler:ecj:4.6.1'
 }
 
 compileJava {
@@ -50,22 +54,37 @@ compileJava {
     ]
 }
 
+ext.seleniumVersion = '3.6.0'
+
 dependencies {
-    compile('org.seleniumhq.selenium:selenium-java:3.0.1'){
+    compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
+        force = true
+
         exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
+        exclude module: 'phantomjsdriver'
+        exclude module: 'htmlunit-driver'
+        exclude group: 'net.sourceforge.htmlunit'
+
     }
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'org.apache.httpcomponents:httpclient:4.5.2'
-    compile 'com.google.guava:guava:20.0'
-    compile 'cglib:cglib:3.2.4'
-    compile 'commons-validator:commons-validator:1.5.1'
-    compile 'org.apache.commons:commons-lang3:3.5'
+    compile ("org.seleniumhq.selenium:selenium-support:${seleniumVersion}") {
+        force = true
+    }
+    compile ("org.seleniumhq.selenium:selenium-api:${seleniumVersion}") {
+        force = true
+    }
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'org.apache.httpcomponents:httpclient:4.5.3'
+    compile 'cglib:cglib:3.2.5'
+    compile 'commons-validator:commons-validator:1.6'
+    compile 'org.apache.commons:commons-lang3:3.6'
     compile 'commons-io:commons-io:2.5'
-    compile 'org.springframework:spring-context:4.3.5.RELEASE'
-    compile 'org.aspectj:aspectjweaver:1.8.10'
+    compile 'org.springframework:spring-context:5.0.0.RELEASE'
+    compile 'org.aspectj:aspectjweaver:1.8.11'
+    compile 'org.openpnp:opencv:3.2.0-1'
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
 
 ext {

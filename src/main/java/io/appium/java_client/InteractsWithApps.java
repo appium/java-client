@@ -27,6 +27,7 @@ import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import com.google.common.collect.ImmutableMap;
 
+import java.time.Duration;
 import java.util.AbstractMap;
 
 public interface InteractsWithApps extends ExecutesMethod {
@@ -65,14 +66,14 @@ public interface InteractsWithApps extends ExecutesMethod {
     }
 
     /**
-     * Runs the current app as a background app for the number of seconds
+     * Runs the current app as a background app for the time
      * requested. This is a synchronous method, it returns after the back has
      * been returned to the foreground.
      *
-     * @param seconds Number of seconds to run App in background.
+     * @param duration The time to run App in background. Minimum time resolution is one second
      */
-    default void runAppInBackground(int seconds) {
-        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", seconds));
+    default void runAppInBackground(Duration duration) {
+        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.getSeconds()));
     }
 
     /**

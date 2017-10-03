@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
+import java.time.Duration;
+
 /**
  * Used for Webdriver 3 touch actions
  * See the Webriver 3 spec
@@ -198,12 +200,12 @@ public class TouchAction implements PerformsActions<TouchAction> {
     /**
      * Waits for specified amount of time to pass before continue to next touch action.
      *
-     * @param ms time in milliseconds to wait.
+     * @param duration of the wait action. Minimum time reolution unit is one millisecond.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction waitAction(int ms) {
+    public TouchAction waitAction(Duration duration) {
         ActionParameter action = new ActionParameter("wait");
-        action.addParameter("ms", ms);
+        action.addParameter("ms", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
@@ -224,12 +226,12 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * Press and hold the at the center of an element until the contextmenu event has fired.
      *
      * @param el       element to long-press.
-     * @param duration of the long-press, in milliseconds.
+     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction longPress(WebElement el, int duration) {
+    public TouchAction longPress(WebElement el, Duration duration) {
         ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("duration", duration);
+        action.addParameter("duration", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
@@ -256,17 +258,18 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @param x        x coordinate.
      * @param y        y coordinate.
-     * @param duration of the long-press, in milliseconds.
+     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction longPress(int x, int y, int duration) {
+    public TouchAction longPress(int x, int y, Duration duration) {
         ActionParameter action = new ActionParameter("longPress");
         action.addParameter("x", x);
         action.addParameter("y", y);
-        action.addParameter("duration", duration);
+        action.addParameter("duration", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
+
 
     /**
      * Press and hold the at an elements upper-left corner, offset by the given amount,
@@ -292,14 +295,14 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param el       element to long-press.
      * @param x        x offset.
      * @param y        y offset.
-     * @param duration of the long-press, in milliseconds.
+     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction longPress(WebElement el, int x, int y, int duration) {
+    public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
         ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
         action.addParameter("x", x);
         action.addParameter("y", y);
-        action.addParameter("duration", duration);
+        action.addParameter("duration", duration.toMillis());
         parameterBuilder.add(action);
         return this;
     }
@@ -337,8 +340,14 @@ public class TouchAction implements PerformsActions<TouchAction> {
         return ImmutableMap.of("actions", parameters.build());
     }
 
-    protected void clearParameters() {
+    /**
+     * Clears all the existing action parameters and resets the instance to the initial state.
+     *
+     * @return this TouchAction, for possible segmented-touches.
+     */
+    protected TouchAction clearParameters() {
         parameterBuilder = ImmutableList.builder();
+        return this;
     }
 
     /**

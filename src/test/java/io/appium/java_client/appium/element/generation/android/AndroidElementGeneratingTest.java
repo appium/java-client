@@ -2,7 +2,7 @@ package io.appium.java_client.appium.element.generation.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.tagName;
 
 import io.appium.java_client.android.AndroidElement;
@@ -13,7 +13,6 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.io.File;
 import java.util.function.Supplier;
@@ -49,7 +48,7 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
         }, (by, aClass) -> {
                 driver.context("WEBVIEW_io.appium.android.apis");
                 return commonPredicate.test(by, aClass);
-            }, tagName("a"), RemoteWebElement.class));
+            }, tagName("a"), AndroidElement.class));
     }
 
     @Test public void whenAndroidBrowserIsLaunched() {
@@ -65,6 +64,8 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
             }, (by, aClass) -> {
                 driver.get("https://www.google.com");
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, name("q"), AndroidElement.class));
     }
+
+
 }

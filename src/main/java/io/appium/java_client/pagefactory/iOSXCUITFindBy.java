@@ -16,15 +16,25 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSXCUITFindBySet.class)
 public @interface iOSXCUITFindBy {
+
+    /**
+     * The Class Chain locator is similar to xpath, but it's faster and can only
+     * search direct children elements. See the
+     * <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
+     * documentation</a> for more details.
+     */
+    String iOSClassChain() default "";
 
     /**
      * The NSPredicate class is used to define logical conditions used to constrain
@@ -58,4 +68,9 @@ public @interface iOSXCUITFindBy {
      * It is a xpath to the target element.
      */
     String xpath() default "";
+
+    /**
+     * @return priority of the searching. Higher number means lower priority.
+     */
+    int priority() default 0;
 }

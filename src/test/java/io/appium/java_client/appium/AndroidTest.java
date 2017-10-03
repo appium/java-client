@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.StartsActivity;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -78,7 +79,8 @@ public class AndroidTest {
                 return driver.execute(driverCommand);
             }
         };
-        startsActivity.startActivity("io.appium.android.apis", ".ApiDemos");
+        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
+        startsActivity.startActivity(activity);
     }
 
     @Test
@@ -121,7 +123,8 @@ public class AndroidTest {
     @Test public void replaceValueTest() {
         String originalValue = "original value";
 
-        startsActivity.startActivity("io.appium.android.apis", ".view.Controls1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
+        startsActivity.startActivity(activity);
         AndroidElement editElement = driver
                 .findElement(MobileBy
                 .AndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));

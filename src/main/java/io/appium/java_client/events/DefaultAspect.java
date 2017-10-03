@@ -16,6 +16,7 @@
 
 package io.appium.java_client.events;
 
+import static io.appium.java_client.events.DefaultBeanConfiguration.COMPONENT_BEAN;
 
 import com.google.common.collect.ImmutableList;
 
@@ -96,6 +97,8 @@ class DefaultAspect {
         + "execution(* io.appium.java_client.FindsByAccessibilityId.*(..)) || "
         + "execution(* io.appium.java_client.FindsByAndroidUIAutomator.*(..)) || "
         + "execution(* io.appium.java_client.FindsByIosUIAutomation.*(..)) || "
+        + "execution(* io.appium.java_client.FindsByWindowsAutomation.*(..)) || "
+        + "execution(* io.appium.java_client.FindsByIosNSPredicate.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByClassName.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByCssSelector.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsById.*(..)) || "
@@ -103,8 +106,6 @@ class DefaultAspect {
         + "execution(* org.openqa.selenium.internal.FindsByName.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByTagName.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByXPath.*(..)) || "
-        + "execution(* io.appium.java_client.FindsByFluentSelector.*(..)) || "
-        + "execution(* io.appium.java_client.FindsByWindowsAutomation.*(..)) || "
         + "execution(* org.openqa.selenium.WebDriver.Window.*(..)) || "
         + "execution(* io.appium.java_client.android.AndroidElement.*(..)) || "
         + "execution(* io.appium.java_client.ios.IOSElement.*(..)) || "
@@ -155,7 +156,7 @@ class DefaultAspect {
 
         Object result = toBeTransformed;
         if (getClassForProxy(toBeTransformed.getClass()) != null) {
-            result = context.getBean(DefaultBeanConfiguration.COMPONENT_BEAN, toBeTransformed);
+            result = context.getBean(COMPONENT_BEAN, toBeTransformed);
         }
         return result;
     }
@@ -167,7 +168,7 @@ class DefaultAspect {
                 if (getClassForProxy(o.getClass()) == null) {
                     proxyList.add(o);
                 } else {
-                    proxyList.add(context.getBean(DefaultBeanConfiguration.COMPONENT_BEAN, o));
+                    proxyList.add(context.getBean(COMPONENT_BEAN, o));
                 }
             }
             return proxyList;
@@ -254,12 +255,12 @@ class DefaultAspect {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Object> T castArgument(JoinPoint joinPoint, int argIndex) {
+    private <T> T castArgument(JoinPoint joinPoint, int argIndex) {
         return (T) joinPoint.getArgs()[argIndex];
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Object> T castTarget(JoinPoint joinPoint) {
+    private <T> T castTarget(JoinPoint joinPoint) {
         return (T) joinPoint.getTarget();
     }
 
@@ -351,6 +352,7 @@ class DefaultAspect {
     public void beforeAlertAccept(JoinPoint joinPoint) throws Throwable {
         try {
             listener.beforeAlertAccept(driver, castTarget(joinPoint));
+            listener.beforeAlertAccept(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -360,6 +362,7 @@ class DefaultAspect {
     public void afterAlertAccept(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterAlertAccept(driver, castTarget(joinPoint));
+            listener.afterAlertAccept(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -369,6 +372,7 @@ class DefaultAspect {
     public void beforeAlertDismiss(JoinPoint joinPoint) throws Throwable {
         try {
             listener.beforeAlertDismiss(driver, castTarget(joinPoint));
+            listener.beforeAlertDismiss(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
@@ -378,6 +382,7 @@ class DefaultAspect {
     public void afterAlertDismiss(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterAlertDismiss(driver, castTarget(joinPoint));
+            listener.afterAlertDismiss(driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }

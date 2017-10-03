@@ -24,7 +24,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.PressesKeyCode;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -49,6 +48,7 @@ public class AndroidDriver<T extends WebElement>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
         FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails,
             HasSupportedPerformanceDataType, RecordScreen {
+
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -154,13 +154,6 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * This method is deprecated. It is going to be removed
-     */
-    @Override public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        new TouchAction(this).press(startx, starty).waitAction(duration).moveTo(endx, endy).release().perform();
-    }
-
-    /**
      * Get test-coverage data.
      *
      * @param intent intent to broadcast.
@@ -180,4 +173,5 @@ public class AndroidDriver<T extends WebElement>
     public void toggleLocationServices() {
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
+
 }

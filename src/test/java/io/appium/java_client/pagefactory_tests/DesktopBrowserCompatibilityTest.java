@@ -16,7 +16,9 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static java.lang.System.setProperty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -27,7 +29,6 @@ import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,8 +43,6 @@ import java.util.concurrent.TimeUnit;
 
 public class DesktopBrowserCompatibilityTest {
 
-
-    private static final Platform current = Platform.getCurrent();
     @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
     @AndroidFindBy(className = "someClass")
     @iOSFindBy(xpath = "//selector[1]") @iOSFindBy(xpath = "//someTag")
@@ -57,13 +56,8 @@ public class DesktopBrowserCompatibilityTest {
      * The starting.
      */
     @BeforeClass public static void beforeClass() {
-        if (current.is(Platform.WINDOWS)) {
-            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-                "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver.exe");
-        } else {
-            System.setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-                "src/test/java/io/appium/java_client/pagefactory_tests/chromedriver");
-        }
+        setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
+                getChromeDriver().getAbsolutePath());
     }
 
     @Test public void chromeTest() {

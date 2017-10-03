@@ -2,7 +2,10 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 
+import io.appium.java_client.Setting;
 import org.junit.Test;
+
+import java.time.Duration;
 
 public class SettingTest extends BaseAndroidTest {
 
@@ -17,19 +20,19 @@ public class SettingTest extends BaseAndroidTest {
     }
 
     @Test public void configuratorTest() {
-        driver.configuratorSetActionAcknowledgmentTimeout(500);
+        driver.configuratorSetActionAcknowledgmentTimeout(Duration.ofMillis(500));
         assertJSONElementContains(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, 500);
 
-        driver.configuratorSetKeyInjectionDelay(400);
+        driver.configuratorSetKeyInjectionDelay(Duration.ofMillis(400));
         assertJSONElementContains(Setting.KEY_INJECTION_DELAY, 400);
 
-        driver.configuratorSetScrollAcknowledgmentTimeout(300);
+        driver.configuratorSetScrollAcknowledgmentTimeout(Duration.ofMillis(300));
         assertJSONElementContains(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, 300);
 
-        driver.configuratorSetWaitForIdleTimeout(600);
+        driver.configuratorSetWaitForIdleTimeout(Duration.ofMillis(600));
         assertJSONElementContains(Setting.WAIT_FOR_IDLE_TIMEOUT, 600);
 
-        driver.configuratorSetWaitForSelectorTimeout(1000);
+        driver.configuratorSetWaitForSelectorTimeout(Duration.ofSeconds(1));
         assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1000);
     }
 

@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.ios.IOSMobileCommandHelper.toggleTouchIdEnrollmentCommand;
 import static io.appium.java_client.ios.IOSMobileCommandHelper.touchIdCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
@@ -30,5 +31,28 @@ public interface PerformsTouchID extends ExecutesMethod {
      */
     default void performTouchID(boolean match) {
         CommandExecutionHelper.execute(this, touchIdCommand(match));
+    }
+
+    /**
+     * Enrolls touchId in iOS Simulators.
+     * This method is deprecated. Please use {@link #toggleTouchIDEnrollment(boolean)} instead
+     */
+    @Deprecated
+    default void toggleTouchIDEnrollment() {
+        CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand());
+    }
+
+    /**
+     * Enrolls touchId in iOS Simulators. This call will only work if Appium process or its
+     * parent application (e.g. Terminal.app or Appium.app) has
+     * access to Mac OS accessibility in System Preferences &gt;
+     * Security &amp; Privacy &gt; Privacy &gt; Accessibility list.
+     *
+     * @param enabled Whether to enable or disable Touch ID Enrollment. The actual state of the feature
+     *                will only be changed if the current value is different from the previous one.
+     *                Multiple calls of the method with the same argument value have no effect.
+     */
+    default void toggleTouchIDEnrollment(boolean enabled) {
+        CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand(enabled));
     }
 }

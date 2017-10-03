@@ -1,5 +1,5 @@
 # Requirements
-- Installed Node.js 4 or greater. 
+- Installed Node.js 7 or greater. 
 
 - At least an appium server instance installed via __npm__. 
 
@@ -9,7 +9,7 @@ It works the similar way as common [ChromeDriver](https://selenium.googlecode.co
 
 # Which capabilities this feature provides
 
-This feature providese abilities and options of the starting of a local Appium node server. End users still able to open apps as usual 
+This feature provides abilities and options of the starting of a local Appium node server. End users still able to open apps as usual 
 
 ```java
     DesiredCapabilities capabilities = new DesiredCapabilities();

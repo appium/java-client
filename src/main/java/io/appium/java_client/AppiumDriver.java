@@ -17,9 +17,8 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
-import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -32,8 +31,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -74,10 +71,6 @@ public class AppiumDriver<T extends WebElement>
     private URL remoteAddress;
     private RemoteLocationContext locationContext;
     private ExecuteMethod executeMethod;
-    private final String platformName;
-    private final String automationName;
-    private String currentContext;
-
 
     /**
      * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
@@ -92,35 +85,7 @@ public class AppiumDriver<T extends WebElement>
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
-        final AppiumDriver<?> driver = this;
-
-        HasSessionDetails hasSessionDetails = new HasSessionDetails() {
-            @Override
-            public Response execute(String driverCommand, Map<String, ?> parameters) {
-                return driver.execute(driverCommand, parameters);
-            }
-
-            @Override
-            public Response execute(String driverCommand) {
-                return driver.execute(driverCommand);
-            }
-        };
-
-        Object capabilityPlatform1 = getCapabilities().getCapability(PLATFORM_NAME);
-        Object capabilityAutomation1 = getCapabilities().getCapability(AUTOMATION_NAME);
-
-        Object capabilityPlatform2 = capabilities.getCapability(PLATFORM_NAME);
-        Object capabilityAutomation2 = capabilities.getCapability(AUTOMATION_NAME);
-
-        platformName = ofNullable(ofNullable(hasSessionDetails.getPlatformName())
-                .orElse(capabilityPlatform1 != null ? String.valueOf(capabilityPlatform1) : null))
-                .orElse(capabilityPlatform2 != null ? String.valueOf(capabilityPlatform2) : null);
-        automationName = ofNullable(ofNullable(hasSessionDetails.getAutomationName())
-                .orElse(capabilityAutomation1 != null ? String.valueOf(capabilityAutomation1) : null))
-                .orElse(capabilityAutomation2 != null ? String.valueOf(capabilityAutomation2) : null);
-
         this.setElementConverter(new JsonToMobileElementConverter(this, this));
-        currentContext = getContext();
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -224,136 +189,14 @@ public class AppiumDriver<T extends WebElement>
         return executeMethod;
     }
 
-    /**
-     * This method is deprecated and it is going to be removed soon.
-     */
-    @Deprecated
-    public void tap(int fingers, WebElement element, int duration) {
-        MultiTouchAction multiTouch = new MultiTouchAction(this);
-
-        for (int i = 0; i < fingers; i++) {
-            TouchAction tap = new TouchAction(this);
-            multiTouch.add(tap.press(element).waitAction(duration).release());
-        }
-
-        multiTouch.perform();
-    }
-
-    /**
-     * This method is deprecated and it is going to be removed soon.
-     */
-    @Deprecated
-    public void tap(int fingers, int x, int y, int duration) {
-        MultiTouchAction multiTouch = new MultiTouchAction(this);
-
-        for (int i = 0; i < fingers; i++) {
-            TouchAction tap = new TouchAction(this);
-            multiTouch.add(tap.press(x,y).waitAction(duration).release());
-        }
-        multiTouch.perform();
-    }
-
-    /**
-     * This method is deprecated. It is going to be removed
-     */
-    @Deprecated
-    public void swipe(int startx, int starty, int endx, int endy, int duration) {
-        //does nothing
-    }
-
-    /**
-     * This method is deprecated and it is going to be removed soon.
-     */
-    @Deprecated
-    public void pinch(WebElement el) {
-        MultiTouchAction multiTouch = new MultiTouchAction(this);
-
-        Dimension dimensions = el.getSize();
-        Point upperLeft = el.getLocation();
-        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
-                upperLeft.getY() + dimensions.getHeight() / 2);
-        int yOffset = center.getY() - upperLeft.getY();
-
-        TouchAction action0 =
-                new TouchAction(this).press(el, center.getX(), center.getY() - yOffset).moveTo(el)
-                        .release();
-        TouchAction action1 =
-                new TouchAction(this).press(el, center.getX(), center.getY() + yOffset).moveTo(el)
-                        .release();
-
-        multiTouch.add(action0).add(action1).perform();
-    }
-
-    /**
-     * This method is deprecated and it is going to be removed soon.
-     */
-    @Deprecated
-    public void pinch(int x, int y) {
-        MultiTouchAction multiTouch = new MultiTouchAction(this);
-
-        int scrHeight = this.manage().window().getSize().getHeight();
-        int yOffset = 100;
-
-        if (y - 100 < 0) {
-            yOffset = y;
-        } else if (y + 100 > scrHeight) {
-            yOffset = scrHeight - y;
-        }
-
-        TouchAction action0 = new TouchAction(this).press(x, y - yOffset).moveTo(x, y).release();
-        TouchAction action1 = new TouchAction(this).press(x, y + yOffset).moveTo(x, y).release();
-
-        multiTouch.add(action0).add(action1).perform();
-    }
-
-    /**
-     * This method is deprecated and it is going to be removed soon.
-     */
-    @Deprecated
-    public void zoom(WebElement el) {
-        MultiTouchAction multiTouch = new MultiTouchAction(this);
-
-        Dimension dimensions = el.getSize();
-        Point upperLeft = el.getLocation();
-        Point center = new Point(upperLeft.getX() + dimensions.getWidth() / 2,
-                upperLeft.getY() + dimensions.getHeight() / 2);
-        int yOffset = center.getY() - upperLeft.getY();
-
-        TouchAction action0 = new TouchAction(this).press(center.getX(), center.getY())
-                .moveTo(el, center.getX(), center.getY() - yOffset).release();
-        TouchAction action1 = new TouchAction(this).press(center.getX(), center.getY())
-                .moveTo(el, center.getX(), center.getY() + yOffset).release();
-
-        multiTouch.add(action0).add(action1).perform();
-    }
-
-    /**
-     * This method is deprecated and it is going to be removed soon.
-     */
-    @Deprecated
-    public void zoom(int x, int y) {
-        MultiTouchAction multiTouch = new MultiTouchAction(this);
-
-        int scrHeight = this.manage().window().getSize().getHeight();
-        int yOffset = 100;
-
-        if (y - 100 < 0) {
-            yOffset = y;
-        } else if (y + 100 > scrHeight) {
-            yOffset = scrHeight - y;
-        }
-
-        TouchAction action0 = new TouchAction(this).press(x, y).moveTo(0, -yOffset).release();
-        TouchAction action1 = new TouchAction(this).press(x, y).moveTo(0, yOffset).release();
-
-        multiTouch.add(action0).add(action1).perform();
-    }
-
     @Override public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
-        execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-        currentContext = name;
-        return this;
+        try {
+            execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
+            return this;
+        } catch (WebDriverException e) {
+            throw new NoSuchContextException(e.getMessage(), e);
+        }
     }
 
     @Override public Set<String> getContextHandles() {
@@ -421,18 +264,8 @@ public class AppiumDriver<T extends WebElement>
         return remoteAddress;
     }
 
-    @Override public String getPlatformName() {
-        return platformName;
-    }
-
-    @Override public String getAutomationName() {
-        return automationName;
-    }
-
     @Override public boolean isBrowser() {
-        if  (super.isBrowser()) {
-            return true;
-        }
-        return !currentContext.toLowerCase().contains("NATIVE_APP".toLowerCase());
+        return super.isBrowser()
+                && !containsIgnoreCase(getContext(), "NATIVE_APP");
     }
 }

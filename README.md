@@ -1,4 +1,4 @@
-#java-client
+# java-client
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/io.appium/java-client/badge.svg)](http://www.javadoc.io/doc/io.appium/java-client)
@@ -9,7 +9,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [API docs](http://appium.github.io/java-client/)
 
-###Features and other interesting information###
+### Features and other interesting information
 
 [Tech stack](https://github.com/appium/java-client/blob/master/docs/Tech-stack.md)
 
@@ -17,9 +17,115 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [WIKI](https://github.com/appium/java-client/wiki)
 
-##Changelog##
-*5.0.0 (under construction yet)*
+## Changelog
 
+*5.1.0 (under construction yet)*
+
+*5.0.4*
+- **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).
+- **[REFACTOR]** **[BREAKING CHANGE]** Excessive invocation of the implicit waiting timeout was removed. This is the breaking change because API of `AppiumElementLocator` and `AppiumElementLocatorFactory` was changed. Request: [#735](https://github.com/appium/java-client/issues/735), FIXES: [#738](https://github.com/appium/java-client/pull/738), [#741](https://github.com/appium/java-client/pull/741)
+- **[DEPENDENCY UPDATES]**
+    - org.seleniumhq.selenium:selenium-java to 3.6.0
+    - com.google.code.gson:gson to 2.8.2
+    - org.springframework:spring-context to 5.0.0.RELEASE
+    - org.aspectj:aspectjweaver to 1.8.11
+
+*5.0.3*
+- **[BUG FIX]** Selenuim version was reverted from boundaries to the single number. Issue report: [#718](https://github.com/appium/java-client/issues/718). FIX: [#722](https://github.com/appium/java-client/pull/722)
+- **[ENHANCEMENT]** The `pushFile` was added to IOSDriver. Feature request: [#720](https://github.com/appium/java-client/issues/720). Implementation: [#721](https://github.com/appium/java-client/pull/721). This feature requires appium node server v>=1.7.0
+
+*5.0.2* **[BUG FIX RELEASE]**
+- **[BUG FIX]** Dependency conflict resolving. The report: [#714](https://github.com/appium/java-client/issues/714). The fix: [#717](https://github.com/appium/java-client/pull/717). This change may affect users who use htmlunit-driver and/or phantomjsdriver. At this case it is necessary to add it to dependency list and to exclude old selenium versions.
+
+*5.0.1* **[BUG FIX RELEASE]**
+- **[BUG FIX]** The fix of the element genering on iOS was fixed. Issue report: [#704](https://github.com/appium/java-client/issues/704). Fix: [#705](https://github.com/appium/java-client/pull/705)
+
+*5.0.0*
+- **[REFACTOR]** **[BREAKING CHANGE]** 5.0.0 finalization. Removal of obsolete code. [#660](https://github.com/appium/java-client/pull/660)
+- **[ENHANCEMENT]** Enable nativeWebTap setting for iOS. [#658](https://github.com/appium/java-client/pull/658)
+- **[ENHANCEMENT]** The `getCurrentPackage` was added. [#657](https://github.com/appium/java-client/pull/657)
+- **[ENHANCEMENT]** The `toggleTouchIDEnrollment` was added. [#659](https://github.com/appium/java-client/pull/659)
+- **[BUG FIX]** The clearing of existing actions/parameters after perform is invoked. [#663](https://github.com/appium/java-client/pull/663)
+- **[BUG FIX]** [#669](https://github.com/appium/java-client/pull/669) missed parameters of the `OverrideWidget` were added:
+    - `iOSXCUITAutomation`
+    - `windowsAutomation`
+- **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680) 
+- **[BUG FIX]** **[BREAKING CHANGE]** The issue of compliance with Selenium grid 3.x was fixed. This change is breaking because now java_client is compatible with appiun server v>=1.6.5. Issue report [#655](https://github.com/appium/java-client/issues/655). FIX [#682](https://github.com/appium/java-client/pull/682)
+- **[BUG FIX]** issues related to latest Selenium changes were fixed. Issue report [#696](https://github.com/appium/java-client/issues/696). Fix: [#699](https://github.com/appium/java-client/pull/699).
+- **[UPDATE]** Dependency update
+    - `selenium-java` was updated to 3.5.x
+    - `org.apache.commons-lang3` was updated to 3.6
+    - `org.springframework.spring-context` was updated to 4.3.10.RELEASE
+- **[ENHANCEMENT]** Update of the touch ID enroll method. The older `PerformsTouchID#toggleTouchIDEnrollment` was marked `Deprecated`.
+It is recoomended to use `PerformsTouchID#toggleTouchIDEnrollment(boolean)` instead.  [#695](https://github.com/appium/java-client/pull/695)
+    
+
+*5.0.0-BETA9*
+- **[ENHANCEMENT]** Page factory: Mixed locator strategies were implemented. Feature request:[#565](https://github.com/appium/java-client/issues/565) Implementation: [#646](https://github.com/appium/java-client/pull/646)
+- **[DEPRECATED]** All the content of the `io.appium.java_client.youiengine` package was marked `Deprecated`. It is going to be removed. [#652](https://github.com/appium/java-client/pull/652)
+- **[UPDATE]** Update of the `com.google.code.gson:gson` to v2.8.1.
+
+*5.0.0-BETA8*
+- **[ENHANCEMENT]** Page factory classes became which had package visibility are `public` now. [#630](https://github.com/appium/java-client/pull/630)
+  - `io.appium.java_client.pagefactory.AppiumElementLocatorFactory`
+  - `io.appium.java_client.pagefactory.DefaultElementByBuilder`
+  - `io.appium.java_client.pagefactory.WidgetByBuilder`
+
+- **[ENHANCEMENT]** New capabilities were added [#626](https://github.com/appium/java-client/pull/626):
+  - `AndroidMobileCapabilityType#AUTO_GRANT_PERMISSIONS`
+  - `AndroidMobileCapabilityType#ANDROID_NATURAL_ORIENTATION`
+  - `IOSMobileCapabilityType#XCODE_ORG_ID`
+  - `IOSMobileCapabilityType#XCODE_SIGNING_ID`
+  - `IOSMobileCapabilityType#UPDATE_WDA_BUNDLEID`
+  - `IOSMobileCapabilityType#RESET_ON_SESSION_START_ONLY`
+  - `IOSMobileCapabilityType#COMMAND_TIMEOUTS`
+  - `IOSMobileCapabilityType#WDA_STARTUP_RETRIES`
+  - `IOSMobileCapabilityType#WDA_STARTUP_RETRY_INTERVAL`
+  - `IOSMobileCapabilityType#CONNECT_HARDWARE_KEYBOARD`
+  - `IOSMobileCapabilityType#MAX_TYPING_FREQUENCY`
+  - `IOSMobileCapabilityType#SIMPLE_ISVISIBLE_CHECK`
+  - `IOSMobileCapabilityType#USE_CARTHAGE_SSL`
+  - `IOSMobileCapabilityType#SHOULD_USE_SINGLETON_TESTMANAGER`
+  - `IOSMobileCapabilityType#START_IWDP`
+  - `IOSMobileCapabilityType#ALLOW_TOUCHID_ENROLL`
+  - `MobileCapabilityType#EVENT_TIMINGS`
+
+- **[UPDATE]** Dependencies were updated:
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.4.0
+  - `cglib:cglib` was updated to 3.2.5
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.3
+  - `commons-validator:commons-validator` was updated to 1.6
+  - `org.springframework:spring-context` was updated to 4.3.8.RELEASE
+
+
+*5.0.0-BETA7*
+- **[ENHANCEMENT]** The ability to customize the polling strategy of the waiting was provided. [#612](https://github.com/appium/java-client/pull/612) 
+- **[ENHANCEMENT]** **[REFACTOR]** Methods which were representing time deltas instead of elementary types became `Deprecated`. Methods which use `java.time.Duration` are suugested to be used. [#611](https://github.com/appium/java-client/pull/611)
+- **[ENHANCEMENT]** The ability to calculate screenshots overlap was included. [#595](https://github.com/appium/java-client/pull/595).
+
+
+*5.0.0-BETA6*
+- **[UPDATE]** Update to Selenium 3.3.1
+- **[ENHANCEMENT]** iOS XCUIT mode automation: API to run application in background was added. [#593](https://github.com/appium/java-client/pull/593)
+- **[BUG FIX]** Issue report: [#594](https://github.com/appium/java-client/issues/594). FIX: [#597](https://github.com/appium/java-client/pull/597)
+- **[ENHANCEMENT]** The class chain locator was added. [#599](https://github.com/appium/java-client/pull/599)
+
+
+*5.0.0-BETA5*
+- **[UPDATE]** Update to Selenium 3.2.0
+- **[BUG FIX]** Excessive dependency on `guava` was removed. It causes errors. Issue report: [#588](https://github.com/appium/java-client/issues/588). FIX: [#589](https://github.com/appium/java-client/pull/589).
+- **[ENHANCEMENT]**. The capability `io.appium.java_client.remote.AndroidMobileCapabilityType#SYSTEM_PORT` was added. [#591](https://github.com/appium/java-client/pull/591)
+
+*5.0.0-BETA4*
+- **[ENHANCEMENT]** Android. API to read the performance data was added. [#562](https://github.com/appium/java-client/pull/562)
+- **[REFACTOR]** Android. Simplified the activity starting by reducing the number of parameters through POJO clas. Old methods which start activities were marked `@Deprecated`. [#579](https://github.com/appium/java-client/pull/579) [#585](https://github.com/appium/java-client/pull/585)
+- **[BUG FIX]** Issue report:[#574](https://github.com/appium/java-client/issues/574). Fix:[#582](https://github.com/appium/java-client/pull/582)
+
+*5.0.0-BETA3*
+[BUG FIX]
+- **[BUG FIX]**:Issue report: [#567](https://github.com/appium/java-client/issues/567). Fix: [#568](https://github.com/appium/java-client/pull/568)
+
+*5.0.0-BETA2*
 - **[BUG FIX]**:Issue report: [#549](https://github.com/appium/java-client/issues/549). Fix: [#551](https://github.com/appium/java-client/pull/551)
 - New capabilities were added [#533](https://github.com/appium/java-client/pull/553):
   - `IOSMobileCapabilityType#USE_NEW_WDA`
@@ -34,6 +140,8 @@ The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](
     - `String getAutomationName()`
     - `boolean isBrowser()`
   -  `io.appium.java_client.HasSessionDetails` is used by the ` io.appium.java_client.internal.JsonToMobileElementConverter ` to define which instance of the `org.openqa.selenium.WebElement` subclass should be created. 
+
+- **[ENHANCEMENT]**: The additional event firing feature. PR: [#559](https://github.com/appium/java-client/pull/559). The [WIKI chapter about the event firing](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md) was updated.
 
 *5.0.0-BETA1*
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)

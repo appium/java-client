@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory;
 import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConvenientConstructor;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
+import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.remote.AutomationName;
@@ -35,6 +36,8 @@ class OverrideWidgetReader {
     private static final String ANDROID_UI_AUTOMATOR = "androidUIAutomator";
     private static final String IOS_UI_AUTOMATION = "iOSUIAutomation";
     private static final String SELENDROID = "selendroid";
+    private static final String IOS_XCUIT_AUTOMATION = "iOSXCUITAutomation";
+    private static final String WINDOWS_AUTOMATION = "windowsAutomation";
 
     @SuppressWarnings("unchecked")
     private static Class<? extends Widget> getConvenientClass(Class<? extends Widget> declaredClass,
@@ -74,17 +77,24 @@ class OverrideWidgetReader {
         String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
         String transformedAutomation = String.valueOf(automation).toUpperCase().trim();
 
-        if (ANDROID.equalsIgnoreCase(transformedPlatform) && AutomationName.SELENDROID
-            .equalsIgnoreCase(transformedAutomation)) {
-            return getConvenientClass(declaredClass, annotatedElement, SELENDROID);
-        }
-
         if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
+            if (AutomationName.SELENDROID.equalsIgnoreCase(transformedAutomation)) {
+                return getConvenientClass(declaredClass, annotatedElement, SELENDROID);
+            }
+
             return getConvenientClass(declaredClass, annotatedElement, ANDROID_UI_AUTOMATOR);
         }
 
         if (IOS.equalsIgnoreCase(transformedPlatform)) {
+            if (AutomationName.IOS_XCUI_TEST.equalsIgnoreCase(transformedAutomation)) {
+                return getConvenientClass(declaredClass, annotatedElement, IOS_XCUIT_AUTOMATION);
+            }
+
             return getConvenientClass(declaredClass, annotatedElement, IOS_UI_AUTOMATION);
+        }
+
+        if (WINDOWS.equalsIgnoreCase(transformedPlatform)) {
+            return getConvenientClass(declaredClass, annotatedElement, WINDOWS_AUTOMATION);
         }
 
         return getDefaultOrHTMLWidgetClass(declaredClass, annotatedElement);
