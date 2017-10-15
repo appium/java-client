@@ -8,9 +8,6 @@ import io.appium.java_client.ExecutesMethod;
 
 import java.util.List;
 
-/**
- *
- */
 public interface HasSupportedPerformanceDataType extends ExecutesMethod {
 
     /**

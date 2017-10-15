@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_java-client" default="compile.module.java-client">
+  <dirname property="module.java-client.basedir" file="${ant.file.module_java-client}"/>
+  
+  <property name="module.jdk.home.java-client" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.java-client" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.java-client" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.java-client" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="java-client.output.dir" value="${module.java-client.basedir}/build/classes/main"/>
+  <property name="java-client.testoutput.dir" value="${module.java-client.basedir}/build/classes/test"/>
+  
+  <path id="java-client.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="java-client.module.production.classpath">
+    <path refid="${module.jdk.classpath.java-client}"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-java:3.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpclient:4.5.2.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:20.0.classpath"/>
+    <path refid="library.gradle:_cglib:cglib:3.2.4.classpath"/>
+    <path refid="library.gradle:_commons-validator:commons-validator:1.5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.5.classpath"/>
+    <path refid="library.gradle:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-context:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.aspectj:aspectjweaver:1.8.10.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-chrome-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-edge-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-firefox-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-ie-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-opera-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-safari-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-support:3.0.1.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_com.codeborne:phantomjsdriver:1.3.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpcore:4.4.4.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-beanutils:commons-beanutils:1.9.2.classpath"/>
+    <path refid="library.gradle:_commons-digester:commons-digester:1.8.1.classpath"/>
+    <path refid="library.gradle:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-aop:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-beans:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-core:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-expression:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-remote-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_io.netty:netty:3.5.7.final.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_xalan:xalan:2.7.2.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpmime:4.5.2.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit-core-js:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:neko-htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.cssparser:cssparser:0.9.20.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant-launcher:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-client:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-util:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-io:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-common:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-api:3.0.1.classpath"/>
+    <path refid="library.gradle:_cglib:cglib-nodep:3.2.4.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-exec:1.3.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna-platform:4.1.0.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_xalan:serializer:2.7.2.classpath"/>
+    <path refid="library.gradle:_xerces:xercesimpl:2.11.0.classpath"/>
+    <path refid="library.gradle:_org.w3c.css:sac:1.3.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-api:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.1.0.classpath"/>
+    <path refid="library.gradle:_xml-apis:xml-apis:1.4.01.classpath"/>
+  </path>
+  
+  <path id="java-client.runtime.production.module.classpath">
+    <pathelement location="${java-client.output.dir}"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-java:3.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpclient:4.5.2.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:20.0.classpath"/>
+    <path refid="library.gradle:_cglib:cglib:3.2.4.classpath"/>
+    <path refid="library.gradle:_commons-validator:commons-validator:1.5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.5.classpath"/>
+    <path refid="library.gradle:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-context:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.aspectj:aspectjweaver:1.8.10.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-chrome-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-edge-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-firefox-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-ie-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-opera-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-safari-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-support:3.0.1.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_com.codeborne:phantomjsdriver:1.3.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpcore:4.4.4.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-beanutils:commons-beanutils:1.9.2.classpath"/>
+    <path refid="library.gradle:_commons-digester:commons-digester:1.8.1.classpath"/>
+    <path refid="library.gradle:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-aop:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-beans:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-core:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-expression:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-remote-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_io.netty:netty:3.5.7.final.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_xalan:xalan:2.7.2.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpmime:4.5.2.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit-core-js:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:neko-htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.cssparser:cssparser:0.9.20.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant-launcher:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-client:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-util:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-io:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-common:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-api:3.0.1.classpath"/>
+    <path refid="library.gradle:_cglib:cglib-nodep:3.2.4.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-exec:1.3.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna-platform:4.1.0.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_xalan:serializer:2.7.2.classpath"/>
+    <path refid="library.gradle:_xerces:xercesimpl:2.11.0.classpath"/>
+    <path refid="library.gradle:_org.w3c.css:sac:1.3.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-api:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.1.0.classpath"/>
+    <path refid="library.gradle:_xml-apis:xml-apis:1.4.01.classpath"/>
+  </path>
+  
+  <path id="java-client.module.classpath">
+    <path refid="${module.jdk.classpath.java-client}"/>
+    <pathelement location="${java-client.output.dir}"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-java:3.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpclient:4.5.2.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:20.0.classpath"/>
+    <path refid="library.gradle:_cglib:cglib:3.2.4.classpath"/>
+    <path refid="library.gradle:_commons-validator:commons-validator:1.5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.5.classpath"/>
+    <path refid="library.gradle:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-context:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.aspectj:aspectjweaver:1.8.10.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-chrome-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-edge-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-firefox-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-ie-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-opera-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-safari-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-support:3.0.1.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_com.codeborne:phantomjsdriver:1.3.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpcore:4.4.4.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-beanutils:commons-beanutils:1.9.2.classpath"/>
+    <path refid="library.gradle:_commons-digester:commons-digester:1.8.1.classpath"/>
+    <path refid="library.gradle:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-aop:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-beans:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-core:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-expression:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-remote-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_io.netty:netty:3.5.7.final.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_xalan:xalan:2.7.2.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpmime:4.5.2.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit-core-js:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:neko-htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.cssparser:cssparser:0.9.20.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant-launcher:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-client:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-util:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-io:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-common:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-api:3.0.1.classpath"/>
+    <path refid="library.gradle:_cglib:cglib-nodep:3.2.4.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-exec:1.3.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna-platform:4.1.0.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_xalan:serializer:2.7.2.classpath"/>
+    <path refid="library.gradle:_xerces:xercesimpl:2.11.0.classpath"/>
+    <path refid="library.gradle:_org.w3c.css:sac:1.3.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-api:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.1.0.classpath"/>
+    <path refid="library.gradle:_xml-apis:xml-apis:1.4.01.classpath"/>
+  </path>
+  
+  <path id="java-client.runtime.module.classpath">
+    <pathelement location="${java-client.testoutput.dir}"/>
+    <pathelement location="${java-client.output.dir}"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-java:3.0.1.classpath"/>
+    <path refid="library.gradle:_com.google.code.gson:gson:2.8.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpclient:4.5.2.classpath"/>
+    <path refid="library.gradle:_com.google.guava:guava:20.0.classpath"/>
+    <path refid="library.gradle:_cglib:cglib:3.2.4.classpath"/>
+    <path refid="library.gradle:_commons-validator:commons-validator:1.5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-lang3:3.5.classpath"/>
+    <path refid="library.gradle:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-context:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.aspectj:aspectjweaver:1.8.10.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-chrome-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-edge-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-firefox-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-ie-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-opera-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-safari-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-support:3.0.1.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_com.codeborne:phantomjsdriver:1.3.0.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpcore:4.4.4.classpath"/>
+    <path refid="library.gradle:_commons-logging:commons-logging:1.2.classpath"/>
+    <path refid="library.gradle:_org.ow2.asm:asm:5.1.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-beanutils:commons-beanutils:1.9.2.classpath"/>
+    <path refid="library.gradle:_commons-digester:commons-digester:1.8.1.classpath"/>
+    <path refid="library.gradle:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-aop:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-beans:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-core:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.springframework:spring-expression:4.3.5.release.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-remote-driver:3.0.1.classpath"/>
+    <path refid="library.gradle:_io.netty:netty:3.5.7.final.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_xalan:xalan:2.7.2.classpath"/>
+    <path refid="library.gradle:_org.apache.httpcomponents:httpmime:4.5.2.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:htmlunit-core-js:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.htmlunit:neko-htmlunit:2.23.classpath"/>
+    <path refid="library.gradle:_net.sourceforge.cssparser:cssparser:0.9.20.classpath"/>
+    <path refid="library.gradle:_org.apache.ant:ant-launcher:1.9.6.classpath"/>
+    <path refid="library.gradle:_commons-codec:commons-codec:1.10.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-client:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-util:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty:jetty-io:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-common:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_org.seleniumhq.selenium:selenium-api:3.0.1.classpath"/>
+    <path refid="library.gradle:_cglib:cglib-nodep:3.2.4.classpath"/>
+    <path refid="library.gradle:_org.apache.commons:commons-exec:1.3.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna-platform:4.1.0.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.gradle:_xalan:serializer:2.7.2.classpath"/>
+    <path refid="library.gradle:_xerces:xercesimpl:2.11.0.classpath"/>
+    <path refid="library.gradle:_org.w3c.css:sac:1.3.classpath"/>
+    <path refid="library.gradle:_org.eclipse.jetty.websocket:websocket-api:9.2.18.v20160721.classpath"/>
+    <path refid="library.gradle:_net.java.dev.jna:jna:4.1.0.classpath"/>
+    <path refid="library.gradle:_xml-apis:xml-apis:1.4.01.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.java-client">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.java-client">
+    <patternset refid="excluded.from.module.java-client"/>
+  </patternset>
+  
+  <path id="java-client.module.sourcepath">
+    <dirset dir="${module.java-client.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="java-client.module.test.sourcepath">
+    <dirset dir="${module.java-client.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.java-client" depends="compile.module.java-client.production,compile.module.java-client.tests" description="Compile module java-client"/>
+  
+  <target name="compile.module.java-client.production" depends="register.custom.compilers" description="Compile module java-client; production classes">
+    <mkdir dir="${java-client.output.dir}"/>
+    <javac2 destdir="${java-client.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.java-client}/javac">
+      <compilerarg line="${compiler.args.java-client}"/>
+      <bootclasspath refid="java-client.module.bootclasspath"/>
+      <classpath refid="java-client.module.production.classpath"/>
+      <src refid="java-client.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.java-client"/>
+    </javac2>
+    
+    <copy todir="${java-client.output.dir}">
+      <fileset dir="${module.java-client.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.java-client.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.java-client.tests" depends="register.custom.compilers,compile.module.java-client.production" description="compile module java-client; test classes" unless="skip.tests">
+    <mkdir dir="${java-client.testoutput.dir}"/>
+    <javac2 destdir="${java-client.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.java-client}/javac">
+      <compilerarg line="${compiler.args.java-client}"/>
+      <bootclasspath refid="java-client.module.bootclasspath"/>
+      <classpath refid="java-client.module.classpath"/>
+      <src refid="java-client.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.java-client"/>
+    </javac2>
+    
+    <copy todir="${java-client.testoutput.dir}">
+      <fileset dir="${module.java-client.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.java-client.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.java-client" description="cleanup module">
+    <delete dir="${java-client.output.dir}"/>
+    <delete dir="${java-client.testoutput.dir}"/>
+  </target>
+</project>
