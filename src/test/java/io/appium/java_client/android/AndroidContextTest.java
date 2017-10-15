@@ -26,7 +26,8 @@ import org.junit.Test;
 public class AndroidContextTest extends BaseAndroidTest {
 
     @BeforeClass public static void beforeClass2() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.WebView1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.WebView1");
+        driver.startActivity(activity);
         Thread.sleep(20000);
     }
 

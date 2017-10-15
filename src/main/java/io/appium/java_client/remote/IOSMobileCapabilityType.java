@@ -263,4 +263,99 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      */
     String WDA_CONNECTION_TIMEOUT = "wdaConnectionTimeout";
 
+    /**
+     * Apple developer team identifier string.
+     * Must be used in conjunction with xcodeSigningId to take effect.
+     * e.g., JWL241K123
+     */
+    String XCODE_ORG_ID = "xcodeOrgId";
+
+    /**
+     * String representing a signing certificate.
+     * Must be used in conjunction with xcodeOrgId.
+     * This is usually just iPhone Developer.
+     */
+    String XCODE_SIGNING_ID = "xcodeSigningId";
+
+    /**
+     * Bundle id to update WDA to before building and launching on real devices.
+     * This bundle id must be associated with a valid provisioning profile.
+     * e.g., io.appium.WebDriverAgentRunner.
+     */
+    String UPDATE_WDA_BUNDLEID = "updatedWDABundleId";
+
+    /**
+     * Whether to perform reset on test session finish (false) or not (true).
+     * Keeping this variable set to true and Simulator running
+     * (the default behaviour since version 1.6.4) may significantly shorten the
+     * duratiuon of test session initialization.
+     * Defaults to true.
+     */
+    String RESET_ON_SESSION_START_ONLY = "resetOnSessionStartOnly";
+
+    /**
+     * Custom timeout(s) in milliseconds for WDA backend commands execution.
+     */
+    String COMMAND_TIMEOUTS = "commandTimeouts";
+
+    /**
+     * Number of times to try to build and launch WebDriverAgent onto the device.
+     * Defaults to 2.
+     */
+    String WDA_STARTUP_RETRIES = "wdaStartupRetries";
+
+    /**
+     * Time, in ms, to wait between tries to build and launch WebDriverAgent.
+     * Defaults to 10000ms.
+     */
+    String WDA_STARTUP_RETRY_INTERVAL = "wdaStartupRetryInterval";
+
+    /**
+     * Set this option to true in order to enable hardware keyboard in Simulator.
+     * It is set to false by default, because this helps to workaround some XCTest bugs.
+     */
+    String CONNECT_HARDWARE_KEYBOARD = "connectHardwareKeyboard";
+
+    /**
+     * Maximum frequency of keystrokes for typing and clear.
+     * If your tests are failing because of typing errors, you may want to adjust this.
+     * Defaults to 60 keystrokes per minute.
+     */
+    String MAX_TYPING_FREQUENCY = "maxTypingFrequency";
+
+    /**
+     * Use native methods for determining visibility of elements.
+     * In some cases this takes a long time.
+     * Setting this capability to false will cause the system to use the position
+     * and size of elements to make sure they are visible on the screen.
+     * This can, however, lead to false results in some situations.
+     * Defaults to false, except iOS 9.3, where it defaults to true.
+     */
+    String SIMPLE_ISVISIBLE_CHECK = "simpleIsVisibleCheck";
+
+    /**
+     * Use SSL to download dependencies for WebDriverAgent. Defaults to false.
+     */
+    String USE_CARTHAGE_SSL = "useCarthageSsl";
+
+    /**
+     * Use default proxy for test management within WebDriverAgent.
+     * Setting this to false sometimes helps with socket hangup problems.
+     * Defaults to true.
+     */
+    String SHOULD_USE_SINGLETON_TESTMANAGER = "shouldUseSingletonTestManager";
+
+    /**
+     * Set this to true if you want to start ios_webkit_debug proxy server
+     * automatically for accessing webviews on iOS.
+     * The capatibility only works for real device automation.
+     * Defaults to false.
+     */
+    String START_IWDP = "startIWDP";
+
+    /**
+     * Enrolls simulator for touch id. Defaults to false.
+     */
+    String ALLOW_TOUCHID_ENROLL = "allowTouchIdEnroll";
+
 }

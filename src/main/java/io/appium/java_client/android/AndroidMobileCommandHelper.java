@@ -48,6 +48,18 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
+     * getting of the current package.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
+        return new AbstractMap.SimpleEntry<>(
+                GET_CURRENT_PACKAGE, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
      * ending of the test coverage.
      *
      * @param intent intent to broadcast.
@@ -214,49 +226,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
                 IS_LOCKED, ImmutableMap.<String, Object>of());
     }
 
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<>(
-                PRESS_KEY_CODE, prepareArguments("keycode", key));
-    }
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#pressKeyCodeCommand(int, Integer)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
-        Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
-        return new AbstractMap.SimpleEntry<>(
-                PRESS_KEY_CODE, prepareArguments(parameters, values));
-    }
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<>(
-                LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
-    }
-
-    /**
-     * It is deprecated. Please use {@link MobileCommand#longPressKeyCodeCommand(int, Integer)} instead.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
-        Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
-        return new AbstractMap.SimpleEntry<>(
-                LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
-    }
-
     /**
      * This method forms a {@link java.util.Map} of parameters for the
      * notification opening.
@@ -267,22 +236,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
         return new AbstractMap.SimpleEntry<>(
                 OPEN_NOTIFICATIONS, ImmutableMap.<String, Object>of());
-    }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * file pushing
-     *
-     * @param remotePath Path to file to write data to on remote device
-     * @param base64Data Base64 encoded byte array of data to write to remote device
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>>  pushFileCommandCommand(String remotePath,
-        byte[] base64Data) {
-        String[] parameters = new String[] {"path", "data"};
-        Object[] values = new Object[] {remotePath, base64Data};
-        return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
 
     /**
@@ -371,13 +324,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
     }
 
-    /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand() {
-        return new AbstractMap.SimpleEntry<>(LOCK, prepareArguments("seconds", 0));
-    }
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the element
@@ -396,14 +342,5 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
         return new AbstractMap.SimpleEntry<>(
                 REPLACE_VALUE, prepareArguments(parameters, values));
-    }
-
-    public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
-    }
-
-    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
-        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings",
-                prepareArguments(setting.toString(), value)));
     }
 }

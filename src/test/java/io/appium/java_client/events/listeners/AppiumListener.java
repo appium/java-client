@@ -10,6 +10,26 @@ public class AppiumListener extends TestListener implements AppiumWebDriverEvent
         SingleListeners.listeners.put(AppiumListener.class, this);
     }
 
+    @Override
+    public void beforeAlertAccept(WebDriver driver) {
+        messages.add("WebDriverEventListener: Attempt to accept alert");
+    }
+
+    @Override
+    public void afterAlertAccept(WebDriver driver) {
+        messages.add("WebDriverEventListener: The alert was accepted");
+    }
+
+    @Override
+    public void afterAlertDismiss(WebDriver driver) {
+        messages.add("WebDriverEventListener: Attempt to dismiss alert");
+    }
+
+    @Override
+    public void beforeAlertDismiss(WebDriver driver) {
+        messages.add("WebDriverEventListener: The alert was dismissed");
+    }
+
     @Override public void beforeNavigateTo(String url, WebDriver driver) {
         messages.add("WebDriverEventListener: Attempt to navigate to " + url);
     }

@@ -46,7 +46,7 @@ public class MobileBrowserCompatibilityTest {
     @AndroidFindBy(className = "someClass") @AndroidFindBy(xpath = "//someTag")
     private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
 
-    @FindBy(className = "gsfi")
+    @FindBy(name = "q")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
     private WebElement searchTextField;
 

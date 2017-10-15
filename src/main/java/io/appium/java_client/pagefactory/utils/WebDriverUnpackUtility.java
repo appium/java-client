@@ -16,6 +16,11 @@
 
 package io.appium.java_client.pagefactory.utils;
 
+import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
+import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
+import static java.util.Optional.ofNullable;
+
+import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.SearchContext;
@@ -84,17 +89,27 @@ public final class WebDriverUnpackUtility {
      * {@link org.openqa.selenium.ContextAware} and {@link org.openqa.selenium.internal.WrapsDriver}
      */
     public static ContentType getCurrentContentType(SearchContext context) {
-        WebDriver driver = WebDriverUnpackUtility.unpackWebDriverFromSearchContext(context);
-        if (!ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
-            return ContentType.HTML_OR_DEFAULT;
-        }
+        return ofNullable(unpackWebDriverFromSearchContext(context)).map(driver -> {
+            if (HasSessionDetails.class.isAssignableFrom(driver.getClass())) {
+                HasSessionDetails hasSessionDetails = HasSessionDetails.class.cast(driver);
 
-        ContextAware contextAware = ContextAware.class.cast(driver);
-        String currentContext = contextAware.getContext();
-        if (currentContext.contains(NATIVE_APP_PATTERN)) {
-            return ContentType.NATIVE_MOBILE_SPECIFIC;
-        }
+                if (hasSessionDetails.isBrowser()) {
+                    return HTML_OR_DEFAULT;
+                }
+                return NATIVE_MOBILE_SPECIFIC;
+            }
 
-        return ContentType.HTML_OR_DEFAULT;
+            if (!ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
+                return HTML_OR_DEFAULT;
+            }
+
+            ContextAware contextAware = ContextAware.class.cast(driver);
+            String currentContext = contextAware.getContext();
+            if (currentContext.contains(NATIVE_APP_PATTERN)) {
+                return NATIVE_MOBILE_SPECIFIC;
+            }
+
+            return HTML_OR_DEFAULT;
+        }).orElse(HTML_OR_DEFAULT);
     }
 }

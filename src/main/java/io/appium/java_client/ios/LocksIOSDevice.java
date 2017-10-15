@@ -21,14 +21,17 @@ import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
+import java.time.Duration;
+
 public interface LocksIOSDevice extends ExecutesMethod {
+
     /**
      * Lock the device (bring it to the lock screen) for a given number of
      * seconds.
      *
-     * @param seconds number of seconds to lock the screen for
+     * @param duration for how long to lock the screen. Minimum time resolution is one second
      */
-    default void lockDevice(int seconds) {
-        CommandExecutionHelper.execute(this, lockDeviceCommand(seconds));
+    default void lockDevice(Duration duration) {
+        CommandExecutionHelper.execute(this, lockDeviceCommand(duration));
     }
 }

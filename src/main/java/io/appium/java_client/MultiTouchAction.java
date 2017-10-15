@@ -85,4 +85,14 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
         });
         return ImmutableMap.of("actions", listOfActionChains.build());
     }
+
+    /**
+     * Clears all the existing touch actions and resets the instance to the initial state.
+     *
+     * @return this MultiTouchAction, for possible segmented-touches.
+     */
+    protected MultiTouchAction clearActions() {
+        actions = ImmutableList.builder();
+        return this;
+    }
 }

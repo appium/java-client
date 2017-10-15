@@ -29,6 +29,7 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +110,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void runAppInBackgroundTest() {
         long time = System.currentTimeMillis();
-        driver.runAppInBackground(4);
+        driver.runAppInBackground(Duration.ofSeconds(4));
         long timeAfter = System.currentTimeMillis();
         assert (timeAfter - time > 3000);
     }
@@ -145,7 +146,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getSupportedPerformanceDataTypesTest() {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
         List<String> dataTypes = new ArrayList<String>();
         dataTypes.add("cpuinfo");
@@ -165,18 +167,16 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getPerformanceDataTest() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
 
-        for (int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++ i) {
-
-            String dataType = supportedPerformanceDataTypes.get(i);
+        for (String dataType : supportedPerformanceDataTypes) {
 
             List<List<Object>> valueTable = driver.getPerformanceData("com.example.android.apis", dataType, 60000);
 
-            for ( int j = 1 ; j < valueTable.size() ; ++ j) {
-                assertEquals(valueTable.subList(0,0).size(), valueTable.subList(j, j).size());
+            for (int j = 1; j < valueTable.size(); ++j) {
+                assertEquals(valueTable.subList(0, 0).size(), valueTable.subList(j, j).size());
             }
         }
 
@@ -219,4 +219,9 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
 
     }
+
+    @Test public void getCurrentPackageTest() {
+        assertEquals("io.appium.android.apis",driver.getCurrentPackage());
+    }
+
 }

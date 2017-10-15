@@ -1,10 +1,10 @@
-#Requirements
+# Requirements
 
 Firstly you should install appium server. [Appium getting started](http://appium.io/getting-started.html). The version 1.6.3 or greater is recommended.
 
 Since version 5.x there many features based on Java 8. So we recommend to install JDK SE 8 and provide that source compatibility.
 
-#Maven
+# Maven
 
 Add the following to pom.xml:
 
@@ -40,7 +40,7 @@ If it is necessary to change the version of Selenium then you can configure pom.
 </dependency>
 ```
 
-#Gradle
+# Gradle
 
 Add the following to build.gradle:
 

@@ -1,6 +1,6 @@
 Appium java client has some features based on [Java 8 Functional interfaces](https://www.oreilly.com/learning/java-8-functional-interfaces).
 
-#Conditions
+# Conditions
 
 ```java
 io.appium.java_client.functions.AppiumFunction
@@ -58,7 +58,7 @@ private final AppiumFunction<Pattern, WebDriver> contextFunction = input -> {
 };
 ```
 
-##using one function as pre-condition
+## using one function as pre-condition
 
 ```java
 @Test public void tezt() {
@@ -70,7 +70,7 @@ private final AppiumFunction<Pattern, WebDriver> contextFunction = input -> {
 }
 ```
 
-##using one function as post-condition
+## using one function as post-condition
 
 ```java
 import org.openqa.selenium.support.ui.FluentWait;
@@ -85,7 +85,7 @@ import org.openqa.selenium.support.ui.Wait;
 }
 ```
 
-#Touch action supplier
+# Touch action supplier
 
 [About touch actions](https://github.com/appium/java-client/blob/master/docs/Touch-actions.md)
 
@@ -96,7 +96,7 @@ create gesture libraries/utils using suppliers. Appium java client provides this
 io.appium.java_client.functions.ActionSupplier
 ``` 
 
-##Samples
+## Samples
 
 ```java
 private final ActionSupplier<TouchAction> horizontalSwipe = () -> {

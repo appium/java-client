@@ -68,13 +68,13 @@ new URL("http://target_ip:used_port/wd/hub"), //if it needs to use locally start
 capabilities);
 ```
 
-##If it needs to start browser then 
+## If it needs to start browser then 
 
 ```java
 capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
 ```
 
-##There are two automation types
+## There are two automation types
 
 Default iOS Automation (v < iOS 10.x) does not require any specific capability. However you can 
 ```java

@@ -26,36 +26,6 @@ import java.util.Map;
 public class IOSMobileCommandHelper extends MobileCommand {
 
     /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
-        return new AbstractMap.SimpleEntry<>(
-                HIDE_KEYBOARD, prepareArguments("keyName", keyName));
-    }
-
-    /**
-     * This method was moved to {@link MobileCommand#hideKeyboardCommand(String, String)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
-        String keyName) {
-        String[] parameters = new String[] {"strategy", "key"};
-        Object[] values = new Object[] {strategy, keyName};
-        return new AbstractMap.SimpleEntry<>(
-                HIDE_KEYBOARD, prepareArguments(parameters, values));
-    }
-
-    /**
-     * This method was moved to {@link MobileCommand#lockDeviceCommand(int)}.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>>  lockDeviceCommand(int seconds) {
-        return new AbstractMap.SimpleEntry<>(
-                LOCK, prepareArguments("seconds", seconds));
-    }
-
-    /**
      * This method forms a {@link java.util.Map} of parameters for the
      * device shaking.
      *
@@ -76,5 +46,28 @@ public class IOSMobileCommandHelper extends MobileCommand {
     public static Map.Entry<String, Map<String, ?>> touchIdCommand(boolean match) {
         return new AbstractMap.SimpleEntry<>(
             TOUCH_ID, prepareArguments("match", match));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the toggling touchId
+     * enrollment in simulator.
+     * The method is deprecated. Please use {@link #toggleTouchIdEnrollmentCommand(boolean)} instead.
+     */
+    @Deprecated
+    public static Map.Entry<String, Map<String, ?>> toggleTouchIdEnrollmentCommand() {
+        return new AbstractMap.SimpleEntry<>(
+                TOUCH_ID_ENROLLMENT, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the toggling touchId
+     * enrollment in simulator.
+     *
+     * @param enabled Whether to enable or disable Touch ID Enrollment for Simulator.
+     *
+     */
+    public static Map.Entry<String, Map<String, ?>> toggleTouchIdEnrollmentCommand(boolean enabled) {
+        return new AbstractMap.SimpleEntry<>(
+                TOUCH_ID_ENROLLMENT, prepareArguments("enabled", enabled));
     }
 }

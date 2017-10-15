@@ -2,8 +2,8 @@ package io.appium.java_client.appium.element.generation.ios;
 
 import static io.appium.java_client.MobileBy.IosUIAutomation;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.className;
 import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.name;
 
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.IOSElement;
@@ -14,7 +14,6 @@ import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.io.File;
 import java.util.function.Function;
@@ -89,7 +88,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                     }
                 });
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, name("q"), IOSElement.class));
     }
 
     @Test public void whenIOSBrowserIsLaunched() {
@@ -97,7 +96,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                 clientBrowserCapabilitiesSupplier, (by, aClass) -> {
                 driver.get("https://www.google.com");
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, name("q"), IOSElement.class));
     }
 
     @Test
@@ -117,6 +116,6 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         }, clientBrowserCapabilitiesSupplier, (by, aClass) -> {
                 driver.get("https://www.google.com");
                 return commonPredicate.test(by, aClass);
-            }, className("gsfi"), RemoteWebElement.class));
+            }, name("q"), IOSElement.class));
     }
 }

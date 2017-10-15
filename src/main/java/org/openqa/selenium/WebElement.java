@@ -34,19 +34,18 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * should discard all references to this element and any further
      * operations performed on this element will throw a
      * StaleElementReferenceException.
-     * <p>
+     *
      * Note that if click() is done by sending a native event (which is
      * the default on most browsers/platforms) then the method will
      * _not_ wait for the next page to load and the caller should verify
      * that themselves.
-     * <p>
-     * <p>
+     *
      * There are some preconditions for an element to be clicked. The
      * element must be visible and it must have a height and width
      * greater then 0.
      *
      * @throws StaleElementReferenceException If the element no
-     *                                        longer exists as initially defined
+     *     longer exists as initially defined
      */
     void click();
 
@@ -69,7 +68,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
     /**
      * If this element is a text entry element, this will clear the value. Has no effect on other
      * elements. Text entry elements are INPUT and TEXTAREA elements.
-     * <p>
+     *
      * Note that the events fired by this event may not be as you'd expect.  In particular, we don't
      * fire any keyboard or mouse events.  If you want to ensure keyboard events are fired, consider
      * using something like {@link #sendKeys(CharSequence...)} with the backspace key.  To ensure
@@ -169,7 +168,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * This method is affected by the 'implicit wait' times in force at the time of execution.
      * The findElement(..) invocation will return a matching row, or try again repeatedly until
      * the configured timeout is reached.
-     * <p>
+     *
      * findElement should not be used to look for non-present elements, use {@link #findElements(By)}
      * and assert zero length response instead.
      *
@@ -213,7 +212,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * Color values should be returned as rgba strings, so,
      * for example if the "background-color" property is set as "green" in the
      * HTML source, the returned value will be "rgba(0, 255, 0, 1)".
-     * <p>
+     *
      * Note that shorthand CSS properties (e.g. background, font, border, border-top, margin,
      * margin-top, padding, padding-top, list-style, outline, pause, cue) are not returned,
      * in accordance with the

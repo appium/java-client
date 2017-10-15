@@ -114,4 +114,10 @@ public interface MobileCapabilityType extends CapabilityType {
      * the end of a session (see iOS and Android entries for particulars).
      */
     String CLEAR_SYSTEM_FILES = "clearSystemFiles";
+
+    /**
+     * Enable or disable the reporting of the timings for various Appium-internal events
+     * (e.g., the start and end of each command, etc.). Defaults to false.
+     */
+    String EVENT_TIMINGS = "eventTimings";
 }
