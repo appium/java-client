@@ -183,7 +183,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getStartRecordingScreenTest() {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
         String filePath = "/sdcard/demo321.mp4";
 
@@ -201,7 +201,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getStopRecordingScreenTest() {
-        driver.startActivity("io.appium.android.apis", ".ApiDemos");
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
         String filePath = "/sdcard/demo321.mp4";
 
