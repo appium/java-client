@@ -16,10 +16,12 @@
 
 package io.appium.java_client.pagefactory;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 
@@ -30,7 +32,7 @@ import java.lang.annotation.Target;
  * this allows users to quickly and easily create PageObjects.
  * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
  */
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
+@Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSFindBySet.class)
 public @interface iOSFindBy {
     /**
@@ -66,4 +68,9 @@ public @interface iOSFindBy {
      * It is a xpath to the target element.
      */
     String xpath() default "";
+
+    /**
+     * @return priority of the searching. Higher number means lower priority.
+     */
+    int priority() default 0;
 }

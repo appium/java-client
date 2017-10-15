@@ -16,19 +16,12 @@
 
 package io.appium.java_client.events;
 
+import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiringObject;
 
 import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.WebDriver;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ServiceLoader;
 
 public class EventFiringWebDriverFactory {
 
@@ -41,7 +34,7 @@ public class EventFiringWebDriverFactory {
      * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
      */
     public static <T extends WebDriver> T getEventFiringWebDriver(T driver) {
-        return getEventFiringWebDriver(driver, Collections.<Listener>emptyList());
+        return getEventFiringObject(driver, driver);
     }
 
     /**
@@ -55,7 +48,7 @@ public class EventFiringWebDriverFactory {
      * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
      */
     public static <T extends WebDriver> T getEventFiringWebDriver(T driver, Listener ... listeners) {
-        return getEventFiringWebDriver(driver, Arrays.asList(listeners));
+        return getEventFiringObject(driver, driver, listeners);
     }
 
     /**
@@ -68,21 +61,7 @@ public class EventFiringWebDriverFactory {
      * @param <T> T
      * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
      */
-    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T getEventFiringWebDriver(T driver, Collection<Listener> listeners) {
-        List<Listener> listenerList = new ArrayList<>();
-        Iterator<Listener> providers = ServiceLoader.load(
-            Listener.class).iterator();
-
-        while (providers.hasNext()) {
-            listenerList.add(providers.next());
-        }
-
-        listenerList.addAll(listeners);
-
-        AbstractApplicationContext context = new AnnotationConfigApplicationContext(
-            DefaultBeanConfiguration.class);
-        return (T) context.getBean(
-            DefaultBeanConfiguration.WEB_DRIVER_BEAN, driver, listenerList, context);
+        return getEventFiringObject(driver, driver, listeners);
     }
 }

@@ -25,12 +25,15 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 
 import io.appium.java_client.android.BaseAndroidTest;
+
+import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.AndroidFindAll;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.SelendroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
@@ -179,6 +182,59 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(id = "android:id/Faketext1")
     @AndroidFindBy(id = "android:id/text1")
     private List<WebElement> elementsFoundByInvalidChainedSelector;
+
+    @AndroidFindBy(id = "android:id/text1", priority = 2)
+    @AndroidFindAll(value = {
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+            @AndroidBy(id = "android:id/fakeId")}, priority = 1)
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    private AndroidElement androidElementViewFoundByMixedSearching;
+
+    @AndroidFindBy(id = "android:id/text1", priority = 2)
+    @AndroidFindAll(value = {
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+            @AndroidBy(id = "android:id/fakeId")}, priority = 1)
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
+    private List<AndroidElement> androidElementsViewFoundByMixedSearching;
+
+    @AndroidFindBys({
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+            @AndroidBy(className = "android.widget.FrameLayout")})
+    @AndroidFindBys({@AndroidBy(id = "android:id/text1", priority = 1),
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
+    private AndroidElement androidElementViewFoundByMixedSearching2;
+
+    @AndroidFindBys({
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+            @AndroidBy(className = "android.widget.FrameLayout")})
+    @AndroidFindBys({
+            @AndroidBy(id = "android:id/text1", priority = 1),
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
+    private List<AndroidElement> androidElementsViewFoundByMixedSearching2;
+
+    @HowToUseLocators(androidAutomation = ALL_POSSIBLE)
+    @AndroidFindBy(id = "android:id/fakeId1")
+    @AndroidFindBy(id = "android:id/fakeId2", priority = 1)
+    @AndroidFindBys(value = {
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+            @AndroidBy(id = "android:id/text1", priority = 3),
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
+            @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
+    @AndroidFindBy(id = "android:id/fakeId3", priority = 3)
+    @AndroidFindBy(id = "android:id/fakeId4", priority = 4)
+    private AndroidElement androidElementViewFoundByMixedSearching3;
+
+    @HowToUseLocators(androidAutomation = ALL_POSSIBLE)
+    @AndroidFindBy(id = "android:id/fakeId1")
+    @AndroidFindBy(id = "android:id/fakeId2", priority = 1)
+    @AndroidFindBys(value = {
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+            @AndroidBy(id = "android:id/text1", priority = 3),
+            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
+            @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
+    @AndroidFindBy(id = "android:id/fakeId3", priority = 3)
+    @AndroidFindBy(id = "android:id/fakeId4", priority = 4)
+    private List<AndroidElement> androidElementsViewFoundByMixedSearching3;
 
     /**
      * The setting up.
@@ -332,5 +388,29 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @Test public void checkThatListSearchingWorksIfChainedLocatorIsInvalid() {
         assertEquals(0, elementsFoundByInvalidChainedSelector.size());
+    }
+
+    @Test public void checkMixedElementSearching1() {
+        assertNotNull(androidElementViewFoundByMixedSearching.getAttribute("text"));
+    }
+
+    @Test public void checkMixedElementsSearching1() {
+        assertNotEquals(0, androidElementsViewFoundByMixedSearching.size());
+    }
+
+    @Test public void checkMixedElementSearching2() {
+        assertNotNull(androidElementViewFoundByMixedSearching2.getAttribute("text"));
+    }
+
+    @Test public void checkMixedElementsSearching2() {
+        assertNotEquals(0, androidElementsViewFoundByMixedSearching2.size());
+    }
+
+    @Test public void checkMixedElementSearching3() {
+        assertNotNull(androidElementViewFoundByMixedSearching3.getAttribute("text"));
+    }
+
+    @Test public void checkMixedElementsSearching3() {
+        assertNotEquals(0, androidElementsViewFoundByMixedSearching3.size());
     }
 }

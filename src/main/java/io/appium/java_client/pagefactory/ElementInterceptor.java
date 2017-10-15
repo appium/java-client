@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,7 +39,7 @@ class ElementInterceptor extends InterceptorOfASingleElement {
         try {
             return method.invoke(element, args);
         } catch (Throwable t) {
-            throw ThrowableUtil.extractReadableException(t);
+            throw extractReadableException(t);
         }
     }
 }

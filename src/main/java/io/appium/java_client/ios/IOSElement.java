@@ -16,10 +16,12 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.FindsByIosClassChain;
 import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.MobileElement;
 
 public class IOSElement extends MobileElement
-    implements FindsByIosUIAutomation<MobileElement>, FindsByIosNSPredicate<MobileElement> {
+    implements FindsByIosUIAutomation<MobileElement>, FindsByIosNSPredicate<MobileElement>,
+        FindsByIosClassChain<MobileElement> {
 }

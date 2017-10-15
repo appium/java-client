@@ -24,7 +24,6 @@ import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
-import org.openqa.selenium.support.pagefactory.ByAll;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -92,6 +91,10 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     private static String getFilledValue(Annotation mobileBy) {
         Method[] values = prepareAnnotationMethods(mobileBy.getClass());
         for (Method value : values) {
+            if (!String.class.equals(value.getReturnType())) {
+                continue;
+            }
+
             try {
                 String strategyParameter = value.invoke(mobileBy, new Object[] {}).toString();
                 if (!"".equals(strategyParameter)) {

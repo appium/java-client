@@ -17,7 +17,9 @@
 package io.appium.java_client.pagefactory.bys.builder;
 
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.iOSBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.By;
 
@@ -31,10 +33,12 @@ enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
         @Override By getBy(Annotation annotation) {
             String value = getValue(annotation, this);
-            if (annotation.annotationType().equals(AndroidFindBy.class)) {
+            if (annotation.annotationType().equals(AndroidFindBy.class)
+                    || annotation.annotationType().equals(AndroidBy.class)) {
                 return MobileBy.AndroidUIAutomator(value);
             }
-            if (annotation.annotationType().equals(iOSFindBy.class)) {
+            if (annotation.annotationType().equals(iOSFindBy.class)
+                    || annotation.annotationType().equals(iOSBy.class)) {
                 return MobileBy.IosUIAutomation(value);
             }
             return super.getBy(annotation);
@@ -89,6 +93,12 @@ enum Strategies {
         @Override By getBy(Annotation annotation) {
             return MobileBy
                     .windowsAutomation(getValue(annotation, this));
+        }
+    },
+    BY_CLASS_CHAIN("iOSClassChain") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .iOSClassChain(getValue(annotation, this));
         }
     },
     BY_NS_PREDICATE("iOSNsPredicate") {

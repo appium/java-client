@@ -28,7 +28,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.Optional;
 
-class ByChained extends org.openqa.selenium.support.pagefactory.ByChained {
+public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained {
 
     private final By[] bys;
 
@@ -42,6 +42,9 @@ class ByChained extends org.openqa.selenium.support.pagefactory.ByChained {
         };
     }
 
+    /**
+     * @param bys is a set of {@link org.openqa.selenium.By} which forms the chain of the searching.
+     */
     public ByChained(By[] bys) {
         super(bys);
         checkNotNull(bys);

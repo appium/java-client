@@ -16,7 +16,11 @@
 
 package io.appium.java_client.remote;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.util.Optional.ofNullable;
 
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import org.openqa.selenium.WebDriverException;
@@ -33,36 +37,52 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor {
 
-    private final DriverService service;
+    private final Optional<DriverService> serviceOptional;
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-        URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        super(additionalCommands, addressOfRemoteServer, httpClientFactory);
-        service = null;
+    private AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
+                                  URL addressOfRemoteServer,
+                                  HttpClient.Factory httpClientFactory) {
+        super(additionalCommands,
+                ofNullable(service)
+                        .map(DriverService::getUrl)
+                        .orElse(addressOfRemoteServer), httpClientFactory);
+        serviceOptional = ofNullable(service);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
-        HttpClient.Factory httpClientFactory) {
-        super(additionalCommands, service.getUrl(), httpClientFactory);
-        this.service = service;
+                                 HttpClient.Factory httpClientFactory) {
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-        URL addressOfRemoteServer) {
+                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory);
+    }
+
+
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
+                                 URL addressOfRemoteServer) {
         this(additionalCommands, addressOfRemoteServer, new ApacheHttpClient.Factory());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-        DriverService service) {
+                                 DriverService service) {
         this(additionalCommands, service, new ApacheHttpClient.Factory());
     }
 
-    @Override public Response execute(Command command) throws IOException, WebDriverException {
-        if (DriverCommand.NEW_SESSION.equals(command.getName()) && service != null) {
-            service.start();
+    @Override public Response execute(Command command) throws WebDriverException {
+        if (DriverCommand.NEW_SESSION.equals(command.getName())) {
+            serviceOptional.ifPresent(driverService -> {
+                try {
+                    driverService.start();
+                } catch (IOException e) {
+                    throw new WebDriverException(e.getMessage(), e);
+                }
+            });
         }
 
         try {
@@ -70,23 +90,22 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
-                && rootCause.getMessage().contains("Connection refused")
-                && service != null) {
-                if (service.isRunning()) {
-                    throw new WebDriverException("The session is closed!", t);
-                }
+                    && rootCause.getMessage().contains("Connection refused")) {
+                throw serviceOptional.map(service -> {
+                    if (service.isRunning()) {
+                        return new WebDriverException("The session is closed!", rootCause);
+                    }
 
-                if (!service.isRunning()) {
-                    throw new WebDriverException("The appium server has accidentally died!", t);
-                }
+                    return new WebDriverException("The appium server has accidentally died!", rootCause);
+                }).orElseGet((Supplier<WebDriverException>) () ->
+                        new WebDriverException(rootCause.getMessage(), rootCause));
             }
-            Throwables.propagateIfPossible(t);
+            throwIfUnchecked(t);
             throw new WebDriverException(t);
         } finally {
-            if (DriverCommand.QUIT.equals(command.getName()) && service != null) {
-                service.stop();
+            if (DriverCommand.QUIT.equals(command.getName())) {
+                serviceOptional.ifPresent(DriverService::stop);
             }
         }
     }
-
 }

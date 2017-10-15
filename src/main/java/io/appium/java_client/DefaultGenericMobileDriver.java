@@ -150,4 +150,10 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     @Deprecated public Mouse getMouse() {
         return super.getMouse();
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s: %s", getPlatformName(),
+                getAutomationName());
+    }
 }

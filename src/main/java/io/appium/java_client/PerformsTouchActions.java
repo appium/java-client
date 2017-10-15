@@ -29,6 +29,8 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
      * It's more convenient to call the perform() method of the TouchAction
      * object itself.
+     * All the existing touch action parameters will be wiped out after this method
+     * is called.
      *
      * @param touchAction A TouchAction object, which contains a list of individual
      *                    touch actions to perform
@@ -37,7 +39,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
     default TouchAction performTouchAction(TouchAction touchAction) {
         ImmutableMap<String, ImmutableList<Object>> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
-        return touchAction;
+        return touchAction.clearParameters();
     }
 
     /**
@@ -46,11 +48,14 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * https://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html
      * It's more convenient to call the perform() method of the MultiTouchAction
      * object.
+     * All the existing multi touch actions will be wiped out after this method
+     * is called.
      *
      * @param multiAction the MultiTouchAction object to perform.
      */
     default void performMultiTouchAction(MultiTouchAction multiAction) {
         ImmutableMap<String, ImmutableList<Object>> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
+        multiAction.clearActions();
     }
 }

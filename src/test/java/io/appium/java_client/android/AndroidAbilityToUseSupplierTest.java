@@ -8,6 +8,7 @@ import io.appium.java_client.functions.ActionSupplier;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 
+import java.time.Duration;
 import java.util.List;
 
 public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
@@ -22,15 +23,17 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         Point center = gallery.getCenter();
 
         return new TouchAction(driver).press(images.get(2), -10, center.y - location.y)
-                .waitAction(2000).moveTo(gallery, 10, center.y - location.y).release();
+                .waitAction(Duration.ofSeconds(2)).moveTo(gallery, 10, center.y - location.y).release();
     };
 
     private final ActionSupplier<TouchAction> verticalSwiping = () ->
         new TouchAction(driver).press(driver.findElementByAccessibilityId("Gallery"))
-                .waitAction(2000).moveTo(driver.findElementByAccessibilityId("Auto Complete")).release();
+                .waitAction(Duration.ofSeconds(2)).moveTo(driver.findElementByAccessibilityId("Auto Complete"))
+                .release();
 
     @Test public void horizontalSwipingWithSupplier() throws Exception {
-        driver.startActivity("io.appium.android.apis", ".view.Gallery1");
+        Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
+        driver.startActivity(activity);
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
         List<MobileElement> images = gallery
                 .findElementsByClassName("android.widget.ImageView");

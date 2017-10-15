@@ -14,6 +14,8 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSTouchTest extends AppIOSTest {
 
@@ -36,7 +38,7 @@ public class IOSTouchTest extends AppIOSTest {
         Dimension size = slider.getSize();
 
         TouchAction swipe = new TouchAction(driver).press(slider, size.width / 2 + 2, size.height / 2)
-                .waitAction(2000).moveTo(slider, 1, size.height / 2).release();
+                .waitAction(Duration.ofSeconds(2)).moveTo(slider, 1, size.height / 2).release();
         swipe.perform();
         assertEquals("0%", slider.getAttribute("value"));
     }

@@ -17,7 +17,7 @@
 package io.appium.java_client.android;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.pushFileCommandCommand;
+import static io.appium.java_client.MobileCommand.pushFileCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
@@ -37,7 +37,7 @@ public interface PushesFiles extends InteractsWithFiles, ExecutesMethod {
      * @param base64Data Base64 encoded byte array of data to write to remote device
      */
     default void pushFile(String remotePath, byte[] base64Data) {
-        CommandExecutionHelper.execute(this, pushFileCommandCommand(remotePath, base64Data));
+        CommandExecutionHelper.execute(this, pushFileCommand(remotePath, base64Data));
     }
 
     /**

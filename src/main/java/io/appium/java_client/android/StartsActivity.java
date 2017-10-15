@@ -17,6 +17,7 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.currentPackageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
@@ -26,93 +27,26 @@ public interface StartsActivity extends ExecutesMethod {
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
      * another application, that application is started and the activity is opened.
+     * <p>
+     * Usage:
+     * </p>
+     * <pre>
+     *     {@code
+     *     Activity activity = new Activity("app package goes here", "app activity goes here");
+     *     activity.setWaitAppPackage("app wait package goes here");
+     *     activity.setWaitAppActivity("app wait activity goes here");
+     *     driver.startActivity(activity);
+     *     }
+     * </pre>
      *
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     * @param stopApp         If true, target app will be stopped. [Optional]
+     * @param activity The {@link Activity} object
      */
-    default void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity, boolean stopApp) throws IllegalArgumentException {
-        this.startActivity(appPackage,appActivity,appWaitPackage,
-            appWaitActivity,null,null,null,null,stopApp);
-    }
-
-    /**
-     * This method should start arbitrary activity during a test. If the activity belongs to
-     * another application, that application is started and the activity is opened.
-     *
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     */
-    default void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity) throws IllegalArgumentException {
-        this.startActivity(appPackage, appActivity,
-            appWaitPackage, appWaitActivity,null,null,null,null,true);
-    }
-
-    /**
-     * This method should start arbitrary activity during a test. If the activity belongs to
-     * another application, that application is started and the activity is opened.
-     *
-     * @param appPackage  The package containing the activity. [Required]
-     * @param appActivity The activity to start. [Required]
-     */
-    default void startActivity(String appPackage, String appActivity) throws IllegalArgumentException {
-        this.startActivity(appPackage, appActivity, null, null,
-            null,null,null,null,true);
-    }
-
-    /**
-     * This method should start arbitrary activity during a test. If the activity belongs to
-     * another application, that application is started and the activity is opened.
-     *
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     * @param intentAction  Intent action which will be used to start activity [Optional]
-     * @param intentCategory  Intent category which will be used to start activity [Optional]
-     * @param intentFlags  Flags that will be used to start activity [Optional]
-     * @param intentOptionalArgs Additional intent arguments that will be used to
-     *                                start activity [Optional]
-     */
-    default void startActivity(String appPackage, String appActivity,
-        String appWaitPackage, String appWaitActivity,
-        String intentAction, String intentCategory,
-        String intentFlags, String intentOptionalArgs)
-        throws IllegalArgumentException {
-        this.startActivity(appPackage,appActivity,
-            appWaitPackage,appWaitActivity,
-            intentAction,intentCategory,intentFlags,intentOptionalArgs,true);
-    }
-
-    /**
-     * This method should start arbitrary activity during a test. If the activity belongs to
-     * another application, that application is started and the activity is opened.
-     *
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     * @param intentAction  Intent action which will be used to start activity [Optional]
-     * @param intentCategory  Intent category which will be used to start activity [Optional]
-     * @param intentFlags  Flags that will be used to start activity [Optional]
-     * @param optionalIntentArguments Additional intent arguments that will be used to
-     *                                start activity [Optional]
-     * @param stopApp         If true, target app will be stopped. [Optional]
-     */
-    default void startActivity(String appPackage, String appActivity, String appWaitPackage,
-        String appWaitActivity, String intentAction,
-        String intentCategory, String intentFlags,
-        String optionalIntentArguments,boolean stopApp )
-        throws IllegalArgumentException {
-        CommandExecutionHelper.execute(this, startActivityCommand(appPackage, appActivity,
-            appWaitPackage, appWaitActivity, intentAction, intentCategory, intentFlags,
-            optionalIntentArguments, stopApp));
+    default void startActivity(Activity activity) {
+        CommandExecutionHelper.execute(this,
+            startActivityCommand(activity.getAppPackage(), activity.getAppActivity(),
+                activity.getAppWaitPackage(), activity.getAppWaitActivity(),
+                activity.getIntentAction(), activity.getIntentCategory(), activity.getIntentFlags(),
+                activity.getOptionalIntentArguments(), activity.isStopApp()));
     }
 
     /**
@@ -122,5 +56,14 @@ public interface StartsActivity extends ExecutesMethod {
      */
     default String currentActivity() {
         return CommandExecutionHelper.execute(this, currentActivityCommand());
+    }
+
+    /**
+     * Get the current package being run on the mobile device.
+     *
+     * @return a current package being run on the mobile device.
+     */
+    default String getCurrentPackage() {
+        return CommandExecutionHelper.execute(this, currentPackageCommand());
     }
 }
