@@ -72,18 +72,15 @@ public abstract class OptionsWithAbsolutePositioning<T extends OptionsWithAbsolu
     @Override
     protected void verify() {
         if (elementId == null) {
-            if (absoluteOffset != null) {
-                throw new IllegalArgumentException("Absolute offset must not be defined if 'element' option is set");
-            }
-            if (relativeOffset == null) {
-                throw new IllegalArgumentException("Relative offset must be defined if 'element' option is set");
-            }
-        } else {
             if (absoluteOffset == null) {
-                throw new IllegalArgumentException("Absolute offset must be defined if 'element' option not set");
+                throw new IllegalArgumentException("Absolute offset must be defined if 'element' option is not set");
             }
             if (relativeOffset != null) {
-                throw new IllegalArgumentException("Relative offset must not be defined if 'element' option not set");
+                throw new IllegalArgumentException("Relative offset must not be defined if 'element' option is not set");
+            }
+        } else {
+            if (absoluteOffset != null) {
+                throw new IllegalArgumentException("Absolute offset must not be defined if 'element' option set");
             }
         }
     }
