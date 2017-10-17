@@ -16,13 +16,13 @@
 
 package io.appium.java_client.touch;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class OptionsWithRelativePositioning<T extends OptionsWithRelativePositioning<T>>
         extends ActionOptions<T> {

@@ -16,11 +16,11 @@
 
 package io.appium.java_client.touch;
 
-import java.time.Duration;
-import java.util.Map;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.time.Duration;
+import java.util.Map;
 
 public class WaitOptions extends ActionOptions<WaitOptions> {
     protected Duration duration = Duration.ofMillis(0);

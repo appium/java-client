@@ -16,13 +16,13 @@
 
 package io.appium.java_client.touch;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class OptionsWithAbsolutePositioning<T extends OptionsWithAbsolutePositioning<T>>
         extends ActionOptions<T> {
@@ -73,14 +73,17 @@ public abstract class OptionsWithAbsolutePositioning<T extends OptionsWithAbsolu
     protected void verify() {
         if (elementId == null) {
             if (absoluteOffset == null) {
-                throw new IllegalArgumentException("Absolute offset must be defined if 'element' option is not set");
+                throw new IllegalArgumentException(
+                        "Absolute offset must be defined if 'element' option is not set");
             }
             if (relativeOffset != null) {
-                throw new IllegalArgumentException("Relative offset must not be defined if 'element' option is not set");
+                throw new IllegalArgumentException(
+                        "Relative offset must not be defined if 'element' option is not set");
             }
         } else {
             if (absoluteOffset != null) {
-                throw new IllegalArgumentException("Absolute offset must not be defined if 'element' option set");
+                throw new IllegalArgumentException(
+                        "Absolute offset must not be defined if 'element' option set");
             }
         }
     }

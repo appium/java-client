@@ -4,25 +4,25 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
+import static io.appium.java_client.touch.FailsWithMatcher.failsWith;
+import static org.hamcrest.CoreMatchers.everyItem;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isIn;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.appium.java_client.touch.FailsWithMatcher.failsWith;
-import static org.hamcrest.CoreMatchers.everyItem;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isIn;
-
 public class TouchOptionsTests {
-    private static final WebElement dummyElement = new DummyElement();
+    private static final WebElement DUMMY_ELEMENT = new DummyElement();
 
     @Test
     public void invalidAbsolutePositionOptionsShouldFailOnBuild() throws Exception {
         final List<ActionOptions> invalidOptions = new ArrayList<>();
         invalidOptions.add(new PressOptions()
-                .withElement(dummyElement)
+                .withElement(DUMMY_ELEMENT)
                 .withAbsoluteOffset(0, 0));
         invalidOptions.add(new LongPressOptions()
                 .withRelativeOffset(0, 0));
@@ -30,14 +30,18 @@ public class TouchOptionsTests {
         invalidOptions.add(new TapOptions()
                 .withAbsoluteOffset(0, 0)
                 .withRelativeOffset(0, 0));
-        invalidOptions.forEach(opts -> assertThat(opts::build, failsWith(IllegalArgumentException.class)));
+        for (ActionOptions opts : invalidOptions) {
+            assertThat(opts::build, failsWith(IllegalArgumentException.class));
+        }
     }
 
     @Test
     public void invalidRelativePositionOptionsShouldFailOnBuild() throws Exception {
         final List<ActionOptions> invalidOptions = new ArrayList<>();
         invalidOptions.add(new MoveToOptions());
-        invalidOptions.forEach(opts -> assertThat(opts::build, failsWith(IllegalArgumentException.class)));
+        for (ActionOptions opts : invalidOptions) {
+            assertThat(opts::build, failsWith(IllegalArgumentException.class));
+        }
     }
 
     @Test
@@ -55,12 +59,12 @@ public class TouchOptionsTests {
     @Test
     public void longPressOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = new LongPressOptions()
-                .withElement(dummyElement)
+                .withElement(DUMMY_ELEMENT)
                 .withRelativeOffset(0, 0)
                 .withDuration(Duration.ofMillis(1))
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
-        expectedOpts.put("element", ((HasIdentity) dummyElement).getId());
+        expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
         expectedOpts.put("x", 0);
         expectedOpts.put("y", 0);
         expectedOpts.put("duration", 1L);
@@ -85,10 +89,10 @@ public class TouchOptionsTests {
     @Test
     public void pressOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = new PressOptions()
-                .withElement(dummyElement)
+                .withElement(DUMMY_ELEMENT)
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
-        expectedOpts.put("element", ((HasIdentity) dummyElement).getId());
+        expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
         assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
         assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
     }
@@ -96,11 +100,11 @@ public class TouchOptionsTests {
     @Test
     public void moveToOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = new MoveToOptions()
-                .withElement(dummyElement)
+                .withElement(DUMMY_ELEMENT)
                 .withRelativeOffset(-1,-1)
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
-        expectedOpts.put("element", ((HasIdentity) dummyElement).getId());
+        expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
         expectedOpts.put("x", -1);
         expectedOpts.put("y", -1);
         assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));

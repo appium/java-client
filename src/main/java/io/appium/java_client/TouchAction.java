@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -28,8 +30,6 @@ import io.appium.java_client.touch.WaitOptions;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Used for Webdriver 3 touch actions

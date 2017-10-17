@@ -1,33 +1,32 @@
 package io.appium.java_client.touch;
 
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import static org.hamcrest.core.AllOf.allOf;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
+public final class FailsWithMatcher<E extends Throwable> extends TypeSafeMatcher<IThrowingRunnable<E>> {
 
-public final class FailsWithMatcher<Ex extends Throwable>
-        extends TypeSafeMatcher<IThrowingRunnable<Ex>> {
+    private final Matcher<? super E> matcher;
 
-    private final Matcher<? super Ex> matcher;
-
-    private FailsWithMatcher(final Matcher<? super Ex> matcher) {
+    private FailsWithMatcher(final Matcher<? super E> matcher) {
         this.matcher = matcher;
     }
 
-    public static <Ex extends Throwable> Matcher<IThrowingRunnable<Ex>> failsWith(
-            final Class<Ex> throwableType) {
+    public static <E extends Throwable> Matcher<IThrowingRunnable<E>> failsWith(
+            final Class<E> throwableType) {
         return new FailsWithMatcher<>(instanceOf(throwableType));
     }
 
-    public static <Ex extends Throwable> Matcher<IThrowingRunnable<Ex>> failsWith(
-            final Class<Ex> throwableType, final Matcher<? super Ex> throwableMatcher) {
+    public static <E extends Throwable> Matcher<IThrowingRunnable<E>> failsWith(
+            final Class<E> throwableType, final Matcher<? super E> throwableMatcher) {
         return new FailsWithMatcher<>(allOf(instanceOf(throwableType), throwableMatcher));
     }
 
     @Override
-    protected boolean matchesSafely(final IThrowingRunnable<Ex> runnable) {
+    protected boolean matchesSafely(final IThrowingRunnable<E> runnable) {
         try {
             runnable.run();
             return false;

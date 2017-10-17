@@ -16,9 +16,9 @@
 
 package io.appium.java_client.touch;
 
-import java.util.Map;
-
 import static com.google.common.base.Preconditions.checkArgument;
+
+import java.util.Map;
 
 public class TapOptions extends OptionsWithAbsolutePositioning<TapOptions> {
     private Integer tapsCount = null;
