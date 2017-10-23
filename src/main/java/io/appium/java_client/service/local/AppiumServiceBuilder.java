@@ -93,6 +93,7 @@ public final class AppiumServiceBuilder
 
     public AppiumServiceBuilder() {
         usingPort(DEFAULT_APPIUM_PORT);
+        withEnvironment(System.getenv());
     }
 
     private static void validateNodeStructure(File node) {
