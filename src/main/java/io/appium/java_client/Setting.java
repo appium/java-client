@@ -22,7 +22,7 @@ package io.appium.java_client;
 public enum Setting {
 
     IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews"),
-    WAIT_FOR_IDLE_TIMEOUT("setWaitForIdleTimeout"),
+    WAIT_FOR_IDLE_TIMEOUT("waitForIdleTimeout"),
     WAIT_FOR_SELECTOR_TIMEOUT("setWaitForSelectorTimeout"),
     WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
     WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
