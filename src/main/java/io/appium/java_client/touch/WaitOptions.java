@@ -18,6 +18,7 @@ package io.appium.java_client.touch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
 
 import java.time.Duration;
 import java.util.Map;
@@ -25,10 +26,14 @@ import java.util.Map;
 public class WaitOptions extends ActionOptions<WaitOptions> {
     protected Duration duration = Duration.ofMillis(0);
 
+    public static WaitOptions waitOptoins(Duration duration) {
+        return new WaitOptions().withDuration(duration);
+    }
+
     /**
-     * Set the wait duration.
+     * Set the wait waitOptoins.
      *
-     * @param duration the duration value to set.
+     * @param duration the waitOptoins value to set.
      *                 Time resolution unit is 1 ms.
      * @return this instance for chaining.
      */
@@ -42,7 +47,8 @@ public class WaitOptions extends ActionOptions<WaitOptions> {
 
     @Override
     protected void verify() {
-        // Wait options have nothing to verify
+        ofNullable(duration).orElseThrow(() ->
+                new IllegalArgumentException("Duration value should not be a null value"));
     }
 
     @Override

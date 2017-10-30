@@ -20,8 +20,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.Map;
 
-public class TapOptions extends OptionsWithAbsolutePositioning<TapOptions> {
+public class TapOptions extends OptionsCombinedWithOffset<TapOptions> {
     private Integer tapsCount = null;
+
+    public static TapOptions tapOptions() {
+        return new TapOptions();
+    }
 
     /**
      * Set the count of taps to perform.

@@ -16,64 +16,64 @@
 
 package io.appium.java_client.touch;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.Map;
 
-public abstract class OptionsWithRelativePositioning<T extends OptionsWithRelativePositioning<T>>
-        extends ActionOptions<T> {
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
+
+public class RelativeOffsetOption extends ActionOptions<RelativeOffsetOption> {
     private String elementId = null;
     private Point relativeOffset = null;
 
-    /**
-     * Set the destination element for the corresponding action.
-     *
-     * @param element the destination element.
-     * @return this instance for chaining.
-     */
-    public T withElement(WebElement element) {
-        checkNotNull(element);
-        this.elementId = ((HasIdentity) element).getId();
-        //noinspection unchecked
-        return (T) this;
+    public static RelativeOffsetOption useRelative(WebElement element, int xOffset, int yOffset) {
+        return new RelativeOffsetOption().withRelativeOffset(element, xOffset, yOffset);
+    }
+
+    public static RelativeOffsetOption useRelative(WebElement element) {
+        return useRelative(element, 0, 0);
     }
 
     /**
      * Set the relative offset for the corresponding action.
      *
+     * @param element the destination element.
      * @param xOffset the relative distance from the left element corner
      *                (if set) or from the left corner of the preceding chain action.
+     *                This value might be zero if it is necessary.
      * @param yOffset the relative distance from the top element corner
      *                (if set) or from the top corner of the preceding chain action.
+     *                This value might be zero if it is necessary.
      * @return this instance for chaining.
      */
-    public T withRelativeOffset(int xOffset, int yOffset) {
+    public RelativeOffsetOption withRelativeOffset(WebElement element, int xOffset, int yOffset) {
+        checkNotNull(element);
+        this.elementId = ((HasIdentity) element).getId();
         this.relativeOffset = new Point(xOffset, yOffset);
         //noinspection unchecked
-        return (T) this;
+        return this;
     }
 
     @Override
     protected void verify() {
-        if (elementId == null && relativeOffset == null) {
-            throw new IllegalArgumentException("Either element or relative offset should be defined");
-        }
+        ofNullable(elementId).orElseThrow(() ->
+                new IllegalArgumentException("Element should be defined"));
+        ofNullable(relativeOffset).orElseThrow(() ->
+                new IllegalArgumentException("Relative offset should be defined"));
     }
 
     @Override
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
-        if (relativeOffset != null) {
-            result.put("x", relativeOffset.x);
-            result.put("y", relativeOffset.y);
-        }
-        if (elementId != null) {
-            result.put("element", elementId);
-        }
+        ofNullable(relativeOffset).ifPresent(point -> {
+            result.put("x", point.x);
+            result.put("y", point.y);
+        });
+
+        ofNullable(elementId).ifPresent(s -> result.put("element", s));
         return result;
     }
 }

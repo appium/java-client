@@ -22,13 +22,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.time.Duration;
 import java.util.Map;
 
-public class LongPressOptions extends OptionsWithAbsolutePositioning<LongPressOptions> {
+public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions> {
     protected Duration duration = null;
 
+    public static LongPressOptions longPressOptions() {
+        return new LongPressOptions();
+    }
+
     /**
-     * Set the long press duration.
+     * Set the long press waitOptoins.
      *
-     * @param duration the duration value to set.
+     * @param duration the waitOptoins value to set.
      *                 Time resolution unit is 1 ms.
      * @return this instance for chaining.
      */
@@ -44,7 +48,7 @@ public class LongPressOptions extends OptionsWithAbsolutePositioning<LongPressOp
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
         if (duration != null) {
-            result.put("duration", this.duration.toMillis());
+            result.put("waitOptoins", this.duration.toMillis());
         }
         return result;
     }

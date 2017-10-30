@@ -67,7 +67,7 @@ public class TouchOptionsTests {
         expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
         expectedOpts.put("x", 0);
         expectedOpts.put("y", 0);
-        expectedOpts.put("duration", 1L);
+        expectedOpts.put("waitOptoins", 1L);
         assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
         assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
     }

@@ -84,7 +84,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      *                or {@link org.openqa.selenium.WebElement} or
      *                {@link io.appium.java_client.pagefactory.Widget} or some other user's
      *                extension/implementation.
-     * @param duration is a desired duration of the waiting for an element presence.
+     * @param duration is a desired waitOptoins of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
