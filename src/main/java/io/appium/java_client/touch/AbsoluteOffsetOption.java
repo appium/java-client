@@ -25,6 +25,14 @@ import static java.util.Optional.ofNullable;
 public class AbsoluteOffsetOption extends ActionOptions<AbsoluteOffsetOption> {
     private Point absoluteOffset = null;
 
+    /**
+     * It creates an instance of {@link AbsoluteOffsetOption } which takes absolute
+     * x and y offsets.
+     *
+     * @param xOffset the absolute distance from the left screen corner.
+     * @param yOffset the absolute distance from the top screen corner.
+     * @return a built option
+     */
     public static AbsoluteOffsetOption useAbsolute(int xOffset, int yOffset) {
         return new AbsoluteOffsetOption().withAbsoluteOffset(xOffset, yOffset);
     }

@@ -26,14 +26,20 @@ import java.util.Map;
 public class WaitOptions extends ActionOptions<WaitOptions> {
     protected Duration duration = Duration.ofMillis(0);
 
-    public static WaitOptions waitOptoins(Duration duration) {
+    /**
+     * Creates and instance of {@link WaitOptions}.
+     *
+     * @param duration is the duration of the waiting.
+     * @return a built option.
+     */
+    public static WaitOptions waitOptions(Duration duration) {
         return new WaitOptions().withDuration(duration);
     }
 
     /**
-     * Set the wait waitOptoins.
+     * Set the wait duration.
      *
-     * @param duration the waitOptoins value to set.
+     * @param duration the value to set.
      *                 Time resolution unit is 1 ms.
      * @return this instance for chaining.
      */

@@ -29,12 +29,40 @@ public class RelativeOffsetOption extends ActionOptions<RelativeOffsetOption> {
     private String elementId = null;
     private Point relativeOffset = null;
 
+    /**
+     * It creates an instance of {@link RelativeOffsetOption } which takes an element
+     * and x and y offsets. These offsets are relative to the given element.
+     *
+     * @param element is the target element
+     * @param xOffset x-offset which is relative to the given element
+     * @param yOffset y-offset which is relative to the given element
+     * @return a built option
+     */
     public static RelativeOffsetOption useRelative(WebElement element, int xOffset, int yOffset) {
         return new RelativeOffsetOption().withRelativeOffset(element, xOffset, yOffset);
     }
 
+    /**
+     *  * It creates an instance of {@link RelativeOffsetOption } which takes an element
+     * and 0-value x and y offsets.
+     *
+     * @param element is the target element
+     * @return a built option
+     */
     public static RelativeOffsetOption useRelative(WebElement element) {
         return useRelative(element, 0, 0);
+    }
+
+    /**
+     * It creates an instance of {@link RelativeOffsetOption } which takes x and y offsets.
+     * These offsets are relative to to the previous chain element position.
+     *
+     * @param xOffset x offset that is relative to the previous chain element position.
+     * @param yOffset y offset that is relative to the previous chain element position.
+     * @return a built option
+     */
+    public static RelativeOffsetOption useRelative(int xOffset, int yOffset) {
+        return new RelativeOffsetOption().withRelativeOffset(xOffset, yOffset);
     }
 
     /**
@@ -57,12 +85,24 @@ public class RelativeOffsetOption extends ActionOptions<RelativeOffsetOption> {
         return this;
     }
 
+    /**
+     * Set the relative offset for the corresponding action.
+     *
+     * @param xOffset is x-axis offset that is relative to the previous chain element position.
+     * @param yOffset is y-axis offset that is relative to the previous chain element position.
+     * @return this instance for chaining.
+     */
+    public RelativeOffsetOption withRelativeOffset(int xOffset, int yOffset) {
+        this.relativeOffset = new Point(xOffset, yOffset);
+        //noinspection unchecked
+        return this;
+    }
+
     @Override
     protected void verify() {
-        ofNullable(elementId).orElseThrow(() ->
-                new IllegalArgumentException("Element should be defined"));
-        ofNullable(relativeOffset).orElseThrow(() ->
-                new IllegalArgumentException("Relative offset should be defined"));
+        if (elementId == null && relativeOffset == null) {
+            throw new IllegalArgumentException("Either element or relative offset should be defined");
+        }
     }
 
     @Override

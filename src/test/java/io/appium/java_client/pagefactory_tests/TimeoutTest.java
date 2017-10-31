@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 public class TimeoutTest {
 
     private static final long ACCEPTABLE_TIME_DIFF_MS = 1500;
-    private static final String MESSAGE = "Check difference from the expected waiting waitOptoins %s %s";
+    private static final String MESSAGE = "Check difference from the expected waiting duration %s %s";
 
     private WebDriver driver;
 

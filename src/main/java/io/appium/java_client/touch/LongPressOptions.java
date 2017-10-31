@@ -30,9 +30,9 @@ public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions
     }
 
     /**
-     * Set the long press waitOptoins.
+     * Set the long press duration.
      *
-     * @param duration the waitOptoins value to set.
+     * @param duration the value to set.
      *                 Time resolution unit is 1 ms.
      * @return this instance for chaining.
      */
@@ -48,7 +48,7 @@ public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
         if (duration != null) {
-            result.put("waitOptoins", this.duration.toMillis());
+            result.put("duration", this.duration.toMillis());
         }
         return result;
     }

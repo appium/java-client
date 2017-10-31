@@ -23,6 +23,11 @@ import java.util.Map;
 public class TapOptions extends OptionsCombinedWithOffset<TapOptions> {
     private Integer tapsCount = null;
 
+    /**
+     * It creates an empty instance of {@link TapOptions}.
+     *
+     * @return the empty instance of {@link TapOptions}
+     */
     public static TapOptions tapOptions() {
         return new TapOptions();
     }
