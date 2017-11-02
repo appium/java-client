@@ -25,6 +25,11 @@ import java.util.Map;
 public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions> {
     protected Duration duration = null;
 
+    /**
+     * It creates an empty instance of {@link LongPressOptions}
+     *
+     * @return an empty instance of {@link LongPressOptions}
+     */
     public static LongPressOptions longPressOptions() {
         return new LongPressOptions();
     }
