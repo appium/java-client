@@ -16,11 +16,11 @@
 
 package io.appium.java_client.touch;
 
+import static java.util.Optional.ofNullable;
+
 import org.openqa.selenium.Point;
 
 import java.util.Map;
-
-import static java.util.Optional.ofNullable;
 
 public class AbsoluteOffsetOption extends ActionOptions<AbsoluteOffsetOption> {
     private Point absoluteOffset = null;

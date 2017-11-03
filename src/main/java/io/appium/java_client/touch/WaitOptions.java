@@ -60,9 +60,8 @@ public class WaitOptions extends ActionOptions<WaitOptions> {
     @Override
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
-        if (duration != null) {
-            result.put("ms", this.duration.toMillis());
-        }
+        ofNullable(duration).ifPresent(durationParam ->
+                result.put("ms", durationParam.toMillis()));
         return result;
     }
 }

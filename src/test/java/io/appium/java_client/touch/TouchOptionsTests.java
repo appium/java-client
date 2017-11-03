@@ -1,15 +1,21 @@
 package io.appium.java_client.touch;
 
-import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.HasIdentity;
-
+import static io.appium.java_client.touch.AbsoluteOffsetOption.useAbsolute;
 import static io.appium.java_client.touch.FailsWithMatcher.failsWith;
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
+import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isIn;
 
-import java.time.Duration;
+import org.junit.Test;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.HasIdentity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,15 +27,7 @@ public class TouchOptionsTests {
     @Test
     public void invalidAbsolutePositionOptionsShouldFailOnBuild() throws Exception {
         final List<ActionOptions> invalidOptions = new ArrayList<>();
-        invalidOptions.add(new PressOptions()
-                .withElement(DUMMY_ELEMENT)
-                .withAbsoluteOffset(0, 0));
-        invalidOptions.add(new LongPressOptions()
-                .withRelativeOffset(0, 0));
-        invalidOptions.add(new TapOptions());
-        invalidOptions.add(new TapOptions()
-                .withAbsoluteOffset(0, 0)
-                .withRelativeOffset(0, 0));
+        invalidOptions.add(new AbsoluteOffsetOption());
         for (ActionOptions opts : invalidOptions) {
             assertThat(opts::build, failsWith(IllegalArgumentException.class));
         }
@@ -38,7 +36,7 @@ public class TouchOptionsTests {
     @Test
     public void invalidRelativePositionOptionsShouldFailOnBuild() throws Exception {
         final List<ActionOptions> invalidOptions = new ArrayList<>();
-        invalidOptions.add(new MoveToOptions());
+        invalidOptions.add(new RelativeOffsetOption());
         for (ActionOptions opts : invalidOptions) {
             assertThat(opts::build, failsWith(IllegalArgumentException.class));
         }
@@ -47,10 +45,12 @@ public class TouchOptionsTests {
     @Test
     public void invalidOptionsArgumentsShouldFailOnAltering() throws Exception {
         final List<IThrowingRunnable<RuntimeException>> invalidOptions = new ArrayList<>();
-        invalidOptions.add(() -> new WaitOptions().withDuration(Duration.ofMillis(-1)));
-        invalidOptions.add(() -> new PressOptions().withElement(null));
-        invalidOptions.add(() -> new MoveToOptions().withElement(null));
+        invalidOptions.add(() -> waitOptions(ofMillis(-1)));
+        invalidOptions.add(() -> new RelativeOffsetOption().withRelativeOffset(null, 0, 0));
         invalidOptions.add(() -> new WaitOptions().withDuration(null));
+        invalidOptions.add(() -> tapOptions().withTapsCount(-1));
+        invalidOptions.add(() -> longPressOptions().withDuration(null));
+        invalidOptions.add(() -> longPressOptions().withDuration(ofMillis(-1)));
         for (IThrowingRunnable<RuntimeException> item : invalidOptions) {
             assertThat(item, failsWith(RuntimeException.class));
         }
@@ -58,10 +58,9 @@ public class TouchOptionsTests {
 
     @Test
     public void longPressOptionsShouldBuildProperly() throws Exception {
-        final Map<String, Object> actualOpts = new LongPressOptions()
-                .withElement(DUMMY_ELEMENT)
-                .withRelativeOffset(0, 0)
-                .withDuration(Duration.ofMillis(1))
+        final Map<String, Object> actualOpts = longPressOptions()
+                .withOffset(useRelative(DUMMY_ELEMENT).withRelativeOffset(0, 0))
+                .withDuration(ofMillis(1))
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
         expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
@@ -74,8 +73,8 @@ public class TouchOptionsTests {
 
     @Test
     public void tapOptionsShouldBuildProperly() throws Exception {
-        final Map<String, Object> actualOpts = new TapOptions()
-                .withAbsoluteOffset(0, 0)
+        final Map<String, Object> actualOpts = tapOptions()
+                .withOffset(useAbsolute(0, 0))
                 .withTapsCount(2)
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
@@ -87,34 +86,9 @@ public class TouchOptionsTests {
     }
 
     @Test
-    public void pressOptionsShouldBuildProperly() throws Exception {
-        final Map<String, Object> actualOpts = new PressOptions()
-                .withElement(DUMMY_ELEMENT)
-                .build();
-        final Map<String, Object> expectedOpts = new HashMap<>();
-        expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
-        assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
-        assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
-    }
-
-    @Test
-    public void moveToOptionsShouldBuildProperly() throws Exception {
-        final Map<String, Object> actualOpts = new MoveToOptions()
-                .withElement(DUMMY_ELEMENT)
-                .withRelativeOffset(-1,-1)
-                .build();
-        final Map<String, Object> expectedOpts = new HashMap<>();
-        expectedOpts.put("element", ((HasIdentity) DUMMY_ELEMENT).getId());
-        expectedOpts.put("x", -1);
-        expectedOpts.put("y", -1);
-        assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
-        assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
-    }
-
-    @Test
     public void waitOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = new WaitOptions()
-                .withDuration(Duration.ofSeconds(1))
+                .withDuration(ofSeconds(1))
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
         expectedOpts.put("ms", 1000L);

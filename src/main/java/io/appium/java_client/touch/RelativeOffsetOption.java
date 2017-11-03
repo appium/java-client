@@ -16,14 +16,14 @@
 
 package io.appium.java_client.touch;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
+
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Optional.ofNullable;
 
 public class RelativeOffsetOption extends ActionOptions<RelativeOffsetOption> {
     private String elementId = null;

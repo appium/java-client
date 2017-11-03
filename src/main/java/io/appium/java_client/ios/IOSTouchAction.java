@@ -16,13 +16,12 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
+
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.RelativeOffsetOption;
 import org.openqa.selenium.WebElement;
-
-import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
-
 
 public class IOSTouchAction extends TouchAction<IOSTouchAction> {
 
@@ -56,6 +55,12 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
         return doubleTap(useRelative(el));
     }
 
+    /**
+     * Double taps using relative offset from an element.
+     *
+     * @param doubleTapOption is the relative offset parameter from the element
+     * @return self-reference
+     */
     public IOSTouchAction doubleTap(RelativeOffsetOption doubleTapOption) {
         ActionParameter action = new ActionParameter("doubleTap",
                 doubleTapOption);

@@ -24,8 +24,8 @@ import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.touch.ActionOptions;
 import io.appium.java_client.touch.AbsoluteOffsetOption;
+import io.appium.java_client.touch.ActionOptions;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.RelativeOffsetOption;
 import io.appium.java_client.touch.TapOptions;

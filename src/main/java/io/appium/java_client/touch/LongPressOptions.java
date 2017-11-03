@@ -18,6 +18,7 @@ package io.appium.java_client.touch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
 
 import java.time.Duration;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions
     protected Duration duration = null;
 
     /**
-     * It creates an empty instance of {@link LongPressOptions}
+     * It creates an empty instance of {@link LongPressOptions}.
      *
      * @return an empty instance of {@link LongPressOptions}
      */
@@ -52,9 +53,8 @@ public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions
     @Override
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
-        if (duration != null) {
-            result.put("duration", this.duration.toMillis());
-        }
+        ofNullable(duration).ifPresent(durationParam ->
+                result.put("duration", durationParam.toMillis()));
         return result;
     }
 }

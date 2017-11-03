@@ -1,11 +1,11 @@
 package io.appium.java_client.touch;
 
-import java.util.Map;
-
 import static java.util.Optional.ofNullable;
 
-public abstract class OptionsCombinedWithOffset <T extends OptionsCombinedWithOffset>
-        extends ActionOptions< OptionsCombinedWithOffset<T>> {
+import java.util.Map;
+
+public abstract class OptionsCombinedWithOffset<T extends OptionsCombinedWithOffset>
+        extends ActionOptions<OptionsCombinedWithOffset<T>> {
     private ActionOptions<?> offsetOption;
 
     /**
@@ -36,7 +36,8 @@ public abstract class OptionsCombinedWithOffset <T extends OptionsCombinedWithOf
 
     protected void verify() {
         ofNullable(offsetOption).orElseThrow(() ->
-                new IllegalArgumentException("Some relative or absolute offset should be defined. Use one of withOffset methods"));
+                new IllegalArgumentException("Some relative or absolute offset should "
+                        + "be defined. Use one of withOffset methods"));
     }
 
     @Override

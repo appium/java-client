@@ -17,6 +17,7 @@
 package io.appium.java_client.touch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Optional.ofNullable;
 
 import java.util.Map;
 
@@ -48,9 +49,7 @@ public class TapOptions extends OptionsCombinedWithOffset<TapOptions> {
     @Override
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
-        if (tapsCount != null) {
-            result.put("count", this.tapsCount);
-        }
+        ofNullable(tapsCount).ifPresent(integer -> result.put("count", integer));
         return result;
     }
 }
