@@ -8,6 +8,7 @@ import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
+import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isIn;
@@ -24,34 +25,28 @@ import java.util.Map;
 public class TouchOptionsTests {
     private static final WebElement DUMMY_ELEMENT = new DummyElement();
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void invalidAbsolutePositionOptionsShouldFailOnBuild() throws Exception {
-        final List<ActionOptions> invalidOptions = new ArrayList<>();
-        invalidOptions.add(new AbsoluteOffsetOption());
-        for (ActionOptions opts : invalidOptions) {
-            assertThat(opts::build, failsWith(IllegalArgumentException.class));
-        }
+        new AbsoluteOffsetOption().build();
+        fail("The exception throwing was expected");
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void invalidRelativePositionOptionsShouldFailOnBuild() throws Exception {
-        final List<ActionOptions> invalidOptions = new ArrayList<>();
-        invalidOptions.add(new RelativeOffsetOption());
-        for (ActionOptions opts : invalidOptions) {
-            assertThat(opts::build, failsWith(IllegalArgumentException.class));
-        }
+        new RelativeOffsetOption().build();
+        fail("The exception throwing was expected");
     }
 
     @Test
     public void invalidOptionsArgumentsShouldFailOnAltering() throws Exception {
-        final List<IThrowingRunnable<RuntimeException>> invalidOptions = new ArrayList<>();
+        final List<Runnable> invalidOptions = new ArrayList<>();
         invalidOptions.add(() -> waitOptions(ofMillis(-1)));
         invalidOptions.add(() -> new RelativeOffsetOption().withRelativeOffset(null, 0, 0));
         invalidOptions.add(() -> new WaitOptions().withDuration(null));
         invalidOptions.add(() -> tapOptions().withTapsCount(-1));
         invalidOptions.add(() -> longPressOptions().withDuration(null));
         invalidOptions.add(() -> longPressOptions().withDuration(ofMillis(-1)));
-        for (IThrowingRunnable<RuntimeException> item : invalidOptions) {
+        for (Runnable item : invalidOptions) {
             assertThat(item, failsWith(RuntimeException.class));
         }
     }

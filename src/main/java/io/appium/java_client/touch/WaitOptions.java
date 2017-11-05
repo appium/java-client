@@ -18,7 +18,6 @@ package io.appium.java_client.touch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Optional.ofNullable;
 
 import java.time.Duration;
 import java.util.Map;
@@ -53,15 +52,13 @@ public class WaitOptions extends ActionOptions<WaitOptions> {
 
     @Override
     protected void verify() {
-        ofNullable(duration).orElseThrow(() ->
-                new IllegalArgumentException("Duration value should not be a null value"));
+        //there is nothing to check
     }
 
     @Override
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
-        ofNullable(duration).ifPresent(durationParam ->
-                result.put("ms", durationParam.toMillis()));
+        result.put("ms", duration.toMillis());
         return result;
     }
 }

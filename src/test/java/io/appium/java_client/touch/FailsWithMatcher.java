@@ -7,7 +7,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public final class FailsWithMatcher<E extends Throwable> extends TypeSafeMatcher<IThrowingRunnable<E>> {
+public final class FailsWithMatcher<E extends Throwable> extends TypeSafeMatcher<Runnable> {
 
     private final Matcher<? super E> matcher;
 
@@ -15,18 +15,18 @@ public final class FailsWithMatcher<E extends Throwable> extends TypeSafeMatcher
         this.matcher = matcher;
     }
 
-    public static <E extends Throwable> Matcher<IThrowingRunnable<E>> failsWith(
+    public static <E extends Throwable> Matcher<Runnable> failsWith(
             final Class<E> throwableType) {
         return new FailsWithMatcher<>(instanceOf(throwableType));
     }
 
-    public static <E extends Throwable> Matcher<IThrowingRunnable<E>> failsWith(
+    public static <E extends Throwable> Matcher<Runnable> failsWith(
             final Class<E> throwableType, final Matcher<? super E> throwableMatcher) {
         return new FailsWithMatcher<>(allOf(instanceOf(throwableType), throwableMatcher));
     }
 
     @Override
-    protected boolean matchesSafely(final IThrowingRunnable<E> runnable) {
+    protected boolean matchesSafely(final Runnable runnable) {
         try {
             runnable.run();
             return false;
