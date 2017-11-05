@@ -17,19 +17,19 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.touch.AbsoluteOffsetOption.useAbsolute;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
-import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
+import static io.appium.java_client.touch.PositionOffsetOption.positionOffsetOption;
+import static io.appium.java_client.touch.WebElementOption.elementOption;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.touch.AbsoluteOffsetOption;
 import io.appium.java_client.touch.ActionOptions;
 import io.appium.java_client.touch.LongPressOptions;
-import io.appium.java_client.touch.RelativeOffsetOption;
+import io.appium.java_client.touch.PositionOffsetOption;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.WebElementOption;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
@@ -55,24 +55,12 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     }
 
     /**
-     * Press on an element.
+     * Press action on the screen.
      *
-     * @param pressOptions see {@link RelativeOffsetOption}.
+     * @param pressOptions see {@link WebElementOption} and {@link PositionOffsetOption}.
      * @return this TouchAction, for chaining.
      */
-    public T press(RelativeOffsetOption pressOptions) {
-        parameterBuilder.add(new ActionParameter("press", pressOptions));
-        //noinspection unchecked
-        return (T) this;
-    }
-
-    /**
-     * Press on an element.
-     *
-     * @param pressOptions see {@link AbsoluteOffsetOption}.
-     * @return this TouchAction, for chaining.
-     */
-    public T press(AbsoluteOffsetOption pressOptions) {
+    public <S extends PositionOffsetOption> T press(S pressOptions) {
         parameterBuilder.add(new ActionParameter("press", pressOptions));
         //noinspection unchecked
         return (T) this;
@@ -83,11 +71,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to press on.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #press(RelativeOffsetOption)} instead
+     * @deprecated use {@link #press(PositionOffsetOption)} instead
      */
     @Deprecated
     public T press(WebElement el) {
-        return press(useRelative(el));
+        return press(elementOption(el));
     }
 
     /**
@@ -96,11 +84,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #press(AbsoluteOffsetOption)} instead
+     * @deprecated use {@link #press(PositionOffsetOption)} instead
      */
     @Deprecated
     public T press(int x, int y) {
-        return press(useAbsolute(x, y));
+        return (T) press(positionOffsetOption(x, y));
     }
 
     /**
@@ -110,11 +98,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #press(RelativeOffsetOption)} instead
+     * @deprecated use {@link #press(PositionOffsetOption)} instead
      */
     @Deprecated
     public T press(WebElement el, int x, int y) {
-        return press(useRelative(el, x, y));
+        return press(elementOption(el, x, y));
     }
 
     /**
@@ -130,25 +118,12 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     }
 
     /**
-     * Move current touch to center of an element.
+     * Moves current touch to a new position.
      *
-     * @param moveToOptions see {@link AbsoluteOffsetOption}.
+     * @param  moveToOptions see {@link WebElementOption} and {@link PositionOffsetOption}.
      * @return this TouchAction, for chaining.
      */
-    public T moveTo(AbsoluteOffsetOption moveToOptions) {
-        ActionParameter action = new ActionParameter("moveTo", moveToOptions);
-        parameterBuilder.add(action);
-        //noinspection unchecked
-        return (T) this;
-    }
-
-    /**
-     * Move current touch to center of an element.
-     *
-     * @param moveToOptions see {@link RelativeOffsetOption}.
-     * @return this TouchAction, for chaining.
-     */
-    public T moveTo(RelativeOffsetOption moveToOptions) {
+    public <S extends PositionOffsetOption> T moveTo(S moveToOptions) {
         ActionParameter action = new ActionParameter("moveTo", moveToOptions);
         parameterBuilder.add(action);
         //noinspection unchecked
@@ -160,11 +135,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to move to.
      * @return this TouchAction, for chaining.
-     * @deprecated {@link #moveTo(RelativeOffsetOption)} instead
+     * @deprecated {@link #moveTo(PositionOffsetOption)} instead
      */
     @Deprecated
     public T moveTo(WebElement el) {
-        return moveTo(useRelative(el));
+        return moveTo(elementOption(el));
     }
 
     /**
@@ -175,11 +150,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x change in x coordinate to move through.
      * @param y change in y coordinate to move through.
      * @return this TouchAction, for chaining.
-     * @deprecated {@link #moveTo(AbsoluteOffsetOption)} instead
+     * @deprecated {@link #moveTo(PositionOffsetOption)} instead
      */
     @Deprecated
     public T moveTo(int x, int y) {
-        return moveTo(useAbsolute(x, y));
+        return (T) moveTo(positionOffsetOption(x, y));
     }
 
     /**
@@ -189,11 +164,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated {@link #moveTo(RelativeOffsetOption)} instead
+     * @deprecated {@link #moveTo(PositionOffsetOption)} instead
      */
     @Deprecated
     public T moveTo(WebElement el, int x, int y) {
-        return moveTo(useRelative(el, x, y));
+        return moveTo(elementOption(el, x, y));
     }
 
     /**
@@ -209,24 +184,12 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     }
 
     /**
-     * Tap on an element.
+     * Tap on a position.
      *
-     * @param tapOptions see {@link RelativeOffsetOption}.
+     * @param tapOptions see {@link WebElementOption} and {@link PositionOffsetOption}.
      * @return this TouchAction, for chaining.
      */
-    public T tap(RelativeOffsetOption tapOptions) {
-        ActionParameter action = new ActionParameter("tap", tapOptions);
-        parameterBuilder.add(action);
-        return (T) this;
-    }
-
-    /**
-     * Tap on an element.
-     *
-     * @param tapOptions see {@link AbsoluteOffsetOption}.
-     * @return this TouchAction, for chaining.
-     */
-    public T tap(AbsoluteOffsetOption tapOptions) {
+    public <S extends PositionOffsetOption> T tap(S tapOptions) {
         ActionParameter action = new ActionParameter("tap", tapOptions);
         parameterBuilder.add(action);
         return (T) this;
@@ -237,11 +200,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to tap.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #tap(RelativeOffsetOption)} instead.
+     * @deprecated use {@link #tap(PositionOffsetOption)} instead.
      */
     @Deprecated
     public T tap(WebElement el) {
-        return tap(useRelative(el));
+        return tap(elementOption(el));
     }
 
     /**
@@ -250,11 +213,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #tap(AbsoluteOffsetOption)} instead.
+     * @deprecated use {@link #tap(PositionOffsetOption)} instead.
      */
     @Deprecated
     public T tap(int x, int y) {
-        return tap(useAbsolute(x, y));
+        return (T) tap(positionOffsetOption(x, y));
     }
 
     /**
@@ -264,11 +227,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #tap(RelativeOffsetOption)} instead.
+     * @deprecated use {@link #tap(PositionOffsetOption)} instead.
      */
     @Deprecated
     public T tap(WebElement el, int x, int y) {
-        return  tap(useRelative(el, x, y));
+        return  tap(elementOption(el, x, y));
     }
 
     /**
@@ -329,23 +292,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     /**
      * Press and hold the at the center of an element until the context menu event has fired.
      *
-     * @param longPressOptions see {@link RelativeOffsetOption}.
+     * @param longPressOptions see {@link WebElementOption} and {@link PositionOffsetOption}.
      * @return this TouchAction, for chaining.
      */
-    public T longPress(RelativeOffsetOption longPressOptions) {
-        ActionParameter action = new ActionParameter("longPress", longPressOptions);
-        parameterBuilder.add(action);
-        //noinspection unchecked
-        return (T) this;
-    }
-
-    /**
-     * Press and hold the at the center of an element until the context menu event has fired.
-     *
-     * @param longPressOptions see {@link AbsoluteOffsetOption}.
-     * @return this TouchAction, for chaining.
-     */
-    public T longPress(AbsoluteOffsetOption longPressOptions) {
+    public <S extends PositionOffsetOption> T longPress(S longPressOptions) {
         ActionParameter action = new ActionParameter("longPress", longPressOptions);
         parameterBuilder.add(action);
         //noinspection unchecked
@@ -357,11 +307,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to long-press.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #longPress(RelativeOffsetOption)} instead
+     * @deprecated use {@link #longPress(PositionOffsetOption)} instead
      */
     @Deprecated
     public T longPress(WebElement el) {
-        return longPress(useRelative(el));
+        return longPress(elementOption(el));
     }
 
     /**
@@ -375,7 +325,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     @Deprecated
     public T longPress(WebElement el, Duration duration) {
         return longPress(longPressOptions()
-                .withDuration(duration).withOffset(useRelative(el)));
+                .withDuration(duration).withOffset(elementOption(el)));
     }
 
     /**
@@ -385,11 +335,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #longPress(AbsoluteOffsetOption)} instead
+     * @deprecated use {@link #longPress(PositionOffsetOption)} instead
      */
     @Deprecated
     public T longPress(int x, int y) {
-        return longPress(useAbsolute(x, y));
+        return (T) longPress(positionOffsetOption(x, y));
     }
 
     /**
@@ -404,8 +354,8 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T longPress(int x, int y, Duration duration) {
-        return longPress(longPressOptions()
-                .withDuration(duration).withOffset(useAbsolute(x, y)));
+        return (T) longPress(longPressOptions()
+                .withDuration(duration).withOffset(positionOffsetOption(x, y)));
     }
 
     /**
@@ -416,11 +366,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #longPress(RelativeOffsetOption)} instead
+     * @deprecated use {@link #longPress(PositionOffsetOption)} instead
      */
     @Deprecated
     public T longPress(WebElement el, int x, int y) {
-        return longPress(useRelative(el, x, y));
+        return longPress(elementOption(el, x, y));
     }
 
     /**
@@ -437,7 +387,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     @Deprecated
     public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
         return longPress(longPressOptions()
-                .withOffset(useRelative(el, x, y)).withDuration(duration));
+                .withOffset(elementOption(el, x, y)).withDuration(duration));
     }
 
     /**

@@ -18,12 +18,13 @@ package io.appium.java_client.touch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.time.Duration.ofMillis;
 
 import java.time.Duration;
 import java.util.Map;
 
 public class WaitOptions extends ActionOptions<WaitOptions> {
-    protected Duration duration = Duration.ofMillis(0);
+    protected Duration duration = ofMillis(0);
 
     /**
      * Creates and instance of {@link WaitOptions}.

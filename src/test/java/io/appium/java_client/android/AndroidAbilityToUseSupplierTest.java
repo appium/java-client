@@ -1,7 +1,7 @@
 package io.appium.java_client.android;
 
-import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.WebElementOption.elementOption;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
 
@@ -24,17 +24,17 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         Point center = gallery.getCenter();
 
         return new AndroidTouchAction(driver)
-                .press(useRelative(images.get(2),-10,center.y - location.y))
+                .press(elementOption(images.get(2),-10,center.y - location.y))
                 .waitAction(waitOptions(ofSeconds(2)))
-                .moveTo(useRelative(gallery,10,center.y - location.y))
+                .moveTo(elementOption(gallery, 10,center.y - location.y))
                 .release();
     };
 
     private final ActionSupplier<AndroidTouchAction> verticalSwiping = () ->
         new AndroidTouchAction(driver)
-                .press(useRelative(driver.findElementByAccessibilityId("Gallery")))
+                .press(elementOption(driver.findElementByAccessibilityId("Gallery")))
                 .waitAction(waitOptions(ofSeconds(2)))
-                .moveTo(useRelative(driver.findElementByAccessibilityId("Auto Complete")))
+                .moveTo(elementOption(driver.findElementByAccessibilityId("Auto Complete")))
                 .release();
 
     @Test public void horizontalSwipingWithSupplier() throws Exception {

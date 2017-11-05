@@ -16,11 +16,13 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.touch.RelativeOffsetOption.useRelative;
+import static io.appium.java_client.touch.WebElementOption.elementOption;
 
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.RelativeOffsetOption;
+import io.appium.java_client.touch.ActionOptions;
+import io.appium.java_client.touch.PositionOffsetOption;
+import io.appium.java_client.touch.WebElementOption;
 import org.openqa.selenium.WebElement;
 
 public class IOSTouchAction extends TouchAction<IOSTouchAction> {
@@ -36,11 +38,11 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      * @param x  x offset.
      * @param y  y offset.
      * @return this IOSTouchAction, for chaining.
-     * @deprecated use {@link #tap(RelativeOffsetOption)} with count=2 instead.
+     * @deprecated use {@link #tap(PositionOffsetOption)} with count=2 instead.
      */
     @Deprecated
     public IOSTouchAction doubleTap(WebElement el, int x, int y) {
-        return doubleTap(useRelative(el, x, y));
+        return doubleTap(elementOption(el, x, y));
     }
 
     /**
@@ -48,20 +50,21 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      *
      * @param el element to tap.
      * @return this IOSTouchAction, for chaining.
-     * @deprecated use {@link #tap(RelativeOffsetOption)} with count=2 instead.
+     * @deprecated use {@link #tap(PositionOffsetOption)} with count=2 instead.
      */
     @Deprecated
     public IOSTouchAction doubleTap(WebElement el) {
-        return doubleTap(useRelative(el));
+        return doubleTap(elementOption(el));
     }
 
     /**
      * Double taps using relative offset from an element.
      *
-     * @param doubleTapOption is the relative offset parameter from the element
+     * @param doubleTapOption is the relative offset parameter from the element.
+     *                        see {@link WebElementOption} and {@link PositionOffsetOption}.
      * @return self-reference
      */
-    public IOSTouchAction doubleTap(RelativeOffsetOption doubleTapOption) {
+    public <S extends WebElementOption> IOSTouchAction doubleTap(ActionOptions<? super S> doubleTapOption) {
         ActionParameter action = new ActionParameter("doubleTap",
                 doubleTapOption);
         parameterBuilder.add(action);
