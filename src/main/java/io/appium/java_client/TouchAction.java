@@ -177,10 +177,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param tapOptions see {@link TapOptions}.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction tap(TapOptions tapOptions) {
+    public T tap(TapOptions tapOptions) {
         ActionParameter action = new ActionParameter("tap", tapOptions);
         parameterBuilder.add(action);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -385,7 +385,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @deprecated use {@link #longPress(LongPressOptions)} instead
      */
     @Deprecated
-    public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
+    public T longPress(WebElement el, int x, int y, Duration duration) {
         return longPress(longPressOptions()
                 .withOffset(WebElementOption.element(el, x, y)).withDuration(duration));
     }
