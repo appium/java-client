@@ -1,7 +1,7 @@
 package io.appium.java_client.ios;
 
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
-import static io.appium.java_client.touch.WebElementOption.elementOption;
+import static io.appium.java_client.touch.WebElementOption.element;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,7 +30,7 @@ public class IOSTouchTest extends AppIOSTest {
         intB.sendKeys("4");
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        new TouchAction(driver).tap(elementOption(e)).perform();
+        new TouchAction(driver).tap(element(e)).perform();
         assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
     }
 
@@ -38,16 +38,16 @@ public class IOSTouchTest extends AppIOSTest {
         MobileElement slider = driver.findElementByClassName("UIASlider");
         Dimension size = slider.getSize();
 
-        TouchAction swipe = new TouchAction(driver).press(elementOption(slider, size.width / 2 + 2, size.height / 2))
-                .waitAction(waitOptions(ofSeconds(2))).moveTo(elementOption(slider, 1, size.height / 2)).release();
+        TouchAction swipe = new TouchAction(driver).press(element(slider, size.width / 2 + 2, size.height / 2))
+                .waitAction(waitOptions(ofSeconds(2))).moveTo(element(slider, 1, size.height / 2)).release();
         swipe.perform();
         assertEquals("0%", slider.getAttribute("value"));
     }
 
     @Test public void multiTouchTest() {
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        TouchAction tap1 = new TouchAction(driver).tap(elementOption(e));
-        TouchAction tap2 = new TouchAction(driver).tap(elementOption(driver.findElement(MobileBy
+        TouchAction tap1 = new TouchAction(driver).tap(element(e));
+        TouchAction tap2 = new TouchAction(driver).tap(element(driver.findElement(MobileBy
                 .IosUIAutomation(".elements().withName(\"show alert\")"))));
 
         new MultiTouchAction(driver).add(tap1).add(tap2).perform();

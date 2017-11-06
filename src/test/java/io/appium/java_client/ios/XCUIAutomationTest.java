@@ -16,7 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.touch.WebElementOption.elementOption;
+import static io.appium.java_client.touch.WebElementOption.element;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -73,7 +73,7 @@ public class XCUIAutomationTest extends AppXCUITTest {
         firstField.sendKeys("2");
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
-        iosTouchAction.doubleTap(elementOption(firstField));
+        iosTouchAction.doubleTap(element(firstField));
         IOSElement editingMenu = driver.findElementByClassName("UIAEditingMenu");
         assertNotNull(editingMenu);
     }

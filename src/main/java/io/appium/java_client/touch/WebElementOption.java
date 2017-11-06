@@ -7,11 +7,12 @@ import static java.util.Optional.ofNullable;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class WebElementOption extends PositionOffsetOption<WebElementOption> {
 
-    private HasIdentity elementId;
+    private String elementId;
 
     /**
      * This method creates a build instance of the {@link WebElementOption}
@@ -21,8 +22,8 @@ public class WebElementOption extends PositionOffsetOption<WebElementOption> {
      * @param y is the y-offset from the upper left corner of the given element.
      * @return the built option
      */
-    public static WebElementOption elementOption(WebElement element, int x, int y) {
-        return new WebElementOption().withElement(element).withOffet(x, y);
+    public static WebElementOption element(WebElement element, int x, int y) {
+        return new WebElementOption().withElement(element).setOffset(x, y);
     }
 
     /**
@@ -31,8 +32,8 @@ public class WebElementOption extends PositionOffsetOption<WebElementOption> {
      * @param element is the element to calculate offset from.
      * @return the built option
      */
-    public static WebElementOption elementOption(WebElement element) {
-        return elementOption(element, 0, 0);
+    public static WebElementOption element(WebElement element) {
+        return new WebElementOption().withElement(element);
     }
 
     /**
@@ -47,7 +48,7 @@ public class WebElementOption extends PositionOffsetOption<WebElementOption> {
         checkArgument(true, "Element should be an instance of the class which "
                 + "implements org.openqa.selenium.internal.HasIdentity",
                 (HasIdentity.class.isAssignableFrom(element.getClass())));
-        elementId = HasIdentity.class.cast(element);
+        elementId = HasIdentity.class.cast(element).getId();
         return this;
     }
 
@@ -59,8 +60,14 @@ public class WebElementOption extends PositionOffsetOption<WebElementOption> {
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> result = super.build();
-        result.put("element", elementId.getId());
+        verify();
+        final Map<String, Object> result = new HashMap<>();
+        result.put("element", elementId);
+
+        ofNullable(offset).ifPresent(point -> {
+            result.put("x", point.x);
+            result.put("y", point.y);
+        });
         return result;
     }
 }

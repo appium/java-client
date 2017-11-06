@@ -18,8 +18,8 @@ package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
-import static io.appium.java_client.touch.PositionOffsetOption.positionOffsetOption;
-import static io.appium.java_client.touch.WebElementOption.elementOption;
+import static io.appium.java_client.touch.PositionOffsetOption.offset;
+import static io.appium.java_client.touch.WebElementOption.element;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -75,7 +75,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T press(WebElement el) {
-        return press(elementOption(el));
+        return press(element(el));
     }
 
     /**
@@ -88,7 +88,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T press(int x, int y) {
-        return (T) press(positionOffsetOption(x, y));
+        return (T) press(offset(x, y));
     }
 
     /**
@@ -102,7 +102,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T press(WebElement el, int x, int y) {
-        return press(elementOption(el, x, y));
+        return press(WebElementOption.element(el, x, y));
     }
 
     /**
@@ -139,7 +139,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T moveTo(WebElement el) {
-        return moveTo(elementOption(el));
+        return moveTo(element(el));
     }
 
     /**
@@ -154,7 +154,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T moveTo(int x, int y) {
-        return (T) moveTo(positionOffsetOption(x, y));
+        return (T) moveTo(offset(x, y));
     }
 
     /**
@@ -168,7 +168,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T moveTo(WebElement el, int x, int y) {
-        return moveTo(elementOption(el, x, y));
+        return moveTo(WebElementOption.element(el, x, y));
     }
 
     /**
@@ -204,7 +204,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T tap(WebElement el) {
-        return tap(elementOption(el));
+        return tap(element(el));
     }
 
     /**
@@ -217,7 +217,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T tap(int x, int y) {
-        return (T) tap(positionOffsetOption(x, y));
+        return (T) tap(offset(x, y));
     }
 
     /**
@@ -231,7 +231,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T tap(WebElement el, int x, int y) {
-        return  tap(elementOption(el, x, y));
+        return  tap(WebElementOption.element(el, x, y));
     }
 
     /**
@@ -311,7 +311,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T longPress(WebElement el) {
-        return longPress(elementOption(el));
+        return longPress(element(el));
     }
 
     /**
@@ -325,7 +325,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     @Deprecated
     public T longPress(WebElement el, Duration duration) {
         return longPress(longPressOptions()
-                .withDuration(duration).withOffset(elementOption(el)));
+                .withDuration(duration).withOffset(element(el)));
     }
 
     /**
@@ -339,7 +339,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T longPress(int x, int y) {
-        return (T) longPress(positionOffsetOption(x, y));
+        return (T) longPress(offset(x, y));
     }
 
     /**
@@ -355,7 +355,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     @Deprecated
     public T longPress(int x, int y, Duration duration) {
         return (T) longPress(longPressOptions()
-                .withDuration(duration).withOffset(positionOffsetOption(x, y)));
+                .withDuration(duration).withOffset(offset(x, y)));
     }
 
     /**
@@ -370,7 +370,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T longPress(WebElement el, int x, int y) {
-        return longPress(elementOption(el, x, y));
+        return longPress(WebElementOption.element(el, x, y));
     }
 
     /**
@@ -387,7 +387,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     @Deprecated
     public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
         return longPress(longPressOptions()
-                .withOffset(elementOption(el, x, y)).withDuration(duration));
+                .withOffset(WebElementOption.element(el, x, y)).withDuration(duration));
     }
 
     /**

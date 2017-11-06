@@ -1,9 +1,9 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
-import static io.appium.java_client.touch.PositionOffsetOption.positionOffsetOption;
+import static io.appium.java_client.touch.PositionOffsetOption.offset;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
-import static io.appium.java_client.touch.WebElementOption.elementOption;
+import static io.appium.java_client.touch.WebElementOption.element;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotEquals;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WebElementOption;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -36,8 +37,8 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertEquals("Drag text not empty", "", dragText.getText());
 
         TouchAction dragNDrop = new TouchAction(driver)
-                        .longPress(elementOption(dragDot1))
-                        .moveTo(elementOption(dragDot3))
+                        .longPress(element(dragDot1))
+                        .moveTo(element(dragDot3))
                         .release();
         dragNDrop.perform();
         assertNotEquals("Drag text empty", "", dragText.getText());
@@ -54,9 +55,9 @@ public class AndroidTouchTest extends BaseAndroidTest {
 
         TouchAction dragNDrop = new TouchAction(driver)
                 .longPress(longPressOptions()
-                        .withOffset(elementOption(dragDot1))
+                        .withOffset(element(dragDot1))
                         .withDuration(ofSeconds(2)))
-                .moveTo(elementOption(dragDot3))
+                .moveTo(element(dragDot3))
                 .release();
         dragNDrop.perform();
         assertNotEquals("Drag text empty", "", dragText.getText());
@@ -75,8 +76,8 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Point center2 = dragDot3.getCenter();
 
         TouchAction dragNDrop = new TouchAction(driver)
-                .longPress(positionOffsetOption(center1.x, center1.y))
-                .moveTo(positionOffsetOption(center2.x, center2.y))
+                .longPress(offset(center1.x, center1.y))
+                .moveTo(offset(center2.x, center2.y))
                 .release();
         dragNDrop.perform();
         assertNotEquals("Drag text empty", "", dragText.getText());
@@ -96,9 +97,9 @@ public class AndroidTouchTest extends BaseAndroidTest {
 
         TouchAction dragNDrop = new TouchAction(driver)
                 .longPress(longPressOptions()
-                        .withOffset(positionOffsetOption(center1.x, center1.y))
+                        .withOffset(offset(center1.x, center1.y))
                         .withDuration(ofSeconds(2)))
-                .moveTo(positionOffsetOption(center2.x, center2.y))
+                .moveTo(offset(center2.x, center2.y))
                 .release();
         dragNDrop.perform();
         assertNotEquals("Drag text empty", "", dragText.getText());
@@ -110,7 +111,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Point point =
                 driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
         new TouchAction(driver)
-                .press(positionOffsetOption(point.x + 20, point.y + 30))
+                .press(offset(point.x + 20, point.y + 30))
                 .waitAction(waitOptions(ofSeconds(1)))
                 .release()
                 .perform();
@@ -122,7 +123,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         new TouchAction(driver)
-                .press(elementOption(driver.findElementById("io.appium.android.apis:id/button_toggle")))
+                .press(element(driver.findElementById("io.appium.android.apis:id/button_toggle")))
                 .waitAction(waitOptions(ofSeconds(1)))
                 .release()
                 .perform();
@@ -137,9 +138,9 @@ public class AndroidTouchTest extends BaseAndroidTest {
                 driver.findElementById("io.appium.android.apis:id/chronometer");
 
         TouchAction startStop = new TouchAction(driver)
-                .tap(elementOption(driver.findElementById("io.appium.android.apis:id/start")))
+                .tap(element(driver.findElementById("io.appium.android.apis:id/start")))
                 .waitAction(waitOptions(ofSeconds(2)))
-                .tap(elementOption(driver.findElementById("io.appium.android.apis:id/stop")));
+                .tap(element(driver.findElementById("io.appium.android.apis:id/stop")));
 
         startStop.perform();
 
@@ -158,8 +159,8 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Point center1 = driver.findElementById("io.appium.android.apis:id/start").getCenter();
 
         TouchAction startStop = new TouchAction(driver)
-                .tap(positionOffsetOption(center1.x, center1.y))
-                .tap(elementOption(driver.findElementById("io.appium.android.apis:id/stop"), 5, 5));
+                .tap(offset(center1.x, center1.y))
+                .tap(WebElementOption.element(driver.findElementById("io.appium.android.apis:id/stop"), 5, 5));
         startStop.perform();
 
         String time = chronometer.getText();
@@ -180,9 +181,9 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Point center = gallery.getCenter();
 
         TouchAction swipe = new TouchAction(driver)
-                .press(elementOption(images.get(2),-10, center.y - location.y))
+                .press(WebElementOption.element(images.get(2),-10, center.y - location.y))
                 .waitAction(waitOptions(ofSeconds(2)))
-                .moveTo(elementOption(gallery,10,center.y - location.y))
+                .moveTo(WebElementOption.element(gallery,10,center.y - location.y))
                 .release();
         swipe.perform();
         assertNotEquals(originalImageCount, gallery
@@ -193,7 +194,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         TouchAction press = new TouchAction(driver)
-                .press(elementOption(driver.findElementById("io.appium.android.apis:id/button_toggle")))
+                .press(element(driver.findElementById("io.appium.android.apis:id/button_toggle")))
                 .waitAction(waitOptions(ofSeconds(1)))
                 .release();
         new MultiTouchAction(driver)

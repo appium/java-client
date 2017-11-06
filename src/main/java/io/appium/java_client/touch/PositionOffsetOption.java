@@ -7,7 +7,7 @@ import org.openqa.selenium.Point;
 import java.util.Map;
 
 public class PositionOffsetOption<T extends PositionOffsetOption<T>> extends ActionOptions<T> {
-    private Point offset = new Point(0, 0);
+    protected Point offset;
 
     /**
      * It creates a built instance of {@link PositionOffsetOption} which takes x and y position
@@ -18,8 +18,8 @@ public class PositionOffsetOption<T extends PositionOffsetOption<T>> extends Act
      * @param yOffset is y-axis offset.
      * @return a built option
      */
-    public static PositionOffsetOption positionOffsetOption(int xOffset, int yOffset) {
-        return new PositionOffsetOption().withOffet(xOffset, yOffset);
+    public static PositionOffsetOption offset(int xOffset, int yOffset) {
+        return new PositionOffsetOption().setOffset(xOffset, yOffset);
     }
 
     /**
@@ -30,7 +30,7 @@ public class PositionOffsetOption<T extends PositionOffsetOption<T>> extends Act
      * @param yOffset is y-axis offset.
      * @return this instance for chaining.
      */
-    public T withOffet(int xOffset, int yOffset) {
+    public T setOffset(int xOffset, int yOffset) {
         this.offset = new Point(xOffset, yOffset);
         return (T) this;
     }

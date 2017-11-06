@@ -16,7 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.touch.WebElementOption.elementOption;
+import static io.appium.java_client.touch.WebElementOption.element;
 
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
@@ -42,7 +42,7 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      */
     @Deprecated
     public IOSTouchAction doubleTap(WebElement el, int x, int y) {
-        return doubleTap(elementOption(el, x, y));
+        return doubleTap(element(el, x, y));
     }
 
     /**
@@ -54,7 +54,7 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      */
     @Deprecated
     public IOSTouchAction doubleTap(WebElement el) {
-        return doubleTap(elementOption(el));
+        return doubleTap(element(el));
     }
 
     /**
