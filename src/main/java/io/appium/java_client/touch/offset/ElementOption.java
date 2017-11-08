@@ -1,4 +1,4 @@
-package io.appium.java_client.touch;
+package io.appium.java_client.touch.offset;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -10,30 +10,30 @@ import org.openqa.selenium.internal.HasIdentity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WebElementOption extends PositionOffsetOption<WebElementOption> {
+public class ElementOption extends OffsetOption<ElementOption> {
 
     private String elementId;
 
     /**
-     * This method creates a build instance of the {@link WebElementOption}
+     * This method creates a build instance of the {@link ElementOption}
      *
      * @param element is the element to calculate offset from.
      * @param x is the x-offset from the upper left corner of the given element.
      * @param y is the y-offset from the upper left corner of the given element.
      * @return the built option
      */
-    public static WebElementOption element(WebElement element, int x, int y) {
-        return new WebElementOption().withElement(element).setOffset(x, y);
+    public static ElementOption element(WebElement element, int x, int y) {
+        return new ElementOption().withElement(element).position(x, y);
     }
 
     /**
-     * This method creates a build instance of the {@link WebElementOption}
+     * This method creates a build instance of the {@link ElementOption}
      *
      * @param element is the element to calculate offset from.
      * @return the built option
      */
-    public static WebElementOption element(WebElement element) {
-        return new WebElementOption().withElement(element);
+    public static ElementOption element(WebElement element) {
+        return new ElementOption().withElement(element);
     }
 
     /**
@@ -43,7 +43,7 @@ public class WebElementOption extends PositionOffsetOption<WebElementOption> {
      * @param element is the element to calculate offset from.
      * @return self-reference
      */
-    public WebElementOption withElement(WebElement element) {
+    public ElementOption withElement(WebElement element) {
         checkNotNull(element);
         checkArgument(true, "Element should be an instance of the class which "
                 + "implements org.openqa.selenium.internal.HasIdentity",

@@ -20,10 +20,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.ofNullable;
 
+import io.appium.java_client.touch.offset.AbstractOptionCombinedWithPosition;
+import io.appium.java_client.touch.offset.PointOption;
+
 import java.time.Duration;
 import java.util.Map;
 
-public class LongPressOptions extends OptionsCombinedWithOffset<LongPressOptions> {
+public class LongPressOptions
+        extends AbstractOptionCombinedWithPosition<LongPressOptions, PointOption> {
     protected Duration duration = null;
 
     /**

@@ -16,7 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.touch.WebElementOption.element;
+import static io.appium.java_client.touch.offset.ElementOption.element;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -25,6 +25,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import io.appium.java_client.touch.offset.PointOption;
+import io.appium.java_client.touch.offset.Position;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.DeviceRotation;
@@ -73,7 +75,7 @@ public class XCUIAutomationTest extends AppXCUITTest {
         firstField.sendKeys("2");
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
-        iosTouchAction.doubleTap(element(firstField));
+        iosTouchAction.doubleTap(Position.<PointOption>position().withElement(element(firstField)));
         IOSElement editingMenu = driver.findElementByClassName("UIAEditingMenu");
         assertNotNull(editingMenu);
     }
