@@ -4,7 +4,6 @@ import static io.appium.java_client.MobileBy.IosUIAutomation;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
-import static io.appium.java_client.touch.offset.Position.position;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -13,8 +12,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.offset.PointOption;
-import io.appium.java_client.touch.offset.Position;
+import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -42,9 +40,8 @@ public class IOSTouchTest extends AppIOSTest {
         MobileElement slider = driver.findElementByClassName("UIASlider");
         Dimension size = slider.getSize();
 
-        Position<PointOption> press = Position.<PointOption>position()
-                .withElement(element(slider, size.width / 2 + 2, size.height / 2));
-        Position<?> move = position().withElement(element(slider, 1, size.height / 2));
+        ElementOption press = element(slider, size.width / 2 + 2, size.height / 2);
+        ElementOption move = element(slider, 1, size.height / 2);
 
         TouchAction swipe = new TouchAction(driver).press(press)
                 .waitAction(waitOptions(ofSeconds(2)))

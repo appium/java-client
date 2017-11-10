@@ -2,15 +2,17 @@ package io.appium.java_client.touch.offset;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ElementOption extends OffsetOption<ElementOption> {
+public class ElementOption extends PointOption<ElementOption> {
 
     private String elementId;
 
@@ -23,7 +25,7 @@ public class ElementOption extends OffsetOption<ElementOption> {
      * @return the built option
      */
     public static ElementOption element(WebElement element, int x, int y) {
-        return new ElementOption().withElement(element).position(x, y);
+        return new ElementOption().withElement(element).coordinates(x, y);
     }
 
     /**
@@ -34,6 +36,19 @@ public class ElementOption extends OffsetOption<ElementOption> {
      */
     public static ElementOption element(WebElement element) {
         return new ElementOption().withElement(element);
+    }
+
+    /**
+     * It defines x and y offset from the upper left corner of an element.
+     *
+     * @param xOffset is x value.
+     * @param yOffset is y value.
+     * @return self-reference
+     */
+    @Override
+    public ElementOption coordinates(int xOffset, int yOffset) {
+        coordinates = new Point(xOffset, yOffset);
+        return this;
     }
 
     /**
@@ -64,7 +79,7 @@ public class ElementOption extends OffsetOption<ElementOption> {
         final Map<String, Object> result = new HashMap<>();
         result.put("element", elementId);
 
-        ofNullable(offset).ifPresent(point -> {
+        ofNullable(coordinates).ifPresent(point -> {
             result.put("x", point.x);
             result.put("y", point.y);
         });

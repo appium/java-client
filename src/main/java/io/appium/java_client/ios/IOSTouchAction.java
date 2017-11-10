@@ -20,8 +20,8 @@ import static io.appium.java_client.touch.offset.ElementOption.element;
 
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
-import io.appium.java_client.touch.offset.Position;
 import org.openqa.selenium.WebElement;
 
 public class IOSTouchAction extends TouchAction<IOSTouchAction> {
@@ -37,11 +37,11 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      * @param x  x offset.
      * @param y  y offset.
      * @return this IOSTouchAction, for chaining.
-     * @deprecated use {@link #tap(Position)} with count=2 instead.
+     * @deprecated use {@link #doubleTap(PointOption)} with count=2 instead.
      */
     @Deprecated
     public IOSTouchAction doubleTap(WebElement el, int x, int y) {
-        return doubleTap(Position.<PointOption>position().withElement(element(el, x, y)));
+        return doubleTap(element(el, x, y));
     }
 
     /**
@@ -49,20 +49,20 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      *
      * @param el element to tap.
      * @return this IOSTouchAction, for chaining.
-     * @deprecated use {@link #tap(Position)} with count=2 instead.
+     * @deprecated use {@link #doubleTap(PointOption)} with count=2 instead.
      */
     @Deprecated
     public IOSTouchAction doubleTap(WebElement el) {
-        return doubleTap(Position.<PointOption>position().withElement(element(el)));
+        return doubleTap(element(el));
     }
 
     /**
      * Double taps using coordinates.
      *
-     * @param doubleTapOption see {@link Position}.
+     * @param doubleTapOption see {@link PointOption} and {@link ElementOption}..
      * @return self-reference
      */
-    public IOSTouchAction doubleTap(Position<PointOption> doubleTapOption) {
+    public IOSTouchAction doubleTap(PointOption doubleTapOption) {
         ActionParameter action = new ActionParameter("doubleTap",
                 doubleTapOption);
         parameterBuilder.add(action);

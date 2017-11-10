@@ -20,11 +20,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Optional.ofNullable;
 
 import io.appium.java_client.touch.offset.AbstractOptionCombinedWithPosition;
-import io.appium.java_client.touch.offset.PointOption;
 
 import java.util.Map;
 
-public class TapOptions extends AbstractOptionCombinedWithPosition<TapOptions, PointOption> {
+public class TapOptions extends AbstractOptionCombinedWithPosition<TapOptions> {
     private Integer tapsCount = null;
 
     /**

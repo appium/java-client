@@ -25,8 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import io.appium.java_client.touch.offset.PointOption;
-import io.appium.java_client.touch.offset.Position;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.DeviceRotation;
@@ -75,7 +73,7 @@ public class XCUIAutomationTest extends AppXCUITTest {
         firstField.sendKeys("2");
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
-        iosTouchAction.doubleTap(Position.<PointOption>position().withElement(element(firstField)));
+        iosTouchAction.doubleTap(element(firstField));
         IOSElement editingMenu = driver.findElementByClassName("UIAEditingMenu");
         assertNotNull(editingMenu);
     }

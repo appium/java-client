@@ -5,8 +5,7 @@ import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
-import static io.appium.java_client.touch.offset.PointOption.coordinates;
-import static io.appium.java_client.touch.offset.Position.position;
+import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static junit.framework.TestCase.fail;
@@ -29,8 +28,8 @@ public class TouchOptionsTests {
     private static final WebElement DUMMY_ELEMENT = new DummyElement();
 
     @Test(expected = IllegalArgumentException.class)
-    public void invalidEmptyPositionOptionsShouldFailOnBuild() throws Exception {
-        position().build();
+    public void invalidEmptyPointOptionsShouldFailOnBuild() throws Exception {
+        new PointOption().build();
         fail("The exception throwing was expected");
     }
 
@@ -44,9 +43,9 @@ public class TouchOptionsTests {
     public void invalidOptionsArgumentsShouldFailOnAltering() throws Exception {
         final List<Runnable> invalidOptions = new ArrayList<>();
         invalidOptions.add(() -> waitOptions(ofMillis(-1)));
-        invalidOptions.add(() -> new ElementOption().position(0, 0).withElement(null));
-        invalidOptions.add(() -> new PointOption().position(0, -1));
-        invalidOptions.add(() -> new PointOption().position(-1, 0));
+        invalidOptions.add(() -> new ElementOption().coordinates(0, 0).withElement(null));
+        invalidOptions.add(() -> new PointOption().coordinates(0, -1));
+        invalidOptions.add(() -> new PointOption().coordinates(-1, 0));
         invalidOptions.add(() -> new WaitOptions().withDuration(null));
         invalidOptions.add(() -> tapOptions().withTapsCount(-1));
         invalidOptions.add(() -> longPressOptions().withDuration(null));
@@ -59,7 +58,7 @@ public class TouchOptionsTests {
     @Test
     public void longPressOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = longPressOptions()
-                .withElement(element(DUMMY_ELEMENT).position(0, 0))
+                .withElement(element(DUMMY_ELEMENT).coordinates(0, 0))
                 .withDuration(ofMillis(1))
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
@@ -74,7 +73,7 @@ public class TouchOptionsTests {
     @Test
     public void tapOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = tapOptions()
-                .withPosition(coordinates(0, 0))
+                .withPosition(point(0, 0))
                 .withTapsCount(2)
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();

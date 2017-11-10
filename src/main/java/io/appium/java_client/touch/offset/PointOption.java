@@ -4,11 +4,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
+import io.appium.java_client.touch.ActionOptions;
 import org.openqa.selenium.Point;
 
 import java.util.Map;
 
-public class PointOption extends AbstractPositionOption<PointOption> {
+public class PointOption<T extends PointOption<T>> extends ActionOptions<T> {
+
+    protected Point coordinates;
 
     private static final String ERROR_MESSAGE_TEMPLATE = "%s coordinate value should be equal or greater than zero";
 
@@ -20,8 +23,8 @@ public class PointOption extends AbstractPositionOption<PointOption> {
      * @param yOffset is y value.
      * @return a built option
      */
-    public static PointOption coordinates(int xOffset, int yOffset) {
-        return new PointOption().position(xOffset, yOffset);
+    public static PointOption point(int xOffset, int yOffset) {
+        return new PointOption().coordinates(xOffset, yOffset);
     }
 
     /**
@@ -32,25 +35,24 @@ public class PointOption extends AbstractPositionOption<PointOption> {
      * @param yOffset is y value.
      * @return self-reference
      */
-    @Override
-    public PointOption position(int xOffset, int yOffset) {
+    public T coordinates(int xOffset, int yOffset) {
         checkArgument(xOffset >= 0, format(ERROR_MESSAGE_TEMPLATE, "X"));
         checkArgument(yOffset >= 0, format(ERROR_MESSAGE_TEMPLATE, "Y"));
-        offset = new Point(xOffset, yOffset);
-        return this;
+        coordinates = new Point(xOffset, yOffset);
+        return (T) this;
     }
 
     @Override
     protected void verify() {
-        ofNullable(offset).orElseThrow(() -> new IllegalArgumentException(
+        ofNullable(coordinates).orElseThrow(() -> new IllegalArgumentException(
                 "Coordinate values must be defined"));
     }
 
     @Override
     public Map<String, Object> build() {
         final Map<String, Object> result = super.build();
-        result.put("x", offset.x);
-        result.put("y", offset.y);
+        result.put("x", coordinates.x);
+        result.put("y", coordinates.y);
         return result;
     }
 }

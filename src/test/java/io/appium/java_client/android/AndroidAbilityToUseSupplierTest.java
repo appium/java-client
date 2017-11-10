@@ -2,15 +2,12 @@ package io.appium.java_client.android;
 
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
-import static io.appium.java_client.touch.offset.PointOption.coordinates;
-import static io.appium.java_client.touch.offset.Position.position;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.functions.ActionSupplier;
-import io.appium.java_client.touch.offset.PointOption;
-import io.appium.java_client.touch.offset.Position;
+import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 
@@ -27,10 +24,8 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         Point location = gallery.getLocation();
         Point center = gallery.getCenter();
 
-        Position<PointOption> pressOption = Position.<PointOption>position()
-                .withElement(element(images.get(2),-10,center.y - location.y));
-
-        Position<?> moveOption = position().withElement(element(gallery, 10,center.y - location.y));
+        ElementOption pressOption = element(images.get(2),-10,center.y - location.y);
+        ElementOption moveOption = element(gallery, 10,center.y - location.y);
 
         return new AndroidTouchAction(driver)
                 .press(pressOption)
@@ -41,13 +36,11 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
 
     private final ActionSupplier<AndroidTouchAction> verticalSwiping = () ->
         new AndroidTouchAction(driver)
-                .press(Position.<PointOption>position()
-                        .withElement(element(driver.findElementByAccessibilityId("Gallery"))))
+                .press(element(driver.findElementByAccessibilityId("Gallery")))
 
                 .waitAction(waitOptions(ofSeconds(2)))
 
-                .moveTo(position()
-                        .withElement(element(driver.findElementByAccessibilityId("Auto Complete"))))
+                .moveTo(element(driver.findElementByAccessibilityId("Auto Complete")))
                 .release();
 
     @Test public void horizontalSwipingWithSupplier() throws Exception {

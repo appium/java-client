@@ -20,9 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.builder;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
-import static io.appium.java_client.touch.offset.OffsetOption.offset;
-import static io.appium.java_client.touch.offset.PointOption.coordinates;
-import static io.appium.java_client.touch.offset.Position.position;
+import static io.appium.java_client.touch.offset.PointOption.point;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -31,9 +29,8 @@ import io.appium.java_client.touch.ActionOptions;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.AbstractPositionOption;
+import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
-import io.appium.java_client.touch.offset.Position;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
@@ -61,10 +58,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     /**
      * Press action on the screen.
      *
-     * @param pressOptions see {@link Position}.
+     * @param pressOptions see {@link PointOption} and {@link ElementOption}.
      * @return this TouchAction, for chaining.
      */
-    public T press(Position<PointOption> pressOptions) {
+    public T press(PointOption pressOptions) {
         parameterBuilder.add(new ActionParameter("press", pressOptions));
         //noinspection unchecked
         return (T) this;
@@ -75,11 +72,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to press on.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #press(Position)} instead
+     * @deprecated use {@link #press(PointOption)} instead
      */
     @Deprecated
     public T press(WebElement el) {
-        return press(Position.<PointOption>position().withElement(element(el)));
+        return press(element(el));
     }
 
     /**
@@ -88,11 +85,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #press(Position)} instead
+     * @deprecated use {@link #press(PointOption)} instead
      */
     @Deprecated
     public T press(int x, int y) {
-        return press(Position.<PointOption>position().withPosition(coordinates(x, y)));
+        return press(point(x, y));
     }
 
     /**
@@ -102,11 +99,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #press(Position)} instead
+     * @deprecated use {@link #press(PointOption)} instead
      */
     @Deprecated
     public T press(WebElement el, int x, int y) {
-        return press(Position.<PointOption>position().withElement(element(el, x, y)));
+        return press(element(el, x, y));
     }
 
     /**
@@ -124,10 +121,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     /**
      * Moves current touch to a new position.
      *
-     * @param  moveToOptions see {@link Position}
+     * @param  moveToOptions see {@link PointOption} and {@link ElementOption}
      * @return this TouchAction, for chaining.
      */
-    public <S extends AbstractPositionOption> T moveTo(Position<S> moveToOptions) {
+    public T moveTo(PointOption moveToOptions) {
         ActionParameter action = new ActionParameter("moveTo", moveToOptions);
         parameterBuilder.add(action);
         return (T) this;
@@ -138,11 +135,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to move to.
      * @return this TouchAction, for chaining.
-     * @deprecated {@link #moveTo(Position)} instead
+     * @deprecated {@link #moveTo(PointOption)} instead
      */
     @Deprecated
     public T moveTo(WebElement el) {
-        return moveTo(position().withElement(element(el)));
+        return moveTo(element(el));
     }
 
     /**
@@ -153,11 +150,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x change in x coordinate to move through.
      * @param y change in y coordinate to move through.
      * @return this TouchAction, for chaining.
-     * @deprecated {@link #moveTo(Position)} instead
+     * @deprecated {@link #moveTo(PointOption)} instead
      */
     @Deprecated
     public T moveTo(int x, int y) {
-        return moveTo(position().withPosition(offset(x, y)));
+        return moveTo(point(x, y));
     }
 
     /**
@@ -167,11 +164,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated {@link #moveTo(Position)} instead
+     * @deprecated {@link #moveTo(PointOption)} instead
      */
     @Deprecated
     public T moveTo(WebElement el, int x, int y) {
-        return moveTo(position().withElement(element(el, x, y)));
+        return moveTo(element(el, x, y));
     }
 
     /**
@@ -189,10 +186,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     /**
      * Tap on a position.
      *
-     * @param tapOptions see {@link Position}
+     * @param tapOptions see {@link PointOption} and {@link ElementOption}
      * @return this TouchAction, for chaining.
      */
-    public T tap(Position<PointOption> tapOptions) {
+    public T tap(PointOption tapOptions) {
         ActionParameter action = new ActionParameter("tap", tapOptions);
         parameterBuilder.add(action);
         return (T) this;
@@ -203,11 +200,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to tap.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #tap(Position)} instead.
+     * @deprecated use {@link #tap(PointOption)} instead.
      */
     @Deprecated
     public T tap(WebElement el) {
-        return tap(Position.<PointOption>position().withElement(element(el)));
+        return tap(element(el));
     }
 
     /**
@@ -216,11 +213,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #tap(Position)} instead.
+     * @deprecated use {@link #tap(PointOption)} instead.
      */
     @Deprecated
     public T tap(int x, int y) {
-        return (T) tap(Position.<PointOption>position().withPosition(coordinates(x, y)));
+        return tap(point(x, y));
     }
 
     /**
@@ -230,11 +227,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #tap(Position)} instead.
+     * @deprecated use {@link #tap(PointOption)} instead.
      */
     @Deprecated
     public T tap(WebElement el, int x, int y) {
-        return  tap(Position.<PointOption>position().withElement(element(el, x, y)));
+        return  tap(element(el, x, y));
     }
 
     /**
@@ -295,10 +292,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     /**
      * Press and hold the at the center of an element until the context menu event has fired.
      *
-     * @param longPressOptions see {@link Position}.
+     * @param longPressOptions see {@link PointOption} and {@link ElementOption}.
      * @return this TouchAction, for chaining.
      */
-    public T longPress(Position<PointOption> longPressOptions) {
+    public T longPress(PointOption longPressOptions) {
         ActionParameter action = new ActionParameter("longPress", longPressOptions);
         parameterBuilder.add(action);
         //noinspection unchecked
@@ -310,11 +307,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @param el element to long-press.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #longPress(Position)} instead
+     * @deprecated use {@link #longPress(PointOption)} instead
      */
     @Deprecated
     public T longPress(WebElement el) {
-        return longPress(Position.<PointOption>position().withElement(element(el)));
+        return longPress(element(el));
     }
 
     /**
@@ -338,11 +335,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #longPress(Position)} instead
+     * @deprecated use {@link #longPress(PointOption)} instead
      */
     @Deprecated
     public T longPress(int x, int y) {
-        return longPress(Position.<PointOption>position().withPosition(coordinates(x, y)));
+        return longPress(point(x, y));
     }
 
     /**
@@ -357,8 +354,8 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      */
     @Deprecated
     public T longPress(int x, int y, Duration duration) {
-        return (T) longPress(longPressOptions()
-                .withDuration(duration).withPosition(coordinates(x, y)));
+        return longPress(longPressOptions()
+                .withDuration(duration).withPosition(point(x, y)));
     }
 
     /**
@@ -369,11 +366,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
-     * @deprecated use {@link #longPress(Position)} instead
+     * @deprecated use {@link #longPress(PointOption)} instead
      */
     @Deprecated
     public T longPress(WebElement el, int x, int y) {
-        return longPress(Position.<PointOption>position().withElement(element(el, x, y)));
+        return longPress(element(el, x, y));
     }
 
     /**
