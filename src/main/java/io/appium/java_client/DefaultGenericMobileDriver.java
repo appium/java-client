@@ -38,7 +38,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWebDriver
     implements MobileDriver<T> {
 
-    private volatile ImmutableMap sessionDetails = null;
+    private ImmutableMap sessionDetails = null;
 
     public DefaultGenericMobileDriver(CommandExecutor executor, Capabilities desiredCapabilities) {
         super(executor, desiredCapabilities);
@@ -163,7 +163,7 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
      */
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> getSessionDetails() {
+    public synchronized Map<String, Object> getSessionDetails() {
         if (sessionDetails == null) {
             Response response = execute(GET_SESSION);
             Map<String, Object> resultMap = Map.class.cast(response.getValue());
