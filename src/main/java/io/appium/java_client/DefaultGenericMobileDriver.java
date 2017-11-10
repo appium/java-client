@@ -30,9 +30,15 @@ import org.openqa.selenium.remote.Response;
 import java.util.List;
 import java.util.Map;
 
+import static io.appium.java_client.MobileCommand.GET_SESSION;
+import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWebDriver
     implements MobileDriver<T> {
+
+    private volatile ImmutableMap sessionDetails = null;
 
     public DefaultGenericMobileDriver(CommandExecutor executor, Capabilities desiredCapabilities) {
         super(executor, desiredCapabilities);
@@ -149,6 +155,32 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
      */
     @Deprecated public Mouse getMouse() {
         return super.getMouse();
+    }
+
+    /**
+     * @return a map with values that hold session details.
+     *
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> getSessionDetails() {
+        if (sessionDetails == null) {
+            Response response = execute(GET_SESSION);
+            Map<String, Object> resultMap = Map.class.cast(response.getValue());
+
+            //this filtering was added to clear returned result.
+            //results of further operations should be simply interpreted by users
+            sessionDetails = ImmutableMap.<String, Object>builder()
+                    .putAll(resultMap.entrySet()
+                            .stream().filter(entry -> {
+                                String key = entry.getKey();
+                                Object value = entry.getValue();
+                                return !isBlank(key)
+                                        && value != null
+                                        && !isBlank(String.valueOf(value));
+                            }).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
+        }
+        return sessionDetails;
     }
 
     @Override
