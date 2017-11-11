@@ -43,9 +43,9 @@ public class TouchOptionsTests {
     public void invalidOptionsArgumentsShouldFailOnAltering() throws Exception {
         final List<Runnable> invalidOptions = new ArrayList<>();
         invalidOptions.add(() -> waitOptions(ofMillis(-1)));
-        invalidOptions.add(() -> new ElementOption().coordinates(0, 0).withElement(null));
-        invalidOptions.add(() -> new PointOption().coordinates(0, -1));
-        invalidOptions.add(() -> new PointOption().coordinates(-1, 0));
+        invalidOptions.add(() -> new ElementOption().withCoordinates(0, 0).withElement(null));
+        invalidOptions.add(() -> new PointOption().withCoordinates(0, -1));
+        invalidOptions.add(() -> new PointOption().withCoordinates(-1, 0));
         invalidOptions.add(() -> new WaitOptions().withDuration(null));
         invalidOptions.add(() -> tapOptions().withTapsCount(-1));
         invalidOptions.add(() -> longPressOptions().withDuration(null));
@@ -58,7 +58,7 @@ public class TouchOptionsTests {
     @Test
     public void longPressOptionsShouldBuildProperly() throws Exception {
         final Map<String, Object> actualOpts = longPressOptions()
-                .withElement(element(DUMMY_ELEMENT).coordinates(0, 0))
+                .withElement(element(DUMMY_ELEMENT).withCoordinates(0, 0))
                 .withDuration(ofMillis(1))
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();

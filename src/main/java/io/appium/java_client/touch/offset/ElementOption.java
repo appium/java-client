@@ -2,7 +2,6 @@ package io.appium.java_client.touch.offset;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
 import org.openqa.selenium.Point;
@@ -25,7 +24,7 @@ public class ElementOption extends PointOption<ElementOption> {
      * @return the built option
      */
     public static ElementOption element(WebElement element, int x, int y) {
-        return new ElementOption().withElement(element).coordinates(x, y);
+        return new ElementOption().withElement(element).withCoordinates(x, y);
     }
 
     /**
@@ -46,7 +45,7 @@ public class ElementOption extends PointOption<ElementOption> {
      * @return self-reference
      */
     @Override
-    public ElementOption coordinates(int xOffset, int yOffset) {
+    public ElementOption withCoordinates(int xOffset, int yOffset) {
         coordinates = new Point(xOffset, yOffset);
         return this;
     }

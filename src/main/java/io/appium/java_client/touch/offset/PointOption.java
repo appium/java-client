@@ -24,7 +24,7 @@ public class PointOption<T extends PointOption<T>> extends ActionOptions<T> {
      * @return a built option
      */
     public static PointOption point(int xOffset, int yOffset) {
-        return new PointOption().coordinates(xOffset, yOffset);
+        return new PointOption().withCoordinates(xOffset, yOffset);
     }
 
     /**
@@ -35,7 +35,7 @@ public class PointOption<T extends PointOption<T>> extends ActionOptions<T> {
      * @param yOffset is y value.
      * @return self-reference
      */
-    public T coordinates(int xOffset, int yOffset) {
+    public T withCoordinates(int xOffset, int yOffset) {
         checkArgument(xOffset >= 0, format(ERROR_MESSAGE_TEMPLATE, "X"));
         checkArgument(yOffset >= 0, format(ERROR_MESSAGE_TEMPLATE, "Y"));
         coordinates = new Point(xOffset, yOffset);
