@@ -19,7 +19,11 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 ## Changelog
 
-*5.1.0 (under construction yet)*
+*6.0.0 (under construction yet)*
+- **[ENHANCEMENT]** **[REFACTOR]** **[BREAKING CHANGE]** **[MAJOR CHANGE]** Improvements of the TouchActions API:
+    - `io.appium.java_client.touch.ActionOptions` and sublasses were added
+    - old methods of the `TouchActions` were marked `@Deprecated`
+    - new methods which take new options.    
 - **[ENHANCEMENT]**. Appium drivr local service uses default process environment by default. [#753](https://github.com/appium/java-client/pull/753)
 - **[BUG FIX]**. Removed 'set' prefix from waitForIdleTimeout setting. [#754](https://github.com/appium/java-client/pull/754)
 
