@@ -1,20 +1,23 @@
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.MobileBy.IosUIAutomation;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSTouchTest extends AppIOSTest {
@@ -29,7 +32,7 @@ public class IOSTouchTest extends AppIOSTest {
         intB.sendKeys("4");
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        new TouchAction(driver).tap(e).perform();
+        new TouchAction(driver).tap(tapOptions().withElement(element(e))).perform();
         assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
     }
 
@@ -37,17 +40,23 @@ public class IOSTouchTest extends AppIOSTest {
         MobileElement slider = driver.findElementByClassName("UIASlider");
         Dimension size = slider.getSize();
 
-        TouchAction swipe = new TouchAction(driver).press(slider, size.width / 2 + 2, size.height / 2)
-                .waitAction(Duration.ofSeconds(2)).moveTo(slider, 1, size.height / 2).release();
+        ElementOption press = element(slider, size.width / 2 + 2, size.height / 2);
+        ElementOption move = element(slider, 1, size.height / 2);
+
+        TouchAction swipe = new TouchAction(driver).press(press)
+                .waitAction(waitOptions(ofSeconds(2)))
+                .moveTo(move).release();
+
         swipe.perform();
         assertEquals("0%", slider.getAttribute("value"));
     }
 
     @Test public void multiTouchTest() {
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        TouchAction tap1 = new TouchAction(driver).tap(e);
-        TouchAction tap2 = new TouchAction(driver).tap(driver.findElement(MobileBy
-                .IosUIAutomation(".elements().withName(\"show alert\")")));
+        MobileElement e2 = driver.findElement(IosUIAutomation(".elements().withName(\"show alert\")"));
+
+        TouchAction tap1 = new TouchAction(driver).tap(tapOptions().withElement(element(e)));
+        TouchAction tap2 = new TouchAction(driver).tap(tapOptions().withElement(element(e2)));
 
         new MultiTouchAction(driver).add(tap1).add(tap2).perform();
 

@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.touch.offset.ElementOption.element;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -48,15 +49,11 @@ public class XCUIAutomationTest extends AppXCUITTest {
         assertEquals(driver.rotation(), landscapeLeftRotation);
     }
 
-    @Test public void testTouchId() {
-        try {
-            driver.toggleTouchIDEnrollment(true);
-            driver.performTouchID(true);
-            driver.performTouchID(false);
-            assertEquals(true, true);
-        } catch (Exception e) {
-            throw e;
-        }
+    @Test public void testTouchId() throws Exception {
+        driver.toggleTouchIDEnrollment(true);
+        driver.performTouchID(true);
+        driver.performTouchID(false);
+        assertEquals(true, true);
     }
 
     @Test public void testPutIntoBackgroundAndRestore() {
@@ -76,7 +73,7 @@ public class XCUIAutomationTest extends AppXCUITTest {
         firstField.sendKeys("2");
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
-        iosTouchAction.doubleTap(firstField);
+        iosTouchAction.doubleTap(element(firstField));
         IOSElement editingMenu = driver.findElementByClassName("UIAEditingMenu");
         assertNotNull(editingMenu);
     }

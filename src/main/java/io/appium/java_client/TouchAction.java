@@ -16,11 +16,22 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.builder;
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static io.appium.java_client.touch.offset.PointOption.point;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.touch.ActionOptions;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.TapOptions;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.HasIdentity;
 
 import java.time.Duration;
 
@@ -34,14 +45,26 @@ import java.time.Duration;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */
-public class TouchAction implements PerformsActions<TouchAction> {
+public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T> {
 
     protected ImmutableList.Builder<ActionParameter> parameterBuilder;
     private PerformsTouchActions performsTouchActions;
 
     public TouchAction(PerformsTouchActions performsTouchActions) {
         this.performsTouchActions = performsTouchActions;
-        parameterBuilder = ImmutableList.builder();
+        parameterBuilder = builder();
+    }
+
+    /**
+     * Press action on the screen.
+     *
+     * @param pressOptions see {@link PointOption} and {@link ElementOption}.
+     * @return this TouchAction, for chaining.
+     */
+    public T press(PointOption pressOptions) {
+        parameterBuilder.add(new ActionParameter("press", pressOptions));
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -49,11 +72,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @param el element to press on.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #press(PointOption)} instead
      */
-    public TouchAction press(WebElement el) {
-        ActionParameter action = new ActionParameter("press", (HasIdentity) el);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T press(WebElement el) {
+        return press(element(el));
     }
 
     /**
@@ -62,13 +85,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #press(PointOption)} instead
      */
-    public TouchAction press(int x, int y) {
-        ActionParameter action = new ActionParameter("press");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T press(int x, int y) {
+        return press(point(x, y));
     }
 
     /**
@@ -78,13 +99,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #press(PointOption)} instead
      */
-    public TouchAction press(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("press", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T press(WebElement el, int x, int y) {
+        return press(element(el, x, y));
     }
 
     /**
@@ -92,10 +111,23 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for chaining.
      */
-    public TouchAction release() {
+    public T release() {
         ActionParameter action = new ActionParameter("release");
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
+     * Moves current touch to a new position.
+     *
+     * @param  moveToOptions see {@link PointOption} and {@link ElementOption}
+     * @return this TouchAction, for chaining.
+     */
+    public T moveTo(PointOption moveToOptions) {
+        ActionParameter action = new ActionParameter("moveTo", moveToOptions);
+        parameterBuilder.add(action);
+        return (T) this;
     }
 
     /**
@@ -103,11 +135,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @param el element to move to.
      * @return this TouchAction, for chaining.
+     * @deprecated {@link #moveTo(PointOption)} instead
      */
-    public TouchAction moveTo(WebElement el) {
-        ActionParameter action = new ActionParameter("moveTo", (HasIdentity) el);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T moveTo(WebElement el) {
+        return moveTo(element(el));
     }
 
     /**
@@ -118,13 +150,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x change in x coordinate to move through.
      * @param y change in y coordinate to move through.
      * @return this TouchAction, for chaining.
+     * @deprecated {@link #moveTo(PointOption)} instead
      */
-    public TouchAction moveTo(int x, int y) {
-        ActionParameter action = new ActionParameter("moveTo");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T moveTo(int x, int y) {
+        return moveTo(point(x, y));
     }
 
     /**
@@ -134,13 +164,35 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
+     * @deprecated {@link #moveTo(PointOption)} instead
      */
-    public TouchAction moveTo(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("moveTo", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
+    @Deprecated
+    public T moveTo(WebElement el, int x, int y) {
+        return moveTo(element(el, x, y));
+    }
+
+    /**
+     * Tap on an element.
+     *
+     * @param tapOptions see {@link TapOptions}.
+     * @return this TouchAction, for chaining.
+     */
+    public T tap(TapOptions tapOptions) {
+        ActionParameter action = new ActionParameter("tap", tapOptions);
         parameterBuilder.add(action);
-        return this;
+        return (T) this;
+    }
+
+    /**
+     * Tap on a position.
+     *
+     * @param tapOptions see {@link PointOption} and {@link ElementOption}
+     * @return this TouchAction, for chaining.
+     */
+    public T tap(PointOption tapOptions) {
+        ActionParameter action = new ActionParameter("tap", tapOptions);
+        parameterBuilder.add(action);
+        return (T) this;
     }
 
     /**
@@ -148,11 +200,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @param el element to tap.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #tap(PointOption)} instead.
      */
-    public TouchAction tap(WebElement el) {
-        ActionParameter action = new ActionParameter("tap", (HasIdentity) el);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T tap(WebElement el) {
+        return tap(element(el));
     }
 
     /**
@@ -161,13 +213,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #tap(PointOption)} instead.
      */
-    public TouchAction tap(int x, int y) {
-        ActionParameter action = new ActionParameter("tap");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T tap(int x, int y) {
+        return tap(point(x, y));
     }
 
     /**
@@ -177,13 +227,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #tap(PointOption)} instead.
      */
-    public TouchAction tap(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("tap", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T tap(WebElement el, int x, int y) {
+        return  tap(element(el, x, y));
     }
 
     /**
@@ -191,10 +239,24 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for chaining.
      */
-    public TouchAction waitAction() {
+    public T waitAction() {
         ActionParameter action = new ActionParameter("wait");
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
+     * Waits for specified amount of time to pass before continue to next touch action.
+     *
+     * @param waitOptions see {@link WaitOptions}.
+     * @return this TouchAction, for chaining.
+     */
+    public T waitAction(WaitOptions waitOptions) {
+        ActionParameter action = new ActionParameter("wait", waitOptions);
+        parameterBuilder.add(action);
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -202,12 +264,42 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @param duration of the wait action. Minimum time reolution unit is one millisecond.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #waitAction(WaitOptions)} instead.
      */
-    public TouchAction waitAction(Duration duration) {
-        ActionParameter action = new ActionParameter("wait");
-        action.addParameter("ms", duration.toMillis());
+    @Deprecated
+    public T waitAction(Duration duration) {
+        ActionParameter action = new ActionParameter("wait",
+                new WaitOptions()
+                        .withDuration(duration));
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
+     * Press and hold the at the center of an element until the context menu event has fired.
+     *
+     * @param longPressOptions see {@link LongPressOptions}.
+     * @return this TouchAction, for chaining.
+     */
+    public T longPress(LongPressOptions longPressOptions) {
+        ActionParameter action = new ActionParameter("longPress", longPressOptions);
+        parameterBuilder.add(action);
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
+     * Press and hold the at the center of an element until the context menu event has fired.
+     *
+     * @param longPressOptions see {@link PointOption} and {@link ElementOption}.
+     * @return this TouchAction, for chaining.
+     */
+    public T longPress(PointOption longPressOptions) {
+        ActionParameter action = new ActionParameter("longPress", longPressOptions);
+        parameterBuilder.add(action);
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -215,11 +307,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @param el element to long-press.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #longPress(PointOption)} instead
      */
-    public TouchAction longPress(WebElement el) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T longPress(WebElement el) {
+        return longPress(element(el));
     }
 
     /**
@@ -228,12 +320,12 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param el       element to long-press.
      * @param duration of the long-press. Minimum time resolution unit is one millisecond.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #longPress(LongPressOptions)} instead
      */
-    public TouchAction longPress(WebElement el, Duration duration) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("duration", duration.toMillis());
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T longPress(WebElement el, Duration duration) {
+        return longPress(longPressOptions()
+                .withDuration(duration).withElement(element(el)));
     }
 
     /**
@@ -243,13 +335,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x x coordinate.
      * @param y y coordinate.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #longPress(PointOption)} instead
      */
-    public TouchAction longPress(int x, int y) {
-        ActionParameter action = new ActionParameter("longPress");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T longPress(int x, int y) {
+        return longPress(point(x, y));
     }
 
     /**
@@ -260,16 +350,13 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param y        y coordinate.
      * @param duration of the long-press. Minimum time resolution unit is one millisecond.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #longPress(LongPressOptions)} instead
      */
-    public TouchAction longPress(int x, int y, Duration duration) {
-        ActionParameter action = new ActionParameter("longPress");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        action.addParameter("duration", duration.toMillis());
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T longPress(int x, int y, Duration duration) {
+        return longPress(longPressOptions()
+                .withDuration(duration).withPosition(point(x, y)));
     }
-
 
     /**
      * Press and hold the at an elements upper-left corner, offset by the given amount,
@@ -279,13 +366,11 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param x  x offset.
      * @param y  y offset.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #longPress(PointOption)} instead
      */
-    public TouchAction longPress(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T longPress(WebElement el, int x, int y) {
+        return longPress(element(el, x, y));
     }
 
     /**
@@ -297,14 +382,12 @@ public class TouchAction implements PerformsActions<TouchAction> {
      * @param y        y offset.
      * @param duration of the long-press. Minimum time resolution unit is one millisecond.
      * @return this TouchAction, for chaining.
+     * @deprecated use {@link #longPress(LongPressOptions)} instead
      */
-    public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        action.addParameter("duration", duration.toMillis());
-        parameterBuilder.add(action);
-        return this;
+    @Deprecated
+    public T longPress(WebElement el, int x, int y, Duration duration) {
+        return longPress(longPressOptions()
+                .withElement(element(el, x, y)).withDuration(duration));
     }
 
     /**
@@ -321,9 +404,10 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for possible segmented-touches.
      */
-    public TouchAction perform() {
+    public T perform() {
         performsTouchActions.performTouchAction(this);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -333,7 +417,7 @@ public class TouchAction implements PerformsActions<TouchAction> {
      */
     protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
 
-        ImmutableList.Builder<Object> parameters = ImmutableList.builder();
+        ImmutableList.Builder<Object> parameters = builder();
         ImmutableList<ActionParameter> actionList = parameterBuilder.build();
 
         actionList.forEach(action -> parameters.add(action.getParameterMap()));
@@ -345,9 +429,10 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for possible segmented-touches.
      */
-    protected TouchAction clearParameters() {
-        parameterBuilder = ImmutableList.builder();
-        return this;
+    protected T clearParameters() {
+        parameterBuilder = builder();
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -362,20 +447,18 @@ public class TouchAction implements PerformsActions<TouchAction> {
             optionsBuilder = ImmutableMap.builder();
         }
 
-        public ActionParameter(String actionName, HasIdentity el) {
+        public ActionParameter(String actionName, ActionOptions opts) {
+            checkNotNull(opts);
             this.actionName = actionName;
             optionsBuilder = ImmutableMap.builder();
-            addParameter("element", el.getId());
+            //noinspection unchecked
+            optionsBuilder.putAll(opts.build());
         }
 
         public ImmutableMap<String, Object> getParameterMap() {
             ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
             builder.put("action", actionName).put("options", optionsBuilder.build());
             return builder.build();
-        }
-
-        public void addParameter(String name, Object value) {
-            optionsBuilder.put(name, value);
         }
     }
 }
