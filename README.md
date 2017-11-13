@@ -20,7 +20,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *6.0.0 (under construction yet)*
-- **[ENHANCEMENT]** **[REFACTOR]** **[BREAKING CHANGE]** **[MAJOR CHANGE]** Improvements of the TouchActions API:
+- **[ENHANCEMENT]** **[REFACTOR]** **[BREAKING CHANGE]** **[MAJOR CHANGE]** Improvements of the TouchActions API [#756](https://github.com/appium/java-client/pull/756), [#760](https://github.com/appium/java-client/pull/760):
     - `io.appium.java_client.touch.ActionOptions` and sublasses were added
     - old methods of the `TouchActions` were marked `@Deprecated`
     - new methods which take new options.    
