@@ -23,6 +23,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDetails {
+
+    @Override
+    public Map<String, Object> getSessionDetails() {
+        return null;
+    }
+
     @Override
     public Response execute(String driverCommand, Map<String, ?> parameters) {
         return null;

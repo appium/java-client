@@ -16,41 +16,21 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toMap;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
-import com.google.common.collect.ImmutableMap;
-
-import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 import javax.annotation.Nullable;
 
 public interface HasSessionDetails extends ExecutesMethod {
+
+    Map<String, Object> getSessionDetails();
+
     /**
-     * @return a map with values that hold session details.
+     * Get the value of the corresponding session detail.
      *
+     * @param detail The name of the details to get in the map.
+     * @return The value of the detail.
      */
-    @SuppressWarnings("unchecked")
-    default Map<String, Object> getSessionDetails() {
-        Response response = execute(GET_SESSION);
-        Map<String, Object> resultMap = Map.class.cast(response.getValue());
-
-        //this filtering was added to clear returned result.
-        //results of further operations should be simply interpreted by users
-        return  ImmutableMap.<String, Object>builder()
-                .putAll(resultMap.entrySet()
-                        .stream().filter(entry -> {
-                            String key = entry.getKey();
-                            Object value = entry.getValue();
-                            return !isBlank(key)
-                                && value != null
-                                && !isBlank(String.valueOf(value));
-                        }).collect(toMap(Map.Entry::getKey, Map.Entry::getValue))).build();
-    }
-
     default @Nullable Object getSessionDetail(String detail) {
         return getSessionDetails().get(detail);
     }
@@ -67,7 +47,7 @@ public interface HasSessionDetails extends ExecutesMethod {
     /**
      * @return current automation name.
      */
-    default @Nullable String  getAutomationName() {
+    default @Nullable String getAutomationName() {
         return ofNullable(getSessionDetail("automationName"))
                 .map(String::valueOf).orElse(null);
     }
