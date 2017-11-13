@@ -77,7 +77,7 @@ public enum ElementMap {
         }
         ElementMap element = Optional.ofNullable(mobileElementMap.get(String
                 .valueOf(hasSessionDetails.getAutomationName()).toLowerCase().trim()))
-                .orElse(mobileElementMap
+                .orElseGet(() -> mobileElementMap
                         .get(String.valueOf(hasSessionDetails.getPlatformName()).toLowerCase().trim()));
         if (element == null) {
             return RemoteWebElement.class;
