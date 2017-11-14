@@ -18,7 +18,6 @@ package io.appium.java_client.internal;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
@@ -29,6 +28,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Map;
 import java.util.Optional;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public enum ElementMap {
     ANDROID_UIAUTOMATOR2(AutomationName.ANDROID_UIAUTOMATOR2.toLowerCase(), AndroidElement.class),
@@ -68,17 +69,19 @@ public enum ElementMap {
     }
 
     /**
-     * @param hasSessionDetails something that implements {@link io.appium.java_client.HasSessionDetails}.
-     * @return subclass of {@link io.appium.java_client.MobileElement} that convenient to current session details.
+     * @param platform is the mobile platform. See {@link MobilePlatform}.
+     * @param automation is the mobile automation type. See {@link AutomationName}
+     * @return subclass of {@link org.openqa.selenium.remote.RemoteWebElement} that
+     * convenient to current session details.
      */
-    public static Class<? extends RemoteWebElement> getElementClass(HasSessionDetails hasSessionDetails) {
-        if (hasSessionDetails == null) {
+    public static Class<? extends RemoteWebElement> getElementClass(String platform, String automation) {
+        if (isBlank(platform) && isBlank(automation)) {
             return RemoteWebElement.class;
         }
-        ElementMap element = Optional.ofNullable(mobileElementMap.get(String
-                .valueOf(hasSessionDetails.getAutomationName()).toLowerCase().trim()))
+        ElementMap element = Optional.ofNullable(mobileElementMap.get(
+                String.valueOf(platform).toLowerCase().trim()))
                 .orElseGet(() -> mobileElementMap
-                        .get(String.valueOf(hasSessionDetails.getPlatformName()).toLowerCase().trim()));
+                        .get(String.valueOf(automation).toLowerCase().trim()));
         if (element == null) {
             return RemoteWebElement.class;
         }

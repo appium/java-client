@@ -70,7 +70,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String platform;
     private final String automation;
     private final TimeOutDuration duration;
-    private final HasSessionDetails hasSessionDetails;
 
 
     public AppiumFieldDecorator(SearchContext context, long timeout,
@@ -88,9 +87,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
+        HasSessionDetails hasSessionDetails;
         if (originalDriver == null
                 || !HasSessionDetails.class.isAssignableFrom(originalDriver.getClass())) {
-            hasSessionDetails = null;
             platform = null;
             automation = null;
         } else {
@@ -215,6 +214,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
     private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
-        return getEnhancedProxy(getElementClass(hasSessionDetails), elementInterceptor);
+        return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
     }
 }
