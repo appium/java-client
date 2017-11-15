@@ -20,6 +20,7 @@ import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
     .unpackWebDriverFromSearchContext;
+import static java.util.Optional.ofNullable;
 
 import com.google.common.collect.ImmutableList;
 
@@ -87,13 +88,17 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
         this.originalDriver = unpackWebDriverFromSearchContext(context);
-        HasSessionDetails hasSessionDetails;
-        if (originalDriver == null
-                || !HasSessionDetails.class.isAssignableFrom(originalDriver.getClass())) {
+        HasSessionDetails hasSessionDetails = ofNullable(this.originalDriver).map(webDriver -> {
+            if (!HasSessionDetails.class.isAssignableFrom(originalDriver.getClass())) {
+                return null;
+            }
+            return HasSessionDetails.class.cast(originalDriver);
+        }).orElse(null);
+
+        if (hasSessionDetails == null) {
             platform = null;
             automation = null;
         } else {
-            hasSessionDetails = HasSessionDetails.class.cast(originalDriver);
             platform = hasSessionDetails.getPlatformName();
             automation = hasSessionDetails.getAutomationName();
         }
