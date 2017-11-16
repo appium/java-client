@@ -19,8 +19,10 @@ package io.appium.java_client.pagefactory;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
 
+import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 
 import org.openqa.selenium.By;
@@ -67,6 +69,15 @@ class AppiumElementLocator implements CacheableLocator {
         this.exceptionMessageIfElementNotFound =  "Can't locate an element by this strategy: " + by.toString();
     }
 
+    private static By getBy(By currentBy, SearchContext currentContent) {
+        if (!ContentMappedBy.class.isAssignableFrom(currentBy.getClass())) {
+            return currentBy;
+        }
+
+        return ContentMappedBy.class.cast(currentBy)
+                .useContent(getCurrentContentType(currentContent));
+    }
+
     private <T> T waitFor(Supplier<T> supplier) {
         WaitingFunction<T> function = new WaitingFunction<>();
         try {
@@ -93,7 +104,7 @@ class AppiumElementLocator implements CacheableLocator {
 
         try {
             WebElement result =  waitFor(() ->
-                    searchContext.findElement(by));
+                    searchContext.findElement(getBy(by, searchContext)));
             if (shouldCache) {
                 cachedElement = result;
             }
@@ -114,7 +125,8 @@ class AppiumElementLocator implements CacheableLocator {
         List<WebElement> result;
         try {
             result = waitFor(() -> {
-                List<WebElement> list = searchContext.findElements(by);
+                List<WebElement> list = searchContext
+                        .findElements(getBy(by, searchContext));
                 if (list.size() > 0) {
                     return list;
                 }

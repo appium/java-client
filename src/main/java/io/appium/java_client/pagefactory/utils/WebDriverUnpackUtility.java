@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory.utils;
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.pagefactory.bys.ContentType;
@@ -77,7 +78,8 @@ public final class WebDriverUnpackUtility {
      *                extension/implementation.
      *                Note: if you want to use your own implementation then it should
      *                implement {@link org.openqa.selenium.ContextAware} or
-     *                {@link org.openqa.selenium.internal.WrapsDriver}
+     *                {@link org.openqa.selenium.internal.WrapsDriver} or
+     *                {@link HasSessionDetails}
      * @return current content type. It depends on current context. If current context is
      *     NATIVE_APP it will return
      * {@link io.appium.java_client.pagefactory.bys.ContentType#NATIVE_MOBILE_SPECIFIC}.
@@ -99,14 +101,14 @@ public final class WebDriverUnpackUtility {
                 return NATIVE_MOBILE_SPECIFIC;
             }
 
-            if (!ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
-                return HTML_OR_DEFAULT;
-            }
+            if (ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
+                ContextAware contextAware = ContextAware.class.cast(driver);
+                String currentContext = contextAware.getContext();
+                if (containsIgnoreCase(currentContext, NATIVE_APP_PATTERN)) {
+                    return NATIVE_MOBILE_SPECIFIC;
+                }
 
-            ContextAware contextAware = ContextAware.class.cast(driver);
-            String currentContext = contextAware.getContext();
-            if (currentContext.contains(NATIVE_APP_PATTERN)) {
-                return NATIVE_MOBILE_SPECIFIC;
+                return HTML_OR_DEFAULT;
             }
 
             return HTML_OR_DEFAULT;
