@@ -23,9 +23,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
@@ -35,6 +35,11 @@ public class ContentMappedBy extends By {
         this.map = map;
     }
 
+    /**
+     * This method sets required content type for the further searching.
+     * @param type required content type {@link ContentType}
+     * @return self-reference.
+     */
     public By useContent(@Nonnull ContentType type) {
         checkNotNull(type);
         currentContent = type;

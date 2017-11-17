@@ -95,10 +95,9 @@ public final class WebDriverUnpackUtility {
             if (HasSessionDetails.class.isAssignableFrom(driver.getClass())) {
                 HasSessionDetails hasSessionDetails = HasSessionDetails.class.cast(driver);
 
-                if (hasSessionDetails.isBrowser()) {
-                    return HTML_OR_DEFAULT;
+                if (!hasSessionDetails.isBrowser()) {
+                    return NATIVE_MOBILE_SPECIFIC;
                 }
-                return NATIVE_MOBILE_SPECIFIC;
             }
 
             if (ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
@@ -107,8 +106,6 @@ public final class WebDriverUnpackUtility {
                 if (containsIgnoreCase(currentContext, NATIVE_APP_PATTERN)) {
                     return NATIVE_MOBILE_SPECIFIC;
                 }
-
-                return HTML_OR_DEFAULT;
             }
 
             return HTML_OR_DEFAULT;

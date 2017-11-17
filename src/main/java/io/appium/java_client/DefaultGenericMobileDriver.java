@@ -153,7 +153,7 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
 
     @Override
     public String toString() {
-        return String.format("%s: %s", getPlatformName(),
-                getAutomationName());
+        return String.format("%s, Capabilities: %s", getClass().getCanonicalName(),
+                getCapabilities().asMap().toString());
     }
 }

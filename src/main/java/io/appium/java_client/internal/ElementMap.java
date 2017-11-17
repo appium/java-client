@@ -16,6 +16,8 @@
 
 package io.appium.java_client.internal;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.MobileElement;
@@ -28,8 +30,6 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Map;
 import java.util.Optional;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public enum ElementMap {
     ANDROID_UIAUTOMATOR2(AutomationName.ANDROID_UIAUTOMATOR2.toLowerCase(), AndroidElement.class),
@@ -71,8 +71,8 @@ public enum ElementMap {
     /**
      * @param platform is the mobile platform. See {@link MobilePlatform}.
      * @param automation is the mobile automation type. See {@link AutomationName}
-     * @return subclass of {@link org.openqa.selenium.remote.RemoteWebElement} that
-     * convenient to current session details.
+     * @return subclass of {@link org.openqa.selenium.remote.RemoteWebElement} that convenient
+     *     to current session details.
      */
     public static Class<? extends RemoteWebElement> getElementClass(String platform, String automation) {
         if (isBlank(platform) && isBlank(automation)) {
