@@ -65,7 +65,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             IOSElement.class, WindowsElement.class);
     public static long DEFAULT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
-    private final WebDriver originalDriver;
+    private final WebDriver webDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
     private final String platform;
@@ -87,12 +87,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
-        this.originalDriver = unpackWebDriverFromSearchContext(context);
-        HasSessionDetails hasSessionDetails = ofNullable(this.originalDriver).map(webDriver -> {
-            if (!HasSessionDetails.class.isAssignableFrom(originalDriver.getClass())) {
+        this.webDriver = unpackWebDriverFromSearchContext(context);
+        HasSessionDetails hasSessionDetails = ofNullable(this.webDriver).map(webDriver -> {
+            if (!HasSessionDetails.class.isAssignableFrom(this.webDriver.getClass())) {
                 return null;
             }
-            return HasSessionDetails.class.cast(originalDriver);
+            return HasSessionDetails.class.cast(this.webDriver);
         }).orElse(null);
 
         if (hasSessionDetails == null) {
@@ -206,7 +206,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         if (isAlist) {
             return getEnhancedProxy(ArrayList.class,
-                new WidgetListInterceptor(locator, originalDriver, map, widgetType,
+                new WidgetListInterceptor(locator, webDriver, map, widgetType,
                         duration));
         }
 
@@ -214,11 +214,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
             WidgetConstructorUtil.findConvenientConstructor(widgetType);
         return getEnhancedProxy(widgetType, new Class[] {constructor.getParameterTypes()[0]},
             new Object[] {proxyForAnElement(locator)},
-            new WidgetInterceptor(locator, originalDriver, null, map, duration));
+            new WidgetInterceptor(locator, webDriver, null, map, duration));
     }
 
     private WebElement proxyForAnElement(ElementLocator locator) {
-        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
+        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriver);
         return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
     }
 }

@@ -20,6 +20,7 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.lang.String.format;
 
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
@@ -41,13 +42,15 @@ import java.util.function.Supplier;
 
 class AppiumElementLocator implements CacheableLocator {
 
+    private static final String exceptionMessageIfElementNotFound = "Can't locate an element by this strategy: %s";
+
     private final boolean shouldCache;
     private final By by;
     private final TimeOutDuration duration;
     private final SearchContext searchContext;
     private WebElement cachedElement;
     private List<WebElement> cachedElementList;
-    private final String exceptionMessageIfElementNotFound;
+
     /**
      * Creates a new mobile element locator. It instantiates {@link WebElement}
      * using @AndroidFindBy (-s), @iOSFindBy (-s) and @FindBy (-s) annotation
@@ -66,9 +69,18 @@ class AppiumElementLocator implements CacheableLocator {
         this.shouldCache = shouldCache;
         this.duration = duration;
         this.by = by;
-        this.exceptionMessageIfElementNotFound =  "Can't locate an element by this strategy: " + by.toString();
     }
 
+    /**
+     * This methods makes sets some settings of the {@link By} according to
+     * the given instance of {@link SearchContext}. If there is some {@link ContentMappedBy}
+     * then it is switched to the searching for some html or native mobile element.
+     * Otherwise nothing happens there.
+     *
+     * @param currentBy is some locator strategy
+     * @param currentContent is an instance of some subclass of the {@link SearchContext}.
+     * @return the corrected {@link By} for the further searching
+     */
     private static By getBy(By currentBy, SearchContext currentContent) {
         if (!ContentMappedBy.class.isAssignableFrom(currentBy.getClass())) {
             return currentBy;
@@ -102,15 +114,16 @@ class AppiumElementLocator implements CacheableLocator {
             return cachedElement;
         }
 
+        By bySearching = getBy(this.by, searchContext);
         try {
             WebElement result =  waitFor(() ->
-                    searchContext.findElement(getBy(by, searchContext)));
+                    searchContext.findElement(bySearching));
             if (shouldCache) {
                 cachedElement = result;
             }
             return result;
         } catch (TimeoutException | StaleElementReferenceException e) {
-            throw new NoSuchElementException(exceptionMessageIfElementNotFound, e);
+            throw new NoSuchElementException(format(exceptionMessageIfElementNotFound, bySearching.toString()), e);
         }
     }
 
@@ -127,10 +140,7 @@ class AppiumElementLocator implements CacheableLocator {
             result = waitFor(() -> {
                 List<WebElement> list = searchContext
                         .findElements(getBy(by, searchContext));
-                if (list.size() > 0) {
-                    return list;
-                }
-                return null;
+                return list.size() > 0 ? list : null;
             });
         } catch (TimeoutException | StaleElementReferenceException e) {
             result = new ArrayList<>();
@@ -147,7 +157,7 @@ class AppiumElementLocator implements CacheableLocator {
     }
 
     @Override public String toString() {
-        return String.format("Located by %s", by);
+        return format("Located by %s", by);
     }
 
 
