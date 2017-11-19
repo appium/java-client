@@ -89,10 +89,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
         this.webDriver = unpackWebDriverFromSearchContext(context);
         HasSessionDetails hasSessionDetails = ofNullable(this.webDriver).map(webDriver -> {
-            if (!HasSessionDetails.class.isAssignableFrom(this.webDriver.getClass())) {
+            if (!HasSessionDetails.class.isAssignableFrom(webDriver.getClass())) {
                 return null;
             }
-            return HasSessionDetails.class.cast(this.webDriver);
+            return HasSessionDetails.class.cast(webDriver);
         }).orElse(null);
 
         if (hasSessionDetails == null) {
