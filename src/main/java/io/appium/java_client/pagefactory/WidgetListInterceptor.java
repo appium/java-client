@@ -18,6 +18,7 @@ package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.util.Optional.ofNullable;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
@@ -59,8 +60,9 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements {
             cachedElements = elements;
             cachedWidgets.clear();
 
+            ContentType type = null;
             for (WebElement element : cachedElements) {
-                ContentType type = getCurrentContentType(element);
+                type = ofNullable(type).orElseGet(() -> getCurrentContentType(element));
                 Class<?>[] params =
                     new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
                 cachedWidgets.add(ProxyFactory

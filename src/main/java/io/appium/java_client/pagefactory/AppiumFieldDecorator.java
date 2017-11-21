@@ -20,6 +20,7 @@ import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
     .unpackWebDriverFromSearchContext;
+import static java.util.Optional.ofNullable;
 
 import com.google.common.collect.ImmutableList;
 
@@ -64,13 +65,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
             IOSElement.class, WindowsElement.class);
     public static long DEFAULT_TIMEOUT = 1;
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
-    private final WebDriver originalDriver;
+    private final WebDriver webDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
     private final String platform;
     private final String automation;
     private final TimeOutDuration duration;
-    private final HasSessionDetails hasSessionDetails;
 
 
     public AppiumFieldDecorator(SearchContext context, long timeout,
@@ -87,14 +87,18 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
-        this.originalDriver = unpackWebDriverFromSearchContext(context);
-        if (originalDriver == null
-                || !HasSessionDetails.class.isAssignableFrom(originalDriver.getClass())) {
-            hasSessionDetails = null;
+        this.webDriver = unpackWebDriverFromSearchContext(context);
+        HasSessionDetails hasSessionDetails = ofNullable(this.webDriver).map(webDriver -> {
+            if (!HasSessionDetails.class.isAssignableFrom(webDriver.getClass())) {
+                return null;
+            }
+            return HasSessionDetails.class.cast(webDriver);
+        }).orElse(null);
+
+        if (hasSessionDetails == null) {
             platform = null;
             automation = null;
         } else {
-            hasSessionDetails = HasSessionDetails.class.cast(originalDriver);
             platform = hasSessionDetails.getPlatformName();
             automation = hasSessionDetails.getAutomationName();
         }
@@ -202,7 +206,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         if (isAlist) {
             return getEnhancedProxy(ArrayList.class,
-                new WidgetListInterceptor(locator, originalDriver, map, widgetType,
+                new WidgetListInterceptor(locator, webDriver, map, widgetType,
                         duration));
         }
 
@@ -210,11 +214,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
             WidgetConstructorUtil.findConvenientConstructor(widgetType);
         return getEnhancedProxy(widgetType, new Class[] {constructor.getParameterTypes()[0]},
             new Object[] {proxyForAnElement(locator)},
-            new WidgetInterceptor(locator, originalDriver, null, map, duration));
+            new WidgetInterceptor(locator, webDriver, null, map, duration));
     }
 
     private WebElement proxyForAnElement(ElementLocator locator) {
-        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, originalDriver);
-        return getEnhancedProxy(getElementClass(hasSessionDetails), elementInterceptor);
+        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriver);
+        return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
     }
 }

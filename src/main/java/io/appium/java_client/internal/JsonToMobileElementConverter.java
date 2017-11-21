@@ -37,7 +37,10 @@ import java.util.Collection;
 public class JsonToMobileElementConverter extends JsonToWebElementConverter {
 
     protected final RemoteWebDriver driver;
-    private final HasSessionDetails hasSessionDetails;
+
+    private final String platform;
+    private final String automation;
+
 
     /**
      * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
@@ -46,7 +49,8 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
     public JsonToMobileElementConverter(RemoteWebDriver driver, HasSessionDetails hasSessionDetails) {
         super(driver);
         this.driver = driver;
-        this.hasSessionDetails = hasSessionDetails;
+        this.platform = hasSessionDetails.getPlatformName();
+        this.automation = hasSessionDetails.getAutomationName();
     }
 
     /**
@@ -80,9 +84,9 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
         return result;
     }
 
-    protected RemoteWebElement newMobileElement() {
+    private RemoteWebElement newMobileElement() {
         Class<? extends RemoteWebElement> target;
-        target = getElementClass(hasSessionDetails);
+        target = getElementClass(platform, automation);
         try {
             Constructor<? extends RemoteWebElement> constructor = target.getDeclaredConstructor();
             constructor.setAccessible(true);
