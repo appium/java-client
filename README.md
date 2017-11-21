@@ -26,6 +26,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
     - new methods which take new options.    
 - **[ENHANCEMENT]**. Appium drivr local service uses default process environment by default. [#753](https://github.com/appium/java-client/pull/753)
 - **[BUG FIX]**. Removed 'set' prefix from waitForIdleTimeout setting. [#754](https://github.com/appium/java-client/pull/754)
+- **[BUG FIX]**. The asking for session details was optimized. Issue report [764](https://github.com/appium/java-client/issues/764).
+FIX [#769](https://github.com/appium/java-client/pull/769)
 
 *5.0.4*
 - **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).
