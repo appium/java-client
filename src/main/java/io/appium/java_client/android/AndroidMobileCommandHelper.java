@@ -186,6 +186,19 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
+     * finger print authentication invocation.
+     *
+     * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> fingerPrintCommand(int fingerPrintId) {
+        return new AbstractMap.SimpleEntry<>(FINGER_PRINT,
+            prepareArguments("fingerprintId", fingerPrintId));
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
      * notification opening.
      *
      * @return a key-value pair. The key is the command name. The value is a
