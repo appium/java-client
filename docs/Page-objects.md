@@ -58,20 +58,20 @@ MobileElement someElement;
 List<MobileElement> someElements;
 ```
 
-# The fully cross platform examle
+# The fully cross platform example
 
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
 import org.openqa.selenium.support.FindBy;
 
-//the fully cross platform examle
+//the fully cross platform example
 @FindBy(someStrategy) //for browser or web view html UI
 @AndroidFindBy(someStrategy) //for Android native UI 
 @iOSFindBy(someStrategy)  //for iOS native UI 
 RemoteWebElement someElement;
 
-//the fully cross platform examle
+//the fully cross platform example
 @FindBy(someStrategy)
 @AndroidFindBy(someStrategy) //for Android native UI 
 @iOSFindBy(someStrategy)  //for iOS native UI 
