@@ -16,9 +16,12 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import java.util.List;
 
 /**
  * Used for Webdriver 3 multi-touch gestures
@@ -62,16 +65,14 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
      * Perform the multi-touch action on the mobile performsTouchActions.
      */
     public MultiTouchAction perform() {
-        int size = actions.build().size();
-        if (size > 1) {
+        List<TouchAction> touchActions = actions.build();
+        checkArgument(touchActions.size() > 0,
+                "MultiTouch action must have at least one TouchAction added before it can be performed");
+        if (touchActions.size() > 1) {
             performsTouchActions.performMultiTouchAction(this);
-        } else if (size == 1) {
+        } else {
             //android doesn't like having multi-touch actions with only a single TouchAction...
             performsTouchActions.performTouchAction(actions.build().get(0));
-        } else {
-            throw new MissingParameterException(
-                "MultiTouch action must have at least one TouchAction "
-                    + "added before it can be performed");
         }
         return this;
     }
@@ -80,9 +81,8 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
         ImmutableList.Builder<Object> listOfActionChains = ImmutableList.builder();
         ImmutableList<TouchAction> touchActions = actions.build();
 
-        touchActions.forEach(action -> {
-            listOfActionChains.add(action.getParameters().get("actions"));
-        });
+        touchActions.forEach(action ->
+                listOfActionChains.add(action.getParameters().get("actions")));
         return ImmutableMap.of("actions", listOfActionChains.build());
     }
 
