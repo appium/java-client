@@ -72,7 +72,7 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
             performsTouchActions.performMultiTouchAction(this);
         } else {
             //android doesn't like having multi-touch actions with only a single TouchAction...
-            performsTouchActions.performTouchAction(actions.build().get(0));
+            performsTouchActions.performTouchAction(touchActions.get(0));
         }
         return this;
     }
