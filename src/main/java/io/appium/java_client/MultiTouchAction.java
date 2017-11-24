@@ -17,11 +17,13 @@
 package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Used for Webdriver 3 multi-touch gestures
@@ -77,13 +79,11 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
         return this;
     }
 
-    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
-        ImmutableList.Builder<Object> listOfActionChains = ImmutableList.builder();
+    protected Map<String, List<Object>> getParameters() {
         ImmutableList<TouchAction> touchActions = actions.build();
-
-        touchActions.forEach(action ->
-                listOfActionChains.add(action.getParameters().get("actions")));
-        return ImmutableMap.of("actions", listOfActionChains.build());
+        return ImmutableMap.of("actions",
+                touchActions.stream().map(touchAction ->
+                        touchAction.getParameters().get("actions")).collect(toList()));
     }
 
     /**

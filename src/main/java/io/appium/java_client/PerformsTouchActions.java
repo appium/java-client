@@ -19,8 +19,8 @@ package io.appium.java_client;
 import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
 import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.util.List;
+import java.util.Map;
 
 public interface PerformsTouchActions extends ExecutesMethod {
     /**
@@ -37,7 +37,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * @return the same touch action object
      */
     default TouchAction performTouchAction(TouchAction touchAction) {
-        ImmutableMap<String, ImmutableList<Object>> parameters = touchAction.getParameters();
+        Map<String, List<Object>> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
         return touchAction.clearParameters();
     }
@@ -54,7 +54,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * @param multiAction the MultiTouchAction object to perform.
      */
     default void performMultiTouchAction(MultiTouchAction multiAction) {
-        ImmutableMap<String, ImmutableList<Object>> parameters = multiAction.getParameters();
+        Map<String, List<Object>> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
         multiAction.clearActions();
     }

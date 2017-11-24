@@ -21,6 +21,7 @@ import static com.google.common.collect.ImmutableList.builder;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
 import static io.appium.java_client.touch.offset.PointOption.point;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -34,6 +35,8 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Used for Webdriver 3 touch actions
@@ -415,13 +418,10 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      *
      * @return A map of parameters for this touch action to pass as part of mjsonwp.
      */
-    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
-
-        ImmutableList.Builder<Object> parameters = builder();
-        ImmutableList<ActionParameter> actionList = parameterBuilder.build();
-
-        actionList.forEach(action -> parameters.add(action.getParameterMap()));
-        return ImmutableMap.of("actions", parameters.build());
+    protected Map<String, List<Object>> getParameters() {
+        List<ActionParameter> actionList = parameterBuilder.build();
+        return ImmutableMap.of("actions", actionList.stream()
+                .map(ActionParameter::getParameterMap).collect(toList()));
     }
 
     /**
