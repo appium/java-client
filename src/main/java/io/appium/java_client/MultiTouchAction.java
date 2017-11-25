@@ -72,10 +72,9 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
                 "MultiTouch action must have at least one TouchAction added before it can be performed");
         if (touchActions.size() > 1) {
             performsTouchActions.performMultiTouchAction(this);
-        } else {
-            //android doesn't like having multi-touch actions with only a single TouchAction...
-            performsTouchActions.performTouchAction(touchActions.get(0));
-        }
+            return this;
+        }  //android doesn't like having multi-touch actions with only a single TouchAction...
+        performsTouchActions.performTouchAction(touchActions.get(0));
         return this;
     }
 
