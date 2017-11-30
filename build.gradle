@@ -13,7 +13,7 @@ version '5.0.4'
 repositories {
     jcenter()
     maven {
-        url "http://repo.maven.apache.org/maven2"
+        url 'http://repo.maven.apache.org/maven2'
     }
 }
 
@@ -21,16 +21,16 @@ buildscript {
     repositories {
         jcenter()
         maven {
-            url "http://repo.maven.apache.org/maven2"
+            url 'http://repo.maven.apache.org/maven2'
         }
     }
     dependencies {
-        classpath "org.owasp:dependency-check-gradle:1.4.0"
+        classpath 'org.owasp:dependency-check-gradle:1.4.0'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 }
 
-apply plugin: "org.owasp.dependencycheck"
+apply plugin: 'org.owasp.dependencycheck'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 configurations {
@@ -114,11 +114,11 @@ dependencyCheck {
 }
 
 jacoco {
-    toolVersion = "0.7.7.201606060606"
+    toolVersion = '0.7.7.201606060606'
 }
 
 tasks.withType(JacocoReport) {
-    description = "Generate Jacoco coverage reports after running tests"
+    description = 'Generate Jacoco coverage reports after running tests'
     sourceSets sourceSets.main
     reports {
         html.enabled true
@@ -128,7 +128,7 @@ tasks.withType(JacocoReport) {
 jacocoTestReport.dependsOn test
 
 checkstyle {
-    toolVersion = "7.0"
+    toolVersion = '7.0'
     showViolations = true
 }
 
@@ -165,11 +165,11 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
 
