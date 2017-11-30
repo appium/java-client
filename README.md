@@ -29,6 +29,11 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[BUG FIX]**. The asking for session details was optimized. Issue report [764](https://github.com/appium/java-client/issues/764).
 FIX [#769](https://github.com/appium/java-client/pull/769)
 - **[BUG FIX]** **[REFACTOR]**. Inconcistent MissingParameterException was removed. Improvements of MultiTouchAction. Report: [#102](https://github.com/appium/java-client/issues/102). FIX [#772](https://github.com/appium/java-client/pull/772)
+- **[DEPENDENCY UPDATES]**
+  - `org.apache.commons:commons-lang3` was updated to 3.7
+  - `commons-io:commons-io` was updated to 2.6
+  - `org.springframework:spring-context` was updated to 5.0.2.RELEASE
+  - `org.aspectj:aspectjweaver` was updated to 1.8.13
 
 *5.0.4*
 - **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).
