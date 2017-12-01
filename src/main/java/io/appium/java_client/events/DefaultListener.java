@@ -183,11 +183,13 @@ class DefaultListener
     }
 
     @Override
+    @Deprecated
     public void beforeAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
         ((AlertEventListener) dispatcher).beforeAuthentication(driver, alert, credentials);
     }
 
     @Override
+    @Deprecated
     public void afterAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
         ((AlertEventListener) dispatcher).afterAuthentication(driver, alert, credentials);
     }
