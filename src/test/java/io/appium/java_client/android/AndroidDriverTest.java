@@ -146,6 +146,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getSupportedPerformanceDataTypesTest() {
+
         driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
         List<String> dataTypes = new ArrayList<String>();
@@ -177,6 +178,44 @@ public class AndroidDriverTest extends BaseAndroidTest {
             for (int j = 1; j < valueTable.size(); ++j) {
                 assertEquals(valueTable.subList(0, 0).size(), valueTable.subList(j, j).size());
             }
+        }
+
+    }
+
+    @Test public void getStartRecordingScreenTest() {
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
+
+        String filePath = "/sdcard/demo321.mp4";
+
+        try {
+            driver.startRecordingScreen(filePath);
+            assertTrue(false);
+        } catch (Exception e) {
+        }
+
+        try {
+            driver.stopRecordingScreen();
+            assertTrue(false);
+        } catch (Exception e) {
+        }
+    }
+
+    @Test public void getStopRecordingScreenTest() {
+        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
+
+        String filePath = "/sdcard/demo321.mp4";
+
+        try {
+            driver.startRecordingScreen(filePath);
+            assertTrue(false);
+        } catch (Exception e) {
+        }
+
+
+        try {
+            driver.stopRecordingScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

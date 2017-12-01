@@ -46,8 +46,9 @@ import java.net.URL;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasAndroidSettings, HasDeviceDetails,
-            HasSupportedPerformanceDataType {
+        FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasSettings, HasDeviceDetails,
+            HasSupportedPerformanceDataType, RecordScreen {
+
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 

@@ -52,6 +52,8 @@ public class MobileCommand {
     protected static final String GET_PERFORMANCE_DATA;
     protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
 
+    protected static final String START_RECORDING_SCREEN;
+    protected static final String STOP_RECORDING_SCREEN;
 
     protected static final String HIDE_KEYBOARD;
     protected static final String LOCK;
@@ -101,6 +103,9 @@ public class MobileCommand {
 
         GET_PERFORMANCE_DATA = "getPerformanceData";
         GET_SUPPORTED_PERFORMANCE_DATA_TYPES = "getSuppportedPerformanceDataTypes";
+
+        START_RECORDING_SCREEN = "startRecordingScreen";
+        STOP_RECORDING_SCREEN = "stopRecordingScreen";
 
         HIDE_KEYBOARD = "hideKeyboard";
         LOCK = "lock";
@@ -152,6 +157,11 @@ public class MobileCommand {
             postC("/session/:sessionId/appium/performanceData/types"));
         commandRepository.put(GET_PERFORMANCE_DATA,
             postC("/session/:sessionId/appium/getPerformanceData"));
+
+        commandRepository.put(START_RECORDING_SCREEN,
+                postC("/session/:sessionId/appium/startRecordingScreen"));
+        commandRepository.put(STOP_RECORDING_SCREEN,
+                postC("/session/:sessionId/appium/stopRecordingScreen"));
 
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
