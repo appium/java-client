@@ -81,7 +81,7 @@ public interface AlertEventListener extends Listener {
      * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)}
      * It is deprecated because methods {@link org.openqa.selenium.Alert#setCredentials(Credentials)} and
      * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)} were removed from selenium java client
-     * at 3.8.0. These listener method is going to be removed too.
+     * at 3.8.0. This listener method is going to be removed as well.
      *
      * @param driver WebDriver
      * @param alert {@link org.openqa.selenium.Alert} which is receiving user credentials
@@ -97,7 +97,7 @@ public interface AlertEventListener extends Listener {
      * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)}.
      * It is deprecated because methods {@link org.openqa.selenium.Alert#setCredentials(Credentials)} and
      * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)} were removed from selenium java client
-     * at 3.8.0. These listener method is going to be removed too.
+     * at 3.8.0. This listener method is going to be removed as well.
      *
      * @param driver WebDriver
      * @param alert {@link org.openqa.selenium.Alert} which has received user credentials
