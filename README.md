@@ -34,6 +34,7 @@ FIX [#769](https://github.com/appium/java-client/pull/769)
   - `commons-io:commons-io` was updated to 2.6
   - `org.springframework:spring-context` was updated to 5.0.2.RELEASE
   - `org.aspectj:aspectjweaver` was updated to 1.8.13
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.7.1
 
 *5.0.4*
 - **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).
