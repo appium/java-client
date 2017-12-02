@@ -73,9 +73,6 @@ class DefaultAspect {
         + "dismiss(..))";
     private static final String EXECUTION_ALERT_SEND_KEYS = "execution(* org.openqa.selenium.Alert."
         + "sendKeys(..))";
-    private static final String EXECUTION_ALERT_AUTHENTICATION = "execution(* org.openqa.selenium."
-        + "Alert.setCredentials(..)) || "
-        + "execution(* org.openqa.selenium.Alert.authenticateUsing(..))";
     private static final String EXECUTION_WINDOW_SET_SIZE = "execution(* org.openqa.selenium."
         + "WebDriver.Window.setSize(..))";
     private static final String EXECUTION_WINDOW_SET_POSITION = "execution(* org.openqa.selenium.WebDriver."
@@ -403,26 +400,6 @@ class DefaultAspect {
         try {
             listener.afterAlertSendKeys(driver, castTarget(joinPoint),
                 String.valueOf(joinPoint.getArgs()[0]));
-        } catch (Throwable t) {
-            throw getRootCause(t);
-        }
-    }
-
-    @Before(EXECUTION_ALERT_AUTHENTICATION)
-    public void beforeAlertAuthentication(JoinPoint joinPoint) throws Throwable {
-        try {
-            listener.beforeAuthentication(driver,
-                castTarget(joinPoint), castArgument(joinPoint, 0));
-        } catch (Throwable t) {
-            throw getRootCause(t);
-        }
-    }
-
-    @After(EXECUTION_ALERT_AUTHENTICATION)
-    public void afterAlertAuthentication(JoinPoint joinPoint) throws Throwable {
-        try {
-            listener.afterAuthentication(driver, castTarget(joinPoint),
-                castArgument(joinPoint, 0));
         } catch (Throwable t) {
             throw getRootCause(t);
         }

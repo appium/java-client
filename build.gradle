@@ -54,7 +54,7 @@ compileJava {
     ]
 }
 
-ext.seleniumVersion = '3.6.0'
+ext.seleniumVersion = '3.7.1'
 
 dependencies {
     compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
@@ -196,6 +196,11 @@ uploadArchives {
                         email 'srinivasan.sekar1990@gmail.com'
                         url 'https://github.com/SrinivasanTarget'
                         id 'SrinivasanTarget'
+                    };
+                    developer {
+                        name 'Mykola Mokhnach'
+                        url 'https://github.com/mykola-mokhnach'
+                        id 'mykola-mokhnach'
                     };
                 }
                 licenses {
