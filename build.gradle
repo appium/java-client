@@ -8,7 +8,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group 'io.appium'
-version '5.0.4'
+version '6.0.0-BETA1'
 
 repositories {
     jcenter()
