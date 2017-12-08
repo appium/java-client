@@ -68,6 +68,7 @@ public class MobileCommand {
     protected static final String IS_KEYBOARD_SHOWN;
     protected static final String IS_LOCKED;
     protected static final String LONG_PRESS_KEY_CODE;
+    protected static final String FINGER_PRINT;
     protected static final String OPEN_NOTIFICATIONS;
     protected static final String PRESS_KEY_CODE;
     protected static final String PUSH_FILE;
@@ -116,6 +117,7 @@ public class MobileCommand {
         IS_KEYBOARD_SHOWN = "isKeyboardShown";
         IS_LOCKED = "isLocked";
         LONG_PRESS_KEY_CODE = "longPressKeyCode";
+        FINGER_PRINT = "fingerPrint";
         OPEN_NOTIFICATIONS = "openNotifications";
         PRESS_KEY_CODE = "pressKeyCode";
         PUSH_FILE = "pushFile";
@@ -170,6 +172,7 @@ public class MobileCommand {
         commandRepository.put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
         commandRepository.put(LONG_PRESS_KEY_CODE,
                         postC("/session/:sessionId/appium/device/long_press_keycode"));
+        commandRepository.put(FINGER_PRINT, postC("/session/:sessionId/appium/device/finger_print"));
         commandRepository.put(OPEN_NOTIFICATIONS,
                         postC("/session/:sessionId/appium/device/open_notifications"));
         commandRepository.put(PRESS_KEY_CODE,

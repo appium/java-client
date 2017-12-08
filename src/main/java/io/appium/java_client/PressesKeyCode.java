@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.longPressKeyCodeCommand;
 import static io.appium.java_client.MobileCommand.pressKeyCodeCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.fingerPrintCommand;
 
 public interface PressesKeyCode extends ExecutesMethod {
 
@@ -39,6 +40,15 @@ public interface PressesKeyCode extends ExecutesMethod {
      */
     default void pressKeyCode(int key, Integer metastate) {
         CommandExecutionHelper.execute(this, pressKeyCodeCommand(key, metastate));
+    }
+
+    /**
+     * Authenticate users by using their finger print scans on supported emulators.
+     *
+     * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
+     */
+    default void fingerPrint(int fingerPrintId) {
+        CommandExecutionHelper.execute(this, fingerPrintCommand(fingerPrintId));
     }
 
     /**
