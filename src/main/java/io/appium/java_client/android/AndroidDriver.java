@@ -47,7 +47,7 @@ public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
         FindsByAndroidUIAutomator<T>, LocksAndroidDevice, HasAndroidSettings, HasDeviceDetails,
-            HasSupportedPerformanceDataType {
+            HasSupportedPerformanceDataType, AuthenticatesByFinger {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 

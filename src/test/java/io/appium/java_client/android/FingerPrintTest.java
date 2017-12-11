@@ -16,6 +16,8 @@
 
 package io.appium.java_client.android;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
@@ -28,8 +30,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.util.concurrent.TimeUnit;
-
+/**
+ * It is necessary to make this test passing
+ * - emulator API Level 23 Nexus device
+ * - perform 'adb emu finger touch' 1 on Windows
+ */
 public class FingerPrintTest {
 
     private static final String PASSWORD_INPUT_ID = "com.android.settings:id/password_entry";
@@ -62,17 +67,15 @@ public class FingerPrintTest {
      */
     @Before public void before() throws Exception {
         final AndroidDriver driver = getAndroidDriver("ChooseLockGeneric");
-        TimeUnit.SECONDS.sleep(2);
         // clicking the pin lock mode
         driver.findElement(By.xpath("//android.widget.LinearLayout[4]")).click();
-        TimeUnit.SECONDS.sleep(2);
         try {
             // line below will throw exception if secure startup window is popped up
             driver.findElementById(PASSWORD_INPUT_ID);
         } catch (NoSuchElementException e) {
             // in secure startup window
             driver.findElementById("com.android.settings:id/encrypt_require_password").click();
-            TimeUnit.SECONDS.sleep(2);
+            SECONDS.sleep(2);
             clickOKInPopup(driver);
             clickNext(driver);
         }
@@ -87,13 +90,10 @@ public class FingerPrintTest {
      */
     @Test public void pressKeyCodeTest() throws InterruptedException {
         final AndroidDriver driver = getAndroidDriver(".fingerprint.FingerprintSettings");
-        TimeUnit.SECONDS.sleep(2);
         enterPasswordAndContinue(driver);
         // click add fingerprint
         driver.findElementByXPath(FIRST_IN_LIST_XPATH).click();
-        TimeUnit.SECONDS.sleep(2);
         driver.fingerPrint(2);
-        TimeUnit.SECONDS.sleep(2);
         try {
             clickNext(driver);
         } catch (Exception e) {
@@ -108,34 +108,31 @@ public class FingerPrintTest {
      */
     @After public void after() throws InterruptedException {
         final AndroidDriver driver = getAndroidDriver("ChooseLockGeneric");
-        TimeUnit.SECONDS.sleep(2);
         enterPasswordAndContinue(driver);
         driver.findElementByXPath(FIRST_IN_LIST_XPATH).click();
-        TimeUnit.SECONDS.sleep(2);
         clickOKInPopup(driver);
         driver.quit();
     }
 
-    private AndroidDriver getAndroidDriver(String activity) {
+    private static AndroidDriver getAndroidDriver(String activity) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability("appPackage", "com.android.settings");
         capabilities.setCapability("appActivity", activity);
-        return new AndroidDriver<AndroidElement>(service.getUrl(), capabilities);
+        AndroidDriver<AndroidElement> driver = new AndroidDriver<AndroidElement>(service.getUrl(), capabilities);
+        driver.manage().timeouts().implicitlyWait(15, SECONDS);
+        return driver;
     }
 
     private void enterPasswordAndContinue(AndroidDriver driver) throws InterruptedException {
         driver.findElementById(PASSWORD_INPUT_ID).sendKeys("1234\n");
-        TimeUnit.SECONDS.sleep(2);
     }
 
     private void clickNext(AndroidDriver driver) throws InterruptedException {
         driver.findElementById("com.android.settings:id/next_button").click();
-        TimeUnit.SECONDS.sleep(2);
     }
 
     private void clickOKInPopup(AndroidDriver driver) throws InterruptedException {
         driver.findElementById("android:id/button1").click();
-        TimeUnit.SECONDS.sleep(2);
     }
 }
