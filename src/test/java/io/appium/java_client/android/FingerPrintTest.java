@@ -115,7 +115,7 @@ public class FingerPrintTest {
 
         driver.fingerPrint(2);
         try {
-            driver.findElementById("com.android.settings:id/next_button").click();
+            clickNext();
         } catch (Exception e) {
             Assert.fail("fingerprint command fail to execute");
         }
