@@ -125,6 +125,11 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * Moves current touch to a new position.
      *
      * @param  moveToOptions see {@link PointOption} and {@link ElementOption}
+     *                       Important: some older Appium drivers releases have a bug when moveTo
+     *                       coordinates are calculated as relative to the recent pointer position
+     *                       in the chain instead of being absolute.
+     *                       @see <a href="https://github.com/appium/appium/issues/7486">Appium Issue #7486</a>
+     *                       for more details.
      * @return this TouchAction, for chaining.
      */
     public T moveTo(PointOption moveToOptions) {

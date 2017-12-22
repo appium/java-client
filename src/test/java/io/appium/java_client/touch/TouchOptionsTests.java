@@ -44,8 +44,6 @@ public class TouchOptionsTests {
         final List<Runnable> invalidOptions = new ArrayList<>();
         invalidOptions.add(() -> waitOptions(ofMillis(-1)));
         invalidOptions.add(() -> new ElementOption().withCoordinates(0, 0).withElement(null));
-        invalidOptions.add(() -> new PointOption().withCoordinates(0, -1));
-        invalidOptions.add(() -> new PointOption().withCoordinates(-1, 0));
         invalidOptions.add(() -> new WaitOptions().withDuration(null));
         invalidOptions.add(() -> tapOptions().withTapsCount(-1));
         invalidOptions.add(() -> longPressOptions().withDuration(null));
