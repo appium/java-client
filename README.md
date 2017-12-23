@@ -20,6 +20,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 ## Changelog
 
 *6.0.0 (under construction yet)*
+
+*6.0.0-BETA2*
 - **[ENHANCEMENT]** The `fingerPrint` ability was added. It is supported by Android for now. [#473](https://github.com/appium/java-client/pull/473) [#786](https://github.com/appium/java-client/pull/786)
 - **[BUG FIX]**. Less strict verification of the `PointOption`. [#795](https://github.com/appium/java-client/pull/795)
 
