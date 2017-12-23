@@ -19,7 +19,6 @@ package io.appium.java_client.events.api.general;
 import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.security.Credentials;
 
 public interface AlertEventListener extends Listener {
 
@@ -74,36 +73,4 @@ public interface AlertEventListener extends Listener {
      * @param keys Keys which have been sent
      */
     void afterAlertSendKeys(WebDriver driver, Alert alert, String keys);
-
-    /**
-     * This action will be performed each time before
-     * {@link org.openqa.selenium.Alert#setCredentials(Credentials)} and
-     * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)}
-     * It is deprecated because methods {@link org.openqa.selenium.Alert#setCredentials(Credentials)} and
-     * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)} were removed from selenium java client
-     * at 3.8.0. This listener method is going to be removed as well.
-     *
-     * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which is receiving user credentials
-     * @param credentials which are being sent
-     */
-    @Deprecated
-    void beforeAuthentication(WebDriver driver, Alert alert,
-        Credentials credentials);
-
-    /**
-     * This action will be performed each time after
-     * {@link org.openqa.selenium.Alert#setCredentials(Credentials)} and
-     * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)}.
-     * It is deprecated because methods {@link org.openqa.selenium.Alert#setCredentials(Credentials)} and
-     * {@link org.openqa.selenium.Alert#authenticateUsing(Credentials)} were removed from selenium java client
-     * at 3.8.0. This listener method is going to be removed as well.
-     *
-     * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which has received user credentials
-     * @param credentials which have been sent
-     */
-    @Deprecated
-    void afterAuthentication(WebDriver driver, Alert alert,
-        Credentials credentials);
 }

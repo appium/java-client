@@ -34,7 +34,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.security.Credentials;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import java.lang.reflect.Proxy;
@@ -180,18 +179,6 @@ class DefaultListener
 
     @Override public void afterAlertSendKeys(WebDriver driver, Alert alert, String keys) {
         ((AlertEventListener) dispatcher).afterAlertSendKeys(driver, alert, keys);
-    }
-
-    @Override
-    @Deprecated
-    public void beforeAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
-        ((AlertEventListener) dispatcher).beforeAuthentication(driver, alert, credentials);
-    }
-
-    @Override
-    @Deprecated
-    public void afterAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
-        ((AlertEventListener) dispatcher).afterAuthentication(driver, alert, credentials);
     }
 
     @Override public void beforeWindowChangeSize(WebDriver driver, WebDriver.Window window,
