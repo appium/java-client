@@ -11,7 +11,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.security.Credentials;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
@@ -66,32 +65,6 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
             alert.accept();
             alert.dismiss();
             alert.sendKeys("Keys");
-            Credentials credentials = new Credentials() {
-                @Override
-                public int hashCode() {
-                    return super.hashCode();
-                }
-
-                @Override
-                public String toString() {
-                    return "Test credentials 1";
-                }
-            };
-
-            Credentials credentials2 = new Credentials() {
-                @Override
-                public int hashCode() {
-                    return super.hashCode();
-                }
-
-                @Override
-                public String toString() {
-                    return "Test credentials 2";
-                }
-            };
-
-            alert.setCredentials(credentials);
-            alert.authenticateUsing(credentials2);
 
             assertThat(listener.messages,
                     hasItems(WEBDRIVER_EVENT_LISTENER + "Attempt to accept alert",

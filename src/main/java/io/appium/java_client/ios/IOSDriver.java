@@ -34,7 +34,6 @@ import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.security.Credentials;
 
 import java.net.URL;
 import java.time.Duration;
@@ -205,14 +204,6 @@ public class IOSDriver<T extends WebElement>
 
         @Override public void sendKeys(String keysToSend) {
             execute(DriverCommand.SET_ALERT_VALUE, prepareArguments("value", keysToSend));
-        }
-
-        @Override public void setCredentials(Credentials credentials) {
-            alert.setCredentials(credentials);
-        }
-
-        @Override public void authenticateUsing(Credentials credentials) {
-            alert.authenticateUsing(credentials);
         }
 
     }
