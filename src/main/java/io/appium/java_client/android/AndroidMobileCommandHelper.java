@@ -174,18 +174,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
-     * checking of the device state (is it locked or not).
-     *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                IS_LOCKED, ImmutableMap.<String, Object>of());
-    }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
      * finger print authentication invocation.
      *
      * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
@@ -283,18 +271,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
         return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.<String, Object>of());
     }
-
-    /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * device unlocking.
-     *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>> unlockCommand() {
-        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
-    }
-
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the element

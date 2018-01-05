@@ -14,23 +14,38 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client;
+
+import java.time.Duration;
 
 import static io.appium.java_client.MobileCommand.getIsDeviceLockedCommand;
 import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import static io.appium.java_client.MobileCommand.unlockDeviceCommand;
 
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecutesMethod;
+public interface LocksDevice extends ExecutesMethod {
+    /**
+     * Check if the device is locked.
+     *
+     * @deprecated Use {@link #isDeviceLocked()} instead
+     * @return true if device is locked. False otherwise
+     */
+    @Deprecated
+    default boolean isLocked() {
+        return CommandExecutionHelper.execute(this, getIsDeviceLockedCommand());
+    }
 
-import java.time.Duration;
-
-public interface LocksIOSDevice extends ExecutesMethod {
+    /**
+     * This method locks a device. It will return silently if the device
+     * is already locked.
+     */
+    default void lockDevice() {
+        lockDevice(Duration.ofSeconds(0));
+    }
 
     /**
      * Lock the device (bring it to the lock screen) for a given number of
      * seconds or forever (until the command for unlocking is called). The call
-     * is ignored if the device already locked.
+     * is ignored if the device has been already locked.
      *
      * @param duration for how long to lock the screen. Minimum time resolution is one second.
      *                 A negative/zero value will lock the device and return immediately.
@@ -40,19 +55,19 @@ public interface LocksIOSDevice extends ExecutesMethod {
     }
 
     /**
-     * Unlocks the device if it is locked or returns immediately if the device is already unlocked.
+     * Unlock the device if it is locked. This method will return silently if the device
+     * is not locked.
      */
     default void unlockDevice() {
         CommandExecutionHelper.execute(this, unlockDeviceCommand());
     }
 
     /**
-     * Get the current state of the device.
+     * Check if the device is locked.
      *
      * @return true if the device is locked or false otherwise.
      */
     default boolean isDeviceLocked() {
         return CommandExecutionHelper.execute(this, getIsDeviceLockedCommand());
     }
-
 }
