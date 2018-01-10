@@ -71,13 +71,17 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     }
 
     /**
-     * @throws WebDriverException his method doesn't work against native app UI.
+     * Finds a single element by link text.
+     *
+     * @throws WebDriverException This method doesn't work against native app UI.
      */
     public T findElementByLinkText(String using) throws WebDriverException {
         return (T) super.findElementByLinkText(using);
     }
 
     /**
+     * Finds many elements by link text.
+     *
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public List findElementsByLinkText(String using) throws WebDriverException {
@@ -85,13 +89,17 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     }
 
     /**
-     * @throws WebDriverException his method doesn't work against native app UI.
+     * Finds a single element by partial link text.
+     *
+     * @throws WebDriverException This method doesn't work against native app UI.
      */
     public T findElementByPartialLinkText(String using) throws WebDriverException {
         return (T) super.findElementByPartialLinkText(using);
     }
 
     /**
+     * Finds many elements by partial link text.
+     *
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public List findElementsByPartialLinkText(String using) throws WebDriverException {
@@ -123,13 +131,17 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     }
 
     /**
-     * @throws WebDriverException his method doesn't work against native app UI.
+     * Finds a single element by CSS selector.
+     *
+     * @throws WebDriverException This method doesn't work against native app UI.
      */
     public T findElementByCssSelector(String using) throws WebDriverException {
         return (T) super.findElementByCssSelector(using);
     }
 
     /**
+     * Finds many elements by CSS selector.
+     *
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public List findElementsByCssSelector(String using) throws WebDriverException {

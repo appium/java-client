@@ -18,8 +18,7 @@ package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
-    .unpackWebDriverFromSearchContext;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 import static java.util.Optional.ofNullable;
 
 import com.google.common.collect.ImmutableList;
@@ -79,11 +78,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     /**
-     * @param context is an instance of {@link org.openqa.selenium.SearchContext}
-     *                It may be the instance of {@link org.openqa.selenium.WebDriver}
-     *                or {@link org.openqa.selenium.WebElement} or
-     *                {@link io.appium.java_client.pagefactory.Widget} or some other user's
-     *                extension/implementation.
+     * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
+     *
+     * @param context is an instance of {@link SearchContext}
+     *                It may be the instance of {@link WebDriver} or {@link WebElement} or
+     *                {@link Widget} or some other user's extension/implementation.
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
@@ -151,9 +150,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     /**
+     * Decorated page object {@code field}.
+     *
      * @param ignored class loader is ignored by current implementation
-     * @param field is {@link java.lang.reflect.Field} of page object which is supposed to be
-     *              decorated.
+     * @param field is {@link Field} of page object which is supposed to be decorated.
      * @return a field value or null.
      */
     public Object decorate(ClassLoader ignored, Field field) {

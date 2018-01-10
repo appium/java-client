@@ -23,8 +23,7 @@ import org.openqa.selenium.WebDriver;
 
 public interface WindowEventListener extends Listener {
     /**
-     * This action will be performed each time before
-     * {@link org.openqa.selenium.WebDriver.Window#setSize(Dimension)}
+     * This action will be performed each time before {@link WebDriver.Window#setSize(Dimension)}.
      *
      * @param driver WebDriver
      * @param window is the window whose size is going to be changed
@@ -34,8 +33,7 @@ public interface WindowEventListener extends Listener {
         Dimension targetSize);
 
     /**
-     * This action will be performed each time after
-     * {@link WebDriver.Window#setSize(Dimension)}
+     * This action will be performed each time after {@link WebDriver.Window#setSize(Dimension)}.
      *
      * @param driver WebDriver
      * @param window is the window whose size has been changed
@@ -45,8 +43,7 @@ public interface WindowEventListener extends Listener {
         Dimension targetSize);
 
     /**
-     * This action will be performed each time before
-     * {@link WebDriver.Window#setPosition(org.openqa.selenium.Point)}
+     * This action will be performed each time before {@link WebDriver.Window#setPosition(Point)}.
      *
      * @param driver WebDriver
      * @param window is the window whose position is going to be changed
@@ -56,8 +53,7 @@ public interface WindowEventListener extends Listener {
         Point targetPoint);
 
     /**
-     * This action will be performed each time after
-     * {@link WebDriver.Window#setPosition(org.openqa.selenium.Point)}
+     * This action will be performed each time after {@link WebDriver.Window#setPosition(Point)}.
      *
      * @param driver WebDriver
      * @param window is the window whose position has been changed
@@ -68,8 +64,7 @@ public interface WindowEventListener extends Listener {
 
 
     /**
-     * This action will be performed each time before
-     * {@link WebDriver.Window#maximize()}
+     * This action will be performed each time before {@link WebDriver.Window#maximize()}.
      *
      * @param driver WebDriver
      * @param window is the window which is going to be maximized
@@ -77,8 +72,7 @@ public interface WindowEventListener extends Listener {
     void beforeWindowIsMaximized(WebDriver driver, WebDriver.Window window);
 
     /**
-     * This action will be performed each time after
-     * {@link WebDriver.Window#maximize()}
+     * This action will be performed each time after {@link WebDriver.Window#maximize()}.
      *
      * @param driver WebDriver
      * @param window is the window which has been maximized

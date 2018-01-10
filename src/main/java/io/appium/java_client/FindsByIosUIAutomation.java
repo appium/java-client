@@ -24,6 +24,12 @@ import java.util.List;
 
 public interface FindsByIosUIAutomation<T extends WebElement> extends FindsByFluentSelector<T> {
     /**
+     * Method performs the searching for a single element by iOS UIAutomation selector
+     * and value of the given selector.
+     *
+     * @param using an iOS UIAutomation selector
+     * @return The first element that matches the given selector
+     *
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      * @throws NoSuchElementException when no one element is found
      */
@@ -32,6 +38,12 @@ public interface FindsByIosUIAutomation<T extends WebElement> extends FindsByFlu
     }
 
     /**
+     * Method performs the searching for a list of elements by iOS UIAutomation selector
+     * and value of the given selector.
+     *
+     * @param using an iOS UIAutomation selector
+     * @return a list of elements that match the given selector
+     *
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     default List<T> findElementsByIosUIAutomation(String using) {

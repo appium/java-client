@@ -30,8 +30,9 @@ import javax.annotation.Nullable;
 
 public interface HasSessionDetails extends ExecutesMethod {
     /**
-     * @return a map with values that hold session details.
+     * The current session details.
      *
+     * @return a map with values that hold session details.
      */
     @SuppressWarnings("unchecked")
     default Map<String, Object> getSessionDetails() {
@@ -56,6 +57,8 @@ public interface HasSessionDetails extends ExecutesMethod {
     }
 
     /**
+     * The current mobile platform.
+     *
      * @return name of the current mobile platform.
      */
     default @Nullable String getPlatformName() {
@@ -65,6 +68,8 @@ public interface HasSessionDetails extends ExecutesMethod {
     }
 
     /**
+     * The current automation name.
+     *
      * @return current automation name.
      */
     default @Nullable String  getAutomationName() {
@@ -73,6 +78,8 @@ public interface HasSessionDetails extends ExecutesMethod {
     }
 
     /**
+     * Checks if focus is on browser.
+     *
      * @return is focus on browser or on native content.
      */
     default boolean isBrowser() {

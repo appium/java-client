@@ -39,8 +39,7 @@ public abstract class InterceptorOfASingleElement implements MethodInterceptor {
         throws Throwable;
 
     /**
-     * Look at
-     * {@link net.sf.cglib.proxy.MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}
+     * Look at {@link MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}.
      */
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
         throws Throwable {

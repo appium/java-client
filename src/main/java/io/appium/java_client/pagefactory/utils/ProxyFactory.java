@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory.utils;
 
-
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 

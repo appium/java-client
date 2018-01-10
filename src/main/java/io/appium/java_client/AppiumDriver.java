@@ -53,14 +53,14 @@ import java.util.Map;
 import java.util.Set;
 
 /**
-* @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ * Default Appium driver implementation.
+ *
+ * @param <T> the required type of class which implement {@link WebElement}.
  *          Instances of the defined type will be returned via findElement* and findElements*
  *          Warning (!!!). Allowed types:
- *          {@link org.openqa.selenium.WebElement}
- *          {@link org.openqa.selenium.remote.RemoteWebElement}
- *          {@link io.appium.java_client.MobileElement} and its subclasses that designed
- *          specifically
- *          for each target mobile OS (still Android and iOS)
+ *          {@link WebElement}, {@link org.openqa.selenium.remote.RemoteWebElement},
+ *          {@link MobileElement} and its subclasses that designed
+ *          specifically for each target mobile OS (still Android and iOS)
 */
 @SuppressWarnings("unchecked")
 public class AppiumDriver<T extends WebElement>
@@ -73,11 +73,12 @@ public class AppiumDriver<T extends WebElement>
     private ExecuteMethod executeMethod;
 
     /**
-     * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
+     * Creates a new instance based on command {@code executor} and {@code capabilities}.
+     *
+     * @param executor is an instance of {@link HttpCommandExecutor}
      *                 or class that extends it. Default commands or another vendor-specific
      *                 commands may be specified there.
-     * @param capabilities take a look
-     *                     at {@link org.openqa.selenium.Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
     public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
@@ -129,6 +130,8 @@ public class AppiumDriver<T extends WebElement>
     }
 
     /**
+     * Changes platform name and returns new capabilities.
+     *
      * @param originalCapabilities the given {@link Capabilities}.
      * @param newPlatform a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                    to be set up

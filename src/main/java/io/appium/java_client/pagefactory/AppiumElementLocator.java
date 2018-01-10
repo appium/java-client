@@ -22,7 +22,6 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementRefe
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.lang.String.format;
 
-
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 

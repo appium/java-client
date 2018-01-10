@@ -252,6 +252,8 @@ public class MobileCommand {
     }
 
     /**
+     * Prepares single argument.
+     *
      * @param param is a parameter name.
      * @param value is the parameter value.
      * @return built {@link ImmutableMap}.
@@ -264,6 +266,8 @@ public class MobileCommand {
     }
 
     /**
+     * Prepares collection of arguments.
+     *
      * @param params is the array with parameter names.
      * @param values is the array with parameter values.
      * @return built {@link ImmutableMap}.
@@ -363,7 +367,7 @@ public class MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
-     * file pushing
+     * file pushing.
      *
      * @param remotePath Path to file to write data to on remote device
      * @param base64Data Base64 encoded byte array of data to write to remote device

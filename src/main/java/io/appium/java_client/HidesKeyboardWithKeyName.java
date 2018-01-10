@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-
 import static io.appium.java_client.MobileCommand.hideKeyboardCommand;
 
 public interface HidesKeyboardWithKeyName extends HidesKeyboard {

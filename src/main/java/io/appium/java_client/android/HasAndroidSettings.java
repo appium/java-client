@@ -16,7 +16,6 @@
 
 package io.appium.java_client.android;
 
-
 import io.appium.java_client.HasSettings;
 import io.appium.java_client.Setting;
 
@@ -37,7 +36,7 @@ interface HasAndroidSettings extends HasSettings {
     }
 
     /**
-     * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * invoke {@code setWaitForIdleTimeout} in {@code com.android.uiautomator.core.Configurator}.
      *
      * @param timeout A negative value would reset to its default value. Minimum time unit
      *                resolution is one millisecond
@@ -47,7 +46,7 @@ interface HasAndroidSettings extends HasSettings {
     }
 
     /**
-     * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * invoke {@code setWaitForSelectorTimeout} in {@code com.android.uiautomator.core.Configurator}.
      *
      * @param timeout A negative value would reset to its default value. Minimum time unit
      *                resolution is one millisecond
@@ -57,7 +56,7 @@ interface HasAndroidSettings extends HasSettings {
     }
 
     /**
-     * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * invoke {@code setScrollAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}.
      *
      * @param timeout A negative value would reset to its default value. Minimum time unit
      *                resolution is one millisecond
@@ -67,7 +66,7 @@ interface HasAndroidSettings extends HasSettings {
     }
 
     /**
-     * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}
+     * invoke {@code configuratorSetKeyInjectionDelay} in {@code com.android.uiautomator.core.Configurator}.
      *
      * @param delay A negative value would reset to its default value. Minimum time unit
      *              resolution is one millisecond
@@ -77,7 +76,7 @@ interface HasAndroidSettings extends HasSettings {
     }
 
     /**
-     * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}
+     * invoke {@code setActionAcknowledgmentTimeout} in {@code com.android.uiautomator.core.Configurator}.
      *
      * @param timeout A negative value would reset to its default value. Minimum time unit
      *                resolution is one millisecond

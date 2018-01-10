@@ -16,7 +16,7 @@ public class ElementOption extends PointOption<ElementOption> {
     private String elementId;
 
     /**
-     * This method creates a build instance of the {@link ElementOption}
+     * This method creates a build instance of the {@link ElementOption}.
      *
      * @param element is the element to calculate offset from.
      * @param x is the x-offset from the upper left corner of the given element.
@@ -28,7 +28,7 @@ public class ElementOption extends PointOption<ElementOption> {
     }
 
     /**
-     * This method creates a build instance of the {@link ElementOption}
+     * This method creates a build instance of the {@link ElementOption}.
      *
      * @param element is the element to calculate offset from.
      * @return the built option
