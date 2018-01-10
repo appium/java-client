@@ -12,21 +12,17 @@ version '6.0.0-BETA2'
 
 repositories {
     jcenter()
-    maven {
-        url 'http://repo.maven.apache.org/maven2'
-    }
+    mavenCentral()
 }
 
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'http://repo.maven.apache.org/maven2'
-        }
+        mavenCentral()
     }
     dependencies {
         classpath 'org.owasp:dependency-check-gradle:1.4.0'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
     }
 }
 
@@ -221,10 +217,7 @@ uploadArchives {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.3.1'
-    description 'Generates the Gradle wrapper scripts.'
-}
+wrapper.gradleVersion = '4.4.1'
 
 test {
     useJUnit()
