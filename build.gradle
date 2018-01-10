@@ -12,17 +12,13 @@ version '6.0.0-BETA2'
 
 repositories {
     jcenter()
-    maven {
-        url 'http://repo.maven.apache.org/maven2'
-    }
+    mavenCentral()
 }
 
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'http://repo.maven.apache.org/maven2'
-        }
+        mavenCentral()
     }
     dependencies {
         classpath 'org.owasp:dependency-check-gradle:1.4.0'
