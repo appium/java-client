@@ -45,6 +45,11 @@ public interface MobileCapabilityType extends CapabilityType {
      * The kind of mobile device or emulator to use.
      */
     String DEVICE_NAME = "deviceName";
+    
+    /**
+     * The device orientation.
+     */
+    String DEVICE_ORIENTATION = "deviceOrientation";
 
     /**
      * How long (in seconds) Appium will wait for a new command from the
