@@ -25,7 +25,7 @@ import io.appium.java_client.ExecutesMethod;
 public interface PerformsTouchID extends ExecutesMethod {
 
     /**
-     * Simulate touchId event
+     * Simulate touchId event.
      *
      * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan.
      */

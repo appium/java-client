@@ -36,9 +36,11 @@ import java.lang.annotation.Target;
 @Repeatable(AndroidFindBySet.class)
 public @interface AndroidFindBy {
     /**
-     * It is an is Android UIAutomator string.
+     * It is an Android UIAutomator string.
      * Read http://developer.android.com/intl/ru/tools/testing-support-library/
      * index.html#uia-apis
+     *
+     * @return an Android UIAutomator string
      */
     String uiAutomator() default "";
 
@@ -46,31 +48,43 @@ public @interface AndroidFindBy {
      * It an UI automation accessibility Id which is a convenient to Android.
      * About Android accessibility
      * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
+     *
+     * @return an UI automation accessibility Id
      */
     String accessibility() default "";
 
     /**
      * It is an id of the target element.
+     *
+     * @return an id of the target element
      */
     String id() default "";
 
     /**
      * It is a className of the target element.
+     *
+     * @return a className of the target element
      */
     String className() default "";
 
     /**
      * It is a desired element tag.
+     *
+     * @return a desired element tag
      */
     String tagName() default "";
 
     /**
      * It is a xpath to the target element.
+     *
+     * @return a xpath to the target element
      */
     String xpath() default "";
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,12 +29,16 @@ import java.util.concurrent.TimeUnit;
  */
 public @interface WithTimeout {
     /**
-     * Desired waiting duration
+     * Desired waiting duration.
+     *
+     * @return waiting duration
      */
     long time();
 
     /**
-     * Desired time unit
+     * Desired time unit.
+     *
+     * @return time unit
      */
     TimeUnit unit();
 }

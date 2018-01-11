@@ -26,19 +26,22 @@ import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link io.appium.java_client.pagefactory.iOSXCUITBy} tags.
+ * a series of {@link iOSXCUITBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSXCUITFindByChainSet.class)
 public @interface iOSXCUITFindBys {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSXCUITBy} strategies which build
-     * the chain of the searching for the target element.
+     * It is a set of {@link iOSXCUITBy} strategies which build the chain of the searching for the target element.
+     *
+     * @return a collection of strategies which build the chain of the searching for the target element
      */
     iOSXCUITBy[] value();
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

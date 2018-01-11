@@ -23,53 +23,51 @@ import org.openqa.selenium.WebDriver;
 public interface AlertEventListener extends Listener {
 
     /**
-     * This action will be performed each time before {@link org.openqa.selenium.Alert#accept()}
+     * This action will be performed each time before {@link Alert#accept()}.
      *
      * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which is being accepted
+     * @param alert {@link Alert} which is being accepted
      */
     void beforeAlertAccept(WebDriver driver, Alert alert);
 
     /**
-     * This action will be performed each time after {@link Alert#accept()}
+     * This action will be performed each time after {@link Alert#accept()}.
      *
      * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which has been accepted
+     * @param alert {@link Alert} which has been accepted
      */
     void afterAlertAccept(WebDriver driver, Alert alert);
 
     /**
-     * This action will be performed each time before {@link Alert#dismiss()}
+     * This action will be performed each time before {@link Alert#dismiss()}.
      *
      * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which which is being dismissed
+     * @param alert {@link Alert} which which is being dismissed
      */
     void afterAlertDismiss(WebDriver driver, Alert alert);
 
     /**
-     * This action will be performed each time after {@link Alert#dismiss()}
+     * This action will be performed each time after {@link Alert#dismiss()}.
      *
      * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which has been dismissed
+     * @param alert {@link Alert} which has been dismissed
      */
     void beforeAlertDismiss(WebDriver driver, Alert alert);
 
     /**
-     * This action will be performed each time before
-     * {@link org.openqa.selenium.Alert#sendKeys(String)}
+     * This action will be performed each time before {@link Alert#sendKeys(String)}.
      *
      * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which is receiving keys
+     * @param alert {@link Alert} which is receiving keys
      * @param keys Keys which are being sent
      */
     void beforeAlertSendKeys(WebDriver driver, Alert alert, String keys);
 
     /**
-     * This action will be performed each time after
-     * {@link org.openqa.selenium.Alert#sendKeys(String)}
+     * This action will be performed each time after {@link Alert#sendKeys(String)}.
      *
      * @param driver WebDriver
-     * @param alert {@link org.openqa.selenium.Alert} which has received keys
+     * @param alert {@link Alert} which has received keys
      * @param keys Keys which have been sent
      */
     void afterAlertSendKeys(WebDriver driver, Alert alert, String keys);

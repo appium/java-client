@@ -30,6 +30,8 @@ public class TimeOutDuration {
     private TimeUnit unit;
 
     /**
+     * Creates a new timeout duration from the amount of time and the time unit.
+     *
      * @param time The amount of time.
      * @param unit The unit of time.
      */

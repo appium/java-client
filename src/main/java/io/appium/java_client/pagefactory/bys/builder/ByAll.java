@@ -29,7 +29,9 @@ public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
     }
 
     /**
-     * @param bys is a set of {@link org.openqa.selenium.By} which forms the all possible searching.
+     * Finds all elements that matches any of the locators in sequence.
+     *
+     * @param bys is a set of {@link By} which forms the all possible searching.
      */
     public ByAll(By[] bys) {
         super(bys);

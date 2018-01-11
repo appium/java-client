@@ -124,19 +124,12 @@ tasks.withType(JacocoReport) {
 jacocoTestReport.dependsOn test
 
 checkstyle {
-    toolVersion = '7.0'
-    showViolations = true
-}
-
-dependencies {
-    checkstyle( 'com.puppycrawl.tools:checkstyle:7.0' )
-}
-
-tasks.withType(Checkstyle) {
-    ignoreFailures = false
+    toolVersion = '8.7'
     configFile = file("$projectDir/google-style.xml")
-    exclude '**/org/openqa/selenium/**'
+    showViolations = true
+    ignoreFailures = false
 }
+checkstyleMain.excludes = ['**/org/openqa/selenium/**']
 
 task javadocJar(type: Jar) {
     classifier = 'javadoc'

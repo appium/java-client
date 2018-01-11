@@ -16,7 +16,6 @@
 
 package io.appium.java_client.remote;
 
-
 import org.openqa.selenium.remote.CapabilityType;
 
 /**

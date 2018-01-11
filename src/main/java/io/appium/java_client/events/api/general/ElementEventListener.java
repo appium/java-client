@@ -22,7 +22,7 @@ import org.openqa.selenium.WebElement;
 
 public interface ElementEventListener extends Listener {
     /**
-     * Called before {@link org.openqa.selenium.WebElement#click WebElement.click()}.
+     * Called before {@link WebElement#click WebElement.click()}.
      *
      * @param driver WebDriver
      * @param element the WebElement being used for the action
@@ -30,7 +30,7 @@ public interface ElementEventListener extends Listener {
     void beforeClickOn(WebElement element, WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebElement#click WebElement.click()}.
+     * Called after {@link WebElement#click WebElement.click()}.
      * Not called, if an exception is thrown.
      *
      * @param driver WebDriver
@@ -39,8 +39,8 @@ public interface ElementEventListener extends Listener {
     void afterClickOn(WebElement element, WebDriver driver);
 
     /**
-     * Called before {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
-     * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)}.
+     * Called before {@link WebElement#clear WebElement.clear()},
+     * {@link WebElement#sendKeys WebElement.sendKeys(...)}.
      *
      * @param driver WebDriver
      * @param element the WebElement being used for the action
@@ -48,17 +48,18 @@ public interface ElementEventListener extends Listener {
     void beforeChangeValueOf(WebElement element, WebDriver driver);
 
     /**
-     * Called before {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
-     * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)}.
+     * Called before {@link WebElement#clear WebElement.clear()},
+     * {@link WebElement#sendKeys WebElement.sendKeys(...)}.
      *
      * @param driver WebDriver
      * @param element the WebElement being used for the action
+     * @param keysToSend character sequence to send to the element
      */
     void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend);
 
     /**
-     * Called after {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
-     * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)} .
+     * Called after {@link WebElement#clear WebElement.clear()},
+     * {@link WebElement#sendKeys WebElement.sendKeys(...)}.
      * Not called, if an exception is thrown.
      *
      * @param driver WebDriver
@@ -67,12 +68,13 @@ public interface ElementEventListener extends Listener {
     void afterChangeValueOf(WebElement element, WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebElement#clear WebElement.clear()},
-     * {@link org.openqa.selenium.WebElement#sendKeys WebElement.sendKeys(...)} .
+     * Called after {@link WebElement#clear WebElement.clear()},
+     * {@link WebElement#sendKeys WebElement.sendKeys(...)} .
      * Not called, if an exception is thrown.
      *
      * @param driver WebDriver
      * @param element the WebElement being used for the action
+     * @param keysToSend character sequence to send to the element
      */
     void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend);
 }

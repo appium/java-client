@@ -69,10 +69,11 @@ public enum ElementMap {
     }
 
     /**
+     * Gets element class by {@code platform} and mobile {@code automation} type.
+     *
      * @param platform is the mobile platform. See {@link MobilePlatform}.
      * @param automation is the mobile automation type. See {@link AutomationName}
-     * @return subclass of {@link org.openqa.selenium.remote.RemoteWebElement} that convenient
-     *     to current session details.
+     * @return subclass of {@link RemoteWebElement} that convenient to current session details.
      */
     public static Class<? extends RemoteWebElement> getElementClass(String platform, String automation) {
         if (isBlank(platform) && isBlank(automation)) {

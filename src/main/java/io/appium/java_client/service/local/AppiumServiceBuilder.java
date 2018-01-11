@@ -226,6 +226,8 @@ public final class AppiumServiceBuilder
     }
 
     /**
+     * Adds a server argument.
+     *
      * @param argument is an instance which contains the argument name.
      * @param value    A non null string value. (Warn!!!) Boolean arguments have a special moment:
      *                 the presence of an arguments means "true". At this case an empty string
@@ -247,8 +249,9 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * @param capabilities is an instance of
-     * {@link org.openqa.selenium.remote.DesiredCapabilities}.
+     * Adds a desired capabilities.
+     *
+     * @param capabilities is an instance of {@link DesiredCapabilities}.
      * @return the self-reference.
      */
     public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
@@ -263,6 +266,8 @@ public final class AppiumServiceBuilder
     }
 
     /**
+     * Sets an executable appium.js.
+     *
      * @param appiumJS an executable appium.js (1.4.x and lower) or
      *                 main.js (1.5.x and higher).
      * @return the self-reference.
@@ -278,6 +283,8 @@ public final class AppiumServiceBuilder
     }
 
     /**
+     * Sets start up timeout.
+     *
      * @param time     a time value for the service starting up.
      * @param timeUnit a time unit for the service starting up.
      * @return self-reference.

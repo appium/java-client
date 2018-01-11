@@ -36,9 +36,11 @@ import java.lang.annotation.Target;
 @Repeatable(iOSFindBySet.class)
 public @interface iOSFindBy {
     /**
-     * It is is iOS UIAutomation string.
+     * It is an iOS UIAutomation string.
      * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
      * Conceptual/InstrumentsUserGuide/UIAutomation.html
+     *
+     * @return an iOS UIAutomation string
      */
     String uiAutomator() default "";
 
@@ -46,31 +48,43 @@ public @interface iOSFindBy {
      * It an UI automation accessibility Id which is a convenient to iOS.
      * About iOS accessibility
      * See  <a href="https://goo.gl/7sEkoB">UIAccessibilityIdentification</a>
+     *
+     * @return an UI automation accessibility Id
      */
     String accessibility() default "";
 
     /**
      * It is an id of the target element.
+     *
+     * @return an id of the target element
      */
     String id() default "";
 
     /**
      * It is a name of a type/class of the target element.
+     *
+     * @return a name of a type/class of the target element
      */
     String className() default "";
 
     /**
      * It is a desired element tag.
+     *
+     * @return a desired element tag
      */
     String tagName() default "";
 
     /**
      * It is a xpath to the target element.
+     *
+     * @return a xpath to the target element
      */
     String xpath() default "";
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

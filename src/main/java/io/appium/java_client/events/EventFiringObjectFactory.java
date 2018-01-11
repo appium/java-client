@@ -1,6 +1,5 @@
 package io.appium.java_client.events;
 
-
 import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,7 +15,7 @@ import java.util.ServiceLoader;
 public class EventFiringObjectFactory {
 
     /**
-     * This method makes an event firing object
+     * This method makes an event firing object.
      *
      * @param t an original {@link Object} that is
      *               supposed to be listenable
@@ -44,7 +43,7 @@ public class EventFiringObjectFactory {
     }
 
     /**
-     * This method makes an event firing object
+     * This method makes an event firing object.
      *
      * @param t an original {@link Object} that is
      *               supposed to be listenable
@@ -57,7 +56,7 @@ public class EventFiringObjectFactory {
     }
 
     /**
-     * This method makes an event firing object
+     * This method makes an event firing object.
      *
      * @param t an original {@link Object} that is
      *               supposed to be listenable

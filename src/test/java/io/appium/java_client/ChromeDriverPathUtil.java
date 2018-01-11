@@ -15,6 +15,8 @@ public final class ChromeDriverPathUtil {
             .resolve("test").resolve("java").resolve("io").resolve("appium").resolve("java_client");
 
     /**
+     * Finds chromedriver executable file depending on the current platform.
+     *
      * @return the choromedriver file which depends on platform.
      */
     public static File getChromeDriver() {
