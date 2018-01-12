@@ -56,9 +56,7 @@ dependencies {
     compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
         force = true
 
-        exclude module: 'cglib'
         exclude group: 'com.google.code.gson'
-        exclude module: 'phantomjsdriver'
         exclude module: 'htmlunit-driver'
         exclude group: 'net.sourceforge.htmlunit'
 
