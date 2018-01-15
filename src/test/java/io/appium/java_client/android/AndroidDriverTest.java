@@ -50,7 +50,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertFalse(driver.isAppInstalled("foo"));
     }
 
-    @Test public void closeAppTest() throws InterruptedException {
+    @Test public void closeAppTest() {
         driver.closeApp();
         driver.launchApp();
         assertEquals(".ApiDemos", driver.currentActivity());

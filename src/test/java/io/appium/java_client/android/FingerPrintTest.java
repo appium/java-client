@@ -94,7 +94,7 @@ public class FingerPrintTest {
     /**
      * enable system security which is required for finger print activation.
      */
-    @Before public void before() throws Exception {
+    @Before public void before() {
         initDriver();
         clickOnSecurity();
         findElementByText("Screen lock").click();
@@ -124,7 +124,7 @@ public class FingerPrintTest {
     /**
      * disabling pin lock mode.
      */
-    @After public void after() throws InterruptedException {
+    @After public void after() {
         driver.quit();
 
         initDriver();

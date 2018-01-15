@@ -23,7 +23,7 @@ import org.junit.Test;
 
 public class AndroidActivityTest extends BaseAndroidTest {
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }

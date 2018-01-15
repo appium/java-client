@@ -133,7 +133,7 @@ public class IOSPageFactoryTest extends AppIOSTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         if (!populated) {
             PageFactory.initElements(new AppiumFieldDecorator(driver), this);
         }

@@ -27,7 +27,7 @@ public class DefaultEventListenerTest extends BaseListenerTest {
 
     private static EmptyWebDriver driver;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         EmptyWebDriver emptyWebDriver = new EmptyWebDriver();
         driver = EventFiringWebDriverFactory.getEventFiringWebDriver(emptyWebDriver);
     }

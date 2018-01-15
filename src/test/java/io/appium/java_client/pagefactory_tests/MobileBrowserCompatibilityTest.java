@@ -58,7 +58,7 @@ public class MobileBrowserCompatibilityTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -73,7 +73,7 @@ public class MobileBrowserCompatibilityTest {
     /**
      * finishing.
      */
-    @After public void tearDown() throws Exception {
+    @After public void tearDown() {
         if (driver != null) {
             driver.quit();
         }

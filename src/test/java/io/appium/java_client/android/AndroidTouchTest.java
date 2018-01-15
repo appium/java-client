@@ -23,11 +23,11 @@ import java.util.List;
 public class AndroidTouchTest extends BaseAndroidTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         driver.resetApp();
     }
 
-    @Test public void dragNDropByElementTest() throws Exception  {
+    @Test public void dragNDropByElementTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
         driver.startActivity(activity);
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
@@ -44,7 +44,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertNotEquals("Drag text empty", "", dragText.getText());
     }
 
-    @Test public void dragNDropByElementAndDurationTest() throws Exception  {
+    @Test public void dragNDropByElementAndDurationTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
         driver.startActivity(activity);
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
@@ -63,7 +63,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertNotEquals("Drag text empty", "", dragText.getText());
     }
 
-    @Test public void dragNDropByCoordinatesTest() throws Exception  {
+    @Test public void dragNDropByCoordinatesTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
         driver.startActivity(activity);
         AndroidElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
@@ -83,7 +83,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertNotEquals("Drag text empty", "", dragText.getText());
     }
 
-    @Test public void dragNDropByCoordinatesAndDurationTest() throws Exception  {
+    @Test public void dragNDropByCoordinatesAndDurationTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
         driver.startActivity(activity);
         AndroidElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
@@ -105,7 +105,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertNotEquals("Drag text empty", "", dragText.getText());
     }
 
-    @Test public void pressByCoordinatesTest() throws Exception {
+    @Test public void pressByCoordinatesTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         Point point =
@@ -119,7 +119,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
                 .findElementById("io.appium.android.apis:id/button_toggle").getText());
     }
 
-    @Test public void pressByElementTest() throws Exception {
+    @Test public void pressByElementTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         new TouchAction(driver)
@@ -169,7 +169,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
         assertEquals(time, chronometer.getText());
     }
 
-    @Test public void horizontalSwipingTest() throws Exception {
+    @Test public void horizontalSwipingTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
 
@@ -190,7 +190,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
                 .findElementsByClassName("android.widget.ImageView").size());
     }
 
-    @Test public void multiTouchTest() throws Exception {
+    @Test public void multiTouchTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         TouchAction press = new TouchAction(driver)

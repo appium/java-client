@@ -15,7 +15,7 @@ public class AppXCUITTest extends BaseIOSTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 

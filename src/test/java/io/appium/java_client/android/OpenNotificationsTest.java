@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OpenNotificationsTest extends BaseAndroidTest {
     @Test
-    public void openNotification() throws Exception {
+    public void openNotification() {
         driver.closeApp();
         driver.openNotifications();
         WebDriverWait wait = new WebDriverWait(driver, 20);
