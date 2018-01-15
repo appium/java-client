@@ -45,8 +45,7 @@ public abstract class InterceptorOfAListOfElements implements MethodInterceptor 
             return proxy.invokeSuper(obj, args);
         }
 
-        List<WebElement> realElements = new ArrayList<>();
-        realElements.addAll(locator.findElements());
+        List<WebElement> realElements = new ArrayList<>(locator.findElements());
         return getObject(realElements, method, args);
     }
 }
