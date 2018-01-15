@@ -24,8 +24,6 @@ import static java.time.Duration.ofMillis;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
-import java.time.Duration;
-
 public interface LocksAndroidDevice extends ExecutesMethod {
     /**
      * Check if the device is locked.
