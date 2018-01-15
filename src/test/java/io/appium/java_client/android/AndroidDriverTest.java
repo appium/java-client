@@ -148,7 +148,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     @Test public void getSupportedPerformanceDataTypesTest() {
         driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
-        List<String> dataTypes = new ArrayList<String>();
+        List<String> dataTypes = new ArrayList<>();
         dataTypes.add("cpuinfo");
         dataTypes.add("memoryinfo");
         dataTypes.add("batteryinfo");
