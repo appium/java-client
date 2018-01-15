@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * This annotation is used when some element waits for time
- * that differs from defined by default
+ * that differs from defined by default.
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
 public @interface WithTimeout {
