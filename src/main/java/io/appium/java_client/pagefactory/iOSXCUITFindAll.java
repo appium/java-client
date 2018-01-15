@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
- * of {@link iOSXCUITBy} tags
+ * of {@link io.appium.java_client.pagefactory.iOSXCUITBy} tags.
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */

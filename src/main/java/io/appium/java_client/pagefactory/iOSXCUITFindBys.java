@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
- * a series of {@link iOSXCUITBy} tags.
+ * a series of {@link io.appium.java_client.pagefactory.iOSXCUITBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSXCUITFindByChainSet.class)
