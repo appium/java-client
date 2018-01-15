@@ -41,7 +41,7 @@ public class AppiumExecutionMethod implements ExecuteMethod {
         Response response;
 
         if (parameters == null || parameters.isEmpty()) {
-            response = driver.execute(commandName, ImmutableMap.<String, Object>of());
+            response = driver.execute(commandName, ImmutableMap.of());
         } else {
             response = driver.execute(commandName, parameters);
         }

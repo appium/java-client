@@ -43,7 +43,7 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
     }
 
     @Override public Response execute(String command) {
-        return super.execute(command, ImmutableMap.<String, Object>of());
+        return super.execute(command, ImmutableMap.of());
     }
 
     @Override public List findElements(By by) {

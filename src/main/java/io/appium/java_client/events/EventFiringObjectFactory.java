@@ -52,7 +52,7 @@ public class EventFiringObjectFactory {
      * @return an {@link Object} that fires events
      */
     public static <T> T getEventFiringObject(T t, WebDriver driver) {
-        return getEventFiringObject(t, driver, Collections.<Listener>emptyList());
+        return getEventFiringObject(t, driver, Collections.emptyList());
     }
 
     /**
