@@ -23,6 +23,7 @@ import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -377,13 +378,7 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
         String[] parameters = new String[] {"path", "data"};
-        String data;
-        try {
-            data = new String(base64Data, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException(e);
-        }
-        Object[] values = new Object[]{remotePath, data};
+        Object[] values = new Object[]{remotePath, new String(base64Data, StandardCharsets.UTF_8)};
         return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
 }
