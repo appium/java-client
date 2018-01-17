@@ -377,11 +377,13 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
         String[] parameters = new String[] {"path", "data"};
+        String data;
         try {
-            Object[] values = new Object[]{remotePath, new String(base64Data, "UTF-8")};
-            return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
+            data = new String(base64Data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
+        Object[] values = new Object[]{remotePath, data};
+        return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
 }
