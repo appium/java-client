@@ -24,6 +24,7 @@ import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.time.Duration;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -376,7 +377,7 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
         String[] parameters = new String[] {"path", "data"};
-        Object[] values = new Object[] {remotePath, base64Data};
+        Object[] values = new Object[] {remotePath, Arrays.toString(base64Data)};
         return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
 }
