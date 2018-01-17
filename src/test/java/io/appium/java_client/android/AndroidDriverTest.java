@@ -50,7 +50,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertFalse(driver.isAppInstalled("foo"));
     }
 
-    @Test public void closeAppTest() throws InterruptedException {
+    @Test public void closeAppTest() {
         driver.closeApp();
         driver.launchApp();
         assertEquals(".ApiDemos", driver.currentActivity());
@@ -148,7 +148,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     @Test public void getSupportedPerformanceDataTypesTest() {
         driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
-        List<String> dataTypes = new ArrayList<String>();
+        List<String> dataTypes = new ArrayList<>();
         dataTypes.add("cpuinfo");
         dataTypes.add("memoryinfo");
         dataTypes.add("batteryinfo");

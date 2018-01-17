@@ -26,7 +26,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class BaseSafariTest extends BaseIOSTest {
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 

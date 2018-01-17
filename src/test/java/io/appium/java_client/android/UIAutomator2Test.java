@@ -29,7 +29,7 @@ public class UIAutomator2Test {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -83,7 +83,7 @@ public class UIAutomator2Test {
         assertEquals(driver.rotation(), landscapeRightRotation);
     }
 
-    @Test public void testToastMSGIsDisplayed() throws InterruptedException {
+    @Test public void testToastMSGIsDisplayed() {
         final WebDriverWait wait = new WebDriverWait(driver, 10);
         Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
         driver.startActivity(activity);

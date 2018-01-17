@@ -49,7 +49,7 @@ public class XCUIAutomationTest extends AppXCUITTest {
         assertEquals(driver.rotation(), landscapeLeftRotation);
     }
 
-    @Test public void testTouchId() throws Exception {
+    @Test public void testTouchId() {
         driver.toggleTouchIDEnrollment(true);
         driver.performTouchID(true);
         driver.performTouchID(false);

@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 public class IOSNativeWebTapSettingTest extends BaseSafariTest {
 
-    @Test public void nativeWebTapSettingTest() throws InterruptedException {
+    @Test public void nativeWebTapSettingTest() {
         driver.get("https://saucelabs.com/test/guinea-pig");
 
         // do a click with nativeWebTap turned on, and assert we get to the right page

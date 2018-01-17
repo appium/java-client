@@ -25,7 +25,7 @@ public class IOSTest {
      * initialization.
      */
     @BeforeClass
-    public static void beforeClass() throws Exception {
+    public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 

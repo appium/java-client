@@ -35,7 +35,7 @@ public class AndroidTest {
      * initialization.
      */
     @BeforeClass
-    public static void beforeClass() throws Exception {
+    public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -67,7 +67,7 @@ public class AndroidTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         startsActivity = new StartsActivity() {
             @Override
             public Response execute(String driverCommand, Map<String, ?> parameters) {

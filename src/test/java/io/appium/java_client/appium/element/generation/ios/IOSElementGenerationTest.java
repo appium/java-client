@@ -70,7 +70,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                 IOSElement.class));
     }
 
-    @Test public void whenIOSHybridAppIsLaunched() throws Exception {
+    @Test public void whenIOSHybridAppIsLaunched() {
         assertTrue(check(serverAppCapabilitiesSupplier,
                 appFileSupplierFunction.apply(webViewApp),
             (by, aClass) -> {

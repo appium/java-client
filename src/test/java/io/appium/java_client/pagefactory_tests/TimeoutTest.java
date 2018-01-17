@@ -79,7 +79,7 @@ public class TimeoutTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
                 getChromeDriver().getAbsolutePath());
         driver = new ChromeDriver();
@@ -90,7 +90,7 @@ public class TimeoutTest {
     /**
      * finishing.
      */
-    @After public void tearDown() throws Exception {
+    @After public void tearDown() {
         driver.quit();
     }
 

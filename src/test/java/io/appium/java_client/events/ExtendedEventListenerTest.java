@@ -14,7 +14,7 @@ public class ExtendedEventListenerTest {
 
     private static EmptyWebDriver stubWebDriver;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         stubWebDriver = new EmptyWebDriver();
         stubWebDriver = EventFiringWebDriverFactory.getEventFiringWebDriver(stubWebDriver);
     }

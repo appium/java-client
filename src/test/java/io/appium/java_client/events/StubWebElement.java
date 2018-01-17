@@ -29,9 +29,7 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
     FindsByAndroidUIAutomator<WebElement>, FindsByIosUIAutomation<WebElement>, FindsByFluentSelector<WebElement> {
 
     private static List<WebElement> createStubSubElementList() {
-        List<WebElement> result = new ArrayList<>();
-        result.addAll(ImmutableList.of(new StubWebElement(), new StubWebElement()));
-        return result;
+        return new ArrayList<>(ImmutableList.of(new StubWebElement(), new StubWebElement()));
     }
 
 

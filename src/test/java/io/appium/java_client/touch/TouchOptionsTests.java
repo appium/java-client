@@ -28,19 +28,19 @@ public class TouchOptionsTests {
     private static final WebElement DUMMY_ELEMENT = new DummyElement();
 
     @Test(expected = IllegalArgumentException.class)
-    public void invalidEmptyPointOptionsShouldFailOnBuild() throws Exception {
+    public void invalidEmptyPointOptionsShouldFailOnBuild() {
         new PointOption().build();
         fail("The exception throwing was expected");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void invalidEmptyElementOptionsShouldFailOnBuild() throws Exception {
+    public void invalidEmptyElementOptionsShouldFailOnBuild() {
         new ElementOption().build();
         fail("The exception throwing was expected");
     }
 
     @Test
-    public void invalidOptionsArgumentsShouldFailOnAltering() throws Exception {
+    public void invalidOptionsArgumentsShouldFailOnAltering() {
         final List<Runnable> invalidOptions = new ArrayList<>();
         invalidOptions.add(() -> waitOptions(ofMillis(-1)));
         invalidOptions.add(() -> new ElementOption().withCoordinates(0, 0).withElement(null));
@@ -54,7 +54,7 @@ public class TouchOptionsTests {
     }
 
     @Test
-    public void longPressOptionsShouldBuildProperly() throws Exception {
+    public void longPressOptionsShouldBuildProperly() {
         final Map<String, Object> actualOpts = longPressOptions()
                 .withElement(element(DUMMY_ELEMENT).withCoordinates(0, 0))
                 .withDuration(ofMillis(1))
@@ -69,7 +69,7 @@ public class TouchOptionsTests {
     }
 
     @Test
-    public void tapOptionsShouldBuildProperly() throws Exception {
+    public void tapOptionsShouldBuildProperly() {
         final Map<String, Object> actualOpts = tapOptions()
                 .withPosition(point(0, 0))
                 .withTapsCount(2)
@@ -83,7 +83,7 @@ public class TouchOptionsTests {
     }
 
     @Test
-    public void waitOptionsShouldBuildProperly() throws Exception {
+    public void waitOptionsShouldBuildProperly() {
         final Map<String, Object> actualOpts = new WaitOptions()
                 .withDuration(ofSeconds(1))
                 .build();

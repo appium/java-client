@@ -46,7 +46,7 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
     }
 
     @Override public Response execute(String command) {
-        return super.execute(command, ImmutableMap.<String, Object>of());
+        return super.execute(command, ImmutableMap.of());
     }
 
     @Override public List findElements(By by) {

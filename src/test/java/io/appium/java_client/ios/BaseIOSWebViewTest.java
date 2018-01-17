@@ -27,7 +27,7 @@ import java.io.File;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 

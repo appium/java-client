@@ -22,16 +22,16 @@ import java.util.Map;
 
 public final class CommandExecutionHelper {
 
-    public static <T extends Object> T execute(ExecutesMethod executesMethod,
+    public static <T> T execute(ExecutesMethod executesMethod,
         Map.Entry<String, Map<String, ?>> keyValuePair) {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
-    public static <T extends Object> T execute(ExecutesMethod executesMethod, String command) {
+    public static <T> T execute(ExecutesMethod executesMethod, String command) {
         return handleResponse(executesMethod.execute(command));
     }
 
-    private static <T extends Object> T handleResponse(Response response) {
+    private static <T> T handleResponse(Response response) {
         if (response != null) {
             return (T) response.getValue();
         }

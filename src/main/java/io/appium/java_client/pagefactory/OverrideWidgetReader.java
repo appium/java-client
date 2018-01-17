@@ -48,7 +48,7 @@ class OverrideWidgetReader {
         try {
             if (overrideWidget == null || (convenientClass =
                 (Class<? extends Widget>) OverrideWidget.class
-                    .getDeclaredMethod(method, new Class[] {}).invoke(overrideWidget))
+                    .getDeclaredMethod(method).invoke(overrideWidget))
                 .equals(EMPTY)) {
                 convenientClass = declaredClass;
             }

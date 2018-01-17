@@ -19,7 +19,7 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
     private static AppiumListener listener;
     private static final String WEBDRIVER_EVENT_LISTENER = "WebDriverEventListener: ";
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         EmptyWebDriver emptyWebDriver = new EmptyWebDriver();
         driver = EventFiringWebDriverFactory.getEventFiringWebDriver(emptyWebDriver);
         listener = (AppiumListener) SingleListeners.listeners.get(AppiumListener.class);
