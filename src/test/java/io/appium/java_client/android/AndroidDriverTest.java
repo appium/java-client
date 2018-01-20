@@ -62,7 +62,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
                 .getBytes());
         driver.pushFile("/data/local/tmp/remote.txt", data);
         byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
-        String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+        String returnDataDecoded = new String(returnData);
         assertEquals(
             "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
             returnDataDecoded);
@@ -75,7 +75,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
                 + "more than the deposit of your understanding. ~E. W. Dijkstra", "UTF-8", true);
             driver.pushFile("/data/local/tmp/remote2.txt", temp);
             byte[] returnData = driver.pullFile("/data/local/tmp/remote2.txt");
-            String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+            String returnDataDecoded = new String(returnData);
             assertEquals(
                 "The eventual code is no more than the deposit of "
                     + "your understanding. ~E. W. Dijkstra",
