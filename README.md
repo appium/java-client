@@ -24,6 +24,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[DEPENDENCY UPDATES]**
   - `org.seleniumhq.selenium:selenium-java` was updated to 3.8.1
 - **[BREAKING CHANGE]** Removal of deprecated listener-methods from the AlertEventListener. [#797](https://github.com/appium/java-client/pull/797)
+- **[BUG FIX]**. Fix the `pushFile` command. [#812](https://github.com/appium/java-client/pull/812) [#816](https://github.com/appium/java-client/pull/816)
 
 *6.0.0-BETA2*
 - **[ENHANCEMENT]** The `fingerPrint` ability was added. It is supported by Android for now. [#473](https://github.com/appium/java-client/pull/473) [#786](https://github.com/appium/java-client/pull/786)
