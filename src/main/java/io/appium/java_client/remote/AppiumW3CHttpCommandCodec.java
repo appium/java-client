@@ -20,27 +20,17 @@ import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 
 import java.util.Map;
 
-import static org.openqa.selenium.remote.DriverCommand.ACCEPT_ALERT;
-import static org.openqa.selenium.remote.DriverCommand.ACTIONS;
-import static org.openqa.selenium.remote.DriverCommand.CLEAR_ACTIONS_STATE;
-import static org.openqa.selenium.remote.DriverCommand.DISMISS_ALERT;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_ASYNC_SCRIPT;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
-import static org.openqa.selenium.remote.DriverCommand.GET_ACTIVE_ELEMENT;
-import static org.openqa.selenium.remote.DriverCommand.GET_ALERT_TEXT;
-import static org.openqa.selenium.remote.DriverCommand.GET_CURRENT_WINDOW_HANDLE;
-import static org.openqa.selenium.remote.DriverCommand.GET_CURRENT_WINDOW_POSITION;
-import static org.openqa.selenium.remote.DriverCommand.GET_CURRENT_WINDOW_SIZE;
 import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_ATTRIBUTE;
+import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_LOCATION;
+import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_LOCATION_ONCE_SCROLLED_INTO_VIEW;
+import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_SIZE;
 import static org.openqa.selenium.remote.DriverCommand.GET_PAGE_SOURCE;
-import static org.openqa.selenium.remote.DriverCommand.GET_WINDOW_HANDLES;
-import static org.openqa.selenium.remote.DriverCommand.MAXIMIZE_CURRENT_WINDOW;
+import static org.openqa.selenium.remote.DriverCommand.IS_ELEMENT_DISPLAYED;
 import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ACTIVE_ELEMENT;
 import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ELEMENT;
 import static org.openqa.selenium.remote.DriverCommand.SET_ALERT_VALUE;
-import static org.openqa.selenium.remote.DriverCommand.SET_CURRENT_WINDOW_POSITION;
-import static org.openqa.selenium.remote.DriverCommand.SET_CURRENT_WINDOW_SIZE;
 import static org.openqa.selenium.remote.DriverCommand.SET_TIMEOUT;
+import static org.openqa.selenium.remote.DriverCommand.SUBMIT_ELEMENT;
 
 
 public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
@@ -55,31 +45,28 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
     public AppiumW3CHttpCommandCodec() {
         defineCommand(GET_ELEMENT_ATTRIBUTE, get("/session/:sessionId/element/:id/attribute/:name"));
         defineCommand(GET_PAGE_SOURCE, get("/session/:sessionId/source"));
+    }
 
-        defineCommand(EXECUTE_SCRIPT, post("/session/:sessionId/execute/sync"));
-        defineCommand(EXECUTE_ASYNC_SCRIPT, post("/session/:sessionId/execute/async"));
-
-        defineCommand(MAXIMIZE_CURRENT_WINDOW, post("/session/:sessionId/window/maximize"));
-        defineCommand(GET_CURRENT_WINDOW_SIZE, get("/session/:sessionId/window/rect"));
-        defineCommand(SET_CURRENT_WINDOW_SIZE, post("/session/:sessionId/window/rect"));
-        alias(GET_CURRENT_WINDOW_POSITION, GET_CURRENT_WINDOW_SIZE);
-        alias(SET_CURRENT_WINDOW_POSITION, SET_CURRENT_WINDOW_SIZE);
-        defineCommand(GET_CURRENT_WINDOW_HANDLE, get("/session/:sessionId/window"));
-        defineCommand(GET_WINDOW_HANDLES, get("/session/:sessionId/window/handles"));
-
-        defineCommand(ACCEPT_ALERT, post("/session/:sessionId/alert/accept"));
-        defineCommand(DISMISS_ALERT, post("/session/:sessionId/alert/dismiss"));
-        defineCommand(GET_ALERT_TEXT, get("/session/:sessionId/alert/text"));
-        defineCommand(SET_ALERT_VALUE, post("/session/:sessionId/alert/text"));
-
-        defineCommand(GET_ACTIVE_ELEMENT, get("/session/:sessionId/element/active"));
-
-        defineCommand(ACTIONS, post("/session/:sessionId/actions"));
-        defineCommand(CLEAR_ACTIONS_STATE, delete("/session/:sessionId/actions"));
+    @Override
+    public void alias(String commandName, String isAnAliasFor) {
+        // This blocks parent constructor from undesirable aliases assigning
+        switch (commandName) {
+            case GET_ELEMENT_ATTRIBUTE:
+            case GET_ELEMENT_LOCATION:
+            case GET_ELEMENT_LOCATION_ONCE_SCROLLED_INTO_VIEW:
+            case GET_ELEMENT_SIZE:
+            case IS_ELEMENT_DISPLAYED:
+            case SUBMIT_ELEMENT:
+            case GET_PAGE_SOURCE:
+                break;
+            default:
+                super.alias(commandName, isAnAliasFor);
+        }
     }
 
     @Override
     protected Map<String, ?> amendParameters(String name, Map<String, ?> parameters) {
+        // This blocks parent constructor from undesirable parameters amending
         switch (name) {
             case SEND_KEYS_TO_ACTIVE_ELEMENT:
             case SEND_KEYS_TO_ELEMENT:
