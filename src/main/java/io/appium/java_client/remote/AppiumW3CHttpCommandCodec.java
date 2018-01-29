@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.remote;
 
 import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 

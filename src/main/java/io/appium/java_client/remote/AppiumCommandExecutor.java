@@ -23,7 +23,6 @@ import static java.util.Optional.ofNullable;
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
-import io.appium.java_client.AppiumW3CHttpCommandCodec;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.CommandCodec;
