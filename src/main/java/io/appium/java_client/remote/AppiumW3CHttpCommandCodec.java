@@ -31,6 +31,8 @@ import static org.openqa.selenium.remote.DriverCommand.GET_ALERT_TEXT;
 import static org.openqa.selenium.remote.DriverCommand.GET_CURRENT_WINDOW_HANDLE;
 import static org.openqa.selenium.remote.DriverCommand.GET_CURRENT_WINDOW_POSITION;
 import static org.openqa.selenium.remote.DriverCommand.GET_CURRENT_WINDOW_SIZE;
+import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_ATTRIBUTE;
+import static org.openqa.selenium.remote.DriverCommand.GET_PAGE_SOURCE;
 import static org.openqa.selenium.remote.DriverCommand.GET_WINDOW_HANDLES;
 import static org.openqa.selenium.remote.DriverCommand.MAXIMIZE_CURRENT_WINDOW;
 import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ACTIVE_ELEMENT;
@@ -47,8 +49,13 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
      * This class overrides the built-in Selenium W3C commands codec,
      * since the latter hardcodes many commands in Javascript,
      * which does not work with Appium.
+     * Check https://www.w3.org/TR/webdriver/ to see all available W3C
+     * endpoints.
      */
     public AppiumW3CHttpCommandCodec() {
+        defineCommand(GET_ELEMENT_ATTRIBUTE, get("/session/:sessionId/element/:id/attribute/:name"));
+        defineCommand(GET_PAGE_SOURCE, get("/session/:sessionId/source"));
+
         defineCommand(EXECUTE_SCRIPT, post("/session/:sessionId/execute/sync"));
         defineCommand(EXECUTE_ASYNC_SCRIPT, post("/session/:sessionId/execute/async"));
 
