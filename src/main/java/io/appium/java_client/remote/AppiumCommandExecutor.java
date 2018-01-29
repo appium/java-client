@@ -151,9 +151,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         if (DriverCommand.NEW_SESSION.equals(command.getName())
                 && getCommandCodec() instanceof W3CHttpCommandCodec) {
             setCommandCodec(new AppiumW3CHttpCommandCodec());
-            for (Map.Entry<String, CommandInfo> entry : getAdditionalCommands().entrySet()) {
-                defineCommand(entry.getKey(), entry.getValue());
-            }
+            getAdditionalCommands().forEach(this::defineCommand);
         }
 
         return response;
