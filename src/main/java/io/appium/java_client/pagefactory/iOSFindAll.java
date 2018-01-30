@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 
 /**
  * Used to mark a field on a Page/Screen Object to indicate that lookup should use a series
- * of {@link io.appium.java_client.pagefactory.iOSBy} tags
+ * of {@link io.appium.java_client.pagefactory.iOSBy} tags.
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  */
@@ -34,13 +34,16 @@ import java.lang.annotation.Target;
 @Repeatable(iOSFindByAllSet.class)
 public @interface iOSFindAll {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSBy} strategies which may be
-     * used to find the target element.
+     * It is a set of {@link iOSBy} strategies which may be used to find the target element.
+     *
+     * @return a collection of strategies which may be used to find the target element
      */
     iOSBy[] value();
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

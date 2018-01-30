@@ -94,6 +94,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     /**
+     * The input value to pass to the evaluated conditions.
+     *
      * @param input The input value to pass to the evaluated conditions.
      */
     public AppiumFluentWait(T input) {
@@ -101,6 +103,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     /**
+     * Creates wait object based on {@code input} value, {@code clock} and {@code sleeper}.
+     *
      * @param input   The input value to pass to the evaluated conditions.
      * @param clock   The clock to use when measuring the timeout.
      * @param sleeper Used to put the thread to sleep between evaluation loops.
@@ -211,10 +215,9 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      * <ol>
      * <li>the function returns neither null nor false,</li>
      * <li>the function throws an unignored exception,</li>
-     * <li>the timeout expires,
-     * <li>
+     * <li>the timeout expires,</li>
      * <li>the current thread is interrupted</li>
-     * </ol>
+     * </ol>.
      *
      * @param isTrue the parameter to pass to the expected condition
      * @param <V>    The function's expected return type.

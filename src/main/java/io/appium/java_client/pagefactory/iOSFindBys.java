@@ -32,13 +32,16 @@ import java.lang.annotation.Target;
 @Repeatable(iOSFindByChainSet.class)
 public @interface iOSFindBys {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSBy} strategies which build
-     * the chain of the searching for the target element.
+     * It is a set of {@link iOSBy} strategies which build the chain of the searching for the target element.
+     *
+     * @return a collection of strategies which build the chain of the searching for the target element
      */
     iOSBy[] value();
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

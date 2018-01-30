@@ -16,26 +16,29 @@
 
 package io.appium.java_client.pagefactory;
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
 /**
- *This annotation is used when some element waits for time
- *that differs from defined by default
+ * This annotation is used when some element waits for time
+ * that differs from defined by default.
  */
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
 public @interface WithTimeout {
     /**
-     * Desired waiting duration
+     * Desired waiting duration.
+     *
+     * @return waiting duration
      */
     long time();
 
     /**
-     * Desired time unit
+     * Desired time unit.
+     *
+     * @return time unit
      */
     TimeUnit unit();
 }

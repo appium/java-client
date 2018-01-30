@@ -29,7 +29,7 @@ public class AbilityToDefineListenersExternally extends BaseListenerTest {
     private static RotationListener2 rotationListener = new RotationListener2();
     private static WindowListener2 windowListener = new WindowListener2();
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         emptyWebDriver = new EmptyWebDriver();
         emptyWebDriver = EventFiringWebDriverFactory.getEventFiringWebDriver(emptyWebDriver,
             searchingListener, navigationListener, elementListener, javaScriptListener,

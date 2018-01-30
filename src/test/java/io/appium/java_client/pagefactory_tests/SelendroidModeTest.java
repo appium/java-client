@@ -95,7 +95,7 @@ public class SelendroidModeTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         AppiumServiceBuilder builder = new AppiumServiceBuilder();
         service = builder.build();
         service.start();
@@ -114,7 +114,7 @@ public class SelendroidModeTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() throws Exception {
+    @AfterClass public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }
@@ -127,7 +127,7 @@ public class SelendroidModeTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
             PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);

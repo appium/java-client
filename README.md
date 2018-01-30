@@ -1,7 +1,7 @@
 # java-client
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
-[![Javadoc](https://javadoc-emblem.rhcloud.com/doc/io.appium/java-client/badge.svg)](http://www.javadoc.io/doc/io.appium/java-client)
+[![Javadoc](https://www.javadoc.io/badge/io.appium/java-client.svg)](http://www.javadoc.io/doc/io.appium/java-client)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
 [![Build Status](https://travis-ci.org/appium/java-client.svg?branch=master)](https://travis-ci.org/appium/java-client)
 
@@ -24,6 +24,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[DEPENDENCY UPDATES]**
   - `org.seleniumhq.selenium:selenium-java` was updated to 3.8.1
 - **[BREAKING CHANGE]** Removal of deprecated listener-methods from the AlertEventListener. [#797](https://github.com/appium/java-client/pull/797)
+- **[BUG FIX]**. Fix the `pushFile` command. [#812](https://github.com/appium/java-client/pull/812) [#816](https://github.com/appium/java-client/pull/816)
 
 *6.0.0-BETA2*
 - **[ENHANCEMENT]** The `fingerPrint` ability was added. It is supported by Android for now. [#473](https://github.com/appium/java-client/pull/473) [#786](https://github.com/appium/java-client/pull/786)

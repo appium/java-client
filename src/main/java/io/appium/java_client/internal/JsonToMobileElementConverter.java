@@ -41,9 +41,10 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
     private final String platform;
     private final String automation;
 
-
     /**
-     * @param driver an instance of {@link org.openqa.selenium.remote.RemoteWebDriver} subclass
+     * Creates a new instance based on {@code driver} and object with session details.
+     *
+     * @param driver an instance of {@link RemoteWebDriver} subclass
      * @param hasSessionDetails object that has session details
      */
     public JsonToMobileElementConverter(RemoteWebDriver driver, HasSessionDetails hasSessionDetails) {

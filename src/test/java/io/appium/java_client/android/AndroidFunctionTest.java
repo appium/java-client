@@ -64,7 +64,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
-    @BeforeClass public static void startWebViewActivity() throws Exception  {
+    @BeforeClass public static void startWebViewActivity() {
         if (driver != null) {
             Activity activity = new Activity("io.appium.android.apis", ".view.WebView1");
             driver.startActivity(activity);

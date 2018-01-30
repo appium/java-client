@@ -50,7 +50,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertFalse(driver.isAppInstalled("foo"));
     }
 
-    @Test public void closeAppTest() throws InterruptedException {
+    @Test public void closeAppTest() {
         driver.closeApp();
         driver.launchApp();
         assertEquals(".ApiDemos", driver.currentActivity());
@@ -62,7 +62,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
                 .getBytes());
         driver.pushFile("/data/local/tmp/remote.txt", data);
         byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
-        String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+        String returnDataDecoded = new String(returnData);
         assertEquals(
             "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
             returnDataDecoded);
@@ -75,7 +75,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
                 + "more than the deposit of your understanding. ~E. W. Dijkstra", "UTF-8", true);
             driver.pushFile("/data/local/tmp/remote2.txt", temp);
             byte[] returnData = driver.pullFile("/data/local/tmp/remote2.txt");
-            String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+            String returnDataDecoded = new String(returnData);
             assertEquals(
                 "The eventual code is no more than the deposit of "
                     + "your understanding. ~E. W. Dijkstra",
@@ -148,7 +148,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     @Test public void getSupportedPerformanceDataTypesTest() {
         driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
 
-        List<String> dataTypes = new ArrayList<String>();
+        List<String> dataTypes = new ArrayList<>();
         dataTypes.add("cpuinfo");
         dataTypes.add("memoryinfo");
         dataTypes.add("batteryinfo");

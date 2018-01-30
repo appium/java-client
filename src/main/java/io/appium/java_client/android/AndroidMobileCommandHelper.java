@@ -35,11 +35,9 @@ import java.util.Map;
 public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * getting of the current activity.
+     * This method forms a {@link Map} of parameters for the getting of the current activity.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> currentActivityCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -47,11 +45,9 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * getting of the current package.
+     * This method forms a {@link Map} of parameters for the getting of the current package.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -59,13 +55,11 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * ending of the test coverage.
+     * This method forms a {@link Map} of parameters for the ending of the test coverage.
      *
      * @param intent intent to broadcast.
      * @param path   path to .ec file.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> endTestCoverageCommand(String intent,
         String path) {
@@ -125,11 +119,11 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters to
+     * This method forms a {@link Map} of parameters to
      * Retrieve the display density of the Android device.
      *
      * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getDisplayDensityCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -137,11 +131,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * getting of a network connection value.
+     * This method forms a {@link Map} of parameters for the getting of a network connection value.
      *
      * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -149,11 +142,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters to
+     * This method forms a {@link Map} of parameters to
      * Retrieve visibility and bounds information of the status and navigation bars.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getSystemBarsCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -161,11 +153,9 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * checking of the keyboard state (is it shown or not).
+     * This method forms a {@link Map} of parameters for the checking of the keyboard state (is it shown or not).
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -176,9 +166,18 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * This method forms a {@link java.util.Map} of parameters for the
      * finger print authentication invocation.
      *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
+        return new AbstractMap.SimpleEntry<>(
+                IS_LOCKED, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the finger print authentication invocation.
+     *
      * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> fingerPrintCommand(int fingerPrintId) {
         return new AbstractMap.SimpleEntry<>(FINGER_PRINT,
@@ -186,11 +185,9 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * notification opening.
+     * This method forms a {@link Map} of parameters for the notification opening.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
         return new AbstractMap.SimpleEntry<>(
@@ -198,12 +195,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * setting of device network connection.
+     * This method forms a {@link Map} of parameters for the setting of device network connection.
      *
      * @param connection The bitmask of the desired connection
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> setConnectionCommand(Connection connection) {
         String[] parameters = new String[] {"name", "parameters"};
@@ -214,8 +209,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * activity starting.
+     * This method forms a {@link Map} of parameters for the activity starting.
      *
      * @param appPackage      The package containing the activity. [Required]
      * @param appActivity     The activity to start. [Required]
@@ -226,8 +220,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @param intentFlags  Flags that will be used to start activity [Optional]
      * @param optionalIntentArguments Additional intent arguments that will be used to
      *                                start activity [Optional]
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @param stopApp         Stop app on reset or not
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      * @throws IllegalArgumentException when any required argument is empty
      */
     public static Map.Entry<String, Map<String, ?>> startActivityCommand(String appPackage,
@@ -262,11 +256,9 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * toggling of  location services.
+     * This method forms a {@link Map} of parameters for the toggling of  location services.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
         return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.<String, Object>of());
@@ -274,12 +266,21 @@ public class AndroidMobileCommandHelper extends MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the element
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> unlockCommand() {
+        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
+    }
+
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
      * value replacement. It is used against input elements
      *
      * @param hasIdentityObject an instance which contains an element ID
      * @param value a new value
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
         HasIdentity hasIdentityObject, String value) {

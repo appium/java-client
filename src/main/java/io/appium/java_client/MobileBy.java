@@ -98,7 +98,7 @@ public abstract class MobileBy extends By {
     }
 
     /**
-     * This locator strategy is available in XCUITest Driver mode
+     * This locator strategy is available in XCUITest Driver mode.
      * @param iOSClassChainString is a valid class chain locator string.
      *                            See <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
      *                            the documentation</a> for more details
@@ -109,7 +109,7 @@ public abstract class MobileBy extends By {
     }
 
     /**
-    * This locator strategy is available in XCUITest Driver mode
+    * This locator strategy is available in XCUITest Driver mode.
     * @param iOSNsPredicateString is an an iOS NsPredicate String
     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
     */
@@ -128,6 +128,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -153,6 +155,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -189,6 +193,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -214,6 +220,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -249,6 +257,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -274,6 +284,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -308,6 +320,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -331,6 +345,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -364,6 +380,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -387,6 +405,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -420,6 +440,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -443,6 +465,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given

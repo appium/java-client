@@ -12,7 +12,7 @@ import java.io.File;
 public class AppIOSTest extends BaseIOSTest {
 
     @BeforeClass
-    public static void beforeClass() throws Exception {
+    public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 

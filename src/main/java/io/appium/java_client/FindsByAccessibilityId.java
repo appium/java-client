@@ -24,6 +24,12 @@ import java.util.List;
 
 public interface FindsByAccessibilityId<T extends WebElement> extends FindsByFluentSelector<T> {
     /**
+     * Method performs the searching for a single element by accessibility ID selector
+     * and value of the given selector.
+     *
+     * @param using an accessibility ID selector
+     * @return The first element that matches the given selector
+     *
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      * @throws NoSuchElementException when no one element is found
      */
@@ -32,6 +38,12 @@ public interface FindsByAccessibilityId<T extends WebElement> extends FindsByFlu
     }
 
     /**
+     * Method performs the searching for a list of elements by accessibility ID selector
+     * and value of the given selector.
+     *
+     * @param using an accessibility ID selector
+     * @return a list of elements that match the given selector
+     *
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     default List<T> findElementsByAccessibilityId(String using) {

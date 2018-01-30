@@ -54,6 +54,9 @@ public class ErrorCodesMobile extends ErrorCodes {
     }
 
     /**
+     * Returns the exception type that corresponds to the given {@code message}or {@code null} if
+     * there are no matching mobile exceptions.
+     *
      * @param message message An error message returned by Appium server
      * @return The exception type that corresponds to the provided error message or {@code null} if
      *     there are no matching mobile exceptions.

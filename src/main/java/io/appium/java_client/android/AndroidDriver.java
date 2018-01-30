@@ -36,6 +36,8 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 
 /**
+ * Android driver implementation.
+ *
  * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
  *           Instances of the defined type will be returned via findElement* and findElements*.
  *           Warning (!!!). Allowed types:
@@ -53,33 +55,33 @@ public class AndroidDriver<T extends WebElement>
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
     /**
-     * @param executor is an instance of {@link org.openqa.selenium.remote.HttpCommandExecutor}
+     * Creates a new instance based on command {@code executor} and {@code capabilities}.
+     *
+     * @param executor is an instance of {@link HttpCommandExecutor}
      *                 or class that extends it. Default commands or another vendor-specific
      *                 commands may be specified there.
-     * @param capabilities take a look
-     *                     at {@link org.openqa.selenium.Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, substituteMobilePlatform(capabilities, ANDROID_PLATFORM));
     }
 
     /**
-     * @param remoteAddress is the address of remotely/locally
-     *                      started Appium server
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on Appium server URL and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
-     * @param remoteAddress is the address of remotely/locally
-     *                      started Appium server
-     * @param httpClientFactory take a look
-     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
@@ -88,22 +90,21 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * @param service take a look
-     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on Appium driver local service and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
-     * @param service take a look
-     *                at {@link io.appium.java_client.service.local.AppiumDriverLocalService}
-     * @param httpClientFactory take a look
-     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on Appium driver local service, HTTP client factory and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
@@ -112,22 +113,21 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * @param builder take a look
-     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on Appium service builder and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
         super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
-     * @param builder take a look
-     *                at {@link io.appium.java_client.service.local.AppiumServiceBuilder}
-     * @param httpClientFactory take a look
-     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on Appium service builder, HTTP client factory and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
@@ -136,18 +136,19 @@ public class AndroidDriver<T extends WebElement>
     }
 
     /**
-     * @param httpClientFactory take a look
-     *                          at {@link org.openqa.selenium.remote.http.HttpClient.Factory}
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on HTTP client factory and {@code capabilities}.
+     *
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
-     * @param desiredCapabilities take a look
-     *                            at {@link org.openqa.selenium.Capabilities}
+     * Creates a new instance based on {@code capabilities}.
+     *
+     * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(Capabilities desiredCapabilities) {
         super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));

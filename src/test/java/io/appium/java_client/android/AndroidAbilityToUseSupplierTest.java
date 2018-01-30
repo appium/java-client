@@ -43,7 +43,7 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
                 .moveTo(element(driver.findElementByAccessibilityId("Auto Complete")))
                 .release();
 
-    @Test public void horizontalSwipingWithSupplier() throws Exception {
+    @Test public void horizontalSwipingWithSupplier() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");

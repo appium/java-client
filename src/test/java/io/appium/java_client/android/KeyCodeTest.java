@@ -21,7 +21,7 @@ import org.junit.Test;
 
 public class KeyCodeTest extends BaseAndroidTest {
 
-    @Before public void setup() throws Exception {
+    @Before public void setup() {
         driver.resetApp();
     }
 

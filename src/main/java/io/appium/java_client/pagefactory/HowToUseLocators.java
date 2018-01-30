@@ -24,37 +24,52 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface HowToUseLocators {
     /**
-     * @return the strategy which defines how to use locators which are described by
-     * the {@link AndroidFindBy} annotation. These annotations can define the chained searching
+     * The strategy which defines how to use locators which are described by the
+     * {@link AndroidFindBy} annotation. These annotations can define the chained searching
      * or the searching by all possible locators.
+     *
+     * @return the strategy which defines how to use locators which are described by the
+     * {@link AndroidFindBy} annotation
      */
     LocatorGroupStrategy androidAutomation() default LocatorGroupStrategy.CHAIN;
 
     /**
-     * @return the strategy which defines how to use locators which are described by
-     * the {@link SelendroidFindBy} annotation. These annotations can define the chained searching
+     * The strategy which defines how to use locators which are described by the
+     * {@link SelendroidFindBy} annotation. These annotations can define the chained searching
      * or the searching by all possible locators.
+     *
+     * @return the strategy which defines how to use locators which are described by the
+     * {@link SelendroidFindBy} annotation
      */
     LocatorGroupStrategy selendroidAutomation() default LocatorGroupStrategy.CHAIN;
 
     /**
-     * @return the strategy which defines how to use locators which are described by
-     * the {@link iOSFindBy} annotation. These annotations can define the chained searching
+     * The strategy which defines how to use locators which are described by the
+     * {@link iOSFindBy} annotation. These annotations can define the chained searching
      * or the searching by all possible locators.
+     *
+     * @return the strategy which defines how to use locators which are described by the
+     * {@link iOSFindBy} annotation
      */
     LocatorGroupStrategy iOSAutomation() default LocatorGroupStrategy.CHAIN;
 
     /**
-     * @return the strategy which defines how to use locators which are described by
-     * the {@link WindowsFindBy} annotation. These annotations can define the chained searching
+     * The strategy which defines how to use locators which are described by the
+     * {@link WindowsFindBy} annotation. These annotations can define the chained searching
      * or the searching by all possible locators.
+     *
+     * @return the strategy which defines how to use locators which are described by the
+     * {@link WindowsFindBy} annotation
      */
     LocatorGroupStrategy windowsAutomation() default LocatorGroupStrategy.CHAIN;
 
     /**
-     * @return the strategy which defines how to use locators which are described by
-     * the {@link iOSXCUITFindBy} annotation. These annotations can define the chained searching
+     * The strategy which defines how to use locators which are described by the
+     * {@link iOSXCUITFindBy} annotation. These annotations can define the chained searching
      * or the searching by all possible locators.
+     *
+     * @return the strategy which defines how to use locators which are described by the
+     * {@link iOSXCUITFindBy} annotation
      */
     LocatorGroupStrategy iOSXCUITAutomation() default LocatorGroupStrategy.CHAIN;
 }

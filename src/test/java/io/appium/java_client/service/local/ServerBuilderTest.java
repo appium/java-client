@@ -136,13 +136,13 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingNonLocalhostIP() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingNonLocalhostIP() {
         service = new AppiumServiceBuilder().withIPAddress(testIP).build();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingFlags() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingFlags() {
         service = new AppiumServiceBuilder()
             .withArgument(CALLBACK_ADDRESS, testIP)
             .withArgument(SESSION_OVERRIDE)
@@ -152,7 +152,7 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingCapabilities() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingCapabilities() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
         File chrome = getChromeDriver();
 
@@ -170,7 +170,7 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
         File chrome = getChromeDriver();
 
@@ -242,7 +242,7 @@ public class ServerBuilderTest {
         assertThat(testLogFile.length(), greaterThan(0L));
     }
 
-    @Test public void checkAbilityToStartServiceWithPortUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithPortUsingFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -254,7 +254,7 @@ public class ServerBuilderTest {
         service.start();
     }
     
-    @Test public void checkAbilityToStartServiceWithPortUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithPortUsingShortFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -266,7 +266,7 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithIpUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithIpUsingFlag() {
         String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
         service = new AppiumServiceBuilder()
@@ -277,7 +277,7 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithIpUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithIpUsingShortFlag() {
         String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
         service = new AppiumServiceBuilder()
@@ -288,7 +288,7 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() {
         testLogFile = new File("Log2.txt");
 
         service = new AppiumServiceBuilder()
@@ -298,7 +298,7 @@ public class ServerBuilderTest {
         assertTrue(testLogFile.exists());
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() {
         testLogFile = new File("Log3.txt");
         
         service = new AppiumServiceBuilder()

@@ -16,7 +16,6 @@
 
 package io.appium.java_client.service.local;
 
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;

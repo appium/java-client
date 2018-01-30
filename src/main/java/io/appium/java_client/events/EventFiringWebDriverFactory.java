@@ -26,7 +26,7 @@ import java.util.Collection;
 public class EventFiringWebDriverFactory {
 
     /**
-     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}
+     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}.
      *
      * @param driver an original instance of {@link org.openqa.selenium.WebDriver} that is
      *               supposed to be listenable
@@ -38,7 +38,7 @@ public class EventFiringWebDriverFactory {
     }
 
     /**
-     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}
+     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}.
      *
      * @param driver an original instance of {@link org.openqa.selenium.WebDriver} that is
      *               supposed to be listenable
@@ -52,7 +52,7 @@ public class EventFiringWebDriverFactory {
     }
 
     /**
-     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}
+     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}.
      *
      * @param driver an original instance of {@link org.openqa.selenium.WebDriver} that is
      *               supposed to be listenable

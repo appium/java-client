@@ -43,7 +43,9 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
     }
 
     /**
-     * @param bys is a set of {@link org.openqa.selenium.By} which forms the chain of the searching.
+     * Finds elements that matches each of the locators in sequence.
+     *
+     * @param bys is a set of {@link By} which forms the chain of the searching.
      */
     public ByChained(By[] bys) {
         super(bys);

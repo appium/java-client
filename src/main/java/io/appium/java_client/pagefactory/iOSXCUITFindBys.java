@@ -32,13 +32,16 @@ import java.lang.annotation.Target;
 @Repeatable(iOSXCUITFindByChainSet.class)
 public @interface iOSXCUITFindBys {
     /**
-     * It is a set of {@link io.appium.java_client.pagefactory.iOSXCUITBy} strategies which build
-     * the chain of the searching for the target element.
+     * It is a set of {@link iOSXCUITBy} strategies which build the chain of the searching for the target element.
+     *
+     * @return a collection of strategies which build the chain of the searching for the target element
      */
     iOSXCUITBy[] value();
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

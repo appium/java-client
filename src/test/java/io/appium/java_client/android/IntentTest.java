@@ -20,7 +20,7 @@ public class IntentTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -49,7 +49,7 @@ public class IntentTest {
     }
 
 
-    @Test public void startActivityWithIntent() throws Exception {
+    @Test public void startActivityWithIntent() {
         Predicate<AndroidDriver> predicate = driver -> {
             Activity activity = new Activity("com.android.mms",
                     ".ui.ComposeMessageActivity")

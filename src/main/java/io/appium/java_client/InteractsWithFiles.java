@@ -28,6 +28,8 @@ import javax.xml.bind.DatatypeConverter;
 public interface InteractsWithFiles extends ExecutesMethod {
 
     /**
+     * Pull a file from the simulator/device.
+     *
      * @param remotePath On Android and iOS, this is either the path to the file
      *                   (relative to the root of the app's file system). On iOS only,
      *                   if path starts with /AppName.app, which will be replaced with

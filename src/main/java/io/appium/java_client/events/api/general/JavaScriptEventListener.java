@@ -22,8 +22,7 @@ import org.openqa.selenium.WebDriver;
 public interface JavaScriptEventListener extends Listener {
     /**
      * Called before
-     * {@link org.openqa.selenium.JavascriptExecutor#executeScript(java.lang.String,
-     * java.lang.Object[]) }
+     * {@link org.openqa.selenium.JavascriptExecutor#executeScript(String, Object[]) }.
      *
      * @param driver WebDriver
      * @param script the script to be executed
@@ -32,8 +31,7 @@ public interface JavaScriptEventListener extends Listener {
 
     /**
      * Called after
-     * {@link org.openqa.selenium.remote.RemoteWebDriver#executeScript(java.lang.String,
-     * java.lang.Object[]) }.
+     * {@link org.openqa.selenium.remote.RemoteWebDriver#executeScript(String, Object[]) }.
      * Not called if an exception is thrown
      *
      * @param driver WebDriver

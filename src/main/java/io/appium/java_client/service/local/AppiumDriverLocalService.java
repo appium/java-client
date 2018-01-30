@@ -77,6 +77,8 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
+     * Base URL.
+     *
      * @return The base URL for the managed appium server.
      */
     @Override public URL getUrl() {
@@ -114,7 +116,7 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
-     * Starts the defined appium server
+     * Starts the defined appium server.
      *
      * @throws AppiumServerHasNotBeenStartedLocallyException
      * If an error occurs while spawning the child process.
@@ -178,6 +180,8 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
+     * Logs as string.
+     *
      * @return String logs if the server has been run.
      *     null is returned otherwise.
      */
@@ -190,8 +194,8 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
-     * Adds other output stream which should accept server output data
-     * @param outputStream is an instance of {@link java.io.OutputStream}
+     * Adds other output stream which should accept server output data.
+     * @param outputStream is an instance of {@link OutputStream}
      *                     that is ready to accept server output
      */
     public void addOutPutStream(OutputStream outputStream) {
@@ -200,8 +204,8 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
-     * Adds other output streams which should accept server output data
-     * @param outputStreams is a list of additional {@link java.io.OutputStream}
+     * Adds other output streams which should accept server output data.
+     * @param outputStreams is a list of additional {@link OutputStream}
      *                      that are ready to accept server output
      */
     public void addOutPutStreams(List<OutputStream> outputStreams) {

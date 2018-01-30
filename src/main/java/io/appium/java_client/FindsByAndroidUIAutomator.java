@@ -25,6 +25,12 @@ import java.util.List;
 public interface FindsByAndroidUIAutomator<T extends WebElement> extends FindsByFluentSelector<T> {
 
     /**
+     * Method performs the searching for a single element by Android UIAutomator selector
+     * and value of the given selector.
+     *
+     * @param using an Android UIAutomator selector
+     * @return The first element that matches the given selector
+     *
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      * @throws NoSuchElementException when no one element is found
      */
@@ -33,6 +39,12 @@ public interface FindsByAndroidUIAutomator<T extends WebElement> extends FindsBy
     }
 
     /**
+     * Method performs the searching for a list of elements by Android UIAutomator selector
+     * and value of the given selector.
+     *
+     * @param using an Android UIAutomator selector
+     * @return a list of elements that match the given selector
+     *
      * @throws WebDriverException This method is not applicable with browser/webview UI.
      */
     default List<T> findElementsByAndroidUIAutomator(String using) {

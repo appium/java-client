@@ -3,7 +3,6 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertNotEquals;
 import static org.openqa.selenium.By.id;
 
-
 import org.junit.Test;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class OpenNotificationsTest extends BaseAndroidTest {
     @Test
-    public void openNotification() throws Exception {
+    public void openNotification() {
         driver.closeApp();
         driver.openNotifications();
         WebDriverWait wait = new WebDriverWait(driver, 20);

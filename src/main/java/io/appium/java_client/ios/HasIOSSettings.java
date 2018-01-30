@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-
 import io.appium.java_client.HasSettings;
 import io.appium.java_client.Setting;
 

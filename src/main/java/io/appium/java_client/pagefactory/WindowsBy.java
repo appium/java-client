@@ -22,37 +22,51 @@ package io.appium.java_client.pagefactory;
 public @interface WindowsBy {
 
     /**
-     * It is an is Windows automator string.
+     * It is a Windows automator string.
+     *
+     * @return a Windows automator string
      */
     String windowsAutomation()  default "";
 
     /**
      * It an UI automation accessibility Id which is a convenient to Windows.
+     *
+     * @return an UI automation accessibility Id
      */
     String accessibility() default "";
 
     /**
      * It is an id of the target element.
+     *
+     * @return an id of the target element
      */
     String id() default "";
 
     /**
      * It is a className of the target element.
+     *
+     * @return a className of the target element
      */
     String className() default "";
 
     /**
      * It is a desired element tag.
+     *
+     * @return a desired element tag
      */
     String tagName() default "";
 
     /**
      * It is a xpath to the target element.
+     *
+     * @return a xpath to the target element
      */
     String xpath() default "";
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

@@ -37,41 +37,57 @@ import java.lang.annotation.Target;
 public @interface SelendroidFindBy {
     /**
      * It is an id of the target element.
+     *
+     * @return an id of the target element
      */
     String id() default "";
 
     /**
      * It is used in Selendroid mode instead of accessibility id.
+     *
+     * @return name
      */
     String name() default "";
 
     /**
      * It is a className of the target element.
+     *
+     * @return a className of the target element
      */
     String className() default "";
 
     /**
      * It is a desired element tag.
+     *
+     * @return a desired element tag
      */
     String tagName() default "";
 
     /**
      * It is a xpath to the target element.
+     *
+     * @return a xpath to the target element
      */
     String xpath() default "";
 
     /**
      * It is a text of the desired element.
+     *
+     * @return a text of the desired element
      */
     String linkText() default "";
 
     /**
      * It is a part of the text of the desired element.
+     *
+     * @return a part of the text of the desired element
      */
     String partialLinkText() default "";
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }
