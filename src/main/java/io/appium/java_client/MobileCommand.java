@@ -18,6 +18,8 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
@@ -53,6 +55,8 @@ public class MobileCommand {
     protected static final String GET_PERFORMANCE_DATA;
     protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
 
+    public static final String START_RECORDING_SCREEN;
+    public static final String STOP_RECORDING_SCREEN;
 
     protected static final String HIDE_KEYBOARD;
     protected static final String LOCK;
@@ -82,7 +86,7 @@ public class MobileCommand {
     protected static final String SET_SETTINGS;
     protected static final String GET_CURRENT_PACKAGE;
 
-    public static final  Map<String, CommandInfo> commandRepository;
+    public static final Map<String, CommandInfo> commandRepository;
 
     static {
         RESET = "reset";
@@ -103,6 +107,9 @@ public class MobileCommand {
 
         GET_PERFORMANCE_DATA = "getPerformanceData";
         GET_SUPPORTED_PERFORMANCE_DATA_TYPES = "getSuppportedPerformanceDataTypes";
+
+        START_RECORDING_SCREEN = "startRecordingScreen";
+        STOP_RECORDING_SCREEN = "stopRecordingScreen";
 
         HIDE_KEYBOARD = "hideKeyboard";
         LOCK = "lock";
@@ -150,12 +157,15 @@ public class MobileCommand {
         commandRepository.put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"));
         commandRepository.put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"));
         commandRepository.put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"));
-        commandRepository.put(GET_SESSION,getC("/session/:sessionId/"));
+        commandRepository.put(GET_SESSION, getC("/session/:sessionId/"));
         commandRepository.put(GET_SUPPORTED_PERFORMANCE_DATA_TYPES,
-            postC("/session/:sessionId/appium/performanceData/types"));
+                postC("/session/:sessionId/appium/performanceData/types"));
         commandRepository.put(GET_PERFORMANCE_DATA,
-            postC("/session/:sessionId/appium/getPerformanceData"));
-
+                postC("/session/:sessionId/appium/getPerformanceData"));
+        commandRepository.put(START_RECORDING_SCREEN,
+                postC("/session/:sessionId/appium/start_recording_screen"));
+        commandRepository.put(STOP_RECORDING_SCREEN,
+                postC("/session/:sessionId/appium/stop_recording_screen"));
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
         commandRepository.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
@@ -163,31 +173,31 @@ public class MobileCommand {
                 postC("/session/:sessionId/appium/simulator/toggle_touch_id_enrollment"));
         //Android
         commandRepository.put(CURRENT_ACTIVITY,
-                        getC("/session/:sessionId/appium/device/current_activity"));
+                getC("/session/:sessionId/appium/device/current_activity"));
         commandRepository.put(END_TEST_COVERAGE,
-                        postC("/session/:sessionId/appium/app/end_test_coverage"));
+                postC("/session/:sessionId/appium/app/end_test_coverage"));
         commandRepository.put(GET_DISPLAY_DENSITY, getC("/session/:sessionId/appium/device/display_density"));
         commandRepository.put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"));
         commandRepository.put(GET_SYSTEM_BARS, getC("/session/:sessionId/appium/device/system_bars"));
         commandRepository.put(IS_KEYBOARD_SHOWN, getC("/session/:sessionId/appium/device/is_keyboard_shown"));
         commandRepository.put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
         commandRepository.put(LONG_PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/long_press_keycode"));
+                postC("/session/:sessionId/appium/device/long_press_keycode"));
         commandRepository.put(FINGER_PRINT, postC("/session/:sessionId/appium/device/finger_print"));
         commandRepository.put(OPEN_NOTIFICATIONS,
-                        postC("/session/:sessionId/appium/device/open_notifications"));
+                postC("/session/:sessionId/appium/device/open_notifications"));
         commandRepository.put(PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/press_keycode"));
+                postC("/session/:sessionId/appium/device/press_keycode"));
         commandRepository.put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"));
         commandRepository.put(SET_NETWORK_CONNECTION,
-                        postC("/session/:sessionId/network_connection"));
+                postC("/session/:sessionId/network_connection"));
         commandRepository.put(START_ACTIVITY,
-                        postC("/session/:sessionId/appium/device/start_activity"));
+                postC("/session/:sessionId/appium/device/start_activity"));
         commandRepository.put(TOGGLE_LOCATION_SERVICES,
-                        postC("/session/:sessionId/appium/device/toggle_location_services"));
+                postC("/session/:sessionId/appium/device/toggle_location_services"));
         commandRepository.put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
-        commandRepository. put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
-        commandRepository.put(GET_CURRENT_PACKAGE,getC("/session/:sessionId/appium/device/current_package"));
+        commandRepository.put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
+        commandRepository.put(GET_CURRENT_PACKAGE, getC("/session/:sessionId/appium/device/current_package"));
     }
 
     /**
@@ -246,8 +256,8 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
                                                                         String keyName) {
-        String[] parameters = new String[] {"strategy", "key"};
-        Object[] values = new Object[] {strategy, keyName};
+        String[] parameters = new String[]{"strategy", "key"};
+        Object[] values = new Object[]{strategy, keyName};
         return new AbstractMap.SimpleEntry<>(
                 HIDE_KEYBOARD, prepareArguments(parameters, values));
     }
@@ -260,7 +270,7 @@ public class MobileCommand {
      * @return built {@link ImmutableMap}.
      */
     public static ImmutableMap<String, Object> prepareArguments(String param,
-                                                                   Object value) {
+                                                                Object value) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.put(param, value);
         return builder.build();
@@ -274,7 +284,7 @@ public class MobileCommand {
      * @return built {@link ImmutableMap}.
      */
     public static ImmutableMap<String, Object> prepareArguments(String[] params,
-                                                                   Object[] values) {
+                                                                Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
             if (!StringUtils.isBlank(params[i]) && (values[i] != null)) {
@@ -308,8 +318,8 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
                                                                         Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
+        String[] parameters = new String[]{"keycode", "metastate"};
+        Object[] values = new Object[]{key, metastate};
         return new AbstractMap.SimpleEntry<>(
                 PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
@@ -338,8 +348,8 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
                                                                             Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
+        String[] parameters = new String[]{"keycode", "metastate"};
+        Object[] values = new Object[]{key, metastate};
         return new AbstractMap.SimpleEntry<>(
                 LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
@@ -349,7 +359,7 @@ public class MobileCommand {
      * device locking.
      *
      * @param duration for how long to lock the screen for. Minimum time resolution is one second
-     * @return  a key-value pair. The key is the command name. The value is a
+     * @return a key-value pair. The key is the command name. The value is a
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(Duration duration) {
@@ -401,5 +411,15 @@ public class MobileCommand {
         String[] parameters = new String[] {"path", "data"};
         Object[] values = new Object[]{remotePath, new String(base64Data, StandardCharsets.UTF_8)};
         return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
+    }
+
+    public static Map.Entry<String, Map<String, ?>> startRecordingScreenCommand(BaseStartScreenRecordingOptions opts) {
+        return new AbstractMap.SimpleEntry<>(START_RECORDING_SCREEN,
+                prepareArguments("options", opts.build()));
+    }
+
+    public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand(BaseStopScreenRecordingOptions opts) {
+        return new AbstractMap.SimpleEntry<>(STOP_RECORDING_SCREEN,
+                prepareArguments("options", opts.build()));
     }
 }
