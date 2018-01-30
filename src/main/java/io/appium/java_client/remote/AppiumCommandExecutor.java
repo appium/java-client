@@ -25,15 +25,19 @@ import com.google.common.base.Throwables;
 
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
+import org.openqa.selenium.remote.CommandCodec;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpRequest;
+import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.internal.ApacheHttpClient;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
@@ -74,7 +78,42 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, service, new ApacheHttpClient.Factory());
     }
 
-    @Override public Response execute(Command command) throws WebDriverException {
+    private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
+        try {
+            final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
+            f.setAccessible(true);
+            return fieldType.cast(f.get(this));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new WebDriverException(e);
+        }
+    }
+
+    private void setPrivateFieldValue(String fieldName, Object newValue) {
+        try {
+            final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
+            f.setAccessible(true);
+            f.set(this, newValue);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new WebDriverException(e);
+        }
+    }
+
+    private Map<String, CommandInfo> getAdditionalCommands() {
+        //noinspection unchecked
+        return getPrivateFieldValue("additionalCommands", Map.class);
+    }
+
+    private CommandCodec<HttpRequest> getCommandCodec() {
+        //noinspection unchecked
+        return getPrivateFieldValue("commandCodec", CommandCodec.class);
+    }
+
+    private void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+        setPrivateFieldValue("commandCodec", newCodec);
+    }
+
+    @Override
+    public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
             serviceOptional.ifPresent(driverService -> {
                 try {
@@ -85,8 +124,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             });
         }
 
+        Response response;
         try {
-            return super.execute(command);
+            response = super.execute(command);
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
@@ -107,5 +147,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 serviceOptional.ifPresent(DriverService::stop);
             }
         }
+
+        if (DriverCommand.NEW_SESSION.equals(command.getName())
+                && getCommandCodec() instanceof W3CHttpCommandCodec) {
+            setCommandCodec(new AppiumW3CHttpCommandCodec());
+            getAdditionalCommands().forEach(this::defineCommand);
+        }
+
+        return response;
     }
 }
