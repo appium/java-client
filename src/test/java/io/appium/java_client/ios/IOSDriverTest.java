@@ -17,6 +17,7 @@
 package io.appium.java_client.ios;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.MobileElement;
@@ -26,9 +27,6 @@ import org.junit.Test;
 
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
-
-import java.time.Duration;
-import java.util.function.Supplier;
 
 public class IOSDriverTest extends AppIOSTest {
 
@@ -62,11 +60,13 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void lockTest() {
-        Supplier<Boolean> lock = () -> {
-            driver.lockDevice(Duration.ofSeconds(20));
-            return true;
-        };
-        assertTrue(lock.get());
+        try {
+            driver.lockDevice();
+            assertTrue(driver.isDeviceLocked());
+        } finally {
+            driver.unlockDevice();
+            assertFalse(driver.isDeviceLocked());
+        }
     }
 
     @Test public void pullFileTest() {

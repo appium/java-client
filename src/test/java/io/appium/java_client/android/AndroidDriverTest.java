@@ -102,10 +102,13 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void lockTest() {
-        driver.lockDevice();
-        assertEquals(true, driver.isLocked());
-        driver.unlockDevice();
-        assertEquals(false, driver.isLocked());
+        try {
+            driver.lockDevice();
+            assertTrue(driver.isDeviceLocked());
+        } finally {
+            driver.unlockDevice();
+            assertFalse(driver.isDeviceLocked());
+        }
     }
 
     @Test public void runAppInBackgroundTest() {
