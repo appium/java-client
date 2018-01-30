@@ -58,9 +58,10 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
             case IS_ELEMENT_DISPLAYED:
             case SUBMIT_ELEMENT:
             case GET_PAGE_SOURCE:
-                break;
+                return;
             default:
                 super.alias(commandName, isAnAliasFor);
+                break;
         }
     }
 
