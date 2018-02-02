@@ -25,5 +25,5 @@ public abstract class BaseOptions<T extends BaseOptions<T>> {
      *
      * @return options mapping.
      */
-    abstract public Map<String, Object> build();
+    public abstract Map<String, Object> build();
 }

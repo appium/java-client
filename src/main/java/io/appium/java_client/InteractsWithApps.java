@@ -107,6 +107,7 @@ public interface InteractsWithApps extends ExecutesMethod {
      * Remove the specified app from the device (uninstall).
      *
      * @param bundleId the bundle identifier (or app id) of the app to remove.
+     * @return true if the uninstall was successful.
      */
     default boolean removeApp(String bundleId) {
         return removeApp(bundleId, null);
