@@ -11,6 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 
 public class AppXCUITTest extends BaseIOSTest {
+    public static final String BUNDLE_ID = "io.appium.TestApp";
 
     /**
      * initialization.

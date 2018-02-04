@@ -28,6 +28,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 
 public class BaseAndroidTest {
+    public static final String APP_ID = "io.appium.android.apis";
     private static AppiumDriverLocalService service;
     protected static AndroidDriver<AndroidElement> driver;
 

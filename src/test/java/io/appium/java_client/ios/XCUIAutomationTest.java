@@ -18,13 +18,17 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.touch.offset.ElementOption.element;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import io.appium.java_client.appmanagement.ApplicationState;
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.DeviceRotation;
@@ -60,6 +64,26 @@ public class XCUIAutomationTest extends AppXCUITTest {
         final long msStarted = System.currentTimeMillis();
         driver.runAppInBackground(Duration.ofSeconds(4));
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
+    }
+
+    @Test public void testApplicationsManagement() throws InterruptedException {
+        // This only works since Xcode9
+        try {
+            if (Double.parseDouble(
+                    (String) driver.getCapabilities()
+                            .getCapability(MobileCapabilityType.PLATFORM_VERSION)) < 11) {
+                return;
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            return;
+        }
+        assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.runAppInBackground(Duration.ofSeconds(-1));
+        assertThat(driver.queryAppState(BUNDLE_ID), lessThan(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.activateApp(BUNDLE_ID);
+        assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
     }
 
     @Test public void testPutIntoBackgroundWithoutRestore() {

@@ -16,12 +16,16 @@
 
 package io.appium.java_client.android;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -118,6 +122,17 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assert (timeAfter - time > 3000);
     }
 
+    @Test public void testApplicationsManagement() throws InterruptedException {
+        String appId = driver.getCurrentPackage();
+        assertThat(driver.queryAppState(appId), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.runAppInBackground(Duration.ofSeconds(-1));
+        assertThat(driver.queryAppState(appId), lessThan(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.activateApp(appId);
+        assertThat(driver.queryAppState(appId), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+    }
+
     @Test public void pullFileTest() {
         byte[] data =
             driver.pullFile("data/system/registered_services/android.content.SyncAdapter.xml");
@@ -149,7 +164,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getSupportedPerformanceDataTypesTest() {
-        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
+        driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> dataTypes = new ArrayList<>();
         dataTypes.add("cpuinfo");
@@ -169,7 +184,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getPerformanceDataTest() throws Exception {
-        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
+        driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
 
@@ -185,7 +200,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getCurrentPackageTest() {
-        assertEquals("io.appium.android.apis",driver.getCurrentPackage());
+        assertEquals(APP_ID, driver.getCurrentPackage());
     }
 
 }
