@@ -357,6 +357,28 @@ public class MobileCommand {
                 LOCK, prepareArguments("seconds", duration.getSeconds()));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device unlocking.
+     *
+     * @return  a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
+        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device locked query.
+     *
+     * @return  a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
+        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.<String, Object>of());
+    }
+
     public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
         return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
     }

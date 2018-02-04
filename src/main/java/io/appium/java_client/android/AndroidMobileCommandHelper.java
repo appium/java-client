@@ -163,7 +163,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link Map} of parameters for the checking of the device state (is it locked or not).
+     * This method forms a {@link java.util.Map} of parameters for the
+     * finger print authentication invocation.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
@@ -264,7 +265,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link Map} of parameters for the device unlocking.
+     * This method forms a {@link java.util.Map} of parameters for the element
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
