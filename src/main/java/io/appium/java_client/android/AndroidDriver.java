@@ -26,6 +26,7 @@ import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PressesKeyCode;
 import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
@@ -50,7 +51,7 @@ public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
         FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
-            HasSupportedPerformanceDataType, AuthenticatesByFinger {
+        HasSupportedPerformanceDataType, AuthenticatesByFinger, CanRecordScreen {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
