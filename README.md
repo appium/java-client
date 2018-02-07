@@ -27,6 +27,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[BUG FIX]**. Fix the `pushFile` command. [#812](https://github.com/appium/java-client/pull/812) [#816](https://github.com/appium/java-client/pull/816)
 - **[ENHANCEMENT]**. Implemented custom command codec. [#817](https://github.com/appium/java-client/pull/817), [#825](https://github.com/appium/java-client/pull/825)
 - **[ENHANCEMENT]** Added handlers for lock/unlock in iOS. [#799](https://github.com/appium/java-client/pull/799)
+- **[ENHANCEMENT]** AddEd endpoints for screen recording API for iOS and Android. [#814](https://github.com/appium/java-client/pull/814)
 
 *6.0.0-BETA2*
 - **[ENHANCEMENT]** The `fingerPrint` ability was added. It is supported by Android for now. [#473](https://github.com/appium/java-client/pull/473) [#786](https://github.com/appium/java-client/pull/786)
