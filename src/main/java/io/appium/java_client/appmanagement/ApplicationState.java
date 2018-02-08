@@ -19,14 +19,8 @@ package io.appium.java_client.appmanagement;
 import java.util.Arrays;
 
 public enum ApplicationState {
-    NOT_INSTALLED(0), NOT_RUNNING(1), RUNNING_IN_BACKGROUND_SUSPENDED(2),
-    RUNNING_IN_BACKGROUND(3), RUNNING_IN_FOREGROUND(4);
-
-    private int code;
-
-    ApplicationState(int code) {
-        this.code = code;
-    }
+    NOT_INSTALLED, NOT_RUNNING, RUNNING_IN_BACKGROUND_SUSPENDED,
+    RUNNING_IN_BACKGROUND, RUNNING_IN_FOREGROUND;
 
     /**
      * Creates {@link ApplicationState} instance based on the code.
@@ -36,7 +30,7 @@ public enum ApplicationState {
      */
     public static ApplicationState ofCode(int code) {
         return Arrays.stream(ApplicationState.values())
-                .filter(x -> code == x.code)
+                .filter(x -> code == x.ordinal())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("Application state %s is unknown", code))

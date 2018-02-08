@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.appmanagement;
+package io.appium.java_client.android.appmanagement;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 
 import java.time.Duration;
 import java.util.Map;
@@ -25,20 +26,43 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.ofNullable;
 
-public class AndroidTerminateApplicationOptions extends
-        BaseTerminateApplicationOptions<AndroidTerminateApplicationOptions> {
+public class AndroidRemoveApplicationOptions extends
+        BaseRemoveApplicationOptions<AndroidRemoveApplicationOptions> {
     private Duration timeout;
+    private Boolean keepData;
 
     /**
-     * The time to wait until the app is terminated (500ms by default).
+     * The time to wait until the app is removed (20000ms by default).
      *
      * @param timeout the actual timeout value. The minimum time resolution
      *                unit is one millisecond.
      * @return self instance for chaining.
      */
-    public AndroidTerminateApplicationOptions withTimeout(Duration timeout) {
-        checkArgument(!checkNotNull(timeout).isNegative(), "The timeout value cannot be negative");
+    public AndroidRemoveApplicationOptions withTimeout(Duration timeout) {
+        checkArgument(!checkNotNull(timeout).isNegative(),
+                "The timeout value cannot be negative");
         this.timeout = timeout;
+        return this;
+    }
+
+    /**
+     * Forces uninstall to keep the application data and caches.
+     *
+     * @return self instance for chaining.
+     */
+    public AndroidRemoveApplicationOptions withKeepDataEnabled() {
+        this.keepData = true;
+        return this;
+    }
+
+    /**
+     * Forces uninstall to delete the application data and caches
+     * (the default behavior).
+     *
+     * @return self instance for chaining.
+     */
+    public AndroidRemoveApplicationOptions withKeepDataDisabled() {
+        this.keepData = false;
         return this;
     }
 
@@ -47,6 +71,7 @@ public class AndroidTerminateApplicationOptions extends
     public Map<String, Object> build() {
         final ImmutableMap.Builder builder = new ImmutableMap.Builder<String, Object>();
         ofNullable(timeout).map(x -> builder.put("timeout", x.toMillis()));
+        ofNullable(keepData).map(x -> builder.put("keepData", x));
         return builder.build();
     }
 }

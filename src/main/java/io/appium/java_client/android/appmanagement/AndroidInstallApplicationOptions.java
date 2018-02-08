@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.appmanagement;
+package io.appium.java_client.android.appmanagement;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 
 import java.time.Duration;
 import java.util.Map;
