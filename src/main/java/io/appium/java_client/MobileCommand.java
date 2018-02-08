@@ -182,7 +182,7 @@ public class MobileCommand {
         commandRepository.put(ACTIVATE_APP, postC("/session/:sessionId/appium/device/activate_app"));
         commandRepository.put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
         commandRepository.put(TERMINATE_APP, postC("/session/:sessionId/appium/device/terminate_app"));
-        commandRepository.put(QUERY_APP_STATE, getC("/session/:sessionId/appium/device/app_state"));
+        commandRepository.put(QUERY_APP_STATE, postC("/session/:sessionId/appium/device/app_state"));
         //endregion
 
         //iOS
