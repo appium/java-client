@@ -28,7 +28,7 @@ public enum ApplicationState {
      * @param code the code received from state querying endpoint.
      * @return {@link ApplicationState} instance.
      */
-    public static ApplicationState ofCode(int code) {
+    public static ApplicationState ofCode(long code) {
         return Arrays.stream(ApplicationState.values())
                 .filter(x -> code == x.ordinal())
                 .findFirst()
