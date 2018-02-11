@@ -79,6 +79,12 @@ public class NewSessionPayload implements Closeable {
             .addAll(getAppiumCapabilities(AndroidMobileCapabilityType.class))
             .addAll(getAppiumCapabilities(IOSMobileCapabilityType.class))
             .addAll(getAppiumCapabilities(YouiEngineCapabilityType.class)).build();
+    private static final String APPIUM_PREFIX = "appium:";
+    private static final String DESIRED_CAPABILITIES = "desiredCapabilities";
+    private static final String CAPABILITIES = "capabilities";
+    private static final String REQUIRED_CAPABILITIES = "requiredCapabilities";
+    private static final String FIRST_MATCH = "firstMatch";
+    private static final String ALWAYS_MATCH = "alwaysMatch";
 
     private final Set<CapabilitiesFilter> adapters;
     private final Set<CapabilityTransform> transforms;
@@ -124,7 +130,7 @@ public class NewSessionPayload implements Closeable {
 
         HashMap<String, ?> capabilityMap = new HashMap<>(caps.asMap());
         capabilityMap.remove(FORCE_MJSONWP);
-        Map<String, ?> source = of("desiredCapabilities", capabilityMap);
+        Map<String, ?> source = of(DESIRED_CAPABILITIES, capabilityMap);
         String json = new Json().toJson(source);
         return new NewSessionPayload(new StringReader(json), forceMobileJSONWP);
     }
@@ -239,20 +245,20 @@ public class NewSessionPayload implements Closeable {
             }
 
             // Write the first capability we get as the desired capability.
-            json.name("desiredCapabilities");
+            json.name(DESIRED_CAPABILITIES);
             json.write(first, MAP_TYPE);
 
             // And write the first capability for gecko13
-            json.name("capabilities");
+            json.name(CAPABILITIES);
             json.beginObject();
 
-            json.name("desiredCapabilities");
+            json.name(DESIRED_CAPABILITIES);
             json.write(first, MAP_TYPE);
 
             // Then write everything into the w3c payload. Because of the way we do this, it's easiest
             // to just populate the "firstMatch" section. The spec says it's fine to omit the
             // "alwaysMatch" field, so we do this.
-            json.name("firstMatch");
+            json.name(FIRST_MATCH);
             json.beginArray();
             //noinspection unchecked
             getW3C().forEach(map -> json.write(map, MAP_TYPE));
@@ -274,9 +280,9 @@ public class NewSessionPayload implements Closeable {
             while (input.hasNext()) {
                 String name = input.nextName();
                 switch (name) {
-                    case "capabilities":
-                    case "desiredCapabilities":
-                    case "requiredCapabilities":
+                    case CAPABILITIES:
+                    case DESIRED_CAPABILITIES:
+                    case REQUIRED_CAPABILITIES:
                         input.skipValue();
                         break;
 
@@ -326,7 +332,7 @@ public class NewSessionPayload implements Closeable {
             input.beginObject();
             while (input.hasNext()) {
                 String name = input.nextName();
-                if ("desiredCapabilities".equals(name)) {
+                if (DESIRED_CAPABILITIES.equals(name)) {
                     return input.read(MAP_TYPE);
                 } else {
                     input.skipValue();
@@ -383,7 +389,7 @@ public class NewSessionPayload implements Closeable {
                                 public String getKey() {
                                     String key = stringObjectEntry.getKey();
                                     if (APPIUM_CAPABILITIES.contains(key) && !forceMobileJSONWP) {
-                                        return "appium:" + key;
+                                        return APPIUM_PREFIX + key;
                                     }
                                     return key;
                                 }
@@ -448,11 +454,11 @@ public class NewSessionPayload implements Closeable {
             input.beginObject();
             while (input.hasNext()) {
                 String name = input.nextName();
-                if ("capabilities".equals(name)) {
+                if (CAPABILITIES.equals(name)) {
                     input.beginObject();
                     while (input.hasNext()) {
                         name = input.nextName();
-                        if ("alwaysMatch".equals(name)) {
+                        if (ALWAYS_MATCH.equals(name)) {
                             return input.read(MAP_TYPE);
                         } else {
                             input.skipValue();
@@ -474,11 +480,11 @@ public class NewSessionPayload implements Closeable {
             input.beginObject();
             while (input.hasNext()) {
                 String name = input.nextName();
-                if ("capabilities".equals(name)) {
+                if (CAPABILITIES.equals(name)) {
                     input.beginObject();
                     while (input.hasNext()) {
                         name = input.nextName();
-                        if ("firstMatch".equals(name)) {
+                        if (FIRST_MATCH.equals(name)) {
                             return input.read(LIST_OF_MAPS_TYPE);
                         } else {
                             input.skipValue();
