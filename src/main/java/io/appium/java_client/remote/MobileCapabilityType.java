@@ -32,11 +32,6 @@ public interface MobileCapabilityType extends CapabilityType {
     String AUTOMATION_NAME = "automationName";
 
     /**
-     * Which mobile OS platform to use.
-     */
-    String PLATFORM_NAME = "platformName";
-
-    /**
      * Mobile OS version.
      */
     String PLATFORM_VERSION = "platformVersion";
@@ -120,4 +115,10 @@ public interface MobileCapabilityType extends CapabilityType {
      * (e.g., the start and end of each command, etc.). Defaults to false.
      */
     String EVENT_TIMINGS = "eventTimings";
+
+    /**
+     * This is the flag which forces server to switch to the mobile WSONWP.
+     * If {@code false} when it is switched to W3C mode.
+     */
+    String FORCE_MJSONWP = "forceMjsonwp";
 }

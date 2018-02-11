@@ -17,7 +17,11 @@
 
 package org.openqa.selenium.remote;
 
+import static io.appium.java_client.remote.MobileCapabilityType.FORCE_MJSONWP;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Arrays.asList;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 import static org.openqa.selenium.json.Json.LIST_OF_MAPS_TYPE;
 import static org.openqa.selenium.json.Json.MAP_TYPE;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM;
@@ -33,6 +37,10 @@ import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.FileBackedOutputStream;
 
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.YouiEngineCapabilityType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.json.Json;
@@ -56,17 +64,8 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.ServiceLoader;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -77,9 +76,15 @@ import java.util.stream.Stream;
 public class NewSessionPayload implements Closeable {
 
     private static final Logger LOG = Logger.getLogger(NewSessionPayload.class.getName());
+    private static final List<String> APPIUM_CAPABILITIES = ImmutableList.<String>builder()
+            .addAll(getAppiumCapabilities(MobileCapabilityType.class))
+            .addAll(getAppiumCapabilities(AndroidMobileCapabilityType.class))
+            .addAll(getAppiumCapabilities(IOSMobileCapabilityType.class))
+            .addAll(getAppiumCapabilities(YouiEngineCapabilityType.class)).build();
 
     private final Set<CapabilitiesFilter> adapters;
     private final Set<CapabilityTransform> transforms;
+    private final boolean forceMobileJSONWP;
 
     private static final Dialect DEFAULT_DIALECT = Dialect.OSS;
     private final static Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
@@ -101,24 +106,45 @@ public class NewSessionPayload implements Closeable {
     private final FileBackedOutputStream backingStore;
     private final ImmutableSet<Dialect> dialects;
 
+    private static List<String> getAppiumCapabilities(Class<?> capabilityList) {
+        return Arrays.stream(capabilityList.getDeclaredFields()).map(field -> {
+                    field.setAccessible(true);
+            try {
+                return field.get(capabilityList).toString();
+            } catch (IllegalAccessException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }).filter(s -> !FORCE_MJSONWP.equals(s)).collect(toList());
+    }
+
     public static NewSessionPayload create(Capabilities caps) throws IOException {
         // We need to convert the capabilities into a new session payload. At this point we're dealing
         // with references, so I'm Just Sure This Will Be Fine.
-        return create(ImmutableMap.of("desiredCapabilities", caps.asMap()));
+        boolean forceMobileJSONWP = ofNullable(caps.getCapability(FORCE_MJSONWP))
+                .map(o -> {
+                    if (Boolean.class.isAssignableFrom(o.getClass())) {
+                        return Boolean.class.cast(o);
+                    }
+                    return false;
+                }).orElse(false);
+        HashMap<String, ?> capabilityMap = new HashMap<>(caps.asMap());
+        capabilityMap.remove(FORCE_MJSONWP);
+        return create(ImmutableMap.of("desiredCapabilities", capabilityMap), forceMobileJSONWP);
     }
 
-    public static NewSessionPayload create(Map<String, ?> source) throws IOException {
+    public static NewSessionPayload create(Map<String, ?> source, boolean forceMobileJSONWP) throws IOException {
         Objects.requireNonNull(source, "Payload must be set");
 
         String json = new Json().toJson(source);
-        return new NewSessionPayload(new StringReader(json));
+        return new NewSessionPayload(new StringReader(json), forceMobileJSONWP);
     }
 
-    public static NewSessionPayload create(Reader source) throws IOException {
-        return new NewSessionPayload(source);
+    public static NewSessionPayload create(Reader source, boolean forceMobileJSONWP) throws IOException {
+        return new NewSessionPayload(source, forceMobileJSONWP);
     }
 
-    private NewSessionPayload(Reader source) throws IOException {
+    private NewSessionPayload(Reader source, boolean forceMobileJSONWP) throws IOException {
+        this.forceMobileJSONWP = forceMobileJSONWP;
         // Dedicate up to 10% of all RAM or 20% of available RAM (whichever is smaller) to storing this
         // payload.
         int threshold = (int) Math.min(
@@ -358,6 +384,7 @@ public class NewSessionPayload implements Closeable {
         // alwaysMatch value in memory at the same time.
         Map<String, Object> oss = convertOssToW3C(getOss());
         Stream<Map<String, Object>> fromOss;
+
         if (oss != null) {
             Set<String> usedKeys = new HashSet<>();
 
@@ -390,7 +417,34 @@ public class NewSessionPayload implements Closeable {
                     .map(first -> ImmutableMap.<String, Object>builder().putAll(always).putAll(first).build())
                     .map(this::applyTransforms)
                     .map(map -> map.entrySet().stream()
-                            .filter(entry -> ACCEPTED_W3C_PATTERNS.test(entry.getKey()))
+                            .filter(entry -> {
+                                if (forceMobileJSONWP) {
+                                    return ACCEPTED_W3C_PATTERNS.test(entry.getKey());
+                                }
+                                else {
+                                    return true;
+                                }
+                            })
+                            .map((Function<Map.Entry<String, Object>, Map.Entry<String, Object>>) stringObjectEntry ->
+                                    new Map.Entry<String, Object>() {
+                                @Override
+                                public String getKey() {
+                                    String key = stringObjectEntry.getKey();
+                                    if (APPIUM_CAPABILITIES.contains(key) && !forceMobileJSONWP) {
+                                        return "appium:" + key;
+                                    }
+                                    return key;
+                                }
+
+                                @Override
+                                public Object getValue() {
+                                    return stringObjectEntry.getValue();
+                                }
+
+                                @Override
+                                public Object setValue(Object value) {
+                                    return stringObjectEntry.setValue(value);
+                                }})
                             .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)))
                     .map(map -> (Map<String, Object>) map);
         } else {
