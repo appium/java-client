@@ -118,7 +118,7 @@ public interface MobileCapabilityType extends CapabilityType {
 
     /**
      * This is the flag which forces server to switch to the mobile WSONWP.
-     * If {@code false} when it is switched to W3C mode.
+     * If {@code false} then it is switched to W3C mode.
      */
     String FORCE_MJSONWP = "forceMjsonwp";
 }

@@ -13,13 +13,13 @@
 // "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
-// under the License.
+// under the License.writeTo
 
 package org.openqa.selenium.remote;
 
+import static com.google.common.collect.ImmutableMap.of;
 import static io.appium.java_client.remote.MobileCapabilityType.FORCE_MJSONWP;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.openqa.selenium.json.Json.LIST_OF_MAPS_TYPE;
@@ -67,7 +67,6 @@ import java.io.Writer;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -75,7 +74,6 @@ import java.util.stream.Stream;
 
 public class NewSessionPayload implements Closeable {
 
-    private static final Logger LOG = Logger.getLogger(NewSessionPayload.class.getName());
     private static final List<String> APPIUM_CAPABILITIES = ImmutableList.<String>builder()
             .addAll(getAppiumCapabilities(MobileCapabilityType.class))
             .addAll(getAppiumCapabilities(AndroidMobileCapabilityType.class))
@@ -86,7 +84,6 @@ public class NewSessionPayload implements Closeable {
     private final Set<CapabilityTransform> transforms;
     private final boolean forceMobileJSONWP;
 
-    private static final Dialect DEFAULT_DIALECT = Dialect.OSS;
     private final static Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
             "^[\\w-]+:.*$",
             "^acceptInsecureCerts$",
@@ -104,7 +101,6 @@ public class NewSessionPayload implements Closeable {
 
     private final Json json = new Json();
     private final FileBackedOutputStream backingStore;
-    private final ImmutableSet<Dialect> dialects;
 
     private static List<String> getAppiumCapabilities(Class<?> capabilityList) {
         return Arrays.stream(capabilityList.getDeclaredFields()).map(field -> {
@@ -118,8 +114,6 @@ public class NewSessionPayload implements Closeable {
     }
 
     public static NewSessionPayload create(Capabilities caps) throws IOException {
-        // We need to convert the capabilities into a new session payload. At this point we're dealing
-        // with references, so I'm Just Sure This Will Be Fine.
         boolean forceMobileJSONWP = ofNullable(caps.getCapability(FORCE_MJSONWP))
                 .map(o -> {
                     if (Boolean.class.isAssignableFrom(o.getClass())) {
@@ -127,20 +121,12 @@ public class NewSessionPayload implements Closeable {
                     }
                     return false;
                 }).orElse(false);
+
         HashMap<String, ?> capabilityMap = new HashMap<>(caps.asMap());
         capabilityMap.remove(FORCE_MJSONWP);
-        return create(ImmutableMap.of("desiredCapabilities", capabilityMap), forceMobileJSONWP);
-    }
-
-    public static NewSessionPayload create(Map<String, ?> source, boolean forceMobileJSONWP) throws IOException {
-        Objects.requireNonNull(source, "Payload must be set");
-
+        Map<String, ?> source = of("desiredCapabilities", capabilityMap);
         String json = new Json().toJson(source);
         return new NewSessionPayload(new StringReader(json), forceMobileJSONWP);
-    }
-
-    public static NewSessionPayload create(Reader source, boolean forceMobileJSONWP) throws IOException {
-        return new NewSessionPayload(source, forceMobileJSONWP);
     }
 
     private NewSessionPayload(Reader source, boolean forceMobileJSONWP) throws IOException {
@@ -184,7 +170,6 @@ public class NewSessionPayload implements Closeable {
         if (getAlwaysMatch() != null || getFirstMatches() != null) {
             dialects.add(Dialect.W3C);
         }
-        this.dialects = dialects.build();
 
         validate();
     }
@@ -304,28 +289,6 @@ public class NewSessionPayload implements Closeable {
         }
     }
 
-    private void streamW3CProtocolParameters(JsonOutput out, Map<String, Object> des) {
-        // Technically we should be building up a combination of "alwaysMatch" and "firstMatch" options.
-        // We're going to do a little processing to figure out what we might be able to do, and assume
-        // that people don't really understand the difference between required and desired (which is
-        // commonly the case). Wish us luck. Looking at the current implementations, people may have
-        // set options for multiple browsers, in which case a compliant W3C remote end won't start
-        // a session. If we find this, then we create multiple firstMatch capabilities. Furrfu.
-        // The table of options are:
-        //
-        // Chrome: chromeOptions
-        // Firefox: moz:.*, firefox_binary, firefox_profile, marionette
-        // Edge: none given
-        // IEDriver: ignoreZoomSetting, initialBrowserUrl, enableElementCacheCleanup,
-        //   browserAttachTimeout, enablePersistentHover, requireWindowFocus, logFile, logLevel, host,
-        //   extractPath, silent, ie.*
-        // Opera: operaOptions
-        // SafariDriver: safari.options
-        //
-        // We can't use the constants defined in the classes because it would introduce circular
-        // dependencies between the remote library and the implementations. Yay!
-    }
-
     /**
      * Stream the {@link Capabilities} encoded in the payload used to create this instance. The
      * {@link Stream} will start with a {@link Capabilities} object matching the OSS capabilities, and
@@ -349,10 +312,6 @@ public class NewSessionPayload implements Closeable {
                 .filter(Objects::nonNull)
                 .distinct()
                 .map(ImmutableCapabilities::new);
-    }
-
-    public ImmutableSet<Dialect> getDownstreamDialects() {
-        return dialects.isEmpty() ? ImmutableSet.of(DEFAULT_DIALECT) : dialects;
     }
 
     @Override
@@ -417,14 +376,7 @@ public class NewSessionPayload implements Closeable {
                     .map(first -> ImmutableMap.<String, Object>builder().putAll(always).putAll(first).build())
                     .map(this::applyTransforms)
                     .map(map -> map.entrySet().stream()
-                            .filter(entry -> {
-                                if (forceMobileJSONWP) {
-                                    return ACCEPTED_W3C_PATTERNS.test(entry.getKey());
-                                }
-                                else {
-                                    return true;
-                                }
-                            })
+                            .filter(entry -> !forceMobileJSONWP || ACCEPTED_W3C_PATTERNS.test(entry.getKey()))
                             .map((Function<Map.Entry<String, Object>, Map.Entry<String, Object>>) stringObjectEntry ->
                                     new Map.Entry<String, Object>() {
                                 @Override
@@ -451,7 +403,7 @@ public class NewSessionPayload implements Closeable {
             fromOss = Stream.of();
         }
 
-        Stream<Map<String, Object>> fromW3c = null;
+        Stream<Map<String, Object>> fromW3c;
         Map<String, Object> alwaysMatch = getAlwaysMatch();
         Collection<Map<String, Object>> firsts = getFirstMatches();
 
