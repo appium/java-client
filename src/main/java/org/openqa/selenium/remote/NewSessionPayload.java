@@ -18,6 +18,7 @@
 package org.openqa.selenium.remote;
 
 import static com.google.common.collect.ImmutableMap.of;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static io.appium.java_client.remote.MobileCapabilityType.FORCE_MJSONWP;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.ofNullable;
@@ -58,6 +59,7 @@ import org.openqa.selenium.remote.session.SafariFilter;
 import org.openqa.selenium.remote.session.StripAnyPlatform;
 import org.openqa.selenium.remote.session.W3CPlatformNameNormaliser;
 
+import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -120,13 +122,10 @@ public class NewSessionPayload implements Closeable {
     }
 
     public static NewSessionPayload create(Capabilities caps) throws IOException {
-        boolean forceMobileJSONWP = ofNullable(caps.getCapability(FORCE_MJSONWP))
-                .map(o -> {
-                    if (Boolean.class.isAssignableFrom(o.getClass())) {
-                        return Boolean.class.cast(o);
-                    }
-                    return false;
-                }).orElse(false);
+        boolean forceMobileJSONWP =
+                ofNullable(caps.getCapability(FORCE_MJSONWP))
+                .map(o -> Boolean.class.isAssignableFrom(o.getClass()) && Boolean.class.cast(o))
+                .orElse(false);
 
         HashMap<String, ?> capabilityMap = new HashMap<>(caps.asMap());
         capabilityMap.remove(FORCE_MJSONWP);
@@ -183,12 +182,12 @@ public class NewSessionPayload implements Closeable {
     private void validate() throws IOException {
         Map<String, Object> alwaysMatch = getAlwaysMatch();
         if (alwaysMatch == null) {
-            alwaysMatch = ImmutableMap.of();
+            alwaysMatch = of();
         }
         Map<String, Object> always = alwaysMatch;
         Collection<Map<String, Object>> firsts = getFirstMatches();
         if (firsts == null) {
-            firsts = ImmutableList.of(ImmutableMap.of());
+            firsts = ImmutableList.of(of());
         }
 
         if (firsts.isEmpty()) {
@@ -228,8 +227,7 @@ public class NewSessionPayload implements Closeable {
                         throw new IllegalArgumentException(
                                 "Illegal key values seen in w3c capabilities: " + illegalKeys);
                     }
-                })
-                .forEach(map -> {});
+                });
     }
 
     public void writeTo(Appendable appendable) throws IOException {
@@ -325,7 +323,7 @@ public class NewSessionPayload implements Closeable {
         backingStore.reset();
     }
 
-    private Map<String, Object> getOss() throws IOException {
+    private @Nullable Map<String, Object> getOss() throws IOException {
         CharSource charSource = backingStore.asByteSource().asCharSource(UTF_8);
         try (Reader reader = charSource.openBufferedStream();
              JsonInput input = json.newInput(reader)) {
@@ -334,9 +332,8 @@ public class NewSessionPayload implements Closeable {
                 String name = input.nextName();
                 if (DESIRED_CAPABILITIES.equals(name)) {
                     return input.read(MAP_TYPE);
-                } else {
-                    input.skipValue();
                 }
+                input.skipValue();
             }
         }
         return null;
@@ -367,14 +364,14 @@ public class NewSessionPayload implements Closeable {
                     .peek(map -> usedKeys.addAll(map.keySet()))
                     .collect(ImmutableList.toImmutableList());
             if (firsts.isEmpty()) {
-                firsts = ImmutableList.of(ImmutableMap.of());
+                firsts = ImmutableList.of(of());
             }
 
             // Are there any remaining unused keys?
             Map<String, Object> always = oss.entrySet().stream()
                     .filter(entry -> !usedKeys.contains(entry.getKey()))
                     .filter(entry -> entry.getValue() != null)
-                    .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
+                    .collect(toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
 
             // Firsts contains at least one entry, always contains everything else. Let's combine them
             // into the stream to form a unified set of capabilities. Woohoo!
@@ -447,7 +444,7 @@ public class NewSessionPayload implements Closeable {
         return toReturn;
     }
 
-    private Map<String, Object> getAlwaysMatch() throws IOException {
+    private @Nullable Map<String, Object> getAlwaysMatch() throws IOException {
         CharSource charSource = backingStore.asByteSource().asCharSource(UTF_8);
         try (Reader reader = charSource.openBufferedStream();
              JsonInput input = json.newInput(reader)) {
@@ -473,7 +470,7 @@ public class NewSessionPayload implements Closeable {
         return null;
     }
 
-    private Collection<Map<String, Object>> getFirstMatches() throws IOException {
+    private @Nullable Collection<Map<String, Object>> getFirstMatches() throws IOException {
         CharSource charSource = backingStore.asByteSource().asCharSource(UTF_8);
         try (Reader reader = charSource.openBufferedStream();
              JsonInput input = json.newInput(reader)) {
@@ -524,12 +521,12 @@ public class NewSessionPayload implements Closeable {
                 for (Map.Entry<String, Object> newEntry : result) {
                     if (!seenKeys.contains(newEntry.getKey())) {
                         toExamine.add(newEntry);
-                    } else {
-                        if (newEntry.getKey().equals(entry.getKey())) {
-                            entry = newEntry;
-                        }
-                        toReturn.put(newEntry.getKey(), newEntry.getValue());
+                        continue;
                     }
+                    if (newEntry.getKey().equals(entry.getKey())) {
+                        entry = newEntry;
+                    }
+                    toReturn.put(newEntry.getKey(), newEntry.getValue());
                 }
             }
         }
