@@ -428,7 +428,7 @@ public class NewSessionPayload implements Closeable {
         return Stream.concat(fromOss, fromW3c).distinct();
     }
 
-    private Map<String, Object> convertOssToW3C(Map<String, Object> capabilities) {
+    private @Nullable Map<String, Object> convertOssToW3C(Map<String, Object> capabilities) {
         if (capabilities == null) {
             return null;
         }
