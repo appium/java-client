@@ -57,12 +57,6 @@ public interface MobileCapabilityType extends CapabilityType {
     String APP = "app";
 
     /**
-     * Name of mobile web browser to automate.
-     * Should be an empty string if automating an app instead.
-     */
-    String BROWSER_NAME = "browserName";
-
-    /**
      * Unique device identifier of the connected physical device.
      */
     String UDID = "udid";

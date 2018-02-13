@@ -172,7 +172,7 @@ public class NewSessionPayload implements Closeable {
         if (getOss() != null) {
             dialects.add(Dialect.OSS);
         }
-        if (getAlwaysMatch() != null || getFirstMatches() != null) {
+        if (getAlwaysMatch() != null || getFirstMatch() != null) {
             dialects.add(Dialect.W3C);
         }
 
@@ -185,7 +185,7 @@ public class NewSessionPayload implements Closeable {
             alwaysMatch = of();
         }
         Map<String, Object> always = alwaysMatch;
-        Collection<Map<String, Object>> firsts = getFirstMatches();
+        Collection<Map<String, Object>> firsts = getFirstMatch();
         if (firsts == null) {
             firsts = ImmutableList.of(of());
         }
@@ -400,7 +400,7 @@ public class NewSessionPayload implements Closeable {
                                 public Object setValue(Object value) {
                                     return stringObjectEntry.setValue(value);
                                 }})
-                            .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)))
+                            .collect(toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)))
                     .map(map -> (Map<String, Object>) map);
         } else {
             fromOss = Stream.of();
@@ -408,17 +408,17 @@ public class NewSessionPayload implements Closeable {
 
         Stream<Map<String, Object>> fromW3c;
         Map<String, Object> alwaysMatch = getAlwaysMatch();
-        Collection<Map<String, Object>> firsts = getFirstMatches();
+        Collection<Map<String, Object>> firsts = getFirstMatch();
 
         if (alwaysMatch == null && firsts == null) {
             fromW3c = Stream.of();  // No W3C capabilities.
         } else {
             if (alwaysMatch == null) {
-                alwaysMatch = ImmutableMap.of();
+                alwaysMatch = of();
             }
             Map<String, Object> always = alwaysMatch; // Keep the comoiler happy.
             if (firsts == null) {
-                firsts = ImmutableList.of(ImmutableMap.of());
+                firsts = ImmutableList.of(of());
             }
 
             fromW3c = firsts.stream()
@@ -457,9 +457,8 @@ public class NewSessionPayload implements Closeable {
                         name = input.nextName();
                         if (ALWAYS_MATCH.equals(name)) {
                             return input.read(MAP_TYPE);
-                        } else {
-                            input.skipValue();
                         }
+                        input.skipValue();
                     }
                     input.endObject();
                 } else {
@@ -470,7 +469,7 @@ public class NewSessionPayload implements Closeable {
         return null;
     }
 
-    private @Nullable Collection<Map<String, Object>> getFirstMatches() throws IOException {
+    private @Nullable Collection<Map<String, Object>> getFirstMatch() throws IOException {
         CharSource charSource = backingStore.asByteSource().asCharSource(UTF_8);
         try (Reader reader = charSource.openBufferedStream();
              JsonInput input = json.newInput(reader)) {
@@ -483,9 +482,8 @@ public class NewSessionPayload implements Closeable {
                         name = input.nextName();
                         if (FIRST_MATCH.equals(name)) {
                             return input.read(LIST_OF_MAPS_TYPE);
-                        } else {
-                            input.skipValue();
                         }
+                        input.skipValue();
                     }
                     input.endObject();
                 } else {
