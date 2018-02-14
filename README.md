@@ -30,6 +30,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[ENHANCEMENT]** AddEd endpoints for screen recording API for iOS and Android. [#814](https://github.com/appium/java-client/pull/814)
 - **[MAJOR ENHANCEMENT]** W3C compliance was provided. [#829](https://github.com/appium/java-client/pull/829)
 - **[ENHANCEMENT]** New capability `MobileCapabilityType.FORCE_MJSONWP` [#829](https://github.com/appium/java-client/pull/829)
+- **[ENHANCEMENT]** Updated applications management endpoints. [#824](https://github.com/appium/java-client/pull/824)
 
 *6.0.0-BETA2*
 - **[ENHANCEMENT]** The `fingerPrint` ability was added. It is supported by Android for now. [#473](https://github.com/appium/java-client/pull/473) [#786](https://github.com/appium/java-client/pull/786)
