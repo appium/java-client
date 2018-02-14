@@ -44,13 +44,19 @@ public class MobileCommand {
     public static final String RUN_APP_IN_BACKGROUND;
     protected static final String PERFORM_TOUCH_ACTION;
     protected static final String PERFORM_MULTI_TOUCH;
-    protected static final String IS_APP_INSTALLED;
-    protected static final String INSTALL_APP;
-    protected static final String REMOVE_APP;
     protected static final String LAUNCH_APP;
     protected static final String CLOSE_APP;
     protected static final String GET_DEVICE_TIME;
     protected static final String GET_SESSION;
+
+    //region Applications Management
+    protected static final String IS_APP_INSTALLED;
+    protected static final String INSTALL_APP;
+    protected static final String ACTIVATE_APP;
+    protected static final String QUERY_APP_STATE;
+    protected static final String TERMINATE_APP;
+    protected static final String REMOVE_APP;
+    //endregion
 
     protected static final String GET_PERFORMANCE_DATA;
     protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
@@ -97,13 +103,19 @@ public class MobileCommand {
         RUN_APP_IN_BACKGROUND = "runAppInBackground";
         PERFORM_TOUCH_ACTION = "performTouchAction";
         PERFORM_MULTI_TOUCH = "performMultiTouch";
-        IS_APP_INSTALLED = "isAppInstalled";
-        INSTALL_APP = "installApp";
-        REMOVE_APP = "removeApp";
         LAUNCH_APP = "launchApp";
         CLOSE_APP = "closeApp";
         GET_DEVICE_TIME = "getDeviceTime";
         GET_SESSION = "getSession";
+
+        //region Applications Management
+        IS_APP_INSTALLED = "isAppInstalled";
+        QUERY_APP_STATE = "queryAppState";
+        TERMINATE_APP = "terminateApp";
+        ACTIVATE_APP = "activateApp";
+        REMOVE_APP = "removeApp";
+        INSTALL_APP = "installApp";
+        //endregion
 
         GET_PERFORMANCE_DATA = "getPerformanceData";
         GET_SUPPORTED_PERFORMANCE_DATA_TYPES = "getSuppportedPerformanceDataTypes";
@@ -148,9 +160,6 @@ public class MobileCommand {
         commandRepository.put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"));
         commandRepository.put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"));
         commandRepository.put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"));
-        commandRepository.put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
-        commandRepository.put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"));
-        commandRepository.put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
         commandRepository.put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"));
         commandRepository.put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"));
         commandRepository.put(LOCK, postC("/session/:sessionId/appium/device/lock"));
@@ -166,6 +175,16 @@ public class MobileCommand {
                 postC("/session/:sessionId/appium/start_recording_screen"));
         commandRepository.put(STOP_RECORDING_SCREEN,
                 postC("/session/:sessionId/appium/stop_recording_screen"));
+
+        //region Applications Management
+        commandRepository.put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
+        commandRepository.put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"));
+        commandRepository.put(ACTIVATE_APP, postC("/session/:sessionId/appium/device/activate_app"));
+        commandRepository.put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
+        commandRepository.put(TERMINATE_APP, postC("/session/:sessionId/appium/device/terminate_app"));
+        commandRepository.put(QUERY_APP_STATE, postC("/session/:sessionId/appium/device/app_state"));
+        //endregion
+
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
         commandRepository.put(TOUCH_ID, postC("/session/:sessionId/appium/simulator/touch_id"));
