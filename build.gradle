@@ -192,7 +192,7 @@ uploadArchives {
     }
 }
 
-wrapper.gradleVersion = '4.4.1'
+wrapper.gradleVersion = '4.5.1'
 
 test {
     useJUnit()
