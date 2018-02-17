@@ -17,7 +17,14 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.gsmCallCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.gsmSignalStrengthCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.gsmVoiceCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.networkSpeedCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.powerACCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.powerCapacityCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.sendSMSCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
 
 import io.appium.java_client.AppiumDriver;
@@ -176,4 +183,68 @@ public class AndroidDriver<T extends WebElement>
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
+    /**
+     * Emulate send SMS event on the connected emulator.
+     *
+     * @param phoneNumber The phone number of message sender.
+     * @param message   The message content.
+     */
+    public void sendSMS(String phoneNumber, String message) {
+        CommandExecutionHelper.execute(this, sendSMSCommand(phoneNumber, message));
+    }
+
+    /**
+     * Emulate GSM call event on the connected emulator.
+     *
+     * @param phoneNumber The phone number of the caller.
+     * @param gsmCallActions   One of available GSM call actions.
+     */
+    public void gsmCall(String phoneNumber, GsmCallActions gsmCallActions) {
+        CommandExecutionHelper.execute(this, gsmCallCommand(phoneNumber, gsmCallActions));
+    }
+
+    /**
+     * Emulate GSM signal strength change event on the connected emulator.
+     *
+     * @param gsmSignalStrength   One of available GSM signal strength.
+     */
+    public void gsmSignalStrength(GsmSignalStrength gsmSignalStrength) {
+        CommandExecutionHelper.execute(this, gsmSignalStrengthCommand(gsmSignalStrength));
+    }
+
+    /**
+     * Emulate GSM voice event on the connected emulator.
+     *
+     * @param gsmVoiceState   One of available GSM voice state.
+     */
+    public void gsmVoice(GsmVoiceState gsmVoiceState) {
+        CommandExecutionHelper.execute(this, gsmVoiceCommand(gsmVoiceState));
+    }
+
+    /**
+     * Emulate network speed change event on the connected emulator.
+     *
+     * @param networkSpeed   One of available Network Speed values.
+     */
+    public void networkSpeed(NetworkSpeed networkSpeed) {
+        CommandExecutionHelper.execute(this, networkSpeedCommand(networkSpeed));
+    }
+
+    /**
+     * Emulate power capacity change on the connected emulator.
+     *
+     * @param percent   Percentage value in range [0, 100].
+     */
+    public void powerCapacity(int percent) {
+        CommandExecutionHelper.execute(this, powerCapacityCommand(percent));
+    }
+
+    /**
+     * Emulate power state change on the connected emulator.
+     *
+     * @param powerACState   One of available Power AC state.
+     */
+    public void powerAC(PowerACState powerACState) {
+        CommandExecutionHelper.execute(this, powerACCommand(powerACState));
+    }
 }

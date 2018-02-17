@@ -37,6 +37,34 @@ import java.util.Map;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
+    @Test public void sendSMSTest() {
+        driver.sendSMS("11111111", "call");
+    }
+
+    @Test public void gsmCallTest() {
+        driver.gsmCall("11111111", GsmCallActions.CALL);
+        driver.gsmCall("11111111", GsmCallActions.ACCEPT);
+    }
+
+    @Test public void gsmSignalStrengthTest() {
+        driver.gsmSignalStrength(GsmSignalStrength.GREAT);
+    }
+
+    @Test public void gsmVoiceTest() {
+        driver.gsmVoice(GsmVoiceState.OFF);
+    }
+
+    @Test public void networkSpeedTest() {
+        driver.networkSpeed(NetworkSpeed.LTE);
+        driver.powerCapacity(50);
+        driver.powerAC(PowerACState.ON);
+    }
+
+    @Test public void powerTest() {
+        driver.powerCapacity(50);
+        driver.powerAC(PowerACState.ON);
+    }
+
     @Test public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
         assertTrue(time.length() == 28);
