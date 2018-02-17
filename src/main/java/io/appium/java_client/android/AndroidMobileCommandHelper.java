@@ -301,7 +301,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  sendSMSCommand(
+    public static Map.Entry<String, Map<String, ?>> sendSMSCommand(
             String phoneNumber, String message) {
         ImmutableMap<String, ?> parameters = ImmutableMap
                 .<String, Object>builder().put("phoneNumber", phoneNumber)
@@ -320,10 +320,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  gsmCallCommand(
+    public static Map.Entry<String, Map<String, ?>> gsmCallCommand(
             String phoneNumber, GsmCallActions gsmCallActions) {
         String[] parameters = new String[] {"phoneNumber", "action"};
-        Object[] values = new Object[]{phoneNumber, gsmCallActions.toString()};
+        Object[] values = new Object[]{phoneNumber, gsmCallActions.name().toLowerCase()};
         return new AbstractMap.SimpleEntry<>(GSM_CALL, prepareArguments(parameters, values));
     }
 
@@ -335,10 +335,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  gsmSignalStrengthCommand(
+    public static Map.Entry<String, Map<String, ?>> gsmSignalStrengthCommand(
             GsmSignalStrength gsmSignalStrength) {
         return new AbstractMap.SimpleEntry<>(GSM_SIGNAL,
-                prepareArguments("signalStrengh", gsmSignalStrength.getValue()));
+                prepareArguments("signalStrengh", gsmSignalStrength.ordinal()));
     }
 
     /**
@@ -349,10 +349,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  gsmVoiceCommand(
+    public static Map.Entry<String, Map<String, ?>> gsmVoiceCommand(
             GsmVoiceState gsmVoiceState) {
         return new AbstractMap.SimpleEntry<>(GSM_VOICE,
-                prepareArguments("state", gsmVoiceState.toString()));
+                prepareArguments("state", gsmVoiceState.name().toLowerCase()));
     }
 
     /**
@@ -363,10 +363,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  networkSpeedCommand(
+    public static Map.Entry<String, Map<String, ?>> networkSpeedCommand(
             NetworkSpeed networkSpeed) {
         return new AbstractMap.SimpleEntry<>(NETWORK_SPEED,
-                prepareArguments("netspeed", networkSpeed.toString()));
+                prepareArguments("netspeed", networkSpeed.name().toLowerCase()));
     }
 
     /**
@@ -377,7 +377,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  powerCapacityCommand(
+    public static Map.Entry<String, Map<String, ?>> powerCapacityCommand(
             int percent) {
         return new AbstractMap.SimpleEntry<>(POWER_CAPACITY,
                 prepareArguments("percent", percent));
@@ -391,9 +391,9 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>>  powerACCommand(
+    public static Map.Entry<String, Map<String, ?>> powerACCommand(
             PowerACState powerACState) {
         return new AbstractMap.SimpleEntry<>(POWER_AC_STATE,
-                prepareArguments("state", powerACState.toString()));
+                prepareArguments("state", powerACState.name().toLowerCase()));
     }
 }

@@ -55,14 +55,12 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void networkSpeedTest() {
-        driver.networkSpeed(NetworkSpeed.LTE);
-        driver.powerCapacity(50);
-        driver.powerAC(PowerACState.ON);
+        driver.networkSpeed(NetworkSpeed.EDGE);
     }
 
     @Test public void powerTest() {
-        driver.powerCapacity(50);
-        driver.powerAC(PowerACState.ON);
+        driver.powerCapacity(100);
+        driver.powerAC(PowerACState.OFF);
     }
 
     @Test public void getDeviceTimeTest() {
