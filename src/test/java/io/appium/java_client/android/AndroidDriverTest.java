@@ -48,8 +48,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void gsmCallTest() {
         try {
-            driver.setGsmCall("11111111", GsmCallActions.CALL);
-            driver.setGsmCall("11111111", GsmCallActions.ACCEPT);
+            driver.makeGsmCall("11111111", GsmCallActions.CALL);
+            driver.makeGsmCall("11111111", GsmCallActions.ACCEPT);
         } catch (Exception e) {
             fail("method works only in emulators");
         }

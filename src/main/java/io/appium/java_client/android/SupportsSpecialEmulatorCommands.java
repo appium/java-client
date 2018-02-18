@@ -29,7 +29,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
      * @param phoneNumber The phone number of the caller.
      * @param gsmCallActions   One of available {@link GsmCallActions} values.
      */
-    default void setGsmCall(String phoneNumber, GsmCallActions gsmCallActions) {
+    default void makeGsmCall(String phoneNumber, GsmCallActions gsmCallActions) {
         CommandExecutionHelper.execute(this, gsmCallCommand(phoneNumber, gsmCallActions));
     }
 
@@ -39,7 +39,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
      * @param gsmSignalStrength   One of available {@link GsmSignalStrength} values.
      */
     default void setGsmSignalStrength(GsmSignalStrength gsmSignalStrength) {
-        CommandExecutionHelper.execute( this, gsmSignalStrengthCommand(gsmSignalStrength));
+        CommandExecutionHelper.execute(this, gsmSignalStrengthCommand(gsmSignalStrength));
     }
 
     /**
