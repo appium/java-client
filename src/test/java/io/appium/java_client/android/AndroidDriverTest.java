@@ -38,29 +38,53 @@ import java.util.Map;
 public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void sendSMSTest() {
-        driver.sendSMS("11111111", "call");
+        try {
+            driver.sendSMS("11111111", "call");
+        } catch (Exception e) {
+           assertFalse( "method works only in emulators", true);
+        }
     }
 
     @Test public void gsmCallTest() {
-        driver.gsmCall("11111111", GsmCallActions.CALL);
-        driver.gsmCall("11111111", GsmCallActions.ACCEPT);
+        try {
+            driver.setGsmCall("11111111", GsmCallActions.CALL);
+            driver.setGsmCall("11111111", GsmCallActions.ACCEPT);
+        } catch (Exception e) {
+            assertFalse( "method works only in emulators", true);
+        }
     }
 
     @Test public void gsmSignalStrengthTest() {
-        driver.gsmSignalStrength(GsmSignalStrength.GREAT);
+        try {
+            driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
+        } catch (Exception e) {
+            assertFalse( "method works only in emulators", true);
+        }
     }
 
     @Test public void gsmVoiceTest() {
-        driver.gsmVoice(GsmVoiceState.OFF);
+        try {
+            driver.setGsmVoice(GsmVoiceState.OFF);
+        } catch (Exception e) {
+            assertFalse( "method works only in emulators", true);
+        }
     }
 
     @Test public void networkSpeedTest() {
-        driver.networkSpeed(NetworkSpeed.EDGE);
+        try {
+            driver.setNetworkSpeed(NetworkSpeed.EDGE);
+        } catch (Exception e) {
+            assertFalse( "method works only in emulators", true);
+        }
     }
 
     @Test public void powerTest() {
-        driver.powerCapacity(100);
-        driver.powerAC(PowerACState.OFF);
+        try {
+            driver.setPowerCapacity(100);
+            driver.setPowerAC(PowerACState.OFF);
+        } catch (Exception e) {
+            assertFalse( "method works only in emulators", true);
+        }
     }
 
     @Test public void getDeviceTimeTest() {

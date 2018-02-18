@@ -27,36 +27,36 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
      * Emulate GSM call event on the connected emulator.
      *
      * @param phoneNumber The phone number of the caller.
-     * @param gsmCallActions   One of available GSM call actions {@link GsmCallActions}.
+     * @param gsmCallActions   One of available {@link GsmCallActions} values.
      */
-    default void gsmCall(String phoneNumber, GsmCallActions gsmCallActions) {
+    default void setGsmCall(String phoneNumber, GsmCallActions gsmCallActions) {
         CommandExecutionHelper.execute(this, gsmCallCommand(phoneNumber, gsmCallActions));
     }
 
     /**
      * Emulate GSM signal strength change event on the connected emulator.
      *
-     * @param gsmSignalStrength   One of available GSM signal strength {@link GsmSignalStrength}.
+     * @param gsmSignalStrength   One of available {@link GsmSignalStrength} values.
      */
-    default void gsmSignalStrength(GsmSignalStrength gsmSignalStrength) {
+    default void setGsmSignalStrength(GsmSignalStrength gsmSignalStrength) {
         CommandExecutionHelper.execute( this, gsmSignalStrengthCommand(gsmSignalStrength));
     }
 
     /**
      * Emulate GSM voice event on the connected emulator.
      *
-     * @param gsmVoiceState   One of available GSM voice state {@link GsmVoiceState}.
+     * @param gsmVoiceState   One of available {@link GsmVoiceState} values.
      */
-    default void gsmVoice(GsmVoiceState gsmVoiceState) {
+    default void setGsmVoice(GsmVoiceState gsmVoiceState) {
         CommandExecutionHelper.execute(this, gsmVoiceCommand(gsmVoiceState));
     }
 
     /**
      * Emulate network speed change event on the connected emulator.
      *
-     * @param networkSpeed   One of available Network Speed values {@link NetworkSpeed}.
+     * @param networkSpeed   One of available {@link NetworkSpeed} values.
      */
-    default void networkSpeed(NetworkSpeed networkSpeed) {
+    default void setNetworkSpeed(NetworkSpeed networkSpeed) {
         CommandExecutionHelper.execute(this, networkSpeedCommand(networkSpeed));
     }
 
@@ -65,16 +65,16 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
      *
      * @param percent   Percentage value in range [0, 100].
      */
-    default void powerCapacity(int percent) {
+    default void setPowerCapacity(int percent) {
         CommandExecutionHelper.execute(this, powerCapacityCommand(percent));
     }
 
     /**
      * Emulate power state change on the connected emulator.
      *
-     * @param powerACState   One of available Power AC state {@link PowerACState}.
+     * @param powerACState   One of available {@link PowerACState} values.
      */
-    default void powerAC(PowerACState powerACState) {
+    default void setPowerAC(PowerACState powerACState) {
         CommandExecutionHelper.execute(this, powerACCommand(powerACState));
     }
 
