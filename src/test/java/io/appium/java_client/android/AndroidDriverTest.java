@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -41,7 +42,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         try {
             driver.sendSMS("11111111", "call");
         } catch (Exception e) {
-           assertFalse( "method works only in emulators", true);
+            fail("method works only in emulators");
         }
     }
 
@@ -50,7 +51,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
             driver.setGsmCall("11111111", GsmCallActions.CALL);
             driver.setGsmCall("11111111", GsmCallActions.ACCEPT);
         } catch (Exception e) {
-            assertFalse( "method works only in emulators", true);
+            fail("method works only in emulators");
         }
     }
 
@@ -58,7 +59,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         try {
             driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
         } catch (Exception e) {
-            assertFalse( "method works only in emulators", true);
+            fail("method works only in emulators");
         }
     }
 
@@ -66,7 +67,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         try {
             driver.setGsmVoice(GsmVoiceState.OFF);
         } catch (Exception e) {
-            assertFalse( "method works only in emulators", true);
+            fail("method works only in emulators");
         }
     }
 
@@ -74,7 +75,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         try {
             driver.setNetworkSpeed(NetworkSpeed.EDGE);
         } catch (Exception e) {
-            assertFalse( "method works only in emulators", true);
+            fail("method works only in emulators");
         }
     }
 
@@ -83,7 +84,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
             driver.setPowerCapacity(100);
             driver.setPowerAC(PowerACState.OFF);
         } catch (Exception e) {
-            assertFalse( "method works only in emulators", true);
+            fail("method works only in emulators");
         }
     }
 
