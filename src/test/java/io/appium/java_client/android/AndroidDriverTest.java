@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.codec.binary.Base64;
@@ -40,6 +41,56 @@ import java.util.Map;
 
 
 public class AndroidDriverTest extends BaseAndroidTest {
+
+    @Test public void sendSMSTest() {
+        try {
+            driver.sendSMS("11111111", "call");
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void gsmCallTest() {
+        try {
+            driver.makeGsmCall("11111111", GsmCallActions.CALL);
+            driver.makeGsmCall("11111111", GsmCallActions.ACCEPT);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void gsmSignalStrengthTest() {
+        try {
+            driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void gsmVoiceTest() {
+        try {
+            driver.setGsmVoice(GsmVoiceState.OFF);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void networkSpeedTest() {
+        try {
+            driver.setNetworkSpeed(NetworkSpeed.EDGE);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void powerTest() {
+        try {
+            driver.setPowerCapacity(100);
+            driver.setPowerAC(PowerACState.OFF);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
 
     @Test public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();

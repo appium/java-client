@@ -91,6 +91,13 @@ public class MobileCommand {
     protected static final String GET_SETTINGS;
     protected static final String SET_SETTINGS;
     protected static final String GET_CURRENT_PACKAGE;
+    protected static final String SEND_SMS;
+    protected static final String GSM_CALL;
+    protected static final String GSM_SIGNAL;
+    protected static final String GSM_VOICE;
+    protected static final String NETWORK_SPEED;
+    protected static final String POWER_CAPACITY;
+    protected static final String POWER_AC_STATE;
 
     public static final Map<String, CommandInfo> commandRepository;
 
@@ -149,6 +156,13 @@ public class MobileCommand {
         GET_SETTINGS = "getSettings";
         SET_SETTINGS = "setSettings";
         GET_CURRENT_PACKAGE = "getCurrentPackage";
+        SEND_SMS = "sendSMS";
+        GSM_CALL = "gsmCall";
+        GSM_SIGNAL = "gsmSignal";
+        GSM_VOICE = "gsmVoice";
+        NETWORK_SPEED = "networkSpeed";
+        POWER_CAPACITY = "powerCapacity";
+        POWER_AC_STATE = "powerAC";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -217,6 +231,13 @@ public class MobileCommand {
         commandRepository.put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
         commandRepository.put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
         commandRepository.put(GET_CURRENT_PACKAGE, getC("/session/:sessionId/appium/device/current_package"));
+        commandRepository.put(SEND_SMS, postC("/session/:sessionId/appium/device/send_sms"));
+        commandRepository.put(GSM_CALL, postC("/session/:sessionId/appium/device/gsm_call"));
+        commandRepository.put(GSM_SIGNAL, postC("/session/:sessionId/appium/device/gsm_signal"));
+        commandRepository.put(GSM_VOICE, postC("/session/:sessionId/appium/device/gsm_voice"));
+        commandRepository.put(NETWORK_SPEED, postC("/session/:sessionId/appium/device/network_speed"));
+        commandRepository.put(POWER_CAPACITY, postC("/session/:sessionId/appium/device/power_capacity"));
+        commandRepository.put(POWER_AC_STATE, postC("/session/:sessionId/appium/device/power_ac"));
     }
 
     /**

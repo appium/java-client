@@ -291,4 +291,109 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<>(
                 REPLACE_VALUE, prepareArguments(parameters, values));
     }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param phoneNumber The phone number of message sender
+     * @param message The message content
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> sendSMSCommand(
+            String phoneNumber, String message) {
+        ImmutableMap<String, ?> parameters = ImmutableMap
+                .<String, Object>builder().put("phoneNumber", phoneNumber)
+                .put("message", message)
+                .build();
+
+        return new AbstractMap.SimpleEntry<>(SEND_SMS, parameters);
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param phoneNumber The phone number of message sender
+     * @param gsmCallActions One of available GSM call actions
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> gsmCallCommand(
+            String phoneNumber, GsmCallActions gsmCallActions) {
+        String[] parameters = new String[] {"phoneNumber", "action"};
+        Object[] values = new Object[]{phoneNumber, gsmCallActions.name().toLowerCase()};
+        return new AbstractMap.SimpleEntry<>(GSM_CALL, prepareArguments(parameters, values));
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param gsmSignalStrength One of available GSM signal strength
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> gsmSignalStrengthCommand(
+            GsmSignalStrength gsmSignalStrength) {
+        return new AbstractMap.SimpleEntry<>(GSM_SIGNAL,
+                prepareArguments("signalStrengh", gsmSignalStrength.ordinal()));
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param gsmVoiceState One of available GSM voice state
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> gsmVoiceCommand(
+            GsmVoiceState gsmVoiceState) {
+        return new AbstractMap.SimpleEntry<>(GSM_VOICE,
+                prepareArguments("state", gsmVoiceState.name().toLowerCase()));
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param networkSpeed One of possible NETWORK_SPEED values
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> networkSpeedCommand(
+            NetworkSpeed networkSpeed) {
+        return new AbstractMap.SimpleEntry<>(NETWORK_SPEED,
+                prepareArguments("netspeed", networkSpeed.name().toLowerCase()));
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param percent A number in range [0, 4]
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> powerCapacityCommand(
+            int percent) {
+        return new AbstractMap.SimpleEntry<>(POWER_CAPACITY,
+                prepareArguments("percent", percent));
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the element
+     * value replacement. It is used against input elements
+     *
+     * @param powerACState One of available power AC state
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> powerACCommand(
+            PowerACState powerACState) {
+        return new AbstractMap.SimpleEntry<>(POWER_AC_STATE,
+                prepareArguments("state", powerACState.name().toLowerCase()));
+    }
 }
