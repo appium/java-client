@@ -44,6 +44,7 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
      */
     public AppiumW3CHttpCommandCodec() {
         defineCommand(GET_ELEMENT_ATTRIBUTE, get("/session/:sessionId/element/:id/attribute/:name"));
+        defineCommand(IS_ELEMENT_DISPLAYED, get("/session/:sessionId/element/:id/displayed"));
         defineCommand(GET_PAGE_SOURCE, get("/session/:sessionId/source"));
     }
 
