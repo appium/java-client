@@ -18,10 +18,7 @@ package io.appium.java_client.android;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleAirplaneCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleDataCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleWifiCommand;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
@@ -55,7 +52,8 @@ public class AndroidDriver<T extends WebElement>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
         FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger,
-        CanRecordScreen, SupportsSpecialEmulatorCommands {
+        CanRecordScreen, SupportsSpecialEmulatorCommands,
+        SupportsNetworkStateManagement {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -180,15 +178,4 @@ public class AndroidDriver<T extends WebElement>
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
-    public void toggleWifi() {
-        CommandExecutionHelper.execute(this, toggleWifiCommand());
-    }
-
-    public void toggleAirplaneMode() {
-        CommandExecutionHelper.execute(this, toggleAirplaneCommand());
-    }
-
-    public void toggleData() {
-        CommandExecutionHelper.execute(this, toggleDataCommand());
-    }
 }
