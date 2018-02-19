@@ -168,7 +168,7 @@ public class MobileCommand {
         POWER_AC_STATE = "powerAC";
         TOGGLE_WIFI = "toggleWiFi";
         TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
-        TOGGLE_DATA= "toggleData";
+        TOGGLE_DATA = "toggleData";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
