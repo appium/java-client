@@ -245,8 +245,8 @@ public class MobileCommand {
         commandRepository.put(POWER_CAPACITY, postC("/session/:sessionId/appium/device/power_capacity"));
         commandRepository.put(POWER_AC_STATE, postC("/session/:sessionId/appium/device/power_ac"));
         commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_wifi"));
-        commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
-        commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_data"));
+        commandRepository.put(TOGGLE_AIRPLANE_MODE, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
+        commandRepository.put(TOGGLE_DATA, postC("/session/:sessionId/appium/device/toggle_data"));
     }
 
     /**
