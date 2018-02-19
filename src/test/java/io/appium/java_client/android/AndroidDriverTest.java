@@ -59,6 +59,30 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
+    @Test public void toggleWiFi() {
+        try {
+            driver.toggleWifi();
+        } catch (Exception e) {
+            fail("Not able to toggle wifi");
+        }
+    }
+
+    @Test public void toggleAirplane() {
+        try {
+            driver.toggleAirplaneMode();
+        } catch (Exception e) {
+            fail("Not able to toggle airplane mode");
+        }
+    }
+
+    @Test public void toggleData() {
+        try {
+            driver.toggleData();
+        } catch (Exception e) {
+            fail("Not able to toggle data");
+        }
+    }
+
     @Test public void gsmSignalStrengthTest() {
         try {
             driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
