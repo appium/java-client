@@ -17,8 +17,8 @@ public interface SupportsNetworkStateManagement extends ExecutesMethod {
     }
 
     /**
-     * Toggle Airplane mode and this works on OS < 6.0
-     * and does not work on OS > 7.0
+     * Toggle Airplane mode and this works on OS 6.0
+     * and does not work on OS 7.0 and greater
      */
     default void toggleAirplaneMode() {
         CommandExecutionHelper.execute(this, toggleAirplaneCommand());
