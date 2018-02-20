@@ -396,4 +396,31 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         return new AbstractMap.SimpleEntry<>(POWER_AC_STATE,
                 prepareArguments("state", powerACState.name().toLowerCase()));
     }
+
+    /**
+     * This method forms a {@link Map} of parameters for the toggling of  wifi.
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> toggleWifiCommand() {
+        return new AbstractMap.SimpleEntry<>(TOGGLE_WIFI, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the toggle airplane mode.
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> toggleAirplaneCommand() {
+        return new AbstractMap.SimpleEntry<>(TOGGLE_AIRPLANE_MODE, ImmutableMap.<String, Object>of());
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the toggle data.
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> toggleDataCommand() {
+        return new AbstractMap.SimpleEntry<>(TOGGLE_DATA, ImmutableMap.<String, Object>of());
+    }
 }

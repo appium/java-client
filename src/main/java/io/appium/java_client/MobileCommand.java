@@ -98,6 +98,9 @@ public class MobileCommand {
     protected static final String NETWORK_SPEED;
     protected static final String POWER_CAPACITY;
     protected static final String POWER_AC_STATE;
+    protected static final String TOGGLE_WIFI;
+    protected static final String TOGGLE_AIRPLANE_MODE;
+    protected static final String TOGGLE_DATA;
 
     public static final Map<String, CommandInfo> commandRepository;
 
@@ -163,6 +166,9 @@ public class MobileCommand {
         NETWORK_SPEED = "networkSpeed";
         POWER_CAPACITY = "powerCapacity";
         POWER_AC_STATE = "powerAC";
+        TOGGLE_WIFI = "toggleWiFi";
+        TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
+        TOGGLE_DATA = "toggleData";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -238,6 +244,9 @@ public class MobileCommand {
         commandRepository.put(NETWORK_SPEED, postC("/session/:sessionId/appium/device/network_speed"));
         commandRepository.put(POWER_CAPACITY, postC("/session/:sessionId/appium/device/power_capacity"));
         commandRepository.put(POWER_AC_STATE, postC("/session/:sessionId/appium/device/power_ac"));
+        commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_wifi"));
+        commandRepository.put(TOGGLE_AIRPLANE_MODE, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
+        commandRepository.put(TOGGLE_DATA, postC("/session/:sessionId/appium/device/toggle_data"));
     }
 
     /**

@@ -52,7 +52,8 @@ public class AndroidDriver<T extends WebElement>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
         FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger,
-        CanRecordScreen, SupportsSpecialEmulatorCommands {
+        CanRecordScreen, SupportsSpecialEmulatorCommands,
+        SupportsNetworkStateManagement {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -176,4 +177,5 @@ public class AndroidDriver<T extends WebElement>
     public void toggleLocationServices() {
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
+
 }
