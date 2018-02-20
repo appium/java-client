@@ -1,10 +1,13 @@
 package io.appium.java_client.ios;
 
+import static org.hamcrest.Matchers.isEmptyString;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import io.appium.java_client.MobileElement;
+import org.hamcrest.CoreMatchers;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -12,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
 import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -38,5 +42,11 @@ public class IOSElementTest extends UICatalogIOSTest {
         }).get(1);
         slider.setValue("0%");
         assertEquals("0%", slider.getAttribute("value"));
+    }
+
+    @Test public void getElementScreenShot() throws IOException {
+        MobileElement element = driver.findElementByAccessibilityId("login");
+        String elementScreenShot = element.getElementScreenShot();
+        assertThat(elementScreenShot, CoreMatchers.not(isEmptyString()));
     }
 }

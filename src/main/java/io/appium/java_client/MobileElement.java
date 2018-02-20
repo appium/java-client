@@ -21,15 +21,12 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.remote.FileDetector;
 
 import java.util.List;
 
 @SuppressWarnings({"unchecked"})
 public abstract class MobileElement
     extends DefaultGenericMobileElement<MobileElement> {
-
-    protected FileDetector fileDetector;
 
     /**
      * Method returns central coordinates of an element.
@@ -96,5 +93,12 @@ public abstract class MobileElement
         ImmutableMap.Builder builder = ImmutableMap.builder();
         builder.put("id", id).put("value", value);
         execute(MobileCommand.SET_VALUE, builder.build());
+    }
+
+    public String getElementScreenShot() {
+        ImmutableMap.Builder builder = ImmutableMap.builder();
+        builder.put("elementId", id);
+        return execute(MobileCommand.GET_ELEMENT_SCREENSHOT, builder.build())
+                .getValue().toString();
     }
 }

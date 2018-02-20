@@ -101,6 +101,7 @@ public class MobileCommand {
     protected static final String TOGGLE_WIFI;
     protected static final String TOGGLE_AIRPLANE_MODE;
     protected static final String TOGGLE_DATA;
+    protected static final String GET_ELEMENT_SCREENSHOT;
 
     public static final Map<String, CommandInfo> commandRepository;
 
@@ -169,6 +170,7 @@ public class MobileCommand {
         TOGGLE_WIFI = "toggleWiFi";
         TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
         TOGGLE_DATA = "toggleData";
+        GET_ELEMENT_SCREENSHOT = "getElementScreenshot";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -247,6 +249,7 @@ public class MobileCommand {
         commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_wifi"));
         commandRepository.put(TOGGLE_AIRPLANE_MODE, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
         commandRepository.put(TOGGLE_DATA, postC("/session/:sessionId/appium/device/toggle_data"));
+        commandRepository.put(GET_ELEMENT_SCREENSHOT, getC("/session/:sessionId/element/:elementId/screenshot"));
     }
 
     /**
