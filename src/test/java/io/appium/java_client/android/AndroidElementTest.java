@@ -19,12 +19,22 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import java.util.Base64;
+
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.isEmptyString;
 
 public class AndroidElementTest extends BaseAndroidTest {
 
@@ -77,7 +87,7 @@ public class AndroidElementTest extends BaseAndroidTest {
         assertNotNull(radioGroup.getLocation());
     }
 
-    @Test public void setValueTest() {
+    @Test public void setValueTest() throws IOException {
         String value = "new value";
 
         Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
@@ -87,4 +97,28 @@ public class AndroidElementTest extends BaseAndroidTest {
         editElement.setValue(value);
         assertEquals(value, editElement.getText());
     }
+
+
+    @Test public void getElementScreenShot() throws IOException {
+        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
+        driver.startActivity(activity);
+        AndroidElement editElement = driver
+                .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
+        String elementScreenShot = editElement.getElementScreenShot();
+        decoder(elementScreenShot,
+                System.getProperty("user.dir")+"/sample.png");
+        assertThat(elementScreenShot, not(isEmptyString()));
+    }
+
+    public static void decoder(String base64Image, String pathFile) {
+        try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
+            byte[] imageByteArray = Base64.getMimeDecoder().decode(base64Image);
+            imageOutFile.write(imageByteArray);
+        } catch (FileNotFoundException e) {
+           e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
 }
