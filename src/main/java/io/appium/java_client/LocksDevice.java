@@ -16,11 +16,11 @@
 
 package io.appium.java_client;
 
-import java.time.Duration;
-
 import static io.appium.java_client.MobileCommand.getIsDeviceLockedCommand;
 import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import static io.appium.java_client.MobileCommand.unlockDeviceCommand;
+
+import java.time.Duration;
 
 public interface LocksDevice extends ExecutesMethod {
     /**

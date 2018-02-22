@@ -16,10 +16,6 @@
 
 package io.appium.java_client.remote;
 
-import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
-
-import java.util.Map;
-
 import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_ATTRIBUTE;
 import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_LOCATION;
 import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_LOCATION_ONCE_SCROLLED_INTO_VIEW;
@@ -32,6 +28,9 @@ import static org.openqa.selenium.remote.DriverCommand.SET_ALERT_VALUE;
 import static org.openqa.selenium.remote.DriverCommand.SET_TIMEOUT;
 import static org.openqa.selenium.remote.DriverCommand.SUBMIT_ELEMENT;
 
+import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
+
+import java.util.Map;
 
 public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
 
