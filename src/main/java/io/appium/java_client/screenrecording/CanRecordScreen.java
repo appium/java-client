@@ -32,7 +32,7 @@ public interface CanRecordScreen extends ExecutesMethod {
      * @param options see the documentation on the {@link BaseStartScreenRecordingOptions}
      *                descendant for the particular platform.
      * @return Base-64 encoded content of the recorded media file or an empty string
-     * if the file has been successfully uploaded to a remote location (depends on the actual options).
+     *     if the file has been successfully uploaded to a remote location (depends on the actual options).
      */
     default <T extends BaseStartScreenRecordingOptions> String startRecordingScreen(T options) {
         return CommandExecutionHelper.execute(this, startRecordingScreenCommand(options));
@@ -53,7 +53,7 @@ public interface CanRecordScreen extends ExecutesMethod {
      * @param options see the documentation on the {@link BaseStopScreenRecordingOptions}
      *                descendant for the particular platform.
      * @return Base-64 encoded content of the recorded media file or an empty string
-     * if the file has been successfully uploaded to a remote location (depends on the actual options).
+     *     if the file has been successfully uploaded to a remote location (depends on the actual options).
      */
     default <T extends BaseStopScreenRecordingOptions> String stopRecordingScreen(T options) {
         return CommandExecutionHelper.execute(this, stopRecordingScreenCommand(options));
