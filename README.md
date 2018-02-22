@@ -21,6 +21,15 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *6.0.0 (under construction yet)*
 
+*6.0.0-BETA4*
+- **[ENHANCEMENT]** Added handler for isDispalyed in W3C mode. [#833](https://github.com/appium/java-client/pull/833)
+- **[ENHANCEMENT]** Added handlers for sending SMS, making GSM Call, setting GSM signal, voice, power capacity and power AC. [#834](https://github.com/appium/java-client/pull/834)
+- **[ENHANCEMENT]** Added handlers for toggling wifi, airplane mode and data in android. [#835](https://github.com/appium/java-client/pull/835)
+- **[DEPENDENCY UPDATES]**
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.5
+  - `cglib:cglib` was updated to 3.2.6
+  - `org.springframework:spring-context` was updated to 5.0.3.RELEASE
+
 *6.0.0-BETA3*
 - **[DEPENDENCY UPDATES]**
   - `org.seleniumhq.selenium:selenium-java` was updated to 3.9.1
