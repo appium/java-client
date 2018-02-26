@@ -19,6 +19,7 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
@@ -37,6 +38,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
@@ -195,6 +197,12 @@ public class AndroidDriver<T extends WebElement>
     public AndroidBatteryInfo getBatteryInfo() {
         return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
                 "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
+    }
+
+    public Capabilities getCapabilities() {
+        MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
+        capabilities.setCapability(PLATFORM_NAME, ANDROID_PLATFORM);
+        return capabilities;
     }
 
     @Override

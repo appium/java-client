@@ -1,9 +1,10 @@
 package io.appium.java_client.appium.element.generation.ios;
 
-import static io.appium.java_client.MobileBy.IosUIAutomation;
+import static io.appium.java_client.MobileBy.AccessibilityId;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.name;
+import static org.openqa.selenium.By.partialLinkText;
 
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.IOSElement;
@@ -11,9 +12,12 @@ import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.util.function.Function;
@@ -25,14 +29,14 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             "TestApp.app.zip");
 
     private final File webViewApp = new File(new File("src/test/java/io/appium/java_client"),
-            "WebViewApp.app.zip");
+            "vodqa.zip");
 
     private Supplier<DesiredCapabilities> serverAppCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
                 500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         return serverCapabilities;
     };
@@ -48,8 +52,8 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     private final Supplier<DesiredCapabilities> serverBrowserCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
         //sometimes environment has performance problems
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         return serverCapabilities;
@@ -66,17 +70,21 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         assertTrue(check(serverAppCapabilitiesSupplier,
                 appFileSupplierFunction.apply(testApp),
                 commonPredicate,
-                IosUIAutomation(".elements().withName(\"Answer\")"),
+                AccessibilityId("Answer"),
                 IOSElement.class));
     }
 
-    @Test public void whenIOSHybridAppIsLaunched() {
+    @Test @Ignore public void whenIOSHybridAppIsLaunched() {
         assertTrue(check(serverAppCapabilitiesSupplier,
                 appFileSupplierFunction.apply(webViewApp),
             (by, aClass) -> {
-                IOSElement element1 = (IOSElement) driver.findElementByXPath("//UIATextField[@value='Enter URL']");
-                element1.sendKeys("www.google.com");
-                driver.findElementByClassName("UIAButton").click();
+                new WebDriverWait(driver, 30)
+                        .until(ExpectedConditions.presenceOfElementLocated(id("login")))
+                        .click();
+                driver.findElementByAccessibilityId("webView").click();
+                new WebDriverWait(driver, 30)
+                        .until(ExpectedConditions
+                                .presenceOfElementLocated(AccessibilityId("Webview")));
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
@@ -88,7 +96,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                     }
                 });
                 return commonPredicate.test(by, aClass);
-            }, name("q"), IOSElement.class));
+            }, partialLinkText("login"), IOSElement.class));
     }
 
     @Test public void whenIOSBrowserIsLaunched() {
@@ -103,7 +111,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     public void whenIOSNativeAppIsLaunched2() {
         assertTrue(check(() -> {
             DesiredCapabilities serverCapabilities = serverAppCapabilitiesSupplier.get();
-            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
             return serverCapabilities;
         }, appFileSupplierFunction.apply(testApp), commonPredicate, id("IntegerA"), IOSElement.class));
     }
@@ -111,7 +119,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     @Test public void whenIOSBrowserIsLaunched2() {
         assertTrue(check(() -> {
             DesiredCapabilities serverCapabilities = serverBrowserCapabilitiesSupplier.get();
-            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.1");
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
             return serverCapabilities;
         }, clientBrowserCapabilitiesSupplier, (by, aClass) -> {
                 driver.get("https://www.google.com");

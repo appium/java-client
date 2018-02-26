@@ -33,12 +33,11 @@ import java.util.function.Supplier;
 public class IOSAlertTest extends AppIOSTest {
 
     private WebDriverWait waiting = new WebDriverWait(driver, 10000);
-    private static final String iOSAutomationText = ".elements().withName(\"show alert\")";
+    private static final String iOSAutomationText = "show alert";
 
     @Test public void acceptAlertTest() {
         Supplier<Boolean> acceptAlert = () -> {
-            driver.findElement(MobileBy
-                    .IosUIAutomation(iOSAutomationText)).click();
+            driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
             waiting.until(alertIsPresent());
             driver.switchTo().alert().accept();
             return true;
@@ -48,8 +47,7 @@ public class IOSAlertTest extends AppIOSTest {
 
     @Test public void dismissAlertTest() {
         Supplier<Boolean> dismissAlert = () -> {
-            driver.findElement(MobileBy
-                    .IosUIAutomation(iOSAutomationText)).click();
+            driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
             waiting.until(alertIsPresent());
             driver.switchTo().alert().dismiss();
             return true;
@@ -58,8 +56,7 @@ public class IOSAlertTest extends AppIOSTest {
     }
 
     @Test public void getAlertTextTest() {
-        driver.findElement(MobileBy
-            .IosUIAutomation(iOSAutomationText)).click();
+        driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
         waiting.until(alertIsPresent());
         assertFalse(StringUtils.isBlank(driver.switchTo().alert().getText()));
     }

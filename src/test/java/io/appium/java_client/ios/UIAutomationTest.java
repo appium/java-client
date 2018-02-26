@@ -17,12 +17,13 @@
 package io.appium.java_client.ios;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import org.junit.Test;
 
-public class IOSScrollingSearchingTest extends UICatalogIOSTest {
+public class UIAutomationTest extends UICatalogIOSTest {
 
     @Test public void scrollByDriver() {
         MobileElement slider = driver
@@ -38,5 +39,25 @@ public class IOSScrollingSearchingTest extends UICatalogIOSTest {
         MobileElement slider = table.findElement(MobileBy
                 .IosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
         assertEquals(slider.getAttribute("name"), "Sliders");
+    }
+
+    @Test public void findByByIosUIAutomationFromDriverTest() {
+        assertNotEquals(driver
+                .findElement(MobileBy.IosUIAutomation(".elements().withName(\"Answer\")"))
+                .getText(), null);
+        assertNotEquals(driver
+                .findElements(MobileBy.IosUIAutomation(".elements().withName(\"Answer\")"))
+                .size(), 0);
+    }
+
+    @Test public void findByAccessibilityIdFromElementTest() {
+        assertNotEquals(driver.findElementsByClassName("UIAWindow").get(1)
+                .findElementsByAccessibilityId("ComputeSumButton").size(), 0);
+    }
+
+    @Test public void findByByIosUIAutomationTest() {
+        assertNotEquals((driver.findElementsByClassName("UIAWindow")
+                .get(1))
+                .findElementByIosUIAutomation(".elements().withName(\"Answer\")").getText(), null);
     }
 }

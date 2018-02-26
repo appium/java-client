@@ -35,7 +35,7 @@ public class UIAutomator2Test {
 
         if (service == null || !service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException(
-                "An appium server node is not started!");
+                    "An appium server node is not started!");
         }
 
         File appDir = new File("src/test/java/io/appium/java_client");
@@ -92,20 +92,20 @@ public class UIAutomator2Test {
         popUpElement.click();
         driver.findElement(By.xpath(".//*[@text='Search']")).click();
         assertNotNull(wait.until(ExpectedConditions.presenceOfElementLocated(
-            By.xpath("//*[@text='Clicked popup menu item Search']"))));
+                By.xpath("//*[@text='Clicked popup menu item Search']"))));
 
         popUpElement.click();
         driver.findElement(By.xpath(".//*[@text='Add']")).click();
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Add']"))));
+                .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Add']"))));
 
         popUpElement.click();
         driver.findElement(By.xpath(".//*[@text='Edit']")).click();
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Edit']"))));
+                .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Edit']"))));
 
         driver.findElement(By.xpath(".//*[@text='Share']")).click();
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Share']"))));
+                .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Share']"))));
     }
 }

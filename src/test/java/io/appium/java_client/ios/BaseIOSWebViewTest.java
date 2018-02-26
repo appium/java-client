@@ -18,33 +18,34 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
 
-    @BeforeClass public static void beforeClass() {
-        service = AppiumDriverLocalService.buildDefaultService();
-        service.start();
+    @BeforeClass public static void beforeClass() throws UnknownHostException, MalformedURLException {
+        String ipAddress = startAppiumServer();
 
         if (service == null || !service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
 
         File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "WebViewApp.app.zip");
+        File app = new File(appDir, "vodqa.zip");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(service.getUrl(), capabilities);
+        driver = new IOSDriver<>(new URL("http://" + ipAddress + ":" + PORT + "/wd/hub"), capabilities);
     }
 
     protected void findAndSwitchToWebView() throws InterruptedException {

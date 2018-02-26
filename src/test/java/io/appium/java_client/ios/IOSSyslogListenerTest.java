@@ -9,7 +9,7 @@ import java.time.Duration;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-public class IOSSyslogListenerTest extends UICatalogIOSTest {
+public class IOSSyslogListenerTest extends AppIOSTest {
 
     @Test
     public void verifySyslogListenerCanBeAssigned() {

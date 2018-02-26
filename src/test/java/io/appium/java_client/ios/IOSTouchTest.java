@@ -1,6 +1,5 @@
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.MobileBy.IosUIAutomation;
 import static io.appium.java_client.ios.touch.IOSPressOptions.iosPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
@@ -59,7 +58,7 @@ public class IOSTouchTest extends AppIOSTest {
     }
 
     @Test public void swipeTest() {
-        MobileElement slider = driver.findElementByClassName("UIASlider");
+        MobileElement slider = driver.findElementByClassName("XCUIElementTypeSlider");
         Dimension size = slider.getSize();
 
         ElementOption press = element(slider, size.width / 2 + 2, size.height / 2);
@@ -75,7 +74,7 @@ public class IOSTouchTest extends AppIOSTest {
 
     @Test public void multiTouchTest() {
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        MobileElement e2 = driver.findElement(IosUIAutomation(".elements().withName(\"show alert\")"));
+        MobileElement e2 = driver.findElementByAccessibilityId("show alert");
 
         TouchAction tap1 = new TouchAction(driver).tap(tapOptions().withElement(element(e)));
         TouchAction tap2 = new TouchAction(driver).tap(tapOptions().withElement(element(e2)));
@@ -85,5 +84,15 @@ public class IOSTouchTest extends AppIOSTest {
         WebDriverWait waiting = new WebDriverWait(driver, 10000);
         assertNotNull(waiting.until(alertIsPresent()));
         driver.switchTo().alert().accept();
+    }
+
+    @Test public void doubleTapTest() {
+        IOSElement firstField = driver.findElementById("IntegerA");
+        firstField.sendKeys("2");
+
+        IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
+        iosTouchAction.doubleTap(element(firstField));
+        IOSElement editingMenu = driver.findElementByClassName("XCUIElementTypeTextField");
+        assertNotNull(editingMenu);
     }
 }

@@ -196,8 +196,30 @@ uploadArchives {
     }
 }
 
-wrapper.gradleVersion = '4.5.1'
+wrapper.gradleVersion = '4.8'
 
-test {
+task xcuiTest( type: Test ) {
     useJUnit()
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
+    filter {
+        includeTestsMatching '*.appium.element.generation.ios.*'
+        includeTestsMatching '*.appium.AppiumFluentWaitTest'
+        includeTestsMatching 'io.appium.java_client.ios.*'
+        includeTestsMatching '*.pagefactory_tests.XCUITModeTest'
+        includeTestsMatching '*.pagefactory_tests.widget.tests.combined.*'
+        includeTestsMatching '*.pagefactory_tests.widget.tests.ios.*'
+        includeTestsMatching '*.StartingAppLocallyTest.startingIOSAppWithCapabilitiesAndServiceTest'
+        includeTestsMatching '*.StartingAppLocallyTest.startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest'
+        exclude '**/UIAutomationTest.class'
+        exclude '**/IOSScreenRecordTest.class'
+        exclude '**/ImagesComparisonTest.class'
+    }
+}
+
+task uiAutomationTest( type: Test ) {
+    useJUnit()
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
+    include '**/UIAutomationTest.class'
 }

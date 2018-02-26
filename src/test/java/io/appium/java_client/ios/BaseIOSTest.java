@@ -17,12 +17,24 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class BaseIOSTest {
 
     protected static AppiumDriverLocalService service;
     protected static IOSDriver<IOSElement> driver;
+    protected static final int PORT = 4723;
+
+    public static String startAppiumServer() throws UnknownHostException {
+        service = new AppiumServiceBuilder().usingPort(PORT).build();
+        service.start();
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        return inetAddress.getHostAddress();
+    }
 
     /**
      * finishing.

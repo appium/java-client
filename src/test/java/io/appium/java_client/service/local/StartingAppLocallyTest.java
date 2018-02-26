@@ -19,6 +19,8 @@ package io.appium.java_client.service.local;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -127,10 +129,10 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
@@ -144,7 +146,7 @@ public class StartingAppLocallyTest {
                 caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("9.2"));
+                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("11.3"));
             assertEquals(true,
                 caps.getCapability(MobileCapabilityType.APP).equals(app.getAbsolutePath()));
         } finally {
@@ -153,15 +155,15 @@ public class StartingAppLocallyTest {
     }
 
 
-    @Test public void startingIOSAppWithCapabilitiesAndServiseTest() {
+    @Test public void startingIOSAppWithCapabilitiesAndServiceTest() {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
@@ -172,9 +174,9 @@ public class StartingAppLocallyTest {
         IOSDriver<?> driver = new IOSDriver<>(builder, capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
-            assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
+                    .toString().equalsIgnoreCase(MobilePlatform.IOS));
+            assertNotNull(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
             driver.quit();
         }
@@ -182,10 +184,11 @@ public class StartingAppLocallyTest {
 
     @Test public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Simulator");
+        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9.2");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "UICatalog.app.zip");
@@ -199,8 +202,8 @@ public class StartingAppLocallyTest {
         IOSDriver<?> driver = new IOSDriver<>(builder, clientCapabilities);
         try {
             Capabilities caps = driver.getCapabilities();
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
+            assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
+                    .toString().equalsIgnoreCase(MobilePlatform.IOS));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
             driver.quit();
