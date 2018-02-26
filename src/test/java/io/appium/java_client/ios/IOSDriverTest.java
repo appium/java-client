@@ -16,17 +16,32 @@
 
 package io.appium.java_client.ios;
 
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.HideKeyboardStrategy;
-
+import io.appium.java_client.remote.MobileCapabilityType;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class IOSDriverTest extends AppIOSTest {
 
@@ -41,14 +56,19 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void hideKeyboardWithParametersTest() {
-        MobileElement element = driver.findElementById("IntegerA");
-        element.click();
+        new WebDriverWait(driver, 30)
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("IntegerA")))
+                .click();
         driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
     }
 
-    @Test public void geolocationTest() {
+    @Test @Ignore public void geolocationTest() {
         Location location = new Location(45, 45, 100);
-        driver.setLocation(location);
+        try {
+            driver.setLocation(location);
+        } catch (Exception e) {
+            fail("Not able to set location");
+        }
     }
 
     @Test public void orientationTest() {
@@ -69,7 +89,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void pullFileTest() {
-        byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
+        byte[] data = driver.pullFile("@io.appium.TestApp/TestApp");
         assert (data.length > 0);
     }
 
@@ -77,5 +97,45 @@ public class IOSDriverTest extends AppIOSTest {
         MobileElement element = driver.findElementById("IntegerA");
         element.click();
         assertTrue(driver.isKeyboardShown());
+    }
+
+    @Test public void putAppIntoBackgroundAndRestoreTest() {
+        final long msStarted = System.currentTimeMillis();
+        driver.runAppInBackground(Duration.ofSeconds(4));
+        assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
+    }
+
+    @Test public void applicationsManagementTest() throws InterruptedException {
+        // This only works since Xcode9
+        try {
+            if (Double.parseDouble(
+                    (String) driver.getCapabilities()
+                            .getCapability(MobileCapabilityType.PLATFORM_VERSION)) < 11) {
+                return;
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            return;
+        }
+        assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.runAppInBackground(Duration.ofSeconds(-1));
+        assertThat(driver.queryAppState(BUNDLE_ID), lessThan(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.activateApp(BUNDLE_ID);
+        assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+    }
+
+    @Test public void putAIntoBackgroundWithoutRestoreTest() {
+        assertThat(driver.findElementsById("IntegerA"), is(not(empty())));
+        driver.runAppInBackground(Duration.ofSeconds(-1));
+        assertThat(driver.findElementsById("IntegerA"), is(empty()));
+        driver.launchApp();
+    }
+
+    @Test @Ignore public void touchIdTest() {
+        driver.toggleTouchIDEnrollment(true);
+        driver.performTouchID(true);
+        driver.performTouchID(false);
+        assertEquals(true, true);
     }
 }

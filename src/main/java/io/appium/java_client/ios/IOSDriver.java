@@ -18,6 +18,7 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
@@ -37,6 +38,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -199,6 +201,12 @@ public class IOSDriver<T extends WebElement>
         @Override public Alert alert() {
             return new IOSAlert(super.alert());
         }
+    }
+
+    public Capabilities getCapabilities() {
+        MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
+        capabilities.setCapability(PLATFORM_NAME, IOS_PLATFORM);
+        return capabilities;
     }
 
 

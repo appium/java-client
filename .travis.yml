@@ -1,10 +1,43 @@
 language: java
 
-jdk:
-  - oraclejdk8
-
 sudo: required
 
-install: true
-
-script: ./gradlew clean build -x test -x signArchives
+matrix:
+  include:
+    - language: java
+      install: true
+      os: osx
+      osx_image: xcode9.3
+      before_install:
+        - brew update
+        - brew outdated xctool || brew upgrade xctool
+        - npm install -g appium
+      script:
+        - ./gradlew clean xcuiTest -x signArchives
+#    - language: android
+#      install: true
+#      os: linux
+#      jdk: oraclejdk8
+#      android:
+#        components:
+#          - build-tools-26.0.2
+#          - platform-tools
+#          - tools
+#          - android-22
+#          - extra-android-m2repository
+#          - extra-google-google_play_services
+#          - extra-google-m2repository
+#          - sys-img-armeabi-v7a-android-22
+#      before_install:
+#        # node stuff
+#        - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+#        - nvm install 6
+#        - node --version
+#        - npm --version
+#        - npm install -g appium@1.7.2
+#        - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+#        - emulator -avd test -no-audio -no-window &
+#        - android-wait-for-emulator
+#        - adb devices
+#      script:
+#      - ./gradlew clean test --tests "io.appium.java_client.android.*" --exclude-task signArchives

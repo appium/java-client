@@ -32,7 +32,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.ios.AppXCUITTest;
+import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.iOSFindBy;
@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class XCUITModeTest extends AppXCUITTest {
+public class XCUITModeTest extends AppIOSTest {
 
     private boolean populated = false;
     private WebDriverWait waiting = new WebDriverWait(driver, 10000);
@@ -60,7 +60,7 @@ public class XCUITModeTest extends AppXCUITTest {
     private MobileElement computeButton;
 
     @HowToUseLocators(iOSAutomation = CHAIN)
-    @iOSXCUITFindBy(className = "XCUIElementTypeOther")
+    @iOSFindBy(id = "TestApp")
     @iOSXCUITFindBy(iOSNsPredicate = "name like 'Answer'")
     private WebElement answer;
 
@@ -110,27 +110,16 @@ public class XCUITModeTest extends AppXCUITTest {
         populated = true;
     }
 
-    @Test public void dismissAlertTest() {
-        Supplier<Boolean> dismissAlert = () -> {
-            driver.findElement(MobileBy
-                .iOSNsPredicateString("name CONTAINS 'Slow Down'")).click();
-            waiting.until(alertIsPresent());
-            driver.switchTo().alert().dismiss();
-            return true;
-        };
-        assertTrue(dismissAlert.get());
-    }
-
     @Test public void findByXCUITSelectorTest() {
         assertNotEquals(null, computeButton.getText());
     }
 
     @Test public void findElementByNameTest() {
-        assertNull(textField1.getText());
+        assertEquals("TextField1", textField1.getText());
     }
 
     @Test public void findElementByClassNameTest() {
-        assertEquals("50%", slider.getAttribute("Value"));
+        assertEquals("50%", slider.getAttribute("value"));
     }
 
     @Test public void pageObjectChainingTest() {
@@ -150,7 +139,7 @@ public class XCUITModeTest extends AppXCUITTest {
     }
 
     @Test public void findElementByClassChainWithNegativeIndex() {
-        assertThat(lastButton.getAttribute("name"), equalTo("Test Gesture"));
+        assertThat(lastButton.getAttribute("name"), equalTo("Check calendar authorized"));
     }
 
     @Test public void findMultipleElementsByClassChain() {

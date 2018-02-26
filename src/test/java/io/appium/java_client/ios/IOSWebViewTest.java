@@ -1,22 +1,25 @@
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.MobileBy;
 import org.junit.Test;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class IOSWebViewTest extends BaseIOSWebViewTest {
 
     @Test public void webViewPageTestCase() throws InterruptedException {
-        driver.findElementByXPath("//UIATextField[@value='Enter URL']")
-            .sendKeys("www.google.com");
-        driver.findElementByClassName("UIAButton").click();
+        new WebDriverWait(driver, 30)
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("login")))
+                .click();
+        driver.findElementByAccessibilityId("webView").click();
+        new WebDriverWait(driver, 30)
+                .until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("Webview")));
         findAndSwitchToWebView();
-        WebElement el = driver.findElementByClassName("gsfi");
-        el.sendKeys("Appium");
-        el.sendKeys(Keys.ENTER);
-        Thread.sleep(1000);
-        assertEquals(true, driver.getTitle().contains("Appium"));
+        WebElement el = driver.findElementByPartialLinkText("login");
+        assertTrue(el.isDisplayed());
     }
 }
