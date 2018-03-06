@@ -16,13 +16,13 @@
 
 package io.appium.java_client.screenrecording;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
+
 import com.google.common.collect.ImmutableMap;
 
 import java.time.Duration;
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Optional.ofNullable;
 
 public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenRecordingOptions<T>>
         extends BaseScreenRecordingOptions<BaseStartScreenRecordingOptions<T>> {

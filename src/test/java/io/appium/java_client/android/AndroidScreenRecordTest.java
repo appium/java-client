@@ -1,14 +1,14 @@
 package io.appium.java_client.android;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.not;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriverException;
 
 import java.time.Duration;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyString;
-import static org.hamcrest.Matchers.not;
 
 public class AndroidScreenRecordTest extends BaseAndroidTest {
 

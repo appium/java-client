@@ -29,15 +29,16 @@ import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
 import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
 
-import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.AbstractMap;
+import javax.annotation.Nullable;
 
 public interface InteractsWithApps extends ExecutesMethod {
 
