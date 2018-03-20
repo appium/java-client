@@ -265,7 +265,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the element
+     * This method forms a {@link java.util.Map} of parameters for the element.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
