@@ -29,6 +29,7 @@ public class AndroidStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<AndroidStartScreenRecordingOptions> {
     private Integer bitRate;
     private String videoSize;
+    private Boolean isBugReportEnabled;
 
     public static AndroidStartScreenRecordingOptions startScreenRecordingOptions() {
         return new AndroidStartScreenRecordingOptions();
@@ -36,9 +37,10 @@ public class AndroidStartScreenRecordingOptions
 
     /**
      * The video bit rate for the video, in megabits per second.
-     * The default value is 4. You can increase the bit rate to improve video quality,
+     * The default value is 4000000 (4 Mb/s) for Android API level below 27
+     * and 20000000 (20 Mb/s) for API level 27 and above.
+     * You can increase the bit rate to improve video quality,
      * but doing so results in larger movie files.
-     * The value of 5000000 equals to 5Mb/sec.
      *
      * @param bitRate The actual bit rate (Mb/s).
      * @return self instance for chaining.
@@ -63,6 +65,18 @@ public class AndroidStartScreenRecordingOptions
     }
 
     /**
+     * Makes the recorder to display an additional information on the video overlay,
+     * such as a timestamp, that is helpful in videos captured to illustrate bugs.
+     * This option is only supported since API level 27 (Android P).
+     *
+     * @return self instance for chaining.
+     */
+    public AndroidStartScreenRecordingOptions enableBugReport() {
+        this.isBugReportEnabled = true;
+        return this;
+    }
+
+    /**
      * The maximum recording time. The default and maximum value is 180 seconds (3 minutes).
      * Setting values greater than this or less than zero will cause an exception. The minimum
      * time resolution unit is one second.
@@ -81,6 +95,7 @@ public class AndroidStartScreenRecordingOptions
         builder.putAll(super.build());
         ofNullable(bitRate).map(x -> builder.put("bitRate", x));
         ofNullable(videoSize).map(x -> builder.put("videoSize", x));
+        ofNullable(isBugReportEnabled).map(x -> builder.put("bugReport", x));
         return builder.build();
     }
 }
