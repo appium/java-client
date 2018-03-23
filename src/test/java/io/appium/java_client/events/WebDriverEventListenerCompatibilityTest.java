@@ -1,16 +1,21 @@
 package io.appium.java_client.events;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.events.listeners.AppiumListener;
 import io.appium.java_client.events.listeners.SingleListeners;
+import io.appium.java_client.events.listeners.TestListener;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
@@ -71,7 +76,6 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
                             WEBDRIVER_EVENT_LISTENER + "The alert was accepted",
                             WEBDRIVER_EVENT_LISTENER + "Attempt to dismiss alert",
                             WEBDRIVER_EVENT_LISTENER + "The alert was dismissed"));
-            assertThat(listener.messages.size(), is(4));
         } finally {
             listener.messages.clear();
         }
@@ -81,5 +85,18 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
     public void exceptionEventTest() {
         assertThat(super.assertThatExceptionListenerWorks(driver, listener, WEBDRIVER_EVENT_LISTENER),
             is(true));
+    }
+
+    @Test
+    public void windowListenerTest() {
+        try {
+            driver.switchTo().window("Test window");
+            assertThat(listener.messages,
+                    hasItems(WEBDRIVER_EVENT_LISTENER + "Attempt to switch to window Test window",
+                            WEBDRIVER_EVENT_LISTENER + "driver is switched to window Test window"));
+        } finally {
+            listener.messages.clear();
+        }
+
     }
 }

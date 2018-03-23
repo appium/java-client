@@ -1,5 +1,7 @@
 package io.appium.java_client.events.listeners;
 
+import static java.lang.String.format;
+
 import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -111,5 +113,15 @@ public class AppiumListener extends TestListener implements AppiumWebDriverEvent
 
     @Override public void onException(Throwable throwable, WebDriver driver) {
         messages.add("WebDriverEventListener: The exception was thrown: " + throwable.getClass());
+    }
+
+    @Override
+    public void beforeSwitchToWindow(String windowName, WebDriver driver) {
+        messages.add(format("WebDriverEventListener: Attempt to switch to window %s", windowName));
+    }
+
+    @Override
+    public void afterSwitchToWindow(String windowName, WebDriver driver) {
+        messages.add(format("WebDriverEventListener: driver is switched to window %s", windowName));
     }
 }

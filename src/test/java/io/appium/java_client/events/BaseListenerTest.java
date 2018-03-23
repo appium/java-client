@@ -270,6 +270,8 @@ public class BaseListenerTest {
 
             window.maximize();
 
+            driver.switchTo().window("Test window");
+
             assertThat(listener.messages,
                     contains(prefix + "Attempt to change size of the window. The height is " + d.getHeight()
                                     + " the width is " + d.getWidth(),
@@ -280,7 +282,9 @@ public class BaseListenerTest {
                             prefix + "The position the window has been changed. The X is " + p.getX()
                                     + " the Y is " + p.getY(),
                             prefix + "Attempt to maximize the window.",
-                            prefix + "The window has been maximized"));
+                            prefix + "The window has been maximized",
+                            prefix + "Attempt to switch to window Test window",
+                            prefix + "driver is switched to window Test window"));
             return true;
         } finally {
             listener.messages.clear();

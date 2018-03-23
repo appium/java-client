@@ -78,4 +78,20 @@ public interface WindowEventListener extends Listener {
      * @param window is the window which has been maximized
      */
     void afterWindowIsMaximized(WebDriver driver, WebDriver.Window window);
+
+    /**
+     * This action will be performed each time before
+     * {@link org.openqa.selenium.WebDriver.TargetLocator#window(java.lang.String)}.
+     *
+     * @param driver WebDriver
+     */
+    void beforeSwitchToWindow(String windowName, WebDriver driver);
+
+    /**
+     * This action will be performed each time after
+     * {@link org.openqa.selenium.WebDriver.TargetLocator#window(java.lang.String)}.
+     *
+     * @param driver WebDriver
+     */
+    void afterSwitchToWindow(String windowName, WebDriver driver);
 }
