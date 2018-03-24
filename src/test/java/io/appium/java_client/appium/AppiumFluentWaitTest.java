@@ -34,6 +34,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 public class AppiumFluentWaitTest {
+
+    /*
     private static class FakeElement {
         public boolean isDisplayed() {
             return false;
@@ -94,4 +96,5 @@ public class AppiumFluentWaitTest {
             assertThat(callsCounter.get(), is(equalTo(2)));
         }
     }
+    */
 }

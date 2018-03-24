@@ -20,6 +20,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +39,17 @@ public @interface WithTimeout {
     /**
      * Desired time unit.
      *
+     * @deprecated use {@link #chronoUnit()} instead.
+     * This property is going to be removed.
      * @return time unit
      */
+    @Deprecated
     TimeUnit unit();
+
+    /**
+     * Desired time unit.
+     *
+     * @return time unit
+     */
+    ChronoUnit chronoUnit();
 }
