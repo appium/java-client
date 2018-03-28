@@ -53,7 +53,7 @@ public class AndroidDriver<T extends WebElement>
         FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger,
         CanRecordScreen, SupportsSpecialEmulatorCommands,
-        SupportsNetworkStateManagement {
+        SupportsNetworkStateManagement, HasAndroidClipboard {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
