@@ -23,7 +23,7 @@ import org.junit.Test;
 
 public class ClipboardTest extends BaseAndroidTest {
 
-    @Before public void setup() {
+    @Before public void setUp() {
         driver.resetApp();
     }
 
