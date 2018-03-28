@@ -47,8 +47,7 @@ public interface HasClipboard extends ExecutesMethod {
      * Get the content of the clipboard.
      *
      * @param contentType one of supported content types.
-     * @return the actual content of the clipboard as base64-encoded string
-     * or an empty string if the clipboard is empty.
+     * @return the actual content of the clipboard as base64-encoded string or an empty string if the clipboard is empty
      */
     default String getClipboard(ClipboardContentType contentType) {
         return CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(GET_CLIPBOARD,
@@ -69,8 +68,7 @@ public interface HasClipboard extends ExecutesMethod {
     /**
      * Get the clipboard text.
      *
-     * @return Either the text, which is stored in the clipboard or an empty string
-     * if the clipboard is empty.
+     * @return Either the text, which is stored in the clipboard or an empty string if the clipboard is empty
      */
     default String getClipboardText() {
         byte[] base64decodedBytes = Base64
