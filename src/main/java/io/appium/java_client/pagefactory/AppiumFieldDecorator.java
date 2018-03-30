@@ -79,6 +79,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final Duration duration;
 
 
+    @Deprecated
     public AppiumFieldDecorator(SearchContext context, long timeout,
         TimeUnit timeUnit) {
         this(context, new TimeOutDuration(timeout, timeUnit));

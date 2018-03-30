@@ -34,8 +34,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static java.time.Duration.ofSeconds;
 
 public class MobileBrowserCompatibilityTest {
 
@@ -67,7 +70,7 @@ public class MobileBrowserCompatibilityTest {
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
         driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
         //This time out is set because test can be run on slow Android SDK emulator
-        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
     }
 
     /**
