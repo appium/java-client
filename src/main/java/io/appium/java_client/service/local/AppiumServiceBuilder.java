@@ -75,7 +75,7 @@ public final class AppiumServiceBuilder
         File.separator + BUILD_FOLDER
                 + File.separator + LIB_FOLDER
                 + File.separator + MAIN_JS;
-    private static final int DEFAULT_APPIUM_PORT = 4723;
+    public static final int DEFAULT_APPIUM_PORT = 4723;
     private static final String BASH = "bash";
     private static final String CMD_EXE = "cmd.exe";
     private static final String NODE = "node";
