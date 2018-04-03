@@ -7,8 +7,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.websocket.ClientEndpoint;
-import javax.websocket.CloseReason;
-import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -27,6 +25,7 @@ public class StringWebSocketClient extends WebSocketClient
             if (endpoint.equals(this.getEndpoint())) {
                 return;
             }
+
             removeAllMessageHandlers();
             try {
                 session.close();
@@ -43,10 +42,9 @@ public class StringWebSocketClient extends WebSocketClient
      * connected to a web socket.
      *
      * @param session the actual web socket session instance
-     * @param config endpoint config
      */
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config) {
+    public void onOpen(Session session) {
         this.session = session;
         getMessageHandlers().forEach(MessagesHandler::onConnected);
     }
@@ -54,12 +52,9 @@ public class StringWebSocketClient extends WebSocketClient
     /**
      * This event if fired when the client is
      * disconnected from a web socket.
-     *
-     * @param session the actual web socket session instance
-     * @param reason connection close reason
      */
     @OnClose
-    public void onClose(Session session, CloseReason reason) {
+    public void onClose() {
         this.session = null;
         getMessageHandlers().forEach(MessagesHandler::onDisconnected);
     }
@@ -68,11 +63,10 @@ public class StringWebSocketClient extends WebSocketClient
      * This event if fired when there is an unexpected
      * error in web socket connection.
      *
-     * @param session the actual web socket session instance
      * @param cause the actual error reason
      */
     @OnError
-    public void onError(Session session, Throwable cause) {
+    public void onError(Throwable cause) {
         this.session = null;
         getMessageHandlers().forEach(x -> x.onError(cause));
         throw new WebDriverException(cause);
