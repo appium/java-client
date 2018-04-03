@@ -1,5 +1,7 @@
 package io.appium.java_client.ws;
 
+import org.openqa.selenium.WebDriverException;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -15,8 +17,8 @@ import javax.websocket.Session;
 
 @ClientEndpoint
 public class StringWebSocketClient extends WebSocketClient
-        implements CanHandleMessages<StringMessagesHandler> {
-    private final List<StringMessagesHandler> messageHandlers = new CopyOnWriteArrayList<>();
+        implements CanHandleMessages<MessagesHandler<String>> {
+    private final List<MessagesHandler<String>> messageHandlers = new CopyOnWriteArrayList<>();
     private volatile Session session;
 
     @Override
@@ -46,7 +48,7 @@ public class StringWebSocketClient extends WebSocketClient
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
         this.session = session;
-        messageHandlers().forEach(MessagesHandler::onConnected);
+        getMessageHandlers().forEach(MessagesHandler::onConnected);
     }
 
     /**
@@ -59,7 +61,7 @@ public class StringWebSocketClient extends WebSocketClient
     @OnClose
     public void onClose(Session session, CloseReason reason) {
         this.session = null;
-        messageHandlers().forEach(MessagesHandler::onDisconnected);
+        getMessageHandlers().forEach(MessagesHandler::onDisconnected);
     }
 
     /**
@@ -67,16 +69,13 @@ public class StringWebSocketClient extends WebSocketClient
      * error in web socket connection.
      *
      * @param session the actual web socket session instance
-     * @param reason the actual error reason
+     * @param cause the actual error reason
      */
     @OnError
-    public void onError(Session session, Throwable reason) {
+    public void onError(Session session, Throwable cause) {
         this.session = null;
-        messageHandlers().forEach(x -> {
-            x.onError(reason);
-            x.onDisconnected();
-        });
-        throw new RuntimeException(reason);
+        getMessageHandlers().forEach(x -> x.onError(cause));
+        throw new WebDriverException(cause);
     }
 
     /**
@@ -87,14 +86,14 @@ public class StringWebSocketClient extends WebSocketClient
      */
     @OnMessage
     public void onMessage(String message) {
-        messageHandlers().forEach(x -> x.onMessage(message));
+        getMessageHandlers().forEach(x -> x.onMessage(message));
     }
 
     /**
      * @return The list of all registered web socket messages handlers.
      */
     @Override
-    public List<StringMessagesHandler> messageHandlers() {
+    public List<MessagesHandler<String>> getMessageHandlers() {
         return messageHandlers;
     }
 }

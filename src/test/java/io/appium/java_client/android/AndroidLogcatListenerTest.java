@@ -2,7 +2,7 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.ws.StringMessagesHandler;
+import io.appium.java_client.ws.MessagesHandler;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -19,7 +19,7 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
 
         try {
             driver.startLogcatBroadcast();
-            driver.addLogcatListener(new StringMessagesHandler() {
+            driver.addLogcatListener(new MessagesHandler<String>() {
                 @Override
                 public void onMessage(String message) {
                     messageSemaphore.release();
@@ -36,7 +36,7 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
                 }
 
                 @Override
-                public void onError(Throwable reason) {
+                public void onError(Throwable cause) {
                     // ignore
                 }
             });
@@ -49,7 +49,7 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
             assertTrue(String.format("Didn't receive any log message after %s timeout", timeout),
                     messageSemaphore.tryAcquire(timeout.toMillis(), TimeUnit.MILLISECONDS));
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         } finally {
             connectedSemaphore.release();
             messageSemaphore.release();

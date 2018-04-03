@@ -6,7 +6,7 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.ws.StringMessagesHandler;
+import io.appium.java_client.ws.MessagesHandler;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -23,6 +23,16 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      */
     default void startLogcatBroadcast() {
         startLogcatBroadcast("localhost", DEFAULT_APPIUM_PORT);
+    }
+
+    /**
+     * Start logcat messages broadcast via web socket.
+     * This method assumes that Appium server is assigned to the default port (4723).
+     *
+     * @param host the name of the host where Appium server is running
+     */
+    default void startLogcatBroadcast(String host) {
+        startLogcatBroadcast(host, DEFAULT_APPIUM_PORT);
     }
 
     /**
@@ -51,7 +61,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *
      * @param handler an instance of a class, which implement string message handlers
      */
-    default void addLogcatListener(StringMessagesHandler handler) {
+    default void addLogcatListener(MessagesHandler<String> handler) {
         logcatClient.addMessageHandler(handler);
     }
 

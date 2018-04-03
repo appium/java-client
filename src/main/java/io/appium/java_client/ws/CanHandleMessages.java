@@ -10,7 +10,7 @@ public interface CanHandleMessages<T extends MessagesHandler> {
     /**
      * @return The list of web socket message handlers.
      */
-    List<T> messageHandlers();
+    List<T> getMessageHandlers();
 
     /**
      * Register a new message handler.
@@ -19,7 +19,7 @@ public interface CanHandleMessages<T extends MessagesHandler> {
      *                   implements MessagesHandler interface
      */
     default void addMessageHandler(T msgHandler) {
-        messageHandlers().add(msgHandler);
+        getMessageHandlers().add(msgHandler);
     }
 
     /**
@@ -30,20 +30,20 @@ public interface CanHandleMessages<T extends MessagesHandler> {
      * @return true if the given class instance was registered before and has been successfully removed.
      */
     default boolean removeMessageHandler(T msgHandler) {
-        return messageHandlers().remove(msgHandler);
+        return getMessageHandlers().remove(msgHandler);
     }
 
     /**
      * @return The count of registered message handlers.
      */
     default int messageHandlersCount() {
-        return messageHandlers().size();
+        return getMessageHandlers().size();
     }
 
     /**
      * Removes all registered message handlers.
      */
     default void removeAllMessageHandlers() {
-        messageHandlers().clear();
+        getMessageHandlers().clear();
     }
 }

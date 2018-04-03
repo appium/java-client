@@ -3,7 +3,7 @@ package io.appium.java_client.ws;
 /**
  * This is the basic interface for all web socket message handlers.
  */
-public interface MessagesHandler {
+public interface MessagesHandler<T> {
     /**
      * This event is fired when the client is
      * successfully connected to a web socket.
@@ -19,10 +19,16 @@ public interface MessagesHandler {
     /**
      * This event is fired when there is an error
      * in the web socket connection.
-     * onDisconnected event is always generated after
-     * onError happens.
      *
-     * @param reason the actual error reason.
+     * @param cause the actual error reason.
      */
-    void onError(Throwable reason);
+    void onError(Throwable cause);
+
+    /**
+     * This event is fired when the client receives
+     * a new message from a web socket.
+     *
+     * @param message the actual web socket message content
+     */
+    void onMessage(T message);
 }
