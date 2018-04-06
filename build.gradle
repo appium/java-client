@@ -68,7 +68,6 @@ dependencies {
         force = true
     }
     compile 'com.google.code.gson:gson:2.8.2'
-    compile 'javax.websocket:javax.websocket-api:1.1'
     compile 'org.apache.httpcomponents:httpclient:4.5.5'
     compile 'cglib:cglib:3.2.6'
     compile 'commons-validator:commons-validator:1.6'
@@ -77,7 +76,10 @@ dependencies {
     compile 'org.springframework:spring-context:5.0.3.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.8.13'
     compile 'org.openpnp:opencv:3.2.0-1'
-
+    compile 'javax.websocket:javax.websocket-api:1.1'
+    compile 'org.glassfish.tyrus:tyrus-client:1.1'
+    compile 'org.glassfish.tyrus:tyrus-container-grizzly:1.1'
+    
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
