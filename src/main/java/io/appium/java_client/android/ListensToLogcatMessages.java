@@ -12,6 +12,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 
 public interface ListensToLogcatMessages extends ExecutesMethod {
     StringWebSocketClient logcatClient = new StringWebSocketClient();
@@ -42,7 +43,8 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startLogcatBroadcast(String host, int port) {
-        execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: startLogsBroadcast"));
+        execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: startLogsBroadcast",
+                "args", Collections.emptyList()));
         final URI endpointUri;
         try {
             endpointUri = new URI(String.format("ws://%s:%s/ws/session/%s/appium/device/logcat",
@@ -76,6 +78,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * Stops logcat messages broadcast via web socket.
      */
     default void stopLogcatBroadcast() {
-        execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: stopLogsBroadcast"));
+        execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: stopLogsBroadcast",
+                "args", Collections.emptyList()));
     }
 }
