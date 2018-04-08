@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * Represents an duration of waiting for element rendering.
  *
  * @deprecated this class is going to be removed in favour of {@link java.time.Duration}
- * usage.
+ *     usage.
  */
 @Deprecated
 public class TimeOutDuration {

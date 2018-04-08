@@ -44,7 +44,7 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
      * @param duration   is a POJO which contains timeout parameters for the elements to be found
      * @param builder    is handler of Appium-specific page object annotations
      * @deprecated This constructor is going to be
-     * removed. Use {@link #AppiumElementLocatorFactory(SearchContext, Duration, AppiumByBuilder)} instead.
+     *     removed. Use {@link #AppiumElementLocatorFactory(SearchContext, Duration, AppiumByBuilder)} instead.
      */
     @Deprecated
     public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration duration,

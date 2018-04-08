@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static java.time.Duration.ofSeconds;
+
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -36,8 +38,6 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-
-import static java.time.Duration.ofSeconds;
 
 public class IOSMobileBrowserCompatibilityTest {
 

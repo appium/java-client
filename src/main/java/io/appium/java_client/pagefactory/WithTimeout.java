@@ -16,6 +16,11 @@
 
 package io.appium.java_client.pagefactory;
 
+import static java.time.temporal.ChronoUnit.FOREVER;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,11 +28,6 @@ import java.lang.annotation.Target;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
-
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.MILLIS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**
  * This annotation is used when some element waits for time
@@ -45,8 +45,7 @@ public @interface WithTimeout {
     /**
      * Desired time unit.
      *
-     * @deprecated use {@link #chronoUnit()} instead.
-     * This property is going to be removed.
+     * @deprecated use {@link #chronoUnit()} instead. This property is going to be removed.
      * @return time unit
      */
     @Deprecated
@@ -56,7 +55,7 @@ public @interface WithTimeout {
      * Desired time unit.
      *
      * @return time unit. Default value {@link java.time.temporal.ChronoUnit#FOREVER} was added
-     * for backward compatibility temporary.
+     *     for backward compatibility temporary.
      */
     ChronoUnit chronoUnit() default FOREVER;
 

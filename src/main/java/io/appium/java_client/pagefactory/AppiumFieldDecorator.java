@@ -93,7 +93,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      *                {@link Widget} or some other user's extension/implementation.
      * @param duration is a desired duration of the waiting for an element presence.
      * @deprecated This constructor is going to be removed. Use {@link #AppiumFieldDecorator(SearchContext, Duration)}
-     * instead.
+     *     instead.
      */
     @Deprecated
     public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {

@@ -48,7 +48,7 @@ public class BaseAndroidTest {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
