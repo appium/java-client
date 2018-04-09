@@ -66,7 +66,7 @@ class AppiumElementLocator implements CacheableLocator {
      * @deprecated This constructor is going to be removed. Use {@link #AppiumElementLocator(SearchContext, By,
      * boolean, Duration)} instead.
      */
-
+    @Deprecated
     public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,
         TimeOutDuration duration) {
         this(searchContext, by, shouldCache,

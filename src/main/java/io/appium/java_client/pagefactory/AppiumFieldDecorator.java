@@ -66,11 +66,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
             RemoteWebElement.class, MobileElement.class, AndroidElement.class,
             IOSElement.class, WindowsElement.class);
-    public static Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
+    public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     @Deprecated
-    public static long DEFAULT_TIMEOUT = 1;
+    public static final long DEFAULT_TIMEOUT = 1;
     @Deprecated
-    public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
+    public static final TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver webDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
