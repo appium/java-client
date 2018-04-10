@@ -21,6 +21,13 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *6.0.0 (under construction yet)*
 
+- **[BUG FIX]** **[BREAKING CHANGE]** Refactor of the `io.appium.java_client.AppiumFluentWait`. It uses `java.time.Duration` for time settings instead of `org.openqa.selenium.support.ui.Duration` and `java.util.concurrent.TimeUnit` [#863](https://github.com/appium/java-client/pull/863)
+- **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.TimeOutDuration` became deprecated. It is going to be removed. Use `java.time.Duration` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
+- **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.WithTimeOut#unit` became deprecated. It is going to be removed. Use `io.appium.java_client.pagefactory.WithTimeOut#chronoUnit` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
+- **[BREAKING CHANGE]** constructors of `io.appium.java_client.pagefactory.AppiumElementLocatorFactory`, `io.appium.java_client.pagefactory.AppiumFieldDecorator` and `io.appium.java_client.pagefactory.AppiumElementLocator` which use `io.appium.java_client.pagefactory.TimeOutDuration` as a parameter became deprecated. Use new constructors which use `java.time.Duration`.
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.11.0
+
 *6.0.0-BETA4*
 - **[ENHANCEMENT]** Added handler for isDispalyed in W3C mode. [#833](https://github.com/appium/java-client/pull/833)
 - **[ENHANCEMENT]** Added handlers for sending SMS, making GSM Call, setting GSM signal, voice, power capacity and power AC. [#834](https://github.com/appium/java-client/pull/834)
