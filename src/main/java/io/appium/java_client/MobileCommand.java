@@ -58,6 +58,11 @@ public class MobileCommand {
     protected static final String REMOVE_APP;
     //endregion
 
+    //region Clipboard
+    public static final String GET_CLIPBOARD;
+    public static final String SET_CLIPBOARD;
+    //endregion
+
     protected static final String GET_PERFORMANCE_DATA;
     protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
 
@@ -125,6 +130,11 @@ public class MobileCommand {
         ACTIVATE_APP = "activateApp";
         REMOVE_APP = "removeApp";
         INSTALL_APP = "installApp";
+        //endregion
+
+        //region Clipboard
+        SET_CLIPBOARD = "setClipboard";
+        GET_CLIPBOARD = "getClipboard";
         //endregion
 
         GET_PERFORMANCE_DATA = "getPerformanceData";
@@ -203,6 +213,11 @@ public class MobileCommand {
         commandRepository.put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
         commandRepository.put(TERMINATE_APP, postC("/session/:sessionId/appium/device/terminate_app"));
         commandRepository.put(QUERY_APP_STATE, postC("/session/:sessionId/appium/device/app_state"));
+        //endregion
+
+        //region Clipboard
+        commandRepository.put(GET_CLIPBOARD, postC("/session/:sessionId/appium/device/get_clipboard"));
+        commandRepository.put(SET_CLIPBOARD, postC("/session/:sessionId/appium/device/set_clipboard"));
         //endregion
 
         //iOS
