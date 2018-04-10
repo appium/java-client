@@ -209,6 +209,16 @@ class DefaultListener
         ((WindowEventListener) dispatcher).afterWindowIsMaximized(driver, window);
     }
 
+    @Override
+    public void beforeSwitchToWindow(String windowName, WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).beforeSwitchToWindow(windowName, driver);
+    }
+
+    @Override
+    public void afterSwitchToWindow(String windowName, WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).afterSwitchToWindow(windowName, driver);
+    }
+
     @Override public void beforeSwitchingToContext(WebDriver driver, String context) {
         ((ContextEventListener) dispatcher).beforeSwitchingToContext(driver, context);
     }

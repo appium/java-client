@@ -16,10 +16,17 @@
 
 package io.appium.java_client.pagefactory;
 
+import static java.time.temporal.ChronoUnit.FOREVER;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +45,28 @@ public @interface WithTimeout {
     /**
      * Desired time unit.
      *
+     * @deprecated use {@link #chronoUnit()} instead. This property is going to be removed.
      * @return time unit
      */
-    TimeUnit unit();
+    @Deprecated
+    TimeUnit unit() default NANOSECONDS;
+
+    /**
+     * Desired time unit.
+     *
+     * @return time unit. Default value {@link java.time.temporal.ChronoUnit#FOREVER} was added
+     *     for backward compatibility temporary.
+     */
+    ChronoUnit chronoUnit() default FOREVER;
+
+    class DurationBuilder {
+        static Duration build(WithTimeout withTimeout) {
+            //providing backward compatibility
+            if (!FOREVER.equals(withTimeout.chronoUnit())) {
+                return Duration.of(withTimeout.time(), withTimeout.chronoUnit());
+            }
+
+            return Duration.of(MILLISECONDS.convert(withTimeout.time(), withTimeout.unit()), MILLIS);
+        }
+    }
 }

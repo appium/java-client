@@ -17,6 +17,7 @@
 package io.appium.java_client.pagefactory_tests;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static java.time.Duration.ofSeconds;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -46,7 +47,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class AndroidPageObjectTest extends BaseAndroidTest {
 
@@ -242,7 +242,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @Before public void setUp() {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
-            PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+            PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
         }
 
         populated = true;

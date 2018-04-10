@@ -29,6 +29,7 @@ import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +39,13 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final List<Widget> cachedWidgets = new ArrayList<>();
     private final Class<? extends Widget> declaredType;
-    private final TimeOutDuration duration;
+    private final Duration duration;
     private final WebDriver driver;
     private List<WebElement> cachedElements;
 
     WidgetListInterceptor(CacheableLocator locator, WebDriver driver,
         Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-        Class<? extends Widget> declaredType, TimeOutDuration duration) {
+        Class<? extends Widget> declaredType, Duration duration) {
         super(locator);
         this.instantiationMap = instantiationMap;
         this.declaredType = declaredType;

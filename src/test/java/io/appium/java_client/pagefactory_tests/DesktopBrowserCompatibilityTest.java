@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory_tests;
 import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static java.lang.System.setProperty;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -39,7 +40,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class DesktopBrowserCompatibilityTest {
 
@@ -64,7 +64,7 @@ public class DesktopBrowserCompatibilityTest {
         WebDriver driver = new ChromeDriver();
         try {
             PageFactory
-                    .initElements(new AppiumFieldDecorator(driver, 15, TimeUnit.SECONDS),
+                    .initElements(new AppiumFieldDecorator(driver, ofSeconds(15)),
                             this);
             driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm")
                     .toURI().toString());
