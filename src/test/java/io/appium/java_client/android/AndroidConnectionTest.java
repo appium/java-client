@@ -16,8 +16,10 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import io.appium.java_client.android.connection.ConnectionState;
+import io.appium.java_client.android.connection.ConnectionStateBuilder;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -26,23 +28,32 @@ import org.junit.runners.MethodSorters;
 public class AndroidConnectionTest extends BaseAndroidTest {
 
     @Test public void test1() {
-        driver.setConnection(Connection.WIFI);
-        assertEquals(Connection.WIFI,
-            driver.getConnection());
+        driver.setConnection(new ConnectionStateBuilder()
+                .withWiFiEnabled()
+                .build());
+        assertTrue(driver.getConnection().isWiFiEnabled());
     }
 
     @Test public void test2() {
-        driver.setConnection(Connection.NONE);
-        assertEquals(Connection.NONE,
-            driver.getConnection());
-        driver.setConnection(Connection.AIRPLANE);
-        assertEquals(Connection.AIRPLANE,
-            driver.getConnection());
+        driver.setConnection(new ConnectionStateBuilder()
+                .withAirplaneModeDisabled()
+                .build());
+        ConnectionState state = driver.getConnection();
+        assertTrue(!state.isAirplaneModeEnabled() && !state.isWiFiEnabled() && !state.isDataEnabled());
+        driver.setConnection(new ConnectionStateBuilder()
+                .withAirplaneModeEnabled()
+                .build());
+        state = driver.getConnection();
+        assertTrue(state.isAirplaneModeEnabled() && !state.isWiFiEnabled() && !state.isDataEnabled());
     }
 
     @Test public void test3() {
-        driver.setConnection(Connection.ALL);
-        assertEquals(Connection.ALL,
-            driver.getConnection());
+        driver.setConnection(new ConnectionStateBuilder()
+                .withAirplaneModeDisabled()
+                .withWiFiEnabled()
+                .withDataEnabled()
+                .build());
+        ConnectionState state = driver.getConnection();
+        assertTrue(!state.isAirplaneModeEnabled() && state.isWiFiEnabled() && state.isDataEnabled());
     }
 }

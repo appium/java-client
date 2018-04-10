@@ -18,7 +18,9 @@ package io.appium.java_client.android;
 
 /**
  * for use with setting Network Connections on a mobile device.
+ * @deprecated Use {@link io.appium.java_client.android.connection.ConnectionState} instead
  */
+@Deprecated
 public enum Connection {
     NONE(0),
     AIRPLANE(1),
@@ -30,5 +32,9 @@ public enum Connection {
 
     Connection(int bitMask) {
         this.bitMask = bitMask;
+    }
+
+    public int getBitMask() {
+        return bitMask;
     }
 }
