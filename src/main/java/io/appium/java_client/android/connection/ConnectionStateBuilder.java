@@ -53,6 +53,8 @@ public class ConnectionStateBuilder {
     /**
      * Sets airplane mode to enabled state if it was disabled.
      * This option only works up to Android 6.
+     * Enabling the airplane mode on the device will automatically
+     * disable Wi-Fi and data connections.
      *
      * @return self instance for chaining
      */
