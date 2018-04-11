@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.android.connection.ConnectionState;
@@ -40,9 +41,9 @@ public class AndroidConnectionTest extends BaseAndroidTest {
         ConnectionState state = driver.setConnection(new ConnectionStateBuilder()
                 .withAirplaneModeDisabled()
                 .build());
-        assertTrue(!state.isAirplaneModeEnabled());
-        assertTrue(!state.isWiFiEnabled());
-        assertTrue(!state.isDataEnabled());
+        assertFalse(state.isAirplaneModeEnabled());
+        assertFalse(state.isWiFiEnabled());
+        assertFalse(state.isDataEnabled());
         state = driver.setConnection(new ConnectionStateBuilder(state)
                 .withAirplaneModeEnabled()
                 .build());
@@ -57,7 +58,7 @@ public class AndroidConnectionTest extends BaseAndroidTest {
                         .withWiFiEnabled()
                         .withDataEnabled()
                         .build());
-        assertTrue(!state.isAirplaneModeEnabled());
+        assertFalse(state.isAirplaneModeEnabled());
         assertTrue(state.isWiFiEnabled());
         assertTrue(state.isDataEnabled());
     }
