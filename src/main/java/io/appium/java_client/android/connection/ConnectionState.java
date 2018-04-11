@@ -21,13 +21,13 @@ public class ConnectionState {
     public static final int WIFI_MASK = 0b010;
     public static final int DATA_MASK = 0b100;
 
-    private final int bitMask;
+    private final long bitMask;
 
-    public int getBitMask() {
+    public long getBitMask() {
         return bitMask;
     }
 
-    public ConnectionState(int bitMask) {
+    public ConnectionState(long bitMask) {
         this.bitMask = bitMask;
     }
 

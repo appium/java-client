@@ -21,7 +21,7 @@ import static io.appium.java_client.android.connection.ConnectionState.DATA_MASK
 import static io.appium.java_client.android.connection.ConnectionState.WIFI_MASK;
 
 public class ConnectionStateBuilder {
-    private int bitMask;
+    private long bitMask;
 
     /**
      * Initializes connection state builder with the default value (all off).
@@ -36,7 +36,7 @@ public class ConnectionStateBuilder {
      *
      * @param bitMask the actual initial state bit mask to set
      */
-    public ConnectionStateBuilder(int bitMask) {
+    public ConnectionStateBuilder(long bitMask) {
         this.bitMask = bitMask;
     }
 

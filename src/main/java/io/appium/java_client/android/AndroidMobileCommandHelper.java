@@ -200,7 +200,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @param bitMask The bitmask of the desired connection
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>> setConnectionCommand(int bitMask) {
+    public static Map.Entry<String, Map<String, ?>> setConnectionCommand(long bitMask) {
         String[] parameters = new String[] {"name", "parameters"};
         Object[] values = new Object[] {"network_connection", ImmutableMap.of("type", bitMask)};
         return new AbstractMap.SimpleEntry<>(

@@ -27,8 +27,8 @@ public interface HasNetworkConnection extends ExecutesMethod {
     /**
      * Set the network connection of the device.
      *
-     * @deprecated use {@link #setConnection(ConnectionState)} instead
      * @param connection The bitmask of the desired connection
+     * @deprecated use {@link #setConnection(ConnectionState)} instead
      */
     @Deprecated
     default void setConnection(Connection connection) {
@@ -47,8 +47,8 @@ public interface HasNetworkConnection extends ExecutesMethod {
     /**
      * Get the current network settings of the device.
      *
-     * @return Connection object will let you inspect the status
-     *     of None, AirplaneMode, Wifi, Data and All connections
+     * @return Connection object, which lets you to inspect the current status
+     *
      */
     default ConnectionState getConnection() {
         return new ConnectionState(CommandExecutionHelper.execute(this, getNetworkConnectionCommand()));
