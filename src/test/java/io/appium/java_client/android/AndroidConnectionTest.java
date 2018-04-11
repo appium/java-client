@@ -27,33 +27,38 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AndroidConnectionTest extends BaseAndroidTest {
 
-    @Test public void test1() {
-        driver.setConnection(new ConnectionStateBuilder()
+    @Test
+    public void test1() {
+        ConnectionState state = driver.setConnection(new ConnectionStateBuilder()
                 .withWiFiEnabled()
                 .build());
-        assertTrue(driver.getConnection().isWiFiEnabled());
+        assertTrue(state.isWiFiEnabled());
     }
 
-    @Test public void test2() {
-        driver.setConnection(new ConnectionStateBuilder()
+    @Test
+    public void test2() {
+        ConnectionState state = driver.setConnection(new ConnectionStateBuilder()
                 .withAirplaneModeDisabled()
                 .build());
-        ConnectionState state = driver.getConnection();
-        assertTrue(!state.isAirplaneModeEnabled() && !state.isWiFiEnabled() && !state.isDataEnabled());
-        driver.setConnection(new ConnectionStateBuilder()
+        assertTrue(!state.isAirplaneModeEnabled());
+        assertTrue(!state.isWiFiEnabled());
+        assertTrue(!state.isDataEnabled());
+        state = driver.setConnection(new ConnectionStateBuilder(state)
                 .withAirplaneModeEnabled()
                 .build());
-        state = driver.getConnection();
         assertTrue(state.isAirplaneModeEnabled());
     }
 
-    @Test public void test3() {
-        driver.setConnection(new ConnectionStateBuilder()
-                .withAirplaneModeDisabled()
-                .withWiFiEnabled()
-                .withDataEnabled()
-                .build());
-        ConnectionState state = driver.getConnection();
-        assertTrue(!state.isAirplaneModeEnabled() && state.isWiFiEnabled() && state.isDataEnabled());
+    @Test
+    public void test3() {
+        ConnectionState state = driver.setConnection(
+                new ConnectionStateBuilder(driver.getConnection())
+                        .withAirplaneModeDisabled()
+                        .withWiFiEnabled()
+                        .withDataEnabled()
+                        .build());
+        assertTrue(!state.isAirplaneModeEnabled());
+        assertTrue(state.isWiFiEnabled());
+        assertTrue(state.isDataEnabled());
     }
 }

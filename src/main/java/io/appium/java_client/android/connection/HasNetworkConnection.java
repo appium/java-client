@@ -39,16 +39,17 @@ public interface HasNetworkConnection extends ExecutesMethod {
      * Set the network connection of the device.
      *
      * @param connection The bitmask of the desired connection
+     * @return Connection object, which represents the resulting state
      */
-    default void setConnection(ConnectionState connection) {
-        CommandExecutionHelper.execute(this, setConnectionCommand(connection.getBitMask()));
+    default ConnectionState setConnection(ConnectionState connection) {
+        return new ConnectionState(CommandExecutionHelper.execute(this,
+                setConnectionCommand(connection.getBitMask())));
     }
 
     /**
      * Get the current network settings of the device.
      *
      * @return Connection object, which lets you to inspect the current status
-     *
      */
     default ConnectionState getConnection() {
         return new ConnectionState(CommandExecutionHelper.execute(this, getNetworkConnectionCommand()));
