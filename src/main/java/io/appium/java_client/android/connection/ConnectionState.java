@@ -17,9 +17,9 @@
 package io.appium.java_client.android.connection;
 
 public class ConnectionState {
-    public static final int AIRPLANE_MODE_MASK = 0b001;
-    public static final int WIFI_MASK = 0b010;
-    public static final int DATA_MASK = 0b100;
+    public static final long AIRPLANE_MODE_MASK = 0b001;
+    public static final long WIFI_MASK = 0b010;
+    public static final long DATA_MASK = 0b100;
 
     private final long bitMask;
 
