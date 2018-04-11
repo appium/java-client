@@ -16,18 +16,19 @@
 
 package io.appium.java_client;
 
+import static java.time.Duration.ofMillis;
+
 import com.google.common.base.Throwables;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.Clock;
-import org.openqa.selenium.support.ui.Duration;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Sleeper;
 
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -167,7 +168,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     /**
      * Sets the strategy for polling. The default strategy is null,
      * which means, that polling interval is always a constant value and is
-     * set by {@link #pollingEvery(long, TimeUnit)} method. Otherwise the value set by that
+     * set by {@link #pollingEvery(Duration)} method. Otherwise the value set by that
      * method might be just a helper to calculate the actual interval.
      * Although, by setting an alternative polling strategy you may flexibly control
      * the duration of this interval for each polling round.
@@ -228,7 +229,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
         final long start = getClock().now();
-        final long end = getClock().laterBy(getTimeout().in(TimeUnit.MILLISECONDS));
+        final long end = getClock().laterBy(getTimeout().toMillis());
         long iterationNumber = 1;
         Throwable lastException;
         while (true) {
@@ -254,7 +255,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 String timeoutMessage = String.format(
                         "Expected condition failed: %s (tried for %d second(s) with %s interval)",
                         message == null ? "waiting for " + isTrue : message,
-                        getTimeout().in(TimeUnit.SECONDS), getInterval());
+                        getTimeout().getSeconds(), getInterval());
                 throw timeoutException(timeoutMessage, lastException);
             }
 
@@ -262,7 +263,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 Duration interval = getInterval();
                 if (pollingStrategy != null) {
                     final IterationInfo info = new IterationInfo(iterationNumber,
-                            new Duration(getClock().now() - start, TimeUnit.MILLISECONDS), getTimeout(),
+                            ofMillis(getClock().now() - start), getTimeout(),
                             interval);
                     interval = pollingStrategy.apply(info);
                 }

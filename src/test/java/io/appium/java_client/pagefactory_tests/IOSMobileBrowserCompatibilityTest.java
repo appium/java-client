@@ -16,6 +16,8 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static java.time.Duration.ofSeconds;
+
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -36,7 +38,6 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class IOSMobileBrowserCompatibilityTest {
 
@@ -65,7 +66,7 @@ public class IOSMobileBrowserCompatibilityTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         driver = new IOSDriver<>(service.getUrl(), capabilities);
-        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
     }
 
     /**

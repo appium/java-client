@@ -83,6 +83,8 @@ class DefaultAspect {
         + ".rotate(..))";
     private static final String EXECUTION_CONTEXT = "execution(* org.openqa.selenium.ContextAware."
         + "context(..))";
+    private static final String EXECUTION_SWITCH_TO_WINDOW = "execution(* org.openqa.selenium.WebDriver.TargetLocator"
+            + ".window(..))";
     private static final String AROUND = "execution(* org.openqa.selenium.WebDriver.*(..)) || "
         + "execution(* org.openqa.selenium.WebElement.*(..)) || "
         + "execution(* org.openqa.selenium.WebDriver.Navigation.*(..)) || "
@@ -458,6 +460,24 @@ class DefaultAspect {
     public void afterMaximization(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterWindowIsMaximized(driver, castTarget(joinPoint));
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @Before(EXECUTION_SWITCH_TO_WINDOW)
+    public void beforeSwitchToWindow(JoinPoint joinPoint) throws Throwable {
+        try {
+            listener.beforeSwitchToWindow(castArgument(joinPoint, 0), driver);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @After(EXECUTION_SWITCH_TO_WINDOW)
+    public void afterSwitchToWindow(JoinPoint joinPoint) throws Throwable {
+        try {
+            listener.afterSwitchToWindow(castArgument(joinPoint, 0), driver);
         } catch (Throwable t) {
             throw getRootCause(t);
         }

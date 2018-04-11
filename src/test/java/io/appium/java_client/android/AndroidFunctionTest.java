@@ -1,5 +1,7 @@
 package io.appium.java_client.android;
 
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
@@ -20,7 +22,6 @@ import org.openqa.selenium.support.ui.Wait;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,7 +81,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
                 searchingFunction.compose(contextFunction);
 
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("WEBVIEW"))
-                .withTimeout(30, TimeUnit.SECONDS);
+                .withTimeout(ofSeconds(30));
         List<WebElement> elements = wait.until(compositeFunction);
 
         assertThat("Element size should be 1", elements.size(), is(1));
@@ -115,7 +116,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
                 });
 
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("WEBVIEW"))
-                .withTimeout(30, TimeUnit.SECONDS);
+                .withTimeout(ofSeconds(30));
         List<WebElement> elements = wait.until(compositeFunction);
         assertThat("Element size should be 1", elements.size(), is(1));
         assertThat("WebView is expected", driver.getContext(), containsString("WEBVIEW"));
@@ -124,13 +125,13 @@ public class AndroidFunctionTest extends BaseAndroidTest {
 
     @Test(expected = TimeoutException.class) public void nullPointerExceptionSafetyTestWithPrecondition() {
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
-                .withTimeout(30, TimeUnit.SECONDS).pollingEvery(500, TimeUnit.MILLISECONDS);
+                .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
         assertTrue(wait.until(searchingFunction.compose(contextFunction)).size() > 0);
     }
 
     @Test(expected = TimeoutException.class) public void nullPointerExceptionSafetyTestWithPostConditions() {
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
-                .withTimeout(30, TimeUnit.SECONDS).pollingEvery(500, TimeUnit.MILLISECONDS);
+                .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
         assertTrue(wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)).size() > 0);
     }
 }

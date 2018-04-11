@@ -1,5 +1,7 @@
 package io.appium.java_client.events.listeners;
 
+import static java.lang.String.format;
+
 import io.appium.java_client.events.api.general.WindowEventListener;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
@@ -41,5 +43,15 @@ public class WindowListener extends TestListener implements WindowEventListener 
 
     @Override public void afterWindowIsMaximized(WebDriver driver, WebDriver.Window window) {
         messages.add("The window has been maximized");
+    }
+
+    @Override
+    public void beforeSwitchToWindow(String windowName, WebDriver driver) {
+        messages.add(format("Attempt to switch to window %s", windowName));
+    }
+
+    @Override
+    public void afterSwitchToWindow(String windowName, WebDriver driver) {
+        messages.add(format("driver is switched to window %s", windowName));
     }
 }

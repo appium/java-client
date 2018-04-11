@@ -71,7 +71,6 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
                             WEBDRIVER_EVENT_LISTENER + "The alert was accepted",
                             WEBDRIVER_EVENT_LISTENER + "Attempt to dismiss alert",
                             WEBDRIVER_EVENT_LISTENER + "The alert was dismissed"));
-            assertThat(listener.messages.size(), is(4));
         } finally {
             listener.messages.clear();
         }
@@ -81,5 +80,18 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
     public void exceptionEventTest() {
         assertThat(super.assertThatExceptionListenerWorks(driver, listener, WEBDRIVER_EVENT_LISTENER),
             is(true));
+    }
+
+    @Test
+    public void windowListenerTest() {
+        try {
+            driver.switchTo().window("Test window");
+            assertThat(listener.messages,
+                    hasItems(WEBDRIVER_EVENT_LISTENER + "Attempt to switch to window Test window",
+                            WEBDRIVER_EVENT_LISTENER + "driver is switched to window Test window"));
+        } finally {
+            listener.messages.clear();
+        }
+
     }
 }

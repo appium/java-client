@@ -30,6 +30,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,12 +38,12 @@ class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
-    private final TimeOutDuration duration;
+    private final Duration duration;
     private WebElement cachedElement;
 
     WidgetInterceptor(CacheableLocator locator, WebDriver driver, WebElement cachedElement,
         Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-        TimeOutDuration duration) {
+        Duration duration) {
         super(locator, driver);
         this.cachedElement = cachedElement;
         this.instantiationMap = instantiationMap;
