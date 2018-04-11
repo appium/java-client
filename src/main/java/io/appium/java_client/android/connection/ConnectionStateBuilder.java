@@ -59,7 +59,7 @@ public class ConnectionStateBuilder {
      * @return self instance for chaining
      */
     public ConnectionStateBuilder withAirplaneModeEnabled() {
-        this.bitMask = bitMask | AIRPLANE_MODE_MASK;
+        bitMask |= AIRPLANE_MODE_MASK;
         return this;
     }
 
@@ -70,7 +70,7 @@ public class ConnectionStateBuilder {
      * @return self instance for chaining
      */
     public ConnectionStateBuilder withAirplaneModeDisabled() {
-        this.bitMask = bitMask & ~AIRPLANE_MODE_MASK;
+        bitMask &= ~AIRPLANE_MODE_MASK;
         return this;
     }
 
@@ -80,7 +80,7 @@ public class ConnectionStateBuilder {
      * @return self instance for chaining
      */
     public ConnectionStateBuilder withWiFiEnabled() {
-        this.bitMask = bitMask | WIFI_MASK;
+        bitMask |= WIFI_MASK;
         return this;
     }
 
@@ -90,7 +90,7 @@ public class ConnectionStateBuilder {
      * @return self instance for chaining
      */
     public ConnectionStateBuilder withWiFiDisabled() {
-        this.bitMask = bitMask & ~WIFI_MASK;
+        bitMask &= ~WIFI_MASK;
         return this;
     }
 
@@ -101,7 +101,7 @@ public class ConnectionStateBuilder {
      * @return self instance for chaining
      */
     public ConnectionStateBuilder withDataEnabled() {
-        this.bitMask = bitMask | DATA_MASK;
+        bitMask |= DATA_MASK;
         return this;
     }
 
@@ -112,7 +112,7 @@ public class ConnectionStateBuilder {
      * @return self instance for chaining
      */
     public ConnectionStateBuilder withDataDisabled() {
-        this.bitMask = bitMask & ~DATA_MASK;
+        bitMask &= ~DATA_MASK;
         return this;
     }
 
