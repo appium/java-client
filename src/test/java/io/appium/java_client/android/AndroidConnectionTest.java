@@ -44,7 +44,7 @@ public class AndroidConnectionTest extends BaseAndroidTest {
                 .withAirplaneModeEnabled()
                 .build());
         state = driver.getConnection();
-        assertTrue(state.isAirplaneModeEnabled() && !state.isWiFiEnabled() && !state.isDataEnabled());
+        assertTrue(state.isAirplaneModeEnabled());
     }
 
     @Test public void test3() {
