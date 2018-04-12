@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 import javax.websocket.ClientEndpoint;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -30,9 +31,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
 @ClientEndpoint
-public class StringWebSocketClient extends WebSocketClient
-        implements CanHandleMessages<MessagesHandler<String>> {
-    private final List<MessagesHandler<String>> messageHandlers = new CopyOnWriteArrayList<>();
+public class StringWebSocketClient extends WebSocketClient implements
+        CanHandleMessages<String>, CanHandleErrors, CanHandleConnects, CanHandleDisconnects {
+    private final List<Consumer<String>> messageHandlers = new CopyOnWriteArrayList<>();
+    private final List<Consumer<Throwable>> errorHandlers = new CopyOnWriteArrayList<>();
+    private final List<Runnable> connectHandlers = new CopyOnWriteArrayList<>();
+    private final List<Runnable> disconnectHandlers = new CopyOnWriteArrayList<>();
+
     private volatile Session session;
 
     @Override
@@ -42,7 +47,7 @@ public class StringWebSocketClient extends WebSocketClient
                 return;
             }
 
-            removeAllMessageHandlers();
+            removeAllHandlers();
             try {
                 session.close();
             } catch (IOException e) {
@@ -62,7 +67,7 @@ public class StringWebSocketClient extends WebSocketClient
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        getMessageHandlers().forEach(MessagesHandler::onConnected);
+        getConnectionHandlers().forEach(Runnable::run);
     }
 
     /**
@@ -72,7 +77,7 @@ public class StringWebSocketClient extends WebSocketClient
     @OnClose
     public void onClose() {
         this.session = null;
-        getMessageHandlers().forEach(MessagesHandler::onDisconnected);
+        getDisconnectionHandlers().forEach(Runnable::run);
     }
 
     /**
@@ -84,7 +89,7 @@ public class StringWebSocketClient extends WebSocketClient
     @OnError
     public void onError(Throwable cause) {
         this.session = null;
-        getMessageHandlers().forEach(x -> x.onError(cause));
+        getErrorHandlers().forEach(x -> x.accept(cause));
         throw new WebDriverException(cause);
     }
 
@@ -96,14 +101,48 @@ public class StringWebSocketClient extends WebSocketClient
      */
     @OnMessage
     public void onMessage(String message) {
-        getMessageHandlers().forEach(x -> x.onMessage(message));
+        getMessageHandlers().forEach(x -> x.accept(message));
     }
 
     /**
      * @return The list of all registered web socket messages handlers.
      */
     @Override
-    public List<MessagesHandler<String>> getMessageHandlers() {
+    public List<Consumer<String>> getMessageHandlers() {
         return messageHandlers;
+    }
+
+    /**
+     * @return The list of all registered web socket error handlers.
+     */
+    @Override
+    public List<Consumer<Throwable>> getErrorHandlers() {
+        return errorHandlers;
+    }
+
+    /**
+     * @return The list of all registered web socket connection handlers.
+     */
+    @Override
+    public List<Runnable> getConnectionHandlers() {
+        return connectHandlers;
+    }
+
+    /**
+     * @return The list of all registered web socket disconnection handlers.
+     */
+    @Override
+    public List<Runnable> getDisconnectionHandlers() {
+        return disconnectHandlers;
+    }
+
+    /**
+     * Remove all the registered handlers.
+     */
+    public void removeAllHandlers() {
+        removeMessageHandlers();
+        removeErrorHandlers();
+        removeConnectionHandlers();
+        removeDisconnectionHandlers();
     }
 }

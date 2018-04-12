@@ -22,13 +22,13 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.ws.MessagesHandler;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 public interface ListensToLogcatMessages extends ExecutesMethod {
     StringWebSocketClient logcatClient = new StringWebSocketClient();
@@ -72,22 +72,60 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
     }
 
     /**
-     * Adds a new log broadcasting handler.
+     * Adds a new log messages broadcasting handler.
      * Several handlers might be assigned to a single server.
-     * Multiple calls to this method will cause the handler
+     * Multiple calls to this method will cause such handler
      * to be called multiple times.
      *
-     * @param handler an instance of a class, which implement string message handlers
+     * @param handler a function, which accepts a single argument, which is the actual log message
      */
-    default void addLogcatListener(MessagesHandler<String> handler) {
+    default void addLogcatMessagesListener(Consumer<String> handler) {
         logcatClient.addMessageHandler(handler);
     }
 
     /**
-     * Removes all existing logcat message handlers.
+     * Adds a new log broadcasting errors handler.
+     * Several handlers might be assigned to a single server.
+     * Multiple calls to this method will cause such handler
+     * to be called multiple times.
+     *
+     * @param handler a function, which accepts a single argument, which is the actual exception instance
+     */
+    default void addLogcatErrorsListener(Consumer<Throwable> handler) {
+        logcatClient.addErrorHandler(handler);
+    }
+
+    /**
+     * Adds a new log broadcasting connection handler.
+     * Several handlers might be assigned to a single server.
+     * Multiple calls to this method will cause such handler
+     * to be called multiple times.
+     *
+     * @param handler a function, which is executed as soon as the client is successfully
+     *                connected to the web socket
+     */
+    default void addLogcatConnectionListener(Runnable handler) {
+        logcatClient.addConnectionHandler(handler);
+    }
+
+    /**
+     * Adds a new log broadcasting disconnection handler.
+     * Several handlers might be assigned to a single server.
+     * Multiple calls to this method will cause such handler
+     * to be called multiple times.
+     *
+     * @param handler a function, which is executed as soon as the client is successfully
+     *                disconnected from the web socket
+     */
+    default void addLogcatDisconnectionListener(Runnable handler) {
+        logcatClient.addDisconnectionHandler(handler);
+    }
+
+    /**
+     * Removes all existing logcat handlers.
      */
     default void removeAllLogcatListeners() {
-        logcatClient.removeAllMessageHandlers();
+        logcatClient.removeAllHandlers();
     }
 
     /**

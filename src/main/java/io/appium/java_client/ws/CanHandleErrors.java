@@ -19,26 +19,26 @@ package io.appium.java_client.ws;
 import java.util.List;
 import java.util.function.Consumer;
 
-public interface CanHandleMessages<T> {
-    /**
-     * @return The list of web socket message handlers.
-     */
-    List<Consumer<T>> getMessageHandlers();
+public interface CanHandleErrors {
 
     /**
-     * Register a new message handler.
-     *
-     * @param handler a callback function, which accepts the received message as a parameter
+     * @return The list of web socket error handlers.
      */
-    default void addMessageHandler(Consumer<T> handler) {
-        getMessageHandlers().add(handler);
+    List<Consumer<Throwable>> getErrorHandlers();
+
+    /**
+     * Register a new error handler.
+     *
+     * @param handler a callback function, which accepts the received exception instance as a parameter
+     */
+    default void addErrorHandler(Consumer<Throwable> handler) {
+        getErrorHandlers().add(handler);
     }
 
     /**
-     * Removes existing message handlers.
+     * Removes existing error handlers.
      */
-    default void removeMessageHandlers() {
-        getMessageHandlers().clear();
+    default void removeErrorHandlers() {
+        getErrorHandlers().clear();
     }
 }
-

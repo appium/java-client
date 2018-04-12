@@ -2,7 +2,6 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.ws.MessagesHandler;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -16,27 +15,10 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
         final Semaphore messageSemaphore = new Semaphore(1);
         final Duration timeout = Duration.ofSeconds(5);
 
-        driver.addLogcatListener(new MessagesHandler<String>() {
-            @Override
-            public void onMessage(String message) {
-                messageSemaphore.release();
-            }
-
-            @Override
-            public void onConnected() {
-                System.out.println("Connected to web socket");
-            }
-
-            @Override
-            public void onDisconnected() {
-                System.out.println("Disconnected from web socket");
-            }
-
-            @Override
-            public void onError(Throwable cause) {
-                cause.printStackTrace();
-            }
-        });
+        driver.addLogcatMessagesListener((msg) -> messageSemaphore.release());
+        driver.addLogcatConnectionListener(() -> System.out.println("Connected to the web socket"));
+        driver.addLogcatDisconnectionListener(() -> System.out.println("Disconnected from the web socket"));
+        driver.addLogcatErrorsListener(Throwable::printStackTrace);
         try {
             driver.startLogcatBroadcast();
             messageSemaphore.acquire();

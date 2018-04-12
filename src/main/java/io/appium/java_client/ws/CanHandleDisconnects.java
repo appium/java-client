@@ -17,28 +17,27 @@
 package io.appium.java_client.ws;
 
 import java.util.List;
-import java.util.function.Consumer;
 
-public interface CanHandleMessages<T> {
+public interface CanHandleDisconnects {
+
     /**
-     * @return The list of web socket message handlers.
+     * @return The list of web socket disconnection handlers.
      */
-    List<Consumer<T>> getMessageHandlers();
+    List<Runnable> getDisconnectionHandlers();
 
     /**
-     * Register a new message handler.
+     * Register a new web socket disconnect handler.
      *
-     * @param handler a callback function, which accepts the received message as a parameter
+     * @param handler a callback function, which is going to be executed when web socket disconnect event arrives
      */
-    default void addMessageHandler(Consumer<T> handler) {
-        getMessageHandlers().add(handler);
+    default void addDisconnectionHandler(Runnable handler) {
+        getDisconnectionHandlers().add(handler);
     }
 
     /**
-     * Removes existing message handlers.
+     * Removes existing disconnection handlers.
      */
-    default void removeMessageHandlers() {
-        getMessageHandlers().clear();
+    default void removeDisconnectionHandlers() {
+        getDisconnectionHandlers().clear();
     }
 }
-
