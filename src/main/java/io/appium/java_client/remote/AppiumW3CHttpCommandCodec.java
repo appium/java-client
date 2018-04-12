@@ -71,7 +71,6 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
         switch (name) {
             case SEND_KEYS_TO_ACTIVE_ELEMENT:
             case SEND_KEYS_TO_ELEMENT:
-            case SET_ALERT_VALUE:
             case SET_TIMEOUT:
                 return super.amendParameters(name, parameters);
             default:
