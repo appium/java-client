@@ -197,13 +197,12 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     /**
      * This method forms a {@link Map} of parameters for the setting of device network connection.
      *
-     * @param connection The bitmask of the desired connection
+     * @param bitMask The bitmask of the desired connection
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
-    public static Map.Entry<String, Map<String, ?>> setConnectionCommand(Connection connection) {
+    public static Map.Entry<String, Map<String, ?>> setConnectionCommand(long bitMask) {
         String[] parameters = new String[] {"name", "parameters"};
-        Object[] values =
-            new Object[] {"network_connection", ImmutableMap.of("type", connection.bitMask)};
+        Object[] values = new Object[] {"network_connection", ImmutableMap.of("type", bitMask)};
         return new AbstractMap.SimpleEntry<>(
                 SET_NETWORK_CONNECTION, prepareArguments(parameters, values));
     }

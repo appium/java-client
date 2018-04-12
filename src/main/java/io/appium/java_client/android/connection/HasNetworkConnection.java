@@ -14,43 +14,44 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android;
+package io.appium.java_client.android.connection;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.WebDriverException;
+import io.appium.java_client.android.Connection;
 
 public interface HasNetworkConnection extends ExecutesMethod {
+    /**
+     * Set the network connection of the device.
+     *
+     * @param connection The bitmask of the desired connection
+     * @deprecated use {@link #setConnection(ConnectionState)} instead
+     */
+    @Deprecated
+    default void setConnection(Connection connection) {
+        CommandExecutionHelper.execute(this, setConnectionCommand(connection.getBitMask()));
+    }
 
     /**
      * Set the network connection of the device.
      *
      * @param connection The bitmask of the desired connection
+     * @return Connection object, which represents the resulting state
      */
-    default void setConnection(Connection connection) {
-        CommandExecutionHelper.execute(this, setConnectionCommand(connection));
+    default ConnectionState setConnection(ConnectionState connection) {
+        return new ConnectionState(CommandExecutionHelper.execute(this,
+                setConnectionCommand(connection.getBitMask())));
     }
-
 
     /**
      * Get the current network settings of the device.
      *
-     * @return Connection object will let you inspect the status
-     *     of None, AirplaneMode, Wifi, Data and All connections
+     * @return Connection object, which lets you to inspect the current status
      */
-    default Connection getConnection() {
-        long bitMask = CommandExecutionHelper.execute(this, getNetworkConnectionCommand());
-        Connection[] types = Connection.values();
-
-        for (Connection connection: types) {
-            if (connection.bitMask == bitMask) {
-                return connection;
-            }
-        }
-        throw new WebDriverException("The unknown network connection "
-            + "type has been returned. The bitmask is " + bitMask);
+    default ConnectionState getConnection() {
+        return new ConnectionState(CommandExecutionHelper.execute(this, getNetworkConnectionCommand()));
     }
 }

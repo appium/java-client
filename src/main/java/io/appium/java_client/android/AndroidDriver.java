@@ -25,6 +25,7 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PressesKeyCode;
+import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
