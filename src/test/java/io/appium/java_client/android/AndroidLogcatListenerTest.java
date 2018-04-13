@@ -2,6 +2,7 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.junit.Test;
 
 import java.time.Duration;
@@ -13,7 +14,7 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
     @Test
     public void verifyLogcatListenerCanBeAssigned() {
         final Semaphore messageSemaphore = new Semaphore(1);
-        final Duration timeout = Duration.ofSeconds(5);
+        final Duration timeout = Duration.ofSeconds(15);
 
         driver.addLogcatMessagesListener((msg) -> messageSemaphore.release());
         driver.addLogcatConnectionListener(() -> System.out.println("Connected to the web socket"));
@@ -22,7 +23,10 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
         try {
             driver.startLogcatBroadcast();
             messageSemaphore.acquire();
-            assertTrue(String.format("Didn't receive any log message after %s timeout", timeout),
+            // This is needed for pushing some internal log messages
+            driver.runAppInBackground(Duration.ofSeconds(1));
+            assertTrue(String.format("Didn't receive any log message after %s timeout",
+                    DurationFormatUtils.formatDuration(timeout.toMillis(), "H:mm:ss", true)),
                     messageSemaphore.tryAcquire(timeout.toMillis(), TimeUnit.MILLISECONDS));
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
