@@ -33,7 +33,7 @@ import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
-import org.openqa.selenium.remote.internal.ApacheHttpClient;
+import org.openqa.selenium.remote.internal.OkHttpClient;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.IOException;
@@ -70,12 +70,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, new ApacheHttpClient.Factory());
+        this(additionalCommands, addressOfRemoteServer, new OkHttpClient.Factory());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  DriverService service) {
-        this(additionalCommands, service, new ApacheHttpClient.Factory());
+        this(additionalCommands, service, new OkHttpClient.Factory());
     }
 
     private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {

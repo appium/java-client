@@ -72,7 +72,7 @@ public interface HasClipboard extends ExecutesMethod {
      */
     default String getClipboardText() {
         byte[] base64decodedBytes = Base64
-                .getDecoder()
+                .getMimeDecoder()
                 .decode(getClipboard(ClipboardContentType.PLAINTEXT));
         return new String(base64decodedBytes, StandardCharsets.UTF_8);
     }
