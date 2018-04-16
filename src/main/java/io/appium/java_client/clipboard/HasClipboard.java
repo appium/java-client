@@ -61,7 +61,7 @@ public interface HasClipboard extends ExecutesMethod {
      */
     default void setClipboardText(String text) {
         setClipboard(ClipboardContentType.PLAINTEXT, Base64
-                .getEncoder()
+                .getMimeEncoder()
                 .encode(text.getBytes(StandardCharsets.UTF_8)));
     }
 

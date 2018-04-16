@@ -42,7 +42,7 @@ public interface HasIOSClipboard extends HasClipboard {
         try (final ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             ImageIO.write(checkNotNull(img), "png", os);
             setClipboard(ClipboardContentType.IMAGE, Base64
-                    .getEncoder()
+                    .getMimeEncoder()
                     .encode(os.toByteArray()));
         }
     }
@@ -55,7 +55,7 @@ public interface HasIOSClipboard extends HasClipboard {
      */
     default BufferedImage getClipboardImage() throws IOException {
         final byte[] base64decodedBytes = Base64
-                .getDecoder()
+                .getMimeDecoder()
                 .decode(getClipboard(ClipboardContentType.IMAGE));
         return ImageIO.read(new ByteArrayInputStream(base64decodedBytes));
     }
@@ -67,7 +67,7 @@ public interface HasIOSClipboard extends HasClipboard {
      */
     default void setClipboardUrl(URL url) {
         setClipboard(ClipboardContentType.URL, Base64
-                .getEncoder()
+                .getMimeEncoder()
                 .encode(checkNotNull(url).toString().getBytes(StandardCharsets.UTF_8)));
     }
 
@@ -79,7 +79,7 @@ public interface HasIOSClipboard extends HasClipboard {
      */
     default URL getClipboardUrl() throws MalformedURLException {
         final byte[] base64decodedBytes = Base64
-                .getDecoder()
+                .getMimeDecoder()
                 .decode(getClipboard(ClipboardContentType.URL));
         return new URL(new String(base64decodedBytes, StandardCharsets.UTF_8));
     }
