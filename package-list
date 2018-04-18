@@ -1,7 +1,9 @@
 io.appium.java_client
 io.appium.java_client.android
 io.appium.java_client.android.appmanagement
+io.appium.java_client.android.connection
 io.appium.java_client.appmanagement
+io.appium.java_client.clipboard
 io.appium.java_client.events
 io.appium.java_client.events.api
 io.appium.java_client.events.api.general
@@ -22,6 +24,7 @@ io.appium.java_client.service.local.flags
 io.appium.java_client.touch
 io.appium.java_client.touch.offset
 io.appium.java_client.windows
+io.appium.java_client.ws
 org.openqa.selenium
 org.openqa.selenium.internal
 org.openqa.selenium.remote
