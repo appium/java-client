@@ -21,6 +21,8 @@ import java.util.function.Consumer;
 
 public interface CanHandleMessages<T> {
     /**
+     * Returns a list of all registered web socket messages handlers.
+     *
      * @return The list of web socket message handlers.
      */
     List<Consumer<T>> getMessageHandlers();

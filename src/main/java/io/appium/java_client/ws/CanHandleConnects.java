@@ -21,6 +21,8 @@ import java.util.List;
 public interface CanHandleConnects {
 
     /**
+     * Returns a list of all registered web socket connection handlers.
+     *
      * @return The list of web socket connection handlers.
      */
     List<Runnable> getConnectionHandlers();

@@ -21,6 +21,8 @@ import java.util.List;
 public interface CanHandleDisconnects {
 
     /**
+     * Returns a list of all registered web socket disconnection handlers.
+     *
      * @return The list of web socket disconnection handlers.
      */
     List<Runnable> getDisconnectionHandlers();

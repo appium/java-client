@@ -32,6 +32,8 @@ public class ConnectionState {
     }
 
     /**
+     * Is airplane mode enabled or not.
+     *
      * @return true if airplane mode is enabled.
      */
     public boolean isAirplaneModeEnabled() {
@@ -39,6 +41,8 @@ public class ConnectionState {
     }
 
     /**
+     * Is Wi-Fi connection enabled or not.
+     *
      * @return true if Wi-Fi connection is enabled.
      */
     public boolean isWiFiEnabled() {
@@ -46,6 +50,8 @@ public class ConnectionState {
     }
 
     /**
+     * Is data connection enabled or not.
+     *
      * @return true if data connection is enabled.
      */
     public boolean isDataEnabled() {

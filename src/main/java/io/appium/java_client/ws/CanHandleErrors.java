@@ -22,6 +22,8 @@ import java.util.function.Consumer;
 public interface CanHandleErrors {
 
     /**
+     * Returns a list of all registered web socket error handlers.
+     *
      * @return The list of web socket error handlers.
      */
     List<Consumer<Throwable>> getErrorHandlers();

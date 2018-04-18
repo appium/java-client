@@ -48,7 +48,7 @@ public interface HasIOSClipboard extends HasClipboard {
     }
 
     /**
-     * Get an image from the clipboard
+     * Get an image from the clipboard.
      *
      * @return the actual image instance.
      * @throws IOException If the returned image cannot be decoded or if the clipboard is empty.
@@ -72,7 +72,7 @@ public interface HasIOSClipboard extends HasClipboard {
     }
 
     /**
-     * Get an URL from the clipboard
+     * Get an URL from the clipboard.
      *
      * @return the actual URL instance.
      * @throws MalformedURLException if the URL in the clipboard is not valid or if the clipboard is empty.

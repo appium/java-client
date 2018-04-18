@@ -104,33 +104,21 @@ public class StringWebSocketClient extends WebSocketClient implements
         getMessageHandlers().forEach(x -> x.accept(message));
     }
 
-    /**
-     * @return The list of all registered web socket messages handlers.
-     */
     @Override
     public List<Consumer<String>> getMessageHandlers() {
         return messageHandlers;
     }
 
-    /**
-     * @return The list of all registered web socket error handlers.
-     */
     @Override
     public List<Consumer<Throwable>> getErrorHandlers() {
         return errorHandlers;
     }
 
-    /**
-     * @return The list of all registered web socket connection handlers.
-     */
     @Override
     public List<Runnable> getConnectionHandlers() {
         return connectHandlers;
     }
 
-    /**
-     * @return The list of all registered web socket disconnection handlers.
-     */
     @Override
     public List<Runnable> getDisconnectionHandlers() {
         return disconnectHandlers;
