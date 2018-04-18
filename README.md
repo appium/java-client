@@ -21,6 +21,12 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *6.0.0 (under construction yet)*
 
+*6.0.0-BETA5*
+- **[ENHANCEMENT]** Added clipboard handlers. [#855](https://github.com/appium/java-client/pull/855) [#869](https://github.com/appium/java-client/pull/869)
+- **[ENHANCEMENT]** Added wrappers for Android logcat broadcaster. [#858](https://github.com/appium/java-client/pull/858)
+- **[ENHANCEMENT]** Add bugreport option to Android screen recorder. [#852](https://github.com/appium/java-client/pull/852)
+- **[BUG FIX]** Avoid amending parameters for SET_ALERT_VALUE endpoint. [#867](https://github.com/appium/java-client/pull/867)
+- **[BREAKING CHANGE]** Refactor network connection setting on Android. [#865](https://github.com/appium/java-client/pull/865)
 - **[BUG FIX]** **[BREAKING CHANGE]** Refactor of the `io.appium.java_client.AppiumFluentWait`. It uses `java.time.Duration` for time settings instead of `org.openqa.selenium.support.ui.Duration` and `java.util.concurrent.TimeUnit` [#863](https://github.com/appium/java-client/pull/863)
 - **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.TimeOutDuration` became deprecated. It is going to be removed. Use `java.time.Duration` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
 - **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.WithTimeOut#unit` became deprecated. It is going to be removed. Use `io.appium.java_client.pagefactory.WithTimeOut#chronoUnit` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
