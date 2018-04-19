@@ -24,7 +24,6 @@ import static org.openqa.selenium.remote.DriverCommand.GET_PAGE_SOURCE;
 import static org.openqa.selenium.remote.DriverCommand.IS_ELEMENT_DISPLAYED;
 import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ACTIVE_ELEMENT;
 import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ELEMENT;
-import static org.openqa.selenium.remote.DriverCommand.SET_ALERT_VALUE;
 import static org.openqa.selenium.remote.DriverCommand.SET_TIMEOUT;
 import static org.openqa.selenium.remote.DriverCommand.SUBMIT_ELEMENT;
 
