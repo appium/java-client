@@ -16,6 +16,12 @@
 
 package io.appium.java_client.android;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
 import io.appium.java_client.imagecomparison.FeatureDetector;
 import io.appium.java_client.imagecomparison.FeaturesMatchingOptions;
 import io.appium.java_client.imagecomparison.FeaturesMatchingResult;
@@ -28,12 +34,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.OutputType;
-
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 
 public class ImagesComparisonTest extends BaseAndroidTest {
 
