@@ -17,7 +17,7 @@
 package io.appium.java_client.imagecomparison;
 
 public enum ComparisonMode {
-    MATCH_FEATURES("matchImagesFeatures"), GET_SIMILARITY("getImagesSimilarity"), MATCH_TEMPLATE("findImageOccurrence");
+    MATCH_FEATURES("matchFeatures"), GET_SIMILARITY("getSimilarity"), MATCH_TEMPLATE("matchTemplate");
 
     private final String name;
 

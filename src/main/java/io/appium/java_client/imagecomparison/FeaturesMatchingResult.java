@@ -22,7 +22,6 @@ import org.openqa.selenium.Rectangle;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FeaturesMatchingResult extends ComparisonResult {
     private static final String COUNT = "count";
@@ -61,7 +60,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
      */
     public List<Point> getPoints1() {
         verifyPropertyPresence(POINTS1);
-        return Stream.of(((Map[]) getCommandResult().get(POINTS1)))
+        //noinspection unchecked
+        return ((List<Map>) getCommandResult().get(POINTS1)).stream()
                 .map(ComparisonResult::mapToPoint)
                 .collect(Collectors.toList());
     }
@@ -80,7 +80,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
      */
     public List<Point> getPoints2() {
         verifyPropertyPresence(POINTS2);
-        return Stream.of(((Map[]) getCommandResult().get(POINTS2)))
+        //noinspection unchecked
+        return ((List<Map>) getCommandResult().get(POINTS2)).stream()
                 .map(ComparisonResult::mapToPoint)
                 .collect(Collectors.toList());
     }

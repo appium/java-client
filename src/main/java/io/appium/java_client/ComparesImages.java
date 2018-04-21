@@ -27,7 +27,6 @@ import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.remote.Response;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,10 +60,10 @@ public interface ComparesImages extends ExecutesMethod {
      */
     default FeaturesMatchingResult matchImagesFeatures(byte[] base64image1, byte[] base64Image2,
                                                        @Nullable FeaturesMatchingOptions options) {
-        Response response = CommandExecutionHelper.execute(this,
+        Object response = CommandExecutionHelper.execute(this,
                 compareImagesCommand(ComparisonMode.MATCH_FEATURES, base64image1, base64Image2, options));
         //noinspection unchecked
-        return new FeaturesMatchingResult((Map<String, Object>) response.getValue());
+        return new FeaturesMatchingResult((Map<String, Object>) response);
     }
 
     /**
@@ -123,10 +122,10 @@ public interface ComparesImages extends ExecutesMethod {
      */
     default OccurrenceMatchingResult findImageOccurrence(byte[] fullImage, byte[] partialImage,
                                                          @Nullable OccurrenceMatchingOptions options) {
-        Response response = CommandExecutionHelper.execute(this,
+        Object response = CommandExecutionHelper.execute(this,
                 compareImagesCommand(ComparisonMode.MATCH_TEMPLATE, fullImage, partialImage, options));
         //noinspection unchecked
-        return new OccurrenceMatchingResult((Map<String, Object>) response.getValue());
+        return new OccurrenceMatchingResult((Map<String, Object>) response);
     }
 
     /**
@@ -188,10 +187,10 @@ public interface ComparesImages extends ExecutesMethod {
      */
     default SimilarityMatchingResult getImagesSimilarity(byte[] base64image1, byte[] base64Image2,
                                                          @Nullable SimilarityMatchingOptions options) {
-        Response response = CommandExecutionHelper.execute(this,
+        Object response = CommandExecutionHelper.execute(this,
                 compareImagesCommand(ComparisonMode.GET_SIMILARITY, base64image1, base64Image2, options));
         //noinspection unchecked
-        return new SimilarityMatchingResult((Map<String, Object>) response.getValue());
+        return new SimilarityMatchingResult((Map<String, Object>) response);
     }
 
     /**

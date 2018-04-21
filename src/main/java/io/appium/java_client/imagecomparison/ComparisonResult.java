@@ -74,16 +74,32 @@ public abstract class ComparisonResult {
     }
 
     /**
+     * Converts float OpenCV coordinates to Selenium-compatible format.
+     *
+     * @param openCVCoordinate the original coordinate value
+     * @return The converted value
+     */
+    private static int toSeleniumCoordinate(Object openCVCoordinate) {
+        if (openCVCoordinate instanceof Long) {
+            return ((Long) openCVCoordinate).intValue();
+        }
+        if (openCVCoordinate instanceof Double) {
+            return ((Double) openCVCoordinate).intValue();
+        }
+        return (int) openCVCoordinate;
+    }
+
+    /**
      * Transforms a map into {@link Rectangle} object.
      *
      * @param map the source map.
      * @return {@link Rectangle} object
      */
     public static Rectangle mapToRect(Map<String, Object> map) {
-        return new Rectangle(((Long) map.get("x")).intValue(),
-                ((Long) map.get("y")).intValue(),
-                ((Long) map.get("height")).intValue(),
-                ((Long) map.get("width")).intValue());
+        return new Rectangle(toSeleniumCoordinate(map.get("x")),
+                toSeleniumCoordinate(map.get("y")),
+                toSeleniumCoordinate(map.get("height")),
+                toSeleniumCoordinate(map.get("width")));
     }
 
     /**
@@ -93,6 +109,6 @@ public abstract class ComparisonResult {
      * @return {@link Point} object
      */
     public static Point mapToPoint(Map<String, Object> map) {
-        return new Point(((Long) map.get("x")).intValue(), ((Long) map.get("y")).intValue());
+        return new Point(toSeleniumCoordinate(map.get("x")), toSeleniumCoordinate(map.get("y")));
     }
 }

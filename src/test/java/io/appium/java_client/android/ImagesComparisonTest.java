@@ -31,16 +31,10 @@ import io.appium.java_client.imagecomparison.OccurrenceMatchingResult;
 import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.OutputType;
 
 public class ImagesComparisonTest extends BaseAndroidTest {
-
-    @Before
-    public void setUp() {
-        driver.resetApp();
-    }
 
     @Test
     public void verifyFeaturesMatching() {
@@ -61,7 +55,7 @@ public class ImagesComparisonTest extends BaseAndroidTest {
     }
 
     @Test
-    public void verifyOccurrencesSearch() {
+    public void verifyOccurrencesLookup() {
         byte[] screenshot = Base64.encodeBase64(driver.getScreenshotAs(OutputType.BYTES));
         OccurrenceMatchingResult result = driver
                 .findImageOccurrence(screenshot, screenshot, new OccurrenceMatchingOptions()
