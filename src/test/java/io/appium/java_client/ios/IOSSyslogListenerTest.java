@@ -1,13 +1,13 @@
 package io.appium.java_client.ios;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.junit.Test;
 
 import java.time.Duration;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertTrue;
 
 public class IOSSyslogListenerTest extends UICatalogIOSTest {
 
