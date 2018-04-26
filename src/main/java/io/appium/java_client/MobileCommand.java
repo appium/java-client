@@ -18,6 +18,8 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.imagecomparison.BaseComparisonOptions;
+import io.appium.java_client.imagecomparison.ComparisonMode;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +31,7 @@ import java.time.Duration;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * The repository of mobile commands defined in the Mobile JSON
@@ -106,6 +109,7 @@ public class MobileCommand {
     protected static final String TOGGLE_WIFI;
     protected static final String TOGGLE_AIRPLANE_MODE;
     protected static final String TOGGLE_DATA;
+    protected static final String COMPARE_IMAGES;
 
     public static final Map<String, CommandInfo> commandRepository;
 
@@ -179,6 +183,7 @@ public class MobileCommand {
         TOGGLE_WIFI = "toggleWiFi";
         TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
         TOGGLE_DATA = "toggleData";
+        COMPARE_IMAGES = "compareImages";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -262,6 +267,7 @@ public class MobileCommand {
         commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_wifi"));
         commandRepository.put(TOGGLE_AIRPLANE_MODE, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
         commandRepository.put(TOGGLE_DATA, postC("/session/:sessionId/appium/device/toggle_data"));
+        commandRepository.put(COMPARE_IMAGES, postC("/session/:sessionId/appium/compare_images"));
     }
 
     /**
@@ -435,7 +441,7 @@ public class MobileCommand {
      * This method forms a {@link java.util.Map} of parameters for the
      * device unlocking.
      *
-     * @return  a key-value pair. The key is the command name. The value is a
+     * @return a key-value pair. The key is the command name. The value is a
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
@@ -446,7 +452,7 @@ public class MobileCommand {
      * This method forms a {@link java.util.Map} of parameters for the
      * device locked query.
      *
-     * @return  a key-value pair. The key is the command name. The value is a
+     * @return a key-value pair. The key is the command name. The value is a
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
@@ -472,7 +478,7 @@ public class MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
-        String[] parameters = new String[] {"path", "data"};
+        String[] parameters = new String[]{"path", "data"};
         Object[] values = new Object[]{remotePath, new String(base64Data, StandardCharsets.UTF_8)};
         return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
     }
@@ -485,5 +491,28 @@ public class MobileCommand {
     public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand(BaseStopScreenRecordingOptions opts) {
         return new AbstractMap.SimpleEntry<>(STOP_RECORDING_SCREEN,
                 prepareArguments("options", opts.build()));
+    }
+
+    /**
+     * Forms a {@link java.util.Map} of parameters for images comparison.
+     *
+     * @param mode one of possible comparison modes
+     * @param img1Data base64-encoded data of the first image
+     * @param img2Data base64-encoded data of the second image
+     * @param options comparison options
+     * @return key-value pairs
+     */
+    public static Map.Entry<String, Map<String, ?>> compareImagesCommand(ComparisonMode mode,
+                                                                         byte[] img1Data, byte[] img2Data,
+                                                                         @Nullable BaseComparisonOptions options) {
+        String[] parameters = options == null
+                ? new String[]{"mode", "firstImage", "secondImage"}
+                : new String[]{"mode", "firstImage", "secondImage", "options"};
+        Object[] values = options == null
+                ? new Object[]{mode.toString(), new String(img1Data, StandardCharsets.UTF_8),
+                               new String(img2Data, StandardCharsets.UTF_8)}
+                : new Object[]{mode.toString(), new String(img1Data, StandardCharsets.UTF_8),
+                               new String(img2Data, StandardCharsets.UTF_8), options.build()};
+        return new AbstractMap.SimpleEntry<>(COMPARE_IMAGES, prepareArguments(parameters, values));
     }
 }
