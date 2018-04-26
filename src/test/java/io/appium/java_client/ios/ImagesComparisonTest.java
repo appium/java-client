@@ -34,7 +34,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 import org.openqa.selenium.OutputType;
 
-public class ImagesComparisonTest extends BaseIOSTest {
+public class ImagesComparisonTest extends AppIOSTest {
 
     @Test
     public void verifyFeaturesMatching() {
