@@ -20,6 +20,7 @@ import static io.appium.java_client.touch.offset.ElementOption.element;
 
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.ios.touch.IOSPressOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.WebElement;
@@ -66,6 +67,17 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
         ActionParameter action = new ActionParameter("doubleTap",
                 doubleTapOption);
         parameterBuilder.add(action);
+        return this;
+    }
+
+    /**
+     * Press action on the screen.
+     *
+     * @param pressOptions see {@link IOSPressOptions}
+     * @return this TouchAction, for chaining.
+     */
+    public IOSTouchAction press(IOSPressOptions pressOptions) {
+        parameterBuilder.add(new ActionParameter("press", pressOptions));
         return this;
     }
 }

@@ -1,9 +1,11 @@
 package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileBy.IosUIAutomation;
+import static io.appium.java_client.ios.touch.IOSPressOptions.iosPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,6 +35,26 @@ public class IOSTouchTest extends AppIOSTest {
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
         new TouchAction(driver).tap(tapOptions().withElement(element(e))).perform();
+        assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
+    }
+
+    @Test
+    public void touchWithPressureTest() {
+        IOSElement intA = driver.findElementById("IntegerA");
+        IOSElement intB = driver.findElementById("IntegerB");
+        intA.clear();
+        intB.clear();
+        intA.sendKeys("2");
+        intB.sendKeys("4");
+
+        MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
+        new IOSTouchAction(driver)
+                .press(iosPressOptions()
+                    .withElement(element(e))
+                    .withPressure(1))
+                .waitAction(waitOptions(ofMillis(100)))
+                .release()
+                .perform();
         assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
     }
 
