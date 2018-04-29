@@ -21,8 +21,6 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorR
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.lang.String.format;
-import static java.time.Duration.ofMillis;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -52,26 +50,6 @@ class AppiumElementLocator implements CacheableLocator {
     private final SearchContext searchContext;
     private WebElement cachedElement;
     private List<WebElement> cachedElementList;
-
-    /**
-     * Creates a new mobile element locator. It instantiates {@link WebElement}
-     * using @AndroidFindBy (-s), @iOSFindBy (-s) and @FindBy (-s) annotation
-     * sets
-     *
-     * @param searchContext     The context to use when finding the element
-     * @param by                a By locator strategy
-     * @param shouldCache       is the flag that signalizes that elements which
-     *                          are found once should be cached
-     * @param duration          is a POJO which contains timeout parameters for the element to be found
-     * @deprecated This constructor is going to be removed. Use {@link #AppiumElementLocator(SearchContext, By,
-     * boolean, Duration)} instead.
-     */
-    @Deprecated
-    public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,
-        TimeOutDuration duration) {
-        this(searchContext, by, shouldCache,
-                ofMillis(MILLISECONDS.convert(duration.getTime(), duration.getTimeUnit())));
-    }
 
     /**
      * Creates a new mobile element locator. It instantiates {@link WebElement}

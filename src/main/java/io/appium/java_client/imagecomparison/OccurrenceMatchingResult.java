@@ -28,7 +28,9 @@ public class OccurrenceMatchingResult extends ComparisonResult {
     }
 
     /**
-     * @return The region of the partial image occurence on the full image.
+     * Returns rectangle of partial image occurrence.
+     *
+     * @return The region of the partial image occurrence on the full image.
      */
     public Rectangle getRect() {
         verifyPropertyPresence(RECT);

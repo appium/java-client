@@ -56,6 +56,8 @@ public abstract class ComparisonResult {
     }
 
     /**
+     * Returns the visualization of the matching result.
+     *
      * @return The visualization of the matching result represented as base64-encoded PNG image.
      */
     public byte[] getVisualization() {

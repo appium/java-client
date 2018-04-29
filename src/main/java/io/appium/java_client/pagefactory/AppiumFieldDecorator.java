@@ -19,10 +19,8 @@ package io.appium.java_client.pagefactory;
 import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
-import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static java.util.Optional.ofNullable;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.collect.ImmutableList;
 
@@ -49,7 +47,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
@@ -67,10 +64,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
             RemoteWebElement.class, MobileElement.class, AndroidElement.class,
             IOSElement.class, WindowsElement.class);
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
-    @Deprecated
-    public static final long DEFAULT_TIMEOUT = 1;
-    @Deprecated
-    public static final TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;
     private final WebDriver webDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
@@ -78,27 +71,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String automation;
     private final Duration duration;
 
-
-    @Deprecated
-    public AppiumFieldDecorator(SearchContext context, long timeout,
-        TimeUnit timeUnit) {
-        this(context, new TimeOutDuration(timeout, timeUnit));
-    }
-
-    /**
-     * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
-     *
-     * @param context is an instance of {@link SearchContext}
-     *                It may be the instance of {@link WebDriver} or {@link WebElement} or
-     *                {@link Widget} or some other user's extension/implementation.
-     * @param duration is a desired duration of the waiting for an element presence.
-     * @deprecated This constructor is going to be removed. Use {@link #AppiumFieldDecorator(SearchContext, Duration)}
-     *     instead.
-     */
-    @Deprecated
-    public AppiumFieldDecorator(SearchContext context, TimeOutDuration duration) {
-        this(context, ofMillis(MILLISECONDS.convert(duration.getTime(), duration.getTimeUnit())));
-    }
 
     /**
      * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.

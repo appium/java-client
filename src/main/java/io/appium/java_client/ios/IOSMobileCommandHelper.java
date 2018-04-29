@@ -49,19 +49,6 @@ public class IOSMobileCommandHelper extends MobileCommand {
     /**
      * This method forms a {@link Map} of parameters for the toggling touchId
      * enrollment in simulator.
-     * @deprecated Please use {@link #toggleTouchIdEnrollmentCommand(boolean)} instead.
-     *
-     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> toggleTouchIdEnrollmentCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                TOUCH_ID_ENROLLMENT, ImmutableMap.<String, Object>of());
-    }
-
-    /**
-     * This method forms a {@link Map} of parameters for the toggling touchId
-     * enrollment in simulator.
      *
      * @param enabled Whether to enable or disable Touch ID Enrollment for Simulator.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
