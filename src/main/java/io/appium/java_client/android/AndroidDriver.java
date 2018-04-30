@@ -19,6 +19,9 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
+import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
+
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
@@ -26,6 +29,7 @@ import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PressesKeyCode;
 import io.appium.java_client.android.connection.HasNetworkConnection;
+import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -36,6 +40,8 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Android driver implementation.
@@ -54,7 +60,8 @@ public class AndroidDriver<T extends WebElement>
         FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger,
         CanRecordScreen, SupportsSpecialEmulatorCommands,
-        SupportsNetworkStateManagement, ListensToLogcatMessages, HasAndroidClipboard {
+        SupportsNetworkStateManagement, ListensToLogcatMessages, HasAndroidClipboard,
+        HasBattery<AndroidBatteryInfo> {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -179,4 +186,10 @@ public class AndroidDriver<T extends WebElement>
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public AndroidBatteryInfo getBatteryInfo() {
+        return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
+                "script", "mobile: batteryInfo", "args", Collections.emptyList())));
+    }
 }
