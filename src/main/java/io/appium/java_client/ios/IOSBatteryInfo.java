@@ -10,9 +10,8 @@ public class IOSBatteryInfo extends BatteryInfo {
         super(input);
     }
 
-    /**
-     * @return Battery state value.
-     */
+    @SuppressWarnings("unchecked")
+    @Override
     public BatteryState getState() {
         final int state = ((Long) getInput().get("state")).intValue();
         switch (state) {

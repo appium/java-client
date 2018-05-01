@@ -20,6 +20,11 @@ public abstract class BatteryInfo {
         return (double) value;
     }
 
+    /**
+     * @return Battery state value.
+     */
+    public abstract <T> T getState();
+
     protected Map<String, Object> getInput() {
         return this.input;
     }

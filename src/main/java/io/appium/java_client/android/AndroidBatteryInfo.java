@@ -10,26 +10,25 @@ public class AndroidBatteryInfo extends BatteryInfo {
         super(input);
     }
 
-    /**
-     * @return Battery status value.
-     */
-    public BatteryStatus getStatus() {
-        final int status = ((Long) getInput().get("status")).intValue();
-        switch (status) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public BatteryState getState() {
+        final int state = ((Long) getInput().get("state")).intValue();
+        switch (state) {
             case 2:
-                return BatteryStatus.CHARGING;
+                return BatteryState.CHARGING;
             case 3:
-                return BatteryStatus.DISCHARGING;
+                return BatteryState.DISCHARGING;
             case 4:
-                return BatteryStatus.NOT_CHARGING;
+                return BatteryState.NOT_CHARGING;
             case 5:
-                return BatteryStatus.FULL;
+                return BatteryState.FULL;
             default:
-                return BatteryStatus.UNKNOWN;
+                return BatteryState.UNKNOWN;
         }
     }
 
-    public enum BatteryStatus {
+    public enum BatteryState {
         UNKNOWN, CHARGING, DISCHARGING, NOT_CHARGING, FULL
     }
 }
