@@ -21,19 +21,8 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnec
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.android.Connection;
 
 public interface HasNetworkConnection extends ExecutesMethod {
-    /**
-     * Set the network connection of the device.
-     *
-     * @param connection The bitmask of the desired connection
-     * @deprecated use {@link #setConnection(ConnectionState)} instead
-     */
-    @Deprecated
-    default void setConnection(Connection connection) {
-        CommandExecutionHelper.execute(this, setConnectionCommand(connection.getBitMask()));
-    }
 
     /**
      * Set the network connection of the device.

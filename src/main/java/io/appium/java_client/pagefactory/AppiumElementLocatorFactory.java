@@ -17,9 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.pagefactory.WithTimeout.DurationBuilder.build;
-import static java.time.Duration.ofMillis;
 import static java.util.Optional.ofNullable;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
@@ -36,21 +34,6 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
     private final SearchContext searchContext;
     private final Duration duration;
     private final AppiumByBuilder builder;
-
-    /**
-     * Creates a new mobile element locator factory.
-     *
-     * @param searchContext     The context to use when finding the element
-     * @param duration   is a POJO which contains timeout parameters for the elements to be found
-     * @param builder    is handler of Appium-specific page object annotations
-     * @deprecated This constructor is going to be
-     *     removed. Use {@link #AppiumElementLocatorFactory(SearchContext, Duration, AppiumByBuilder)} instead.
-     */
-    @Deprecated
-    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration duration,
-                                       AppiumByBuilder builder) {
-        this(searchContext, ofMillis(MILLISECONDS.convert(duration.getTime(), duration.getTimeUnit())), builder);
-    }
 
     /**
      * Creates a new mobile element locator factory.

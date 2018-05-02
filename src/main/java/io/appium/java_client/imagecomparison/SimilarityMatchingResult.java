@@ -25,7 +25,9 @@ public class SimilarityMatchingResult extends ComparisonResult {
         super(input);
     }
 
-    /**a
+    /**
+     * Returns the similarity score as a float number in range [0.0, 1.0].
+     *
      * @return The similarity score as a float number in range [0.0, 1.0].
      *     1.0 is the highest score (means both images are totally equal).
      */
