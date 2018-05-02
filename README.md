@@ -21,6 +21,13 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *6.0.0 (under construction yet)*
 
+- **[ENHANCEMENT]** Added an ability to set pressure value for iOS. [#879](https://github.com/appium/java-client/pull/879)
+- **[ENHANCEMENT]** Added new server arguments `RELAXED_SECURITY` and `ENABLE_HEAP_DUMP`. [#880](https://github.com/appium/java-client/pull/880)
+- **[BUG FIX]** Use default Selenium HTTP client factory [#877](https://github.com/appium/java-client/pull/877)
+- **[ENHANCEMENT]** Supporting syslog broadcast with iOS [#871](https://github.com/appium/java-client/pull/871)
+- **[BREAKING CHANGE]** Removal of deprecated code. [#881](https://github.com/appium/java-client/pull/881)
+
+
 *6.0.0-BETA5*
 - **[ENHANCEMENT]** Added clipboard handlers. [#855](https://github.com/appium/java-client/pull/855) [#869](https://github.com/appium/java-client/pull/869)
 - **[ENHANCEMENT]** Added wrappers for Android logcat broadcaster. [#858](https://github.com/appium/java-client/pull/858)
