@@ -34,15 +34,6 @@ public interface PerformsTouchID extends ExecutesMethod {
     }
 
     /**
-     * Enrolls touchId in iOS Simulators.
-     * This method is deprecated. Please use {@link #toggleTouchIDEnrollment(boolean)} instead
-     */
-    @Deprecated
-    default void toggleTouchIDEnrollment() {
-        CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand());
-    }
-
-    /**
      * Enrolls touchId in iOS Simulators. This call will only work if Appium process or its
      * parent application (e.g. Terminal.app or Appium.app) has
      * access to Mac OS accessibility in System Preferences &gt;

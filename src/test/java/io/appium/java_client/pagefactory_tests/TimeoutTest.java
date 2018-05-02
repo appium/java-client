@@ -23,7 +23,7 @@ import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 import static java.lang.System.setProperty;
 import static java.time.Duration.ofSeconds;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
@@ -55,7 +55,7 @@ public class TimeoutTest {
             @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
     private List<WebElement> stubElements;
 
-    @WithTimeout(time = 5, unit = SECONDS)
+    @WithTimeout(time = 5, chronoUnit = SECONDS)
     @FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
             @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
     private List<WebElement> stubElements2;

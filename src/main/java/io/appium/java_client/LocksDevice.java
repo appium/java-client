@@ -23,16 +23,6 @@ import static io.appium.java_client.MobileCommand.unlockDeviceCommand;
 import java.time.Duration;
 
 public interface LocksDevice extends ExecutesMethod {
-    /**
-     * Check if the device is locked.
-     *
-     * @deprecated Use {@link #isDeviceLocked()} instead
-     * @return true if device is locked. False otherwise
-     */
-    @Deprecated
-    default boolean isLocked() {
-        return CommandExecutionHelper.execute(this, getIsDeviceLockedCommand());
-    }
 
     /**
      * This method locks a device. It will return silently if the device

@@ -36,6 +36,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
     }
 
     /**
+     * Returns a count of matched edges on both images.
+     *
      * @return The count of matched edges on both images.
      *     The more matching edges there are no both images the more similar they are.
      */
@@ -45,6 +47,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
     }
 
     /**
+     * Returns a count of matched edges on both images.
+     *
      * @return The total count of matched edges on both images.
      *     It is equal to `count` if `goodMatchesFactor` does not limit the matches,
      *     otherwise it contains the total count of matches before `goodMatchesFactor` is
@@ -56,6 +60,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
     }
 
     /**
+     * Returns a list of matching points on the first image.
+     *
      * @return The list of matching points on the first image.
      */
     public List<Point> getPoints1() {
@@ -67,6 +73,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
     }
 
     /**
+     * Returns a rect for the `points1` list.
+     *
      * @return The bounding rect for the `points1` list or a zero rect if not enough matching points were found.
      */
     public Rectangle getRect1() {
@@ -76,6 +84,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
     }
 
     /**
+     * Returns a list of matching points on the second image.
+     *
      * @return The list of matching points on the second image.
      */
     public List<Point> getPoints2() {
@@ -87,6 +97,8 @@ public class FeaturesMatchingResult extends ComparisonResult {
     }
 
     /**
+     * Returns a rect for the `points2` list.
+     *
      * @return The bounding rect for the `points2` list or a zero rect if not enough matching points were found.
      */
     public Rectangle getRect2() {
