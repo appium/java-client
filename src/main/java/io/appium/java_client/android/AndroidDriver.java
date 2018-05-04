@@ -23,6 +23,7 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLoc
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PressesKeyCode;
 import io.appium.java_client.android.connection.HasNetworkConnection;
@@ -51,8 +52,8 @@ import java.net.URL;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
-        HasSupportedPerformanceDataType, AuthenticatesByFinger,
+        FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasAndroidDeviceDetails,
+        HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
         CanRecordScreen, SupportsSpecialEmulatorCommands,
         SupportsNetworkStateManagement, ListensToLogcatMessages, HasAndroidClipboard {
 

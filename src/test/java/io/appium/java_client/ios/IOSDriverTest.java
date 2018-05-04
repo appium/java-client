@@ -73,4 +73,10 @@ public class IOSDriverTest extends AppIOSTest {
         byte[] data = driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
         assert (data.length > 0);
     }
+
+    @Test public void keyboardTest() {
+        MobileElement element = driver.findElementById("IntegerA");
+        element.click();
+        assertTrue(driver.isKeyboardShown());
+    }
 }

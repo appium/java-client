@@ -153,16 +153,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link Map} of parameters for the checking of the keyboard state (is it shown or not).
-     *
-     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
-     */
-    public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
-        return new AbstractMap.SimpleEntry<>(
-            IS_KEYBOARD_SHOWN, ImmutableMap.<String, Object>of());
-    }
-
-    /**
      * This method forms a {@link java.util.Map} of parameters for the
      * finger print authentication invocation.
      *
