@@ -1,14 +1,14 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.HasOnScreenKeyboard;
+import io.appium.java_client.ExecutesMethod;
 
 import java.util.Map;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getDisplayDensityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getSystemBarsCommand;
 
-public interface HasAndroidDeviceDetails extends HasOnScreenKeyboard {
+public interface HasAndroidDeviceDetails extends ExecutesMethod {
 
     /*
         Retrieve the display density of the Android device.
