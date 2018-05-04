@@ -1,12 +1,12 @@
 package io.appium.java_client.android;
 
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getDisplayDensityCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getSystemBarsCommand;
+
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
 import java.util.Map;
-
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getDisplayDensityCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getSystemBarsCommand;
 
 public interface HasAndroidDeviceDetails extends ExecutesMethod {
 
