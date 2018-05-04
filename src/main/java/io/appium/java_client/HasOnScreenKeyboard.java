@@ -2,7 +2,7 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.isKeyboardShownCommand;
 
-public interface HasDeviceDetails extends ExecutesMethod {
+public interface HasOnScreenKeyboard extends ExecutesMethod {
 
     /**
      * Check if the keyboard is displayed.
