@@ -23,6 +23,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByIosClassChain;
 import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.FindsByIosUIAutomation;
+import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.remote.MobilePlatform;
@@ -54,7 +55,7 @@ import java.time.Duration;
  */
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings,
+    implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings, HasOnScreenKeyboard,
         FindsByIosUIAutomation<T>, LocksDevice, PerformsTouchID, FindsByIosNSPredicate<T>,
         FindsByIosClassChain<T>, PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages {
 

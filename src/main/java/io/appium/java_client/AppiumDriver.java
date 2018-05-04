@@ -64,7 +64,7 @@ import java.util.Set;
 */
 @SuppressWarnings("unchecked")
 public class AppiumDriver<T extends WebElement>
-    extends DefaultGenericMobileDriver<T> implements ComparesImages, HasOnScreenKeyboard {
+    extends DefaultGenericMobileDriver<T> implements ComparesImages {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
