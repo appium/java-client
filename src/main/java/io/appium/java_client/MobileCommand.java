@@ -515,4 +515,14 @@ public class MobileCommand {
                                new String(img2Data, StandardCharsets.UTF_8), options.build()};
         return new AbstractMap.SimpleEntry<>(COMPARE_IMAGES, prepareArguments(parameters, values));
     }
+
+    /**
+     * This method forms a {@link Map} of parameters for the checking of the keyboard state (is it shown or not).
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
+        return new AbstractMap.SimpleEntry<>(
+                IS_KEYBOARD_SHOWN, ImmutableMap.<String, Object>of());
+    }
 }

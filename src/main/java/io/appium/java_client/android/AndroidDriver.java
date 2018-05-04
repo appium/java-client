@@ -51,7 +51,7 @@ import java.net.URL;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasDeviceDetails,
+        FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasAndroidDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger,
         CanRecordScreen, SupportsSpecialEmulatorCommands,
         SupportsNetworkStateManagement, ListensToLogcatMessages, HasAndroidClipboard {
