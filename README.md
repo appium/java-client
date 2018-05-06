@@ -25,6 +25,7 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[ENHANCEMENT]** Added new server arguments `RELAXED_SECURITY` and `ENABLE_HEAP_DUMP`. [#880](https://github.com/appium/java-client/pull/880)
 - **[BUG FIX]** Use default Selenium HTTP client factory [#877](https://github.com/appium/java-client/pull/877)
 - **[ENHANCEMENT]** Supporting syslog broadcast with iOS [#871](https://github.com/appium/java-client/pull/871)
+- **[ENHANCEMENT]** Added isKeyboardShown command for iOS [#887](https://github.com/appium/java-client/pull/887)
 - **[BREAKING CHANGE]** Removal of deprecated code. [#881](https://github.com/appium/java-client/pull/881)
 
 
