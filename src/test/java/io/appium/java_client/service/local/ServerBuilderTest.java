@@ -1,6 +1,5 @@
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
@@ -13,6 +12,7 @@ import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PA
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LAUNCH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
 import static java.nio.file.FileSystems.getDefault;
@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -92,6 +93,12 @@ public class ServerBuilderTest {
         }
     }
 
+    private static String getPathToChromeDriverBinary() {
+        WebDriverManager chromeManager = chromedriver();
+        chromeManager.setup();
+        return chromeManager.getBinaryPath();
+    }
+
     @After
     public void tearDown() throws Exception {
         ofNullable(service).ifPresent(AppiumDriverLocalService::stop);
@@ -154,7 +161,6 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartServiceUsingCapabilities() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-        File chrome = getChromeDriver();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
@@ -163,7 +169,7 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chrome.getAbsolutePath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, getPathToChromeDriverBinary());
 
         service = new AppiumServiceBuilder().withCapabilities(caps).build();
         service.start();
@@ -172,7 +178,6 @@ public class ServerBuilderTest {
 
     @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-        File chrome = getChromeDriver();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
@@ -181,7 +186,7 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chrome.getAbsolutePath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, getPathToChromeDriverBinary());
 
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)

@@ -16,12 +16,11 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.pagefactory.AppiumFieldDecorator.DEFAULT_WAITING_TIMEOUT;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.Math.abs;
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
-import static java.lang.System.setProperty;
 import static java.time.Duration.ofSeconds;
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
@@ -33,11 +32,11 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.WithTimeout;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
@@ -78,12 +77,15 @@ public class TimeoutTest {
                 formatDuration(expectedDuration.toMillis(), "H:mm:ss:SSS", true));
     }
 
+    @BeforeClass
+    public static void beforeAll() {
+        chromedriver().setup();
+    }
+
     /**
      * The setting up.
      */
     @Before public void setUp() {
-        setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-                getChromeDriver().getAbsolutePath());
         driver = new ChromeDriver();
         timeOutDuration = DEFAULT_WAITING_TIMEOUT;
         initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
