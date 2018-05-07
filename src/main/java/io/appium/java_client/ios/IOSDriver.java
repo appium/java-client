@@ -18,6 +18,9 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
+import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
+
+import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByIosClassChain;
@@ -26,6 +29,7 @@ import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.LocksDevice;
+import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -40,6 +44,8 @@ import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * iOS driver implementation.
@@ -57,7 +63,8 @@ public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings, HasOnScreenKeyboard,
         FindsByIosUIAutomation<T>, LocksDevice, PerformsTouchID, FindsByIosNSPredicate<T>,
-        FindsByIosClassChain<T>, PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages {
+        FindsByIosClassChain<T>, PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages,
+        HasBattery<IOSBatteryInfo> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
 
@@ -176,6 +183,13 @@ public class IOSDriver<T extends WebElement>
 
     @Override public TargetLocator switchTo() {
         return new InnerTargetLocator();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public IOSBatteryInfo getBatteryInfo() {
+        return new IOSBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
+                "script", "mobile: batteryInfo", "args", Collections.emptyList())));
     }
 
     private class InnerTargetLocator extends RemoteTargetLocator {
