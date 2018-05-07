@@ -305,11 +305,12 @@ If time of the waiting for elements differs from usual (longer, or shorter when 
 
 ```java
 import io.appium.java_client.pagefactory.*;
+import java.time.temporal.ChronoUnit;
 
-@WithTimeout(timeOut = yourTime, timeUnit = yourTimeUnit)
+@WithTimeout(timeOut = yourTime, chronoUnit = yourTimeUnit)
 RemoteWebElement someElement;
 
-@WithTimeout(timeOut = yourTime, timeUnit = yourTimeUnit)
+@WithTimeout(timeOut = yourTime, chronoUnit = yourTimeUnit)
 List<RemoteWebElement> someElements;
 ```
 
