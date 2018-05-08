@@ -88,15 +88,15 @@ public class StartingAppLocallyTest {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
 
-        WebDriverManager chromeManager = chromedriver();
-        chromeManager.setup();
-
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         serverCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
         serverCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
         serverCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+
+        WebDriverManager chromeManager = chromedriver();
+        chromeManager.setup();
         serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
                 chromeManager.getBinaryPath());
 

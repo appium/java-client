@@ -64,6 +64,7 @@ public class ServerBuilderTest {
     private AppiumDriverLocalService service;
     private File testLogFile;
     private OutputStream stream;
+    private static WebDriverManager chromeManager;
 
     private static String getLocalIP(NetworkInterface intf) {
         for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
@@ -91,12 +92,8 @@ public class ServerBuilderTest {
                 break;
             }
         }
-    }
-
-    private static String getPathToChromeDriverBinary() {
-        WebDriverManager chromeManager = chromedriver();
+        chromeManager = chromedriver();
         chromeManager.setup();
-        return chromeManager.getBinaryPath();
     }
 
     @After
@@ -169,7 +166,7 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, getPathToChromeDriverBinary());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder().withCapabilities(caps).build();
         service.start();
@@ -186,7 +183,7 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, getPathToChromeDriverBinary());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)

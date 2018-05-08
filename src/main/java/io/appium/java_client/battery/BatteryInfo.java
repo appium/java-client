@@ -10,6 +10,8 @@ public abstract class BatteryInfo {
     }
 
     /**
+     * Returns battery level.
+     *
      * @return Battery level in range [0.0, 1.0], where 1.0 means 100% charge.
      */
     public double getLevel() {
@@ -21,6 +23,8 @@ public abstract class BatteryInfo {
     }
 
     /**
+     * Returns battery state.
+     *
      * @return Battery state value.
      */
     public abstract <T> T getState();
