@@ -16,28 +16,71 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.Assert.fail;
+
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.android.nativekey.KeyEventFlag;
+import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebDriverException;
 
 public class KeyCodeTest extends BaseAndroidTest {
 
-    @Before public void setup() {
+    @Before
+    public void setUp() {
         driver.resetApp();
     }
 
-    @Test public void pressKeyCodeTest() {
-        driver.pressKeyCode(AndroidKeyCode.HOME);
+    @Test
+    public void pressKeyCodeTest() {
+        try {
+            driver.pressKey(new KeyEvent(AndroidKey.HOME));
+        } catch (WebDriverException e) {
+            fail(e.getMessage());
+        }
     }
 
-    @Test public void pressKeyCodeWithMetastateTest() {
-        driver.pressKeyCode(AndroidKeyCode.SPACE, AndroidKeyMetastate.META_SHIFT_ON);
+    @Test
+    public void pressKeyCodeWithMetastateTest() {
+        try {
+            driver.pressKey(new KeyEvent(AndroidKey.SPACE)
+                    .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+        } catch (WebDriverException e) {
+            fail(e.getMessage());
+        }
     }
 
-    @Test public void longPressKeyCodeTest() {
-        driver.longPressKeyCode(AndroidKeyCode.HOME);
+    @Test
+    public void pressKeyAndGenerateIMEActionTest() {
+        try {
+            driver.pressKey(new KeyEvent()
+                    .withKey(AndroidKey.ENTER)
+                    .withFlag(KeyEventFlag.SOFT_KEYBOARD)
+                    .withFlag(KeyEventFlag.KEEP_TOUCH_MODE)
+                    .withFlag(KeyEventFlag.EDITOR_ACTION));
+        } catch (WebDriverException e) {
+            fail(e.getMessage());
+        }
     }
 
-    @Test public void longPressKeyCodeWithMetastateTest() {
-        driver.longPressKeyCode(AndroidKeyCode.HOME, AndroidKeyMetastate.META_SHIFT_ON);
+    @Test
+    public void longPressKeyCodeTest() {
+        try {
+            driver.longPressKey(new KeyEvent(AndroidKey.SPACE));
+        } catch (WebDriverException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void longPressKeyCodeWithMetastateTest() {
+        try {
+            driver.longPressKey(new KeyEvent(AndroidKey.SPACE)
+                    .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+        } catch (WebDriverException e) {
+            fail(e.getMessage());
+        }
     }
 }

@@ -18,6 +18,8 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +52,7 @@ public class AndroidActivityTest extends BaseAndroidTest {
         Activity activity = new Activity("com.android.contacts", ".ContactsListActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
-        driver.pressKeyCode(AndroidKeyCode.BACK);
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
     }
 
@@ -66,7 +68,7 @@ public class AndroidActivityTest extends BaseAndroidTest {
                 .setStopApp(false);
         driver.startActivity(newActivity);
         assertEquals(driver.currentActivity(), ".ContactsListActivity");
-        driver.pressKeyCode(AndroidKeyCode.BACK);
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
     }
 }

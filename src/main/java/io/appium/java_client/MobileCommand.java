@@ -86,10 +86,10 @@ public class MobileCommand {
     protected static final String GET_SYSTEM_BARS;
     protected static final String IS_KEYBOARD_SHOWN;
     protected static final String IS_LOCKED;
-    protected static final String LONG_PRESS_KEY_CODE;
+    public static final String LONG_PRESS_KEY_CODE;
     protected static final String FINGER_PRINT;
     protected static final String OPEN_NOTIFICATIONS;
-    protected static final String PRESS_KEY_CODE;
+    public static final String PRESS_KEY_CODE;
     protected static final String PUSH_FILE;
     protected static final String SET_NETWORK_CONNECTION;
     protected static final String START_ACTIVITY;

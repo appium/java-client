@@ -18,7 +18,10 @@ package io.appium.java_client.android;
 
 /**
  * Some common key codes for Android Key Events.
+ * @deprecated Use {@link io.appium.java_client.android.nativekey.AndroidKey} instead
+ *
  */
+@Deprecated
 public interface AndroidKeyCode {
 
     int BACK = 4;
