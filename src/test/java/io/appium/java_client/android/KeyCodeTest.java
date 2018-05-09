@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 
 public class KeyCodeTest extends BaseAndroidTest {
-    private static By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");
+    private static final By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");
 
     @Before
     public void setUp() {
