@@ -16,7 +16,9 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
@@ -24,63 +26,62 @@ import io.appium.java_client.android.nativekey.KeyEventFlag;
 import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.By;
 
 public class KeyCodeTest extends BaseAndroidTest {
+    private static By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");
 
     @Before
     public void setUp() {
-        driver.resetApp();
+        final Activity activity = new Activity(driver.getCurrentPackage(), ".text.KeyEventText");
+        driver.startActivity(activity);
     }
 
     @Test
     public void pressKeyCodeTest() {
-        try {
-            driver.pressKey(new KeyEvent(AndroidKey.HOME));
-        } catch (WebDriverException e) {
-            fail(e.getMessage());
-        }
+        driver.pressKey(new KeyEvent(AndroidKey.ENTER));
+        assertThat(driver.findElement(PRESS_RESULT_VIEW).getText(),
+                containsString(String.format("KEYCODE_%s", AndroidKey.ENTER.name())));
     }
 
     @Test
     public void pressKeyCodeWithMetastateTest() {
-        try {
-            driver.pressKey(new KeyEvent(AndroidKey.SPACE)
-                    .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
-        } catch (WebDriverException e) {
-            fail(e.getMessage());
-        }
+        driver.pressKey(new KeyEvent(AndroidKey.SPACE)
+                .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+        final String state = driver.findElement(PRESS_RESULT_VIEW).getText();
+        assertThat(state, containsString(String.format("KEYCODE_%s", AndroidKey.SPACE.name())));
+        assertThat(state, containsString(String.format("META_%s", KeyEventMetaModifier.SHIFT_ON.name())));
     }
 
     @Test
     public void pressKeyAndGenerateIMEActionTest() {
-        try {
-            driver.pressKey(new KeyEvent()
-                    .withKey(AndroidKey.ENTER)
-                    .withFlag(KeyEventFlag.SOFT_KEYBOARD)
-                    .withFlag(KeyEventFlag.KEEP_TOUCH_MODE)
-                    .withFlag(KeyEventFlag.EDITOR_ACTION));
-        } catch (WebDriverException e) {
-            fail(e.getMessage());
-        }
+        driver.pressKey(new KeyEvent()
+                .withKey(AndroidKey.ENTER)
+                .withFlag(KeyEventFlag.SOFT_KEYBOARD)
+                .withFlag(KeyEventFlag.KEEP_TOUCH_MODE)
+                .withFlag(KeyEventFlag.EDITOR_ACTION));
+        final String state = driver.findElement(PRESS_RESULT_VIEW).getText();
+        // This event won't update the view
+        assertTrue(state.isEmpty());
     }
 
     @Test
     public void longPressKeyCodeTest() {
-        try {
-            driver.longPressKey(new KeyEvent(AndroidKey.SPACE));
-        } catch (WebDriverException e) {
-            fail(e.getMessage());
-        }
+        driver.longPressKey(new KeyEvent(AndroidKey.SPACE));
+        final String state = driver.findElement(PRESS_RESULT_VIEW).getText();
+        assertThat(state, containsString(String.format("KEYCODE_%s", AndroidKey.SPACE.name())));
+        assertThat(state, containsString(String.format("flags=0x%s",
+                Integer.toHexString(KeyEventFlag.LONG_PRESS.getValue()))));
     }
 
     @Test
     public void longPressKeyCodeWithMetastateTest() {
-        try {
-            driver.longPressKey(new KeyEvent(AndroidKey.SPACE)
-                    .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
-        } catch (WebDriverException e) {
-            fail(e.getMessage());
-        }
+        driver.longPressKey(new KeyEvent(AndroidKey.SPACE)
+                .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+        final String state = driver.findElement(PRESS_RESULT_VIEW).getText();
+        assertThat(state, containsString(String.format("KEYCODE_%s", AndroidKey.SPACE.name())));
+        assertThat(state, containsString(String.format("META_%s", KeyEventMetaModifier.SHIFT_ON.name())));
+        assertThat(state, containsString(String.format("flags=0x%s",
+                Integer.toHexString(KeyEventFlag.LONG_PRESS.getValue()))));
     }
 }
