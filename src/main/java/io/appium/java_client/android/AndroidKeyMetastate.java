@@ -16,9 +16,13 @@
 
 package io.appium.java_client.android;
 
+import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
+
 /**
  * Metastates for Android Key Events.
+ * @deprecated Use {@link KeyEventMetaModifier} instead
  */
+@Deprecated
 public interface AndroidKeyMetastate {
 
     int META_ALT_LEFT_ON = 16;

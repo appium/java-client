@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.android.nativekey;
 
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.longPressKeyCodeCommand;
 import static io.appium.java_client.MobileCommand.pressKeyCodeCommand;
 
-public interface PressesKeyCode extends ExecutesMethod {
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
+
+import java.util.AbstractMap;
+
+public interface PressesKey extends ExecutesMethod {
 
     /**
      * Send a key event to the device.
      *
+     * @deprecated use {@link #pressKey(KeyEvent)} instead
+     *
      * @param key code for the key pressed on the device.
      */
+    @Deprecated
     default void pressKeyCode(int key) {
         CommandExecutionHelper.execute(this, pressKeyCodeCommand(key));
     }
@@ -34,18 +44,34 @@ public interface PressesKeyCode extends ExecutesMethod {
      * Send a key event along with an Android metastate to an Android device.
      * Metastates are things like *shift* to get uppercase characters.
      *
+     * @deprecated use {@link #pressKey(KeyEvent)} instead
+     *
      * @param key       code for the key pressed on the Android device.
      * @param metastate metastate for the keypress.
      */
+    @Deprecated
     default void pressKeyCode(int key, Integer metastate) {
         CommandExecutionHelper.execute(this, pressKeyCodeCommand(key, metastate));
     }
 
     /**
+     * Send a key event to the device under test.
+     *
+     * @param keyEvent The generated native key event
+     */
+    default void pressKey(KeyEvent keyEvent) {
+        CommandExecutionHelper.execute(this,
+                new AbstractMap.SimpleEntry<>(PRESS_KEY_CODE, keyEvent.build()));
+    }
+
+    /**
      * Send a long key event to the device.
+     *
+     * @deprecated use {@link #longPressKey(KeyEvent)} instead
      *
      * @param key code for the key pressed on the device.
      */
+    @Deprecated
     default void longPressKeyCode(int key) {
         CommandExecutionHelper.execute(this, longPressKeyCodeCommand(key));
     }
@@ -54,10 +80,23 @@ public interface PressesKeyCode extends ExecutesMethod {
      * Send a long key event along with an Android metastate to an Android device.
      * Metastates are things like *shift* to get uppercase characters.
      *
+     * @deprecated use {@link #longPressKey(KeyEvent)} instead
+     *
      * @param key       code for the key pressed on the Android device.
      * @param metastate metastate for the keypress.
      */
+    @Deprecated
     default void longPressKeyCode(int key, Integer metastate) {
         CommandExecutionHelper.execute(this, longPressKeyCodeCommand(key, metastate));
+    }
+
+    /**
+     * Send a long press key event to the device under test.
+     *
+     * @param keyEvent The generated native key event
+     */
+    default void longPressKey(KeyEvent keyEvent) {
+        CommandExecutionHelper.execute(this,
+                new AbstractMap.SimpleEntry<>(LONG_PRESS_KEY_CODE, keyEvent.build()));
     }
 }

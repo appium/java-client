@@ -28,8 +28,8 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.LocksDevice;
-import io.appium.java_client.PressesKeyCode;
 import io.appium.java_client.android.connection.HasNetworkConnection;
+import io.appium.java_client.android.nativekey.PressesKey;
 import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
@@ -57,7 +57,7 @@ import java.util.Map;
  */
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements PressesKeyCode, HasNetworkConnection, PushesFiles, StartsActivity,
+    implements PressesKey, HasNetworkConnection, PushesFiles, StartsActivity,
         FindsByAndroidUIAutomator<T>, LocksDevice, HasAndroidSettings, HasAndroidDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
         CanRecordScreen, SupportsSpecialEmulatorCommands,
