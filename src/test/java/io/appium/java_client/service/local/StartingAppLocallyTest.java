@@ -16,7 +16,7 @@
 
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -27,8 +27,8 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -88,16 +88,17 @@ public class StartingAppLocallyTest {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
 
-        File chrome = getChromeDriver();
-
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         serverCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
         serverCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
         serverCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+
+        WebDriverManager chromeManager = chromedriver();
+        chromeManager.setup();
         serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
-            chrome.getAbsolutePath());
+                chromeManager.getBinaryPath());
 
         AppiumServiceBuilder builder =
             new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)

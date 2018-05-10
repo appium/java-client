@@ -16,9 +16,8 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static java.lang.System.setProperty;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -33,7 +32,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
@@ -56,8 +54,7 @@ public class DesktopBrowserCompatibilityTest {
      * The starting.
      */
     @BeforeClass public static void beforeClass() {
-        setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-                getChromeDriver().getAbsolutePath());
+        chromedriver().setup();
     }
 
     @Test public void chromeTest() {
