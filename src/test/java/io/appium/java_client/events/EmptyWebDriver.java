@@ -17,8 +17,10 @@ import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -40,7 +42,8 @@ import java.util.Set;
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
     FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
     FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
-    FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement> {
+    FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>,
+        TakesScreenshot {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -105,7 +108,7 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
     }
 
     @Override public String getPageSource() {
-        return null;
+        throw new WebDriverException();
     }
 
     @Override public void close() {
@@ -229,6 +232,11 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         map.put("0",StringUtils.EMPTY);
         map.put("1",StringUtils.EMPTY);
         return new DesiredCapabilities(map);
+    }
+
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
+        return target.convertFromPngBytes(new byte[]{1,2});
     }
 
     private class StubTargetLocator implements TargetLocator {

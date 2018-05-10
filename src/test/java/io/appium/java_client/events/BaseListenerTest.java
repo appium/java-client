@@ -179,13 +179,13 @@ public class BaseListenerTest {
     protected boolean assertThatExceptionListenerWorks(EmptyWebDriver driver, TestListener listener, String prefix) {
         try {
             try {
-                driver.getWindowHandle();
+                driver.getPageSource();
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }
 
             try {
-                driver.findElementByXPath("Some Path").getScreenshotAs(OutputType.BASE64);
+                driver.findElementByXPath("Some Path").getRect();
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }

@@ -180,7 +180,7 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
     }
 
     @Override public Rectangle getRect() {
-        return null;
+        throw new WebDriverException();
     }
 
     @Override public String getCssValue(String propertyName) {
@@ -188,7 +188,7 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
     }
 
     @Override public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
-        throw new WebDriverException();
+        return target.convertFromPngBytes(new byte[]{1,2});
     }
 
     @Override public String toString() {
