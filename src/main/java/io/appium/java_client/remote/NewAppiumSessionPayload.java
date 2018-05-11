@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.writeTo
 
-package org.openqa.selenium.remote;
+package io.appium.java_client.remote;
 
 import static com.google.common.collect.ImmutableMap.of;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
@@ -38,15 +38,12 @@ import com.google.common.io.CharSource;
 import com.google.common.io.CharStreams;
 import com.google.common.io.FileBackedOutputStream;
 
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.YouiEngineCapabilityType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.json.JsonInput;
 import org.openqa.selenium.json.JsonOutput;
+import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.session.CapabilitiesFilter;
 import org.openqa.selenium.remote.session.CapabilityTransform;
 import org.openqa.selenium.remote.session.ChromeFilter;
@@ -59,22 +56,33 @@ import org.openqa.selenium.remote.session.SafariFilter;
 import org.openqa.selenium.remote.session.StripAnyPlatform;
 import org.openqa.selenium.remote.session.W3CPlatformNameNormaliser;
 
-import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.ServiceLoader;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.Nullable;
 
 
-public class NewSessionPayload implements Closeable {
+class NewAppiumSessionPayload implements Closeable {
 
     private static final List<String> APPIUM_CAPABILITIES = ImmutableList.<String>builder()
             .addAll(getAppiumCapabilities(MobileCapabilityType.class))
@@ -88,11 +96,7 @@ public class NewSessionPayload implements Closeable {
     private static final String FIRST_MATCH = "firstMatch";
     private static final String ALWAYS_MATCH = "alwaysMatch";
 
-    private final Set<CapabilitiesFilter> adapters;
-    private final Set<CapabilityTransform> transforms;
-    private final boolean forceMobileJSONWP;
-
-    private final static Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
+    private static final Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
             "^[\\w-]+:.*$",
             "^acceptInsecureCerts$",
             "^browserName$",
@@ -107,12 +111,16 @@ public class NewSessionPayload implements Closeable {
             .map(Pattern::asPredicate)
             .reduce(identity -> false, Predicate::or);
 
+    private final Set<CapabilitiesFilter> adapters;
+    private final Set<CapabilityTransform> transforms;
+    private final boolean forceMobileJSONWP;
+
     private final Json json = new Json();
     private final FileBackedOutputStream backingStore;
 
     private static List<String> getAppiumCapabilities(Class<?> capabilityList) {
         return Arrays.stream(capabilityList.getDeclaredFields()).map(field -> {
-                    field.setAccessible(true);
+            field.setAccessible(true);
             try {
                 return field.get(capabilityList).toString();
             } catch (IllegalAccessException e) {
@@ -121,7 +129,7 @@ public class NewSessionPayload implements Closeable {
         }).filter(s -> !FORCE_MJSONWP.equals(s)).collect(toList());
     }
 
-    public static NewSessionPayload create(Capabilities caps) throws IOException {
+    public static NewAppiumSessionPayload create(Capabilities caps) throws IOException {
         boolean forceMobileJSONWP =
                 ofNullable(caps.getCapability(FORCE_MJSONWP))
                 .map(o -> Boolean.class.isAssignableFrom(o.getClass()) && Boolean.class.cast(o))
@@ -131,10 +139,10 @@ public class NewSessionPayload implements Closeable {
         capabilityMap.remove(FORCE_MJSONWP);
         Map<String, ?> source = of(DESIRED_CAPABILITIES, capabilityMap);
         String json = new Json().toJson(source);
-        return new NewSessionPayload(new StringReader(json), forceMobileJSONWP);
+        return new NewAppiumSessionPayload(new StringReader(json), forceMobileJSONWP);
     }
 
-    private NewSessionPayload(Reader source, boolean forceMobileJSONWP) throws IOException {
+    private NewAppiumSessionPayload(Reader source, boolean forceMobileJSONWP) throws IOException {
         this.forceMobileJSONWP = forceMobileJSONWP;
         // Dedicate up to 10% of all RAM or 20% of available RAM (whichever is smaller) to storing this
         // payload.
@@ -244,14 +252,14 @@ public class NewSessionPayload implements Closeable {
 
             // Write the first capability we get as the desired capability.
             json.name(DESIRED_CAPABILITIES);
-            json.write(first, MAP_TYPE);
+            json.write(first);
 
             // And write the first capability for gecko13
             json.name(CAPABILITIES);
             json.beginObject();
 
             json.name(DESIRED_CAPABILITIES);
-            json.write(first, MAP_TYPE);
+            json.write(first);
 
             // Then write everything into the w3c payload. Because of the way we do this, it's easiest
             // to just populate the "firstMatch" section. The spec says it's fine to omit the
@@ -259,7 +267,7 @@ public class NewSessionPayload implements Closeable {
             json.name(FIRST_MATCH);
             json.beginArray();
             //noinspection unchecked
-            getW3C().forEach(map -> json.write(map, MAP_TYPE));
+            getW3C().forEach(json::write);
             json.endArray();
 
             json.endObject();  // Close "capabilities" object
@@ -286,7 +294,7 @@ public class NewSessionPayload implements Closeable {
 
                     default:
                         out.name(name);
-                        out.write(input.<Object>read(Object.class), Object.class);
+                        out.write(input.<Object>read(Object.class));
                         break;
                 }
             }
@@ -297,11 +305,9 @@ public class NewSessionPayload implements Closeable {
      * Stream the {@link Capabilities} encoded in the payload used to create this instance. The
      * {@link Stream} will start with a {@link Capabilities} object matching the OSS capabilities, and
      * will then expand each of the "{@code firstMatch}" and "{@code alwaysMatch}" contents as defined
-     * in the W3C WebDriver spec.
-     * <p>
-     * The OSS {@link Capabilities} are listed first because converting the OSS capabilities to the
-     * equivalent W3C capabilities isn't particularly easy, so it's hoped that this approach gives us
-     * the most compatible implementation.
+     * in the W3C WebDriver spec. The OSS {@link Capabilities} are listed first because converting the
+     * OSS capabilities to the equivalent W3C capabilities isn't particularly easy, so it's hoped that
+     * this approach gives us the most compatible implementation.
      */
     public Stream<Capabilities> stream() throws IOException {
         // OSS first
@@ -399,9 +405,10 @@ public class NewSessionPayload implements Closeable {
                                 @Override
                                 public Object setValue(Object value) {
                                     return stringObjectEntry.setValue(value);
-                                }})
+                                }
+                            })
                             .collect(toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)))
-                    .map(map -> (Map<String, Object>) map);
+                    .map(map -> map);
         } else {
             fromOss = Stream.of();
         }
