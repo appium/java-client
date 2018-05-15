@@ -64,7 +64,7 @@ public class KeyActionsHelpers {
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.LESS_THAN, new KeyEvent(AndroidKey.COMMA)
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
-        ASCII_CHARS_MAPPING.put(ASCIICharacter.GREATER_THAN, new KeyEvent(AndroidKey.NUMPAD_DOT)
+        ASCII_CHARS_MAPPING.put(ASCIICharacter.GREATER_THAN, new KeyEvent(AndroidKey.PERIOD)
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.DOLLAR_SIGN, new KeyEvent(AndroidKey.DIGIT_4)
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
