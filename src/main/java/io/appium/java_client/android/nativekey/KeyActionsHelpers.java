@@ -116,6 +116,7 @@ public class KeyActionsHelpers {
         final int length = str.length();
         for (int offset = 0; offset < length; ) {
             final int codePoint = str.codePointAt(offset);
+            offset += Character.charCount(codePoint);
             final KeyEvent keyEvent = toKeyEvent(codePoint);
             if (keyEvent == null) {
                 continue;
@@ -135,7 +136,6 @@ public class KeyActionsHelpers {
                         .keyUp(keyCode)
                         .keyUp(metaCode);
             }
-            offset += Character.charCount(codePoint);
         }
         return result;
     }
