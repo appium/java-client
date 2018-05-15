@@ -21,6 +21,7 @@ import static java.util.Optional.ofNullable;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
+import javax.annotation.Nullable;
 
 public class KeyEvent {
     private Integer keyCode;
@@ -73,6 +74,21 @@ public class KeyEvent {
         }
         this.flags |= keyEventFlag.getValue();
         return this;
+    }
+
+    @Nullable
+    public Integer getKeyCode() {
+        return keyCode;
+    }
+
+    @Nullable
+    public Integer getFlags() {
+        return flags;
+    }
+
+    @Nullable
+    public Integer getMetaState() {
+        return metaState;
     }
 
     /**

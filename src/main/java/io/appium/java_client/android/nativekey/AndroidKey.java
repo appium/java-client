@@ -1,5 +1,7 @@
 package io.appium.java_client.android.nativekey;
 
+import java.util.stream.Stream;
+
 public enum AndroidKey {
     /**
      * Key code constant: Unknown key code.
@@ -1287,6 +1289,22 @@ public enum AndroidKey {
 
     public int getCode() {
         return code;
+    }
+
+    /**
+     * creates the corresponding AndroidKey instance for
+     * the given key code.
+     *
+     * @param code the actual key code
+     * @return AndroidKey instance
+     * @throws IllegalArgumentException if the ASCII char with the given code point is unknown.
+     */
+    public static AndroidKey fromCode(int code) {
+        return Stream.of(AndroidKey.values())
+                .filter(x -> x.getCode() == code)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Android key with code %d is unknown", code)));
     }
 
     /**
