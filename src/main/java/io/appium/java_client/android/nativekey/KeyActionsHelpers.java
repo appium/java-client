@@ -59,7 +59,7 @@ public class KeyActionsHelpers {
         ASCII_CHARS_MAPPING.put(ASCIICharacter.SLANT, new KeyEvent(AndroidKey.SLASH));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.SPACE, new KeyEvent(AndroidKey.SPACE));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.EXCLAMATION_POINT, new KeyEvent(AndroidKey.DIGIT_1)
-            .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+                .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.COLON, new KeyEvent(AndroidKey.SEMICOLON)
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.LESS_THAN, new KeyEvent(AndroidKey.COMMA)
@@ -112,6 +112,7 @@ public class KeyActionsHelpers {
      * @return The altered actions.
      */
     public static Actions sendNativeKeys(Actions actions, String str) {
+        Actions result = actions;
         final int length = str.length();
         for (int offset = 0; offset < length; ) {
             final int codePoint = str.codePointAt(offset);
@@ -123,21 +124,20 @@ public class KeyActionsHelpers {
             //noinspection ConstantConditions
             final String keyCode = new String(Character.toChars(keyEvent.getKeyCode()));
             if (keyEvent.getMetaState() == null) {
-                actions = actions.keyDown(keyCode);
-                actions = actions.keyUp(keyCode);
+                result = result
+                        .keyDown(keyCode)
+                        .keyUp(keyCode);
             } else {
                 final String metaCode = new String(Character
                         .toChars(META_CODES_SHIFT + keyEvent.getMetaState()));
-                actions = actions.keyDown(metaCode);
-
-                actions = actions.keyDown(keyCode);
-                actions = actions.keyUp(keyCode);
-
-                actions = actions.keyUp(metaCode);
+                result = result.keyDown(metaCode)
+                        .keyDown(keyCode)
+                        .keyUp(keyCode)
+                        .keyUp(metaCode);
             }
             offset += Character.charCount(codePoint);
         }
-        return actions;
+        return result;
     }
 
     /**
