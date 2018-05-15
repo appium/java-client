@@ -21,12 +21,14 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyActionsHelpers;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.android.nativekey.KeyEventFlag;
 import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 
 public class KeyCodeTest extends BaseAndroidTest {
     private static final By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");
@@ -83,5 +85,16 @@ public class KeyCodeTest extends BaseAndroidTest {
         assertThat(state, containsString(String.format("META_%s", KeyEventMetaModifier.SHIFT_ON.name())));
         assertThat(state, containsString(String.format("flags=0x%s",
                 Integer.toHexString(KeyEventFlag.LONG_PRESS.getValue()))));
+    }
+
+    @Test
+    public void w3cActionsTest() {
+        KeyActionsHelpers
+                .sendNativeKeys(new Actions(driver), "Hi")
+                .perform();
+        final String state = driver.findElement(PRESS_RESULT_VIEW).getText();
+        assertThat(state, containsString(String.format("KEYCODE_%s", AndroidKey.H.name())));
+        assertThat(state, containsString(String.format("KEYCODE_%s", AndroidKey.I.name())));
+        assertThat(state, containsString(String.format("META_%s", KeyEventMetaModifier.SHIFT_ON.name())));
     }
 }
