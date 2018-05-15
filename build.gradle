@@ -79,12 +79,13 @@ dependencies {
     compile 'javax.websocket:javax.websocket-api:1.1'
     compile 'org.glassfish.tyrus:tyrus-client:1.13.1'
     compile 'org.glassfish.tyrus:tyrus-container-grizzly:1.2.1'
-    
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '2.2.1') {
         exclude group: 'org.seleniumhq.selenium'
     }
+    testCompile 'io.github.bonigarcia:webdrivermanager:2.2.1'
 }
 
 ext {
