@@ -82,6 +82,10 @@ public class KeyActionsHelpers {
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
         ASCII_CHARS_MAPPING.put(ASCIICharacter.CIRCUMFLEX, new KeyEvent(AndroidKey.DIGIT_6)
                 .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+        ASCII_CHARS_MAPPING.put(ASCIICharacter.VERTICAL_LINE, new KeyEvent(AndroidKey.BACKSLASH)
+                .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
+        ASCII_CHARS_MAPPING.put(ASCIICharacter.QUOTATION_MARKS, new KeyEvent(AndroidKey.APOSTROPHE)
+                .withMetaModifier(KeyEventMetaModifier.SHIFT_ON));
 
         IntStream.rangeClosed(ASCIICharacter.DIGIT_0.ordinal(), ASCIICharacter.DIGIT_9.ordinal())
                 .forEach(x -> ASCII_CHARS_MAPPING.put(ASCIICharacter.fromCode(x),
