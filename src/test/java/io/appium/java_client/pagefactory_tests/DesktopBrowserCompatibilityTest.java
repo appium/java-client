@@ -18,11 +18,9 @@ package io.appium.java_client.pagefactory_tests;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.openqa.selenium.firefox.FirefoxDriver.PROFILE;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -34,10 +32,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
@@ -60,17 +54,11 @@ public class DesktopBrowserCompatibilityTest {
      * The starting.
      */
     @BeforeClass public static void beforeClass() {
-        firefoxdriver().setup();
+        chromedriver().setup();
     }
 
-    @Test public void fireFoxTest() {
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
-        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.TRACE);
-
-        FirefoxProfile firefoxProfile = new FirefoxProfile();
-        firefoxOptions.setCapability(PROFILE, firefoxProfile);
-
-        WebDriver driver = new FirefoxDriver(firefoxOptions);
+    @Test public void chromeTest() {
+        WebDriver driver = new ChromeDriver();
         try {
             PageFactory
                     .initElements(new AppiumFieldDecorator(driver, ofSeconds(15)),

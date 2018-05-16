@@ -147,16 +147,17 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @SuppressWarnings("unchecked")
             public Result createSession(HttpClient client, Command command)
                     throws IOException {
-                Capabilities desired = (Capabilities) command.getParameters().get("desiredCapabilities");
-                desired = desired == null ? new ImmutableCapabilities() : desired;
+                Capabilities desiredCapabilities = (Capabilities) command.getParameters().get("desiredCapabilities");
+                Capabilities desired = desiredCapabilities == null ? new ImmutableCapabilities() : desiredCapabilities;
 
+                //the number of bytes before the stream should switch to buffering to a file
                 int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
                 FileBackedOutputStream os = new FileBackedOutputStream(threshold);
-                try (
-                        CountingOutputStream counter = new CountingOutputStream(os);
-                        Writer writer = new OutputStreamWriter(counter, UTF_8);
-                        NewAppiumSessionPayload payload = NewAppiumSessionPayload.create(desired)) {
+                try {
 
+                    CountingOutputStream counter = new CountingOutputStream(os);
+                    Writer writer = new OutputStreamWriter(counter, UTF_8);
+                    NewAppiumSessionPayload payload = NewAppiumSessionPayload.create(desired);
                     payload.writeTo(writer);
 
                     try (InputStream rawIn = os.asByteSource().openBufferedStream();
@@ -169,11 +170,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                         Optional<Result> result = (Optional<Result>) createSessionMethod
                                 .invoke(this, client, contentStream, counter.getCount());
 
-                        if (result.isPresent()) {
+                        return result.map(result1 -> {
                             Result toReturn = result.get();
                             System.out.print(format("Detected dialect: %s", toReturn.getDialect()));
                             return toReturn;
-                        }
+                        }).orElseThrow(() -> new SessionNotCreatedException(
+                                format("Unable to create new remote session. desired capabilities = %s", desired)));
                     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                         throw new WebDriverException(format("It is impossible to create a new session "
                                         + "because 'createSession' which takes %s, %s and %s was not found "
@@ -185,12 +187,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 } finally {
                     os.reset();
                 }
-
-                throw new SessionNotCreatedException(
-                        format(
-                                "Unable to create new remote session. "
-                                        + "desired capabilities = %s",
-                                desired));
             }
         };
 
@@ -198,9 +194,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 .createSession(getClient(), command);
         Dialect dialect = result.getDialect();
         setCommandCodec(dialect.getCommandCodec());
-        for (Map.Entry<String, CommandInfo> entry : getAdditionalCommands().entrySet()) {
-            defineCommand(entry.getKey(), entry.getValue());
-        }
+        getAdditionalCommands().forEach(this::defineCommand);
         setResponseCodec(dialect.getResponseCodec());
         return result.createResponse();
     }
@@ -219,12 +213,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         Response response;
         try {
-            if (!NEW_SESSION.equals(command.getName())) {
-                response = super.execute(command);
-            }
-            else {
-                response = createSession(command);
-            }
+            response = NEW_SESSION.equals(command.getName()) ? createSession(command) : super.execute(command);
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException

@@ -81,8 +81,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
-
-class NewAppiumSessionPayload implements Closeable {
+public class NewAppiumSessionPayload implements Closeable {
 
     private static final List<String> APPIUM_CAPABILITIES = ImmutableList.<String>builder()
             .addAll(getAppiumCapabilities(MobileCapabilityType.class))
@@ -129,6 +128,12 @@ class NewAppiumSessionPayload implements Closeable {
         }).filter(s -> !FORCE_MJSONWP.equals(s)).collect(toList());
     }
 
+    /**
+     * Creates instance of {@link NewAppiumSessionPayload}.
+     *
+     * @param caps capabilities to create a new session
+     * @return instance of {@link NewAppiumSessionPayload}
+     */
     public static NewAppiumSessionPayload create(Capabilities caps) throws IOException {
         boolean forceMobileJSONWP =
                 ofNullable(caps.getCapability(FORCE_MJSONWP))
@@ -238,6 +243,11 @@ class NewAppiumSessionPayload implements Closeable {
                 });
     }
 
+    /**
+     * Writes json capabilities to some appendable object.
+     *
+     * @param appendable to write a json
+     */
     public void writeTo(Appendable appendable) throws IOException {
         try (JsonOutput json = new Json().newOutput(appendable)) {
             json.beginObject();
