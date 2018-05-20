@@ -21,6 +21,7 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.ofNullable;
+import static java.util.logging.Logger.getLogger;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 import com.google.common.base.Supplier;
@@ -172,7 +173,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
                         return result.map(result1 -> {
                             Result toReturn = result.get();
-                            System.out.print(format("Detected dialect: %s", toReturn.getDialect()));
+                            getLogger(ProtocolHandshake.class.getName())
+                                    .info(format("Detected dialect: %s", toReturn.getDialect()));
                             return toReturn;
                         }).orElseThrow(() -> new SessionNotCreatedException(
                                 format("Unable to create new remote session. desired capabilities = %s", desired)));
@@ -200,7 +202,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     @Override
-    public Response execute(Command command) throws WebDriverException, IOException {
+    public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
             serviceOptional.ifPresent(driverService -> {
                 try {
