@@ -32,8 +32,15 @@ public interface PushesFiles extends InteractsWithFiles, ExecutesMethod {
 
     /**
      * Saves base64 encoded data as a file on the remote mobile device.
+     * The application under test should be
+     * built with debuggable flag enabled in order to get access to its container
+     * on the internal file system.
+     *
+     * @see <a href="https://developer.android.com/studio/debug/">'Debug Your App' developer article</a>
      *
      * @param remotePath Path to file to write data to on remote device
+     *                   If the path starts with <em>@applicationId/</em> prefix, then the file
+     *                   will be pushed to the root of the corresponding application container.
      * @param base64Data Base64 encoded byte array of data to write to remote device
      */
     default void pushFile(String remotePath, byte[] base64Data) {
@@ -41,9 +48,16 @@ public interface PushesFiles extends InteractsWithFiles, ExecutesMethod {
     }
 
     /**
-     * Saves given file as a file on the remote mobile device.
+     * Saves the given file to the remote mobile device.
+     * The application under test should be
+     * built with debugMode flag enabled in order to get access to its container
+     * on the internal file system.
      *
-     * @param remotePath Path to file to write data to on remote device
+     * @see <a href="https://developer.android.com/studio/debug/">'Debug Your App' developer article</a>
+     *
+     * @param remotePath Path to file to write data to on remote device.
+     *                   If the path starts with <em>@applicationId/</em> prefix, then the file
+     *                   will be pushed to the root of the corresponding application container.
      * @param file is a file to write to remote device
      * @throws IOException when there are problems with a file or current file system
      */
