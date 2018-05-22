@@ -18,25 +18,45 @@ package io.appium.java_client.remote;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.ofNullable;
+import static java.util.logging.Logger.getLogger;
+import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
+import com.google.common.io.CountingOutputStream;
+import com.google.common.io.FileBackedOutputStream;
+
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.CommandCodec;
 import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
+import org.openqa.selenium.remote.http.HttpResponse;
 import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.service.DriverService;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
@@ -111,6 +131,76 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         setPrivateFieldValue("commandCodec", newCodec);
     }
 
+    private void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+        setPrivateFieldValue("responseCodec", codec);
+    }
+
+    private HttpClient getClient() {
+        //noinspection unchecked
+        return getPrivateFieldValue("client", HttpClient.class);
+    }
+
+    private Response createSession(Command command) throws IOException {
+        if (getCommandCodec() != null) {
+            throw new SessionNotCreatedException("Session already exists");
+        }
+        ProtocolHandshake handshake = new ProtocolHandshake() {
+            @SuppressWarnings("unchecked")
+            public Result createSession(HttpClient client, Command command)
+                    throws IOException {
+                Capabilities desiredCapabilities = (Capabilities) command.getParameters().get("desiredCapabilities");
+                Capabilities desired = desiredCapabilities == null ? new ImmutableCapabilities() : desiredCapabilities;
+
+                //the number of bytes before the stream should switch to buffering to a file
+                int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
+                FileBackedOutputStream os = new FileBackedOutputStream(threshold);
+                try {
+
+                    CountingOutputStream counter = new CountingOutputStream(os);
+                    Writer writer = new OutputStreamWriter(counter, UTF_8);
+                    NewAppiumSessionPayload payload = NewAppiumSessionPayload.create(desired);
+                    payload.writeTo(writer);
+
+                    try (InputStream rawIn = os.asByteSource().openBufferedStream();
+                         BufferedInputStream contentStream = new BufferedInputStream(rawIn)) {
+
+                        Method createSessionMethod = this.getClass().getSuperclass()
+                                .getDeclaredMethod("createSession", HttpClient.class, InputStream.class, long.class);
+                        createSessionMethod.setAccessible(true);
+
+                        Optional<Result> result = (Optional<Result>) createSessionMethod
+                                .invoke(this, client, contentStream, counter.getCount());
+
+                        return result.map(result1 -> {
+                            Result toReturn = result.get();
+                            getLogger(ProtocolHandshake.class.getName())
+                                    .info(format("Detected dialect: %s", toReturn.getDialect()));
+                            return toReturn;
+                        }).orElseThrow(() -> new SessionNotCreatedException(
+                                format("Unable to create new remote session. desired capabilities = %s", desired)));
+                    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                        throw new WebDriverException(format("It is impossible to create a new session "
+                                        + "because 'createSession' which takes %s, %s and %s was not found "
+                                        + "or it is not accessible",
+                                HttpClient.class.getSimpleName(),
+                                InputStream.class.getSimpleName(),
+                                long.class.getSimpleName()), e);
+                    }
+                } finally {
+                    os.reset();
+                }
+            }
+        };
+
+        ProtocolHandshake.Result result = handshake
+                .createSession(getClient(), command);
+        Dialect dialect = result.getDialect();
+        setCommandCodec(dialect.getCommandCodec());
+        getAdditionalCommands().forEach(this::defineCommand);
+        setResponseCodec(dialect.getResponseCodec());
+        return result.createResponse();
+    }
+
     @Override
     public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
@@ -125,7 +215,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         Response response;
         try {
-            response = super.execute(command);
+            response = NEW_SESSION.equals(command.getName()) ? createSession(command) : super.execute(command);
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException

@@ -1,8 +1,12 @@
 package io.appium.java_client.events;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.xpath;
+import static org.openqa.selenium.OutputType.BASE64;
 
 import io.appium.java_client.events.listeners.AppiumListener;
 import io.appium.java_client.events.listeners.SingleListeners;
@@ -71,6 +75,34 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
                             WEBDRIVER_EVENT_LISTENER + "The alert was accepted",
                             WEBDRIVER_EVENT_LISTENER + "Attempt to dismiss alert",
                             WEBDRIVER_EVENT_LISTENER + "The alert was dismissed"));
+        } finally {
+            listener.messages.clear();
+        }
+    }
+
+    @Test
+    public void takeScreenShotEventTest() {
+        try {
+            driver.getScreenshotAs(BASE64);
+            driver.findElement(xpath(".//some//path")).findElement(id("someId")).getScreenshotAs(BASE64);
+
+            assertThat(listener.messages,
+                    contains("WebDriverEventListener: Attempt to take screen shot. Target type is OutputType.BASE64",
+                            "WebDriverEventListener: Screen shot was taken successfully. Target type is "
+                                    + "OutputType.BASE64, result is AQI=",
+                            "WebDriverEventListener: Attempt to find something using By.xpath: .//some//path. "
+                                    + "The root element is null",
+                            "WebDriverEventListener: The searching for something using "
+                                    + "By.xpath: .//some//path has beed finished. "
+                                    + "The root element was null",
+                            "WebDriverEventListener: Attempt to find something using By.id: someId. "
+                                    + "The root element is io.appium.java_client.events.StubWebElement",
+                            "WebDriverEventListener: The searching for something using "
+                                    + "By.id: someId has beed finished. "
+                                    + "The root element was io.appium.java_client.events.StubWebElement",
+                            "WebDriverEventListener: Attempt to take screen shot. Target type is OutputType.BASE64",
+                            "WebDriverEventListener: Screen shot was taken successfully. "
+                                    + "Target type is OutputType.BASE64, result is AQI="));
         } finally {
             listener.messages.clear();
         }

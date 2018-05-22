@@ -30,6 +30,7 @@ import io.appium.java_client.events.api.mobile.RotationEventListener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
@@ -131,6 +132,16 @@ class DefaultListener
 
     @Override public void onException(Throwable throwable, WebDriver driver) {
         ((ListensToException) dispatcher).onException(throwable, driver);
+    }
+
+    @Override
+    public <X> void beforeGetScreenshotAs(OutputType<X> target) {
+        ((WebDriverEventListener) dispatcher).beforeGetScreenshotAs(target);
+    }
+
+    @Override
+    public <X> void afterGetScreenshotAs(OutputType<X> target, X screenshot) {
+        ((WebDriverEventListener) dispatcher).afterGetScreenshotAs(target, screenshot);
     }
 
     public void add(Collection<Listener> listeners) {

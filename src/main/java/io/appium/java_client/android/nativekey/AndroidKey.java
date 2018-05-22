@@ -1411,6 +1411,8 @@ public enum AndroidKey {
     }
 
     /**
+     * Is it wake key or not.
+     *
      * @return true if this a wakeup key.
      */
     public boolean isWakeKey() {

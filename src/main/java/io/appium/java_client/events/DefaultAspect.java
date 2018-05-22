@@ -24,6 +24,7 @@ import io.appium.java_client.events.api.Listener;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Aspect
 class DefaultAspect {
 
@@ -85,6 +87,8 @@ class DefaultAspect {
         + "context(..))";
     private static final String EXECUTION_SWITCH_TO_WINDOW = "execution(* org.openqa.selenium.WebDriver.TargetLocator"
             + ".window(..))";
+    private static final String EXECUTION_TAKE_SCREENSHOT_AS = "execution(* org.openqa.selenium.TakesScreenshot"
+            + ".getScreenshotAs(..))";
     private static final String AROUND = "execution(* org.openqa.selenium.WebDriver.*(..)) || "
         + "execution(* org.openqa.selenium.WebElement.*(..)) || "
         + "execution(* org.openqa.selenium.WebDriver.Navigation.*(..)) || "
@@ -114,7 +118,8 @@ class DefaultAspect {
         + "execution(* io.appium.java_client.MobileElement.*(..)) || "
         + "execution(* org.openqa.selenium.remote.RemoteWebDriver.*(..)) || "
         + "execution(* org.openqa.selenium.remote.RemoteWebElement.*(..)) || "
-        + "execution(* org.openqa.selenium.Alert.*(..))";
+        + "execution(* org.openqa.selenium.Alert.*(..)) || "
+        + "execution(* org.openqa.selenium.TakesScreenshot.*(..))";
 
     private final AbstractApplicationContext context;
     private final WebDriver driver;
@@ -478,6 +483,24 @@ class DefaultAspect {
     public void afterSwitchToWindow(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterSwitchToWindow(castArgument(joinPoint, 0), driver);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @Before(EXECUTION_TAKE_SCREENSHOT_AS)
+    public void beforeTakeScreenShot(JoinPoint joinPoint) throws Throwable {
+        try {
+            listener.beforeGetScreenshotAs(castArgument(joinPoint, 0));
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @AfterReturning(value = EXECUTION_TAKE_SCREENSHOT_AS, returning = "result")
+    public void afterTakeScreenShot(JoinPoint joinPoint, Object result) throws Throwable {
+        try {
+            listener.afterGetScreenshotAs(castArgument(joinPoint, 0), result);
         } catch (Throwable t) {
             throw getRootCause(t);
         }
