@@ -29,11 +29,21 @@ public interface InteractsWithFiles extends ExecutesMethod {
 
     /**
      * Pull a file from the simulator/device.
+     * On iOS the server should have ifuse
+     * libraries installed and configured properly for this feature to work
+     * on real devices.
+     * On Android the application under test should be
+     * built with debuggable flag enabled in order to get access to its container
+     * on the internal file system.
      *
-     * @param remotePath On Android and iOS, this is either the path to the file
-     *                   (relative to the root of the app's file system). On iOS only,
-     *                   if path starts with /AppName.app, which will be replaced with
-     *                   the application's .app directory
+     * @see <a href="https://github.com/libimobiledevice/ifuse">iFuse GitHub page6</a>
+     * @see <a href="https://github.com/osxfuse/osxfuse/wiki/FAQ">osxFuse FAQ</a>
+     * @see <a href="https://developer.android.com/studio/debug/">'Debug Your App' developer article</a>
+     *
+     * @param remotePath If the path starts with <em>@applicationId/</em>/ prefix, then the file
+     *                   will be pulled from the root of the corresponding application container.
+     *                   Otherwise the root folder is considered as / on Android and
+     *                   on iOS it is a media folder root (real devices only).
      * @return A byte array of Base64 encoded data.
      */
     default byte[] pullFile(String remotePath) {
@@ -44,15 +54,23 @@ public interface InteractsWithFiles extends ExecutesMethod {
     }
 
     /**
-     * Pull a folder from the simulator/device. Does not work on iOS Real
-     * Devices, but works on simulators
+     * Pull a folder content from the simulator/device.
+     * On iOS the server should have ifuse
+     * libraries installed and configured properly for this feature to work
+     * on real devices.
+     * On Android the application under test should be
+     * built with debuggable flag enabled in order to get access to its container
+     * on the internal file system.
      *
-     * @param remotePath On Android and iOS, this is either the path to the file
-     *                   (relative to the root of the app's file system). On iOS only,
-     *                   if path starts with /AppName.app, which will be replaced with
-     *                   the application's .app directory
-     * @return A byte array of Base64 encoded data, representing a ZIP ARCHIVE
-     *         of the contents of the requested folder.
+     * @see <a href="https://github.com/libimobiledevice/ifuse">iFuse GitHub page6</a>
+     * @see <a href="https://github.com/osxfuse/osxfuse/wiki/FAQ">osxFuse FAQ</a>
+     * @see <a href="https://developer.android.com/studio/debug/">'Debug Your App' developer article</a>
+     *
+     * @param remotePath If the path starts with <em>@applicationId/</em> prefix, then the folder
+     *                   will be pulled from the root of the corresponding application container.
+     *                   Otherwise the root folder is considered as / on Android and
+     *                   on iOS it is a media folder root (real devices only).
+     * @return A byte array of Base64 encoded zip archive data.
      */
     default byte[] pullFolder(String remotePath) {
         Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
