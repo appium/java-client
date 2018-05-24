@@ -28,7 +28,8 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 - **[ENHANCEMENT]** Added isKeyboardShown command for iOS [#887](https://github.com/appium/java-client/pull/887)
 - **[ENHANCEMENT]** Added battery information accessors [#882](https://github.com/appium/java-client/pull/882)
 - **[BREAKING CHANGE]** Removal of deprecated code. [#881](https://github.com/appium/java-client/pull/881)
-- **[BUG FIX]** Added `NewAppiumSessionPayload`. Bug report: [#875](https://github.com/appium/java-client/issues/875). FIX: [#894](https://github.com/appium/java-client/pull/894)
+- **[BUG FIX]** Added `NewAppiumSessionPayload`. Bug report: [#875](https://github.com/appium/java-client/issues/875). FIX: [#909](https://github.com/appium/java-client/pull/909)
+- **[ENHANCEMENT]** Added a method for output streams cleanup [#882](https://github.com/appium/java-client/pull/882)
 - **[DEPENDENCY UPDATES]**
   - `com.google.code.gson:gson` was updated to 2.8.4
   - `org.springframework:spring-context` was updated to 5.0.5.RELEASE
