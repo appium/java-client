@@ -19,8 +19,9 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 ## Changelog
 
-*6.0.0 (under construction yet)*
+*7.0.0 (under construction yet)*
 
+*6.0.0*
 - **[ENHANCEMENT]** Added an ability to set pressure value for iOS. [#879](https://github.com/appium/java-client/pull/879)
 - **[ENHANCEMENT]** Added new server arguments `RELAXED_SECURITY` and `ENABLE_HEAP_DUMP`. [#880](https://github.com/appium/java-client/pull/880)
 - **[BUG FIX]** Use default Selenium HTTP client factory [#877](https://github.com/appium/java-client/pull/877)
