@@ -27,6 +27,7 @@ import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -40,17 +41,13 @@ public final class AppiumDriverLocalService extends DriverService {
 
     private static final String URL_MASK = "http://%s:%d/wd/hub";
     private final File nodeJSExec;
-    private final int nodeJSPort;
     private final ImmutableList<String> nodeJSArgs;
     private final ImmutableMap<String, String> nodeJSEnvironment;
-    private final String ipAddress;
     private final long startupTimeout;
     private final TimeUnit timeUnit;
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
-
-
 
     private CommandLine process = null;
 
@@ -58,14 +55,12 @@ public final class AppiumDriverLocalService extends DriverService {
         ImmutableList<String> nodeJSArgs, ImmutableMap<String, String> nodeJSEnvironment,
         long startupTimeout, TimeUnit timeUnit) throws IOException {
         super(nodeJSExec, nodeJSPort, nodeJSArgs, nodeJSEnvironment);
-        this.ipAddress = ipAddress;
         this.nodeJSExec = nodeJSExec;
-        this.nodeJSPort = nodeJSPort;
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
         this.timeUnit = timeUnit;
-        this.url = new URL(String.format(URL_MASK, this.ipAddress, this.nodeJSPort));
+        this.url = new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
     }
 
     public static AppiumDriverLocalService buildDefaultService() {
@@ -185,6 +180,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * @return String logs if the server has been run.
      *     null is returned otherwise.
      */
+    @Nullable
     public String getStdOut() {
         if (process != null) {
             return process.getStdOut();
@@ -215,4 +211,12 @@ public final class AppiumDriverLocalService extends DriverService {
         }
     }
 
+    /**
+     * Remove all existing server output streams.
+     *
+     * @return true if at least one output stream has been cleared
+     */
+    public boolean clearOutPutStreams() {
+        return stream.clear();
+    }
 }

@@ -59,4 +59,17 @@ class ListOutputStream extends OutputStream {
             stream.close();
         }
     }
+
+    /**
+     * Clears all the existing output streams.
+     *
+     * @return true if at least one output stream has been cleared
+     */
+    public boolean clear() {
+        if (streams.isEmpty()) {
+            return false;
+        }
+        streams.clear();
+        return true;
+    }
 }
