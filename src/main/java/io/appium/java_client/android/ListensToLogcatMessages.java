@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.function.Consumer;
 
 public interface ListensToLogcatMessages extends ExecutesMethod {
-    StringWebSocketClient logcatClient = new StringWebSocketClient();
+    StringWebSocketClient getLogcatClient();
 
     /**
      * Start logcat messages broadcast via web socket.
@@ -68,7 +68,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e);
         }
-        logcatClient.connect(endpointUri);
+        getLogcatClient().connect(endpointUri);
     }
 
     /**
@@ -80,7 +80,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param handler a function, which accepts a single argument, which is the actual log message
      */
     default void addLogcatMessagesListener(Consumer<String> handler) {
-        logcatClient.addMessageHandler(handler);
+        getLogcatClient().addMessageHandler(handler);
     }
 
     /**
@@ -92,7 +92,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param handler a function, which accepts a single argument, which is the actual exception instance
      */
     default void addLogcatErrorsListener(Consumer<Throwable> handler) {
-        logcatClient.addErrorHandler(handler);
+        getLogcatClient().addErrorHandler(handler);
     }
 
     /**
@@ -105,7 +105,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *                connected to the web socket
      */
     default void addLogcatConnectionListener(Runnable handler) {
-        logcatClient.addConnectionHandler(handler);
+        getLogcatClient().addConnectionHandler(handler);
     }
 
     /**
@@ -118,14 +118,14 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *                disconnected from the web socket
      */
     default void addLogcatDisconnectionListener(Runnable handler) {
-        logcatClient.addDisconnectionHandler(handler);
+        getLogcatClient().addDisconnectionHandler(handler);
     }
 
     /**
      * Removes all existing logcat handlers.
      */
     default void removeAllLogcatListeners() {
-        logcatClient.removeAllHandlers();
+        getLogcatClient().removeAllHandlers();
     }
 
     /**

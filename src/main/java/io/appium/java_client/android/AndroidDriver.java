@@ -35,6 +35,7 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -65,6 +66,8 @@ public class AndroidDriver<T extends WebElement>
         HasBattery<AndroidBatteryInfo> {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
+
+    private StringWebSocketClient logcatClient;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -192,5 +195,13 @@ public class AndroidDriver<T extends WebElement>
     public AndroidBatteryInfo getBatteryInfo() {
         return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
                 "script", "mobile: batteryInfo", "args", Collections.emptyList())));
+    }
+
+    @Override
+    public synchronized StringWebSocketClient getLogcatClient() {
+        if (logcatClient == null) {
+            logcatClient = new StringWebSocketClient();
+        }
+        return logcatClient;
     }
 }

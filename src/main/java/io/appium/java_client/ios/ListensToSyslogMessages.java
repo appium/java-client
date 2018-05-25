@@ -31,7 +31,8 @@ import java.util.Collections;
 import java.util.function.Consumer;
 
 public interface ListensToSyslogMessages extends ExecutesMethod {
-    StringWebSocketClient syslogClient = new StringWebSocketClient();
+
+    StringWebSocketClient getSyslogClient();
 
     /**
      * Start syslog messages broadcast via web socket.
@@ -68,7 +69,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e);
         }
-        syslogClient.connect(endpointUri);
+        getSyslogClient().connect(endpointUri);
     }
 
     /**
@@ -80,7 +81,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param handler a function, which accepts a single argument, which is the actual log message
      */
     default void addSyslogMessagesListener(Consumer<String> handler) {
-        syslogClient.addMessageHandler(handler);
+        getSyslogClient().addMessageHandler(handler);
     }
 
     /**
@@ -92,7 +93,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param handler a function, which accepts a single argument, which is the actual exception instance
      */
     default void addSyslogErrorsListener(Consumer<Throwable> handler) {
-        syslogClient.addErrorHandler(handler);
+        getSyslogClient().addErrorHandler(handler);
     }
 
     /**
@@ -105,7 +106,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      *                connected to the web socket
      */
     default void addSyslogConnectionListener(Runnable handler) {
-        syslogClient.addConnectionHandler(handler);
+        getSyslogClient().addConnectionHandler(handler);
     }
 
     /**
@@ -118,14 +119,14 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      *                disconnected from the web socket
      */
     default void addSyslogDisconnectionListener(Runnable handler) {
-        syslogClient.addDisconnectionHandler(handler);
+        getSyslogClient().addDisconnectionHandler(handler);
     }
 
     /**
      * Removes all existing syslog handlers.
      */
     default void removeAllSyslogListeners() {
-        syslogClient.removeAllHandlers();
+        getSyslogClient().removeAllHandlers();
     }
 
     /**
