@@ -34,6 +34,7 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
@@ -67,6 +68,8 @@ public class IOSDriver<T extends WebElement>
         HasBattery<IOSBatteryInfo> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;
+
+    private StringWebSocketClient syslogClient;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -224,5 +227,13 @@ public class IOSDriver<T extends WebElement>
             execute(DriverCommand.SET_ALERT_VALUE, prepareArguments("value", keysToSend));
         }
 
+    }
+
+    @Override
+    public synchronized StringWebSocketClient getSyslogClient() {
+        if (syslogClient == null) {
+            syslogClient = new StringWebSocketClient();
+        }
+        return syslogClient;
     }
 }
