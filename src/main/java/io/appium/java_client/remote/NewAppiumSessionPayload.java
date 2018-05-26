@@ -270,10 +270,7 @@ public class NewAppiumSessionPayload implements Closeable {
 
             json.name(ALWAYS_MATCH);
             json.write(first);
-
-            // Then write everything into the w3c payload. Because of the way we do this, it's easiest
-            // to just populate the "firstMatch" section. The spec says it's fine to omit the
-            // "alwaysMatch" field, so we do this.
+            
             json.name(FIRST_MATCH);
             json.beginArray();
             //noinspection unchecked
