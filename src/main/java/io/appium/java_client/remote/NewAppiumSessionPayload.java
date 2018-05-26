@@ -268,7 +268,7 @@ public class NewAppiumSessionPayload implements Closeable {
             json.name(CAPABILITIES);
             json.beginObject();
 
-            json.name(DESIRED_CAPABILITIES);
+            json.name(ALWAYS_MATCH);
             json.write(first);
 
             // Then write everything into the w3c payload. Because of the way we do this, it's easiest
