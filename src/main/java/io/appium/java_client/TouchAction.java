@@ -49,7 +49,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     private PerformsTouchActions performsTouchActions;
 
     public TouchAction(PerformsTouchActions performsTouchActions) {
-        this.performsTouchActions = performsTouchActions;
+        this.performsTouchActions = checkNotNull(performsTouchActions);
         parameterBuilder = builder();
     }
 
