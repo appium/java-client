@@ -118,7 +118,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         Throwable recentException = null;
         while (superclass != Object.class) {
             try {
-                final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
+                final Field f = superclass.getDeclaredField(fieldName);
                 f.setAccessible(true);
                 f.set(this, newValue);
                 return;
