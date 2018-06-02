@@ -130,25 +130,25 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         throw new WebDriverException(recentException);
     }
 
-    private Map<String, CommandInfo> getAdditionalCommands() {
+    protected Map<String, CommandInfo> getAdditionalCommands() {
         //noinspection unchecked
         return getPrivateFieldValue("additionalCommands", Map.class);
     }
 
-    private CommandCodec<HttpRequest> getCommandCodec() {
+    protected CommandCodec<HttpRequest> getCommandCodec() {
         //noinspection unchecked
         return getPrivateFieldValue("commandCodec", CommandCodec.class);
     }
 
-    private void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+    protected void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
         setPrivateFieldValue("commandCodec", newCodec);
     }
 
-    private void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+    protected void setResponseCodec(ResponseCodec<HttpResponse> codec) {
         setPrivateFieldValue("responseCodec", codec);
     }
 
-    private HttpClient getClient() {
+    protected HttpClient getClient() {
         //noinspection unchecked
         return getPrivateFieldValue("client", HttpClient.class);
     }
