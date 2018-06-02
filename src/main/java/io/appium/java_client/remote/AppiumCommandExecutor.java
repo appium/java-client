@@ -97,7 +97,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, service, new AppiumHttpClientFactory());
     }
 
-    private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
+    protected  <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
         Class<?> superclass = getClass().getSuperclass();
         Throwable recentException = null;
         while (superclass != Object.class) {
@@ -113,7 +113,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         throw new WebDriverException(recentException);
     }
 
-    private void setPrivateFieldValue(String fieldName, Object newValue) {
+    protected void setPrivateFieldValue(String fieldName, Object newValue) {
         Class<?> superclass = getClass().getSuperclass();
         Throwable recentException = null;
         while (superclass != Object.class) {
