@@ -97,7 +97,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, service, new AppiumHttpClientFactory());
     }
 
-    protected  <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
+    protected <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
         Class<?> superclass = getClass().getSuperclass();
         Throwable recentException = null;
         while (superclass != Object.class) {
