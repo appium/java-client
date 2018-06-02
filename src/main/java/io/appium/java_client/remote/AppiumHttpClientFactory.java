@@ -16,7 +16,10 @@
 
 package io.appium.java_client.remote;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.common.base.Strings;
+
 import okhttp3.ConnectionPool;
 import okhttp3.Credentials;
 import org.openqa.selenium.remote.http.HttpClient;
@@ -25,8 +28,6 @@ import org.openqa.selenium.remote.internal.OkHttpClient;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Objects;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * We must use the customized factory, because the default one
@@ -44,6 +45,13 @@ public class AppiumHttpClientFactory extends OkHttpClient.Factory {
         this(Duration.ofMinutes(2), Duration.ofHours(3));
     }
 
+    /**
+     * Creates a factory instance for HttpOK client with customized
+     * Appium config.
+     *
+     * @param connectionTimeout http connection timeout
+     * @param readTimeout http read timeout
+     */
     public AppiumHttpClientFactory(Duration connectionTimeout, Duration readTimeout) {
         Objects.requireNonNull(connectionTimeout, "Connection timeout cannot be null");
         Objects.requireNonNull(readTimeout, "Read timeout cannot be null");
