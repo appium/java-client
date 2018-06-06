@@ -1,6 +1,6 @@
 # Steps: 
 
-- you have to prepare environment for iOS. [Details are provided here](http://appium.io/slate/en/master/?ruby#system-setup-(ios))
+- you have to prepare environment for iOS. [Details are provided here](http://appium.io/docs/en/drivers/ios-xcuitest/#basic-setup)
 
 - it needs to launch the appium server. You can launch Appium desktop application. If you use the server installed via npm then 
 
