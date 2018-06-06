@@ -269,12 +269,13 @@ public class NewAppiumSessionPayload implements Closeable {
             json.beginObject();
 
             json.name(ALWAYS_MATCH);
-            json.write(first);
+            getW3C().forEach(json::write);
             
             json.name(FIRST_MATCH);
             json.beginArray();
             //noinspection unchecked
-            getW3C().forEach(json::write);
+            json.beginObject();
+            json.endObject();
             json.endArray();
 
             json.endObject();  // Close "capabilities" object
