@@ -89,53 +89,66 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault());
+        this(additionalCommands, addressOfRemoteServer, new AppiumHttpClientFactory());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  DriverService service) {
-        this(additionalCommands, service, HttpClient.Factory.createDefault());
+        this(additionalCommands, service, new AppiumHttpClientFactory());
     }
 
-    private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
-        try {
-            final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
-            f.setAccessible(true);
-            return fieldType.cast(f.get(this));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
+    protected <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
+        Class<?> superclass = getClass().getSuperclass();
+        Throwable recentException = null;
+        while (superclass != Object.class) {
+            try {
+                final Field f = superclass.getDeclaredField(fieldName);
+                f.setAccessible(true);
+                return fieldType.cast(f.get(this));
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                recentException = e;
+            }
+            superclass = superclass.getSuperclass();
         }
+        throw new WebDriverException(recentException);
     }
 
-    private void setPrivateFieldValue(String fieldName, Object newValue) {
-        try {
-            final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
-            f.setAccessible(true);
-            f.set(this, newValue);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
+    protected void setPrivateFieldValue(String fieldName, Object newValue) {
+        Class<?> superclass = getClass().getSuperclass();
+        Throwable recentException = null;
+        while (superclass != Object.class) {
+            try {
+                final Field f = superclass.getDeclaredField(fieldName);
+                f.setAccessible(true);
+                f.set(this, newValue);
+                return;
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                recentException = e;
+            }
+            superclass = superclass.getSuperclass();
         }
+        throw new WebDriverException(recentException);
     }
 
-    private Map<String, CommandInfo> getAdditionalCommands() {
+    protected Map<String, CommandInfo> getAdditionalCommands() {
         //noinspection unchecked
         return getPrivateFieldValue("additionalCommands", Map.class);
     }
 
-    private CommandCodec<HttpRequest> getCommandCodec() {
+    protected CommandCodec<HttpRequest> getCommandCodec() {
         //noinspection unchecked
         return getPrivateFieldValue("commandCodec", CommandCodec.class);
     }
 
-    private void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+    protected void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
         setPrivateFieldValue("commandCodec", newCodec);
     }
 
-    private void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+    protected void setResponseCodec(ResponseCodec<HttpResponse> codec) {
         setPrivateFieldValue("responseCodec", codec);
     }
 
-    private HttpClient getClient() {
+    protected HttpClient getClient() {
         //noinspection unchecked
         return getPrivateFieldValue("client", HttpClient.class);
     }
