@@ -192,7 +192,7 @@ public class IOSDriver<T extends WebElement>
     @Override
     public IOSBatteryInfo getBatteryInfo() {
         return new IOSBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
-                "script", "mobile: batteryInfo", "args", Collections.emptyList())));
+                "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
     }
 
     private class InnerTargetLocator extends RemoteTargetLocator {

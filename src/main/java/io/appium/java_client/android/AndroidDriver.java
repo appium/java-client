@@ -194,7 +194,7 @@ public class AndroidDriver<T extends WebElement>
     @Override
     public AndroidBatteryInfo getBatteryInfo() {
         return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
-                "script", "mobile: batteryInfo", "args", Collections.emptyList())));
+                "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
     }
 
     @Override
