@@ -76,9 +76,6 @@ dependencies {
     compile 'org.springframework:spring-context:5.0.5.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.9.1'
     compile 'org.openpnp:opencv:3.2.0-1'
-    compile 'javax.websocket:javax.websocket-api:1.1'
-    compile 'org.glassfish.tyrus:tyrus-client:1.13.1'
-    compile 'org.glassfish.tyrus:tyrus-container-grizzly:1.2.1'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'

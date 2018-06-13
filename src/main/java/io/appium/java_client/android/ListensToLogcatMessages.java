@@ -132,6 +132,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * Stops logcat messages broadcast via web socket.
      */
     default void stopLogcatBroadcast() {
+        removeAllLogcatListeners();
         execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: stopLogsBroadcast",
                 "args", Collections.emptyList()));
     }
