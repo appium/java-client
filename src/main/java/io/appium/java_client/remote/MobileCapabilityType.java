@@ -115,4 +115,11 @@ public interface MobileCapabilityType extends CapabilityType {
      * If {@code false} then it is switched to W3C mode.
      */
     String FORCE_MJSONWP = "forceMjsonwp";
+    
+    /**
+     * ANDROID ONLY
+     * Desired capability that always accepts permissions when the app requires them when set to "true".
+     * Default value is false
+     */
+    String AUTO_GRANT_PERMISSIONS = "autoGrantPermissions";
 }
