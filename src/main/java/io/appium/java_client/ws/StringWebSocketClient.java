@@ -16,92 +16,87 @@
 
 package io.appium.java_client.ws;
 
-import org.openqa.selenium.WebDriverException;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import javax.websocket.ClientEndpoint;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
 
-@ClientEndpoint
-public class StringWebSocketClient extends WebSocketClient implements
+import javax.annotation.Nullable;
+
+public class StringWebSocketClient extends WebSocketListener implements
         CanHandleMessages<String>, CanHandleErrors, CanHandleConnects, CanHandleDisconnects {
     private final List<Consumer<String>> messageHandlers = new CopyOnWriteArrayList<>();
     private final List<Consumer<Throwable>> errorHandlers = new CopyOnWriteArrayList<>();
     private final List<Runnable> connectHandlers = new CopyOnWriteArrayList<>();
     private final List<Runnable> disconnectHandlers = new CopyOnWriteArrayList<>();
 
-    private volatile Session session;
+    private volatile boolean isListening = false;
+
+    private URI endpoint;
+
+    private void setEndpoint(URI endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    @Nullable
+    public URI getEndpoint() {
+        return this.endpoint;
+    }
+
+    public boolean isListening() {
+        return isListening;
+    }
+
+    /**
+     * Connects web socket client.
+     *
+     * @param endpoint The full address of an endpoint to connect to.
+     *                 Usually starts with 'ws://'.
+     */
+    public void connect(URI endpoint) {
+        if (endpoint.equals(this.getEndpoint()) && isListening) {
+            return;
+        }
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(0, TimeUnit.MILLISECONDS)
+                .build();
+        Request request = new Request.Builder()
+                .url(endpoint.toString())
+                .build();
+        client.newWebSocket(request, this);
+        client.dispatcher().executorService().shutdown();
+
+        setEndpoint(endpoint);
+    }
 
     @Override
-    public void connect(URI endpoint) {
-        if (session != null) {
-            if (endpoint.equals(this.getEndpoint())) {
-                return;
-            }
-
-            removeAllHandlers();
-            try {
-                session.close();
-            } catch (IOException e) {
-                // ignore
-            }
-            session = null;
-        }
-        super.connect(endpoint);
-    }
-
-    /**
-     * This event if fired when the client is successfully
-     * connected to a web socket.
-     *
-     * @param session the actual web socket session instance
-     */
-    @OnOpen
-    public void onOpen(Session session) {
-        this.session = session;
+    public void onOpen(WebSocket webSocket, Response response) {
         getConnectionHandlers().forEach(Runnable::run);
+        isListening = true;
     }
 
-    /**
-     * This event if fired when the client is
-     * disconnected from a web socket.
-     */
-    @OnClose
-    public void onClose() {
-        this.session = null;
+    @Override
+    public void onClosing(WebSocket webSocket, int code, String reason) {
         getDisconnectionHandlers().forEach(Runnable::run);
+        isListening = false;
     }
 
-    /**
-     * This event if fired when there is an unexpected
-     * error in web socket connection.
-     *
-     * @param cause the actual error reason
-     */
-    @OnError
-    public void onError(Throwable cause) {
-        this.session = null;
-        getErrorHandlers().forEach(x -> x.accept(cause));
-        throw new WebDriverException(cause);
+    @Override
+    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+        getErrorHandlers().forEach(x -> x.accept(t));
     }
 
-    /**
-     * This event if fired when there is a
-     * new message from the web socket.
-     *
-     * @param message the actual message content.
-     */
-    @OnMessage
-    public void onMessage(String message) {
-        getMessageHandlers().forEach(x -> x.accept(message));
+    @Override
+    public void onMessage(WebSocket webSocket, String text) {
+        getMessageHandlers().forEach(x -> x.accept(text));
     }
 
     @Override
