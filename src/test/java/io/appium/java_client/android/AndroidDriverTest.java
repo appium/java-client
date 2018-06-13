@@ -118,7 +118,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
-        assertTrue(time.length() == 28);
+        assertFalse(time.isEmpty());
     }
 
     @Test public void isAppInstalledTest() {

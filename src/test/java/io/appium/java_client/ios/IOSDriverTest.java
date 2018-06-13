@@ -30,11 +30,10 @@ import org.openqa.selenium.html5.Location;
 
 public class IOSDriverTest extends AppIOSTest {
 
-    //TODO There is no ability to check this function usibg simulators.
-    // When CI will have been set up then this test will be returned
+    @Test
     public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
-        assertTrue(time.length() == 28);
+        assertFalse(time.isEmpty());
     }
 
     @Test public void resetTest() {
