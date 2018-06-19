@@ -264,7 +264,7 @@ public class NewAppiumSessionPayload implements Closeable {
             json.name(DESIRED_CAPABILITIES);
             json.write(first);
 
-            if(!forceMobileJSONWP) {
+            if (!forceMobileJSONWP) {
                 // And write the first capability for gecko13
                 json.name(CAPABILITIES);
                 json.beginObject();
