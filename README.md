@@ -21,6 +21,16 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *7.0.0 (under construction yet)*
 
+*6.1.0*
+- **[BUG FIX]** Initing web socket clients lazily. Report [#911](https://github.com/appium/java-client/issues/911). FIX: [#912](https://github.com/appium/java-client/pull/912).
+- **[BUG FIX]** Fix session payload for W3C. [#913](https://github.com/appium/java-client/pull/913)
+- **[ENHANCEMENT]** Added TouchAction constructor argument verification [#923](https://github.com/appium/java-client/pull/923)
+- **[BUG FIX]** Set retry flag to true by default for OkHttpFactory. [#928](https://github.com/appium/java-client/pull/928)
+- **[BUG FIX]** Fix class cast exception on getting battery info. [#935](https://github.com/appium/java-client/pull/935)
+- **[ENHANCEMENT]** Added an optional format argument to getDeviceTime and update the documentation. [#939](https://github.com/appium/java-client/pull/939)
+- **[ENHANCEMENT]** The switching web socket client implementation to okhttp library. [#941](https://github.com/appium/java-client/pull/941)
+- **[BUG FIX]** Fix of the bug [#924](https://github.com/appium/java-client/issues/924). [#951](https://github.com/appium/java-client/pull/951)
+
 *6.0.0*
 - **[ENHANCEMENT]** Added an ability to set pressure value for iOS. [#879](https://github.com/appium/java-client/pull/879)
 - **[ENHANCEMENT]** Added new server arguments `RELAXED_SECURITY` and `ENABLE_HEAP_DUMP`. [#880](https://github.com/appium/java-client/pull/880)
