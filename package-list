@@ -2,15 +2,19 @@ io.appium.java_client
 io.appium.java_client.android
 io.appium.java_client.android.appmanagement
 io.appium.java_client.android.connection
+io.appium.java_client.android.nativekey
 io.appium.java_client.appmanagement
+io.appium.java_client.battery
 io.appium.java_client.clipboard
 io.appium.java_client.events
 io.appium.java_client.events.api
 io.appium.java_client.events.api.general
 io.appium.java_client.events.api.mobile
 io.appium.java_client.functions
+io.appium.java_client.imagecomparison
 io.appium.java_client.internal
 io.appium.java_client.ios
+io.appium.java_client.ios.touch
 io.appium.java_client.pagefactory
 io.appium.java_client.pagefactory.bys
 io.appium.java_client.pagefactory.bys.builder
@@ -27,4 +31,3 @@ io.appium.java_client.windows
 io.appium.java_client.ws
 org.openqa.selenium
 org.openqa.selenium.internal
-org.openqa.selenium.remote
