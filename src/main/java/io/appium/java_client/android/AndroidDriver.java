@@ -199,6 +199,11 @@ public class AndroidDriver<T extends WebElement>
                 "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
     }
 
+    /**
+     * Returns capabilities that were provided on instantiation.
+     *
+     * @return given {@link Capabilities}
+     */
     public Capabilities getCapabilities() {
         MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
         capabilities.setCapability(PLATFORM_NAME, ANDROID_PLATFORM);

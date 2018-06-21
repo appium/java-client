@@ -28,8 +28,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.junit.Ignore;
@@ -62,7 +62,8 @@ public class IOSDriverTest extends AppIOSTest {
         driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
     }
 
-    @Test @Ignore public void geolocationTest() {
+    @Ignore
+    @Test public void geolocationTest() {
         Location location = new Location(45, 45, 100);
         try {
             driver.setLocation(location);
@@ -132,7 +133,8 @@ public class IOSDriverTest extends AppIOSTest {
         driver.launchApp();
     }
 
-    @Test @Ignore public void touchIdTest() {
+    @Ignore
+    @Test public void touchIdTest() {
         driver.toggleTouchIDEnrollment(true);
         driver.performTouchID(true);
         driver.performTouchID(false);

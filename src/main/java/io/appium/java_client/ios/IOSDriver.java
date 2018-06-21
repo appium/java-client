@@ -203,6 +203,11 @@ public class IOSDriver<T extends WebElement>
         }
     }
 
+    /**
+     * Returns capabilities that were provided on instantiation.
+     *
+     * @return given {@link Capabilities}
+     */
     public Capabilities getCapabilities() {
         MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
         capabilities.setCapability(PLATFORM_NAME, IOS_PLATFORM);

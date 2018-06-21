@@ -29,6 +29,12 @@ public class BaseIOSTest {
     protected static IOSDriver<IOSElement> driver;
     protected static final int PORT = 4723;
 
+    /**
+     * Starts a local server.
+     *
+     * @return ip of a local host
+     * @throws UnknownHostException when it is impossible to get ip address of a local host
+     */
     public static String startAppiumServer() throws UnknownHostException {
         service = new AppiumServiceBuilder().usingPort(PORT).build();
         service.start();

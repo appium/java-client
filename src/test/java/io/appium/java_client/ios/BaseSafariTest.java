@@ -30,8 +30,6 @@ import java.net.UnknownHostException;
 public class BaseSafariTest extends BaseIOSTest {
 
     @BeforeClass public static void beforeClass() throws UnknownHostException, MalformedURLException {
-        String ipAddress = startAppiumServer();
-
         if (service == null || !service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
@@ -43,6 +41,6 @@ public class BaseSafariTest extends BaseIOSTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
-        driver = new IOSDriver<>(new URL("http://" + ipAddress + ":" + PORT + "/wd/hub"), capabilities);
+        driver = new IOSDriver<>(new URL("http://" + startAppiumServer() + ":" + PORT + "/wd/hub"), capabilities);
     }
 }
