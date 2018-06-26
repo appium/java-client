@@ -82,7 +82,6 @@ dependencies {
     testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '2.2.1') {
         exclude group: 'org.seleniumhq.selenium'
     }
-    testCompile 'io.github.bonigarcia:webdrivermanager:2.2.1'
 }
 
 ext {
