@@ -195,7 +195,10 @@ uploadArchives {
     }
 }
 
-wrapper.gradleVersion = '4.8'
+wrapper {
+    gradleVersion = '4.8.1'
+    distributionType = Wrapper.DistributionType.ALL
+}
 
 task xcuiTest( type: Test ) {
     useJUnit()
