@@ -41,3 +41,11 @@ matrix:
 #        - adb devices
 #      script:
 #      - ./gradlew clean test --tests "io.appium.java_client.android.*" --exclude-task signArchives
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
