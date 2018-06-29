@@ -144,6 +144,16 @@ class DefaultListener
         ((WebDriverEventListener) dispatcher).afterGetScreenshotAs(target, screenshot);
     }
 
+    @Override
+    public void beforeGetText(WebElement element, WebDriver driver) {
+        ((ElementEventListener) dispatcher).beforeGetText(element, driver);
+    }
+
+    @Override
+    public void afterGetText(WebElement element, WebDriver driver, String text) {
+        ((ElementEventListener) dispatcher).afterGetText(element, driver, text);
+    }
+
     public void add(Collection<Listener> listeners) {
         this.listeners.addAll(listeners);
     }

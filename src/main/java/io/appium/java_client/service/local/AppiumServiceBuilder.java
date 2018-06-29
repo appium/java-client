@@ -18,6 +18,7 @@ package io.appium.java_client.service.local;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -29,7 +30,9 @@ import io.appium.java_client.service.local.flags.ServerArgument;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
@@ -94,6 +97,16 @@ public final class AppiumServiceBuilder
     public AppiumServiceBuilder() {
         usingPort(DEFAULT_APPIUM_PORT);
         withEnvironment(System.getenv());
+    }
+
+    @Override public int score(Capabilities capabilites) {
+        int score = 0;
+
+        if(capabilites.getCapability(PLATFORM_NAME) != null) {
+            score++;
+        }
+
+        return score;
     }
 
     private static void validateNodeStructure(File node) {
