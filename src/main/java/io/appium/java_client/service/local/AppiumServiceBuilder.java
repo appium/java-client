@@ -32,8 +32,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.os.CommandLine;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
@@ -102,7 +102,13 @@ public final class AppiumServiceBuilder
     @Override public int score(Capabilities capabilites) {
         int score = 0;
 
-        if(capabilites.getCapability(PLATFORM_NAME) != null) {
+        if (capabilites.getCapability(PLATFORM_NAME) != null) {
+            score++;
+        }
+
+        String browserName = capabilites.getBrowserName();
+        if (browserName.equals(BrowserType.CHROME) || browserName.equals(BrowserType.ANDROID)
+                || browserName.equals(BrowserType.SAFARI)) {
             score++;
         }
 
