@@ -13,7 +13,7 @@ matrix:
         - brew outdated xctool || brew upgrade xctool
         - npm install -g appium
       script:
-        - ./gradlew clean xcuiTest -x signArchives
+        - ./gradlew clean build xcuiTest -x test -x signArchives
 #    - language: android
 #      install: true
 #      os: linux

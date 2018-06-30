@@ -79,7 +79,7 @@ public interface ElementEventListener extends Listener {
     void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend);
 
     /**
-     * Called before {@link WebElement#getText()} method is being called
+     * Called before {@link WebElement#getText()} method is being called.
      *
      * @param element - {@link WebElement} against which call is being made
      * @param driver  - instance of {@link WebDriver}
@@ -87,7 +87,7 @@ public interface ElementEventListener extends Listener {
     void beforeGetText(WebElement element, WebDriver driver);
 
     /**
-     * Called right after {@link WebElement#getText()} method is being called
+     * Called right after {@link WebElement#getText()} method is being called.
      *
      * @param element - {@link WebElement} against which call is being made
      * @param driver  - instance of {@link WebDriver}
