@@ -32,6 +32,14 @@ public class ElementListener extends TestListener implements ElementEventListene
         messages.add("The value of the element was changed");
     }
 
+    @Override public void beforeGetText(WebElement element, WebDriver driver) {
+        messages.add("Attempt to get text of the element");
+    }
+
+    @Override public void afterGetText(WebElement element, WebDriver driver, String text) {
+        messages.add("Got the text of an element");
+    }
+
     @Override protected void add() {
         SingleListeners.listeners.put(ElementListener.class, this);
     }

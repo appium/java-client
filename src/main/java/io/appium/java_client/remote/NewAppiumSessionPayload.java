@@ -43,6 +43,7 @@ import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.json.JsonInput;
 import org.openqa.selenium.json.JsonOutput;
+import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.session.CapabilitiesFilter;
 import org.openqa.selenium.remote.session.CapabilityTransform;
@@ -95,20 +96,7 @@ public class NewAppiumSessionPayload implements Closeable {
     private static final String FIRST_MATCH = "firstMatch";
     private static final String ALWAYS_MATCH = "alwaysMatch";
 
-    private static final Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
-            "^[\\w-]+:.*$",
-            "^acceptInsecureCerts$",
-            "^browserName$",
-            "^browserVersion$",
-            "^platformName$",
-            "^pageLoadStrategy$",
-            "^proxy$",
-            "^setWindowRect$",
-            "^timeouts$",
-            "^unhandledPromptBehavior$")
-            .map(Pattern::compile)
-            .map(Pattern::asPredicate)
-            .reduce(identity -> false, Predicate::or);
+    private static final Predicate<String> ACCEPTED_W3C_PATTERNS = new AcceptedW3CCapabilityKeys();
 
     private final Set<CapabilitiesFilter> adapters;
     private final Set<CapabilityTransform> transforms;

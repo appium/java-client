@@ -127,6 +127,14 @@ public class AppiumListener extends TestListener implements AppiumWebDriverEvent
                         + "Target type is %s, result is %s", target, screenshot));
     }
 
+    @Override public void beforeGetText(WebElement element, WebDriver driver) {
+        messages.add("WebDriverEventListener: Attempt to get text of the element");
+    }
+
+    @Override public void afterGetText(WebElement element, WebDriver driver, String text) {
+        messages.add("WebDriverEventListener: Got the text of an element");
+    }
+
     @Override
     public void beforeSwitchToWindow(String windowName, WebDriver driver) {
         messages.add(format("WebDriverEventListener: Attempt to switch to window %s", windowName));
