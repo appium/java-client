@@ -27,12 +27,19 @@ import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ELEMENT;
 import static org.openqa.selenium.remote.DriverCommand.SET_TIMEOUT;
 import static org.openqa.selenium.remote.DriverCommand.SUBMIT_ELEMENT;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
+import org.openqa.selenium.interactions.KeyInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
-
     /**
      * This class overrides the built-in Selenium W3C commands codec,
      * since the latter hardcodes many commands in Javascript,
@@ -44,6 +51,7 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
         defineCommand(GET_ELEMENT_ATTRIBUTE, get("/session/:sessionId/element/:id/attribute/:name"));
         defineCommand(IS_ELEMENT_DISPLAYED, get("/session/:sessionId/element/:id/displayed"));
         defineCommand(GET_PAGE_SOURCE, get("/session/:sessionId/source"));
+        defineCommand(SEND_KEYS_TO_ACTIVE_ELEMENT, post("/session/:sessionId/actions"));
     }
 
     @Override
@@ -69,6 +77,24 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
         // This blocks parent constructor from undesirable parameters amending
         switch (name) {
             case SEND_KEYS_TO_ACTIVE_ELEMENT:
+                Object rawValue = parameters.get("value");
+                //noinspection unchecked
+                Stream<CharSequence> source = (rawValue instanceof Collection)
+                        ? ((Collection<CharSequence>) rawValue).stream()
+                        : Stream.of((CharSequence[]) rawValue);
+                String text = source
+                        .flatMap(Stream::of)
+                        .collect(Collectors.joining());
+
+                final KeyInput keyboard = new KeyInput("keyboard");
+                Sequence sequence = new Sequence(keyboard, 0);
+                for (int i = 0; i < text.length(); ++i) {
+                    sequence.addAction(keyboard.createKeyDown(text.charAt(i)))
+                            .addAction(keyboard.createKeyUp(text.charAt(i)));
+                }
+                return ImmutableMap.<String, Object>builder()
+                        .put("actions", ImmutableList.of(sequence.toJson()))
+                        .build();
             case SEND_KEYS_TO_ELEMENT:
             case SET_TIMEOUT:
                 return super.amendParameters(name, parameters);
