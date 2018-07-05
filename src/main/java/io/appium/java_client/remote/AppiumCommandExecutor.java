@@ -199,10 +199,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                 InputStream.class.getSimpleName(),
                                 long.class.getSimpleName()), e);
                     } catch (InvocationTargetException e) {
-                        Throwable cause = e.getCause();
                         throw new SessionNotCreatedException(
-                                format("Unable to create new remote session. desired capabilities = %s"
-                                        + "and reason is " + cause.getMessage(), desired));
+                                format("Unable to create new remote session. desired capabilities = %s", desired), e);
                     }
                 } finally {
                     os.reset();
