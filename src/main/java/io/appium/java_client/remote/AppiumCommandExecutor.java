@@ -191,13 +191,16 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                             return toReturn;
                         }).orElseThrow(() -> new SessionNotCreatedException(
                                 format("Unable to create new remote session. desired capabilities = %s", desired)));
-                    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    } catch (NoSuchMethodException | IllegalAccessException e) {
                         throw new WebDriverException(format("It is impossible to create a new session "
                                         + "because 'createSession' which takes %s, %s and %s was not found "
                                         + "or it is not accessible",
                                 HttpClient.class.getSimpleName(),
                                 InputStream.class.getSimpleName(),
                                 long.class.getSimpleName()), e);
+                    } catch (InvocationTargetException e) {
+                        throw new SessionNotCreatedException(
+                                format("Unable to create new remote session. Desired capabilities: %s", desired), e);
                     }
                 } finally {
                     os.reset();
