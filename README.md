@@ -21,6 +21,11 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 *7.0.0 (under construction yet)*
 
+- **[BUG FIX]** Better handling of InvocationTargetException [#968](https://github.com/appium/java-client/pull/968)
+- **[BUG FIX]** Map sending keys to active element for W3C compatibility. [#966](https://github.com/appium/java-client/pull/966)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.13.0
+
 *6.1.0*
 - **[BUG FIX]** Initing web socket clients lazily. Report [#911](https://github.com/appium/java-client/issues/911). FIX: [#912](https://github.com/appium/java-client/pull/912).
 - **[BUG FIX]** Fix session payload for W3C. [#913](https://github.com/appium/java-client/pull/913)
