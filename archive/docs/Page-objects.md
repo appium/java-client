@@ -89,13 +89,13 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.FindBy;
 
 @FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindBys({@AndroidBy(someStrategy1), @AndroidBy(someStrategy2)}) 
-@iOSFindBys({@iOSBy(someStrategy1), @iOSBy(someStrategy2)}) 
+@AndroidFindBys({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
+@iOSFindBys({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
 RemoteWebElement someElement;
 
 @FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindBys({@AndroidBy(someStrategy1), @AndroidBy(someStrategy2)}) 
-@iOSFindBys({@iOSBy(someStrategy1), @iOSBy(someStrategy2)}) 
+@AndroidFindBys({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
+@iOSFindBys({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
 List<RemoteWebElement> someElements;
 ```
 
@@ -108,13 +108,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindByAll;
 
 @FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindAll({@AndroidBy(someStrategy1), @AndroidBy(someStrategy2)}) 
-@iOSFindAll({@iOSBy(someStrategy1), @iOSBy(someStrategy2)}) 
+@AndroidFindAll({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
+@iOSFindAll({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
 RemoteWebElement someElement;
 
 @FindAll({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
-@AndroidFindAll({@AndroidBy(someStrategy1), @AndroidBy(someStrategy2)}) 
-@iOSFindAll({@iOSBy(someStrategy1), @iOSBy(someStrategy2)}) 
+@AndroidFindAll({@AndroidFindBy(someStrategy1), @AndroidFindBy(someStrategy2)}) 
+@iOSFindAll({@iOSFindBy(someStrategy1), @iOSFindBy(someStrategy2)}) 
 List<RemoteWebElement> someElements;
 ```
 
