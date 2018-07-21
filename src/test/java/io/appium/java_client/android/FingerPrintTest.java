@@ -22,12 +22,14 @@ import static org.openqa.selenium.By.id;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -47,7 +49,8 @@ public class FingerPrintTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() {
+    @BeforeClass
+    public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -59,7 +62,8 @@ public class FingerPrintTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterClass
+    public static void afterClass() {
         if (service != null) {
             service.stop();
         }
@@ -72,8 +76,12 @@ public class FingerPrintTest {
                         new NoSuchElementException(String.format("There is no element with the text '%s'", text)));
     }
 
-    private void clickNext()  {
+    private void clickNext() {
         driver.findElementById("com.android.settings:id/next_button").click();
+    }
+
+    private void clickFingerPrintNext() {
+        driver.findElementById("com.android.settings:id/fingerprint_next_button").click();
     }
 
     private void clickOKInPopup() {
@@ -94,26 +102,29 @@ public class FingerPrintTest {
     /**
      * enable system security which is required for finger print activation.
      */
-    @Before public void before() {
+    @Before
+    public void before() {
         initDriver();
         clickOnSecurity();
         findElementByText("Screen lock").click();
         findElementByText("PIN").click();
         enterPasswordAndContinue();
         enterPasswordAndContinue();
-        clickNext();
+        //clickNext();
     }
 
     /**
      * add a new finger print to security.
      */
-    @Test public void fingerPrintTest() {
+    @Test
+    public void fingerPrintTest() {
         findElementByText("Fingerprint").click();
-        clickNext();
+        clickFingerPrintNext();
         enterPasswordAndContinue();
         clickNext();
 
-        driver.fingerPrint(2);
+        driver.fingerPrint(1234);
+        driver.fingerPrint(1234);
         try {
             clickNext();
         } catch (Exception e) {
@@ -124,7 +135,8 @@ public class FingerPrintTest {
     /**
      * disabling pin lock mode.
      */
-    @After public void after() {
+    @After
+    public void after() {
         driver.quit();
 
         initDriver();

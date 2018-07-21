@@ -223,5 +223,21 @@ task uiAutomationTest( type: Test ) {
     useJUnit()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
-    include '**/UIAutomationTest.class'
+    filter {
+        includeTestsMatching '*.SettingTest'
+        includeTestsMatching '*.OpenNotificationsTest'
+        includeTestsMatching '*.UIAutomator2Test'
+        includeTestsMatching '*.ClipboardTest'
+        includeTestsMatching '*.BatteryTest'
+        includeTestsMatching '*.AndroidTouchTest'
+        includeTestsMatching '*.AndroidSearchingTest'
+        includeTestsMatching '*.AndroidScreenRecordTest'
+        includeTestsMatching '*.AndroidElementTest'
+        includeTestsMatching '*.AndroidAppStringsTest'
+        includeTestsMatching '*.AndroidActivityTest'
+        includeTestsMatching '*.AndroidAbilityToUseSupplierTest'
+        exclude '**/UIAutomationTest.class'
+        exclude '**/IOSScreenRecordTest.class'
+        exclude '**/ImagesComparisonTest.class'
+    }
 }

@@ -23,10 +23,10 @@ public enum Setting {
 
     IGNORE_UNIMPORTANT_VIEWS("ignoreUnimportantViews"),
     WAIT_FOR_IDLE_TIMEOUT("waitForIdleTimeout"),
-    WAIT_FOR_SELECTOR_TIMEOUT("setWaitForSelectorTimeout"),
-    WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
-    WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
-    KEY_INJECTION_DELAY("setKeyInjectionDelay"),
+    WAIT_FOR_SELECTOR_TIMEOUT("waitForSelectorTimeout"),
+    WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("scrollAcknowledgmentTimeout"),
+    WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("actionAcknowledgmentTimeout"),
+    KEY_INJECTION_DELAY("keyInjectionDelay"),
     NATIVE_WEB_TAP("nativeWebTap");
 
     private String name;

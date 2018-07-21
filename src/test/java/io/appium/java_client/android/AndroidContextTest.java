@@ -36,14 +36,17 @@ public class AndroidContextTest extends BaseAndroidTest {
     }
 
     @Test public void testGetContextHandles() {
+        //Works with Android 8.*.* on lower version size will be 1
         assertEquals(driver.getContextHandles().size(), 2);
     }
 
     @Test public void testSwitchContext() {
+        //Failing - try in android 8
         driver.getContextHandles();
         driver.context("WEBVIEW_io.appium.android.apis");
         assertEquals(driver.getContext(), "WEBVIEW_io.appium.android.apis");
         driver.context("NATIVE_APP");
+        assertEquals(driver.getContext(), "NATIVE_APP");
     }
 
     @Test(expected = NoSuchContextException.class) public void testContextError() {

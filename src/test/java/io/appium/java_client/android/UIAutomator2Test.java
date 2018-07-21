@@ -29,7 +29,8 @@ public class UIAutomator2Test {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() {
+    @BeforeClass
+    public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -51,7 +52,8 @@ public class UIAutomator2Test {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterClass
+    public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }
@@ -61,50 +63,59 @@ public class UIAutomator2Test {
     }
 
 
-    @After public void afterMethod() {
+    @After
+    public void afterMethod() {
         driver.rotate(new DeviceRotation(0, 0, 0));
     }
 
-    @Test public void testLandscapeRightRotation() {
+    @Test
+    public void testLandscapeRightRotation() {
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
     }
 
-    @Test public void testLandscapeLeftRotation() {
+    @Test
+    public void testLandscapeLeftRotation() {
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
         driver.rotate(landscapeLeftRotation);
         assertEquals(driver.rotation(), landscapeLeftRotation);
     }
 
-    @Test public void testPortraitUpsideDown() {
+    @Test
+    public void testPortraitUpsideDown() {
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 180);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
     }
 
-    @Test public void testToastMSGIsDisplayed() {
+    @Test
+    public void testToastMSGIsDisplayed() {
         final WebDriverWait wait = new WebDriverWait(driver, 10);
         Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
         driver.startActivity(activity);
 
         MobileElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));
-        popUpElement.click();
-        driver.findElement(By.xpath(".//*[@text='Search']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(popUpElement)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(".//*[@text='Search']"))).click();
         assertNotNull(wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[@text='Clicked popup menu item Search']"))));
 
-        popUpElement.click();
-        driver.findElement(By.xpath(".//*[@text='Add']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(popUpElement)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(".//*[@text='Add']"))).click();
         assertNotNull(wait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Add']"))));
 
-        popUpElement.click();
-        driver.findElement(By.xpath(".//*[@text='Edit']")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(popUpElement)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(".//*[@text='Edit']"))).click();
         assertNotNull(wait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Edit']"))));
 
-        driver.findElement(By.xpath(".//*[@text='Share']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(".//*[@text='Share']"))).click();
         assertNotNull(wait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//*[@text='Clicked popup menu item Share']"))));
     }
