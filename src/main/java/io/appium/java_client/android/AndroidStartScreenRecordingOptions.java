@@ -81,6 +81,12 @@ public class AndroidStartScreenRecordingOptions
      * Setting values greater than this or less than zero will cause an exception. The minimum
      * time resolution unit is one second.
      *
+     * Since Appium 1.8.2 the time limit can be up to 1800 seconds (30 minutes).
+     * Appium will automatically try to merge the 3-minutes chunks recorded
+     * by the screenrecord utility, however, this requires FFMPEG utility
+     * to be installed and available in PATH on the server machine. If the utility is not
+     * present then the most recent screen recording chunk is going to be returned as the result.
+     *
      * @param timeLimit The actual time limit of the recorded video.
      * @return self instance for chaining.
      */
