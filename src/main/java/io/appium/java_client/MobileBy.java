@@ -146,7 +146,7 @@ public abstract class MobileBy extends By {
                     .findElementsByIosUIAutomation(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -171,7 +171,7 @@ public abstract class MobileBy extends By {
                     .findElementByIosUIAutomation(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -211,7 +211,7 @@ public abstract class MobileBy extends By {
                     .findElementsByAndroidUIAutomator(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -236,7 +236,7 @@ public abstract class MobileBy extends By {
                     .findElementByAndroidUIAutomator(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -275,7 +275,7 @@ public abstract class MobileBy extends By {
                     .findElementsByAccessibilityId(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -300,7 +300,7 @@ public abstract class MobileBy extends By {
                     .findElementByAccessibilityId(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -336,7 +336,7 @@ public abstract class MobileBy extends By {
                         .findElementsByIosClassChain(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -360,7 +360,7 @@ public abstract class MobileBy extends By {
                         .findElementByIosClassChain(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -396,7 +396,7 @@ public abstract class MobileBy extends By {
                         .findElementsByIosNsPredicate(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -420,7 +420,7 @@ public abstract class MobileBy extends By {
                         .findElementByIosNsPredicate(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -456,7 +456,7 @@ public abstract class MobileBy extends By {
                     .findElementsByWindowsUIAutomation(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -480,12 +480,68 @@ public abstract class MobileBy extends By {
                     .findElementByWindowsUIAutomation(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
             throw formIllegalArgumentException(contextClass, FindsByIosNSPredicate.class,
                 FindsByWindowsAutomation.class);
+        }
+    }
+
+    public static class ByImage extends MobileBy implements Serializable {
+
+        protected ByImage(String b64Template) {
+            super(MobileSelector.IMAGE, b64Template);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByImage.class.isAssignableFrom(contextClass)) {
+                return FindsByImage.class.cast(context).findElementsByImage(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByImage.class, FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByImage.class.isAssignableFrom(contextClass)) {
+                return FindsByImage.class.cast(context).findElementByImage(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByImage.class, FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.Image: " + getLocatorString();
         }
     }
 }
