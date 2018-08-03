@@ -1,6 +1,6 @@
 # Requirements
 
-Firstly you should install appium server. [Appium getting started](http://appium.io/getting-started.html). The version 1.6.3 or greater is recommended.
+Firstly you should install appium server. [Appium getting started](http://appium.io/docs/en/about-appium/intro/?lang=en#getting-started). The version 1.6.3 or greater is recommended.
 
 Since version 5.x there many features based on Java 8. So we recommend to install JDK SE 8 and provide that source compatibility.
 
