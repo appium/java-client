@@ -69,8 +69,8 @@ public class ScreenshotState {
      * @param stateProvider lambda function, which returns a screenshot for further comparison
      */
     public ScreenshotState(ComparesImages comparator, Supplier<BufferedImage> stateProvider) {
-        this.stateProvider = checkNotNull(stateProvider);
-        this.comparator = comparator;
+        this.comparator = checkNotNull(comparator);
+        this.stateProvider = stateProvider;
     }
 
     public ScreenshotState(ComparesImages comparator) {
