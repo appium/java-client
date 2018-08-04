@@ -558,7 +558,7 @@ public abstract class MobileBy extends By {
         }
 
         @Override public String toString() {
-            return "By.Image: " + getLocatorString();
+            return "By.ImageTemplate: " + getLocatorString();
         }
     }
 }
