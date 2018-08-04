@@ -120,6 +120,23 @@ public abstract class MobileBy extends By {
     public static By windowsAutomation(final String windowsAutomation) {
         return new ByWindowsAutomation(windowsAutomation);
     }
+
+    /**
+     * This locator strategy is available only if OpenCV libraries and
+     * NodeJS bindings are installed on the server machine.
+     *
+     * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
+     * The documentation on Image Comparison Features</a>
+     * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
+     * The settings available for lookup fine-tunings</a>
+     * @since Appium 1.8.2
+     * @param b64Template base64-encoded template image string. Supported image formats are the same
+     *                    as for OpenCV library.
+     * @return an instance of {@link io.appium.java_client.MobileBy.ByImageTemplate}
+     */
+    public static By ImageTemplate(final String b64Template) {
+        return new ByImageTemplate(b64Template);
+    }
     
     public static class ByIosUIAutomation extends MobileBy implements Serializable {
 
@@ -489,9 +506,9 @@ public abstract class MobileBy extends By {
         }
     }
 
-    public static class ByImage extends MobileBy implements Serializable {
+    public static class ByImageTemplate extends MobileBy implements Serializable {
 
-        protected ByImage(String b64Template) {
+        protected ByImageTemplate(String b64Template) {
             super(MobileSelector.IMAGE, b64Template);
         }
 
