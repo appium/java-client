@@ -16,7 +16,9 @@
 
 package io.appium.java_client;
 
-import javax.imageio.ImageIO;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,8 +28,7 @@ import java.util.Base64;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Optional.ofNullable;
+import javax.imageio.ImageIO;
 
 public class ScreenshotState {
     private static final Duration DEFAULT_INTERVAL_MS = Duration.ofMillis(500);
