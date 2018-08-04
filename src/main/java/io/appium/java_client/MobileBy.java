@@ -134,7 +134,7 @@ public abstract class MobileBy extends By {
      *                    as for OpenCV library.
      * @return an instance of {@link io.appium.java_client.MobileBy.ByImageTemplate}
      */
-    public static By ImageTemplate(final String b64Template) {
+    public static By imageTemplate(final String b64Template) {
         return new ByImageTemplate(b64Template);
     }
     
