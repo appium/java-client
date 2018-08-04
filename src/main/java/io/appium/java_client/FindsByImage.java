@@ -35,7 +35,7 @@ public interface FindsByImage<T extends WebElement> extends FindsByFluentSelecto
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tunings</a>
+     * The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
      */
     default T findElementByImage(String b64Template) {
@@ -54,7 +54,7 @@ public interface FindsByImage<T extends WebElement> extends FindsByFluentSelecto
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tunings</a>
+     * The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
      */
     default List<T> findElementsByImage(String b64Template) {

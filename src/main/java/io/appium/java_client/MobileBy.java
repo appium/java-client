@@ -128,7 +128,7 @@ public abstract class MobileBy extends By {
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tunings</a>
+     * The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
      * @param b64Template base64-encoded template image string. Supported image formats are the same
      *                    as for OpenCV library.
