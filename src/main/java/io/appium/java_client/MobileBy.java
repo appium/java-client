@@ -132,10 +132,10 @@ public abstract class MobileBy extends By {
      * @since Appium 1.8.2
      * @param b64Template base64-encoded template image string. Supported image formats are the same
      *                    as for OpenCV library.
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByImageTemplate}
+     * @return an instance of {@link ByImage}
      */
-    public static By imageTemplate(final String b64Template) {
-        return new ByImageTemplate(b64Template);
+    public static By image(final String b64Template) {
+        return new ByImage(b64Template);
     }
     
     public static class ByIosUIAutomation extends MobileBy implements Serializable {
@@ -506,9 +506,9 @@ public abstract class MobileBy extends By {
         }
     }
 
-    public static class ByImageTemplate extends MobileBy implements Serializable {
+    public static class ByImage extends MobileBy implements Serializable {
 
-        protected ByImageTemplate(String b64Template) {
+        protected ByImage(String b64Template) {
             super(MobileSelector.IMAGE, b64Template);
         }
 
@@ -558,7 +558,7 @@ public abstract class MobileBy extends By {
         }
 
         @Override public String toString() {
-            return "By.ImageTemplate: " + getLocatorString();
+            return "By.Image: " + getLocatorString();
         }
     }
 }
