@@ -26,7 +26,7 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
 public final class WebDriverUnpackUtility {

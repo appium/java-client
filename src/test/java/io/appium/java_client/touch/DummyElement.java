@@ -6,11 +6,11 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.HasIdentity;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public class DummyElement implements WebElement, HasIdentity {
+public class DummyElement extends RemoteWebElement {
     @Override
     public void click() {
         // dummy

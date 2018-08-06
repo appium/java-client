@@ -89,12 +89,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, new AppiumHttpClientFactory());
+        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  DriverService service) {
-        this(additionalCommands, service, new AppiumHttpClientFactory());
+        this(additionalCommands, service, HttpClient.Factory.createDefault());
     }
 
     protected <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {

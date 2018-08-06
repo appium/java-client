@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileCommand;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.internal.HasIdentity;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -267,15 +267,15 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * This method forms a {@link Map} of parameters for the element
      * value replacement. It is used against input elements
      *
-     * @param hasIdentityObject an instance which contains an element ID
+     * @param remoteWebElement an instance which contains an element ID
      * @param value a new value
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
-        HasIdentity hasIdentityObject, String value) {
+        RemoteWebElement remoteWebElement, String value) {
         String[] parameters = new String[] {"id", "value"};
         Object[] values =
-            new Object[] {hasIdentityObject.getId(), value};
+            new Object[] {remoteWebElement.getId(), value};
 
         return new AbstractMap.SimpleEntry<>(
                 REPLACE_VALUE, prepareArguments(parameters, values));
