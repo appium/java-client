@@ -63,10 +63,9 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder builder = new ImmutableMap.Builder<String, Object>();
+        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.putAll(super.build());
         ofNullable(detectorName).map(x -> builder.put("detectorName", x));
         ofNullable(matchFunc).map(x -> builder.put("matchFunc", x));

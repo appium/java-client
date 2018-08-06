@@ -67,7 +67,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
     public List<Point> getPoints1() {
         verifyPropertyPresence(POINTS1);
         //noinspection unchecked
-        return ((List<Map>) getCommandResult().get(POINTS1)).stream()
+        return ((List<Map<String, Object>>) getCommandResult().get(POINTS1)).stream()
                 .map(ComparisonResult::mapToPoint)
                 .collect(Collectors.toList());
     }
@@ -91,7 +91,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
     public List<Point> getPoints2() {
         verifyPropertyPresence(POINTS2);
         //noinspection unchecked
-        return ((List<Map>) getCommandResult().get(POINTS2)).stream()
+        return ((List<Map<String, Object>>) getCommandResult().get(POINTS2)).stream()
                 .map(ComparisonResult::mapToPoint)
                 .collect(Collectors.toList());
     }

@@ -137,10 +137,9 @@ public class AndroidInstallApplicationOptions extends
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder builder = new ImmutableMap.Builder<String, Object>();
+        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         ofNullable(replace).map(x -> builder.put("replace", x));
         ofNullable(timeout).map(x -> builder.put("timeout", x.toMillis()));
         ofNullable(allowTestPackages).map(x -> builder.put("allowTestPackages", x));
