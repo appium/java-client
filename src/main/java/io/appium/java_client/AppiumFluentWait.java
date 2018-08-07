@@ -16,18 +16,17 @@
 
 package io.appium.java_client;
 
-import static java.time.Duration.ofMillis;
-
 import com.google.common.base.Throwables;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.support.ui.Clock;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Sleeper;
 
 import java.lang.reflect.Field;
+import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -228,8 +227,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      */
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
-        final long start = getClock().now();
-        final long end = getClock().laterBy(getTimeout().toMillis());
+        final Instant start = getClock().instant();
+        final Instant end = getClock().instant().plus(getTimeout());
         long iterationNumber = 1;
         Throwable lastException;
         while (true) {
@@ -249,7 +248,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
 
             // Check the timeout after evaluating the function to ensure conditions
             // with a zero timeout can succeed.
-            if (!getClock().isNowBefore(end)) {
+            if (end.isBefore(getClock().instant())) {
                 String message = getMessageSupplier() != null ? getMessageSupplier().get() : null;
 
                 String timeoutMessage = String.format(
@@ -263,7 +262,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 Duration interval = getInterval();
                 if (pollingStrategy != null) {
                     final IterationInfo info = new IterationInfo(iterationNumber,
-                            ofMillis(getClock().now() - start), getTimeout(),
+                            Duration.between(start, getClock().instant()), getTimeout(),
                             interval);
                     interval = pollingStrategy.apply(info);
                 }

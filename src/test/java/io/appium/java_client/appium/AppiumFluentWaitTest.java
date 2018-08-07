@@ -26,9 +26,9 @@ import io.appium.java_client.AppiumFluentWait;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.support.ui.SystemClock;
 import org.openqa.selenium.support.ui.Wait;
 
+import java.time.Clock;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -43,7 +43,7 @@ public class AppiumFluentWaitTest {
     @Test(expected = TimeoutException.class)
     public void testDefaultStrategy() {
         final FakeElement el = new FakeElement();
-        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
+        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, Clock.systemDefaultZone(), duration -> {
             assertThat(duration.getSeconds(), is(equalTo(1L)));
             Thread.sleep(duration.toMillis());
         }).withPollingStrategy(AppiumFluentWait.IterationInfo::getInterval)
@@ -57,7 +57,7 @@ public class AppiumFluentWaitTest {
     public void testCustomStrategyOverridesDefaultInterval() {
         final FakeElement el = new FakeElement();
         final AtomicInteger callsCounter = new AtomicInteger(0);
-        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
+        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, Clock.systemDefaultZone(), duration -> {
             callsCounter.incrementAndGet();
             assertThat(duration.getSeconds(), is(equalTo(2L)));
             Thread.sleep(duration.toMillis());
@@ -79,7 +79,7 @@ public class AppiumFluentWaitTest {
         final AtomicInteger callsCounter = new AtomicInteger(0);
         // Linear dependency
         final Function<Long, Long> pollingStrategy = x -> x * 2;
-        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
+        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, Clock.systemDefaultZone(), duration -> {
             int callNumber = callsCounter.incrementAndGet();
             assertThat(duration.getSeconds(), is(equalTo(pollingStrategy.apply((long) callNumber))));
             Thread.sleep(duration.toMillis());
