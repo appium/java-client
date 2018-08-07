@@ -7,6 +7,8 @@ apply plugin: 'checkstyle'
 apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
+import org.apache.tools.ant.filters.*
+
 group 'io.appium'
 version '6.1.0'
 
@@ -50,10 +52,8 @@ compileJava {
     ]
 }
 
-ext.seleniumVersion = '3.14.0'
-
 dependencies {
-    compile ("org.seleniumhq.selenium:selenium-java:${seleniumVersion}") {
+    compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
         force = true
 
         exclude group: 'com.google.code.gson'
@@ -61,10 +61,10 @@ dependencies {
         exclude group: 'net.sourceforge.htmlunit'
 
     }
-    compile ("org.seleniumhq.selenium:selenium-support:${seleniumVersion}") {
+    compile ("org.seleniumhq.selenium:selenium-support:${project.property('selenium.version')}") {
         force = true
     }
-    compile ("org.seleniumhq.selenium:selenium-api:${seleniumVersion}") {
+    compile ("org.seleniumhq.selenium:selenium-api:${project.property('selenium.version')}") {
         force = true
     }
     compile 'com.google.code.gson:gson:2.8.4'
@@ -197,6 +197,12 @@ uploadArchives {
 wrapper {
     gradleVersion = '4.8.1'
     distributionType = Wrapper.DistributionType.ALL
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "selenium.version": project.property("selenium.version")
+    ]
 }
 
 task xcuiTest( type: Test ) {
