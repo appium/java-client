@@ -44,9 +44,8 @@ public abstract class BaseComparisonOptions<T extends BaseComparisonOptions<T>> 
      *
      * @return comparison options mapping.
      */
-    @SuppressWarnings("unchecked")
     public Map<String, Object> build() {
-        final ImmutableMap.Builder builder = new ImmutableMap.Builder<String, Object>();
+        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         ofNullable(visualize).map(x -> builder.put("visualize", x));
         return builder.build();
     }

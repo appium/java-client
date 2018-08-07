@@ -83,6 +83,7 @@ public interface WindowEventListener extends Listener {
      * This action will be performed each time before
      * {@link org.openqa.selenium.WebDriver.TargetLocator#window(java.lang.String)}.
      *
+     * @param windowName the name of the window to switch
      * @param driver WebDriver
      */
     void beforeSwitchToWindow(String windowName, WebDriver driver);
@@ -91,6 +92,7 @@ public interface WindowEventListener extends Listener {
      * This action will be performed each time after
      * {@link org.openqa.selenium.WebDriver.TargetLocator#window(java.lang.String)}.
      *
+     * @param windowName the name of the window to switch
      * @param driver WebDriver
      */
     void afterSwitchToWindow(String windowName, WebDriver driver);

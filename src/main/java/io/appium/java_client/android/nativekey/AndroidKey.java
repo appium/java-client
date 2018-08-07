@@ -1335,6 +1335,8 @@ public enum AndroidKey {
 
     /**
      * Whether key will, by default, trigger a click on the focused view.
+     *
+     * @return true if this is a confirm key.
      */
     public boolean isConfirmKey() {
         switch (this) {
@@ -1351,6 +1353,8 @@ public enum AndroidKey {
     /**
      * Whether this key is a media key, which can be send to apps that are
      * interested in media key events.
+     *
+     * @return true if this is a media key.
      */
     public boolean isMediaKey() {
         switch (this) {
@@ -1374,6 +1378,8 @@ public enum AndroidKey {
 
     /**
      * Is this a system key? System keys can not be used for menu shortcuts.
+     *
+     * @return true if this is a system key.
      */
     public boolean isSystemKey() {
         switch (this) {
@@ -1413,7 +1419,7 @@ public enum AndroidKey {
     /**
      * Is it wake key or not.
      *
-     * @return true if this a wakeup key.
+     * @return true if this is a wakeup key.
      */
     public boolean isWakeKey() {
         switch (this) {

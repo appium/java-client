@@ -91,9 +91,8 @@ public abstract class MobileElement
      *
      * @param value is the new value which should be set
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public void setValue(String value) {
-        ImmutableMap.Builder builder = ImmutableMap.builder();
+        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.put("id", id).put("value", value);
         execute(MobileCommand.SET_VALUE, builder.build());
     }

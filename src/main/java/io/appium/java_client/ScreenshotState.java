@@ -40,8 +40,8 @@ public class ScreenshotState {
     private Duration comparisonInterval = DEFAULT_INTERVAL_MS;
 
     /**
-     * The class constructor accepts single argument, which is
-     * lambda function, that provides the screenshot of the necessary
+     * The class constructor accepts two arguments. The first one is image comparator, the second
+     * parameter is lambda function, that provides the screenshot of the necessary
      * screen area to be verified for similarity.
      * This lambda method is NOT called upon class creation.
      * One has to invoke {@link #remember()} method in order to call it.
@@ -67,6 +67,7 @@ public class ScreenshotState {
      * }
      * </code>
      *
+     * @param comparator image comparator
      * @param stateProvider lambda function, which returns a screenshot for further comparison
      */
     public ScreenshotState(ComparesImages comparator, Supplier<BufferedImage> stateProvider) {

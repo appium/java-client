@@ -67,10 +67,9 @@ public class AndroidRemoveApplicationOptions extends
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder builder = new ImmutableMap.Builder<String, Object>();
+        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         ofNullable(timeout).map(x -> builder.put("timeout", x.toMillis()));
         ofNullable(keepData).map(x -> builder.put("keepData", x));
         return builder.build();

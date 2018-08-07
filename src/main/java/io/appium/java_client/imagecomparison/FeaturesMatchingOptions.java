@@ -34,6 +34,7 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
      * in the default OpenCV installation and have to be enabled manually before
      * library compilation. The default detector name is 'ORB'.
      *
+     * @param name the detector name for features matching.
      * @return self instance for chaining.
      */
     public FeaturesMatchingOptions withDetectorName(FeatureDetector name) {
@@ -42,9 +43,10 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
     }
 
     /**
-     * The name of the matching function.
+     * Sets the name of the matching function.
      * The default one is 'BruteForce'.
      *
+     * @param name the name of the matching function.
      * @return self instance for chaining.
      */
     public FeaturesMatchingOptions withMatchFunc(MatchingFunction name) {
@@ -53,8 +55,9 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
     }
 
     /**
-     * The maximum count of "good" matches (e. g. with minimal distances).
+     * Sets the maximum count of "good" matches (e. g. with minimal distances).
      *
+     * @param factor the "good" matches factor
      * @return self instance for chaining.
      */
     public FeaturesMatchingOptions withGoodMatchesFactor(int factor) {
@@ -63,10 +66,9 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder builder = new ImmutableMap.Builder<String, Object>();
+        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.putAll(super.build());
         ofNullable(detectorName).map(x -> builder.put("detectorName", x));
         ofNullable(matchFunc).map(x -> builder.put("matchFunc", x));
