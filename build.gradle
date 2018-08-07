@@ -201,7 +201,7 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            "selenium.version": project.property("selenium.version")
+            'selenium.version': project.property('selenium.version')
     ]
 }
 
