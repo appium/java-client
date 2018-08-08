@@ -1,11 +1,11 @@
 package io.appium.java_client.internal;
 
-import org.junit.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 
 public class ConfigTest {
     private static final String EXISTING_KEY = "selenium.version";
