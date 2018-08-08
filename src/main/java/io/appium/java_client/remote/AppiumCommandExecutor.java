@@ -191,15 +191,21 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                     .info(format("Detected dialect: %s", toReturn.getDialect()));
                             return toReturn;
                         }).orElseThrow(() -> new SessionNotCreatedException(
-                                format("Unable to create a new remote session. desired capabilities = %s", desired)));
+                                format("Unable to create a new remote session. Desired capabilities = %s", desired)));
                     } catch (NoSuchMethodException | IllegalAccessException e) {
                         throw new SessionNotCreatedException(format("Unable to create a new remote session. "
                                         + "Make sure your project dependencies config does not override "
                                         + "Selenium API version %s used by java-client library.",
                                 Config.main().getValue("selenium.version", String.class)), e);
                     } catch (InvocationTargetException e) {
-                        throw new SessionNotCreatedException(
-                                format("Unable to create a new remote session. Desired capabilities: %s", desired), e);
+                        String message = "Unable to create a new remote session.";
+                        if (e.getCause() != null) {
+                            if (e.getCause() instanceof WebDriverException) {
+                                message += " Please check the server log for more details.";
+                            }
+                            message += format(" Original error: %s", e.getCause().getMessage());
+                        }
+                        throw new SessionNotCreatedException(message, e);
                     }
                 } finally {
                     os.reset();
