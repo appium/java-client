@@ -30,6 +30,7 @@ import com.google.common.base.Throwables;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.io.FileBackedOutputStream;
 
+import io.appium.java_client.internal.Config;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
@@ -190,17 +191,21 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                     .info(format("Detected dialect: %s", toReturn.getDialect()));
                             return toReturn;
                         }).orElseThrow(() -> new SessionNotCreatedException(
-                                format("Unable to create new remote session. desired capabilities = %s", desired)));
+                                format("Unable to create a new remote session. Desired capabilities = %s", desired)));
                     } catch (NoSuchMethodException | IllegalAccessException e) {
-                        throw new WebDriverException(format("It is impossible to create a new session "
-                                        + "because 'createSession' which takes %s, %s and %s was not found "
-                                        + "or it is not accessible",
-                                HttpClient.class.getSimpleName(),
-                                InputStream.class.getSimpleName(),
-                                long.class.getSimpleName()), e);
+                        throw new SessionNotCreatedException(format("Unable to create a new remote session. "
+                                        + "Make sure your project dependencies config does not override "
+                                        + "Selenium API version %s used by java-client library.",
+                                Config.main().getValue("selenium.version", String.class)), e);
                     } catch (InvocationTargetException e) {
-                        throw new SessionNotCreatedException(
-                                format("Unable to create new remote session. Desired capabilities: %s", desired), e);
+                        String message = "Unable to create a new remote session.";
+                        if (e.getCause() != null) {
+                            if (e.getCause() instanceof WebDriverException) {
+                                message += " Please check the server log for more details.";
+                            }
+                            message += format(" Original error: %s", e.getCause().getMessage());
+                        }
+                        throw new SessionNotCreatedException(message, e);
                     }
                 } finally {
                     os.reset();
