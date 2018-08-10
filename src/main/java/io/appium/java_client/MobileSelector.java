@@ -23,7 +23,8 @@ public enum MobileSelector {
     IOS_PREDICATE_STRING("-ios predicate string"),
     IOS_CLASS_CHAIN("-ios class chain"),
     WINDOWS_UI_AUTOMATION("-windows uiautomation"),
-    IMAGE("-image");
+    IMAGE("-image"),
+    ANDROID_VIEWTAG("-android viewtag");
 
     private final String selector;
 
