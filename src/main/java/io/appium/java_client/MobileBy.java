@@ -124,7 +124,7 @@ public abstract class MobileBy extends By {
     /**
      * This locator strategy is available in Espresso Driver mode.
      * @since Appium 1.8.2 beta
-     * @param tag is an an view tag string
+     * @param tag is an view tag string
      * @return an instance of {@link ByAndroidViewTag}
      */
     public static By AndroidViewTag(final String tag) {
@@ -626,7 +626,7 @@ public abstract class MobileBy extends By {
                 return super.findElement(context);
             }
 
-            throw formIllegalArgumentException(contextClass, FindsByAccessibilityId.class,
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewTag.class,
                     FindsByFluentSelector.class);
         }
 
