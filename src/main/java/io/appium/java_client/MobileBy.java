@@ -122,6 +122,16 @@ public abstract class MobileBy extends By {
     }
 
     /**
+     * This locator strategy is available in Espresso Driver mode.
+     * @since Appium 1.8.2 beta
+     * @param tag is an view tag string
+     * @return an instance of {@link ByAndroidViewTag}
+     */
+    public static By AndroidViewTag(final String tag) {
+        return new ByAndroidViewTag(tag);
+    }
+
+    /**
      * This locator strategy is available only if OpenCV libraries and
      * NodeJS bindings are installed on the server machine.
      *
@@ -559,6 +569,69 @@ public abstract class MobileBy extends By {
 
         @Override public String toString() {
             return "By.Image: " + getLocatorString();
+        }
+    }
+
+    public static class ByAndroidViewTag extends MobileBy implements Serializable {
+
+        public ByAndroidViewTag(String tag) {
+            super(MobileSelector.ANDROID_VIEWTAG, tag);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override
+        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
+                IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidViewTag.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidViewTag.class.cast(context)
+                        .findElementsByAndroidViewTag(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewTag.class,
+                    FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
+                IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidViewTag.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidViewTag.class.cast(context)
+                        .findElementByAndroidViewTag(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewTag.class,
+                    FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.AndroidViewTag: " + getLocatorString();
         }
     }
 }
