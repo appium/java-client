@@ -15,12 +15,34 @@ public class PointOption<T extends PointOption<T>> extends ActionOptions<T> {
      * It creates a built instance of {@link PointOption} which takes x and y coordinates.
      * This is offset from the upper left corner of the screen.
      *
+     * @param offset is an offset value.
+     * @return a built option
+     */
+    public static PointOption point(Point offset) {
+        return new PointOption().withCoordinates(offset);
+    }
+
+    /**
+     * It creates a built instance of {@link PointOption} which takes x and y coordinates.
+     * This is offset from the upper left corner of the screen.
+     *
      * @param xOffset is x value.
      * @param yOffset is y value.
      * @return a built option
      */
     public static PointOption point(int xOffset, int yOffset) {
         return new PointOption().withCoordinates(xOffset, yOffset);
+    }
+
+    /**
+     * It defines x and y coordinates.
+     * This is offset from the upper left corner of the screen.
+     *
+     * @param offset is an offset value.
+     * @return self-reference
+     */
+    public T withCoordinates(Point offset) {
+        return withCoordinates(offset.x, offset.y);
     }
 
     /**

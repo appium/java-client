@@ -19,6 +19,18 @@ public class ElementOption extends PointOption<ElementOption> {
      * This method creates a build instance of the {@link ElementOption}.
      *
      * @param element is the element to calculate offset from.
+     * @param offset is the offset from the upper left corner of the given element.
+     * @return the built option
+     */
+    public static ElementOption element(WebElement element, Point offset) {
+        return new ElementOption().withElement(element).withCoordinates(offset);
+    }
+
+
+    /**
+     * This method creates a build instance of the {@link ElementOption}.
+     *
+     * @param element is the element to calculate offset from.
      * @param x is the x-offset from the upper left corner of the given element.
      * @param y is the y-offset from the upper left corner of the given element.
      * @return the built option
@@ -40,13 +52,25 @@ public class ElementOption extends PointOption<ElementOption> {
     /**
      * It defines x and y offset from the upper left corner of an element.
      *
-     * @param xOffset is x value.
-     * @param yOffset is y value.
+     * @param offset is the offset from the upper left corner of the given element.
+     * @return self-reference
+     */
+    @Override
+    public ElementOption withCoordinates(Point offset) {
+        super.withCoordinates(offset);
+        return this;
+    }
+
+    /**
+     * It defines x and y offset from the upper left corner of an element.
+     *
+     * @param xOffset is the x-offset from the upper left corner of the given element.
+     * @param yOffset is the y-offset from the upper left corner of the given element.
      * @return self-reference
      */
     @Override
     public ElementOption withCoordinates(int xOffset, int yOffset) {
-        coordinates = new Point(xOffset, yOffset);
+        super.withCoordinates(xOffset, yOffset);
         return this;
     }
 

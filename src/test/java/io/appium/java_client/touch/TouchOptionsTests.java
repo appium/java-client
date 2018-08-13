@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.isIn;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import org.junit.Test;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 
@@ -43,7 +44,7 @@ public class TouchOptionsTests {
     public void invalidOptionsArgumentsShouldFailOnAltering() {
         final List<Runnable> invalidOptions = new ArrayList<>();
         invalidOptions.add(() -> waitOptions(ofMillis(-1)));
-        invalidOptions.add(() -> new ElementOption().withCoordinates(0, 0).withElement(null));
+        invalidOptions.add(() -> new ElementOption().withCoordinates(new Point(0, 0)).withElement(null));
         invalidOptions.add(() -> new WaitOptions().withDuration(null));
         invalidOptions.add(() -> tapOptions().withTapsCount(-1));
         invalidOptions.add(() -> longPressOptions().withDuration(null));
@@ -71,7 +72,7 @@ public class TouchOptionsTests {
     @Test
     public void tapOptionsShouldBuildProperly() {
         final Map<String, Object> actualOpts = tapOptions()
-                .withPosition(point(0, 0))
+                .withPosition(point(new Point(0, 0)))
                 .withTapsCount(2)
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
