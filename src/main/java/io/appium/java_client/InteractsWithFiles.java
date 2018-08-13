@@ -23,7 +23,8 @@ import com.google.common.collect.ImmutableMap;
 
 import org.openqa.selenium.remote.Response;
 
-import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public interface InteractsWithFiles extends ExecutesMethod {
 
@@ -50,7 +51,7 @@ public interface InteractsWithFiles extends ExecutesMethod {
         Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
         String base64String = response.getValue().toString();
 
-        return DatatypeConverter.parseBase64Binary(base64String);
+        return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -76,7 +77,7 @@ public interface InteractsWithFiles extends ExecutesMethod {
         Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
         String base64String = response.getValue().toString();
 
-        return DatatypeConverter.parseBase64Binary(base64String);
+        return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
 }
