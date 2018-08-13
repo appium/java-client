@@ -94,7 +94,7 @@ dependencyCheck {
 }
 
 jacoco {
-    toolVersion = '0.7.7.201606060606'
+    toolVersion = '0.8.1'
 }
 
 tasks.withType(JacocoReport) {
