@@ -33,7 +33,6 @@ public class KeyCodeTest extends BaseAndroidTest {
 
     @Before
     public void setUp() {
-        //Activity not found error
         final Activity activity = new Activity(driver.getCurrentPackage(), ".text.KeyEventText");
         driver.startActivity(activity);
     }

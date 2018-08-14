@@ -68,7 +68,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void toggleAirplane() {
-        //Flaky test
         try {
             driver.toggleAirplaneMode();
         } catch (Exception e) {
@@ -210,7 +209,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void pullFileTest() {
-        //Works only on rooted devices/Emulator and adb is running as root, runs from command line
         byte[] data =
             driver.pullFile("/data/system/users/userlist.xml");
         assert (data.length > 0);
@@ -262,7 +260,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void getPerformanceDataTest() throws Exception {
 
-        //This test is failing - infinite loop
         driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();

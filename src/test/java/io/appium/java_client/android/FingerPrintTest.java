@@ -96,7 +96,7 @@ public class FingerPrintTest {
     private void clickOnSecurity() {
         driver.findElement(AndroidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".scrollable(true)).scrollIntoView("
-                + "new UiSelector().text(\"Security\"));")).click();
+                + "new UiSelector().text(\"Security & location\"));")).click();
     }
 
     /**
@@ -110,7 +110,6 @@ public class FingerPrintTest {
         findElementByText("PIN").click();
         enterPasswordAndContinue();
         enterPasswordAndContinue();
-        //clickNext();
     }
 
     /**
@@ -121,8 +120,8 @@ public class FingerPrintTest {
         findElementByText("Fingerprint").click();
         clickFingerPrintNext();
         enterPasswordAndContinue();
-        clickNext();
 
+        driver.fingerPrint(1234);
         driver.fingerPrint(1234);
         driver.fingerPrint(1234);
         try {

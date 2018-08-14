@@ -225,19 +225,7 @@ task uiAutomationTest( type: Test ) {
     testLogging.exceptionFormat = 'full'
     filter {
         includeTestsMatching '*.SettingTest'
-        includeTestsMatching '*.OpenNotificationsTest'
-        includeTestsMatching '*.UIAutomator2Test'
-        includeTestsMatching '*.ClipboardTest'
-        includeTestsMatching '*.BatteryTest'
-        includeTestsMatching '*.AndroidTouchTest'
-        includeTestsMatching '*.AndroidSearchingTest'
-        includeTestsMatching '*.AndroidScreenRecordTest'
-        includeTestsMatching '*.AndroidElementTest'
+        includeTestsMatching 'io.appium.java_client.android.ClipboardTest'
         includeTestsMatching '*.AndroidAppStringsTest'
-        includeTestsMatching '*.AndroidActivityTest'
-        includeTestsMatching '*.AndroidAbilityToUseSupplierTest'
-        exclude '**/UIAutomationTest.class'
-        exclude '**/IOSScreenRecordTest.class'
-        exclude '**/ImagesComparisonTest.class'
     }
 }
