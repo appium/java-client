@@ -52,6 +52,7 @@ public class AndroidConnectionTest extends BaseAndroidTest {
 
     @Test
     public void test3() {
+        //runs only on Sims or rooted devices
         ConnectionState state = driver.setConnection(
                 new ConnectionStateBuilder(driver.getConnection())
                         .withAirplaneModeDisabled()

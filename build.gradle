@@ -228,5 +228,9 @@ task uiAutomationTest( type: Test ) {
     useJUnit()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
-    include '**/UIAutomationTest.class'
+    filter {
+        includeTestsMatching '*.SettingTest'
+        includeTestsMatching 'io.appium.java_client.android.ClipboardTest'
+        includeTestsMatching '*.AndroidAppStringsTest'
+    }
 }

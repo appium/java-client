@@ -210,7 +210,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test public void pullFileTest() {
         byte[] data =
-            driver.pullFile("data/system/registered_services/android.content.SyncAdapter.xml");
+            driver.pullFile("/data/system/users/userlist.xml");
         assert (data.length > 0);
     }
 
@@ -259,6 +259,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getPerformanceDataTest() throws Exception {
+
         driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();

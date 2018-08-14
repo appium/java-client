@@ -1,5 +1,4 @@
 language: java
-
 sudo: required
 
 matrix:
@@ -14,33 +13,43 @@ matrix:
         - npm install -g appium
       script:
         - ./gradlew clean build xcuiTest -x test -x signArchives
-#    - language: android
-#      install: true
-#      os: linux
-#      jdk: oraclejdk8
-#      android:
-#        components:
-#          - build-tools-26.0.2
-#          - platform-tools
-#          - tools
-#          - android-22
-#          - extra-android-m2repository
-#          - extra-google-google_play_services
-#          - extra-google-m2repository
-#          - sys-img-armeabi-v7a-android-22
-#      before_install:
-#        # node stuff
-#        - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-#        - nvm install 6
-#        - node --version
-#        - npm --version
-#        - npm install -g appium@1.7.2
-#        - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
-#        - emulator -avd test -no-audio -no-window &
-#        - android-wait-for-emulator
-#        - adb devices
-#      script:
-#      - ./gradlew clean test --tests "io.appium.java_client.android.*" --exclude-task signArchives
+
+    - language: android
+      install: true
+      install:
+        - echo y | android update sdk -u -a -t tools
+        - echo y | android update sdk -u -a -t platform-tools
+        - echo y | android update sdk -u -a -t build-tools-25.0.2
+        - echo y | android update sdk -u -a -t android-25
+        - echo y | android update sdk -u -a -t extra-google-m2repository
+        - echo y | android update sdk -u -a -t extra-android-m2repository
+      os: linux
+      jdk: oraclejdk8
+      android:
+        components:
+          - extra-android-support
+          - sys-img-armeabi-v7a-android-24
+      before_install:
+        - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+        - nvm install 8
+        - node --version
+        - npm --version
+        - npm install -g appium
+        - echo y | android update sdk -a --no-ui --filter android-24
+        - echo y | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
+        - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}' # list all targets
+        - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
+        - emulator -avd test -no-skin -no-window &
+        - android-wait-for-emulator
+        - adb shell input keyevent 82 &
+        - adb wait-for-device get-serialno
+        - sleep 100
+        - chmod +x gradlew
+        - ./gradlew --version
+        - echo y |adb devices
+
+      script:
+      - ./gradlew clean build uiAutomationTest -x test -x signArchives
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
