@@ -7,7 +7,7 @@ matrix:
     - language: java
       install: true
       os: osx
-      osx_image: xcode9.3
+      osx_image: $xcodeVersion
       before_install:
         - brew update
         - brew outdated xctool || brew upgrade xctool
