@@ -44,6 +44,7 @@ public class AndroidContextTest extends BaseAndroidTest {
         driver.context("WEBVIEW_io.appium.android.apis");
         assertEquals(driver.getContext(), "WEBVIEW_io.appium.android.apis");
         driver.context("NATIVE_APP");
+        assertEquals(driver.getContext(), "NATIVE_APP");
     }
 
     @Test(expected = NoSuchContextException.class) public void testContextError() {

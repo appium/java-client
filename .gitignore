@@ -10,7 +10,7 @@ settings.xml
 build/
 .gradle
 .gradle/*
-
+classes/
 # Eclipse
 /bin
 /target

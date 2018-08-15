@@ -72,8 +72,12 @@ public class FingerPrintTest {
                         new NoSuchElementException(String.format("There is no element with the text '%s'", text)));
     }
 
-    private void clickNext()  {
+    private void clickNext() {
         driver.findElementById("com.android.settings:id/next_button").click();
+    }
+
+    private void clickFingerPrintNext() {
+        driver.findElementById("com.android.settings:id/fingerprint_next_button").click();
     }
 
     private void clickOKInPopup() {
@@ -88,13 +92,14 @@ public class FingerPrintTest {
     private void clickOnSecurity() {
         driver.findElement(AndroidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".scrollable(true)).scrollIntoView("
-                + "new UiSelector().text(\"Security\"));")).click();
+                + "new UiSelector().text(\"Security & location\"));")).click();
     }
 
     /**
      * enable system security which is required for finger print activation.
      */
-    @Before public void before() {
+    @Before
+    public void before() {
         initDriver();
         clickOnSecurity();
         findElementByText("Screen lock").click();
@@ -107,13 +112,14 @@ public class FingerPrintTest {
     /**
      * add a new finger print to security.
      */
-    @Test public void fingerPrintTest() {
+    @Test
+    public void fingerPrintTest() {
         findElementByText("Fingerprint").click();
-        clickNext();
+        clickFingerPrintNext();
         enterPasswordAndContinue();
-        clickNext();
-
-        driver.fingerPrint(2);
+        driver.fingerPrint(1234);
+        driver.fingerPrint(1234);
+        driver.fingerPrint(1234);
         try {
             clickNext();
         } catch (Exception e) {
@@ -124,7 +130,8 @@ public class FingerPrintTest {
     /**
      * disabling pin lock mode.
      */
-    @After public void after() {
+    @After
+    public void after() {
         driver.quit();
 
         initDriver();
