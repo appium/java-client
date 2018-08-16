@@ -3,6 +3,7 @@ sudo: required
 matrix:
   include:
     - language: java
+      install: true
       jdk:
         - $jdkVersion
       os: osx
