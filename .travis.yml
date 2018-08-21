@@ -37,7 +37,7 @@ matrix:
         - nvm install 8
         - node --version
         - npm --version
-        - npm install -g appium
+        - npm install -g $appiumVersion
         - echo y | android update sdk -a --no-ui --filter android-24
         - echo y | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
         - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}' # list all targets
