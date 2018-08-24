@@ -61,7 +61,7 @@ Java client project is available to use even before it is officially published t
  
 ```
     dependencies {
-		implementation 'com.github.User:Repo:Tag'
+		implementation 'com.github.appium:java-client:latest commit id from master branch'
 	}
 ```
 
