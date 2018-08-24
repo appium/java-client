@@ -58,7 +58,8 @@ public class IOSTouchTest extends AppIOSTest {
     }
 
     @Test public void swipeTest() {
-        MobileElement slider = driver.findElementByClassName("XCUIElementTypeSlider");
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 30);
+        IOSElement slider = webDriverWait.until(driver1 -> driver.findElementByClassName("XCUIElementTypeSlider"));
         Dimension size = slider.getSize();
 
         ElementOption press = element(slider, size.width / 2 + 2, size.height / 2);
