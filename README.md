@@ -17,6 +17,54 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [WIKI](https://github.com/appium/java-client/wiki)
 
+## How to install latest java client Beta/Snapshots
+
+Java client project is available to use even before it is officially published to maven central. Refer [jitpack.io](https://jitpack.io/#appium/java-client)
+
+### Maven
+
+ - Add the following to pom.xml:
+
+```
+    <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+    </repositories>
+```
+
+ - Add the dependency:
+ 
+```
+    <dependency>
+    	  <groupId>com.github.appium</groupId>
+    	  <artifactId>java-client</artifactId>
+    	  <version>latest commit ID from master branch</version>
+    </dependency>
+``` 
+
+### Gradle
+
+ - Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+ 
+```
+    allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+ - Add the dependency:
+ 
+```
+    dependencies {
+		implementation 'com.github.appium:java-client:latest commit id from master branch'
+	}
+```
+
 ## Changelog
 
 *7.0.0 (under construction yet)*
