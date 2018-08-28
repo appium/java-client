@@ -194,6 +194,7 @@ public class NewAppiumSessionPayload implements Closeable {
             throw new IllegalArgumentException("First match w3c capabilities is zero length");
         }
 
+        //noinspection ResultOfMethodCallIgnored
         firsts.stream()
                 .peek(map -> {
                     Set<String> overlap = Sets.intersection(always.keySet(), map.keySet());
@@ -256,14 +257,12 @@ public class NewAppiumSessionPayload implements Closeable {
                 json.name(CAPABILITIES);
                 json.beginObject();
 
-                json.name(ALWAYS_MATCH);
-                getW3C().forEach(json::write);
-
+                // Then write everything into the w3c payload. Because of the way we do this, it's easiest
+                // to just populate the "firstMatch" section. The spec says it's fine to omit the
+                // "alwaysMatch" field, so we do this.
                 json.name(FIRST_MATCH);
                 json.beginArray();
-                //noinspection unchecked
-                json.beginObject();
-                json.endObject();
+                getW3C().forEach(json::write);
                 json.endArray();
 
                 json.endObject();  // Close "capabilities" object
@@ -291,7 +290,7 @@ public class NewAppiumSessionPayload implements Closeable {
 
                     default:
                         out.name(name);
-                        out.write(input.<Object>read(Object.class));
+                        out.write(input.read(Object.class));
                         break;
                 }
             }
@@ -437,8 +436,7 @@ public class NewAppiumSessionPayload implements Closeable {
             return null;
         }
 
-        Map<String, Object> toReturn = new TreeMap<>();
-        toReturn.putAll(capabilities);
+        Map<String, Object> toReturn = new TreeMap<>(capabilities);
 
         // Platform name
         if (capabilities.containsKey(PLATFORM) && !capabilities.containsKey(PLATFORM_NAME)) {
