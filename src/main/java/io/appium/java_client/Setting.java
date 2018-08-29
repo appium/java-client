@@ -35,7 +35,6 @@ public enum Setting {
     UPDATE_IMAGE_ELEMENT_POSITION("autoUpdateImageElementPosition"),
     IMAGE_ELEMENT_TAP_STRATEGY("imageElementTapStrategy");
 
-
     private String name;
 
     Setting(String name) {
