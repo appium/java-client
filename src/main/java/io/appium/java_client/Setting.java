@@ -27,7 +27,14 @@ public enum Setting {
     WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT("setScrollAcknowledgmentTimeout"),
     WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT("setActionAcknowledgmentTimeout"),
     KEY_INJECTION_DELAY("setKeyInjectionDelay"),
-    NATIVE_WEB_TAP("nativeWebTap");
+    NATIVE_WEB_TAP("nativeWebTap"),
+    IMAGE_MATCH_THRESHOLD("imageMatchThreshold"),
+    FIX_IMAGE_FIND_SCREENSHOT_DIMENSIONS("fixImageFindScreenshotDims"),
+    FIX_IMAGE_TEMPLATE_SIZE("fixImageTemplateSize"),
+    CHECK_IMAGE_ELEMENT_STALENESS("checkForImageElementStaleness"),
+    UPDATE_IMAGE_ELEMENT_POSITION("autoUpdateImageElementPosition"),
+    IMAGE_ELEMENT_TAP_STRATEGY("imageElementTapStrategy");
+
 
     private String name;
 
