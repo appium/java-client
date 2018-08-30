@@ -39,6 +39,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -113,6 +114,15 @@ public class ServerBuilderTest {
         System.clearProperty(APPIUM_PATH);
         ofNullable(PATH_TO_APPIUM_NODE_IN_PROPERTIES).ifPresent(s -> setProperty(APPIUM_PATH, s));
     }
+
+	@Test public void checkAbilityToAddLogMessageConsumer() {
+		List<String> log = new ArrayList<>();
+        service = buildDefaultService();
+        service.clearOutPutStreams();
+        service.addLogMessageConsumer(log::add);
+        service.start();
+        assertTrue(log.size() > 0);
+	}
 
     @Test public void checkAbilityToStartDefaultService() {
         service = buildDefaultService();

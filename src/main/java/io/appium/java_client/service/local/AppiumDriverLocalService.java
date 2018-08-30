@@ -17,6 +17,8 @@
 package io.appium.java_client.service.local;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.slf4j.event.Level.DEBUG;
+import static org.slf4j.event.Level.INFO;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -26,6 +28,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,11 +40,19 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.annotation.Nullable;
 
 public final class AppiumDriverLocalService extends DriverService {
 
     private static final String URL_MASK = "http://%s:%d/wd/hub";
+    private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
+    private static final Pattern LOG_MESSAGE_PATTERN = Pattern.compile("^(.*)\\R");
+	private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private final File nodeJSExec;
     private final ImmutableList<String> nodeJSArgs;
     private final ImmutableMap<String, String> nodeJSEnvironment;
@@ -189,8 +202,8 @@ public final class AppiumDriverLocalService extends DriverService {
         return null;
     }
 
-    /**
-     * Adds other output stream which should accept server output data.
+	/**
+	 * Adds other output stream which should accept server output data.
      * @param outputStream is an instance of {@link OutputStream}
      *                     that is ready to accept server output
      */
@@ -219,4 +232,131 @@ public final class AppiumDriverLocalService extends DriverService {
     public boolean clearOutPutStreams() {
         return stream.clear();
     }
+
+    /**
+     * Enables server output data logging through <a href="http://slf4j.org">SLF4J</a> loggers.
+     * This allow server output data to be configured with your preferred logging frameworks 
+     * (e.g. java.util.logging, logback, log4j).</br>
+     * </br>
+	 * NOTE1: You might want to call method {@link #clearOutPutStreams()} before calling this method.
+     * </br>
+	 * NOTE2: it is required that {@link --log-timestamp} server flag is {@link false}.
+	 * </br>
+	 * </br>
+     * By default log messages are:
+     * <li>
+     * logged at {@code INFO} level, unless log message is pre-fixed by {@code [debug]} then logged 
+     * at {@code DEBUG} level.
+     * </li>
+     * <li>
+     * logged by a <a href="http://slf4j.org">SLF4J</a> logger instance with a name corresponding to 
+     * the appium sub module as prefixed in log message (logger name is transformed to lower case, 
+     * no spaces and prefixed with "appium.service."). 
+     * </li>
+	 * </br>
+	 * Example log-message: "[ADB] Cannot read version codes of " is logged by logger: 
+	 * {@code appium.service.adb} at level {@code INFO}.
+	 * </br>
+	 * Example log-message: "[debug] [XCUITest] Xcode version set to 'x.y.z' " is logged by logger 
+	 * {@code appium.service.xcuitest} at level {@code DEBUG}.
+	 * 
+	 * </br></br>
+     * 
+     * @see #addSlf4jLogMessageConsumer(BiConsumer)
+     */
+	public void enableSLF4JLoggingOfOutputData() {
+		addSlf4jLogMessageConsumer((logMessage, ctx) -> {
+			if(ctx.level().equals(DEBUG)) {
+				ctx.logger().debug(logMessage);
+			} else {
+				ctx.logger().info(logMessage);
+			}
+		});
+	}
+
+	/**
+	 * When a complete log message is available (from server output data) the message is parsed for 
+	 * its slf4j context (logger name, logger level etc.) and the specified {@code BiConsumer} is 
+	 * invoked with the log message
+	 * and slf4j context.</br>
+	 * </br>
+	 * Use this method only if you want a behavior that differentiates from the default behavior as 
+	 * enabled by method {@link #enableSLF4JLoggingOfOutputData()}.
+	 * </br>
+	 * </br>
+	 * NOTE: You might want to call method {@link #clearOutPutStreams()} before calling this method.
+	 * </br>
+	 * </br>
+	 * implementation detail:
+	 * <li>
+	 * if log message begins with {@code [debug]} then log level is set to {@code DEBUG}, otherwise 
+	 * log level is {@code INFO}.
+	 * </li>
+	 * <li>
+	 * the appium sub module name is parsed from the log message and used as logger name (prefixed 
+	 * with "appium.service.", all lower case, spaces removed). If no appium sub module is detected 
+	 * then "appium.service" is used as logger name. 
+	 * </li>
+	 * </br>
+	 * Example log-message: "[ADB] Cannot read version codes of " is logged by 
+	 * {@code appium.service.adb} at level {@code INFO}
+	 * </br>
+	 * Example log-message: "[debug] [XCUITest] Xcode version set to 'x.y.z' " is logged by 
+	 * {@code appium.service.xcuitest} at level {@code DEBUG}
+	 * 
+	 * @param slf4jLogMessageConsumer BiConsumer block to be executed when a log message is available.
+	 */
+	public void addSlf4jLogMessageConsumer(BiConsumer<String, Slf4jLogMessageContext> slf4jLogMessageConsumer) {
+		addLogMessageConsumer(logMessage -> {
+			slf4jLogMessageConsumer.accept(logMessage, parseContextFromLogMessage(logMessage));
+		});
+	}
+
+	static Slf4jLogMessageContext parseContextFromLogMessage(String logMessage) {
+		Matcher m = LOGGER_CONTEXT_PATTERN.matcher(logMessage);
+		String loggerName = "appium.service";
+		Level level = INFO;
+		if (m.find()) {
+			loggerName += "." + m.group(2).toLowerCase().replaceAll("\\s+", "");
+			if(m.group(1) != null ){
+				level = DEBUG;
+			}
+		}
+		return new Slf4jLogMessageContext(loggerName, level);
+	}
+
+	/**
+	 * When a complete log message is available (from server output data), the specified {@code Consumer} is 
+	 * invoked with the log message.
+	 * </br>
+	 * </br>
+	 * NOTE: You might want to call method {@link #clearOutPutStreams()} before calling this method.
+	 * </br>
+	 * </br>
+	 * If the Consumer fails and throws an exception the exception is logged (at WARN level) and 
+	 * execution continues.
+	 * 
+	 * @param consumer Consumer block to be executed when a log message is available.
+	 * 
+	 */
+	public void addLogMessageConsumer(Consumer<String> consumer) {
+		addOutPutStream(new OutputStream() {
+			StringBuilder lineBuilder = new StringBuilder();
+
+			@Override
+			public void write(int chr) throws IOException {
+				try {
+					lineBuilder.append((char) chr);
+					Matcher matcher = LOG_MESSAGE_PATTERN.matcher(lineBuilder.toString());
+					if (matcher.matches()) {
+						consumer.accept(matcher.group(1));
+						lineBuilder = new StringBuilder();
+					}
+				} catch (Exception e) {
+					// log error and continue
+					LOG.warn("Log message consumer crashed!", e);
+				}
+			}
+		});
+	}
 }
