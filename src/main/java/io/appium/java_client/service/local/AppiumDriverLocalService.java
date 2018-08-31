@@ -262,7 +262,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * 
      * @see #addSlf4jLogMessageConsumer(BiConsumer)
      */
-    public void enableDefaultSLF4JLoggingOfOutputData() {
+    public void enableDefaultSlf4jLoggingOfOutputData() {
         addSlf4jLogMessageConsumer((logMessage, ctx) -> {
             if (ctx.level().equals(DEBUG)) {
                 ctx.logger().debug(logMessage);
@@ -280,7 +280,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * </br>
      * Use this method only if you want a behavior that differentiates from the
      * default behavior as enabled by method
-     * {@link #enableDefaultSLF4JLoggingOfOutputData()}. </br>
+     * {@link #enableDefaultSlf4jLoggingOfOutputData()}. </br>
      * </br>
      * NOTE: You might want to call method {@link #clearOutPutStreams()} before
      * calling this method. </br>
