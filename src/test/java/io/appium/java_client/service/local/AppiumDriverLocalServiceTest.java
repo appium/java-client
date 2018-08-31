@@ -14,21 +14,21 @@ public class AppiumDriverLocalServiceTest {
     @Test
     public void canParseSlf4jLoggerContext() throws Exception {
         assertLoggerContext(INFO, "appium.service.androidbootstrap", 
-                "[AndroidBootstrap] [BOOTSTRAP LOG] [debug] json loading complete.");
+            "[AndroidBootstrap] [BOOTSTRAP LOG] [debug] json loading complete.");
         assertLoggerContext(INFO, "appium.service.adb", 
-                "[ADB] Cannot read version codes of ");
+            "[ADB] Cannot read version codes of ");
         assertLoggerContext(INFO, "appium.service.xcuitest",
-                "[XCUITest] Determining device to run tests on: udid: '1234567890', real device: true");
+            "[XCUITest] Determining device to run tests on: udid: '1234567890', real device: true");
         assertLoggerContext(INFO, "appium.service", 
-                "no-prefix log message.");
+            "no-prefix log message.");
         assertLoggerContext(INFO, "appium.service", 
-                "no-prefix log [not-a-logger-name] message.");
+            "no-prefix log [not-a-logger-name] message.");
         assertLoggerContext(DEBUG, "appium.service.mjsonwp", 
-                "[debug] [MJSONWP] Calling AppiumDriver.getStatus() with args: []");
+            "[debug] [MJSONWP] Calling AppiumDriver.getStatus() with args: []");
         assertLoggerContext(DEBUG, "appium.service.xcuitest", 
-                "[debug] [XCUITest] Xcode version set to 'x.y.z' ");
+            "[debug] [XCUITest] Xcode version set to 'x.y.z' ");
         assertLoggerContext(DEBUG, "appium.service.jsonwpproxy", 
-                "[debug] [JSONWP Proxy] Proxying [GET /status] to [GET http://localhost:18218/status] with no body");
+            "[debug] [JSONWP Proxy] Proxying [GET /status] to [GET http://localhost:18218/status] with no body");
     }
 
     private void assertLoggerContext(Level expectedLevel, String expectedLoggerName, String logMessage) {
