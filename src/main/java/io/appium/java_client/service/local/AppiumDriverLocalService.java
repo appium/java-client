@@ -52,7 +52,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private static final String URL_MASK = "http://%s:%d/wd/hub";
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
     private static final Pattern LOG_MESSAGE_PATTERN = Pattern.compile("^(.*)\\R");
-	private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
+    private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private final File nodeJSExec;
     private final ImmutableList<String> nodeJSArgs;
     private final ImmutableMap<String, String> nodeJSEnvironment;
