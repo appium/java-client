@@ -1,6 +1,6 @@
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.service.local.AppiumDriverLocalService.parseContextFromLogMessage;
+import static io.appium.java_client.service.local.AppiumDriverLocalService.parseSlf4jContextFromLogMessage;
 import static org.junit.Assert.assertEquals;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.slf4j.event.Level.DEBUG;
@@ -11,7 +11,7 @@ import org.slf4j.event.Level;
 
 public class AppiumDriverLocalServiceTest {
 	
-	@Test public void canParseSlf4jLoggerName() throws Exception {
+	@Test public void canParseSlf4jLoggerContext() throws Exception {
 		assertLoggerContext(INFO, "appium.service.androidbootstrap", "[AndroidBootstrap] [BOOTSTRAP LOG] [debug] json loading complete.");
 		assertLoggerContext(INFO, "appium.service.adb", "[ADB] Cannot read version codes of ");
 		assertLoggerContext(INFO, "appium.service.xcuitest", "[XCUITest] Determining device to run tests on: udid: '1234567890', real device: true");
@@ -24,7 +24,7 @@ public class AppiumDriverLocalServiceTest {
 	}
 	
 	private void assertLoggerContext(Level expectedLevel, String expectedLoggerName, String logMessage) {
-		Slf4jLogMessageContext ctx = parseContextFromLogMessage(logMessage);
+		Slf4jLogMessageContext ctx = parseSlf4jContextFromLogMessage(logMessage);
 		assertEquals(expectedLoggerName, ctx.name());
 		assertEquals(expectedLevel, ctx.level());
 		assertEquals(getLogger(expectedLoggerName), ctx.logger());

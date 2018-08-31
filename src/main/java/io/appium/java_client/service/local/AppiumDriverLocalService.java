@@ -304,11 +304,11 @@ public final class AppiumDriverLocalService extends DriverService {
     public void addSlf4jLogMessageConsumer(
             BiConsumer<String, Slf4jLogMessageContext> slf4jLogMessageConsumer) {
         addLogMessageConsumer(logMessage -> {
-            slf4jLogMessageConsumer.accept(logMessage, parseContextFromLogMessage(logMessage));
+            slf4jLogMessageConsumer.accept(logMessage, parseSlf4jContextFromLogMessage(logMessage));
         });
     }
 
-    static Slf4jLogMessageContext parseContextFromLogMessage(String logMessage) {
+    static Slf4jLogMessageContext parseSlf4jContextFromLogMessage(String logMessage) {
         Matcher m = LOGGER_CONTEXT_PATTERN.matcher(logMessage);
         String loggerName = "appium.service";
         Level level = INFO;
