@@ -115,14 +115,14 @@ public class ServerBuilderTest {
         ofNullable(PATH_TO_APPIUM_NODE_IN_PROPERTIES).ifPresent(s -> setProperty(APPIUM_PATH, s));
     }
 
-	@Test public void checkAbilityToAddLogMessageConsumer() {
-		List<String> log = new ArrayList<>();
+    @Test public void checkAbilityToAddLogMessageConsumer() {
+        List<String> log = new ArrayList<>();
         service = buildDefaultService();
         service.clearOutPutStreams();
         service.addLogMessageConsumer(log::add);
         service.start();
         assertTrue(log.size() > 0);
-	}
+    }
 
     @Test public void checkAbilityToStartDefaultService() {
         service = buildDefaultService();
