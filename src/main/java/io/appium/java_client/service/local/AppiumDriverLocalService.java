@@ -239,14 +239,13 @@ public final class AppiumDriverLocalService extends DriverService {
      * <a href="http://slf4j.org">SLF4J</a> loggers. This allow server output
      * data to be configured with your preferred logging frameworks (e.g.
      * java.util.logging, logback, log4j).
-     * <p>
-     * NOTE1: You might want to call method {@link #clearOutPutStreams()} before
-     * calling this method. 
-     * <br>
+     * 
+     * <p>NOTE1: You might want to call method {@link #clearOutPutStreams()} before
+     * calling this method.<br>
      * NOTE2: it is required that {@code --log-timestamp} server flag is
      * {@code false}.
-     * <p>
-     * By default log messages are:
+     * 
+     * <p>By default log messages are:
      * <ul>
      * <li>logged at {@code INFO} level, unless log message is pre-fixed by
      * {@code [debug]} then logged at {@code DEBUG} level.</li>
@@ -280,15 +279,15 @@ public final class AppiumDriverLocalService extends DriverService {
      * message is parsed for its slf4j context (logger name, logger level etc.)
      * and the specified {@code BiConsumer} is invoked with the log message and
      * slf4j context.
-     * <p>
-     * Use this method only if you want a behavior that differentiates from the
+     * 
+     * <p>Use this method only if you want a behavior that differentiates from the
      * default behavior as enabled by method
      * {@link #enableDefaultSlf4jLoggingOfOutputData()}.
-     * <p>
-     * NOTE: You might want to call method {@link #clearOutPutStreams()} before
+     * 
+     * <p>NOTE: You might want to call method {@link #clearOutPutStreams()} before
      * calling this method.
-     * <p>
-     * implementation detail:
+     * 
+     * <p>implementation detail:
      * <ul>
      * <li>if log message begins with {@code [debug]} then log level is set to
      * {@code DEBUG}, otherwise log level is {@code INFO}.</li>
@@ -330,11 +329,11 @@ public final class AppiumDriverLocalService extends DriverService {
     /**
      * When a complete log message is available (from server output data), the
      * specified {@code Consumer} is invoked with that log message.
-     * <p>
-     * NOTE: You might want to call method {@link #clearOutPutStreams()} before
+     * 
+     * <p>NOTE: You might want to call method {@link #clearOutPutStreams()} before
      * calling this method.
-     * <p>
-     * If the Consumer fails and throws an exception the exception is logged (at
+     * 
+     * <p>If the Consumer fails and throws an exception the exception is logged (at
      * WARN level) and execution continues.
      * <br>
      * 

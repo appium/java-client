@@ -18,6 +18,8 @@ public final class Slf4jLogMessageContext {
     }
 
     /**
+     * Returns the {@link Logger} instance associated with this context.
+     * 
      * @return {@link Logger} instance associated with this context.
      * 
      */
@@ -26,6 +28,8 @@ public final class Slf4jLogMessageContext {
     }
 
     /**
+     * Returns log {@link Level} for the log message associated with this context.
+     * 
      * @return {@link Level} for log message associated with this context.
      */
     public Level getLevel() {
@@ -33,6 +37,8 @@ public final class Slf4jLogMessageContext {
     }
 
     /**
+     * Returns the name of the {@link Logger} associated with this context.
+     * 
      * @return name of {@link Logger} associated with this context.
      */
     public String getName() {
