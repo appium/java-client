@@ -7,8 +7,6 @@ import org.slf4j.event.Level;
 /**
  * This class provides context to a Slf4jLogMessageConsumer. 
  * 
- * @see {@link AppiumDriverLocalService#addSlf4jLogMessageConsumer(java.util.function.BiConsumer)}
- * 
  */
 public final class Slf4jLogMessageContext {
     private final Logger logger;

@@ -238,28 +238,30 @@ public final class AppiumDriverLocalService extends DriverService {
      * Enables server output data logging through
      * <a href="http://slf4j.org">SLF4J</a> loggers. This allow server output
      * data to be configured with your preferred logging frameworks (e.g.
-     * java.util.logging, logback, log4j).</br>
-     * </br>
+     * java.util.logging, logback, log4j).
+     * <p>
      * NOTE1: You might want to call method {@link #clearOutPutStreams()} before
-     * calling this method. </br>
-     * NOTE2: it is required that {@link --log-timestamp} server flag is
-     * {@link false}. </br>
-     * </br>
+     * calling this method. 
+     * <br>
+     * NOTE2: it is required that {@code --log-timestamp} server flag is
+     * {@code false}.
+     * <p>
      * By default log messages are:
+     * <ul>
      * <li>logged at {@code INFO} level, unless log message is pre-fixed by
      * {@code [debug]} then logged at {@code DEBUG} level.</li>
      * <li>logged by a <a href="http://slf4j.org">SLF4J</a> logger instance with
      * a name corresponding to the appium sub module as prefixed in log message
      * (logger name is transformed to lower case, no spaces and prefixed with
-     * "appium.service.").</li> </br>
+     * "appium.service.").</li>
+     * </ul>
      * Example log-message: "[ADB] Cannot read version codes of " is logged by
-     * logger: {@code appium.service.adb} at level {@code INFO}. </br>
+     * logger: {@code appium.service.adb} at level {@code INFO}.
+     * <br>
      * Example log-message: "[debug] [XCUITest] Xcode version set to 'x.y.z' "
      * is logged by logger {@code appium.service.xcuitest} at level
      * {@code DEBUG}.
-     * 
-     * </br>
-     * </br>
+     * <br>
      * 
      * @see #addSlf4jLogMessageConsumer(BiConsumer)
      */
@@ -277,26 +279,29 @@ public final class AppiumDriverLocalService extends DriverService {
      * When a complete log message is available (from server output data) that
      * message is parsed for its slf4j context (logger name, logger level etc.)
      * and the specified {@code BiConsumer} is invoked with the log message and
-     * slf4j context.</br>
-     * </br>
+     * slf4j context.
+     * <p>
      * Use this method only if you want a behavior that differentiates from the
      * default behavior as enabled by method
-     * {@link #enableDefaultSlf4jLoggingOfOutputData()}. </br>
-     * </br>
+     * {@link #enableDefaultSlf4jLoggingOfOutputData()}.
+     * <p>
      * NOTE: You might want to call method {@link #clearOutPutStreams()} before
-     * calling this method. </br>
-     * </br>
+     * calling this method.
+     * <p>
      * implementation detail:
+     * <ul>
      * <li>if log message begins with {@code [debug]} then log level is set to
      * {@code DEBUG}, otherwise log level is {@code INFO}.</li>
      * <li>the appium sub module name is parsed from the log message and used as
      * logger name (prefixed with "appium.service.", all lower case, spaces
      * removed). If no appium sub module is detected then "appium.service" is
-     * used as logger name.</li> </br>
+     * used as logger name.</li>
+     * </ul>
      * Example log-message: "[ADB] Cannot read version codes of " is logged by
-     * {@code appium.service.adb} at level {@code INFO} </br>
+     * {@code appium.service.adb} at level {@code INFO} <br>
      * Example log-message: "[debug] [XCUITest] Xcode version set to 'x.y.z' "
      * is logged by {@code appium.service.xcuitest} at level {@code DEBUG}
+     * <br>
      * 
      * @param slf4jLogMessageConsumer
      *            BiConsumer block to be executed when a log message is
@@ -324,13 +329,14 @@ public final class AppiumDriverLocalService extends DriverService {
 
     /**
      * When a complete log message is available (from server output data), the
-     * specified {@code Consumer} is invoked with that log message. </br>
-     * </br>
+     * specified {@code Consumer} is invoked with that log message.
+     * <p>
      * NOTE: You might want to call method {@link #clearOutPutStreams()} before
-     * calling this method. </br>
-     * </br>
+     * calling this method.
+     * <p>
      * If the Consumer fails and throws an exception the exception is logged (at
      * WARN level) and execution continues.
+     * <br>
      * 
      * @param consumer
      *            Consumer block to be executed when a log message is available.
