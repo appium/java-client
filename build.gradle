@@ -75,6 +75,7 @@ dependencies {
     compile 'commons-io:commons-io:2.6'
     compile 'org.springframework:spring-context:5.0.5.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.9.1'
+    compile 'org.slf4j:slf4j-api:1.7.25'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
