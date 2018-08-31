@@ -53,6 +53,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
     private static final Pattern LOG_MESSAGE_PATTERN = Pattern.compile("^(.*)\\R");
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
+    private static final String APPIUM_SERVICE_SLF4J_LOGGER_PREFIX = "appium.service";
     private final File nodeJSExec;
     private final ImmutableList<String> nodeJSArgs;
     private final ImmutableMap<String, String> nodeJSEnvironment;
@@ -264,10 +265,10 @@ public final class AppiumDriverLocalService extends DriverService {
      */
     public void enableDefaultSlf4jLoggingOfOutputData() {
         addSlf4jLogMessageConsumer((logMessage, ctx) -> {
-            if (ctx.level().equals(DEBUG)) {
-                ctx.logger().debug(logMessage);
+            if (ctx.getLevel().equals(DEBUG)) {
+                ctx.getLogger().debug(logMessage);
             } else {
-                ctx.logger().info(logMessage);
+                ctx.getLogger().info(logMessage);
             }
         });
     }
@@ -310,7 +311,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     static Slf4jLogMessageContext parseSlf4jContextFromLogMessage(String logMessage) {
         Matcher m = LOGGER_CONTEXT_PATTERN.matcher(logMessage);
-        String loggerName = "appium.service";
+        String loggerName = APPIUM_SERVICE_SLF4J_LOGGER_PREFIX;
         Level level = INFO;
         if (m.find()) {
             loggerName += "." + m.group(2).toLowerCase().replaceAll("\\s+", "");

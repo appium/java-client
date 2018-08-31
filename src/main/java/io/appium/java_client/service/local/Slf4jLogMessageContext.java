@@ -11,34 +11,33 @@ import org.slf4j.event.Level;
  * 
  */
 public final class Slf4jLogMessageContext {
-	private final Logger logger;
-	private final Level level;
+    private final Logger logger;
+    private final Level level;
 
-	Slf4jLogMessageContext(String loggerName, Level level) {
-		this.level = level;
-		this.logger = LoggerFactory.getLogger(loggerName);
-	}
+    Slf4jLogMessageContext(String loggerName, Level level) {
+        this.level = level;
+        this.logger = LoggerFactory.getLogger(loggerName);
+    }
 
-	/**
-	 * @return {@link Logger} instance associated with this context.
-	 * 
-	 */
-	public Logger logger() {
-		return logger;
-	}
+    /**
+     * @return {@link Logger} instance associated with this context.
+     * 
+     */
+    public Logger getLogger() {
+        return logger;
+    }
 
-	/**
-	 * @return {@link Level} for log message associated with this context.
-	 */
-	public Level level() {
-		return level;
-	}
+    /**
+     * @return {@link Level} for log message associated with this context.
+     */
+    public Level getLevel() {
+        return level;
+    }
 
-	/**
-	 * @return name of {@link Logger} associated with this context.
-	 */
-	public String name() {
-		return logger.getName();
-	}
-
+    /**
+     * @return name of {@link Logger} associated with this context.
+     */
+    public String getName() {
+        return logger.getName();
+    }
 }
