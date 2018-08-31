@@ -306,8 +306,8 @@ public final class AppiumDriverLocalService extends DriverService {
      *            BiConsumer block to be executed when a log message is
      *            available.
      */
-    public void addSlf4jLogMessageConsumer(
-            BiConsumer<String, Slf4jLogMessageContext> slf4jLogMessageConsumer) {
+    public void addSlf4jLogMessageConsumer(BiConsumer<String, Slf4jLogMessageContext> slf4jLogMessageConsumer) {
+        checkNotNull(slf4jLogMessageConsumer, "slf4jLogMessageConsumer parameter is NULL!");
         addLogMessageConsumer(logMessage -> {
             slf4jLogMessageConsumer.accept(logMessage, parseSlf4jContextFromLogMessage(logMessage));
         });
@@ -342,6 +342,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * 
      */
     public void addLogMessageConsumer(Consumer<String> consumer) {
+        checkNotNull(consumer, "consumer parameter is NULL!");
         addOutPutStream(new OutputStream() {
             StringBuilder lineBuilder = new StringBuilder();
 
