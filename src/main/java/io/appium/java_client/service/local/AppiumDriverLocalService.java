@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -313,6 +314,7 @@ public final class AppiumDriverLocalService extends DriverService {
         });
     }
 
+    @VisibleForTesting
     static Slf4jLogMessageContext parseSlf4jContextFromLogMessage(String logMessage) {
         Matcher m = LOGGER_CONTEXT_PATTERN.matcher(logMessage);
         String loggerName = APPIUM_SERVICE_SLF4J_LOGGER_PREFIX;
