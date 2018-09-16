@@ -17,7 +17,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
         WebDriverWait wait = new WebDriverWait(driver, 20);
         assertNotEquals(0, wait.until(input -> {
             List<AndroidElement> result = input
-                    .findElements(id("com.android.systemui:id/carrier_label"));
+                    .findElements(id("com.android.systemui:id/settings_button"));
 
             return result.isEmpty() ? null : result;
         }).size());
