@@ -196,7 +196,7 @@ uploadArchives {
 }
 
 wrapper {
-    gradleVersion = '4.8.1'
+    gradleVersion = '4.10.1'
     distributionType = Wrapper.DistributionType.ALL
 }
 
