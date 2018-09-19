@@ -12,7 +12,7 @@ import org.slf4j.event.Level;
 public class AppiumDriverLocalServiceTest {
 
     @Test
-    public void canParseSlf4jLoggerContext() throws Exception {
+    public void canParseSlf4jLoggerContext() {
         assertLoggerContext(INFO, "appium.service.androidbootstrap", 
             "[AndroidBootstrap] [BOOTSTRAP LOG] [debug] json loading complete.");
         assertLoggerContext(INFO, "appium.service.adb", 

@@ -349,7 +349,7 @@ public final class AppiumDriverLocalService extends DriverService {
             StringBuilder lineBuilder = new StringBuilder();
 
             @Override
-            public void write(int chr) throws IOException {
+            public void write(int chr) {
                 try {
                     lineBuilder.append((char) chr);
                     Matcher matcher = LOG_MESSAGE_PATTERN.matcher(lineBuilder.toString());

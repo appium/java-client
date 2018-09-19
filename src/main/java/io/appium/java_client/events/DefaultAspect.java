@@ -165,7 +165,7 @@ class DefaultAspect {
         return result;
     }
 
-    private List<Object> returnProxyList(List<Object> originalList) throws Exception {
+    private List<Object> returnProxyList(List<Object> originalList) {
         try {
             List<Object> proxyList = new ArrayList<>();
             for (Object o : originalList) {
