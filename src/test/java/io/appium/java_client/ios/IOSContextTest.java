@@ -19,7 +19,6 @@ package io.appium.java_client.ios;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.NoSuchContextException;
 import org.junit.Test;
@@ -43,6 +42,6 @@ public class IOSContextTest extends BaseIOSWebViewTest {
 
     @Test(expected = NoSuchContextException.class) public void testContextError() {
         driver.context("Planet of the Ape-ium");
-        assertTrue(driver.getContext().equals("Planet of the Ape-ium"));
+        assertEquals("Planet of the Ape-ium", driver.getContext());
     }
 }

@@ -1,6 +1,6 @@
 package io.appium.java_client.appium.element.generation;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -17,7 +17,7 @@ public class BaseElementGenerationTest {
     protected AppiumDriver<?> driver;
     protected final BiPredicate<By, Class<? extends WebElement>> commonPredicate = (by, aClass) -> {
         WebElement element = driver.findElement(by);
-        assertTrue(element.getClass().equals(aClass));
+        assertEquals(element.getClass(), aClass);
         return true;
     };
 
