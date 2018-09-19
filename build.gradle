@@ -36,7 +36,7 @@ configurations {
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt.core.compiler:ecj:4.6.1'
+    ecj 'org.eclipse.jdt:ecj:3.14.0'
 }
 
 compileJava {
