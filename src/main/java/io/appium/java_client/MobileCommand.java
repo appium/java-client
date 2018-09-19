@@ -445,7 +445,7 @@ public class MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
-        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
     }
 
     /**
@@ -456,11 +456,11 @@ public class MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
-        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
     }
 
     public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.of());
     }
 
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
@@ -522,7 +522,6 @@ public class MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                IS_KEYBOARD_SHOWN, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(IS_KEYBOARD_SHOWN, ImmutableMap.of());
     }
 }

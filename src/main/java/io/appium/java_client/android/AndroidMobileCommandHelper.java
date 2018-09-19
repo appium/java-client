@@ -40,8 +40,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> currentActivityCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                CURRENT_ACTIVITY, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of());
     }
 
     /**
@@ -50,8 +49,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                GET_CURRENT_PACKAGE, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of());
     }
 
     /**
@@ -77,8 +75,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      */
     public static Map.Entry<String, Map<String, ?>> getSupportedPerformanceDataTypesCommand() {
-        return new AbstractMap.SimpleEntry<>(
-            GET_SUPPORTED_PERFORMANCE_DATA_TYPES, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_SUPPORTED_PERFORMANCE_DATA_TYPES, ImmutableMap.of());
     }
 
     /**
@@ -125,8 +122,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getDisplayDensityCommand() {
-        return new AbstractMap.SimpleEntry<>(
-            GET_DISPLAY_DENSITY, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_DISPLAY_DENSITY, ImmutableMap.of());
     }
 
     /**
@@ -136,8 +132,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                GET_NETWORK_CONNECTION, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_NETWORK_CONNECTION, ImmutableMap.of());
     }
 
     /**
@@ -147,8 +142,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getSystemBarsCommand() {
-        return new AbstractMap.SimpleEntry<>(
-            GET_SYSTEM_BARS, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_SYSTEM_BARS, ImmutableMap.of());
     }
 
     /**
@@ -158,8 +152,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                IS_LOCKED, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
     }
 
     /**
@@ -179,8 +172,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                OPEN_NOTIFICATIONS, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(OPEN_NOTIFICATIONS, ImmutableMap.of());
     }
 
     /**
@@ -249,7 +241,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.of());
     }
 
     /**
@@ -258,7 +250,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> unlockCommand() {
-        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
     }
 
 
@@ -391,7 +383,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> toggleWifiCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_WIFI, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(TOGGLE_WIFI, ImmutableMap.of());
     }
 
     /**
@@ -400,7 +392,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> toggleAirplaneCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_AIRPLANE_MODE, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(TOGGLE_AIRPLANE_MODE, ImmutableMap.of());
     }
 
     /**
@@ -409,6 +401,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> toggleDataCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_DATA, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(TOGGLE_DATA, ImmutableMap.of());
     }
 }
