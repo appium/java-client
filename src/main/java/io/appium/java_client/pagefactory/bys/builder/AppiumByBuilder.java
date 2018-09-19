@@ -96,7 +96,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             }
 
             try {
-                String strategyParameter = value.invoke(mobileBy, new Object[] {}).toString();
+                String strategyParameter = value.invoke(mobileBy).toString();
                 if (!"".equals(strategyParameter)) {
                     return value.getName();
                 }
