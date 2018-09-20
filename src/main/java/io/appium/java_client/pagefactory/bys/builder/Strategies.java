@@ -127,7 +127,7 @@ enum Strategies {
         try {
             Method m = annotation.getClass()
                 .getMethod(strategy.valueName, AppiumByBuilder.DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
-            return m.invoke(annotation, new Object[] {}).toString();
+            return m.invoke(annotation).toString();
         } catch (NoSuchMethodException
                 | SecurityException
                 | IllegalAccessException

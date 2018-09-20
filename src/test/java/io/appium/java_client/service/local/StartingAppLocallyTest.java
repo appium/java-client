@@ -51,13 +51,10 @@ public class StartingAppLocallyTest {
         try {
             Capabilities caps = driver.getCapabilities();
 
-            assertEquals(true, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME)
-                .equals(AutomationName.APPIUM));
-            assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
-                .equals(MobilePlatform.ANDROID));
+            assertEquals(AutomationName.APPIUM, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
+            assertEquals(MobilePlatform.ANDROID, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.APP).equals(app.getAbsolutePath()));
+            assertEquals(app.getAbsolutePath(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
             driver.quit();
         }
@@ -78,8 +75,7 @@ public class StartingAppLocallyTest {
         try {
             Capabilities caps = driver.getCapabilities();
 
-            assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
-                .equals(MobilePlatform.ANDROID));
+            assertEquals(MobilePlatform.ANDROID, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
             driver.quit();
@@ -116,8 +112,7 @@ public class StartingAppLocallyTest {
         try {
             Capabilities caps = driver.getCapabilities();
 
-            assertEquals(true, caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
-                .equals(MobilePlatform.ANDROID));
+            assertEquals(MobilePlatform.ANDROID, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
             driver.quit();
@@ -140,15 +135,11 @@ public class StartingAppLocallyTest {
         try {
             Capabilities caps = driver.getCapabilities();
 
-            assertEquals(true, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME)
-                .equals(AutomationName.APPIUM));
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_NAME).equals(MobilePlatform.IOS));
+            assertEquals(AutomationName.APPIUM, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
+            assertEquals(MobilePlatform.IOS, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.PLATFORM_VERSION).equals("11.3"));
-            assertEquals(true,
-                caps.getCapability(MobileCapabilityType.APP).equals(app.getAbsolutePath()));
+            assertEquals("11.3", caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
+            assertEquals(app.getAbsolutePath(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
             driver.quit();
         }

@@ -127,7 +127,7 @@ public class ServerBuilderTest {
     @Test public void checkAbilityToStartDefaultService() {
         service = buildDefaultService();
         service.start();
-        assertEquals(true, service.isRunning());
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToFindNodeDefinedInProperties() {

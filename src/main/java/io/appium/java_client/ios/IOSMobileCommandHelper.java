@@ -31,8 +31,7 @@ public class IOSMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  shakeCommand() {
-        return new AbstractMap.SimpleEntry<>(
-                SHAKE, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(SHAKE, ImmutableMap.of());
     }
     
     /**

@@ -21,6 +21,7 @@ import static java.time.Duration.ofSeconds;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
@@ -367,14 +368,14 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     }
 
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearching() {
-        assertEquals(true, AndroidElement.class.isAssignableFrom(fakeElement.getClass()));
-        assertEquals(false, AndroidElement.class.equals(fakeElement.getClass()));
-        assertEquals(true, driver.equals(((WrapsDriver) fakeElement).getWrappedDriver()));
+        assertTrue(AndroidElement.class.isAssignableFrom(fakeElement.getClass()));
+        assertNotEquals(AndroidElement.class, fakeElement.getClass());
+        assertEquals(driver, ((WrapsDriver) fakeElement).getWrappedDriver());
     }
 
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
-        assertEquals(true, List.class.isAssignableFrom(fakeElements.getClass()));
-        assertEquals(false, ArrayList.class.equals(fakeElements.getClass()));
+        assertTrue(List.class.isAssignableFrom(fakeElements.getClass()));
+        assertNotEquals(ArrayList.class, fakeElements.getClass());
     }
 
     @Test public void checkCached() {

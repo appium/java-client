@@ -19,8 +19,8 @@ package io.appium.java_client.pagefactory_tests;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.time.Duration.ofSeconds;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -67,8 +67,8 @@ public class DesktopBrowserCompatibilityTest {
                     .toURI().toString());
             assertNotEquals(0, foundLinks.size());
             assertNotEquals(0, main.size());
-            assertEquals(null, trap1);
-            assertEquals(null, trap2);
+            assertNull(trap1);
+            assertNull(trap2);
         } finally {
             driver.quit();
         }
