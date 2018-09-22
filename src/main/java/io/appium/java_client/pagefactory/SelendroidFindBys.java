@@ -28,6 +28,7 @@ import java.lang.annotation.Target;
  * use a series of {@link SelendroidBy} tags.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
+@Deprecated
 public @interface SelendroidFindBys {
     /**
      * It is a set of {@link SelendroidBy} strategies which build the chain of the searching for the target element.

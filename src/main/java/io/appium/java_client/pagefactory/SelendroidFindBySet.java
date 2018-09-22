@@ -29,6 +29,7 @@ import java.lang.annotation.Target;
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)
+@Deprecated
 public @interface SelendroidFindBySet {
     /**
      * @return an array of {@link io.appium.java_client.pagefactory.SelendroidFindBy} which builds a sequence of

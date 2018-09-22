@@ -20,6 +20,7 @@ package io.appium.java_client.pagefactory;
 /**
  * Used to build a complex selendroid locator.
  */
+@Deprecated
 public @interface SelendroidBy {
     /**
      * It is an id of the target element.

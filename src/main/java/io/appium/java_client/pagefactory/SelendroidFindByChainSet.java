@@ -29,6 +29,7 @@ import java.lang.annotation.Target;
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)
+@Deprecated
 public @interface SelendroidFindByChainSet {
     /**
      * @return an array of {@link SelendroidFindBys} which builds a sequence of

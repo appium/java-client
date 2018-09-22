@@ -249,6 +249,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      */
     String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
 
+    @Deprecated
     String SELENDROID_PORT = "selendroidPort";
 
     /**

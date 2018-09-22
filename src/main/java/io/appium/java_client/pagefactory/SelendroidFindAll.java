@@ -30,6 +30,7 @@ import java.lang.annotation.Target;
  * are not guaranteed to be in document order.
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
+@Deprecated
 public @interface SelendroidFindAll {
     /**
      * It is a set of {@link SelendroidBy} strategies which may be used to find the target element.

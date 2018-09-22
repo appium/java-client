@@ -66,6 +66,7 @@ import java.lang.annotation.Target;
      *
      * @return a class which extends {@link io.appium.java_client.pagefactory.Widget}
      */
+    @Deprecated
     Class<? extends Widget> selendroid() default Widget.class;
 
     /**

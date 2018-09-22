@@ -34,6 +34,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(SelendroidFindBySet.class)
+@Deprecated
 public @interface SelendroidFindBy {
     /**
      * It is an id of the target element.

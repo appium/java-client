@@ -29,6 +29,7 @@ public enum AndroidServerFlag implements ServerArgument {
      * Local port used for communication with Selendroid. Sample:
      * --selendroid-port 8080
      */
+    @Deprecated
     SELENDROID_PORT("--selendroid-port"),
     /**
      * If set, prevents Appium from killing the adb server

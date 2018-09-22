@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Deprecated
 public class DefaultSelendroidWidget extends DefaultStubWidget {
 
     @SelendroidFindBy(linkText = "SELENDROID_SOME_SUB_LOCATOR")
