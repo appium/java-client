@@ -29,7 +29,10 @@ import java.lang.annotation.Target;
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
  *
- * @deprecated Use {@link AndroidBy}
+ * @deprecated Selendroid driver is going to be deprecated.
+ * Use {@link AndroidBy} instead.
+ * It is recommended to use UIAutomator1 for Android API below 21
+ * and UIAutomator2 for API >= 21
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Deprecated

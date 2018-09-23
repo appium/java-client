@@ -40,7 +40,10 @@ public @interface HowToUseLocators {
      *
      * @return the strategy which defines how to use locators which are described by the
      * {@link SelendroidFindBy} annotation
-     * @deprecated Use {@link AndroidFindBy}
+     * @deprecated Selendroid driver is going to be deprecated.
+     * Use {@link AndroidFindBy} instead.
+     * It is recommended to use UIAutomator1 for Android API below 21
+     * and UIAutomator2 for API >= 21
      */
     @Deprecated
     LocatorGroupStrategy selendroidAutomation() default LocatorGroupStrategy.CHAIN;

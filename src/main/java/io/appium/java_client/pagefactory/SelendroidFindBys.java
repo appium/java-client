@@ -27,7 +27,10 @@ import java.lang.annotation.Target;
  * Used to mark a field on a Page Object to indicate that lookup should
  * use a series of {@link SelendroidBy} tags.
  *
- * @deprecated Use {@link AndroidBy}
+ * @deprecated Selendroid driver is going to be deprecated.
+ * Use {@link AndroidBy} instead.
+ * It is recommended to use UIAutomator1 for Android API below 21
+ * and UIAutomator2 for API >= 21
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Deprecated
