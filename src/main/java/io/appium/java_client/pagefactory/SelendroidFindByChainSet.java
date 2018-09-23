@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
 /**
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link SelendroidFindBys}
+ *
+ * @deprecated Use {@link AndroidFindBys
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)

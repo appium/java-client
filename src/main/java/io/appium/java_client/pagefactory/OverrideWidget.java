@@ -63,7 +63,7 @@ import java.lang.annotation.Target;
      * {@link io.appium.java_client.remote.AutomationName#SELENDROID} automation is used.
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
-     *
+     * @deprecated Use {@link io.appium.java_client.remote.AutomationName#ANDROID_UIAUTOMATOR2}
      * @return a class which extends {@link io.appium.java_client.pagefactory.Widget}
      */
     @Deprecated

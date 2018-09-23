@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
 /**
  * Used to mark a field on a Page Object to indicate that lookup should
  * use a series of {@link SelendroidBy} tags.
+ *
+ * @deprecated Use {@link AndroidBy}
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Deprecated

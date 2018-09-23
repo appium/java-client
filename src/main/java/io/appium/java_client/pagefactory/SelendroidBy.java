@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory;
 
 /**
  * Used to build a complex selendroid locator.
+ * @deprecated Use {@link AndroidBy}
  */
 @Deprecated
 public @interface SelendroidBy {

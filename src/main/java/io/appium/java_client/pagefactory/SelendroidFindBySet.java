@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
 /**
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link io.appium.java_client.pagefactory.SelendroidFindBy}
+ *
+ * @deprecated Use {@link AndroidFindBySet}
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)

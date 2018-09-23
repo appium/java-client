@@ -31,6 +31,8 @@ import java.lang.annotation.Target;
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
  * using Selendroid UI selectors like, id, name, class name, tag and xpath
+ *
+ * @deprecated Use {@link AndroidFindBy}
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(SelendroidFindBySet.class)

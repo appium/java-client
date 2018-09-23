@@ -28,6 +28,8 @@ import java.lang.annotation.Target;
  * series of {@link SelendroidBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
+ *
+ * @deprecated Use {@link AndroidBy}
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Deprecated
