@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * @deprecated Selendroid driver is going to be deprecated.
  * Use {@link AndroidFindAll} instead.
  * It is recommended to use UIAutomator1 for Android API below 21
- * and UIAutomator2 for API >= 21
+ * and UIAutomator2 for API &gt;= 21
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)
