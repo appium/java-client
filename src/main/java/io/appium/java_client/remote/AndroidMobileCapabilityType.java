@@ -252,7 +252,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     /**
      * Selendroid driver is going to be deprecated.
      * It is recommended to use UIAutomator1 for Android API below 21
-     * and UIAutomator2 for API >= 21
+     * and UIAutomator2 for API &gt;= 21
      */
     @Deprecated
     String SELENDROID_PORT = "selendroidPort";

@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link SelendroidFindAll}
  *
- * * @deprecated Selendroid driver is going to be deprecated.
+ * @deprecated Selendroid driver is going to be deprecated.
  * Use {@link AndroidFindAll} instead.
  * It is recommended to use UIAutomator1 for Android API below 21
  * and UIAutomator2 for API >= 21
