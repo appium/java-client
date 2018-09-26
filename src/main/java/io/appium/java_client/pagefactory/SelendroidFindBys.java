@@ -28,9 +28,9 @@ import java.lang.annotation.Target;
  * use a series of {@link SelendroidBy} tags.
  *
  * @deprecated Selendroid driver is going to be deprecated.
- * Use {@link AndroidBy} instead.
- * It is recommended to use UIAutomator1 for Android API below 21
- * and UIAutomator2 for API &gt;= 21
+ *      Use {@link AndroidBy} instead.
+ *      It is recommended to use UIAutomator1 for Android API below 21
+ *      and UIAutomator2 for API &gt;= 21
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Deprecated

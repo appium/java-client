@@ -33,9 +33,9 @@ import java.lang.annotation.Target;
  * using Selendroid UI selectors like, id, name, class name, tag and xpath
  *
  * @deprecated Selendroid driver is going to be deprecated.
- * Use {@link AndroidFindBy} instead.
- * It is recommended to use UIAutomator1 for Android API below 21
- * and UIAutomator2 for API &gt;= 21
+ *      Use {@link AndroidFindBy} instead.
+ *      It is recommended to use UIAutomator1 for Android API below 21
+ *      and UIAutomator2 for API &gt;= 21
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(SelendroidFindBySet.class)

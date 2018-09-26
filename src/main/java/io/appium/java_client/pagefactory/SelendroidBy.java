@@ -20,9 +20,9 @@ package io.appium.java_client.pagefactory;
 /**
  * Used to build a complex selendroid locator.
  * @deprecated Selendroid driver is going to be deprecated.
- * Use {@link AndroidBy} instead.
- * It is recommended to use UIAutomator1 for Android API below 21
- * and UIAutomator2 for API &gt;= 21
+ *      Use {@link AndroidBy} instead.
+ *      It is recommended to use UIAutomator1 for Android API below 21
+ *      and UIAutomator2 for API &gt;= 21
  */
 @Deprecated
 public @interface SelendroidBy {
