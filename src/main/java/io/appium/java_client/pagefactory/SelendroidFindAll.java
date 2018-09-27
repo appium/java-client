@@ -28,8 +28,14 @@ import java.lang.annotation.Target;
  * series of {@link SelendroidBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
+ *
+ * @deprecated Selendroid driver is going to be deprecated.
+ *      Use {@link AndroidBy} instead.
+ *      It is recommended to use UIAutomator1 for Android API below 21
+ *      and UIAutomator2 for API &gt;= 21
  */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
+@Deprecated
 public @interface SelendroidFindAll {
     /**
      * It is a set of {@link SelendroidBy} strategies which may be used to find the target element.

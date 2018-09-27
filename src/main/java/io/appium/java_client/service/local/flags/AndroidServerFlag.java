@@ -28,7 +28,11 @@ public enum AndroidServerFlag implements ServerArgument {
     /**
      * Local port used for communication with Selendroid. Sample:
      * --selendroid-port 8080
+     * Selendroid driver is going to be deprecated.
+     * It is recommended to use UIAutomator1 for Android API below 21
+     * and UIAutomator2 for API &gt;= 21
      */
+    @Deprecated
     SELENDROID_PORT("--selendroid-port"),
     /**
      * If set, prevents Appium from killing the adb server

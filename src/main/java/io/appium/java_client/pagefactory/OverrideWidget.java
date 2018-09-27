@@ -63,9 +63,13 @@ import java.lang.annotation.Target;
      * {@link io.appium.java_client.remote.AutomationName#SELENDROID} automation is used.
      * A declared class should not be abstract. Declared class also should be a subclass
      * of an annotated class/class which is declared by an annotated field.
-     *
+     * @deprecated Selendroid driver is going to be deprecated.
+     *      Use {@link io.appium.java_client.remote.AutomationName#ANDROID_UIAUTOMATOR2} instead.
+     *      It is recommended to use UIAutomator1 for Android API below 21
+     *      and UIAutomator2 for API &gt;= 21
      * @return a class which extends {@link io.appium.java_client.pagefactory.Widget}
      */
+    @Deprecated
     Class<? extends Widget> selendroid() default Widget.class;
 
     /**

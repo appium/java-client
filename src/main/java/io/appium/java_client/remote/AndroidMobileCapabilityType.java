@@ -249,6 +249,12 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      */
     String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
 
+    /**
+     * Selendroid driver is going to be deprecated.
+     * It is recommended to use UIAutomator1 for Android API below 21
+     * and UIAutomator2 for API &gt;= 21
+     */
+    @Deprecated
     String SELENDROID_PORT = "selendroidPort";
 
     /**

@@ -26,9 +26,15 @@ import java.lang.annotation.Target;
 /**
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link SelendroidFindBys}
+ *
+ * @deprecated Selendroid driver is going to be deprecated.
+ *      Use {@link AndroidFindBys} instead.
+ *      It is recommended to use UIAutomator1 for Android API below 21
+ *      and UIAutomator2 for API &gt;= 21
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)
+@Deprecated
 public @interface SelendroidFindByChainSet {
     /**
      * @return an array of {@link SelendroidFindBys} which builds a sequence of
