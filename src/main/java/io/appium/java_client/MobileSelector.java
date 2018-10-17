@@ -24,7 +24,8 @@ public enum MobileSelector {
     IOS_CLASS_CHAIN("-ios class chain"),
     WINDOWS_UI_AUTOMATION("-windows uiautomation"),
     IMAGE("-image"),
-    ANDROID_VIEWTAG("-android viewtag");
+    ANDROID_VIEWTAG("-android viewtag"),
+    CUSTOM("-custom");
 
     private final String selector;
 
