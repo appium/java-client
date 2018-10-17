@@ -32,7 +32,7 @@ public interface FindsByCustom<T extends WebElement> extends FindsByFluentSelect
      * @since Appium 1.9.2
      */
     default T findElementByCustom(String selector) {
-        return findElement(MobileSelector.IMAGE.toString(), selector);
+        return findElement(MobileSelector.CUSTOM.toString(), selector);
     }
 
     /**
@@ -45,6 +45,6 @@ public interface FindsByCustom<T extends WebElement> extends FindsByFluentSelect
      * @since Appium 1.9.2
      */
     default List<T> findElementsByCustom(String selector) {
-        return findElements(MobileSelector.IMAGE.toString(), selector);
+        return findElements(MobileSelector.CUSTOM.toString(), selector);
     }
 }
