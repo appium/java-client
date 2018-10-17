@@ -16,9 +16,10 @@
 
 package io.appium.java_client;
 
-import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public interface FindsByCustom<T extends WebElement> extends FindsByFluentSelector<T> {
     /**

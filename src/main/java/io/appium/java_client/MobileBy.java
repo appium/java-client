@@ -156,7 +156,9 @@ public abstract class MobileBy extends By {
      * @return an instance of {@link ByCustom}
      * @since Appium 1.9.2
      */
-    public static By custom(final String selector) { return new ByCustom(selector); }
+    public static By custom(final String selector) {
+        return new ByCustom(selector);
+    }
     
     public static class ByIosUIAutomation extends MobileBy implements Serializable {
 
