@@ -29,6 +29,8 @@ public interface FindsByCustom<T extends WebElement> extends FindsByFluentSelect
      *
      * @param selector selector to pass to the custom element finding plugin
      * @return The first element that matches the given selector
+     * @see <a href="https://appium.io/docs/en/advanced-concepts/element-finding-plugins/">
+     * The documentation on custom element finding plugins and their use</a>
      * @throws NoSuchElementException when no element is found
      * @since Appium 1.9.2
      */
@@ -43,6 +45,8 @@ public interface FindsByCustom<T extends WebElement> extends FindsByFluentSelect
      *
      * @param selector selector to pass to the custom element finding plugin
      * @return a list of elements that match the given selector or an empty list
+     * @see <a href="https://appium.io/docs/en/advanced-concepts/element-finding-plugins/">
+     * The documentation on custom element finding plugins and their use</a>
      * @since Appium 1.9.2
      */
     default List<T> findElementsByCustom(String selector) {
