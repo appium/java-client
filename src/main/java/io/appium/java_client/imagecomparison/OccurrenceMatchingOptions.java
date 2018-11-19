@@ -16,5 +16,31 @@
 
 package io.appium.java_client.imagecomparison;
 
+import static java.util.Optional.ofNullable;
+
+import com.google.common.collect.ImmutableMap;
+
+import java.util.Map;
+
 public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceMatchingOptions> {
+    private Double threshold;
+
+    /**
+     * At what normalized threshold to reject an occurrence.
+     *
+     * @param threshold value in range 0..1. 0.5 is the default value.
+     * @return self instance for chaining.
+     */
+    public OccurrenceMatchingOptions withThreshold(double threshold) {
+        this.threshold = threshold;
+        return this;
+    }
+
+    @Override
+    public Map<String, Object> build() {
+        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
+        builder.putAll(super.build());
+        ofNullable(threshold).map(x -> builder.put("threshold", x));
+        return builder.build();
+    }
 }
