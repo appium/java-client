@@ -10,6 +10,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.File;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
@@ -34,6 +35,7 @@ public class BaseElementGenerationTest {
                          BiPredicate<By, Class<? extends WebElement>> filter,
                          By by, Class<? extends WebElement> clazz) {
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .withCapabilities(serverCapabilitiesSupplier.get());
         driver = new AppiumDriver<>(builder, clientCapabilitiesSupplier.get());
         return filter.test(by, clazz);
