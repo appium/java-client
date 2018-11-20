@@ -31,10 +31,10 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     private static final File webViewApp = new File(new File("src/test/java/io/appium/java_client"),
             "vodqa.zip");
 
-    private final String PLATFORM_VERSION = System.getenv("platformVersion") != null
+    private static final String PLATFORM_VERSION = System.getenv("platformVersion") != null
             ? System.getenv("platformVersion") : "11.4";
 
-    private final String DEVICE_NAME = System.getenv("deviceName") != null
+    private static final String DEVICE_NAME = System.getenv("deviceName") != null
             ? System.getenv("deviceName") : "iPhone X";
 
     private Supplier<DesiredCapabilities> serverAppCapabilitiesSupplier = () -> {
