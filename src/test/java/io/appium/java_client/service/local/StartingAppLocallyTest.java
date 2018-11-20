@@ -74,7 +74,6 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
@@ -106,7 +105,6 @@ public class StartingAppLocallyTest {
                 chromeManager.getBinaryPath());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
@@ -167,7 +165,6 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
@@ -196,7 +193,6 @@ public class StartingAppLocallyTest {
         clientCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 

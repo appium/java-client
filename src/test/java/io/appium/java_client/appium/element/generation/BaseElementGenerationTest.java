@@ -35,7 +35,6 @@ public class BaseElementGenerationTest {
                          BiPredicate<By, Class<? extends WebElement>> filter,
                          By by, Class<? extends WebElement> clazz) {
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .withCapabilities(serverCapabilitiesSupplier.get());
         driver = new AppiumDriver<>(builder, clientCapabilitiesSupplier.get());
         return filter.test(by, clazz);

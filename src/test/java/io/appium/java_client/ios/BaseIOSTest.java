@@ -46,7 +46,6 @@ public class BaseIOSTest {
      */
     public static String startAppiumServer() throws UnknownHostException {
         service = new AppiumServiceBuilder()
-                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
                 .usingPort(PORT).build();
         service.start();
         InetAddress inetAddress = InetAddress.getLocalHost();
