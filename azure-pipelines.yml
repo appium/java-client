@@ -17,6 +17,8 @@ steps:
     appium --version
     node --version
     java -version
+    npm config delete prefix
+    nvm alias default node
 
 - task: Gradle@2
   inputs:
