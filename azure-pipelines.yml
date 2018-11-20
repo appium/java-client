@@ -17,7 +17,6 @@ steps:
     appium --version
     node --version
     java -version
-    /Users/vsts/Library/Android/sdk/tools/bin/sdkmanager list avd
 
 - task: Gradle@2
   inputs:
