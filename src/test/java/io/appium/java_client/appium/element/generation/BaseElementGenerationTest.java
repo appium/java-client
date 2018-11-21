@@ -10,7 +10,6 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
