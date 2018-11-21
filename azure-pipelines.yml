@@ -19,14 +19,15 @@ steps:
     java -version
     npm config delete prefix
     npm config set prefix $NVM_DIR/versions/node/v8.12.0
+    which node
 
-- task: Gradle@2
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    tasks: 'build'
-    options: 'xcuiTest -x test -x signArchives'
+#- task: Gradle@2
+#  inputs:
+#    gradleWrapperFile: 'gradlew'
+#    gradleOptions: '-Xmx3072m'
+#    javaHomeOption: 'JDKVersion'
+#    jdkVersionOption: '1.8'
+#    jdkArchitectureOption: 'x64'
+#    publishJUnitResults: true
+#    tasks: 'build'
+#    options: 'xcuiTest -x test -x signArchives'
