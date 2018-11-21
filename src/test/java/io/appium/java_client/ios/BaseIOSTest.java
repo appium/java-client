@@ -44,7 +44,8 @@ public class BaseIOSTest {
      * @throws UnknownHostException when it is impossible to get ip address of a local host
      */
     public static String startAppiumServer() throws UnknownHostException {
-        service = new AppiumServiceBuilder().usingPort(PORT).build();
+        service = new AppiumServiceBuilder()
+                .usingPort(PORT).build();
         service.start();
         InetAddress inetAddress = InetAddress.getLocalHost();
         return inetAddress.getHostAddress();

@@ -2,21 +2,6 @@ sudo: required
 
 matrix:
   include:
-    - language: java
-      install: true
-      jdk:
-        - $jdkVersion
-      os: osx
-      osx_image: $xcodeVersion
-      before_install:
-        - brew tap caskroom/versions
-        - brew cask install java8
-        - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-        - java -version
-        - npm install -g $appiumVersion
-      script:
-        - ./gradlew clean build xcuiTest -x test -x signArchives
-
     - language: android
       install: true
       install:

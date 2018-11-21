@@ -39,6 +39,12 @@ import java.io.File;
 
 public class StartingAppLocallyTest {
 
+    private static final String PLATFORM_VERSION = System.getenv("platformVersion") != null
+            ? System.getenv("platformVersion") : "11.4";
+
+    private static final String DEVICE_NAME = System.getenv("deviceName") != null
+            ? System.getenv("deviceName") : "iPhone X";
+
     @Test public void startingAndroidAppWithCapabilitiesOnlyTest() {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
@@ -67,8 +73,8 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
-        AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+        AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
         AndroidDriver<?> driver = new AndroidDriver<>(builder, capabilities);
@@ -98,8 +104,8 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
                 chromeManager.getBinaryPath());
 
-        AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+        AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
@@ -124,10 +130,10 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
@@ -138,7 +144,7 @@ public class StartingAppLocallyTest {
             assertEquals(AutomationName.APPIUM, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
             assertEquals(MobilePlatform.IOS, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals("11.3", caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
+            assertEquals(PLATFORM_VERSION, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
             assertEquals(app.getAbsolutePath(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
             driver.quit();
@@ -151,15 +157,15 @@ public class StartingAppLocallyTest {
         File app = new File(appDir, "UICatalog.app.zip");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
-        AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+        AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
         IOSDriver<?> driver = new IOSDriver<>(builder, capabilities);
@@ -175,10 +181,10 @@ public class StartingAppLocallyTest {
 
     @Test public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
             500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 
         File appDir = new File("src/test/java/io/appium/java_client");
@@ -186,8 +192,8 @@ public class StartingAppLocallyTest {
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
         clientCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
 
-        AppiumServiceBuilder builder =
-            new AppiumServiceBuilder().withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+        AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
         IOSDriver<?> driver = new IOSDriver<>(builder, clientCapabilities);

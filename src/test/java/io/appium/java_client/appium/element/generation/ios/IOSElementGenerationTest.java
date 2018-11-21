@@ -25,18 +25,24 @@ import java.util.function.Supplier;
 
 public class IOSElementGenerationTest extends BaseElementGenerationTest {
 
-    private final File testApp = new File(new File("src/test/java/io/appium/java_client"),
+    private static final File testApp = new File(new File("src/test/java/io/appium/java_client"),
             "TestApp.app.zip");
 
-    private final File webViewApp = new File(new File("src/test/java/io/appium/java_client"),
+    private static final File webViewApp = new File(new File("src/test/java/io/appium/java_client"),
             "vodqa.zip");
+
+    private static final String PLATFORM_VERSION = System.getenv("platformVersion") != null
+            ? System.getenv("platformVersion") : "11.4";
+
+    private static final String DEVICE_NAME = System.getenv("deviceName") != null
+            ? System.getenv("deviceName") : "iPhone X";
 
     private Supplier<DesiredCapabilities> serverAppCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
                 500000); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         return serverCapabilities;
     };
@@ -52,8 +58,8 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     private final Supplier<DesiredCapabilities> serverBrowserCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
+        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         //sometimes environment has performance problems
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         return serverCapabilities;
@@ -112,7 +118,8 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     public void whenIOSNativeAppIsLaunched2() {
         assertTrue(check(() -> {
             DesiredCapabilities serverCapabilities = serverAppCapabilitiesSupplier.get();
-            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
             return serverCapabilities;
         }, appFileSupplierFunction.apply(testApp), commonPredicate, id("IntegerA"), IOSElement.class));
     }
@@ -120,7 +127,8 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
     @Test public void whenIOSBrowserIsLaunched2() {
         assertTrue(check(() -> {
             DesiredCapabilities serverCapabilities = serverBrowserCapabilitiesSupplier.get();
-            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.3");
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
+            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
             return serverCapabilities;
         }, clientBrowserCapabilitiesSupplier, (by, aClass) -> {
                 driver.get("https://www.google.com");
