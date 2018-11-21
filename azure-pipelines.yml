@@ -13,12 +13,12 @@ steps:
 
 - script: |
     echo Configuring Environment
+    npm config delete prefix
+    npm config set prefix $NVM_DIR/versions/node/v8.12.0
     npm install -g appium@beta
     appium --version
     node --version
     java -version
-    npm config delete prefix
-    npm config set prefix $NVM_DIR/versions/node/v8.12.0
     which node
     npm root -g
 
