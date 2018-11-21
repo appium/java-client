@@ -21,6 +21,7 @@ steps:
     java -version
     which node
     npm root -g
+    /Users/vsts/Library/Android/sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-25;google_apis;x86"
     /Users/vsts/Library/Android/sdk/tools/bin/avdmanager list avd
 
 #- task: Gradle@2
