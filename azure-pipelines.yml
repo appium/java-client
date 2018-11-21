@@ -21,14 +21,15 @@ steps:
     java -version
     which node
     npm root -g
+    /Users/vsts/Library/Android/sdk/tools/bin/avdmanager list avd
 
-- task: Gradle@2
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    tasks: 'build'
-    options: 'xcuiTest -x test -x signArchives'
+#- task: Gradle@2
+#  inputs:
+#    gradleWrapperFile: 'gradlew'
+#    gradleOptions: '-Xmx3072m'
+#    javaHomeOption: 'JDKVersion'
+#    jdkVersionOption: '1.8'
+#    jdkArchitectureOption: 'x64'
+#    publishJUnitResults: true
+#    tasks: 'build'
+#    options: 'xcuiTest -x test -x signArchives'
