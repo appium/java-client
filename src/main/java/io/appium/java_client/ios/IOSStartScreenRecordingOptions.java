@@ -30,25 +30,24 @@ public class IOSStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<IOSStartScreenRecordingOptions> {
     private String videoType;
     private String videoQuality;
+    private String videoScale;
+    private Integer fps;
 
     public static IOSStartScreenRecordingOptions startScreenRecordingOptions() {
         return new IOSStartScreenRecordingOptions();
     }
 
-    public enum VideoType {
-        H264, MP4, FMP4
-    }
-
     /**
-     * The format of the screen capture to be recorded.
-     * Available formats: "h264", "mp4" or "fmp4". Default is "mp4".
-     * Only works for Simulator.
+     * The video codec type used for encoding of the recorded screen capture.
+     * Execute `ffmpeg -codecs` in the terminal to see the list of supported video codecs.
+     * 'mjpeg' by default.
      *
-     * @param videoType one of available format names.
+     * @since Appium 1.10.0
+     * @param videoType one of available video codec names, for example 'libx264'.
      * @return self instance for chaining.
      */
-    public IOSStartScreenRecordingOptions withVideoType(VideoType videoType) {
-        this.videoType = checkNotNull(videoType).name().toLowerCase();
+    public IOSStartScreenRecordingOptions withVideoType(String videoType) {
+        this.videoType = checkNotNull(videoType);
         return this;
     }
 
@@ -69,8 +68,33 @@ public class IOSStartScreenRecordingOptions
     }
 
     /**
+     * The Frames Per Second rate of the recorded video. Defaults to 10.
+     *
+     * @since Appium 1.10.0
+     * @param fps frames per second value in range 1..60.
+     * @return self instance for chaining.
+     */
+    public IOSStartScreenRecordingOptions withFps(int fps) {
+        this.fps = fps;
+        return this;
+    }
+
+    /**
+     * The scaling value to apply. Read https://trac.ffmpeg.org/wiki/Scaling for possible values.
+     * No scale is applied by default.
+     *
+     * @since Appium 1.10.0
+     * @param videoScale ffmpeg-compatible scale format specifier.
+     * @return self instance for chaining.
+     */
+    public IOSStartScreenRecordingOptions withVideoScale(String videoScale) {
+        this.videoScale = checkNotNull(videoScale);
+        return this;
+    }
+
+    /**
      * The maximum recording time. The default value is 180 seconds (3 minutes).
-     * The maximum value is 10 minutes.
+     * The maximum value is 30 minutes.
      * Setting values greater than this or less than zero will cause an exception. The minimum
      * time resolution unit is one second.
      *
@@ -88,6 +112,8 @@ public class IOSStartScreenRecordingOptions
         builder.putAll(super.build());
         ofNullable(videoType).map(x -> builder.put("videoType", x));
         ofNullable(videoQuality).map(x -> builder.put("videoQuality", x));
+        ofNullable(videoScale).map(x -> builder.put("videoScale", x));
+        ofNullable(fps).map(x -> builder.put("videoFps", x));
         return builder.build();
     }
 }
