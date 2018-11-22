@@ -38,7 +38,7 @@ public class IOSStartScreenRecordingOptions
     }
 
     /**
-     * The video codec type used for encoding of the be recorded screen capture.
+     * The video codec type used for encoding of the recorded screen capture.
      * Execute `ffmpeg -codecs` in the terminal to see the list of supported video codecs.
      * 'mjpeg' by default.
      *
