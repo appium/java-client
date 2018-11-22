@@ -79,7 +79,6 @@ public class IOSStartScreenRecordingOptions
         return this;
     }
 
-
     /**
      * The scaling value to apply. Read https://trac.ffmpeg.org/wiki/Scaling for possible values.
      * No scale is applied by default.
