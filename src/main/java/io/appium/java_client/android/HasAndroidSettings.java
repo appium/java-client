@@ -87,7 +87,7 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * Setting this value to true will enforce source tree dumper
-     * to transliterate all class names to the limited
+     * to transliterate all class names used as XML tags to the limited
      * set of ASCII characters supported by Apache Harmony
      * lib and used by default in Android to avoid possible
      * XML parsing exceptions caused by XPath lookup.
