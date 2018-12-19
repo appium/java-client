@@ -84,4 +84,19 @@ interface HasAndroidSettings extends HasSettings {
     default void configuratorSetActionAcknowledgmentTimeout(Duration timeout) {
         setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
     }
+
+    /**
+     * Setting this value to true will enforce source tree dumper
+     * to transliterate all class names to the limited
+     * set of ASCII characters supported by Apache Harmony
+     * lib and used by default in Android to avoid possible
+     * XML parsing exceptions caused by XPath lookup.
+     * The Unicode to ASCII transliteration is based on
+     * JUnidecode library (https://github.com/gcardone/junidecode).
+     *
+     * @param enabled Either true or false. The default value if false.
+     */
+    default void normalizeTagNames(boolean enabled) {
+        setSetting(Setting.NORMALIZE_TAG_NAMES, enabled);
+    }
 }
