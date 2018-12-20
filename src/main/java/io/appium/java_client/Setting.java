@@ -33,6 +33,7 @@ public enum Setting {
     FIX_IMAGE_TEMPLATE_SIZE("fixImageTemplateSize"),
     CHECK_IMAGE_ELEMENT_STALENESS("checkForImageElementStaleness"),
     UPDATE_IMAGE_ELEMENT_POSITION("autoUpdateImageElementPosition"),
+    NORMALIZE_TAG_NAMES("normalizeTagNames"),
     IMAGE_ELEMENT_TAP_STRATEGY("imageElementTapStrategy");
 
     private String name;
