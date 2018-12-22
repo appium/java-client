@@ -29,8 +29,13 @@ import java.lang.annotation.Target;
  * of {@link io.appium.java_client.pagefactory.iOSBy} tags.
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
+ *
+ * @deprecated UIAutomation is going to get deprecated.
+ *      Use {@link iOSXCUITFindAll} instead
+ *      It is recommended to use XCUITest
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
+@Retention(RUNTIME)
+@Target({FIELD, TYPE})
 @Repeatable(iOSFindByAllSet.class)
 public @interface iOSFindAll {
     /**

@@ -22,6 +22,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+@Deprecated
 public interface FindsByIosUIAutomation<T extends WebElement> extends FindsByFluentSelector<T> {
     /**
      * Method performs the searching for a single element by iOS UIAutomation selector

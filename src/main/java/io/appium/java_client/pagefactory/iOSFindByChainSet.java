@@ -10,6 +10,10 @@ import java.lang.annotation.Target;
 /**
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link io.appium.java_client.pagefactory.iOSFindBys}
+ *
+ * @deprecated UIAutomation is going to get deprecated.
+ *      Use {@link iOSXCUITFindByChainSet} instead
+ *      It is recommended to use XCUITest
  */
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)

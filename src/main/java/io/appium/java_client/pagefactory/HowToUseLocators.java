@@ -56,6 +56,7 @@ public @interface HowToUseLocators {
      * @return the strategy which defines how to use locators which are described by the
      * {@link iOSFindBy} annotation
      */
+    @Deprecated
     LocatorGroupStrategy iOSAutomation() default LocatorGroupStrategy.CHAIN;
 
     /**
