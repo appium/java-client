@@ -71,7 +71,6 @@ public abstract class MobileBy extends By {
      * @return an instance of {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
      *
      * @deprecated UIAutomation is going to get deprecated.
-     *        Use {@link io.appium.java_client.MobileBy.ByIosClassChain} instead
      *        It is recommended to use XCUITest
      */
     public static By IosUIAutomation(final String iOSAutomationText) {
