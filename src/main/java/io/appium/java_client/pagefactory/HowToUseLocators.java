@@ -55,7 +55,11 @@ public @interface HowToUseLocators {
      *
      * @return the strategy which defines how to use locators which are described by the
      * {@link iOSFindBy} annotation
+     *
+     * @deprecated UIAutomation is going to get deprecated.
+     *      It is recommended to use XCUITest
      */
+    @Deprecated
     LocatorGroupStrategy iOSAutomation() default LocatorGroupStrategy.CHAIN;
 
     /**

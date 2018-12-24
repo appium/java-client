@@ -27,8 +27,13 @@ import java.lang.annotation.Target;
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
  * a series of {@link io.appium.java_client.pagefactory.iOSBy} tags.
+ *
+ * @deprecated UIAutomation is going to get deprecated.
+ *      Use {@link iOSXCUITFindBys} instead
+ *      It is recommended to use XCUITest
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
+@Retention(RUNTIME)
+@Target({FIELD, TYPE})
 @Repeatable(iOSFindByChainSet.class)
 public @interface iOSFindBys {
     /**

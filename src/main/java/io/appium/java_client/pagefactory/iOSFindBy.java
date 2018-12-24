@@ -31,8 +31,13 @@ import java.lang.annotation.Target;
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
  * using iOS UI selectors, accessibility, id, name, class name, tag and xpath
+ *
+ * @deprecated UIAutomation is going to get deprecated.
+ *      Use {@link iOSXCUITFindBy} instead
+ *      It is recommended to use XCUITest
  */
-@Retention(RUNTIME) @Target({FIELD, TYPE})
+@Retention(RUNTIME)
+@Target({FIELD, TYPE})
 @Repeatable(iOSFindBySet.class)
 public @interface iOSFindBy {
     /**
