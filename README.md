@@ -67,13 +67,42 @@ dependencies {
 
 ## Changelog
 
-*7.0.0 (under construction yet)*
-
+*7.0.0*
+- **[ENHANCEMENTS]** 
+    - The new interface `io.appium.java_client.FindsByAndroidViewTag` was added. [#996](https://github.com/appium/java-client/pull/996)
+    - The selector strategy `io.appium.java_client.MobileBy.ByAndroidViewTag` was added. [#996](https://github.com/appium/java-client/pull/996)
+    - The new interface `io.appium.java_client.FindsByImage` was added. [#990](https://github.com/appium/java-client/pull/990)
+    - The selector strategy `io.appium.java_client.MobileBy.ByImage` was added. [#990](https://github.com/appium/java-client/pull/990)
+    - The new interface `io.appium.java_client.FindsByCustom` was added. [#1041](https://github.com/appium/java-client/pull/1041)
+    - The selector strategy `io.appium.java_client.MobileBy.ByCustom` was added. [#1041](https://github.com/appium/java-client/pull/1041)
+    - DatatypeConverter is replaced with Base64 for JDK 9 compatibility. [#999](https://github.com/appium/java-client/pull/999)
+    - Expand touch options API to accept coordinates as Point. [#997](https://github.com/appium/java-client/pull/997)
+    - W3C capabilities written into firstMatch entity instead of alwaysMatch. [#1010](https://github.com/appium/java-client/pull/1010)
+    - `Selendroid` for android and `UIAutomation` for iOS is deprecated. [#1034](https://github.com/appium/java-client/pull/1034) and [#1074](https://github.com/appium/java-client/pull/1074)
+    - `videoScale` and `fps` screen recording options are introduced for iOS. [#1067](https://github.com/appium/java-client/pull/1067)
+    - `NORMALIZE_TAG_NAMES` setting was introduced for android. [#1073](https://github.com/appium/java-client/pull/1073)
+    - `threshold` argument was added to OccurrenceMatchingOptions. [#1060](https://github.com/appium/java-client/pull/1060)
+    - `org.openqa.selenium.internal.WrapsElement` replaced by `org.openqa.selenium.WrapsElement`. [#1053](https://github.com/appium/java-client/pull/1053)
+    - SLF4J logging support added into Appium Driver local service. [#1014](https://github.com/appium/java-client/pull/1014)
+    - `IMAGE_MATCH_THRESHOLD`, `FIX_IMAGE_FIND_SCREENSHOT_DIMENSIONS`, `FIX_IMAGE_TEMPLATE_SIZE`, `CHECK_IMAGE_ELEMENT_STALENESS`, `UPDATE_IMAGE_ELEMENT_POSITION` and `IMAGE_ELEMENT_TAP_STRATEGY` setting was introduced for image elements. [#1011](https://github.com/appium/java-client/pull/1011)
 - **[BUG FIX]** Better handling of InvocationTargetException [#968](https://github.com/appium/java-client/pull/968)
 - **[BUG FIX]** Map sending keys to active element for W3C compatibility. [#966](https://github.com/appium/java-client/pull/966)
+- **[BUG FIX]** Error message on session creation is improved. [#994](https://github.com/appium/java-client/pull/994)
 - **[DEPENDENCY UPDATES]**
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.13.0
-
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.141.59.
+  - `com.google.code.gson:gson` was updated to 2.8.5.
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.6.
+  - `cglib:cglib` was updated to 3.2.8.
+  - `org.apache.commons:commons-lang3` was updated to 3.8.
+  - `org.springframework:spring-context` was updated to 5.1.0.RELEASE.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 3.0.0.
+  - `org.eclipse.jdt:ecj` was updated to 3.14.0.
+  - `org.slf4j:slf4j-api` was updated to 1.7.25.
+  - `jacoco` was updated to 0.8.2.
+  - `checkstyle` was updated to 8.12.
+  - `gradle` was updated to 4.10.1.
+  - `org.openpnp:opencv` was removed.
+  
 *6.1.0*
 - **[BUG FIX]** Initing web socket clients lazily. Report [#911](https://github.com/appium/java-client/issues/911). FIX: [#912](https://github.com/appium/java-client/pull/912).
 - **[BUG FIX]** Fix session payload for W3C. [#913](https://github.com/appium/java-client/pull/913)
