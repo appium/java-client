@@ -10,7 +10,7 @@ apply plugin: 'maven-publish'
 import org.apache.tools.ant.filters.*
 
 group 'io.appium'
-version '6.1.1-SNAPSHOT'
+version '7.0.0'
 
 repositories {
     jcenter()
