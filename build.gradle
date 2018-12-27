@@ -5,7 +5,6 @@ apply plugin: 'eclipse'
 apply plugin: 'jacoco'
 apply plugin: 'checkstyle'
 apply plugin: 'signing'
-apply plugin: 'maven-publish'
 
 import org.apache.tools.ant.filters.*
 
@@ -196,7 +195,7 @@ uploadArchives {
 }
 
 wrapper {
-    gradleVersion = '4.10.1'
+    gradleVersion = '5.0'
     distributionType = Wrapper.DistributionType.ALL
 }
 
