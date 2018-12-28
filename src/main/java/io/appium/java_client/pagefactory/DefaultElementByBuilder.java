@@ -165,15 +165,13 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
         Optional<HowToUseLocators> howToUseLocatorsOptional = ofNullable(howToUseLocators);
 
-        By result = null;
-
         if (isAndroid()) {
             return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::androidAutomation).orElse(null),
                     getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class));
         }
 
         if (isIOSXcuit() || isIOS()) {
-            result = buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
+            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
                     getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
         }
 
@@ -182,7 +180,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
                     getBys(WindowsFindBy.class, WindowsFindBys.class, WindowsFindAll.class));
         }
 
-        return ofNullable(result).orElse(null);
+        return null;
     }
 
     @Override

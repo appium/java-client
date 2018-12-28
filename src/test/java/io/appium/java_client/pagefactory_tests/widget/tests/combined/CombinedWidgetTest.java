@@ -12,7 +12,6 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDrive
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
-import io.appium.java_client.pagefactory_tests.widget.tests.ios.DefaultIosWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -39,8 +38,6 @@ public class CombinedWidgetTest extends WidgetTest {
         return asList(
                 dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                dataArray(new AppWithCombinedWidgets(),
-                    new AbstractStubWebDriver.StubIOSDriver(), DefaultIosWidget.class),
                 dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
                 dataArray(new AppWithCombinedWidgets(),

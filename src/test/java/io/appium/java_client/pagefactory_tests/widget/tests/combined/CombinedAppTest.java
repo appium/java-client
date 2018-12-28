@@ -12,7 +12,6 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDrive
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
-import io.appium.java_client.pagefactory_tests.widget.tests.ios.DefaultIosWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -35,7 +34,6 @@ public class CombinedAppTest extends WidgetTest {
     public static Collection<Object[]> data() {
         return asList(
                 dataArray(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSDriver(), DefaultIosWidget.class),
                 dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
                         DefaultIosXCUITWidget.class),
                 dataArray(new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
@@ -80,15 +78,13 @@ public class CombinedAppTest extends WidgetTest {
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
                 iOSXCUITAutomation = DefaultIosXCUITWidget.class,
-                windowsAutomation = DefaultWindowsWidget.class
-        )
+                windowsAutomation = DefaultWindowsWidget.class)
         private DefaultStubWidget singleWidget;
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
                 iOSXCUITAutomation = DefaultIosXCUITWidget.class,
-                windowsAutomation = DefaultWindowsWidget.class
-        )
+                windowsAutomation = DefaultWindowsWidget.class)
         private List<DefaultStubWidget> multipleWidget;
 
         @Override
