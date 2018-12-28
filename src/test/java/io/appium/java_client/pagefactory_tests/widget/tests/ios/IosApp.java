@@ -1,6 +1,5 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
-import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
 
@@ -14,11 +13,9 @@ public class IosApp implements ExtendedApp {
     public static String IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR = "IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR";
     public static String XCUIT_EXTERNALLY_DEFINED_WIDGET_LOCATOR = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR";
 
-    @iOSFindBy(uiAutomator = "SOME_IOS_DEFAULT_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_DEFAULT_LOCATOR")
     private DefaultIosWidget singleIosWidget;
 
-    @iOSFindBy(uiAutomator = "SOME_IOS_DEFAULT_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_DEFAULT_LOCATOR")
     private List<DefaultIosWidget> multipleIosWidgets;
 
@@ -62,7 +59,6 @@ public class IosApp implements ExtendedApp {
      * created correctly according to current platform and current automation and
      * annotations that mark the field.
      */
-    @iOSFindBy(uiAutomator = "IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR")
     private ExtendedIosWidget singleOverriddenIosWidget;
 
@@ -74,7 +70,6 @@ public class IosApp implements ExtendedApp {
      * created correctly according to current platform and current automation and
      * annotations that mark the field.
      */
-    @iOSFindBy(uiAutomator = "IOS_EXTERNALLY_DEFINED_WIDGET_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR")
     private List<ExtendedIosWidget> multipleOverriddenIosWidgets;
 

@@ -22,7 +22,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
@@ -154,13 +153,6 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
 
     public List findElementsByXPath(String using) {
         return super.findElementsByXPath(using);
-    }
-
-    /**
-     * Mouse doesn't work on mobile devices and emulators.
-     */
-    @Deprecated public Mouse getMouse() {
-        return super.getMouse();
     }
 
     @Override

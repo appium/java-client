@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.FindsByIosClassChain;
 import io.appium.java_client.FindsByIosNSPredicate;
-import io.appium.java_client.FindsByIosUIAutomation;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.LocksDevice;
@@ -65,8 +64,8 @@ import java.util.Map;
 public class IOSDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings, HasOnScreenKeyboard,
-        FindsByIosUIAutomation<T>, LocksDevice, PerformsTouchID, FindsByIosNSPredicate<T>,
-        FindsByIosClassChain<T>, PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages,
+        LocksDevice, PerformsTouchID, FindsByIosNSPredicate<T>, FindsByIosClassChain<T>,
+        PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages,
         HasBattery<IOSBatteryInfo> {
 
     private static final String IOS_PLATFORM = MobilePlatform.IOS;

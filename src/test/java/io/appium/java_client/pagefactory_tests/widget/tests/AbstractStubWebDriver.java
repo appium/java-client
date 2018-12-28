@@ -187,19 +187,6 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
         }
     }
 
-    public static class StubSelendroidDriver extends AbstractStubWebDriver {
-
-        @Override
-        public String getPlatformName() {
-            return ANDROID;
-        }
-
-        @Override
-        public String getAutomationName() {
-            return SELENDROID;
-        }
-    }
-
     public static class StubIOSDriver extends AbstractStubWebDriver {
 
         @Override

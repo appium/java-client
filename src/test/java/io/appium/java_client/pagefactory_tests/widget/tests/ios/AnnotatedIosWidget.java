@@ -1,10 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
-import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebElement;
 
-@iOSFindBy(uiAutomator = "SOME_ROOT_LOCATOR")
 @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_ROOT_LOCATOR")
 public class AnnotatedIosWidget extends DefaultIosWidget {
     public static String IOS_ROOT_WIDGET_LOCATOR = "SOME_ROOT_LOCATOR";

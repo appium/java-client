@@ -35,8 +35,6 @@ public class CombinedAppTest extends WidgetTest {
     public static Collection<Object[]> data() {
         return asList(
                 dataArray(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubSelendroidDriver(),
-                        DefaultSelendroidWidget.class),
                 dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSDriver(), DefaultIosWidget.class),
                 dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
                         DefaultIosXCUITWidget.class),
@@ -46,8 +44,6 @@ public class CombinedAppTest extends WidgetTest {
                     DefaultFindByWidget.class),
                 dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(),
                         DefaultAndroidWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubSelendroidDriver(),
-                    DefaultSelendroidWidget.class),
                 dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSDriver(),
                         DefaultStubWidget.class),
                 dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
@@ -83,8 +79,6 @@ public class CombinedAppTest extends WidgetTest {
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
-                selendroid = DefaultSelendroidWidget.class,
-                iOSUIAutomation = DefaultIosWidget.class,
                 iOSXCUITAutomation = DefaultIosXCUITWidget.class,
                 windowsAutomation = DefaultWindowsWidget.class
         )
@@ -92,8 +86,6 @@ public class CombinedAppTest extends WidgetTest {
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
-                selendroid = DefaultSelendroidWidget.class,
-                iOSUIAutomation = DefaultIosWidget.class,
                 iOSXCUITAutomation = DefaultIosXCUITWidget.class,
                 windowsAutomation = DefaultWindowsWidget.class
         )
@@ -113,15 +105,11 @@ public class CombinedAppTest extends WidgetTest {
     public static class PartiallyCombinedApp implements AbstractApp {
 
         @OverrideWidget(html = DefaultFindByWidget.class,
-                androidUIAutomator = DefaultAndroidWidget.class,
-                selendroid = DefaultSelendroidWidget.class
-        )
+                androidUIAutomator = DefaultAndroidWidget.class)
         private DefaultStubWidget singleWidget;
 
         @OverrideWidget(html = DefaultFindByWidget.class,
-                androidUIAutomator = DefaultAndroidWidget.class,
-                selendroid = DefaultSelendroidWidget.class
-        )
+                androidUIAutomator = DefaultAndroidWidget.class)
         private List<DefaultStubWidget> multipleWidget;
 
         @Override
