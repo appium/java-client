@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByFluentSelector;
-import io.appium.java_client.FindsByIosUIAutomation;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
@@ -42,8 +41,7 @@ import java.util.Set;
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
     FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
     FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
-    FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>,
-        TakesScreenshot {
+    JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>, TakesScreenshot {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -208,14 +206,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
     }
 
     @Override public List<StubWebElement> findElementsByAndroidUIAutomator(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByIosUIAutomation(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByIosUIAutomation(String using) {
         return createStubList();
     }
 

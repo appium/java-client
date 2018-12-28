@@ -175,10 +175,6 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         return ANDROID.equalsIgnoreCase(platform);
     }
 
-    protected boolean isSelendroidAutomation() {
-        return isAndroid() && SELENDROID.equalsIgnoreCase(automation);
-    }
-
     protected boolean isIOS() {
         return IOS.equalsIgnoreCase(platform);
     }

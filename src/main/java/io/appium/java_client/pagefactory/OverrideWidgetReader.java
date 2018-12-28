@@ -34,8 +34,6 @@ class OverrideWidgetReader {
     private static final Class<? extends Widget> EMPTY = Widget.class;
     private static final String HTML = "html";
     private static final String ANDROID_UI_AUTOMATOR = "androidUIAutomator";
-    private static final String IOS_UI_AUTOMATION = "iOSUIAutomation";
-    private static final String SELENDROID = "selendroid";
     private static final String IOS_XCUIT_AUTOMATION = "iOSXCUITAutomation";
     private static final String WINDOWS_AUTOMATION = "windowsAutomation";
 
@@ -73,24 +71,15 @@ class OverrideWidgetReader {
     }
 
     static Class<? extends Widget> getMobileNativeWidgetClass(Class<? extends Widget> declaredClass,
-        AnnotatedElement annotatedElement, String platform, String automation) {
+        AnnotatedElement annotatedElement, String platform) {
         String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
-        String transformedAutomation = String.valueOf(automation).toUpperCase().trim();
 
         if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
-            if (AutomationName.SELENDROID.equalsIgnoreCase(transformedAutomation)) {
-                return getConvenientClass(declaredClass, annotatedElement, SELENDROID);
-            }
-
             return getConvenientClass(declaredClass, annotatedElement, ANDROID_UI_AUTOMATOR);
         }
 
         if (IOS.equalsIgnoreCase(transformedPlatform)) {
-            if (AutomationName.IOS_XCUI_TEST.equalsIgnoreCase(transformedAutomation)) {
-                return getConvenientClass(declaredClass, annotatedElement, IOS_XCUIT_AUTOMATION);
-            }
-
-            return getConvenientClass(declaredClass, annotatedElement, IOS_UI_AUTOMATION);
+            return getConvenientClass(declaredClass, annotatedElement, IOS_XCUIT_AUTOMATION);
         }
 
         if (WINDOWS.equalsIgnoreCase(transformedPlatform)) {
@@ -108,22 +97,19 @@ class OverrideWidgetReader {
     }
 
     private static Constructor<? extends Widget> getConstructorOfAMobileNativeWidgets(
-        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform,
-        String automation) {
+        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
         Class<? extends Widget> clazz =
-            getMobileNativeWidgetClass(declaredClass, annotatedElement, platform, automation);
+            getMobileNativeWidgetClass(declaredClass, annotatedElement, platform);
         return findConvenientConstructor(clazz);
     }
 
     protected static Map<ContentType, Constructor<? extends Widget>> read(
-        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform,
-        String automation) {
+        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
         Map<ContentType, Constructor<? extends Widget>> result = new HashMap<>();
         result.put(ContentType.HTML_OR_DEFAULT,
             getConstructorOfADefaultOrHTMLWidget(declaredClass, annotatedElement));
         result.put(ContentType.NATIVE_MOBILE_SPECIFIC,
-            getConstructorOfAMobileNativeWidgets(declaredClass, annotatedElement, platform,
-                automation));
+            getConstructorOfAMobileNativeWidgets(declaredClass, annotatedElement, platform));
         return result;
     }
 }

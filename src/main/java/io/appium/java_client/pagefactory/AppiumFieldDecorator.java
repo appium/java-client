@@ -197,7 +197,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         CacheableLocator locator = widgetLocatorFactory.createLocator(field);
         Map<ContentType, Constructor<? extends Widget>> map =
-            OverrideWidgetReader.read(widgetType, field, platform, automation);
+            OverrideWidgetReader.read(widgetType, field, platform);
 
         if (isAlist) {
             return getEnhancedProxy(ArrayList.class,

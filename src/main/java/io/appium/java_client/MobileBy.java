@@ -64,20 +64,6 @@ public abstract class MobileBy extends By {
     }
 
     /**
-     * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
-     * Conceptual/InstrumentsUserGuide/UIAutomation.html
-     *
-     * @param iOSAutomationText is iOS UIAutomation string
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
-     *
-     * @deprecated UIAutomation is going to get deprecated.
-     *        It is recommended to use XCUITest
-     */
-    public static By IosUIAutomation(final String iOSAutomationText) {
-        return new ByIosUIAutomation(iOSAutomationText);
-    }
-
-    /**
      * Read http://developer.android.com/intl/ru/tools/testing-support-library/
      * index.html#uia-apis
      * @param uiautomatorText is Android UIAutomator string
@@ -161,69 +147,6 @@ public abstract class MobileBy extends By {
      */
     public static By custom(final String selector) {
         return new ByCustom(selector);
-    }
-    
-    public static class ByIosUIAutomation extends MobileBy implements Serializable {
-
-        public ByIosUIAutomation(String iOSAutomationText) {
-            super(MobileSelector.IOS_UI_AUTOMATION, iOSAutomationText);
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @throws WebDriverException when current session doesn't support the given selector or when
-         *      value of the selector is not consistent.
-         * @throws IllegalArgumentException when it is impossible to find something on the given
-         * {@link SearchContext} instance
-         */
-        @SuppressWarnings("unchecked")
-        @Override
-        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
-            IllegalArgumentException {
-            Class<?> contextClass = context.getClass();
-
-            if (FindsByIosUIAutomation.class.isAssignableFrom(contextClass)) {
-                return FindsByIosUIAutomation.class.cast(context)
-                    .findElementsByIosUIAutomation(getLocatorString());
-            }
-
-            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
-                return super.findElements(context);
-            }
-
-            throw formIllegalArgumentException(contextClass, FindsByIosUIAutomation.class,
-                FindsByFluentSelector.class);
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @throws WebDriverException when current session doesn't support the given selector or when
-         *      value of the selector is not consistent.
-         * @throws IllegalArgumentException when it is impossible to find something on the given
-         * {@link SearchContext} instance
-         */
-        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
-            IllegalArgumentException {
-            Class<?> contextClass = context.getClass();
-
-            if (FindsByIosUIAutomation.class.isAssignableFrom(contextClass)) {
-                return ((FindsByIosUIAutomation<?>) context)
-                    .findElementByIosUIAutomation(getLocatorString());
-            }
-
-            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
-                return super.findElement(context);
-            }
-
-            throw formIllegalArgumentException(contextClass, FindsByIosUIAutomation.class,
-                FindsByFluentSelector.class);
-        }
-
-        @Override public String toString() {
-            return "By.IosUIAutomation: " + getLocatorString();
-        }
     }
 
 

@@ -8,6 +8,8 @@ import java.util.List;
 
 public class DefaultIosXCUITWidget extends DefaultStubWidget {
 
+    public static String XCUIT_SUB_WIDGET_LOCATOR = "XCUIT_SOME_SUB_LOCATOR";
+
     @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_SUB_LOCATOR")
     private DefaultIosXCUITWidget singleWidget;
 

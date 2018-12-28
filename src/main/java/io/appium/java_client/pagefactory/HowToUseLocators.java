@@ -35,35 +35,6 @@ public @interface HowToUseLocators {
 
     /**
      * The strategy which defines how to use locators which are described by the
-     * {@link SelendroidFindBy} annotation. These annotations can define the chained searching
-     * or the searching by all possible locators.
-     *
-     * @return the strategy which defines how to use locators which are described by the
-     * {@link SelendroidFindBy} annotation
-     * @deprecated Selendroid driver is going to be deprecated.
-     *      Use {@link AndroidFindBy} instead.
-     *      It is recommended to use UIAutomator1 for Android API below 21
-     *      and UIAutomator2 for API &gt;= 21
-     */
-    @Deprecated
-    LocatorGroupStrategy selendroidAutomation() default LocatorGroupStrategy.CHAIN;
-
-    /**
-     * The strategy which defines how to use locators which are described by the
-     * {@link iOSFindBy} annotation. These annotations can define the chained searching
-     * or the searching by all possible locators.
-     *
-     * @return the strategy which defines how to use locators which are described by the
-     * {@link iOSFindBy} annotation
-     *
-     * @deprecated UIAutomation is going to get deprecated.
-     *      It is recommended to use XCUITest
-     */
-    @Deprecated
-    LocatorGroupStrategy iOSAutomation() default LocatorGroupStrategy.CHAIN;
-
-    /**
-     * The strategy which defines how to use locators which are described by the
      * {@link WindowsFindBy} annotation. These annotations can define the chained searching
      * or the searching by all possible locators.
      *

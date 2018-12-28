@@ -70,7 +70,7 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
             } else {
                 convenientClass =
                     getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field,
-                        platform, automation);
+                        platform);
             }
 
             while (result == null && !convenientClass.equals(Object.class)) {

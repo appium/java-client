@@ -26,7 +26,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
-import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -41,9 +41,9 @@ import java.util.List;
 
 public class DesktopBrowserCompatibilityTest {
 
-    @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @AndroidFindBy(className = "someClass")
-    @iOSFindBy(xpath = "//selector[1]") @iOSFindBy(xpath = "//someTag")
+    @iOSXCUITFindBy(xpath = "//selector[1]") @iOSXCUITFindBy(xpath = "//someTag")
     @FindBys({@FindBy(id = "main"), @FindBy(tagName = "p")})
     private List<WebElement> foundLinks;
     private List<WebElement> main; //this list is located by id="main"

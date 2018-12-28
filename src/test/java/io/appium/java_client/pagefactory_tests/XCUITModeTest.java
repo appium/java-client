@@ -32,7 +32,6 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
-import io.appium.java_client.pagefactory.iOSFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -50,20 +49,19 @@ public class XCUITModeTest extends AppIOSTest {
     private boolean populated = false;
     private WebDriverWait waiting = new WebDriverWait(driver, 10000);
 
-    @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "label contains 'Compute'")
     @iOSXCUITFindBy(className = "XCUIElementTypeButton")
     private MobileElement computeButton;
 
-    @HowToUseLocators(iOSAutomation = CHAIN)
-    @iOSFindBy(id = "TestApp")
+    @HowToUseLocators(iOSXCUITAutomation = CHAIN)
     @iOSXCUITFindBy(iOSNsPredicate = "name like 'Answer'")
     private WebElement answer;
 
     @iOSXCUITFindBy(iOSNsPredicate = "name = 'IntegerA'")
     private MobileElement textField1;
 
-    @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "name = 'IntegerB'")
     @iOSXCUITFindBy(accessibility = "IntegerB")
     private MobileElement textField2;
@@ -74,15 +72,14 @@ public class XCUITModeTest extends AppIOSTest {
     @iOSXCUITFindBy(className = "XCUIElementTypeSlider")
     private MobileElement slider;
 
-    @iOSFindBy(id = "locationStatus")
+    @iOSXCUITFindBy(id = "locationStatus")
     private MobileElement locationStatus;
 
-    @HowToUseLocators(iOSAutomation = CHAIN)
-    @iOSFindBy(id = "TestApp") @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'contact'")
+    @HowToUseLocators(iOSXCUITAutomation = CHAIN)
+    @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'contact'")
     private MobileElement contactAlert;
 
-    @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
-    @iOSFindBy(uiAutomator = ".elements()[0]")
+    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'location'")
     private MobileElement locationAlert;
 

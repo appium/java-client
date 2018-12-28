@@ -91,8 +91,6 @@ public class BaseListenerTest {
 
             e.findElementByAccessibilityId("SomeAccessibility")
                     .findElement(MobileBy.AndroidUIAutomator("Android UI Automator"));
-            els.get(0).findElementByAccessibilityId("SomeAccessibility")
-                    .findElement(MobileBy.IosUIAutomation("iOS UI Automation"));
 
             assertThat(listener.messages,
                     contains(prefix + "Attempt to find something using By.AndroidUIAutomator: Android UI Automator. "
@@ -100,11 +98,6 @@ public class BaseListenerTest {
                             prefix + "The searching for something using By.AndroidUIAutomator: "
                                     + "Android UI Automator has "
                                     + "beed finished. "
-                                    + "The root element was io.appium.java_client.events.StubWebElement",
-                            prefix + "Attempt to find something using By.IosUIAutomation: iOS UI Automation. "
-                                    + "The root element is io.appium.java_client.events.StubWebElement",
-                            prefix + "The searching for something using By.IosUIAutomation: iOS UI Automation "
-                                    + "has beed finished. "
                                     + "The root element was io.appium.java_client.events.StubWebElement"));
             return true;
         } finally {

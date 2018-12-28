@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByFluentSelector;
-import io.appium.java_client.FindsByIosUIAutomation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -26,7 +25,7 @@ import java.util.List;
 
 public class StubWebElement implements WebElement, FindsByClassName, FindsByCssSelector, FindsById,
     FindsByLinkText, FindsByTagName, FindsByXPath, FindsByAccessibilityId<WebElement>,
-    FindsByAndroidUIAutomator<WebElement>, FindsByIosUIAutomation<WebElement>, FindsByFluentSelector<WebElement> {
+    FindsByAndroidUIAutomator<WebElement>, FindsByFluentSelector<WebElement> {
 
     private static List<WebElement> createStubSubElementList() {
         return new ArrayList<>(ImmutableList.of(new StubWebElement(), new StubWebElement()));
@@ -70,14 +69,6 @@ public class StubWebElement implements WebElement, FindsByClassName, FindsByCssS
     }
 
     @Override public List<WebElement> findElementsById(String using) {
-        return createStubSubElementList();
-    }
-
-    @Override public WebElement findElementByIosUIAutomation(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<WebElement> findElementsByIosUIAutomation(String using) {
         return createStubSubElementList();
     }
 
