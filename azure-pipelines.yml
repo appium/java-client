@@ -11,7 +11,8 @@ steps:
   inputs:
     versionSpec: '8.x'
 
-- bash:
+- script: |
+    echo Configuring Environment
     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
     echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-27;google_apis;x86' --force
     echo $ANDROID_HOME/emulator/emulator -list-avds
@@ -20,17 +21,6 @@ steps:
     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
     $ANDROID_HOME/platform-tools/adb devices
     echo "Emulator started"
-
-- script: |
-    echo Configuring Environment
-    npm config delete prefix
-    npm config set prefix $NVM_DIR/versions/node/v8.12.0
-    npm install -g appium@beta
-    appium --version
-    node --version
-    java -version
-    which node
-    npm root -g
 
 #- task: Gradle@2
 #  inputs:
