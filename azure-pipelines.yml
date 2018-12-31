@@ -11,6 +11,16 @@ steps:
   inputs:
     versionSpec: '8.x'
 
+- bash:
+    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
+    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-27;google_apis;x86' --force
+    echo $ANDROID_HOME/emulator/emulator -list-avds
+    echo "Starting emulator"
+    nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -no-snapshot > /dev/null 2>&1 &
+    $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+    $ANDROID_HOME/platform-tools/adb devices
+    echo "Emulator started"
+
 - script: |
     echo Configuring Environment
     npm config delete prefix
@@ -21,8 +31,6 @@ steps:
     java -version
     which node
     npm root -g
-    /Users/vsts/Library/Android/sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-25;google_apis;x86"
-    /Users/vsts/Library/Android/sdk/tools/bin/avdmanager list avd
 
 #- task: Gradle@2
 #  inputs:
