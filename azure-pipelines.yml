@@ -6,6 +6,11 @@
 pool:
   vmImage: 'macOS 10.13'
 
+variables:
+  ANDROID_EMU_NAME: test
+  ANDROID_EMU_ABI: x86
+  ANDROID_EMU_TARGET: android-27
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -13,10 +18,6 @@ steps:
 
 - script: |
     echo "Configuring Environment"
-    ANDROID_EMU_NAME=test
-    ANDROID_EMU_ABI=x86
-    ANDROID_EMU_TARGET=android-27
-
     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;${ANDROID_EMU_TARGET};google_apis;${ANDROID_EMU_ABI}'
     echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n "${ANDROID_EMU_NAME}" -k 'system-images;${ANDROID_EMU_TARGET};google_apis;${ANDROID_EMU_ABI}' --force
     echo $ANDROID_HOME/emulator/emulator -list-avds
