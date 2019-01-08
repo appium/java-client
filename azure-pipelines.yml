@@ -18,12 +18,12 @@ steps:
 
 - script: |
     echo "Configuring Environment"
-    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;${ANDROID_EMU_TARGET};google_apis;${ANDROID_EMU_ABI}'
-    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n "${ANDROID_EMU_NAME}" -k 'system-images;${ANDROID_EMU_TARGET};google_apis;${ANDROID_EMU_ABI}' --force
+    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;$(ANDROID_EMU_TARGET);google_apis;$(ANDROID_EMU_ABI)'
+    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n "$(ANDROID_EMU_NAME)" -k 'system-images;$(ANDROID_EMU_TARGET);google_apis;$(ANDROID_EMU_ABI)' --force
     echo $ANDROID_HOME/emulator/emulator -list-avds
 
     echo "Starting emulator"
-    nohup $ANDROID_HOME/emulator/emulator -avd "${ANDROID_EMU_NAME}" -no-snapshot > /dev/null 2>&1 &
+    nohup $ANDROID_HOME/emulator/emulator -avd "$(ANDROID_EMU_NAME)" -no-snapshot > /dev/null 2>&1 &
     $ANDROID_HOME/platform-tools/adb wait-for-device
     while [[ $? -ne 0 ]]; do sleep 1; $ANDROID_HOME/platform-tools/adb shell pm list packages; done;
     $ANDROID_HOME/platform-tools/adb devices
