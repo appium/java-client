@@ -12,15 +12,22 @@ steps:
     versionSpec: '8.x'
 
 - script: |
-    echo Configuring Environment
-    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
-    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-27;google_apis;x86' --force
+    echo "Configuring Environment"
+    ANDROID_EMU_NAME=test
+    ANDROID_EMU_ABI=x86
+    ANDROID_EMU_TARGET=android-27
+
+    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;${ANDROID_EMU_TARGET};google_apis;${ANDROID_EMU_ABI}'
+    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n "${ANDROID_EMU_NAME}" -k 'system-images;${ANDROID_EMU_TARGET};google_apis;${ANDROID_EMU_ABI}' --force
     echo $ANDROID_HOME/emulator/emulator -list-avds
+
     echo "Starting emulator"
-    nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -no-snapshot > /dev/null 2>&1 &
-    $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+    nohup $ANDROID_HOME/emulator/emulator -avd "${ANDROID_EMU_NAME}" -no-snapshot > /dev/null 2>&1 &
+    $ANDROID_HOME/platform-tools/adb wait-for-device
+    while [[ $? -ne 0 ]]; do sleep 1; $ANDROID_HOME/platform-tools/adb shell pm list packages; done;
     $ANDROID_HOME/platform-tools/adb devices
     echo "Emulator started"
+
     npm config delete prefix
     npm config set prefix $NVM_DIR/versions/node/v8.12.0
     npm install -g appium@beta
