@@ -3,7 +3,6 @@ sudo: required
 matrix:
   include:
     - language: android
-      install: true
       install:
         - echo y | android update sdk -u -a -t tools
         - echo y | android update sdk -u -a -t platform-tools
@@ -36,7 +35,7 @@ matrix:
         - ./gradlew --version
         - echo y |adb devices
       script:
-      - ./gradlew clean build uiAutomationTest -x test -x signArchives
+        - ./gradlew clean build uiAutomationTest -x test -x signArchives
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
