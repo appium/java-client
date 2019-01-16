@@ -12,9 +12,9 @@ It is not necessary to use arguments. [The list of arguments](http://appium.io/s
 
 It looks like creation of a common [RemoteWebDriver](https://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html) instance. 
 
-[Common capabilities](http://appium.io/slate/en/master/?java#the---default-capabilities-flag)
+[Common capabilities](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#general-capabilities)
 
-[Android-specific capabilities](http://appium.io/slate/en/master/?java#android-only)
+[Android-specific capabilities](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only)
 
 [Common capabilities provided by Java client](http://appium.github.io/java-client/io/appium/java_client/remote/MobileCapabilityType.html)
 
