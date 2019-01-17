@@ -1,11 +1,11 @@
 # Steps: 
 
-- you have to prepare environment for Android. [Details are provided here](http://appium.io/slate/en/master/?java#setup-(android))
+- you have to prepare environment for Android. [Details are provided here](https://github.com/appium/appium/blob/master/docs/en/drivers/android-uiautomator2.md)
 
 - it needs to launch the appium server. You can launch Appium desktop application. If you use the server installed via npm then 
 
   _$ node **the_path_to_main.js_file** --arg1 value1 --arg2 value2_ 
-It is not necessary to use arguments. [The list of arguments](http://appium.io/slate/en/master/?java#appium-server-arguments)
+It is not necessary to use arguments. [The list of arguments](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/server-args.md)
 
 
 # The starting of an app
