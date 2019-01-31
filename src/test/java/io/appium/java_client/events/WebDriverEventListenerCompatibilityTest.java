@@ -2,7 +2,7 @@ package io.appium.java_client.events;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.junit.Assert.assertThat;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;

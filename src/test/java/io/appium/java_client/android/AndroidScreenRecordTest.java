@@ -1,7 +1,8 @@
 package io.appium.java_client.android;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class AndroidScreenRecordTest extends BaseAndroidTest {
         }
         Thread.sleep(5000);
         String result = driver.stopRecordingScreen();
-        assertThat(result, not(isEmptyString()));
+        assertThat(result, is(not(emptyString())));
     }
 
 }

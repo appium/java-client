@@ -1,7 +1,8 @@
 package io.appium.java_client.ios;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isEmptyString;
+import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class IOSScreenRecordTest extends AppIOSTest {
         );
         Thread.sleep(5000);
         String result = driver.stopRecordingScreen();
-        assertThat(result, not(isEmptyString()));
+        assertThat(result, is(not(emptyString())));
     }
 
 }
