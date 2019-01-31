@@ -67,7 +67,7 @@ dependencies {
         force = true
     }
     compile 'com.google.code.gson:gson:2.8.5'
-    compile 'org.apache.httpcomponents:httpclient:4.5.6'
+    compile 'org.apache.httpcomponents:httpclient:4.5.7'
     compile 'cglib:cglib:3.2.8'
     compile 'commons-validator:commons-validator:1.6'
     compile 'org.apache.commons:commons-lang3:3.8'
