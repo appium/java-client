@@ -70,7 +70,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5.7'
     compile 'cglib:cglib:3.2.10'
     compile 'commons-validator:commons-validator:1.6'
-    compile 'org.apache.commons:commons-lang3:3.8'
+    compile 'org.apache.commons:commons-lang3:3.8.1'
     compile 'commons-io:commons-io:2.6'
     compile 'org.springframework:spring-context:5.1.0.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.9.1'
