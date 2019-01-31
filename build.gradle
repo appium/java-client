@@ -108,7 +108,7 @@ tasks.withType(JacocoReport) {
 jacocoTestReport.dependsOn test
 
 checkstyle {
-    toolVersion = '8.12'
+    toolVersion = '8.17'
     configFile = file("$projectDir/google-style.xml")
     showViolations = true
     ignoreFailures = false
