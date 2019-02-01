@@ -11,7 +11,8 @@ import static java.time.Duration.ofSeconds;
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.isIn;
+import static org.hamcrest.Matchers.in;
+import static org.hamcrest.Matchers.is;
 
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
@@ -65,8 +66,8 @@ public class TouchOptionsTests {
         expectedOpts.put("x", 0);
         expectedOpts.put("y", 0);
         expectedOpts.put("duration", 1L);
-        assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
-        assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
+        assertThat(actualOpts.entrySet(), everyItem(is(in(expectedOpts.entrySet()))));
+        assertThat(expectedOpts.entrySet(), everyItem(is(in(actualOpts.entrySet()))));
     }
 
     @Test
@@ -79,8 +80,8 @@ public class TouchOptionsTests {
         expectedOpts.put("x", 0);
         expectedOpts.put("y", 0);
         expectedOpts.put("count", 2);
-        assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
-        assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
+        assertThat(actualOpts.entrySet(), everyItem(is(in(expectedOpts.entrySet()))));
+        assertThat(expectedOpts.entrySet(), everyItem(is(in(actualOpts.entrySet()))));
     }
 
     @Test
@@ -90,7 +91,7 @@ public class TouchOptionsTests {
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
         expectedOpts.put("ms", 1000L);
-        assertThat(actualOpts.entrySet(), everyItem(isIn(expectedOpts.entrySet())));
-        assertThat(expectedOpts.entrySet(), everyItem(isIn(actualOpts.entrySet())));
+        assertThat(actualOpts.entrySet(), everyItem(is(in(expectedOpts.entrySet()))));
+        assertThat(expectedOpts.entrySet(), everyItem(is(in(actualOpts.entrySet()))));
     }
 }
