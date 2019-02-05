@@ -47,6 +47,7 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * Android driver implementation.
@@ -206,9 +207,12 @@ public class AndroidDriver<T extends WebElement>
      *
      * @return given {@link Capabilities}
      */
+    @Nullable
     public Capabilities getCapabilities() {
         MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
-        capabilities.setCapability(PLATFORM_NAME, ANDROID_PLATFORM);
+        if (capabilities != null) {
+            capabilities.setCapability(PLATFORM_NAME, ANDROID_PLATFORM);
+        }
         return capabilities;
     }
 

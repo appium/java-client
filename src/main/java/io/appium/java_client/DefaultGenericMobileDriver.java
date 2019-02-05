@@ -157,7 +157,8 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
 
     @Override
     public String toString() {
+        Capabilities capabilities = getCapabilities();
         return String.format("%s, Capabilities: %s", getClass().getCanonicalName(),
-                getCapabilities().asMap().toString());
+                capabilities != null ? capabilities.asMap().toString() : "null");
     }
 }

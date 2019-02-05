@@ -48,6 +48,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * iOS driver implementation.
@@ -207,9 +208,12 @@ public class IOSDriver<T extends WebElement>
      *
      * @return given {@link Capabilities}
      */
+    @Nullable
     public Capabilities getCapabilities() {
         MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
-        capabilities.setCapability(PLATFORM_NAME, IOS_PLATFORM);
+        if (capabilities != null) {
+            capabilities.setCapability(PLATFORM_NAME, IOS_PLATFORM);
+        }
         return capabilities;
     }
 
