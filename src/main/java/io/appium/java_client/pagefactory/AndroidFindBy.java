@@ -75,6 +75,13 @@ public @interface AndroidFindBy {
     String tagName() default "";
 
     /**
+     * It is a desired data matcher expression.
+     *
+     * @return a desired data matcher expression
+     */
+    String androidDataMatcher() default "";
+
+    /**
      * It is a xpath to the target element.
      *
      * @return a xpath to the target element

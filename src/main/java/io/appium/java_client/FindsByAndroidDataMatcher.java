@@ -16,25 +16,17 @@
 
 package io.appium.java_client;
 
-public enum MobileSelector {
-    ACCESSIBILITY("accessibility id"),
-    ANDROID_UI_AUTOMATOR("-android uiautomator"),
-    IOS_UI_AUTOMATION("-ios uiautomation"),
-    IOS_PREDICATE_STRING("-ios predicate string"),
-    IOS_CLASS_CHAIN("-ios class chain"),
-    WINDOWS_UI_AUTOMATION("-windows uiautomation"),
-    IMAGE("-image"),
-    ANDROID_VIEWTAG("-android viewtag"),
-    ANDROID_DATA_MATCHER("-android datamatcher"),
-    CUSTOM("-custom");
+import org.openqa.selenium.WebElement;
 
-    private final String selector;
+import java.util.List;
 
-    MobileSelector(String selector) {
-        this.selector = selector;
+public interface FindsByAndroidDataMatcher<T extends WebElement> extends FindsByFluentSelector<T> {
+
+    default T findElementByAndroidDataMatcher(String using) {
+        return findElement(MobileSelector.ANDROID_DATA_MATCHER.toString(), using);
     }
 
-    @Override public String toString() {
-        return selector;
+    default List<T> findElementsByAndroidDataMatcher(String using) {
+        return findElements(MobileSelector.ANDROID_DATA_MATCHER.toString(), using);
     }
 }
