@@ -96,6 +96,12 @@ enum Strategies {
                     .iOSClassChain(getValue(annotation, this));
         }
     },
+    BY_DATA_MATCHER("androidDataMatcher") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .androidDataMatcher(getValue(annotation, this));
+        }
+    },
     BY_NS_PREDICATE("iOSNsPredicate") {
         @Override By getBy(Annotation annotation) {
             return MobileBy

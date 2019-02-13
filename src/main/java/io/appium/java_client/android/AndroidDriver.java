@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.FindsByAndroidDataMatcher;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByAndroidViewTag;
 import io.appium.java_client.HasOnScreenKeyboard;
@@ -63,7 +64,7 @@ import javax.annotation.Nullable;
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
     implements PressesKey, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T>, FindsByAndroidViewTag<T>,
+        FindsByAndroidUIAutomator<T>, FindsByAndroidViewTag<T>, FindsByAndroidDataMatcher<T>,
         LocksDevice, HasAndroidSettings, HasAndroidDeviceDetails,
         HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
         CanRecordScreen, SupportsSpecialEmulatorCommands,

@@ -98,6 +98,17 @@ public abstract class MobileBy extends By {
     }
 
     /**
+     * This locator strategy is only available in Espresso Driver mode.
+     * @param dataMatcherString is a valid class chain locator string.
+     *                            See <a href="https://github.com/appium/appium-espresso-driver/pull/386">
+     *                            the documentation</a> for more details
+     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidDataMatcher}
+     */
+    public static By androidDataMatcher(final String dataMatcherString) {
+        return new ByAndroidDataMatcher(dataMatcherString);
+    }
+
+    /**
     * This locator strategy is available in XCUITest Driver mode.
     * @param iOSNsPredicateString is an an iOS NsPredicate String
     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
@@ -335,6 +346,66 @@ public abstract class MobileBy extends By {
 
         @Override public String toString() {
             return "By.IosClassChain: " + getLocatorString();
+        }
+    }
+
+    public static class ByAndroidDataMatcher extends MobileBy implements Serializable {
+
+        protected ByAndroidDataMatcher(String locatorString) {
+            super(MobileSelector.ANDROID_DATA_MATCHER, locatorString);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidDataMatcher.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidDataMatcher.class.cast(context)
+                        .findElementsByAndroidDataMatcher(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidDataMatcher.class,
+                    FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidDataMatcher.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidDataMatcher.class.cast(context)
+                        .findElementByAndroidDataMatcher(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidDataMatcher.class,
+                    FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.FindsByAndroidDataMatcher: " + getLocatorString();
         }
     }
 
