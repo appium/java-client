@@ -318,7 +318,11 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     public static Map.Entry<String, Map<String, ?>> gsmSignalStrengthCommand(
             GsmSignalStrength gsmSignalStrength) {
         return new AbstractMap.SimpleEntry<>(GSM_SIGNAL,
-                prepareArguments("signalStrengh", gsmSignalStrength.ordinal()));
+                prepareArguments(
+                        // https://github.com/appium/appium/issues/12234
+                        new String[] {"signalStrengh", "signalStrength" },
+                        new Object[] {gsmSignalStrength.ordinal(), gsmSignalStrength.ordinal()}
+                ));
     }
 
     /**
