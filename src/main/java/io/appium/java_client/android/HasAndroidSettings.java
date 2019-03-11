@@ -130,7 +130,7 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * Which attributes should be returned if compact responses are disabled.
-     * It works only shouldUseCompactResponses is false. Defaults to an empty string.
+     * It works only if shouldUseCompactResponses is false. Defaults to "type,label" string.
      *
      * @param attrNames The comma-separated list of fields to return with each element.
      * @return self instance for chaining
