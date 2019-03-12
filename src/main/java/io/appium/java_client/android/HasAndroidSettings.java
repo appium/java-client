@@ -116,8 +116,8 @@ interface HasAndroidSettings extends HasSettings {
     }
 
     /**
-     * Whether to return compact (standards-compliant) & faster responses in find element/s
-     * (the default setting). If set to false then the response will also contains other
+     * Whether to return compact (standards-compliant) and faster responses in find element/s
+     * (the default setting). If set to false then the response may also contain other
      * available element attributes.
      *
      * @param enabled Either true or false. The default value if true.
