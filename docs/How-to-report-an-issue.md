@@ -28,7 +28,7 @@ If it is necessary there should provided more details
 ### Code To Reproduce Issue (good to Have if you report a bug)
 
 It's easier to reproduce bug and much faster to fix it.
-You can git clone https://github.com/appium/sample-code or https://github.com/appium/sample-code/tree/master/sample-code/apps and reproduce an issue using Java and sample apps.
+You can git clone https://github.com/appium/appium/tree/master/sample-code or https://github.com/appium/appium/tree/master/sample-code/apps and reproduce an issue using Java and sample apps.
 Also you can create a [gist](https://gist.github.com) with pasted java code sample or paste it at ussue description using markdown. About markdown please read [Mastering markdown](https://guides.github.com/features/mastering-markdown/) and 
 [Writing on GitHub](https://help.github.com/categories/writing-on-github/)
 

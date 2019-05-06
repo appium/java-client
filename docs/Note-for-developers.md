@@ -37,7 +37,7 @@ Please check following settings:
 
 ## Coding Standards
 
-Appium java-client strictly follows [Google Java Style](http://google-styleguide.googlecode.com/svn/trunk/javaguide.html) as a coding standards. Contributors are requested to follow this by configuring in their IDE's Editor Code style,
+Appium java-client strictly follows [Google Java Style](https://google.github.io/styleguide/javaguide.html) as a coding standards. Contributors are requested to follow this by configuring in their IDE's Editor Code style,
 
 * Clone [Google Style Guide](https://github.com/google/styleguide.git) from git
 

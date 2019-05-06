@@ -27,13 +27,13 @@ user's implementation of `org.openqa.selenium.support.events.WebDriverEventListe
 # Briefly about the engine. 
 
 This is pretty similar solution as the `org.openqa.selenium.support.events.EventFiringWebDriver` of the Selenium project. You 
-can read about this thing there [The blog post](http://seleniumworks.blogspot.ru/2014/02/eventfiringwebdriver.html).  
+can read about this thing there [The blog post](https://seleniumworks.blogspot.com/2014/02/eventfiringwebdriver.html).  
 
 Here we were trying to improve existing drawbacks and restrictions using: 
 
 - API splitting, see above.
 
-- the binding of some [Spring framework engines](https://projects.spring.io/spring-framework/) with [AspectJ](https://en.wikipedia.org/wiki/AspectJ).
+- the binding of some [Spring framework engines](https://spring.io/projects/spring-framework) with [AspectJ](https://en.wikipedia.org/wiki/AspectJ).
 
 # How to use
 
