@@ -20,7 +20,7 @@ Please provide more details, if necessary.
 ## Code To Reproduce Issue [ Good To Have ]
 
 Please remember that, with sample code; it's easier to reproduce bug and much faster to fix it.
-You can git clone https://github.com/appium/sample-code or https://github.com/appium/sample-code/tree/master/sample-code/apps and reproduce an issue using Java and sample apps.
+You can git clone https://github.com/appium/appium/tree/master/sample-code or https://github.com/appium/appium/tree/master/sample-code/apps and reproduce an issue using Java and sample apps.
 Also you can create a [gist](https://gist.github.com) with pasted java code sample or put it here using markdown. About markdown please read [Mastering markdown](https://guides.github.com/features/mastering-markdown/) and 
 [Writing on GitHub](https://help.github.com/categories/writing-on-github/)
 

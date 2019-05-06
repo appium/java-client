@@ -8,7 +8,7 @@ In order to understand this topic you should know concept of environment variabl
 
 ## How To Verify What Is Missing
 
-Appium itself is a NodeJS application and uses the same environment as its host `node` process. If you experience an error related to local environment setup then verify the actual process environment first. In Mac OS, for example, it is possible to do this via `ps eww <PID>` command, where `PID` is the process identifier of the running Appium's host Node process. In Windows the [ProcessExplorer](technet.microsoft.com/en-us/sysinternals/bb896653.aspx) utility can be used for such purpose. Then make sure the corresponding variable is there and it is set to a proper value, or, in case there is an error finding some binary, make sure the parent folder of this binary is present in `PATH` list, the binary itself on the local file system and can be executed manually.
+Appium itself is a NodeJS application and uses the same environment as its host `node` process. If you experience an error related to local environment setup then verify the actual process environment first. In Mac OS, for example, it is possible to do this via `ps eww <PID>` command, where `PID` is the process identifier of the running Appium's host Node process. In Windows the [ProcessExplorer](https://docs.microsoft.com/sysinternals/downloads/process-explorer) utility can be used for such purpose. Then make sure the corresponding variable is there and it is set to a proper value, or, in case there is an error finding some binary, make sure the parent folder of this binary is present in `PATH` list, the binary itself on the local file system and can be executed manually.
 
 ## How To Fix Missing Environment Variables
 

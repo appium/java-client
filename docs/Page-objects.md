@@ -317,7 +317,7 @@ List<RemoteWebElement> someElements;
 # The additional feature.
 
 ## The simple example 
-Let's imagine that the task is to check an Android client of the [http://www.rottentomatoes.com](http://www.rottentomatoes.com/). Let it be like a picture below
+Let's imagine that the task is to check an Android client of the [https://www.rottentomatoes.com](https://www.rottentomatoes.com/). Let it be like a picture below
  
 ![](https://cloud.githubusercontent.com/assets/4927589/11120641/51c1fda8-8962-11e5-8b17-323b5f236fce.png) Lets imagine that it is only a part of the screen. 
 

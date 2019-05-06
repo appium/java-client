@@ -5,7 +5,7 @@
 
 # The basic principle.
 
-It works the similar way as common [ChromeDriver](https://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/chrome/ChromeDriver.html), [InternetExplorerDriver](https://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/ie/InternetExplorerDriver.html) of Selenium project or [PhantomJSDriver](http://cdn.ivandemarino.me/phantomjsdriver-javadoc/org/openqa/selenium/phantomjs/PhantomJSDriver.html). They use subclasses of the [DriverService](https://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/remote/service/DriverService.html).
+It works the similar way as common [ChromeDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/chrome/ChromeDriver.html), [InternetExplorerDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/ie/InternetExplorerDriver.html) of Selenium project or [PhantomJSDriver](https://cdn.rawgit.com/detro/ghostdriver/master/binding/java/docs/javadoc/org/openqa/selenium/phantomjs/PhantomJSDriver.html). They use subclasses of the [DriverService](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/service/DriverService.html).
 
 # Which capabilities this feature provides
 

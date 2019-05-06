@@ -1,24 +1,24 @@
 # Steps: 
 
-- you have to prepare environment for Android. [Details are provided here](https://github.com/appium/appium/blob/master/docs/en/drivers/android-uiautomator2.md)
+- you have to prepare environment for Android. [Details are provided here](https://appium.io/docs/en/drivers/android-uiautomator2/#basic-setup)
 
 - it needs to launch the appium server. You can launch Appium desktop application. If you use the server installed via npm then 
 
   _$ node **the_path_to_main.js_file** --arg1 value1 --arg2 value2_ 
-It is not necessary to use arguments. [The list of arguments](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/server-args.md)
+It is not necessary to use arguments. [The list of arguments](https://appium.io/docs/en/writing-running-appium/server-args/)
 
 
 # The starting of an app
 
-It looks like creation of a common [RemoteWebDriver](https://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html) instance. 
+It looks like creation of a common [RemoteWebDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html) instance. 
 
-[Common capabilities](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#general-capabilities)
+[Common capabilities](https://appium.io/docs/en/writing-running-appium/caps/#general-capabilities)
 
-[Android-specific capabilities](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only)
+[Android-specific capabilities](https://appium.io/docs/en/writing-running-appium/caps/#android-only)
 
-[Common capabilities provided by Java client](http://appium.github.io/java-client/io/appium/java_client/remote/MobileCapabilityType.html)
+[Common capabilities provided by Java client](https://javadoc.io/page/io.appium/java-client/latest/io/appium/java_client/remote/MobileCapabilityType.html)
 
-[Android-specific capabilities provided by Java client](http://appium.github.io/java-client/io/appium/java_client/remote/AndroidMobileCapabilityType.html)
+[Android-specific capabilities provided by Java client](https://javadoc.io/page/io.appium/java-client/latest/io/appium/java_client/remote/AndroidMobileCapabilityType.html)
 
 ```java
 import java.io.File;
