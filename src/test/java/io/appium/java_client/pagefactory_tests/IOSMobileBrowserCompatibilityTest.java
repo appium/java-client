@@ -16,10 +16,12 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static java.time.Duration.ofSeconds;
+
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -36,7 +38,6 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class IOSMobileBrowserCompatibilityTest {
 
@@ -45,16 +46,16 @@ public class IOSMobileBrowserCompatibilityTest {
 
     @FindBy(name = "q")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")
-    @iOSFindBy(className = "someClass") private WebElement searchTextField;
+    @iOSXCUITFindBy(className = "someClass") private WebElement searchTextField;
 
     @AndroidFindBy(className = "someClass")
-    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) @iOSFindBy(className = "someClass")
+    @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")}) @iOSXCUITFindBy(className = "someClass")
     private List<WebElement> foundLinks;
 
     /**
      * The setting up.
      */
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -65,13 +66,13 @@ public class IOSMobileBrowserCompatibilityTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         driver = new IOSDriver<>(service.getUrl(), capabilities);
-        PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
     }
 
     /**
      * finishing.
      */
-    @After public void tearDown() throws Exception {
+    @After public void tearDown() {
         if (driver != null) {
             driver.quit();
         }

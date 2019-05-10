@@ -16,6 +16,7 @@
 
 package io.appium.java_client.appium;
 
+import static java.time.Duration.ofSeconds;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -25,15 +26,14 @@ import io.appium.java_client.AppiumFluentWait;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.support.ui.Duration;
-import org.openqa.selenium.support.ui.SystemClock;
 import org.openqa.selenium.support.ui.Wait;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Clock;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 public class AppiumFluentWaitTest {
+    
     private static class FakeElement {
         public boolean isDisplayed() {
             return false;
@@ -43,12 +43,12 @@ public class AppiumFluentWaitTest {
     @Test(expected = TimeoutException.class)
     public void testDefaultStrategy() {
         final FakeElement el = new FakeElement();
-        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
-            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(1L)));
-            Thread.sleep(duration.in(TimeUnit.MILLISECONDS));
+        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, Clock.systemDefaultZone(), duration -> {
+            assertThat(duration.getSeconds(), is(equalTo(1L)));
+            Thread.sleep(duration.toMillis());
         }).withPollingStrategy(AppiumFluentWait.IterationInfo::getInterval)
-                .withTimeout(3, TimeUnit.SECONDS)
-                .pollingEvery(1, TimeUnit.SECONDS);
+                .withTimeout(ofSeconds(3))
+                .pollingEvery(ofSeconds(1));
         wait.until(FakeElement::isDisplayed);
         Assert.fail("TimeoutException is expected");
     }
@@ -57,13 +57,13 @@ public class AppiumFluentWaitTest {
     public void testCustomStrategyOverridesDefaultInterval() {
         final FakeElement el = new FakeElement();
         final AtomicInteger callsCounter = new AtomicInteger(0);
-        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
+        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, Clock.systemDefaultZone(), duration -> {
             callsCounter.incrementAndGet();
-            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(2L)));
-            Thread.sleep(duration.in(TimeUnit.MILLISECONDS));
-        }).withPollingStrategy(info -> new Duration(2, TimeUnit.SECONDS))
-                .withTimeout(3, TimeUnit.SECONDS)
-                .pollingEvery(1, TimeUnit.SECONDS);
+            assertThat(duration.getSeconds(), is(equalTo(2L)));
+            Thread.sleep(duration.toMillis());
+        }).withPollingStrategy(info -> ofSeconds(2))
+                .withTimeout(ofSeconds(3))
+                .pollingEvery(ofSeconds(1));
         try {
             wait.until(FakeElement::isDisplayed);
             Assert.fail("TimeoutException is expected");
@@ -79,13 +79,13 @@ public class AppiumFluentWaitTest {
         final AtomicInteger callsCounter = new AtomicInteger(0);
         // Linear dependency
         final Function<Long, Long> pollingStrategy = x -> x * 2;
-        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, new SystemClock(), duration -> {
+        final Wait<FakeElement> wait = new AppiumFluentWait<>(el, Clock.systemDefaultZone(), duration -> {
             int callNumber = callsCounter.incrementAndGet();
-            assertThat(duration.in(TimeUnit.SECONDS), is(equalTo(pollingStrategy.apply((long) callNumber))));
-            Thread.sleep(duration.in(TimeUnit.MILLISECONDS));
-        }).withPollingStrategy(info -> new Duration(pollingStrategy.apply(info.getNumber()), TimeUnit.SECONDS))
-                .withTimeout(4, TimeUnit.SECONDS)
-                .pollingEvery(1, TimeUnit.SECONDS);
+            assertThat(duration.getSeconds(), is(equalTo(pollingStrategy.apply((long) callNumber))));
+            Thread.sleep(duration.toMillis());
+        }).withPollingStrategy(info -> ofSeconds(pollingStrategy.apply(info.getNumber())))
+                .withTimeout(ofSeconds(4))
+                .pollingEvery(ofSeconds(1));
         try {
             wait.until(FakeElement::isDisplayed);
             Assert.fail("TimeoutException is expected");

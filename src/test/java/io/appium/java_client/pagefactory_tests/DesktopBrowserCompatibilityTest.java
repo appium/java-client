@@ -16,36 +16,34 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static java.lang.System.setProperty;
-import static org.junit.Assert.assertEquals;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
-import io.appium.java_client.pagefactory.iOSFindBy;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class DesktopBrowserCompatibilityTest {
 
-    @HowToUseLocators(iOSAutomation = ALL_POSSIBLE)
+    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @AndroidFindBy(className = "someClass")
-    @iOSFindBy(xpath = "//selector[1]") @iOSFindBy(xpath = "//someTag")
+    @iOSXCUITFindBy(xpath = "//selector[1]") @iOSXCUITFindBy(xpath = "//someTag")
     @FindBys({@FindBy(id = "main"), @FindBy(tagName = "p")})
     private List<WebElement> foundLinks;
     private List<WebElement> main; //this list is located by id="main"
@@ -56,22 +54,21 @@ public class DesktopBrowserCompatibilityTest {
      * The starting.
      */
     @BeforeClass public static void beforeClass() {
-        setProperty(ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-                getChromeDriver().getAbsolutePath());
+        chromedriver().setup();
     }
 
     @Test public void chromeTest() {
         WebDriver driver = new ChromeDriver();
         try {
             PageFactory
-                    .initElements(new AppiumFieldDecorator(driver, 15, TimeUnit.SECONDS),
+                    .initElements(new AppiumFieldDecorator(driver, ofSeconds(15)),
                             this);
             driver.get(new File("src/test/java/io/appium/java_client/hello appium - saved page.htm")
                     .toURI().toString());
             assertNotEquals(0, foundLinks.size());
             assertNotEquals(0, main.size());
-            assertEquals(null, trap1);
-            assertEquals(null, trap2);
+            assertNull(trap1);
+            assertNull(trap2);
         } finally {
             driver.quit();
         }

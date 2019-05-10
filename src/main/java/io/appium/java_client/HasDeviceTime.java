@@ -18,11 +18,31 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.openqa.selenium.remote.Response;
 
 public interface HasDeviceTime extends ExecutesMethod {
-    /*
-        Gets device date and time for both iOS(Supports only real device) and Android devices
+
+    /**
+     * Gets device date and time for both iOS(host time is returned for simulators) and Android devices.
+     *
+     * @param format The set of format specifiers. Read
+     *               https://momentjs.com/docs/ to get the full list of supported
+     *               datetime format specifiers. The default format is
+     *               `YYYY-MM-DDTHH:mm:ssZ`, which complies to ISO-8601
+     * @return Device time string
+     */
+    default String getDeviceTime(String format) {
+        Response response = execute(GET_DEVICE_TIME, ImmutableMap.of("format", format));
+        return response.getValue().toString();
+    }
+
+    /**
+     * Gets device date and time for both iOS(host time is returned for simulators) and Android devices.
+     * The default format since Appium 1.8.2 is `YYYY-MM-DDTHH:mm:ssZ`, which complies to ISO-8601.
+     *
+     * @return Device time string
      */
     default String getDeviceTime() {
         Response response = execute(GET_DEVICE_TIME);

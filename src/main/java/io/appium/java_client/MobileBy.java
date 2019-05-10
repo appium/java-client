@@ -64,17 +64,6 @@ public abstract class MobileBy extends By {
     }
 
     /**
-     * Read https://developer.apple.com/library/tvos/documentation/DeveloperTools/
-     * Conceptual/InstrumentsUserGuide/UIAutomation.html
-     *
-     * @param iOSAutomationText is iOS UIAutomation string
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosUIAutomation}
-     */
-    public static By IosUIAutomation(final String iOSAutomationText) {
-        return new ByIosUIAutomation(iOSAutomationText);
-    }
-
-    /**
      * Read http://developer.android.com/intl/ru/tools/testing-support-library/
      * index.html#uia-apis
      * @param uiautomatorText is Android UIAutomator string
@@ -98,7 +87,7 @@ public abstract class MobileBy extends By {
     }
 
     /**
-     * This locator strategy is available in XCUITest Driver mode
+     * This locator strategy is available in XCUITest Driver mode.
      * @param iOSClassChainString is a valid class chain locator string.
      *                            See <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
      *                            the documentation</a> for more details
@@ -109,7 +98,18 @@ public abstract class MobileBy extends By {
     }
 
     /**
-    * This locator strategy is available in XCUITest Driver mode
+     * This locator strategy is only available in Espresso Driver mode.
+     * @param dataMatcherString is a valid class chain locator string.
+     *                            See <a href="https://github.com/appium/appium-espresso-driver/pull/386">
+     *                            the documentation</a> for more details
+     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidDataMatcher}
+     */
+    public static By androidDataMatcher(final String dataMatcherString) {
+        return new ByAndroidDataMatcher(dataMatcherString);
+    }
+
+    /**
+    * This locator strategy is available in XCUITest Driver mode.
     * @param iOSNsPredicateString is an an iOS NsPredicate String
     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
     */
@@ -120,64 +120,44 @@ public abstract class MobileBy extends By {
     public static By windowsAutomation(final String windowsAutomation) {
         return new ByWindowsAutomation(windowsAutomation);
     }
-    
-    public static class ByIosUIAutomation extends MobileBy implements Serializable {
 
-        public ByIosUIAutomation(String iOSAutomationText) {
-            super(MobileSelector.IOS_UI_AUTOMATION, iOSAutomationText);
-        }
+    /**
+     * This locator strategy is available in Espresso Driver mode.
+     * @since Appium 1.8.2 beta
+     * @param tag is an view tag string
+     * @return an instance of {@link ByAndroidViewTag}
+     */
+    public static By AndroidViewTag(final String tag) {
+        return new ByAndroidViewTag(tag);
+    }
 
-        /**
-         * @throws WebDriverException when current session doesn't support the given selector or when
-         *      value of the selector is not consistent.
-         * @throws IllegalArgumentException when it is impossible to find something on the given
-         * {@link SearchContext} instance
-         */
-        @SuppressWarnings("unchecked")
-        @Override
-        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
-            IllegalArgumentException {
-            Class<?> contextClass = context.getClass();
+    /**
+     * This locator strategy is available only if OpenCV libraries and
+     * NodeJS bindings are installed on the server machine.
+     *
+     * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
+     * The documentation on Image Comparison Features</a>
+     * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
+     * The settings available for lookup fine-tuning</a>
+     * @since Appium 1.8.2
+     * @param b64Template base64-encoded template image string. Supported image formats are the same
+     *                    as for OpenCV library.
+     * @return an instance of {@link ByImage}
+     */
+    public static By image(final String b64Template) {
+        return new ByImage(b64Template);
+    }
 
-            if (FindsByIosUIAutomation.class.isAssignableFrom(contextClass)) {
-                return FindsByIosUIAutomation.class.cast(context)
-                    .findElementsByIosUIAutomation(getLocatorString());
-            }
-
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
-                return super.findElements(context);
-            }
-
-            throw formIllegalArgumentException(contextClass, FindsByIosUIAutomation.class,
-                FindsByFluentSelector.class);
-        }
-
-        /**
-         * @throws WebDriverException when current session doesn't support the given selector or when
-         *      value of the selector is not consistent.
-         * @throws IllegalArgumentException when it is impossible to find something on the given
-         * {@link SearchContext} instance
-         */
-        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
-            IllegalArgumentException {
-            Class<?> contextClass = context.getClass();
-
-            if (FindsByIosUIAutomation.class.isAssignableFrom(contextClass)) {
-                return ((FindsByIosUIAutomation<?>) context)
-                    .findElementByIosUIAutomation(getLocatorString());
-            }
-
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
-                return super.findElement(context);
-            }
-
-            throw formIllegalArgumentException(contextClass, FindsByIosUIAutomation.class,
-                FindsByFluentSelector.class);
-        }
-
-        @Override public String toString() {
-            return "By.IosUIAutomation: " + getLocatorString();
-        }
+    /**
+     * This type of locator requires the use of the 'customFindModules' capability and a
+     * separately-installed element finding plugin.
+     *
+     * @param selector selector to pass to the custom element finding plugin
+     * @return an instance of {@link ByCustom}
+     * @since Appium 1.9.2
+     */
+    public static By custom(final String selector) {
+        return new ByCustom(selector);
     }
 
 
@@ -189,6 +169,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -205,7 +187,7 @@ public abstract class MobileBy extends By {
                     .findElementsByAndroidUIAutomator(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -214,6 +196,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -228,7 +212,7 @@ public abstract class MobileBy extends By {
                     .findElementByAndroidUIAutomator(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -249,6 +233,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -265,7 +251,7 @@ public abstract class MobileBy extends By {
                     .findElementsByAccessibilityId(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -274,6 +260,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -288,7 +276,7 @@ public abstract class MobileBy extends By {
                     .findElementByAccessibilityId(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -308,6 +296,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -322,7 +312,7 @@ public abstract class MobileBy extends By {
                         .findElementsByIosClassChain(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -331,6 +321,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -344,7 +336,7 @@ public abstract class MobileBy extends By {
                         .findElementByIosClassChain(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -357,6 +349,66 @@ public abstract class MobileBy extends By {
         }
     }
 
+    public static class ByAndroidDataMatcher extends MobileBy implements Serializable {
+
+        protected ByAndroidDataMatcher(String locatorString) {
+            super(MobileSelector.ANDROID_DATA_MATCHER, locatorString);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidDataMatcher.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidDataMatcher.class.cast(context)
+                        .findElementsByAndroidDataMatcher(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidDataMatcher.class,
+                    FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidDataMatcher.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidDataMatcher.class.cast(context)
+                        .findElementByAndroidDataMatcher(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidDataMatcher.class,
+                    FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.FindsByAndroidDataMatcher: " + getLocatorString();
+        }
+    }
+
     public static class ByIosNsPredicate extends MobileBy implements Serializable {
 
         protected ByIosNsPredicate(String locatorString) {
@@ -364,6 +416,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -378,7 +432,7 @@ public abstract class MobileBy extends By {
                         .findElementsByIosNsPredicate(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -387,6 +441,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -400,7 +456,7 @@ public abstract class MobileBy extends By {
                         .findElementByIosNsPredicate(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
@@ -420,6 +476,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -434,7 +492,7 @@ public abstract class MobileBy extends By {
                     .findElementsByWindowsUIAutomation(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElements(context);
             }
 
@@ -443,6 +501,8 @@ public abstract class MobileBy extends By {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @throws WebDriverException when current session doesn't support the given selector or when
          *      value of the selector is not consistent.
          * @throws IllegalArgumentException when it is impossible to find something on the given
@@ -456,12 +516,187 @@ public abstract class MobileBy extends By {
                     .findElementByWindowsUIAutomation(getLocatorString());
             }
 
-            if (FindsByFluentSelector.class.isAssignableFrom(context.getClass())) {
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
                 return super.findElement(context);
             }
 
             throw formIllegalArgumentException(contextClass, FindsByIosNSPredicate.class,
                 FindsByWindowsAutomation.class);
+        }
+    }
+
+    public static class ByImage extends MobileBy implements Serializable {
+
+        protected ByImage(String b64Template) {
+            super(MobileSelector.IMAGE, b64Template);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByImage.class.isAssignableFrom(contextClass)) {
+                return FindsByImage.class.cast(context).findElementsByImage(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByImage.class, FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByImage.class.isAssignableFrom(contextClass)) {
+                return FindsByImage.class.cast(context).findElementByImage(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByImage.class, FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.Image: " + getLocatorString();
+        }
+    }
+
+    public static class ByCustom extends MobileBy implements Serializable {
+
+        protected ByCustom(String selector) {
+            super(MobileSelector.CUSTOM, selector);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByCustom.class.isAssignableFrom(contextClass)) {
+                return FindsByCustom.class.cast(context).findElementsByCustom(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByCustom.class, FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByCustom.class.isAssignableFrom(contextClass)) {
+                return FindsByCustom.class.cast(context).findElementByCustom(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByCustom.class, FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.Custom: " + getLocatorString();
+        }
+    }
+
+    public static class ByAndroidViewTag extends MobileBy implements Serializable {
+
+        public ByAndroidViewTag(String tag) {
+            super(MobileSelector.ANDROID_VIEWTAG, tag);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override
+        public List<WebElement> findElements(SearchContext context) throws WebDriverException,
+                IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidViewTag.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidViewTag.class.cast(context)
+                        .findElementsByAndroidViewTag(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewTag.class,
+                    FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) throws WebDriverException,
+                IllegalArgumentException {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidViewTag.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidViewTag.class.cast(context)
+                        .findElementByAndroidViewTag(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewTag.class,
+                    FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.AndroidViewTag: " + getLocatorString();
         }
     }
 }

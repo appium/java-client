@@ -16,7 +16,8 @@
 
 package io.appium.java_client.pagefactory.bys;
 
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -24,32 +25,36 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
+    private ContentType currentContent = NATIVE_MOBILE_SPECIFIC;
 
     public ContentMappedBy(Map<ContentType, By> map) {
         this.map = map;
     }
 
+    /**
+     * This method sets required content type for the further searching.
+     * @param type required content type {@link ContentType}
+     * @return self-reference.
+     */
+    public By useContent(@Nonnull ContentType type) {
+        checkNotNull(type);
+        currentContent = type;
+        return this;
+    }
+
     @Override public WebElement findElement(SearchContext context) {
-        return context.findElement(map.get(getCurrentContentType(context)));
+        return context.findElement(map.get(currentContent));
     }
 
     @Override public List<WebElement> findElements(SearchContext context) {
-        return context.findElements(map.get(getCurrentContentType(context)));
+        return context.findElements(map.get(currentContent));
     }
 
     @Override public String toString() {
-        By defaultBy = map.get(ContentType.HTML_OR_DEFAULT);
-        By nativeBy = map.get(ContentType.NATIVE_MOBILE_SPECIFIC);
-
-        if (defaultBy.equals(nativeBy)) {
-            return defaultBy.toString();
-        }
-
-        return "Locator map: " + "\n"
-            + "- native content: \"" + nativeBy.toString() + "\" \n"
-            + "- html content: \"" + defaultBy.toString() + "\"";
+        return map.get(currentContent).toString();
     }
 }

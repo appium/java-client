@@ -18,22 +18,46 @@ package io.appium.java_client.remote;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.ofNullable;
+import static java.util.logging.Logger.getLogger;
+import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
+import com.google.common.io.CountingOutputStream;
+import com.google.common.io.FileBackedOutputStream;
+
+import io.appium.java_client.internal.Config;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
+import org.openqa.selenium.remote.CommandCodec;
 import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.internal.ApacheHttpClient;
+import org.openqa.selenium.remote.http.HttpRequest;
+import org.openqa.selenium.remote.http.HttpResponse;
+import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.service.DriverService;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
@@ -66,15 +90,140 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, new ApacheHttpClient.Factory());
+        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  DriverService service) {
-        this(additionalCommands, service, new ApacheHttpClient.Factory());
+        this(additionalCommands, service, HttpClient.Factory.createDefault());
     }
 
-    @Override public Response execute(Command command) throws WebDriverException {
+    protected <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
+        Class<?> superclass = getClass().getSuperclass();
+        Throwable recentException = null;
+        while (superclass != Object.class) {
+            try {
+                final Field f = superclass.getDeclaredField(fieldName);
+                f.setAccessible(true);
+                return fieldType.cast(f.get(this));
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                recentException = e;
+            }
+            superclass = superclass.getSuperclass();
+        }
+        throw new WebDriverException(recentException);
+    }
+
+    protected void setPrivateFieldValue(String fieldName, Object newValue) {
+        Class<?> superclass = getClass().getSuperclass();
+        Throwable recentException = null;
+        while (superclass != Object.class) {
+            try {
+                final Field f = superclass.getDeclaredField(fieldName);
+                f.setAccessible(true);
+                f.set(this, newValue);
+                return;
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                recentException = e;
+            }
+            superclass = superclass.getSuperclass();
+        }
+        throw new WebDriverException(recentException);
+    }
+
+    protected Map<String, CommandInfo> getAdditionalCommands() {
+        //noinspection unchecked
+        return getPrivateFieldValue("additionalCommands", Map.class);
+    }
+
+    protected CommandCodec<HttpRequest> getCommandCodec() {
+        //noinspection unchecked
+        return getPrivateFieldValue("commandCodec", CommandCodec.class);
+    }
+
+    protected void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+        setPrivateFieldValue("commandCodec", newCodec);
+    }
+
+    protected void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+        setPrivateFieldValue("responseCodec", codec);
+    }
+
+    protected HttpClient getClient() {
+        //noinspection unchecked
+        return getPrivateFieldValue("client", HttpClient.class);
+    }
+
+    private Response createSession(Command command) throws IOException {
+        if (getCommandCodec() != null) {
+            throw new SessionNotCreatedException("Session already exists");
+        }
+        ProtocolHandshake handshake = new ProtocolHandshake() {
+            @SuppressWarnings("unchecked")
+            public Result createSession(HttpClient client, Command command)
+                    throws IOException {
+                Capabilities desiredCapabilities = (Capabilities) command.getParameters().get("desiredCapabilities");
+                Capabilities desired = desiredCapabilities == null ? new ImmutableCapabilities() : desiredCapabilities;
+
+                //the number of bytes before the stream should switch to buffering to a file
+                int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
+                FileBackedOutputStream os = new FileBackedOutputStream(threshold);
+                try {
+
+                    CountingOutputStream counter = new CountingOutputStream(os);
+                    Writer writer = new OutputStreamWriter(counter, UTF_8);
+                    NewAppiumSessionPayload payload = NewAppiumSessionPayload.create(desired);
+                    payload.writeTo(writer);
+
+                    try (InputStream rawIn = os.asByteSource().openBufferedStream();
+                         BufferedInputStream contentStream = new BufferedInputStream(rawIn)) {
+
+                        Method createSessionMethod = this.getClass().getSuperclass()
+                                .getDeclaredMethod("createSession", HttpClient.class, InputStream.class, long.class);
+                        createSessionMethod.setAccessible(true);
+
+                        Optional<Result> result = (Optional<Result>) createSessionMethod
+                                .invoke(this, client, contentStream, counter.getCount());
+
+                        return result.map(result1 -> {
+                            Result toReturn = result.get();
+                            getLogger(ProtocolHandshake.class.getName())
+                                    .info(format("Detected dialect: %s", toReturn.getDialect()));
+                            return toReturn;
+                        }).orElseThrow(() -> new SessionNotCreatedException(
+                                format("Unable to create a new remote session. Desired capabilities = %s", desired)));
+                    } catch (NoSuchMethodException | IllegalAccessException e) {
+                        throw new SessionNotCreatedException(format("Unable to create a new remote session. "
+                                        + "Make sure your project dependencies config does not override "
+                                        + "Selenium API version %s used by java-client library.",
+                                Config.main().getValue("selenium.version", String.class)), e);
+                    } catch (InvocationTargetException e) {
+                        String message = "Unable to create a new remote session.";
+                        if (e.getCause() != null) {
+                            if (e.getCause() instanceof WebDriverException) {
+                                message += " Please check the server log for more details.";
+                            }
+                            message += format(" Original error: %s", e.getCause().getMessage());
+                        }
+                        throw new SessionNotCreatedException(message, e);
+                    }
+                } finally {
+                    os.reset();
+                }
+            }
+        };
+
+        ProtocolHandshake.Result result = handshake
+                .createSession(getClient(), command);
+        Dialect dialect = result.getDialect();
+        setCommandCodec(dialect.getCommandCodec());
+        getAdditionalCommands().forEach(this::defineCommand);
+        setResponseCodec(dialect.getResponseCodec());
+        return result.createResponse();
+    }
+
+    @Override
+    public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
             serviceOptional.ifPresent(driverService -> {
                 try {
@@ -85,8 +234,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             });
         }
 
+        Response response;
         try {
-            return super.execute(command);
+            response = NEW_SESSION.equals(command.getName()) ? createSession(command) : super.execute(command);
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
@@ -107,5 +257,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 serviceOptional.ifPresent(DriverService::stop);
             }
         }
+
+        if (DriverCommand.NEW_SESSION.equals(command.getName())
+                && getCommandCodec() instanceof W3CHttpCommandCodec) {
+            setCommandCodec(new AppiumW3CHttpCommandCodec());
+            getAdditionalCommands().forEach(this::defineCommand);
+        }
+
+        return response;
     }
 }

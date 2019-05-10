@@ -18,6 +18,7 @@ package io.appium.java_client.pagefactory;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.util.Optional.ofNullable;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
@@ -28,6 +29,7 @@ import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +39,13 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final List<Widget> cachedWidgets = new ArrayList<>();
     private final Class<? extends Widget> declaredType;
-    private final TimeOutDuration duration;
+    private final Duration duration;
     private final WebDriver driver;
     private List<WebElement> cachedElements;
 
     WidgetListInterceptor(CacheableLocator locator, WebDriver driver,
         Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-        Class<? extends Widget> declaredType, TimeOutDuration duration) {
+        Class<? extends Widget> declaredType, Duration duration) {
         super(locator);
         this.instantiationMap = instantiationMap;
         this.declaredType = declaredType;
@@ -59,8 +61,9 @@ class WidgetListInterceptor extends InterceptorOfAListOfElements {
             cachedElements = elements;
             cachedWidgets.clear();
 
+            ContentType type = null;
             for (WebElement element : cachedElements) {
-                ContentType type = getCurrentContentType(element);
+                type = ofNullable(type).orElseGet(() -> getCurrentContentType(element));
                 Class<?>[] params =
                     new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
                 cachedWidgets.add(ProxyFactory

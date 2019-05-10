@@ -165,26 +165,14 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
         Optional<HowToUseLocators> howToUseLocatorsOptional = ofNullable(howToUseLocators);
 
-        By result = null;
-        if (isSelendroidAutomation()) {
-            result = buildMobileBy(howToUseLocatorsOptional
-                            .map(HowToUseLocators::selendroidAutomation).orElse(null),
-                    getBys(SelendroidFindBy.class, SelendroidFindBys.class, SelendroidFindAll.class));
-        }
-
-        if (isAndroid() && result == null) {
+        if (isAndroid()) {
             return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::androidAutomation).orElse(null),
                     getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class));
         }
 
-        if (isIOSXcuit()) {
-            result = buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
+        if (isIOSXcuit() || isIOS()) {
+            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
                     getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
-        }
-
-        if (isIOS() && result == null) {
-            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSAutomation).orElse(null),
-                    getBys(iOSFindBy.class, iOSFindBys.class, iOSFindAll.class));
         }
 
         if (isWindows()) {
@@ -192,7 +180,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
                     getBys(WindowsFindBy.class, WindowsFindBys.class, WindowsFindAll.class));
         }
 
-        return ofNullable(result).orElse(null);
+        return null;
     }
 
     @Override

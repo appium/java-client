@@ -58,20 +58,20 @@ MobileElement someElement;
 List<MobileElement> someElements;
 ```
 
-# The fully cross platform examle
+# The fully cross platform example
 
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
 import org.openqa.selenium.support.FindBy;
 
-//the fully cross platform examle
+//the fully cross platform example
 @FindBy(someStrategy) //for browser or web view html UI
 @AndroidFindBy(someStrategy) //for Android native UI 
 @iOSFindBy(someStrategy)  //for iOS native UI 
 RemoteWebElement someElement;
 
-//the fully cross platform examle
+//the fully cross platform example
 @FindBy(someStrategy)
 @AndroidFindBy(someStrategy) //for Android native UI 
 @iOSFindBy(someStrategy)  //for iOS native UI 
@@ -305,18 +305,19 @@ If time of the waiting for elements differs from usual (longer, or shorter when 
 
 ```java
 import io.appium.java_client.pagefactory.*;
+import java.time.temporal.ChronoUnit;
 
-@WithTimeout(timeOut = yourTime, timeUnit = yourTimeUnit)
+@WithTimeout(timeOut = yourTime, chronoUnit = yourTimeUnit)
 RemoteWebElement someElement;
 
-@WithTimeout(timeOut = yourTime, timeUnit = yourTimeUnit)
+@WithTimeout(timeOut = yourTime, chronoUnit = yourTimeUnit)
 List<RemoteWebElement> someElements;
 ```
 
 # The additional feature.
 
 ## The simple example 
-Let's imagine that the task is to check an Android client of the [http://www.rottentomatoes.com](http://www.rottentomatoes.com/). Let it be like a picture below
+Let's imagine that the task is to check an Android client of the [https://www.rottentomatoes.com](https://www.rottentomatoes.com/). Let it be like a picture below
  
 ![](https://cloud.githubusercontent.com/assets/4927589/11120641/51c1fda8-8962-11e5-8b17-323b5f236fce.png) Lets imagine that it is only a part of the screen. 
 

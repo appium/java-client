@@ -18,12 +18,14 @@ package io.appium.java_client.android;
 
 import static org.junit.Assert.assertEquals;
 
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.junit.Before;
 import org.junit.Test;
 
 public class AndroidActivityTest extends BaseAndroidTest {
 
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }
@@ -47,11 +49,11 @@ public class AndroidActivityTest extends BaseAndroidTest {
     }
 
     @Test public void startActivityInNewAppTestCase() {
-        Activity activity = new Activity("com.android.contacts", ".ContactsListActivity");
+        Activity activity = new Activity("com.android.settings", ".Settings");
         driver.startActivity(activity);
-        assertEquals(driver.currentActivity(), ".ContactsListActivity");
-        driver.pressKeyCode(AndroidKeyCode.BACK);
-        assertEquals(driver.currentActivity(), ".ContactsListActivity");
+        assertEquals(driver.currentActivity(), ".Settings");
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        assertEquals(driver.currentActivity(), ".ApiDemos");
     }
 
     @Test public void startActivityInNewAppTestCaseWithoutClosingApp() {
@@ -60,13 +62,13 @@ public class AndroidActivityTest extends BaseAndroidTest {
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
 
-        Activity newActivity = new Activity("com.android.contacts", ".ContactsListActivity")
-                .setAppWaitPackage("com.android.contacts")
-                .setAppWaitActivity(".ContactsListActivity")
+        Activity newActivity = new Activity("com.android.settings", ".Settings")
+                .setAppWaitPackage("com.android.settings")
+                .setAppWaitActivity(".Settings")
                 .setStopApp(false);
         driver.startActivity(newActivity);
-        assertEquals(driver.currentActivity(), ".ContactsListActivity");
-        driver.pressKeyCode(AndroidKeyCode.BACK);
+        assertEquals(driver.currentActivity(), ".Settings");
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
     }
 }

@@ -21,4 +21,4 @@ with pasted java code samples or put them at a PR description using markdown. Ab
 
 # Pull-request template
 
-There is [PULL_REQUEST_TEMPLATE.md)](https://github.com/appium/java-client/blob/master/PULL_REQUEST_TEMPLATE.md) which should help you to make a good pull request.
+There is [PULL_REQUEST_TEMPLATE.md](https://github.com/appium/java-client/blob/master/PULL_REQUEST_TEMPLATE.md) which should help you to make a good pull request.

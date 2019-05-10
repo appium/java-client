@@ -1,8 +1,12 @@
 package io.appium.java_client.events;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.junit.Assert.assertThat;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.xpath;
+import static org.openqa.selenium.OutputType.BASE64;
 
 import io.appium.java_client.events.listeners.AppiumListener;
 import io.appium.java_client.events.listeners.SingleListeners;
@@ -11,7 +15,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.security.Credentials;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
@@ -20,7 +23,7 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
     private static AppiumListener listener;
     private static final String WEBDRIVER_EVENT_LISTENER = "WebDriverEventListener: ";
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         EmptyWebDriver emptyWebDriver = new EmptyWebDriver();
         driver = EventFiringWebDriverFactory.getEventFiringWebDriver(emptyWebDriver);
         listener = (AppiumListener) SingleListeners.listeners.get(AppiumListener.class);
@@ -66,39 +69,40 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
             alert.accept();
             alert.dismiss();
             alert.sendKeys("Keys");
-            Credentials credentials = new Credentials() {
-                @Override
-                public int hashCode() {
-                    return super.hashCode();
-                }
-
-                @Override
-                public String toString() {
-                    return "Test credentials 1";
-                }
-            };
-
-            Credentials credentials2 = new Credentials() {
-                @Override
-                public int hashCode() {
-                    return super.hashCode();
-                }
-
-                @Override
-                public String toString() {
-                    return "Test credentials 2";
-                }
-            };
-
-            alert.setCredentials(credentials);
-            alert.authenticateUsing(credentials2);
 
             assertThat(listener.messages,
                     hasItems(WEBDRIVER_EVENT_LISTENER + "Attempt to accept alert",
                             WEBDRIVER_EVENT_LISTENER + "The alert was accepted",
                             WEBDRIVER_EVENT_LISTENER + "Attempt to dismiss alert",
                             WEBDRIVER_EVENT_LISTENER + "The alert was dismissed"));
-            assertThat(listener.messages.size(), is(4));
+        } finally {
+            listener.messages.clear();
+        }
+    }
+
+    @Test
+    public void takeScreenShotEventTest() {
+        try {
+            driver.getScreenshotAs(BASE64);
+            driver.findElement(xpath(".//some//path")).findElement(id("someId")).getScreenshotAs(BASE64);
+
+            assertThat(listener.messages,
+                    contains("WebDriverEventListener: Attempt to take screen shot. Target type is OutputType.BASE64",
+                            "WebDriverEventListener: Screen shot was taken successfully. Target type is "
+                                    + "OutputType.BASE64, result is AQI=",
+                            "WebDriverEventListener: Attempt to find something using By.xpath: .//some//path. "
+                                    + "The root element is null",
+                            "WebDriverEventListener: The searching for something using "
+                                    + "By.xpath: .//some//path has beed finished. "
+                                    + "The root element was null",
+                            "WebDriverEventListener: Attempt to find something using By.id: someId. "
+                                    + "The root element is io.appium.java_client.events.StubWebElement",
+                            "WebDriverEventListener: The searching for something using "
+                                    + "By.id: someId has beed finished. "
+                                    + "The root element was io.appium.java_client.events.StubWebElement",
+                            "WebDriverEventListener: Attempt to take screen shot. Target type is OutputType.BASE64",
+                            "WebDriverEventListener: Screen shot was taken successfully. "
+                                    + "Target type is OutputType.BASE64, result is AQI="));
         } finally {
             listener.messages.clear();
         }
@@ -108,5 +112,18 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
     public void exceptionEventTest() {
         assertThat(super.assertThatExceptionListenerWorks(driver, listener, WEBDRIVER_EVENT_LISTENER),
             is(true));
+    }
+
+    @Test
+    public void windowListenerTest() {
+        try {
+            driver.switchTo().window("Test window");
+            assertThat(listener.messages,
+                    hasItems(WEBDRIVER_EVENT_LISTENER + "Attempt to switch to window Test window",
+                            WEBDRIVER_EVENT_LISTENER + "driver is switched to window Test window"));
+        } finally {
+            listener.messages.clear();
+        }
+
     }
 }

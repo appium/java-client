@@ -20,14 +20,14 @@ import com.google.common.base.Throwables;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.support.ui.Clock;
-import org.openqa.selenium.support.ui.Duration;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Sleeper;
 
 import java.lang.reflect.Field;
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -94,6 +94,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     /**
+     * The input value to pass to the evaluated conditions.
+     *
      * @param input The input value to pass to the evaluated conditions.
      */
     public AppiumFluentWait(T input) {
@@ -101,6 +103,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     /**
+     * Creates wait object based on {@code input} value, {@code clock} and {@code sleeper}.
+     *
      * @param input   The input value to pass to the evaluated conditions.
      * @param clock   The clock to use when measuring the timeout.
      * @param sleeper Used to put the thread to sleep between evaluation loops.
@@ -163,7 +167,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     /**
      * Sets the strategy for polling. The default strategy is null,
      * which means, that polling interval is always a constant value and is
-     * set by {@link #pollingEvery(long, TimeUnit)} method. Otherwise the value set by that
+     * set by {@link #pollingEvery(Duration)} method. Otherwise the value set by that
      * method might be just a helper to calculate the actual interval.
      * Although, by setting an alternative polling strategy you may flexibly control
      * the duration of this interval for each polling round.
@@ -211,10 +215,9 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      * <ol>
      * <li>the function returns neither null nor false,</li>
      * <li>the function throws an unignored exception,</li>
-     * <li>the timeout expires,
-     * <li>
+     * <li>the timeout expires,</li>
      * <li>the current thread is interrupted</li>
-     * </ol>
+     * </ol>.
      *
      * @param isTrue the parameter to pass to the expected condition
      * @param <V>    The function's expected return type.
@@ -224,8 +227,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      */
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
-        final long start = getClock().now();
-        final long end = getClock().laterBy(getTimeout().in(TimeUnit.MILLISECONDS));
+        final Instant start = getClock().instant();
+        final Instant end = getClock().instant().plus(getTimeout());
         long iterationNumber = 1;
         Throwable lastException;
         while (true) {
@@ -245,13 +248,13 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
 
             // Check the timeout after evaluating the function to ensure conditions
             // with a zero timeout can succeed.
-            if (!getClock().isNowBefore(end)) {
+            if (end.isBefore(getClock().instant())) {
                 String message = getMessageSupplier() != null ? getMessageSupplier().get() : null;
 
                 String timeoutMessage = String.format(
                         "Expected condition failed: %s (tried for %d second(s) with %s interval)",
                         message == null ? "waiting for " + isTrue : message,
-                        getTimeout().in(TimeUnit.SECONDS), getInterval());
+                        getTimeout().getSeconds(), getInterval());
                 throw timeoutException(timeoutMessage, lastException);
             }
 
@@ -259,7 +262,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 Duration interval = getInterval();
                 if (pollingStrategy != null) {
                     final IterationInfo info = new IterationInfo(iterationNumber,
-                            new Duration(getClock().now() - start, TimeUnit.MILLISECONDS), getTimeout(),
+                            Duration.between(start, getClock().instant()), getTimeout(),
                             interval);
                     interval = pollingStrategy.apply(info);
                 }

@@ -20,7 +20,6 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSBy;
-import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.Annotation;
@@ -36,10 +35,6 @@ enum Strategies {
             if (annotation.annotationType().equals(AndroidFindBy.class)
                     || annotation.annotationType().equals(AndroidBy.class)) {
                 return MobileBy.AndroidUIAutomator(value);
-            }
-            if (annotation.annotationType().equals(iOSFindBy.class)
-                    || annotation.annotationType().equals(iOSBy.class)) {
-                return MobileBy.IosUIAutomation(value);
             }
             return super.getBy(annotation);
         }
@@ -101,6 +96,12 @@ enum Strategies {
                     .iOSClassChain(getValue(annotation, this));
         }
     },
+    BY_DATA_MATCHER("androidDataMatcher") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                    .androidDataMatcher(getValue(annotation, this));
+        }
+    },
     BY_NS_PREDICATE("iOSNsPredicate") {
         @Override By getBy(Annotation annotation) {
             return MobileBy
@@ -127,7 +128,7 @@ enum Strategies {
         try {
             Method m = annotation.getClass()
                 .getMethod(strategy.valueName, AppiumByBuilder.DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
-            return m.invoke(annotation, new Object[] {}).toString();
+            return m.invoke(annotation).toString();
         } catch (NoSuchMethodException
                 | SecurityException
                 | IllegalAccessException

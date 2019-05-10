@@ -1,19 +1,21 @@
 package io.appium.java_client.android;
 
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.functions.ActionSupplier;
+import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 
-import java.time.Duration;
 import java.util.List;
 
 public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
 
-    private final ActionSupplier<TouchAction> horizontalSwipe = () -> {
+    private final ActionSupplier<AndroidTouchAction> horizontalSwipe = () -> {
         driver.findElementById("io.appium.android.apis:id/gallery");
 
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
@@ -22,16 +24,26 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         Point location = gallery.getLocation();
         Point center = gallery.getCenter();
 
-        return new TouchAction(driver).press(images.get(2), -10, center.y - location.y)
-                .waitAction(Duration.ofSeconds(2)).moveTo(gallery, 10, center.y - location.y).release();
+        ElementOption pressOption = element(images.get(2),-10,center.y - location.y);
+        ElementOption moveOption = element(gallery, 10,center.y - location.y);
+
+        return new AndroidTouchAction(driver)
+                .press(pressOption)
+                .waitAction(waitOptions(ofSeconds(2)))
+                .moveTo(moveOption)
+                .release();
     };
 
-    private final ActionSupplier<TouchAction> verticalSwiping = () ->
-        new TouchAction(driver).press(driver.findElementByAccessibilityId("Gallery"))
-                .waitAction(Duration.ofSeconds(2)).moveTo(driver.findElementByAccessibilityId("Auto Complete"))
+    private final ActionSupplier<AndroidTouchAction> verticalSwiping = () ->
+        new AndroidTouchAction(driver)
+                .press(element(driver.findElementByAccessibilityId("Gallery")))
+
+                .waitAction(waitOptions(ofSeconds(2)))
+
+                .moveTo(element(driver.findElementByAccessibilityId("Auto Complete")))
                 .release();
 
-    @Test public void horizontalSwipingWithSupplier() throws Exception {
+    @Test public void horizontalSwipingWithSupplier() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
         AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");

@@ -16,7 +16,6 @@
 
 package io.appium.java_client.service.local;
 
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -59,5 +58,18 @@ class ListOutputStream extends OutputStream {
         for (OutputStream stream : streams) {
             stream.close();
         }
+    }
+
+    /**
+     * Clears all the existing output streams.
+     *
+     * @return true if at least one output stream has been cleared
+     */
+    public boolean clear() {
+        if (streams.isEmpty()) {
+            return false;
+        }
+        streams.clear();
+        return true;
     }
 }

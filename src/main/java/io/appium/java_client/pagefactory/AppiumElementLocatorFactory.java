@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
+import static io.appium.java_client.pagefactory.WithTimeout.DurationBuilder.build;
 import static java.util.Optional.ofNullable;
 
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
@@ -26,22 +27,22 @@ import org.openqa.selenium.SearchContext;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import javax.annotation.Nullable;
 
 public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
-    private final TimeOutDuration duration;
+    private final Duration duration;
     private final AppiumByBuilder builder;
 
     /**
      * Creates a new mobile element locator factory.
      *
      * @param searchContext     The context to use when finding the element
-     * @param duration   is a POJO which contains timeout parameters for the element to be searched
+     * @param duration   timeout parameters for the elements to be found
      * @param builder    is handler of Appium-specific page object annotations
      */
-
-    public AppiumElementLocatorFactory(SearchContext searchContext, TimeOutDuration duration,
+    public AppiumElementLocatorFactory(SearchContext searchContext, Duration duration,
                                        AppiumByBuilder builder) {
         this.searchContext = searchContext;
         this.duration = duration;
@@ -53,10 +54,10 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
     }
 
     @Override public @Nullable CacheableLocator createLocator(AnnotatedElement annotatedElement) {
-        TimeOutDuration customDuration;
+        Duration customDuration;
         if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
-            customDuration = new TimeOutDuration(withTimeout.time(), withTimeout.unit());
+            customDuration = build(withTimeout);
         } else {
             customDuration = duration;
         }

@@ -28,7 +28,7 @@ import org.openqa.selenium.By;
 
 public class AndroidElementTest extends BaseAndroidTest {
 
-    @Before public void setup() throws Exception {
+    @Before public void setup() {
         Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }

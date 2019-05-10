@@ -16,12 +16,17 @@
 
 package io.appium.java_client.android;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -37,9 +42,83 @@ import java.util.Map;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
+    @Test public void sendSMSTest() {
+        try {
+            driver.sendSMS("11111111", "call");
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void gsmCallTest() {
+        try {
+            driver.makeGsmCall("11111111", GsmCallActions.CALL);
+            driver.makeGsmCall("11111111", GsmCallActions.ACCEPT);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void toggleWiFi() {
+        try {
+            driver.toggleWifi();
+        } catch (Exception e) {
+            fail("Not able to toggle wifi");
+        }
+    }
+
+    @Test public void toggleAirplane() {
+        try {
+            driver.toggleAirplaneMode();
+        } catch (Exception e) {
+            fail("Not able to toggle airplane mode");
+        }
+    }
+
+    @Test public void toggleData() {
+        try {
+            driver.toggleData();
+        } catch (Exception e) {
+            fail("Not able to toggle data");
+        }
+    }
+
+    @Test public void gsmSignalStrengthTest() {
+        try {
+            driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void gsmVoiceTest() {
+        try {
+            driver.setGsmVoice(GsmVoiceState.OFF);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void networkSpeedTest() {
+        try {
+            driver.setNetworkSpeed(NetworkSpeed.EDGE);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
+    @Test public void powerTest() {
+        try {
+            driver.setPowerCapacity(100);
+            driver.setPowerAC(PowerACState.OFF);
+        } catch (Exception e) {
+            fail("method works only in emulators");
+        }
+    }
+
     @Test public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
-        assertTrue(time.length() == 28);
+        assertFalse(time.isEmpty());
     }
 
     @Test public void isAppInstalledTest() {
@@ -50,7 +129,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertFalse(driver.isAppInstalled("foo"));
     }
 
-    @Test public void closeAppTest() throws InterruptedException {
+    @Test public void closeAppTest() {
         driver.closeApp();
         driver.launchApp();
         assertEquals(".ApiDemos", driver.currentActivity());
@@ -62,7 +141,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
                 .getBytes());
         driver.pushFile("/data/local/tmp/remote.txt", data);
         byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
-        String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+        String returnDataDecoded = new String(returnData);
         assertEquals(
             "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
             returnDataDecoded);
@@ -75,7 +154,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
                 + "more than the deposit of your understanding. ~E. W. Dijkstra", "UTF-8", true);
             driver.pushFile("/data/local/tmp/remote2.txt", temp);
             byte[] returnData = driver.pullFile("/data/local/tmp/remote2.txt");
-            String returnDataDecoded = new String(Base64.decodeBase64(returnData));
+            String returnDataDecoded = new String(returnData);
             assertEquals(
                 "The eventual code is no more than the deposit of "
                     + "your understanding. ~E. W. Dijkstra",
@@ -102,10 +181,13 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void lockTest() {
-        driver.lockDevice();
-        assertEquals(true, driver.isLocked());
-        driver.unlockDevice();
-        assertEquals(false, driver.isLocked());
+        try {
+            driver.lockDevice();
+            assertTrue(driver.isDeviceLocked());
+        } finally {
+            driver.unlockDevice();
+            assertFalse(driver.isDeviceLocked());
+        }
     }
 
     @Test public void runAppInBackgroundTest() {
@@ -115,9 +197,20 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assert (timeAfter - time > 3000);
     }
 
+    @Test public void testApplicationsManagement() throws InterruptedException {
+        String appId = driver.getCurrentPackage();
+        assertThat(driver.queryAppState(appId), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.runAppInBackground(Duration.ofSeconds(-1));
+        assertThat(driver.queryAppState(appId), lessThan(ApplicationState.RUNNING_IN_FOREGROUND));
+        Thread.sleep(500);
+        driver.activateApp(appId);
+        assertThat(driver.queryAppState(appId), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+    }
+
     @Test public void pullFileTest() {
         byte[] data =
-            driver.pullFile("data/system/registered_services/android.content.SyncAdapter.xml");
+            driver.pullFile("/data/system/users/userlist.xml");
         assert (data.length > 0);
     }
 
@@ -146,9 +239,9 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getSupportedPerformanceDataTypesTest() {
-        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
+        driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
-        List<String> dataTypes = new ArrayList<String>();
+        List<String> dataTypes = new ArrayList<>();
         dataTypes.add("cpuinfo");
         dataTypes.add("memoryinfo");
         dataTypes.add("batteryinfo");
@@ -165,8 +258,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     }
 
-    @Test public void getPerformanceDataTest() throws Exception {
-        driver.startActivity(new Activity("io.appium.android.apis", ".ApiDemos"));
+    @Test public void getPerformanceDataTest() {
+        driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
 
@@ -182,7 +275,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test public void getCurrentPackageTest() {
-        assertEquals("io.appium.android.apis",driver.getCurrentPackage());
+        assertEquals(APP_ID, driver.getCurrentPackage());
     }
 
 }

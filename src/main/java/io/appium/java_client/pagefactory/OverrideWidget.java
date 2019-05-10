@@ -50,25 +50,6 @@ import java.lang.annotation.Target;
     Class<? extends Widget> androidUIAutomator() default Widget.class;
 
     /**
-     * This property is designed for iOS native content.
-     * A declared class should not be abstract. Declared class also should be a subclass
-     * of an annotated class/class which is declared by an annotated field.
-     *
-     * @return a class which extends {@link io.appium.java_client.pagefactory.Widget}
-     */
-    Class<? extends Widget> iOSUIAutomation() default Widget.class;
-
-    /**
-     * This property is designed for Android native content when
-     * {@link io.appium.java_client.remote.AutomationName#SELENDROID} automation is used.
-     * A declared class should not be abstract. Declared class also should be a subclass
-     * of an annotated class/class which is declared by an annotated field.
-     *
-     * @return a class which extends {@link io.appium.java_client.pagefactory.Widget}
-     */
-    Class<? extends Widget> selendroid() default Widget.class;
-
-    /**
      * This property is designed for iOS native content when
      * {@link io.appium.java_client.remote.AutomationName#IOS_XCUI_TEST} automation is used.
      * A declared class should not be abstract. Declared class also should be a subclass

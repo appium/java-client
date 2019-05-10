@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 
 public interface CacheableElementLocatorFactory extends ElementLocatorFactory {
 
-    public CacheableLocator createLocator(Field field);
+    CacheableLocator createLocator(Field field);
 
-    public CacheableLocator createLocator(AnnotatedElement annotatedElement);
+    CacheableLocator createLocator(AnnotatedElement annotatedElement);
 }

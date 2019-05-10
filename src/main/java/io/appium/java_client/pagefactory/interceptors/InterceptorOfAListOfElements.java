@@ -37,8 +37,7 @@ public abstract class InterceptorOfAListOfElements implements MethodInterceptor 
         throws InvocationTargetException, IllegalAccessException, InstantiationException, Throwable;
 
     /**
-     * Look at
-     * {@link net.sf.cglib.proxy.MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}
+     * Look at {@link MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}.
      */
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
         throws Throwable {
@@ -46,8 +45,7 @@ public abstract class InterceptorOfAListOfElements implements MethodInterceptor 
             return proxy.invokeSuper(obj, args);
         }
 
-        ArrayList<WebElement> realElements = new ArrayList<WebElement>();
-        realElements.addAll(locator.findElements());
+        List<WebElement> realElements = new ArrayList<>(locator.findElements());
         return getObject(realElements, method, args);
     }
 }

@@ -42,7 +42,7 @@ public class FewInstancesTest extends BaseListenerTest {
     private static RotationListener rotationListener2;
     private static WindowListener windowListener2;
 
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         emptyWebDriver1 = new EmptyWebDriver();
         emptyWebDriver1 = EventFiringWebDriverFactory.getEventFiringWebDriver(emptyWebDriver1);
 

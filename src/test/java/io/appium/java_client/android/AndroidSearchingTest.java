@@ -29,7 +29,7 @@ import org.junit.Test;
 public class AndroidSearchingTest extends BaseAndroidTest {
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }

@@ -30,11 +30,11 @@ import io.appium.java_client.events.api.mobile.RotationEventListener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.security.Credentials;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import java.lang.reflect.Proxy;
@@ -134,6 +134,26 @@ class DefaultListener
         ((ListensToException) dispatcher).onException(throwable, driver);
     }
 
+    @Override
+    public <X> void beforeGetScreenshotAs(OutputType<X> target) {
+        ((WebDriverEventListener) dispatcher).beforeGetScreenshotAs(target);
+    }
+
+    @Override
+    public <X> void afterGetScreenshotAs(OutputType<X> target, X screenshot) {
+        ((WebDriverEventListener) dispatcher).afterGetScreenshotAs(target, screenshot);
+    }
+
+    @Override
+    public void beforeGetText(WebElement element, WebDriver driver) {
+        ((ElementEventListener) dispatcher).beforeGetText(element, driver);
+    }
+
+    @Override
+    public void afterGetText(WebElement element, WebDriver driver, String text) {
+        ((ElementEventListener) dispatcher).afterGetText(element, driver, text);
+    }
+
     public void add(Collection<Listener> listeners) {
         this.listeners.addAll(listeners);
     }
@@ -182,16 +202,6 @@ class DefaultListener
         ((AlertEventListener) dispatcher).afterAlertSendKeys(driver, alert, keys);
     }
 
-    @Override
-    public void beforeAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
-        ((AlertEventListener) dispatcher).beforeAuthentication(driver, alert, credentials);
-    }
-
-    @Override
-    public void afterAuthentication(WebDriver driver, Alert alert, Credentials credentials) {
-        ((AlertEventListener) dispatcher).afterAuthentication(driver, alert, credentials);
-    }
-
     @Override public void beforeWindowChangeSize(WebDriver driver, WebDriver.Window window,
         Dimension targetSize) {
         ((WindowEventListener) dispatcher).beforeWindowChangeSize(driver, window, targetSize);
@@ -218,6 +228,16 @@ class DefaultListener
 
     @Override public void afterWindowIsMaximized(WebDriver driver, WebDriver.Window window) {
         ((WindowEventListener) dispatcher).afterWindowIsMaximized(driver, window);
+    }
+
+    @Override
+    public void beforeSwitchToWindow(String windowName, WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).beforeSwitchToWindow(windowName, driver);
+    }
+
+    @Override
+    public void afterSwitchToWindow(String windowName, WebDriver driver) {
+        ((WebDriverEventListener) dispatcher).afterSwitchToWindow(windowName, driver);
     }
 
     @Override public void beforeSwitchingToContext(WebDriver driver, String context) {

@@ -1,13 +1,13 @@
 # java-client
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
-[![Javadoc](https://javadoc-emblem.rhcloud.com/doc/io.appium/java-client/badge.svg)](http://www.javadoc.io/doc/io.appium/java-client)
+[![Javadocs](https://www.javadoc.io/badge/io.appium/java-client.svg)](https://www.javadoc.io/doc/io.appium/java-client)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
 [![Build Status](https://travis-ci.org/appium/java-client.svg?branch=master)](https://travis-ci.org/appium/java-client)
 
 This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
 
-[API docs](http://appium.github.io/java-client/)
+[API docs](https://www.javadoc.io/doc/io.appium/java-client)
 
 ### Features and other interesting information
 
@@ -17,9 +17,176 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 
 [WIKI](https://github.com/appium/java-client/wiki)
 
+## How to install latest java client Beta/Snapshots
+
+Java client project is available to use even before it is officially published to maven central. Refer [jitpack.io](https://jitpack.io/#appium/java-client)
+
+### Maven
+
+ - Add the following to pom.xml:
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+ - Add the dependency:
+ 
+```xml
+<dependency>
+    <groupId>com.github.appium</groupId>
+    <artifactId>java-client</artifactId>
+    <version>latest commit ID from master branch</version>
+</dependency>
+``` 
+
+### Gradle
+
+ - Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+ 
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+ - Add the dependency:
+ 
+```
+dependencies {
+    implementation 'com.github.appium:java-client:latest commit id from master branch'
+}
+```
+
 ## Changelog
 
-*5.1.0 (under construction yet)*
+*7.0.0*
+- **[ENHANCEMENTS]** 
+    - The new interface `io.appium.java_client.FindsByAndroidViewTag` was added. [#996](https://github.com/appium/java-client/pull/996)
+    - The selector strategy `io.appium.java_client.MobileBy.ByAndroidViewTag` was added. [#996](https://github.com/appium/java-client/pull/996)
+    - The new interface `io.appium.java_client.FindsByImage` was added. [#990](https://github.com/appium/java-client/pull/990)
+    - The selector strategy `io.appium.java_client.MobileBy.ByImage` was added. [#990](https://github.com/appium/java-client/pull/990)
+    - The new interface `io.appium.java_client.FindsByCustom` was added. [#1041](https://github.com/appium/java-client/pull/1041)
+    - The selector strategy `io.appium.java_client.MobileBy.ByCustom` was added. [#1041](https://github.com/appium/java-client/pull/1041)
+    - DatatypeConverter is replaced with Base64 for JDK 9 compatibility. [#999](https://github.com/appium/java-client/pull/999)
+    - Expand touch options API to accept coordinates as Point. [#997](https://github.com/appium/java-client/pull/997)
+    - W3C capabilities written into firstMatch entity instead of alwaysMatch. [#1010](https://github.com/appium/java-client/pull/1010)
+    - `Selendroid` for android and `UIAutomation` for iOS is deprecated. [#1034](https://github.com/appium/java-client/pull/1034) and [#1074](https://github.com/appium/java-client/pull/1074)
+    - `videoScale` and `fps` screen recording options are introduced for iOS. [#1067](https://github.com/appium/java-client/pull/1067)
+    - `NORMALIZE_TAG_NAMES` setting was introduced for android. [#1073](https://github.com/appium/java-client/pull/1073)
+    - `threshold` argument was added to OccurrenceMatchingOptions. [#1060](https://github.com/appium/java-client/pull/1060)
+    - `org.openqa.selenium.internal.WrapsElement` replaced by `org.openqa.selenium.WrapsElement`. [#1053](https://github.com/appium/java-client/pull/1053)
+    - SLF4J logging support added into Appium Driver local service. [#1014](https://github.com/appium/java-client/pull/1014)
+    - `IMAGE_MATCH_THRESHOLD`, `FIX_IMAGE_FIND_SCREENSHOT_DIMENSIONS`, `FIX_IMAGE_TEMPLATE_SIZE`, `CHECK_IMAGE_ELEMENT_STALENESS`, `UPDATE_IMAGE_ELEMENT_POSITION` and `IMAGE_ELEMENT_TAP_STRATEGY` setting was introduced for image elements. [#1011](https://github.com/appium/java-client/pull/1011)
+- **[BUG FIX]** Better handling of InvocationTargetException [#968](https://github.com/appium/java-client/pull/968)
+- **[BUG FIX]** Map sending keys to active element for W3C compatibility. [#966](https://github.com/appium/java-client/pull/966)
+- **[BUG FIX]** Error message on session creation is improved. [#994](https://github.com/appium/java-client/pull/994)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.141.59.
+  - `com.google.code.gson:gson` was updated to 2.8.5.
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.6.
+  - `cglib:cglib` was updated to 3.2.8.
+  - `org.apache.commons:commons-lang3` was updated to 3.8.
+  - `org.springframework:spring-context` was updated to 5.1.0.RELEASE.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 3.0.0.
+  - `org.eclipse.jdt:ecj` was updated to 3.14.0.
+  - `org.slf4j:slf4j-api` was updated to 1.7.25.
+  - `jacoco` was updated to 0.8.2.
+  - `checkstyle` was updated to 8.12.
+  - `gradle` was updated to 4.10.1.
+  - `org.openpnp:opencv` was removed.
+  
+*6.1.0*
+- **[BUG FIX]** Initing web socket clients lazily. Report [#911](https://github.com/appium/java-client/issues/911). FIX: [#912](https://github.com/appium/java-client/pull/912).
+- **[BUG FIX]** Fix session payload for W3C. [#913](https://github.com/appium/java-client/pull/913)
+- **[ENHANCEMENT]** Added TouchAction constructor argument verification [#923](https://github.com/appium/java-client/pull/923)
+- **[BUG FIX]** Set retry flag to true by default for OkHttpFactory. [#928](https://github.com/appium/java-client/pull/928)
+- **[BUG FIX]** Fix class cast exception on getting battery info. [#935](https://github.com/appium/java-client/pull/935)
+- **[ENHANCEMENT]** Added an optional format argument to getDeviceTime and update the documentation. [#939](https://github.com/appium/java-client/pull/939)
+- **[ENHANCEMENT]** The switching web socket client implementation to okhttp library. [#941](https://github.com/appium/java-client/pull/941)
+- **[BUG FIX]** Fix of the bug [#924](https://github.com/appium/java-client/issues/924). [#951](https://github.com/appium/java-client/pull/951)
+
+*6.0.0*
+- **[ENHANCEMENT]** Added an ability to set pressure value for iOS. [#879](https://github.com/appium/java-client/pull/879)
+- **[ENHANCEMENT]** Added new server arguments `RELAXED_SECURITY` and `ENABLE_HEAP_DUMP`. [#880](https://github.com/appium/java-client/pull/880)
+- **[BUG FIX]** Use default Selenium HTTP client factory [#877](https://github.com/appium/java-client/pull/877)
+- **[ENHANCEMENT]** Supporting syslog broadcast with iOS [#871](https://github.com/appium/java-client/pull/871)
+- **[ENHANCEMENT]** Added isKeyboardShown command for iOS [#887](https://github.com/appium/java-client/pull/887)
+- **[ENHANCEMENT]** Added battery information accessors [#882](https://github.com/appium/java-client/pull/882)
+- **[BREAKING CHANGE]** Removal of deprecated code. [#881](https://github.com/appium/java-client/pull/881)
+- **[BUG FIX]** Added `NewAppiumSessionPayload`. Bug report: [#875](https://github.com/appium/java-client/issues/875). FIX: [#894](https://github.com/appium/java-client/pull/894)
+- **[ENHANCEMENT]** Added ESPRESSO automation name [#908](https://github.com/appium/java-client/pull/908)
+- **[ENHANCEMENT]** Added a method for output streams cleanup [#909](https://github.com/appium/java-client/pull/909)
+- **[DEPENDENCY UPDATES]**
+  - `com.google.code.gson:gson` was updated to 2.8.4
+  - `org.springframework:spring-context` was updated to 5.0.5.RELEASE
+  - `org.aspectj:aspectjweaver` was updated to 1.9.1
+  - `org.glassfish.tyrus:tyrus-clien` was updated to 1.13.1
+  - `org.glassfish.tyrus:tyrus-container-grizzly` was updated to 1.2.1
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.12.0
+
+
+*6.0.0-BETA5*
+- **[ENHANCEMENT]** Added clipboard handlers. [#855](https://github.com/appium/java-client/pull/855) [#869](https://github.com/appium/java-client/pull/869)
+- **[ENHANCEMENT]** Added wrappers for Android logcat broadcaster. [#858](https://github.com/appium/java-client/pull/858)
+- **[ENHANCEMENT]** Add bugreport option to Android screen recorder. [#852](https://github.com/appium/java-client/pull/852)
+- **[BUG FIX]** Avoid amending parameters for SET_ALERT_VALUE endpoint. [#867](https://github.com/appium/java-client/pull/867)
+- **[BREAKING CHANGE]** Refactor network connection setting on Android. [#865](https://github.com/appium/java-client/pull/865)
+- **[BUG FIX]** **[BREAKING CHANGE]** Refactor of the `io.appium.java_client.AppiumFluentWait`. It uses `java.time.Duration` for time settings instead of `org.openqa.selenium.support.ui.Duration` and `java.util.concurrent.TimeUnit` [#863](https://github.com/appium/java-client/pull/863)
+- **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.TimeOutDuration` became deprecated. It is going to be removed. Use `java.time.Duration` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
+- **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.WithTimeOut#unit` became deprecated. It is going to be removed. Use `io.appium.java_client.pagefactory.WithTimeOut#chronoUnit` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
+- **[BREAKING CHANGE]** constructors of `io.appium.java_client.pagefactory.AppiumElementLocatorFactory`, `io.appium.java_client.pagefactory.AppiumFieldDecorator` and `io.appium.java_client.pagefactory.AppiumElementLocator` which use `io.appium.java_client.pagefactory.TimeOutDuration` as a parameter became deprecated. Use new constructors which use `java.time.Duration`.
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.11.0
+
+*6.0.0-BETA4*
+- **[ENHANCEMENT]** Added handler for isDispalyed in W3C mode. [#833](https://github.com/appium/java-client/pull/833)
+- **[ENHANCEMENT]** Added handlers for sending SMS, making GSM Call, setting GSM signal, voice, power capacity and power AC. [#834](https://github.com/appium/java-client/pull/834)
+- **[ENHANCEMENT]** Added handlers for toggling wifi, airplane mode and data in android. [#835](https://github.com/appium/java-client/pull/835)
+- **[DEPENDENCY UPDATES]**
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.5
+  - `cglib:cglib` was updated to 3.2.6
+  - `org.springframework:spring-context` was updated to 5.0.3.RELEASE
+
+*6.0.0-BETA3*
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.9.1
+- **[BREAKING CHANGE]** Removal of deprecated listener-methods from the AlertEventListener. [#797](https://github.com/appium/java-client/pull/797)
+- **[BUG FIX]**. Fix the `pushFile` command. [#812](https://github.com/appium/java-client/pull/812) [#816](https://github.com/appium/java-client/pull/816)
+- **[ENHANCEMENT]**. Implemented custom command codec. [#817](https://github.com/appium/java-client/pull/817), [#825](https://github.com/appium/java-client/pull/825)
+- **[ENHANCEMENT]** Added handlers for lock/unlock in iOS. [#799](https://github.com/appium/java-client/pull/799)
+- **[ENHANCEMENT]** AddEd endpoints for screen recording API for iOS and Android. [#814](https://github.com/appium/java-client/pull/814)
+- **[MAJOR ENHANCEMENT]** W3C compliance was provided. [#829](https://github.com/appium/java-client/pull/829)
+- **[ENHANCEMENT]** New capability `MobileCapabilityType.FORCE_MJSONWP` [#829](https://github.com/appium/java-client/pull/829)
+- **[ENHANCEMENT]** Updated applications management endpoints. [#824](https://github.com/appium/java-client/pull/824)
+
+*6.0.0-BETA2*
+- **[ENHANCEMENT]** The `fingerPrint` ability was added. It is supported by Android for now. [#473](https://github.com/appium/java-client/pull/473) [#786](https://github.com/appium/java-client/pull/786)
+- **[BUG FIX]**. Less strict verification of the `PointOption`. [#795](https://github.com/appium/java-client/pull/795)
+
+*6.0.0-BETA1*
+- **[ENHANCEMENT]** **[REFACTOR]** **[BREAKING CHANGE]** **[MAJOR CHANGE]** Improvements of the TouchActions API [#756](https://github.com/appium/java-client/pull/756), [#760](https://github.com/appium/java-client/pull/760):
+    - `io.appium.java_client.touch.ActionOptions` and sublasses were added
+    - old methods of the `TouchActions` were marked `@Deprecated`
+    - new methods which take new options.    
+- **[ENHANCEMENT]**. Appium drivr local service uses default process environment by default. [#753](https://github.com/appium/java-client/pull/753)
+- **[BUG FIX]**. Removed 'set' prefix from waitForIdleTimeout setting. [#754](https://github.com/appium/java-client/pull/754)
+- **[BUG FIX]**. The asking for session details was optimized. Issue report [764](https://github.com/appium/java-client/issues/764).
+FIX [#769](https://github.com/appium/java-client/pull/769)
+- **[BUG FIX]** **[REFACTOR]**. Inconcistent MissingParameterException was removed. Improvements of MultiTouchAction. Report: [#102](https://github.com/appium/java-client/issues/102). FIX [#772](https://github.com/appium/java-client/pull/772)
+- **[DEPENDENCY UPDATES]**
+  - `org.apache.commons:commons-lang3` was updated to 3.7
+  - `commons-io:commons-io` was updated to 2.6
+  - `org.springframework:spring-context` was updated to 5.0.2.RELEASE
+  - `org.aspectj:aspectjweaver` was updated to 1.8.13
+  - `org.seleniumhq.selenium:selenium-java` was updated to 3.7.1
 
 *5.0.4*
 - **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).

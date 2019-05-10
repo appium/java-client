@@ -20,11 +20,10 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Method;
-
 
 public abstract class InterceptorOfASingleElement implements MethodInterceptor {
     protected final ElementLocator locator;
@@ -39,8 +38,7 @@ public abstract class InterceptorOfASingleElement implements MethodInterceptor {
         throws Throwable;
 
     /**
-     * Look at
-     * {@link net.sf.cglib.proxy.MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}
+     * Look at {@link MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}.
      */
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
         throws Throwable {

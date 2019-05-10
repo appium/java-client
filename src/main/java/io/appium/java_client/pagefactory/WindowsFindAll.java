@@ -34,13 +34,16 @@ import java.lang.annotation.Target;
 @Repeatable(WindowsFindByAllSet.class)
 public @interface WindowsFindAll {
     /**
-     * It is a set of {@link WindowsBy} strategies which may be
-     * used to find the target element.
+     * It is a set of {@link WindowsBy} strategies which may be used to find the target element.
+     *
+     * @return a collection of strategies which may be used to find the target element
      */
     WindowsBy[] value();
 
     /**
-     * @return priority of the searching. Higher number means lower priority.
+     * Priority of the searching. Higher number means lower priority.
+     *
+     * @return priority of the searching
      */
     int priority() default 0;
 }

@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByFluentSelector;
-import io.appium.java_client.FindsByIosUIAutomation;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
@@ -17,8 +16,10 @@ import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -40,7 +41,7 @@ import java.util.Set;
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
     FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
     FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
-    FindsByIosUIAutomation<StubWebElement>, JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement> {
+    JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>, TakesScreenshot {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -105,7 +106,7 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
     }
 
     @Override public String getPageSource() {
-        return null;
+        throw new WebDriverException();
     }
 
     @Override public void close() {
@@ -208,14 +209,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         return createStubList();
     }
 
-    @Override public StubWebElement findElementByIosUIAutomation(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByIosUIAutomation(String using) {
-        return createStubList();
-    }
-
     @Override public Object executeScript(String script, Object... args) {
         return null;
     }
@@ -229,6 +222,11 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         map.put("0",StringUtils.EMPTY);
         map.put("1",StringUtils.EMPTY);
         return new DesiredCapabilities(map);
+    }
+
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
+        return target.convertFromPngBytes(new byte[]{1,2});
     }
 
     private class StubTargetLocator implements TargetLocator {

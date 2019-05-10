@@ -16,7 +16,6 @@
 
 package io.appium.java_client.remote;
 
-
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
@@ -249,8 +248,6 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * orientation on landscape-oriented devices.
      */
     String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
-
-    String SELENDROID_PORT = "selendroidPort";
 
     /**
      * The port number, which being used by UIAutomator2.

@@ -31,14 +31,21 @@ public interface PushesFiles extends ExecutesMethod {
 
     /**
      * Saves base64 encoded data as a media file on the remote mobile device.
-     * This method is only supported on Simulator running Xcode SDK 8.1+.
+     * The server should have ifuse
+     * libraries installed and configured properly for this feature to work
+     * on real devices.
+     *
+     * @see <a href="https://github.com/libimobiledevice/ifuse">iFuse GitHub page</a>
+     * @see <a href="https://github.com/osxfuse/osxfuse/wiki/FAQ">osxFuse FAQ</a>
      *
      * @param remotePath Path to file to write data to on remote device
-     *                   Only the filename part matters there, so the remote end
+     *                   Only the filename part matters there on Simulator, so the remote end
      *                   can figure out which type of media data it is and save
      *                   it into a proper folder on the target device. Check
      *                   'xcrun simctl addmedia' output to get more details on
-     *                   supported media types
+     *                   supported media types.
+     *                   If the path starts with <em>@applicationId/</em> prefix, then the file
+     *                   will be pushed to the root of the corresponding application container.
      * @param base64Data Base64 encoded byte array of media file data to write to remote device
      */
     default void pushFile(String remotePath, byte[] base64Data) {
@@ -47,7 +54,12 @@ public interface PushesFiles extends ExecutesMethod {
 
     /**
      * Saves base64 encoded data as a media file on the remote mobile device.
-     * This method is only supported on Simulator running Xcode SDK 8.1+.
+     * The server should have ifuse
+     * libraries installed and configured properly for this feature to work
+     * on real devices.
+     *
+     * @see <a href="https://github.com/libimobiledevice/ifuse">iFuse GitHub page</a>
+     * @see <a href="https://github.com/osxfuse/osxfuse/wiki/FAQ">osxFuse FAQ</a>
      *
      * @param remotePath See the documentation on {@link #pushFile(String, byte[])}
      * @param file Is an existing local file to be written to the remote device

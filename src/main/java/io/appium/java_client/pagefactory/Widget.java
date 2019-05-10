@@ -16,15 +16,14 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility
-    .unpackWebDriverFromSearchContext;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.WrapsElement;
 
 import java.util.List;
 

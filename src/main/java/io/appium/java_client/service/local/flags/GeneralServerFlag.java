@@ -83,7 +83,6 @@ public enum GeneralServerFlag implements ServerArgument {
      * Port for robot. Sample: --robot-port 4242
      */
     ROBOT_PORT("--robot-port"),
-
     /**
      * Show info about the Appium server configuration and exit. Default: false
      */
@@ -107,12 +106,20 @@ public enum GeneralServerFlag implements ServerArgument {
      * Add exaggerated spacing in logs to help with visual inspection. Default: false
      */
     DEBUG_LOG_SPACING("--debug-log-spacing"),
-
     /**
      * Add long stack traces to log entries. Recommended for debugging only.
      * Default: false
      */
-    ASYNC_TRACE("--async-trace");
+    ASYNC_TRACE("--async-trace"),
+    /**
+     * Disable additional security checks. Only enable it if all the clients are in the trusted network.
+     * Default: false
+     */
+    RELAXED_SECURITY("--relaxed-security"),
+    /**
+     * Enables NodeJS memory dumps collection feature.
+     */
+    ENABLE_HEAP_DUMP("--enable-heapdump");
 
     private final String arg;
 

@@ -25,21 +25,12 @@ import io.appium.java_client.ExecutesMethod;
 public interface PerformsTouchID extends ExecutesMethod {
 
     /**
-     * Simulate touchId event
+     * Simulate touchId event.
      *
      * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan.
      */
     default void performTouchID(boolean match) {
         CommandExecutionHelper.execute(this, touchIdCommand(match));
-    }
-
-    /**
-     * Enrolls touchId in iOS Simulators.
-     * This method is deprecated. Please use {@link #toggleTouchIDEnrollment(boolean)} instead
-     */
-    @Deprecated
-    default void toggleTouchIDEnrollment() {
-        CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand());
     }
 
     /**

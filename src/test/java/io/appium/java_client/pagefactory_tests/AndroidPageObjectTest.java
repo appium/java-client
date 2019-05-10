@@ -17,9 +17,11 @@
 package io.appium.java_client.pagefactory_tests;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static java.time.Duration.ofSeconds;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
@@ -32,13 +34,11 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
-import io.appium.java_client.pagefactory.SelendroidFindBy;
-import io.appium.java_client.pagefactory.iOSFindBy;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
@@ -46,7 +46,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class AndroidPageObjectTest extends BaseAndroidTest {
 
@@ -58,10 +57,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(className = "android.widget.TextView")
     private List<WebElement> androidTextViews;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]")
-    private List<WebElement> iosTextViews;
-
-    @iOSFindBy(uiAutomator = ".elements()[0]") @AndroidFindBy(className = "android.widget.TextView")
+    @AndroidFindBy(className = "android.widget.TextView")
     private List<WebElement> androidOriOsTextViews;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
@@ -80,13 +76,9 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(className = "android.widget.TextView")
     private List<WebElement> chainElementViews;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
-    private List<WebElement> iosChainTextViews;
-
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
     @AndroidFindBy(id = "android:id/text1")
-    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private List<WebElement> chainAndroidOrIOSUIAutomatorViews;
 
     @FindBy(id = "android:id/text1")
@@ -95,10 +87,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(className = "android.widget.TextView")
     private WebElement androidTextView;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]")
-    private WebElement iosTextView;
-
-    @AndroidFindBy(className = "android.widget.TextView") @iOSFindBy(uiAutomator = ".elements()[0]")
+    @AndroidFindBy(className = "android.widget.TextView")
     private WebElement androidOriOsTextView;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
@@ -117,13 +106,9 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(className = "android.widget.TextView")
     private WebElement chainElementView;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
-    private WebElement iosChainTextView;
-
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
     @AndroidFindBy(id = "android:id/text1")
-    @iOSFindBy(uiAutomator = ".elements()[0]") @iOSFindBy(xpath = "//someElement")
     private WebElement chainAndroidOrIOSUIAutomatorView;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
@@ -152,13 +137,13 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(id = "android:id/FakeId")
     private WebElement findAllElementView;
 
-    @AndroidFindBy(id = "android:id/text1") @SelendroidFindBy(id = "Invalid Identifier")
+    @AndroidFindBy(id = "android:id/text1")
     private WebElement textAndroidId;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
+    @FindBy(css = "e.e1.e2")
     private List<WebElement> elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
-    @iOSFindBy(uiAutomator = ".elements()[0]") @FindBy(css = "e.e1.e2")
+    @FindBy(css = "e.e1.e2")
     private WebElement elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy;
 
     @FindBy(id = "fakeId")
@@ -239,10 +224,10 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() throws Exception {
+    @Before public void setUp() {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
-            PageFactory.initElements(new AppiumFieldDecorator(driver, 5, TimeUnit.SECONDS), this);
+            PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
         }
 
         populated = true;
@@ -263,14 +248,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @Test public void androidFindByElementTest() {
         assertNotEquals(null, androidTextView.getAttribute("text"));
-    }
-
-    @Test public void checkThatElementsWereNotFoundByIOSUIAutomator() {
-        assertEquals(0, iosTextViews.size());
-    }
-
-    @Test(expected = NoSuchElementException.class) public void checkThatElementWasNotFoundByIOSUIAutomator() {
-        assertNotNull(iosTextView.getAttribute("text"));
     }
 
     @Test public void androidOrIOSFindByElementsTest() {
@@ -321,14 +298,6 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, chainElementView.getAttribute("text"));
     }
 
-    @Test public void checkThatElementsWereNotFoundByIOSUIAutomatorChain() {
-        assertEquals(0, iosChainTextViews.size());
-    }
-
-    @Test(expected = NoSuchElementException.class) public void checkThatElementWasNotFoundByIOSUIAutomatorChain() {
-        assertNotNull(iosChainTextView.getAttribute("text"));
-    }
-
     @Test public void androidOrIOSFindByElementsTestChainSearches() {
         assertNotEquals(0, chainAndroidOrIOSUIAutomatorViews.size());
     }
@@ -367,14 +336,14 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     }
 
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearching() {
-        assertEquals(true, AndroidElement.class.isAssignableFrom(fakeElement.getClass()));
-        assertEquals(false, AndroidElement.class.equals(fakeElement.getClass()));
-        assertEquals(true, driver.equals(((WrapsDriver) fakeElement).getWrappedDriver()));
+        assertTrue(AndroidElement.class.isAssignableFrom(fakeElement.getClass()));
+        assertNotEquals(AndroidElement.class, fakeElement.getClass());
+        assertEquals(driver, ((WrapsDriver) fakeElement).getWrappedDriver());
     }
 
     @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
-        assertEquals(true, List.class.isAssignableFrom(fakeElements.getClass()));
-        assertEquals(false, ArrayList.class.equals(fakeElements.getClass()));
+        assertTrue(List.class.isAssignableFrom(fakeElements.getClass()));
+        assertNotEquals(ArrayList.class, fakeElements.getClass());
     }
 
     @Test public void checkCached() {

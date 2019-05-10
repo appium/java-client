@@ -31,12 +31,21 @@ public class IOSSearchingTest extends AppIOSTest {
                 .size(), 0);
     }
 
-    @Test public void findByByIosUIAutomationTest() {
+    @Test public void findByByIosPredicatesTest() {
         assertNotEquals(driver
-            .findElementByIosUIAutomation(".elements().withName(\"Answer\")")
-            .getText(), null);
+                .findElementByIosNsPredicate("name like 'Answer'")
+                .getText(), null);
         assertNotEquals(driver
-                .findElementsByIosUIAutomation(".elements().withName(\"Answer\")")
+                .findElementsByIosNsPredicate("name like 'Answer'")
+                .size(), 0);
+    }
+
+    @Test public void findByByIosClassChainTest() {
+        assertNotEquals(driver
+                .findElementByIosClassChain("**/XCUIElementTypeButton")
+                .getText(), null);
+        assertNotEquals(driver
+                .findElementsByIosClassChain("**/XCUIElementTypeButton")
                 .size(), 0);
     }
 }

@@ -16,13 +16,22 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.builder;
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.HasIdentity;
+import io.appium.java_client.touch.ActionOptions;
+import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.TapOptions;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 
-import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Used for Webdriver 3 touch actions
@@ -34,57 +43,26 @@ import java.time.Duration;
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
  */
-public class TouchAction implements PerformsActions<TouchAction> {
+public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T> {
 
     protected ImmutableList.Builder<ActionParameter> parameterBuilder;
     private PerformsTouchActions performsTouchActions;
 
     public TouchAction(PerformsTouchActions performsTouchActions) {
-        this.performsTouchActions = performsTouchActions;
-        parameterBuilder = ImmutableList.builder();
+        this.performsTouchActions = checkNotNull(performsTouchActions);
+        parameterBuilder = builder();
     }
 
     /**
-     * Press on the center of an element.
+     * Press action on the screen.
      *
-     * @param el element to press on.
+     * @param pressOptions see {@link PointOption} and {@link ElementOption}.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction press(WebElement el) {
-        ActionParameter action = new ActionParameter("press", (HasIdentity) el);
-        parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Press on an absolute position on the screen.
-     *
-     * @param x x coordinate.
-     * @param y y coordinate.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction press(int x, int y) {
-        ActionParameter action = new ActionParameter("press");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Press on an element, offset from upper left corner by a number of pixels.
-     *
-     * @param el element to press on.
-     * @param x  x offset.
-     * @param y  y offset.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction press(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("press", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+    public T press(PointOption pressOptions) {
+        parameterBuilder.add(new ActionParameter("press", pressOptions));
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -92,98 +70,52 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for chaining.
      */
-    public TouchAction release() {
+    public T release() {
         ActionParameter action = new ActionParameter("release");
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
-     * Move current touch to center of an element.
+     * Moves current touch to a new position.
      *
-     * @param el element to move to.
+     * @param  moveToOptions see {@link PointOption} and {@link ElementOption}
+     *                       Important: some older Appium drivers releases have a bug when moveTo
+     *                       coordinates are calculated as relative to the recent pointer position
+     *                       in the chain instead of being absolute.
+     *                       @see <a href="https://github.com/appium/appium/issues/7486">Appium Issue #7486
+     *                       for more details.</a>
      * @return this TouchAction, for chaining.
      */
-    public TouchAction moveTo(WebElement el) {
-        ActionParameter action = new ActionParameter("moveTo", (HasIdentity) el);
+    public T moveTo(PointOption moveToOptions) {
+        ActionParameter action = new ActionParameter("moveTo", moveToOptions);
         parameterBuilder.add(action);
-        return this;
+        return (T) this;
     }
 
     /**
-     * Move current touch to a new position relative to the current position on
-     * the screen. If the current position of this TouchAction is (xOld, yOld),
-     * then this method will move the TouchAction to (xOld + x, yOld + y).
+     * Tap on an element.
      *
-     * @param x change in x coordinate to move through.
-     * @param y change in y coordinate to move through.
+     * @param tapOptions see {@link TapOptions}.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction moveTo(int x, int y) {
-        ActionParameter action = new ActionParameter("moveTo");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
+    public T tap(TapOptions tapOptions) {
+        ActionParameter action = new ActionParameter("tap", tapOptions);
         parameterBuilder.add(action);
-        return this;
+        return (T) this;
     }
 
     /**
-     * Move current touch to an element, offset from upper left corner.
+     * Tap on a position.
      *
-     * @param el element to move current touch to.
-     * @param x  x offset.
-     * @param y  y offset.
+     * @param tapOptions see {@link PointOption} and {@link ElementOption}
      * @return this TouchAction, for chaining.
      */
-    public TouchAction moveTo(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("moveTo", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
+    public T tap(PointOption tapOptions) {
+        ActionParameter action = new ActionParameter("tap", tapOptions);
         parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Tap the center of an element.
-     *
-     * @param el element to tap.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction tap(WebElement el) {
-        ActionParameter action = new ActionParameter("tap", (HasIdentity) el);
-        parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Tap an absolute position on the screen.
-     *
-     * @param x x coordinate.
-     * @param y y coordinate.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction tap(int x, int y) {
-        ActionParameter action = new ActionParameter("tap");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Tap an element, offset from upper left corner.
-     *
-     * @param el element to tap.
-     * @param x  x offset.
-     * @param y  y offset.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction tap(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("tap", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -191,120 +123,50 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for chaining.
      */
-    public TouchAction waitAction() {
+    public T waitAction() {
         ActionParameter action = new ActionParameter("wait");
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
      * Waits for specified amount of time to pass before continue to next touch action.
      *
-     * @param duration of the wait action. Minimum time reolution unit is one millisecond.
+     * @param waitOptions see {@link WaitOptions}.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction waitAction(Duration duration) {
-        ActionParameter action = new ActionParameter("wait");
-        action.addParameter("ms", duration.toMillis());
+    public T waitAction(WaitOptions waitOptions) {
+        ActionParameter action = new ActionParameter("wait", waitOptions);
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
-     * Press and hold the at the center of an element until the contextmenu event has fired.
+     * Press and hold the at the center of an element until the context menu event has fired.
      *
-     * @param el element to long-press.
+     * @param longPressOptions see {@link LongPressOptions}.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction longPress(WebElement el) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
+    public T longPress(LongPressOptions longPressOptions) {
+        ActionParameter action = new ActionParameter("longPress", longPressOptions);
         parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
-     * Press and hold the at the center of an element until the contextmenu event has fired.
+     * Press and hold the at the center of an element until the context menu event has fired.
      *
-     * @param el       element to long-press.
-     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
+     * @param longPressOptions see {@link PointOption} and {@link ElementOption}.
      * @return this TouchAction, for chaining.
      */
-    public TouchAction longPress(WebElement el, Duration duration) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("duration", duration.toMillis());
+    public T longPress(PointOption longPressOptions) {
+        ActionParameter action = new ActionParameter("longPress", longPressOptions);
         parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Press and hold the at an absolute position on the screen
-     * until the contextmenu event has fired.
-     *
-     * @param x x coordinate.
-     * @param y y coordinate.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction longPress(int x, int y) {
-        ActionParameter action = new ActionParameter("longPress");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Press and hold the at an absolute position on the screen until the
-     * contextmenu event has fired.
-     *
-     * @param x        x coordinate.
-     * @param y        y coordinate.
-     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction longPress(int x, int y, Duration duration) {
-        ActionParameter action = new ActionParameter("longPress");
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        action.addParameter("duration", duration.toMillis());
-        parameterBuilder.add(action);
-        return this;
-    }
-
-
-    /**
-     * Press and hold the at an elements upper-left corner, offset by the given amount,
-     * until the contextmenu event has fired.
-     *
-     * @param el element to long-press.
-     * @param x  x offset.
-     * @param y  y offset.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction longPress(WebElement el, int x, int y) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        parameterBuilder.add(action);
-        return this;
-    }
-
-    /**
-     * Press and hold the at an elements upper-left corner, offset by the
-     * given amount, until the contextmenu event has fired.
-     *
-     * @param el       element to long-press.
-     * @param x        x offset.
-     * @param y        y offset.
-     * @param duration of the long-press. Minimum time resolution unit is one millisecond.
-     * @return this TouchAction, for chaining.
-     */
-    public TouchAction longPress(WebElement el, int x, int y, Duration duration) {
-        ActionParameter action = new ActionParameter("longPress", (HasIdentity) el);
-        action.addParameter("x", x);
-        action.addParameter("y", y);
-        action.addParameter("duration", duration.toMillis());
-        parameterBuilder.add(action);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -321,9 +183,10 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for possible segmented-touches.
      */
-    public TouchAction perform() {
+    public T perform() {
         performsTouchActions.performTouchAction(this);
-        return this;
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -331,13 +194,10 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return A map of parameters for this touch action to pass as part of mjsonwp.
      */
-    protected ImmutableMap<String, ImmutableList<Object>> getParameters() {
-
-        ImmutableList.Builder<Object> parameters = ImmutableList.builder();
-        ImmutableList<ActionParameter> actionList = parameterBuilder.build();
-
-        actionList.forEach(action -> parameters.add(action.getParameterMap()));
-        return ImmutableMap.of("actions", parameters.build());
+    protected Map<String, List<Object>> getParameters() {
+        List<ActionParameter> actionList = parameterBuilder.build();
+        return ImmutableMap.of("actions", actionList.stream()
+                .map(ActionParameter::getParameterMap).collect(toList()));
     }
 
     /**
@@ -345,9 +205,10 @@ public class TouchAction implements PerformsActions<TouchAction> {
      *
      * @return this TouchAction, for possible segmented-touches.
      */
-    protected TouchAction clearParameters() {
-        parameterBuilder = ImmutableList.builder();
-        return this;
+    protected T clearParameters() {
+        parameterBuilder = builder();
+        //noinspection unchecked
+        return (T) this;
     }
 
     /**
@@ -362,20 +223,18 @@ public class TouchAction implements PerformsActions<TouchAction> {
             optionsBuilder = ImmutableMap.builder();
         }
 
-        public ActionParameter(String actionName, HasIdentity el) {
+        public ActionParameter(String actionName, ActionOptions opts) {
+            checkNotNull(opts);
             this.actionName = actionName;
             optionsBuilder = ImmutableMap.builder();
-            addParameter("element", el.getId());
+            //noinspection unchecked
+            optionsBuilder.putAll(opts.build());
         }
 
         public ImmutableMap<String, Object> getParameterMap() {
             ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
             builder.put("action", actionName).put("options", optionsBuilder.build());
             return builder.build();
-        }
-
-        public void addParameter(String name, Object value) {
-            optionsBuilder.put(name, value);
         }
     }
 }

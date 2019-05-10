@@ -16,13 +16,40 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class BaseIOSTest {
 
     protected static AppiumDriverLocalService service;
     protected static IOSDriver<IOSElement> driver;
+    protected static final int PORT = 4723;
+    protected static final String DEVICE_NAME = System.getenv("deviceName") != null
+            ? System.getenv("deviceName") : "iPhone X";
+    protected static final String PLATFORM_VERSION = System.getenv("platformVersion") != null
+            ? System.getenv("platformVersion") : "11.4";
+    protected static final String BROWSER_NAME = System.getenv("browserName") != null
+            ? System.getenv("browserName") : MobileBrowserType.SAFARI;
+
+
+    /**
+     * Starts a local server.
+     *
+     * @return ip of a local host
+     * @throws UnknownHostException when it is impossible to get ip address of a local host
+     */
+    public static String startAppiumServer() throws UnknownHostException {
+        service = new AppiumServiceBuilder()
+                .usingPort(PORT).build();
+        service.start();
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        return inetAddress.getHostAddress();
+    }
 
     /**
      * finishing.

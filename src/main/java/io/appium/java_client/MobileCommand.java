@@ -18,14 +18,20 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.imagecomparison.BaseComparisonOptions;
+import io.appium.java_client.imagecomparison.ComparisonMode;
+import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * The repository of mobile commands defined in the Mobile JSON
@@ -41,17 +47,30 @@ public class MobileCommand {
     public static final String RUN_APP_IN_BACKGROUND;
     protected static final String PERFORM_TOUCH_ACTION;
     protected static final String PERFORM_MULTI_TOUCH;
-    protected static final String IS_APP_INSTALLED;
-    protected static final String INSTALL_APP;
-    protected static final String REMOVE_APP;
     protected static final String LAUNCH_APP;
     protected static final String CLOSE_APP;
     protected static final String GET_DEVICE_TIME;
     protected static final String GET_SESSION;
 
+    //region Applications Management
+    protected static final String IS_APP_INSTALLED;
+    protected static final String INSTALL_APP;
+    protected static final String ACTIVATE_APP;
+    protected static final String QUERY_APP_STATE;
+    protected static final String TERMINATE_APP;
+    protected static final String REMOVE_APP;
+    //endregion
+
+    //region Clipboard
+    public static final String GET_CLIPBOARD;
+    public static final String SET_CLIPBOARD;
+    //endregion
+
     protected static final String GET_PERFORMANCE_DATA;
     protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
 
+    public static final String START_RECORDING_SCREEN;
+    public static final String STOP_RECORDING_SCREEN;
 
     protected static final String HIDE_KEYBOARD;
     protected static final String LOCK;
@@ -67,9 +86,10 @@ public class MobileCommand {
     protected static final String GET_SYSTEM_BARS;
     protected static final String IS_KEYBOARD_SHOWN;
     protected static final String IS_LOCKED;
-    protected static final String LONG_PRESS_KEY_CODE;
+    public static final String LONG_PRESS_KEY_CODE;
+    protected static final String FINGER_PRINT;
     protected static final String OPEN_NOTIFICATIONS;
-    protected static final String PRESS_KEY_CODE;
+    public static final String PRESS_KEY_CODE;
     protected static final String PUSH_FILE;
     protected static final String SET_NETWORK_CONNECTION;
     protected static final String START_ACTIVITY;
@@ -79,8 +99,19 @@ public class MobileCommand {
     protected static final String GET_SETTINGS;
     protected static final String SET_SETTINGS;
     protected static final String GET_CURRENT_PACKAGE;
+    protected static final String SEND_SMS;
+    protected static final String GSM_CALL;
+    protected static final String GSM_SIGNAL;
+    protected static final String GSM_VOICE;
+    protected static final String NETWORK_SPEED;
+    protected static final String POWER_CAPACITY;
+    protected static final String POWER_AC_STATE;
+    protected static final String TOGGLE_WIFI;
+    protected static final String TOGGLE_AIRPLANE_MODE;
+    protected static final String TOGGLE_DATA;
+    protected static final String COMPARE_IMAGES;
 
-    public static final  Map<String, CommandInfo> commandRepository;
+    public static final Map<String, CommandInfo> commandRepository;
 
     static {
         RESET = "reset";
@@ -91,16 +122,30 @@ public class MobileCommand {
         RUN_APP_IN_BACKGROUND = "runAppInBackground";
         PERFORM_TOUCH_ACTION = "performTouchAction";
         PERFORM_MULTI_TOUCH = "performMultiTouch";
-        IS_APP_INSTALLED = "isAppInstalled";
-        INSTALL_APP = "installApp";
-        REMOVE_APP = "removeApp";
         LAUNCH_APP = "launchApp";
         CLOSE_APP = "closeApp";
         GET_DEVICE_TIME = "getDeviceTime";
         GET_SESSION = "getSession";
 
+        //region Applications Management
+        IS_APP_INSTALLED = "isAppInstalled";
+        QUERY_APP_STATE = "queryAppState";
+        TERMINATE_APP = "terminateApp";
+        ACTIVATE_APP = "activateApp";
+        REMOVE_APP = "removeApp";
+        INSTALL_APP = "installApp";
+        //endregion
+
+        //region Clipboard
+        SET_CLIPBOARD = "setClipboard";
+        GET_CLIPBOARD = "getClipboard";
+        //endregion
+
         GET_PERFORMANCE_DATA = "getPerformanceData";
         GET_SUPPORTED_PERFORMANCE_DATA_TYPES = "getSuppportedPerformanceDataTypes";
+
+        START_RECORDING_SCREEN = "startRecordingScreen";
+        STOP_RECORDING_SCREEN = "stopRecordingScreen";
 
         HIDE_KEYBOARD = "hideKeyboard";
         LOCK = "lock";
@@ -116,6 +161,7 @@ public class MobileCommand {
         IS_KEYBOARD_SHOWN = "isKeyboardShown";
         IS_LOCKED = "isLocked";
         LONG_PRESS_KEY_CODE = "longPressKeyCode";
+        FINGER_PRINT = "fingerPrint";
         OPEN_NOTIFICATIONS = "openNotifications";
         PRESS_KEY_CODE = "pressKeyCode";
         PUSH_FILE = "pushFile";
@@ -127,6 +173,17 @@ public class MobileCommand {
         GET_SETTINGS = "getSettings";
         SET_SETTINGS = "setSettings";
         GET_CURRENT_PACKAGE = "getCurrentPackage";
+        SEND_SMS = "sendSMS";
+        GSM_CALL = "gsmCall";
+        GSM_SIGNAL = "gsmSignal";
+        GSM_VOICE = "gsmVoice";
+        NETWORK_SPEED = "networkSpeed";
+        POWER_CAPACITY = "powerCapacity";
+        POWER_AC_STATE = "powerAC";
+        TOGGLE_WIFI = "toggleWiFi";
+        TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
+        TOGGLE_DATA = "toggleData";
+        COMPARE_IMAGES = "compareImages";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -138,20 +195,35 @@ public class MobileCommand {
         commandRepository.put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"));
         commandRepository.put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"));
         commandRepository.put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"));
-        commandRepository.put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
-        commandRepository.put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"));
-        commandRepository.put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
         commandRepository.put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"));
         commandRepository.put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"));
         commandRepository.put(LOCK, postC("/session/:sessionId/appium/device/lock"));
         commandRepository.put(GET_SETTINGS, getC("/session/:sessionId/appium/settings"));
         commandRepository.put(SET_SETTINGS, postC("/session/:sessionId/appium/settings"));
         commandRepository.put(GET_DEVICE_TIME, getC("/session/:sessionId/appium/device/system_time"));
-        commandRepository.put(GET_SESSION,getC("/session/:sessionId/"));
+        commandRepository.put(GET_SESSION, getC("/session/:sessionId/"));
         commandRepository.put(GET_SUPPORTED_PERFORMANCE_DATA_TYPES,
-            postC("/session/:sessionId/appium/performanceData/types"));
+                postC("/session/:sessionId/appium/performanceData/types"));
         commandRepository.put(GET_PERFORMANCE_DATA,
-            postC("/session/:sessionId/appium/getPerformanceData"));
+                postC("/session/:sessionId/appium/getPerformanceData"));
+        commandRepository.put(START_RECORDING_SCREEN,
+                postC("/session/:sessionId/appium/start_recording_screen"));
+        commandRepository.put(STOP_RECORDING_SCREEN,
+                postC("/session/:sessionId/appium/stop_recording_screen"));
+
+        //region Applications Management
+        commandRepository.put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
+        commandRepository.put(INSTALL_APP, postC("/session/:sessionId/appium/device/install_app"));
+        commandRepository.put(ACTIVATE_APP, postC("/session/:sessionId/appium/device/activate_app"));
+        commandRepository.put(REMOVE_APP, postC("/session/:sessionId/appium/device/remove_app"));
+        commandRepository.put(TERMINATE_APP, postC("/session/:sessionId/appium/device/terminate_app"));
+        commandRepository.put(QUERY_APP_STATE, postC("/session/:sessionId/appium/device/app_state"));
+        //endregion
+
+        //region Clipboard
+        commandRepository.put(GET_CLIPBOARD, postC("/session/:sessionId/appium/device/get_clipboard"));
+        commandRepository.put(SET_CLIPBOARD, postC("/session/:sessionId/appium/device/set_clipboard"));
+        //endregion
 
         //iOS
         commandRepository.put(SHAKE, postC("/session/:sessionId/appium/device/shake"));
@@ -160,30 +232,42 @@ public class MobileCommand {
                 postC("/session/:sessionId/appium/simulator/toggle_touch_id_enrollment"));
         //Android
         commandRepository.put(CURRENT_ACTIVITY,
-                        getC("/session/:sessionId/appium/device/current_activity"));
+                getC("/session/:sessionId/appium/device/current_activity"));
         commandRepository.put(END_TEST_COVERAGE,
-                        postC("/session/:sessionId/appium/app/end_test_coverage"));
+                postC("/session/:sessionId/appium/app/end_test_coverage"));
         commandRepository.put(GET_DISPLAY_DENSITY, getC("/session/:sessionId/appium/device/display_density"));
         commandRepository.put(GET_NETWORK_CONNECTION, getC("/session/:sessionId/network_connection"));
         commandRepository.put(GET_SYSTEM_BARS, getC("/session/:sessionId/appium/device/system_bars"));
         commandRepository.put(IS_KEYBOARD_SHOWN, getC("/session/:sessionId/appium/device/is_keyboard_shown"));
         commandRepository.put(IS_LOCKED, postC("/session/:sessionId/appium/device/is_locked"));
         commandRepository.put(LONG_PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/long_press_keycode"));
+                postC("/session/:sessionId/appium/device/long_press_keycode"));
+        commandRepository.put(FINGER_PRINT, postC("/session/:sessionId/appium/device/finger_print"));
         commandRepository.put(OPEN_NOTIFICATIONS,
-                        postC("/session/:sessionId/appium/device/open_notifications"));
+                postC("/session/:sessionId/appium/device/open_notifications"));
         commandRepository.put(PRESS_KEY_CODE,
-                        postC("/session/:sessionId/appium/device/press_keycode"));
+                postC("/session/:sessionId/appium/device/press_keycode"));
         commandRepository.put(PUSH_FILE, postC("/session/:sessionId/appium/device/push_file"));
         commandRepository.put(SET_NETWORK_CONNECTION,
-                        postC("/session/:sessionId/network_connection"));
+                postC("/session/:sessionId/network_connection"));
         commandRepository.put(START_ACTIVITY,
-                        postC("/session/:sessionId/appium/device/start_activity"));
+                postC("/session/:sessionId/appium/device/start_activity"));
         commandRepository.put(TOGGLE_LOCATION_SERVICES,
-                        postC("/session/:sessionId/appium/device/toggle_location_services"));
+                postC("/session/:sessionId/appium/device/toggle_location_services"));
         commandRepository.put(UNLOCK, postC("/session/:sessionId/appium/device/unlock"));
-        commandRepository. put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
-        commandRepository.put(GET_CURRENT_PACKAGE,getC("/session/:sessionId/appium/device/current_package"));
+        commandRepository.put(REPLACE_VALUE, postC("/session/:sessionId/appium/element/:id/replace_value"));
+        commandRepository.put(GET_CURRENT_PACKAGE, getC("/session/:sessionId/appium/device/current_package"));
+        commandRepository.put(SEND_SMS, postC("/session/:sessionId/appium/device/send_sms"));
+        commandRepository.put(GSM_CALL, postC("/session/:sessionId/appium/device/gsm_call"));
+        commandRepository.put(GSM_SIGNAL, postC("/session/:sessionId/appium/device/gsm_signal"));
+        commandRepository.put(GSM_VOICE, postC("/session/:sessionId/appium/device/gsm_voice"));
+        commandRepository.put(NETWORK_SPEED, postC("/session/:sessionId/appium/device/network_speed"));
+        commandRepository.put(POWER_CAPACITY, postC("/session/:sessionId/appium/device/power_capacity"));
+        commandRepository.put(POWER_AC_STATE, postC("/session/:sessionId/appium/device/power_ac"));
+        commandRepository.put(TOGGLE_WIFI, postC("/session/:sessionId/appium/device/toggle_wifi"));
+        commandRepository.put(TOGGLE_AIRPLANE_MODE, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
+        commandRepository.put(TOGGLE_DATA, postC("/session/:sessionId/appium/device/toggle_data"));
+        commandRepository.put(COMPARE_IMAGES, postC("/session/:sessionId/appium/compare_images"));
     }
 
     /**
@@ -242,31 +326,35 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
                                                                         String keyName) {
-        String[] parameters = new String[] {"strategy", "key"};
-        Object[] values = new Object[] {strategy, keyName};
+        String[] parameters = new String[]{"strategy", "key"};
+        Object[] values = new Object[]{strategy, keyName};
         return new AbstractMap.SimpleEntry<>(
                 HIDE_KEYBOARD, prepareArguments(parameters, values));
     }
 
     /**
+     * Prepares single argument.
+     *
      * @param param is a parameter name.
      * @param value is the parameter value.
      * @return built {@link ImmutableMap}.
      */
     public static ImmutableMap<String, Object> prepareArguments(String param,
-                                                                   Object value) {
+                                                                Object value) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.put(param, value);
         return builder.build();
     }
 
     /**
+     * Prepares collection of arguments.
+     *
      * @param params is the array with parameter names.
      * @param values is the array with parameter values.
      * @return built {@link ImmutableMap}.
      */
     public static ImmutableMap<String, Object> prepareArguments(String[] params,
-                                                                   Object[] values) {
+                                                                Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
             if (!StringUtils.isBlank(params[i]) && (values[i] != null)) {
@@ -300,8 +388,8 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
                                                                         Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
+        String[] parameters = new String[]{"keycode", "metastate"};
+        Object[] values = new Object[]{key, metastate};
         return new AbstractMap.SimpleEntry<>(
                 PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
@@ -330,8 +418,8 @@ public class MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
                                                                             Integer metastate) {
-        String[] parameters = new String[] {"keycode", "metastate"};
-        Object[] values = new Object[] {key, metastate};
+        String[] parameters = new String[]{"keycode", "metastate"};
+        Object[] values = new Object[]{key, metastate};
         return new AbstractMap.SimpleEntry<>(
                 LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
     }
@@ -341,7 +429,7 @@ public class MobileCommand {
      * device locking.
      *
      * @param duration for how long to lock the screen for. Minimum time resolution is one second
-     * @return  a key-value pair. The key is the command name. The value is a
+     * @return a key-value pair. The key is the command name. The value is a
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(Duration duration) {
@@ -349,8 +437,30 @@ public class MobileCommand {
                 LOCK, prepareArguments("seconds", duration.getSeconds()));
     }
 
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device unlocking.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
+        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
+    }
+
+    /**
+     * This method forms a {@link java.util.Map} of parameters for the
+     * device locked query.
+     *
+     * @return a key-value pair. The key is the command name. The value is a
+     * {@link java.util.Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
+        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
+    }
+
     public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.<String, Object>of());
+        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.of());
     }
 
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
@@ -360,7 +470,7 @@ public class MobileCommand {
 
     /**
      * This method forms a {@link java.util.Map} of parameters for the
-     * file pushing
+     * file pushing.
      *
      * @param remotePath Path to file to write data to on remote device
      * @param base64Data Base64 encoded byte array of data to write to remote device
@@ -368,8 +478,50 @@ public class MobileCommand {
      * {@link java.util.Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
-        String[] parameters = new String[] {"path", "data"};
-        Object[] values = new Object[] {remotePath, base64Data};
+        String[] parameters = new String[]{"path", "data"};
+        Object[] values = new Object[]{remotePath, new String(base64Data, StandardCharsets.UTF_8)};
         return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
+    }
+
+    public static Map.Entry<String, Map<String, ?>> startRecordingScreenCommand(BaseStartScreenRecordingOptions opts) {
+        return new AbstractMap.SimpleEntry<>(START_RECORDING_SCREEN,
+                prepareArguments("options", opts.build()));
+    }
+
+    public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand(BaseStopScreenRecordingOptions opts) {
+        return new AbstractMap.SimpleEntry<>(STOP_RECORDING_SCREEN,
+                prepareArguments("options", opts.build()));
+    }
+
+    /**
+     * Forms a {@link java.util.Map} of parameters for images comparison.
+     *
+     * @param mode one of possible comparison modes
+     * @param img1Data base64-encoded data of the first image
+     * @param img2Data base64-encoded data of the second image
+     * @param options comparison options
+     * @return key-value pairs
+     */
+    public static Map.Entry<String, Map<String, ?>> compareImagesCommand(ComparisonMode mode,
+                                                                         byte[] img1Data, byte[] img2Data,
+                                                                         @Nullable BaseComparisonOptions options) {
+        String[] parameters = options == null
+                ? new String[]{"mode", "firstImage", "secondImage"}
+                : new String[]{"mode", "firstImage", "secondImage", "options"};
+        Object[] values = options == null
+                ? new Object[]{mode.toString(), new String(img1Data, StandardCharsets.UTF_8),
+                               new String(img2Data, StandardCharsets.UTF_8)}
+                : new Object[]{mode.toString(), new String(img1Data, StandardCharsets.UTF_8),
+                               new String(img2Data, StandardCharsets.UTF_8), options.build()};
+        return new AbstractMap.SimpleEntry<>(COMPARE_IMAGES, prepareArguments(parameters, values));
+    }
+
+    /**
+     * This method forms a {@link Map} of parameters for the checking of the keyboard state (is it shown or not).
+     *
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     */
+    public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
+        return new AbstractMap.SimpleEntry<>(IS_KEYBOARD_SHOWN, ImmutableMap.of());
     }
 }

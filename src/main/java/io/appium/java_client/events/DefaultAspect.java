@@ -24,6 +24,7 @@ import io.appium.java_client.events.api.Listener;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Aspect
 class DefaultAspect {
 
@@ -73,9 +75,6 @@ class DefaultAspect {
         + "dismiss(..))";
     private static final String EXECUTION_ALERT_SEND_KEYS = "execution(* org.openqa.selenium.Alert."
         + "sendKeys(..))";
-    private static final String EXECUTION_ALERT_AUTHENTICATION = "execution(* org.openqa.selenium."
-        + "Alert.setCredentials(..)) || "
-        + "execution(* org.openqa.selenium.Alert.authenticateUsing(..))";
     private static final String EXECUTION_WINDOW_SET_SIZE = "execution(* org.openqa.selenium."
         + "WebDriver.Window.setSize(..))";
     private static final String EXECUTION_WINDOW_SET_POSITION = "execution(* org.openqa.selenium.WebDriver."
@@ -86,6 +85,10 @@ class DefaultAspect {
         + ".rotate(..))";
     private static final String EXECUTION_CONTEXT = "execution(* org.openqa.selenium.ContextAware."
         + "context(..))";
+    private static final String EXECUTION_SWITCH_TO_WINDOW = "execution(* org.openqa.selenium.WebDriver.TargetLocator"
+            + ".window(..))";
+    private static final String EXECUTION_TAKE_SCREENSHOT_AS = "execution(* org.openqa.selenium.TakesScreenshot"
+            + ".getScreenshotAs(..))";
     private static final String AROUND = "execution(* org.openqa.selenium.WebDriver.*(..)) || "
         + "execution(* org.openqa.selenium.WebElement.*(..)) || "
         + "execution(* org.openqa.selenium.WebDriver.Navigation.*(..)) || "
@@ -115,7 +118,8 @@ class DefaultAspect {
         + "execution(* io.appium.java_client.MobileElement.*(..)) || "
         + "execution(* org.openqa.selenium.remote.RemoteWebDriver.*(..)) || "
         + "execution(* org.openqa.selenium.remote.RemoteWebElement.*(..)) || "
-        + "execution(* org.openqa.selenium.Alert.*(..))";
+        + "execution(* org.openqa.selenium.Alert.*(..)) || "
+        + "execution(* org.openqa.selenium.TakesScreenshot.*(..))";
 
     private final AbstractApplicationContext context;
     private final WebDriver driver;
@@ -161,7 +165,7 @@ class DefaultAspect {
         return result;
     }
 
-    private List<Object> returnProxyList(List<Object> originalList) throws Exception {
+    private List<Object> returnProxyList(List<Object> originalList) {
         try {
             List<Object> proxyList = new ArrayList<>();
             for (Object o : originalList) {
@@ -408,26 +412,6 @@ class DefaultAspect {
         }
     }
 
-    @Before(EXECUTION_ALERT_AUTHENTICATION)
-    public void beforeAlertAuthentication(JoinPoint joinPoint) throws Throwable {
-        try {
-            listener.beforeAuthentication(driver,
-                castTarget(joinPoint), castArgument(joinPoint, 0));
-        } catch (Throwable t) {
-            throw getRootCause(t);
-        }
-    }
-
-    @After(EXECUTION_ALERT_AUTHENTICATION)
-    public void afterAlertAuthentication(JoinPoint joinPoint) throws Throwable {
-        try {
-            listener.afterAuthentication(driver, castTarget(joinPoint),
-                castArgument(joinPoint, 0));
-        } catch (Throwable t) {
-            throw getRootCause(t);
-        }
-    }
-
     @Before(EXECUTION_WINDOW_SET_SIZE)
     public void beforeWindowIsResized(JoinPoint joinPoint) throws Throwable {
         try {
@@ -481,6 +465,42 @@ class DefaultAspect {
     public void afterMaximization(JoinPoint joinPoint) throws Throwable {
         try {
             listener.afterWindowIsMaximized(driver, castTarget(joinPoint));
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @Before(EXECUTION_SWITCH_TO_WINDOW)
+    public void beforeSwitchToWindow(JoinPoint joinPoint) throws Throwable {
+        try {
+            listener.beforeSwitchToWindow(castArgument(joinPoint, 0), driver);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @After(EXECUTION_SWITCH_TO_WINDOW)
+    public void afterSwitchToWindow(JoinPoint joinPoint) throws Throwable {
+        try {
+            listener.afterSwitchToWindow(castArgument(joinPoint, 0), driver);
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @Before(EXECUTION_TAKE_SCREENSHOT_AS)
+    public void beforeTakeScreenShot(JoinPoint joinPoint) throws Throwable {
+        try {
+            listener.beforeGetScreenshotAs(castArgument(joinPoint, 0));
+        } catch (Throwable t) {
+            throw getRootCause(t);
+        }
+    }
+
+    @AfterReturning(value = EXECUTION_TAKE_SCREENSHOT_AS, returning = "result")
+    public void afterTakeScreenShot(JoinPoint joinPoint, Object result) throws Throwable {
+        try {
+            listener.afterGetScreenshotAs(castArgument(joinPoint, 0), result);
         } catch (Throwable t) {
             throw getRootCause(t);
         }

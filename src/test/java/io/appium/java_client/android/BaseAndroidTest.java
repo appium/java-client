@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android;
 
+import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
@@ -28,13 +29,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 
 public class BaseAndroidTest {
+    public static final String APP_ID = "io.appium.android.apis";
     private static AppiumDriverLocalService service;
     protected static AndroidDriver<AndroidElement> driver;
 
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
+    @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -46,6 +48,7 @@ public class BaseAndroidTest {
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         driver = new AndroidDriver<>(service.getUrl(), capabilities);

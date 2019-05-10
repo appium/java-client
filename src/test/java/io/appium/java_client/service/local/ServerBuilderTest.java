@@ -1,6 +1,5 @@
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.ChromeDriverPathUtil.getChromeDriver;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
@@ -13,6 +12,7 @@ import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PA
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LAUNCH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
 import static java.nio.file.FileSystems.getDefault;
@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -38,6 +39,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -63,6 +65,7 @@ public class ServerBuilderTest {
     private AppiumDriverLocalService service;
     private File testLogFile;
     private OutputStream stream;
+    private static WebDriverManager chromeManager;
 
     private static String getLocalIP(NetworkInterface intf) {
         for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
@@ -90,6 +93,8 @@ public class ServerBuilderTest {
                 break;
             }
         }
+        chromeManager = chromedriver();
+        chromeManager.setup();
     }
 
     @After
@@ -110,10 +115,19 @@ public class ServerBuilderTest {
         ofNullable(PATH_TO_APPIUM_NODE_IN_PROPERTIES).ifPresent(s -> setProperty(APPIUM_PATH, s));
     }
 
+    @Test public void checkAbilityToAddLogMessageConsumer() {
+        List<String> log = new ArrayList<>();
+        service = buildDefaultService();
+        service.clearOutPutStreams();
+        service.addLogMessageConsumer(log::add);
+        service.start();
+        assertTrue(log.size() > 0);
+    }
+
     @Test public void checkAbilityToStartDefaultService() {
         service = buildDefaultService();
         service.start();
-        assertEquals(true, service.isRunning());
+        assertTrue(service.isRunning());
     }
 
     @Test public void checkAbilityToFindNodeDefinedInProperties() {
@@ -136,13 +150,13 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingNonLocalhostIP() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingNonLocalhostIP() {
         service = new AppiumServiceBuilder().withIPAddress(testIP).build();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingFlags() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingFlags() {
         service = new AppiumServiceBuilder()
             .withArgument(CALLBACK_ADDRESS, testIP)
             .withArgument(SESSION_OVERRIDE)
@@ -152,9 +166,8 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingCapabilities() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingCapabilities() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-        File chrome = getChromeDriver();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
@@ -163,16 +176,15 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chrome.getAbsolutePath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder().withCapabilities(caps).build();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() throws Exception {
+    @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-        File chrome = getChromeDriver();
 
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
@@ -181,7 +193,7 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chrome.getAbsolutePath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)
@@ -242,7 +254,7 @@ public class ServerBuilderTest {
         assertThat(testLogFile.length(), greaterThan(0L));
     }
 
-    @Test public void checkAbilityToStartServiceWithPortUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithPortUsingFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -254,7 +266,7 @@ public class ServerBuilderTest {
         service.start();
     }
     
-    @Test public void checkAbilityToStartServiceWithPortUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithPortUsingShortFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -266,7 +278,7 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithIpUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithIpUsingFlag() {
         String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
         service = new AppiumServiceBuilder()
@@ -277,7 +289,7 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithIpUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithIpUsingShortFlag() {
         String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
         service = new AppiumServiceBuilder()
@@ -288,7 +300,7 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() {
         testLogFile = new File("Log2.txt");
 
         service = new AppiumServiceBuilder()
@@ -298,7 +310,7 @@ public class ServerBuilderTest {
         assertTrue(testLogFile.exists());
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() throws Exception {
+    @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() {
         testLogFile = new File("Log3.txt");
         
         service = new AppiumServiceBuilder()

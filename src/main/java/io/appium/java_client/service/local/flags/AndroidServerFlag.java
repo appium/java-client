@@ -26,11 +26,6 @@ public enum AndroidServerFlag implements ServerArgument {
      */
     BOOTSTRAP_PORT_NUMBER("--bootstrap-port"),
     /**
-     * Local port used for communication with Selendroid. Sample:
-     * --selendroid-port 8080
-     */
-    SELENDROID_PORT("--selendroid-port"),
-    /**
      * If set, prevents Appium from killing the adb server
      * instance. Default: false
      */

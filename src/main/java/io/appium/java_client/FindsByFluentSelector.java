@@ -24,7 +24,7 @@ public interface FindsByFluentSelector<T extends WebElement> {
 
     /**
     * Method performs the searching for a single element by some selector defined by string
-    * and value of the given selector
+    * and value of the given selector.
     *
     * @param by is a string selector
     * @param using is a value of the given selector
@@ -38,7 +38,7 @@ public interface FindsByFluentSelector<T extends WebElement> {
 
     /**
     * Method performs the searching for a list of elements by some selector defined by string
-    * and value of the given selector
+    * and value of the given selector.
     *
     * @param by is a string selector
     * @param using is a value of the given selector

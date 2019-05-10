@@ -96,8 +96,8 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             }
 
             try {
-                String strategyParameter = value.invoke(mobileBy, new Object[] {}).toString();
-                if (!"".equals(strategyParameter)) {
+                String strategyParameter = value.invoke(mobileBy).toString();
+                if (!strategyParameter.isEmpty()) {
                     return value.getName();
                 }
             } catch (IllegalAccessException
@@ -162,7 +162,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     /**
      * This method should be used for the setting up of
      * AnnotatedElement instances before the building of
-     * By-locator strategies
+     * By-locator strategies.
      *
      * @param annotated is an instance of class which type extends
      *                  {@link java.lang.reflect.AnnotatedElement}
@@ -173,10 +173,6 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     protected boolean isAndroid() {
         return ANDROID.equalsIgnoreCase(platform);
-    }
-
-    protected boolean isSelendroidAutomation() {
-        return isAndroid() && SELENDROID.equalsIgnoreCase(automation);
     }
 
     protected boolean isIOS() {

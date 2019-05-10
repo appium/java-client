@@ -1,23 +1,23 @@
 # Steps: 
 
-- you have to prepare environment for iOS. [Details are provided here](http://appium.io/slate/en/master/?ruby#system-setup-(ios))
+- you have to prepare environment for iOS. [Details are provided here](https://appium.io/docs/en/drivers/ios-xcuitest/#basic-setup)
 
 - it needs to launch the appium server. You can launch Appium desktop application. If you use the server installed via npm then 
 
   _$ node **the_path_to_js_file** --arg1 value1 --arg2 value2_ 
-It is not necessary to use arguments. [The list of arguments](http://appium.io/slate/en/master/?java#appium-server-arguments)
+It is not necessary to use arguments. [The list of arguments](https://appium.io/docs/en/writing-running-appium/server-args/)
 
 # The starting of an app
 
-It looks like creation of a common [RemoteWebDriver](https://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html) instance. 
+It looks like creation of a common [RemoteWebDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html) instance. 
 
-[Common capabilities](http://appium.io/slate/en/master/?ruby#the---default-capabilities-flag)
+[Common capabilities](https://appium.io/docs/en/writing-running-appium/caps/#general-capabilities)
 
-[iOS-specific capabilities](http://appium.io/slate/en/master/?ruby#ios-only)
+[iOS-specific capabilities](https://appium.io/docs/en/writing-running-appium/caps/#ios-only)
 
-[Common capabilities provided by Java client](http://appium.github.io/java-client/io/appium/java_client/remote/MobileCapabilityType.html)
+[Common capabilities provided by Java client](https://javadoc.io/page/io.appium/java-client/latest/io/appium/java_client/remote/MobileCapabilityType.html)
 
-[iOS-specific capabilities provided by Java client](http://appium.github.io/java-client/io/appium/java_client/remote/IOSMobileCapabilityType.html)
+[iOS-specific capabilities provided by Java client](https://javadoc.io/page/io.appium/java-client/latest/io/appium/java_client/remote/IOSMobileCapabilityType.html)
 
 
 ```java

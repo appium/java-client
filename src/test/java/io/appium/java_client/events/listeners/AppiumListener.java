@@ -1,7 +1,10 @@
 package io.appium.java_client.events.listeners;
 
+import static java.lang.String.format;
+
 import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -111,5 +114,34 @@ public class AppiumListener extends TestListener implements AppiumWebDriverEvent
 
     @Override public void onException(Throwable throwable, WebDriver driver) {
         messages.add("WebDriverEventListener: The exception was thrown: " + throwable.getClass());
+    }
+
+    @Override
+    public <X> void beforeGetScreenshotAs(OutputType<X> target) {
+        messages.add(format("WebDriverEventListener: Attempt to take screen shot. Target type is %s", target));
+    }
+
+    @Override
+    public <X> void afterGetScreenshotAs(OutputType<X> target, X screenshot) {
+        messages.add(format("WebDriverEventListener: Screen shot was taken successfully. "
+                        + "Target type is %s, result is %s", target, screenshot));
+    }
+
+    @Override public void beforeGetText(WebElement element, WebDriver driver) {
+        messages.add("WebDriverEventListener: Attempt to get text of the element");
+    }
+
+    @Override public void afterGetText(WebElement element, WebDriver driver, String text) {
+        messages.add("WebDriverEventListener: Got the text of an element");
+    }
+
+    @Override
+    public void beforeSwitchToWindow(String windowName, WebDriver driver) {
+        messages.add(format("WebDriverEventListener: Attempt to switch to window %s", windowName));
+    }
+
+    @Override
+    public void afterSwitchToWindow(String windowName, WebDriver driver) {
+        messages.add(format("WebDriverEventListener: driver is switched to window %s", windowName));
     }
 }
