@@ -9,7 +9,7 @@ apply plugin: 'signing'
 import org.apache.tools.ant.filters.*
 
 group 'io.appium'
-version '7.1.0'
+version '7.0.0'
 
 repositories {
     jcenter()

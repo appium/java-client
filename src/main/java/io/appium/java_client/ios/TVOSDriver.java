@@ -16,36 +16,30 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
-import io.appium.java_client.*;
-import io.appium.java_client.battery.HasBattery;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.FindsByIosClassChain;
+import io.appium.java_client.FindsByIosNSPredicate;
+import io.appium.java_client.HasOnScreenKeyboard;
+import io.appium.java_client.HidesKeyboardWithKeyName;
+import io.appium.java_client.LocksDevice;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import javax.annotation.Nullable;
 import java.net.URL;
-import java.time.Duration;
-import java.util.Collections;
-import java.util.Map;
-
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
-import static io.appium.java_client.MobileCommand.prepareArguments;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
+import javax.annotation.Nullable;
 
 /**
- * tvOS driver implementation.
+ * Apple tvOS driver implementation.
  *
  * @param <T> the required type of class which implement
  *           {@link WebElement}.
@@ -58,10 +52,9 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
  */
 public class TVOSDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements HidesKeyboardWithKeyName, ShakesDevice, HasIOSSettings, HasOnScreenKeyboard,
-        LocksDevice, PerformsTouchID, FindsByIosNSPredicate<T>, FindsByIosClassChain<T>,
-        PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages,
-        HasBattery<IOSBatteryInfo> {
+    implements HidesKeyboardWithKeyName, HasIOSSettings, HasOnScreenKeyboard,
+        LocksDevice, FindsByIosNSPredicate<T>, FindsByIosClassChain<T>,
+        PushesFiles, CanRecordScreen, HasIOSClipboard {
 
     private static final String TVOS_PLATFORM = MobilePlatform.TVOS;
 
@@ -168,36 +161,6 @@ public class TVOSDriver<T extends WebElement>
     }
 
     /**
-     * Runs the current app as a background app for the number of seconds
-     * or minimizes the app.
-     *
-     * @param duration The time to run App in background.
-     */
-    @Override public void runAppInBackground(Duration duration) {
-        // timeout parameter is expected to be in milliseconds
-        // float values are allowed
-        execute(RUN_APP_IN_BACKGROUND,
-                prepareArguments("seconds", prepareArguments("timeout", duration.toMillis())));
-    }
-
-    @Override public TargetLocator switchTo() {
-        return new InnerTargetLocator();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public IOSBatteryInfo getBatteryInfo() {
-        return new IOSBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
-                "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
-    }
-
-    private class InnerTargetLocator extends RemoteTargetLocator {
-        @Override public Alert alert() {
-            return new IOSAlert(super.alert());
-        }
-    }
-
-    /**
      * Returns capabilities that were provided on instantiation.
      *
      * @return given {@link Capabilities}
@@ -209,41 +172,5 @@ public class TVOSDriver<T extends WebElement>
             capabilities.setCapability(PLATFORM_NAME, TVOS_PLATFORM);
         }
         return capabilities;
-    }
-
-
-    class IOSAlert implements Alert {
-
-        private final Alert alert;
-
-        IOSAlert(Alert alert) {
-            this.alert = alert;
-        }
-
-        @Override public void dismiss() {
-            execute(DriverCommand.DISMISS_ALERT);
-        }
-
-        @Override public void accept() {
-            execute(DriverCommand.ACCEPT_ALERT);
-        }
-
-        @Override public String getText() {
-            Response response = execute(DriverCommand.GET_ALERT_TEXT);
-            return response.getValue().toString();
-        }
-
-        @Override public void sendKeys(String keysToSend) {
-            execute(DriverCommand.SET_ALERT_VALUE, prepareArguments("value", keysToSend));
-        }
-
-    }
-
-    @Override
-    public synchronized StringWebSocketClient getSyslogClient() {
-        if (syslogClient == null) {
-            syslogClient = new StringWebSocketClient();
-        }
-        return syslogClient;
     }
 }
