@@ -29,6 +29,7 @@ import static org.junit.Assert.fail;
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
@@ -48,6 +49,12 @@ public class AndroidDriverTest extends BaseAndroidTest {
         } catch (Exception e) {
             fail("method works only in emulators");
         }
+    }
+
+
+    @Test
+    public void getStatusTest() {
+        assertThat(driver.getStatus().getVersion(), Matchers.containsString("."));
     }
 
     @Test public void gsmCallTest() {

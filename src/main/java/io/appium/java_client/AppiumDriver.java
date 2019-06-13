@@ -223,6 +223,15 @@ public class AppiumDriver<T extends WebElement>
         return contextName;
     }
 
+    public AppiumServerStatus getStatus() {
+        Map<String, Object> statusMap = (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
+
+        Map<String, String> versionMap = (Map<String, String>) statusMap.get("build");
+        AppiumServerStatus status = new AppiumServerStatus(versionMap.get("version"));
+
+        return status;
+    }
+
     @Override public DeviceRotation rotation() {
         Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
         DeviceRotation deviceRotation =
