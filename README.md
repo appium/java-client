@@ -1,4 +1,5 @@
 # java-client
+test
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
 [![Javadocs](https://www.javadoc.io/badge/io.appium/java-client.svg)](https://www.javadoc.io/doc/io.appium/java-client)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
