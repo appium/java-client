@@ -6,7 +6,7 @@ public class AppiumServerStatus {
         this.version = version;
     }
 
-    String version;
+    private String version;
 
     public String getVersion() {
         return version;
