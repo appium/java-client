@@ -36,6 +36,54 @@ public class SettingTest extends BaseAndroidTest {
         assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1000);
     }
 
+    @Test public void testNormalizeTagNames() {
+        assertEquals(false, driver.getSettings()
+            .get(Setting.NORMALIZE_TAG_NAMES.toString()));
+        driver.normalizeTagNames(true);
+        assertEquals(true, driver.getSettings()
+            .get(Setting.NORMALIZE_TAG_NAMES.toString()));
+    }
+
+    @Test public void testSetShouldUseCompactResponses() {
+        assertEquals(true, driver.getSettings()
+            .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
+        driver.setShouldUseCompactResponses(false);
+        assertEquals(false, driver.getSettings()
+            .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
+    }
+
+    @Test public void testSetElementResponseAttributes() {
+        assertEquals("", driver.getSettings()
+            .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+        driver.setElementResponseAttributes("type,label");
+        assertEquals("type,label", driver.getSettings()
+            .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+    }
+
+    @Test public void testAllowInvisibleElements() {
+        assertEquals(false, driver.getSettings()
+            .get(Setting.ALLOW_INVISIBLE_ELEMENTS.toString()));
+        driver.allowInvisibleElements(true);
+        assertEquals(true, driver.getSettings()
+            .get(Setting.ALLOW_INVISIBLE_ELEMENTS.toString()));
+    }
+
+    @Test public void testEnableNotificationListener() {
+        assertEquals(true, driver.getSettings()
+            .get(Setting.ENABLE_NOTIFICATION_LISTENER.toString()));
+        driver.enableNotificationListener(false);
+        assertEquals(false, driver.getSettings()
+            .get(Setting.ENABLE_NOTIFICATION_LISTENER.toString()));
+    }
+
+    @Test public void testShutdownOnPowerDisconnect() {
+        assertEquals(true, driver.getSettings()
+            .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
+        driver.shutdownOnPowerDisconnect(false);
+        assertEquals(false, driver.getSettings()
+            .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
+    }
+
     private void assertJSONElementContains(Setting setting, long value) {
         assertEquals(driver.getSettings().get(setting.toString()), value);
     }

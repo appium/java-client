@@ -130,7 +130,7 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * Which attributes should be returned if compact responses are disabled.
-     * It works only if shouldUseCompactResponses is false. Defaults to "type,label" string.
+     * It works only if shouldUseCompactResponses is false. Defaults to "" (empty string).
      *
      * @param attrNames The comma-separated list of fields to return with each element.
      * @return self instance for chaining
@@ -163,6 +163,18 @@ interface HasAndroidSettings extends HasSettings {
      */
     default HasAndroidSettings enableNotificationListener(boolean enabled) {
         setSetting(Setting.ENABLE_NOTIFICATION_LISTENER, enabled);
+        return this;
+    }
+
+    /**
+     * Whether to enable or disable shutdown the server through
+     * the broadcast receiver on ACTION_POWER_DISCONNECTED.
+     *
+     * @param enabled Either true or false. The default value if true.
+     * @return self instance for chaining
+     */
+    default HasAndroidSettings shutdownOnPowerDisconnect(boolean enabled) {
+        setSetting(Setting.SHUTDOWN_ON_POWER_DISCONNECT, enabled);
         return this;
     }
 }
