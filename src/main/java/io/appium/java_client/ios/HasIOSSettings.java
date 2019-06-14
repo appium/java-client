@@ -47,7 +47,7 @@ interface HasIOSSettings extends HasSettings {
 
     /**
      * Which attributes should be returned if compact responses are disabled.
-     * It works only if shouldUseCompactResponses is set to false. Defaults to an empty string.
+     * It works only if shouldUseCompactResponses is set to false. Defaults to "type,label" string.
      *
      * @param attrNames The comma-separated list of fields to return with each element.
      * @return self instance for chaining
@@ -93,6 +93,18 @@ interface HasIOSSettings extends HasSettings {
      */
     default HasIOSSettings setScreenshotQuality(int quality) {
         setSetting(Setting.SCREENSHOT_QUALITY, quality);
+        return this;
+    }
+
+    /**
+     * The scale of screenshots in range 1..100.
+     * The default value is 100, no scaling
+     *
+     * @param scale An integer in range 1..100. The default value is 100.
+     * @return self instance for chaining
+     */
+    default HasIOSSettings setMjpegScalingFactor(int scale) {
+        setSetting(Setting.MJPEG_SCALING_FACTOR, scale);
         return this;
     }
 }

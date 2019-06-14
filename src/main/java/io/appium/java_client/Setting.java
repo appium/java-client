@@ -18,7 +18,7 @@ package io.appium.java_client;
 
 /**
  * Enums defining constants for Appium Settings which can be set and toggled during a test session.
- * http://appium.io/docs/en/advanced-concepts/settings/
+ * https://appium.io/docs/en/advanced-concepts/settings/
  */
 public enum Setting {
 
@@ -32,11 +32,13 @@ public enum Setting {
     ENABLE_NOTIFICATION_LISTENER("enableNotificationListener"),
     NORMALIZE_TAG_NAMES("normalizeTagNames"),
     KEY_INJECTION_DELAY("keyInjectionDelay"),
+    SHUTDOWN_ON_POWER_DISCONNECT("shutdownOnPowerDisconnect"),
     // iOS
     MJPEG_SERVER_SCREENSHOT_QUALITY("mjpegServerScreenshotQuality"),
     MJPEG_SERVER_FRAMERATE("mjpegServerFramerate"),
     SCREENSHOT_QUALITY("screenshotQuality"),
     NATIVE_WEB_TAP("nativeWebTap"),
+    MJPEG_SCALING_FACTOR("mjpegScalingFactor"),
     // Android and iOS
     SHOULD_USE_COMPACT_RESPONSES("shouldUseCompactResponses"),
     ELEMENT_RESPONSE_ATTRIBUTES("elementResponseAttributes"),
@@ -46,7 +48,9 @@ public enum Setting {
     FIX_IMAGE_FIND_SCREENSHOT_DIMENSIONS("fixImageFindScreenshotDims"),
     FIX_IMAGE_TEMPLATE_SIZE("fixImageTemplateSize"),
     CHECK_IMAGE_ELEMENT_STALENESS("checkForImageElementStaleness"),
-    UPDATE_IMAGE_ELEMENT_POSITION("autoUpdateImageElementPosition");
+    UPDATE_IMAGE_ELEMENT_POSITION("autoUpdateImageElementPosition"),
+    FIX_IMAGE_TEMPLATE_SCALE("fixImageTemplateScale"),
+    DEFAULT_IMAGE_TEMPLATE_SCALE("defaultImageTemplateScale");
 
     private final String name;
 
