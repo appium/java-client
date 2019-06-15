@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
@@ -33,8 +32,6 @@ public class BaseIOSTest {
             ? System.getenv("IOS_DEVICE_NAME") : "iPhone X";
     public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
             ? System.getenv("IOS_PLATFORM_VERSION") : "11.4";
-    public static final String BROWSER_NAME = System.getenv("IOS_BROWSER_NAME") != null
-            ? System.getenv("IOS_BROWSER_NAME") : MobileBrowserType.SAFARI;
 
 
     /**

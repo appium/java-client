@@ -14,7 +14,6 @@ variables:
   XCODE_VERSION: 10.2
   IOS_PLATFORM_VERSION: 12.2
   IOS_DEVICE_NAME: iPhone X
-  IOS_BROWSER_NAME: Safari
 
 steps:
 - task: NodeTool@0
@@ -33,7 +32,7 @@ steps:
     while [[ $? -ne 0 ]]; do sleep 1; $ANDROID_HOME/platform-tools/adb shell pm list packages; done;
     $ANDROID_HOME/platform-tools/adb devices
     echo "Emulator started"
-    
+
     sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
     xcrun simctl list
 
