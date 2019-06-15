@@ -54,4 +54,4 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     tasks: 'build'
-    options: 'xcuiTest uiAutomationTest -x test -x signArchives'
+    options: 'xcuiTest uiAutomationTest -x checkstyleTest -x test -x signArchives'

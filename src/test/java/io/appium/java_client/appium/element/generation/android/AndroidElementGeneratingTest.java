@@ -32,12 +32,12 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
     @Test
     public void whenAndroidNativeAppIsLaunched() {
         assertTrue(check(() -> {
-                    DesiredCapabilities clientCapabilities = commonCapabilitiesSupplier.get();
-                    clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
-                    clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
-                    return clientCapabilities;
-                }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)"),
-                AndroidElement.class));
+            DesiredCapabilities clientCapabilities = commonCapabilitiesSupplier.get();
+            clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
+            clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
+            return clientCapabilities;
+        }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)"),
+        AndroidElement.class));
     }
 
     @Test

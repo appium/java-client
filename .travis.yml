@@ -17,7 +17,7 @@ matrix:
           - extra-android-support
           - sys-img-armeabi-v7a-android-24
       script:
-        - ./gradlew clean build -x signArchives -x test
+        - ./gradlew clean build -x signArchives -x test -x checkstyleTest
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
