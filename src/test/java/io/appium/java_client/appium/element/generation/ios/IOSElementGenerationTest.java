@@ -33,7 +33,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             "vodqa.zip");
 
 
-    private Supplier<DesiredCapabilities> serverAppCapabilitiesSupplier = () -> {
+    private Supplier<DesiredCapabilities> commonAppCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
         serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
@@ -69,66 +69,73 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
 
     @Test
     public void whenIOSNativeAppIsLaunched() {
-        assertTrue(check(serverAppCapabilitiesSupplier,
-                appFileSupplierFunction.apply(testApp),
-                commonPredicate,
-                AccessibilityId("Answer"),
-                IOSElement.class));
+        assertTrue(check(() -> {
+            Capabilities caps = commonAppCapabilitiesSupplier.get();
+            return caps.merge(appFileSupplierFunction.apply(testApp).get());
+        }, commonPredicate,
+        AccessibilityId("Answer"),
+        IOSElement.class));
     }
 
     @Ignore
-    @Test public void whenIOSHybridAppIsLaunched() {
-        assertTrue(check(serverAppCapabilitiesSupplier,
-                appFileSupplierFunction.apply(webViewApp),
-            (by, aClass) -> {
-                new WebDriverWait(driver, 30)
-                        .until(ExpectedConditions.presenceOfElementLocated(id("login")))
-                        .click();
-                driver.findElementByAccessibilityId("webView").click();
-                new WebDriverWait(driver, 30)
-                        .until(ExpectedConditions
-                                .presenceOfElementLocated(AccessibilityId("Webview")));
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+    @Test
+    public void whenIOSHybridAppIsLaunched() {
+        assertTrue(check(() -> {
+            Capabilities caps = commonAppCapabilitiesSupplier.get();
+            return caps.merge(appFileSupplierFunction.apply(webViewApp).get());
+        }, (by, aClass) -> {
+            new WebDriverWait(driver, 30)
+                    .until(ExpectedConditions.presenceOfElementLocated(id("login")))
+                    .click();
+            driver.findElementByAccessibilityId("webView").click();
+            new WebDriverWait(driver, 30)
+                    .until(ExpectedConditions
+                            .presenceOfElementLocated(AccessibilityId("Webview")));
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            driver.getContextHandles().forEach((handle) -> {
+                if (handle.contains("WEBVIEW")) {
+                    driver.context(handle);
                 }
-                driver.getContextHandles().forEach((handle) -> {
-                    if (handle.contains("WEBVIEW")) {
-                        driver.context(handle);
-                    }
-                });
-                return commonPredicate.test(by, aClass);
-            }, partialLinkText("login"), IOSElement.class));
+            });
+            return commonPredicate.test(by, aClass);
+        }, partialLinkText("login"), IOSElement.class));
     }
 
-    @Test public void whenIOSBrowserIsLaunched() {
-        assertTrue(check(serverBrowserCapabilitiesSupplier,
-                clientBrowserCapabilitiesSupplier, (by, aClass) -> {
-                driver.get("https://www.google.com");
-                return commonPredicate.test(by, aClass);
-            }, name("q"), IOSElement.class));
+    @Test
+    public void whenIOSBrowserIsLaunched() {
+        assertTrue(check(() -> {
+            Capabilities caps = serverBrowserCapabilitiesSupplier.get();
+            return caps.merge(clientBrowserCapabilitiesSupplier.get());
+        }, (by, aClass) -> {
+            driver.get("https://www.google.com");
+            return commonPredicate.test(by, aClass);
+        }, name("q"), IOSElement.class));
     }
 
     @Test
     public void whenIOSNativeAppIsLaunched2() {
         assertTrue(check(() -> {
-            DesiredCapabilities serverCapabilities = serverAppCapabilitiesSupplier.get();
+            DesiredCapabilities serverCapabilities = commonAppCapabilitiesSupplier.get();
             serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
             serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
-            return serverCapabilities;
-        }, appFileSupplierFunction.apply(testApp), commonPredicate, id("IntegerA"), IOSElement.class));
+            return serverCapabilities.merge(appFileSupplierFunction.apply(testApp).get());
+        }, commonPredicate, id("IntegerA"), IOSElement.class));
     }
 
-    @Test public void whenIOSBrowserIsLaunched2() {
+    @Test
+    public void whenIOSBrowserIsLaunched2() {
         assertTrue(check(() -> {
             DesiredCapabilities serverCapabilities = serverBrowserCapabilitiesSupplier.get();
             serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
             serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
-            return serverCapabilities;
-        }, clientBrowserCapabilitiesSupplier, (by, aClass) -> {
-                driver.get("https://www.google.com");
-                return commonPredicate.test(by, aClass);
-            }, name("q"), IOSElement.class));
+            return serverCapabilities.merge(clientBrowserCapabilitiesSupplier.get());
+        }, (by, aClass) -> {
+            driver.get("https://www.google.com");
+            return commonPredicate.test(by, aClass);
+        }, name("q"), IOSElement.class));
     }
 }

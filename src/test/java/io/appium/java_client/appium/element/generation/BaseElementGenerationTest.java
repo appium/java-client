@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.After;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
@@ -39,14 +37,11 @@ public class BaseElementGenerationTest {
         }
     }
 
-    protected boolean check(Supplier<DesiredCapabilities> serverCapabilitiesSupplier,
-                         Supplier<Capabilities> clientCapabilitiesSupplier,
+    protected boolean check(Supplier<Capabilities> capabilitiesSupplier,
                          BiPredicate<By, Class<? extends WebElement>> filter,
                          By by, Class<? extends WebElement> clazz) {
-        AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withCapabilities(serverCapabilitiesSupplier.get());
-        service = AppiumDriverLocalService.buildService(builder);
-        driver = new AppiumDriver<>(service, clientCapabilitiesSupplier.get());
+        service = AppiumDriverLocalService.buildDefaultService();
+        driver = new AppiumDriver<>(service, capabilitiesSupplier.get());
         return filter.test(by, clazz);
     }
 
