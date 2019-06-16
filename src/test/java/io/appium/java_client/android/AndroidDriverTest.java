@@ -43,7 +43,8 @@ import java.util.Map;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
-    @Test public void sendSMSTest() {
+    @Test
+    public void sendSMSTest() {
         try {
             driver.sendSMS("11111111", "call");
         } catch (Exception e) {
@@ -54,10 +55,11 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void getStatusTest() {
-        assertThat(driver.getStatus().getVersion(), Matchers.containsString("."));
+        assertThat(driver.getStatus().get("version"), Matchers.containsString("."));
     }
 
-    @Test public void gsmCallTest() {
+    @Test
+    public void gsmCallTest() {
         try {
             driver.makeGsmCall("11111111", GsmCallActions.CALL);
             driver.makeGsmCall("11111111", GsmCallActions.ACCEPT);
@@ -66,7 +68,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void toggleWiFi() {
+    @Test
+    public void toggleWiFi() {
         try {
             driver.toggleWifi();
         } catch (Exception e) {
@@ -74,7 +77,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void toggleAirplane() {
+    @Test
+    public void toggleAirplane() {
         try {
             driver.toggleAirplaneMode();
         } catch (Exception e) {
@@ -82,7 +86,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void toggleData() {
+    @Test
+    public void toggleData() {
         try {
             driver.toggleData();
         } catch (Exception e) {
@@ -90,7 +95,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void gsmSignalStrengthTest() {
+    @Test
+    public void gsmSignalStrengthTest() {
         try {
             driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
         } catch (Exception e) {
@@ -98,7 +104,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void gsmVoiceTest() {
+    @Test
+    public void gsmVoiceTest() {
         try {
             driver.setGsmVoice(GsmVoiceState.OFF);
         } catch (Exception e) {
@@ -106,7 +113,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void networkSpeedTest() {
+    @Test
+    public void networkSpeedTest() {
         try {
             driver.setNetworkSpeed(NetworkSpeed.EDGE);
         } catch (Exception e) {
@@ -114,7 +122,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void powerTest() {
+    @Test
+    public void powerTest() {
         try {
             driver.setPowerCapacity(100);
             driver.setPowerAC(PowerACState.OFF);
@@ -123,71 +132,81 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void getDeviceTimeTest() {
+    @Test
+    public void getDeviceTimeTest() {
         String time = driver.getDeviceTime();
         assertFalse(time.isEmpty());
     }
 
-    @Test public void isAppInstalledTest() {
+    @Test
+    public void isAppInstalledTest() {
         assertTrue(driver.isAppInstalled("com.example.android.apis"));
     }
 
-    @Test public void isAppNotInstalledTest() {
+    @Test
+    public void isAppNotInstalledTest() {
         assertFalse(driver.isAppInstalled("foo"));
     }
 
-    @Test public void closeAppTest() {
+    @Test
+    public void closeAppTest() {
         driver.closeApp();
         driver.launchApp();
         assertEquals(".ApiDemos", driver.currentActivity());
     }
 
-    @Test public void pushFileTest() {
+    @Test
+    public void pushFileTest() {
         byte[] data = Base64.encodeBase64(
-            "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra"
-                .getBytes());
+                "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra"
+                        .getBytes());
         driver.pushFile("/data/local/tmp/remote.txt", data);
         byte[] returnData = driver.pullFile("/data/local/tmp/remote.txt");
         String returnDataDecoded = new String(returnData);
         assertEquals(
-            "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
-            returnDataDecoded);
+                "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
+                returnDataDecoded);
     }
 
-    @Test public void pushTempFileTest() throws Exception {
+    @Test
+    public void pushTempFileTest() throws Exception {
         File temp = File.createTempFile("Temp_", "_test");
         try {
             FileUtils.writeStringToFile(temp, "The eventual code is no "
-                + "more than the deposit of your understanding. ~E. W. Dijkstra", "UTF-8", true);
+                    + "more than the deposit of your understanding. ~E. W. Dijkstra", "UTF-8", true);
             driver.pushFile("/data/local/tmp/remote2.txt", temp);
             byte[] returnData = driver.pullFile("/data/local/tmp/remote2.txt");
             String returnDataDecoded = new String(returnData);
             assertEquals(
-                "The eventual code is no more than the deposit of "
-                    + "your understanding. ~E. W. Dijkstra",
-                returnDataDecoded);
+                    "The eventual code is no more than the deposit of "
+                            + "your understanding. ~E. W. Dijkstra",
+                    returnDataDecoded);
         } finally {
             FileUtils.forceDelete(temp);
         }
     }
 
-    @Test public void toggleLocationServicesTest() {
+    @Test
+    public void toggleLocationServicesTest() {
         driver.toggleLocationServices();
     }
 
-    @Test public void geolocationTest() {
+    @Test
+    public void geolocationTest() {
         Location location = new Location(45, 45, 100);
         driver.setLocation(location);
     }
 
-    @Test public void orientationTest() {
+    @Test
+    public void orientationTest() {
         assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
         driver.rotate(ScreenOrientation.LANDSCAPE);
         assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
         driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
-    @Test public void lockTest() {
+    @Test
+    public void lockTest() {
         try {
             driver.lockDevice();
             assertTrue(driver.isDeviceLocked());
@@ -197,14 +216,16 @@ public class AndroidDriverTest extends BaseAndroidTest {
         }
     }
 
-    @Test public void runAppInBackgroundTest() {
+    @Test
+    public void runAppInBackgroundTest() {
         long time = System.currentTimeMillis();
         driver.runAppInBackground(Duration.ofSeconds(4));
         long timeAfter = System.currentTimeMillis();
         assert (timeAfter - time > 3000);
     }
 
-    @Test public void testApplicationsManagement() throws InterruptedException {
+    @Test
+    public void testApplicationsManagement() throws InterruptedException {
         String appId = driver.getCurrentPackage();
         assertThat(driver.queryAppState(appId), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
         Thread.sleep(500);
@@ -215,37 +236,44 @@ public class AndroidDriverTest extends BaseAndroidTest {
         assertThat(driver.queryAppState(appId), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
     }
 
-    @Test public void pullFileTest() {
+    @Test
+    public void pullFileTest() {
         byte[] data =
-            driver.pullFile("/data/system/users/userlist.xml");
+                driver.pullFile("/data/system/users/userlist.xml");
         assert (data.length > 0);
     }
 
-    @Test public void resetTest() {
+    @Test
+    public void resetTest() {
         driver.resetApp();
     }
 
-    @Test public void endTestCoverage() {
+    @Test
+    public void endTestCoverage() {
         driver.endTestCoverage("android.intent.action.MAIN", "");
     }
 
-    @Test public void getDeviceUDIDTest() {
+    @Test
+    public void getDeviceUDIDTest() {
         String deviceSerial = driver.getSessionDetail("deviceUDID").toString();
         assertNotNull(deviceSerial);
     }
 
-    @Test public void getSessionMapData() {
-        Map<?,?> map = (Map<?, ?>) driver.getSessionDetail("desired");
+    @Test
+    public void getSessionMapData() {
+        Map<?, ?> map = (Map<?, ?>) driver.getSessionDetail("desired");
         assertNotEquals(map.size(), 0);
     }
-    
-    @Test public void deviceDetailsAndKeyboardTest() {
+
+    @Test
+    public void deviceDetailsAndKeyboardTest() {
         assertFalse(driver.isKeyboardShown());
         assertNotNull(driver.getDisplayDensity());
         assertNotEquals(0, driver.getSystemBars().size());
     }
 
-    @Test public void getSupportedPerformanceDataTypesTest() {
+    @Test
+    public void getSupportedPerformanceDataTypesTest() {
         driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> dataTypes = new ArrayList<>();
@@ -258,14 +286,15 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
         assertEquals(4, supportedPerformanceDataTypes.size());
 
-        for ( int i = 0 ; i < supportedPerformanceDataTypes.size() ;  ++i) {
+        for (int i = 0; i < supportedPerformanceDataTypes.size(); ++i) {
             assertEquals(dataTypes.get(i), supportedPerformanceDataTypes.get(i));
         }
 
 
     }
 
-    @Test public void getPerformanceDataTest() {
+    @Test
+    public void getPerformanceDataTest() {
         driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
@@ -281,7 +310,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     }
 
-    @Test public void getCurrentPackageTest() {
+    @Test
+    public void getCurrentPackageTest() {
         assertEquals(APP_ID, driver.getCurrentPackage());
     }
 

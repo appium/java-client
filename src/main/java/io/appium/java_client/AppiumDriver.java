@@ -56,15 +56,15 @@ import java.util.Set;
  * Default Appium driver implementation.
  *
  * @param <T> the required type of class which implement {@link WebElement}.
- *          Instances of the defined type will be returned via findElement* and findElements*
- *          Warning (!!!). Allowed types:
- *          {@link WebElement}, {@link org.openqa.selenium.remote.RemoteWebElement},
- *          {@link MobileElement} and its subclasses that designed
- *          specifically for each target mobile OS (still Android and iOS)
-*/
+ *            Instances of the defined type will be returned via findElement* and findElements*
+ *            Warning (!!!). Allowed types:
+ *            {@link WebElement}, {@link org.openqa.selenium.remote.RemoteWebElement},
+ *            {@link MobileElement} and its subclasses that designed
+ *            specifically for each target mobile OS (still Android and iOS)
+ */
 @SuppressWarnings("unchecked")
 public class AppiumDriver<T extends WebElement>
-    extends DefaultGenericMobileDriver<T> implements ComparesImages, FindsByImage<T>, FindsByCustom<T> {
+        extends DefaultGenericMobileDriver<T> implements ComparesImages, FindsByImage<T>, FindsByCustom<T> {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
@@ -75,9 +75,9 @@ public class AppiumDriver<T extends WebElement>
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
      *
-     * @param executor is an instance of {@link HttpCommandExecutor}
-     *                 or class that extends it. Default commands or another vendor-specific
-     *                 commands may be specified there.
+     * @param executor     is an instance of {@link HttpCommandExecutor}
+     *                     or class that extends it. Default commands or another vendor-specific
+     *                     commands may be specified there.
      * @param capabilities take a look at {@link Capabilities}
      */
     public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
@@ -91,24 +91,24 @@ public class AppiumDriver<T extends WebElement>
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-            desiredCapabilities);
+                desiredCapabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+                        Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-            httpClientFactory), desiredCapabilities);
+                httpClientFactory), desiredCapabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-            desiredCapabilities);
+                desiredCapabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+                        Capabilities desiredCapabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-            desiredCapabilities);
+                desiredCapabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
@@ -116,13 +116,13 @@ public class AppiumDriver<T extends WebElement>
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
+                        Capabilities desiredCapabilities) {
         this(builder.build(), httpClientFactory, desiredCapabilities);
     }
 
     public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-            desiredCapabilities);
+                desiredCapabilities);
     }
 
     public AppiumDriver(Capabilities desiredCapabilities) {
@@ -133,26 +133,29 @@ public class AppiumDriver<T extends WebElement>
      * Changes platform name and returns new capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
-     * @param newPlatform a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     *                    to be set up
+     * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     *                             to be set up
      * @return {@link Capabilities} with changed mobile platform value
      */
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
-        String newPlatform) {
+                                                           String newPlatform) {
         DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
         dc.setCapability(PLATFORM_NAME, newPlatform);
         return dc;
     }
 
-    @Override public List<T> findElements(By by) {
+    @Override
+    public List<T> findElements(By by) {
         return super.findElements(by);
     }
 
-    @Override public List<T> findElements(String by, String using) {
+    @Override
+    public List<T> findElements(String by, String using) {
         return super.findElements(by, using);
     }
 
-    @Override public List<T> findElementsById(String id) {
+    @Override
+    public List<T> findElementsById(String id) {
         return super.findElementsById(id);
     }
 
@@ -184,15 +187,18 @@ public class AppiumDriver<T extends WebElement>
         return super.findElementsByXPath(using);
     }
 
-    @Override public List<T> findElementsByAccessibilityId(String using) {
+    @Override
+    public List<T> findElementsByAccessibilityId(String using) {
         return super.findElementsByAccessibilityId(using);
     }
 
-    @Override public ExecuteMethod getExecuteMethod() {
+    @Override
+    public ExecuteMethod getExecuteMethod() {
         return executeMethod;
     }
 
-    @Override public WebDriver context(String name) {
+    @Override
+    public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
         try {
             execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
@@ -202,7 +208,8 @@ public class AppiumDriver<T extends WebElement>
         }
     }
 
-    @Override public Set<String> getContextHandles() {
+    @Override
+    public Set<String> getContextHandles() {
         Response response = execute(DriverCommand.GET_CONTEXT_HANDLES);
         Object value = response.getValue();
         try {
@@ -210,29 +217,32 @@ public class AppiumDriver<T extends WebElement>
             return new LinkedHashSet<>(returnedValues);
         } catch (ClassCastException ex) {
             throw new WebDriverException(
-                "Returned value cannot be converted to List<String>: " + value, ex);
+                    "Returned value cannot be converted to List<String>: " + value, ex);
         }
     }
 
-    @Override public String getContext() {
+    @Override
+    public String getContext() {
         String contextName =
-            String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
+                String.valueOf(execute(DriverCommand.GET_CURRENT_CONTEXT_HANDLE).getValue());
         if ("null".equalsIgnoreCase(contextName)) {
             return null;
         }
         return contextName;
     }
 
-    public AppiumServerStatus getStatus() {
+    /***
+     * This method is used to get build version status of running Appium server
+     * @return map containing version details.
+     */
+    public Map<String, String> getStatus() {
         Map<String, Object> statusMap = (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
 
-        Map<String, String> versionMap = (Map<String, String>) statusMap.get("build");
-        AppiumServerStatus status = new AppiumServerStatus(versionMap.get("version"));
-
-        return status;
+        return (Map<String, String>) statusMap.get("build");
     }
 
-    @Override public DeviceRotation rotation() {
+    @Override
+    public DeviceRotation rotation() {
         Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
         DeviceRotation deviceRotation =
                 new DeviceRotation((Map<String, Number>) response.getValue());
@@ -242,17 +252,20 @@ public class AppiumDriver<T extends WebElement>
         return deviceRotation;
     }
 
-    @Override public void rotate(DeviceRotation rotation) {
+    @Override
+    public void rotate(DeviceRotation rotation) {
         execute(DriverCommand.SET_SCREEN_ROTATION, rotation.parameters());
     }
 
 
-    @Override public void rotate(ScreenOrientation orientation) {
+    @Override
+    public void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
                 ImmutableMap.of("orientation", orientation.value().toUpperCase()));
     }
 
-    @Override public ScreenOrientation getOrientation() {
+    @Override
+    public ScreenOrientation getOrientation() {
         Response response = execute(DriverCommand.GET_SCREEN_ORIENTATION);
         String orientation = response.getValue().toString().toLowerCase();
         if (orientation.equals(ScreenOrientation.LANDSCAPE.value())) {
@@ -264,11 +277,13 @@ public class AppiumDriver<T extends WebElement>
         }
     }
 
-    @Override public Location location() {
+    @Override
+    public Location location() {
         return locationContext.location();
     }
 
-    @Override public void setLocation(Location location) {
+    @Override
+    public void setLocation(Location location) {
         locationContext.setLocation(location);
     }
 
@@ -276,7 +291,8 @@ public class AppiumDriver<T extends WebElement>
         return remoteAddress;
     }
 
-    @Override public boolean isBrowser() {
+    @Override
+    public boolean isBrowser() {
         return super.isBrowser()
                 && !containsIgnoreCase(getContext(), "NATIVE_APP");
     }
