@@ -17,10 +17,11 @@
 package io.appium.java_client.ios;
 
 
-import static org.junit.Assert.assertEquals;
-
 import io.appium.java_client.Setting;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class SettingTest extends AppIOSTest {
 

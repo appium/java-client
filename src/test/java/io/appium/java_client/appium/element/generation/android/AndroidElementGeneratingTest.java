@@ -21,7 +21,7 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
 
     private final File app = new File(new File("src/test/java/io/appium/java_client"),
             "ApiDemos-debug.apk");
-    private final Supplier<DesiredCapabilities> serverCapabilitiesSupplier = () -> {
+    private final Supplier<DesiredCapabilities> commonCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
@@ -29,42 +29,42 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
         return serverCapabilities;
     };
 
-    @Test public void whenAndroidNativeAppIsLaunched() {
-        assertTrue(check(serverCapabilitiesSupplier, () -> {
-            DesiredCapabilities clientCapabilities = new DesiredCapabilities();
+    @Test
+    public void whenAndroidNativeAppIsLaunched() {
+        assertTrue(check(() -> {
+            DesiredCapabilities clientCapabilities = commonCapabilitiesSupplier.get();
             clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
             clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
             return clientCapabilities;
         }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)"),
-            AndroidElement.class));
+        AndroidElement.class));
     }
 
-    @Test public void whenAndroidHybridAppIsLaunched() {
-        assertTrue(check(serverCapabilitiesSupplier, () -> {
-            DesiredCapabilities clientCapabilities = new DesiredCapabilities();
+    @Test
+    public void whenAndroidHybridAppIsLaunched() {
+        assertTrue(check(() -> {
+            DesiredCapabilities clientCapabilities = commonCapabilitiesSupplier.get();
             clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "io.appium.android.apis");
             clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.WebView1");
             return clientCapabilities;
         }, (by, aClass) -> {
-                driver.context("WEBVIEW_io.appium.android.apis");
-                return commonPredicate.test(by, aClass);
-            }, tagName("a"), AndroidElement.class));
+            driver.context("WEBVIEW_io.appium.android.apis");
+            return commonPredicate.test(by, aClass);
+        }, tagName("a"), AndroidElement.class));
     }
 
-    @Test public void whenAndroidBrowserIsLaunched() {
+    @Test
+    public void whenAndroidBrowserIsLaunched() {
         assertTrue(check(() -> {
-            DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-            serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-            serverCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-            return serverCapabilities;
-        }, () -> {
-                DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-                clientCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-                return clientCapabilities;
-            }, (by, aClass) -> {
-                driver.get("https://www.google.com");
-                return commonPredicate.test(by, aClass);
-            }, name("q"), AndroidElement.class));
+            DesiredCapabilities clientCapabilities = commonCapabilitiesSupplier.get();
+            clientCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+            clientCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+            clientCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
+            return clientCapabilities;
+        }, (by, aClass) -> {
+            driver.get("https://www.google.com");
+            return commonPredicate.test(by, aClass);
+        }, name("q"), AndroidElement.class));
     }
 
 

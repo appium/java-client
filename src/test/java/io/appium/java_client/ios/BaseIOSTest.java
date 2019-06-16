@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
@@ -29,12 +28,10 @@ public class BaseIOSTest {
     protected static AppiumDriverLocalService service;
     protected static IOSDriver<IOSElement> driver;
     protected static final int PORT = 4723;
-    protected static final String DEVICE_NAME = System.getenv("deviceName") != null
-            ? System.getenv("deviceName") : "iPhone X";
-    protected static final String PLATFORM_VERSION = System.getenv("platformVersion") != null
-            ? System.getenv("platformVersion") : "11.4";
-    protected static final String BROWSER_NAME = System.getenv("browserName") != null
-            ? System.getenv("browserName") : MobileBrowserType.SAFARI;
+    public static final String DEVICE_NAME = System.getenv("IOS_DEVICE_NAME") != null
+            ? System.getenv("IOS_DEVICE_NAME") : "iPhone X";
+    public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
+            ? System.getenv("IOS_PLATFORM_VERSION") : "11.4";
 
 
     /**
