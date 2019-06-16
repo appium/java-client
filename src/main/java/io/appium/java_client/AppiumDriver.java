@@ -231,9 +231,10 @@ public class AppiumDriver<T extends WebElement>
         return contextName;
     }
 
-    /***
-     * This method is used to get build version status of running Appium server
-     * @return map containing version details.
+    /**
+     * This method is used to get build version status of running Appium server.
+     *
+     * @return map containing version details
      */
     public Map<String, String> getStatus() {
         Map<String, Object> statusMap = (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
