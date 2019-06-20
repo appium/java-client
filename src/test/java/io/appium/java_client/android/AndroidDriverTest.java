@@ -55,7 +55,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void getStatusTest() {
-        assertThat(driver.getStatus().get("version"), Matchers.containsString("."));
+        assertThat(driver.getStatus().get("build").toString(), Matchers.containsString("."));
     }
 
     @Test

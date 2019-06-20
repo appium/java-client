@@ -236,10 +236,10 @@ public class AppiumDriver<T extends WebElement>
      *
      * @return map containing version details
      */
-    public Map<String, String> getStatus() {
+    public Map<String, Object> getStatus() {
         Map<String, Object> statusMap = (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
 
-        return (Map<String, String>) statusMap.get("build");
+        return statusMap;
     }
 
     @Override
