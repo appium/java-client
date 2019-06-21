@@ -237,9 +237,7 @@ public class AppiumDriver<T extends WebElement>
      * @return map containing version details
      */
     public Map<String, Object> getStatus() {
-        Map<String, Object> statusMap = (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
-
-        return statusMap;
+        return (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
     }
 
     @Override
