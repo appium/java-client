@@ -140,7 +140,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void isAppInstalledTest() {
-        assertTrue(driver.isAppInstalled("com.example.android.apis"));
+        assertTrue(driver.isAppInstalled(APP_ID));
     }
 
     @Test
@@ -301,7 +301,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
         for (String dataType : supportedPerformanceDataTypes) {
 
-            List<List<Object>> valueTable = driver.getPerformanceData("com.example.android.apis", dataType, 60000);
+            List<List<Object>> valueTable = driver.getPerformanceData(APP_ID, dataType, 60000);
 
             for (int j = 1; j < valueTable.size(); ++j) {
                 assertEquals(valueTable.subList(0, 0).size(), valueTable.subList(j, j).size());
