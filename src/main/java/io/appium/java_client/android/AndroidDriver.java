@@ -84,7 +84,7 @@ public class AndroidDriver<T extends WebElement>
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, substituteMobilePlatform(capabilities, ANDROID_PLATFORM));
+        super(executor, setDefaultPlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -94,7 +94,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+        super(remoteAddress, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -107,7 +107,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+            setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -117,7 +117,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+        super(service, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -130,7 +130,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+            setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -140,7 +140,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+        super(builder, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -153,7 +153,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+            setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -163,7 +163,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+        super(httpClientFactory, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -172,7 +172,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, ANDROID_PLATFORM));
+        super(setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -201,20 +201,6 @@ public class AndroidDriver<T extends WebElement>
     public AndroidBatteryInfo getBatteryInfo() {
         return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
                 "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
-    }
-
-    /**
-     * Returns capabilities that were provided on instantiation.
-     *
-     * @return given {@link Capabilities}
-     */
-    @Nullable
-    public Capabilities getCapabilities() {
-        MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
-        if (capabilities != null) {
-            capabilities.setCapability(PLATFORM_NAME, ANDROID_PLATFORM);
-        }
-        return capabilities;
     }
 
     @Override
