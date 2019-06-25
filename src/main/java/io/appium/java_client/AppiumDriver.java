@@ -137,7 +137,7 @@ public class AppiumDriver<T extends WebElement>
      * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                             to be set up
      * @return {@link Capabilities} with changed mobile platform value
-     * @deprecated Please use {@link #setDefaultPlatformName(Capabilities, String)} instead
+     * @deprecated Please use {@link #updateDefaultPlatformName(Capabilities, String)} instead
      */
     @Deprecated
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
@@ -151,15 +151,15 @@ public class AppiumDriver<T extends WebElement>
      * Changes platform name if it is not set and returns new capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
-     * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     * @param defaultName          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                             to be set up
      * @return {@link Capabilities} with changed mobile platform name value or the original capabilities
      */
-    protected static Capabilities setDefaultPlatformName(Capabilities originalCapabilities,
-                                                         String newPlatform) {
+    protected static Capabilities updateDefaultPlatformName(Capabilities originalCapabilities,
+                                                            String defaultName) {
         if (originalCapabilities.getCapability(PLATFORM_NAME) == null) {
             DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
-            dc.setCapability(PLATFORM_NAME, newPlatform);
+            dc.setCapability(PLATFORM_NAME, defaultName);
             return dc;
         }
         return originalCapabilities;

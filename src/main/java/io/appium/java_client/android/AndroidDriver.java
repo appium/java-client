@@ -19,7 +19,6 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
@@ -40,7 +39,6 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
@@ -48,7 +46,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 /**
  * Android driver implementation.
@@ -84,7 +81,7 @@ public class AndroidDriver<T extends WebElement>
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, setDefaultPlatformName(capabilities, ANDROID_PLATFORM));
+        super(executor, updateDefaultPlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -94,7 +91,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+        super(remoteAddress, updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -107,7 +104,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -117,7 +114,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+        super(service, updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -130,7 +127,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(service, httpClientFactory,
-            setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -140,7 +137,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+        super(builder, updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -153,7 +150,7 @@ public class AndroidDriver<T extends WebElement>
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -163,7 +160,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+        super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -172,7 +169,7 @@ public class AndroidDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(Capabilities desiredCapabilities) {
-        super(setDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+        super(updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
     }
 
     /**

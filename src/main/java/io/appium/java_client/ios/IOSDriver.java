@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
@@ -37,7 +36,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -48,7 +46,6 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 /**
  * iOS driver implementation.
@@ -82,7 +79,7 @@ public class IOSDriver<T extends WebElement>
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, setDefaultPlatformName(capabilities, IOS_DEFAULT_PLATFORM));
+        super(executor, updateDefaultPlatformName(capabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -92,7 +89,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        super(remoteAddress, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -105,7 +102,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -115,7 +112,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        super(service, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -127,7 +124,7 @@ public class IOSDriver<T extends WebElement>
      */
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
-        super(service, httpClientFactory, setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        super(service, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -137,7 +134,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        super(builder, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -150,7 +147,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -160,7 +157,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -169,7 +166,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(Capabilities desiredCapabilities) {
-        super(setDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        super(updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
