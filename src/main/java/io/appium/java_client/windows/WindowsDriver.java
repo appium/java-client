@@ -35,40 +35,40 @@ public class WindowsDriver<T extends WebElement>
         FindsByWindowsAutomation<T> {
 
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, substituteMobilePlatform(capabilities, WINDOWS));
+        super(executor, updateDefaultPlatformName(capabilities, WINDOWS));
     }
 
     public WindowsDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(remoteAddress, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(remoteAddress, httpClientFactory, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(remoteAddress, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(service, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                          Capabilities desiredCapabilities) {
-        super(service, httpClientFactory, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(service, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(builder, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                          Capabilities desiredCapabilities) {
-        super(builder, httpClientFactory, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(builder, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 
     public WindowsDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, WINDOWS));
+        super(updateDefaultPlatformName(desiredCapabilities, WINDOWS));
     }
 }

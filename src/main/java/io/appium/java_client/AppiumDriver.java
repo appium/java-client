@@ -31,6 +31,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.DeviceRotation;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -136,12 +137,32 @@ public class AppiumDriver<T extends WebElement>
      * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                             to be set up
      * @return {@link Capabilities} with changed mobile platform value
+     * @deprecated Please use {@link #updateDefaultPlatformName(Capabilities, String)} instead
      */
+    @Deprecated
     protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
                                                            String newPlatform) {
         DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
         dc.setCapability(PLATFORM_NAME, newPlatform);
         return dc;
+    }
+
+    /**
+     * Changes platform name if it is not set and returns new capabilities.
+     *
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param defaultName          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     *                             to be set up
+     * @return {@link Capabilities} with changed mobile platform name value or the original capabilities
+     */
+    protected static Capabilities updateDefaultPlatformName(Capabilities originalCapabilities,
+                                                            String defaultName) {
+        if (originalCapabilities.getCapability(PLATFORM_NAME) == null) {
+            DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
+            dc.setCapability(PLATFORM_NAME, defaultName);
+            return dc;
+        }
+        return originalCapabilities;
     }
 
     @Override
@@ -294,5 +315,18 @@ public class AppiumDriver<T extends WebElement>
     public boolean isBrowser() {
         return super.isBrowser()
                 && !containsIgnoreCase(getContext(), "NATIVE_APP");
+    }
+
+    @Override
+    protected void startSession(Capabilities capabilities) {
+        super.startSession(capabilities);
+        // The RemoteWebDriver implementation overrides platformName
+        // so we need to restore it back to the original value
+        Object originalPlatformName = capabilities.getCapability(PLATFORM_NAME);
+        Capabilities originalCaps = super.getCapabilities();
+        if (originalPlatformName != null && originalCaps instanceof MutableCapabilities) {
+            ((MutableCapabilities) super.getCapabilities()).setCapability(PLATFORM_NAME,
+                    originalPlatformName);
+        }
     }
 }

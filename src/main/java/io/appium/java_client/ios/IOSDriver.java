@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
@@ -37,7 +36,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -48,7 +46,6 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 /**
  * iOS driver implementation.
@@ -69,7 +66,7 @@ public class IOSDriver<T extends WebElement>
         PushesFiles, CanRecordScreen, HasIOSClipboard, ListensToSyslogMessages,
         HasBattery<IOSBatteryInfo> {
 
-    private static final String IOS_PLATFORM = MobilePlatform.IOS;
+    private static final String IOS_DEFAULT_PLATFORM = MobilePlatform.IOS;
 
     private StringWebSocketClient syslogClient;
 
@@ -82,7 +79,7 @@ public class IOSDriver<T extends WebElement>
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, substituteMobilePlatform(capabilities, IOS_PLATFORM));
+        super(executor, updateDefaultPlatformName(capabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -92,7 +89,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+        super(remoteAddress, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -105,7 +102,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(remoteAddress, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -115,7 +112,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+        super(service, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -127,8 +124,7 @@ public class IOSDriver<T extends WebElement>
      */
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
-        super(service, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+        super(service, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -138,7 +134,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+        super(builder, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -151,7 +147,7 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities desiredCapabilities) {
         super(builder, httpClientFactory,
-            substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+            updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -161,7 +157,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+        super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -170,7 +166,7 @@ public class IOSDriver<T extends WebElement>
      * @param desiredCapabilities take a look at {@link Capabilities}
      */
     public IOSDriver(Capabilities desiredCapabilities) {
-        super(substituteMobilePlatform(desiredCapabilities, IOS_PLATFORM));
+        super(updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
 
     /**
@@ -202,21 +198,6 @@ public class IOSDriver<T extends WebElement>
             return new IOSAlert(super.alert());
         }
     }
-
-    /**
-     * Returns capabilities that were provided on instantiation.
-     *
-     * @return given {@link Capabilities}
-     */
-    @Nullable
-    public Capabilities getCapabilities() {
-        MutableCapabilities capabilities = (MutableCapabilities) super.getCapabilities();
-        if (capabilities != null) {
-            capabilities.setCapability(PLATFORM_NAME, IOS_PLATFORM);
-        }
-        return capabilities;
-    }
-
 
     class IOSAlert implements Alert {
 
