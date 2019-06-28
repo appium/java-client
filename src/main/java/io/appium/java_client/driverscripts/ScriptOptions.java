@@ -41,8 +41,8 @@ public class ScriptOptions {
 
     /**
      * Sets the script execution timeout.
-     * If this is not set the the maximum duration of the script
-     * is not limited (e. g. may block forever)
+     * If this is not set then the maximum duration of the script
+     * is not limited (e. g. may block forever).
      *
      * @param timeoutMs the timeout in milliseconds
      * @return self instance for chaining
