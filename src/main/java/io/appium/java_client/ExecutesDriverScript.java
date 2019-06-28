@@ -41,8 +41,8 @@ public interface ExecutesDriverScript extends ExecutesMethod {
      *               be a valid webdriverio code snippet by default
      *               unless another option is provided)
      * @param options additional scripting options
-     * @throws org.openqa.selenium.WebDriverException if there was a failure while executing the script
      * @return The script result
+     * @throws org.openqa.selenium.WebDriverException if there was a failure while executing the script
      */
     default ScriptValue executeDriverScript(String script, @Nullable ScriptOptions options) {
         Map<String, Object> data = new HashMap<>();
