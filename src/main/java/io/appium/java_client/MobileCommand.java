@@ -110,6 +110,7 @@ public class MobileCommand {
     protected static final String TOGGLE_AIRPLANE_MODE;
     protected static final String TOGGLE_DATA;
     protected static final String COMPARE_IMAGES;
+    protected static final String EXECUTE_DRIVER_SCRIPT;
 
     public static final Map<String, CommandInfo> commandRepository;
 
@@ -184,6 +185,7 @@ public class MobileCommand {
         TOGGLE_AIRPLANE_MODE = "toggleFlightMode";
         TOGGLE_DATA = "toggleData";
         COMPARE_IMAGES = "compareImages";
+        EXECUTE_DRIVER_SCRIPT = "executeDriverScript";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -268,6 +270,7 @@ public class MobileCommand {
         commandRepository.put(TOGGLE_AIRPLANE_MODE, postC("/session/:sessionId/appium/device/toggle_airplane_mode"));
         commandRepository.put(TOGGLE_DATA, postC("/session/:sessionId/appium/device/toggle_data"));
         commandRepository.put(COMPARE_IMAGES, postC("/session/:sessionId/appium/compare_images"));
+        commandRepository.put(EXECUTE_DRIVER_SCRIPT, postC("/session/:sessionId/appium/execute_driver"));
     }
 
     /**
