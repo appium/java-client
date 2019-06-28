@@ -25,7 +25,7 @@ import static java.util.Optional.ofNullable;
 
 
 public class ScriptOptions {
-    private ScriptType scriptType = ScriptType.WEBDRIVERIO;
+    private ScriptType scriptType;
     private Long timeoutMs;
 
     /**
