@@ -107,4 +107,26 @@ interface HasIOSSettings extends HasSettings {
         setSetting(Setting.MJPEG_SCALING_FACTOR, scale);
         return this;
     }
+
+    /**
+     * Changes the 'Auto-Correction' preference in Keyboards setting.
+     *
+     * @param enabled Either true or false. Defaults to false when WDA starts as xctest.
+     * @return self instance for chaining
+     */
+    default HasIOSSettings setKeyboardAutocorrection(boolean enabled) {
+        setSetting(Setting.KEYBOARD_AUTOCORRECTION, enabled);
+        return this;
+    }
+
+    /**
+     * Changes the 'Predictive' preference in Keyboards setting.
+     *
+     * @param enabled Either true or false. Defaults to false when WDA starts as xctest.
+     * @return self instance for chaining
+     */
+    default HasIOSSettings setKeyboardPrediction(boolean enabled) {
+        setSetting(Setting.KEYBOARD_PREDICTION, enabled);
+        return this;
+    }
 }

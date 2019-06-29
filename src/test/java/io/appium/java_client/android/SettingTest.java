@@ -84,6 +84,14 @@ public class SettingTest extends BaseAndroidTest {
             .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
     }
 
+    @Test public void testSetTrackScrollEvents() {
+        assertEquals(true, driver.getSettings()
+            .get(Setting.TRACK_SCROLL_EVENTS.toString()));
+        driver.setTrackScrollEvents(false);
+        assertEquals(false, driver.getSettings()
+            .get(Setting.TRACK_SCROLL_EVENTS.toString()));
+    }
+
     private void assertJSONElementContains(Setting setting, long value) {
         assertEquals(driver.getSettings().get(setting.toString()), value);
     }

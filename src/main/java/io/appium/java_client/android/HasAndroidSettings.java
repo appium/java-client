@@ -177,4 +177,18 @@ interface HasAndroidSettings extends HasSettings {
         setSetting(Setting.SHUTDOWN_ON_POWER_DISCONNECT, enabled);
         return this;
     }
+
+    /**
+     * Turn on or off the tracking of scroll events as they happen.
+     * If {@code true}, a field, {@code lastScrollData}, is added to the results of
+     * {@code getSession}, which can then be used to check on scroll progress.
+     * Turning this feature off significantly increases touch action performance.
+     *
+     * @param enabled Either true or false. The default value if true.
+     * @return self instance for chaining
+     */
+    default HasAndroidSettings setTrackScrollEvents(boolean enabled) {
+        setSetting(Setting.TRACK_SCROLL_EVENTS, enabled);
+        return this;
+    }
 }
