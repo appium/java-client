@@ -180,7 +180,7 @@ interface HasAndroidSettings extends HasSettings {
 
     /**
      * Turn on or off the tracking of scroll events as they happen.
-     * If {@code true}, a field, {@code lastScrollData}, is added to the results of
+     * If {@code true}, a field {@code lastScrollData} is added to the results of
      * {@code getSession}, which can then be used to check on scroll progress.
      * Turning this feature off significantly increases touch action performance.
      *
