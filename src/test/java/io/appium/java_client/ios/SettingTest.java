@@ -71,5 +71,17 @@ public class SettingTest extends AppIOSTest {
             .get(Setting.MJPEG_SCALING_FACTOR.toString()));
     }
 
+    @Test public void testSetKeyboardAutocorrection() {
+        driver.setKeyboardAutocorrection(true);
+        assertEquals(true, driver.getSettings()
+            .get(Setting.KEYBOARD_AUTOCORRECTION.toString()));
+    }
+
+    @Test public void testSetKeyboardPrediction() {
+        driver.setKeyboardPrediction(true);
+        assertEquals(true, driver.getSettings()
+            .get(Setting.KEYBOARD_PREDICTION.toString()));
+    }
+
 
 }
