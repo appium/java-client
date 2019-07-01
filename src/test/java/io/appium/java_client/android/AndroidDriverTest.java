@@ -314,5 +314,10 @@ public class AndroidDriverTest extends BaseAndroidTest {
     public void getCurrentPackageTest() {
         assertEquals(APP_ID, driver.getCurrentPackage());
     }
+    
+    @Test public void validateAllSessions() {
+    	List<Map<String,Object>> jsonMap = driver.getAllSessionDetails();
+		assertNotNull(jsonMap);
+    }
 
 }
