@@ -16,8 +16,8 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static io.appium.java_client.MobileCommand.GET_ALLSESSION;
+import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
