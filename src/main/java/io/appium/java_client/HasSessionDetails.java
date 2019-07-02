@@ -91,8 +91,9 @@ public interface HasSessionDetails extends ExecutesMethod {
     }
     
     /**
-     * Get All Sessions details
-     * @return List of Map objects with All Session Details
+     * Get All Sessions details.
+     * 
+     * @return List of Map objects with All Session Details.
      */
     @SuppressWarnings("unchecked")
     default List<Map<String, Object>> getAllSessionDetails() {
