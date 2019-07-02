@@ -16,15 +16,18 @@
 
 package io.appium.java_client;
 
+import static io.appium.java_client.MobileCommand.GET_ALLSESSION;
 import static io.appium.java_client.MobileCommand.GET_SESSION;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import org.openqa.selenium.remote.Response;
 
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
 
@@ -85,5 +88,17 @@ public interface HasSessionDetails extends ExecutesMethod {
     default boolean isBrowser() {
         return ofNullable(getSessionDetail("browserName"))
                 .orElse(null) != null;
+    }
+    
+    /**
+     * Get All Sessions details.
+     * 
+     * @return List of Map objects with All Session Details.
+     */
+    @SuppressWarnings("unchecked")
+    default List<Map<String, Object>> getAllSessionDetails() {
+        Response response = execute(GET_ALLSESSION);
+        List<Map<String,Object>> resultSet = List.class.cast(response.getValue());
+        return ImmutableList.<Map<String,Object>>builder().addAll(resultSet).build();
     }
 }
