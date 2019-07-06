@@ -1,15 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
 apply plugin: 'checkstyle'
 apply plugin: 'signing'
 
 import org.apache.tools.ant.filters.*
-
-group 'io.appium'
-version '7.0.0'
 
 repositories {
     jcenter()
@@ -115,83 +112,89 @@ checkstyle {
 }
 checkstyleMain.excludes = ['**/org/openqa/selenium/**']
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
 }
 
-artifacts {
-    archives javadocJar, sourcesJar
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
 }
 
-signing {
-    sign configurations.archives
+javadoc {
+    options.addStringOption('encoding', 'UTF-8')
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                packaging 'jar'
-                name 'java-client'
-                description 'Java client for Appium Mobile Webdriver'
-                url 'http://appium.io'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.appium'
+            artifactId = 'java-client'
+            version = '7.1.0'
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = 'java-client'
+                description = 'Java client for Appium Mobile Webdriver'
+                url = 'http://appium.io'
                 developers {
                     developer {
-                        name 'Jonah Stiennon'
-                        email 'jonahss@gmail.com'
-                        url 'https://github.com/jonahss'
-                        id 'jonahss'
-                    };
+                        name = 'Jonah Stiennon'
+                        email = 'jonahss@gmail.com'
+                        url = 'https://github.com/jonahss'
+                        id = 'jonahss'
+                    }
                     developer {
-                        name 'Sergey Tikhomirov'
-                        email 'tichomirovsergey@gmail.com'
-                        url 'https://github.com/TikhomirovSergey'
-                        id 'TikhomirovSergey'
-                    };
+                        name = 'Sergey Tikhomirov'
+                        email = 'tichomirovsergey@gmail.com'
+                        url = 'https://github.com/TikhomirovSergey'
+                        id = 'TikhomirovSergey'
+                    }
                     developer {
-                        name 'Srinivasan Sekar'
-                        email 'srinivasan.sekar1990@gmail.com'
-                        url 'https://github.com/SrinivasanTarget'
-                        id 'SrinivasanTarget'
-                    };
+                        name = 'Srinivasan Sekar'
+                        email = 'srinivasan.sekar1990@gmail.com'
+                        url = 'https://github.com/SrinivasanTarget'
+                        id = 'SrinivasanTarget'
+                    }
                     developer {
-                        name 'Mykola Mokhnach'
-                        url 'https://github.com/mykola-mokhnach'
-                        id 'mykola-mokhnach'
-                    };
+                        name = 'Mykola Mokhnach'
+                        url = 'https://github.com/mykola-mokhnach'
+                        id = 'mykola-mokhnach'
+                    }
                 }
                 licenses {
                     license {
-                        name 'Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
                     }
                 }
                 scm {
-                    url 'https://github.com/appium/java-client'
-                    connection 'scm:git:ssh://git@github.com/appium/java-client.git'
-                    developerConnection 'scm:git:ssh://git@github.com/appium/java-client.git'
-                    tag 'HEAD'
+                    url = 'https://github.com/appium/java-client'
+                    connection = 'scm:git:ssh://git@github.com/appium/java-client.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/appium/java-client.git'
+                    tag = 'HEAD'
                 }
             }
         }
     }
+    repositories {
+        maven {
+            credentials {
+                username "$ossrhUsername"
+                password "$ossrhPassword"
+            }
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/'"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
 
 wrapper {
