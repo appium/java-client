@@ -69,7 +69,7 @@ dependencies {
     compile 'commons-validator:commons-validator:1.6'
     compile 'org.apache.commons:commons-lang3:3.9'
     compile 'commons-io:commons-io:2.6'
-    compile 'org.springframework:spring-context:5.1.6.RELEASE'
+    compile 'org.springframework:spring-context:5.1.8.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.9.3'
     compile 'org.slf4j:slf4j-api:1.7.26'
 
