@@ -15,8 +15,10 @@ import java.lang.annotation.Target;
 @Retention(value = RUNTIME)
 public @interface AndroidFindByChainSet {
     /**
+     * An array of which builds a sequence of the chained searching for elements or a set of possible locators.
+     *
      * @return an array of {@link io.appium.java_client.pagefactory.AndroidFindBys} which builds a sequence of
-     * the chained searching for elements or a set of possible locators
+     *     the chained searching for elements or a set of possible locators
      */
     AndroidFindBys[] value();
 }
