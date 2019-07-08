@@ -75,7 +75,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest:2.1'
-    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.4.0') {
+    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.6.1') {
         exclude group: 'org.seleniumhq.selenium'
     }
 }
