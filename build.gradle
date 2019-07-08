@@ -32,7 +32,7 @@ configurations {
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt:ecj:3.16.0'
+    ecj 'org.eclipse.jdt:ecj:3.18.0'
 }
 
 compileJava {
