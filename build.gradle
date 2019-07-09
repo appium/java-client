@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.owasp:dependency-check-gradle:1.4.0'
+        classpath 'org.owasp:dependency-check-gradle:5.1.0'
         classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
     }
 }
