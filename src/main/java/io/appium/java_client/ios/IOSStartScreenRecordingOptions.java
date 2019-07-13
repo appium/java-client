@@ -31,6 +31,7 @@ public class IOSStartScreenRecordingOptions
     private String videoType;
     private String videoQuality;
     private String videoScale;
+    private String videoFilters;
     private Integer fps;
 
     public static IOSStartScreenRecordingOptions startScreenRecordingOptions() {
@@ -82,6 +83,7 @@ public class IOSStartScreenRecordingOptions
     /**
      * The scaling value to apply. Read https://trac.ffmpeg.org/wiki/Scaling for possible values.
      * No scale is applied by default.
+     * If filters are set then the scale setting is effectively ignored.
      *
      * @since Appium 1.10.0
      * @param videoScale ffmpeg-compatible scale format specifier.
@@ -106,6 +108,21 @@ public class IOSStartScreenRecordingOptions
         return super.withTimeLimit(timeLimit);
     }
 
+    /**
+     * The FFMPEG video filters to apply. These filters allow to scale, flip, rotate and do many
+     * other useful transformations on the source video stream. The format of the property
+     * must comply with https://ffmpeg.org/ffmpeg-filters.html.
+     *
+     * @since Appium 1.15
+     * @param filters One or more filters to apply to the resulting video stream,
+     *                for example "transpose=1" to rotate the resulting video 90 degrees clockwise.
+     * @return self instance for chaining.
+     */
+    public IOSStartScreenRecordingOptions withVideoFilters(String filters) {
+        this.videoFilters = filters;
+        return this;
+    }
+
     @Override
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
@@ -113,6 +130,7 @@ public class IOSStartScreenRecordingOptions
         ofNullable(videoType).map(x -> builder.put("videoType", x));
         ofNullable(videoQuality).map(x -> builder.put("videoQuality", x));
         ofNullable(videoScale).map(x -> builder.put("videoScale", x));
+        ofNullable(videoFilters).map(x -> builder.put("videoFilters", x));
         ofNullable(fps).map(x -> builder.put("videoFps", x));
         return builder.build();
     }
