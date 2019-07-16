@@ -139,9 +139,8 @@ public class AppiumDriver<T extends WebElement>
         this.setSessionId(sessionId);
         
         AppiumCommandExecutor executor = new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress);
-        executor.setCommandCodec(new AppiumW3CHttpCommandCodec());
-        executor.setResponseCodec(Dialect.W3C.getResponseCodec());
         executor.configureW3CMode();
+        executor.setResponseCodec(Dialect.W3C.getResponseCodec());
         
         this.setCommandExecutor(executor);
         init(executor);

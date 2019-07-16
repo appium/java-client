@@ -260,7 +260,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         if (DriverCommand.NEW_SESSION.equals(command.getName())
                 && getCommandCodec() instanceof W3CHttpCommandCodec) {
-        	configureW3CMode();
+            configureW3CMode();
         }
 
         return response;

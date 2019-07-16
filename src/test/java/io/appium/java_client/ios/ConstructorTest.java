@@ -49,11 +49,11 @@ public class ConstructorTest extends AppIOSTest {
 
     @Test
     public void attachToSessionTest() {
-		String sessionId = driver.getSessionId().toString();
-		
-		URL address = driver.getRemoteAddress();
-		AppiumDriver newDriver = new AppiumDriver(driver.getRemoteAddress() ,sessionId);
-    	//TODO IOSDriver and AndroidDriver
+        String sessionId = driver.getSessionId().toString();
+	
+        URL address = driver.getRemoteAddress();
+        AppiumDriver newDriver = new AppiumDriver(driver.getRemoteAddress() ,sessionId);
+        //TODO IOSDriver and AndroidDriver
         String time = newDriver.getDeviceTime();
         assertFalse(time.isEmpty());
     }
