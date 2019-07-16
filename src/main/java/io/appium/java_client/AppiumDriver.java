@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
+import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -39,6 +40,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
@@ -84,11 +86,7 @@ public class AppiumDriver<T extends WebElement>
      */
     public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
-        this.executeMethod = new AppiumExecutionMethod(this);
-        locationContext = new RemoteLocationContext(executeMethod);
-        super.setErrorHandler(errorHandler);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
-        this.setElementConverter(new JsonToMobileElementConverter(this, this));
+        init(executor);
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -129,6 +127,35 @@ public class AppiumDriver<T extends WebElement>
 
     public AppiumDriver(Capabilities desiredCapabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+
+    }
+
+    /**
+     * For creating a client connected to an existing Appium session.
+     * The other constructors all create a new session, sending the POST /session request.
+     * This constructor does not.
+     */
+    public AppiumDriver(URL remoteAddress, String sessionId) {
+        this.setSessionId(sessionId);
+        
+        AppiumCommandExecutor executor = new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress);
+        executor.setCommandCodec(new AppiumW3CHttpCommandCodec());
+        executor.setResponseCodec(Dialect.W3C.getResponseCodec());
+        executor.configureW3CMode();
+        
+        this.setCommandExecutor(executor);
+        init(executor);
+    }
+
+    /**
+     * Used by constructors
+     */
+    private void init(HttpCommandExecutor executor) {
+        this.executeMethod = new AppiumExecutionMethod(this);
+        locationContext = new RemoteLocationContext(executeMethod);
+        super.setErrorHandler(errorHandler);
+        this.remoteAddress = executor.getAddressOfRemoteServer();
+        this.setElementConverter(new JsonToMobileElementConverter(this, this));
     }
 
     /**

@@ -37,6 +37,10 @@ abstract class DefaultGenericMobileDriver<T extends WebElement> extends RemoteWe
         super(executor, desiredCapabilities);
     }
 
+    protected DefaultGenericMobileDriver() {
+        super();
+    }
+
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
     }

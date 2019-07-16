@@ -136,16 +136,16 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue("additionalCommands", Map.class);
     }
 
-    protected CommandCodec<HttpRequest> getCommandCodec() {
+    public CommandCodec<HttpRequest> getCommandCodec() {
         //noinspection unchecked
         return getPrivateFieldValue("commandCodec", CommandCodec.class);
     }
 
-    protected void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+    public void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
         setPrivateFieldValue("commandCodec", newCodec);
     }
 
-    protected void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+    public void setResponseCodec(ResponseCodec<HttpResponse> codec) {
         setPrivateFieldValue("responseCodec", codec);
     }
 
@@ -260,10 +260,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         if (DriverCommand.NEW_SESSION.equals(command.getName())
                 && getCommandCodec() instanceof W3CHttpCommandCodec) {
-            setCommandCodec(new AppiumW3CHttpCommandCodec());
-            getAdditionalCommands().forEach(this::defineCommand);
+        	configureW3CMode();
         }
 
         return response;
+    }
+    
+    public void configureW3CMode() {
+    	setCommandCodec(new AppiumW3CHttpCommandCodec());
+        getAdditionalCommands().forEach(this::defineCommand);
     }
 }
