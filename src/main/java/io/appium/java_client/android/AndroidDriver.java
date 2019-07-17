@@ -30,9 +30,11 @@ import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByAndroidViewTag;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.LocksDevice;
+import io.appium.java_client.MobileCommand;
 import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.android.nativekey.PressesKey;
 import io.appium.java_client.battery.HasBattery;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -40,6 +42,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -161,6 +164,15 @@ public class AndroidDriver<T extends WebElement>
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
         super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, ANDROID_PLATFORM));
+    }
+    
+    /**
+     * Creates a new instance which is attached to an existing Appium automation session.
+     * The other constructors all create a new session, sending the POST /session request.
+     * This constructor does not.
+     */
+    public AndroidDriver(URL remoteAddress, String sessionId) {
+        super(remoteAddress, sessionId);
     }
 
     /**

@@ -52,8 +52,8 @@ public class ConstructorTest extends AppIOSTest {
         String sessionId = driver.getSessionId().toString();
 	
         URL address = driver.getRemoteAddress();
-        AppiumDriver newDriver = new AppiumDriver(driver.getRemoteAddress() ,sessionId);
-        //TODO IOSDriver and AndroidDriver
+        IOSDriver newDriver = new IOSDriver(driver.getRemoteAddress() ,sessionId);
+        
         String time = newDriver.getDeviceTime();
         assertFalse(time.isEmpty());
     }

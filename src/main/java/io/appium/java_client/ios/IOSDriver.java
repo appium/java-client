@@ -168,6 +168,19 @@ public class IOSDriver<T extends WebElement>
     public IOSDriver(Capabilities desiredCapabilities) {
         super(updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
     }
+    
+    /**
+     * Creates a new instance which is attached to an existing Appium automation session.
+     * The other constructors all create a new session, sending the POST /session request.
+     * This constructor does not.
+     * 
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param sessionId is an Appium session ID, can be gotten from another client by
+     *        calling `getSessionId()`
+     */
+    public IOSDriver(URL remoteAddress, String sessionId) {
+        super(remoteAddress, sessionId);
+    }
 
     /**
      * Runs the current app as a background app for the number of seconds
