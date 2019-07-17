@@ -267,7 +267,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
     
     public void configureW3CMode() {
-    	setCommandCodec(new AppiumW3CHttpCommandCodec());
+        setCommandCodec(new AppiumW3CHttpCommandCodec());
         getAdditionalCommands().forEach(this::defineCommand);
     }
 }

@@ -147,7 +147,7 @@ public class AppiumDriver<T extends WebElement>
     }
 
     /**
-     * Used by constructors
+     * Used by constructors.
      */
     private void init(HttpCommandExecutor executor) {
         this.executeMethod = new AppiumExecutionMethod(this);
