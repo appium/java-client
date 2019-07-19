@@ -16,20 +16,13 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+import lombok.Data;
+
 import java.lang.reflect.AnnotatedElement;
 
 /**
  * This is the POJO for the setting/getting of an AnnotatedElement instances.
  */
-public class AnnotatedElementContainer {
+@Data public class AnnotatedElementContainer {
     private AnnotatedElement annotated;
-
-
-    public AnnotatedElement getAnnotated() {
-        return annotated;
-    }
-
-    void setAnnotated(AnnotatedElement annotated) {
-        this.annotated = annotated;
-    }
 }

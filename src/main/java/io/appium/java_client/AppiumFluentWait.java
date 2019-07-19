@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import com.google.common.base.Throwables;
 
+import lombok.Getter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -35,10 +36,30 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     private Function<IterationInfo, Duration> pollingStrategy = null;
 
     public static class IterationInfo {
-        private final long number;
-        private final Duration elapsed;
-        private final Duration total;
-        private final Duration interval;
+        /**
+         * The current iteration number.
+         *
+         * @return current iteration number. It starts from 1
+         */
+        @Getter private final long number;
+        /**
+         * The amount of elapsed time.
+         *
+         * @return the amount of elapsed time
+         */
+        @Getter private final Duration elapsed;
+        /**
+         * The amount of total time.
+         *
+         * @return the amount of total time
+         */
+        @Getter private final Duration total;
+        /**
+         * The current interval.
+         *
+         * @return The actual value of current interval or the default one if it is not set
+         */
+        @Getter private final Duration interval;
 
         /**
          * The class is used to represent information about a single loop iteration in {@link #until(Function)}
@@ -54,42 +75,6 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
             this.elapsed = elapsed;
             this.total = total;
             this.interval = interval;
-        }
-
-        /**
-         * The current iteration number.
-         *
-         * @return current iteration number. It starts from 1
-         */
-        public long getNumber() {
-            return number;
-        }
-
-        /**
-         * The amount of elapsed time.
-         *
-         * @return the amount of elapsed time
-         */
-        public Duration getElapsed() {
-            return elapsed;
-        }
-
-        /**
-         * The amount of total time.
-         *
-         * @return the amount of total time
-         */
-        public Duration getTotal() {
-            return total;
-        }
-
-        /**
-         * The current interval.
-         *
-         * @return The actual value of current interval or the default one if it is not set
-         */
-        public Duration getInterval() {
-            return interval;
         }
     }
 

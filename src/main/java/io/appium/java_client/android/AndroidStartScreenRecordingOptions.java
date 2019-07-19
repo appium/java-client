@@ -21,20 +21,14 @@ import static java.util.Optional.ofNullable;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.time.Duration;
 import java.util.Map;
-
+@Accessors(chain = true)
 public class AndroidStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<AndroidStartScreenRecordingOptions> {
-    private Integer bitRate;
-    private String videoSize;
-    private Boolean isBugReportEnabled;
-
-    public static AndroidStartScreenRecordingOptions startScreenRecordingOptions() {
-        return new AndroidStartScreenRecordingOptions();
-    }
-
     /**
      * The video bit rate for the video, in megabits per second.
      * The default value is 4000000 (4 Mb/s) for Android API level below 27
@@ -45,11 +39,7 @@ public class AndroidStartScreenRecordingOptions
      * @param bitRate The actual bit rate (Mb/s).
      * @return self instance for chaining.
      */
-    public AndroidStartScreenRecordingOptions withBitRate(int bitRate) {
-        this.bitRate = bitRate;
-        return this;
-    }
-    
+    @Setter private Integer bitRate;
     /**
      * The video size of the generated media file. The format is WIDTHxHEIGHT.
      * The default value is the device's native display resolution (if supported),
@@ -59,11 +49,7 @@ public class AndroidStartScreenRecordingOptions
      * @param videoSize The actual video size: WIDTHxHEIGHT.
      * @return self instance for chaining.
      */
-    public AndroidStartScreenRecordingOptions withVideoSize(String videoSize) {
-        this.videoSize = videoSize;
-        return this;
-    }
-
+    @Setter private String videoSize;
     /**
      * Makes the recorder to display an additional information on the video overlay,
      * such as a timestamp, that is helpful in videos captured to illustrate bugs.
@@ -71,10 +57,13 @@ public class AndroidStartScreenRecordingOptions
      *
      * @return self instance for chaining.
      */
-    public AndroidStartScreenRecordingOptions enableBugReport() {
-        this.isBugReportEnabled = true;
-        return this;
+    @Setter private Boolean isBugReportEnabled;
+
+    public static AndroidStartScreenRecordingOptions startScreenRecordingOptions() {
+        return new AndroidStartScreenRecordingOptions();
     }
+
+
 
     /**
      * The maximum recording time. The default and maximum value is 180 seconds (3 minutes).

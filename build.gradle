@@ -6,10 +6,12 @@ apply plugin: 'jacoco'
 apply plugin: 'checkstyle'
 apply plugin: 'signing'
 
+
 import org.apache.tools.ant.filters.*
 
 group 'io.appium'
 version '7.0.0'
+
 
 repositories {
     jcenter()
@@ -35,6 +37,11 @@ configurations {
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+}
+
+dependencies {
     ecj 'org.eclipse.jdt:ecj:3.16.0'
 }
 
@@ -50,6 +57,7 @@ compileJava {
             '-encoding', 'utf-8'
     ]
 }
+
 
 dependencies {
     compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
@@ -129,14 +137,14 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-signing {
-    sign configurations.archives
-}
+//signing {
+//    sign configurations.archives
+//}
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+           // beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
             repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
                 authentication(userName: ossrhUsername, password: ossrhPassword)

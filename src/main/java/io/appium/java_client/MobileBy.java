@@ -16,6 +16,7 @@
 
 package io.appium.java_client;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -31,7 +32,7 @@ public abstract class MobileBy extends By {
     private static final String ERROR_TEXT = "The class %s of the given context "
         + "doesn't implement %s nor %s. Sorry. It is impossible to find something.";
 
-    private final String locatorString;
+    @Getter private final String locatorString;
     private final MobileSelector selector;
 
     private static IllegalArgumentException formIllegalArgumentException(Class<?> givenClass,
@@ -48,13 +49,9 @@ public abstract class MobileBy extends By {
         this.selector = selector;
     }
 
-    protected String getLocatorString() {
-        return locatorString;
-    }
-
     @SuppressWarnings("unchecked")
     @Override public List<WebElement> findElements(SearchContext context) {
-        return (List<WebElement>) ((FindsByFluentSelector<?>) context)
+    	return (List<WebElement>) ((FindsByFluentSelector<?>) context)
             .findElements(selector.toString(), getLocatorString());
     }
 
