@@ -22,12 +22,12 @@ the following list of interfaces (new items may be added further):
 - `io.appium.java_client.events.api.mobile.ContextEventListener` is for the listening to the switching to mobile context
 - `io.appium.java_client.events.api.mobile.RotationEventListener` is for the listening to screen rotation
 - `io.appium.java_client.events.api.general.AppiumWebDriverEventListener` was added to provide the compatibility with 
-user's implementation of `org.openqa.selenium.support.events.WebDriverEventListener`. Also it extends some interfaces above.
+user's implementation of `org.openqa.seleniumone.support.events.WebDriverEventListener`. Also it extends some interfaces above.
  
 # Briefly about the engine. 
 
-This is pretty similar solution as the `org.openqa.selenium.support.events.EventFiringWebDriver` of the Selenium project. You 
-can read about this thing there [The blog post](https://seleniumworks.blogspot.com/2014/02/eventfiringwebdriver.html).  
+This is pretty similar solution as the `org.openqa.seleniumone.support.events.EventFiringWebDriver` of the seleniumone project. You 
+can read about this thing there [The blog post](https://seleniumoneworks.blogspot.com/2014/02/eventfiringwebdriver.html).  
 
 Here we were trying to improve existing drawbacks and restrictions using: 
 
@@ -101,12 +101,12 @@ If there are listeners defined externally when this collection is merged with de
 
 # How to reuse customized WebDriverEventListener
 
-If an end user has their own `org.openqa.selenium.support.events.WebDriverEventListener` implementation then in order to 
+If an end user has their own `org.openqa.seleniumone.support.events.WebDriverEventListener` implementation then in order to 
 make it compatible with this engine it is enough to do the following.
 
 
 ```java
-import org.openqa.selenium.support.events.WebDriverEventListener;
+import org.openqa.seleniumone.support.events.WebDriverEventListener;
 import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
 
 public class UsersWebDriverEventListener implements WebDriverEventListener, AppiumWebDriverEventListener {

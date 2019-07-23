@@ -17,7 +17,7 @@
 package io.appium.java_client.events.api.general;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public interface ListensToException extends Listener {
     /**

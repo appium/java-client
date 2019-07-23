@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 /**
  * Used to mark a field on a Page Object to indicate an alternative mechanism for locating the
  * element or a list of elements. Used in conjunction with
- * {@link org.openqa.selenium.support.PageFactory}
+ * {@link org.openqa.seleniumone.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
  * using Windows automation selectors, accessibility, id, name, class name, tag and xpath
  */

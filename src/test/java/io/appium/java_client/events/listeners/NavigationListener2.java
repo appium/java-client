@@ -1,7 +1,7 @@
 package io.appium.java_client.events.listeners;
 
 import io.appium.java_client.events.api.general.NavigationEventListener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public class NavigationListener2 extends TestListener implements NavigationEventListener {
 

@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium.internal;
+package org.openqa.seleniumone.internal;
 
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebElement;
 
 import java.util.List;
 

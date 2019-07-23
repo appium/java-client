@@ -5,7 +5,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
 [![Build Status](https://travis-ci.org/appium/java-client.svg?branch=master)](https://travis-ci.org/appium/java-client)
 
-This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
+This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/seleniumoneHQ/mobile-spec/blob/master/spec-draft.md)
 
 [API docs](https://www.javadoc.io/doc/io.appium/java-client)
 
@@ -88,7 +88,7 @@ dependencies {
     - **[BUG FIX]** Null pointer exceptions when calling getCapabilities is handled better. [#1094  ](https://github.com/appium/java-client/pull/1094)
 
 - **[DEPENDENCY UPDATES]**
-  - `org.seleniumhq.selenium:selenium-java` was updated to 4.0.0-alpha-1.
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 4.0.0-alpha-1.
   - `org.aspectj:aspectjweaver` was updated to 1.9.4.
   - `org.apache.httpcomponents:httpclient` was updated to 4.5.9.
   - `cglib:cglib` was updated to 3.2.12.
@@ -117,14 +117,14 @@ dependencies {
     - `videoScale` and `fps` screen recording options are introduced for iOS. [#1067](https://github.com/appium/java-client/pull/1067)
     - `NORMALIZE_TAG_NAMES` setting was introduced for android. [#1073](https://github.com/appium/java-client/pull/1073)
     - `threshold` argument was added to OccurrenceMatchingOptions. [#1060](https://github.com/appium/java-client/pull/1060)
-    - `org.openqa.selenium.internal.WrapsElement` replaced by `org.openqa.selenium.WrapsElement`. [#1053](https://github.com/appium/java-client/pull/1053)
+    - `org.openqa.seleniumone.internal.WrapsElement` replaced by `org.openqa.seleniumone.WrapsElement`. [#1053](https://github.com/appium/java-client/pull/1053)
     - SLF4J logging support added into Appium Driver local service. [#1014](https://github.com/appium/java-client/pull/1014)
     - `IMAGE_MATCH_THRESHOLD`, `FIX_IMAGE_FIND_SCREENSHOT_DIMENSIONS`, `FIX_IMAGE_TEMPLATE_SIZE`, `CHECK_IMAGE_ELEMENT_STALENESS`, `UPDATE_IMAGE_ELEMENT_POSITION` and `IMAGE_ELEMENT_TAP_STRATEGY` setting was introduced for image elements. [#1011](https://github.com/appium/java-client/pull/1011)
 - **[BUG FIX]** Better handling of InvocationTargetException [#968](https://github.com/appium/java-client/pull/968)
 - **[BUG FIX]** Map sending keys to active element for W3C compatibility. [#966](https://github.com/appium/java-client/pull/966)
 - **[BUG FIX]** Error message on session creation is improved. [#994](https://github.com/appium/java-client/pull/994)
 - **[DEPENDENCY UPDATES]**
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.141.59.
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 3.141.59.
   - `com.google.code.gson:gson` was updated to 2.8.5.
   - `org.apache.httpcomponents:httpclient` was updated to 4.5.6.
   - `cglib:cglib` was updated to 3.2.8.
@@ -151,7 +151,7 @@ dependencies {
 *6.0.0*
 - **[ENHANCEMENT]** Added an ability to set pressure value for iOS. [#879](https://github.com/appium/java-client/pull/879)
 - **[ENHANCEMENT]** Added new server arguments `RELAXED_SECURITY` and `ENABLE_HEAP_DUMP`. [#880](https://github.com/appium/java-client/pull/880)
-- **[BUG FIX]** Use default Selenium HTTP client factory [#877](https://github.com/appium/java-client/pull/877)
+- **[BUG FIX]** Use default seleniumone HTTP client factory [#877](https://github.com/appium/java-client/pull/877)
 - **[ENHANCEMENT]** Supporting syslog broadcast with iOS [#871](https://github.com/appium/java-client/pull/871)
 - **[ENHANCEMENT]** Added isKeyboardShown command for iOS [#887](https://github.com/appium/java-client/pull/887)
 - **[ENHANCEMENT]** Added battery information accessors [#882](https://github.com/appium/java-client/pull/882)
@@ -165,7 +165,7 @@ dependencies {
   - `org.aspectj:aspectjweaver` was updated to 1.9.1
   - `org.glassfish.tyrus:tyrus-clien` was updated to 1.13.1
   - `org.glassfish.tyrus:tyrus-container-grizzly` was updated to 1.2.1
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.12.0
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 3.12.0
 
 
 *6.0.0-BETA5*
@@ -174,12 +174,12 @@ dependencies {
 - **[ENHANCEMENT]** Add bugreport option to Android screen recorder. [#852](https://github.com/appium/java-client/pull/852)
 - **[BUG FIX]** Avoid amending parameters for SET_ALERT_VALUE endpoint. [#867](https://github.com/appium/java-client/pull/867)
 - **[BREAKING CHANGE]** Refactor network connection setting on Android. [#865](https://github.com/appium/java-client/pull/865)
-- **[BUG FIX]** **[BREAKING CHANGE]** Refactor of the `io.appium.java_client.AppiumFluentWait`. It uses `java.time.Duration` for time settings instead of `org.openqa.selenium.support.ui.Duration` and `java.util.concurrent.TimeUnit` [#863](https://github.com/appium/java-client/pull/863)
+- **[BUG FIX]** **[BREAKING CHANGE]** Refactor of the `io.appium.java_client.AppiumFluentWait`. It uses `java.time.Duration` for time settings instead of `org.openqa.seleniumone.support.ui.Duration` and `java.util.concurrent.TimeUnit` [#863](https://github.com/appium/java-client/pull/863)
 - **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.TimeOutDuration` became deprecated. It is going to be removed. Use `java.time.Duration` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
 - **[BREAKING CHANGE]** `io.appium.java_client.pagefactory.WithTimeOut#unit` became deprecated. It is going to be removed. Use `io.appium.java_client.pagefactory.WithTimeOut#chronoUnit` instead. FIX [#742](https://github.com/appium/java-client/issues/742)  [#863](https://github.com/appium/java-client/pull/863).
 - **[BREAKING CHANGE]** constructors of `io.appium.java_client.pagefactory.AppiumElementLocatorFactory`, `io.appium.java_client.pagefactory.AppiumFieldDecorator` and `io.appium.java_client.pagefactory.AppiumElementLocator` which use `io.appium.java_client.pagefactory.TimeOutDuration` as a parameter became deprecated. Use new constructors which use `java.time.Duration`.
 - **[DEPENDENCY UPDATES]**
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.11.0
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 3.11.0
 
 *6.0.0-BETA4*
 - **[ENHANCEMENT]** Added handler for isDispalyed in W3C mode. [#833](https://github.com/appium/java-client/pull/833)
@@ -192,7 +192,7 @@ dependencies {
 
 *6.0.0-BETA3*
 - **[DEPENDENCY UPDATES]**
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.9.1
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 3.9.1
 - **[BREAKING CHANGE]** Removal of deprecated listener-methods from the AlertEventListener. [#797](https://github.com/appium/java-client/pull/797)
 - **[BUG FIX]**. Fix the `pushFile` command. [#812](https://github.com/appium/java-client/pull/812) [#816](https://github.com/appium/java-client/pull/816)
 - **[ENHANCEMENT]**. Implemented custom command codec. [#817](https://github.com/appium/java-client/pull/817), [#825](https://github.com/appium/java-client/pull/825)
@@ -221,13 +221,13 @@ FIX [#769](https://github.com/appium/java-client/pull/769)
   - `commons-io:commons-io` was updated to 2.6
   - `org.springframework:spring-context` was updated to 5.0.2.RELEASE
   - `org.aspectj:aspectjweaver` was updated to 1.8.13
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.7.1
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 3.7.1
 
 *5.0.4*
 - **[BUG FIX]**. Client was crashing when user was testing iOS with server 1.7.0. Report: [#732](https://github.com/appium/java-client/issues/732). Fix: [#733](https://github.com/appium/java-client/pull/733).
 - **[REFACTOR]** **[BREAKING CHANGE]** Excessive invocation of the implicit waiting timeout was removed. This is the breaking change because API of `AppiumElementLocator` and `AppiumElementLocatorFactory` was changed. Request: [#735](https://github.com/appium/java-client/issues/735), FIXES: [#738](https://github.com/appium/java-client/pull/738), [#741](https://github.com/appium/java-client/pull/741)
 - **[DEPENDENCY UPDATES]**
-    - org.seleniumhq.selenium:selenium-java to 3.6.0
+    - org.seleniumonehq.seleniumone:seleniumone-java to 3.6.0
     - com.google.code.gson:gson to 2.8.2
     - org.springframework:spring-context to 5.0.0.RELEASE
     - org.aspectj:aspectjweaver to 1.8.11
@@ -237,7 +237,7 @@ FIX [#769](https://github.com/appium/java-client/pull/769)
 - **[ENHANCEMENT]** The `pushFile` was added to IOSDriver. Feature request: [#720](https://github.com/appium/java-client/issues/720). Implementation: [#721](https://github.com/appium/java-client/pull/721). This feature requires appium node server v>=1.7.0
 
 *5.0.2* **[BUG FIX RELEASE]**
-- **[BUG FIX]** Dependency conflict resolving. The report: [#714](https://github.com/appium/java-client/issues/714). The fix: [#717](https://github.com/appium/java-client/pull/717). This change may affect users who use htmlunit-driver and/or phantomjsdriver. At this case it is necessary to add it to dependency list and to exclude old selenium versions.
+- **[BUG FIX]** Dependency conflict resolving. The report: [#714](https://github.com/appium/java-client/issues/714). The fix: [#717](https://github.com/appium/java-client/pull/717). This change may affect users who use htmlunit-driver and/or phantomjsdriver. At this case it is necessary to add it to dependency list and to exclude old seleniumone versions.
 
 *5.0.1* **[BUG FIX RELEASE]**
 - **[BUG FIX]** The fix of the element genering on iOS was fixed. Issue report: [#704](https://github.com/appium/java-client/issues/704). Fix: [#705](https://github.com/appium/java-client/pull/705)
@@ -252,10 +252,10 @@ FIX [#769](https://github.com/appium/java-client/pull/769)
     - `iOSXCUITAutomation`
     - `windowsAutomation`
 - **[BUG FIX]** ByAll was re-implemented. [#680](https://github.com/appium/java-client/pull/680) 
-- **[BUG FIX]** **[BREAKING CHANGE]** The issue of compliance with Selenium grid 3.x was fixed. This change is breaking because now java_client is compatible with appiun server v>=1.6.5. Issue report [#655](https://github.com/appium/java-client/issues/655). FIX [#682](https://github.com/appium/java-client/pull/682)
-- **[BUG FIX]** issues related to latest Selenium changes were fixed. Issue report [#696](https://github.com/appium/java-client/issues/696). Fix: [#699](https://github.com/appium/java-client/pull/699).
+- **[BUG FIX]** **[BREAKING CHANGE]** The issue of compliance with seleniumone grid 3.x was fixed. This change is breaking because now java_client is compatible with appiun server v>=1.6.5. Issue report [#655](https://github.com/appium/java-client/issues/655). FIX [#682](https://github.com/appium/java-client/pull/682)
+- **[BUG FIX]** issues related to latest seleniumone changes were fixed. Issue report [#696](https://github.com/appium/java-client/issues/696). Fix: [#699](https://github.com/appium/java-client/pull/699).
 - **[UPDATE]** Dependency update
-    - `selenium-java` was updated to 3.5.x
+    - `seleniumone-java` was updated to 3.5.x
     - `org.apache.commons-lang3` was updated to 3.6
     - `org.springframework.spring-context` was updated to 4.3.10.RELEASE
 - **[ENHANCEMENT]** Update of the touch ID enroll method. The older `PerformsTouchID#toggleTouchIDEnrollment` was marked `Deprecated`.
@@ -293,7 +293,7 @@ It is recoomended to use `PerformsTouchID#toggleTouchIDEnrollment(boolean)` inst
   - `MobileCapabilityType#EVENT_TIMINGS`
 
 - **[UPDATE]** Dependencies were updated:
-  - `org.seleniumhq.selenium:selenium-java` was updated to 3.4.0
+  - `org.seleniumonehq.seleniumone:seleniumone-java` was updated to 3.4.0
   - `cglib:cglib` was updated to 3.2.5
   - `org.apache.httpcomponents:httpclient` was updated to 4.5.3
   - `commons-validator:commons-validator` was updated to 1.6
@@ -307,14 +307,14 @@ It is recoomended to use `PerformsTouchID#toggleTouchIDEnrollment(boolean)` inst
 
 
 *5.0.0-BETA6*
-- **[UPDATE]** Update to Selenium 3.3.1
+- **[UPDATE]** Update to seleniumone 3.3.1
 - **[ENHANCEMENT]** iOS XCUIT mode automation: API to run application in background was added. [#593](https://github.com/appium/java-client/pull/593)
 - **[BUG FIX]** Issue report: [#594](https://github.com/appium/java-client/issues/594). FIX: [#597](https://github.com/appium/java-client/pull/597)
 - **[ENHANCEMENT]** The class chain locator was added. [#599](https://github.com/appium/java-client/pull/599)
 
 
 *5.0.0-BETA5*
-- **[UPDATE]** Update to Selenium 3.2.0
+- **[UPDATE]** Update to seleniumone 3.2.0
 - **[BUG FIX]** Excessive dependency on `guava` was removed. It causes errors. Issue report: [#588](https://github.com/appium/java-client/issues/588). FIX: [#589](https://github.com/appium/java-client/pull/589).
 - **[ENHANCEMENT]**. The capability `io.appium.java_client.remote.AndroidMobileCapabilityType#SYSTEM_PORT` was added. [#591](https://github.com/appium/java-client/pull/591)
 
@@ -341,7 +341,7 @@ The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](
     - `String getPlatformName()`
     - `String getAutomationName()`
     - `boolean isBrowser()`
-  -  `io.appium.java_client.HasSessionDetails` is used by the ` io.appium.java_client.internal.JsonToMobileElementConverter ` to define which instance of the `org.openqa.selenium.WebElement` subclass should be created. 
+  -  `io.appium.java_client.HasSessionDetails` is used by the ` io.appium.java_client.internal.JsonToMobileElementConverter ` to define which instance of the `org.openqa.seleniumone.WebElement` subclass should be created. 
 
 - **[ENHANCEMENT]**: The additional event firing feature. PR: [#559](https://github.com/appium/java-client/pull/559). The [WIKI chapter about the event firing](https://github.com/appium/java-client/blob/master/docs/The-event_firing.md) was updated.
 
@@ -349,14 +349,14 @@ The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](
 - **[MAJOR ENHANCEMENT]**: Migration to Java 8. Epic: [#399](https://github.com/appium/java-client/issues/399)
   - API with default implementation. PR [#470](https://github.com/appium/java-client/pull/470)
   - Tools that provide _Page Object_ engines were redesigned. The migration to [repeatable annotations](http://docs.oracle.com/javase/tutorial/java/annotations/repeating.html). Details you can read there: [#497](https://github.com/appium/java-client/pull/497). [Documentation was synced as well](https://github.com/appium/java-client/blob/master/docs/Page-objects.md#also-it-is-possible-to-define-chained-or-any-possible-locators).
-  - The new functional interface `io.appium.java_client.functions.AppiumFunctio`n was designed. It extends `java.util.function.Function` and `com.google.common.base.Function`. It was designed in order to provide compatibility with the `org.openqa.selenium.support.ui.Wait` [#543](https://github.com/appium/java-client/pull/543)
-  - The new functional interface `io.appium.java_client.functions.ExpectedCondition` was designed. It extends `io.appium.java_client.functions.AppiumFunction` and ```org.openqa.selenium.support.ui.ExpectedCondition```.  [#543](https://github.com/appium/java-client/pull/543)
+  - The new functional interface `io.appium.java_client.functions.AppiumFunctio`n was designed. It extends `java.util.function.Function` and `com.google.common.base.Function`. It was designed in order to provide compatibility with the `org.openqa.seleniumone.support.ui.Wait` [#543](https://github.com/appium/java-client/pull/543)
+  - The new functional interface `io.appium.java_client.functions.ExpectedCondition` was designed. It extends `io.appium.java_client.functions.AppiumFunction` and ```org.openqa.seleniumone.support.ui.ExpectedCondition```.  [#543](https://github.com/appium/java-client/pull/543)
   - The new functional interface `io.appium.java_client.functions.ActionSupplier` was designed. It extends ```java.util.function.Supplier```. [#543](https://github.com/appium/java-client/pull/543)
   
 - **[MAJOR ENHANCEMENT]**: Migration from Maven to Gradle. Feature request is [#214](https://github.com/appium/java-client/issues/214). Fixes: [#442](https://github.com/appium/java-client/pull/442), [#465](https://github.com/appium/java-client/pull/465).
 
 - **[MAJOR ENHANCEMENT]** **[MAJOR REFACTORING]**. Non-abstract **AppiumDriver**: 
-  - Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.selenium.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
+  - Now the `io.appium.java_client.AppiumDriver` can use an instance of any `io.appium.java_client.MobileBy` subclass for the searching. It should work as expected when current session supports the given selector. It will throw `org.openqa.seleniumone.WebDriverException` otherwise. [#462](https://github.com/appium/java-client/pull/462)
   - The new interface `io.appium.java_client.FindsByFluentSelector` was added. [#462](https://github.com/appium/java-client/pull/462)
   - API was redesigned: 
   
@@ -451,7 +451,7 @@ The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](
   - `IOSMobileCapabilityType#WEB_DRIVER_AGENT_URL`
   - `IOSMobileCapabilityType#KEYCHAIN_PATH`
   - `MobileCapabilityType#CLEAR_SYSTEM_FILES`
-- **[UPDATE]** to Selenium 3.0.1.
+- **[UPDATE]** to seleniumone 3.0.1.
 - **[UPDATE]** to Spring Framework 4.3.5.RELEASE.
 - **[UPDATE]** to AspectJ weaver 1.8.10.
   
@@ -463,10 +463,10 @@ The capability `IOSMobileCapabilityType#REAL_DEVICE_LOGGER` was removed. [#533](
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT`
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT`
   - `io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_SCREENSHOT_PATH`. The pull request: [#452](https://github.com/appium/java-client/pull/452)
-- `org.openqa.selenium.Alert` was reimplemented for iOS. Details: [#459](https://github.com/appium/java-client/pull/459) 
+- `org.openqa.seleniumone.Alert` was reimplemented for iOS. Details: [#459](https://github.com/appium/java-client/pull/459) 
 - The deprecated `io.appium.java_client.generic.searchcontext` was removed.
 - The dependency on `com.google.code.gson` was updated to 2.7. Also it was adde to exclusions
-for `org.seleniumhq.selenium` `selenium-java`. 
+for `org.seleniumonehq.seleniumone` `seleniumone-java`. 
 - The new AutomationName was added. IOS_XCUI_TEST. It is needed for the further development.
 - The new MobilePlatform was added.  WINDOWS.  It is needed for the further development.
 
@@ -498,7 +498,7 @@ was added to `AndroidDriver`. Thanks to [@saikrishna321](https://github.com/saik
 - `scrollTo()` and `scrollToExact()` became deprecated. They are going to be removed in the next release.
 - The interface `io.appium.java_client.ios.GetsNamedTextField` and the declared method `T getNamedTextField(String name)` are 
 deprecated as well. They are going to be removed in the next release.
-- Methods `findElements(String by, String using)` and `findElement(String by, String using)` of `org.openga.selenium.remote.RemoteWebdriver` are public now. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget).
+- Methods `findElements(String by, String using)` and `findElement(String by, String using)` of `org.openga.seleniumone.remote.RemoteWebdriver` are public now. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget).
 - the `io.appium.java_client.NetworkConnectionSetting` class was marked deprecated
 - the enum `io.appium.java_client.android.Connection` was added. All supported network bitmasks are defined there.
 - Android. Old methods which get/set connection were marked  `@Deprecated`
@@ -507,7 +507,7 @@ deprecated as well. They are going to be removed in the next release.
 - Constructors like `AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities)` were added to 
 `io.appium.java_client.android.AndroidDriver` and `io.appium.java_client.ios.IOSDriver`
 - The refactoring of `io.appium.java_client.internal.JsonToMobileElementConverter`. Now it accepts 
-`org.openqa.selenium.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
+`org.openqa.seleniumone.remote.RemoteWebDriver` as the constructor parameter. It is possible to re-use 
 `io.appium.java_client.android.internal.JsonToAndroidElementConverter` or 
 `io.appium.java_client.ios.internal.JsonToIOSElementConverter` by RemoteWebDriver when it is needed.
 - Constructors of the abstract `io.appium.java_client.AppiumDriver` were redesigned. Now they require 
@@ -524,7 +524,7 @@ for the work.
 - the integration with `org.jacoco jacoco-maven-plugin` was added. Thanks to [@SrinivasanTarget](https://github.com/SrinivasanTarget) for the contribution.
 
 *3.4.1*
-- Update to Selenium v2.53.0
+- Update to seleniumone v2.53.0
 - all dependencies were updated to latest versions
 - the dependency on org.apache.commons commons-lang3 v3.4 was added
 - the fix of Widget method invocation.[#340](https://github.com/appium/java-client/issues/340). A class visibility was taken into account. Thanks to [aznime](https://github.com/aznime) for the catching.
@@ -534,7 +534,7 @@ Server flags were added:
 - Source code was formatted using [eclipse-java-google-style.xml](https://google-styleguide.googlecode.com/svn/trunk/eclipse-java-google-style.xml). This is not the complete solution. The code style checking is going to be added further. Thanks to [SrinivasanTarget](https://github.com/SrinivasanTarget) for the work!
 
 *3.4.0*
-- Update to Selenium v2.52.0
+- Update to seleniumone v2.52.0
 - `getAppStrings()` methods are deprecated now. They are going to be removed. `getAppStringMap()` methods were added and now return a map with app strings (keys and values)
 instead of a string. Thanks to [@rgonalo](https://github.com/rgonalo) for the contribution.
 - Add `getAppStringMap(String language, String stringFile)` method to allow searching app strings in the specified file
@@ -555,7 +555,7 @@ the catching. Read [#315](https://github.com/appium/java-client/issues/315)
 - The ability to start Appium node programmatically using desired capabilities. This feature is compatible with Appium node server v >= 1.5.x. Details are here: [#326](https://github.com/appium/java-client/pull/326)
 
 *3.3.0*
-- updated the dependency on Selenium to version 2.48.2
+- updated the dependency on seleniumone to version 2.48.2
 - bug fix and enhancements of io.appium.java_client.service.local.AppiumDriverLocalService
     - FIXED bug which was found and reproduced with Eclipse for Mac OS X. Please read about details here: [#252](https://github.com/appium/java-client/issues/252)
     Thanks to [saikrishna321](https://github.com/saikrishna321) for the bug report
@@ -569,7 +569,7 @@ Thanks to [deadmoto](https://github.com/deadmoto) for the contribution
 - New public constructors to AndroidDriver/IOSDriver that allow passing a custom HttpClient.Factory Details: [#276](https://github.com/appium/java-client/pull/278) thanks to [baechul](https://github.com/baechul)
 
 *3.2.0*
-- updated the dependency on Selenium to version 2.47.1
+- updated the dependency on seleniumone to version 2.47.1
 - the new dependency on commons-validator v1.4.1
 - the ability to start programmatically/silently an Appium node server is provided now. Details please read at [#240](https://github.com/appium/java-client/pull/240).
 Historical reference: [The similar solution](https://github.com/Genium-Framework/Appium-Support) has been designed by [@Hassan-Radi](https://github.com/Hassan-Radi).
@@ -587,7 +587,7 @@ The mentioned framework and the current solution use different approaches.
 *3.0.0*
 - AppiumDriver class is now a Generic. This allows us to return elements of class MobileElement (and its subclasses) instead of always returning WebElements and requiring users to cast to MobileElement. See https://github.com/appium/java-client/pull/182
 - Full set of Android KeyEvents added.
-- Selenium client version updated to 2.46
+- seleniumone client version updated to 2.46
 - PageObject enhancements
 - Junit dependency removed
 
@@ -644,12 +644,12 @@ The mentioned framework and the current solution use different approaches.
 *1.4.0*
 - Added openNotifications() method, to open the notifications shade on Android
 - Added pullFolder() method, to pull an entire folder as a zip archive from a device/simulator
-- Upgraded Selenium dependency to 2.42.2
+- Upgraded seleniumone dependency to 2.42.2
 
 *1.3.0*
 - MultiGesture with a single TouchAction fixed for Android
-- Now depends upon Selenium java client 2.42.1
-- Cleanup of Errorcode handling, due to merging a change into Selenium
+- Now depends upon seleniumone java client 2.42.1
+- Cleanup of Errorcode handling, due to merging a change into seleniumone
 
 *1.2.1*
 - fix dependency issue

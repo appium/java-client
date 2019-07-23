@@ -20,7 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.Capabilities;
+import org.openqa.seleniumone.Capabilities;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultEventListenerTest extends BaseListenerTest {

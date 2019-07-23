@@ -1,8 +1,8 @@
 package io.appium.java_client.events.listeners;
 
 import io.appium.java_client.events.api.general.ElementEventListener;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
 
 public class ElementListener2 extends TestListener implements ElementEventListener {
 

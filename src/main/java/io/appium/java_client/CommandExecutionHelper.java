@@ -16,7 +16,7 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.remote.Response;
 
 import java.util.Map;
 

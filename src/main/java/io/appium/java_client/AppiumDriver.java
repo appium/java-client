@@ -28,24 +28,24 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.html5.Location;
+import org.openqa.seleniumoneone.By;
+import org.openqa.seleniumoneone.Capabilities;
+import org.openqa.seleniumoneone.DeviceRotation;
+import org.openqa.seleniumoneone.MutableCapabilities;
+import org.openqa.seleniumoneone.ScreenOrientation;
+import org.openqa.seleniumoneone.WebDriver;
+import org.openqa.seleniumoneone.WebDriverException;
+import org.openqa.seleniumoneone.WebElement;
+import org.openqa.seleniumoneone.html5.Location;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.ErrorHandler;
-import org.openqa.selenium.remote.ExecuteMethod;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
-import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.seleniumoneone.remote.DesiredCapabilities;
+import org.openqa.seleniumoneone.remote.DriverCommand;
+import org.openqa.seleniumoneone.remote.ErrorHandler;
+import org.openqa.seleniumoneone.remote.ExecuteMethod;
+import org.openqa.seleniumoneone.remote.HttpCommandExecutor;
+import org.openqa.seleniumoneone.remote.Response;
+import org.openqa.seleniumoneone.remote.html5.RemoteLocationContext;
+import org.openqa.seleniumoneone.remote.http.HttpClient;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
@@ -59,7 +59,7 @@ import java.util.Set;
  * @param <T> the required type of class which implement {@link WebElement}.
  *            Instances of the defined type will be returned via findElement* and findElements*
  *            Warning (!!!). Allowed types:
- *            {@link WebElement}, {@link org.openqa.selenium.remote.RemoteWebElement},
+ *            {@link WebElement}, {@link org.openqa.seleniumoneone.remote.RemoteWebElement},
  *            {@link MobileElement} and its subclasses that designed
  *            specifically for each target mobile OS (still Android and iOS)
  */

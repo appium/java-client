@@ -3,7 +3,7 @@ package io.appium.java_client.touch.offset;
 import static java.util.Optional.ofNullable;
 
 import io.appium.java_client.touch.ActionOptions;
-import org.openqa.selenium.Point;
+import org.openqa.seleniumone.Point;
 
 import java.util.Map;
 

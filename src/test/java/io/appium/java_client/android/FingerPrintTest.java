@@ -18,7 +18,7 @@ package io.appium.java_client.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.openqa.selenium.By.id;
+import static org.openqa.seleniumone.By.id;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -28,8 +28,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.NoSuchElementException;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 public class FingerPrintTest {
     private static AppiumDriverLocalService service;

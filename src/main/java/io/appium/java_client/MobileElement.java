@@ -18,10 +18,10 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.remote.FileDetector;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.Dimension;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.remote.FileDetector;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public abstract class MobileElement
 
     /**
      * Method returns central coordinates of an element.
-     * @return The instance of the {@link org.openqa.selenium.Point}
+     * @return The instance of the {@link org.openqa.seleniumone.Point}
      */
     public Point getCenter() {
         Point upperLeft = this.getLocation();

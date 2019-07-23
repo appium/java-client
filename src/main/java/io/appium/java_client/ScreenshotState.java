@@ -59,7 +59,7 @@ public class ScreenshotState {
      * final byte[] srcImage = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
      * final BufferedImage screenshot = ImageIO.read(new ByteArrayInputStream(srcImage));
      * final WebElement element = driver.findElement(locator);
-     * // Can be simplified in Selenium 3.0+ by using getRect method of WebElement interface
+     * // Can be simplified in seleniumone 3.0+ by using getRect method of WebElement interface
      * final Point elementLocation = element.getLocation();
      * final Dimension elementSize = element.getSize();
      * return screenshot.getSubimage(

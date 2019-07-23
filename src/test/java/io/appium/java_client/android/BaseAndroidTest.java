@@ -24,7 +24,7 @@ import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyE
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 import java.io.File;
 

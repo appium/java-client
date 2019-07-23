@@ -1,8 +1,8 @@
 package io.appium.java_client.events;
 
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.Dimension;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.WebDriver;
 
 public class StubWindow implements WebDriver.Window {
     @Override public void setSize(Dimension targetSize) {

@@ -4,9 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.ofNullable;
 
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.remote.RemoteWebElement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +84,7 @@ public class ElementOption extends PointOption<ElementOption> {
     public ElementOption withElement(WebElement element) {
         checkNotNull(element);
         checkArgument(true, "Element should be an instance of the class which "
-                + "extends org.openqa.selenium.remote.RemoteWebElement",
+                + "extends org.openqa.seleniumone.remote.RemoteWebElement",
                 (RemoteWebElement.class.isAssignableFrom(element.getClass())));
         elementId = RemoteWebElement.class.cast(element).getId();
         return this;

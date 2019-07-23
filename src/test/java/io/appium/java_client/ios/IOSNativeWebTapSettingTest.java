@@ -3,9 +3,9 @@ package io.appium.java_client.ios;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.support.ui.ExpectedConditions;
+import org.openqa.seleniumone.support.ui.WebDriverWait;
 
 public class IOSNativeWebTapSettingTest extends BaseSafariTest {
 

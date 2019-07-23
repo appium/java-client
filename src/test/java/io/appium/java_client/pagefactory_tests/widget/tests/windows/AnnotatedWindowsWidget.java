@@ -2,7 +2,7 @@ package io.appium.java_client.pagefactory_tests.widget.tests.windows;
 
 import io.appium.java_client.pagefactory.WindowsFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebElement;
 
 @WindowsFindBy(windowsAutomation = "SOME_ROOT_LOCATOR")
 @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_ROOT_LOCATOR")

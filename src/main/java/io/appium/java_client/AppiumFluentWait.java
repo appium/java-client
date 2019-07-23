@@ -18,10 +18,10 @@ package io.appium.java_client;
 
 import com.google.common.base.Throwables;
 
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Sleeper;
+import org.openqa.seleniumone.TimeoutException;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.support.ui.FluentWait;
+import org.openqa.seleniumone.support.ui.Sleeper;
 
 import java.lang.reflect.Field;
 import java.time.Clock;

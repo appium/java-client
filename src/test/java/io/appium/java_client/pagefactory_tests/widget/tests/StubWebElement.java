@@ -3,15 +3,15 @@ package io.appium.java_client.pagefactory_tests.widget.tests;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.of;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsDriver;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.Dimension;
+import org.openqa.seleniumone.OutputType;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.Rectangle;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.WrapsDriver;
 
 import java.util.List;
 

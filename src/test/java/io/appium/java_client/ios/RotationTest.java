@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Test;
-import org.openqa.selenium.DeviceRotation;
+import org.openqa.seleniumone.DeviceRotation;
 
 public class RotationTest extends AppIOSTest {
 

@@ -9,7 +9,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.Test;
-import org.openqa.selenium.Point;
+import org.openqa.seleniumone.Point;
 
 import java.util.List;
 

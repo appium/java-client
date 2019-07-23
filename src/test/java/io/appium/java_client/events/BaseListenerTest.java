@@ -5,13 +5,13 @@ import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.events.listeners.TestListener;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.seleniumone.Alert;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.Dimension;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.ScreenOrientation;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebDriverException;
 
 import java.net.URL;
 import java.util.List;

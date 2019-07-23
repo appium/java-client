@@ -16,23 +16,23 @@
 
 package io.appium.java_client.remote;
 
-import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_ATTRIBUTE;
-import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_LOCATION;
-import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_LOCATION_ONCE_SCROLLED_INTO_VIEW;
-import static org.openqa.selenium.remote.DriverCommand.GET_ELEMENT_SIZE;
-import static org.openqa.selenium.remote.DriverCommand.GET_PAGE_SOURCE;
-import static org.openqa.selenium.remote.DriverCommand.IS_ELEMENT_DISPLAYED;
-import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ACTIVE_ELEMENT;
-import static org.openqa.selenium.remote.DriverCommand.SEND_KEYS_TO_ELEMENT;
-import static org.openqa.selenium.remote.DriverCommand.SET_TIMEOUT;
-import static org.openqa.selenium.remote.DriverCommand.SUBMIT_ELEMENT;
+import static org.openqa.seleniumone.remote.DriverCommand.GET_ELEMENT_ATTRIBUTE;
+import static org.openqa.seleniumone.remote.DriverCommand.GET_ELEMENT_LOCATION;
+import static org.openqa.seleniumone.remote.DriverCommand.GET_ELEMENT_LOCATION_ONCE_SCROLLED_INTO_VIEW;
+import static org.openqa.seleniumone.remote.DriverCommand.GET_ELEMENT_SIZE;
+import static org.openqa.seleniumone.remote.DriverCommand.GET_PAGE_SOURCE;
+import static org.openqa.seleniumone.remote.DriverCommand.IS_ELEMENT_DISPLAYED;
+import static org.openqa.seleniumone.remote.DriverCommand.SEND_KEYS_TO_ACTIVE_ELEMENT;
+import static org.openqa.seleniumone.remote.DriverCommand.SEND_KEYS_TO_ELEMENT;
+import static org.openqa.seleniumone.remote.DriverCommand.SET_TIMEOUT;
+import static org.openqa.seleniumone.remote.DriverCommand.SUBMIT_ELEMENT;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.interactions.KeyInput;
-import org.openqa.selenium.interactions.Sequence;
-import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
+import org.openqa.seleniumone.interactions.KeyInput;
+import org.openqa.seleniumone.interactions.Sequence;
+import org.openqa.seleniumone.remote.codec.w3c.W3CHttpCommandCodec;
 
 import java.util.Collection;
 import java.util.Map;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 
 public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
     /**
-     * This class overrides the built-in Selenium W3C commands codec,
+     * This class overrides the built-in seleniumone W3C commands codec,
      * since the latter hardcodes many commands in Javascript,
      * which does not work with Appium.
      * Check https://www.w3.org/TR/webdriver/ to see all available W3C

@@ -17,13 +17,13 @@
 package io.appium.java_client.events.api.general;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public interface NavigationEventListener extends Listener {
 
     /**
-     * Called before {@link org.openqa.selenium.WebDriver#get get(String url)}
-     * respectively {@link org.openqa.selenium.WebDriver.Navigation#to
+     * Called before {@link org.openqa.seleniumone.WebDriver#get get(String url)}
+     * respectively {@link org.openqa.seleniumone.WebDriver.Navigation#to
      * navigate().to(String url)}.
      *
      * @param url URL
@@ -32,8 +32,8 @@ public interface NavigationEventListener extends Listener {
     void beforeNavigateTo(String url, WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebDriver#get get(String url)}
-     * respectively {@link org.openqa.selenium.WebDriver.Navigation#to
+     * Called after {@link org.openqa.seleniumone.WebDriver#get get(String url)}
+     * respectively {@link org.openqa.seleniumone.WebDriver.Navigation#to
      * navigate().to(String url)}. Not called, if an exception is thrown.
      *
      * @param url URL
@@ -42,7 +42,7 @@ public interface NavigationEventListener extends Listener {
     void afterNavigateTo(String url, WebDriver driver);
 
     /**
-     * Called before {@link org.openqa.selenium.WebDriver.Navigation#back
+     * Called before {@link org.openqa.seleniumone.WebDriver.Navigation#back
      * navigate().back()}.
      *
      * @param driver WebDriver
@@ -50,7 +50,7 @@ public interface NavigationEventListener extends Listener {
     void beforeNavigateBack(WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebDriver.Navigation
+     * Called after {@link org.openqa.seleniumone.WebDriver.Navigation
      * navigate().back()}. Not called, if an exception is thrown.
      *
      * @param driver WebDriver
@@ -58,7 +58,7 @@ public interface NavigationEventListener extends Listener {
     void afterNavigateBack(WebDriver driver);
 
     /**
-     * Called before {@link org.openqa.selenium.WebDriver.Navigation#forward
+     * Called before {@link org.openqa.seleniumone.WebDriver.Navigation#forward
      * navigate().forward()}.
      *
      * @param driver WebDriver
@@ -66,7 +66,7 @@ public interface NavigationEventListener extends Listener {
     void beforeNavigateForward(WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebDriver.Navigation#forward
+     * Called after {@link org.openqa.seleniumone.WebDriver.Navigation#forward
      * navigate().forward()}. Not called, if an exception is thrown.
      *
      * @param driver WebDriver
@@ -74,14 +74,14 @@ public interface NavigationEventListener extends Listener {
     void afterNavigateForward(WebDriver driver);
 
     /**
-     * Called before {@link org.openqa.selenium.WebDriver.Navigation#refresh navigate().refresh()}.
+     * Called before {@link org.openqa.seleniumone.WebDriver.Navigation#refresh navigate().refresh()}.
      *
      * @param driver WebDriver
      */
     void beforeNavigateRefresh(WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebDriver.Navigation#refresh navigate().refresh()}.
+     * Called after {@link org.openqa.seleniumone.WebDriver.Navigation#refresh navigate().refresh()}.
      *
      * @param driver WebDriver
      */

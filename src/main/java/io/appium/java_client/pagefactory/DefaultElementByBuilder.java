@@ -26,12 +26,12 @@ import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.bys.builder.ByAll;
 import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ByIdOrName;
-import org.openqa.selenium.support.CacheLookup;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.support.ByIdOrName;
+import org.openqa.seleniumone.support.CacheLookup;
+import org.openqa.seleniumone.support.FindAll;
+import org.openqa.seleniumone.support.FindBy;
+import org.openqa.seleniumone.support.FindBys;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

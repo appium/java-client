@@ -16,7 +16,7 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.WebDriverException;
+import org.openqa.seleniumone.WebDriverException;
 
 public class IllegalCoordinatesException extends WebDriverException {
     private static final long serialVersionUID = 1L;

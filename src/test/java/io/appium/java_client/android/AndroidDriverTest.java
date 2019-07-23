@@ -31,8 +31,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.html5.Location;
+import org.openqa.seleniumone.ScreenOrientation;
+import org.openqa.seleniumone.html5.Location;
 
 import java.io.File;
 import java.time.Duration;

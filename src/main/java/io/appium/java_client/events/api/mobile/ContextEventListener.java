@@ -17,12 +17,12 @@
 package io.appium.java_client.events.api.mobile;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public interface ContextEventListener extends Listener {
 
     /**
-     * Called before {@link org.openqa.selenium.ContextAware#context(String)}.
+     * Called before {@link org.openqa.seleniumone.ContextAware#context(String)}.
      *
      * @param driver Webdriver
      * @param context The context that is needed to switch to.
@@ -30,7 +30,7 @@ public interface ContextEventListener extends Listener {
     void beforeSwitchingToContext(WebDriver driver, String context);
 
     /**
-     * Called after {@link org.openqa.selenium.ContextAware#context(String)}.
+     * Called after {@link org.openqa.seleniumone.ContextAware#context(String)}.
      *
      * @param driver Webdriver
      * @param context The context that is needed to switch to.

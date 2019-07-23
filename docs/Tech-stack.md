@@ -3,7 +3,7 @@
 ![](https://cloud.githubusercontent.com/assets/4927589/21467524/187a333a-ca02-11e6-8e3c-14c411448fdb.png)
 ![](https://cloud.githubusercontent.com/assets/4927589/21467531/6f576f1a-ca02-11e6-9f2b-2551ea0e0753.png) + **AspectJ** and **CGlib**
 
-This project is based on [Selenium java client](https://github.com/SeleniumHQ/selenium/tree/master/java/client).  It already depends on it and extends it to mobile platforms.
+This project is based on [seleniumone java client](https://github.com/seleniumoneHQ/seleniumone/tree/master/java/client).  It already depends on it and extends it to mobile platforms.
 
 This project is built by [gradle](https://gradle.org/)
 

@@ -19,47 +19,47 @@ package io.appium.java_client.events;
 import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiringObject;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 import java.util.Collection;
 
 public class EventFiringWebDriverFactory {
 
     /**
-     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}.
+     * This method makes an event firing instance of {@link org.openqa.seleniumone.WebDriver}.
      *
-     * @param driver an original instance of {@link org.openqa.selenium.WebDriver} that is
+     * @param driver an original instance of {@link org.openqa.seleniumone.WebDriver} that is
      *               supposed to be listenable
      * @param <T> T
-     * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
+     * @return an instance of {@link org.openqa.seleniumone.WebDriver} that fires events
      */
     public static <T extends WebDriver> T getEventFiringWebDriver(T driver) {
         return getEventFiringObject(driver, driver);
     }
 
     /**
-     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}.
+     * This method makes an event firing instance of {@link org.openqa.seleniumone.WebDriver}.
      *
-     * @param driver an original instance of {@link org.openqa.selenium.WebDriver} that is
+     * @param driver an original instance of {@link org.openqa.seleniumone.WebDriver} that is
      *               supposed to be listenable
      * @param listeners is a set of {@link io.appium.java_client.events.api.Listener} that
      *                  is supposed to be used for the event firing
      * @param <T> T
-     * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
+     * @return an instance of {@link org.openqa.seleniumone.WebDriver} that fires events
      */
     public static <T extends WebDriver> T getEventFiringWebDriver(T driver, Listener ... listeners) {
         return getEventFiringObject(driver, driver, listeners);
     }
 
     /**
-     * This method makes an event firing instance of {@link org.openqa.selenium.WebDriver}.
+     * This method makes an event firing instance of {@link org.openqa.seleniumone.WebDriver}.
      *
-     * @param driver an original instance of {@link org.openqa.selenium.WebDriver} that is
+     * @param driver an original instance of {@link org.openqa.seleniumone.WebDriver} that is
      *               supposed to be listenable
      * @param listeners is a collection of {@link io.appium.java_client.events.api.Listener} that
      *                  is supposed to be used for the event firing
      * @param <T> T
-     * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
+     * @return an instance of {@link org.openqa.seleniumone.WebDriver} that fires events
      */
     public static <T extends WebDriver> T getEventFiringWebDriver(T driver, Collection<Listener> listeners) {
         return getEventFiringObject(driver, driver, listeners);

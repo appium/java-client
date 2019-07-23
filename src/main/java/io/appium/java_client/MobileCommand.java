@@ -23,8 +23,8 @@ import io.appium.java_client.imagecomparison.ComparisonMode;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.http.HttpMethod;
+import org.openqa.seleniumone.remote.CommandInfo;
+import org.openqa.seleniumone.remote.http.HttpMethod;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -280,7 +280,7 @@ public class MobileCommand {
      * This methods forms GET commands.
      *
      * @param url is the command URL
-     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     * @return an instance of {@link org.openqa.seleniumone.remote.CommandInfo}
      */
     public static AppiumCommandInfo getC(String url) {
         return new AppiumCommandInfo(url, HttpMethod.GET);
@@ -290,7 +290,7 @@ public class MobileCommand {
      * This methods forms POST commands.
      *
      * @param url is the command URL
-     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     * @return an instance of {@link org.openqa.seleniumone.remote.CommandInfo}
      */
     public static AppiumCommandInfo postC(String url) {
         return new AppiumCommandInfo(url, HttpMethod.POST);
@@ -300,7 +300,7 @@ public class MobileCommand {
      * This methods forms DELETE commands.
      *
      * @param url is the command URL
-     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     * @return an instance of {@link org.openqa.seleniumone.remote.CommandInfo}
      */
     public static AppiumCommandInfo deleteC(String url) {
         return new AppiumCommandInfo(url, HttpMethod.DELETE);

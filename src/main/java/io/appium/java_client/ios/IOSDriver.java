@@ -18,7 +18,7 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
+import static org.openqa.seleniumone.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -34,13 +34,13 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.seleniumone.Alert;
+import org.openqa.seleniumone.Capabilities;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.remote.DriverCommand;
+import org.openqa.seleniumone.remote.HttpCommandExecutor;
+import org.openqa.seleniumone.remote.Response;
+import org.openqa.seleniumone.remote.http.HttpClient;
 
 import java.net.URL;
 import java.time.Duration;
@@ -51,11 +51,11 @@ import java.util.Map;
  * iOS driver implementation.
  *
  * @param <T> the required type of class which implement
- *           {@link org.openqa.selenium.WebElement}.
+ *           {@link org.openqa.seleniumone.WebElement}.
  *           Instances of the defined type will be returned via findElement* and findElements*.
  *           Warning (!!!). Allowed types:
- *           {@link org.openqa.selenium.WebElement}
- *           {@link org.openqa.selenium.remote.RemoteWebElement}
+ *           {@link org.openqa.seleniumone.WebElement}
+ *           {@link org.openqa.seleniumone.remote.RemoteWebElement}
  *           {@link io.appium.java_client.MobileElement}
  *           {@link io.appium.java_client.ios.IOSElement}
  */

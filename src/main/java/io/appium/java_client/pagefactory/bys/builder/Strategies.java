@@ -20,7 +20,7 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSBy;
-import org.openqa.selenium.By;
+import org.openqa.seleniumone.By;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

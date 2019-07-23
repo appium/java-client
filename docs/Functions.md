@@ -13,7 +13,7 @@ and
 ```java
 com.google.common.base.Function
 ```
-to make end user available to use _org.openqa.selenium.support.ui.Wait_. There is additional interface 
+to make end user available to use _org.openqa.seleniumone.support.ui.Wait_. There is additional interface 
 ```java
 io.appium.java_client.functions.ExpectedCondition
 ```
@@ -25,7 +25,7 @@ io.appium.java_client.functions.AppiumFunction
 and
 
 ```java
-org.openqa.selenium.support.ui.ExpectedCondition
+org.openqa.seleniumone.support.ui.ExpectedCondition
 ```
 
 This feature provides the ability to create complex condition of the waiting for something.
@@ -73,8 +73,8 @@ private final AppiumFunction<Pattern, WebDriver> contextFunction = input -> {
 ## using one function as post-condition
 
 ```java
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.seleniumone.support.ui.FluentWait;
+import org.openqa.seleniumone.support.ui.Wait;
 
 @Test public void tezt() {
     ....

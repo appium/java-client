@@ -15,14 +15,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium.internal;
+package org.openqa.seleniumone.internal;
 
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebElement;
 
 import java.util.List;
 
-public interface FindsByName {
-    <T extends WebElement> T findElementByName(String using);
+public interface FindsByTagName {
+    <T extends WebElement> T findElementByTagName(String using);
 
-    <T extends WebElement> List<T>  findElementsByName(String using);
+    <T extends WebElement> List<T>  findElementsByTagName(String using);
 }

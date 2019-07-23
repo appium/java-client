@@ -18,7 +18,7 @@ package io.appium.java_client;
 
 import io.appium.java_client.driverscripts.ScriptOptions;
 import io.appium.java_client.driverscripts.ScriptValue;
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.remote.Response;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public interface ExecutesDriverScript extends ExecutesMethod {
      *               unless another option is provided)
      * @param options additional scripting options
      * @return The script result
-     * @throws org.openqa.selenium.WebDriverException if there was a failure while executing the script
+     * @throws org.openqa.seleniumone.WebDriverException if there was a failure while executing the script
      */
     default ScriptValue executeDriverScript(String script, @Nullable ScriptOptions options) {
         Map<String, Object> data = new HashMap<>();

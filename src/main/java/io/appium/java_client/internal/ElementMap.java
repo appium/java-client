@@ -26,7 +26,7 @@ import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.windows.WindowsElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.seleniumone.remote.RemoteWebElement;
 
 import java.util.Map;
 import java.util.Optional;

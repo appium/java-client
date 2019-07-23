@@ -10,11 +10,11 @@ import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import io.appium.java_client.HasSessionDetails;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.logging.Logs;
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.Cookie;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.logging.Logs;
+import org.openqa.seleniumone.remote.Response;
 
 import java.util.HashSet;
 import java.util.List;

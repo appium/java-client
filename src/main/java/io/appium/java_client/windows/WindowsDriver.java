@@ -23,10 +23,10 @@ import io.appium.java_client.FindsByWindowsAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.seleniumone.Capabilities;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.remote.HttpCommandExecutor;
+import org.openqa.seleniumone.remote.http.HttpClient;
 
 import java.net.URL;
 

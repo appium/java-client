@@ -22,8 +22,8 @@ import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.support.pagefactory.AbstractAnnotations;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -36,8 +36,8 @@ import java.util.List;
 /**
  * It is the basic handler of Appium-specific page object annotations
  * About the Page Object design pattern please read these documents:
- * - https://code.google.com/p/selenium/wiki/PageObjects
- * - https://code.google.com/p/selenium/wiki/PageFactory
+ * - https://code.google.com/p/seleniumone/wiki/PageObjects
+ * - https://code.google.com/p/seleniumone/wiki/PageFactory
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
     protected static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[] {};
@@ -189,7 +189,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     /**
      * Defines how to transform given object (field, class, etc)
-     * into {@link org.openqa.selenium.By} class used by webdriver to locate elements.
+     * into {@link org.openqa.seleniumone.By} class used by webdriver to locate elements.
      */
     public abstract By buildBy();
 

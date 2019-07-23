@@ -4,10 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.support.PageFactory;
 
 import java.util.List;
 import java.util.Set;

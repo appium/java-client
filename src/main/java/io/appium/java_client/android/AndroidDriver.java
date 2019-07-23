@@ -19,7 +19,7 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
+import static org.openqa.seleniumone.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -38,10 +38,10 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.seleniumone.Capabilities;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.remote.HttpCommandExecutor;
+import org.openqa.seleniumone.remote.http.HttpClient;
 
 import java.net.URL;
 import java.util.Collections;
@@ -50,11 +50,11 @@ import java.util.Map;
 /**
  * Android driver implementation.
  *
- * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
+ * @param <T> the required type of class which implement {@link org.openqa.seleniumone.WebElement}.
  *           Instances of the defined type will be returned via findElement* and findElements*.
  *           Warning (!!!). Allowed types:
- *           {@link org.openqa.selenium.WebElement}
- *           {@link org.openqa.selenium.remote.RemoteWebElement}
+ *           {@link org.openqa.seleniumone.WebElement}
+ *           {@link org.openqa.seleniumone.remote.RemoteWebElement}
  *           {@link io.appium.java_client.MobileElement}
  *           {@link io.appium.java_client.android.AndroidElement}
  */

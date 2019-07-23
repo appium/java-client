@@ -18,9 +18,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.Response;
 
 import java.io.File;
 import java.util.Map;

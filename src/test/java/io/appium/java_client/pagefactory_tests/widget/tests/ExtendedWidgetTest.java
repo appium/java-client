@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.WebDriver;
 
 import java.util.List;
 

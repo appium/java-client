@@ -16,7 +16,7 @@
 
 package io.appium.java_client.remote;
 
-import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.seleniumone.remote.CapabilityType;
 
 /**
  * The list of common capabilities.

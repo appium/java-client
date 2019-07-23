@@ -22,7 +22,7 @@ import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;

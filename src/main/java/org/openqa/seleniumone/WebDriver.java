@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium;
+package org.openqa.seleniumone;
 
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.logging.Logs;
+import org.openqa.seleniumone.logging.LoggingPreferences;
+import org.openqa.seleniumone.logging.Logs;
 
 import java.net.URL;
 import java.util.List;
@@ -56,7 +56,7 @@ public interface WebDriver extends SearchContext {
      * "rest" for any duration of time, it is best to wait until this timeout is over, since should
      * the underlying page change whilst your test is executing the results of future calls against
      * this interface will be against the freshly loaded page. Synonym for
-     * {@link org.openqa.selenium.WebDriver.Navigation#to(String)}.
+     * {@link org.openqa.seleniumone.WebDriver.Navigation#to(String)}.
      *
      * @param url The URL to load. It is best to use a fully qualified URL
      */
@@ -87,8 +87,8 @@ public interface WebDriver extends SearchContext {
      *
      * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches
-     * @see org.openqa.selenium.By
-     * @see org.openqa.selenium.WebDriver.Timeouts
+     * @see org.openqa.seleniumone.By
+     * @see org.openqa.seleniumone.WebDriver.Timeouts
      */
     <T extends WebElement> List<T>  findElements(By by);
 
@@ -105,8 +105,8 @@ public interface WebDriver extends SearchContext {
      * @param by The locating mechanism
      * @return The first matching element on the current page
      * @throws NoSuchElementException If no matching elements are found
-     * @see org.openqa.selenium.By
-     * @see org.openqa.selenium.WebDriver.Timeouts
+     * @see org.openqa.seleniumone.By
+     * @see org.openqa.seleniumone.WebDriver.Timeouts
      */
     <T extends WebElement> T findElement(By by);
 
@@ -155,7 +155,7 @@ public interface WebDriver extends SearchContext {
      * Send future commands to a different frame or window.
      *
      * @return A TargetLocator which can be used to select a frame or window
-     * @see org.openqa.selenium.WebDriver.TargetLocator
+     * @see org.openqa.seleniumone.WebDriver.TargetLocator
      */
     TargetLocator switchTo();
 
@@ -163,7 +163,7 @@ public interface WebDriver extends SearchContext {
      * An abstraction allowing the driver to access the browser's history and to navigate to a given
      * URL.
      *
-     * @return A {@link org.openqa.selenium.WebDriver.Navigation} that allows the selection of what to
+     * @return A {@link org.openqa.seleniumone.WebDriver.Navigation} that allows the selection of what to
      *         do next
      */
     Navigation navigate();
@@ -172,7 +172,7 @@ public interface WebDriver extends SearchContext {
      * Gets the Option interface
      *
      * @return An option interface
-     * @see org.openqa.selenium.WebDriver.Options
+     * @see org.openqa.seleniumone.WebDriver.Options
      */
     Options manage();
 

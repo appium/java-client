@@ -1,7 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.android;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebElement;
 
 @AndroidFindBy(uiAutomator = "SOME_ROOT_LOCATOR")
 public class AnnotatedAndroidWidget extends DefaultAndroidWidget {

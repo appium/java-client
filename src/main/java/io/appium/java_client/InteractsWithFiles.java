@@ -21,7 +21,7 @@ import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.remote.Response;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

@@ -17,9 +17,9 @@
 package io.appium.java_client.events.api.general;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.Dimension;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.WebDriver;
 
 public interface WindowEventListener extends Listener {
     /**
@@ -81,7 +81,7 @@ public interface WindowEventListener extends Listener {
 
     /**
      * This action will be performed each time before
-     * {@link org.openqa.selenium.WebDriver.TargetLocator#window(java.lang.String)}.
+     * {@link org.openqa.seleniumone.WebDriver.TargetLocator#window(java.lang.String)}.
      *
      * @param windowName the name of the window to switch
      * @param driver WebDriver
@@ -90,7 +90,7 @@ public interface WindowEventListener extends Listener {
 
     /**
      * This action will be performed each time after
-     * {@link org.openqa.selenium.WebDriver.TargetLocator#window(java.lang.String)}.
+     * {@link org.openqa.seleniumone.WebDriver.TargetLocator#window(java.lang.String)}.
      *
      * @param windowName the name of the window to switch
      * @param driver WebDriver

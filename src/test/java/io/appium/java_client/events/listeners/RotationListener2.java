@@ -1,8 +1,8 @@
 package io.appium.java_client.events.listeners;
 
 import io.appium.java_client.events.api.mobile.RotationEventListener;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.ScreenOrientation;
+import org.openqa.seleniumone.WebDriver;
 
 public class RotationListener2 extends TestListener implements RotationEventListener {
 

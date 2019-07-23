@@ -29,12 +29,12 @@ import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.chrome.ChromeDriver;
+import org.openqa.seleniumone.support.FindBy;
+import org.openqa.seleniumone.support.FindBys;
+import org.openqa.seleniumone.support.PageFactory;
 
 import java.io.File;
 import java.util.List;

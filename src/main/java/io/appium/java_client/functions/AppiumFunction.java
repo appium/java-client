@@ -24,7 +24,7 @@ import java.util.Optional;
 /**
  * This is extended version of {@link com.google.common.base.Function}. It is combined
  * with {@link java.util.function.Function}. It was designed in order to provide compatibility
- * with the {@link org.openqa.selenium.support.ui.Wait}.
+ * with the {@link org.openqa.seleniumone.support.ui.Wait}.
  *
  * @param <F> The input type
  * @param <T> The return type

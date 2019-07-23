@@ -26,7 +26,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
-import static org.openqa.selenium.support.PageFactory.initElements;
+import static org.openqa.seleniumone.support.PageFactory.initElements;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.WithTimeout;
@@ -34,11 +34,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.chrome.ChromeDriver;
+import org.openqa.seleniumone.support.FindAll;
+import org.openqa.seleniumone.support.FindBy;
 
 import java.time.Duration;
 import java.util.List;

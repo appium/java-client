@@ -18,10 +18,10 @@ package io.appium.java_client.pagefactory.interceptors;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.WrapsDriver;
+import org.openqa.seleniumone.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Method;
 

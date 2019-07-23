@@ -26,9 +26,9 @@ import com.google.common.collect.ImmutableMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.openqa.selenium.net.UrlChecker;
-import org.openqa.selenium.os.CommandLine;
-import org.openqa.selenium.remote.service.DriverService;
+import org.openqa.seleniumone.net.UrlChecker;
+import org.openqa.seleniumone.os.CommandLine;
+import org.openqa.seleniumone.remote.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;

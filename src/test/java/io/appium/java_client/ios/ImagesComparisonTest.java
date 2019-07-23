@@ -32,7 +32,7 @@ import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
-import org.openqa.selenium.OutputType;
+import org.openqa.seleniumone.OutputType;
 
 public class ImagesComparisonTest extends AppIOSTest {
 

@@ -1,8 +1,8 @@
 package io.appium.java_client.events.listeners;
 
 import io.appium.java_client.events.api.general.AlertEventListener;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.Alert;
+import org.openqa.seleniumone.WebDriver;
 
 public class AlertListener2 extends TestListener implements AlertEventListener {
     @Override public void beforeAlertAccept(WebDriver driver, Alert alert) {

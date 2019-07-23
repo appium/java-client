@@ -71,7 +71,7 @@ public enum GeneralServerFlag implements ServerArgument {
      */
     WEB_HOOK("--webhook"),
     /**
-     * Configuration JSON file to register Appium with selenium grid. Sample:
+     * Configuration JSON file to register Appium with seleniumone grid. Sample:
      * --nodeconfig /abs/path/to/nodeconfig.json
      */
     CONFIGURATION_FILE("--nodeconfig"),

@@ -17,7 +17,7 @@ Add the following to pom.xml:
 </dependency>
 ```
 
-If it is necessary to change the version of Selenium then you can configure pom.xml like following:
+If it is necessary to change the version of seleniumone then you can configure pom.xml like following:
 
 ```
 <dependency>
@@ -27,16 +27,16 @@ If it is necessary to change the version of Selenium then you can configure pom.
   <scope>test</test>
   <exclusions>
     <exclusion>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
+      <groupId>org.seleniumonehq.seleniumone</groupId>
+      <artifactId>seleniumone-java</artifactId>
     </exclusion>
   </exclusions>
 </dependency>
 
 <dependency>
-  <groupId>org.seleniumhq.selenium</groupId>
-  <artifactId>selenium-java</artifactId>
-  <version>${selenium.version.you.require}</version>
+  <groupId>org.seleniumonehq.seleniumone</groupId>
+  <artifactId>seleniumone-java</artifactId>
+  <version>${seleniumone.version.you.require}</version>
 </dependency>
 ```
 
@@ -59,7 +59,7 @@ dependencies {
 }   
 ```
 
-If it is necessary to change the version of Selenium then you can configure build.gradle like the sample below:
+If it is necessary to change the version of seleniumone then you can configure build.gradle like the sample below:
 
 ```
 repositories {
@@ -72,11 +72,11 @@ repositories {
 dependencies {
    ...
    testCompile group: 'io.appium', name: 'java-client', version: requiredVersion {
-       exclude module: 'selenium-java'
+       exclude module: 'seleniumone-java'
    }
    
-   testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', 
-   version: requiredSeleniumVersion
+   testCompile group: 'org.seleniumonehq.seleniumone', name: 'seleniumone-java', 
+   version: requiredseleniumoneVersion
    ...
 }   
 ```

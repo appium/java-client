@@ -20,7 +20,7 @@ import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.remote.Response;
 
 public interface HasDeviceTime extends ExecutesMethod {
 

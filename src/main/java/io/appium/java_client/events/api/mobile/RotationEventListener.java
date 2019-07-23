@@ -17,13 +17,13 @@
 package io.appium.java_client.events.api.mobile;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.ScreenOrientation;
+import org.openqa.seleniumone.WebDriver;
 
 public interface RotationEventListener  extends Listener {
 
     /**
-     * Called before {@link org.openqa.selenium.Rotatable#rotate(ScreenOrientation)}.
+     * Called before {@link org.openqa.seleniumone.Rotatable#rotate(ScreenOrientation)}.
      *
      * @param driver WebDriver
      * @param orientation the desired screen orientation
@@ -31,7 +31,7 @@ public interface RotationEventListener  extends Listener {
     void beforeRotation(WebDriver driver, ScreenOrientation orientation);
 
     /**
-     * Called after {@link org.openqa.selenium.Rotatable#rotate(ScreenOrientation)}.
+     * Called after {@link org.openqa.seleniumone.Rotatable#rotate(ScreenOrientation)}.
      *
      * @param driver WebDriver
      * @param orientation the desired screen orientation

@@ -2,9 +2,9 @@ package io.appium.java_client.appium.element.generation.ios;
 
 import static io.appium.java_client.MobileBy.AccessibilityId;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.name;
-import static org.openqa.selenium.By.partialLinkText;
+import static org.openqa.seleniumone.By.id;
+import static org.openqa.seleniumone.By.name;
+import static org.openqa.seleniumone.By.partialLinkText;
 
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.BaseIOSTest;
@@ -15,10 +15,10 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.seleniumone.Capabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
+import org.openqa.seleniumone.support.ui.ExpectedConditions;
+import org.openqa.seleniumone.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.util.function.Function;

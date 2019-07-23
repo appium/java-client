@@ -18,18 +18,18 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByName;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.internal.FindsByClassName;
+import org.openqa.seleniumone.internal.FindsByCssSelector;
+import org.openqa.seleniumone.internal.FindsById;
+import org.openqa.seleniumone.internal.FindsByLinkText;
+import org.openqa.seleniumone.internal.FindsByName;
+import org.openqa.seleniumone.internal.FindsByTagName;
+import org.openqa.seleniumone.internal.FindsByXPath;
+import org.openqa.seleniumone.remote.RemoteWebElement;
+import org.openqa.seleniumone.remote.Response;
 
 import java.util.List;
 import java.util.Map;

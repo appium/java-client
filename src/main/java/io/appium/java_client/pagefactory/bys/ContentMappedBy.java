@@ -19,9 +19,9 @@ package io.appium.java_client.pagefactory.bys;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.SearchContext;
+import org.openqa.seleniumone.WebElement;
 
 import java.util.List;
 import java.util.Map;

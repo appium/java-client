@@ -19,15 +19,15 @@ package io.appium.java_client.internal;
 import static io.appium.java_client.internal.ElementMap.getElementClass;
 
 import io.appium.java_client.HasSessionDetails;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.remote.RemoteWebDriver;
+import org.openqa.seleniumone.remote.RemoteWebElement;
+import org.openqa.seleniumone.remote.internal.JsonToWebElementConverter;
 
 import java.lang.reflect.Constructor;
 
 /**
- * Reconstitutes {@link org.openqa.selenium.WebElement}s from their JSON representation. Will recursively convert Lists
+ * Reconstitutes {@link org.openqa.seleniumone.WebElement}s from their JSON representation. Will recursively convert Lists
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public class JsonToMobileElementConverter extends JsonToWebElementConverter {

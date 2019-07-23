@@ -15,7 +15,7 @@ import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndro
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 import java.util.Collection;
 import java.util.List;

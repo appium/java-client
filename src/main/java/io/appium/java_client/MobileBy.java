@@ -17,10 +17,10 @@
 package io.appium.java_client;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.SearchContext;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.WebElement;
 
 import java.io.Serializable;
 import java.util.List;

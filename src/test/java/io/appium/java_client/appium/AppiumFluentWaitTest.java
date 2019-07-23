@@ -25,8 +25,8 @@ import io.appium.java_client.AppiumFluentWait;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.seleniumone.TimeoutException;
+import org.openqa.seleniumone.support.ui.Wait;
 
 import java.time.Clock;
 import java.util.concurrent.atomic.AtomicInteger;

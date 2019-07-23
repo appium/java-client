@@ -33,8 +33,8 @@ import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Test;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.Capabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 import java.io.File;
 

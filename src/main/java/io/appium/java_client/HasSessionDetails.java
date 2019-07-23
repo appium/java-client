@@ -25,7 +25,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.remote.Response;
 
 import java.util.List;
 import java.util.Map;

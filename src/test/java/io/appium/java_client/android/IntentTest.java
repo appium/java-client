@@ -8,7 +8,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.util.function.Predicate;

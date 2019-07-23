@@ -1,7 +1,7 @@
 package io.appium.java_client.events.listeners;
 
 import io.appium.java_client.events.api.general.JavaScriptEventListener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public class JavaScriptListener extends TestListener implements JavaScriptEventListener {
     @Override public void beforeScript(String script, WebDriver driver) {

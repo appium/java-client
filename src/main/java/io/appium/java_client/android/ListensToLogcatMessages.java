@@ -17,13 +17,13 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
+import static org.openqa.seleniumone.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.ws.StringWebSocketClient;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.seleniumone.remote.RemoteWebDriver;
 
 import java.net.URI;
 import java.net.URISyntaxException;

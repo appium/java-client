@@ -17,7 +17,7 @@ import io.appium.java_client.events.listeners.WindowListener;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public class FewInstancesTest extends BaseListenerTest {
 

@@ -26,7 +26,7 @@ import io.appium.java_client.android.nativekey.KeyEventFlag;
 import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
+import org.openqa.seleniumone.By;
 
 public class KeyCodeTest extends BaseAndroidTest {
     private static final By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");

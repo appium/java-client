@@ -12,12 +12,12 @@ import io.appium.java_client.functions.ExpectedCondition;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.TimeoutException;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.support.ui.FluentWait;
+import org.openqa.seleniumone.support.ui.Wait;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,8 +16,8 @@
 
 package io.appium.java_client.imagecomparison;
 
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.Rectangle;
 
 import java.util.List;
 import java.util.Map;

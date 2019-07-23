@@ -14,9 +14,9 @@ import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.WebElement;
 
 import java.util.List;
 

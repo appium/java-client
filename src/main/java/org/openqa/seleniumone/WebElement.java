@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium;
+package org.openqa.seleniumone;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * <p>
  * All method calls will do a freshness check to ensure that the element reference is still valid.
  * This essentially determines whether or not the element is still attached to the DOM. If this test
- * fails, then an {@link org.openqa.selenium.StaleElementReferenceException} is thrown, and all
+ * fails, then an {@link org.openqa.seleniumone.StaleElementReferenceException} is thrown, and all
  * future calls to this instance will fail.
  */
 public interface WebElement extends SearchContext, TakesScreenshot {
@@ -157,8 +157,8 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      *
      * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches.
-     * @see org.openqa.selenium.By
-     * @see org.openqa.selenium.WebDriver.Timeouts
+     * @see org.openqa.seleniumone.By
+     * @see org.openqa.seleniumone.WebDriver.Timeouts
      */
     <T extends WebElement> List<T>  findElements(By by);
 
@@ -175,8 +175,8 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * @param by The locating mechanism
      * @return The first matching element on the current context.
      * @throws NoSuchElementException If no matching elements are found
-     * @see org.openqa.selenium.By
-     * @see org.openqa.selenium.WebDriver.Timeouts
+     * @see org.openqa.seleniumone.By
+     * @see org.openqa.seleniumone.WebDriver.Timeouts
      */
     <T extends WebElement> T findElement(By by);
 

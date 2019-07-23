@@ -3,10 +3,10 @@ package io.appium.java_client.events.listeners;
 import static java.lang.String.format;
 
 import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.OutputType;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
 
 public class AppiumListener extends TestListener implements AppiumWebDriverEventListener {
     @Override protected void add() {

@@ -17,18 +17,18 @@
 package io.appium.java_client.events.api.general;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
 
 public interface SearchingEventListener extends Listener {
 
     /**
-     * Called before {@link org.openqa.selenium.WebDriver#findElement WebDriver.findElement(...)},
+     * Called before {@link org.openqa.seleniumone.WebDriver#findElement WebDriver.findElement(...)},
      * or
-     * {@link org.openqa.selenium.WebDriver#findElements WebDriver.findElements(...)}, or
-     * {@link org.openqa.selenium.WebElement#findElement WebElement.findElement(...)}, or
-     * {@link org.openqa.selenium.WebElement#findElement WebElement.findElements(...)}.
+     * {@link org.openqa.seleniumone.WebDriver#findElements WebDriver.findElements(...)}, or
+     * {@link org.openqa.seleniumone.WebElement#findElement WebElement.findElement(...)}, or
+     * {@link org.openqa.seleniumone.WebElement#findElement WebElement.findElements(...)}.
      *
      * @param element will be <code>null</code>, if a find method of <code>WebDriver</code>
      *                is called.
@@ -38,11 +38,11 @@ public interface SearchingEventListener extends Listener {
     void beforeFindBy(By by, WebElement element, WebDriver driver);
 
     /**
-     * Called after {@link org.openqa.selenium.WebDriver#findElement WebDriver.findElement(...)},
+     * Called after {@link org.openqa.seleniumone.WebDriver#findElement WebDriver.findElement(...)},
      * or
-     * {@link org.openqa.selenium.WebDriver#findElements WebDriver.findElements(...)}, or
-     * {@link org.openqa.selenium.WebElement#findElement WebElement.findElement(...)}, or
-     * {@link org.openqa.selenium.WebElement#findElement WebElement.findElements(...)}.
+     * {@link org.openqa.seleniumone.WebDriver#findElements WebDriver.findElements(...)}, or
+     * {@link org.openqa.seleniumone.WebElement#findElement WebElement.findElement(...)}, or
+     * {@link org.openqa.seleniumone.WebElement#findElement WebElement.findElements(...)}.
      *
      * @param element will be <code>null</code>, if a find method of <code>WebDriver</code>
      *                is called.

@@ -21,7 +21,7 @@ import static io.appium.java_client.MobileCommand.setSettingsCommand;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.remote.Response;
+import org.openqa.seleniumone.remote.Response;
 
 import java.util.Map;
 

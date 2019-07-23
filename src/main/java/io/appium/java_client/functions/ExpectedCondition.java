@@ -16,15 +16,15 @@
 
 package io.appium.java_client.functions;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 /**
- * This is extended version of {@link org.openqa.selenium.support.ui.ExpectedCondition}. It is combined
+ * This is extended version of {@link org.openqa.seleniumone.support.ui.ExpectedCondition}. It is combined
  * with {@link java.util.function.Function}.
  *
  * @param <T> The return type
  */
 @FunctionalInterface
-public interface ExpectedCondition<T> extends org.openqa.selenium.support.ui.ExpectedCondition<T>,
+public interface ExpectedCondition<T> extends org.openqa.seleniumone.support.ui.ExpectedCondition<T>,
         AppiumFunction<WebDriver, T> {
 }

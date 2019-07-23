@@ -1,7 +1,7 @@
 package io.appium.java_client.events;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Alert;
+import org.openqa.seleniumone.Alert;
 
 public class StubAlert implements Alert {
     @Override public void dismiss() {

@@ -16,10 +16,10 @@ import io.appium.java_client.events.listeners.ContextListener2;
 import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SearchingListener2;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.Alert;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.ContextAware;
+import org.openqa.seleniumone.WebDriver;
 
 import java.util.Set;
 import java.util.function.Predicate;

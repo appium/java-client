@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class ConfigTest {
-    private static final String EXISTING_KEY = "selenium.version";
+    private static final String EXISTING_KEY = "seleniumone.version";
     private static final String MISSING_KEY = "bla";
 
     @Test

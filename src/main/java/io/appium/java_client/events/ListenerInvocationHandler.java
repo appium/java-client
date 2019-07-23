@@ -17,7 +17,7 @@
 package io.appium.java_client.events;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.support.events.WebDriverEventListener;
+import org.openqa.seleniumone.support.events.WebDriverEventListener;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

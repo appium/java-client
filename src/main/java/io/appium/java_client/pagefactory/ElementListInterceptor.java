@@ -19,8 +19,8 @@ package io.appium.java_client.pagefactory;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Method;
 import java.util.List;

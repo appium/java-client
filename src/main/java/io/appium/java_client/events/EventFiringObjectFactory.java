@@ -1,7 +1,7 @@
 package io.appium.java_client.events;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
@@ -19,7 +19,7 @@ public class EventFiringObjectFactory {
      *
      * @param t an original {@link Object} that is
      *               supposed to be listenable
-     * @param driver an instance of {@link org.openqa.selenium.WebDriver}
+     * @param driver an instance of {@link org.openqa.seleniumone.WebDriver}
      * @param listeners is a collection of {@link io.appium.java_client.events.api.Listener} that
      *                  is supposed to be used for the event firing
      * @param <T> T
@@ -47,7 +47,7 @@ public class EventFiringObjectFactory {
      *
      * @param t an original {@link Object} that is
      *               supposed to be listenable
-     * @param driver an instance of {@link org.openqa.selenium.WebDriver}
+     * @param driver an instance of {@link org.openqa.seleniumone.WebDriver}
      * @param <T> T
      * @return an {@link Object} that fires events
      */
@@ -60,12 +60,12 @@ public class EventFiringObjectFactory {
      *
      * @param t an original {@link Object} that is
      *               supposed to be listenable
-     * @param driver an instance of {@link org.openqa.selenium.WebDriver}
+     * @param driver an instance of {@link org.openqa.seleniumone.WebDriver}
      * @param listeners is an array of {@link io.appium.java_client.events.api.Listener} that
      *                  is supposed to be used for the event firing
      *
      * @param <T> T
-     * @return an instance of {@link org.openqa.selenium.WebDriver} that fires events
+     * @return an instance of {@link org.openqa.seleniumone.WebDriver} that fires events
      */
     public static <T> T getEventFiringObject(T t, WebDriver driver, Listener ... listeners) {
         return getEventFiringObject(t, driver, Arrays.asList(listeners));

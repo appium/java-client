@@ -8,7 +8,7 @@ import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+import static org.openqa.seleniumone.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
@@ -17,8 +17,8 @@ import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.seleniumone.Dimension;
+import org.openqa.seleniumone.support.ui.WebDriverWait;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSTouchTest extends AppIOSTest {

@@ -16,8 +16,8 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.http.HttpMethod;
+import org.openqa.seleniumone.remote.CommandInfo;
+import org.openqa.seleniumone.remote.http.HttpMethod;
 
 public class AppiumCommandInfo extends CommandInfo {
     private final String url;

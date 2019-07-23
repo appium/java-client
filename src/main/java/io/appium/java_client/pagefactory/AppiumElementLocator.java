@@ -25,14 +25,14 @@ import static java.lang.String.format;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.NoSuchElementException;
+import org.openqa.seleniumone.SearchContext;
+import org.openqa.seleniumone.StaleElementReferenceException;
+import org.openqa.seleniumone.TimeoutException;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.support.ui.FluentWait;
 
 import java.time.Duration;
 import java.util.ArrayList;

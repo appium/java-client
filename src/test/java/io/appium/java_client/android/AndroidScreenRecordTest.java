@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.not;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.seleniumone.WebDriverException;
 
 import java.time.Duration;
 

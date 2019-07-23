@@ -8,7 +8,7 @@ import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SingleListeners;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
+import org.openqa.seleniumone.By;
 
 public class ExtendedEventListenerTest {
 

@@ -27,8 +27,8 @@ import java.lang.annotation.Target;
  * io.appium.java_client.pagefactory.Widget is the Appium-specific extension of the
  * Page Object design pattern.
  * About the Page Object design pattern please read these documents:
- * - https://code.google.com/p/selenium/wiki/PageObjects
- * - https://code.google.com/p/selenium/wiki/PageFactory
+ * - https://code.google.com/p/seleniumone/wiki/PageObjects
+ * - https://code.google.com/p/seleniumone/wiki/PageFactory
  */
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD}) public @interface OverrideWidget {
     /**

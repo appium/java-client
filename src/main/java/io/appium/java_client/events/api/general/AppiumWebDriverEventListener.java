@@ -17,7 +17,7 @@
 package io.appium.java_client.events.api.general;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.support.events.WebDriverEventListener;
+import org.openqa.seleniumone.support.events.WebDriverEventListener;
 
 public interface AppiumWebDriverEventListener extends Listener, WebDriverEventListener, ListensToException,
     SearchingEventListener, NavigationEventListener,

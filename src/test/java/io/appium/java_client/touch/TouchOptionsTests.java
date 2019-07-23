@@ -17,9 +17,9 @@ import static org.hamcrest.Matchers.is;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import org.junit.Test;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.remote.RemoteWebElement;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -16,7 +16,7 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebElement;
 
 import java.util.List;
 

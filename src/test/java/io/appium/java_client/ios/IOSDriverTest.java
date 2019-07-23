@@ -35,11 +35,11 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.ScreenOrientation;
+import org.openqa.seleniumone.html5.Location;
+import org.openqa.seleniumone.support.ui.ExpectedConditions;
+import org.openqa.seleniumone.support.ui.WebDriverWait;
 
 import java.time.Duration;
 

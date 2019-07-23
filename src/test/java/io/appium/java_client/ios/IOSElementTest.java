@@ -9,8 +9,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.support.ui.WebDriverWait;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSElementTest extends AppIOSTest {

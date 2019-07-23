@@ -2,8 +2,8 @@ package io.appium.java_client.appium.element.generation.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.name;
-import static org.openqa.selenium.By.tagName;
+import static org.openqa.seleniumone.By.name;
+import static org.openqa.seleniumone.By.tagName;
 
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
@@ -12,7 +12,7 @@ import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.util.function.Supplier;

@@ -16,19 +16,19 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.html5.LocationContext;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByName;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.ContextAware;
+import org.openqa.seleniumone.Rotatable;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.html5.LocationContext;
+import org.openqa.seleniumone.internal.FindsByClassName;
+import org.openqa.seleniumone.internal.FindsByCssSelector;
+import org.openqa.seleniumone.internal.FindsById;
+import org.openqa.seleniumone.internal.FindsByLinkText;
+import org.openqa.seleniumone.internal.FindsByName;
+import org.openqa.seleniumone.internal.FindsByTagName;
+import org.openqa.seleniumone.internal.FindsByXPath;
 
 import java.util.List;
 

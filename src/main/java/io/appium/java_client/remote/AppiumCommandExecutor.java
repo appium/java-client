@@ -22,7 +22,7 @@ import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.ofNullable;
 import static java.util.logging.Logger.getLogger;
-import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
+import static org.openqa.seleniumone.remote.DriverCommand.NEW_SESSION;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
@@ -31,24 +31,24 @@ import com.google.common.io.CountingOutputStream;
 import com.google.common.io.FileBackedOutputStream;
 
 import io.appium.java_client.internal.Config;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ImmutableCapabilities;
-import org.openqa.selenium.SessionNotCreatedException;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.Command;
-import org.openqa.selenium.remote.CommandCodec;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.Dialect;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.ProtocolHandshake;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.ResponseCodec;
-import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpRequest;
-import org.openqa.selenium.remote.http.HttpResponse;
-import org.openqa.selenium.remote.service.DriverService;
+import org.openqa.seleniumone.Capabilities;
+import org.openqa.seleniumone.ImmutableCapabilities;
+import org.openqa.seleniumone.SessionNotCreatedException;
+import org.openqa.seleniumone.WebDriverException;
+import org.openqa.seleniumone.remote.Command;
+import org.openqa.seleniumone.remote.CommandCodec;
+import org.openqa.seleniumone.remote.CommandInfo;
+import org.openqa.seleniumone.remote.Dialect;
+import org.openqa.seleniumone.remote.DriverCommand;
+import org.openqa.seleniumone.remote.HttpCommandExecutor;
+import org.openqa.seleniumone.remote.ProtocolHandshake;
+import org.openqa.seleniumone.remote.Response;
+import org.openqa.seleniumone.remote.ResponseCodec;
+import org.openqa.seleniumone.remote.codec.w3c.W3CHttpCommandCodec;
+import org.openqa.seleniumone.remote.http.HttpClient;
+import org.openqa.seleniumone.remote.http.HttpRequest;
+import org.openqa.seleniumone.remote.http.HttpResponse;
+import org.openqa.seleniumone.remote.service.DriverService;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -195,8 +195,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                     } catch (NoSuchMethodException | IllegalAccessException e) {
                         throw new SessionNotCreatedException(format("Unable to create a new remote session. "
                                         + "Make sure your project dependencies config does not override "
-                                        + "Selenium API version %s used by java-client library.",
-                                Config.main().getValue("selenium.version", String.class)), e);
+                                        + "seleniumone API version %s used by java-client library.",
+                                Config.main().getValue("seleniumone.version", String.class)), e);
                     } catch (InvocationTargetException e) {
                         String message = "Unable to create a new remote session.";
                         if (e.getCause() != null) {

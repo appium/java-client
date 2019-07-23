@@ -18,8 +18,8 @@ package io.appium.java_client.imagecomparison;
 
 import org.apache.commons.codec.binary.Base64;
 
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
+import org.openqa.seleniumone.Point;
+import org.openqa.seleniumone.Rectangle;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,12 +78,12 @@ public abstract class ComparisonResult {
     }
 
     /**
-     * Converts float OpenCV coordinates to Selenium-compatible format.
+     * Converts float OpenCV coordinates to seleniumone-compatible format.
      *
      * @param openCVCoordinate the original coordinate value
      * @return The converted value
      */
-    private static int toSeleniumCoordinate(Object openCVCoordinate) {
+    private static int toseleniumoneCoordinate(Object openCVCoordinate) {
         if (openCVCoordinate instanceof Long) {
             return ((Long) openCVCoordinate).intValue();
         }
@@ -100,10 +100,10 @@ public abstract class ComparisonResult {
      * @return {@link Rectangle} object
      */
     public static Rectangle mapToRect(Map<String, Object> map) {
-        return new Rectangle(toSeleniumCoordinate(map.get("x")),
-                toSeleniumCoordinate(map.get("y")),
-                toSeleniumCoordinate(map.get("height")),
-                toSeleniumCoordinate(map.get("width")));
+        return new Rectangle(toseleniumoneCoordinate(map.get("x")),
+                toseleniumoneCoordinate(map.get("y")),
+                toseleniumoneCoordinate(map.get("height")),
+                toseleniumoneCoordinate(map.get("width")));
     }
 
     /**
@@ -113,6 +113,6 @@ public abstract class ComparisonResult {
      * @return {@link Point} object
      */
     public static Point mapToPoint(Map<String, Object> map) {
-        return new Point(toSeleniumCoordinate(map.get("x")), toSeleniumCoordinate(map.get("y")));
+        return new Point(toseleniumoneCoordinate(map.get("x")), toseleniumoneCoordinate(map.get("y")));
     }
 }

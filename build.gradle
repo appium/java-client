@@ -49,7 +49,7 @@ compileJava {
 }
 
 dependencies {
-    compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
+    compile ("org.seleniumonehq.seleniumone:seleniumone-java:${project.property('seleniumone.version')}") {
         force = true
 
         exclude group: 'com.google.code.gson'
@@ -57,10 +57,10 @@ dependencies {
         exclude group: 'net.sourceforge.htmlunit'
 
     }
-    compile ("org.seleniumhq.selenium:selenium-support:${project.property('selenium.version')}") {
+    compile ("org.seleniumonehq.seleniumone:seleniumone-support:${project.property('seleniumone.version')}") {
         force = true
     }
-    compile ("org.seleniumhq.selenium:selenium-api:${project.property('selenium.version')}") {
+    compile ("org.seleniumonehq.seleniumone:seleniumone-api:${project.property('seleniumone.version')}") {
         force = true
     }
     compile 'com.google.code.gson:gson:2.8.5'
@@ -76,7 +76,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest:2.1'
     testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.6.1') {
-        exclude group: 'org.seleniumhq.selenium'
+        exclude group: 'org.seleniumonehq.seleniumone'
     }
 }
 
@@ -110,7 +110,7 @@ checkstyle {
     showViolations = true
     ignoreFailures = false
 }
-checkstyleMain.excludes = ['**/org/openqa/selenium/**']
+checkstyleMain.excludes = ['**/org/openqa/seleniumone/**']
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
@@ -204,7 +204,7 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            'selenium.version': project.property('selenium.version')
+            'seleniumone.version': project.property('seleniumone.version')
     ]
 }
 

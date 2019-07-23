@@ -20,7 +20,7 @@ import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultO
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 import static java.util.Optional.ofNullable;
 
-import org.openqa.selenium.By;
+import org.openqa.seleniumone.By;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

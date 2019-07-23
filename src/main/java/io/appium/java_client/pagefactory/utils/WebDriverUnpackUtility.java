@@ -23,11 +23,11 @@ import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.pagefactory.bys.ContentType;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.WrapsElement;
+import org.openqa.seleniumone.ContextAware;
+import org.openqa.seleniumone.SearchContext;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WrapsDriver;
+import org.openqa.seleniumone.WrapsElement;
 
 public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
@@ -35,7 +35,7 @@ public final class WebDriverUnpackUtility {
     /**
      * This method extract an instance of {@link WebDriver} from the given {@link SearchContext}.
      * @param searchContext is an instance of {@link SearchContext}. It may be the instance of
-     *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
+     *                {@link WebDriver} or {@link org.openqa.seleniumone.WebElement} or some other
      *                user's extension/implementation.
      *                Note: if you want to use your own implementation then it should implement
      *                {@link WrapsDriver} or {@link WrapsElement}
@@ -69,7 +69,7 @@ public final class WebDriverUnpackUtility {
      * Detects content type by the provided search {@code context}.
      *
      * @param context is an instance of {@link SearchContext}. It may be the instance of
-     *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
+     *                {@link WebDriver} or {@link org.openqa.seleniumone.WebElement} or some other
      *                user's extension/implementation.
      *                Note: if you want to use your own implementation then it should
      *                implement {@link ContextAware} or {@link WrapsDriver} or {@link HasSessionDetails}

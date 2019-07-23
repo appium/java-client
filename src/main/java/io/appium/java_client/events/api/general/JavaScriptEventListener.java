@@ -17,12 +17,12 @@
 package io.appium.java_client.events.api.general;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.seleniumone.WebDriver;
 
 public interface JavaScriptEventListener extends Listener {
     /**
      * Called before
-     * {@link org.openqa.selenium.JavascriptExecutor#executeScript(String, Object[]) }.
+     * {@link org.openqa.seleniumone.JavascriptExecutor#executeScript(String, Object[]) }.
      *
      * @param driver WebDriver
      * @param script the script to be executed
@@ -31,7 +31,7 @@ public interface JavaScriptEventListener extends Listener {
 
     /**
      * Called after
-     * {@link org.openqa.selenium.remote.RemoteWebDriver#executeScript(String, Object[]) }.
+     * {@link org.openqa.seleniumone.remote.RemoteWebDriver#executeScript(String, Object[]) }.
      * Not called if an exception is thrown
      *
      * @param driver WebDriver

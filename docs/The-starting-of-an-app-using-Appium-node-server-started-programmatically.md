@@ -5,7 +5,7 @@
 
 # The basic principle.
 
-It works the similar way as common [ChromeDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/chrome/ChromeDriver.html), [InternetExplorerDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/ie/InternetExplorerDriver.html) of Selenium project or [PhantomJSDriver](https://cdn.rawgit.com/detro/ghostdriver/master/binding/java/docs/javadoc/org/openqa/selenium/phantomjs/PhantomJSDriver.html). They use subclasses of the [DriverService](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/service/DriverService.html).
+It works the similar way as common [ChromeDriver](https://seleniumonehq.github.io/seleniumone/docs/api/java/org/openqa/seleniumone/chrome/ChromeDriver.html), [InternetExplorerDriver](https://seleniumonehq.github.io/seleniumone/docs/api/java/org/openqa/seleniumone/ie/InternetExplorerDriver.html) of seleniumone project or [PhantomJSDriver](https://cdn.rawgit.com/detro/ghostdriver/master/binding/java/docs/javadoc/org/openqa/seleniumone/phantomjs/PhantomJSDriver.html). They use subclasses of the [DriverService](https://seleniumonehq.github.io/seleniumone/docs/api/java/org/openqa/seleniumone/remote/service/DriverService.html).
 
 # Which capabilities this feature provides
 
@@ -218,58 +218,58 @@ The list of constructors is below.
 
 ```java
 public AndroidDriver(URL remoteAddress,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public AndroidDriver(URL remoteAddress,
-            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public AndroidDriver(AppiumDriverLocalService service,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public AndroidDriver(AppiumDriverLocalService service,
-            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public AndroidDriver(AppiumServiceBuilder builder,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public AndroidDriver(AppiumServiceBuilder builder,
-            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
-public AndroidDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+public AndroidDriver(org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
-public AndroidDriver(org.openqa.selenium.Capabilities desiredCapabilities)
+public AndroidDriver(org.openqa.seleniumone.Capabilities desiredCapabilities)
 ``` 
 
 ```java
 public IOSDriver(URL remoteAddress,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public IOSDriver(URL remoteAddress,
-            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public IOSDriver(AppiumDriverLocalService service,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public IOSDriver(AppiumDriverLocalService service,
-            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public IOSDriver(AppiumServiceBuilder builder,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
 public IOSDriver(AppiumServiceBuilder builder,
-            org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+            org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
-public IOSDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClientFactory,
-            org.openqa.selenium.Capabilities desiredCapabilities)
+public IOSDriver(org.openqa.seleniumone.remote.http.HttpClient.Factory httpClientFactory,
+            org.openqa.seleniumone.Capabilities desiredCapabilities)
 
-public IOSDriver(org.openqa.selenium.Capabilities desiredCapabilities)
+public IOSDriver(org.openqa.seleniumone.Capabilities desiredCapabilities)
 ``` 
 
 An instance of __AppiumDriverLocalService__ which has passed through constructors will be stopped when

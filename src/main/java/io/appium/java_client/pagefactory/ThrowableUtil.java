@@ -16,8 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
-import org.openqa.selenium.InvalidSelectorException;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.seleniumone.InvalidSelectorException;
+import org.openqa.seleniumone.StaleElementReferenceException;
 
 import java.lang.reflect.InvocationTargetException;
 

@@ -28,10 +28,10 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.Alert;
+import org.openqa.seleniumone.ContextAware;
+import org.openqa.seleniumone.WebDriver;
+import org.openqa.seleniumone.WebElement;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,78 +47,78 @@ class DefaultAspect {
         WebElement.class, WebDriver.Navigation.class, WebDriver.TargetLocator.class,
         ContextAware.class, Alert.class, WebDriver.Options.class, WebDriver.Window.class);
 
-    private static final String EXECUTION_NAVIGATION_TO = "execution(* org.openqa.selenium.WebDriver."
+    private static final String EXECUTION_NAVIGATION_TO = "execution(* org.openqa.seleniumone.WebDriver."
         + "Navigation.get(..))  || "
-        + "execution(* org.openqa.selenium.WebDriver.Navigation.to(..)) || "
-        + "execution(* org.openqa.selenium.WebDriver.get(..))";
-    private static final String EXECUTION_NAVIGATION_BACK = "execution(* org.openqa.selenium.WebDriver."
+        + "execution(* org.openqa.seleniumone.WebDriver.Navigation.to(..)) || "
+        + "execution(* org.openqa.seleniumone.WebDriver.get(..))";
+    private static final String EXECUTION_NAVIGATION_BACK = "execution(* org.openqa.seleniumone.WebDriver."
         + "Navigation.back(..))";
-    private static final String EXECUTION_NAVIGATION_FORWARD = "execution(* org.openqa.selenium.WebDriver."
+    private static final String EXECUTION_NAVIGATION_FORWARD = "execution(* org.openqa.seleniumone.WebDriver."
         + "Navigation.forward(..))";
-    private static final String EXECUTION_NAVIGATION_REFRESH = "execution(* org.openqa.selenium.WebDriver."
+    private static final String EXECUTION_NAVIGATION_REFRESH = "execution(* org.openqa.seleniumone.WebDriver."
         + "Navigation.refresh(..))";
-    private static final String EXECUTION_SEARCH = "execution(* org.openqa.selenium.SearchContext."
+    private static final String EXECUTION_SEARCH = "execution(* org.openqa.seleniumone.SearchContext."
         + "findElement(..)) || "
-        + "execution(* org.openqa.selenium.SearchContext.findElements(..))";
-    private static final String EXECUTION_CLICK = "execution(* org.openqa.selenium.WebElement.click(..))";
-    private static final String EXECUTION_CHANGE_VALUE = "execution(* org.openqa.selenium.WebElement."
+        + "execution(* org.openqa.seleniumone.SearchContext.findElements(..))";
+    private static final String EXECUTION_CLICK = "execution(* org.openqa.seleniumone.WebElement.click(..))";
+    private static final String EXECUTION_CHANGE_VALUE = "execution(* org.openqa.seleniumone.WebElement."
         + "sendKeys(..)) || "
-        + "execution(* org.openqa.selenium.WebElement.clear(..))  || "
+        + "execution(* org.openqa.seleniumone.WebElement.clear(..))  || "
         + "execution(* io.appium.java_client.android.AndroidElement.replaceValue(..))  || "
         + "execution(* io.appium.java_client.MobileElement.setValue(..))";
-    private static final String EXECUTION_SCRIPT = "execution(* org.openqa.selenium.JavascriptExecutor."
+    private static final String EXECUTION_SCRIPT = "execution(* org.openqa.seleniumone.JavascriptExecutor."
         + "executeScript(..)) || "
-        + "execution(* org.openqa.selenium.JavascriptExecutor.executeAsyncScript(..))";
-    private static final String EXECUTION_ALERT_ACCEPT = "execution(* org.openqa.selenium.Alert."
+        + "execution(* org.openqa.seleniumone.JavascriptExecutor.executeAsyncScript(..))";
+    private static final String EXECUTION_ALERT_ACCEPT = "execution(* org.openqa.seleniumone.Alert."
         + "accept(..))";
-    private static final String EXECUTION_ALERT_DISMISS = "execution(* org.openqa.selenium.Alert."
+    private static final String EXECUTION_ALERT_DISMISS = "execution(* org.openqa.seleniumone.Alert."
         + "dismiss(..))";
-    private static final String EXECUTION_ALERT_SEND_KEYS = "execution(* org.openqa.selenium.Alert."
+    private static final String EXECUTION_ALERT_SEND_KEYS = "execution(* org.openqa.seleniumone.Alert."
         + "sendKeys(..))";
-    private static final String EXECUTION_WINDOW_SET_SIZE = "execution(* org.openqa.selenium."
+    private static final String EXECUTION_WINDOW_SET_SIZE = "execution(* org.openqa.seleniumone."
         + "WebDriver.Window.setSize(..))";
-    private static final String EXECUTION_WINDOW_SET_POSITION = "execution(* org.openqa.selenium.WebDriver."
+    private static final String EXECUTION_WINDOW_SET_POSITION = "execution(* org.openqa.seleniumone.WebDriver."
         + "Window.setPosition(..))";
-    private static final String EXECUTION_WINDOW_MAXIMIZE = "execution(* org.openqa.selenium.WebDriver."
+    private static final String EXECUTION_WINDOW_MAXIMIZE = "execution(* org.openqa.seleniumone.WebDriver."
         + "Window.maximize(..))";
-    private static final String EXECUTION_ROTATE = "execution(* org.openqa.selenium.Rotatable"
+    private static final String EXECUTION_ROTATE = "execution(* org.openqa.seleniumone.Rotatable"
         + ".rotate(..))";
-    private static final String EXECUTION_CONTEXT = "execution(* org.openqa.selenium.ContextAware."
+    private static final String EXECUTION_CONTEXT = "execution(* org.openqa.seleniumone.ContextAware."
         + "context(..))";
-    private static final String EXECUTION_SWITCH_TO_WINDOW = "execution(* org.openqa.selenium.WebDriver.TargetLocator"
+    private static final String EXECUTION_SWITCH_TO_WINDOW = "execution(* org.openqa.seleniumone.WebDriver.TargetLocator"
             + ".window(..))";
-    private static final String EXECUTION_TAKE_SCREENSHOT_AS = "execution(* org.openqa.selenium.TakesScreenshot"
+    private static final String EXECUTION_TAKE_SCREENSHOT_AS = "execution(* org.openqa.seleniumone.TakesScreenshot"
             + ".getScreenshotAs(..))";
-    private static final String AROUND = "execution(* org.openqa.selenium.WebDriver.*(..)) || "
-        + "execution(* org.openqa.selenium.WebElement.*(..)) || "
-        + "execution(* org.openqa.selenium.WebDriver.Navigation.*(..)) || "
-        + "execution(* org.openqa.selenium.WebDriver.Options.*(..)) || "
-        + "execution(* org.openqa.selenium.WebDriver.TargetLocator.*(..)) || "
-        + "execution(* org.openqa.selenium.WebDriver.TargetLocator.*(..)) || "
-        + "execution(* org.openqa.selenium.JavascriptExecutor.*(..)) || "
-        + "execution(* org.openqa.selenium.ContextAware.*(..)) || "
+    private static final String AROUND = "execution(* org.openqa.seleniumone.WebDriver.*(..)) || "
+        + "execution(* org.openqa.seleniumone.WebElement.*(..)) || "
+        + "execution(* org.openqa.seleniumone.WebDriver.Navigation.*(..)) || "
+        + "execution(* org.openqa.seleniumone.WebDriver.Options.*(..)) || "
+        + "execution(* org.openqa.seleniumone.WebDriver.TargetLocator.*(..)) || "
+        + "execution(* org.openqa.seleniumone.WebDriver.TargetLocator.*(..)) || "
+        + "execution(* org.openqa.seleniumone.JavascriptExecutor.*(..)) || "
+        + "execution(* org.openqa.seleniumone.ContextAware.*(..)) || "
         + "execution(* io.appium.java_client.FindsByAccessibilityId.*(..)) || "
         + "execution(* io.appium.java_client.FindsByAndroidUIAutomator.*(..)) || "
         + "execution(* io.appium.java_client.FindsByWindowsAutomation.*(..)) || "
         + "execution(* io.appium.java_client.FindsByIosNSPredicate.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsByClassName.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsByCssSelector.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsById.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsByLinkText.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsByName.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsByTagName.*(..)) || "
-        + "execution(* org.openqa.selenium.internal.FindsByXPath.*(..)) || "
-        + "execution(* org.openqa.selenium.WebDriver.Window.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsByClassName.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsByCssSelector.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsById.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsByLinkText.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsByName.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsByTagName.*(..)) || "
+        + "execution(* org.openqa.seleniumone.internal.FindsByXPath.*(..)) || "
+        + "execution(* org.openqa.seleniumone.WebDriver.Window.*(..)) || "
         + "execution(* io.appium.java_client.android.AndroidElement.*(..)) || "
         + "execution(* io.appium.java_client.ios.IOSElement.*(..)) || "
         + "execution(* io.appium.java_client.android.AndroidDriver.*(..)) || "
         + "execution(* io.appium.java_client.ios.IOSDriver.*(..)) || "
         + "execution(* io.appium.java_client.AppiumDriver.*(..)) || "
         + "execution(* io.appium.java_client.MobileElement.*(..)) || "
-        + "execution(* org.openqa.selenium.remote.RemoteWebDriver.*(..)) || "
-        + "execution(* org.openqa.selenium.remote.RemoteWebElement.*(..)) || "
-        + "execution(* org.openqa.selenium.Alert.*(..)) || "
-        + "execution(* org.openqa.selenium.TakesScreenshot.*(..))";
+        + "execution(* org.openqa.seleniumone.remote.RemoteWebDriver.*(..)) || "
+        + "execution(* org.openqa.seleniumone.remote.RemoteWebElement.*(..)) || "
+        + "execution(* org.openqa.seleniumone.Alert.*(..)) || "
+        + "execution(* org.openqa.seleniumone.TakesScreenshot.*(..))";
 
     private final AbstractApplicationContext context;
     private final WebDriver driver;

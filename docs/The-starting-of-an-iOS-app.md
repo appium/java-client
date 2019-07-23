@@ -9,7 +9,7 @@ It is not necessary to use arguments. [The list of arguments](https://appium.io/
 
 # The starting of an app
 
-It looks like creation of a common [RemoteWebDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html) instance. 
+It looks like creation of a common [RemoteWebDriver](https://seleniumonehq.github.io/seleniumone/docs/api/java/org/openqa/seleniumone/remote/RemoteWebDriver.html) instance. 
 
 [Common capabilities](https://appium.io/docs/en/writing-running-appium/caps/#general-capabilities)
 
@@ -22,7 +22,7 @@ It looks like creation of a common [RemoteWebDriver](https://seleniumhq.github.i
 
 ```java
 import java.io.File;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import java.net.URL;
@@ -47,7 +47,7 @@ or
 
 ```java
 import java.io.File;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.MobileElement;

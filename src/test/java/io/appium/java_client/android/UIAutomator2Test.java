@@ -8,10 +8,10 @@ import io.appium.java_client.MobileElement;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.DeviceRotation;
+import org.openqa.seleniumone.support.ui.ExpectedConditions;
+import org.openqa.seleniumone.support.ui.WebDriverWait;
 
 
 public class UIAutomator2Test extends BaseAndroidTest {

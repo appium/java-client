@@ -19,16 +19,16 @@ package io.appium.java_client.pagefactory.bys.builder;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import io.appium.java_client.functions.AppiumFunction;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.seleniumone.By;
+import org.openqa.seleniumone.NoSuchElementException;
+import org.openqa.seleniumone.SearchContext;
+import org.openqa.seleniumone.TimeoutException;
+import org.openqa.seleniumone.WebElement;
+import org.openqa.seleniumone.support.ui.FluentWait;
 
 import java.util.Optional;
 
-public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained {
+public class ByChained extends org.openqa.seleniumone.support.pagefactory.ByChained {
 
     private final By[] bys;
 

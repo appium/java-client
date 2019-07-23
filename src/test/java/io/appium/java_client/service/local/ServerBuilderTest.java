@@ -31,7 +31,7 @@ import org.apache.commons.validator.routines.InetAddressValidator;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.seleniumone.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.io.FileOutputStream;

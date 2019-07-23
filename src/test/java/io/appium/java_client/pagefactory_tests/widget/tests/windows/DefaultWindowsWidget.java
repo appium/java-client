@@ -3,7 +3,7 @@ package io.appium.java_client.pagefactory_tests.widget.tests.windows;
 import io.appium.java_client.pagefactory.WindowsFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
-import org.openqa.selenium.WebElement;
+import org.openqa.seleniumone.WebElement;
 
 import java.util.List;
 
