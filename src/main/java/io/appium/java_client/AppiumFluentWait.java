@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import com.google.common.base.Throwables;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
@@ -41,25 +42,25 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
          *
          * @return current iteration number. It starts from 1
          */
-        @Getter private final long number;
+        @Getter(AccessLevel.PUBLIC) private final long number;
         /**
          * The amount of elapsed time.
          *
          * @return the amount of elapsed time
          */
-        @Getter private final Duration elapsed;
+        @Getter(AccessLevel.PUBLIC) private final Duration elapsed;
         /**
          * The amount of total time.
          *
          * @return the amount of total time
          */
-        @Getter private final Duration total;
+        @Getter(AccessLevel.PUBLIC) private final Duration total;
         /**
          * The current interval.
          *
          * @return The actual value of current interval or the default one if it is not set
          */
-        @Getter private final Duration interval;
+        @Getter(AccessLevel.PUBLIC) private final Duration interval;
 
         /**
          * The class is used to represent information about a single loop iteration in {@link #until(Function)}

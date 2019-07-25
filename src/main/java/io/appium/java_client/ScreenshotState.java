@@ -16,6 +16,7 @@
 
 package io.appium.java_client;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -33,6 +34,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.imageio.ImageIO;
+
 @Accessors(chain = true)
 public class ScreenshotState {
     private static final Duration DEFAULT_INTERVAL_MS = Duration.ofMillis(500);
@@ -46,7 +48,7 @@ public class ScreenshotState {
      * @param comparisonInterval interval value. 500 ms by default
      * @return current interval value in ms
      */
-    @Getter @Setter private Duration comparisonInterval = DEFAULT_INTERVAL_MS;
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Duration comparisonInterval = DEFAULT_INTERVAL_MS;
 
     /**
      * The class constructor accepts two arguments. The first one is image comparator, the second

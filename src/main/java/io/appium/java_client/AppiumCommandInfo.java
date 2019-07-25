@@ -16,13 +16,14 @@
 
 package io.appium.java_client;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
 public class AppiumCommandInfo extends CommandInfo {
-    @Getter private final String url;
-    @Getter private final HttpMethod method;
+    @Getter(AccessLevel.PUBLIC) private final String url;
+    @Getter(AccessLevel.PUBLIC) private final HttpMethod method;
 
     /**
      * It conntains method and URL of the command.

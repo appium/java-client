@@ -29,10 +29,12 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 configurations {
     ecj
+    lombok
 }
 
 dependencies {
     ecj 'org.eclipse.jdt:ecj:3.18.0'
+    lombok 'org.projectlombok:lombok:1.18.8'
 }
 
 compileJava {
@@ -40,15 +42,20 @@ compileJava {
     targetCompatibility = 1.8
 
     def ecjJar = configurations.ecj.singleFile
+    def lombokjar = configurations.lombok.singleFile
 
     options.fork = true
-    options.fork executable: 'java', jvmArgs: [ '-cp', ecjJar.path, 'org.eclipse.jdt.internal.compiler.batch.Main' ]
+    options.fork executable: 'java', jvmArgs: [ '-javaagent:'+lombokjar.path+'=ECJ', '-jar', ecjJar.path, '-cp', lombokjar.path]
     options.define compilerArgs: [
             '-encoding', 'utf-8'
     ]
 }
 
 dependencies {
+    compileOnly('org.projectlombok:lombok:1.18.8')
+    testCompileOnly('org.projectlombok:lombok:1.18.8')
+    annotationProcessor('org.projectlombok:lombok:1.18.8')
+    testAnnotationProcessor('org.projectlombok:lombok:1.18.8')
     compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
         force = true
 

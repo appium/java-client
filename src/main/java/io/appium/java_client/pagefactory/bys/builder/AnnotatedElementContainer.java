@@ -16,13 +16,16 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.lang.reflect.AnnotatedElement;
 
 /**
  * This is the POJO for the setting/getting of an AnnotatedElement instances.
  */
-@Data public class AnnotatedElementContainer {
+public class AnnotatedElementContainer {
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PACKAGE)
     private AnnotatedElement annotated;
 }

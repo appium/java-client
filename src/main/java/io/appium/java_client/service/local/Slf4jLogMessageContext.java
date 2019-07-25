@@ -1,5 +1,6 @@
 package io.appium.java_client.service.local;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +17,13 @@ public final class Slf4jLogMessageContext {
      * @return {@link Logger} instance associated with this context.
      *
      */
-    @Getter private final Logger logger;
+    @Getter(AccessLevel.PUBLIC) private final Logger logger;
     /**
      * Returns log {@link Level} for the log message associated with this context.
      *
      * @return {@link Level} for log message associated with this context.
      */
-    @Getter private final Level level;
+    @Getter(AccessLevel.PUBLIC) private final Level level;
 
     Slf4jLogMessageContext(String loggerName, Level level) {
         this.level = level;

@@ -16,17 +16,18 @@
 
 package io.appium.java_client.driverscripts;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.util.Map;
+
 public class ScriptValue {
     /**
      * The result of ExecuteDriverScript call.
      *
      * @return The actual returned value depends on the script content
      */
-    @Getter private final Object result;
+    @Getter(AccessLevel.PUBLIC) private final Object result;
     /**
      * Retrieves logs mapping from ExecuteDriverScript call.
      *
@@ -34,7 +35,7 @@ public class ScriptValue {
      *          `error` and the values are lists of strings that were printed
      *          by the script into the corresponding logging level
      */
-    @Getter private final Map<String, Object> logs;
+    @Getter(AccessLevel.PUBLIC) private final Map<String, Object> logs;
 
     public ScriptValue(Object result, Map<String, Object> logs) {
         this.result = result;
