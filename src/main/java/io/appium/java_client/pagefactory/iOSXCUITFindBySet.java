@@ -26,8 +26,10 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 public @interface iOSXCUITFindBySet {
     /**
+     * An array of which builds a sequence of the chained searching for elements or a set of possible locators.
+     *
      * @return an array of {@link iOSXCUITFindBy} which builds a sequence of
-     * the chained searching for elements or a set of possible locators
+     *     the chained searching for elements or a set of possible locators
      */
     iOSXCUITFindBy[] value();
 }

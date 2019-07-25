@@ -66,6 +66,41 @@ dependencies {
 ```
 
 ## Changelog
+*7.1.0*
+- **[ENHANCEMENTS]** 
+    -  Added an ability to get all the session details. [#1167 ](https://github.com/appium/java-client/pull/1167)
+    - `TRACK_SCROLL_EVENTS`, `ALLOW_INVISIBLE_ELEMENTS`, `ENABLE_NOTIFICATION_LISTENER`, 
+       `NORMALIZE_TAG_NAMES` and `SHUTDOWN_ON_POWER_DISCONNECT` Android Settings were added.         
+    - `KEYBOARD_AUTOCORRECTION`, `MJPEG_SCALING_FACTOR`, 
+       `MJPEG_SERVER_SCREENSHOT_QUALITY`, `MJPEG_SERVER_FRAMERATE`, `SCREENSHOT_QUALITY` 
+        and `KEYBOARD_PREDICTION` iOS Settings were added. 
+    - `GET_MATCHED_IMAGE_RESULT`, `FIX_IMAGE_TEMPLATE_SCALE`, 
+       `SHOULD_USE_COMPACT_RESPONSES`, `ELEMENT_RESPONSE_ATTRIBUTES`  and 
+       `DEFAULT_IMAGE_TEMPLATE_SCALE` settings were added for both Android and iOS [#1166](https://github.com/appium/java-client/pull/1166), [#1156 ](https://github.com/appium/java-client/pull/1156) and [#1120](https://github.com/appium/java-client/pull/1120)
+    - The new interface `io.appium.java_client.ExecutesDriverScript ` was added. [#1165](https://github.com/appium/java-client/pull/1165)
+    - Added an ability to get status of appium server. [#1153 ](https://github.com/appium/java-client/pull/1153)
+    - `tvOS` platform support was added. [#1142  ](https://github.com/appium/java-client/pull/1142)
+    -  The new interface `io.appium.java_client. FindsByAndroidDataMatcher` was added. [#1106](https://github.com/appium/java-client/pull/1106)
+    -  The selector strategy `io.appium.java_client.MobileBy.ByAndroidDataMatcher` was added. [#1106](https://github.com/appium/java-client/pull/1106)
+    -   Selendroid for android and UIAutomation for iOS are removed. [#1077  ](https://github.com/appium/java-client/pull/1077)
+    - **[BUG FIX]** Platform Name enforced on driver creation is avoided now. [#1164 ](https://github.com/appium/java-client/pull/1164)
+    - **[BUG FIX]** Send both signalStrengh and signalStrength for `GSM_SIGNAL`. [#1115  ](https://github.com/appium/java-client/pull/1115)
+    - **[BUG FIX]** Null pointer exceptions when calling getCapabilities is handled better. [#1094  ](https://github.com/appium/java-client/pull/1094)
+
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.0.0-alpha-1.
+  - `org.aspectj:aspectjweaver` was updated to 1.9.4.
+  - `org.apache.httpcomponents:httpclient` was updated to 4.5.9.
+  - `cglib:cglib` was updated to 3.2.12.
+  - `org.springframework:spring-context` was updated to 5.1.8.RELEASE.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 3.6.1.
+  - `org.eclipse.jdt:ecj` was updated to 3.18.0.
+  - `com.github.jengelman.gradle.plugins:shadow` was updated to 5.1.0.
+  - `checkstyle` was updated to 8.22.
+  - `gradle` was updated to 5.4.
+  - `dependency-check-gradle` was updated to 5.1.0.
+  - `org.slf4j:slf4j-api` was updated to 1.7.26.
+  - `org.apache.commons:commons-lang3` was updated to 3.9.
 
 *7.0.0*
 - **[ENHANCEMENTS]** 

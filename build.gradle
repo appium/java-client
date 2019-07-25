@@ -1,17 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
 apply plugin: 'checkstyle'
 apply plugin: 'signing'
 
-
 import org.apache.tools.ant.filters.*
-
-group 'io.appium'
-version '7.0.0'
-
 
 repositories {
     jcenter()
@@ -24,8 +19,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.owasp:dependency-check-gradle:1.4.0'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+        classpath 'org.owasp:dependency-check-gradle:5.1.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
     }
 }
 
@@ -37,12 +32,7 @@ configurations {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.8'
-    annotationProcessor 'org.projectlombok:lombok:1.18.8'
-}
-
-dependencies {
-    ecj 'org.eclipse.jdt:ecj:3.16.0'
+    ecj 'org.eclipse.jdt:ecj:3.18.0'
 }
 
 compileJava {
@@ -57,7 +47,6 @@ compileJava {
             '-encoding', 'utf-8'
     ]
 }
-
 
 dependencies {
     compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
@@ -75,18 +64,18 @@ dependencies {
         force = true
     }
     compile 'com.google.code.gson:gson:2.8.5'
-    compile 'org.apache.httpcomponents:httpclient:4.5.8'
-    compile 'cglib:cglib:3.2.10'
+    compile 'org.apache.httpcomponents:httpclient:4.5.9'
+    compile 'cglib:cglib:3.2.12'
     compile 'commons-validator:commons-validator:1.6'
     compile 'org.apache.commons:commons-lang3:3.9'
     compile 'commons-io:commons-io:2.6'
-    compile 'org.springframework:spring-context:5.1.6.RELEASE'
-    compile 'org.aspectj:aspectjweaver:1.9.3'
+    compile 'org.springframework:spring-context:5.1.8.RELEASE'
+    compile 'org.aspectj:aspectjweaver:1.9.4'
     compile 'org.slf4j:slf4j-api:1.7.26'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest:2.1'
-    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.4.0') {
+    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.6.1') {
         exclude group: 'org.seleniumhq.selenium'
     }
 }
@@ -116,90 +105,96 @@ tasks.withType(JacocoReport) {
 jacocoTestReport.dependsOn test
 
 checkstyle {
-    toolVersion = '8.17'
+    toolVersion = '8.22'
     configFile = file("$projectDir/google-style.xml")
     showViolations = true
     ignoreFailures = false
 }
 checkstyleMain.excludes = ['**/org/openqa/selenium/**']
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
 }
 
-artifacts {
-    archives javadocJar, sourcesJar
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
 }
 
-//signing {
-//    sign configurations.archives
-//}
+javadoc {
+    options.addStringOption('encoding', 'UTF-8')
+}
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-           // beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                packaging 'jar'
-                name 'java-client'
-                description 'Java client for Appium Mobile Webdriver'
-                url 'http://appium.io'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.appium'
+            artifactId = 'java-client'
+            version = '7.1.0'
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = 'java-client'
+                description = 'Java client for Appium Mobile Webdriver'
+                url = 'http://appium.io'
                 developers {
                     developer {
-                        name 'Jonah Stiennon'
-                        email 'jonahss@gmail.com'
-                        url 'https://github.com/jonahss'
-                        id 'jonahss'
-                    };
+                        name = 'Jonah Stiennon'
+                        email = 'jonahss@gmail.com'
+                        url = 'https://github.com/jonahss'
+                        id = 'jonahss'
+                    }
                     developer {
-                        name 'Sergey Tikhomirov'
-                        email 'tichomirovsergey@gmail.com'
-                        url 'https://github.com/TikhomirovSergey'
-                        id 'TikhomirovSergey'
-                    };
+                        name = 'Sergey Tikhomirov'
+                        email = 'tichomirovsergey@gmail.com'
+                        url = 'https://github.com/TikhomirovSergey'
+                        id = 'TikhomirovSergey'
+                    }
                     developer {
-                        name 'Srinivasan Sekar'
-                        email 'srinivasan.sekar1990@gmail.com'
-                        url 'https://github.com/SrinivasanTarget'
-                        id 'SrinivasanTarget'
-                    };
+                        name = 'Srinivasan Sekar'
+                        email = 'srinivasan.sekar1990@gmail.com'
+                        url = 'https://github.com/SrinivasanTarget'
+                        id = 'SrinivasanTarget'
+                    }
                     developer {
-                        name 'Mykola Mokhnach'
-                        url 'https://github.com/mykola-mokhnach'
-                        id 'mykola-mokhnach'
-                    };
+                        name = 'Mykola Mokhnach'
+                        url = 'https://github.com/mykola-mokhnach'
+                        id = 'mykola-mokhnach'
+                    }
                 }
                 licenses {
                     license {
-                        name 'Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
                     }
                 }
                 scm {
-                    url 'https://github.com/appium/java-client'
-                    connection 'scm:git:ssh://git@github.com/appium/java-client.git'
-                    developerConnection 'scm:git:ssh://git@github.com/appium/java-client.git'
-                    tag 'HEAD'
+                    url = 'https://github.com/appium/java-client'
+                    connection = 'scm:git:ssh://git@github.com/appium/java-client.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/appium/java-client.git'
+                    tag = 'HEAD'
                 }
             }
         }
     }
+    repositories {
+        maven {
+            credentials {
+                username "$ossrhUsername"
+                password "$ossrhPassword"
+            }
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/'"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
 
 wrapper {
