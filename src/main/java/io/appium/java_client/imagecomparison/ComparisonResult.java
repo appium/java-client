@@ -16,6 +16,8 @@
 
 package io.appium.java_client.imagecomparison;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.apache.commons.codec.binary.Base64;
 
 import org.openqa.selenium.Point;
@@ -31,14 +33,10 @@ import java.util.Map;
 public abstract class ComparisonResult {
     private static final String VISUALIZATION = "visualization";
 
-    private final Map<String, Object> commandResult;
+    @Getter(AccessLevel.PROTECTED) private final Map<String, Object> commandResult;
 
     public ComparisonResult(Map<String, Object> commandResult) {
         this.commandResult = commandResult;
-    }
-
-    protected Map<String, Object> getCommandResult() {
-        return this.commandResult;
     }
 
     /**

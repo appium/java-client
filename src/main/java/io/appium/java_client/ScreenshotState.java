@@ -16,6 +16,11 @@
 
 package io.appium.java_client;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.ofNullable;
 
@@ -30,14 +35,20 @@ import java.util.function.Supplier;
 
 import javax.imageio.ImageIO;
 
+@Accessors(chain = true)
 public class ScreenshotState {
     private static final Duration DEFAULT_INTERVAL_MS = Duration.ofMillis(500);
 
     private BufferedImage previousScreenshot;
     private final Supplier<BufferedImage> stateProvider;
     private final ComparesImages comparator;
-
-    private Duration comparisonInterval = DEFAULT_INTERVAL_MS;
+    /**
+     * Gets the interval value in ms between similarity verification rounds in <em>verify*</em> methods.
+     *
+     * @param comparisonInterval interval value. 500 ms by default
+     * @return current interval value in ms
+     */
+    @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PUBLIC) private Duration comparisonInterval = DEFAULT_INTERVAL_MS;
 
     /**
      * The class constructor accepts two arguments. The first one is image comparator, the second
@@ -79,25 +90,6 @@ public class ScreenshotState {
         this(comparator, null);
     }
 
-    /**
-     * Gets the interval value in ms between similarity verification rounds in <em>verify*</em> methods.
-     *
-     * @return current interval value in ms
-     */
-    public Duration getComparisonInterval() {
-        return comparisonInterval;
-    }
-
-    /**
-     * Sets the interval between similarity verification rounds in <em>verify*</em> methods.
-     *
-     * @param comparisonInterval interval value. 500 ms by default
-     * @return self instance for chaining
-     */
-    public ScreenshotState setComparisonInterval(Duration comparisonInterval) {
-        this.comparisonInterval = comparisonInterval;
-        return this;
-    }
 
     /**
      * Call this method to save the initial screenshot state.
