@@ -9,7 +9,6 @@ import java.util.List;
 public class DefaultAndroidWidget extends DefaultStubWidget {
 
     public static String ANDROID_SUB_WIDGET_LOCATOR = "SOME_SUB_LOCATOR";
-    public static String SELENDROID_SUB_WIDGET_LOCATOR = "SELENDROID_SOME_SUB_LOCATOR";
 
     @AndroidFindBy(uiAutomator = "SOME_SUB_LOCATOR")
     private DefaultAndroidWidget singleWidget;

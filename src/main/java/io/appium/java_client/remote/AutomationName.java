@@ -19,6 +19,7 @@ package io.appium.java_client.remote;
 
 public interface AutomationName {
     String APPIUM = "Appium";
+    @Deprecated
     String SELENDROID = "Selendroid";
     String IOS_XCUI_TEST = "XCuiTest";
     String ANDROID_UIAUTOMATOR2 = "UIAutomator2";
