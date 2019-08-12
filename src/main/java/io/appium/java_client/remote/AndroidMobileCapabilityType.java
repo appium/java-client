@@ -19,29 +19,39 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
- * The list of Android-specific capabilities.
- * Read:
- * https://github.com/appium/appium/blob/1.5/docs/en/writing-running-appium/caps.md#android-only
+ * The list of Android-specific capabilities.<br>
+ * Read: <br>
+ * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only">
+ * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only</a>
  */
 public interface AndroidMobileCapabilityType extends CapabilityType {
+
     /**
      * Activity name for the Android activity you want to launch from your package.
-     * This often needs to be preceded by a . (e.g., .MainActivity instead of MainActivity).
+     * This often needs to be preceded by a {@code .} (e.g., {@code .MainActivity}
+     * instead of {@code MainActivity}). By default this capability is received from the package
+     * manifest (action: android.intent.action.MAIN , category: android.intent.category.LAUNCHER)
      */
     String APP_ACTIVITY = "appActivity";
 
     /**
-     * Java package of the Android app you want to run.
+     * Java package of the Android app you want to run. By default this capability is received
+     * from the package manifest ({@literal @}package attribute value)
      */
     String APP_PACKAGE = "appPackage";
 
     /**
-     * Activity name for the Android activity you want to wait for.
+     * Activity name/names, comma separated, for the Android activity you want to wait for.
+     * By default the value of this capability is the same as for {@code appActivity}.
+     * You must set it to the very first focused application activity name in case it is different
+     * from the one which is set as {@code appActivity} if your capability has {@code appActivity}
+     * and {@code appPackage}.
      */
     String APP_WAIT_ACTIVITY = "appWaitActivity";
 
     /**
      * Java package of the Android app you want to wait for.
+     * By default the value of this capability is the same as for {@code appActivity}
      */
     String APP_WAIT_PACKAGE = "appWaitPackage";
 
@@ -63,7 +73,10 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
      * (Chrome and webview only) Enable Chromedriver's performance logging (default false).
+     *
+     * @deprecated move to {@link MobileCapabilityType#ENABLE_PERFORMANCE_LOGGING}
      */
+    @Deprecated
     String ENABLE_PERFORMANCE_LOGGING = "enablePerformanceLogging";
 
     /**
@@ -164,8 +177,9 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String INTENT_FLAGS = "intentFlags";
 
     /**
-     * Additional intent arguments that will be used to start activity. See Intent arguments:
-     * http://developer.android.com/reference/android/content/Intent.html
+     * Additional intent arguments that will be used to start activity. See
+     * <a href="https://developer.android.com/reference/android/content/Intent.html">
+     * Intent arguments</a>.
      */
     String OPTIONAL_INTENT_ARGUMENTS = "optionalIntentArguments";
 
@@ -214,8 +228,9 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
      * Allows passing chromeOptions capability for ChromeDriver.
-     * For more information see chromeOptions:
-     * https://sites.google.com/a/chromium.org/chromedriver/capabilities
+     * For more information see
+     * <a href="https://sites.google.com/a/chromium.org/chromedriver/capabilities">
+     * chromeOptions</a>.
      */
     String CHROME_OPTIONS = "chromeOptions";
 
@@ -250,7 +265,14 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
 
     /**
-     * The port number, which being used by UIAutomator2.
+     * {@code systemPort} used to connect to <a href="https://github.com/appium/appium-uiautomator2-server">
+     * appium-uiautomator2-server</a> or
+     * <a href="https://github.com/appium/appium-espresso-driver">appium-espresso-driver</a>.
+     * The default is {@code 8200} in general and selects one port from {@code 8200} to {@code 8299}
+     * for appium-uiautomator2-server, it is {@code 8300} from {@code 8300} to {@code 8399} for
+     * appium-espresso-driver. When you run tests in parallel, you must adjust the port to avoid conflicts. Read
+     * <a href="https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/parallel-tests.md#parallel-android-tests">
+     * Parallel Testing Setup Guide</a> for more details.
      */
     String SYSTEM_PORT = "systemPort";
 }

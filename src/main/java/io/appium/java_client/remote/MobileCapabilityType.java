@@ -128,4 +128,10 @@ public interface MobileCapabilityType extends CapabilityType {
      * If {@code false} then it is switched to W3C mode.
      */
     String FORCE_MJSONWP = "forceMjsonwp";
+
+    /**
+     * (Web and webview only) Enable Chromedriver's (on Android)
+     * or Safari's (on iOS) performance logging (default {@code false})
+     */
+    String ENABLE_PERFORMANCE_LOGGING = "enablePerformanceLogging";
 }
