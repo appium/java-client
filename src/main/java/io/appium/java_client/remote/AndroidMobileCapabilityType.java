@@ -19,7 +19,7 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
- * The list of Android-specific capabilities.<br>
+ * The list of Android-specific capabilities. <br>
  * Read: <br>
  * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only">
  * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only</a>

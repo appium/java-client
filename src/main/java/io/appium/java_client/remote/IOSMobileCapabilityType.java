@@ -19,7 +19,7 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
- * The list of iOS-specific capabilities.
+ * The list of iOS-specific capabilities. <br>
  * Read: <br>
  * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#ios-only">
  * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#ios-only</a>
@@ -238,7 +238,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * which are impossible to shutdown using programming
      * interfaces provided by Apple
      *
-     * @deprecated deleted at Appium 1.14.0
+     * @deprecated This capability was deleted at Appium 1.14.0
      */
     @Deprecated
     String PREVENT_WDAATTACHMENTS = "preventWDAAttachments";
