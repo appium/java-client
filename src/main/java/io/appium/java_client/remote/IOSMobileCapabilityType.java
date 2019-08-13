@@ -74,7 +74,6 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * Dismiss all iOS alerts automatically if they pop up.
      * This includes privacy access permission alerts (e.g.,
      * location, contacts, photos). Default is false.
-     * Does not work on XCUITest-based tests.
      */
     String AUTO_DISMISS_ALERTS = "autoDismissAlerts";
 
@@ -185,6 +184,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * This is useful to have if the default resolution of simulated device is
      * greater than the actual display resolution. So you can scale the simulator
      * to see the whole device screen without scrolling.
+     * This capability only works below Xcode9.
      */
     String SCALE_FACTOR = "scaleFactor";
 

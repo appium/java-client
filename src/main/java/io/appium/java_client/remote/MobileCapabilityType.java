@@ -130,8 +130,8 @@ public interface MobileCapabilityType extends CapabilityType {
     String FORCE_MJSONWP = "forceMjsonwp";
 
     /**
-     * (Web and webview only) Enable Chromedriver's (on Android)
-     * or Safari's (on iOS) performance logging (default {@code false})
+     * (Web and webview only) Enable ChromeDriver's (on Android)
+     * or Safari's (on iOS) performance logging (default {@code false}).
      */
     String ENABLE_PERFORMANCE_LOGGING = "enablePerformanceLogging";
 }

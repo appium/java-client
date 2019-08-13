@@ -259,8 +259,9 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String AUTO_GRANT_PERMISSIONS = "autoGrantPermissions";
 
     /**
-     * Add androidNaturalOrientation capability to allow for correct handling of
-     * orientation on landscape-oriented devices.
+     * Allow for correct handling of orientation on landscape-oriented devices.
+     * Set to {@code true} to basically flip the meaning of {@code PORTRAIT} and {@code LANDSCAPE}.
+     * Defaults to {@code false}.
      */
     String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
 
