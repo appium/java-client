@@ -45,7 +45,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * By default the value of this capability is the same as for {@code appActivity}.
      * You must set it to the very first focused application activity name in case it is different
      * from the one which is set as {@code appActivity} if your capability has {@code appActivity}
-     * and {@code appPackage}.
+     * and {@code appPackage}. You can also use wildcards ({@code *}).
      */
     String APP_WAIT_ACTIVITY = "appWaitActivity";
 
