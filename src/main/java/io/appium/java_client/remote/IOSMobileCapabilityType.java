@@ -19,9 +19,14 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
- * The list of iOS-specific capabilities.
- * Read:
- * https://github.com/appium/appium/blob/1.5/docs/en/writing-running-appium/caps.md#ios-only
+ * The list of iOS-specific capabilities. <br>
+ * Read: <br>
+ * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#ios-only">
+ * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#ios-only</a>
+ * <br>
+ * and<br>
+ * <a href="https://github.com/appium/appium-xcuitest-driver#desired-capabilities">
+ * https://github.com/appium/appium-xcuitest-driver#desired-capabilities</a>
  */
 public interface IOSMobileCapabilityType extends CapabilityType {
 
@@ -78,7 +83,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String NATIVE_INSTRUMENTS_LIB = "nativeInstrumentsLib";
 
     /**
-     * (Sim-only) Enable "real", non-javascript-based web taps in Safari.
+     * Enable "real", non-javascript-based web taps in Safari.
      * Default: false.
      * Warning: depending on viewport size/ratio this might not accurately tap an element.
      */
@@ -164,7 +169,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String APP_NAME = "appName";
 
     /**
-     * Capability to pre-authorize a specific SSL cert in the iOS trust store.
+     * (Sim only) Add an SSL certificate to IOS Simulator.
      */
     String CUSTOM_SSL_CERT = "customSSLCert";
 
@@ -175,8 +180,11 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String TAP_WITH_SHORT_PRESS_DURATION = "tapWithShortPressDuration";
 
     /**
-     * The capability to direct Appium to set the simulator scale.
-     * The  XCUITest specific capability.
+     * Simulator scale factor.
+     * This is useful to have if the default resolution of simulated device is
+     * greater than the actual display resolution. So you can scale the simulator
+     * to see the whole device screen without scrolling.
+     * This capability only works below Xcode9.
      */
     String SCALE_FACTOR = "scaleFactor";
 
@@ -229,7 +237,10 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * creating tons of unnecessary screenshots and logs,
      * which are impossible to shutdown using programming
      * interfaces provided by Apple
+     *
+     * @deprecated This capability was deleted at Appium 1.14.0
      */
+    @Deprecated
     String PREVENT_WDAATTACHMENTS = "preventWDAAttachments";
 
     /**
@@ -248,18 +259,28 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String KEYCHAIN_PATH = "keychainPath";
 
     /**
-     * Forces uninstall of any existing WebDriverAgent app on device.
-     * This can provide stability in some situations. Defaults to false.
+     * If {@code true}, forces uninstall of any existing WebDriverAgent app on device.
+     * Set it to {@code true} if you want to apply different startup options for WebDriverAgent for each session.
+     * Although, it is only guaranteed to work stable on Simulator. Real devices require WebDriverAgent
+     * client to run for as long as possible without reinstall/restart to avoid issues like
+     * <a href="https://github.com/facebook/WebDriverAgent/issues/507">
+     * https://github.com/facebook/WebDriverAgent/issues/507</a>.
+     * The {@code false} value (the default behaviour since driver version 2.35.0) will try to detect currently
+     * running WDA listener executed by previous testing session(s) and reuse it if possible, which is
+     * highly recommended for real device testing and to speed up suites of multiple tests in general.
+     * A new WDA session will be triggered at the default URL (http://localhost:8100) if WDA is not
+     * listening and {@code webDriverAgentUrl} capability is not set. The negative/unset value of {@code useNewWDA}
+     * capability has no effect prior to xcuitest driver version 2.35.0.
      */
     String USE_NEW_WDA = "useNewWDA";
 
     /**
-     * Time, in ms, to wait for WebDriverAgewnt to be pingable. Defaults to 60000ms.
+     * Time, in ms, to wait for WebDriverAgent to be pingable. Defaults to 60000ms.
      */
     String WDA_LAUNCH_TIMEOUT = "wdaLaunchTimeout";
 
     /**
-     * Timeout, in ms, for waiting for a resonse from WebDriverAgent. Defaults to 240000ms.
+     * Timeout, in ms, for waiting for a response from WebDriverAgent. Defaults to 240000ms.
      */
     String WDA_CONNECTION_TIMEOUT = "wdaConnectionTimeout";
 
@@ -273,7 +294,7 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     /**
      * String representing a signing certificate.
      * Must be used in conjunction with xcodeOrgId.
-     * This is usually just iPhone Developer.
+     * This is usually just iPhone Developer, so the default (if not included) is iPhone Developer
      */
     String XCODE_SIGNING_ID = "xcodeSigningId";
 
@@ -288,13 +309,22 @@ public interface IOSMobileCapabilityType extends CapabilityType {
      * Whether to perform reset on test session finish (false) or not (true).
      * Keeping this variable set to true and Simulator running
      * (the default behaviour since version 1.6.4) may significantly shorten the
-     * duratiuon of test session initialization.
+     * duration of test session initialization.
      * Defaults to true.
      */
     String RESET_ON_SESSION_START_ONLY = "resetOnSessionStartOnly";
 
     /**
      * Custom timeout(s) in milliseconds for WDA backend commands execution.
+     * This might be useful if WDA backend freezes unexpectedly or requires
+     * too much time to fail and blocks automated test execution.
+     * The value is expected to be of type string and can either contain
+     * max milliseconds to wait for each WDA command to be executed before
+     * terminating the session forcefully or a valid JSON string,
+     * where keys are internal Appium command names (you can find these in logs,
+     * look for "Executing command 'command_name'" records) and values are
+     * timeouts in milliseconds. You can also set the 'default' key to assign
+     * the timeout for all other commands not explicitly enumerated as JSON keys.
      */
     String COMMAND_TIMEOUTS = "commandTimeouts";
 

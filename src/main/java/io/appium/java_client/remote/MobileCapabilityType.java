@@ -19,10 +19,10 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.CapabilityType;
 
 /**
- * The list of common capabilities.
- * Read:
- * https://github.com/appium/appium/blob/1.5/docs/en/
- * writing-running-appium/caps.md#appium-server-capabilities
+ * The list of common capabilities. <br>
+ * Read: <br>
+ * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#general-capabilities">
+ * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#general-capabilities</a>
  */
 public interface MobileCapabilityType extends CapabilityType {
 
@@ -48,11 +48,15 @@ public interface MobileCapabilityType extends CapabilityType {
     String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
 
     /**
-     * The absolute local path or remote http URL to an .ipa or .apk file,
-     * or a .zip containing one of these. Appium will attempt to install this app
-     * binary on the appropriate device first. Note that this capability is not required for
-     * Android if you specify appPackage and appActivity capabilities (see below).
-     * Incompatible with browserName.
+     * The absolute local path or remote http URL to a {@code .ipa} file (IOS),
+     * {@code .app} folder (IOS Simulator), {@code .apk} file (Android) or {@code .apks} file (Android App Bundle),
+     * or a {@code .zip} file containing one of these (for .app, the .app folder must be the root of the zip file).
+     * Appium will attempt to install this app binary on the appropriate device first.
+     * Note that this capability is not required for Android if you specify {@code appPackage}
+     * and {@code appActivity} capabilities (see below). Incompatible with {@code browserName}. See
+     * <a href="https://github.com/appium/appium/blob/v1.13.0/docs/en/writing-running-appium/android/android-appbundle.md">
+     * here</a>
+     * about {@code .apks} file.
      */
     String APP = "app";
 
@@ -67,12 +71,13 @@ public interface MobileCapabilityType extends CapabilityType {
     String APPIUM_VERSION = "appiumVersion";
 
     /**
-     * (Sim/Emu-only) Language to set for the simulator / emulator.
+     * Language to set for iOS (XCUITest driver only) and Android.
      */
     String LANGUAGE = "language";
 
     /**
-     * (Sim/Emu-only) Locale to set for the simulator / emulator.
+     * Locale to set for iOS (XCUITest driver only) and Android.
+     * {@code fr_CA} format for iOS. {@code CA} format (country name abbreviation) for Android
      */
     String LOCALE = "locale";
 
@@ -87,14 +92,18 @@ public interface MobileCapabilityType extends CapabilityType {
     String AUTO_WEBVIEW = "autoWebview";
 
     /**
-     * Don't reset app state before this session. Default false.
+     * Don't reset app state before this session. See
+     * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/other/reset-strategies.md">
+     * here</a>
+     * for more detail.
      */
     String NO_RESET = "noReset";
 
     /**
-     * (iOS) Delete the entire simulator folder.
-     * (Android) Reset app state by uninstalling app instead of clearing app data.
-     * On Android, this will also remove the app after the session is complete. Default false.
+     * Perform a complete reset. See
+     * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/other/reset-strategies.md">
+     * here</a>
+     * for more detail.
      */
     String FULL_RESET = "fullReset";
 
@@ -106,7 +115,11 @@ public interface MobileCapabilityType extends CapabilityType {
 
     /**
      * Enable or disable the reporting of the timings for various Appium-internal events
-     * (e.g., the start and end of each command, etc.). Defaults to false.
+     * (e.g., the start and end of each command, etc.). Defaults to {@code false}.
+     * To enable, use {@code true}. The timings are then reported as {@code events} property on response
+     * to querying the current session. See the
+     * <a href="https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/event-timings.md">
+     * event timing docs</a> for the the structure of this response.
      */
     String EVENT_TIMINGS = "eventTimings";
 
@@ -115,4 +128,10 @@ public interface MobileCapabilityType extends CapabilityType {
      * If {@code false} then it is switched to W3C mode.
      */
     String FORCE_MJSONWP = "forceMjsonwp";
+
+    /**
+     * (Web and webview only) Enable ChromeDriver's (on Android)
+     * or Safari's (on iOS) performance logging (default {@code false}).
+     */
+    String ENABLE_PERFORMANCE_LOGGING = "enablePerformanceLogging";
 }
