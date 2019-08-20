@@ -32,7 +32,7 @@ import com.google.common.collect.ImmutableMap;
 
 import org.openqa.selenium.interactions.KeyInput;
 import org.openqa.selenium.interactions.Sequence;
-import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
+import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
 
 import java.util.Collection;
 import java.util.Map;
