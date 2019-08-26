@@ -14,10 +14,10 @@ import io.appium.java_client.events.listeners.RotationListener;
 import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SingleListeners;
 import io.appium.java_client.events.listeners.WindowListener;
+import io.appium.java_client.selenium.WebDriver;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 
 public class FewInstancesTest extends BaseListenerTest {
 

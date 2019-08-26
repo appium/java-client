@@ -22,9 +22,9 @@ import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.selenium.By;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class AndroidElementTest extends BaseAndroidTest {
 

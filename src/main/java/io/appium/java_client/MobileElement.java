@@ -18,7 +18,7 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.By;
+import io.appium.java_client.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.remote.FileDetector;

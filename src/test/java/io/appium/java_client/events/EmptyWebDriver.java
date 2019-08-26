@@ -6,29 +6,13 @@ import io.appium.java_client.FindsByAccessibilityId;
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.FindsByFluentSelector;
 
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.ContextAware;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.internal.*;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
+import org.openqa.selenium.*;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -39,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
-    FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
+        FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
     FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
     JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>, TakesScreenshot {
 

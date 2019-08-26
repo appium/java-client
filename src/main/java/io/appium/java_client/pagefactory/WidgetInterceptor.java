@@ -22,10 +22,10 @@ import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.get
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.selenium.support.PageFactory;
 import net.sf.cglib.proxy.MethodProxy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

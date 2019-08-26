@@ -15,8 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium;
+package io.appium.java_client.selenium;
 
+import org.openqa.selenium.*;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.logging.Logs;
 
@@ -56,7 +57,7 @@ public interface WebDriver extends SearchContext {
      * "rest" for any duration of time, it is best to wait until this timeout is over, since should
      * the underlying page change whilst your test is executing the results of future calls against
      * this interface will be against the freshly loaded page. Synonym for
-     * {@link org.openqa.selenium.WebDriver.Navigation#to(String)}.
+     * {@link WebDriver.Navigation#to(String)}.
      *
      * @param url The URL to load. It is best to use a fully qualified URL
      */
@@ -88,7 +89,7 @@ public interface WebDriver extends SearchContext {
      * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches
      * @see org.openqa.selenium.By
-     * @see org.openqa.selenium.WebDriver.Timeouts
+     * @see WebDriver.Timeouts
      */
     <T extends WebElement> List<T>  findElements(By by);
 
@@ -104,9 +105,9 @@ public interface WebDriver extends SearchContext {
      *
      * @param by The locating mechanism
      * @return The first matching element on the current page
-     * @throws NoSuchElementException If no matching elements are found
-     * @see org.openqa.selenium.By
-     * @see org.openqa.selenium.WebDriver.Timeouts
+     * @throws org.openqa.selenium.NoSuchElementException If no matching elements are found
+     * @see By
+     * @see WebDriver.Timeouts
      */
     <T extends WebElement> T findElement(By by);
 
@@ -155,7 +156,7 @@ public interface WebDriver extends SearchContext {
      * Send future commands to a different frame or window.
      *
      * @return A TargetLocator which can be used to select a frame or window
-     * @see org.openqa.selenium.WebDriver.TargetLocator
+     * @see WebDriver.TargetLocator
      */
     TargetLocator switchTo();
 
@@ -163,7 +164,7 @@ public interface WebDriver extends SearchContext {
      * An abstraction allowing the driver to access the browser's history and to navigate to a given
      * URL.
      *
-     * @return A {@link org.openqa.selenium.WebDriver.Navigation} that allows the selection of what to
+     * @return A {@link WebDriver.Navigation} that allows the selection of what to
      *         do next
      */
     Navigation navigate();
@@ -172,7 +173,7 @@ public interface WebDriver extends SearchContext {
      * Gets the Option interface
      *
      * @return An option interface
-     * @see org.openqa.selenium.WebDriver.Options
+     * @see WebDriver.Options
      */
     Options manage();
 
@@ -261,7 +262,7 @@ public interface WebDriver extends SearchContext {
          * not immediately present.
          * <p>
          * When searching for a single element, the driver should poll the page until the element has
-         * been found, or this timeout expires before throwing a {@link NoSuchElementException}. When
+         * been found, or this timeout expires before throwing a {@link org.openqa.selenium.NoSuchElementException}. When
          * searching for multiple elements, the driver should poll the page until at least one element
          * has been found or this timeout has expired.
          * <p>
@@ -282,7 +283,7 @@ public interface WebDriver extends SearchContext {
          * @param time The timeout value.
          * @param unit The unit of time.
          * @return A self reference.
-         * @see JavascriptExecutor#executeAsyncScript(String, Object...)
+         * @see org.openqa.selenium.JavascriptExecutor#executeAsyncScript(String, Object...)
          */
         Timeouts setScriptTimeout(long time, TimeUnit unit);
 
@@ -309,7 +310,7 @@ public interface WebDriver extends SearchContext {
          *
          * @param index (zero-based) index
          * @return This driver focused on the given frame
-         * @throws NoSuchFrameException If the frame cannot be found
+         * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found
          */
         WebDriver frame(int index);
 
@@ -320,7 +321,7 @@ public interface WebDriver extends SearchContext {
          * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt;
          *        element, or the (zero-based) index
          * @return This driver focused on the given frame
-         * @throws NoSuchFrameException If the frame cannot be found
+         * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found
          */
         WebDriver frame(String nameOrId);
 
@@ -329,8 +330,8 @@ public interface WebDriver extends SearchContext {
          *
          * @param frameElement The frame element to switch to.
          * @return This driver focused on the given frame.
-         * @throws NoSuchFrameException If the given element is neither an IFRAME nor a FRAME element.
-         * @throws StaleElementReferenceException If the WebElement has gone stale.
+         * @throws org.openqa.selenium.NoSuchFrameException If the given element is neither an IFRAME nor a FRAME element.
+         * @throws org.openqa.selenium.StaleElementReferenceException If the WebElement has gone stale.
          * @see WebDriver#findElement(By)
          */
         WebDriver frame(WebElement frameElement);
@@ -349,7 +350,7 @@ public interface WebDriver extends SearchContext {
          * @param nameOrHandle The name of the window or the handle as returned by
          *        {@link WebDriver#getWindowHandle()}
          * @return This driver focused on the given window
-         * @throws NoSuchWindowException If the window cannot be found
+         * @throws org.openqa.selenium.NoSuchWindowException If the window cannot be found
          */
         WebDriver window(String nameOrHandle);
 
@@ -375,7 +376,7 @@ public interface WebDriver extends SearchContext {
          * Switches to the currently active modal dialog for this particular driver instance.
          *
          * @return A handle to the dialog.
-         * @throws NoAlertPresentException If the dialog cannot be found
+         * @throws org.openqa.selenium.NoAlertPresentException If the dialog cannot be found
          */
         Alert alert();
     }
@@ -426,7 +427,7 @@ public interface WebDriver extends SearchContext {
          * All available engines on the machine. To use an engine, it has to be activated.
          *
          * @return list of available IME engines.
-         * @throws ImeNotAvailableException if the host does not support IME.
+         * @throws org.openqa.selenium.ImeNotAvailableException if the host does not support IME.
          */
         List<String> getAvailableEngines();
 
@@ -434,7 +435,7 @@ public interface WebDriver extends SearchContext {
          * Get the name of the active IME engine. The name string is platform-specific.
          *
          * @return name of the active IME engine.
-         * @throws ImeNotAvailableException if the host does not support IME.
+         * @throws org.openqa.selenium.ImeNotAvailableException if the host does not support IME.
          */
         String getActiveEngine();
 
@@ -442,7 +443,7 @@ public interface WebDriver extends SearchContext {
          * Indicates whether IME input active at the moment (not if it's available).
          *
          * @return true if IME input is available and currently active, false otherwise.
-         * @throws ImeNotAvailableException if the host does not support IME.
+         * @throws org.openqa.selenium.ImeNotAvailableException if the host does not support IME.
          */
         boolean isActivated();
 
@@ -450,7 +451,7 @@ public interface WebDriver extends SearchContext {
          * De-activate IME input (turns off the currently activated engine). Note that getActiveEngine
          * may still return the name of the engine but isActivated will return false.
          *
-         * @throws ImeNotAvailableException if the host does not support IME.
+         * @throws org.openqa.selenium.ImeNotAvailableException if the host does not support IME.
          */
         void deactivate();
 
@@ -463,8 +464,8 @@ public interface WebDriver extends SearchContext {
          *
          *
          * @param engine name of engine to activate.
-         * @throws ImeNotAvailableException if the host does not support IME.
-         * @throws ImeActivationFailedException if the engine is not available or if activation failed
+         * @throws org.openqa.selenium.ImeNotAvailableException if the host does not support IME.
+         * @throws org.openqa.selenium.ImeActivationFailedException if the engine is not available or if activation failed
          *         for other reasons.
          */
         void activateEngine(String engine);

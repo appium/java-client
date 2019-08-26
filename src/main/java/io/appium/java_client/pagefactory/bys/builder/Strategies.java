@@ -20,7 +20,7 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSBy;
-import org.openqa.selenium.By;
+import io.appium.java_client.selenium.By;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +30,8 @@ import java.util.List;
 
 enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
-        @Override By getBy(Annotation annotation) {
+        @Override
+        By getBy(Annotation annotation) {
             String value = getValue(annotation, this);
             if (annotation.annotationType().equals(AndroidFindBy.class)
                     || annotation.annotationType().equals(AndroidBy.class)) {

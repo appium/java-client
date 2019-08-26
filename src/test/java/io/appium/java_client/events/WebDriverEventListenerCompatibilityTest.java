@@ -4,12 +4,11 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.junit.Assert.assertThat;
-import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.OutputType.BASE64;
 
 import io.appium.java_client.events.listeners.AppiumListener;
 import io.appium.java_client.events.listeners.SingleListeners;
+import io.appium.java_client.selenium.By;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -84,7 +83,7 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
     public void takeScreenShotEventTest() {
         try {
             driver.getScreenshotAs(BASE64);
-            driver.findElement(xpath(".//some//path")).findElement(id("someId")).getScreenshotAs(BASE64);
+            driver.findElement(By.xpath(".//some//path")).findElement(By.id("someId")).getScreenshotAs(BASE64);
 
             assertThat(listener.messages,
                     contains("WebDriverEventListener: Attempt to take screen shot. Target type is OutputType.BASE64",

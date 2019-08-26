@@ -31,7 +31,7 @@ public class BaseIOSTest {
     public static final String DEVICE_NAME = System.getenv("IOS_DEVICE_NAME") != null
             ? System.getenv("IOS_DEVICE_NAME") : "iPhone X";
     public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
-            ? System.getenv("IOS_PLATFORM_VERSION") : "11.4";
+            ? System.getenv("IOS_PLATFORM_VERSION") : "12.2";
 
 
     /**

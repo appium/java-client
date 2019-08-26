@@ -3,10 +3,10 @@ package io.appium.java_client.pagefactory.bys.builder;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.openqa.selenium.By;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.SearchContext;
+import io.appium.java_client.selenium.WebElement;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 
-public class ByAll extends org.openqa.selenium.support.pagefactory.ByAll {
+public class ByAll extends io.appium.java_client.selenium.support.pagefactory.ByAll {
 
     private final List<By> bys;
 

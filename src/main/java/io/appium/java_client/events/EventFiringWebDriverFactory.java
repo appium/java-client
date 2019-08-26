@@ -19,7 +19,7 @@ package io.appium.java_client.events;
 import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiringObject;
 
 import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import io.appium.java_client.selenium.WebDriver;
 
 import java.util.Collection;
 

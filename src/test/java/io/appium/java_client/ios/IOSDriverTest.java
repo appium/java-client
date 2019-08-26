@@ -32,14 +32,14 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.support.ui.ExpectedConditions;
+import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 

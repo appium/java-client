@@ -25,17 +25,17 @@ import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.support.FindBy;
+import io.appium.java_client.selenium.support.FindBys;
+import io.appium.java_client.selenium.support.PageFactory;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 

@@ -3,11 +3,11 @@ package io.appium.java_client.appium.element.generation;
 import static org.junit.Assert.assertEquals;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.WebElement;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
 
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;

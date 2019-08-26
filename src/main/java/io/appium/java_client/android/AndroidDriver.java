@@ -35,11 +35,11 @@ import io.appium.java_client.android.nativekey.PressesKey;
 import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.screenrecording.CanRecordScreen;
+import io.appium.java_client.selenium.WebElement;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 

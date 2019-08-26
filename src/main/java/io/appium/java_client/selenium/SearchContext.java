@@ -15,14 +15,28 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium.internal;
+package io.appium.java_client.selenium;
 
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public interface FindsByTagName {
-    <T extends WebElement> T findElementByTagName(String using);
+public interface SearchContext {
+    /**
+     * Find all elements within the current context using the given mechanism.
+     *
+     * @param by The locating mechanism to use
+     * @return A list of all {@link WebElement}s, or an empty list if nothing matches
+     * @see org.openqa.selenium.By
+     */
+    <T extends WebElement> List<T>  findElements(By by);
 
-    <T extends WebElement> List<T>  findElementsByTagName(String using);
+
+    /**
+     * Find the first {@link WebElement} using the given method.
+     *
+     * @param by The locating mechanism
+     * @return The first matching element on the current context
+     * @throws org.openqa.selenium.NoSuchElementException If no matching elements are found
+     */
+    <T extends WebElement> T  findElement(By by);
 }

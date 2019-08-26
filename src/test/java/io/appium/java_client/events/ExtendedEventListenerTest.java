@@ -6,9 +6,9 @@ import static org.junit.Assert.assertThat;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SingleListeners;
+import io.appium.java_client.selenium.By;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class ExtendedEventListenerTest {
 

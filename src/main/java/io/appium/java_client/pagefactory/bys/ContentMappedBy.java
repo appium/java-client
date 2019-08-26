@@ -16,12 +16,13 @@
 
 package io.appium.java_client.pagefactory.bys;
 
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.SearchContext;
+import io.appium.java_client.selenium.WebElement;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;

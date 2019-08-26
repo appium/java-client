@@ -16,10 +16,10 @@
 
 package io.appium.java_client.pagefactory.interceptors;
 
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.support.pagefactory.ElementLocator;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

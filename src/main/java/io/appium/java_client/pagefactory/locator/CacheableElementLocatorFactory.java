@@ -16,7 +16,8 @@
 
 package io.appium.java_client.pagefactory.locator;
 
-import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
+
+import io.appium.java_client.selenium.support.pagefactory.ElementLocatorFactory;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

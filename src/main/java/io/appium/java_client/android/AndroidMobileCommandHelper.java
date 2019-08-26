@@ -22,8 +22,8 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.MobileCommand;
 
+import io.appium.java_client.selenium.remote.RemoteWebElement;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -263,7 +263,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
-        RemoteWebElement remoteWebElement, String value) {
+            RemoteWebElement remoteWebElement, String value) {
         String[] parameters = new String[] {"id", "value"};
         Object[] values =
             new Object[] {remoteWebElement.getId(), value};

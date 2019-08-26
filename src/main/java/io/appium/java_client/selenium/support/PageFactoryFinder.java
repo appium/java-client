@@ -14,15 +14,12 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+package io.appium.java_client.selenium.support;
 
-package org.openqa.selenium.internal;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
-
-public interface FindsByXPath {
-    <T extends WebElement> T findElementByXPath(String using);
-
-    <T extends WebElement> List<T>  findElementsByXPath(String using);
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PageFactoryFinder {
+    Class<? extends AbstractFindByBuilder> value();
 }

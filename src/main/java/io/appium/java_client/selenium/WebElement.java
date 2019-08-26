@@ -14,8 +14,12 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+package io.appium.java_client.selenium;
 
-package org.openqa.selenium;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.util.List;
 
@@ -44,7 +48,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * element must be visible and it must have a height and width
      * greater then 0.
      *
-     * @throws StaleElementReferenceException If the element no
+     * @throws org.openqa.selenium.StaleElementReferenceException If the element no
      *     longer exists as initially defined
      */
     void click();
@@ -54,7 +58,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * the remote server. If this causes the current page to change, then this method will block until
      * the new page is loaded.
      *
-     * @throws NoSuchElementException If the given element is not within a form
+     * @throws org.openqa.selenium.NoSuchElementException If the given element is not within a form
      */
     void submit();
 
@@ -174,7 +178,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      *
      * @param by The locating mechanism
      * @return The first matching element on the current context.
-     * @throws NoSuchElementException If no matching elements are found
+     * @throws org.openqa.selenium.NoSuchElementException If no matching elements are found
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */

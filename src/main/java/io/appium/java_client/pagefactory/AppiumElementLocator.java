@@ -25,13 +25,13 @@ import static java.lang.String.format;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 
-import org.openqa.selenium.By;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.SearchContext;
+import io.appium.java_client.selenium.WebElement;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.time.Duration;

@@ -15,14 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium.internal;
+package io.appium.java_client.selenium.internal;
 
-import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.selenium.WebElement;
 
 import java.util.List;
 
-public interface FindsByCssSelector {
-    <T extends WebElement> T  findElementByCssSelector(String using);
+public interface FindsByTagName {
+    <T extends WebElement> T findElementByTagName(String using);
 
-    <T extends WebElement> List<T>  findElementsByCssSelector(String using);
+    <T extends WebElement> List<T>  findElementsByTagName(String using);
 }

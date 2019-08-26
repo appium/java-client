@@ -2,7 +2,7 @@ package io.appium.java_client.pagefactory_tests.widget.tests.android;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.selenium.WebElement;
 
 import java.util.List;
 

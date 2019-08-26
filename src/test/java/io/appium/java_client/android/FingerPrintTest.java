@@ -17,8 +17,8 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static io.appium.java_client.selenium.By.id;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.openqa.selenium.By.id;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;

@@ -2,7 +2,7 @@ package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.pagefactory_tests.widget.tests.combined.DefaultIosXCUITWidget;
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.selenium.WebElement;
 
 @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_ROOT_LOCATOR")
 public class AnnotatedIosWidget extends DefaultIosXCUITWidget {

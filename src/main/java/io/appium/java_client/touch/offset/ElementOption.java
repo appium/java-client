@@ -4,9 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Optional.ofNullable;
 
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.HashMap;
 import java.util.Map;

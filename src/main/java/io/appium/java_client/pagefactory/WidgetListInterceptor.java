@@ -24,8 +24,8 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.utils.ProxyFactory;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

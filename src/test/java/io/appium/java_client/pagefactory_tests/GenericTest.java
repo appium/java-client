@@ -3,11 +3,11 @@ package io.appium.java_client.pagefactory_tests;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.support.PageFactory;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 import java.util.Set;

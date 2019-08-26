@@ -18,12 +18,13 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.openqa.selenium.By;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.selenium.WebElement;
 import org.openqa.selenium.remote.CommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 
 import java.util.List;

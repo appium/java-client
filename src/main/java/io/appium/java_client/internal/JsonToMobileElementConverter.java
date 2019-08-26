@@ -19,10 +19,10 @@ package io.appium.java_client.internal;
 import static io.appium.java_client.internal.ElementMap.getElementClass;
 
 import io.appium.java_client.HasSessionDetails;
+import io.appium.java_client.selenium.remote.JsonToWebElementConverter;
+import io.appium.java_client.selenium.remote.RemoteWebDriver;
+import io.appium.java_client.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
 
 import java.lang.reflect.Constructor;
 

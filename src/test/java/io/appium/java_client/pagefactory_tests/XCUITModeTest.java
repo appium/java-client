@@ -33,13 +33,13 @@ import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.support.PageFactory;
+import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 

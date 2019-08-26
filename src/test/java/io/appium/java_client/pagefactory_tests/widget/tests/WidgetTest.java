@@ -1,11 +1,11 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
 import static java.util.Arrays.copyOf;
-import static org.openqa.selenium.support.PageFactory.initElements;
+import static io.appium.java_client.selenium.support.PageFactory.initElements;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.selenium.WebDriver;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 
 public abstract class WidgetTest {
 

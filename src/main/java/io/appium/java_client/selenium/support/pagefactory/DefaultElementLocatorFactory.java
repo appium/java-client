@@ -15,27 +15,22 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.openqa.selenium;
-
-import java.util.List;
-
-public interface SearchContext {
-    /**
-     * Find all elements within the current context using the given mechanism.
-     *
-     * @param by The locating mechanism to use
-     * @return A list of all {@link WebElement}s, or an empty list if nothing matches
-     * @see org.openqa.selenium.By
-     */
-    <T extends WebElement> List<T>  findElements(By by);
+package io.appium.java_client.selenium.support.pagefactory;
 
 
-    /**
-     * Find the first {@link WebElement} using the given method.
-     *
-     * @param by The locating mechanism
-     * @return The first matching element on the current context
-     * @throws NoSuchElementException If no matching elements are found
-     */
-    <T extends WebElement> T  findElement(By by);
+import io.appium.java_client.selenium.SearchContext;
+
+import java.lang.reflect.Field;
+
+public final class DefaultElementLocatorFactory implements ElementLocatorFactory {
+    private final SearchContext searchContext;
+
+    public DefaultElementLocatorFactory(SearchContext searchContext) {
+        this.searchContext = searchContext;
+    }
+
+    @Override
+    public ElementLocator createLocator(Field field) {
+        return new DefaultElementLocator(searchContext, field);
+    }
 }

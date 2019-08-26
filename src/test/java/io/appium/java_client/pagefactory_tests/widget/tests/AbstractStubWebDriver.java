@@ -10,9 +10,9 @@ import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import io.appium.java_client.HasSessionDetails;
-import org.openqa.selenium.By;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.WebDriver;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Response;
 

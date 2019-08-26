@@ -1,11 +1,10 @@
 package io.appium.java_client.android;
 
 import static org.junit.Assert.assertNotEquals;
-import static org.openqa.selenium.By.id;
 
+import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.junit.Test;
-
-import org.openqa.selenium.support.ui.WebDriverWait;
+import static io.appium.java_client.selenium.By.id;
 
 import java.util.List;
 

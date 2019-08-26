@@ -18,14 +18,14 @@ package io.appium.java_client.ios;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+import static io.appium.java_client.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Supplier;
 

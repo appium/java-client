@@ -25,17 +25,13 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.selenium.By;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -220,11 +216,11 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override
-    public WebDriver context(String name) {
+    public org.openqa.selenium.WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
         try {
             execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-            return this;
+            return org.openqa.selenium.WebDriver.class.cast(this);
         } catch (WebDriverException e) {
             throw new NoSuchContextException(e.getMessage(), e);
         }

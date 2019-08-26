@@ -21,8 +21,8 @@ import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.support.pagefactory.AbstractAnnotations;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

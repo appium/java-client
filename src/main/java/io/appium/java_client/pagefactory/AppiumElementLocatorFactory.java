@@ -22,8 +22,8 @@ import static java.util.Optional.ofNullable;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.SearchContext;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

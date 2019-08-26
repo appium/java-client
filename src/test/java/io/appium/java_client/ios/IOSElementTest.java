@@ -5,12 +5,12 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSElementTest extends AppIOSTest {

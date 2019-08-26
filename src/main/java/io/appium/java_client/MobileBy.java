@@ -16,13 +16,13 @@
 
 package io.appium.java_client;
 
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.SearchContext;
+import io.appium.java_client.selenium.WebElement;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
 import java.util.List;

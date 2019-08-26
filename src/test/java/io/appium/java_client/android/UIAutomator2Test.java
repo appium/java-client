@@ -5,13 +5,13 @@ import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.support.ui.ExpectedConditions;
+import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class UIAutomator2Test extends BaseAndroidTest {

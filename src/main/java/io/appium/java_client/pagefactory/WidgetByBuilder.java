@@ -16,11 +16,12 @@
 
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.selenium.By;
+
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultOrHTMLWidgetClass;
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 import static java.util.Optional.ofNullable;
 
-import org.openqa.selenium.By;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

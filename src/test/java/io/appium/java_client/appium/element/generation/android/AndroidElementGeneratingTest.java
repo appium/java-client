@@ -1,9 +1,9 @@
 package io.appium.java_client.appium.element.generation.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static io.appium.java_client.selenium.By.name;
+import static io.appium.java_client.selenium.By.tagName;
 import static org.junit.Assert.assertTrue;
-import static org.openqa.selenium.By.name;
-import static org.openqa.selenium.By.tagName;
 
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
