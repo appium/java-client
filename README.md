@@ -66,6 +66,17 @@ dependencies {
 ```
 
 ## Changelog
+*7.2.0*
+- **[DEPENDENCY UPDATES]**
+    - `org.seleniumhq.selenium:selenium-java` was reverted to stable version 3.141.59. [#1209](https://github.com/appium/java-client/pull/1209)
+    - `org.projectlombok:lombok:1.18.8` was introduced. [#1193](https://github.com/appium/java-client/pull/1193)
+- **[ENHANCEMENTS]** 
+    - `videoFilters` property was added to IOSStartScreenRecordingOptions. [#1180](https://github.com/appium/java-client/pull/1180)
+- **[IMPROVEMENTS]**
+    - `Selendroid` automationName was deprecated. [#1198](https://github.com/appium/java-client/pull/1198)
+    - JavaDocs for AndroidMobileCapabilityType and IOSMobileCapabilityType were updated. [#1204](https://github.com/appium/java-client/pull/1204)
+    - JitPack builds were fixed. [#1203](https://github.com/appium/java-client/pull/1203)
+    
 *7.1.0*
 - **[ENHANCEMENTS]** 
     -  Added an ability to get all the session details. [#1167 ](https://github.com/appium/java-client/pull/1167)

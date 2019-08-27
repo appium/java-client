@@ -136,7 +136,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'io.appium'
             artifactId = 'java-client'
-            version = '7.1.0'
+            version = '7.2.0'
             from components.java
             artifact sourcesJar
             artifact javadocJar
