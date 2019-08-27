@@ -19,9 +19,11 @@ package io.appium.java_client;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -88,7 +90,7 @@ public class AppiumDriver<T extends WebElement>
         locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(errorHandler);
         this.remoteAddress = executor.getAddressOfRemoteServer();
-        this.setElementConverter(new JsonToMobileElementConverter(this, this));
+        this.setElementConverter(new JsonToMobileElementConverter(this));
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
@@ -314,8 +316,19 @@ public class AppiumDriver<T extends WebElement>
 
     @Override
     public boolean isBrowser() {
-        return super.isBrowser()
-                && !containsIgnoreCase(getContext(), "NATIVE_APP");
+        String browserName = CapabilityHelpers.getCapability(getCapabilities(), "browserName", String.class);
+        if (!isBlank(browserName)) {
+            try {
+                return (boolean) executeScript("return !!window.navigator;");
+            } catch (WebDriverException ign) {
+                // ignore
+            }
+        }
+        try {
+            return !containsIgnoreCase(getContext(), "NATIVE_APP");
+        } catch (WebDriverException e) {
+            return false;
+        }
     }
 
     @Override
