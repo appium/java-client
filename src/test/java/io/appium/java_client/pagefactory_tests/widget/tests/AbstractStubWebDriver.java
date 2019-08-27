@@ -3,7 +3,6 @@ package io.appium.java_client.pagefactory_tests.widget.tests;
 import static com.google.common.collect.ImmutableList.of;
 import static io.appium.java_client.remote.AutomationName.APPIUM;
 import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
-import static io.appium.java_client.remote.AutomationName.SELENDROID;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
@@ -11,18 +10,23 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import io.appium.java_client.HasSessionDetails;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.Logs;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDetails {
+public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDetails,
+        HasCapabilities {
     @Override
     public Response execute(String driverCommand, Map<String, ?> parameters) {
         return null;
@@ -102,6 +106,14 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
     @Override
     public Navigation navigate() {
         return null;
+    }
+
+    @Override
+    public Capabilities getCapabilities() {
+        Map<String, Object> caps = new HashMap<>();
+        caps.put("platformName", getPlatformName());
+        caps.put("automationName", getAutomationName());
+        return new DesiredCapabilities(caps);
     }
 
     @Override

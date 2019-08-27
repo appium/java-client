@@ -19,6 +19,7 @@ package io.appium.java_client.remote;
 
 import static com.google.common.collect.ImmutableMap.of;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static io.appium.java_client.remote.MobileCapabilityType.FORCE_MJSONWP;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.ofNullable;
@@ -88,7 +89,6 @@ public class NewAppiumSessionPayload implements Closeable {
             .addAll(getAppiumCapabilities(AndroidMobileCapabilityType.class))
             .addAll(getAppiumCapabilities(IOSMobileCapabilityType.class))
             .addAll(getAppiumCapabilities(YouiEngineCapabilityType.class)).build();
-    private static final String APPIUM_PREFIX = "appium:";
     private static final String DESIRED_CAPABILITIES = "desiredCapabilities";
     private static final String CAPABILITIES = "capabilities";
     private static final String REQUIRED_CAPABILITIES = "requiredCapabilities";

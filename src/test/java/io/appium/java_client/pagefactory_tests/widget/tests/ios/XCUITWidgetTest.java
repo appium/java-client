@@ -37,7 +37,7 @@ public class XCUITWidgetTest extends ExtendedWidgetTest {
     }
 
     @Override
-    public void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations() {
+    public void checkCaseWhenBothWidgetFieldAndClassHaveDeclaredAnnotations() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
                 iOSNsPredicateString(XCUIT_EXTERNALLY_DEFINED_WIDGET_LOCATOR),

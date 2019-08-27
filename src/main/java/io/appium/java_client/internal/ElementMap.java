@@ -50,12 +50,10 @@ public enum ElementMap {
         mobileElementMap = builder.build();
     }
 
-
-
     private final String platformOrAutomation;
     private final Class<? extends RemoteWebElement> elementClass;
 
-    private ElementMap(String platformOrAutomation, Class<? extends MobileElement> elementClass) {
+    ElementMap(String platformOrAutomation, Class<? extends MobileElement> elementClass) {
         this.platformOrAutomation = platformOrAutomation;
         this.elementClass = elementClass;
     }
