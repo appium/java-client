@@ -11,6 +11,7 @@ import org.junit.Test;
 public class IOSNativeWebTapSettingTest extends BaseSafariTest {
 
     @Test public void nativeWebTapSettingTest() {
+        assertTrue(driver.isBrowser());
         driver.get("https://saucelabs.com/test/guinea-pig");
 
         // do a click with nativeWebTap turned on, and assert we get to the right page

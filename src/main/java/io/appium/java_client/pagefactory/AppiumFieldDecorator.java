@@ -20,13 +20,12 @@ import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 import static java.time.Duration.ofSeconds;
-import static java.util.Optional.ofNullable;
 
 import com.google.common.collect.ImmutableList;
 
-import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -38,6 +37,9 @@ import io.appium.java_client.selenium.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.selenium.support.pagefactory.ElementLocator;
 import io.appium.java_client.selenium.support.pagefactory.FieldDecorator;
 import io.appium.java_client.windows.WindowsElement;
+
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.HasCapabilities;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -71,30 +73,24 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String automation;
     private final Duration duration;
 
-
     /**
      * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
      *
-     * @param context is an instance of {@link SearchContext}
-     *                It may be the instance of {@link WebDriver} or {@link WebElement} or
-     *                {@link Widget} or some other user's extension/implementation.
+     * @param context  is an instance of {@link SearchContext}
+     *                 It may be the instance of {@link WebDriver} or {@link WebElement} or
+     *                 {@link Widget} or some other user's extension/implementation.
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
         this.webDriver = unpackWebDriverFromSearchContext(context);
-        HasSessionDetails hasSessionDetails = ofNullable(this.webDriver).map(webDriver -> {
-            if (!HasSessionDetails.class.isAssignableFrom(webDriver.getClass())) {
-                return null;
-            }
-            return HasSessionDetails.class.cast(webDriver);
-        }).orElse(null);
 
-        if (hasSessionDetails == null) {
-            platform = null;
-            automation = null;
+        if (this.webDriver instanceof HasCapabilities) {
+            Capabilities caps = ((HasCapabilities) this.webDriver).getCapabilities();
+            this.platform = CapabilityHelpers.getCapability(caps, "platformName", String.class);
+            this.automation = CapabilityHelpers.getCapability(caps, "automationName", String.class);
         } else {
-            platform = hasSessionDetails.getPlatformName();
-            automation = hasSessionDetails.getAutomationName();
+            this.platform = null;
+            this.automation = null;
         }
 
         this.duration = duration;
@@ -115,7 +111,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 return getEnhancedProxy(ArrayList.class, elementInterceptor);
             }
 
-            @Override protected boolean isDecoratableList(Field field) {
+            @Override
+            protected boolean isDecoratableList(Field field) {
                 if (!List.class.isAssignableFrom(field.getType())) {
                     return false;
                 }
@@ -148,7 +145,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * Decorated page object {@code field}.
      *
      * @param ignored class loader is ignored by current implementation
-     * @param field is {@link Field} of page object which is supposed to be decorated.
+     * @param field   is {@link Field} of page object which is supposed to be decorated.
      * @return a field value or null.
      */
     public Object decorate(ClassLoader ignored, Field field) {
@@ -197,19 +194,19 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         CacheableLocator locator = widgetLocatorFactory.createLocator(field);
         Map<ContentType, Constructor<? extends Widget>> map =
-            OverrideWidgetReader.read(widgetType, field, platform);
+                OverrideWidgetReader.read(widgetType, field, platform);
 
         if (isAlist) {
             return getEnhancedProxy(ArrayList.class,
-                new WidgetListInterceptor(locator, webDriver, map, widgetType,
-                        duration));
+                    new WidgetListInterceptor(locator, webDriver, map, widgetType,
+                            duration));
         }
 
         Constructor<? extends Widget> constructor =
-            WidgetConstructorUtil.findConvenientConstructor(widgetType);
-        return getEnhancedProxy(widgetType, new Class[] {constructor.getParameterTypes()[0]},
-            new Object[] {proxyForAnElement(locator)},
-            new WidgetInterceptor(locator, webDriver, null, map, duration));
+                WidgetConstructorUtil.findConvenientConstructor(widgetType);
+        return getEnhancedProxy(widgetType, new Class[]{constructor.getParameterTypes()[0]},
+                new Object[]{proxyForAnElement(locator)},
+                new WidgetInterceptor(locator, webDriver, null, map, duration));
     }
 
     private WebElement proxyForAnElement(ElementLocator locator) {

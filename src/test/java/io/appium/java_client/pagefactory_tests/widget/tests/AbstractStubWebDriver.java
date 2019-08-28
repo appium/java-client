@@ -11,17 +11,23 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.selenium.By;
 import io.appium.java_client.selenium.WebDriver;
+
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.logging.Logs;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDetails {
+public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDetails,
+        HasCapabilities {
     @Override
     public Response execute(String driverCommand, Map<String, ?> parameters) {
         return null;
@@ -101,6 +107,14 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
     @Override
     public Navigation navigate() {
         return null;
+    }
+
+    @Override
+    public Capabilities getCapabilities() {
+        Map<String, Object> caps = new HashMap<>();
+        caps.put("platformName", getPlatformName());
+        caps.put("automationName", getAutomationName());
+        return new DesiredCapabilities(caps);
     }
 
     @Override

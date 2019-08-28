@@ -24,7 +24,7 @@ public abstract class ExtendedWidgetTest extends WidgetTest {
     public abstract void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass();
 
     @Test
-    public abstract void checkCaseWhenBothWidgetFieldAndClassHaveDelaredAnnotations();
+    public abstract void checkCaseWhenBothWidgetFieldAndClassHaveDeclaredAnnotations();
 
     protected static void checkThatLocatorsAreCreatedCorrectly(DefaultStubWidget single,
                                                                List<DefaultStubWidget> multiple, By rootLocator,

@@ -82,7 +82,7 @@ public final class WebDriverUnpackUtility {
     public static ContentType getCurrentContentType(SearchContext context) {
         return ofNullable(unpackWebDriverFromSearchContext(context)).map(driver -> {
             if (HasSessionDetails.class.isAssignableFrom(driver.getClass())) {
-                HasSessionDetails hasSessionDetails = HasSessionDetails.class.cast(driver);
+                HasSessionDetails hasSessionDetails = (HasSessionDetails) driver;
 
                 if (!hasSessionDetails.isBrowser()) {
                     return NATIVE_MOBILE_SPECIFIC;
@@ -90,7 +90,7 @@ public final class WebDriverUnpackUtility {
             }
 
             if (ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
-                ContextAware contextAware = ContextAware.class.cast(driver);
+                ContextAware contextAware = (ContextAware) driver;
                 String currentContext = contextAware.getContext();
                 if (containsIgnoreCase(currentContext, NATIVE_APP_PATTERN)) {
                     return NATIVE_MOBILE_SPECIFIC;

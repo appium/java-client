@@ -18,10 +18,11 @@ package io.appium.java_client.internal;
 
 import static io.appium.java_client.internal.ElementMap.getElementClass;
 
-import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.selenium.remote.JsonToWebElementConverter;
 import io.appium.java_client.selenium.remote.RemoteWebDriver;
 import io.appium.java_client.selenium.remote.RemoteWebElement;
+
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
 
 import java.lang.reflect.Constructor;
@@ -41,20 +42,20 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
      * Creates a new instance based on {@code driver} and object with session details.
      *
      * @param driver an instance of {@link RemoteWebDriver} subclass
-     * @param hasSessionDetails object that has session details
      */
-    public JsonToMobileElementConverter(RemoteWebDriver driver, HasSessionDetails hasSessionDetails) {
+    public JsonToMobileElementConverter(RemoteWebDriver driver) {
         super(driver);
         this.driver = driver;
-        this.platform = hasSessionDetails.getPlatformName();
-        this.automation = hasSessionDetails.getAutomationName();
+        Capabilities caps = driver.getCapabilities();
+        this.platform = CapabilityHelpers.getCapability(caps, "platformName", String.class);
+        this.automation = CapabilityHelpers.getCapability(caps, "automationName", String.class);
     }
 
     @Override
     public Object apply(Object result) {
         Object toBeReturned = result;
         if (toBeReturned instanceof RemoteWebElement) {
-            toBeReturned =  newRemoteWebElement();
+            toBeReturned = newRemoteWebElement();
             ((RemoteWebElement) toBeReturned).setId(((RemoteWebElement) result).getId());
         }
 
