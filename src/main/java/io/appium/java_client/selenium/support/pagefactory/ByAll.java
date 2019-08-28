@@ -34,7 +34,7 @@ import java.util.List;
  * driver.findElements(new ByAll(by1, by2))
  * </pre>
  *
- * will find all elements that match <var>by1</var> and then all elements that match <var>by2</var>.
+ * <p>will find all elements that match <var>by1</var> and then all elements that match <var>by2</var>.
  * This means that the list of elements returned may not be in document order.
  */
 public class ByAll extends By implements Serializable {

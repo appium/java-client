@@ -1,4 +1,4 @@
 jdk:
   - openjdk8
 install:
-   - ./gradlew clean install -x test -x signMavenJavaPublication
+   - ./gradlew clean build publishToMavenLocal -x signMavenJavaPublication -x test -x checkstyleTest

@@ -14,6 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 package io.appium.java_client.selenium.support;
 
 
@@ -94,16 +95,33 @@ public abstract class AbstractFindByBuilder {
         }
 
         Set<String> finders = new HashSet<>();
-        if (!"".equals(findBy.using())) finders.add("how: " + findBy.using());
-        if (!"".equals(findBy.className())) finders.add("class name:" + findBy.className());
-        if (!"".equals(findBy.css())) finders.add("css:" + findBy.css());
-        if (!"".equals(findBy.id())) finders.add("id: " + findBy.id());
-        if (!"".equals(findBy.linkText())) finders.add("link text: " + findBy.linkText());
-        if (!"".equals(findBy.name())) finders.add("name: " + findBy.name());
-        if (!"".equals(findBy.partialLinkText()))
+        if (!"".equals(findBy.using())) {
+            finders.add("how: " + findBy.using());
+        }
+        if (!"".equals(findBy.className())) {
+            finders.add("class name:" + findBy.className());
+        }
+        if (!"".equals(findBy.css())) {
+            finders.add("css:" + findBy.css());
+        }
+        if (!"".equals(findBy.id())) {
+            finders.add("id: " + findBy.id());
+        }
+        if (!"".equals(findBy.linkText())) {
+            finders.add("link text: " + findBy.linkText());
+        }
+        if (!"".equals(findBy.name())) {
+            finders.add("name: " + findBy.name());
+        }
+        if (!"".equals(findBy.partialLinkText())) {
             finders.add("partial link text: " + findBy.partialLinkText());
-        if (!"".equals(findBy.tagName())) finders.add("tag name: " + findBy.tagName());
-        if (!"".equals(findBy.xpath())) finders.add("xpath: " + findBy.xpath());
+        }
+        if (!"".equals(findBy.tagName())) {
+            finders.add("tag name: " + findBy.tagName());
+        }
+        if (!"".equals(findBy.xpath())) {
+            finders.add("xpath: " + findBy.xpath());
+        }
 
         // A zero count is okay: it means to look by name or id.
         if (finders.size() > 1) {

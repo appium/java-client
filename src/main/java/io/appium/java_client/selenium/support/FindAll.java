@@ -31,9 +31,9 @@ import java.lang.reflect.Field;
  * It will then search for all elements that match any of the FindBy criteria. Note that elements
  * are not guaranteed to be in document order.
  *
- * It can be used on a types as well, but will not be processed by default.
+ * <p>It can be used on a types as well, but will not be processed by default.
  *
- * Eg:
+ * <p>Eg:
  *
  * <pre class="code">
  * &#64;FindAll({&#64;FindBy(how = How.ID, using = "foo"),

@@ -14,7 +14,9 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 package io.appium.java_client.selenium.remote;
+
 import static com.google.common.net.MediaType.JSON_UTF_8;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.openqa.selenium.remote.HttpSessionId.getSessionId;
@@ -30,7 +32,13 @@ import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.json.JsonOutput;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
+import org.openqa.selenium.remote.CommandCodec;
+import org.openqa.selenium.remote.CommandExecutor;
+import org.openqa.selenium.remote.ResponseCodec;
+import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec;
 import org.openqa.selenium.remote.http.HttpClient;
@@ -54,7 +62,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.StreamSupport;
-import io.appium.java_client.selenium.remote.RemoteWebDriver;
+
 import io.appium.java_client.selenium.WebDriver;
 
 /**
@@ -75,7 +83,7 @@ import io.appium.java_client.selenium.WebDriver;
  * don't care which), but where either browser will use the given {@link org.openqa.selenium.Proxy}.
  * In addition, we've added some metadata to the session, setting the "{@code cloud.key}" to be the
  * secret passphrase of our account with the cloud "Selenium as a Service" provider.
- * <p>
+ * </p>
  * If no call to {@link #withDriverService(DriverService)} or {@link #url(URL)} is made, the builder
  * will use {@link ServiceLoader} to find all instances of {@link DriverService.Builder} and will
  * call {@link DriverService.Builder#score(Capabilities)} for each alternative until a new session
@@ -84,11 +92,11 @@ import io.appium.java_client.selenium.WebDriver;
 @Beta
 public class RemoteWebDriverBuilder {
 
-    private final static Set<String> ILLEGAL_METADATA_KEYS = ImmutableSet.of(
+    private static final Set<String> ILLEGAL_METADATA_KEYS = ImmutableSet.of(
             "alwaysMatch",
             "capabilities",
             "firstMatch");
-    private final static AcceptedW3CCapabilityKeys OK_KEYS = new AcceptedW3CCapabilityKeys();
+    private static final AcceptedW3CCapabilityKeys OK_KEYS = new AcceptedW3CCapabilityKeys();
     private final List<Map<String, Object>> options = new ArrayList<>();
     private final Map<String, Object> metadata = new TreeMap<>();
     private final Map<String, Object> additionalCapabilities = new TreeMap<>();
@@ -156,6 +164,8 @@ public class RemoteWebDriverBuilder {
     }
 
     /**
+     * Return RemoteWebDriverBuilder.
+     *
      * @see #url(URL)
      */
     public RemoteWebDriverBuilder url(String url) {
@@ -196,31 +206,30 @@ public class RemoteWebDriverBuilder {
             throw new SessionNotCreatedException("Refusing to create session without any capabilities");
         }
 
-       RemoteWebDriverBuilder.Plan plan = getPlan();
+        RemoteWebDriverBuilder.Plan plan = getPlan();
 
         CommandExecutor executor;
         if (plan.isUsingDriverService()) {
             AtomicReference<DriverService> serviceRef = new AtomicReference<>();
 
-            executor = new RemoteWebDriverBuilder.SpecCompliantExecutor(
-                    () -> {
-                        if (serviceRef.get() != null && serviceRef.get().isRunning()) {
-                            throw new SessionNotCreatedException(
-                                    "Attempt to start the underlying service more than once");
-                        }
-                        try {
-                            DriverService service = plan.getDriverService();
-                            serviceRef.set(service);
-                            service.start();
-                            return service.getUrl();
-                        } catch (IOException e) {
-                            throw new SessionNotCreatedException(e.getMessage(), e);
-                        }
-                    },
-                    plan::writePayload,
-                    () -> serviceRef.get().stop());
+            executor = new RemoteWebDriverBuilder.SpecCompliantExecutor(() -> {
+                if (serviceRef.get() != null && serviceRef.get().isRunning()) {
+                    throw new SessionNotCreatedException(
+                            "Attempt to start the underlying service more than once");
+                }
+                try {
+                    DriverService service = plan.getDriverService();
+                    serviceRef.set(service);
+                    service.start();
+                    return service.getUrl();
+                } catch (IOException e) {
+                    throw new SessionNotCreatedException(e.getMessage(), e);
+                }
+            },
+                    plan::writePayload, () -> serviceRef.get().stop());
         } else {
-            executor = new RemoteWebDriverBuilder.SpecCompliantExecutor(() -> remoteHost, plan::writePayload, () -> {});
+            executor = new RemoteWebDriverBuilder.SpecCompliantExecutor(() -> remoteHost, plan::writePayload, () -> {
+            });
         }
 
         return new RemoteWebDriver(executor, new ImmutableCapabilities());
@@ -229,13 +238,12 @@ public class RemoteWebDriverBuilder {
     private Map<String, Object> validate(Capabilities options) {
         return options.asMap().entrySet().stream()
                 // Ensure that the keys are ok
-                .peek(
-                        entry -> {
-                            if (!OK_KEYS.test(entry.getKey())) {
-                                throw new IllegalArgumentException(
-                                        "Capability key is not a valid w3c key: " + entry.getKey());
-                            }
-                        })
+                .peek(entry -> {
+                    if (!OK_KEYS.test(entry.getKey())) {
+                        throw new IllegalArgumentException(
+                                "Capability key is not a valid w3c key: " + entry.getKey());
+                    }
+                })
                 // And remove null values, as these are ignored.
                 .filter(entry -> entry.getValue() != null)
                 .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -283,21 +291,18 @@ public class RemoteWebDriverBuilder {
                     .map(HashMap::new) // Make a copy so we don't alter the original values
                     .peek(map -> map.putAll(additionalCapabilities))
                     .map(ImmutableCapabilities::new)
-                    .map(
-                            caps ->
-                                    StreamSupport.stream(allLoaders.spliterator(), true)
-                                            .filter(builder -> builder.score(caps) > 0)
-                                            .findFirst()
-                                            .orElse(null))
+                    .map(caps -> StreamSupport.stream(allLoaders.spliterator(), true)
+                            .filter(builder -> builder.score(caps) > 0)
+                            .findFirst()
+                            .orElse(null))
                     .filter(Objects::nonNull)
-                    .map(
-                            bs -> {
-                                try {
-                                    return bs.build();
-                                } catch (Throwable e) {
-                                    return null;
-                                }
-                            })
+                    .map( bs -> {
+                        try {
+                            return bs.build();
+                        } catch (Throwable e) {
+                            return null;
+                        }
+                    })
                     .filter(Objects::nonNull)
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("Unable to find a driver service"));

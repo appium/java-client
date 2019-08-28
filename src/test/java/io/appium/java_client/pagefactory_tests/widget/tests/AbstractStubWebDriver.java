@@ -3,7 +3,6 @@ package io.appium.java_client.pagefactory_tests.widget.tests;
 import static com.google.common.collect.ImmutableList.of;
 import static io.appium.java_client.remote.AutomationName.APPIUM;
 import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
-import static io.appium.java_client.remote.AutomationName.SELENDROID;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;

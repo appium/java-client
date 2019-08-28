@@ -18,7 +18,12 @@
 package io.appium.java_client.selenium.support.pagefactory;
 
 import io.appium.java_client.selenium.By;
-import io.appium.java_client.selenium.support.*;
+import io.appium.java_client.selenium.support.AbstractFindByBuilder;
+import io.appium.java_client.selenium.support.ByIdOrName;
+import io.appium.java_client.selenium.support.FindAll;
+import io.appium.java_client.selenium.support.FindBy;
+import io.appium.java_client.selenium.support.FindBys;
+import io.appium.java_client.selenium.support.PageFactoryFinder;
 import org.openqa.selenium.support.CacheLookup;
 
 import java.lang.annotation.Annotation;
@@ -28,6 +33,8 @@ public class Annotations extends AbstractAnnotations {
     private Field field;
 
     /**
+     * constructor to set Field.
+     *
      * @param field expected to be an element in a Page Object
      */
     public Annotations(Field field) {
@@ -47,7 +54,7 @@ public class Annotations extends AbstractAnnotations {
     /**
      * {@inheritDoc}
      *
-     * Looks for one of {@link org.openqa.selenium.support.FindBy},
+     * <p>Looks for one of {@link org.openqa.selenium.support.FindBy},
      * {@link org.openqa.selenium.support.FindBys} or
      * {@link org.openqa.selenium.support.FindAll} field annotations. In case
      * no annotations provided for field, uses field name as 'id' or 'name'.
@@ -81,7 +88,8 @@ public class Annotations extends AbstractAnnotations {
         }
 
         if (ans == null) {
-            throw new IllegalArgumentException("Cannot determine how to locate element " + field);
+            throw new IllegalArgumentException("Cannot determine how to locate element "
+                    + field);
         }
 
         return ans;
@@ -100,16 +108,16 @@ public class Annotations extends AbstractAnnotations {
         FindAll findAll = field.getAnnotation(FindAll.class);
         FindBy findBy = field.getAnnotation(FindBy.class);
         if (findBys != null && findBy != null) {
-            throw new IllegalArgumentException("If you use a '@FindBys' annotation, " +
-                    "you must not also use a '@FindBy' annotation");
+            throw new IllegalArgumentException("If you use a '@FindBys' annotation, "
+                    + "you must not also use a '@FindBy' annotation");
         }
         if (findAll != null && findBy != null) {
-            throw new IllegalArgumentException("If you use a '@FindAll' annotation, " +
-                    "you must not also use a '@FindBy' annotation");
+            throw new IllegalArgumentException("If you use a '@FindAll' annotation, "
+                    + "you must not also use a '@FindBy' annotation");
         }
         if (findAll != null && findBys != null) {
-            throw new IllegalArgumentException("If you use a '@FindAll' annotation, " +
-                    "you must not also use a '@FindBys' annotation");
+            throw new IllegalArgumentException("If you use a '@FindAll' annotation, "
+                    + "you must not also use a '@FindBys' annotation");
         }
     }
 }

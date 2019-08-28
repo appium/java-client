@@ -21,7 +21,13 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.selenium.By;
 import io.appium.java_client.selenium.WebElement;
-import io.appium.java_client.selenium.internal.*;
+import io.appium.java_client.selenium.internal.FindsByClassName;
+import io.appium.java_client.selenium.internal.FindsByCssSelector;
+import io.appium.java_client.selenium.internal.FindsById;
+import io.appium.java_client.selenium.internal.FindsByLinkText;
+import io.appium.java_client.selenium.internal.FindsByName;
+import io.appium.java_client.selenium.internal.FindsByTagName;
+import io.appium.java_client.selenium.internal.FindsByXPath;
 import io.appium.java_client.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Response;

@@ -14,6 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 package io.appium.java_client.selenium;
 
 import org.openqa.selenium.Dimension;
@@ -26,8 +27,8 @@ import java.util.List;
 /**
  * Represents an HTML element. Generally, all interesting operations to do with interacting with a
  * page will be performed through this interface.
- * <p>
- * All method calls will do a freshness check to ensure that the element reference is still valid.
+ *
+ * <p>All method calls will do a freshness check to ensure that the element reference is still valid.
  * This essentially determines whether or not the element is still attached to the DOM. If this test
  * fails, then an {@link org.openqa.selenium.StaleElementReferenceException} is thrown, and all
  * future calls to this instance will fail.
@@ -39,12 +40,12 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * operations performed on this element will throw a
      * StaleElementReferenceException.
      *
-     * Note that if click() is done by sending a native event (which is
+     * <p>Note that if click() is done by sending a native event (which is
      * the default on most browsers/platforms) then the method will
      * _not_ wait for the next page to load and the caller should verify
      * that themselves.
      *
-     * There are some preconditions for an element to be clicked. The
+     * <p>There are some preconditions for an element to be clicked. The
      * element must be visible and it must have a height and width
      * greater then 0.
      *
@@ -73,7 +74,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * If this element is a text entry element, this will clear the value. Has no effect on other
      * elements. Text entry elements are INPUT and TEXTAREA elements.
      *
-     * Note that the events fired by this event may not be as you'd expect.  In particular, we don't
+     * <p>Note that the events fired by this event may not be as you'd expect.  In particular, we don't
      * fire any keyboard or mouse events.  If you want to ensure keyboard events are fired, consider
      * using something like {@link #sendKeys(CharSequence...)} with the backspace key.  To ensure
      * you get a change event, consider following with a call to {@link #sendKeys(CharSequence...)}
@@ -173,7 +174,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * The findElement(..) invocation will return a matching row, or try again repeatedly until
      * the configured timeout is reached.
      *
-     * findElement should not be used to look for non-present elements, use {@link #findElements(By)}
+     * <p>findElement should not be used to look for non-present elements, use {@link #findElements(By)}
      * and assert zero length response instead.
      *
      * @param by The locating mechanism
@@ -193,20 +194,22 @@ public interface WebElement extends SearchContext, TakesScreenshot {
     boolean isDisplayed();
 
     /**
-     * Where on the page is the top left-hand corner of the rendered element?
+     * Where on the page is the top left-hand corner of the rendered element?.
      *
      * @return A point, containing the location of the top left-hand corner of the element
      */
     Point getLocation();
 
     /**
-     * What is the width and height of the rendered element?
+     * What is the width and height of the rendered element?.
      *
      * @return The size of the element on the page.
      */
     Dimension getSize();
 
     /**
+     * return Rectangle.
+     *
      * @return The location and size of the rendered element
      */
     Rectangle getRect();
@@ -217,7 +220,7 @@ public interface WebElement extends SearchContext, TakesScreenshot {
      * for example if the "background-color" property is set as "green" in the
      * HTML source, the returned value will be "rgba(0, 255, 0, 1)".
      *
-     * Note that shorthand CSS properties (e.g. background, font, border, border-top, margin,
+     * <p>Note that shorthand CSS properties (e.g. background, font, border, border-top, margin,
      * margin-top, padding, padding-top, list-style, outline, pause, cue) are not returned,
      * in accordance with the
      * <a href="http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration">DOM CSS2 specification</a>

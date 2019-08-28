@@ -18,7 +18,13 @@
 package io.appium.java_client.selenium;
 
 
-import io.appium.java_client.selenium.internal.*;
+import io.appium.java_client.selenium.internal.FindsByClassName;
+import io.appium.java_client.selenium.internal.FindsByCssSelector;
+import io.appium.java_client.selenium.internal.FindsById;
+import io.appium.java_client.selenium.internal.FindsByLinkText;
+import io.appium.java_client.selenium.internal.FindsByName;
+import io.appium.java_client.selenium.internal.FindsByXPath;
+import io.appium.java_client.selenium.internal.FindsByTagName;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriverException;
 
@@ -42,6 +48,8 @@ import java.util.List;
  */
 public abstract class By {
     /**
+     * return By object.
+     *
      * @param id The value of the "id" attribute to search for.
      * @return A By which locates elements by the value of the "id" attribute.
      */
@@ -50,6 +58,8 @@ public abstract class By {
     }
 
     /**
+     * return By object.
+     *
      * @param linkText The exact text to match against.
      * @return A By which locates A elements by the exact text it displays.
      */
@@ -58,6 +68,8 @@ public abstract class By {
     }
 
     /**
+     * return By object.
+     *
      * @param partialLinkText The partial text to match against
      * @return a By which locates elements that contain the given link text.
      */
@@ -66,6 +78,8 @@ public abstract class By {
     }
 
     /**
+     * return By object.
+     *
      * @param name The value of the "name" attribute to search for.
      * @return A By which locates elements by the value of the "name" attribute.
      */
@@ -74,6 +88,8 @@ public abstract class By {
     }
 
     /**
+     * return By object.
+     *
      * @param tagName The element's tag name.
      * @return A By which locates elements by their tag name.
      */
@@ -82,6 +98,8 @@ public abstract class By {
     }
 
     /**
+     * return By object.
+     *
      * @param xpathExpression The XPath to use.
      * @return A By which locates elements via XPath.
      */

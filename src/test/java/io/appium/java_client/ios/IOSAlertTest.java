@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import static java.time.Duration.ofSeconds;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static io.appium.java_client.selenium.support.ui.ExpectedConditions.alertIsPresent;
@@ -32,7 +33,7 @@ import java.util.function.Supplier;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSAlertTest extends AppIOSTest {
 
-    private WebDriverWait waiting = new WebDriverWait(driver, 10000);
+    private WebDriverWait waiting = new WebDriverWait(driver, ofSeconds(10000));
     private static final String iOSAutomationText = "show alert";
 
     @Test public void acceptAlertTest() {

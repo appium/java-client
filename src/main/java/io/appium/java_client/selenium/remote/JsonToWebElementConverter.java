@@ -14,6 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 package io.appium.java_client.selenium.remote;
 
 import com.google.common.base.Function;
@@ -27,7 +28,8 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Reconstitutes {@link io.appium.java_client.selenium.WebElement}s from their JSON representation. Will recursively convert Lists
+ * Reconstitutes {@link io.appium.java_client.selenium.WebElement}s from their JSON representation.
+ * Will recursively convert Lists
  * and Maps to catch nested references. All other values pass through the converter unchanged.
  */
 public class JsonToWebElementConverter implements Function<Object, Object> {
@@ -82,6 +84,7 @@ public class JsonToWebElementConverter implements Function<Object, Object> {
         }
         return element;
     }
+
     private String getElementKey(Map<?, ?> resultAsMap) {
         for (Dialect d : Dialect.values()) {
             String elementKeyForDialect = d.getEncodedElementKey();

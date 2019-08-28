@@ -17,7 +17,11 @@
 
 package io.appium.java_client.selenium;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.Beta;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.logging.Logs;
 
@@ -35,15 +39,12 @@ import java.util.concurrent.TimeUnit;
  * <li>Selection of {@link WebElement}s</li>
  * <li>Debugging aids</li>
  * </ul>
- * <p>
  * Key methods are {@link WebDriver#get(String)}, which is used to load a new web page, and the
  * various methods similar to {@link WebDriver#findElement(By)}, which is used to find
- * {@link WebElement}s.
- * <p>
+ * {@link WebElement}.
  * Currently, you will need to instantiate implementations of this class directly. It is hoped that
  * you write your tests against this interface so that you may "swap in" a more fully featured
  * browser when there is a requirement for one.
- * <p>
  * Note that all methods that use XPath to locate elements will throw a {@link RuntimeException}
  * should there be an error thrown by the underlying XPath engine.
  */
@@ -75,8 +76,7 @@ public interface WebDriver extends SearchContext {
     /**
      * The title of the current page.
      *
-     * @return The title of the current page, with leading and trailing whitespace stripped, or null
-     *         if one is not already set
+     * @return The title of the current page, with leading and trailing whitespace stripped, or null.
      */
     String getTitle();
 
@@ -91,7 +91,7 @@ public interface WebDriver extends SearchContext {
      * @see org.openqa.selenium.By
      * @see WebDriver.Timeouts
      */
-    <T extends WebElement> List<T>  findElements(By by);
+    <T extends WebElement> List<T> findElements(By by);
 
 
     /**
@@ -99,7 +99,6 @@ public interface WebDriver extends SearchContext {
      * This method is affected by the 'implicit wait' times in force at the time of execution.
      * The findElement(..) invocation will return a matching row, or try again repeatedly until
      * the configured timeout is reached.
-     *
      * findElement should not be used to look for non-present elements, use {@link #findElements(By)}
      * and assert zero length response instead.
      *
@@ -119,8 +118,8 @@ public interface WebDriver extends SearchContext {
      * page. Please consult the documentation of the particular driver being used to determine whether
      * the returned text reflects the current state of the page or the text last sent by the web
      * server. The page source returned is a representation of the underlying DOM: do not expect it to
-     * be formatted or escaped in the same way as the response sent from the web server. Think of it as
-     * an artist's impression.
+     * be formatted or escaped in the same way as the response sent from the web server. Think of it
+     * as an artist's impression.
      *
      * @return The source of the current page
      */
@@ -164,13 +163,12 @@ public interface WebDriver extends SearchContext {
      * An abstraction allowing the driver to access the browser's history and to navigate to a given
      * URL.
      *
-     * @return A {@link WebDriver.Navigation} that allows the selection of what to
-     *         do next
+     * @return A {@link WebDriver.Navigation} that allows the selection of what to do next
      */
     Navigation navigate();
 
     /**
-     * Gets the Option interface
+     * Gets the Option interface.
      *
      * @return An option interface
      * @see WebDriver.Options
@@ -178,7 +176,7 @@ public interface WebDriver extends SearchContext {
     Options manage();
 
     /**
-     * An interface for managing stuff you would do in a browser menu
+     * An interface for managing stuff you would do in a browser menu.
      */
     interface Options {
 
@@ -227,24 +225,29 @@ public interface WebDriver extends SearchContext {
         Cookie getCookieNamed(String name);
 
         /**
+         * return Timeouts.
+         *
          * @return the interface for managing driver timeouts.
          */
         Timeouts timeouts();
 
         /**
+         * returns ImeHandler.
+         *
          * @return the interface for controlling IME engines to generate complex-script input.
          */
         ImeHandler ime();
 
         /**
+         * Return Current Window.
+         *
          * @return the interface for managing the current window.
          */
         Window window();
 
         /**
          * Gets the {@link Logs} interface used to fetch different types of logs.
-         *
-         * <p>To set the logging preferences {@link LoggingPreferences}.
+         * To set the logging preferences {@link LoggingPreferences}.
          *
          * @return A Logs interface.
          */
@@ -260,12 +263,10 @@ public interface WebDriver extends SearchContext {
         /**
          * Specifies the amount of time the driver should wait when searching for an element if it is
          * not immediately present.
-         * <p>
          * When searching for a single element, the driver should poll the page until the element has
-         * been found, or this timeout expires before throwing a {@link org.openqa.selenium.NoSuchElementException}. When
-         * searching for multiple elements, the driver should poll the page until at least one element
+         * been found, or this timeout expires before throwing a {@link org.openqa.selenium.NoSuchElementException}.
+         * When searching for multiple elements, the driver should poll the page until at least one element
          * has been found or this timeout has expired.
-         * <p>
          * Increasing the implicit wait timeout should be used judiciously as it will have an adverse
          * effect on test run time, especially when used with slower location strategies like XPath.
          *
@@ -319,7 +320,7 @@ public interface WebDriver extends SearchContext {
          * precedence over those matched by ID.
          *
          * @param nameOrId the name of the frame window, the id of the &lt;frame&gt; or &lt;iframe&gt;
-         *        element, or the (zero-based) index
+         *                 element, or the (zero-based) index
          * @return This driver focused on the given frame
          * @throws org.openqa.selenium.NoSuchFrameException If the frame cannot be found
          */
@@ -330,7 +331,8 @@ public interface WebDriver extends SearchContext {
          *
          * @param frameElement The frame element to switch to.
          * @return This driver focused on the given frame.
-         * @throws org.openqa.selenium.NoSuchFrameException If the given element is neither an IFRAME nor a FRAME element.
+         * @throws org.openqa.selenium.NoSuchFrameException
+         * If the given element is neither an IFRAME/FRAME element.
          * @throws org.openqa.selenium.StaleElementReferenceException If the WebElement has gone stale.
          * @see WebDriver#findElement(By)
          */
@@ -348,7 +350,7 @@ public interface WebDriver extends SearchContext {
          * Switch the focus of future commands for this driver to the window with the given name/handle.
          *
          * @param nameOrHandle The name of the window or the handle as returned by
-         *        {@link WebDriver#getWindowHandle()}
+         *                     {@link WebDriver#getWindowHandle()}
          * @return This driver focused on the given window
          * @throws org.openqa.selenium.NoSuchWindowException If the window cannot be found
          */
@@ -367,8 +369,7 @@ public interface WebDriver extends SearchContext {
          * or the body element if this cannot be detected. This matches the semantics of calling
          * "document.activeElement" in Javascript.
          *
-         * @return The WebElement with focus, or the body element if no element with focus can be
-         *         detected.
+         * @return The WebElement with focus, or the body element if no element with focus can be detected.
          */
         WebElement activeElement();
 
@@ -414,7 +415,7 @@ public interface WebDriver extends SearchContext {
         void to(URL url);
 
         /**
-         * Refresh the current page
+         * Refresh the current page.
          */
         void refresh();
     }
@@ -462,11 +463,10 @@ public interface WebDriver extends SearchContext {
          * platform-independent method of activating IME (the platform-specific way being using keyboard
          * shortcuts).
          *
-         *
          * @param engine name of engine to activate.
-         * @throws org.openqa.selenium.ImeNotAvailableException if the host does not support IME.
-         * @throws org.openqa.selenium.ImeActivationFailedException if the engine is not available or if activation failed
-         *         for other reasons.
+         * @throws org.openqa.selenium.ImeNotAvailableException     if the host does not support IME.
+         * @throws org.openqa.selenium.ImeActivationFailedException
+         * if the engine is not available or if activation failed for other reasons.
          */
         void activateEngine(String engine);
     }
@@ -505,12 +505,12 @@ public interface WebDriver extends SearchContext {
         Point getPosition();
 
         /**
-         * Maximizes the current window if it is not already maximized
+         * Maximizes the current window if it is not already maximized.
          */
         void maximize();
 
         /**
-         * Fullscreen the current window if it is not already fullscreen
+         * Fullscreen the current window if it is not already fullscreen.
          */
         void fullscreen();
     }

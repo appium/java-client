@@ -33,7 +33,7 @@ import java.util.List;
  * driver.findElements(new ByChained(by1, by2))
  * </pre>
  *
- * will find all elements that match <var>by2</var> and appear under an element that matches
+ * <p>will find all elements that match <var>by2</var> and appear under an element that matches
  * <var>by1</var>.
  */
 public class ByChained extends By implements Serializable {
@@ -49,8 +49,9 @@ public class ByChained extends By implements Serializable {
     @Override
     public WebElement findElement(SearchContext context) {
         List<WebElement> elements = findElements(context);
-        if (elements.isEmpty())
+        if (elements.isEmpty()) {
             throw new NoSuchElementException("Cannot locate an element using " + toString());
+        }
         return elements.get(0);
     }
 

@@ -2,6 +2,7 @@ package io.appium.java_client.appium.element.generation.ios;
 
 import static io.appium.java_client.MobileBy.AccessibilityId;
 import static io.appium.java_client.selenium.By.*;
+import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertTrue;
 
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
@@ -82,11 +83,11 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             Capabilities caps = commonAppCapabilitiesSupplier.get();
             return caps.merge(appFileSupplierFunction.apply(webViewApp).get());
         }, (by, aClass) -> {
-            new WebDriverWait(driver, 30)
+            new WebDriverWait(driver, ofSeconds(30))
                     .until(ExpectedConditions.presenceOfElementLocated(id("login")))
                     .click();
             driver.findElementByAccessibilityId("webView").click();
-            new WebDriverWait(driver, 30)
+            new WebDriverWait(driver, ofSeconds(30))
                     .until(ExpectedConditions
                             .presenceOfElementLocated(AccessibilityId("Webview")));
             try {

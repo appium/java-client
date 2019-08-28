@@ -16,6 +16,7 @@
 // under the License.
 
 package io.appium.java_client.selenium.support.pagefactory;
+
 import io.appium.java_client.selenium.WebElement;
 import io.appium.java_client.selenium.WrapsElement;
 import io.appium.java_client.selenium.support.FindAll;
@@ -85,9 +86,9 @@ public class DefaultFieldDecorator implements FieldDecorator {
             return false;
         }
 
-        return field.getAnnotation(FindBy.class) != null ||
-                field.getAnnotation(FindBys.class) != null ||
-                field.getAnnotation(FindAll.class) != null;
+        return field.getAnnotation(FindBy.class) != null
+                || field.getAnnotation(FindBys.class) != null
+                || field.getAnnotation(FindAll.class) != null;
     }
 
     protected WebElement proxyForLocator(ClassLoader loader, ElementLocator locator) {

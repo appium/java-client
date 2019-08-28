@@ -16,7 +16,13 @@
 
 package io.appium.java_client.pagefactory;
 
-import io.appium.java_client.selenium.*;
+
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.SearchContext;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.WrapsDriver;
+import io.appium.java_client.selenium.WrapsElement;
 
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 

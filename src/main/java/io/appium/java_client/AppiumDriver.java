@@ -29,9 +29,12 @@ import io.appium.java_client.selenium.By;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-import io.appium.java_client.selenium.WebDriver;
 import io.appium.java_client.selenium.WebElement;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.DeviceRotation;
+import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.html5.Location;
 
 import org.openqa.selenium.remote.DesiredCapabilities;

@@ -42,22 +42,22 @@ public class PageFactory {
      *
      * <code> public class Page { private WebElement submit; } </code>
      *
-     * there will be an element that can be located using the xpath expression "//*[@id='submit']" or
+     * <p>there will be an element that can be located using the xpath expression "//*[@id='submit']" or
      * "//*[@name='submit']"
      *
-     * By default, the element or the list is looked up each and every time a method is called upon
-     * it. To change this behaviour, simply annotate the field with the {@link org.openqa.selenium.support.CacheLookup}. To change
-     * how the element is located, use the {@link FindBy} annotation.
+     * <p>By default, the element or the list is looked up each and every time a method is called upon
+     * it. To change this behaviour, simply annotate the field with
+     * the {@link org.openqa.selenium.support.CacheLookup}. To change
+     * how the element is located,use the {@link FindBy} annotation.
      *
-     * This method will attempt to instantiate the class given to it, preferably using a constructor
+     * <p>This method will attempt to instantiate the class given to it, preferably using a constructor
      * which takes a WebDriver instance as its only argument or falling back on a no-arg constructor.
      * An exception will be thrown if the class cannot be instantiated.
      *
      * @param driver           The driver that will be used to look up the elements
      * @param pageClassToProxy A class which will be initialised.
      * @param <T>              Class of the PageObject
-     * @return An instantiated instance of the class with WebElement and List&lt;WebElement&gt;
-     * fields proxied
+     * @return An instantiated instance of the class with WebElement and List;WebElement fields proxied.
      * @see FindBy
      * @see org.openqa.selenium.support.CacheLookup
      */

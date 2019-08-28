@@ -19,8 +19,19 @@ package io.appium.java_client.selenium.remote;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.selenium.*;
-import io.appium.java_client.selenium.internal.*;
+import io.appium.java_client.selenium.WebElement;
+import io.appium.java_client.selenium.WrapsDriver;
+import io.appium.java_client.selenium.SearchContext;
+import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.WebDriver;
+import io.appium.java_client.selenium.WrapsElement;
+import io.appium.java_client.selenium.internal.FindsByClassName;
+import io.appium.java_client.selenium.internal.FindsByCssSelector;
+import io.appium.java_client.selenium.internal.FindsById;
+import io.appium.java_client.selenium.internal.FindsByLinkText;
+import io.appium.java_client.selenium.internal.FindsByName;
+import io.appium.java_client.selenium.internal.FindsByXPath;
+import io.appium.java_client.selenium.internal.FindsByTagName;
 import org.openqa.selenium.Beta;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -32,7 +43,11 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.io.Zip;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.CommandPayload;
+import org.openqa.selenium.remote.Dialect;
+import org.openqa.selenium.remote.FileDetector;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.Response;
 
 import java.io.File;
 import java.io.IOException;
@@ -175,28 +190,6 @@ public class RemoteWebElement implements WebElement, FindsByLinkText, FindsById,
         return by.findElements(this);
     }
 
-    @Override
-    public WebElement findElement(By by) {
-        return by.findElement(this);
-    }
-
-    protected WebElement findElement(String using, String value) {
-        Response response = execute(DriverCommand.FIND_CHILD_ELEMENT(id, using, value));
-
-        Object responseValue = response.getValue();
-        if (responseValue == null) { // see https://github.com/SeleniumHQ/selenium/issues/5809
-            throw new NoSuchElementException(String.format("Cannot locate an element using %s=%s", using, value));
-        }
-        WebElement element;
-        try {
-            element = (WebElement) responseValue;
-        } catch (ClassCastException ex) {
-            throw new WebDriverException("Returned value cannot be converted to WebElement: " + value, ex);
-        }
-        parent.setFoundBy(this, element, using, value);
-        return element;
-    }
-
     @SuppressWarnings("unchecked")
     protected List<WebElement> findElements(String using, String value) {
         Response response = execute(DriverCommand.FIND_CHILD_ELEMENTS(id, using, value));
@@ -208,10 +201,34 @@ public class RemoteWebElement implements WebElement, FindsByLinkText, FindsById,
         try {
             allElements = (List<WebElement>) responseValue;
         } catch (ClassCastException ex) {
-            throw new WebDriverException("Returned value cannot be converted to List<WebElement>: " + responseValue, ex);
+            throw new WebDriverException("Returned value cannot be converted to List<WebElement>: "
+                    + responseValue, ex);
         }
         allElements.forEach(element -> parent.setFoundBy(this, element, using, value));
         return allElements;
+    }
+
+    @Override
+    public WebElement findElement(By by) {
+        return by.findElement(this);
+    }
+
+    protected WebElement findElement(String using, String value) {
+        Response response = execute(DriverCommand.FIND_CHILD_ELEMENT(id, using, value));
+
+        Object responseValue = response.getValue();
+        if (responseValue == null) { // see https://github.com/SeleniumHQ/selenium/issues/5809
+            throw new NoSuchElementException(String.format("Cannot locate an element using %s=%s",
+                    using, value));
+        }
+        WebElement element;
+        try {
+            element = (WebElement) responseValue;
+        } catch (ClassCastException ex) {
+            throw new WebDriverException("Returned value cannot be converted to WebElement: " + value, ex);
+        }
+        parent.setFoundBy(this, element, using, value);
+        return element;
     }
 
     @Override
@@ -323,6 +340,8 @@ public class RemoteWebElement implements WebElement, FindsByLinkText, FindsById,
     }
 
     /**
+     * return Hashcode.
+     *
      * @return This element's hash code, which is a hash of its internal opaque ID.
      */
     @Override

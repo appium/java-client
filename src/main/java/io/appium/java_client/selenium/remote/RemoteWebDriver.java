@@ -30,11 +30,61 @@ import io.appium.java_client.selenium.By;
 import io.appium.java_client.selenium.SearchContext;
 import io.appium.java_client.selenium.WebDriver;
 import io.appium.java_client.selenium.WebElement;
-import io.appium.java_client.selenium.internal.*;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.*;
-import org.openqa.selenium.logging.*;
-import org.openqa.selenium.remote.*;
+import io.appium.java_client.selenium.internal.FindsByCssSelector;
+import io.appium.java_client.selenium.internal.FindsByName;
+import io.appium.java_client.selenium.internal.FindsByLinkText;
+import io.appium.java_client.selenium.internal.FindsByClassName;
+import io.appium.java_client.selenium.internal.FindsById;
+import io.appium.java_client.selenium.internal.FindsByTagName;
+import io.appium.java_client.selenium.internal.FindsByXPath;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Beta;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NoSuchFrameException;
+import org.openqa.selenium.NoSuchWindowException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.interactions.Keyboard;
+import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.logging.LocalLogs;
+import org.openqa.selenium.logging.Logs;
+import org.openqa.selenium.logging.NeedsLocalLogs;
+import org.openqa.selenium.logging.LoggingHandler;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.Augmentable;
+import org.openqa.selenium.remote.Command;
+import org.openqa.selenium.remote.CommandExecutor;
+import org.openqa.selenium.remote.CommandPayload;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.ErrorHandler;
+import org.openqa.selenium.remote.SessionId;
+import org.openqa.selenium.remote.FileDetector;
+import org.openqa.selenium.remote.UnreachableBrowserException;
+import org.openqa.selenium.remote.UselessFileDetector;
+import org.openqa.selenium.remote.ExecuteMethod;
+import org.openqa.selenium.remote.RemoteKeyboard;
+import org.openqa.selenium.remote.RemoteMouse;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.RemoteLogs;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.Response;
+
 import org.openqa.selenium.remote.internal.WebElementToJsonConverter;
 
 import java.net.URL;
@@ -92,7 +142,7 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         init(capabilities);
 
         if (executor instanceof NeedsLocalLogs) {
-            ((NeedsLocalLogs)executor).setLocalLogs(localLogs);
+            ((NeedsLocalLogs) executor).setLocalLogs(localLogs);
         }
 
         try {
@@ -137,8 +187,8 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         LoggingPreferences mergedLoggingPrefs = new LoggingPreferences();
         mergedLoggingPrefs.addPreferences((LoggingPreferences) capabilities.getCapability(LOGGING_PREFS));
 
-        if (!mergedLoggingPrefs.getEnabledLogTypes().contains(LogType.CLIENT) ||
-                mergedLoggingPrefs.getLevel(LogType.CLIENT) != Level.OFF) {
+        if (!mergedLoggingPrefs.getEnabledLogTypes().contains(LogType.CLIENT)
+                || mergedLoggingPrefs.getLevel(LogType.CLIENT) != Level.OFF) {
             builder.add(LogType.CLIENT);
         }
 
@@ -149,22 +199,6 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
                 logTypesToInclude);
         localLogs = LocalLogs.getCombinedLogsHolder(clientLogs, performanceLogger);
         remoteLogs = new RemoteLogs(executeMethod, localLogs);
-    }
-
-    /**
-     * Set the file detector to be used when sending keyboard input. By default, this is set to a file
-     * detector that does nothing.
-     *
-     * @param detector The detector to use. Must not be null.
-     * @see FileDetector
-     * @see LocalFileDetector
-     * @see UselessFileDetector
-     */
-    public void setFileDetector(FileDetector detector) {
-        if (detector == null) {
-            throw new WebDriverException("You may not set a file detector that is null");
-        }
-        fileDetector = detector;
     }
 
     public SessionId getSessionId() {
@@ -283,6 +317,29 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         return by.findElements(this);
     }
 
+    @SuppressWarnings("unchecked")
+    protected List<WebElement> findElements(String by, String using) {
+        if (using == null) {
+            throw new IllegalArgumentException("Cannot find elements when the selector is null.");
+        }
+
+        Response response = execute(DriverCommand.FIND_ELEMENTS(by, using));
+        Object value = response.getValue();
+        if (value == null) { // see https://github.com/SeleniumHQ/selenium/issues/4555
+            return Collections.emptyList();
+        }
+        List<WebElement> allElements;
+        try {
+            allElements = (List<WebElement>) value;
+        } catch (ClassCastException ex) {
+            throw new WebDriverException("Returned value cannot be converted to List<WebElement>: " + value, ex);
+        }
+        for (WebElement element : allElements) {
+            setFoundBy(this, element, by, using);
+        }
+        return allElements;
+    }
+
     @Override
     public WebElement findElement(By by) {
         return by.findElement(this);
@@ -314,29 +371,6 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
             remoteElement.setFoundBy(context, by, using);
             remoteElement.setFileDetector(getFileDetector());
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    protected List<WebElement> findElements(String by, String using) {
-        if (using == null) {
-            throw new IllegalArgumentException("Cannot find elements when the selector is null.");
-        }
-
-        Response response = execute(DriverCommand.FIND_ELEMENTS(by, using));
-        Object value = response.getValue();
-        if (value == null) { // see https://github.com/SeleniumHQ/selenium/issues/4555
-            return Collections.emptyList();
-        }
-        List<WebElement> allElements;
-        try {
-            allElements = (List<WebElement>) value;
-        } catch (ClassCastException ex) {
-            throw new WebDriverException("Returned value cannot be converted to List<WebElement>: " + value, ex);
-        }
-        for (WebElement element : allElements) {
-            setFoundBy(this, element, by, using);
-        }
-        return allElements;
     }
 
     @Override
@@ -419,12 +453,12 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         return findElements("xpath", using);
     }
 
-    // Misc
-
     @Override
     public String getPageSource() {
         return (String) execute(DriverCommand.GET_PAGE_SOURCE).getValue();
     }
+
+    // Misc
 
     @Override
     public void close() {
@@ -483,8 +517,8 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
     @Override
     public Object executeAsyncScript(String script, Object... args) {
         if (!isJavascriptEnabled()) {
-            throw new UnsupportedOperationException("You must be using an underlying instance of " +
-                    "WebDriver that supports executing javascript");
+            throw new UnsupportedOperationException("You must be using an underlying instance of "
+                    + "WebDriver that supports executing javascript");
         }
 
         // Escape the quote marks
@@ -515,12 +549,12 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         return new RemoteWebDriverOptions();
     }
 
-    protected void setElementConverter(JsonToWebElementConverter converter) {
-        this.converter = Objects.requireNonNull(converter, "Element converter must not be null");
-    }
-
     protected JsonToWebElementConverter getElementConverter() {
         return converter;
+    }
+
+    protected void setElementConverter(JsonToWebElementConverter converter) {
+        this.converter = Objects.requireNonNull(converter, "Element converter must not be null");
     }
 
     /**
@@ -557,11 +591,11 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
             throw e;
         } catch (Exception e) {
             log(sessionId, command.getName(), command, org.openqa.selenium.remote.RemoteWebDriver.When.EXCEPTION);
-            String errorMessage = "Error communicating with the remote browser. " +
-                    "It may have died.";
+            String errorMessage = "Error communicating with the remote browser. "
+                    + "It may have died.";
             if (command.getName().equals(DriverCommand.NEW_SESSION)) {
-                errorMessage = "Could not start a new session. Possible causes are " +
-                        "invalid address of the remote server or browser start-up failure.";
+                errorMessage = "Could not start a new session. Possible causes are "
+                        + "invalid address of the remote server or browser start-up failure.";
             }
             UnreachableBrowserException ube = new UnreachableBrowserException(errorMessage, e);
             if (getSessionId() != null) {
@@ -578,7 +612,8 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         try {
             errorHandler.throwIfResponseFailed(response, System.currentTimeMillis() - start);
         } catch (WebDriverException ex) {
-            if (command.getParameters() != null && command.getParameters().containsKey("using") && command.getParameters().containsKey("value")) {
+            if (command.getParameters() != null && command.getParameters().containsKey("using")
+                    && command.getParameters().containsKey("value")) {
                 ex.addInfo(
                         "*** Element info",
                         String.format(
@@ -638,7 +673,8 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
      * @param toLog       any data that might be interesting.
      * @param when        verb tense of "Execute" to prefix message
      */
-    protected void log(SessionId sessionId, String commandName, Object toLog, org.openqa.selenium.remote.RemoteWebDriver.When when) {
+    protected void log(SessionId sessionId, String commandName,
+                       Object toLog, org.openqa.selenium.remote.RemoteWebDriver.When when) {
         if (!logger.isLoggable(level)) {
             return;
         }
@@ -649,7 +685,7 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
                 text = text.substring(0, 100) + "...";
             }
         }
-        switch(when) {
+        switch (when) {
             case BEFORE:
                 logger.log(level, "Executing: " + commandName + " " + text);
                 break;
@@ -667,6 +703,52 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
 
     public FileDetector getFileDetector() {
         return fileDetector;
+    }
+
+    /**
+     * Set the file detector to be used when sending keyboard input. By default, this is set to a file
+     * detector that does nothing.
+     *
+     * @param detector The detector to use. Must not be null.
+     * @see FileDetector
+     * @see LocalFileDetector
+     * @see UselessFileDetector
+     */
+    public void setFileDetector(FileDetector detector) {
+        if (detector == null) {
+            throw new WebDriverException("You may not set a file detector that is null");
+        }
+        fileDetector = detector;
+    }
+
+    @Override
+    public String toString() {
+        Capabilities caps = getCapabilities();
+        if (caps == null) {
+            return super.toString();
+        }
+
+        // w3c name first
+        Object platform = caps.getCapability(PLATFORM_NAME);
+        if (!(platform instanceof String)) {
+            platform = caps.getCapability(PLATFORM);
+        }
+        if (platform == null) {
+            platform = "unknown";
+        }
+
+        return String.format(
+                "%s: %s on %s (%s)",
+                getClass().getSimpleName(),
+                caps.getBrowserName(),
+                platform,
+                getSessionId());
+    }
+
+    public enum When {
+        BEFORE,
+        AFTER,
+        EXCEPTION
     }
 
     protected class RemoteWebDriverOptions implements Options {
@@ -718,7 +800,8 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
                                         .domain((String) rawCookie.get("domain"))
                                         .isSecure(rawCookie.containsKey("secure") && (Boolean) rawCookie.get("secure"))
                                         .isHttpOnly(
-                                                rawCookie.containsKey("httpOnly") && (Boolean) rawCookie.get("httpOnly"));
+                                                rawCookie.containsKey("httpOnly")
+                                                        && (Boolean) rawCookie.get("httpOnly"));
 
                         Number expiryNum = (Number) rawCookie.get("expiry");
                         builder.expiresOn(expiryNum == null ? null : new Date(SECONDS.toMillis(expiryNum.longValue())));
@@ -812,15 +895,7 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         @Beta
         protected class RemoteWindow implements Window {
 
-            @Override
-            public void setSize(Dimension targetSize) {
-                execute(DriverCommand.SET_CURRENT_WINDOW_SIZE(targetSize));
-            }
-
-            @Override
-            public void setPosition(Point targetPosition) {
-                execute(DriverCommand.SET_CURRENT_WINDOW_POSITION(targetPosition));
-            }
+            Map<String, Object> rawPoint;
 
             @Override
             @SuppressWarnings({"unchecked"})
@@ -835,7 +910,11 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
                 return new Dimension(width, height);
             }
 
-            Map<String, Object> rawPoint;
+            @Override
+            public void setSize(Dimension targetSize) {
+                execute(DriverCommand.SET_CURRENT_WINDOW_SIZE(targetSize));
+            }
+
             @Override
             @SuppressWarnings("unchecked")
             public Point getPosition() {
@@ -846,6 +925,11 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
                 int y = ((Number) rawPoint.get("y")).intValue();
 
                 return new Point(x, y);
+            }
+
+            @Override
+            public void setPosition(Point targetPosition) {
+                execute(DriverCommand.SET_CURRENT_WINDOW_POSITION(targetPosition));
             }
 
             @Override
@@ -899,9 +983,10 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         @Override
         public WebDriver frame(String frameName) {
             String name = frameName.replaceAll("(['\"\\\\#.:;,!?+<>=~*^$|%&@`{}\\-/\\[\\]\\(\\)])", "\\\\$1");
-            List<WebElement> frameElements = ((WebDriver)this).findElements(By.cssSelector("frame[name='" + name + "'],iframe[name='" + name + "']"));
+            List<WebElement> frameElements = ((WebDriver) this).findElements(By.cssSelector("frame[name='"
+                    + name + "'],iframe[name='" + name + "']"));
             if (frameElements.size() == 0) {
-                frameElements = ((WebDriver)this).findElements(By.cssSelector("frame#" + name + ",iframe#" + name));
+                frameElements = ((WebDriver) this).findElements(By.cssSelector("frame#" + name + ",iframe#" + name));
             }
             if (frameElements.size() == 0) {
                 throw new NoSuchFrameException("No frame element found by name or id " + frameName);
@@ -995,46 +1080,17 @@ public class RemoteWebDriver implements WebDriver, JavascriptExecutor,
         }
 
         /**
-         * @param keysToSend character sequence to send to the alert
+         * enter text to field.
          *
+         * @param keysToSend character sequence to send to the alert
          * @throws IllegalArgumentException if keysToSend is null
          */
         @Override
         public void sendKeys(String keysToSend) {
-            if(keysToSend==null) {
+            if (keysToSend == null) {
                 throw new IllegalArgumentException("Keys to send should be a not null CharSequence");
             }
             execute(DriverCommand.SET_ALERT_VALUE(keysToSend));
         }
-    }
-
-    public enum When {
-        BEFORE,
-        AFTER,
-        EXCEPTION
-    }
-
-    @Override
-    public String toString() {
-        Capabilities caps = getCapabilities();
-        if (caps == null) {
-            return super.toString();
-        }
-
-        // w3c name first
-        Object platform = caps.getCapability(PLATFORM_NAME);
-        if (!(platform instanceof String)) {
-            platform = caps.getCapability(PLATFORM);
-        }
-        if (platform == null) {
-            platform = "unknown";
-        }
-
-        return String.format(
-                "%s: %s on %s (%s)",
-                getClass().getSimpleName(),
-                caps.getBrowserName(),
-                platform,
-                getSessionId());
     }
 }
