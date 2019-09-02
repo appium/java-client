@@ -28,6 +28,7 @@ import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.selenium.By;
+import io.appium.java_client.selenium.WebDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
@@ -221,11 +222,11 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override
-    public org.openqa.selenium.WebDriver context(String name) {
+    public WebDriver context(String name) {
         checkNotNull(name, "Must supply a context name");
         try {
             execute(DriverCommand.SWITCH_TO_CONTEXT, ImmutableMap.of("name", name));
-            return org.openqa.selenium.WebDriver.class.cast(this);
+            return WebDriver.class.cast(this);
         } catch (WebDriverException e) {
             throw new NoSuchContextException(e.getMessage(), e);
         }

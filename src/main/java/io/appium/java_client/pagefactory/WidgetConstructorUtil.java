@@ -16,7 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
-import org.openqa.selenium.WebElement;
+
+import io.appium.java_client.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;

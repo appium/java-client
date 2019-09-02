@@ -21,6 +21,7 @@ import static io.appium.java_client.events.DefaultBeanConfiguration.COMPONENT_BE
 import com.google.common.collect.ImmutableList;
 
 import io.appium.java_client.events.api.Listener;
+import io.appium.java_client.selenium.ContextAware;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -29,7 +30,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.context.support.AbstractApplicationContext;

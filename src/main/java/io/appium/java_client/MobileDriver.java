@@ -18,7 +18,7 @@ package io.appium.java_client;
 
 
 import io.appium.java_client.selenium.By;
-import org.openqa.selenium.ContextAware;
+import io.appium.java_client.selenium.ContextAware;
 import org.openqa.selenium.Rotatable;
 import io.appium.java_client.selenium.WebDriver;
 import io.appium.java_client.selenium.WebElement;

@@ -23,11 +23,11 @@ import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 import io.appium.java_client.HasSessionDetails;
 import io.appium.java_client.pagefactory.bys.ContentType;
+import io.appium.java_client.selenium.ContextAware;
 import io.appium.java_client.selenium.SearchContext;
 import io.appium.java_client.selenium.WebDriver;
 import io.appium.java_client.selenium.WrapsDriver;
 import io.appium.java_client.selenium.WrapsElement;
-import org.openqa.selenium.ContextAware;
 
 public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
