@@ -98,10 +98,10 @@ public interface InteractsWithApps extends ExecutesMethod {
      * requested. This is a synchronous method, it returns after the back has
      * been returned to the foreground.
      *
-     * @param duration The time to run App in background. Minimum time resolution is one second
+     * @param duration The time to run App in background. Minimum time resolution is one millisecond
      */
     default void runAppInBackground(Duration duration) {
-        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.getSeconds()));
+        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.toMillis() / 1000.0));
     }
 
     /**
