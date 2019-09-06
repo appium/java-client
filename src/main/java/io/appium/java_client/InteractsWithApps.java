@@ -95,11 +95,11 @@ public interface InteractsWithApps extends ExecutesMethod {
 
     /**
      * Runs the current app as a background app for the time
-     * requested. This is a synchronous method, it returns after the back has
-     * been returned to the foreground.
+     * requested. This is a synchronous method, it blocks while the
+     * application is in background.
      *
      * @param duration The time to run App in background. Minimum time resolution is one millisecond.
-     *                 Passing zero of negative value will switch to Home screen and return immediately.
+     *                 Passing zero or a negative value will switch to Home screen and return immediately.
      */
     default void runAppInBackground(Duration duration) {
         execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.toMillis() / 1000.0));
