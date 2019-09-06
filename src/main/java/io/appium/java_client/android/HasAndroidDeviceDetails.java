@@ -10,17 +10,21 @@ import java.util.Map;
 
 public interface HasAndroidDeviceDetails extends ExecutesMethod {
 
-    /*
-        Retrieve the display density of the Android device.
+    /**
+     Retrieve the display density of the Android device.
+
+     @return The density value in dpi
      */
     default Long getDisplayDensity() {
         return CommandExecutionHelper.execute(this, getDisplayDensityCommand());
     }
 
-    /*
-        Retrieve visibility and bounds information of the status and navigation bars.
+    /**
+     Retrieve visibility and bounds information of the status and navigation bars.
+
+     @return The map where keys are bar types and values are mappings of bar properties.
      */
-    default Map<String, String> getSystemBars() {
+    default Map<String, Map<String, Object>> getSystemBars() {
         return CommandExecutionHelper.execute(this, getSystemBarsCommand());
     }
 
