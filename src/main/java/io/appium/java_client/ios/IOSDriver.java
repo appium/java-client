@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
@@ -43,7 +42,6 @@ import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
 
@@ -167,19 +165,6 @@ public class IOSDriver<T extends WebElement>
      */
     public IOSDriver(Capabilities desiredCapabilities) {
         super(updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
-    }
-
-    /**
-     * Runs the current app as a background app for the number of seconds
-     * or minimizes the app.
-     *
-     * @param duration The time to run App in background.
-     */
-    @Override public void runAppInBackground(Duration duration) {
-        // timeout parameter is expected to be in milliseconds
-        // float values are allowed
-        execute(RUN_APP_IN_BACKGROUND,
-                prepareArguments("seconds", prepareArguments("timeout", duration.toMillis())));
     }
 
     @Override public TargetLocator switchTo() {
