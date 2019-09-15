@@ -132,8 +132,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
                     }
                 }
 
-                if ((listType instanceof TypeVariable) &&
-                        Arrays.asList(((TypeVariable<?>) listType).getBounds())
+                if ((listType instanceof TypeVariable)
+                        && Arrays.asList(((TypeVariable<?>) listType).getBounds())
                         .stream().anyMatch(item -> availableElementClasses.contains(item))) {
                     return true;
                 }
