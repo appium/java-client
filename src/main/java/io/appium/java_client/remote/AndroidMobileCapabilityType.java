@@ -173,8 +173,8 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String CHROMEDRIVER_EXECUTABLE = "chromedriverExecutable";
 
     /**
-     * 	An array of arguments to be passed to the chromedriver binary when it's run by Appium.
-     * 	By default no CLI args are added beyond what Appium uses internally (such as {@code --url-base}, {@code --port},
+     * An array of arguments to be passed to the chromedriver binary when it's run by Appium.
+     * By default no CLI args are added beyond what Appium uses internally (such as {@code --url-base}, {@code --port},
      * {@code --adb-port}, and {@code --log-path}.
      */
     String CHROMEDRIVER_ARGS = "chromedriverArgs";
@@ -212,7 +212,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String CHROMEDRIVER_PORTS = "chromedriverPorts";
 
     /**
-     * Sets the chromedriver flag {@code --disable-build-check} for Chrome webview tests
+     * Sets the chromedriver flag {@code --disable-build-check} for Chrome webview tests.
      */
     String CHROMEDRIVER_DISABLE_BUILD_CHECK = "chromedriverDisableBuildCheck";
 
@@ -337,14 +337,14 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String ADB_EXEC_TIMEOUT = "adbExecTimeout";
 
     /**
-     * Sets the locale <a href="https://developer.android.com/reference/java/util/Locale>script</a>
+     * Sets the locale <a href="https://developer.android.com/reference/java/util/Locale>script</a>.
      */
     String LOCALE_SCRIPT = "localeScript";
 
     /**
-     * 	Skip device initialization which includes i.a.: installation and running of Settings app or setting of
-     * 	permissions. Can be used to improve startup performance when the device was already used for automation and
-     * 	it's prepared for the next automation. Defaults to {@code false}
+     * Skip device initialization which includes i.a.: installation and running of Settings app or setting of
+     * permissions. Can be used to improve startup performance when the device was already used for automation and
+     * it's prepared for the next automation. Defaults to {@code false}
      */
     String SKIP_DEVICE_INITIALIZATION = "skipDeviceInitialization";
 
@@ -375,7 +375,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String SYSTEM_PORT = "systemPort";
 
     /**
-     * Optional remote ADB server host
+     * Optional remote ADB server host.
      */
     String REMOTE_ADB_HOST = "remoteAdbHost";
 
@@ -412,8 +412,8 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
      * A package, list of packages or * to uninstall package/s before installing apks for test.
-     * {@code '*'} uninstall all of thrid-party packages except for packages which is necessary for Appium to test such as
-     * {@code io.appium.settings} or {@code io.appium.uiautomator2.server} since Appium already contains the logic to
+     * {@code '*'} uninstall all of thrid-party packages except for packages which is necessary for Appium to test such
+     * as {@code io.appium.settings} or {@code io.appium.uiautomator2.server} since Appium already contains the logic to
      * manage them.
      */
     String UNINSTALL_OTHER_PACKAGES = "uninstallOtherPackages";
