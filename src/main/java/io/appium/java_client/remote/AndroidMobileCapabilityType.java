@@ -350,7 +350,8 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
      * Have Appium automatically determine which permissions your app requires and
-     * grant them to the app on install. Defaults to false.
+     * grant them to the app on install. Defaults to {@code false}. If noReset is {@code true}, this capability doesn't
+     * work.
      */
     String AUTO_GRANT_PERMISSIONS = "autoGrantPermissions";
 
@@ -418,8 +419,8 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String UNINSTALL_OTHER_PACKAGES = "uninstallOtherPackages";
 
     /**
-     * Set device animation scale zero if the value is true. After session is complete, Appium restores the animation
-     * scale to it's original value. Defaults to {@code false}
+     * Set device animation scale zero if the value is {@code true}. After session is complete, Appium restores the
+     * animation scale to it's original value. Defaults to {@code false}
      */
     String DISABLE_WINDOW_ANIMATION = "disableWindowAnimation";
 }
