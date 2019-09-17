@@ -422,7 +422,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
      * Initializing the app under test automatically.
-     * Appium does not install/launch the app under test if this is {@code false}. Defaults to {@code true}
+     * Appium does not launch the app under test if this is {@code false}. Defaults to {@code true}
      */
     String AUTO_LAUNCH = "autoLaunch";
 
