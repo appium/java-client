@@ -92,6 +92,17 @@ public class SettingTest extends BaseAndroidTest {
             .get(Setting.TRACK_SCROLL_EVENTS.toString()));
     }
 
+    @Test public void testSettingByString() {
+        assertEquals(true, driver.getSettings()
+                .get("shouldUseCompactResponses"));
+        driver.setSetting("shouldUseCompactResponses", false);
+        assertEquals(false, driver.getSettings()
+                .get("shouldUseCompactResponses"));
+        driver.setSetting("shouldUseCompactResponses", true);
+        assertEquals(true, driver.getSettings()
+                .get("shouldUseCompactResponses"));
+    }
+
     private void assertJSONElementContains(Setting setting, long value) {
         assertEquals(driver.getSettings().get(setting.toString()), value);
     }
