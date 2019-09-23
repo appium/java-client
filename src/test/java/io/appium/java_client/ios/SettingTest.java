@@ -83,5 +83,16 @@ public class SettingTest extends AppIOSTest {
             .get(Setting.KEYBOARD_PREDICTION.toString()));
     }
 
+    @Test public void testSettingByString() {
+        assertEquals(true, driver.getSettings()
+                .get("shouldUseCompactResponses"));
+        driver.setSetting("shouldUseCompactResponses", false);
+        assertEquals(false, driver.getSettings()
+                .get("shouldUseCompactResponses"));
+        driver.setSetting("shouldUseCompactResponses", true);
+        assertEquals(true, driver.getSettings()
+                .get("shouldUseCompactResponses"));
+    }
+
 
 }

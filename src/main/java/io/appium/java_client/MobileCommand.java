@@ -469,9 +469,9 @@ public class MobileCommand {
         return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.of());
     }
 
-    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Setting setting, Object value) {
+    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(String setting, Object value) {
         return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings",
-                prepareArguments(setting.toString(), value)));
+                prepareArguments(setting, value)));
     }
 
     /**
