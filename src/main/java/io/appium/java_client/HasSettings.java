@@ -63,8 +63,6 @@ public interface HasSettings extends ExecutesMethod {
     default Map<String, Object> getSettings() {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
-
-        return ImmutableMap.<String, Object>builder()
-                .putAll(Map.class.cast(response.getValue())).build();
+        return (Map<String, Object>) response.getValue();
     }
 }
