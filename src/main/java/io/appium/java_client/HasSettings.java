@@ -37,6 +37,18 @@ public interface HasSettings extends ExecutesMethod {
      * @param value   value of the setting.
      */
     default void setSetting(Setting setting, Object value) {
+        CommandExecutionHelper.execute(this, setSettingsCommand(setting.toString(), value));
+    }
+
+    /**
+     * Set a setting for this test session It's probably better to use a
+     * convenience function, rather than use this function directly. Try finding
+     * the method for the specific setting you want to change.
+     *
+     * @param setting Setting you wish to set.
+     * @param value   value of the setting.
+     */
+    default void setSetting(String setting, Object value) {
         CommandExecutionHelper.execute(this, setSettingsCommand(setting, value));
     }
 
@@ -51,8 +63,6 @@ public interface HasSettings extends ExecutesMethod {
     default Map<String, Object> getSettings() {
         Map.Entry<String, Map<String, ?>> keyValuePair = getSettingsCommand();
         Response response = execute(keyValuePair.getKey(), keyValuePair.getValue());
-
-        return ImmutableMap.<String, Object>builder()
-                .putAll(Map.class.cast(response.getValue())).build();
+        return (Map<String, Object>) response.getValue();
     }
 }

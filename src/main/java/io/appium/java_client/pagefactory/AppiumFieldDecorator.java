@@ -45,8 +45,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +130,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
                     if (webElementClass.equals(listType)) {
                         return true;
                     }
+                }
+
+                if ((listType instanceof TypeVariable)
+                        && Arrays.asList(((TypeVariable<?>) listType).getBounds())
+                        .stream().anyMatch(item -> availableElementClasses.contains(item))) {
+                    return true;
                 }
                 return false;
             }
