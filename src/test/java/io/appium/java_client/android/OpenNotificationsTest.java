@@ -1,6 +1,5 @@
 package io.appium.java_client.android;
 
-import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
 import static org.openqa.selenium.By.id;
 
@@ -15,7 +14,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
     public void openNotification() {
         driver.closeApp();
         driver.openNotifications();
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, 20);
         assertNotEquals(0, wait.until(input -> {
             List<AndroidElement> result = input
                     .findElements(id("com.android.systemui:id/settings_button"));

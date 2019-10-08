@@ -58,7 +58,7 @@ public class IOSTouchTest extends AppIOSTest {
     }
 
     @Test public void swipeTest() {
-        WebDriverWait webDriverWait = new WebDriverWait(driver, ofSeconds(30));
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 30);
         IOSElement slider = webDriverWait.until(driver1 -> driver.findElementByClassName("XCUIElementTypeSlider"));
         Dimension size = slider.getSize();
 
@@ -82,7 +82,7 @@ public class IOSTouchTest extends AppIOSTest {
 
         new MultiTouchAction(driver).add(tap1).add(tap2).perform();
 
-        WebDriverWait waiting = new WebDriverWait(driver, ofSeconds(10000));
+        WebDriverWait waiting = new WebDriverWait(driver, 10000);
         assertNotNull(waiting.until(alertIsPresent()));
         driver.switchTo().alert().accept();
     }

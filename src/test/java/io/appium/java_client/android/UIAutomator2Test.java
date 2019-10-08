@@ -1,6 +1,5 @@
 package io.appium.java_client.android;
 
-import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -24,7 +23,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
     @Test
     public void testLandscapeRightRotation() {
-        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
+        new WebDriverWait(driver, 20).until(ExpectedConditions
                 .elementToBeClickable(driver.findElementById("android:id/content")
                         .findElement(MobileBy.AccessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
@@ -34,7 +33,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
     @Test
     public void testLandscapeLeftRotation() {
-        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
+        new WebDriverWait(driver, 20).until(ExpectedConditions
                 .elementToBeClickable(driver.findElementById("android:id/content")
                         .findElement(MobileBy.AccessibilityId("Graphics"))));
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
@@ -44,7 +43,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
     @Test
     public void testPortraitUpsideDown() {
-        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
+        new WebDriverWait(driver, 20).until(ExpectedConditions
                 .elementToBeClickable(driver.findElementById("android:id/content")
                         .findElement(MobileBy.AccessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 180);
@@ -57,7 +56,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
      */
     @Ignore
     public void testToastMSGIsDisplayed() {
-        final WebDriverWait wait = new WebDriverWait(driver, ofSeconds(30));
+        final WebDriverWait wait = new WebDriverWait(driver, 30);
         Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
         driver.startActivity(activity);
 
