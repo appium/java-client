@@ -1,6 +1,5 @@
 package io.appium.java_client.ios;
 
-import static java.time.Duration.ofSeconds;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
@@ -26,7 +25,7 @@ public class IOSElementTest extends AppIOSTest {
     @Ignore
     @Test
     public void setValueTest() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, 20);
 
         IOSElement slider = wait.until(
                 driver1 -> driver1.findElement(By.className("XCUIElementTypeSlider")));

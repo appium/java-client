@@ -19,7 +19,6 @@ package io.appium.java_client.pagefactory_tests;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
-import static java.time.Duration.ofSeconds;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -48,7 +47,7 @@ import java.util.List;
 public class XCUITModeTest extends AppIOSTest {
 
     private boolean populated = false;
-    private WebDriverWait waiting = new WebDriverWait(driver, ofSeconds(10000));
+    private WebDriverWait waiting = new WebDriverWait(driver, 10000);
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "label contains 'Compute'")

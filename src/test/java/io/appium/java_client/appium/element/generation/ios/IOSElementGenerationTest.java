@@ -1,9 +1,10 @@
 package io.appium.java_client.appium.element.generation.ios;
 
 import static io.appium.java_client.MobileBy.AccessibilityId;
-import static io.appium.java_client.selenium.By.*;
-import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertTrue;
+import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.name;
+import static org.openqa.selenium.By.partialLinkText;
 
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.BaseIOSTest;
@@ -12,12 +13,12 @@ import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
-import io.appium.java_client.selenium.support.ui.ExpectedConditions;
-import io.appium.java_client.selenium.support.ui.WebDriverWait;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.util.function.Function;
@@ -83,11 +84,11 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             Capabilities caps = commonAppCapabilitiesSupplier.get();
             return caps.merge(appFileSupplierFunction.apply(webViewApp).get());
         }, (by, aClass) -> {
-            new WebDriverWait(driver, ofSeconds(30))
+            new WebDriverWait(driver, 30)
                     .until(ExpectedConditions.presenceOfElementLocated(id("login")))
                     .click();
             driver.findElementByAccessibilityId("webView").click();
-            new WebDriverWait(driver, ofSeconds(30))
+            new WebDriverWait(driver, 30)
                     .until(ExpectedConditions
                             .presenceOfElementLocated(AccessibilityId("Webview")));
             try {

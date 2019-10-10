@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import static java.time.Duration.ofSeconds;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -57,7 +56,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void hideKeyboardWithParametersTest() {
-        new WebDriverWait(driver, ofSeconds(30))
+        new WebDriverWait(driver, 30)
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("IntegerA")))
                 .click();
         driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
@@ -103,7 +102,7 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test public void putAppIntoBackgroundAndRestoreTest() {
         final long msStarted = System.currentTimeMillis();
-        driver.runAppInBackground(ofSeconds(4));
+        driver.runAppInBackground(Duration.ofSeconds(4));
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
     }
 
@@ -120,7 +119,7 @@ public class IOSDriverTest extends AppIOSTest {
         }
         assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
         Thread.sleep(500);
-        driver.runAppInBackground(ofSeconds(-1));
+        driver.runAppInBackground(Duration.ofSeconds(-1));
         assertThat(driver.queryAppState(BUNDLE_ID), lessThan(ApplicationState.RUNNING_IN_FOREGROUND));
         Thread.sleep(500);
         driver.activateApp(BUNDLE_ID);
@@ -129,7 +128,7 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test public void putAIntoBackgroundWithoutRestoreTest() {
         assertThat(driver.findElementsById("IntegerA"), is(not(empty())));
-        driver.runAppInBackground(ofSeconds(-1));
+        driver.runAppInBackground(Duration.ofSeconds(-1));
         assertThat(driver.findElementsById("IntegerA"), is(empty()));
         driver.launchApp();
     }
