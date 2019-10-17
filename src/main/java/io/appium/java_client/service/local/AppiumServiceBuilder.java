@@ -29,6 +29,7 @@ import io.appium.java_client.service.local.flags.ServerArgument;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
@@ -45,6 +46,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +144,11 @@ public final class AppiumServiceBuilder
 
     private static File findMainScript() {
         File npm = findNpm();
-        ProcessBuilder pb = new ProcessBuilder(npm.getAbsolutePath(), "root", "-g");
+        List<String> cmdLine = SystemUtils.IS_OS_WINDOWS
+                // npm is a batch script, so on windows we need to use cmd.exe in order to execute it
+                ? Arrays.asList("cmd.exe", "/c", String.format("\"%s\" root -g", npm.getAbsolutePath()))
+                : Arrays.asList(npm.getAbsolutePath(), "root", "-g");
+        ProcessBuilder pb = new ProcessBuilder(cmdLine);
         String nodeModulesRoot;
         try {
             nodeModulesRoot = IOUtils.toString(pb.start().getInputStream(), StandardCharsets.UTF_8).trim();
