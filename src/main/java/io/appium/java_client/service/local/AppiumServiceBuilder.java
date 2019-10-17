@@ -476,7 +476,8 @@ public final class AppiumServiceBuilder
 
     @Override
     protected AppiumDriverLocalService createDriverService(File nodeJSExecutable, int nodeJSPort,
-                                                           ImmutableList<String> nodeArguments, ImmutableMap<String, String> nodeEnvironment) {
+                                                           ImmutableList<String> nodeArguments,
+                                                           ImmutableMap<String, String> nodeEnvironment) {
         try {
             return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort,
                     nodeArguments, nodeEnvironment, startupTimeout, timeUnit);
