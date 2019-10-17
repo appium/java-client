@@ -21,9 +21,11 @@ public class InvalidServerInstanceException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private static String MESSAGE_PREFIX = "Invalid server instance exception has occured: ";
+    public InvalidServerInstanceException(String message, Throwable t) {
+        super(message, t);
+    }
 
-    public InvalidServerInstanceException(String messege, Throwable t) {
-        super(MESSAGE_PREFIX + messege, t);
+    public InvalidServerInstanceException(String message) {
+        super(message);
     }
 }

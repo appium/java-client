@@ -27,29 +27,34 @@ import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.os.CommandLine;
+import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 
 public final class AppiumServiceBuilder
-    extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
+        extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
     /**
      * The environmental variable used to define
@@ -63,34 +68,24 @@ public final class AppiumServiceBuilder
      * the path to executable NodeJS file (node.exe for WIN and
      * node for Linux/MacOS X).
      */
-    public static final String NODE_PATH = "NODE_BINARY_PATH";
-    public static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
+    private static final String NODE_PATH = "NODE_BINARY_PATH";
+
+    private static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
     private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
             AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
-    private static final String APPIUM_FOLDER = "appium";
-    private static final String BUILD_FOLDER = "build";
-    private static final String LIB_FOLDER = "lib";
-    private static final String MAIN_JS = "main.js";
-    private static final String ERROR_NODE_NOT_FOUND = "There is no installed nodes! Please "
-            + "install node via NPM (https://www.npmjs.com/package/appium#using-node-js) or download and "
-            + "install Appium app (http://appium.io/downloads.html)";
-    private static final String APPIUM_NODE_MASK =
-        File.separator + BUILD_FOLDER
-                + File.separator + LIB_FOLDER
-                + File.separator + MAIN_JS;
+    private static final Path APPIUM_PATH_SUFFIX = Paths.get("appium", "build", "lib", "main.js");
     public static final int DEFAULT_APPIUM_PORT = 4723;
-    private static final String BASH = "bash";
-    private static final String CMD_EXE = "cmd.exe";
-    private static final String NODE = "node";
-    final Map<String, String> serverArguments = new HashMap<>();
+    private final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
+    private File node;
     private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
-    private File npmScript;
-    private File getNodeJSExecutable;
     private DesiredCapabilities capabilities;
+    private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
+            "The main Appium script does not exist at '%s'", fullPath.getAbsolutePath());
+    private static final Function<File, String> NODE_JS_NOT_EXIST_ERROR = (fullPath) ->
+            String.format("The main NodeJS executable does not exist at '%s'", fullPath.getAbsolutePath());
 
-    //The first starting is slow sometimes on some
-    //environment
+    // The first starting is slow sometimes on some environment
     private long startupTimeout = 120;
     private TimeUnit timeUnit = TimeUnit.SECONDS;
 
@@ -108,14 +103,15 @@ public final class AppiumServiceBuilder
      * "{@code proxy}" don't tend to count to the score).
      * Higher the score, higher the possibility of getting grid sessions created sooner.
      */
-    @Override public int score(Capabilities capabilites) {
+    @Override
+    public int score(Capabilities capabilities) {
         int score = 0;
 
-        if (capabilites.getCapability(PLATFORM_NAME) != null) {
+        if (capabilities.getCapability(PLATFORM_NAME) != null) {
             score++;
         }
 
-        String browserName = capabilites.getBrowserName();
+        String browserName = capabilities.getBrowserName();
         if (browserName.equals(BrowserType.CHROME) || browserName.equals(BrowserType.ANDROID)
                 || browserName.equals(BrowserType.SAFARI)) {
             score++;
@@ -124,120 +120,60 @@ public final class AppiumServiceBuilder
         return score;
     }
 
-    private static void validateNodeStructure(File node) {
-        String absoluteNodePath = node.getAbsolutePath();
+    private static File validatePath(@Nullable String fullPath, String errMsg) {
+        if (fullPath == null) {
+            throw new InvalidServerInstanceException(errMsg);
+        }
+        File result = new File(fullPath);
+        if (!result.exists()) {
+            throw new InvalidServerInstanceException(errMsg);
+        }
+        return result;
+    }
 
-        if (!node.exists()) {
+    private static File findBinary(String name, String errMsg) {
+        return validatePath(new ExecutableFinder().find(name), errMsg);
+    }
+
+    private static File findNpm() {
+        return findBinary("npm",
+                "Node Package Manager (npm) is either not installed or its executable is not present in PATH");
+    }
+
+    private static File findMainScript() {
+        File npm = findNpm();
+        ProcessBuilder pb = new ProcessBuilder(npm.getAbsolutePath(), "root", "-g");
+        String nodeModulesRoot;
+        try {
+            nodeModulesRoot = IOUtils.toString(pb.start().getInputStream(), StandardCharsets.UTF_8).trim();
+        } catch (IOException e) {
             throw new InvalidServerInstanceException(
-                "The invalid appium node " + absoluteNodePath + " has been defined",
-                new IOException("The node " + absoluteNodePath + "doesn't exist"));
+                    "Cannot retrieve the path to the folder where NodeJS modules are located", e);
         }
+        File mainAppiumJs = Paths.get(nodeModulesRoot, APPIUM_PATH_SUFFIX.toString()).toFile();
+        if (!mainAppiumJs.exists()) {
+            throw new InvalidServerInstanceException(APPIUM_JS_NOT_EXIST_ERROR.apply(mainAppiumJs));
+        }
+        return mainAppiumJs;
     }
 
-    private static void disposeCachedFile(File file) throws Throwable {
-        if (file != null) {
-            FileUtils.forceDelete(file);
-        }
-    }
-
-    private void setUpNPMScript() {
-        if (npmScript != null) {
-            return;
+    @Override
+    protected File findDefaultExecutable() {
+        if (this.node != null) {
+            validatePath(this.node.getAbsolutePath(), NODE_JS_NOT_EXIST_ERROR.apply(this.node));
+            return this.node;
         }
 
-        if (!Platform.getCurrent().is(Platform.WINDOWS)) {
-            npmScript = Scripts.GET_PATH_TO_DEFAULT_NODE_UNIX.getScriptFile();
-        }
-    }
-
-    private void setUpGetNodeJSExecutableScript() {
-        if (getNodeJSExecutable != null) {
-            return;
+        File node = loadPathFromEnv(NODE_PATH);
+        if (node != null) {
+            validatePath(node.getAbsolutePath(), NODE_JS_NOT_EXIST_ERROR.apply(node));
+            this.node = node;
+            return this.node;
         }
 
-        getNodeJSExecutable = Scripts.GET_NODE_JS_EXECUTABLE.getScriptFile();
-    }
-
-    private File findNodeInCurrentFileSystem() {
-        setUpNPMScript();
-
-        String instancePath;
-        CommandLine commandLine;
-        try {
-            if (Platform.getCurrent().is(Platform.WINDOWS)) {
-                commandLine = new CommandLine(CMD_EXE, "/C", "npm root -g");
-            } else {
-                commandLine = new CommandLine(BASH, "-l", npmScript.getAbsolutePath());
-            }
-            commandLine.execute();
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
-
-        instancePath = (commandLine.getStdOut()).trim();
-        try {
-            File defaultAppiumNode;
-            if (StringUtils.isBlank(instancePath) || !(defaultAppiumNode =
-                new File(instancePath + File.separator
-                    + APPIUM_FOLDER)).exists()) {
-                String errorOutput = commandLine.getStdOut();
-                throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND,
-                    new IOException(errorOutput));
-            }
-            //appium servers v1.5.x and higher
-            File result;
-            if ((result = new File(defaultAppiumNode, APPIUM_NODE_MASK)).exists()) {
-                return result;
-            }
-
-            throw new InvalidServerInstanceException(ERROR_NODE_NOT_FOUND, new IOException(
-                "Could not find a file " + APPIUM_NODE_MASK
-                    + " in the "
-                    + defaultAppiumNode + " directory"));
-        } finally {
-            commandLine.destroy();
-        }
-    }
-
-    @Override protected File findDefaultExecutable() {
-
-        String nodeJSExec = System.getProperty(NODE_PATH);
-        if (StringUtils.isBlank(nodeJSExec)) {
-            nodeJSExec = System.getenv(NODE_PATH);
-        }
-        if (!StringUtils.isBlank(nodeJSExec)) {
-            File result = new File(nodeJSExec);
-            if (result.exists()) {
-                return result;
-            }
-        }
-
-        CommandLine commandLine;
-        setUpGetNodeJSExecutableScript();
-        try {
-            if (Platform.getCurrent().is(Platform.WINDOWS)) {
-                commandLine = new CommandLine(NODE + ".exe", getNodeJSExecutable.getAbsolutePath());
-            } else {
-                commandLine = new CommandLine(NODE, getNodeJSExecutable.getAbsolutePath());
-            }
-            commandLine.execute();
-        } catch (Throwable t) {
-            throw new InvalidNodeJSInstance("Node.js is not installed!", t);
-        }
-
-
-        String filePath = (commandLine.getStdOut()).trim();
-
-        try {
-            if (StringUtils.isBlank(filePath) || !new File(filePath).exists()) {
-                String errorOutput = commandLine.getStdOut();
-                String errorMessage = "Can't get a path to the default Node.js instance";
-                throw new InvalidNodeJSInstance(errorMessage, new IOException(errorOutput));
-            }
-            return new File(filePath);
-        } finally {
-            commandLine.destroy();
-        }
+        this.node = findBinary("node",
+                "NodeJS is either not installed or its executable not present in PATH");
+        return this.node;
     }
 
     /**
@@ -264,14 +200,22 @@ public final class AppiumServiceBuilder
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
         String argName = argument.getArgument().trim().toLowerCase();
-        if ("--port".equals(argName) || "-p".equals(argName)) {
-            usingPort(Integer.valueOf(value));
-        } else if ("--address".equals(argName) || "-a".equals(argName)) {
-            withIPAddress(value);
-        } else if ("--log".equals(argName) || "-g".equals(argName)) {
-            withLogFile(new File(value));
-        } else {
-            serverArguments.put(argName, value);
+        switch (argName) {
+            case "--port":
+            case "-p":
+                usingPort(Integer.parseInt(value));
+                break;
+            case "--address":
+            case "-a":
+                withIPAddress(value);
+                break;
+            case "--log":
+            case "-g":
+                withLogFile(new File(value));
+                break;
+            default:
+                serverArguments.put(argName, value);
+                break;
         }
         return this;
     }
@@ -325,24 +269,29 @@ public final class AppiumServiceBuilder
         return this;
     }
 
-    private void checkAppiumJS() {
-        if (appiumJS != null) {
-            validateNodeStructure(appiumJS);
+    @Nullable
+    private static File loadPathFromEnv(String envVarName) {
+        String fullPath = System.getProperty(envVarName);
+        if (StringUtils.isBlank(fullPath)) {
+            fullPath = System.getenv(envVarName);
+        }
+        return StringUtils.isBlank(fullPath) ? null : new File(fullPath);
+    }
+
+    private void loadPathToMainScript() {
+        if (this.appiumJS != null) {
+            validatePath(this.appiumJS.getAbsolutePath(), APPIUM_JS_NOT_EXIST_ERROR.apply(this.appiumJS));
             return;
         }
 
-        String appiumJS = System.getProperty(APPIUM_PATH);
-        if (StringUtils.isBlank(appiumJS)) {
-            appiumJS = System.getenv(APPIUM_PATH);
-        }
-        if (!StringUtils.isBlank(appiumJS)) {
-            File node = new File(appiumJS);
-            validateNodeStructure(node);
-            this.appiumJS = node;
+        File mainScript = loadPathFromEnv(APPIUM_PATH);
+        if (mainScript != null) {
+            validatePath(mainScript.getAbsolutePath(), APPIUM_JS_NOT_EXIST_ERROR.apply(mainScript));
+            this.appiumJS = mainScript;
             return;
         }
 
-        this.appiumJS = findNodeInCurrentFileSystem();
+        this.appiumJS = findMainScript();
     }
 
     private String parseCapabilitiesIfWindows() {
@@ -363,13 +312,13 @@ public final class AppiumServiceBuilder
                     if (PATH_CAPABILITIES.contains(entry.getKey())) {
                         value = "\\\"" + String.valueOf(value).replace("\\", "/") + "\\\"";
                     } else {
-                        value = "\\\"" + String.valueOf(value) + "\\\"";
+                        value = "\\\"" + value + "\\\"";
                     }
                 } else {
                     value = String.valueOf(value);
                 }
 
-                String key = "\\\"" + String.valueOf(entry.getKey()) + "\\\"";
+                String key = "\\\"" + entry.getKey() + "\\\"";
                 if (StringUtils.isBlank(result)) {
                     result = key + ": " + value;
                 } else {
@@ -396,12 +345,12 @@ public final class AppiumServiceBuilder
                 }
 
                 if (String.class.isAssignableFrom(value.getClass())) {
-                    value = "\"" + String.valueOf(value) + "\"";
+                    value = "\"" + value + "\"";
                 } else {
                     value = String.valueOf(value);
                 }
 
-                String key = "\"" + String.valueOf(entry.getKey()) + "\"";
+                String key = "\"" + entry.getKey() + "\"";
                 if (StringUtils.isBlank(result)) {
                     result = key + ": " + value;
                 } else {
@@ -412,7 +361,7 @@ public final class AppiumServiceBuilder
 
         return "{" + result + "}";
     }
-    
+
     private String parseCapabilities() {
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             return parseCapabilitiesIfWindows();
@@ -420,9 +369,10 @@ public final class AppiumServiceBuilder
         return parseCapabilitiesIfUNIX();
     }
 
-    @Override protected ImmutableList<String> createArgs() {
+    @Override
+    protected ImmutableList<String> createArgs() {
         List<String> argList = new ArrayList<>();
-        checkAppiumJS();
+        loadPathToMainScript();
         argList.add(appiumJS.getAbsolutePath());
         argList.add("--port");
         argList.add(String.valueOf(getPort()));
@@ -432,7 +382,7 @@ public final class AppiumServiceBuilder
         } else {
             InetAddressValidator validator = InetAddressValidator.getInstance();
             if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress)
-                && !validator.isValidInet6Address(ipAddress)) {
+                    && !validator.isValidInet6Address(ipAddress)) {
                 throw new IllegalArgumentException(
                         "The invalid IP address " + ipAddress + " is defined");
             }
@@ -508,7 +458,8 @@ public final class AppiumServiceBuilder
      *                    appium server with.
      * @return A self reference.
      */
-    @Override public AppiumServiceBuilder withEnvironment(Map<String, String> environment) {
+    @Override
+    public AppiumServiceBuilder withEnvironment(Map<String, String> environment) {
         return super.withEnvironment(environment);
     }
 
@@ -525,21 +476,12 @@ public final class AppiumServiceBuilder
 
     @Override
     protected AppiumDriverLocalService createDriverService(File nodeJSExecutable, int nodeJSPort,
-        ImmutableList<String> nodeArguments, ImmutableMap<String, String> nodeEnvironment) {
+                                                           ImmutableList<String> nodeArguments, ImmutableMap<String, String> nodeEnvironment) {
         try {
             return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort,
-                nodeArguments, nodeEnvironment, startupTimeout, timeUnit);
+                    nodeArguments, nodeEnvironment, startupTimeout, timeUnit);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    @Override protected void finalize() throws Throwable {
-        try {
-            disposeCachedFile(npmScript);
-            disposeCachedFile(getNodeJSExecutable);
-        } finally {
-            super.finalize();
         }
     }
 }
