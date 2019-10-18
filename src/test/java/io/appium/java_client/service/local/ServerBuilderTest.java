@@ -1,5 +1,6 @@
 package io.appium.java_client.service.local;
 
+import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
@@ -27,7 +28,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.validator.routines.InetAddressValidator;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,11 +36,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 public class ServerBuilderTest {
@@ -67,32 +64,12 @@ public class ServerBuilderTest {
     private OutputStream stream;
     private static WebDriverManager chromeManager;
 
-    private static String getLocalIP(NetworkInterface intf) {
-        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr
-                .hasMoreElements(); ) {
-            InetAddress inetAddress = enumIpAddr.nextElement();
-            if (!inetAddress.isLoopbackAddress()) {
-                InetAddressValidator validator = InetAddressValidator.getInstance();
-                String calculated = inetAddress.getHostAddress();
-                if (validator.isValid(calculated)) {
-                    return calculated;
-                }
-            }
-        }
-        return null;
-    }
-
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() throws Exception {
-        for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
-                .hasMoreElements(); ) {
-            NetworkInterface intf = en.nextElement();
-            if ((testIP = getLocalIP(intf)) != null) {
-                break;
-            }
-        }
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        testIP = getLocalIp4Address();
         chromeManager = chromedriver();
         chromeManager.setup();
     }
@@ -115,7 +92,8 @@ public class ServerBuilderTest {
         ofNullable(PATH_TO_APPIUM_NODE_IN_PROPERTIES).ifPresent(s -> setProperty(APPIUM_PATH, s));
     }
 
-    @Test public void checkAbilityToAddLogMessageConsumer() {
+    @Test
+    public void checkAbilityToAddLogMessageConsumer() {
         List<String> log = new ArrayList<>();
         service = buildDefaultService();
         service.clearOutPutStreams();
@@ -124,19 +102,22 @@ public class ServerBuilderTest {
         assertTrue(log.size() > 0);
     }
 
-    @Test public void checkAbilityToStartDefaultService() {
+    @Test
+    public void checkAbilityToStartDefaultService() {
         service = buildDefaultService();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToFindNodeDefinedInProperties() {
+    @Test
+    public void checkAbilityToFindNodeDefinedInProperties() {
         File definedNode = PATH_T0_TEST_MAIN_JS.toFile();
         setProperty(APPIUM_PATH, definedNode.getAbsolutePath());
         assertThat(new AppiumServiceBuilder().createArgs().get(0), is(definedNode.getAbsolutePath()));
     }
 
-    @Test public void checkAbilityToUseNodeDefinedExplicitly() {
+    @Test
+    public void checkAbilityToUseNodeDefinedExplicitly() {
         File mainJS = PATH_T0_TEST_MAIN_JS.toFile();
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withAppiumJS(mainJS);
@@ -144,29 +125,33 @@ public class ServerBuilderTest {
                 is(mainJS.getAbsolutePath()));
     }
 
-    @Test public void checkAbilityToStartServiceOnAFreePort() {
+    @Test
+    public void checkAbilityToStartServiceOnAFreePort() {
         service = new AppiumServiceBuilder().usingAnyFreePort().build();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingNonLocalhostIP() {
+    @Test
+    public void checkAbilityToStartServiceUsingNonLocalhostIP() {
         service = new AppiumServiceBuilder().withIPAddress(testIP).build();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingFlags() {
+    @Test
+    public void checkAbilityToStartServiceUsingFlags() {
         service = new AppiumServiceBuilder()
-            .withArgument(CALLBACK_ADDRESS, testIP)
-            .withArgument(SESSION_OVERRIDE)
-            .withArgument(PRE_LAUNCH)
-            .build();
+                .withArgument(CALLBACK_ADDRESS, testIP)
+                .withArgument(SESSION_OVERRIDE)
+                .withArgument(PRE_LAUNCH)
+                .build();
         service.start();
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingCapabilities() {
+    @Test
+    public void checkAbilityToStartServiceUsingCapabilities() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
 
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -183,7 +168,8 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
+    @Test
+    public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
 
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -204,7 +190,8 @@ public class ServerBuilderTest {
         assertTrue(service.isRunning());
     }
 
-    @Test public void checkAbilityToChangeOutputStream() throws Exception {
+    @Test
+    public void checkAbilityToChangeOutputStream() throws Exception {
         testLogFile = new File("test");
         testLogFile.createNewFile();
         stream = new FileOutputStream(testLogFile);
@@ -214,7 +201,8 @@ public class ServerBuilderTest {
         assertThat(testLogFile.length(), greaterThan(0L));
     }
 
-    @Test public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
+    @Test
+    public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
         testLogFile = new File("test");
         testLogFile.createNewFile();
         stream = new FileOutputStream(testLogFile);
@@ -225,14 +213,16 @@ public class ServerBuilderTest {
         assertThat(testLogFile.length(), greaterThan(0L));
     }
 
-    @Test public void checkAbilityToShutDownService() {
+    @Test
+    public void checkAbilityToShutDownService() {
         service = buildDefaultService();
         service.start();
         service.stop();
         assertFalse(service.isRunning());
     }
 
-    @Test public void checkAbilityToStartAndShutDownFewServices() throws Exception {
+    @Test
+    public void checkAbilityToStartAndShutDownFewServices() throws Exception {
         List<AppiumDriverLocalService> services = asList(
                 new AppiumServiceBuilder().usingAnyFreePort().build(),
                 new AppiumServiceBuilder().usingAnyFreePort().build(),
@@ -245,7 +235,8 @@ public class ServerBuilderTest {
         assertTrue(services.stream().noneMatch(AppiumDriverLocalService::isRunning));
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFile() throws Exception {
+    @Test
+    public void checkAbilityToStartServiceWithLogFile() throws Exception {
         testLogFile = new File("Log.txt");
         testLogFile.createNewFile();
         service = new AppiumServiceBuilder().withLogFile(testLogFile).build();
@@ -254,7 +245,8 @@ public class ServerBuilderTest {
         assertThat(testLogFile.length(), greaterThan(0L));
     }
 
-    @Test public void checkAbilityToStartServiceWithPortUsingFlag() {
+    @Test
+    public void checkAbilityToStartServiceWithPortUsingFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -265,8 +257,9 @@ public class ServerBuilderTest {
         assertEquals(expectedUrl, actualUrl);
         service.start();
     }
-    
-    @Test public void checkAbilityToStartServiceWithPortUsingShortFlag() {
+
+    @Test
+    public void checkAbilityToStartServiceWithPortUsingShortFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
 
@@ -278,7 +271,8 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithIpUsingFlag() {
+    @Test
+    public void checkAbilityToStartServiceWithIpUsingFlag() {
         String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
         service = new AppiumServiceBuilder()
@@ -289,7 +283,8 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithIpUsingShortFlag() {
+    @Test
+    public void checkAbilityToStartServiceWithIpUsingShortFlag() {
         String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
 
         service = new AppiumServiceBuilder()
@@ -300,7 +295,8 @@ public class ServerBuilderTest {
         service.start();
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFileUsingFlag() {
+    @Test
+    public void checkAbilityToStartServiceWithLogFileUsingFlag() {
         testLogFile = new File("Log2.txt");
 
         service = new AppiumServiceBuilder()
@@ -310,9 +306,10 @@ public class ServerBuilderTest {
         assertTrue(testLogFile.exists());
     }
 
-    @Test public void checkAbilityToStartServiceWithLogFileUsingShortFlag() {
+    @Test
+    public void checkAbilityToStartServiceWithLogFileUsingShortFlag() {
         testLogFile = new File("Log3.txt");
-        
+
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "-g", testLogFile.getAbsolutePath())
                 .build();

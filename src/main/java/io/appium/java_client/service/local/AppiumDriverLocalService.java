@@ -17,6 +17,7 @@
 package io.appium.java_client.service.local;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
@@ -67,8 +68,8 @@ public final class AppiumDriverLocalService extends DriverService {
     private CommandLine process = null;
 
     AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort,
-        ImmutableList<String> nodeJSArgs, ImmutableMap<String, String> nodeJSEnvironment,
-        long startupTimeout, TimeUnit timeUnit) throws IOException {
+                             ImmutableList<String> nodeJSArgs, ImmutableMap<String, String> nodeJSEnvironment,
+                             long startupTimeout, TimeUnit timeUnit) throws IOException {
         super(nodeJSExec, nodeJSPort, nodeJSArgs, nodeJSEnvironment);
         this.nodeJSExec = nodeJSExec;
         this.nodeJSArgs = nodeJSArgs;
@@ -91,11 +92,13 @@ public final class AppiumDriverLocalService extends DriverService {
      *
      * @return The base URL for the managed appium server.
      */
-    @Override public URL getUrl() {
+    @Override
+    public URL getUrl() {
         return url;
     }
 
-    @Override public boolean isRunning() {
+    @Override
+    public boolean isRunning() {
         lock.lock();
         try {
             if (process == null) {
@@ -121,15 +124,15 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     private void ping(long time, TimeUnit timeUnit) throws UrlChecker.TimeoutException, MalformedURLException {
-        URL status = new URL(url.toString() + "/status");
+        // The operating system might block direct access to the universal broadcast IP address
+        URL status = new URL(url.toString().replace(BROADCAST_IP_ADDRESS, "127.0.0.1") + "/status");
         new UrlChecker().waitUntilAvailable(time, timeUnit, status);
     }
 
     /**
      * Starts the defined appium server.
      *
-     * @throws AppiumServerHasNotBeenStartedLocallyException
-     * If an error occurs while spawning the child process.
+     * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
      * @see #stop()
      */
     public void start() throws AppiumServerHasNotBeenStartedLocallyException {
@@ -141,7 +144,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
             try {
                 process = new CommandLine(this.nodeJSExec.getCanonicalPath(),
-                    nodeJSArgs.toArray(new String[] {}));
+                        nodeJSArgs.toArray(new String[]{}));
                 process.setEnvironmentVariables(nodeJSEnvironment);
                 process.copyOutputTo(stream);
                 process.executeAsync();
@@ -149,8 +152,8 @@ public final class AppiumDriverLocalService extends DriverService {
             } catch (Throwable e) {
                 destroyProcess();
                 String msgTxt = "The local appium server has not been started. "
-                    + "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
-                    + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
+                        + "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
+                        + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
                 if (process != null) {
                     String processStream = process.getStdOut();
                     if (!StringUtils.isBlank(processStream)) {
@@ -171,7 +174,8 @@ public final class AppiumDriverLocalService extends DriverService {
      *
      * @see #start()
      */
-    @Override public void stop() {
+    @Override
+    public void stop() {
         lock.lock();
         try {
             if (process != null) {
@@ -192,8 +196,7 @@ public final class AppiumDriverLocalService extends DriverService {
     /**
      * Logs as string.
      *
-     * @return String logs if the server has been run.
-     *     null is returned otherwise.
+     * @return String logs if the server has been run. Null is returned otherwise.
      */
     @Nullable
     public String getStdOut() {
@@ -206,6 +209,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     /**
      * Adds other output stream which should accept server output data.
+     *
      * @param outputStream is an instance of {@link OutputStream}
      *                     that is ready to accept server output
      */
@@ -216,6 +220,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     /**
      * Adds other output streams which should accept server output data.
+     *
      * @param outputStreams is a list of additional {@link OutputStream}
      *                      that are ready to accept server output
      */
@@ -240,12 +245,12 @@ public final class AppiumDriverLocalService extends DriverService {
      * <a href="http://slf4j.org">SLF4J</a> loggers. This allow server output
      * data to be configured with your preferred logging frameworks (e.g.
      * java.util.logging, logback, log4j).
-     * 
+     *
      * <p>NOTE1: You might want to call method {@link #clearOutPutStreams()} before
      * calling this method.<br>
      * NOTE2: it is required that {@code --log-timestamp} server flag is
      * {@code false}.
-     * 
+     *
      * <p>By default log messages are:
      * <ul>
      * <li>logged at {@code INFO} level, unless log message is pre-fixed by
@@ -262,7 +267,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * is logged by logger {@code appium.service.xcuitest} at level
      * {@code DEBUG}.
      * <br>
-     * 
+     *
      * @see #addSlf4jLogMessageConsumer(BiConsumer)
      */
     public void enableDefaultSlf4jLoggingOfOutputData() {
@@ -280,14 +285,14 @@ public final class AppiumDriverLocalService extends DriverService {
      * message is parsed for its slf4j context (logger name, logger level etc.)
      * and the specified {@code BiConsumer} is invoked with the log message and
      * slf4j context.
-     * 
+     *
      * <p>Use this method only if you want a behavior that differentiates from the
      * default behavior as enabled by method
      * {@link #enableDefaultSlf4jLoggingOfOutputData()}.
-     * 
+     *
      * <p>NOTE: You might want to call method {@link #clearOutPutStreams()} before
      * calling this method.
-     * 
+     *
      * <p>implementation detail:
      * <ul>
      * <li>if log message begins with {@code [debug]} then log level is set to
@@ -302,10 +307,9 @@ public final class AppiumDriverLocalService extends DriverService {
      * Example log-message: "[debug] [XCUITest] Xcode version set to 'x.y.z' "
      * is logged by {@code appium.service.xcuitest} at level {@code DEBUG}
      * <br>
-     * 
-     * @param slf4jLogMessageConsumer
-     *            BiConsumer block to be executed when a log message is
-     *            available.
+     *
+     * @param slf4jLogMessageConsumer BiConsumer block to be executed when a log message is
+     *                                available.
      */
     public void addSlf4jLogMessageConsumer(BiConsumer<String, Slf4jLogMessageContext> slf4jLogMessageConsumer) {
         checkNotNull(slf4jLogMessageConsumer, "slf4jLogMessageConsumer parameter is NULL!");
@@ -331,17 +335,15 @@ public final class AppiumDriverLocalService extends DriverService {
     /**
      * When a complete log message is available (from server output data), the
      * specified {@code Consumer} is invoked with that log message.
-     * 
+     *
      * <p>NOTE: You might want to call method {@link #clearOutPutStreams()} before
      * calling this method.
-     * 
+     *
      * <p>If the Consumer fails and throws an exception the exception is logged (at
      * WARN level) and execution continues.
      * <br>
-     * 
-     * @param consumer
-     *            Consumer block to be executed when a log message is available.
-     * 
+     *
+     * @param consumer Consumer block to be executed when a log message is available.
      */
     public void addLogMessageConsumer(Consumer<String> consumer) {
         checkNotNull(consumer, "consumer parameter is NULL!");

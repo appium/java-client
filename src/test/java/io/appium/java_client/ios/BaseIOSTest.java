@@ -20,8 +20,10 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
 
-import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+
+import static io.appium.java_client.TestUtils.getLocalIp4Address;
 
 public class BaseIOSTest {
 
@@ -40,12 +42,10 @@ public class BaseIOSTest {
      * @return ip of a local host
      * @throws UnknownHostException when it is impossible to get ip address of a local host
      */
-    public static String startAppiumServer() throws UnknownHostException {
-        service = new AppiumServiceBuilder()
-                .usingPort(PORT).build();
+    public static String startAppiumServer() throws UnknownHostException, SocketException {
+        service = new AppiumServiceBuilder().usingPort(PORT).build();
         service.start();
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        return inetAddress.getHostAddress();
+        return getLocalIp4Address();
     }
 
     /**
