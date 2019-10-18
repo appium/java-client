@@ -196,8 +196,7 @@ public final class AppiumDriverLocalService extends DriverService {
     /**
      * Logs as string.
      *
-     * @return String logs if the server has been run.
-     * null is returned otherwise.
+     * @return String logs if the server has been run. Null is returned otherwise.
      */
     @Nullable
     public String getStdOut() {
