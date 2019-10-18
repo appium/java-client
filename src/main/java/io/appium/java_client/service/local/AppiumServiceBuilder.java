@@ -72,7 +72,7 @@ public final class AppiumServiceBuilder
      */
     private static final String NODE_PATH = "NODE_BINARY_PATH";
 
-    private static final String DEFAULT_LOCAL_IP_ADDRESS = "0.0.0.0";
+    public static final String BROADCAST_IP_ADDRESS = "0.0.0.0";
     private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
             AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
     private static final Path APPIUM_PATH_SUFFIX = Paths.get("appium", "build", "lib", "main.js");
@@ -80,7 +80,7 @@ public final class AppiumServiceBuilder
     private final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private File node;
-    private String ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
+    private String ipAddress = BROADCAST_IP_ADDRESS;
     private DesiredCapabilities capabilities;
     private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
             "The main Appium script does not exist at '%s'", fullPath.getAbsolutePath());
@@ -384,7 +384,7 @@ public final class AppiumServiceBuilder
         argList.add(String.valueOf(getPort()));
 
         if (StringUtils.isBlank(ipAddress)) {
-            ipAddress = DEFAULT_LOCAL_IP_ADDRESS;
+            ipAddress = BROADCAST_IP_ADDRESS;
         } else {
             InetAddressValidator validator = InetAddressValidator.getInstance();
             if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress)
