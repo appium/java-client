@@ -23,13 +23,12 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
 
-    @BeforeClass public static void beforeClass() throws UnknownHostException, MalformedURLException {
+    @BeforeClass public static void beforeClass() throws IOException {
         final String ip = startAppiumServer();
 
         if (service == null || !service.isRunning()) {

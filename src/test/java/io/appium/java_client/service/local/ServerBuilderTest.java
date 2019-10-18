@@ -1,5 +1,6 @@
 package io.appium.java_client.service.local;
 
+import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
@@ -35,10 +36,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,14 +63,6 @@ public class ServerBuilderTest {
     private File testLogFile;
     private OutputStream stream;
     private static WebDriverManager chromeManager;
-
-    private static String getLocalIp4Address() throws SocketException, UnknownHostException {
-        // https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
-        try (final DatagramSocket socket = new DatagramSocket()) {
-            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-            return socket.getLocalAddress().getHostAddress();
-        }
-    }
 
     /**
      * initialization.

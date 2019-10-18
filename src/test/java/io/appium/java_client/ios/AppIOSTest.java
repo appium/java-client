@@ -8,16 +8,14 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 public class AppIOSTest extends BaseIOSTest {
 
     public static final String BUNDLE_ID = "io.appium.TestApp";
 
     @BeforeClass
-    public static void beforeClass() throws UnknownHostException, MalformedURLException {
+    public static void beforeClass() throws Exception {
         final String ip = startAppiumServer();
 
         if (service == null || !service.isRunning()) {
