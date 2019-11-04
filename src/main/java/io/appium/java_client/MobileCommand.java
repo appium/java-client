@@ -51,6 +51,7 @@ public class MobileCommand {
     protected static final String CLOSE_APP;
     protected static final String GET_DEVICE_TIME;
     protected static final String GET_SESSION;
+    protected static final String LOG_EVENT;
 
     //region Applications Management
     protected static final String IS_APP_INSTALLED;
@@ -128,6 +129,7 @@ public class MobileCommand {
         CLOSE_APP = "closeApp";
         GET_DEVICE_TIME = "getDeviceTime";
         GET_SESSION = "getSession";
+        LOG_EVENT = "logCustomEvent";
 
         //region Applications Management
         IS_APP_INSTALLED = "isAppInstalled";
