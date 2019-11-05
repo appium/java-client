@@ -16,10 +16,19 @@
 
 package io.appium.java_client;
 
+import static io.appium.java_client.MobileCommand.GET_EVENTS;
 import static io.appium.java_client.MobileCommand.LOG_EVENT;
 
-import java.util.HashMap;
+import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.serverevents.CommandEvent;
+import io.appium.java_client.serverevents.CustomEvent;
+import io.appium.java_client.serverevents.TimedEvent;
+import io.appium.java_client.serverevents.ServerEvents;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.openqa.selenium.json.Json;
+import org.openqa.selenium.remote.Response;
 
 public interface LogsEvents extends ExecutesMethod {
 
@@ -27,14 +36,45 @@ public interface LogsEvents extends ExecutesMethod {
      * Log a custom event on the Appium server.
      *
      * @since Appium 1.16
-     * @param vendor the name of the vendor prefix to avoid event collisions
-     * @param eventName the name of the event
+     * @param event the event to log
      * @throws org.openqa.selenium.WebDriverException if there was a failure while executing the script
      */
-    default void logEvent(String vendor, String eventName) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("vendor", vendor);
-        data.put("event", eventName);
-        execute(LOG_EVENT, data);
+    default void logEvent(CustomEvent event) {
+        execute(LOG_EVENT, ImmutableMap.of("vendor", event.getVendor(), "event", event.getEventName()));
+    }
+
+    /**
+     * Log a custom event on the Appium server.
+     *
+     * @since Appium 1.16
+     * @return ServerEvents object wrapping up the various command and event timestamps
+     * @throws org.openqa.selenium.WebDriverException if there was a failure while executing the script
+     */
+    default ServerEvents getEvents() {
+        Response response = execute(GET_EVENTS);
+        String jsonData = new Json().toJson(response.getValue());
+
+        //noinspection unchecked
+        Map<String, Object> value = (Map<String, Object>) response.getValue();
+
+        //noinspection unchecked
+        List<CommandEvent> commands = ((List<Map<String, Object>>) value.get("commands"))
+            .stream()
+            .map((Map<String, Object> cmd) -> new CommandEvent(
+                (String) cmd.get("cmd"),
+                ((Long) cmd.get("startTime")),
+                ((Long) cmd.get("endTime"))
+            ))
+            .collect(Collectors.toList());
+
+        List<TimedEvent> events = value.keySet().stream()
+            .filter((String name) -> !name.equals("commands"))
+            .map((String name) -> {
+                //noinspection unchecked
+                return new TimedEvent(name, (List<Long>) value.get(name));
+            })
+            .collect(Collectors.toList());
+
+        return new ServerEvents(commands, events, jsonData);
     }
 }

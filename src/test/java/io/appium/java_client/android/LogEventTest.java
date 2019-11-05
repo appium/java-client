@@ -16,27 +16,34 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.driverscripts.ScriptOptions;
-import io.appium.java_client.driverscripts.ScriptType;
-import io.appium.java_client.driverscripts.ScriptValue;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import io.appium.java_client.serverevents.CommandEvent;
+import io.appium.java_client.serverevents.CustomEvent;
+import io.appium.java_client.serverevents.TimedEvent;
+import io.appium.java_client.serverevents.ServerEvents;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 public class LogEventTest extends BaseAndroidTest {
 
     @Test
     public void verifyLoggingCustomEvents() {
-        driver.logEvent("appium", "funEvent");
-        Object value = driver.getSessionDetail("events");
-        //noinspection unchecked
-        assertNotNull(((Map<String, Object>) value).get("appium:funEvent"));
+        CustomEvent evt = new CustomEvent();
+        evt.setEventName("funEvent");
+        evt.setVendor("appium");
+        driver.logEvent(evt);
+        ServerEvents events = driver.getEvents();
+        boolean hasCustomEvent = events.events.stream().anyMatch((TimedEvent event) ->
+            event.name.equals("appium:funEvent") &&
+            event.occurrences.get(0).intValue() > 0
+        );
+        boolean hasCommandName = events.commands.stream().anyMatch((CommandEvent event) ->
+            event.name.equals("logCustomEvent")
+        );
+        assertTrue(hasCustomEvent);
+        assertTrue(hasCommandName);
+        assertThat(events.jsonData, Matchers.containsString("\"appium:funEvent\""));
     }
 }
