@@ -51,6 +51,8 @@ public class MobileCommand {
     protected static final String CLOSE_APP;
     protected static final String GET_DEVICE_TIME;
     protected static final String GET_SESSION;
+    protected static final String LOG_EVENT;
+    protected static final String GET_EVENTS;
 
     //region Applications Management
     protected static final String IS_APP_INSTALLED;
@@ -128,6 +130,8 @@ public class MobileCommand {
         CLOSE_APP = "closeApp";
         GET_DEVICE_TIME = "getDeviceTime";
         GET_SESSION = "getSession";
+        LOG_EVENT = "logCustomEvent";
+        GET_EVENTS = "getLogEvents";
 
         //region Applications Management
         IS_APP_INSTALLED = "isAppInstalled";
@@ -214,6 +218,10 @@ public class MobileCommand {
                 postC("/session/:sessionId/appium/start_recording_screen"));
         commandRepository.put(STOP_RECORDING_SCREEN,
                 postC("/session/:sessionId/appium/stop_recording_screen"));
+        commandRepository.put(GET_EVENTS,
+                postC("/session/:sessionId/appium/events"));
+        commandRepository.put(LOG_EVENT,
+                postC("/session/:sessionId/appium/log_event"));
 
         //region Applications Management
         commandRepository.put(IS_APP_INSTALLED, postC("/session/:sessionId/appium/device/app_installed"));
