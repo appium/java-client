@@ -355,7 +355,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
     String ADB_EXEC_TIMEOUT = "adbExecTimeout";
 
     /**
-     * Sets the locale <a href="https://developer.android.com/reference/java/util/Locale>script</a>.
+     * Sets the locale <a href="https://developer.android.com/reference/java/util/Locale">script</a>.
      * @since 1.10.0
      */
     String LOCALE_SCRIPT = "localeScript";

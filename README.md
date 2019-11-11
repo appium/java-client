@@ -66,6 +66,21 @@ dependencies {
 ```
 
 ## Changelog
+*7.3.0*
+- **[ENHANCEMENTS]** 
+    - Add support for logging custom events on the Appium Server. [#1262](https://github.com/appium/java-client/pull/1262)
+    - Update Appium executable detection implementation. [#1256](https://github.com/appium/java-client/pull/1256)
+    - Avoid through NPE if any setting value is null. [#1241](https://github.com/appium/java-client/pull/1241)
+    - Settings API was improved to accept string names. [#1240](https://github.com/appium/java-client/pull/1240)
+    - Switch `runAppInBackground` iOS implementation in sync with other platforms. [#1229](https://github.com/appium/java-client/pull/1229)
+    - JavaDocs for AndroidMobileCapabilityType was updated. [#1238](https://github.com/appium/java-client/pull/1238)
+    - Github Actions were introduced instead of TravisCI. [#1219](https://github.com/appium/java-client/pull/1219)
+- **[BUG FIX]**
+    - Fix return type of `getSystemBars` API. [#1216](https://github.com/appium/java-client/pull/1216)
+    - Avoid using `getSession` call for capabilities values retrieval [W3C Support]. [#1204](https://github.com/appium/java-client/pull/1204)
+    - Fix pagefactory list element initialisation when parameterised by generic type. [#1237](https://github.com/appium/java-client/pull/1237)
+    - Fix AndroidKey commands. [#1250](https://github.com/appium/java-client/pull/1250)
+
 *7.2.0*
 - **[DEPENDENCY UPDATES]**
     - `org.seleniumhq.selenium:selenium-java` was reverted to stable version 3.141.59. [#1209](https://github.com/appium/java-client/pull/1209)
