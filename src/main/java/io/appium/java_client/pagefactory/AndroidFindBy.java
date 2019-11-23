@@ -94,4 +94,11 @@ public @interface AndroidFindBy {
      * @return priority of the searching
      */
     int priority() default 0;
+
+    /**
+     * Its Android View Tag element value
+     *
+     * @return a android view tag value to the target element
+     */
+    String androidViewTag() default "";
 }

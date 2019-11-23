@@ -107,6 +107,18 @@ enum Strategies {
             return MobileBy
                     .iOSNsPredicateString(getValue(annotation, this));
         }
+    },
+
+    BY_ANDROID_VIEWTAG("androidViewTag"){
+        @Override By getBy(Annotation annotation){
+            String value = getValue(annotation, this);
+            if (annotation.annotationType().equals(AndroidFindBy.class)
+                    || annotation.annotationType().equals(AndroidBy.class)) {
+                return MobileBy.AndroidViewTag(value);
+            }
+            return super.getBy(annotation);
+        }
+
     };
 
     private final String valueName;
