@@ -109,8 +109,8 @@ enum Strategies {
         }
     },
 
-    BY_ANDROID_VIEWTAG("androidViewTag"){
-        @Override By getBy(Annotation annotation){
+    BY_ANDROID_VIEWTAG("androidViewTag") {
+        @Override By getBy(Annotation annotation) {
             String value = getValue(annotation, this);
             if (annotation.annotationType().equals(AndroidFindBy.class)
                     || annotation.annotationType().equals(AndroidBy.class)) {

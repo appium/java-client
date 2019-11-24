@@ -96,7 +96,7 @@ public @interface AndroidFindBy {
     int priority() default 0;
 
     /**
-     * Its Android View Tag element value
+     * Its Android View Tag element value.
      *
      * @return a android view tag value to the target element
      */
