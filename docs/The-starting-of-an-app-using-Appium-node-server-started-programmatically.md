@@ -148,7 +148,7 @@ import java.io.File;
  
 ...
 //appiumJS is the full or relative path to 
-//the appium.js (v<=1.4.16) or maim.js (v>=1.5.0)
+//the appium.js (v<=1.4.16) or main.js (v>=1.5.0)
 new AppiumServiceBuilder().withAppiumJS(new File(appiumJS));
 ``` 
 
