@@ -119,7 +119,21 @@ public enum GeneralServerFlag implements ServerArgument {
     /**
      * Enables NodeJS memory dumps collection feature.
      */
-    ENABLE_HEAP_DUMP("--enable-heapdump");
+    ENABLE_HEAP_DUMP("--enable-heapdump"),
+    /**
+     * Allow a list of features which are considered insecure and must be turned on
+     * explicitly by system administrators.
+     * Default: []
+     * Sample: --allow-insecure=foo,bar
+     */
+    ALLOW_INSECURE("--allow-insecure"),
+    /**
+     * Specify a list of features which will never be allowed to run, even if --relaxed-security
+     * is turned on, and even if feature names are listed with --allow-insecure.
+     * Default: []
+     * Sample: --deny-insecure=foo,bar
+     */
+    DENY_INSECURE("--deny-insecure");
 
     private final String arg;
 
