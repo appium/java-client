@@ -25,10 +25,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
+    private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);
+    private static final Duration WEB_VIEW_DETECT_DURATION = Duration.ofSeconds(15);
 
-    @BeforeClass public static void beforeClass() throws IOException {
+    @BeforeClass
+    public static void beforeClass() throws IOException {
         final String ip = startAppiumServer();
 
         if (service == null || !service.isRunning()) {
@@ -47,11 +51,17 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
     }
 
     protected void findAndSwitchToWebView() throws InterruptedException {
-        Thread.sleep(10000);
-        driver.getContextHandles().forEach((handle) -> {
-            if (handle.contains("WEBVIEW")) {
-                driver.context(handle);
+        final long msStarted = System.currentTimeMillis();
+        while (System.currentTimeMillis() - msStarted <= WEB_VIEW_DETECT_DURATION.toMillis()) {
+            for (String handle : driver.getContextHandles()) {
+                if (handle.contains("WEBVIEW")) {
+                    driver.context(handle);
+                    return;
+                }
             }
-        });
+            Thread.sleep(WEB_VIEW_DETECT_INTERVAL.toMillis());
+        }
+        throw new IllegalStateException(String.format("No web views have been detected within %sms timeout",
+                WEB_VIEW_DETECT_DURATION.toMillis()));
     }
 }
