@@ -97,8 +97,8 @@ public abstract class MobileBy extends By {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     * @param dataMatcherString is a valid class chain locator string.
-     *                            See <a href="https://github.com/appium/appium-espresso-driver/pull/386">
+     * @param dataMatcherString is a valid json string detailing hamcrest matcher for Espresso onData().
+     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
      *                            the documentation</a> for more details
      * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidDataMatcher}
      */
@@ -108,8 +108,8 @@ public abstract class MobileBy extends By {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     * @param viewMatcherString is a valid class chain locator string.
-     *                            See <a href="https://github.com/appium/appium-espresso-driver/pull/516">
+     * @param viewMatcherString is a valid json string detailing hamcrest matcher for Espresso onView().
+     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
      *                            the documentation</a> for more details
      * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidViewMatcher}
      */
