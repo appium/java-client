@@ -97,13 +97,24 @@ public abstract class MobileBy extends By {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     * @param dataMatcherString is a valid class chain locator string.
-     *                            See <a href="https://github.com/appium/appium-espresso-driver/pull/386">
+     * @param dataMatcherString is a valid json string detailing hamcrest matcher for Espresso onData().
+     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
      *                            the documentation</a> for more details
      * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidDataMatcher}
      */
     public static By androidDataMatcher(final String dataMatcherString) {
         return new ByAndroidDataMatcher(dataMatcherString);
+    }
+
+    /**
+     * This locator strategy is only available in Espresso Driver mode.
+     * @param viewMatcherString is a valid json string detailing hamcrest matcher for Espresso onView().
+     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                            the documentation</a> for more details
+     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidViewMatcher}
+     */
+    public static By androidViewMatcher(final String viewMatcherString) {
+        return new ByAndroidViewMatcher(viewMatcherString);
     }
 
     /**
@@ -404,6 +415,66 @@ public abstract class MobileBy extends By {
 
         @Override public String toString() {
             return "By.FindsByAndroidDataMatcher: " + getLocatorString();
+        }
+    }
+
+    public static class ByAndroidViewMatcher extends MobileBy implements Serializable {
+
+        protected ByAndroidViewMatcher(String locatorString) {
+            super(MobileSelector.ANDROID_VIEW_MATCHER, locatorString);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @SuppressWarnings("unchecked")
+        @Override public List<WebElement> findElements(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidViewMatcher.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidViewMatcher.class.cast(context)
+                    .findElementsByAndroidViewMatcher(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElements(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewMatcher.class,
+                FindsByFluentSelector.class);
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws WebDriverException when current session doesn't support the given selector or when
+         *      value of the selector is not consistent.
+         * @throws IllegalArgumentException when it is impossible to find something on the given
+         * {@link SearchContext} instance
+         */
+        @Override public WebElement findElement(SearchContext context) {
+            Class<?> contextClass = context.getClass();
+
+            if (FindsByAndroidViewMatcher.class.isAssignableFrom(contextClass)) {
+                return FindsByAndroidViewMatcher.class.cast(context)
+                    .findElementByAndroidViewMatcher(getLocatorString());
+            }
+
+            if (FindsByFluentSelector.class.isAssignableFrom(contextClass)) {
+                return super.findElement(context);
+            }
+
+            throw formIllegalArgumentException(contextClass, FindsByAndroidViewMatcher.class,
+                FindsByFluentSelector.class);
+        }
+
+        @Override public String toString() {
+            return "By.FindsByAndroidViewMatcher: " + getLocatorString();
         }
     }
 

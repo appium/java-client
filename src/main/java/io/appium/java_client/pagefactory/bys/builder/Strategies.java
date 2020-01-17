@@ -102,6 +102,12 @@ enum Strategies {
                     .androidDataMatcher(getValue(annotation, this));
         }
     },
+    BY_VIEW_MATCHER("androidViewMatcher") {
+        @Override By getBy(Annotation annotation) {
+            return MobileBy
+                .androidViewMatcher(getValue(annotation, this));
+        }
+    },
     BY_NS_PREDICATE("iOSNsPredicate") {
         @Override By getBy(Annotation annotation) {
             return MobileBy

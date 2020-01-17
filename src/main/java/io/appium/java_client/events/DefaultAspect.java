@@ -99,6 +99,8 @@ class DefaultAspect {
         + "execution(* org.openqa.selenium.ContextAware.*(..)) || "
         + "execution(* io.appium.java_client.FindsByAccessibilityId.*(..)) || "
         + "execution(* io.appium.java_client.FindsByAndroidUIAutomator.*(..)) || "
+        + "execution(* io.appium.java_client.FindsByAndroidDataMatcher.*(..)) || "
+        + "execution(* io.appium.java_client.FindsByAndroidViewMatcher.*(..)) || "
         + "execution(* io.appium.java_client.FindsByWindowsAutomation.*(..)) || "
         + "execution(* io.appium.java_client.FindsByIosNSPredicate.*(..)) || "
         + "execution(* org.openqa.selenium.internal.FindsByClassName.*(..)) || "

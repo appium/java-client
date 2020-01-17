@@ -82,6 +82,13 @@ public @interface AndroidFindBy {
     String androidDataMatcher() default "";
 
     /**
+     * It is a desired view matcher expression.
+     *
+     * @return a desired view matcher expression
+     */
+    String androidViewMatcher() default "";
+
+    /**
      * It is a xpath to the target element.
      *
      * @return a xpath to the target element
