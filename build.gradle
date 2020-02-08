@@ -37,10 +37,14 @@ dependencies {
     lombok 'org.projectlombok:lombok:1.18.8'
 }
 
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    withJavadocJar()
+    withSourcesJar()
+}
 
+compileJava {
     def ecjJar = configurations.ecj.singleFile
     def lombokjar = configurations.lombok.singleFile
 
@@ -116,16 +120,6 @@ checkstyle {
     ignoreFailures = false
 }
 checkstyleMain.excludes = ['**/org/openqa/selenium/**']
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
-    archiveClassifier = 'sources'
-}
-
-task javadocJar(type: Jar) {
-    from javadoc
-    archiveClassifier = 'javadoc'
-}
 
 javadoc {
     options.addStringOption('encoding', 'UTF-8')
