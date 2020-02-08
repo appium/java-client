@@ -34,7 +34,7 @@ configurations {
 
 dependencies {
     ecj 'org.eclipse.jdt:ecj:3.20.0'
-    lombok 'org.projectlombok:lombok:1.18.8'
+    lombok 'org.projectlombok:lombok:1.18.12'
 }
 
 compileJava {
@@ -52,8 +52,8 @@ compileJava {
 }
 
 dependencies {
-    compileOnly('org.projectlombok:lombok:1.18.8')
-    annotationProcessor('org.projectlombok:lombok:1.18.8')
+    compileOnly('org.projectlombok:lombok:1.18.12')
+    annotationProcessor('org.projectlombok:lombok:1.18.12')
     compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
         force = true
 
