@@ -78,7 +78,7 @@ dependencies {
     compile 'org.aspectj:aspectjweaver:1.9.5'
     compile 'org.slf4j:slf4j-api:1.7.30'
 
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13'
     testCompile 'org.hamcrest:hamcrest:2.1'
     testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.6.1') {
         exclude group: 'org.seleniumhq.selenium'
