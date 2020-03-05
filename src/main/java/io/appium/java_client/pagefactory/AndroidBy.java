@@ -21,9 +21,8 @@ package io.appium.java_client.pagefactory;
  */
 public @interface AndroidBy {
     /**
-     * It is an Android UIAutomator string.
-     * Read http://developer.android.com/intl/ru/tools/testing-support-library/
-     * index.html#uia-apis
+     * A String that can build an Android UiSelector or UiScrollable object.
+     * Refer to https://developer.android.com/training/testing/ui-automator
      *
      * @return an Android UIAutomator string
      */

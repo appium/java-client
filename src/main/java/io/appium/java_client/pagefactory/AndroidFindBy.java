@@ -36,9 +36,8 @@ import java.lang.annotation.Target;
 @Repeatable(AndroidFindBySet.class)
 public @interface AndroidFindBy {
     /**
-     * It is an Android UIAutomator string.
-     * Read http://developer.android.com/intl/ru/tools/testing-support-library/
-     * index.html#uia-apis
+     * A String that can build an Android UiSelector or UiScrollable object.
+     * Refer to https://developer.android.com/training/testing/ui-automator
      *
      * @return an Android UIAutomator string
      */
