@@ -70,15 +70,15 @@ public class WindowsStartScreenRecordingOptions
      * for more details.
      *
      * @param preset One of the supported encoding presets. Possible values are:
-     * - ultrafast
-     * - superfast
-     * - veryfast (default)
-     * - faster
-     * - fast
-     * - medium
-     * - slow
-     * - slower
-     * - veryslow
+     *     - ultrafast
+     *     - superfast
+     *     - veryfast (default)
+     *     - faster
+     *     - fast
+     *     - medium
+     *     - slow
+     *     - slower
+     *     - veryslow
      * @return self instance for chaining.
      */
     public WindowsStartScreenRecordingOptions withPreset(String preset) {
