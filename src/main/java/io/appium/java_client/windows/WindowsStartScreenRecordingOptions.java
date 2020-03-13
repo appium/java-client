@@ -29,6 +29,9 @@ public class WindowsStartScreenRecordingOptions
     private Integer fps;
     private String videoFilter;
     private String preset;
+    private Boolean captureCursor;
+    private Boolean captureClicks;
+    private String audioInput;
 
     public static WindowsStartScreenRecordingOptions startScreenRecordingOptions() {
         return new WindowsStartScreenRecordingOptions();
@@ -45,6 +48,41 @@ public class WindowsStartScreenRecordingOptions
      */
     public WindowsStartScreenRecordingOptions withFps(int fps) {
         this.fps = fps;
+        return this;
+    }
+
+    /**
+     * Whether to capture the mouse cursor while recording
+     * the screen. Disabled by default.
+     *
+     * @return self instance for chaining.
+     */
+    public WindowsStartScreenRecordingOptions enableCursorCapture() {
+        this.captureCursor = true;
+        return this;
+    }
+
+    /**
+     * Whether to capture the click gestures while recording
+     * the screen. Disabled by default.
+     *
+     * @return self instance for chaining.
+     */
+    public WindowsStartScreenRecordingOptions enableClicksCapture() {
+        this.captureClicks = true;
+        return this;
+    }
+
+    /**
+     * If provided then the given audio input will be used to record the computer audio
+     * along with the desktop video. The list of available devices could be retrieved using
+     * `ffmpeg -list_devices true -f dshow -i dummy` command.
+     *
+     * @param audioInput One of valid audio input names listed by ffmpeg
+     * @return self instance for chaining.
+     */
+    public WindowsStartScreenRecordingOptions withAudioInput(String audioInput) {
+        this.audioInput = audioInput;
         return this;
     }
     
@@ -105,6 +143,9 @@ public class WindowsStartScreenRecordingOptions
         ofNullable(fps).map(x -> builder.put("fps", x));
         ofNullable(preset).map(x -> builder.put("preset", x));
         ofNullable(videoFilter).map(x -> builder.put("videoFilter", x));
+        ofNullable(captureClicks).map(x -> builder.put("captureClicks", x));
+        ofNullable(captureCursor).map(x -> builder.put("captureCursor", x));
+        ofNullable(audioInput).map(x -> builder.put("audioInput", x));
         return builder.build();
     }
 }
