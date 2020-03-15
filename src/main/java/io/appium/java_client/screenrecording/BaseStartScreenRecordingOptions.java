@@ -26,7 +26,7 @@ import java.util.Map;
 
 public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenRecordingOptions<T>>
         extends BaseScreenRecordingOptions<BaseStartScreenRecordingOptions<T>> {
-    private Boolean forceRestart;
+    protected Boolean forceRestart;
     private Duration timeLimit;
 
     /**
@@ -64,8 +64,7 @@ public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenR
 
     /**
      * Whether to ignore the result of previous capture and start a new recording
-     * immediately. By default the endpoint will try to catch and return the result of
-     * the previous capture if it's still available.
+     * immediately.
      *
      * @return self instance for chaining.
      */
