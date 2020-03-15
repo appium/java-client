@@ -155,7 +155,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         try {
             driver = new AppiumDriver<>(service, fixedCaps);
         } catch (SessionNotCreatedException e) {
-            fixedCaps.setCapability("useNewWda", true);
+            fixedCaps.setCapability("useNewWDA", true);
             driver = new AppiumDriver<>(service, fixedCaps);
         }
         return filter.test(by, IOSElement.class);
