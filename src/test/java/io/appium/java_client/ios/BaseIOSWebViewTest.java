@@ -25,7 +25,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -50,6 +49,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
+        capabilities.setCapability("commandTimeouts", "120000");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         Supplier<IOSDriver<IOSElement>> createDriver = () -> {
             try {
@@ -61,9 +61,6 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
         try {
             driver = createDriver.get();
         } catch (SessionNotCreatedException e) {
-            if (!(e.getCause() instanceof InvocationTargetException)) {
-                throw e;
-            }
             // Sometimes WDA session creation freezes unexpectedly on CI:
             // https://dev.azure.com/srinivasansekar/java-client/_build/results?buildId=356&view=ms.vss-test-web.build-test-results-tab
             capabilities.setCapability("useNewWDA", true);
