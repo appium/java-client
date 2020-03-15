@@ -16,7 +16,7 @@ variables:
   IOS_DEVICE_NAME: iPhone X
 
 jobs:
-- job: E2E Tests
+- job: E2E_Tests
   timeoutInMinutes: 120
   steps:
   - task: NodeTool@0
