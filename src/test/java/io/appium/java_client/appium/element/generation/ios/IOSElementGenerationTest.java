@@ -6,6 +6,7 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.partialLinkText;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSElement;
@@ -13,14 +14,19 @@ import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -73,8 +79,8 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             Capabilities caps = commonAppCapabilitiesSupplier.get();
             return caps.merge(appFileSupplierFunction.apply(testApp).get());
         }, commonPredicate,
-        AccessibilityId("Answer"),
-        IOSElement.class));
+        AccessibilityId("Answer")
+        ));
     }
 
     @Ignore
@@ -102,7 +108,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
                 }
             });
             return commonPredicate.test(by, aClass);
-        }, partialLinkText("login"), IOSElement.class));
+        }, partialLinkText("login")));
     }
 
     @Test
@@ -113,7 +119,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         }, (by, aClass) -> {
             driver.get("https://www.google.com");
             return commonPredicate.test(by, aClass);
-        }, name("q"), IOSElement.class));
+        }, name("q")));
     }
 
     @Test
@@ -123,7 +129,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
             serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
             return serverCapabilities.merge(appFileSupplierFunction.apply(testApp).get());
-        }, commonPredicate, id("IntegerA"), IOSElement.class));
+        }, commonPredicate, id("IntegerA")));
     }
 
     @Test
@@ -136,6 +142,22 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         }, (by, aClass) -> {
             driver.get("https://www.google.com");
             return commonPredicate.test(by, aClass);
-        }, name("q"), IOSElement.class));
+        }, name("q")));
+    }
+
+    private boolean check(Supplier<Capabilities> capabilitiesSupplier,
+                          BiPredicate<By, Class<? extends WebElement>> filter,
+                          By by) {
+        service = AppiumDriverLocalService.buildDefaultService();
+        Capabilities caps = capabilitiesSupplier.get();
+        DesiredCapabilities fixedCaps = new DesiredCapabilities(caps);
+        fixedCaps.setCapability("commandTimeouts", "120000");
+        try {
+            driver = new AppiumDriver<>(service, fixedCaps);
+        } catch (SessionNotCreatedException e) {
+            fixedCaps.setCapability("useNewWda", true);
+            driver = new AppiumDriver<>(service, fixedCaps);
+        }
+        return filter.test(by, IOSElement.class);
     }
 }

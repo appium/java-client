@@ -21,6 +21,7 @@ import static java.util.Optional.ofNullable;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import io.appium.java_client.screenrecording.ScreenRecordingUploadOptions;
 
 import java.time.Duration;
 import java.util.Map;
@@ -48,6 +49,14 @@ public class AndroidStartScreenRecordingOptions
     public AndroidStartScreenRecordingOptions withBitRate(int bitRate) {
         this.bitRate = bitRate;
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AndroidStartScreenRecordingOptions withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
+        return super.withUploadOptions(uploadOptions);
     }
     
     /**

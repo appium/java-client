@@ -5,16 +5,22 @@ import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.tagName;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
@@ -36,8 +42,8 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
             clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
             clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
             return clientCapabilities;
-        }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)"),
-        AndroidElement.class));
+        }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)")
+        ));
     }
 
     @Test
@@ -50,7 +56,7 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
         }, (by, aClass) -> {
             driver.context("WEBVIEW_io.appium.android.apis");
             return commonPredicate.test(by, aClass);
-        }, tagName("a"), AndroidElement.class));
+        }, tagName("a")));
     }
 
     @Test
@@ -64,8 +70,14 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
         }, (by, aClass) -> {
             driver.get("https://www.google.com");
             return commonPredicate.test(by, aClass);
-        }, name("q"), AndroidElement.class));
+        }, name("q")));
     }
 
-
+    private boolean check(Supplier<Capabilities> capabilitiesSupplier,
+                          BiPredicate<By, Class<? extends WebElement>> filter,
+                          By by) {
+        service = AppiumDriverLocalService.buildDefaultService();
+        driver = new AppiumDriver<>(service, capabilitiesSupplier.get());
+        return filter.test(by, AndroidElement.class);
+    }
 }
