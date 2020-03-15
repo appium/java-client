@@ -26,7 +26,7 @@ import java.util.Map;
 
 public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenRecordingOptions<T>>
         extends BaseScreenRecordingOptions<BaseStartScreenRecordingOptions<T>> {
-    protected Boolean forceRestart;
+    private Boolean forceRestart;
     private Duration timeLimit;
 
     /**
@@ -49,6 +49,17 @@ public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenR
      */
     public T enableForcedRestart() {
         this.forceRestart = true;
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
+     * Whether to return silently if there is an active video recording.
+     *
+     * @return self instance for chaining.
+     */
+    public T disableForcedRestart() {
+        this.forceRestart = false;
         //noinspection unchecked
         return (T) this;
     }

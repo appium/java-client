@@ -136,18 +136,6 @@ public class WindowsStartScreenRecordingOptions
         return super.withTimeLimit(timeLimit);
     }
 
-    /**
-     * Whether to return silently if there is an active video recording.
-     * The default behavior is to forcefully stop the active recording
-     * and start a new one.
-     *
-     * @return self instance for chaining.
-     */
-    public WindowsStartScreenRecordingOptions disableForcedRestart() {
-        this.forceRestart = false;
-        return this;
-    }
-
     @Override
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();

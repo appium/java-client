@@ -15,44 +15,46 @@ variables:
   IOS_PLATFORM_VERSION: 12.2
   IOS_DEVICE_NAME: iPhone X
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '11.x'
-
-- script: |
-    echo "Configuring Environment"
-    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;$(ANDROID_EMU_TARGET);$(ANDROID_EMU_TAG);$(ANDROID_EMU_ABI)'
-    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n "$(ANDROID_EMU_NAME)" -k 'system-images;$(ANDROID_EMU_TARGET);$(ANDROID_EMU_TAG);$(ANDROID_EMU_ABI)' --force
-    echo $ANDROID_HOME/emulator/emulator -list-avds
-
-    echo "Starting emulator"
-    nohup $ANDROID_HOME/emulator/emulator -avd "$(ANDROID_EMU_NAME)" -no-snapshot > /dev/null 2>&1 &
-    $ANDROID_HOME/platform-tools/adb wait-for-device
-    while [[ $? -ne 0 ]]; do sleep 1; $ANDROID_HOME/platform-tools/adb shell pm list packages; done;
-    $ANDROID_HOME/platform-tools/adb devices
-    echo "Emulator started"
-
-    sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
-    xcrun simctl list
-
-    npm config delete prefix
-    npm config set prefix $NVM_DIR/versions/node/`node --version`
-    node --version
-
-    npm install -g appium@beta
-    appium --version
-
-    java -version
-
-- task: Gradle@2
+jobs:
+- job: E2E Tests
   timeoutInMinutes: 120
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    tasks: 'build'
-    options: 'xcuiTest uiAutomationTest -x checkstyleTest -x test -x signMavenJavaPublication'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '11.x'
+
+  - script: |
+      echo "Configuring Environment"
+      echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;$(ANDROID_EMU_TARGET);$(ANDROID_EMU_TAG);$(ANDROID_EMU_ABI)'
+      echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n "$(ANDROID_EMU_NAME)" -k 'system-images;$(ANDROID_EMU_TARGET);$(ANDROID_EMU_TAG);$(ANDROID_EMU_ABI)' --force
+      echo $ANDROID_HOME/emulator/emulator -list-avds
+
+      echo "Starting emulator"
+      nohup $ANDROID_HOME/emulator/emulator -avd "$(ANDROID_EMU_NAME)" -no-snapshot > /dev/null 2>&1 &
+      $ANDROID_HOME/platform-tools/adb wait-for-device
+      while [[ $? -ne 0 ]]; do sleep 1; $ANDROID_HOME/platform-tools/adb shell pm list packages; done;
+      $ANDROID_HOME/platform-tools/adb devices
+      echo "Emulator started"
+
+      sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
+      xcrun simctl list
+
+      npm config delete prefix
+      npm config set prefix $NVM_DIR/versions/node/`node --version`
+      node --version
+
+      npm install -g appium@beta
+      appium --version
+
+      java -version
+
+  - task: Gradle@2
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      tasks: 'build'
+      options: 'xcuiTest uiAutomationTest -x checkstyleTest -x test -x signMavenJavaPublication'
