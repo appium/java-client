@@ -44,7 +44,7 @@ public class IOSStartScreenRecordingOptions
      */
     @Override
     public IOSStartScreenRecordingOptions withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
-        return super.withUploadOptions(uploadOptions);
+        return (IOSStartScreenRecordingOptions) super.withUploadOptions(uploadOptions);
     }
 
     /**

@@ -56,7 +56,7 @@ public class AndroidStartScreenRecordingOptions
      */
     @Override
     public AndroidStartScreenRecordingOptions withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
-        return super.withUploadOptions(uploadOptions);
+        return (AndroidStartScreenRecordingOptions) super.withUploadOptions(uploadOptions);
     }
     
     /**
