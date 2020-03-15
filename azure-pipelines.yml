@@ -46,6 +46,7 @@ steps:
     java -version
 
 - task: Gradle@2
+  timeoutInMinutes: 120
   inputs:
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
