@@ -16,18 +16,20 @@ to learn more about the general concept.
 
 ### Sample usage:
 
-    // Selector for image elements
-    @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage")
+```java
+// Selector for image elements
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage")
 
-    // Selector for every cell with the name 'Foo'
-    @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == "Foo"`]")
-    // Selector for every cell with a name that starts with 'Foo'
-    @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name BEGINSWITH "Foo"`]")
+// Selector for every cell with the name 'Foo'
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == \"Foo\"`]")
+// Selector for every cell with a name that starts with 'Foo'
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name BEGINSWITH \"Foo\"`]")
 
-    // Selector that'll match every top-level element on screen
-    @iOSXCUITFindBy(iOSClassChain = "*")
-    // Selector that'll match every leaf element on screen (watch out: this can be SLOW)
-    @iOSXCUITFindBy(iOSClassChain = "**/*")
+// Selector that'll match every top-level element on screen
+@iOSXCUITFindBy(iOSClassChain = "*")
+// Selector that'll match every leaf element on screen (watch out: this can be SLOW)
+@iOSXCUITFindBy(iOSClassChain = "**/*")
+```
 
 ## Android's uiAutomator String
 
@@ -48,22 +50,26 @@ and
 
 Here are some ways you could configure a UiSelector in your project:
 
-    // Create a selector that looks for the text "Hello World":
-    @AndroidFindBy(uiAutomator = "new UiSelector().text(\"Hello World\")")
+```java
+// Create a selector that looks for the text "Hello World":
+@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Hello World\")")
 
-    // Create a selector that matches resource ids against a regular expression:
-    private static final String looksLikeAPage = "page_number_\d*";
-    @AndroidFindBy(uiAutomator = "new UiSelector().resourceIdMatches(\"" + looksLikeAPage + "\")")
+// Create a selector that matches resource ids against a regular expression:
+private static final String looksLikeAPage = "page_number_\d*";
+@AndroidFindBy(uiAutomator = "new UiSelector().resourceIdMatches(\"" + looksLikeAPage + "\")")
 
-    // The agent also supports some abbreviated forms - all 3 of the below
-    // strings are equivalent.
-    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\")")
-    @AndroidFindBy(uiAutomator = "UiSelector().className(\"android.widget.EditText\")")
-    @AndroidFindBy(uiAutomator = ".className(\"android.widget.EditText\")")
+// The agent also supports some abbreviated forms - all 3 of the below
+// strings are equivalent.
+@AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\")")
+@AndroidFindBy(uiAutomator = "UiSelector().className(\"android.widget.EditText\")")
+@AndroidFindBy(uiAutomator = ".className(\"android.widget.EditText\")")
 
-    // You can connect up conditions to search for multiple things at once
-    @AndroidFindBy(uiAutomator = ".resourceId(\"android:id/list\").classNameMatches(\"\.*RecyclerView\").index(3)")
+// You can connect up conditions to search for multiple things at once
+@AndroidFindBy(uiAutomator = ".resourceId(\"android:id/list\").classNameMatches(\"\.*RecyclerView\").index(3)")
+```
 
 ..and here are some that create UiScrollable objects:
 
-    // TODO: Provide samples
+```java
+// TODO: Provide samples
+```
