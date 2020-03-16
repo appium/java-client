@@ -22,6 +22,7 @@ import static java.util.Optional.ofNullable;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import io.appium.java_client.screenrecording.ScreenRecordingUploadOptions;
 
 import java.time.Duration;
 import java.util.Map;
@@ -36,6 +37,14 @@ public class IOSStartScreenRecordingOptions
 
     public static IOSStartScreenRecordingOptions startScreenRecordingOptions() {
         return new IOSStartScreenRecordingOptions();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IOSStartScreenRecordingOptions withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
+        return (IOSStartScreenRecordingOptions) super.withUploadOptions(uploadOptions);
     }
 
     /**

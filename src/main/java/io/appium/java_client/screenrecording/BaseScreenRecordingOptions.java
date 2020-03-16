@@ -33,7 +33,7 @@ public abstract class BaseScreenRecordingOptions<T extends BaseScreenRecordingOp
      *                      for more details.
      * @return self instance for chaining.
      */
-    public T withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
+    protected T withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
         this.uploadOptions = checkNotNull(uploadOptions);
         //noinspection unchecked
         return (T) this;

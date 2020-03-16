@@ -30,27 +30,6 @@ public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenR
     private Duration timeLimit;
 
     /**
-     * The remotePath upload option is the path to the remote location,
-     * where the resulting video should be uploaded.
-     * The following protocols are supported: http/https (multipart), ftp.
-     * Missing value (the default setting) means the content of the resulting
-     * file should be encoded as Base64 and passed as the endpoint response value, but
-     * an exception will be thrown if the generated media file is too big to
-     * fit into the available process memory.
-     * This option only has an effect if there is a screen recording session in progress
-     * and forced restart is not enabled (the default setting).
-     *
-     * @param uploadOptions see the documentation on {@link ScreenRecordingUploadOptions}
-     *                      for more details.
-     * @return self instance for chaining.
-     */
-    @Override
-    public T withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
-        //noinspection unchecked
-        return (T) super.withUploadOptions(uploadOptions);
-    }
-
-    /**
      * The maximum recording time.
      *
      * @param timeLimit The actual time limit of the recorded video.
@@ -64,13 +43,23 @@ public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenR
 
     /**
      * Whether to ignore the result of previous capture and start a new recording
-     * immediately. By default the endpoint will try to catch and return the result of
-     * the previous capture if it's still available.
+     * immediately.
      *
      * @return self instance for chaining.
      */
     public T enableForcedRestart() {
         this.forceRestart = true;
+        //noinspection unchecked
+        return (T) this;
+    }
+
+    /**
+     * Whether to return silently if there is an active video recording.
+     *
+     * @return self instance for chaining.
+     */
+    public T disableForcedRestart() {
+        this.forceRestart = false;
         //noinspection unchecked
         return (T) this;
     }

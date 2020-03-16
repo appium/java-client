@@ -20,12 +20,15 @@ import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.function.Supplier;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);
@@ -41,13 +44,28 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
 
         File appDir = new File("src/test/java/io/appium/java_client");
         File app = new File(appDir, "vodqa.zip");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        final DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
+        capabilities.setCapability("commandTimeouts", "120000");
         capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+        Supplier<IOSDriver<IOSElement>> createDriver = () -> {
+            try {
+                return new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        try {
+            driver = createDriver.get();
+        } catch (SessionNotCreatedException e) {
+            // Sometimes WDA session creation freezes unexpectedly on CI:
+            // https://dev.azure.com/srinivasansekar/java-client/_build/results?buildId=356&view=ms.vss-test-web.build-test-results-tab
+            capabilities.setCapability("useNewWDA", true);
+            driver = createDriver.get();
+        }
     }
 
     protected void findAndSwitchToWebView() throws InterruptedException {
