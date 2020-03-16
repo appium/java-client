@@ -82,7 +82,7 @@ public class IOSTouchTest extends AppIOSTest {
 
         new MultiTouchAction(driver).add(tap1).add(tap2).perform();
 
-        WebDriverWait waiting = new WebDriverWait(driver, 10000);
+        WebDriverWait waiting = new WebDriverWait(driver, 10);
         assertNotNull(waiting.until(alertIsPresent()));
         driver.switchTo().alert().accept();
     }

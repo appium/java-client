@@ -22,9 +22,12 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileBy;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.After;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.function.Supplier;
@@ -32,32 +35,61 @@ import java.util.function.Supplier;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSAlertTest extends AppIOSTest {
 
-    private WebDriverWait waiting = new WebDriverWait(driver, 10000);
+    private static final long ALERT_TIMEOUT_SECONDS = 5;
+    private static final int CLICK_RETRIES = 2;
+
+    private WebDriverWait waiting = new WebDriverWait(driver, ALERT_TIMEOUT_SECONDS);
     private static final String iOSAutomationText = "show alert";
 
-    @Test public void acceptAlertTest() {
+    private void ensureAlertPresence() {
+        int retry = 0;
+        // CI might not be performant enough, so we need to retry
+        while (true) {
+            try {
+                driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
+                waiting.until(alertIsPresent());
+                return;
+            } catch (TimeoutException e) {
+                retry++;
+                if (retry >= CLICK_RETRIES) {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    @After
+    public void afterEach() {
+        try {
+            driver.switchTo().alert().accept();
+        } catch (WebDriverException e) {
+            // ignore
+        }
+    }
+
+    @Test
+    public void acceptAlertTest() {
         Supplier<Boolean> acceptAlert = () -> {
-            driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
-            waiting.until(alertIsPresent());
+            ensureAlertPresence();
             driver.switchTo().alert().accept();
             return true;
         };
         assertTrue(acceptAlert.get());
     }
 
-    @Test public void dismissAlertTest() {
+    @Test
+    public void dismissAlertTest() {
         Supplier<Boolean> dismissAlert = () -> {
-            driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
-            waiting.until(alertIsPresent());
+            ensureAlertPresence();
             driver.switchTo().alert().dismiss();
             return true;
         };
         assertTrue(dismissAlert.get());
     }
 
-    @Test public void getAlertTextTest() {
-        driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
-        waiting.until(alertIsPresent());
+    @Test
+    public void getAlertTextTest() {
+        ensureAlertPresence();
         assertFalse(StringUtils.isBlank(driver.switchTo().alert().getText()));
     }
 }

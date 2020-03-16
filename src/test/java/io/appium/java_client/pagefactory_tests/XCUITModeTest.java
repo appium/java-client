@@ -47,7 +47,7 @@ import java.util.List;
 public class XCUITModeTest extends AppIOSTest {
 
     private boolean populated = false;
-    private WebDriverWait waiting = new WebDriverWait(driver, 10000);
+    private WebDriverWait waiting = new WebDriverWait(driver, 10);
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "label contains 'Compute'")

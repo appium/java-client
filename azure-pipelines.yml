@@ -17,7 +17,7 @@ variables:
 
 jobs:
 - job: E2E_Tests
-  timeoutInMinutes: 120
+  timeoutInMinutes: 60
   steps:
   - task: NodeTool@0
     inputs:
