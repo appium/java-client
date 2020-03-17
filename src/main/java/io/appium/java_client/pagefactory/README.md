@@ -101,6 +101,9 @@ Here are some ways you could configure a UiSelector in your project:
 // Create a selector that looks for the text "Hello World":
 @AndroidFindBy(uiAutomator = "new UiSelector().text(\"Hello World\")")
 
+// Create a selector that tries to find an ImageView:
+@AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\")")
+
 // Create a selector that matches resource ids against a regular expression:
 private static final String looksLikeAPage = "page_number_\d*";
 @AndroidFindBy(uiAutomator = "new UiSelector().resourceIdMatches(\"" + looksLikeAPage + "\")")
@@ -118,5 +121,13 @@ private static final String looksLikeAPage = "page_number_\d*";
 ..and here are some that create UiScrollable objects:
 
 ```java
-// TODO: Provide samples
+private static final String ourImageSelector = ".className(\"android.widget.ImageView\")";
+private static final String ourListSelector = ".className(\"android.widget.ListView\")";
+
+// Create a scrollable associated with a list (by itself, this doesn't do anything useful...)
+@AndroidFindBy(uiAutomator = "new UiScrollable(" + ourListSelector + ")")
+
+// Create a scrollable that scrolls forward along a list until it finds an ImageView:
+@AndroidFindBy(uiAutomator = "new UiScrollable(" + ourListSelector + ").scrollIntoView(" + ourImageSelector + ")")
+
 ```
