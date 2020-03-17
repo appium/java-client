@@ -4,10 +4,49 @@
 
 # Advanced Selectors
 
+## iOS's String Predicates
+
+You can specify a [predicate](https://developer.apple.com/documentation/foundation/nspredicate)
+in your Class Chain to limit the number of matched items. There's
+[a detailed guide to that](https://appium.io/docs/en/writing-running-appium/ios/ios-predicate/index.html)
+on the Appium Docs website with some Appium-specific considerations.
+
 ## iOS's Class Chain Queries
 
 Our XCUiTest integration has full support for the 'Class Chain' concept. This
-can do much of what XPath does...but faster.
+can do much of what XPath does...but faster. Note that many Class Chains leverage
+String Predicates too.
+
+### String Predicates in Class Chains
+
+There's a special array-style syntax for defining predicates in a Class Chain:
+
+```
+// Start with [
+// Followed by `
+// Followed by some text
+// Followed by `
+// End with ]
+[`label != 'a'`]
+[`isWDVisible == 1`]
+[`value < 0`]
+```
+
+Most of the time, you can treat pairs of single quotes or double quotes
+interchangably. If you're searching with a string that contains quote marks,
+though, you'll [want to be careful](https://stackoverflow.com/q/14116217).
+
+```c
+// Make sure to escape each quote mark that matches your delimiter
+"text with \"some\" 'quote' marks"
+// To NSPredicate, the line above and the line below are equivalent
+'text with "some" \'quote\' marks'
+```
+```java
+// When defining a iOSXCUITFindBy annotation, you'll be constrained by the
+// Java string-quoting rules too.
+@iOSXCUITFindBy(iOSClassChain = "**/SomeElement[`'text with \"some\" \\\'quote\\\' marks'`]")
+```
 
 ### External References
 
@@ -20,10 +59,18 @@ to learn more about the general concept.
 // Selector for image elements
 @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage")
 
-// Selector for every cell with the name 'Foo'
+// Selector for every cell with the name 'Foo' (single quote style)
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == 'Foo'`]")
+// Selector for every cell with the name "Foo" (double quote style)
 @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == \"Foo\"`]")
-// Selector for every cell with a name that starts with 'Foo'
+
+// Selector for every cell with a name that starts with 'Foo' (single quote style)
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name BEGINSWITH 'Foo'`]")
+// Selector for every cell with a name that starts with "Foo" (double quote style)
 @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name BEGINSWITH \"Foo\"`]")
+
+// Selector for every cell with a name that starts with "it's not"
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name BEGINSWITH \"it's not\"`]")
 
 // Selector that'll match every top-level element on screen
 @iOSXCUITFindBy(iOSClassChain = "*")
