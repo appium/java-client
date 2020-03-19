@@ -38,7 +38,7 @@ public class IOSAlertTest extends AppIOSTest {
     private static final long ALERT_TIMEOUT_SECONDS = 5;
     private static final int CLICK_RETRIES = 2;
 
-    private WebDriverWait waiting = new WebDriverWait(driver, ALERT_TIMEOUT_SECONDS);
+    private final WebDriverWait waiter = new WebDriverWait(driver, ALERT_TIMEOUT_SECONDS);
     private static final String iOSAutomationText = "show alert";
 
     private void ensureAlertPresence() {
@@ -47,7 +47,11 @@ public class IOSAlertTest extends AppIOSTest {
         while (true) {
             try {
                 driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
-                waiting.until(alertIsPresent());
+            } catch (WebDriverException e) {
+                // ignore
+            }
+            try {
+                waiter.until(alertIsPresent());
                 return;
             } catch (TimeoutException e) {
                 retry++;
