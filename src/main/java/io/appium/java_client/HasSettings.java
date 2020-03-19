@@ -35,8 +35,7 @@ public interface HasSettings extends ExecutesMethod {
      * @return        Self instance for chaining.
      */
     default HasSettings setSetting(Setting setting, Object value) {
-        CommandExecutionHelper.execute(this, setSettingsCommand(setting.toString(), value));
-        return this;
+        return setSetting(setting.toString(), value);
     }
 
     /**
