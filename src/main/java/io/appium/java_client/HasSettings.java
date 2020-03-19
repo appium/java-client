@@ -19,12 +19,9 @@ package io.appium.java_client;
 import static io.appium.java_client.MobileCommand.getSettingsCommand;
 import static io.appium.java_client.MobileCommand.setSettingsCommand;
 
-import com.google.common.collect.ImmutableMap;
-
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
-
 
 public interface HasSettings extends ExecutesMethod {
 
@@ -34,10 +31,12 @@ public interface HasSettings extends ExecutesMethod {
      * the method for the specific setting you want to change.
      *
      * @param setting Setting you wish to set.
-     * @param value   value of the setting.
+     * @param value   Value of the setting.
+     * @return        Self instance for chaining.
      */
-    default void setSetting(Setting setting, Object value) {
+    default HasSettings setSetting(Setting setting, Object value) {
         CommandExecutionHelper.execute(this, setSettingsCommand(setting.toString(), value));
+        return this;
     }
 
     /**
@@ -45,11 +44,13 @@ public interface HasSettings extends ExecutesMethod {
      * convenience function, rather than use this function directly. Try finding
      * the method for the specific setting you want to change.
      *
-     * @param setting Setting you wish to set.
-     * @param value   value of the setting.
+     * @param settingName Setting name you wish to set.
+     * @param value       Value of the setting.
+     * @return            Self instance for chaining.
      */
-    default void setSetting(String setting, Object value) {
-        CommandExecutionHelper.execute(this, setSettingsCommand(setting, value));
+    default HasSettings setSetting(String settingName, Object value) {
+        CommandExecutionHelper.execute(this, setSettingsCommand(settingName, value));
+        return this;
     }
 
     /**
