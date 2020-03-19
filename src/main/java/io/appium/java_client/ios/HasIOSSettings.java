@@ -28,8 +28,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings nativeWebTap(Boolean enabled) {
-        setSetting(Setting.NATIVE_WEB_TAP, enabled);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.NATIVE_WEB_TAP, enabled);
     }
 
     /**
@@ -41,8 +40,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setShouldUseCompactResponses(boolean enabled) {
-        setSetting(Setting.SHOULD_USE_COMPACT_RESPONSES, enabled);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.SHOULD_USE_COMPACT_RESPONSES, enabled);
     }
 
     /**
@@ -53,8 +51,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setElementResponseAttributes(String attrNames) {
-        setSetting(Setting.ELEMENT_RESPONSE_ATTRIBUTES, attrNames);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.ELEMENT_RESPONSE_ATTRIBUTES, attrNames);
     }
 
     /**
@@ -66,8 +63,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setMjpegServerScreenshotQuality(int quality) {
-        setSetting(Setting.MJPEG_SERVER_SCREENSHOT_QUALITY, quality);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.MJPEG_SERVER_SCREENSHOT_QUALITY, quality);
     }
 
     /**
@@ -79,8 +75,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setMjpegServerFramerate(int framerate) {
-        setSetting(Setting.MJPEG_SERVER_FRAMERATE, framerate);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.MJPEG_SERVER_FRAMERATE, framerate);
     }
 
     /**
@@ -92,8 +87,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setScreenshotQuality(int quality) {
-        setSetting(Setting.SCREENSHOT_QUALITY, quality);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.SCREENSHOT_QUALITY, quality);
     }
 
     /**
@@ -104,8 +98,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setMjpegScalingFactor(int scale) {
-        setSetting(Setting.MJPEG_SCALING_FACTOR, scale);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.MJPEG_SCALING_FACTOR, scale);
     }
 
     /**
@@ -115,8 +108,7 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setKeyboardAutocorrection(boolean enabled) {
-        setSetting(Setting.KEYBOARD_AUTOCORRECTION, enabled);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.KEYBOARD_AUTOCORRECTION, enabled);
     }
 
     /**
@@ -126,7 +118,6 @@ interface HasIOSSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasIOSSettings setKeyboardPrediction(boolean enabled) {
-        setSetting(Setting.KEYBOARD_PREDICTION, enabled);
-        return this;
+        return (HasIOSSettings) setSetting(Setting.KEYBOARD_PREDICTION, enabled);
     }
 }

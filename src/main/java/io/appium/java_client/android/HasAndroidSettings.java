@@ -33,8 +33,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings ignoreUnimportantViews(Boolean compress) {
-        setSetting(Setting.IGNORE_UNIMPORTANT_VIEWS, compress);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.IGNORE_UNIMPORTANT_VIEWS, compress);
     }
 
     /**
@@ -45,8 +44,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings configuratorSetWaitForIdleTimeout(Duration timeout) {
-        setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, timeout.toMillis());
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.WAIT_FOR_IDLE_TIMEOUT, timeout.toMillis());
     }
 
     /**
@@ -57,8 +55,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings configuratorSetWaitForSelectorTimeout(Duration timeout) {
-        setSetting(Setting.WAIT_FOR_SELECTOR_TIMEOUT, timeout.toMillis());
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.WAIT_FOR_SELECTOR_TIMEOUT, timeout.toMillis());
     }
 
     /**
@@ -69,8 +66,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings configuratorSetScrollAcknowledgmentTimeout(Duration timeout) {
-        setSetting(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.WAIT_SCROLL_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
     }
 
     /**
@@ -81,8 +77,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings configuratorSetKeyInjectionDelay(Duration delay) {
-        setSetting(Setting.KEY_INJECTION_DELAY, delay.toMillis());
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.KEY_INJECTION_DELAY, delay.toMillis());
     }
 
     /**
@@ -93,8 +88,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings configuratorSetActionAcknowledgmentTimeout(Duration timeout) {
-        setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
     }
 
     /**
@@ -111,8 +105,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings normalizeTagNames(boolean enabled) {
-        setSetting(Setting.NORMALIZE_TAG_NAMES, enabled);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.NORMALIZE_TAG_NAMES, enabled);
     }
 
     /**
@@ -124,8 +117,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings setShouldUseCompactResponses(boolean enabled) {
-        setSetting(Setting.SHOULD_USE_COMPACT_RESPONSES, enabled);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.SHOULD_USE_COMPACT_RESPONSES, enabled);
     }
 
     /**
@@ -136,8 +128,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings setElementResponseAttributes(String attrNames) {
-        setSetting(Setting.ELEMENT_RESPONSE_ATTRIBUTES, attrNames);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.ELEMENT_RESPONSE_ATTRIBUTES, attrNames);
     }
 
     /**
@@ -148,8 +139,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings allowInvisibleElements(boolean enabled) {
-        setSetting(Setting.ALLOW_INVISIBLE_ELEMENTS, enabled);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.ALLOW_INVISIBLE_ELEMENTS, enabled);
     }
 
     /**
@@ -162,8 +152,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings enableNotificationListener(boolean enabled) {
-        setSetting(Setting.ENABLE_NOTIFICATION_LISTENER, enabled);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.ENABLE_NOTIFICATION_LISTENER, enabled);
     }
 
     /**
@@ -174,8 +163,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings shutdownOnPowerDisconnect(boolean enabled) {
-        setSetting(Setting.SHUTDOWN_ON_POWER_DISCONNECT, enabled);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.SHUTDOWN_ON_POWER_DISCONNECT, enabled);
     }
 
     /**
@@ -188,7 +176,6 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings setTrackScrollEvents(boolean enabled) {
-        setSetting(Setting.TRACK_SCROLL_EVENTS, enabled);
-        return this;
+        return (HasAndroidSettings) setSetting(Setting.TRACK_SCROLL_EVENTS, enabled);
     }
 }

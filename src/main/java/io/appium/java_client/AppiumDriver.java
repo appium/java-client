@@ -68,7 +68,7 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public class AppiumDriver<T extends WebElement>
         extends DefaultGenericMobileDriver<T> implements ComparesImages, FindsByImage<T>, FindsByCustom<T>,
-        ExecutesDriverScript, LogsEvents {
+        ExecutesDriverScript, LogsEvents, HasSettings {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
