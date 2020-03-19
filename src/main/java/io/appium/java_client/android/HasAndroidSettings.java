@@ -88,7 +88,7 @@ interface HasAndroidSettings extends HasSettings {
      * @return self instance for chaining
      */
     default HasAndroidSettings configuratorSetActionAcknowledgmentTimeout(Duration timeout) {
-       return (HasAndroidSettings) setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
+        return (HasAndroidSettings) setSetting(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, timeout.toMillis());
     }
 
     /**
