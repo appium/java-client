@@ -74,6 +74,15 @@ to learn more about the general concept.
 // Selector for image elements
 @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage")
 
+// Selector for the first image element on screen
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage[1]")
+// Selector for the second image element on screen
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage[2]")
+// Selector for the last image element on screen
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage[-1]")
+// Selector for the penultimate image element on screen
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeImage[-2]")
+
 // Selector for every cell with the name 'Foo' (single quote style)
 @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == 'Foo'`]")
 // Selector for every cell with the name "Foo" (double quote style)
@@ -91,6 +100,9 @@ to learn more about the general concept.
 @iOSXCUITFindBy(iOSClassChain = "*")
 // Selector that'll match every leaf element on screen (watch out: this can be SLOW)
 @iOSXCUITFindBy(iOSClassChain = "**/*")
+
+// You can place an index after a predicate: the following finds the last image element with name 'Foo'
+@iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == 'Foo'`][-1]")
 ```
 
 ## Android's uiAutomator String
