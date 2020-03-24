@@ -34,9 +34,9 @@ There's a special array-style syntax for defining predicates in a Class Chain:
 
 #### Searching Descendents
 
-If you replace the backticks (`) around a predicate with dollar signs ($), then
-the Class Chain will match against the children, grandchildren, and other
-descendents of each element.
+If you replace the backticks (`` ` ``) around a predicate with dollar signs (`$`),
+then the Class Chain will match against the children, grandchildren, and other
+descendants of each element.
 
 ```
 // Find a cell element with the label 'here'
@@ -49,7 +49,7 @@ XCUIElementTypeCell[$label == 'here'$]
 
 Most of the time, you can treat pairs of single quotes or double quotes
 interchangably. If you're searching with a string that contains quote marks,
-though, you'll [want to be careful](https://stackoverflow.com/q/14116217).
+though, you [need to be careful](https://stackoverflow.com/q/14116217).
 
 ```c
 // Make sure to escape each quote mark that matches your delimiter
