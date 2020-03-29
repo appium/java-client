@@ -31,7 +31,7 @@ public @interface iOSXCUITFindBy {
     /**
      * The Class Chain locator is similar to xpath, but it's faster and can only
      * search direct children elements. See the
-     * <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
+     * <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
      * documentation</a> for more details.
      *
      * @return iOS class chain

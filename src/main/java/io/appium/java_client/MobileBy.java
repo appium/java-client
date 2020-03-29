@@ -62,8 +62,7 @@ public abstract class MobileBy extends By {
     }
 
     /**
-     * Read http://developer.android.com/intl/ru/tools/testing-support-library/
-     * index.html#uia-apis
+     * Refer to https://developer.android.com/training/testing/ui-automator
      * @param uiautomatorText is Android UIAutomator string
      * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
      */
@@ -87,7 +86,7 @@ public abstract class MobileBy extends By {
     /**
      * This locator strategy is available in XCUITest Driver mode.
      * @param iOSClassChainString is a valid class chain locator string.
-     *                            See <a href="https://github.com/facebook/WebDriverAgent/wiki/Queries">
+     *                            See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
      *                            the documentation</a> for more details
      * @return an instance of {@link io.appium.java_client.MobileBy.ByIosClassChain}
      */
