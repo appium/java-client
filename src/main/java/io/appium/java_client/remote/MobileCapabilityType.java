@@ -29,23 +29,23 @@ public interface MobileCapabilityType extends CapabilityType {
     /**
      * Which automation engine to use.
      */
-    String AUTOMATION_NAME = "automationName";
+    String AUTOMATION_NAME = "appium:automationName";
 
     /**
      * Mobile OS version.
      */
-    String PLATFORM_VERSION = "platformVersion";
+    String PLATFORM_VERSION = "appium:platformVersion";
 
     /**
      * The kind of mobile device or emulator to use.
      */
-    String DEVICE_NAME = "deviceName";
+    String DEVICE_NAME = "appium:deviceName";
 
     /**
      * How long (in seconds) Appium will wait for a new command from the
      * client before assuming the client quit and ending the session.
      */
-    String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
+    String NEW_COMMAND_TIMEOUT = "appium:newCommandTimeout";
 
     /**
      * The absolute local path or remote http URL to a {@code .ipa} file (IOS),
@@ -58,38 +58,38 @@ public interface MobileCapabilityType extends CapabilityType {
      * here</a>
      * about {@code .apks} file.
      */
-    String APP = "app";
+    String APP = "appium:app";
 
     /**
      * Unique device identifier of the connected physical device.
      */
-    String UDID = "udid";
+    String UDID = "appium:udid";
 
     /**
      * Sauce-specific.
      */
-    String APPIUM_VERSION = "appiumVersion";
+    String APPIUM_VERSION = "sauce:appiumVersion";
 
     /**
      * Language to set for iOS (XCUITest driver only) and Android.
      */
-    String LANGUAGE = "language";
+    String LANGUAGE = "appium:language";
 
     /**
      * Locale to set for iOS (XCUITest driver only) and Android.
      * {@code fr_CA} format for iOS. {@code CA} format (country name abbreviation) for Android
      */
-    String LOCALE = "locale";
+    String LOCALE = "appium:locale";
 
     /**
      * (Sim/Emu-only) start in a certain orientation.
      */
-    String ORIENTATION = "orientation";
+    String ORIENTATION = "appium:orientation";
 
     /**
      * Move directly into Webview context. Default false.
      */
-    String AUTO_WEBVIEW = "autoWebview";
+    String AUTO_WEBVIEW = "appium:autoWebview";
 
     /**
      * Don't reset app state before this session. See
@@ -97,7 +97,7 @@ public interface MobileCapabilityType extends CapabilityType {
      * here</a>
      * for more detail.
      */
-    String NO_RESET = "noReset";
+    String NO_RESET = "appium:noReset";
 
     /**
      * Perform a complete reset. See
@@ -105,13 +105,13 @@ public interface MobileCapabilityType extends CapabilityType {
      * here</a>
      * for more detail.
      */
-    String FULL_RESET = "fullReset";
+    String FULL_RESET = "appium:fullReset";
 
     /**
      * The desired capability which specifies whether to delete any generated files at
      * the end of a session (see iOS and Android entries for particulars).
      */
-    String CLEAR_SYSTEM_FILES = "clearSystemFiles";
+    String CLEAR_SYSTEM_FILES = "appium:clearSystemFiles";
 
     /**
      * Enable or disable the reporting of the timings for various Appium-internal events
@@ -121,13 +121,13 @@ public interface MobileCapabilityType extends CapabilityType {
      * <a href="https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/event-timings.md">
      * event timing docs</a> for the the structure of this response.
      */
-    String EVENT_TIMINGS = "eventTimings";
+    String EVENT_TIMINGS = "appium:eventTimings";
 
     /**
-     * This is the flag which forces server to switch to the mobile WSONWP.
+     * This is the flag which forces server to switch to the mobile JSONWP.
      * If {@code false} then it is switched to W3C mode.
      */
-    String FORCE_MJSONWP = "forceMjsonwp";
+    String FORCE_MJSONWP = "appium:forceMjsonwp";
 
     /**
      * (Web and webview only) Enable ChromeDriver's (on Android)

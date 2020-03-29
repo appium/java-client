@@ -32,13 +32,13 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * instead of {@code MainActivity}). By default this capability is received from the package
      * manifest (action: android.intent.action.MAIN , category: android.intent.category.LAUNCHER)
      */
-    String APP_ACTIVITY = "appActivity";
+    String APP_ACTIVITY = "appium:appActivity";
 
     /**
      * Java package of the Android app you want to run. By default this capability is received
      * from the package manifest ({@literal @}package attribute value)
      */
-    String APP_PACKAGE = "appPackage";
+    String APP_PACKAGE = "appium:appPackage";
 
     /**
      * Activity name/names, comma separated, for the Android activity you want to wait for.
@@ -47,42 +47,42 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * from the one which is set as {@code appActivity} if your capability has {@code appActivity}
      * and {@code appPackage}. You can also use wildcards ({@code *}).
      */
-    String APP_WAIT_ACTIVITY = "appWaitActivity";
+    String APP_WAIT_ACTIVITY = "appium:appWaitActivity";
 
     /**
      * Java package of the Android app you want to wait for.
      * By default the value of this capability is the same as for {@code appActivity}
      */
-    String APP_WAIT_PACKAGE = "appWaitPackage";
+    String APP_WAIT_PACKAGE = "appium:appWaitPackage";
 
     /**
      * Timeout in milliseconds used to wait for the appWaitActivity to launch (default 20000).
      * @since 1.6.0
      */
-    String APP_WAIT_DURATION = "appWaitDuration";
+    String APP_WAIT_DURATION = "appium:appWaitDuration";
 
     /**
      * Timeout in seconds while waiting for device to become ready.
      */
-    String DEVICE_READY_TIMEOUT = "deviceReadyTimeout";
+    String DEVICE_READY_TIMEOUT = "appium:deviceReadyTimeout";
 
     /**
      * Allow to install a test package which has {@code android:testOnly="true"} in the manifest.
      * {@code false} by default
      */
-    String ALLOW_TEST_PACKAGES = "allowTestPackages";
+    String ALLOW_TEST_PACKAGES = "appium:allowTestPackages";
 
     /**
      * Fully qualified instrumentation class. Passed to -w in adb shell
      * am instrument -e coverage true -w.
      */
-    String ANDROID_COVERAGE = "androidCoverage";
+    String ANDROID_COVERAGE = "appium:androidCoverage";
 
     /**
      * A broadcast action implemented by yourself which is used to dump coverage into file system.
      * Passed to -a in adb shell am broadcast -a
      */
-    String ANDROID_COVERAGE_END_INTENT = "androidCoverageEndIntent";
+    String ANDROID_COVERAGE_END_INTENT = "appium:androidCoverageEndIntent";
 
     /**
      * (Chrome and webview only) Enable Chromedriver's performance logging (default false).
@@ -90,92 +90,92 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * @deprecated move to {@link MobileCapabilityType#ENABLE_PERFORMANCE_LOGGING}
      */
     @Deprecated
-    String ENABLE_PERFORMANCE_LOGGING = "enablePerformanceLogging";
+    String ENABLE_PERFORMANCE_LOGGING = "appium:enablePerformanceLogging";
 
     /**
      * Timeout in seconds used to wait for a device to become ready after booting.
      */
-    String ANDROID_DEVICE_READY_TIMEOUT = "androidDeviceReadyTimeout";
+    String ANDROID_DEVICE_READY_TIMEOUT = "appium:androidDeviceReadyTimeout";
 
     /**
      * Port used to connect to the ADB server (default 5037).
      */
-    String ADB_PORT = "adbPort";
+    String ADB_PORT = "appium:adbPort";
 
     /**
      * Devtools socket name. Needed only when tested app is a Chromium embedding browser.
      * The socket is open by the browser and Chromedriver connects to it as a devtools client.
      */
-    String ANDROID_DEVICE_SOCKET = "androidDeviceSocket";
+    String ANDROID_DEVICE_SOCKET = "appium:androidDeviceSocket";
 
     /**
      * Timeout in milliseconds used to wait for an apk to install to the device. Defaults to `90000`.
      * @since 1.6.0
      */
-    String ANDROID_INSTALL_TIMEOUT = "androidInstallTimeout";
+    String ANDROID_INSTALL_TIMEOUT = "appium:androidInstallTimeout";
 
     /**
      * The name of the directory on the device in which the apk will be push before install.
      * Defaults to {@code /data/local/tmp}
      * @since 1.6.5
      */
-    String ANDROID_INSTALL_PATH = "androidInstallPath";
+    String ANDROID_INSTALL_PATH = "appium:androidInstallPath";
 
     /**
      * Name of avd to launch.
      */
-    String AVD = "avd";
+    String AVD = "appium:avd";
 
     /**
      * How long to wait in milliseconds for an avd to launch and connect to
      * ADB (default 120000).
      * @since 0.18.0
      */
-    String AVD_LAUNCH_TIMEOUT = "avdLaunchTimeout";
+    String AVD_LAUNCH_TIMEOUT = "appium:avdLaunchTimeout";
 
     /**
      * How long to wait in milliseconds for an avd to finish its
      * boot animations (default 120000).
      * @since 0.18.0
      */
-    String AVD_READY_TIMEOUT = "avdReadyTimeout";
+    String AVD_READY_TIMEOUT = "appium:avdReadyTimeout";
 
     /**
      * Additional emulator arguments used when launching an avd.
      */
-    String AVD_ARGS = "avdArgs";
+    String AVD_ARGS = "appium:avdArgs";
 
     /**
      * Use a custom keystore to sign apks, default false.
      */
-    String USE_KEYSTORE = "useKeystore";
+    String USE_KEYSTORE = "appium:useKeystore";
 
     /**
      * Path to custom keystore, default ~/.android/debug.keystore.
      */
-    String KEYSTORE_PATH = "keystorePath";
+    String KEYSTORE_PATH = "appium:keystorePath";
 
     /**
      * Password for custom keystore.
      */
-    String KEYSTORE_PASSWORD = "keystorePassword";
+    String KEYSTORE_PASSWORD = "appium:keystorePassword";
 
     /**
      * Alias for key.
      */
-    String KEY_ALIAS = "keyAlias";
+    String KEY_ALIAS = "appium:keyAlias";
 
     /**
      * Password for key.
      */
-    String KEY_PASSWORD = "keyPassword";
+    String KEY_PASSWORD = "appium:keyPassword";
 
     /**
      * The absolute local path to webdriver executable (if Chromium embedder provides
      * its own webdriver, it should be used instead of original chromedriver
      * bundled with Appium).
      */
-    String CHROMEDRIVER_EXECUTABLE = "chromedriverExecutable";
+    String CHROMEDRIVER_EXECUTABLE = "appium:chromedriverExecutable";
 
     /**
      * An array of arguments to be passed to the chromedriver binary when it's run by Appium.
@@ -183,34 +183,34 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * {@code --adb-port}, and {@code --log-path}.
      * @since 1.12.0
      */
-    String CHROMEDRIVER_ARGS = "chromedriverArgs";
+    String CHROMEDRIVER_ARGS = "appium:chromedriverArgs";
 
     /**
      * The absolute path to a directory to look for Chromedriver executables in, for automatic discovery of compatible
      * Chromedrivers. Ignored if {@code chromedriverUseSystemExecutable} is {@code true}
      * @since 1.8.0
      */
-    String CHROMEDRIVER_EXECUTABLE_DIR = "chromedriverExecutableDir";
+    String CHROMEDRIVER_EXECUTABLE_DIR = "appium:chromedriverExecutableDir";
 
     /**
      * The absolute path to a file which maps Chromedriver versions to the minimum Chrome that it supports.
      * Ignored if {@code chromedriverUseSystemExecutable} is {@code true}
      * @since 1.8.0
      */
-    String CHROMEDRIVER_CHROME_MAPPING_FILE = "chromedriverChromeMappingFile";
+    String CHROMEDRIVER_CHROME_MAPPING_FILE = "appium:chromedriverChromeMappingFile";
 
     /**
      * If true, bypasses automatic Chromedriver configuration and uses the version that comes downloaded with Appium.
      * Ignored if {@code chromedriverExecutable} is set. Defaults to {@code false}
      * @since 1.9.0
      */
-    String CHROMEDRIVER_USE_SYSTEM_EXECUTABLE = "chromedriverUseSystemExecutable";
+    String CHROMEDRIVER_USE_SYSTEM_EXECUTABLE = "appium:chromedriverUseSystemExecutable";
 
     /**
      * Numeric port to start Chromedriver on. Note that use of this capability is discouraged as it will cause undefined
      * behavior in case there are multiple webviews present. By default Appium will find a free port.
      */
-    String CHROMEDRIVER_PORT = "chromedriverPort";
+    String CHROMEDRIVER_PORT = "appium:chromedriverPort";
 
     /**
      * A list of valid ports for Appium to use for communication with Chromedrivers. This capability supports multiple
@@ -219,43 +219,43 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * By default, Appium will use any free port.
      * @since 1.13.0
      */
-    String CHROMEDRIVER_PORTS = "chromedriverPorts";
+    String CHROMEDRIVER_PORTS = "appium:chromedriverPorts";
 
     /**
      * Sets the chromedriver flag {@code --disable-build-check} for Chrome webview tests.
      * @since 1.11.0
      */
-    String CHROMEDRIVER_DISABLE_BUILD_CHECK = "chromedriverDisableBuildCheck";
+    String CHROMEDRIVER_DISABLE_BUILD_CHECK = "appium:chromedriverDisableBuildCheck";
 
     /**
      * Amount of time to wait for Webview context to become active, in ms. Defaults to 2000.
      * @since 1.5.2
      */
-    String AUTO_WEBVIEW_TIMEOUT = "autoWebviewTimeout";
+    String AUTO_WEBVIEW_TIMEOUT = "appium:autoWebviewTimeout";
 
     /**
      * Intent action which will be used to start activity
      * (default android.intent.action.MAIN).
      */
-    String INTENT_ACTION = "intentAction";
+    String INTENT_ACTION = "appium:intentAction";
 
     /**
      * Intent category which will be used to start
      * activity (default android.intent.category.LAUNCHER).
      */
-    String INTENT_CATEGORY = "intentCategory";
+    String INTENT_CATEGORY = "appium:intentCategory";
 
     /**
      * Flags that will be used to start activity (default 0x10200000).
      */
-    String INTENT_FLAGS = "intentFlags";
+    String INTENT_FLAGS = "appium:intentFlags";
 
     /**
      * Additional intent arguments that will be used to start activity. See
      * <a href="https://developer.android.com/reference/android/content/Intent.html">
      * Intent arguments</a>.
      */
-    String OPTIONAL_INTENT_ARGUMENTS = "optionalIntentArguments";
+    String OPTIONAL_INTENT_ARGUMENTS = "appium:optionalIntentArguments";
 
     /**
      * Doesn't stop the process of the app under test, before starting the app using adb.
@@ -266,26 +266,26 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * With this capability omitted or set to false, we include the -S flag. Default false
      * @since 1.4.0
      */
-    String DONT_STOP_APP_ON_RESET = "dontStopAppOnReset";
+    String DONT_STOP_APP_ON_RESET = "appium:dontStopAppOnReset";
 
     /**
      * Enable Unicode input, default false.
      * @since 1.2.0
      */
-    String UNICODE_KEYBOARD = "unicodeKeyboard";
+    String UNICODE_KEYBOARD = "appium:unicodeKeyboard";
 
     /**
      * Reset keyboard to its original state, after running Unicode tests with
      * unicodeKeyboard capability. Ignored if used alone. Default false
      */
-    String RESET_KEYBOARD = "resetKeyboard";
+    String RESET_KEYBOARD = "appium:resetKeyboard";
 
     /**
      * Skip checking and signing of app with debug keys, will work only with
      * UiAutomator and not with selendroid, default false.
      * @since 1.2.2
      */
-    String NO_SIGN = "noSign";
+    String NO_SIGN = "appium:noSign";
 
     /**
      * Calls the setCompressedLayoutHierarchy() uiautomator function.
@@ -294,7 +294,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * which is why this capability has also been implemented as a toggle-able
      * setting as well as a capability. Defaults to false.
      */
-    String IGNORE_UNIMPORTANT_VIEWS = "ignoreUnimportantViews";
+    String IGNORE_UNIMPORTANT_VIEWS = "appium:ignoreUnimportantViews";
 
     /**
      * Disables android watchers that watch for application not responding and application crash,
@@ -302,7 +302,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * UiAutomator and not with selendroid, default false.
      * @since 1.4.0
      */
-    String DISABLE_ANDROID_WATCHERS = "disableAndroidWatchers";
+    String DISABLE_ANDROID_WATCHERS = "appium:disableAndroidWatchers";
 
     /**
      * Allows passing chromeOptions capability for ChromeDriver.
@@ -310,55 +310,55 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * <a href="https://sites.google.com/a/chromium.org/chromedriver/capabilities">
      * chromeOptions</a>.
      */
-    String CHROME_OPTIONS = "chromeOptions";
+    String CHROME_OPTIONS = "appium:chromeOptions";
 
     /**
      * Kill ChromeDriver session when moving to a non-ChromeDriver webview.
      * Defaults to false
      */
-    String RECREATE_CHROME_DRIVER_SESSIONS = "recreateChromeDriverSessions";
+    String RECREATE_CHROME_DRIVER_SESSIONS = "appium:recreateChromeDriverSessions";
 
     /**
      * In a web context, use native (adb) method for taking a screenshot, rather than proxying
      * to ChromeDriver, default false.
      * @since 1.5.3
      */
-    String NATIVE_WEB_SCREENSHOT = "nativeWebScreenshot";
+    String NATIVE_WEB_SCREENSHOT = "appium:nativeWebScreenshot";
 
     /**
      * The name of the directory on the device in which the screenshot will be put.
      * Defaults to /data/local/tmp.
      * @since 1.6.0
      */
-    String ANDROID_SCREENSHOT_PATH = "androidScreenshotPath";
+    String ANDROID_SCREENSHOT_PATH = "appium:androidScreenshotPath";
 
     /**
      * Set the network speed emulation. Specify the maximum network upload and download speeds. Defaults to {@code full}
      */
-    String NETWORK_SPEED = "networkSpeed";
+    String NETWORK_SPEED = "appium:networkSpeed";
 
     /**
      * Toggle gps location provider for emulators before starting the session. By default the emulator will have this
      * option enabled or not according to how it has been provisioned.
      */
-    String GPS_ENABLED = "gpsEnabled";
+    String GPS_ENABLED = "appium:gpsEnabled";
 
     /**
      * Set this capability to {@code true} to run the Emulator headless when device display is not needed to be visible.
      * {@code false} is the default value. isHeadless is also support for iOS, check XCUITest-specific capabilities.
      */
-    String IS_HEADLESS = "isHeadless";
+    String IS_HEADLESS = "appium:isHeadless";
 
     /**
      * Timeout in milliseconds used to wait for adb command execution. Defaults to {@code 20000}
      */
-    String ADB_EXEC_TIMEOUT = "adbExecTimeout";
+    String ADB_EXEC_TIMEOUT = "appium:adbExecTimeout";
 
     /**
      * Sets the locale <a href="https://developer.android.com/reference/java/util/Locale">script</a>.
      * @since 1.10.0
      */
-    String LOCALE_SCRIPT = "localeScript";
+    String LOCALE_SCRIPT = "appium:localeScript";
 
     /**
      * Skip device initialization which includes i.a.: installation and running of Settings app or setting of
@@ -366,14 +366,14 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * it's prepared for the next automation. Defaults to {@code false}
      * @since 1.11.0
      */
-    String SKIP_DEVICE_INITIALIZATION = "skipDeviceInitialization";
+    String SKIP_DEVICE_INITIALIZATION = "appium:skipDeviceInitialization";
 
     /**
      * Have Appium automatically determine which permissions your app requires and
      * grant them to the app on install. Defaults to {@code false}. If noReset is {@code true}, this capability doesn't
      * work.
      */
-    String AUTO_GRANT_PERMISSIONS = "autoGrantPermissions";
+    String AUTO_GRANT_PERMISSIONS = "appium:autoGrantPermissions";
 
     /**
      * Allow for correct handling of orientation on landscape-oriented devices.
@@ -381,7 +381,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * Defaults to {@code false}.
      * @since 1.6.4
      */
-    String ANDROID_NATURAL_ORIENTATION = "androidNaturalOrientation";
+    String ANDROID_NATURAL_ORIENTATION = "appium:androidNaturalOrientation";
 
     /**
      * {@code systemPort} used to connect to <a href="https://github.com/appium/appium-uiautomator2-server">
@@ -393,18 +393,18 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * <a href="https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/parallel-tests.md#parallel-android-tests">
      * Parallel Testing Setup Guide</a> for more details.
      */
-    String SYSTEM_PORT = "systemPort";
+    String SYSTEM_PORT = "appium:systemPort";
 
     /**
      * Optional remote ADB server host.
      * @since 1.7.0
      */
-    String REMOTE_ADB_HOST = "remoteAdbHost";
+    String REMOTE_ADB_HOST = "appium:remoteAdbHost";
 
     /**
      * Skips unlock during session creation. Defaults to {@code false}
      */
-    String SKIP_UNLOCK = "skipUnlock";
+    String SKIP_UNLOCK = "appium:skipUnlock";
 
     /**
      * Unlock the target device with particular lock pattern instead of just waking up the device with a helper app.
@@ -413,25 +413,25 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * Read <a href="https://github.com/appium/appium-android-driver/blob/master/docs/UNLOCK.md">unlock doc</a> in
      * android driver.
      */
-    String UNLOCK_TYPE = "unlockType";
+    String UNLOCK_TYPE = "appium:unlockType";
 
     /**
      * A key pattern to unlock used by {@code unlockType}.
      */
-    String UNLOCK_KEY = "unlockKey";
+    String UNLOCK_KEY = "appium:unlockKey";
 
     /**
      * Initializing the app under test automatically.
      * Appium does not launch the app under test if this is {@code false}. Defaults to {@code true}
      */
-    String AUTO_LAUNCH = "autoLaunch";
+    String AUTO_LAUNCH = "appium:autoLaunch";
 
     /**
      * Skips to start capturing logcat. It might improve performance such as network.
      * Log related commands will not work. Defaults to {@code false}.
      * @since 1.12.0
      */
-    String SKIP_LOGCAT_CAPTURE = "skipLogcatCapture";
+    String SKIP_LOGCAT_CAPTURE = "appium:skipLogcatCapture";
 
     /**
      * A package, list of packages or * to uninstall package/s before installing apks for test.
@@ -440,12 +440,12 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * manage them.
      * @since 1.12.0
      */
-    String UNINSTALL_OTHER_PACKAGES = "uninstallOtherPackages";
+    String UNINSTALL_OTHER_PACKAGES = "appium:uninstallOtherPackages";
 
     /**
      * Set device animation scale zero if the value is {@code true}. After session is complete, Appium restores the
      * animation scale to it's original value. Defaults to {@code false}
      * @since 1.9.0
      */
-    String DISABLE_WINDOW_ANIMATION = "disableWindowAnimation";
+    String DISABLE_WINDOW_ANIMATION = "appium:disableWindowAnimation";
 }
