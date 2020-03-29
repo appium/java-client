@@ -134,4 +134,16 @@ public interface MobileCapabilityType extends CapabilityType {
      * or Safari's (on iOS) performance logging (default {@code false}).
      */
     String ENABLE_PERFORMANCE_LOGGING = "enablePerformanceLogging";
+
+
+    /**
+     * App or list of apps (as a JSON array) to install prior to running tests. Note that it will not work with
+     * automationName of Espresso and iOS real devices.
+     */
+    String OTHER_APPS = "otherApps";
+
+    /**
+     * When a find operation fails, print the current page source. Defaults to false.
+     */
+    String PRINT_PAGE_SOURCE_ON_FIND_FAILURE = "printPageSourceOnFindFailure";
 }
