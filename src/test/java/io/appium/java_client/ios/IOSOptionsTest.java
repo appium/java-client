@@ -20,6 +20,8 @@ import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
 
+import java.time.Duration;
+
 import static org.junit.Assert.assertEquals;
 
 public class IOSOptionsTest {
@@ -35,12 +37,12 @@ public class IOSOptionsTest {
         MutableCapabilities capabilities = new MutableCapabilities();
         capabilities.setCapability("deviceName", "Pixel");
         capabilities.setCapability("platformVersion", "10");
-        capabilities.setCapability("newCommandTimeout", 60);
+        capabilities.setCapability("newCommandTimeout", Duration.ofSeconds(60));
 
         iosMobileOptions = new IOSMobileOptions(capabilities);
 
         assertEquals("Pixel", iosMobileOptions.getDeviceName());
         assertEquals("10", iosMobileOptions.getPlatformVersion());
-        assertEquals(60, iosMobileOptions.getNewCommandTimeout());
+        assertEquals(Duration.ofSeconds(60), iosMobileOptions.getNewCommandTimeout());
     }
 }

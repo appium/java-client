@@ -22,6 +22,7 @@ import org.openqa.selenium.ScreenOrientation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -34,13 +35,13 @@ public class MobileOptionsTest {
         MutableCapabilities capabilities = new MutableCapabilities();
         capabilities.setCapability("deviceName", "Pixel");
         capabilities.setCapability("platformVersion", "10");
-        capabilities.setCapability("newCommandTimeout", 60);
+        capabilities.setCapability("newCommandTimeout", Duration.ofSeconds(60));
 
         mobileOptions = new MobileOptions<>(capabilities);
 
         assertEquals("Pixel", mobileOptions.getDeviceName());
         assertEquals("10", mobileOptions.getPlatformVersion());
-        assertEquals(60, mobileOptions.getNewCommandTimeout());
+        assertEquals(Duration.ofSeconds(60), mobileOptions.getNewCommandTimeout());
     }
 
     @Test
@@ -56,7 +57,7 @@ public class MobileOptionsTest {
                 .setLocale("fr_CA")
                 .setUdid("1ae203187fc012g")
                 .setOrientation(ScreenOrientation.LANDSCAPE)
-                .setNewCommandTimeout(60)
+                .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setLanguage("fr");
 
         assertEquals("http://example.com/myapp.apk", mobileOptions.getApp());
@@ -67,7 +68,7 @@ public class MobileOptionsTest {
         assertEquals("fr_CA", mobileOptions.getLocale());
         assertEquals("1ae203187fc012g", mobileOptions.getUdid());
         assertEquals(ScreenOrientation.LANDSCAPE, mobileOptions.getOrientation());
-        assertEquals(60, mobileOptions.getNewCommandTimeout());
+        assertEquals(Duration.ofSeconds(60), mobileOptions.getNewCommandTimeout());
         assertEquals("fr", mobileOptions.getLanguage());
     }
 

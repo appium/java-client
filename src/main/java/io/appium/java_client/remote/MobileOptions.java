@@ -22,6 +22,7 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.CapabilityType;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.List;
 
 public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabilities {
@@ -42,9 +43,9 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     }
 
     /**
-     * Set the Platform Name.
+     * Set the kind of mobile device or emulator to use.
      *
-     * @param platform the name of the platform.
+     * @param platform the kind of mobile device or emulator to use.
      * @return this MobileOptions, for chaining.
      * @see org.openqa.selenium.remote.CapabilityType#PLATFORM_NAME
      */
@@ -53,9 +54,9 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     }
 
     /**
-     * Get the Platform Name.
+     * Get the kind of mobile device or emulator to use.
      *
-     * @return String representing PLATFORM_NAME
+     * @return String representing the kind of mobile device or emulator to use.
      * @see org.openqa.selenium.remote.CapabilityType#PLATFORM_NAME
      */
     public String getPlatformName() {
@@ -63,18 +64,19 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     }
 
     /**
-     * Set the url for the location of the App.
+     * Set the absolute local path for the location of the App.
+     * The  or remote http URL to a {@code .ipa} file (IOS),
      *
-     * @param url is a String representing the location of the App
+     * @param path is a String representing the location of the App
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#APP
      */
-    public T setApp(String url) {
-        return amend(MobileCapabilityType.APP, url);
+    public T setApp(String path) {
+        return amend(MobileCapabilityType.APP, path);
     }
 
     /**
-     * Set the url for the location of the App.
+     * Set the remote http URL for the location of the App.
      *
      * @param url is the URL representing the location of the App
      * @return this MobileOptions, for chaining.
@@ -147,7 +149,7 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     }
 
     /**
-     * Set the app to clear system files.
+     * Set the app to delete any generated files at the end of a session.
      *
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
@@ -157,9 +159,9 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     }
 
     /**
-     * Set whether the app clears system files.
+     * Set whether the app deletes generated files at the end of a session.
      *
-     * @param bool is whether the app clears system files.
+     * @param bool is whether the app deletes generated files at the end of a session.
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
      */
@@ -168,9 +170,9 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     }
 
     /**
-     * Get whether the app clears system files.
+     * Get whether the app deletes generated files at the end of a session.
      *
-     * @return true if the app clears system files.
+     * @return true if the app deletes generated files at the end of a session.
      * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
      */
     public boolean doesClearSystemFiles() {
@@ -340,7 +342,7 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#NEW_COMMAND_TIMEOUT
      */
-    public T setNewCommandTimeout(int seconds) {
+    public T setNewCommandTimeout(Duration seconds) {
         return amend(MobileCapabilityType.NEW_COMMAND_TIMEOUT, seconds);
     }
 
@@ -350,8 +352,8 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
      * @return timeout before seeing a new command in seconds.
      * @see MobileCapabilityType#NEW_COMMAND_TIMEOUT
      */
-    public int getNewCommandTimeout() {
-        return (int) getCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT);
+    public Duration getNewCommandTimeout() {
+        return (Duration) getCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT);
     }
 
     /**
