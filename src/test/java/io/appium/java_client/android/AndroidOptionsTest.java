@@ -16,16 +16,11 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.ScreenOrientation;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class AndroidOptionsTest {
     private AndroidMobileOptions androidMobileOptions = new AndroidMobileOptions();
@@ -47,68 +42,5 @@ public class AndroidOptionsTest {
         assertEquals("Pixel", androidMobileOptions.getDeviceName());
         assertEquals("10", androidMobileOptions.getPlatformVersion());
         assertEquals(60, androidMobileOptions.getNewCommandTimeout());
-    }
-
-    @Test
-    public void acceptsMobileCapabilities() throws MalformedURLException {
-        androidMobileOptions.setApp(new URL("http://example.com/myapp.apk"))
-                .setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2)
-                .setPlatformVersion("10")
-                .setDeviceName("Pixel")
-                .setOtherApps("/path/to/app.apk")
-                .setLocale("fr_CA")
-                .setUdid("1ae203187fc012g")
-                .setOrientation(ScreenOrientation.LANDSCAPE)
-                .setNewCommandTimeout(60)
-                .setLanguage("fr");
-
-        assertEquals("http://example.com/myapp.apk", androidMobileOptions.getApp());
-        assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, androidMobileOptions.getAutomationName());
-        assertEquals("10", androidMobileOptions.getPlatformVersion());
-        assertEquals("Pixel", androidMobileOptions.getDeviceName());
-        assertEquals("/path/to/app.apk", androidMobileOptions.getOtherApps());
-        assertEquals("fr_CA", androidMobileOptions.getLocale());
-        assertEquals("1ae203187fc012g", androidMobileOptions.getUdid());
-        assertEquals(ScreenOrientation.LANDSCAPE, androidMobileOptions.getOrientation());
-        assertEquals(60, androidMobileOptions.getNewCommandTimeout());
-        assertEquals("fr", androidMobileOptions.getLanguage());
-    }
-
-    @Test
-    public void acceptsMobileBooleanCapabilityDefaults() {
-        androidMobileOptions.setClearSystemFiles()
-                .setAutoWebview()
-                .setEnablePerformanceLogging()
-                .setEventTimings()
-                .setAutoWebview()
-                .setFullReset()
-                .setPrintPageSourceOnFindFailure();
-
-        assertTrue(androidMobileOptions.isClearSystemFiles());
-        assertTrue(androidMobileOptions.isAutoWebview());
-        assertTrue(androidMobileOptions.isEnablePerformanceLogging());
-        assertTrue(androidMobileOptions.isEventTimings());
-        assertTrue(androidMobileOptions.isAutoWebview());
-        assertTrue(androidMobileOptions.isFullReset());
-        assertTrue(androidMobileOptions.isPrintPageSourceOnFindFailure());
-    }
-
-    @Test
-    public void setsMobileBooleanCapabilities() {
-        androidMobileOptions.setClearSystemFiles(false)
-                .setAutoWebview(false)
-                .setEnablePerformanceLogging(false)
-                .setEventTimings(false)
-                .setAutoWebview(false)
-                .setFullReset(false)
-                .setPrintPageSourceOnFindFailure(false);
-
-        assertFalse(androidMobileOptions.isClearSystemFiles());
-        assertFalse(androidMobileOptions.isAutoWebview());
-        assertFalse(androidMobileOptions.isEnablePerformanceLogging());
-        assertFalse(androidMobileOptions.isEventTimings());
-        assertFalse(androidMobileOptions.isAutoWebview());
-        assertFalse(androidMobileOptions.isFullReset());
-        assertFalse(androidMobileOptions.isPrintPageSourceOnFindFailure());
     }
 }

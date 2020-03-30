@@ -16,16 +16,11 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.ScreenOrientation;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class IOSOptionsTest {
     private IOSMobileOptions iosMobileOptions = new IOSMobileOptions();
@@ -47,68 +42,5 @@ public class IOSOptionsTest {
         assertEquals("Pixel", iosMobileOptions.getDeviceName());
         assertEquals("10", iosMobileOptions.getPlatformVersion());
         assertEquals(60, iosMobileOptions.getNewCommandTimeout());
-    }
-
-    @Test
-    public void acceptsMobileCapabilities() throws MalformedURLException {
-        iosMobileOptions.setApp(new URL("http://example.com/myapp.apk"))
-                .setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2)
-                .setPlatformVersion("10")
-                .setDeviceName("Pixel")
-                .setOtherApps("/path/to/app.apk")
-                .setLocale("fr_CA")
-                .setUdid("1ae203187fc012g")
-                .setOrientation(ScreenOrientation.LANDSCAPE)
-                .setNewCommandTimeout(60)
-                .setLanguage("fr");
-
-        assertEquals("http://example.com/myapp.apk", iosMobileOptions.getApp());
-        assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, iosMobileOptions.getAutomationName());
-        assertEquals("10", iosMobileOptions.getPlatformVersion());
-        assertEquals("Pixel", iosMobileOptions.getDeviceName());
-        assertEquals("/path/to/app.apk", iosMobileOptions.getOtherApps());
-        assertEquals("fr_CA", iosMobileOptions.getLocale());
-        assertEquals("1ae203187fc012g", iosMobileOptions.getUdid());
-        assertEquals(ScreenOrientation.LANDSCAPE, iosMobileOptions.getOrientation());
-        assertEquals(60, iosMobileOptions.getNewCommandTimeout());
-        assertEquals("fr", iosMobileOptions.getLanguage());
-    }
-
-    @Test
-    public void acceptsMobileBooleanCapabilityDefaults() {
-        iosMobileOptions.setClearSystemFiles()
-                .setAutoWebview()
-                .setEnablePerformanceLogging()
-                .setEventTimings()
-                .setAutoWebview()
-                .setFullReset()
-                .setPrintPageSourceOnFindFailure();
-
-        assertTrue(iosMobileOptions.isClearSystemFiles());
-        assertTrue(iosMobileOptions.isAutoWebview());
-        assertTrue(iosMobileOptions.isEnablePerformanceLogging());
-        assertTrue(iosMobileOptions.isEventTimings());
-        assertTrue(iosMobileOptions.isAutoWebview());
-        assertTrue(iosMobileOptions.isFullReset());
-        assertTrue(iosMobileOptions.isPrintPageSourceOnFindFailure());
-    }
-
-    @Test
-    public void setsMobileBooleanCapabilities() {
-        iosMobileOptions.setClearSystemFiles(false)
-                .setAutoWebview(false)
-                .setEnablePerformanceLogging(false)
-                .setEventTimings(false)
-                .setAutoWebview(false)
-                .setFullReset(false)
-                .setPrintPageSourceOnFindFailure(false);
-
-        assertFalse(iosMobileOptions.isClearSystemFiles());
-        assertFalse(iosMobileOptions.isAutoWebview());
-        assertFalse(iosMobileOptions.isEnablePerformanceLogging());
-        assertFalse(iosMobileOptions.isEventTimings());
-        assertFalse(iosMobileOptions.isAutoWebview());
-        assertFalse(iosMobileOptions.isFullReset());
-        assertFalse(iosMobileOptions.isPrintPageSourceOnFindFailure());
     }
 }

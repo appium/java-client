@@ -19,11 +19,10 @@ package io.appium.java_client.android;
 import io.appium.java_client.remote.MobileOptions;
 import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.CapabilityType;
 
 public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     public AndroidMobileOptions() {
-        setCapability(CapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+        setPlatformName(MobilePlatform.ANDROID);
     }
 
     public AndroidMobileOptions(Capabilities source) {

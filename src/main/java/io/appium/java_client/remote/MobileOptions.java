@@ -24,8 +24,40 @@ import org.openqa.selenium.remote.CapabilityType;
 import java.net.URL;
 import java.util.List;
 
-public abstract class MobileOptions<T extends MobileOptions<T>> extends MutableCapabilities {
+public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabilities {
 
+    /**
+     * Creates new instance with no preset capabilities.
+     */
+    public MobileOptions() {
+    }
+
+    /**
+     * Creates new instance with provided capabilities capabilities.
+     *
+     * @param source is Capabilities instance to merge into new instance
+     */
+    public MobileOptions(Capabilities source) {
+        merge(source);
+    }
+
+    /**
+     * Set the Platform Name.
+     *
+     * @param platform the name of the platform.
+     * @return this MobileOptions, for chaining.
+     * @see org.openqa.selenium.remote.CapabilityType#PLATFORM_NAME
+     */
+    public T setPlatformName(String platform) {
+        return amend(CapabilityType.PLATFORM_NAME, platform);
+    }
+
+    /**
+     * Get the Platform Name.
+     *
+     * @return String representing PLATFORM_NAME
+     * @see org.openqa.selenium.remote.CapabilityType#PLATFORM_NAME
+     */
     public String getPlatformName() {
         return (String) getCapability(CapabilityType.PLATFORM_NAME);
     }
@@ -377,8 +409,6 @@ public abstract class MobileOptions<T extends MobileOptions<T>> extends MutableC
     /**
      * Set the location of the app(s) to install before running a test.
      *
-     * TODO: Consider supporting String as well as List since, but any String value can be put into a List of one
-     *
      * @param apps is the apps to install.
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#OTHER_APPS
@@ -390,11 +420,11 @@ public abstract class MobileOptions<T extends MobileOptions<T>> extends MutableC
     /**
      * Get the list of apps to install before running a test.
      *
-     * @return List of apps to install.
+     * @return apps to install.
      * @see MobileCapabilityType#OTHER_APPS
      */
-    public List<String> getOtherApps() {
-        return (List<String>) getCapability(MobileCapabilityType.OTHER_APPS);
+    public Object getOtherApps() {
+        return getCapability(MobileCapabilityType.OTHER_APPS);
     }
 
     /**
