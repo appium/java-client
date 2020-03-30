@@ -462,7 +462,7 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * application build independently of the currently installed version of it. Defaults to {@code false}.
      * @since 1.16.0
      */
-    String ENFORCE_APP_INSTALL= "enforceAppInstall";
+    String ENFORCE_APP_INSTALL = "enforceAppInstall";
 
     /**
      * Whether or not Appium should augment its webview detection with page detection, guaranteeing that any
