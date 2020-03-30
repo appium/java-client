@@ -299,4 +299,13 @@ public class AndroidOptionsTest {
         assertEquals("password", androidMobileOptions.getUnlockType());
         assertEquals("9543", androidMobileOptions.getWebviewDevtoolsPort());
     }
+
+    @Test
+    public void setsAndroidEnumCapabilities() {
+        androidMobileOptions.setNetworkSpeed(NetworkSpeed.EVDO)
+                .setUnlockType(UnlockType.PASSWORD);
+
+        assertEquals("evdo", androidMobileOptions.getNetworkSpeed());
+        assertEquals("password", androidMobileOptions.getUnlockType());
+    }
 }

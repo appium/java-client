@@ -503,6 +503,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
         return amend(AndroidMobileCapabilityType.NETWORK_SPEED, speed);
     }
 
+    public AndroidMobileOptions setNetworkSpeed(NetworkSpeed speed) {
+        return amend(AndroidMobileCapabilityType.NETWORK_SPEED, speed.name().toLowerCase());
+    }
+
     public String getNetworkSpeed() {
         return (String) getCapability(AndroidMobileCapabilityType.NETWORK_SPEED);
     }
@@ -641,6 +645,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
 
     public AndroidMobileOptions setUnlockType(String type) {
         return amend(AndroidMobileCapabilityType.UNLOCK_TYPE, type);
+    }
+
+    public AndroidMobileOptions setUnlockType(UnlockType type) {
+        return amend(AndroidMobileCapabilityType.UNLOCK_TYPE, type.name().toLowerCase());
     }
 
     public String getUnlockType() {
