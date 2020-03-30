@@ -448,4 +448,45 @@ public interface AndroidMobileCapabilityType extends CapabilityType {
      * @since 1.9.0
      */
     String DISABLE_WINDOW_ANIMATION = "disableWindowAnimation";
+
+    /**
+     * Specify the Android build-tools version to be something different than the default, which is to use the most
+     * recent version. It is helpful to use a non-default version if your environment uses alpha/beta build tools.
+     * @since 1.14.0
+     */
+    String BUILD_TOOLS_VERSION  = "buildToolsVersion";
+
+    /**
+     * By default application installation is skipped if newer or the same version of this app is already present on
+     * the device under test. Setting this option to {@code true} will enforce Appium to always install the current
+     * application build independently of the currently installed version of it. Defaults to {@code false}.
+     * @since 1.16.0
+     */
+    String ENFORCE_APP_INSTALL= "enforceAppInstall";
+
+    /**
+     * Whether or not Appium should augment its webview detection with page detection, guaranteeing that any
+     * webview contexts which show up in the context list have active pages. This can prevent an error if a
+     * context is selected where Chromedriver cannot find any pages. Defaults to {@code false}.
+     * @since 1.15.0
+     */
+    String ENSURE_WEBVIEWS_HAVE_PAGES = "ensureWebviewsHavePages";
+
+    /**
+     * To support the `ensureWebviewsHavePages` feature, it is necessary to open a TCP port for communication with
+     * the webview on the device under test. This capability allows overriding of the default port of {@code 9222},
+     * in case multiple sessions are running simultaneously (to avoid port clash), or in case the default port
+     * is not appropriate for your system.
+     * @since 1.15.0
+     */
+    String WEBVIEW_DEVTOOLS_PORT = "webviewDevtoolsPort";
+
+    /**
+     * Set the maximum number of remote cached apks which are pushed to the device-under-test's
+     * local storage. Caching apks remotely speeds up the execution of sequential test cases, when using the
+     * same set of apks, by avoiding the need to be push an apk to the remote file system every time a
+     * reinstall is needed. Set this capability to {@code 0} to disable caching. Defaults to {@code 10}.
+     * @since 1.14.0
+     */
+    String REMOTE_APPS_CACHE_LIMIT = "remoteAppsCacheLimit";
 }
