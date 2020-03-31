@@ -65,10 +65,6 @@ public interface MobileCapabilityType extends CapabilityType {
      */
     String UDID = "udid";
 
-    /**
-     * Sauce-specific.
-     */
-    String APPIUM_VERSION = "appiumVersion";
 
     /**
      * Language to set for iOS (XCUITest driver only) and Android.
