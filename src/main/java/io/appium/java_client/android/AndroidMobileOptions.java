@@ -736,27 +736,27 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      *
      * @param ports is the list of ports for Appium to use with Chromedrivers.
      * @return this MobileOptions, for chaining.
-     * @see AndroidMobileCapabilityType#BUILD_TOOLS_VERSION
+     * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORTS
      */
     public AndroidMobileOptions setChromedriverPorts(List<Integer> ports) {
-        return amend(AndroidMobileCapabilityType.BUILD_TOOLS_VERSION, ports);
+        return amend(AndroidMobileCapabilityType.CHROMEDRIVER_PORTS, ports);
     }
 
     /**
      * Get the valid ports for Appium to use for communication with Chromedrivers.
      *
      * @return list of Integers for the valid ports for Appium to use for communication with Chromedrivers.
-     * @see AndroidMobileCapabilityType#BUILD_TOOLS_VERSION
+     * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORTS
      */
     public Object getChromedriverPorts() {
-        return getCapability(AndroidMobileCapabilityType.BUILD_TOOLS_VERSION);
+        return getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_PORTS);
     }
 
     /**
      * Set the app to bypass automatic Chromedriver configuration and use the version that comes downloaded with Appium.
      *
      * @return this MobileOptions, for chaining.
-     * @see AndroidMobileCapabilityType#CHROMEDRIVER_DISABLE_BUILD_CHECK
+     * @see AndroidMobileCapabilityType#CHROMEDRIVER_USE_SYSTEM_EXECUTABLE
      */
     public AndroidMobileOptions setChromedriverUseSystemExecutable() {
         return setChromedriverUseSystemExecutable(true);
@@ -767,20 +767,20 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      *
      * @param bool when true uses the version of Chromedriver that comes with Appium.
      * @return this MobileOptions, for chaining.
-     * @see AndroidMobileCapabilityType#CHROMEDRIVER_DISABLE_BUILD_CHECK
+     * @see AndroidMobileCapabilityType#CHROMEDRIVER_USE_SYSTEM_EXECUTABLE
      */
     public AndroidMobileOptions setChromedriverUseSystemExecutable(boolean bool) {
-        return amend(AndroidMobileCapabilityType.CHROMEDRIVER_DISABLE_BUILD_CHECK, bool);
+        return amend(AndroidMobileCapabilityType.CHROMEDRIVER_USE_SYSTEM_EXECUTABLE, bool);
     }
 
     /**
      * Get whether to bypass automatic Chromedriver configuration and use the version that comes downloaded with Appium.
      *
      * @return true if using the version of Chromedriver that comes with Appium.
-     * @see AndroidMobileCapabilityType#CHROMEDRIVER_DISABLE_BUILD_CHECK
+     * @see AndroidMobileCapabilityType#CHROMEDRIVER_USE_SYSTEM_EXECUTABLE
      */
     public boolean doesChromedriverUseSystemExecutable() {
-        return (boolean) getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_DISABLE_BUILD_CHECK);
+        return (boolean) getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_USE_SYSTEM_EXECUTABLE);
     }
 
     /**
@@ -788,20 +788,20 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      *
      * @param opts is the chromeoptions for ChromeDriver.
      * @return this MobileOptions, for chaining.
-     * @see AndroidMobileCapabilityType#CHROMEDRIVER_EXECUTABLE_DIR
+     * @see AndroidMobileCapabilityType#CHROME_OPTIONS
      */
     public AndroidMobileOptions setChromeOptions(ChromeOptions opts) {
-        return amend(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE_DIR, opts);
+        return amend(AndroidMobileCapabilityType.CHROME_OPTIONS, opts);
     }
 
     /**
      * Get the chromeOptions capability for ChromeDriver.
      *
      * @return ChromeOptions set for use with ChromeDriver.
-     * @see AndroidMobileCapabilityType#CHROMEDRIVER_EXECUTABLE_DIR
+     * @see AndroidMobileCapabilityType#CHROME_OPTIONS
      */
     public Object getChromeOptions() {
-        return getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE_DIR);
+        return getCapability(AndroidMobileCapabilityType.CHROME_OPTIONS);
     }
 
     /**
