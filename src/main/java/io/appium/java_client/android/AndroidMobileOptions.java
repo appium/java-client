@@ -47,12 +47,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the Timeout in milliseconds used to wait for adb command execution.
      *
-     * @param ms is the number of milliseconds to wait for adb command execution.
+     * @param duration is the number of milliseconds to wait for adb command execution.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#ADB_EXEC_TIMEOUT
      */
-    public AndroidMobileOptions setAdbExecTimeout(Duration ms) {
-        return amend(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT, ms);
+    public AndroidMobileOptions setAdbExecTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT, duration.toMillis());
     }
 
     /**
@@ -62,7 +62,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#ADB_EXEC_TIMEOUT
      */
     public Duration getAdbExecTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT);
+        return Duration.ofMillis(duration);
     }
 
     /**
@@ -162,12 +163,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the timeout to wait for a device to become ready after booting.
      *
-     * @param seconds is the number of seconds to wait for a device to become ready after booting.
+     * @param duration is the number of seconds to wait for a device to become ready after booting.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#ANDROID_DEVICE_READY_TIMEOUT
      */
-    public AndroidMobileOptions setAndroidDeviceReadyTimeout(Duration seconds) {
-        return amend(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT, seconds);
+    public AndroidMobileOptions setAndroidDeviceReadyTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT, duration.getSeconds());
     }
 
     /**
@@ -177,7 +178,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#ANDROID_DEVICE_READY_TIMEOUT
      */
     public Duration getAndroidDeviceReadyTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT);
+        return Duration.ofSeconds(duration);
     }
 
     /**
@@ -225,12 +227,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the timeout to wait for an apk to install to the device.
      *
-     * @param ms is the number of milliseconds to wait for an apk to install to the device.
+     * @param duration is the number of milliseconds to wait for an apk to install to the device.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#ANDROID_INSTALL_TIMEOUT
      */
-    public AndroidMobileOptions setAndroidInstallTimeout(Duration ms) {
-        return amend(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, ms);
+    public AndroidMobileOptions setAndroidInstallTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT, duration.toMillis());
     }
 
     /**
@@ -240,7 +242,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#ANDROID_INSTALL_TIMEOUT
      */
     public Duration getAndroidInstallTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT);
+        return Duration.ofMillis(duration);
     }
 
     /**
@@ -361,12 +364,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the Timeout used to wait for the appWaitActivity to launch.
      *
-     * @param ms is the number of milliseconds to wait for the appWaitActivity to launch.
+     * @param duration is the number of milliseconds to wait for the appWaitActivity to launch.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#APP_WAIT_DURATION
      */
-    public AndroidMobileOptions setAppWaitDuration(Duration ms) {
-        return amend(AndroidMobileCapabilityType.APP_WAIT_DURATION, ms);
+    public AndroidMobileOptions setAppWaitDuration(Duration duration) {
+        return amend(AndroidMobileCapabilityType.APP_WAIT_DURATION, duration.toMillis());
     }
 
     /**
@@ -376,7 +379,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#APP_WAIT_DURATION
      */
     public Duration getAppWaitDuration() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION);
+        return Duration.ofMillis(duration);
     }
 
     /**
@@ -465,12 +469,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the amount of time to wait for Webview context to become active.
      *
-     * @param ms is the number of milliseconds to wait for Webview context to become active.
+     * @param duration is the number of milliseconds to wait for Webview context to become active.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#AUTO_WEBVIEW_TIMEOUT
      */
-    public AndroidMobileOptions setAutoWebviewTimeout(Duration ms) {
-        return amend(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT, ms);
+    public AndroidMobileOptions setAutoWebviewTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT, duration.toMillis());
     }
 
     /**
@@ -480,7 +484,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#AUTO_WEBVIEW_TIMEOUT
      */
     public Duration getAutoWebviewTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT);
+        return Duration.ofMillis(duration);
     }
 
     /**
@@ -528,12 +533,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the wait time for an avd to launch and connect to ADB.
      *
-     * @param ms is the number of milliseconds to wait for an avd to launch and connect to ADB.
+     * @param duration is the number of milliseconds to wait for an avd to launch and connect to ADB.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#AVD_LAUNCH_TIMEOUT
      */
-    public AndroidMobileOptions setAvdLaunchTimeout(Duration ms) {
-        return amend(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT, ms);
+    public AndroidMobileOptions setAvdLaunchTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT, duration.toMillis());
     }
 
     /**
@@ -543,18 +548,19 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#AVD_LAUNCH_TIMEOUT
      */
     public Duration getAvdLaunchTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT);
+        return Duration.ofMillis(duration);
     }
 
     /**
      * Set the wait time for an avd to finish its boot animations.
      *
-     * @param ms is the number of milliseconds to wait for an avd to finish its boot animations.
+     * @param duration is the number of milliseconds to wait for an avd to finish its boot animations.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#AVD_READY_TIMEOUT
      */
-    public AndroidMobileOptions setAvdReadyTimeout(Duration ms) {
-        return amend(AndroidMobileCapabilityType.AVD_READY_TIMEOUT, ms);
+    public AndroidMobileOptions setAvdReadyTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.AVD_READY_TIMEOUT, duration.toMillis());
     }
 
     /**
@@ -564,7 +570,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#AVD_READY_TIMEOUT
      */
     public Duration getAvdReadyTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
+        return Duration.ofMillis(duration);
     }
 
     /**
@@ -800,12 +807,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the timeout for device to become ready.
      *
-     * @param seconds is the number of seconds to wait for the device to become ready.
+     * @param duration is the number of seconds to wait for the device to become ready.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#DEVICE_READY_TIMEOUT
      */
-    public AndroidMobileOptions setDeviceReadyTimeout(Duration seconds) {
-        return amend(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT, seconds);
+    public AndroidMobileOptions setDeviceReadyTimeout(Duration duration) {
+        return amend(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT, duration.getSeconds());
     }
 
     /**
@@ -815,7 +822,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#DEVICE_READY_TIMEOUT
      */
     public Duration getDeviceReadyTimeout() {
-        return (Duration) getCapability(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT);
+        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT);
+        return Duration.ofSeconds(duration);
     }
 
     /**

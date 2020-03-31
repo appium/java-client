@@ -338,12 +338,12 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     /**
      * Set the timeout for new commands.
      *
-     * @param seconds is the number of seconds to timeout before seeing a new command.
+     * @param duration is the number of seconds to timeout before seeing a new command.
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#NEW_COMMAND_TIMEOUT
      */
-    public T setNewCommandTimeout(Duration seconds) {
-        return amend(MobileCapabilityType.NEW_COMMAND_TIMEOUT, seconds);
+    public T setNewCommandTimeout(Duration duration) {
+        return amend(MobileCapabilityType.NEW_COMMAND_TIMEOUT, duration.getSeconds());
     }
 
     /**
@@ -353,7 +353,8 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
      * @see MobileCapabilityType#NEW_COMMAND_TIMEOUT
      */
     public Duration getNewCommandTimeout() {
-        return (Duration) getCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT);
+        Integer duration = (Integer) getCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT);
+        return Duration.ofSeconds(duration);
     }
 
     /**

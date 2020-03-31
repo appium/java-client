@@ -35,7 +35,7 @@ public class MobileOptionsTest {
         MutableCapabilities capabilities = new MutableCapabilities();
         capabilities.setCapability("deviceName", "Pixel");
         capabilities.setCapability("platformVersion", "10");
-        capabilities.setCapability("newCommandTimeout", Duration.ofSeconds(60));
+        capabilities.setCapability("newCommandTimeout", 60);
 
         mobileOptions = new MobileOptions<>(capabilities);
 
