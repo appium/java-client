@@ -62,8 +62,11 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor {
+    // https://github.com/appium/appium-base-driver/pull/400
+    private static final String IDEMPOTENCY_KEY_HEADER = "X-Idempotency-Key";
 
     private final Optional<DriverService> serviceOptional;
 
@@ -150,8 +153,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     protected HttpClient getClient() {
-        //noinspection unchecked
         return getPrivateFieldValue("client", HttpClient.class);
+    }
+
+    protected HttpClient withRequestsPatchedByIdempotencyKey(HttpClient httpClient) {
+        return (request) -> {
+            request.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
+            return httpClient.execute(request);
+        };
     }
 
     private Response createSession(Command command) throws IOException {
@@ -159,9 +168,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new SessionNotCreatedException("Session already exists");
         }
         ProtocolHandshake handshake = new ProtocolHandshake() {
-            @SuppressWarnings("unchecked")
-            public Result createSession(HttpClient client, Command command)
-                    throws IOException {
+            @SuppressWarnings({"unchecked", "UnstableApiUsage"})
+            public Result createSession(HttpClient client, Command command) throws IOException {
                 Capabilities desiredCapabilities = (Capabilities) command.getParameters().get("desiredCapabilities");
                 Capabilities desired = desiredCapabilities == null ? new ImmutableCapabilities() : desiredCapabilities;
 
@@ -183,7 +191,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                         createSessionMethod.setAccessible(true);
 
                         Optional<Result> result = (Optional<Result>) createSessionMethod
-                                .invoke(this, client, contentStream, counter.getCount());
+                                .invoke(this, withRequestsPatchedByIdempotencyKey(client),
+                                        contentStream, counter.getCount());
 
                         return result.map(result1 -> {
                             Result toReturn = result.get();
