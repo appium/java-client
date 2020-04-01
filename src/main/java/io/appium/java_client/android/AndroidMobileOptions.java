@@ -75,18 +75,18 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#ADB_PORT
      */
-    public AndroidMobileOptions setAdbPort(String port) {
+    public AndroidMobileOptions setAdbPort(Integer port) {
         return amend(AndroidMobileCapabilityType.ADB_PORT, port);
     }
 
     /**
      * Get the port used to connect to the ADB server.
      *
-     * @return String of the port used to connect to the ADB server.
+     * @return Integer of the port used to connect to the ADB server.
      * @see AndroidMobileCapabilityType#ADB_PORT
      */
-    public String getAdbPort() {
-        return (String) getCapability(AndroidMobileCapabilityType.ADB_PORT);
+    public Integer getAdbPort() {
+        return (Integer) getCapability(AndroidMobileCapabilityType.ADB_PORT);
     }
 
     /**
@@ -731,7 +731,7 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORT
      */
-    public AndroidMobileOptions setChromedriverPort(int port) {
+    public AndroidMobileOptions setChromedriverPort(Integer port) {
         return amend(AndroidMobileCapabilityType.CHROMEDRIVER_PORT, port);
     }
 
@@ -742,7 +742,7 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORT
      */
     public int getChromedriverPort() {
-        return (int) getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_PORT);
+        return (Integer) getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_PORT);
     }
 
     /**
@@ -1567,18 +1567,18 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#SYSTEM_PORT
      */
-    public AndroidMobileOptions setSystemPort(String port) {
+    public AndroidMobileOptions setSystemPort(Integer port) {
         return amend(AndroidMobileCapabilityType.SYSTEM_PORT, port);
     }
 
     /**
      * Get the port used to connect to the driver.
      *
-     * @return String of the port used to connect to the driver.
+     * @return Integer of the port used to connect to the driver.
      * @see AndroidMobileCapabilityType#SYSTEM_PORT
      */
-    public String getSystemPort() {
-        return (String) getCapability(AndroidMobileCapabilityType.SYSTEM_PORT);
+    public Integer getSystemPort() {
+        return (Integer) getCapability(AndroidMobileCapabilityType.SYSTEM_PORT);
     }
 
     /**
@@ -1724,17 +1724,17 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#WEBVIEW_DEVTOOLS_PORT
      */
-    public AndroidMobileOptions setWebviewDevtoolsPort(String port) {
+    public AndroidMobileOptions setWebviewDevtoolsPort(Integer port) {
         return amend(AndroidMobileCapabilityType.WEBVIEW_DEVTOOLS_PORT, port);
     }
 
     /**
      * Get the TCP port for communication with the webview.
      *
-     * @return String of the TCP port for communication with the webview.
+     * @return Integer of the TCP port for communication with the webview.
      * @see AndroidMobileCapabilityType#WEBVIEW_DEVTOOLS_PORT
      */
-    public String getWebviewDevtoolsPort() {
-        return (String) getCapability(AndroidMobileCapabilityType.WEBVIEW_DEVTOOLS_PORT);
+    public Integer getWebviewDevtoolsPort() {
+        return (Integer) getCapability(AndroidMobileCapabilityType.WEBVIEW_DEVTOOLS_PORT);
     }
 }
