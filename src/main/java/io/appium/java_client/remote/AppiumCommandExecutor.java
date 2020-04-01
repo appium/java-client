@@ -190,9 +190,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                 .getDeclaredMethod("createSession", HttpClient.class, InputStream.class, long.class);
                         createSessionMethod.setAccessible(true);
 
-                        Optional<Result> result = (Optional<Result>) createSessionMethod
-                                .invoke(this, withRequestsPatchedByIdempotencyKey(client),
-                                        contentStream, counter.getCount());
+                        Optional<Result> result = (Optional<Result>) createSessionMethod.invoke(this,
+                                withRequestsPatchedByIdempotencyKey(client), contentStream, counter.getCount());
 
                         return result.map(result1 -> {
                             Result toReturn = result.get();
