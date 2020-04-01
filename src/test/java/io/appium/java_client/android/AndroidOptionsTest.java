@@ -55,14 +55,11 @@ public class AndroidOptionsTest {
 
     @Test
     public void acceptsMobileCapabilities() throws MalformedURLException {
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add("/path/to/app.apk");
-
         androidMobileOptions.setApp(new URL("http://example.com/myapp.apk"))
                 .setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2)
                 .setPlatformVersion("10")
                 .setDeviceName("Pixel")
-                .setOtherApps(paths)
+                .setOtherApps("/path/to/app.apk")
                 .setLocale("fr_CA")
                 .setUdid("1ae203187fc012g")
                 .setOrientation(ScreenOrientation.LANDSCAPE)
@@ -73,7 +70,7 @@ public class AndroidOptionsTest {
         assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, androidMobileOptions.getAutomationName());
         assertEquals("10", androidMobileOptions.getPlatformVersion());
         assertEquals("Pixel", androidMobileOptions.getDeviceName());
-        assertEquals(paths, androidMobileOptions.getOtherApps());
+        assertEquals("/path/to/app.apk", androidMobileOptions.getOtherApps());
         assertEquals("fr_CA", androidMobileOptions.getLocale());
         assertEquals("1ae203187fc012g", androidMobileOptions.getUdid());
         assertEquals(ScreenOrientation.LANDSCAPE, androidMobileOptions.getOrientation());
@@ -234,10 +231,6 @@ public class AndroidOptionsTest {
         chromedriverArgs.add("--disable-gpu");
         chromedriverArgs.add("--disable-web-security");
 
-        List<String> uninstallPackages = new ArrayList<>();
-        uninstallPackages.add("io.appium.example1");
-        uninstallPackages.add("io.appium.example2");
-
         androidMobileOptions.setAndroidCoverage("com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation")
                 .setAndroidCoverageEndIntent("com.example.pkg.END_EMMA")
                 .setAndroidDeviceSocket("chrome_devtools_remote")
@@ -265,7 +258,7 @@ public class AndroidOptionsTest {
                 .setNetworkSpeed("hscsd")
                 .setOptionalIntentArguments("--esn 2222")
                 .setRemoteAdbHost("192.168.0.101")
-                .setUninstallOtherPackages(uninstallPackages)
+                .setUninstallOtherPackages("io.appium.ex1,io.appium.ex2")
                 .setUnlockKey("1111")
                 .setUnlockType("password");
 
@@ -296,7 +289,7 @@ public class AndroidOptionsTest {
         assertEquals("hscsd", androidMobileOptions.getNetworkSpeed());
         assertEquals("--esn 2222", androidMobileOptions.getOptionalIntentArguments());
         assertEquals("192.168.0.101", androidMobileOptions.getRemoteAdbHost());
-        assertEquals(uninstallPackages, androidMobileOptions.getUninstallOtherPackages());
+        assertEquals("io.appium.ex1,io.appium.ex2", androidMobileOptions.getUninstallOtherPackages());
         assertEquals("1111", androidMobileOptions.getUnlockKey());
         assertEquals("password", androidMobileOptions.getUnlockType());
     }

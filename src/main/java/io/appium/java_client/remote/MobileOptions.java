@@ -421,18 +421,18 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
      * @return this MobileOptions, for chaining.
      * @see MobileCapabilityType#OTHER_APPS
      */
-    public T setOtherApps(List<String> apps) {
+    public T setOtherApps(String apps) {
         return amend(MobileCapabilityType.OTHER_APPS, apps);
     }
 
     /**
      * Get the list of apps to install before running a test.
      *
-     * @return apps to install.
+     * @return String of apps to install.
      * @see MobileCapabilityType#OTHER_APPS
      */
-    public Object getOtherApps() {
-        return getCapability(MobileCapabilityType.OTHER_APPS);
+    public String getOtherApps() {
+        return (String) getCapability(MobileCapabilityType.OTHER_APPS);
     }
 
     /**
