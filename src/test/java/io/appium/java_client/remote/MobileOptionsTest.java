@@ -46,14 +46,11 @@ public class MobileOptionsTest {
 
     @Test
     public void acceptsMobileCapabilities() throws MalformedURLException {
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add("/path/to/app.apk");
-
         mobileOptions.setApp(new URL("http://example.com/myapp.apk"))
                 .setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2)
                 .setPlatformVersion("10")
                 .setDeviceName("Pixel")
-                .setOtherApps(paths)
+                .setOtherApps("/path/to/app.apk")
                 .setLocale("fr_CA")
                 .setUdid("1ae203187fc012g")
                 .setOrientation(ScreenOrientation.LANDSCAPE)
@@ -64,7 +61,7 @@ public class MobileOptionsTest {
         assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, mobileOptions.getAutomationName());
         assertEquals("10", mobileOptions.getPlatformVersion());
         assertEquals("Pixel", mobileOptions.getDeviceName());
-        assertEquals(paths, mobileOptions.getOtherApps());
+        assertEquals("/path/to/app.apk", mobileOptions.getOtherApps());
         assertEquals("fr_CA", mobileOptions.getLocale());
         assertEquals("1ae203187fc012g", mobileOptions.getUdid());
         assertEquals(ScreenOrientation.LANDSCAPE, mobileOptions.getOrientation());
