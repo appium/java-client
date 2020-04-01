@@ -1369,12 +1369,12 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     /**
      * Set the additional intent arguments that will be used to start activity.
      *
-     * @param speed is the additional intent arguments that will be used to start activity.
+     * @param arguments is the additional intent arguments that will be used to start activity.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#OPTIONAL_INTENT_ARGUMENTS
      */
-    public AndroidMobileOptions setOptionalIntentArguments(String speed) {
-        return amend(AndroidMobileCapabilityType.OPTIONAL_INTENT_ARGUMENTS, speed);
+    public AndroidMobileOptions setOptionalIntentArguments(String arguments) {
+        return amend(AndroidMobileCapabilityType.OPTIONAL_INTENT_ARGUMENTS, arguments);
     }
 
     /**
