@@ -647,8 +647,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return list of String arguments to be passed to the chromedriver binary when it's run by Appium.
      * @see AndroidMobileCapabilityType#CHROMEDRIVER_ARGS
      */
-    public Object getChromedriverArgs() {
-        return getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_ARGS);
+    public List<String> getChromedriverArgs() {
+        return (List<String>) getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_ARGS);
     }
 
     /**
@@ -783,8 +783,8 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return list of Integers or Array of Integers for the valid ports to use for communication with Chromedrivers.
      * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORTS
      */
-    public Object getChromedriverPorts() {
-        return getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_PORTS);
+    public List<Object> getChromedriverPorts() {
+        return (List<Object>) getCapability(AndroidMobileCapabilityType.CHROMEDRIVER_PORTS);
     }
 
     /**
