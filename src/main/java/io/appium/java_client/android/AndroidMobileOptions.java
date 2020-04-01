@@ -1606,37 +1606,6 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     }
 
     /**
-     * Set the app to enable Unicode input.
-     *
-     * @return this MobileOptions, for chaining.
-     * @see AndroidMobileCapabilityType#UNICODE_KEYBOARD
-     */
-    public AndroidMobileOptions setUnicodeKeyboard() {
-        return setUnicodeKeyboard(true);
-    }
-
-    /**
-     * Set whether to enable Unicode input.
-     *
-     * @param bool when true enables Unicode input.
-     * @return this MobileOptions, for chaining.
-     * @see AndroidMobileCapabilityType#UNICODE_KEYBOARD
-     */
-    public AndroidMobileOptions setUnicodeKeyboard(boolean bool) {
-        return amend(AndroidMobileCapabilityType.UNICODE_KEYBOARD, bool);
-    }
-
-    /**
-     * Get whether to enable Unicode input.
-     *
-     * @return true if Unicode input is enabled.
-     * @see AndroidMobileCapabilityType#UNICODE_KEYBOARD
-     */
-    public boolean isUnicodeKeyboard() {
-        return (boolean) getCapability(AndroidMobileCapabilityType.UNICODE_KEYBOARD);
-    }
-
-    /**
      * Set the list of packages to uninstall before installing apks.
      *
      * @param packages is the list of packages to uninstall before installing apks.

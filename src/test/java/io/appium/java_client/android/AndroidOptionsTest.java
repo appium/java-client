@@ -112,7 +112,6 @@ public class AndroidOptionsTest {
                 .setSkipDeviceInitialization()
                 .setSkipLogcatCapture()
                 .setSkipUnlock()
-                .setUnicodeKeyboard()
                 .setUseKeystore();
 
         assertTrue(androidMobileOptions.doesAllowTestPackages());
@@ -135,7 +134,6 @@ public class AndroidOptionsTest {
         assertTrue(androidMobileOptions.doesSkipDeviceInitialization());
         assertTrue(androidMobileOptions.doesSkipLogcatCapture());
         assertTrue(androidMobileOptions.doesSkipUnlock());
-        assertTrue(androidMobileOptions.isUnicodeKeyboard());
         assertTrue(androidMobileOptions.doesUseKeystore());
     }
 
@@ -162,7 +160,6 @@ public class AndroidOptionsTest {
                 .setSkipDeviceInitialization(false)
                 .setSkipLogcatCapture(false)
                 .setSkipUnlock(false)
-                .setUnicodeKeyboard(false)
                 .setUseKeystore(false);
 
         assertFalse(androidMobileOptions.doesAllowTestPackages());
@@ -186,7 +183,6 @@ public class AndroidOptionsTest {
         assertFalse(androidMobileOptions.doesSkipDeviceInitialization());
         assertFalse(androidMobileOptions.doesSkipLogcatCapture());
         assertFalse(androidMobileOptions.doesSkipUnlock());
-        assertFalse(androidMobileOptions.isUnicodeKeyboard());
         assertFalse(androidMobileOptions.doesUseKeystore());
     }
 
