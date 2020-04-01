@@ -62,8 +62,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#ADB_EXEC_TIMEOUT
      */
     public Duration getAdbExecTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT);
-        return Duration.ofMillis(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofMillis(value);
     }
 
     /**
@@ -178,8 +180,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#ANDROID_DEVICE_READY_TIMEOUT
      */
     public Duration getAndroidDeviceReadyTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT);
-        return Duration.ofSeconds(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofSeconds(value);
     }
 
     /**
@@ -242,8 +246,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#ANDROID_INSTALL_TIMEOUT
      */
     public Duration getAndroidInstallTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT);
-        return Duration.ofMillis(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofMillis(value);
     }
 
     /**
@@ -379,8 +385,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#APP_WAIT_DURATION
      */
     public Duration getAppWaitDuration() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION);
-        return Duration.ofMillis(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofMillis(value);
     }
 
     /**
@@ -484,8 +492,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#AUTO_WEBVIEW_TIMEOUT
      */
     public Duration getAutoWebviewTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT);
-        return Duration.ofMillis(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofMillis(value);
     }
 
     /**
@@ -548,8 +558,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#AVD_LAUNCH_TIMEOUT
      */
     public Duration getAvdLaunchTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT);
-        return Duration.ofMillis(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofMillis(value);
     }
 
     /**
@@ -570,8 +582,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#AVD_READY_TIMEOUT
      */
     public Duration getAvdReadyTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
-        return Duration.ofMillis(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofMillis(value);
     }
 
     /**
@@ -822,8 +836,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#DEVICE_READY_TIMEOUT
      */
     public Duration getDeviceReadyTimeout() {
-        Integer duration = (Integer) getCapability(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT);
-        return Duration.ofSeconds(duration);
+        Object duration = getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
+        Integer integer = (Integer) duration;
+        Long value = Long.valueOf(integer);
+        return Duration.ofSeconds(value);
     }
 
     /**
