@@ -231,7 +231,7 @@ public class AndroidOptionsTest {
         uninstallPackages.add("io.appium.example1");
         uninstallPackages.add("io.appium.example2");
 
-        androidMobileOptions.setAdbPort("1234")
+        androidMobileOptions.setAdbPort(1234)
                 .setAndroidCoverage("com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation")
                 .setAndroidCoverageEndIntent("com.example.pkg.END_EMMA")
                 .setAndroidDeviceSocket("chrome_devtools_remote")
@@ -259,13 +259,13 @@ public class AndroidOptionsTest {
                 .setNetworkSpeed("hscsd")
                 .setOptionalIntentArguments("--esn 2222")
                 .setRemoteAdbHost("192.168.0.101")
-                .setSystemPort("8201")
+                .setSystemPort(8201)
                 .setUninstallOtherPackages(uninstallPackages)
                 .setUnlockKey("1111")
                 .setUnlockType("password")
-                .setWebviewDevtoolsPort("9543");
+                .setWebviewDevtoolsPort(9543);
 
-        assertEquals("1234", androidMobileOptions.getAdbPort());
+        assertEquals(Integer.valueOf(1234), androidMobileOptions.getAdbPort());
         assertEquals("com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation", androidMobileOptions.getAndroidCoverage());
         assertEquals("com.example.pkg.END_EMMA", androidMobileOptions.getAndroidCoverageEndIntent());
         assertEquals("chrome_devtools_remote", androidMobileOptions.getAndroidDeviceSocket());
@@ -293,11 +293,11 @@ public class AndroidOptionsTest {
         assertEquals("hscsd", androidMobileOptions.getNetworkSpeed());
         assertEquals("--esn 2222", androidMobileOptions.getOptionalIntentArguments());
         assertEquals("192.168.0.101", androidMobileOptions.getRemoteAdbHost());
-        assertEquals("8201", androidMobileOptions.getSystemPort());
+        assertEquals(Integer.valueOf(8201), androidMobileOptions.getSystemPort());
         assertEquals(uninstallPackages, androidMobileOptions.getUninstallOtherPackages());
         assertEquals("1111", androidMobileOptions.getUnlockKey());
         assertEquals("password", androidMobileOptions.getUnlockType());
-        assertEquals("9543", androidMobileOptions.getWebviewDevtoolsPort());
+        assertEquals(Integer.valueOf(9543), androidMobileOptions.getWebviewDevtoolsPort());
     }
 
     @Test
