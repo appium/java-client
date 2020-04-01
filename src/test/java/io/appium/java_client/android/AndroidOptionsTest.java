@@ -213,7 +213,7 @@ public class AndroidOptionsTest {
 
     @Test
     public void setsAndroidNumberCapabilities() {
-        List<Integer> ports = new ArrayList<>();
+        List<Object> ports = new ArrayList<>();
         ports.add(9000);
         ports.add(9005);
 

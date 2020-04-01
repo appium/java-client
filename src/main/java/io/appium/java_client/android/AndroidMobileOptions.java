@@ -773,14 +773,14 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORTS
      */
-    public AndroidMobileOptions setChromedriverPorts(List<Integer> ports) {
+    public AndroidMobileOptions setChromedriverPorts(List<Object> ports) {
         return amend(AndroidMobileCapabilityType.CHROMEDRIVER_PORTS, ports);
     }
 
     /**
      * Get the valid ports for Appium to use for communication with Chromedrivers.
      *
-     * @return list of Integers for the valid ports for Appium to use for communication with Chromedrivers.
+     * @return list of Integers or Array of Integers for the valid ports to use for communication with Chromedrivers.
      * @see AndroidMobileCapabilityType#CHROMEDRIVER_PORTS
      */
     public Object getChromedriverPorts() {
