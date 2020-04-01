@@ -354,6 +354,9 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
      */
     public Duration getNewCommandTimeout() {
         Object duration = getCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofSeconds((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofSeconds(value);

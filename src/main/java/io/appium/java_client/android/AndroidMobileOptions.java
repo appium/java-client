@@ -63,6 +63,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAdbExecTimeout() {
         Object duration = getCapability(AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofMillis((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofMillis(value);
@@ -181,6 +184,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAndroidDeviceReadyTimeout() {
         Object duration = getCapability(AndroidMobileCapabilityType.ANDROID_DEVICE_READY_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofSeconds((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofSeconds(value);
@@ -247,6 +253,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAndroidInstallTimeout() {
         Object duration = getCapability(AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofMillis((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofMillis(value);
@@ -386,6 +395,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAppWaitDuration() {
         Object duration = getCapability(AndroidMobileCapabilityType.APP_WAIT_DURATION);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofMillis((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofMillis(value);
@@ -493,6 +505,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAutoWebviewTimeout() {
         Object duration = getCapability(AndroidMobileCapabilityType.AUTO_WEBVIEW_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofMillis((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofMillis(value);
@@ -559,6 +574,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAvdLaunchTimeout() {
         Object duration = getCapability(AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofMillis((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofMillis(value);
@@ -583,6 +601,9 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      */
     public Duration getAvdReadyTimeout() {
         Object duration = getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofMillis((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofMillis(value);
@@ -836,7 +857,10 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#DEVICE_READY_TIMEOUT
      */
     public Duration getDeviceReadyTimeout() {
-        Object duration = getCapability(AndroidMobileCapabilityType.AVD_READY_TIMEOUT);
+        Object duration = getCapability(AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT);
+        if (duration.getClass().isAssignableFrom(Long.class)) {
+            return Duration.ofSeconds((Long) duration);
+        }
         Integer integer = (Integer) duration;
         Long value = Long.valueOf(integer);
         return Duration.ofSeconds(value);

@@ -191,11 +191,7 @@ public class AndroidOptionsTest {
     }
 
     @Test
-    public void setsAndroidNumberCapabilities() {
-        List<Integer> ports = new ArrayList<>();
-        ports.add(9000);
-        ports.add(9005);
-
+    public void setsDurationCapabilities() {
         androidMobileOptions.setAdbExecTimeout(Duration.ofMillis(500))
                 .setAndroidDeviceReadyTimeout(Duration.ofSeconds(5))
                 .setAndroidInstallTimeout(Duration.ofSeconds(300))
@@ -203,10 +199,7 @@ public class AndroidOptionsTest {
                 .setAutoWebviewTimeout(Duration.ofMillis(9000))
                 .setAvdLaunchTimeout(Duration.ofMillis(10000))
                 .setAvdReadyTimeout(Duration.ofMillis(11000))
-                .setChromedriverPort(1234)
-                .setChromedriverPorts(ports)
-                .setDeviceReadyTimeout(Duration.ofSeconds(33))
-                .setRemoteAppsCacheLimit(4);
+                .setDeviceReadyTimeout(Duration.ofSeconds(33));
 
         assertEquals(Duration.ofMillis(500), androidMobileOptions.getAdbExecTimeout());
         assertEquals(Duration.ofSeconds(5), androidMobileOptions.getAndroidDeviceReadyTimeout());
@@ -215,10 +208,28 @@ public class AndroidOptionsTest {
         assertEquals(Duration.ofMillis(9000), androidMobileOptions.getAutoWebviewTimeout());
         assertEquals(Duration.ofMillis(10000), androidMobileOptions.getAvdLaunchTimeout());
         assertEquals(Duration.ofMillis(11000), androidMobileOptions.getAvdReadyTimeout());
+        assertEquals(Duration.ofSeconds(33), androidMobileOptions.getDeviceReadyTimeout());
+    }
+
+    @Test
+    public void setsAndroidNumberCapabilities() {
+        List<Integer> ports = new ArrayList<>();
+        ports.add(9000);
+        ports.add(9005);
+
+        androidMobileOptions.setAdbPort(1234)
+                .setChromedriverPort(1234)
+                .setChromedriverPorts(ports)
+                .setRemoteAppsCacheLimit(4)
+                .setSystemPort(8201)
+                .setWebviewDevtoolsPort(9543);
+
+        assertEquals(Integer.valueOf(1234), androidMobileOptions.getAdbPort());
         assertEquals(1234, androidMobileOptions.getChromedriverPort());
         assertEquals(ports, androidMobileOptions.getChromedriverPorts());
-        assertEquals(Duration.ofSeconds(33), androidMobileOptions.getDeviceReadyTimeout());
         assertEquals(4, androidMobileOptions.getRemoteAppsCacheLimit());
+        assertEquals(Integer.valueOf(8201), androidMobileOptions.getSystemPort());
+        assertEquals(Integer.valueOf(9543), androidMobileOptions.getWebviewDevtoolsPort());
     }
 
     @Test
@@ -231,8 +242,7 @@ public class AndroidOptionsTest {
         uninstallPackages.add("io.appium.example1");
         uninstallPackages.add("io.appium.example2");
 
-        androidMobileOptions.setAdbPort(1234)
-                .setAndroidCoverage("com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation")
+        androidMobileOptions.setAndroidCoverage("com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation")
                 .setAndroidCoverageEndIntent("com.example.pkg.END_EMMA")
                 .setAndroidDeviceSocket("chrome_devtools_remote")
                 .setAndroidInstallPath("/sdcard/Downloads/")
@@ -259,13 +269,10 @@ public class AndroidOptionsTest {
                 .setNetworkSpeed("hscsd")
                 .setOptionalIntentArguments("--esn 2222")
                 .setRemoteAdbHost("192.168.0.101")
-                .setSystemPort(8201)
                 .setUninstallOtherPackages(uninstallPackages)
                 .setUnlockKey("1111")
-                .setUnlockType("password")
-                .setWebviewDevtoolsPort(9543);
+                .setUnlockType("password");
 
-        assertEquals(Integer.valueOf(1234), androidMobileOptions.getAdbPort());
         assertEquals("com.my.Pkg/com.my.Pkg.instrumentation.MyInstrumentation", androidMobileOptions.getAndroidCoverage());
         assertEquals("com.example.pkg.END_EMMA", androidMobileOptions.getAndroidCoverageEndIntent());
         assertEquals("chrome_devtools_remote", androidMobileOptions.getAndroidDeviceSocket());
@@ -293,11 +300,9 @@ public class AndroidOptionsTest {
         assertEquals("hscsd", androidMobileOptions.getNetworkSpeed());
         assertEquals("--esn 2222", androidMobileOptions.getOptionalIntentArguments());
         assertEquals("192.168.0.101", androidMobileOptions.getRemoteAdbHost());
-        assertEquals(Integer.valueOf(8201), androidMobileOptions.getSystemPort());
         assertEquals(uninstallPackages, androidMobileOptions.getUninstallOtherPackages());
         assertEquals("1111", androidMobileOptions.getUnlockKey());
         assertEquals("password", androidMobileOptions.getUnlockType());
-        assertEquals(Integer.valueOf(9543), androidMobileOptions.getWebviewDevtoolsPort());
     }
 
     @Test
