@@ -1606,24 +1606,24 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
     }
 
     /**
-     * Set the list of packages to uninstall before installing apks.
+     * Set the packages to uninstall before installing apks.
      *
-     * @param packages is the list of packages to uninstall before installing apks.
+     * @param packages is the String of comma separated packages to uninstall before installing apks.
      * @return this MobileOptions, for chaining.
      * @see AndroidMobileCapabilityType#UNINSTALL_OTHER_PACKAGES
      */
-    public AndroidMobileOptions setUninstallOtherPackages(List<String> packages) {
+    public AndroidMobileOptions setUninstallOtherPackages(String packages) {
         return amend(AndroidMobileCapabilityType.UNINSTALL_OTHER_PACKAGES, packages);
     }
 
     /**
      * Get the list of packages to uninstall before installing apks.
      *
-     * @return list of Strings for packages to uninstall before installing apks.
+     * @return String of package(s) to uninstall before installing apks.
      * @see AndroidMobileCapabilityType#UNINSTALL_OTHER_PACKAGES
      */
-    public Object getUninstallOtherPackages() {
-        return getCapability(AndroidMobileCapabilityType.UNINSTALL_OTHER_PACKAGES);
+    public String getUninstallOtherPackages() {
+        return (String) getCapability(AndroidMobileCapabilityType.UNINSTALL_OTHER_PACKAGES);
     }
 
     /**
