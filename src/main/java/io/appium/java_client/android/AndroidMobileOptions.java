@@ -836,7 +836,7 @@ public class AndroidMobileOptions extends MobileOptions<AndroidMobileOptions> {
      * @see AndroidMobileCapabilityType#CHROME_OPTIONS
      */
     public Object getChromeOptions() {
-        return getCapability(AndroidMobileCapabilityType.CHROME_OPTIONS);
+        return getCapability(ChromeOptions.CAPABILITY);
     }
 
     /**
