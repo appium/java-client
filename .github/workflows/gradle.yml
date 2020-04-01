@@ -9,6 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Semantic Pull Request
+      uses: amannn/action-semantic-pull-request@v1.2.0
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
