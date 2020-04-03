@@ -35,6 +35,7 @@ public interface HasDeviceTime extends ExecutesMethod {
      *               https://momentjs.com/docs/ to get the full list of supported
      *               datetime format specifiers. The default format is
      *               `YYYY-MM-DDTHH:mm:ssZ`, which complies to ISO-8601
+     * @since Appium 1.18
      * @return Device time string
      */
     default String getDeviceTime(String format) {
