@@ -18,9 +18,13 @@ package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.Response;
+
+import java.util.Map;
 
 public interface HasDeviceTime extends ExecutesMethod {
 
@@ -31,10 +35,15 @@ public interface HasDeviceTime extends ExecutesMethod {
      *               https://momentjs.com/docs/ to get the full list of supported
      *               datetime format specifiers. The default format is
      *               `YYYY-MM-DDTHH:mm:ssZ`, which complies to ISO-8601
+     * @since Appium 1.18
      * @return Device time string
      */
     default String getDeviceTime(String format) {
-        Response response = execute(GET_DEVICE_TIME, ImmutableMap.of("format", format));
+        Map<String, ?> params = ImmutableMap.of(
+                "script", "mobile: getDeviceTime",
+                "args", ImmutableList.of(ImmutableMap.of("format", format))
+        );
+        Response response = execute(DriverCommand.EXECUTE_SCRIPT, params);
         return response.getValue().toString();
     }
 
