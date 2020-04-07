@@ -29,7 +29,7 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        serverCapabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
+        serverCapabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         return serverCapabilities;
     };
 

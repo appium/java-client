@@ -46,7 +46,7 @@ public class BaseEspressoTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ESPRESSO);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         capabilities.setCapability("eventTimings", true);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }

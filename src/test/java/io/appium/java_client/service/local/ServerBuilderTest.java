@@ -159,7 +159,7 @@ public class ServerBuilderTest {
         caps.setCapability(NEW_COMMAND_TIMEOUT, 60);
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
-        caps.setCapability(APP, apiDemosApk().toAbsolutePath());
+        caps.setCapability(APP, apiDemosApk().toAbsolutePath().toString());
         caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder().withCapabilities(caps).build();

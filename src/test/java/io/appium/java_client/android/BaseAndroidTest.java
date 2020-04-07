@@ -48,7 +48,7 @@ public class BaseAndroidTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         capabilities.setCapability("eventTimings", true);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }

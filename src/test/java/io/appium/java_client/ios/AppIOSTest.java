@@ -31,7 +31,7 @@ public class AppIOSTest extends BaseIOSTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability("commandTimeouts", "120000");
-        capabilities.setCapability(MobileCapabilityType.APP, testAppZip().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, testAppZip().toAbsolutePath().toString());
         try {
             driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
         } catch (SessionNotCreatedException e) {

@@ -30,7 +30,7 @@ public class IntentTest {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, intentExampleApk().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, intentExampleApk().toAbsolutePath().toString());
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 

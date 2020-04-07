@@ -44,7 +44,7 @@ public class StartingAppLocallyTest {
     @Test public void startingAndroidAppWithCapabilitiesOnlyTest() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
         AndroidDriver<?> driver = new AndroidDriver<>(capabilities);
@@ -54,7 +54,7 @@ public class StartingAppLocallyTest {
             assertEquals(AutomationName.APPIUM, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
             assertEquals(MobilePlatform.ANDROID, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(apiDemosApk().toAbsolutePath(), caps.getCapability(MobileCapabilityType.APP));
+            assertEquals(apiDemosApk().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
             driver.quit();
         }
@@ -63,7 +63,7 @@ public class StartingAppLocallyTest {
     @Test public void startingAndroidAppWithCapabilitiesAndServiceTest() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
@@ -86,7 +86,7 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         serverCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
         serverCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
-        serverCapabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
+        serverCapabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
 
         WebDriverManager chromeManager = chromedriver();
         chromeManager.setup();
@@ -120,7 +120,7 @@ public class StartingAppLocallyTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
 
         IOSDriver<?> driver = new IOSDriver<>(capabilities);
@@ -131,7 +131,7 @@ public class StartingAppLocallyTest {
             assertEquals(MobilePlatform.IOS, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
-            assertEquals(uiCatalogAppZip().toAbsolutePath(), caps.getCapability(MobileCapabilityType.APP));
+            assertEquals(uiCatalogAppZip().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
             driver.quit();
         }
@@ -142,7 +142,7 @@ public class StartingAppLocallyTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
-        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
@@ -171,7 +171,7 @@ public class StartingAppLocallyTest {
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 
         DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-        clientCapabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath());
+        clientCapabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)

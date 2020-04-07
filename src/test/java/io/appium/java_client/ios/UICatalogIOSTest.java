@@ -28,7 +28,7 @@ public class UICatalogIOSTest extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 6");
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
         driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
     }
 }
