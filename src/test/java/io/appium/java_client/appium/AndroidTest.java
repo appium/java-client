@@ -1,5 +1,6 @@
 package io.appium.java_client.appium;
 
+import static io.appium.java_client.TestResources.apiDemosApk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -22,7 +23,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 
-import java.io.File;
 import java.util.Map;
 
 public class AndroidTest {
@@ -44,12 +44,10 @@ public class AndroidTest {
                     "An appium server node is not started!");
         }
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
         driver = new AppiumDriver<>(service.getUrl(), capabilities);
     }
 

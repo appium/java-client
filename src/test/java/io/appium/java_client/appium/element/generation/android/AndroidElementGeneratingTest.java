@@ -1,6 +1,7 @@
 package io.appium.java_client.appium.element.generation.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static io.appium.java_client.TestResources.apiDemosApk;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.tagName;
@@ -19,19 +20,16 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
 
-    private final File app = new File(new File("src/test/java/io/appium/java_client"),
-            "ApiDemos-debug.apk");
     private final Supplier<DesiredCapabilities> commonCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        serverCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        serverCapabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
         return serverCapabilities;
     };
 

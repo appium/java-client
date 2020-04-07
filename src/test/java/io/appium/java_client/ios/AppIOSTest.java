@@ -8,8 +8,9 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.net.URL;
+
+import static io.appium.java_client.TestResources.testAppZip;
 
 public class AppIOSTest extends BaseIOSTest {
 
@@ -23,8 +24,6 @@ public class AppIOSTest extends BaseIOSTest {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "TestApp.app.zip");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
@@ -32,7 +31,7 @@ public class AppIOSTest extends BaseIOSTest {
         //sometimes environment has performance problems
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability("commandTimeouts", "120000");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, testAppZip().toAbsolutePath());
         try {
             driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
         } catch (SessionNotCreatedException e) {

@@ -24,7 +24,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
+import static io.appium.java_client.TestResources.apiDemosApk;
 
 public class BaseEspressoTest {
 
@@ -43,12 +43,10 @@ public class BaseEspressoTest {
                 "An appium server node is not started!");
         }
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ESPRESSO);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
         capabilities.setCapability("eventTimings", true);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }

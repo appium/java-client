@@ -26,7 +26,7 @@ import org.junit.BeforeClass;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
+import static io.appium.java_client.TestResources.apiDemosApk;
 
 public class BaseAndroidTest {
     public static final String APP_ID = "io.appium.android.apis";
@@ -45,12 +45,10 @@ public class BaseAndroidTest {
                 "An appium server node is not started!");
         }
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "ApiDemos-debug.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath());
         capabilities.setCapability("eventTimings", true);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
