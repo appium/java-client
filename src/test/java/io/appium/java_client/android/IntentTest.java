@@ -1,5 +1,6 @@
 package io.appium.java_client.android;
 
+import static io.appium.java_client.TestResources.intentExampleApk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -10,7 +11,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.util.function.Predicate;
 
 public class IntentTest {
@@ -28,11 +28,9 @@ public class IntentTest {
             throw new RuntimeException("An appium server node is not started!");
         }
 
-        File appDir = new File("src/test/java/io/appium/java_client");
-        File app = new File(appDir, "IntentExample.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP, intentExampleApk().toAbsolutePath().toString());
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 

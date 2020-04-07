@@ -1,5 +1,6 @@
 package io.appium.java_client.service.local;
 
+import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
@@ -152,15 +153,13 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToStartServiceUsingCapabilities() {
-        File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
-
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(PLATFORM_NAME, "Android");
         caps.setCapability(FULL_RESET, true);
         caps.setCapability(NEW_COMMAND_TIMEOUT, 60);
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
-        caps.setCapability(APP, app.getAbsolutePath());
+        caps.setCapability(APP, apiDemosApk().toAbsolutePath().toString());
         caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder().withCapabilities(caps).build();

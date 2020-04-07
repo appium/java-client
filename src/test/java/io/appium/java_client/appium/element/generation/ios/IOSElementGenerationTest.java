@@ -1,6 +1,8 @@
 package io.appium.java_client.appium.element.generation.ios;
 
 import static io.appium.java_client.MobileBy.AccessibilityId;
+import static io.appium.java_client.TestResources.testAppZip;
+import static io.appium.java_client.TestResources.vodQaAppZip;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.name;
@@ -32,12 +34,9 @@ import java.util.function.Supplier;
 
 public class IOSElementGenerationTest extends BaseElementGenerationTest {
 
-    private static final File testApp = new File(new File("src/test/java/io/appium/java_client"),
-            "TestApp.app.zip");
+    private static final File testApp = testAppZip().toFile();
 
-    private static final File webViewApp = new File(new File("src/test/java/io/appium/java_client"),
-            "vodqa.zip");
-
+    private static final File webViewApp = vodQaAppZip().toFile();
 
     private Supplier<DesiredCapabilities> commonAppCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
