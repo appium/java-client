@@ -28,6 +28,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.ImmutableMap;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -178,6 +179,11 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, app.getAbsolutePath());
+        caps.setCapability("winPath", "C:\\selenium\\app.apk");
+        caps.setCapability("unixPath", "/selenium/app.apk");
+        caps.setCapability("quotes", "\"'");
+        caps.setCapability("goog:chromeOptions",
+                ImmutableMap.of("env", ImmutableMap.of("test", "value"), "val2", 0));
         caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
 
         service = new AppiumServiceBuilder()

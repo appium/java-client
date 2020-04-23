@@ -23,8 +23,8 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
 import org.apache.commons.io.IOUtils;
@@ -32,7 +32,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -54,7 +53,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-
 public final class AppiumServiceBuilder
         extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
 
@@ -73,8 +71,6 @@ public final class AppiumServiceBuilder
     private static final String NODE_PATH = "NODE_BINARY_PATH";
 
     public static final String BROADCAST_IP_ADDRESS = "0.0.0.0";
-    private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
-            AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
     private static final Path APPIUM_PATH_SUFFIX = Paths.get("appium", "build", "lib", "main.js");
     public static final int DEFAULT_APPIUM_PORT = 4723;
     private final Map<String, String> serverArguments = new HashMap<>();
@@ -300,79 +296,15 @@ public final class AppiumServiceBuilder
         this.appiumJS = findMainScript();
     }
 
-    private String parseCapabilitiesIfWindows() {
-        String result = StringUtils.EMPTY;
-
-        if (capabilities != null) {
-            Map<String, ?> capabilitiesMap = capabilities.asMap();
-            Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
-
-            for (Map.Entry<String, ?> entry : entries) {
-                Object value = entry.getValue();
-
-                if (value == null) {
-                    continue;
-                }
-
-                if (String.class.isAssignableFrom(value.getClass())) {
-                    if (PATH_CAPABILITIES.contains(entry.getKey())) {
-                        value = "\\\"" + String.valueOf(value).replace("\\", "/") + "\\\"";
-                    } else {
-                        value = "\\\"" + value + "\\\"";
-                    }
-                } else {
-                    value = String.valueOf(value);
-                }
-
-                String key = "\\\"" + entry.getKey() + "\\\"";
-                if (StringUtils.isBlank(result)) {
-                    result = key + ": " + value;
-                } else {
-                    result = result + ", " + key + ": " + value;
-                }
-            }
-        }
-
-        return "{" + result + "}";
-    }
-
-    private String parseCapabilitiesIfUNIX() {
-        String result = StringUtils.EMPTY;
-
-        if (capabilities != null) {
-            Map<String, ?> capabilitiesMap = capabilities.asMap();
-            Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
-
-            for (Map.Entry<String, ?> entry : entries) {
-                Object value = entry.getValue();
-
-                if (value == null) {
-                    continue;
-                }
-
-                if (String.class.isAssignableFrom(value.getClass())) {
-                    value = "\"" + value + "\"";
-                } else {
-                    value = String.valueOf(value);
-                }
-
-                String key = "\"" + entry.getKey() + "\"";
-                if (StringUtils.isBlank(result)) {
-                    result = key + ": " + value;
-                } else {
-                    result = result + ", " + key + ": " + value;
-                }
-            }
-        }
-
-        return "{" + result + "}";
-    }
-
-    private String parseCapabilities() {
-        if (Platform.getCurrent().is(Platform.WINDOWS)) {
-            return parseCapabilitiesIfWindows();
-        }
-        return parseCapabilitiesIfUNIX();
+    private String capabilitiesToCmdlineArg() {
+        Gson gson = new GsonBuilder()
+                .disableHtmlEscaping()
+                .serializeNulls()
+                .create();
+        // Selenium internally uses org.apache.commons.exec.CommandLine
+        // which has the following known bug in its arguments parser:
+        // https://issues.apache.org/jira/browse/EXEC-54
+        return gson.toJson(capabilities.asMap());
     }
 
     @Override
@@ -418,7 +350,7 @@ public final class AppiumServiceBuilder
 
         if (capabilities != null) {
             argList.add("--default-capabilities");
-            argList.add(parseCapabilities());
+            argList.add(capabilitiesToCmdlineArg());
         }
 
         return new ImmutableList.Builder<String>().addAll(argList).build();
