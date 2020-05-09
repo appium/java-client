@@ -28,6 +28,9 @@ public class ScreenRecordingUploadOptions {
     private String user;
     private String pass;
     private String method;
+    private String fileFieldName;
+    private Map<String, String> headers;
+    private Map<String, Object> formFields;
 
     public static ScreenRecordingUploadOptions uploadOptions() {
         return new ScreenRecordingUploadOptions();
@@ -75,6 +78,45 @@ public class ScreenRecordingUploadOptions {
     }
 
     /**
+     * Sets the form field name containing the binary payload in multipart/form-data
+     * requests.
+     *
+     * @since Appium 1.18.0
+     * @param fileFieldName The name of the form field containing the binary payload.
+     *                      "file" by default.
+     * @return self instance for chaining.
+     */
+    public ScreenRecordingUploadOptions withFileFieldName(String fileFieldName) {
+        this.fileFieldName = checkNotNull(fileFieldName);
+        return this;
+    }
+
+    /**
+     * Sets additional form fields in multipart/form-data requests.
+     *
+     * @since Appium 1.18.0
+     * @param formFields form fields mapping. If any entry has the same key as
+     *                   `fileFieldName` then it is going to be ignored.
+     * @return self instance for chaining.
+     */
+    public ScreenRecordingUploadOptions withFormFields(Map<String, Object> formFields) {
+        this.formFields = checkNotNull(formFields);
+        return this;
+    }
+
+    /**
+     * Sets additional headers in multipart/form-data requests.
+     *
+     * @since Appium 1.18.0
+     * @param headers headers mapping.
+     * @return self instance for chaining.
+     */
+    public ScreenRecordingUploadOptions withHeaders(Map<String, String> headers) {
+        this.headers = checkNotNull(headers);
+        return this;
+    }
+
+    /**
      * Builds a map, which is ready to be passed to the subordinated
      * Appium API.
      *
@@ -86,6 +128,9 @@ public class ScreenRecordingUploadOptions {
         ofNullable(user).map(x -> builder.put("user", x));
         ofNullable(pass).map(x -> builder.put("pass", x));
         ofNullable(method).map(x -> builder.put("method", x));
+        ofNullable(fileFieldName).map(x -> builder.put("fileFieldName", x));
+        ofNullable(formFields).map(x -> builder.put("formFields", x));
+        ofNullable(headers).map(x -> builder.put("headers", x));
         return builder.build();
     }
 }
