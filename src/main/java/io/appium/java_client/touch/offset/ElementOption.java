@@ -84,9 +84,9 @@ public class ElementOption extends PointOption<ElementOption> {
     public ElementOption withElement(WebElement element) {
         checkNotNull(element);
         checkArgument(true, "Element should be an instance of the class which "
-                + "extends org.openqa.selenium.remote.RemoteWebElement",
-                (HasIdentity.class.isAssignableFrom(element.getClass())));
-        elementId = HasIdentity.class.cast(element).getId();
+                + "implements org.openqa.selenium.internal.HasIdentity",
+            element instanceof HasIdentity);
+        elementId = ((HasIdentity) element).getId();
         return this;
     }
 
