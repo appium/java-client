@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.owasp:dependency-check-gradle:5.3.0'
+        classpath 'org.owasp:dependency-check-gradle:5.3.2.1'
         classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
     }
 }
@@ -33,7 +33,7 @@ configurations {
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt:ecj:3.20.0'
+    ecj 'org.eclipse.jdt:ecj:3.21.0'
     lombok 'org.projectlombok:lombok:1.18.12'
 }
 
@@ -73,18 +73,18 @@ dependencies {
         force = true
     }
     compile 'com.google.code.gson:gson:2.8.6'
-    compile 'org.apache.httpcomponents:httpclient:4.5.11'
+    compile 'org.apache.httpcomponents:httpclient:4.5.12'
     compile 'cglib:cglib:3.3.0'
     compile 'commons-validator:commons-validator:1.6'
-    compile 'org.apache.commons:commons-lang3:3.9'
+    compile 'org.apache.commons:commons-lang3:3.10'
     compile 'commons-io:commons-io:2.6'
-    compile 'org.springframework:spring-context:5.2.3.RELEASE'
+    compile 'org.springframework:spring-context:5.2.6.RELEASE'
     compile 'org.aspectj:aspectjweaver:1.9.5'
     compile 'org.slf4j:slf4j-api:1.7.30'
 
     testCompile 'junit:junit:4.13'
     testCompile 'org.hamcrest:hamcrest:2.2'
-    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.8.1') {
+    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.0.0') {
         exclude group: 'org.seleniumhq.selenium'
     }
 }
@@ -100,7 +100,7 @@ dependencyCheck {
 }
 
 jacoco {
-    toolVersion = '0.8.3'
+    toolVersion = '0.8.5'
 }
 
 tasks.withType(JacocoReport) {
@@ -114,7 +114,7 @@ tasks.withType(JacocoReport) {
 jacocoTestReport.dependsOn test
 
 checkstyle {
-    toolVersion = '8.29'
+    toolVersion = '8.32'
     configFile = file("$projectDir/google-style.xml")
     showViolations = true
     ignoreFailures = false
