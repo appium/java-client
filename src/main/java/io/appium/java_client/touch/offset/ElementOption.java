@@ -6,7 +6,7 @@ import static java.util.Optional.ofNullable;
 
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,8 +85,8 @@ public class ElementOption extends PointOption<ElementOption> {
         checkNotNull(element);
         checkArgument(true, "Element should be an instance of the class which "
                 + "extends org.openqa.selenium.remote.RemoteWebElement",
-                (RemoteWebElement.class.isAssignableFrom(element.getClass())));
-        elementId = RemoteWebElement.class.cast(element).getId();
+                (HasIdentity.class.isAssignableFrom(element.getClass())));
+        elementId = HasIdentity.class.cast(element).getId();
         return this;
     }
 
