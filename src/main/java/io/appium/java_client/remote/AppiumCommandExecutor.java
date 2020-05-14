@@ -168,7 +168,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new SessionNotCreatedException("Session already exists");
         }
         ProtocolHandshake handshake = new ProtocolHandshake() {
-            @SuppressWarnings({"unchecked", "UnstableApiUsage"})
+            @SuppressWarnings("unchecked")
             public Result createSession(HttpClient client, Command command) throws IOException {
                 Capabilities desiredCapabilities = (Capabilities) command.getParameters().get("desiredCapabilities");
                 Capabilities desired = desiredCapabilities == null ? new ImmutableCapabilities() : desiredCapabilities;
