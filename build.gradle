@@ -51,7 +51,9 @@ compileJava {
     options.fork = true
     options.fork executable: 'java', jvmArgs: [ '-javaagent:'+lombokjar.path+'=ECJ', '-jar', ecjJar.path, '-cp', lombokjar.path]
     options.define compilerArgs: [
-            '-encoding', 'utf-8'
+            '-encoding', 'utf-8',
+            // https://www.ibm.com/support/knowledgecenter/SS8PJ7_9.7.0/org.eclipse.jdt.doc.user/tasks/task-using_batch_compiler.htm
+            '-warn:-unused,-unchecked,-raw,-serial,-suppress',
     ]
 }
 
