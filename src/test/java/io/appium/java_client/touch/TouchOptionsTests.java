@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TouchOptionsTests {
-    private static final WebElement DUMMY_ELEMENT = new DummyElement();
+    private static final RemoteWebElement DUMMY_ELEMENT = new DummyElement();
 
     @Test(expected = IllegalArgumentException.class)
     public void invalidEmptyPointOptionsShouldFailOnBuild() {
@@ -62,7 +62,7 @@ public class TouchOptionsTests {
                 .withDuration(ofMillis(1))
                 .build();
         final Map<String, Object> expectedOpts = new HashMap<>();
-        expectedOpts.put("element", ((RemoteWebElement) DUMMY_ELEMENT).getId());
+        expectedOpts.put("element", DUMMY_ELEMENT.getId());
         expectedOpts.put("x", 0);
         expectedOpts.put("y", 0);
         expectedOpts.put("duration", 1L);
