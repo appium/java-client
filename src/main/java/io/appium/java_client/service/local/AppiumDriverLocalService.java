@@ -68,8 +68,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
-
-
+    
     private CommandLine process = null;
 
     AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort,
