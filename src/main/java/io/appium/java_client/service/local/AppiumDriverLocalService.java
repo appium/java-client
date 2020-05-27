@@ -37,8 +37,10 @@ import org.slf4j.event.Level;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
@@ -56,6 +58,8 @@ public final class AppiumDriverLocalService extends DriverService {
     private static final Pattern LOG_MESSAGE_PATTERN = Pattern.compile("^(.*)\\R");
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private static final String APPIUM_SERVICE_SLF4J_LOGGER_PREFIX = "appium.service";
+    private static final Duration DESTROY_TIMEOUT = Duration.ofSeconds(60);
+
     private final File nodeJSExec;
     private final ImmutableList<String> nodeJSArgs;
     private final ImmutableMap<String, String> nodeJSEnvironment;
@@ -64,6 +68,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
+
 
     private CommandLine process = null;
 
@@ -187,10 +192,47 @@ public final class AppiumDriverLocalService extends DriverService {
         }
     }
 
-    private void destroyProcess() {
-        if (process.isRunning()) {
-            process.destroy();
+    /**
+     * Destroys the service if it is running.
+     *
+     * @param timeout The maximum time to wait before the process will be force-killed.
+     * @return The exit code of the process or zero if the process was not running.
+     */
+    private int destroyProcess(Duration timeout) {
+        if (!process.isRunning()) {
+            return 0;
         }
+
+        // This all magic is necessary, because Selenium does not publicly expose
+        // process killing timeouts. By default a process is killed forcibly if
+        // it does not exit after two seconds, which is in most cases not enough for
+        // Appium
+        try {
+            Field processField = process.getClass().getDeclaredField("process");
+            processField.setAccessible(true);
+            Object osProcess = processField.get(process);
+            Field watchdogField = osProcess.getClass().getDeclaredField("executeWatchdog");
+            watchdogField.setAccessible(true);
+            Object watchdog = watchdogField.get(osProcess);
+            Field nativeProcessField = watchdog.getClass().getDeclaredField("process");
+            nativeProcessField.setAccessible(true);
+            Process nativeProcess = (Process) nativeProcessField.get(watchdog);
+            nativeProcess.destroy();
+            nativeProcess.waitFor(timeout.toMillis(), TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            LOG.warn("No explicit timeout could be applied to the process termination", e);
+        }
+
+        return process.destroy();
+    }
+
+    /**
+     * Destroys the service.
+     * This methods waits up to `DESTROY_TIMEOUT` seconds for the Appium service
+     * to exit gracefully.
+     */
+    private void destroyProcess() {
+        destroyProcess(DESTROY_TIMEOUT);
     }
 
     /**
