@@ -63,10 +63,11 @@ public abstract class ComparisonResult {
         return ((String) getCommandResult().get(VISUALIZATION)).getBytes(StandardCharsets.UTF_8);
     }
 
-    /**
+    /**javadoc
      * Stores visualization image into the given file.
      *
      * @param destination file to save image.
+     * @throws IOException On file system I/O error.
      */
     public void storeVisualization(File destination) throws IOException {
         final byte[] data = Base64.decodeBase64(getVisualization());

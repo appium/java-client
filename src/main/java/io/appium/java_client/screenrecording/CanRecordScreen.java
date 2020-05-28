@@ -29,15 +29,20 @@ public interface CanRecordScreen extends ExecutesMethod {
     /**
      * Start asynchronous screen recording process.
      *
+     * @param <T> The platform-specific {@link BaseStartScreenRecordingOptions}
      * @param options see the documentation on the {@link BaseStartScreenRecordingOptions}
      *                descendant for the particular platform.
+     * @return `not used`.
      */
+    @SuppressWarnings("rawtypes")
     default <T extends BaseStartScreenRecordingOptions> String startRecordingScreen(T options) {
         return CommandExecutionHelper.execute(this, startRecordingScreenCommand(options));
     }
 
     /**
      * Start asynchronous screen recording process with default options.
+     *
+     * @return `not used`.
      */
     default String startRecordingScreen() {
         return this.execute(START_RECORDING_SCREEN).getValue().toString();
@@ -46,11 +51,13 @@ public interface CanRecordScreen extends ExecutesMethod {
     /**
      * Gather the output from the previously started screen recording to a media file.
      *
+     * @param <T> The platform-specific {@link BaseStopScreenRecordingOptions}
      * @param options see the documentation on the {@link BaseStopScreenRecordingOptions}
      *                descendant for the particular platform.
      * @return Base-64 encoded content of the recorded media file or an empty string
      *     if the file has been successfully uploaded to a remote location (depends on the actual options).
      */
+    @SuppressWarnings("rawtypes")
     default <T extends BaseStopScreenRecordingOptions> String stopRecordingScreen(T options) {
         return CommandExecutionHelper.execute(this, stopRecordingScreenCommand(options));
     }

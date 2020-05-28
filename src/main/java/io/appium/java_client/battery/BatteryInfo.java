@@ -25,6 +25,7 @@ public abstract class BatteryInfo {
     /**
      * Returns battery state.
      *
+     * @param <T> The type of state data object for the corresponding platform.
      * @return Battery state value.
      */
     public abstract <T> T getState();

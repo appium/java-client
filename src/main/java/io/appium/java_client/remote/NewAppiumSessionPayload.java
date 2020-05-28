@@ -120,6 +120,7 @@ public class NewAppiumSessionPayload implements Closeable {
      *
      * @param caps capabilities to create a new session
      * @return instance of {@link NewAppiumSessionPayload}
+     * @throws IOException On file system I/O error.
      */
     public static NewAppiumSessionPayload create(Capabilities caps) throws IOException {
         boolean forceMobileJSONWP =
@@ -235,6 +236,7 @@ public class NewAppiumSessionPayload implements Closeable {
      * Writes json capabilities to some appendable object.
      *
      * @param appendable to write a json
+     * @throws IOException On file system I/O error.
      */
     public void writeTo(Appendable appendable) throws IOException {
         try (JsonOutput json = new Json().newOutput(appendable)) {
@@ -304,6 +306,9 @@ public class NewAppiumSessionPayload implements Closeable {
      * in the W3C WebDriver spec. The OSS {@link Capabilities} are listed first because converting the
      * OSS capabilities to the equivalent W3C capabilities isn't particularly easy, so it's hoped that
      * this approach gives us the most compatible implementation.
+     *
+     * @return The capabilities as a stream.
+     * @throws IOException On file system I/O error.
      */
     public Stream<Capabilities> stream() throws IOException {
         // OSS first

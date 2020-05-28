@@ -36,6 +36,7 @@ public final class ProxyFactory {
     /**
      * It returns some proxies created by CGLIB.
      *
+     * @param <T> The proxy object class.
      * @param requiredClazz is a {@link java.lang.Class} whose instance should be created
      * @param params is an array of @link java.lang.Class}. It should be convenient to
      *               parameter types of some declared constructor which belongs to desired
