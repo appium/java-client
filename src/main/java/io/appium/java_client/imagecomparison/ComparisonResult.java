@@ -63,7 +63,7 @@ public abstract class ComparisonResult {
         return ((String) getCommandResult().get(VISUALIZATION)).getBytes(StandardCharsets.UTF_8);
     }
 
-    /**javadoc
+    /**
      * Stores visualization image into the given file.
      *
      * @param destination file to save image.
