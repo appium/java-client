@@ -74,6 +74,7 @@ public interface ComparesImages extends ExecutesMethod {
      * @param image1 The location of the first image
      * @param image2 The location of the second image
      * @return The matching result.
+     * @throws IOException On file system I/O error.
      */
     default FeaturesMatchingResult matchImagesFeatures(File image1, File image2) throws IOException {
         return matchImagesFeatures(image1, image2, null);
@@ -88,6 +89,7 @@ public interface ComparesImages extends ExecutesMethod {
      * @param image2 The location of the second image
      * @param options comparison options
      * @return The matching result. The configuration of fields in the result depends on comparison options.
+     * @throws IOException On file system I/O error.
      */
     default FeaturesMatchingResult matchImagesFeatures(File image1, File image2,
                                                        @Nullable FeaturesMatchingOptions options) throws IOException {
@@ -137,6 +139,7 @@ public interface ComparesImages extends ExecutesMethod {
      * @param fullImage The location of the full image
      * @param partialImage The location of the partial image
      * @return The matching result. The configuration of fields in the result depends on comparison options.
+     * @throws IOException On file system I/O error.
      */
     default OccurrenceMatchingResult findImageOccurrence(File fullImage, File partialImage) throws IOException {
         return findImageOccurrence(fullImage, partialImage, null);
@@ -152,6 +155,7 @@ public interface ComparesImages extends ExecutesMethod {
      * @param partialImage The location of the partial image
      * @param options comparison options
      * @return The matching result. The configuration of fields in the result depends on comparison options.
+     * @throws IOException On file system I/O error.
      */
     default OccurrenceMatchingResult findImageOccurrence(File fullImage, File partialImage,
                                                          @Nullable OccurrenceMatchingOptions options)
@@ -202,6 +206,7 @@ public interface ComparesImages extends ExecutesMethod {
      * @param image1 The location of the full image
      * @param image2 The location of the partial image
      * @return Matching result. The configuration of fields in the result depends on comparison options.
+     * @throws IOException On file system I/O error.
      */
     default SimilarityMatchingResult getImagesSimilarity(File image1, File image2) throws IOException {
         return getImagesSimilarity(image1, image2, null);
@@ -217,6 +222,7 @@ public interface ComparesImages extends ExecutesMethod {
      * @param image2 The location of the partial image
      * @param options comparison options
      * @return Matching result. The configuration of fields in the result depends on comparison options.
+     * @throws IOException On file system I/O error.
      */
     default SimilarityMatchingResult getImagesSimilarity(File image1, File image2,
                                                          @Nullable SimilarityMatchingOptions options)

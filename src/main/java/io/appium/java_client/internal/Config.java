@@ -33,6 +33,7 @@ public class Config {
     /**
      * Retrieve a value from properties file.
      *
+     * @param <T> the value type.
      * @param key the name of the corresponding key which value to retrieve
      * @param valueType the expected type of the value to be retrieved
      * @return the actual value
@@ -49,6 +50,7 @@ public class Config {
     /**
      * Retrieve a value from properties file.
      *
+     * @param <T> the type of the resulting value.
      * @param key the name of the corresponding key which value to retrieve
      * @param valueType the expected type of the value to be retrieved
      * @return the actual value or {@link Optional#empty()} if the key is not present

@@ -29,6 +29,7 @@ public class CapabilityHelpers {
      * Helper that is used for capability values retrieval.
      * Supports both prefixed W3C and "classic" capability names.
      *
+     * @param <T>          The corresponding capability type.
      * @param caps         driver caps object
      * @param name         capability name
      * @param expectedType the expected capability type
