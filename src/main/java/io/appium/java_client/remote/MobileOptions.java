@@ -16,6 +16,8 @@
 
 package io.appium.java_client.remote;
 
+import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.ScreenOrientation;
@@ -23,6 +25,10 @@ import org.openqa.selenium.remote.CapabilityType;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Map;
+import java.util.TreeMap;
+
+import static java.util.Collections.unmodifiableMap;
 
 public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabilities {
 
@@ -511,5 +517,21 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
     protected T amend(String optionName, Object value) {
         setCapability(optionName, value);
         return (T) this;
+    }
+
+    @Override
+    public Map<String, Object> asMap() {
+        Map<String, Object> toReturn = new TreeMap<>();
+
+        Map<String, Object> capsMap = super.asMap();
+        capsMap.forEach((key, value) -> {
+            if (key.equals("platformName")) {
+                toReturn.put(key, value);
+            } else {
+                toReturn.put(APPIUM_PREFIX + key, value);
+            }
+        });
+
+        return unmodifiableMap(toReturn);
     }
 }
