@@ -23,8 +23,10 @@ import org.openqa.selenium.ScreenOrientation;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
+import static java.util.Collections.unmodifiableMap;
 import static org.junit.Assert.*;
 
 public class MobileOptionsTest {
@@ -105,5 +107,40 @@ public class MobileOptionsTest {
         assertFalse(mobileOptions.doesAutoWebview());
         assertFalse(mobileOptions.doesFullReset());
         assertFalse(mobileOptions.doesPrintPageSourceOnFindFailure());
+    }
+
+    @Test
+    public void createsAsMap() {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        capabilities.setCapability("deviceName", "Pixel");
+        capabilities.setCapability("platformVersion", "10");
+        capabilities.setCapability("newCommandTimeout", 60);
+
+        mobileOptions = new MobileOptions<>(capabilities);
+
+        mobileOptions.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2)
+                .setPlatformName("android")
+                .setOtherApps("/path/to/app.apk")
+                .setLocale("fr_CA")
+                .setUdid("1ae203187fc012g")
+                .setOrientation(ScreenOrientation.LANDSCAPE)
+                .setLanguage("fr");
+
+        Map actual = mobileOptions.asMap();
+
+        System.out.println(Duration.ofSeconds(60).getClass());
+        TreeMap<String, Object> expected = new TreeMap<>();
+        expected.put("appium:automationName", "UIAutomator2");
+        expected.put("platformName", "android");
+        expected.put("appium:platformVersion", "10");
+        expected.put("appium:deviceName", "Pixel");
+        expected.put("appium:otherApps", "/path/to/app.apk");
+        expected.put("appium:locale", "fr_CA");
+        expected.put("appium:udid", "1ae203187fc012g");
+        expected.put("appium:orientation", ScreenOrientation.LANDSCAPE);
+        expected.put("appium:newCommandTimeout", 60);
+        expected.put("appium:language", "fr");
+
+        assertEquals(unmodifiableMap(expected), actual);
     }
 }
