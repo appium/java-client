@@ -25,7 +25,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static java.util.Collections.unmodifiableMap;
@@ -521,17 +521,11 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
 
     @Override
     public Map<String, Object> asMap() {
-        Map<String, Object> toReturn = new TreeMap<>();
+        AcceptedW3CCapabilityKeys acceptedW3CCapabilityKeys = new AcceptedW3CCapabilityKeys();
 
-        super.asMap().forEach((key, value) -> {
-            AcceptedW3CCapabilityKeys acceptedW3CCapabilityKeys = new AcceptedW3CCapabilityKeys();
-            if (acceptedW3CCapabilityKeys.test(key) || key.startsWith(APPIUM_PREFIX)) {
-                toReturn.put(key, value);
-            } else {
-                toReturn.put(APPIUM_PREFIX + key, value);
-            }
-        });
-
-        return unmodifiableMap(toReturn);
+        return unmodifiableMap(super.asMap().entrySet().stream().collect(Collectors.toMap(
+                entry -> (acceptedW3CCapabilityKeys.test(entry.getKey()) || entry.getKey().startsWith(APPIUM_PREFIX)) ?
+                        entry.getKey() : APPIUM_PREFIX + entry.getKey(),
+                Map.Entry::getValue)));
     }
 }
