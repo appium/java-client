@@ -317,7 +317,8 @@ public class AppiumDriver<T extends WebElement>
 
     @Override
     public boolean isBrowser() {
-        String browserName = CapabilityHelpers.getCapability(getCapabilities(), CapabilityType.BROWSER_NAME, String.class);
+        String browserName = CapabilityHelpers.getCapability(getCapabilities(),
+                CapabilityType.BROWSER_NAME, String.class);
         if (!isBlank(browserName)) {
             try {
                 return (boolean) executeScript("return !!window.navigator;");
