@@ -33,13 +33,13 @@ import java.util.function.Consumer;
 public interface ListensToLogcatMessages extends ExecutesMethod {
     StringWebSocketClient getLogcatClient();
 
+
     /**
      * Start logcat messages broadcast via web socket.
-     * This method assumes that Appium server is running on localhost and
-     * is assigned to the default port (4723).
      */
     default void startLogcatBroadcast() {
-        startLogcatBroadcast("localhost", DEFAULT_APPIUM_PORT);
+        URL remoteAdress = ((RemoteWebDriver) this).getRemoteAddress();
+        this.startLogcatBroadcast(remoteAdress.getHost(), remoteAdress.getPort());
     }
 
     /**
