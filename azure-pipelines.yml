@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 pool:
-  vmImage: 'macOS 10.15'
+  vmImage: 'macOS-10.15'
 
 variables:
   ANDROID_EMU_NAME: test
