@@ -29,13 +29,14 @@ import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
@@ -49,6 +50,7 @@ import java.lang.reflect.TypeVariable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -88,8 +90,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         if (this.webDriver instanceof HasCapabilities) {
             Capabilities caps = ((HasCapabilities) this.webDriver).getCapabilities();
-            this.platform = CapabilityHelpers.getCapability(caps, "platformName", String.class);
-            this.automation = CapabilityHelpers.getCapability(caps, "automationName", String.class);
+            this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
+            this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
         } else {
             this.platform = null;
             this.automation = null;
@@ -107,8 +109,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
             @Override
             @SuppressWarnings("unchecked")
-            protected List<WebElement> proxyForListLocator(ClassLoader ignored,
-                                                           ElementLocator locator) {
+            protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
                 ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
                 return getEnhancedProxy(ArrayList.class, elementInterceptor);
             }
@@ -125,19 +126,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 }
 
                 Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
+                List<Type> bounds = (listType instanceof TypeVariable)
+                        ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
+                        : Collections.emptyList();
 
-                for (Class<? extends WebElement> webElementClass : availableElementClasses) {
-                    if (webElementClass.equals(listType)) {
-                        return true;
-                    }
-                }
-
-                if ((listType instanceof TypeVariable)
-                        && Arrays.asList(((TypeVariable<?>) listType).getBounds())
-                        .stream().anyMatch(item -> availableElementClasses.contains(item))) {
-                    return true;
-                }
-                return false;
+                return availableElementClasses.stream()
+                        .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
             }
         };
 
@@ -188,10 +182,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
             }
 
             if (listType instanceof Class) {
-                if (!Widget.class.isAssignableFrom((Class) listType)) {
+                if (!Widget.class.isAssignableFrom((Class<?>) listType)) {
                     return null;
                 }
-                widgetType = Class.class.cast(listType);
+                widgetType = (Class<? extends Widget>) listType;
             } else {
                 return null;
             }

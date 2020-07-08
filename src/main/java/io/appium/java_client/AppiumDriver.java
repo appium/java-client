@@ -40,6 +40,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
 
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
@@ -316,7 +317,7 @@ public class AppiumDriver<T extends WebElement>
 
     @Override
     public boolean isBrowser() {
-        String browserName = CapabilityHelpers.getCapability(getCapabilities(), "browserName", String.class);
+        String browserName = CapabilityHelpers.getCapability(getCapabilities(), CapabilityType.BROWSER_NAME, String.class);
         if (!isBlank(browserName)) {
             try {
                 return (boolean) executeScript("return !!window.navigator;");
