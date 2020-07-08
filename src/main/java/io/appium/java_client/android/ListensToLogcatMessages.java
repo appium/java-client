@@ -21,11 +21,13 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URI;
+import java.net.URL;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.function.Consumer;
@@ -33,13 +35,12 @@ import java.util.function.Consumer;
 public interface ListensToLogcatMessages extends ExecutesMethod {
     StringWebSocketClient getLogcatClient();
 
-
     /**
      * Start logcat messages broadcast via web socket.
      */
     default void startLogcatBroadcast() {
-        URL remoteAdress = ((RemoteWebDriver) this).getRemoteAddress();
-        this.startLogcatBroadcast(remoteAdress.getHost(), remoteAdress.getPort());
+        URL remoteAddress = ((AppiumDriver) this).getRemoteAddress();
+        this.startLogcatBroadcast(remoteAddress.getHost(), remoteAddress.getPort());
     }
 
     /**
