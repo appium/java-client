@@ -43,7 +43,7 @@ jobs:
       npm config set prefix $NVM_DIR/versions/node/`node --version`
       node --version
 
-      npm install -g appium
+      npm install -g appium@beta
       appium --version
 
       java -version
