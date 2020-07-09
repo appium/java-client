@@ -43,8 +43,14 @@ public class CapabilityHelpers {
             possibleNames.add(APPIUM_PREFIX + name);
         }
         for (String capName : possibleNames) {
-            if (caps.getCapability(capName) != null
-                    && expectedType.isAssignableFrom(caps.getCapability(capName).getClass())) {
+            if (caps.getCapability(capName) == null) {
+                continue;
+            }
+            
+            if (expectedType == String.class) {
+                return expectedType.cast(String.valueOf(caps.getCapability(capName)));
+            }
+            if (expectedType.isAssignableFrom(caps.getCapability(capName).getClass())) {
                 return expectedType.cast(caps.getCapability(capName));
             }
         }

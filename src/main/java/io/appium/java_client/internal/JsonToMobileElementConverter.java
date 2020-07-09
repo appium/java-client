@@ -18,8 +18,10 @@ package io.appium.java_client.internal;
 
 import static io.appium.java_client.internal.ElementMap.getElementClass;
 
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.internal.JsonToWebElementConverter;
@@ -46,8 +48,8 @@ public class JsonToMobileElementConverter extends JsonToWebElementConverter {
         super(driver);
         this.driver = driver;
         Capabilities caps = driver.getCapabilities();
-        this.platform = CapabilityHelpers.getCapability(caps, "platformName", String.class);
-        this.automation = CapabilityHelpers.getCapability(caps, "automationName", String.class);
+        this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
+        this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
     }
 
     @Override
