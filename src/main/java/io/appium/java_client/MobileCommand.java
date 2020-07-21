@@ -114,7 +114,7 @@ public class MobileCommand {
     protected static final String COMPARE_IMAGES;
     protected static final String EXECUTE_DRIVER_SCRIPT;
     protected static final String GET_ALLSESSION;
-    protected static final String EXECUTE_CDP_COMMAND;
+    protected static final String EXECUTE_GOOGLE_CDP_COMMAND;
 
     public static final Map<String, CommandInfo> commandRepository;
 
@@ -193,7 +193,7 @@ public class MobileCommand {
         COMPARE_IMAGES = "compareImages";
         EXECUTE_DRIVER_SCRIPT = "executeDriverScript";
         GET_ALLSESSION = "getAllSessions";
-        EXECUTE_CDP_COMMAND = "executeCdp";
+        EXECUTE_GOOGLE_CDP_COMMAND = "executeCdp";
 
         commandRepository = new HashMap<>();
         commandRepository.put(RESET, postC("/session/:sessionId/appium/app/reset"));
@@ -284,7 +284,7 @@ public class MobileCommand {
         commandRepository.put(COMPARE_IMAGES, postC("/session/:sessionId/appium/compare_images"));
         commandRepository.put(EXECUTE_DRIVER_SCRIPT, postC("/session/:sessionId/appium/execute_driver"));
         commandRepository.put(GET_ALLSESSION, getC("/sessions"));
-        commandRepository.put(EXECUTE_CDP_COMMAND, postC("/session/:sessionId/goog/cdp/execute"));
+        commandRepository.put(EXECUTE_GOOGLE_CDP_COMMAND, postC("/session/:sessionId/goog/cdp/execute"));
     }
 
     /**

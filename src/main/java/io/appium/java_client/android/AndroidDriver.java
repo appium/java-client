@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecuteCDPCommand;
 import io.appium.java_client.FindsByAndroidDataMatcher;
 import io.appium.java_client.FindsByAndroidViewMatcher;
 import io.appium.java_client.FindsByAndroidUIAutomator;
@@ -67,7 +68,7 @@ public class AndroidDriver<T extends WebElement>
         HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
         CanRecordScreen, SupportsSpecialEmulatorCommands,
         SupportsNetworkStateManagement, ListensToLogcatMessages, HasAndroidClipboard,
-        HasBattery<AndroidBatteryInfo> {
+        HasBattery<AndroidBatteryInfo>, ExecuteCDPCommand {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 

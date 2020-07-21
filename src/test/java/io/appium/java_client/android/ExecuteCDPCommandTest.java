@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.appium;
+package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -51,14 +51,15 @@ public class ExecuteCDPCommandTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() {
+    @Before
+    public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
         driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
         //This time out is set because test can be run on slow Android SDK emulator
         PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
@@ -67,7 +68,8 @@ public class ExecuteCDPCommandTest {
     /**
      * finishing.
      */
-    @After public void tearDown() {
+    @After
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
@@ -77,19 +79,21 @@ public class ExecuteCDPCommandTest {
         }
     }
 
-    @Test public void testExecuteCDPCommandWithoutParam() {
+    @Test
+    public void testExecuteCDPCommandWithoutParam() {
         driver.get("https://www.google.com");
         searchTextField.sendKeys("Hello");
-        Map<String,Object> cookies = ((AppiumDriver)driver).executeCdpCommand("Page.getCookies");
+        Map<String, Object> cookies = ((AndroidDriver) driver).executeCdpCommand("Page.getCookies");
         assertNotNull(cookies);
     }
 
-    @Test public void testExecuteCDPCommandWithParams() {
-        Map<String,Object> params = new HashMap();
+    @Test
+    public void testExecuteCDPCommandWithParams() {
+        Map<String, Object> params = new HashMap();
         params.put("latitude", 13.0827);
-        params.put("longitude",80.2707);
-        params.put("accuracy",1);
-        ((AppiumDriver)driver).executeCdpCommand("Emulation.setGeolocationOverride",params);
+        params.put("longitude", 80.2707);
+        params.put("accuracy", 1);
+        ((AndroidDriver) driver).executeCdpCommand("Emulation.setGeolocationOverride", params);
         driver.get("https://www.google.com");
     }
 
