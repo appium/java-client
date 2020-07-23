@@ -33,7 +33,7 @@ public interface ExecuteCDPCommand extends ExecutesMethod {
      * Allows to execute ChromeDevProtocol commands against Android Chrome browser session
      *
      * @param command Command to execute against the browser (For Ref : https://chromedevtools.github.io/devtools-protocol/)
-     * @param params  additional parameters required to execute the command
+     * @param params additional parameters required to execute the command
      * @return Value (Output of the command execution)
      * @throws org.openqa.selenium.WebDriverException if there was a failure while executing the command
      * @since Appium 1.18
