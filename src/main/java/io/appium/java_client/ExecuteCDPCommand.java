@@ -30,7 +30,7 @@ import static io.appium.java_client.MobileCommand.EXECUTE_GOOGLE_CDP_COMMAND;
 public interface ExecuteCDPCommand extends ExecutesMethod {
 
     /**
-     * Allows to execute ChromeDevProtocol commands against Android Chrome browser session
+     * Allows to execute ChromeDevProtocol commands against Android Chrome browser session.
      *
      * @param command Command to execute against the browser (For Ref : https://chromedevtools.github.io/devtools-protocol/)
      * @param params additional parameters required to execute the command
@@ -48,7 +48,7 @@ public interface ExecuteCDPCommand extends ExecutesMethod {
     }
 
     /**
-     * Allows to execute ChromeDevProtocol commands against Android Chrome browser session without parameters
+     * Allows to execute ChromeDevProtocol commands against Android Chrome browser session without parameters.
      *
      * @param command Command to execute against the browser (For Ref : https://chromedevtools.github.io/devtools-protocol/)
      * @return Value (Output of the command execution)
