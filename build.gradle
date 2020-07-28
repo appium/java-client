@@ -81,7 +81,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.11'
     compile 'commons-io:commons-io:2.7'
     compile 'org.springframework:spring-context:5.2.7.RELEASE'
-    compile 'org.aspectj:aspectjweaver:1.9.5'
+    compile 'org.aspectj:aspectjweaver:1.9.6'
     compile 'org.slf4j:slf4j-api:1.7.30'
 
     testCompile 'junit:junit:4.13'
