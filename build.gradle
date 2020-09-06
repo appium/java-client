@@ -1,31 +1,21 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'maven-publish'
-apply plugin: 'eclipse'
-apply plugin: 'jacoco'
-apply plugin: 'checkstyle'
-apply plugin: 'signing'
-
 import org.apache.tools.ant.filters.*
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'maven-publish'
+    id 'eclipse'
+    id 'jacoco'
+    id 'checkstyle'
+    id 'signing'
+    id 'org.owasp.dependencycheck' version '5.3.2.1'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
 
 repositories {
     jcenter()
     mavenCentral()
 }
-
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.owasp:dependency-check-gradle:5.3.2.1'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
-    }
-}
-
-apply plugin: 'org.owasp.dependencycheck'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 configurations {
     ecj
@@ -60,33 +50,39 @@ compileJava {
 dependencies {
     compileOnly('org.projectlombok:lombok:1.18.12')
     annotationProcessor('org.projectlombok:lombok:1.18.12')
-    compile ("org.seleniumhq.selenium:selenium-java:${project.property('selenium.version')}") {
-        force = true
+    implementation ("org.seleniumhq.selenium:selenium-java") {
+        version {
+            strictly "${project.property('selenium.version')}"
+        }
 
         exclude group: 'com.google.code.gson'
         exclude module: 'htmlunit-driver'
         exclude group: 'net.sourceforge.htmlunit'
 
     }
-    compile ("org.seleniumhq.selenium:selenium-support:${project.property('selenium.version')}") {
-        force = true
+    implementation ("org.seleniumhq.selenium:selenium-support") {
+        version {
+            strictly "${project.property('selenium.version')}"
+        }
     }
-    compile ("org.seleniumhq.selenium:selenium-api:${project.property('selenium.version')}") {
-        force = true
+    implementation ("org.seleniumhq.selenium:selenium-api") {
+        version {
+            strictly "${project.property('selenium.version')}"
+        }
     }
-    compile 'com.google.code.gson:gson:2.8.6'
-    compile 'org.apache.httpcomponents:httpclient:4.5.12'
-    compile 'cglib:cglib:3.3.0'
-    compile 'commons-validator:commons-validator:1.7'
-    compile 'org.apache.commons:commons-lang3:3.11'
-    compile 'commons-io:commons-io:2.7'
-    compile 'org.springframework:spring-context:5.2.8.RELEASE'
-    compile 'org.aspectj:aspectjweaver:1.9.6'
-    compile 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+    implementation 'cglib:cglib:3.3.0'
+    implementation 'commons-validator:commons-validator:1.7'
+    implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation 'commons-io:commons-io:2.7'
+    implementation 'org.springframework:spring-context:5.2.8.RELEASE'
+    implementation 'org.aspectj:aspectjweaver:1.9.6'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
 
-    testCompile 'junit:junit:4.13'
-    testCompile 'org.hamcrest:hamcrest:2.2'
-    testCompile (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.2.0') {
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.2.0') {
         exclude group: 'org.seleniumhq.selenium'
     }
 }
@@ -134,8 +130,6 @@ publishing {
             artifactId = 'java-client'
             version = '7.3.0'
             from components.java
-            artifact sourcesJar
-            artifact javadocJar
             pom {
                 name = 'java-client'
                 description = 'Java client for Appium Mobile Webdriver'
@@ -199,7 +193,7 @@ signing {
 }
 
 wrapper {
-    gradleVersion = '5.4'
+    gradleVersion = '6.6.1'
     distributionType = Wrapper.DistributionType.ALL
 }
 
