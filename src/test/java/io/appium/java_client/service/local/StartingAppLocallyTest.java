@@ -91,7 +91,7 @@ public class StartingAppLocallyTest {
         WebDriverManager chromeManager = chromedriver();
         chromeManager.setup();
         serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
-                chromeManager.getBinaryPath());
+                chromeManager.getDownloadedDriverPath());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
