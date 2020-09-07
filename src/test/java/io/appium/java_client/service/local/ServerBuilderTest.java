@@ -161,7 +161,7 @@ public class ServerBuilderTest {
         caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
         caps.setCapability(APP_ACTIVITY, ".view.WebView1");
         caps.setCapability(APP, apiDemosApk().toAbsolutePath().toString());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getDownloadedDriverPath());
 
         service = new AppiumServiceBuilder().withCapabilities(caps).build();
         service.start();
@@ -184,7 +184,7 @@ public class ServerBuilderTest {
         caps.setCapability("quotes", "\"'");
         caps.setCapability("goog:chromeOptions",
                 ImmutableMap.of("env", ImmutableMap.of("test", "value"), "val2", 0));
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getBinaryPath());
+        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getDownloadedDriverPath());
 
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)
