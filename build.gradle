@@ -75,7 +75,7 @@ dependencies {
     implementation 'cglib:cglib:3.3.0'
     implementation 'commons-validator:commons-validator:1.7'
     implementation 'org.apache.commons:commons-lang3:3.11'
-    implementation 'commons-io:commons-io:2.7'
+    implementation 'commons-io:commons-io:2.8.0'
     implementation 'org.springframework:spring-context:5.2.8.RELEASE'
     implementation 'org.aspectj:aspectjweaver:1.9.6'
     implementation 'org.slf4j:slf4j-api:1.7.30'
