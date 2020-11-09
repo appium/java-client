@@ -16,22 +16,18 @@
 
 package io.appium.java_client.ios;
 
-import static org.hamcrest.Matchers.empty;
+import static io.appium.java_client.TestUtils.waitUntilTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -90,8 +86,8 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void pullFileTest() {
-        byte[] data = driver.pullFile("@io.appium.TestApp/TestApp");
-        assert (data.length > 0);
+        byte[] data = driver.pullFile(String.format("@%s/TestApp", BUNDLE_ID));
+        assertThat(data.length, greaterThan(0));
     }
 
     @Test public void keyboardTest() {
@@ -106,31 +102,25 @@ public class IOSDriverTest extends AppIOSTest {
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
     }
 
-    @Test public void applicationsManagementTest() throws InterruptedException {
-        // This only works since Xcode9
-        try {
-            if (Double.parseDouble(
-                    (String) driver.getCapabilities()
-                            .getCapability(MobileCapabilityType.PLATFORM_VERSION)) < 11) {
-                return;
-            }
-        } catch (NumberFormatException | NullPointerException e) {
-            return;
-        }
+    @Test public void applicationsManagementTest() {
         assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
-        Thread.sleep(500);
         driver.runAppInBackground(Duration.ofSeconds(-1));
-        assertThat(driver.queryAppState(BUNDLE_ID), lessThan(ApplicationState.RUNNING_IN_FOREGROUND));
-        Thread.sleep(500);
+        waitUntilTrue(
+                () -> driver.queryAppState(BUNDLE_ID).ordinal() < ApplicationState.RUNNING_IN_FOREGROUND.ordinal(),
+                Duration.ofSeconds(10), Duration.ofSeconds(1));
         driver.activateApp(BUNDLE_ID);
-        assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+        waitUntilTrue(
+                () -> driver.queryAppState(BUNDLE_ID) == ApplicationState.RUNNING_IN_FOREGROUND,
+                Duration.ofSeconds(10), Duration.ofSeconds(1));
     }
 
     @Test public void putAIntoBackgroundWithoutRestoreTest() {
-        assertThat(driver.findElementsById("IntegerA"), is(not(empty())));
+        waitUntilTrue(() -> !driver.findElementsById("IntegerA").isEmpty(),
+                Duration.ofSeconds(10), Duration.ofSeconds(1));
         driver.runAppInBackground(Duration.ofSeconds(-1));
-        assertThat(driver.findElementsById("IntegerA"), is(empty()));
-        driver.launchApp();
+        waitUntilTrue(() -> driver.findElementsById("IntegerA").isEmpty(),
+                Duration.ofSeconds(10), Duration.ofSeconds(1));
+        driver.activateApp(BUNDLE_ID);
     }
 
     @Ignore
@@ -138,6 +128,7 @@ public class IOSDriverTest extends AppIOSTest {
         driver.toggleTouchIDEnrollment(true);
         driver.performTouchID(true);
         driver.performTouchID(false);
+        //noinspection SimplifiableAssertion
         assertEquals(true, true);
     }
 }
