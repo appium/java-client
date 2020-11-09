@@ -15,6 +15,7 @@ variables:
   IOS_PLATFORM_VERSION: 13.5
   IOS_DEVICE_NAME: iPhone X
   NODE_VERSION: 12.x
+  JDK_VERSION: 1.8
 
 jobs:
 - job: Android_E2E_Tests
@@ -38,7 +39,7 @@ jobs:
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
+      jdkVersionOption: "$(JDK_VERSION)"
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       tasks: 'build'
@@ -56,7 +57,7 @@ jobs:
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
+      jdkVersionOption: "$(JDK_VERSION)"
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       tasks: 'build'
