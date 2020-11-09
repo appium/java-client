@@ -4,6 +4,9 @@ import io.appium.java_client.Setting;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -101,6 +104,24 @@ public class SettingTest extends BaseAndroidTest {
         driver.setSetting("shouldUseCompactResponses", true);
         assertEquals(true, driver.getSettings()
                 .get("shouldUseCompactResponses"));
+    }
+
+    @Test public void setMultipleSettings() {
+        EnumMap<Setting, Object> enumSettings = new EnumMap<>(Setting.class);
+        enumSettings.put(Setting.IGNORE_UNIMPORTANT_VIEWS, true);
+        enumSettings.put(Setting.ELEMENT_RESPONSE_ATTRIBUTES, "type,label");
+        driver.setSettings(enumSettings);
+        Map<String, Object> actual = driver.getSettings();
+        assertEquals(true, actual.get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
+        assertEquals("type,label", actual.get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+
+        Map<String, Object> mapSettings = new HashMap<>();
+        mapSettings.put(Setting.IGNORE_UNIMPORTANT_VIEWS.toString(), false);
+        mapSettings.put(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString(), "");
+        driver.setSettings(mapSettings);
+        actual = driver.getSettings();
+        assertEquals(false, actual.get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
+        assertEquals("", actual.get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
     }
 
     private void assertJSONElementContains(Setting setting, long value) {

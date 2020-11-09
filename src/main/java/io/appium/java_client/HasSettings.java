@@ -21,7 +21,10 @@ import static io.appium.java_client.MobileCommand.setSettingsCommand;
 
 import org.openqa.selenium.remote.Response;
 
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public interface HasSettings extends ExecutesMethod {
 
@@ -49,6 +52,31 @@ public interface HasSettings extends ExecutesMethod {
      */
     default HasSettings setSetting(String settingName, Object value) {
         CommandExecutionHelper.execute(this, setSettingsCommand(settingName, value));
+        return this;
+    }
+
+    /**
+     * Sets settings for this test session.
+     *
+     * @param settings a map with settings, where key is the setting name you wish to set and value is the value of
+     *                 the setting.
+     * @return         Self instance for chaining.
+     */
+    default HasSettings setSettings(EnumMap<Setting, Object> settings) {
+        Map<String, Object> convertedSettings = settings.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey().toString(), Entry::getValue));
+        return setSettings(convertedSettings);
+    }
+
+    /**
+     * Sets settings for this test session.
+     *
+     * @param settings a map with settings, where key is the setting name you wish to set and value is the value of
+     *                 the setting.
+     * @return         Self instance for chaining.
+     */
+    default HasSettings setSettings(Map<String, Object> settings) {
+        CommandExecutionHelper.execute(this, setSettingsCommand(settings));
         return this;
     }
 

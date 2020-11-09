@@ -22,6 +22,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SettingTest extends AppIOSTest {
 
@@ -34,10 +37,10 @@ public class SettingTest extends AppIOSTest {
     }
 
     @Test public void testSetElementResponseAttributes() {
-        assertEquals("type,label", driver.getSettings()
+        assertEquals("", driver.getSettings()
             .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
-        driver.setElementResponseAttributes("name");
-        assertEquals("name", driver.getSettings()
+        driver.setElementResponseAttributes("type,label");
+        assertEquals("type,label", driver.getSettings()
             .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
     }
 
@@ -94,5 +97,21 @@ public class SettingTest extends AppIOSTest {
                 .get("shouldUseCompactResponses"));
     }
 
+    @Test public void setMultipleSettings() {
+        EnumMap<Setting, Object> enumSettings = new EnumMap<>(Setting.class);
+        enumSettings.put(Setting.IGNORE_UNIMPORTANT_VIEWS, true);
+        enumSettings.put(Setting.ELEMENT_RESPONSE_ATTRIBUTES, "type,label");
+        driver.setSettings(enumSettings);
+        Map<String, Object> actual = driver.getSettings();
+        assertEquals(true, actual.get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
+        assertEquals("type,label", actual.get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
 
+        Map<String, Object> mapSettings = new HashMap<>();
+        mapSettings.put(Setting.IGNORE_UNIMPORTANT_VIEWS.toString(), false);
+        mapSettings.put(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString(), "");
+        driver.setSettings(mapSettings);
+        actual = driver.getSettings();
+        assertEquals(false, actual.get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
+        assertEquals("", actual.get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+    }
 }
