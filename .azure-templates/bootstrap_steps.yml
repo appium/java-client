@@ -8,4 +8,3 @@ steps:
       node --version
 
       npm install -g appium@beta
-      appium --version
