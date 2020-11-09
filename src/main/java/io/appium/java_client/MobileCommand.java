@@ -481,8 +481,11 @@ public class MobileCommand {
     }
 
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(String setting, Object value) {
-        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings",
-                prepareArguments(setting, value)));
+        return setSettingsCommand(prepareArguments(setting, value));
+    }
+
+    public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Map<String, Object> settings) {
+        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings", settings));
     }
 
     /**
