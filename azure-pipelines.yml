@@ -14,14 +14,15 @@ variables:
   XCODE_VERSION: 11.5
   IOS_PLATFORM_VERSION: 13.5
   IOS_DEVICE_NAME: iPhone X
+  NODE_VERSION: 12.x
 
 jobs:
 - job: E2E_Tests
-  timeoutInMinutes: '60'
+  timeoutInMinutes: '90'
   steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '12.x'
+      versionSpec: "$(NODE_VERSION)"
 
   - script: |
       echo "Configuring Environment"
