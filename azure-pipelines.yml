@@ -9,7 +9,7 @@ pool:
 variables:
   ANDROID_EMU_NAME: test
   ANDROID_EMU_ABI: x86
-  ANDROID_EMU_TARGET: android-27
+  ANDROID_EMU_TARGET: android-28
   ANDROID_EMU_TAG: google_apis
   XCODE_VERSION: 11.5
   IOS_PLATFORM_VERSION: 13.5
@@ -28,10 +28,9 @@ jobs:
       echo $ANDROID_HOME/emulator/emulator -list-avds
 
       echo "Starting emulator"
-      nohup $ANDROID_HOME/emulator/emulator -avd "$(ANDROID_EMU_NAME)" -no-snapshot > /dev/null 2>&1 &
+      nohup $ANDROID_HOME/emulator/emulator -avd "$(ANDROID_EMU_NAME)" -no-snapshot -delay-adb > /dev/null 2>&1 &
       $ANDROID_HOME/platform-tools/adb wait-for-device
-      while [[ $? -ne 0 ]]; do sleep 1; $ANDROID_HOME/platform-tools/adb shell pm list packages; done;
-      $ANDROID_HOME/platform-tools/adb devices
+      $ANDROID_HOME/platform-tools/adb devices -l
       echo "Emulator started"
     displayName: Emulator configuration
   - task: Gradle@2

@@ -49,7 +49,6 @@ public class BaseAndroidTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         capabilities.setCapability("eventTimings", true);
-        capabilities.setCapability("uiautomator2ServerInstallTimeout", 120000);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
