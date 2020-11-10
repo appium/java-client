@@ -39,7 +39,6 @@ public class BaseAndroidTest {
     @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
-
         if (service == null || !service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException(
                 "An appium server node is not started!");
@@ -50,6 +49,7 @@ public class BaseAndroidTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         capabilities.setCapability("eventTimings", true);
+        capabilities.setCapability("uiautomator2ServerInstallTimeout", 120000);
         driver = new AndroidDriver<>(service.getUrl(), capabilities);
     }
 
