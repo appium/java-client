@@ -1,0 +1,10 @@
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "$(NODE_VERSION)"
+  - script: |
+      npm config delete prefix
+      npm config set prefix $NVM_DIR/versions/node/`node --version`
+      node --version
+
+      npm install -g appium@beta

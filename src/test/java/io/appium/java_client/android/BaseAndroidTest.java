@@ -39,7 +39,6 @@ public class BaseAndroidTest {
     @BeforeClass public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
-
         if (service == null || !service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException(
                 "An appium server node is not started!");

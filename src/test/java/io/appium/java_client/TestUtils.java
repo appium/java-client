@@ -1,5 +1,7 @@
 package io.appium.java_client;
 
+import org.openqa.selenium.TimeoutException;
+
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -9,6 +11,8 @@ import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.function.Supplier;
 
 public class TestUtils {
     public static String getLocalIp4Address() throws SocketException, UnknownHostException {
@@ -33,5 +37,31 @@ public class TestUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void waitUntilTrue(Supplier<Boolean> func, Duration timeout, Duration interval) {
+        long started = System.currentTimeMillis();
+        RuntimeException lastError = null;
+        while (System.currentTimeMillis() - started < timeout.toMillis()) {
+            lastError = null;
+            try {
+                Boolean result = func.get();
+                if (result != null && result) {
+                    return;
+                }
+                //noinspection BusyWait
+                Thread.sleep(interval.toMillis());
+            } catch (RuntimeException | InterruptedException e) {
+                if (e instanceof InterruptedException) {
+                    throw new RuntimeException(e);
+                } else {
+                    lastError = (RuntimeException) e;
+                }
+            }
+        }
+        if (lastError != null) {
+            throw lastError;
+        }
+        throw new TimeoutException(String.format("Condition unmet after %sms timeout", timeout.toMillis()));
     }
 }
