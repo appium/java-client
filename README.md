@@ -66,6 +66,38 @@ dependencies {
 ```
 
 ## Changelog
+*7.4.0*
+- **[ENHANCEMENTS]**
+    - Add ability to set multiple settings. [#1409](https://github.com/appium/java-client/pull/1409)
+    - Support to execute Chrome DevTools Protocol commands against Android Chrome browser session. [#1375](https://github.com/appium/java-client/pull/1375)
+    - Add new upload options i.e withHeaders, withFormFields and withFileFieldName. [#1342](https://github.com/appium/java-client/pull/1342)
+    - Add AndroidOptions and iOSOptions. [#1331](https://github.com/appium/java-client/pull/1331)
+    - Add idempotency key to session creation requests. [#1327](https://github.com/appium/java-client/pull/1327)
+    - Add support for Android capability types: `buildToolsVersion`, `enforceAppInstall`, `ensureWebviewsHavePages`, `webviewDevtoolsPort`, and `remoteAppsCacheLimit`. [#1326](https://github.com/appium/java-client/pull/1326)
+    - Added OTHER_APPS and PRINT_PAGE_SOURCE_ON_FIND_FAILURE Mobile Capability Types. [#1323](https://github.com/appium/java-client/pull/1323)
+    - Make settings available for all AppiumDriver instances. [#1318](https://github.com/appium/java-client/pull/1318)
+    - Add wrappers for the Windows screen recorder. [#1313](https://github.com/appium/java-client/pull/1313)
+    - Add GitHub Action validating Gradle wrapper. [#1296](https://github.com/appium/java-client/pull/1296)
+    - Add support for Android viewmatcher. [#1293](https://github.com/appium/java-client/pull/1293)
+    - Update web view detection algorithm for iOS tests. [#1294](https://github.com/appium/java-client/pull/1294)
+    - Add allow-insecure and deny-insecure server flags. [#1282](https://github.com/appium/java-client/pull/1282) 
+- **[BUG FIX]**
+    - Fix jitpack build failures. [#1389](https://github.com/appium/java-client/pull/1389)
+    - Fix parse platformName if it is passed as enum item. [#1369](https://github.com/appium/java-client/pull/1369)
+    - Increase the timeout for graceful AppiumDriverLocalService termination. [#1354](https://github.com/appium/java-client/pull/1354)
+    - Avoid casting to RemoteWebElement in ElementOptions. [#1345](https://github.com/appium/java-client/pull/1345)
+    - Properly translate desiredCapabilities into a command line argument. [#1337](https://github.com/appium/java-client/pull/1337)
+    - Change getDeviceTime to call the `mobile` implementation. [#1332](https://github.com/appium/java-client/pull/1332)
+    - Remove appiumVersion from MobileCapabilityType. [#1325](https://github.com/appium/java-client/pull/1325)
+    - Set appropriate fluent wait timeouts. [#1316](https://github.com/appium/java-client/pull/1316)
+- **[DOCUMENTATION UPDATES]**
+    - Update Appium Environment Troubleshooting. [#1358](https://github.com/appium/java-client/pull/1358)
+    - Address warnings printed by docs linter. [#1355](https://github.com/appium/java-client/pull/1355)
+    - Add java docs for various Mobile Options. [#1331](https://github.com/appium/java-client/pull/1331)
+    - Add AndroidFindBy, iOSXCUITFindBy and WindowsFindBy docs. [#1311](https://github.com/appium/java-client/pull/1311)
+    - Renamed maim.js to main.js. [#1277](https://github.com/appium/java-client/pull/1277)
+    - Improve Readability of Issue Template. [#1260](https://github.com/appium/java-client/pull/1260)
+ 
 *7.3.0*
 - **[ENHANCEMENTS]** 
     - Add support for logging custom events on the Appium Server. [#1262](https://github.com/appium/java-client/pull/1262)
