@@ -1,7 +1,7 @@
 import org.apache.tools.ant.filters.*
 
 plugins {
-    id 'java'
+    id 'java-library'
     id 'idea'
     id 'maven-publish'
     id 'eclipse'
@@ -53,7 +53,7 @@ compileJava {
 dependencies {
     compileOnly('org.projectlombok:lombok:1.18.12')
     annotationProcessor('org.projectlombok:lombok:1.18.12')
-    implementation ("org.seleniumhq.selenium:selenium-java") {
+    api ("org.seleniumhq.selenium:selenium-java") {
         version {
             strictly "${project.property('selenium.version')}"
         }
