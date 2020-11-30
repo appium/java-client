@@ -66,6 +66,13 @@ dependencies {
 ```
 
 ## Changelog
+*7.4.1*
+- **[BUG FIX]**
+    - Fix the configuration of `selenium-java` dependency. [#1417](https://github.com/appium/java-client/pull/1417)
+- **[DEPENDENCY UPDATES]**
+    - `gradle` was updated to 6.7.1.
+
+    
 *7.4.0*
 - **[ENHANCEMENTS]**
     - Add ability to set multiple settings. [#1409](https://github.com/appium/java-client/pull/1409)
