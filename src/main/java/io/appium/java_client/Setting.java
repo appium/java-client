@@ -44,6 +44,7 @@ public enum Setting {
     MJPEG_SCALING_FACTOR("mjpegScalingFactor"),
     KEYBOARD_AUTOCORRECTION("keyboardAutocorrection"),
     KEYBOARD_PREDICTION("keyboardPrediction"),
+    BOUND_ELEMENTS_BY_INDEX("boundElementsByIndex"),
     // Android and iOS
     SHOULD_USE_COMPACT_RESPONSES("shouldUseCompactResponses"),
     ELEMENT_RESPONSE_ATTRIBUTES("elementResponseAttributes"),
