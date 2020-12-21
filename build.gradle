@@ -23,7 +23,7 @@ configurations {
 }
 
 dependencies {
-    ecj 'org.eclipse.jdt:ecj:3.23.0'
+    ecj 'org.eclipse.jdt:ecj:3.24.0'
     lombok 'org.projectlombok:lombok:1.18.16'
 }
 
