@@ -37,7 +37,7 @@ public enum ElementMap {
     IOS_XCUI_TEST(AutomationName.IOS_XCUI_TEST.toLowerCase(), IOSElement.class),
     ANDROID_UI_AUTOMATOR(MobilePlatform.ANDROID.toLowerCase(), AndroidElement.class),
     IOS_UI_AUTOMATION(MobilePlatform.IOS.toLowerCase(), IOSElement.class),
-    WINDOWS(MobilePlatform.WINDOWS, WindowsElement.class);
+    WINDOWS(MobilePlatform.WINDOWS.toLowerCase(), WindowsElement.class);
 
 
     private static final Map<String, ElementMap> mobileElementMap;
