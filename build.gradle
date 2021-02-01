@@ -8,7 +8,7 @@ plugins {
     id 'jacoco'
     id 'checkstyle'
     id 'signing'
-    id 'org.owasp.dependencycheck' version '6.0.5'
+    id 'org.owasp.dependencycheck' version '6.1.0'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
