@@ -93,8 +93,8 @@ public class Mac2Driver<T extends WebElement>
         String automationName = CapabilityHelpers.getCapability(originalCaps,
                 MobileCapabilityType.AUTOMATION_NAME, String.class);
         if (!AutomationName.MAC2.equalsIgnoreCase(automationName)) {
-            dc.setCapability(CapabilityHelpers.APPIUM_PREFIX +
-                    MobileCapabilityType.AUTOMATION_NAME, AutomationName.MAC2);
+            dc.setCapability(CapabilityHelpers.APPIUM_PREFIX
+                    + MobileCapabilityType.AUTOMATION_NAME, AutomationName.MAC2);
         }
         return dc;
     }

@@ -42,8 +42,7 @@ public interface FindsByNsPredicate<T extends WebElement> extends FindsByFluentS
      * for more details on elements location strategies supported by Mac2 driver.
      *
      * @param using A valid predicate lookup expression.
-     * @return The array of found elements or an empty one if no matches
-     * have been found.
+     * @return The array of found elements or an empty one if no matches have been found.
      */
     default List<T> findElementsByNsPredicate(String using) {
         return findElements(MobileSelector.IOS_PREDICATE_STRING.toString(), using);

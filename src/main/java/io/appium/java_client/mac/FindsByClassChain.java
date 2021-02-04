@@ -42,8 +42,7 @@ public interface FindsByClassChain<T extends WebElement> extends FindsByFluentSe
      * for more details on elements location strategies supported by Mac2 driver.
      *
      * @param using A valid class chain lookup expression.
-     * @return The array of found elements or an empty one if no matches
-     * have been found.
+     * @return The array of found elements or an empty one if no matches have been found.
      */
     default List<T> findElementsByClassChain(String using) {
         return findElements(MobileSelector.IOS_CLASS_CHAIN.toString(), using);
