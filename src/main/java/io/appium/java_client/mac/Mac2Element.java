@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote;
+package io.appium.java_client.mac;
 
+import io.appium.java_client.MobileElement;
 
-public interface AutomationName {
-    String APPIUM = "Appium";
-    @Deprecated
-    String SELENDROID = "Selendroid";
-    String IOS_XCUI_TEST = "XCuiTest";
-    String ANDROID_UIAUTOMATOR2 = "UIAutomator2";
-    String YOUI_ENGINE = "youiengine";
-    String ESPRESSO = "Espresso";
-    String MAC2 = "Mac2";
+public class Mac2Element extends MobileElement implements
+        FindsByClassChain<MobileElement>, FindsByNsPredicate<MobileElement> {
 }
