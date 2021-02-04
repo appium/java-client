@@ -23,4 +23,5 @@ public interface MobilePlatform {
     String FIREFOX_OS = "FirefoxOS";
     String WINDOWS = "Windows";
     String TVOS = "tvOS";
+    String MAC = "Mac";
 }
