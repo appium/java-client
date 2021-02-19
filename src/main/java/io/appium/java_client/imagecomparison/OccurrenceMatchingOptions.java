@@ -24,6 +24,8 @@ import java.util.Map;
 
 public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceMatchingOptions> {
     private Double threshold;
+    private Boolean multiple;
+    private Integer matchNeighbourThreshold;
 
     /**
      * At what normalized threshold to reject an occurrence.
@@ -36,11 +38,38 @@ public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceM
         return this;
     }
 
+    /**
+     * Whether to enable the support of multiple image occurrences.
+     *
+     * @since Appium 1.21.0
+     * @return self instance for chaining.
+     */
+    public OccurrenceMatchingOptions enableMultiple() {
+        this.multiple = true;
+        return this;
+    }
+
+    /**
+     * The pixel distance between matches we consider
+     * to be part of the same template match. This option is only
+     * considered if multiple matches mode is enabled.
+     * 10 pixels by default.
+     *
+     * @since Appium 1.21.0
+     * @return self instance for chaining.
+     */
+    public OccurrenceMatchingOptions withMatchNeighbourThreshold(int threshold) {
+        this.matchNeighbourThreshold = threshold;
+        return this;
+    }
+
     @Override
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.putAll(super.build());
         ofNullable(threshold).map(x -> builder.put("threshold", x));
+        ofNullable(matchNeighbourThreshold).map(x -> builder.put("matchNeighbourThreshold", x));
+        ofNullable(multiple).map(x -> builder.put("multiple", x));
         return builder.build();
     }
 }
