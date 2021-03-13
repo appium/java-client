@@ -66,6 +66,22 @@ dependencies {
 ```
 
 ## Changelog
+*7.5.0*
+- **[ENHANCEMENTS]**
+    - Add support for Appium Mac2Driver. [#1439](https://github.com/appium/java-client/pull/1439)
+    - Add support for multiple image occurrences. [#1445](https://github.com/appium/java-client/pull/1445)
+    - `BOUND_ELEMENTS_BY_INDEX` Setting was added. [#1418](https://github.com/appium/java-client/pull/1418)
+- **[BUG FIX]**
+    - Use lower case for Windows platform key in ElementMap. [#1421](https://github.com/appium/java-client/pull/1421)
+- **[DEPENDENCY UPDATES]**
+    - `org.apache.commons:commons-lang3` was updated to 3.12.0.
+    - `org.springframework:spring-context` was updated to 5.3.4.
+    - `org.owasp.dependencycheck` was updated to 6.1.0.
+    - `io.github.bonigarcia:webdrivermanager` was updated to 4.3.1.
+    - `org.eclipse.jdt:ecj` was updated to 3.24.0.
+    - `org.projectlombok:lombok` was updated to 1.18.16.
+    - `jcenter` repository was removed.
+
 *7.4.1*
 - **[BUG FIX]**
     - Fix the configuration of `selenium-java` dependency. [#1417](https://github.com/appium/java-client/pull/1417)
