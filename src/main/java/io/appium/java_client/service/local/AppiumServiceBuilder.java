@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
 import org.apache.commons.io.IOUtils;
@@ -32,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -78,6 +81,7 @@ public final class AppiumServiceBuilder
     private File node;
     private String ipAddress = BROADCAST_IP_ADDRESS;
     private DesiredCapabilities capabilities;
+    private boolean autoQuoteCapabilitiesOnWindows = false;
     private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
             "The main Appium script does not exist at '%s'", fullPath.getAbsolutePath());
     private static final Function<File, String> NODE_JS_NOT_EXIST_ERROR = (fullPath) ->
@@ -86,6 +90,8 @@ public final class AppiumServiceBuilder
     // The first starting is slow sometimes on some environment
     private long startupTimeout = 120;
     private TimeUnit timeUnit = TimeUnit.SECONDS;
+    private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
+            AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
 
     public AppiumServiceBuilder() {
         usingPort(DEFAULT_APPIUM_PORT);
@@ -240,6 +246,21 @@ public final class AppiumServiceBuilder
     }
 
     /**
+     * Adds a desired capabilities.
+     *
+     * @param capabilities is an instance of {@link DesiredCapabilities}.
+     * @param autoQuoteCapabilitiesOnWindows automatically escape quote all
+     *                                       capabilities when calling appium.
+     *                                       This is required on windows systems only.
+     * @return the self-reference.
+     */
+    public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities,
+                                                 boolean autoQuoteCapabilitiesOnWindows) {
+        this.autoQuoteCapabilitiesOnWindows = autoQuoteCapabilitiesOnWindows;
+        return withCapabilities(capabilities);
+    }
+
+    /**
      * Sets an executable appium.js.
      *
      * @param appiumJS an executable appium.js (1.4.x and lower) or
@@ -296,7 +317,46 @@ public final class AppiumServiceBuilder
         this.appiumJS = findMainScript();
     }
 
+    private String capabilitiesToQuotedCmdlineArg() {
+        if (capabilities == null) {
+            return "{}";
+        }
+        StringBuilder result = new StringBuilder();
+        Map<String, ?> capabilitiesMap = capabilities.asMap();
+        Set<? extends Map.Entry<String, ?>> entries = capabilitiesMap.entrySet();
+
+        for (Map.Entry<String, ?> entry : entries) {
+            Object value = entry.getValue();
+
+            if (value == null) {
+                continue;
+            }
+
+            if (value instanceof String) {
+                String valueString = (String) value;
+                if (PATH_CAPABILITIES.contains(entry.getKey())) {
+                    value = "\\\"" + valueString.replace("\\", "/") + "\\\"";
+                } else {
+                    value = "\\\"" + valueString + "\\\"";
+                }
+            } else {
+                value = String.valueOf(value);
+            }
+
+            String key = "\\\"" + entry.getKey() + "\\\"";
+            if (result.length() > 0) {
+                result.append(", ");
+            }
+            result.append(key).append(": ").append(value);
+        }
+
+        return "{" + result.toString() + "}";
+    }
+
     private String capabilitiesToCmdlineArg() {
+        if (autoQuoteCapabilitiesOnWindows && Platform.getCurrent().is(Platform.WINDOWS)) {
+            return capabilitiesToQuotedCmdlineArg();
+        }
         Gson gson = new GsonBuilder()
                 .disableHtmlEscaping()
                 .serializeNulls()
