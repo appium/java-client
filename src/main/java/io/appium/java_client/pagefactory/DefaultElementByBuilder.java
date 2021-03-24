@@ -170,7 +170,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
                     getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class));
         }
 
-        if (isIOSXcuit() || isIOS()) {
+        if (isIOSXcuit() || isIOS() || isTvOS()) {
             return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
                     getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
         }
