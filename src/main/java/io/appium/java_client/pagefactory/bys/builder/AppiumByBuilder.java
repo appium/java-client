@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory.bys.builder;
 import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
+import static io.appium.java_client.remote.MobilePlatform.TVOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 import org.openqa.selenium.By;
@@ -176,6 +177,10 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     protected boolean isIOS() {
         return IOS.equalsIgnoreCase(platform);
+    }
+
+    protected boolean isTvOS() {
+        return TVOS.equalsIgnoreCase(platform);
     }
 
     protected boolean isIOSXcuit() {
