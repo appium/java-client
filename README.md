@@ -66,6 +66,15 @@ dependencies {
 ```
 
 ## Changelog
+*7.5.1*
+- **[ENHANCEMENTS]**
+    - Add iOS related annotations to tvOS. [#1456](https://github.com/appium/java-client/pull/1456)
+- **[BUG FIX]**
+    - Bring back automatic quote escaping for desired capabilities command line arguments on windows. [#1454](https://github.com/appium/java-client/pull/1454)
+- **[DEPENDENCY UPDATES]**
+    - `org.owasp.dependencycheck` was updated to 6.1.2.
+    - `org.eclipse.jdt:ecj` was updated to 3.25.0.
+    
 *7.5.0*
 - **[ENHANCEMENTS]**
     - Add support for Appium Mac2Driver. [#1439](https://github.com/appium/java-client/pull/1439)

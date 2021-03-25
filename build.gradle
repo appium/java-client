@@ -130,7 +130,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'io.appium'
             artifactId = 'java-client'
-            version = '7.5.0'
+            version = '7.5.1'
             from components.java
             pom {
                 name = 'java-client'
