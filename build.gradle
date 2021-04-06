@@ -82,7 +82,7 @@ dependencies {
     implementation 'org.aspectj:aspectjweaver:1.9.6'
     implementation 'org.slf4j:slf4j-api:1.7.30'
 
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.3.1') {
         exclude group: 'org.seleniumhq.selenium'
