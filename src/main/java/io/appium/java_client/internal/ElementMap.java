@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSElement;
+import io.appium.java_client.mac.Mac2Element;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.windows.WindowsElement;
@@ -37,8 +38,8 @@ public enum ElementMap {
     IOS_XCUI_TEST(AutomationName.IOS_XCUI_TEST.toLowerCase(), IOSElement.class),
     ANDROID_UI_AUTOMATOR(MobilePlatform.ANDROID.toLowerCase(), AndroidElement.class),
     IOS_UI_AUTOMATION(MobilePlatform.IOS.toLowerCase(), IOSElement.class),
-    WINDOWS(MobilePlatform.WINDOWS.toLowerCase(), WindowsElement.class);
-
+    WINDOWS(MobilePlatform.WINDOWS.toLowerCase(), WindowsElement.class),
+    MAC(MobilePlatform.MAC.toLowerCase(), Mac2Element.class);
 
     private static final Map<String, ElementMap> mobileElementMap;
 
