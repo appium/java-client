@@ -79,7 +79,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-io:commons-io:2.10.0'
     implementation 'org.springframework:spring-context:5.3.8'
-    implementation 'org.aspectj:aspectjweaver:1.9.6'
+    implementation 'org.aspectj:aspectjweaver:1.9.7'
     implementation 'org.slf4j:slf4j-api:1.7.31'
 
     testImplementation 'junit:junit:4.13.2'
