@@ -281,7 +281,6 @@ public class AppiumDriver<T extends WebElement>
         } else if (method == HttpMethod.DELETE) {
             MobileCommand.commandRepository.put(name, MobileCommand.deleteC(url));
         }
-        new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress).defineCommand(name);
     }
 
     @Override

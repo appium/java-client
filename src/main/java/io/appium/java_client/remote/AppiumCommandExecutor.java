@@ -16,20 +16,10 @@
 
 package io.appium.java_client.remote;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
-import static java.lang.String.format;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Optional.ofNullable;
-import static java.util.logging.Logger.getLogger;
-import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
-
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
-
 import com.google.common.io.CountingOutputStream;
 import com.google.common.io.FileBackedOutputStream;
-
 import io.appium.java_client.internal.Config;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
@@ -63,6 +53,14 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Optional.ofNullable;
+import static java.util.logging.Logger.getLogger;
+import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor {
     // https://github.com/appium/appium-base-driver/pull/400
@@ -241,6 +239,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 }
             });
         }
+        if (getAdditionalCommands().containsKey(command.getName())) {
+            super.defineCommand(command.getName(), getAdditionalCommands().get(command.getName()));
+        }
 
         Response response;
         try {
@@ -273,10 +274,5 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         }
 
         return response;
-    }
-
-    public void defineCommand(String commandName) {
-        setCommandCodec(new AppiumW3CHttpCommandCodec());
-        super.defineCommand(commandName, getAdditionalCommands().get(commandName));
     }
 }
