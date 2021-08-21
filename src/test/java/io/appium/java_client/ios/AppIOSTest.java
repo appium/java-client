@@ -3,7 +3,9 @@ package io.appium.java_client.ios;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
@@ -16,6 +18,11 @@ public class AppIOSTest extends BaseIOSTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
+        final String ip = startAppiumServer();
+
+        if (service == null || !service.isRunning()) {
+            throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
+        }
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
@@ -25,6 +32,11 @@ public class AppIOSTest extends BaseIOSTest {
         capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
         capabilities.setCapability("commandTimeouts", "120000");
         capabilities.setCapability(MobileCapabilityType.APP, testAppZip().toAbsolutePath().toString());
-        driver = new IOSDriver<>(new URL("http://localhost:4723/wd/hub"), capabilities);
+        try {
+            driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+        } catch (SessionNotCreatedException e) {
+            capabilities.setCapability("useNewWDA", true);
+            driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+        }
     }
 }
