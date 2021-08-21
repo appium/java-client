@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -34,6 +35,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,9 +45,10 @@ import java.time.Duration;
 public class IOSDriverTest extends AppIOSTest {
 
     @Test
-    public void addCommandTest() {
+    public void addCustomCommandTest() {
         driver.addCommand(HttpMethod.GET, "/sessions", "getSessions");
-        driver.execute("getSessions");
+        final Response getSessions = driver.execute("getSessions");
+        assertNotNull(getSessions.getSessionId());
     }
 
     @Test
