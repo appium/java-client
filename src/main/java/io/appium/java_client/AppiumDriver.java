@@ -16,16 +16,35 @@
 
 package io.appium.java_client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import com.google.common.collect.ImmutableMap;
+
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.DeviceRotation;
+import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.ErrorHandler;
+import org.openqa.selenium.remote.ExecuteMethod;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
@@ -35,11 +54,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
-import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Default Appium driver implementation.
@@ -273,6 +287,13 @@ public class AppiumDriver<T extends WebElement>
                 ImmutableMap.of("orientation", orientation.value().toUpperCase()));
     }
 
+    /**
+     * This method is used to add custom appium commands in Appium 2.0.
+     *
+     * @param method the available {@link HttpMethod}.
+     * @param url The url to URL template as https://www.w3.org/TR/webdriver/#endpoints.
+     * @param name The name of custom appium command.
+     */
     public void addCommand(HttpMethod method, String url, String name) {
         if (method == HttpMethod.POST) {
             MobileCommand.commandRepository.put(name, MobileCommand.postC(url));
