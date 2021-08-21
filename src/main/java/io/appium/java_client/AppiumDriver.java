@@ -16,45 +16,30 @@
 
 package io.appium.java_client;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
-import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.html5.Location;
-
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.ErrorHandler;
-import org.openqa.selenium.remote.ExecuteMethod;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.*;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Default Appium driver implementation.
@@ -286,6 +271,17 @@ public class AppiumDriver<T extends WebElement>
     public void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
                 ImmutableMap.of("orientation", orientation.value().toUpperCase()));
+    }
+
+    public void addCommand(HttpMethod method, String url, String name) {
+        if (method == HttpMethod.POST) {
+            MobileCommand.commandRepository.put(name, MobileCommand.postC(url));
+        } else if (method == HttpMethod.GET) {
+            MobileCommand.commandRepository.put(name, MobileCommand.getC(url));
+        } else if (method == HttpMethod.DELETE) {
+            MobileCommand.commandRepository.put(name, MobileCommand.deleteC(url));
+        }
+        new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress).defineCommand(name);
     }
 
     @Override

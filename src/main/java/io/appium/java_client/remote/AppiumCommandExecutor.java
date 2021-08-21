@@ -274,4 +274,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         return response;
     }
+
+    public void defineCommand(String commandName) {
+        setCommandCodec(new AppiumW3CHttpCommandCodec());
+        super.defineCommand(commandName, getAdditionalCommands().get(commandName));
+    }
 }

@@ -31,9 +31,9 @@ public class BaseIOSTest {
     protected static IOSDriver<IOSElement> driver;
     protected static final int PORT = 4723;
     public static final String DEVICE_NAME = System.getenv("IOS_DEVICE_NAME") != null
-            ? System.getenv("IOS_DEVICE_NAME") : "iPhone X";
+            ? System.getenv("IOS_DEVICE_NAME") : "iPhone 12";
     public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
-            ? System.getenv("IOS_PLATFORM_VERSION") : "11.4";
+            ? System.getenv("IOS_PLATFORM_VERSION") : "14.5";
 
 
     /**
