@@ -72,7 +72,7 @@ dependencies {
             strictly "${project.property('selenium.version')}"
         }
     }
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'cglib:cglib:3.3.0'
     implementation 'commons-validator:commons-validator:1.7'
