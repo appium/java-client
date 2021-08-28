@@ -41,6 +41,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IOSDriverTest extends AppIOSTest {
 
@@ -49,6 +51,25 @@ public class IOSDriverTest extends AppIOSTest {
         driver.addCommand(HttpMethod.GET, "/sessions", "getSessions");
         final Response getSessions = driver.execute("getSessions");
         assertNotNull(getSessions.getSessionId());
+    }
+
+    @Test
+    public void addCustomCommandWithSessionIdTest() {
+        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/app/launch", "launchApplication");
+        final Response launchApplication = driver.execute("launchApplication");
+        assertNotNull(launchApplication.getSessionId());
+    }
+
+    @Test
+    public void addCustomCommandWithElementIdTest() {
+        IOSElement intA = driver.findElementById("IntegerA");
+        intA.clear();
+        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/element/" + intA.getId() + "/value", "setNewValue");
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("id", intA.getId());
+        parameters.put("value", "8");
+        final Response launchApplication = driver.execute("setNewValue", parameters);
+        assertNotNull(launchApplication.getSessionId());
     }
 
     @Test

@@ -290,17 +290,23 @@ public class AppiumDriver<T extends WebElement>
     /**
      * This method is used to add custom appium commands in Appium 2.0.
      *
-     * @param method the available {@link HttpMethod}.
+     * @param httpMethod the available {@link HttpMethod}.
      * @param url The url to URL template as https://www.w3.org/TR/webdriver/#endpoints.
-     * @param name The name of custom appium command.
+     * @param methodName The name of custom appium command.
      */
-    public void addCommand(HttpMethod method, String url, String name) {
-        if (method == HttpMethod.POST) {
-            MobileCommand.commandRepository.put(name, MobileCommand.postC(url));
-        } else if (method == HttpMethod.GET) {
-            MobileCommand.commandRepository.put(name, MobileCommand.getC(url));
-        } else if (method == HttpMethod.DELETE) {
-            MobileCommand.commandRepository.put(name, MobileCommand.deleteC(url));
+    public void addCommand(HttpMethod httpMethod, String url, String methodName) {
+        switch (httpMethod) {
+            case GET:
+                MobileCommand.commandRepository.put(methodName, MobileCommand.getC(url));
+                break;
+            case POST:
+                MobileCommand.commandRepository.put(methodName, MobileCommand.postC(url));
+                break;
+            case DELETE:
+                MobileCommand.commandRepository.put(methodName, MobileCommand.deleteC(url));
+                break;
+            default:
+                throw new WebDriverException("Unsupported HTTP Method: " + httpMethod);
         }
     }
 
