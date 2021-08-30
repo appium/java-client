@@ -29,7 +29,6 @@ import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.DeviceRotation;
@@ -39,7 +38,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
-
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
@@ -49,8 +47,10 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -286,6 +286,31 @@ public class AppiumDriver<T extends WebElement>
     public void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
                 ImmutableMap.of("orientation", orientation.value().toUpperCase()));
+    }
+
+    /**
+     * This method is used to add custom appium commands in Appium 2.0.
+     *
+     * @param httpMethod the available {@link HttpMethod}.
+     * @param url The url to URL template as https://www.w3.org/TR/webdriver/#endpoints.
+     * @param methodName The name of custom appium command.
+     */
+    public void addCommand(HttpMethod httpMethod, String url, String methodName) {
+        switch (httpMethod) {
+            case GET:
+                MobileCommand.commandRepository.put(methodName, MobileCommand.getC(url));
+                break;
+            case POST:
+                MobileCommand.commandRepository.put(methodName, MobileCommand.postC(url));
+                break;
+            case DELETE:
+                MobileCommand.commandRepository.put(methodName, MobileCommand.deleteC(url));
+                break;
+            default:
+                throw new WebDriverException(String.format("Unsupported HTTP Method: %s. Only %s methods are supported",
+                        httpMethod,
+                        Arrays.toString(HttpMethod.values())));
+        }
     }
 
     @Override

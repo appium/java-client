@@ -22,24 +22,51 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class IOSDriverTest extends AppIOSTest {
+
+    @Test
+    public void addCustomCommandTest() {
+        driver.addCommand(HttpMethod.GET, "/sessions", "getSessions");
+        final Response getSessions = driver.execute("getSessions");
+        assertNotNull(getSessions.getSessionId());
+    }
+
+    @Test
+    public void addCustomCommandWithSessionIdTest() {
+        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/app/launch", "launchApplication");
+        final Response launchApplication = driver.execute("launchApplication");
+        assertNotNull(launchApplication.getSessionId());
+    }
+
+    @Test
+    public void addCustomCommandWithElementIdTest() {
+        IOSElement intA = driver.findElementById("IntegerA");
+        intA.clear();
+        driver.addCommand(HttpMethod.POST,
+                String.format("/session/%s/appium/element/%s/value", driver.getSessionId(), intA.getId()), "setNewValue");
+        final Response setNewValue = driver.execute("setNewValue", ImmutableMap.of("id", intA.getId(), "value", "8"));
+        assertNotNull(setNewValue.getSessionId());
+    }
 
     @Test
     public void getDeviceTimeTest() {

@@ -241,6 +241,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 }
             });
         }
+        if (getAdditionalCommands().containsKey(command.getName())) {
+            super.defineCommand(command.getName(), getAdditionalCommands().get(command.getName()));
+        }
 
         Response response;
         try {
