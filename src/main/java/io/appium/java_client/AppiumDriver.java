@@ -50,6 +50,7 @@ import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -306,7 +307,9 @@ public class AppiumDriver<T extends WebElement>
                 MobileCommand.commandRepository.put(methodName, MobileCommand.deleteC(url));
                 break;
             default:
-                throw new WebDriverException("Unsupported HTTP Method: " + httpMethod);
+                throw new WebDriverException(String.format("Unsupported HTTP Method: %s. Only %s methods are supported",
+                        httpMethod,
+                        Arrays.toString(HttpMethod.values())));
         }
     }
 

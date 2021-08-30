@@ -26,12 +26,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
@@ -41,8 +41,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 
 public class IOSDriverTest extends AppIOSTest {
 
@@ -64,12 +62,10 @@ public class IOSDriverTest extends AppIOSTest {
     public void addCustomCommandWithElementIdTest() {
         IOSElement intA = driver.findElementById("IntegerA");
         intA.clear();
-        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/element/" + intA.getId() + "/value", "setNewValue");
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("id", intA.getId());
-        parameters.put("value", "8");
-        final Response launchApplication = driver.execute("setNewValue", parameters);
-        assertNotNull(launchApplication.getSessionId());
+        driver.addCommand(HttpMethod.POST,
+                String.format("/session/%s/appium/element/%s/value", driver.getSessionId(), intA.getId()), "setNewValue");
+        final Response setNewValue = driver.execute("setNewValue", ImmutableMap.of("id", intA.getId(), "value", "8"));
+        assertNotNull(setNewValue.getSessionId());
     }
 
     @Test
