@@ -151,7 +151,7 @@ public enum GeneralServerFlag implements ServerArgument {
      */
     DRIVERS("--drivers"),
     /**
-     * Base path to use as the prefix for all webdriver routes running on this server
+     * Base path to use as the prefix for all webdriver routes running on this server.
      * Sample: --base-path=/wd/hub
      */
     BASEPATH("--base-path"),
