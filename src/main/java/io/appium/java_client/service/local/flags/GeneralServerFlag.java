@@ -133,7 +133,40 @@ public enum GeneralServerFlag implements ServerArgument {
      * Default: []
      * Sample: --deny-insecure=foo,bar
      */
-    DENY_INSECURE("--deny-insecure");
+    DENY_INSECURE("--deny-insecure"),
+    /**
+     * Plugins are little programs which can be added to an Appium installation and activated, for the purpose of
+     * extending or modifying the behavior of pretty much any aspect of Appium.
+     * Plugins are available with Appium as of Appium 2.0.
+     * To activate all plugins, you can use the single string "all" as the value (e.g --plugins=all)
+     * Default: []
+     * Sample: --plugins=device-farm,images
+     */
+    PLUGINS("--plugins"),
+    /**
+     * A comma-separated list of installed driver names that should be active for this server.
+     * All drivers will be active by default.
+     * Default: []
+     * Sample: --drivers=uiautomator2,xcuitest
+     */
+    DRIVERS("--drivers"),
+    /**
+     * Base path to use as the prefix for all webdriver routes running on this server.
+     * Sample: --base-path=/wd/hub
+     */
+    BASEPATH("--base-path"),
+    /**
+     * Set the default desired client arguments for a plugin.
+     * Default: []
+     * Sample: [ '{"images":{"foo1": "bar1", "foo2": "bar2"}}' | /path/to/pluginArgs.json ]
+     */
+    PLUGINARGS("--plugin-args"),
+    /**
+     *  Set the default desired client arguments for a driver.
+     * Default: []
+     * Sample: [ '{"xcuitest": {"foo1": "bar1", "foo2": "bar2"}}' | /path/to/driverArgs.json ]
+     */
+    DRIVERARGS("--driver-args");
 
     private final String arg;
 
