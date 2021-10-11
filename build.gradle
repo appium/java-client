@@ -9,7 +9,7 @@ plugins {
     id 'checkstyle'
     id 'signing'
     id 'org.owasp.dependencycheck' version '6.3.2'
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 repositories {
