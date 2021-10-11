@@ -66,6 +66,31 @@ dependencies {
 ```
 
 ## Changelog
+*7.6.0*
+- **[ENHANCEMENTS]**
+  - Add custom commands dynamically [Appium 2.0]. [#1506](https://github.com/appium/java-client/pull/1506)
+  - New General Server flags are added [Appium 2.0]. [#1511](https://github.com/appium/java-client/pull/1511)
+  - Add support of extended Android geolocation. [#1492](https://github.com/appium/java-client/pull/1492)
+- **[BUG FIX]**
+  - AndroidGeoLocation: update the constructor signature to mimic order of parameters in `org.openqa.selenium.html5.Location`. [#1526](https://github.com/appium/java-client/pull/1526)
+  - Prevent duplicate builds for PRs from base repo branches. [#1496](https://github.com/appium/java-client/pull/1496)
+  - Enable Dependabot for GitHub actions. [#1500](https://github.com/appium/java-client/pull/1500)
+  - bind mac2element in element map for mac platform. [#1474](https://github.com/appium/java-client/pull/1474)
+- **[DEPENDENCY UPDATES]**
+  - `org.owasp.dependencycheck` was updated to 6.3.2.
+  - `org.projectlombok:lombok` was updated to 1.18.22.
+  - `com.github.johnrengelman.shadow` was updated to 7.1.0.
+  - `actions/setup-java` was updated to 2.3.1.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.0.3.
+  - `org.springframework:spring-context` was updated to 5.3.10.
+  - `org.slf4j:slf4j-api` was updated to 1.7.32.
+  - `com.google.code.gson:gson` was updated to 2.8.8.
+  - `gradle` was updated to 7.1.1.
+  - `commons-io:commons-io` was updated to 2.11.0.
+  - `org.aspectj:aspectjweaver` was updated to 1.9.7.
+  - `org.eclipse.jdt:ecj` was updated to 3.26.0.
+  - `'junit:junit` was updated to 4.13.2.
+  
 *7.5.1*
 - **[ENHANCEMENTS]**
     - Add iOS related annotations to tvOS. [#1456](https://github.com/appium/java-client/pull/1456)
