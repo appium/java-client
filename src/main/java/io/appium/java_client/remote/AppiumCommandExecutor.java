@@ -44,16 +44,21 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
+import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
+import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpHandler;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
-import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
+import org.openqa.selenium.remote.http.WebSocket;
+import org.openqa.selenium.remote.http.WebSocket.Listener;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -156,13 +161,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue("client", HttpClient.class);
     }
 
-    protected HttpClient withRequestsPatchedByIdempotencyKey(HttpClient httpClient) {
-        return (request) -> {
-            request.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
-            return httpClient.execute(request);
-        };
-    }
-
     private Response createSession(Command command) throws IOException {
         if (getCommandCodec() != null) {
             throw new SessionNotCreatedException("Session already exists");
@@ -191,7 +189,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                         createSessionMethod.setAccessible(true);
 
                         Optional<Result> result = (Optional<Result>) createSessionMethod.invoke(this,
-                                withRequestsPatchedByIdempotencyKey(client), contentStream, counter.getCount());
+                                client.with(httpHandler -> req -> {
+                                    req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
+                                    return httpHandler.execute(req);
+                                }), contentStream, counter.getCount());
 
                         return result.map(result1 -> {
                             Result toReturn = result.get();

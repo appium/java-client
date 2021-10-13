@@ -11,10 +11,10 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -22,8 +22,8 @@ public class IOSTouchTest extends AppIOSTest {
 
     @Test
     public void tapTest() {
-        IOSElement intA = driver.findElementById("IntegerA");
-        IOSElement intB = driver.findElementById("IntegerB");
+        IOSElement intA = driver.findElement(By.id("IntegerA"));
+        IOSElement intB = driver.findElement(By.id("IntegerB"));
         intA.clear();
         intB.clear();
         intA.sendKeys("2");
@@ -31,13 +31,13 @@ public class IOSTouchTest extends AppIOSTest {
 
         MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
         new IOSTouchAction(driver).tap(tapOptions().withElement(element(e))).perform();
-        assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
+        assertEquals(driver.findElement(By.xpath("//*[@name = \"Answer\"]")).getText(), "6");
     }
 
     @Test
     public void touchWithPressureTest() {
-        IOSElement intA = driver.findElementById("IntegerA");
-        IOSElement intB = driver.findElementById("IntegerB");
+        IOSElement intA = driver.findElement(By.id("IntegerA"));
+        IOSElement intB = driver.findElement(By.id("IntegerB"));
         intA.clear();
         intB.clear();
         intA.sendKeys("2");
@@ -51,7 +51,7 @@ public class IOSTouchTest extends AppIOSTest {
                 .waitAction(waitOptions(ofMillis(100)))
                 .release()
                 .perform();
-        assertEquals(driver.findElementByXPath("//*[@name = \"Answer\"]").getText(), "6");
+        assertEquals(driver.findElement(By.xpath("//*[@name = \"Answer\"]")).getText(), "6");
     }
 
     @Test public void multiTouchTest() {
@@ -69,12 +69,12 @@ public class IOSTouchTest extends AppIOSTest {
     }
 
     @Test public void doubleTapTest() {
-        IOSElement firstField = driver.findElementById("IntegerA");
+        IOSElement firstField = driver.findElement(By.id("IntegerA"));
         firstField.sendKeys("2");
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
         iosTouchAction.doubleTap(element(firstField));
-        IOSElement editingMenu = driver.findElementByClassName("XCUIElementTypeTextField");
+        IOSElement editingMenu = driver.findElement(By.className("XCUIElementTypeTextField"));
         assertNotNull(editingMenu);
     }
 }

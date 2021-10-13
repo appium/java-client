@@ -23,12 +23,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -38,10 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
-    FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
-    FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
-    JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>, TakesScreenshot {
+public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByAccessibilityId<StubWebElement>,
+        FindsByAndroidUIAutomator<StubWebElement>, JavascriptExecutor, HasCapabilities,
+        FindsByFluentSelector<StubWebElement>, TakesScreenshot {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -137,62 +131,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         return new StubOptions();
     }
 
-    @Override public StubWebElement findElementByClassName(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByClassName(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByCssSelector(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByCssSelector(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementById(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsById(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByLinkText(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByLinkText(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByPartialLinkText(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByPartialLinkText(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByTagName(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByTagName(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByXPath(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByXPath(String using) {
-        return createStubList();
-    }
-
     @Override public StubWebElement findElementByAccessibilityId(String using) {
         return new StubWebElement();
     }
@@ -254,6 +192,11 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         }
 
         @Override public WebDriver window(String nameOrHandle) {
+            return driver;
+        }
+
+        @Override
+        public WebDriver newWindow(WindowType typeHint) {
             return driver;
         }
 

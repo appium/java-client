@@ -24,7 +24,7 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.openqa.selenium.By;
 
 public class AndroidSearchingTest extends BaseAndroidTest {
 
@@ -52,9 +52,9 @@ public class AndroidSearchingTest extends BaseAndroidTest {
     }
 
     @Test public void findByXPathTest() {
-        String byXPath = "//android.widget.TextView[contains(@text, 'Animat')]";
-        assertNotNull(driver.findElementByXPath(byXPath).getText());
-        assertEquals(driver.findElementsByXPath(byXPath).size(), 1);
+        By byXPath = By.xpath("//android.widget.TextView[contains(@text, 'Animat')]");
+        assertNotNull(driver.findElement(byXPath).getText());
+        assertEquals(driver.findElements(byXPath).size(), 1);
     }
 
     @Test public void findScrollable() {

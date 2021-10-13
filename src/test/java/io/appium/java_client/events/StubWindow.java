@@ -25,6 +25,11 @@ public class StubWindow implements WebDriver.Window {
         //STUB it does nothing
     }
 
+    @Override
+    public void minimize() {
+        //STUB it does nothing
+    }
+
     @Override public void fullscreen() {
         //STUB it does nothing
     }

@@ -9,6 +9,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.function.Predicate;
@@ -69,7 +70,7 @@ public class IntentTest {
                 .setIntentFlags("0x4000000")
                 .setOptionalIntentArguments("--es \"USERNAME\" \"AppiumIntentTest\" -t \"text/plain\"");
         driver.startActivity(activity);
-        assertEquals(driver.findElementById("com.prgguru.android:id/textView1").getText(),
+        assertEquals(driver.findElement(By.id("com.prgguru.android:id/textView1")).getText(),
             "Welcome AppiumIntentTest");
     }
 }

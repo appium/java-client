@@ -21,13 +21,6 @@ import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByName;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 
@@ -36,10 +29,7 @@ import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement
-    implements FindsByClassName,
-        FindsByCssSelector, FindsById,
-        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, FindsByAccessibilityId<T>,
-        ExecutesMethod {
+    implements FindsByFluentSelector<T>, FindsByAccessibilityId<T>, ExecutesMethod {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
@@ -63,117 +53,5 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
 
     @Override public T findElement(String by, String using) {
         return (T) super.findElement(by, using);
-    }
-
-    @Override public List findElementsById(String id) {
-        return super.findElementsById(id);
-    }
-
-    @Override public T findElementById(String id) {
-        return (T) super.findElementById(id);
-    }
-
-    /**
-     * Finds a single element by link text.
-     *
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public T findElementByLinkText(String using) throws WebDriverException {
-        return (T) super.findElementByLinkText(using);
-    }
-
-    /**
-     * Finds many elements by link text.
-     *
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public List findElementsByLinkText(String using) throws WebDriverException {
-        return super.findElementsByLinkText(using);
-    }
-
-    /**
-     * Finds a single element by partial link text.
-     *
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public T findElementByPartialLinkText(String using) throws WebDriverException {
-        return (T) super.findElementByPartialLinkText(using);
-    }
-
-    /**
-     * Finds many elements by partial link text.
-     *
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public List findElementsByPartialLinkText(String using) throws WebDriverException {
-        return super.findElementsByPartialLinkText(using);
-    }
-
-    public T findElementByTagName(String using) {
-        return (T) super.findElementByTagName(using);
-    }
-
-    public List findElementsByTagName(String using) {
-        return super.findElementsByTagName(using);
-    }
-
-    public T findElementByName(String using) {
-        return (T) super.findElementByName(using);
-    }
-
-    public List findElementsByName(String using) {
-        return super.findElementsByName(using);
-    }
-
-    public T findElementByClassName(String using) {
-        return (T) super.findElementByClassName(using);
-    }
-
-    public List findElementsByClassName(String using) {
-        return super.findElementsByClassName(using);
-    }
-
-    /**
-     * Finds a single element by CSS selector.
-     *
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public T findElementByCssSelector(String using) throws WebDriverException {
-        return (T) super.findElementByCssSelector(using);
-    }
-
-    /**
-     * Finds many elements by CSS selector.
-     *
-     * @throws WebDriverException This method doesn't work against native app UI.
-     */
-    public List findElementsByCssSelector(String using) throws WebDriverException {
-        return super.findElementsByCssSelector(using);
-    }
-
-    public T findElementByXPath(String using) {
-        return (T) super.findElementByXPath(using);
-    }
-
-    public List findElementsByXPath(String using) {
-        return super.findElementsByXPath(using);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws WebDriverException because it may not work against native app UI.
-     */
-    public void submit() throws WebDriverException {
-        super.submit();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws WebDriverException because it may not work against native app UI.
-     */
-    public String getCssValue(String propertyName) throws WebDriverException {
-        return super.getCssValue(propertyName);
     }
 }

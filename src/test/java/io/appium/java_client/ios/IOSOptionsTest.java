@@ -20,6 +20,7 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.ScreenOrientation;
 
 import java.net.MalformedURLException;
@@ -33,7 +34,7 @@ public class IOSOptionsTest {
 
     @Test
     public void setsPlatformNameByDefault() {
-        assertEquals(MobilePlatform.IOS, iosOptions.getPlatformName());
+        assertEquals(Platform.IOS, iosOptions.getPlatformName());
     }
 
     @Test

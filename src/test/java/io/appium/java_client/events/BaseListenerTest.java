@@ -3,8 +3,9 @@ package io.appium.java_client.events;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.events.listeners.TestListener;
+import java.net.URL;
+import java.util.List;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -13,8 +14,8 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
-import java.net.URL;
-import java.util.List;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.events.listeners.TestListener;
 
 public class BaseListenerTest {
 
@@ -87,7 +88,7 @@ public class BaseListenerTest {
         String prefix) {
         try {
             List<StubWebElement> els = driver.findElementsByAccessibilityId("SomeAccessibility");
-            StubWebElement e = driver.findElementByXPath("Some Path");
+            StubWebElement e = driver.findElementByAccessibilityId("AnotherAccessibility");
 
             e.findElementByAccessibilityId("SomeAccessibility")
                     .findElement(MobileBy.AndroidUIAutomator("Android UI Automator"));
@@ -136,7 +137,7 @@ public class BaseListenerTest {
 
     protected boolean assertThatElementListenerWorks(EmptyWebDriver driver, TestListener listener, String prefix) {
         try {
-            StubWebElement e = driver.findElementByXPath("Some Path");
+            StubWebElement e = driver.findElementByAccessibilityId("SomeAccessibility");;
             e.click();
             e.sendKeys("Test keys");
 
@@ -177,7 +178,7 @@ public class BaseListenerTest {
             }
 
             try {
-                driver.findElementByXPath("Some Path").getRect();
+                driver.findElementByAccessibilityId("SomeAccessibility").getRect();
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }

@@ -24,7 +24,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     @Test
     public void testLandscapeRightRotation() {
         new WebDriverWait(driver, 20).until(ExpectedConditions
-                .elementToBeClickable(driver.findElementById("android:id/content")
+                .elementToBeClickable(driver.findElement(By.id("android:id/content"))
                         .findElement(MobileBy.AccessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
         driver.rotate(landscapeRightRotation);
@@ -34,7 +34,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     @Test
     public void testLandscapeLeftRotation() {
         new WebDriverWait(driver, 20).until(ExpectedConditions
-                .elementToBeClickable(driver.findElementById("android:id/content")
+                .elementToBeClickable(driver.findElement(By.id("android:id/content"))
                         .findElement(MobileBy.AccessibilityId("Graphics"))));
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
         driver.rotate(landscapeLeftRotation);
@@ -44,7 +44,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     @Test
     public void testPortraitUpsideDown() {
         new WebDriverWait(driver, 20).until(ExpectedConditions
-                .elementToBeClickable(driver.findElementById("android:id/content")
+                .elementToBeClickable(driver.findElement(By.id("android:id/content"))
                         .findElement(MobileBy.AccessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 180);
         driver.rotate(landscapeRightRotation);

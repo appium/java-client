@@ -9,6 +9,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 
 import java.util.List;
@@ -16,11 +17,10 @@ import java.util.List;
 public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
 
     private final ActionSupplier<AndroidTouchAction> horizontalSwipe = () -> {
-        driver.findElementById("io.appium.android.apis:id/gallery");
+        driver.findElement(By.id("io.appium.android.apis:id/gallery"));
 
-        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
-        List<MobileElement> images = gallery
-                .findElementsByClassName("android.widget.ImageView");
+        AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
+        List<MobileElement> images = gallery.findElements(By.className("android.widget.ImageView"));
         Point location = gallery.getLocation();
         Point center = gallery.getCenter();
 
@@ -46,15 +46,13 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
     @Test public void horizontalSwipingWithSupplier() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
-        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
-        List<MobileElement> images = gallery
-                .findElementsByClassName("android.widget.ImageView");
+        AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
+        List<MobileElement> images = gallery.findElements(By.className("android.widget.ImageView"));
         int originalImageCount = images.size();
 
         horizontalSwipe.get().perform();
 
-        assertNotEquals(originalImageCount, gallery
-                .findElementsByClassName("android.widget.ImageView").size());
+        assertNotEquals(originalImageCount, gallery.findElements(By.className("android.widget.ImageView")).size());
     }
 
     @Test public void verticalSwipingWithSupplier() throws Exception {

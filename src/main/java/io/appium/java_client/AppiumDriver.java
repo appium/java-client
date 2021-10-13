@@ -180,39 +180,6 @@ public class AppiumDriver<T extends WebElement>
     }
 
     @Override
-    public List<T> findElementsById(String id) {
-        return super.findElementsById(id);
-    }
-
-    public List<T> findElementsByLinkText(String using) {
-        return super.findElementsByLinkText(using);
-    }
-
-    public List<T> findElementsByPartialLinkText(String using) {
-        return super.findElementsByPartialLinkText(using);
-    }
-
-    public List<T> findElementsByTagName(String using) {
-        return super.findElementsByTagName(using);
-    }
-
-    public List<T> findElementsByName(String using) {
-        return super.findElementsByName(using);
-    }
-
-    public List<T> findElementsByClassName(String using) {
-        return super.findElementsByClassName(using);
-    }
-
-    public List<T> findElementsByCssSelector(String using) {
-        return super.findElementsByCssSelector(using);
-    }
-
-    public List<T> findElementsByXPath(String using) {
-        return super.findElementsByXPath(using);
-    }
-
-    @Override
     public List<T> findElementsByAccessibilityId(String using) {
         return super.findElementsByAccessibilityId(using);
     }
