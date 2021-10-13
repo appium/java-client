@@ -74,7 +74,7 @@ public final class AppiumDriverLocalService extends DriverService {
     AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort,
                              ImmutableList<String> nodeJSArgs, ImmutableMap<String, String> nodeJSEnvironment,
                              long startupTimeout, TimeUnit timeUnit) throws IOException {
-        super(nodeJSExec, nodeJSPort, nodeJSArgs, nodeJSEnvironment);
+        super(nodeJSExec, nodeJSPort, Duration.ofSeconds(startupTimeout), nodeJSArgs, nodeJSEnvironment);
         this.nodeJSExec = nodeJSExec;
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;

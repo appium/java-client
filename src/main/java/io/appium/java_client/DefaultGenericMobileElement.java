@@ -65,12 +65,12 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return (T) super.findElement(by, using);
     }
 
-    @Override public List findElementsById(String id) {
-        return super.findElementsById(id);
+    public List findElementsById(String id) {
+        return super.findElements(By.id(id));
     }
 
-    @Override public T findElementById(String id) {
-        return (T) super.findElementById(id);
+    public T findElementById(String id) {
+        return (T) super.findElement(By.id(id));
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public T findElementByLinkText(String using) throws WebDriverException {
-        return (T) super.findElementByLinkText(using);
+        return (T) super.findElement(By.linkText(using));
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public List findElementsByLinkText(String using) throws WebDriverException {
-        return super.findElementsByLinkText(using);
+        return super.findElements(By.linkText(using));
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public T findElementByPartialLinkText(String using) throws WebDriverException {
-        return (T) super.findElementByPartialLinkText(using);
+        return (T) super.findElement(By.linkText(using));
     }
 
     /**
@@ -106,31 +106,31 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public List findElementsByPartialLinkText(String using) throws WebDriverException {
-        return super.findElementsByPartialLinkText(using);
+        return super.findElements(By.linkText(using));
     }
 
     public T findElementByTagName(String using) {
-        return (T) super.findElementByTagName(using);
+        return (T) super.findElement(By.tagName(using));
     }
 
     public List findElementsByTagName(String using) {
-        return super.findElementsByTagName(using);
+        return super.findElements(By.tagName(using));
     }
 
     public T findElementByName(String using) {
-        return (T) super.findElementByName(using);
+        return (T) super.findElement(By.name(using));
     }
 
     public List findElementsByName(String using) {
-        return super.findElementsByName(using);
+        return super.findElements(By.name(using));
     }
 
     public T findElementByClassName(String using) {
-        return (T) super.findElementByClassName(using);
+        return (T) super.findElement(By.className(using));
     }
 
     public List findElementsByClassName(String using) {
-        return super.findElementsByClassName(using);
+        return super.findElements(By.className(using));
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public T findElementByCssSelector(String using) throws WebDriverException {
-        return (T) super.findElementByCssSelector(using);
+        return (T) super.findElement(By.cssSelector(using));
     }
 
     /**
@@ -148,15 +148,15 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
      * @throws WebDriverException This method doesn't work against native app UI.
      */
     public List findElementsByCssSelector(String using) throws WebDriverException {
-        return super.findElementsByCssSelector(using);
+        return super.findElements(By.cssSelector(using));
     }
 
     public T findElementByXPath(String using) {
-        return (T) super.findElementByXPath(using);
+        return (T) super.findElement(By.xpath(using));
     }
 
     public List findElementsByXPath(String using) {
-        return super.findElementsByXPath(using);
+        return super.findElements(By.xpath(using));
     }
 
     /**

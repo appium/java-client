@@ -18,6 +18,7 @@ package io.appium.java_client.remote;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.CapabilityType;
 
@@ -58,8 +59,8 @@ public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabiliti
      * @return String representing the kind of mobile device or emulator to use.
      * @see org.openqa.selenium.remote.CapabilityType#PLATFORM_NAME
      */
-    public String getPlatformName() {
-        return (String) getCapability(CapabilityType.PLATFORM_NAME);
+    public Platform getPlatformName() {
+        return (Platform) getCapability(CapabilityType.PLATFORM_NAME);
     }
 
     /**

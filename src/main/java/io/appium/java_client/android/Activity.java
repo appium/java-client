@@ -2,7 +2,6 @@ package io.appium.java_client.android;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import okhttp3.Interceptor;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isBlank;

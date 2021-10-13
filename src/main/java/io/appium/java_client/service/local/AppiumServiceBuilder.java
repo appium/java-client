@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -474,11 +475,12 @@ public final class AppiumServiceBuilder
 
     @Override
     protected AppiumDriverLocalService createDriverService(File nodeJSExecutable, int nodeJSPort,
-                                                           ImmutableList<String> nodeArguments,
-                                                           ImmutableMap<String, String> nodeEnvironment) {
+                                                           Duration timeout,
+                                                           List<String> nodeArguments,
+                                                           Map<String, String> nodeEnvironment) {
         try {
             return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort,
-                    nodeArguments, nodeEnvironment, startupTimeout, timeUnit);
+                    ImmutableList.copyOf(nodeArguments), (ImmutableMap<String, String>) nodeEnvironment, startupTimeout, timeUnit);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
