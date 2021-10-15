@@ -59,7 +59,7 @@ public class AndroidElementTest extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
         driver.startActivity(activity);
         AndroidElement editElement = driver
-            .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
+            .findElement(MobileBy.AndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
         editElement.sendKeys(originalValue);
         assertEquals(originalValue, editElement.getText());
         String replacedValue = "replaced value";
@@ -68,7 +68,7 @@ public class AndroidElementTest extends BaseAndroidTest {
     }
 
     @Test public void scrollingToSubElement() {
-        driver.findElementByAccessibilityId("Views").click();
+        driver.findElement(MobileBy.AccessibilityId("Views")).click();
         AndroidElement list = driver.findElement(By.id("android:id/list"));
         MobileElement radioGroup = list
                 .findElement(MobileBy
@@ -83,7 +83,7 @@ public class AndroidElementTest extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
         driver.startActivity(activity);
         AndroidElement editElement = driver
-            .findElementByAndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")");
+            .findElement(MobileBy.AndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
         editElement.setValue(value);
         assertEquals(value, editElement.getText());
     }

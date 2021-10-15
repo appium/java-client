@@ -26,10 +26,6 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecuteCDPCommand;
-import io.appium.java_client.FindsByAndroidDataMatcher;
-import io.appium.java_client.FindsByAndroidViewMatcher;
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.FindsByAndroidViewTag;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.android.connection.HasNetworkConnection;
@@ -63,13 +59,10 @@ import java.util.Map;
  */
 public class AndroidDriver<T extends WebElement>
     extends AppiumDriver<T>
-    implements PressesKey, HasNetworkConnection, PushesFiles, StartsActivity,
-        FindsByAndroidUIAutomator<T>, FindsByAndroidViewTag<T>, FindsByAndroidDataMatcher<T>,
-        FindsByAndroidViewMatcher<T>, LocksDevice, HasAndroidSettings, HasAndroidDeviceDetails,
-        HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
-        CanRecordScreen, SupportsSpecialEmulatorCommands,
-        SupportsNetworkStateManagement, ListensToLogcatMessages, HasAndroidClipboard,
-        HasBattery<AndroidBatteryInfo>, ExecuteCDPCommand, SupportsExtendedGeolocationCommands {
+    implements PressesKey, HasNetworkConnection, PushesFiles, StartsActivity,LocksDevice, HasAndroidSettings,
+        HasAndroidDeviceDetails, HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
+        CanRecordScreen, SupportsSpecialEmulatorCommands, SupportsNetworkStateManagement, ListensToLogcatMessages,
+        HasAndroidClipboard, HasBattery<AndroidBatteryInfo>, ExecuteCDPCommand, SupportsExtendedGeolocationCommands {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 

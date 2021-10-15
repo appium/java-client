@@ -19,15 +19,9 @@ package io.appium.java_client.android;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.replaceElementValueCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.FindsByAndroidDataMatcher;
-import io.appium.java_client.FindsByAndroidViewMatcher;
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.FindsByAndroidViewTag;
 import io.appium.java_client.MobileElement;
 
-public class AndroidElement extends MobileElement
-    implements FindsByAndroidUIAutomator<MobileElement>, FindsByAndroidDataMatcher<MobileElement>,
-        FindsByAndroidViewMatcher<MobileElement>, FindsByAndroidViewTag<MobileElement> {
+public class AndroidElement extends MobileElement {
     /**
      * This method replace current text value.
      * @param value a new value

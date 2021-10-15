@@ -26,8 +26,8 @@ import org.openqa.selenium.html5.LocationContext;
 import java.util.List;
 
 public interface MobileDriver<T extends WebElement> extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
-    FindsByAccessibilityId<T>, LocationContext, HidesKeyboard, HasDeviceTime, InteractsWithFiles, InteractsWithApps,
-        HasAppStrings, FindsByFluentSelector<T>, ExecutesMethod, HasSessionDetails {
+    LocationContext, HidesKeyboard, HasDeviceTime, InteractsWithFiles, InteractsWithApps, HasAppStrings, ExecutesMethod,
+        HasSessionDetails {
 
     List<T> findElements(By by);
 

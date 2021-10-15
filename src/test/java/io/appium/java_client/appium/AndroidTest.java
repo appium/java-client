@@ -83,8 +83,8 @@ public class AndroidTest {
 
     @Test
     public void findByAccessibilityIdFromDriverTest() {
-        assertNotEquals(driver.findElementByAccessibilityId("Graphics").getText(), null);
-        assertEquals(driver.findElementsByAccessibilityId("Graphics").size(), 1);
+        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
+        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
     }
 
     @Test  public void findByAndroidUIAutomatorFromDriverTest() {
@@ -134,7 +134,7 @@ public class AndroidTest {
     }
 
     @Test public void scrollingToSubElement() {
-        driver.findElementByAccessibilityId("Views").click();
+        driver.findElement(MobileBy.AccessibilityId("Views")).click();
         AndroidElement list = driver.findElement(By.id("android:id/list"));
         MobileElement radioGroup = list
                 .findElement(MobileBy

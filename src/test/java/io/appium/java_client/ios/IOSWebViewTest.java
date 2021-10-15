@@ -17,7 +17,7 @@ public class IOSWebViewTest extends BaseIOSWebViewTest {
         new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("login")))
                 .click();
-        driver.findElementByAccessibilityId("webView").click();
+        driver.findElement(MobileBy.AccessibilityId("webView")).click();
         new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("Webview")));
         findAndSwitchToWebView();

@@ -68,8 +68,7 @@ import java.util.Set;
  */
 @SuppressWarnings("unchecked")
 public class AppiumDriver<T extends WebElement>
-        extends DefaultGenericMobileDriver<T> implements ComparesImages, FindsByImage<T>, FindsByCustom<T>,
-        ExecutesDriverScript, LogsEvents, HasSettings {
+        extends DefaultGenericMobileDriver<T> implements ComparesImages, ExecutesDriverScript, LogsEvents, HasSettings {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
@@ -172,16 +171,6 @@ public class AppiumDriver<T extends WebElement>
     @Override
     public List<T> findElements(By by) {
         return super.findElements(by);
-    }
-
-    @Override
-    public List<T> findElements(String by, String using) {
-        return super.findElements(by, using);
-    }
-
-    @Override
-    public List<T> findElementsByAccessibilityId(String using) {
-        return super.findElementsByAccessibilityId(using);
     }
 
     @Override

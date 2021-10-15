@@ -58,11 +58,11 @@ public class AndroidSearchingTest extends BaseAndroidTest {
     }
 
     @Test public void findScrollable() {
-        driver.findElementByAccessibilityId("Views").click();
+        driver.findElement(MobileBy.AccessibilityId("Views")).click();
         MobileElement radioGroup = driver
-                .findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()"
+                .findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".resourceId(\"android:id/list\")).scrollIntoView("
-                + "new UiSelector().text(\"Radio Group\"));");
+                + "new UiSelector().text(\"Radio Group\"));"));
         assertNotNull(radioGroup.getLocation());
     }
 }

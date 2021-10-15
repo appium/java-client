@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import org.junit.FixMethodOrder;
@@ -29,7 +30,7 @@ public class IOSTouchTest extends AppIOSTest {
         intA.sendKeys("2");
         intB.sendKeys("4");
 
-        MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
+        MobileElement e = driver.findElement(MobileBy.AccessibilityId("ComputeSumButton"));
         new IOSTouchAction(driver).tap(tapOptions().withElement(element(e))).perform();
         assertEquals(driver.findElement(By.xpath("//*[@name = \"Answer\"]")).getText(), "6");
     }
@@ -43,7 +44,7 @@ public class IOSTouchTest extends AppIOSTest {
         intA.sendKeys("2");
         intB.sendKeys("4");
 
-        MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
+        MobileElement e = driver.findElement(MobileBy.AccessibilityId("ComputeSumButton"));
         new IOSTouchAction(driver)
                 .press(iosPressOptions()
                     .withElement(element(e))
@@ -55,8 +56,8 @@ public class IOSTouchTest extends AppIOSTest {
     }
 
     @Test public void multiTouchTest() {
-        MobileElement e = driver.findElementByAccessibilityId("ComputeSumButton");
-        MobileElement e2 = driver.findElementByAccessibilityId("show alert");
+        MobileElement e = driver.findElement(MobileBy.AccessibilityId("ComputeSumButton"));
+        MobileElement e2 = driver.findElement(MobileBy.AccessibilityId("show alert"));
 
         IOSTouchAction tap1 = new IOSTouchAction(driver).tap(tapOptions().withElement(element(e)));
         IOSTouchAction tap2 = new IOSTouchAction(driver).tap(tapOptions().withElement(element(e2)));

@@ -1,6 +1,5 @@
 package io.appium.java_client.appium.element.generation.ios;
 
-import static io.appium.java_client.MobileBy.AccessibilityId;
 import static io.appium.java_client.TestResources.testAppZip;
 import static io.appium.java_client.TestResources.vodQaAppZip;
 import static org.junit.Assert.assertTrue;
@@ -9,6 +8,7 @@ import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.partialLinkText;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSElement;
@@ -78,7 +78,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             Capabilities caps = commonAppCapabilitiesSupplier.get();
             return caps.merge(appFileSupplierFunction.apply(testApp).get());
         }, commonPredicate,
-        AccessibilityId("Answer")
+        MobileBy.AccessibilityId("Answer")
         ));
     }
 
@@ -92,10 +92,10 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             new WebDriverWait(driver, 30)
                     .until(ExpectedConditions.presenceOfElementLocated(id("login")))
                     .click();
-            driver.findElementByAccessibilityId("webView").click();
+            driver.findElement(MobileBy.AccessibilityId("webView")).click();
             new WebDriverWait(driver, 30)
                     .until(ExpectedConditions
-                            .presenceOfElementLocated(AccessibilityId("Webview")));
+                            .presenceOfElementLocated(MobileBy.AccessibilityId("Webview")));
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

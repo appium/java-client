@@ -2,12 +2,8 @@ package io.appium.java_client.events;
 
 import com.google.common.collect.ImmutableList;
 
-import io.appium.java_client.FindsByAccessibilityId;
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.FindsByFluentSelector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
@@ -17,28 +13,10 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StubWebElement implements WebElement, FindsByAccessibilityId<WebElement>,
-    FindsByAndroidUIAutomator<WebElement>, FindsByFluentSelector<WebElement> {
+public class StubWebElement implements WebElement {
 
     private static List<WebElement> createStubSubElementList() {
         return new ArrayList<>(ImmutableList.of(new StubWebElement(), new StubWebElement()));
-    }
-
-
-    @Override public WebElement findElementByAccessibilityId(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<WebElement> findElementsByAccessibilityId(String using) {
-        return createStubSubElementList();
-    }
-
-    @Override public WebElement findElementByAndroidUIAutomator(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<WebElement> findElementsByAndroidUIAutomator(String using) {
-        return createStubSubElementList();
     }
 
     @Override public void click() {
@@ -81,17 +59,7 @@ public class StubWebElement implements WebElement, FindsByAccessibilityId<WebEle
         return createStubSubElementList();
     }
 
-    @Override
-    public List<WebElement> findElements(String by, String using) throws WebDriverException {
-        return createStubSubElementList();
-    }
-
     @Override public WebElement findElement(By by) {
-        return new StubWebElement();
-    }
-
-    @Override
-    public WebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
         return new StubWebElement();
     }
 

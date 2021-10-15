@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement
-    implements FindsByFluentSelector<T>, FindsByAccessibilityId<T>, ExecutesMethod {
+abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteWebElement implements ExecutesMethod {
 
     @Override public Response execute(String driverCommand, Map<String, ?> parameters) {
         return super.execute(driverCommand, parameters);
@@ -43,15 +42,8 @@ abstract class DefaultGenericMobileElement<T extends WebElement> extends RemoteW
         return super.findElements(by);
     }
 
-    @Override public List findElements(String by, String using) {
-        return super.findElements(by, using);
-    }
-
     @Override public T findElement(By by) {
         return (T) super.findElement(by);
     }
 
-    @Override public T findElement(String by, String using) {
-        return (T) super.findElement(by, using);
-    }
 }

@@ -2,10 +2,6 @@ package io.appium.java_client.events;
 
 import com.google.common.collect.ImmutableList;
 
-import io.appium.java_client.FindsByAccessibilityId;
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.FindsByFluentSelector;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -15,7 +11,6 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
@@ -33,9 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByAccessibilityId<StubWebElement>,
-        FindsByAndroidUIAutomator<StubWebElement>, JavascriptExecutor, HasCapabilities,
-        FindsByFluentSelector<StubWebElement>, TakesScreenshot {
+public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, JavascriptExecutor, HasCapabilities,
+        TakesScreenshot {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -85,17 +79,7 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         return new StubWebElement();
     }
 
-    @Override
-    public StubWebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
-        return new StubWebElement();
-    }
-
     @Override public List<StubWebElement> findElements(By by) {
-        return createStubList();
-    }
-
-    @Override
-    public List<StubWebElement> findElements(String by, String using) throws WebDriverException {
         return createStubList();
     }
 
@@ -129,22 +113,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
 
     @Override public Options manage() {
         return new StubOptions();
-    }
-
-    @Override public StubWebElement findElementByAccessibilityId(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByAccessibilityId(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByAndroidUIAutomator(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByAndroidUIAutomator(String using) {
-        return createStubList();
     }
 
     @Override public Object executeScript(String script, Object... args) {

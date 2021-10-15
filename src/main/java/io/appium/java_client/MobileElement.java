@@ -44,14 +44,6 @@ public abstract class MobileElement
         return super.findElements(by);
     }
 
-    @Override public List<MobileElement> findElements(String by, String using) {
-        return super.findElements(by, using);
-    }
-
-    @Override public List<MobileElement> findElementsByAccessibilityId(String using) {
-        return super.findElementsByAccessibilityId(using);
-    }
-
     /**
      * This method sets the new value of the attribute "value".
      *

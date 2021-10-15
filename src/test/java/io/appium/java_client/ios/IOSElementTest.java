@@ -12,13 +12,14 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.appium.java_client.MobileBy;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSElementTest extends AppIOSTest {
 
     @Test
     public void findByAccessibilityIdTest() {
-        assertThat(driver.findElementsByAccessibilityId("Compute Sum").size(),
-                not(is(0)));
+        assertThat(driver.findElements(MobileBy.AccessibilityId("Compute Sum")).size(), not(is(0)));
     }
 
     // FIXME: Stabilize the test on CI

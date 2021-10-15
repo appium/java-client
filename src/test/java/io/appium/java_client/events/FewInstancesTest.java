@@ -4,6 +4,11 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
+import org.apache.commons.lang3.StringUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+
 import io.appium.java_client.events.listeners.AlertListener;
 import io.appium.java_client.events.listeners.ContextListener;
 import io.appium.java_client.events.listeners.ElementListener;
@@ -14,10 +19,6 @@ import io.appium.java_client.events.listeners.RotationListener;
 import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SingleListeners;
 import io.appium.java_client.events.listeners.WindowListener;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 
 public class FewInstancesTest extends BaseListenerTest {
 
@@ -104,15 +105,6 @@ public class FewInstancesTest extends BaseListenerTest {
     @Test
     public void assertThatOneDriverDoNotListensToAnother() {
         assertThat(super.assertThatSearchListenerWorks(emptyWebDriver1,
-            searchingListener1, StringUtils.EMPTY),
-            is(true));
-        assertThat("The second searching listener should have no messages",
-            searchingListener2.messages.size(), is(0));
-    }
-
-    @Test
-    public void assertThatOneDriverDoNotListensToAnother2() {
-        assertThat(super.assertThatSearchListenerWorksAgainstElements(emptyWebDriver1,
             searchingListener1, StringUtils.EMPTY),
             is(true));
         assertThat("The second searching listener should have no messages",
