@@ -120,12 +120,6 @@ public interface MobileCapabilityType extends CapabilityType {
     String EVENT_TIMINGS = "eventTimings";
 
     /**
-     * This is the flag which forces server to switch to the mobile JSONWP.
-     * If {@code false} then it is switched to W3C mode.
-     */
-    String FORCE_MJSONWP = "forceMjsonwp";
-
-    /**
      * (Web and webview only) Enable ChromeDriver's (on Android)
      * or Safari's (on iOS) performance logging (default {@code false}).
      */
