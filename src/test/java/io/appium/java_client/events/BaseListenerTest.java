@@ -39,7 +39,7 @@ public class BaseListenerTest {
                             prefix + "The searching for something using By.id: someId2 has beed finished. "
                                     + "The root element was null"));
 
-            driver.findElement(By.id("someId")).findElement(By.className("someClazz"));
+            driver.findElement(By.id("someId")).findElement(MobileBy.className("someClazz"));
 
             assertThat(listener.messages,
                     contains(prefix + "Attempt to find something using By.id: someId. The root element is null",
@@ -57,7 +57,7 @@ public class BaseListenerTest {
                             prefix + "The searching for something using By.className: someClazz has beed finished. "
                                     + "The root element was io.appium.java_client.events.StubWebElement"));
 
-            driver.findElements(By.id("someId2")).get(0).findElements(By.className("someClazz2"));
+            driver.findElements(By.id("someId2")).get(0).findElements(MobileBy.className("someClazz2"));
             assertThat(listener.messages,
                     contains(prefix + "Attempt to find something using By.id: someId. The root element is null",
                              prefix + "The searching for something using By.id: someId has beed finished. "

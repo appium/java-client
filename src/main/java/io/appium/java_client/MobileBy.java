@@ -162,6 +162,15 @@ public abstract class MobileBy extends By implements Remotable {
         return new ByCustom(selector);
     }
 
+    /**
+     * For IOS it is the full name of the XCUI element and begins with XCUIElementType.
+     * For Android it is the full name of the UIAutomator2 class (e.g.: android.widget.TextView)
+     * @param selector the class name of the element
+     * @return an instance of {@link ByClassName}
+     */
+    public static By className(final String selector) {
+        return new ByClassName(selector);
+    }
 
     public static class ByAndroidUIAutomator extends MobileBy implements Serializable {
 
@@ -268,6 +277,17 @@ public abstract class MobileBy extends By implements Remotable {
 
         @Override public String toString() {
             return "By.AndroidViewTag: " + getLocatorString();
+        }
+    }
+
+    public static class ByClassName extends MobileBy implements Serializable {
+
+        protected ByClassName(String selector) {
+            super("class name", selector);
+        }
+
+        @Override public String toString() {
+            return "By.className: " + getLocatorString();
         }
     }
 }

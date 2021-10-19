@@ -75,7 +75,7 @@ public class IOSTouchTest extends AppIOSTest {
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
         iosTouchAction.doubleTap(element(firstField));
-        IOSElement editingMenu = driver.findElement(By.className("XCUIElementTypeTextField"));
+        IOSElement editingMenu = driver.findElement(MobileBy.className("XCUIElementTypeTextField"));
         assertNotNull(editingMenu);
     }
 }

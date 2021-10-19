@@ -29,7 +29,7 @@ public class IOSElementTest extends AppIOSTest {
         WebDriverWait wait = new WebDriverWait(driver, 20);
 
         IOSElement slider = wait.until(
-                driver1 -> driver1.findElement(By.className("XCUIElementTypeSlider")));
+                driver1 -> driver1.findElement(MobileBy.className("XCUIElementTypeSlider")));
         slider.setValue("0%");
         assertEquals("0%", slider.getAttribute("value"));
     }

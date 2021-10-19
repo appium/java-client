@@ -21,7 +21,7 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         driver.findElement(By.id("io.appium.android.apis:id/gallery"));
 
         AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
-        List<MobileElement> images = gallery.findElements(By.className("android.widget.ImageView"));
+        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
         Point location = gallery.getLocation();
         Point center = gallery.getCenter();
 
@@ -48,12 +48,13 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
         AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
-        List<MobileElement> images = gallery.findElements(By.className("android.widget.ImageView"));
+        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
         int originalImageCount = images.size();
 
         horizontalSwipe.get().perform();
 
-        assertNotEquals(originalImageCount, gallery.findElements(By.className("android.widget.ImageView")).size());
+        assertNotEquals(originalImageCount,
+                gallery.findElements(MobileBy.className("android.widget.ImageView")).size());
     }
 
     @Test public void verticalSwipingWithSupplier() throws Exception {
