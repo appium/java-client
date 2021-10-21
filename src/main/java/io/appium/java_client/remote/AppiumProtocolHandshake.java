@@ -54,6 +54,9 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
 
             json.name("firstMatch");
             json.beginArray();
+            json.endArray();
+
+            json.name("alwaysMatch");
             try {
                 Method getW3CMethod = NewSessionPayload.class.getDeclaredMethod("getW3C");
                 getW3CMethod.setAccessible(true);
@@ -62,7 +65,6 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 throw new WebDriverException(e);
             }
-            json.endArray();
 
             json.endObject();  // Close "capabilities" object
 

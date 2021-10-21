@@ -49,6 +49,12 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
                 .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    /**
+     * Overrides the default new session behavior to
+     * only handle W3C capabilities.
+     *
+     * @param capabilities User-provided capabilities.
+     */
     public AppiumNewSessionCommandPayload(Capabilities capabilities) {
         super(NEW_SESSION, ImmutableMap.of(
                 "capabilities", ImmutableSet.of(makeW3CSafe(capabilities)),
