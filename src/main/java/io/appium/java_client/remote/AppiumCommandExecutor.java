@@ -145,7 +145,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new SessionNotCreatedException("Session already exists");
         }
 
-        ProtocolHandshake.Result result = new ProtocolHandshake().createSession(
+        ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(
                 getClient().with((httpHandler) -> (req) -> {
                     req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
                     return httpHandler.execute(req);
