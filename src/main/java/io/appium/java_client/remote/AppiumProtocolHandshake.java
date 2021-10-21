@@ -73,6 +73,7 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
         }
     }
 
+    @Override
     public Either<SessionNotCreatedException, Result> createSession(HttpHandler client, NewSessionPayload payload) throws IOException {
         int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
         FileBackedOutputStream os = new FileBackedOutputStream(threshold);
