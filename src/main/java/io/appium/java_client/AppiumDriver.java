@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.JsonToMobileElementConverter;
 import io.appium.java_client.remote.AppiumCommandExecutor;
+import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -34,6 +35,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -44,11 +46,13 @@ import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -299,14 +303,33 @@ public class AppiumDriver<T extends WebElement>
 
     @Override
     protected void startSession(Capabilities capabilities) {
-        super.startSession(capabilities);
-        // The RemoteWebDriver implementation overrides platformName
-        // so we need to restore it back to the original value
-        Object originalPlatformName = capabilities.getCapability(PLATFORM_NAME);
-        Capabilities originalCaps = super.getCapabilities();
-        if (originalPlatformName != null && originalCaps instanceof MutableCapabilities) {
-            ((MutableCapabilities) super.getCapabilities()).setCapability(PLATFORM_NAME,
-                    originalPlatformName);
+        Response response = execute(new AppiumNewSessionCommandPayload(capabilities));
+        if (response == null) {
+            throw new SessionNotCreatedException(
+                    "The underlying command executor returned a null response.");
         }
+
+        Object responseValue = response.getValue();
+        if (responseValue == null) {
+            throw new SessionNotCreatedException(
+                    "The underlying command executor returned a response without payload: " +
+                            response);
+        }
+        if (!(responseValue instanceof Map)) {
+            throw new SessionNotCreatedException(
+                    "The underlying command executor returned a response with a non well formed payload: " +
+                            response);
+        }
+
+        @SuppressWarnings("unchecked") Map<String, Object> rawCapabilities = (Map<String, Object>) responseValue;
+        MutableCapabilities returnedCapabilities = new MutableCapabilities(rawCapabilities);
+        try {
+            Field capsField = RemoteWebDriver.class.getDeclaredField("capabilities");
+            capsField.setAccessible(true);
+            capsField.set(this, returnedCapabilities);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new WebDriverException(e);
+        }
+        setSessionId(response.getSessionId());
     }
 }
