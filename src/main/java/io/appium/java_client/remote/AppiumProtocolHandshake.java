@@ -18,11 +18,14 @@ package io.appium.java_client.remote;
 
 import com.google.common.io.CountingOutputStream;
 import com.google.common.io.FileBackedOutputStream;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Either;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.json.JsonOutput;
+import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.NewSessionPayload;
 import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.http.HttpHandler;
@@ -35,6 +38,7 @@ import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -51,7 +55,7 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
             json.name("firstMatch");
             json.beginArray();
             try {
-                Method getW3CMethod = srcPayload.getClass().getDeclaredMethod("getW3C");
+                Method getW3CMethod = NewSessionPayload.class.getDeclaredMethod("getW3C");
                 getW3CMethod.setAccessible(true);
                 //noinspection unchecked
                 ((Stream<Map<String, Object>>) getW3CMethod.invoke(srcPayload)).forEach(json::write);
@@ -63,7 +67,8 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
             json.endObject();  // Close "capabilities" object
 
             try {
-                Method writeMetaDataMethod = srcPayload.getClass().getDeclaredMethod("writeMetaData", JsonOutput.class);
+                Method writeMetaDataMethod = NewSessionPayload.class.getDeclaredMethod(
+                        "writeMetaData", JsonOutput.class);
                 writeMetaDataMethod.setAccessible(true);
                 writeMetaDataMethod.invoke(srcPayload, json);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -75,7 +80,25 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
     }
 
     @Override
-    public Either<SessionNotCreatedException, Result> createSession(HttpHandler client, NewSessionPayload payload) throws IOException {
+    public Result createSession(HttpHandler client, Command command) throws IOException {
+        //noinspection unchecked
+        Capabilities desired = ((Set<Map<String, Object>>) command.getParameters().get("capabilities"))
+                .stream()
+                .findAny()
+                .map(ImmutableCapabilities::new)
+                .orElseGet(ImmutableCapabilities::new);
+        try (NewSessionPayload payload = NewSessionPayload.create(desired)) {
+            Either<SessionNotCreatedException, Result> result = createSession(client, payload);
+            if (result.isRight()) {
+                return result.right();
+            }
+            throw result.left();
+        }
+    }
+
+    @Override
+    public Either<SessionNotCreatedException, Result> createSession(
+            HttpHandler client, NewSessionPayload payload) throws IOException {
         int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
         FileBackedOutputStream os = new FileBackedOutputStream(threshold);
 
@@ -85,7 +108,7 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
 
             try (InputStream rawIn = os.asByteSource().openBufferedStream();
                  BufferedInputStream contentStream = new BufferedInputStream(rawIn)) {
-                Method createSessionMethod = getClass().getSuperclass().getDeclaredMethod("createSession",
+                Method createSessionMethod = ProtocolHandshake.class.getDeclaredMethod("createSession",
                         HttpHandler.class, InputStream.class, long.class);
                 createSessionMethod.setAccessible(true);
                 //noinspection unchecked

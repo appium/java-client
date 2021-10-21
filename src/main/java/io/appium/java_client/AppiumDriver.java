@@ -312,13 +312,13 @@ public class AppiumDriver<T extends WebElement>
         Object responseValue = response.getValue();
         if (responseValue == null) {
             throw new SessionNotCreatedException(
-                    "The underlying command executor returned a response without payload: " +
-                            response);
+                    "The underlying command executor returned a response without payload: "
+                            + response);
         }
         if (!(responseValue instanceof Map)) {
             throw new SessionNotCreatedException(
-                    "The underlying command executor returned a response with a non well formed payload: " +
-                            response);
+                    "The underlying command executor returned a response with a non well formed payload: "
+                            + response);
         }
 
         @SuppressWarnings("unchecked") Map<String, Object> rawCapabilities = (Map<String, Object>) responseValue;

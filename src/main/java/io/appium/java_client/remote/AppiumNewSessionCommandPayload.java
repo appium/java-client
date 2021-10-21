@@ -25,7 +25,6 @@ import org.openqa.selenium.remote.CommandPayload;
 
 import java.util.AbstractMap;
 import java.util.Map;
-import java.util.Set;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
@@ -33,20 +32,26 @@ import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 public class AppiumNewSessionCommandPayload extends CommandPayload {
     private static final AcceptedW3CCapabilityKeys ACCEPTED_W3C_PATTERNS = new AcceptedW3CCapabilityKeys();
 
-    private static Set<Map<String, Object>> makeW3CSafe(Capabilities possiblyInvalidCapabilities) {
+    /**
+     * Appends "appium:" prefix to all non-prefixed non-standard capabilities.
+     *
+     * @param possiblyInvalidCapabilities user-provided capabilities mapping.
+     * @return Fixed capabilities mapping.
+     */
+    private static Map<String, Object> makeW3CSafe(Capabilities possiblyInvalidCapabilities) {
         Require.nonNull("Capabilities", possiblyInvalidCapabilities);
 
-        return ImmutableSet.of(possiblyInvalidCapabilities.asMap().entrySet().stream()
+        return possiblyInvalidCapabilities.asMap().entrySet().stream()
                 .map((entry) -> ACCEPTED_W3C_PATTERNS.test(entry.getKey())
                         ? entry
                         : new AbstractMap.SimpleEntry<>(
                         String.format("%s%s", APPIUM_PREFIX, entry.getKey()), entry.getValue()))
-                .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue)));
+                .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public AppiumNewSessionCommandPayload(Capabilities capabilities) {
         super(NEW_SESSION, ImmutableMap.of(
-                "capabilities", makeW3CSafe(capabilities),
+                "capabilities", ImmutableSet.of(makeW3CSafe(capabilities)),
                 "desiredCapabilities", capabilities
         ));
     }
