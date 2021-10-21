@@ -20,6 +20,7 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.ScreenOrientation;
 
 import java.net.MalformedURLException;
@@ -29,11 +30,10 @@ import java.time.Duration;
 import static org.junit.Assert.assertEquals;
 
 public class AndroidOptionsTest {
-    private AndroidOptions androidOptions = new AndroidOptions();
 
     @Test
     public void setsPlatformNameByDefault() {
-        assertEquals(MobilePlatform.ANDROID, androidOptions.getPlatformName());
+        assertEquals(Platform.ANDROID, new AndroidOptions().getPlatformName());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AndroidOptionsTest {
         capabilities.setCapability("platformVersion", "10");
         capabilities.setCapability("newCommandTimeout", 60);
 
-        androidOptions = new AndroidOptions(capabilities);
+        AndroidOptions androidOptions = new AndroidOptions(capabilities);
 
         assertEquals("Pixel", androidOptions.getDeviceName());
         assertEquals("10", androidOptions.getPlatformVersion());
@@ -52,6 +52,7 @@ public class AndroidOptionsTest {
 
     @Test
     public void acceptsMobileCapabilities() throws MalformedURLException {
+        AndroidOptions androidOptions = new AndroidOptions();
         androidOptions.setApp(new URL("http://example.com/myapp.apk"))
                 .setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2)
                 .setPlatformVersion("10")

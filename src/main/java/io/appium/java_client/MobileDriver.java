@@ -22,55 +22,14 @@ import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.LocationContext;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByName;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
 
 import java.util.List;
 
 public interface MobileDriver<T extends WebElement> extends WebDriver, PerformsTouchActions, ContextAware, Rotatable,
-    FindsByAccessibilityId<T>, LocationContext, HidesKeyboard, HasDeviceTime,
-    InteractsWithFiles, InteractsWithApps, HasAppStrings, FindsByClassName, FindsByCssSelector, FindsById,
-        FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, FindsByFluentSelector<T>, ExecutesMethod,
+    LocationContext, HidesKeyboard, HasDeviceTime, InteractsWithFiles, InteractsWithApps, HasAppStrings, ExecutesMethod,
         HasSessionDetails {
 
     List<T> findElements(By by);
 
     T findElement(By by);
-
-    T findElementByClassName(String className);
-
-    List<T> findElementsByClassName(String className);
-
-    T findElementByCssSelector(String cssSelector);
-
-    List<T> findElementsByCssSelector(String cssSelector);
-
-    T findElementById(String id);
-
-    List<T> findElementsById(String id);
-
-    T findElementByLinkText(String linkText);
-
-    List<T> findElementsByLinkText(String linkText);
-
-    T findElementByPartialLinkText(String partialLinkText);
-
-    List<T> findElementsByPartialLinkText(String partialLinkText);
-
-    T findElementByName(String name);
-
-    List<T> findElementsByName(String name);
-
-    T findElementByTagName(String tagName);
-
-    List<T> findElementsByTagName(String tagName);
-
-    T findElementByXPath(String xPath);
-
-    List<T> findElementsByXPath(String xPath);
 }

@@ -8,13 +8,14 @@ import static org.openqa.selenium.By.id;
 import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.OutputType.BASE64;
 
-import io.appium.java_client.events.listeners.AppiumListener;
-import io.appium.java_client.events.listeners.SingleListeners;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
+
+import io.appium.java_client.events.listeners.AppiumListener;
+import io.appium.java_client.events.listeners.SingleListeners;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
@@ -35,12 +36,6 @@ public class WebDriverEventListenerCompatibilityTest extends BaseListenerTest {
             is(true));
     }
 
-    @Test
-    public void searchContextEventTest2() {
-        assertThat(super.assertThatSearchListenerWorksAgainstElements(driver,
-            listener, WEBDRIVER_EVENT_LISTENER),
-            is(true));
-    }
 
     @Test
     public void navigationEventTest() throws Exception {

@@ -3,6 +3,11 @@ package io.appium.java_client.events;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
 import io.appium.java_client.events.listeners.AlertListener2;
 import io.appium.java_client.events.listeners.ContextListener2;
 import io.appium.java_client.events.listeners.ElementListener2;
@@ -12,9 +17,8 @@ import io.appium.java_client.events.listeners.NavigationListener2;
 import io.appium.java_client.events.listeners.RotationListener2;
 import io.appium.java_client.events.listeners.SearchingListener2;
 import io.appium.java_client.events.listeners.WindowListener2;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AbilityToDefineListenersExternally extends BaseListenerTest {
 
     private static final String PREFIX = "Externally defined listener: ";
@@ -39,14 +43,6 @@ public class AbilityToDefineListenersExternally extends BaseListenerTest {
     @Test
     public void searchContextEventTest() {
         assertThat(super.assertThatSearchListenerWorks(emptyWebDriver, searchingListener, PREFIX),
-            is(true));
-    }
-
-    @Test
-    public void searchContextEventTest2() {
-        assertThat(
-            super
-                .assertThatSearchListenerWorksAgainstElements(emptyWebDriver, searchingListener, PREFIX),
             is(true));
     }
 

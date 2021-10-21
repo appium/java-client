@@ -60,7 +60,7 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test
     public void addCustomCommandWithElementIdTest() {
-        IOSElement intA = driver.findElementById("IntegerA");
+        IOSElement intA = driver.findElement(By.id("IntegerA"));
         intA.clear();
         driver.addCommand(HttpMethod.POST,
                 String.format("/session/%s/appium/element/%s/value", driver.getSessionId(), intA.getId()), "setNewValue");
@@ -79,7 +79,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void hideKeyboardWithParametersTest() {
-        new WebDriverWait(driver, 30)
+        new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("IntegerA")))
                 .click();
         driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
@@ -118,7 +118,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void keyboardTest() {
-        MobileElement element = driver.findElementById("IntegerA");
+        MobileElement element = driver.findElement(By.id("IntegerA"));
         element.click();
         assertTrue(driver.isKeyboardShown());
     }
@@ -142,10 +142,10 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void putAIntoBackgroundWithoutRestoreTest() {
-        waitUntilTrue(() -> !driver.findElementsById("IntegerA").isEmpty(),
+        waitUntilTrue(() -> !driver.findElements(By.id("IntegerA")).isEmpty(),
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
         driver.runAppInBackground(Duration.ofSeconds(-1));
-        waitUntilTrue(() -> driver.findElementsById("IntegerA").isEmpty(),
+        waitUntilTrue(() -> driver.findElements(By.id("IntegerA")).isEmpty(),
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
         driver.activateApp(BUNDLE_ID);
     }

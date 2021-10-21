@@ -83,8 +83,8 @@ public class AndroidTest {
 
     @Test
     public void findByAccessibilityIdFromDriverTest() {
-        assertNotEquals(driver.findElementByAccessibilityId("Graphics").getText(), null);
-        assertEquals(driver.findElementsByAccessibilityId("Graphics").size(), 1);
+        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
+        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
     }
 
     @Test  public void findByAndroidUIAutomatorFromDriverTest() {
@@ -100,20 +100,20 @@ public class AndroidTest {
     }
 
     @Test public void findByAccessibilityIdFromElementTest() {
-        assertNotEquals(driver.findElementById("android:id/content")
+        assertNotEquals(driver.findElement(By.id("android:id/content"))
                 .findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
-        assertEquals(driver.findElementById("android:id/content")
+        assertEquals(driver.findElement(By.id("android:id/content"))
                 .findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
     }
 
     @Test public void findByAndroidUIAutomatorFromElementTest() {
-        assertNotEquals(driver.findElementById("android:id/content")
+        assertNotEquals(driver.findElement(By.id("android:id/content"))
                 .findElement(MobileBy
                         .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
-        assertNotEquals(driver.findElementById("android:id/content")
+        assertNotEquals(driver.findElement(By.id("android:id/content"))
                 .findElements(MobileBy
                         .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
-        assertNotEquals(driver.findElementById("android:id/content")
+        assertNotEquals(driver.findElement(By.id("android:id/content"))
                 .findElements(MobileBy
                         .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
@@ -134,7 +134,7 @@ public class AndroidTest {
     }
 
     @Test public void scrollingToSubElement() {
-        driver.findElementByAccessibilityId("Views").click();
+        driver.findElement(MobileBy.AccessibilityId("Views")).click();
         AndroidElement list = driver.findElement(By.id("android:id/list"));
         MobileElement radioGroup = list
                 .findElement(MobileBy

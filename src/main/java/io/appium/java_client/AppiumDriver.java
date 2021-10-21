@@ -68,8 +68,7 @@ import java.util.Set;
  */
 @SuppressWarnings("unchecked")
 public class AppiumDriver<T extends WebElement>
-        extends DefaultGenericMobileDriver<T> implements ComparesImages, FindsByImage<T>, FindsByCustom<T>,
-        ExecutesDriverScript, LogsEvents, HasSettings {
+        extends DefaultGenericMobileDriver<T> implements ComparesImages, ExecutesDriverScript, LogsEvents, HasSettings {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
@@ -135,23 +134,6 @@ public class AppiumDriver<T extends WebElement>
     }
 
     /**
-     * Changes platform name and returns new capabilities.
-     *
-     * @param originalCapabilities the given {@link Capabilities}.
-     * @param newPlatform          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     *                             to be set up
-     * @return {@link Capabilities} with changed mobile platform value
-     * @deprecated Please use {@link #updateDefaultPlatformName(Capabilities, String)} instead
-     */
-    @Deprecated
-    protected static Capabilities substituteMobilePlatform(Capabilities originalCapabilities,
-                                                           String newPlatform) {
-        DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
-        dc.setCapability(PLATFORM_NAME, newPlatform);
-        return dc;
-    }
-
-    /**
      * Changes platform name if it is not set and returns new capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
@@ -172,49 +154,6 @@ public class AppiumDriver<T extends WebElement>
     @Override
     public List<T> findElements(By by) {
         return super.findElements(by);
-    }
-
-    @Override
-    public List<T> findElements(String by, String using) {
-        return super.findElements(by, using);
-    }
-
-    @Override
-    public List<T> findElementsById(String id) {
-        return super.findElementsById(id);
-    }
-
-    public List<T> findElementsByLinkText(String using) {
-        return super.findElementsByLinkText(using);
-    }
-
-    public List<T> findElementsByPartialLinkText(String using) {
-        return super.findElementsByPartialLinkText(using);
-    }
-
-    public List<T> findElementsByTagName(String using) {
-        return super.findElementsByTagName(using);
-    }
-
-    public List<T> findElementsByName(String using) {
-        return super.findElementsByName(using);
-    }
-
-    public List<T> findElementsByClassName(String using) {
-        return super.findElementsByClassName(using);
-    }
-
-    public List<T> findElementsByCssSelector(String using) {
-        return super.findElementsByCssSelector(using);
-    }
-
-    public List<T> findElementsByXPath(String using) {
-        return super.findElementsByXPath(using);
-    }
-
-    @Override
-    public List<T> findElementsByAccessibilityId(String using) {
-        return super.findElementsByAccessibilityId(using);
     }
 
     @Override

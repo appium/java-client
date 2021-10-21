@@ -3,8 +3,8 @@ package io.appium.java_client.events;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.events.listeners.TestListener;
+import java.net.URL;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -13,19 +13,21 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
-import java.net.URL;
-import java.util.List;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.events.listeners.TestListener;
 
 public class BaseListenerTest {
 
     protected boolean assertThatSearchListenerWorks(EmptyWebDriver driver, TestListener listener,
         String prefix) {
         try {
+            listener.messages.clear();
+
             driver.findElement(By.id("someId"));
             assertThat(listener.messages,
                     contains(prefix + "Attempt to find something using By.id: someId. The root element is null",
                             prefix + "The searching for something using By.id: someId has beed finished. "
-                                    + "The root element was null"));
+                                   + "The root element was null"));
 
             driver.findElements(By.id("someId2"));
 
@@ -37,67 +39,45 @@ public class BaseListenerTest {
                             prefix + "The searching for something using By.id: someId2 has beed finished. "
                                     + "The root element was null"));
 
-            driver.findElement(By.id("someId")).findElement(By.className("someClazz"));
+            driver.findElement(By.id("someId")).findElement(MobileBy.className("someClazz"));
 
             assertThat(listener.messages,
                     contains(prefix + "Attempt to find something using By.id: someId. The root element is null",
-                            prefix + "The searching for something using By.id: someId has beed finished. "
+                             prefix + "The searching for something using By.id: someId has beed finished. "
                                     + "The root element was null",
-                            prefix + "Attempt to find something using By.id: someId2. The root element is null",
-                            prefix + "The searching for something using By.id: someId2 has beed finished. "
+                             prefix + "Attempt to find something using By.id: someId2. The root element is null",
+                             prefix + "The searching for something using By.id: someId2 has beed finished. "
                                     + "The root element was null",
-                            prefix + "Attempt to find something using By.id: someId. "
+                             prefix + "Attempt to find something using By.id: someId. "
                                     + "The root element is null",
-                            prefix + "The searching for something using By.id: someId has beed finished. "
+                             prefix + "The searching for something using By.id: someId has beed finished. "
                                     + "The root element was null",
                             prefix + "Attempt to find something using By.className: someClazz. "
                                     + "The root element is io.appium.java_client.events.StubWebElement",
                             prefix + "The searching for something using By.className: someClazz has beed finished. "
                                     + "The root element was io.appium.java_client.events.StubWebElement"));
 
-            driver.findElements(By.id("someId2")).get(0).findElements(By.className("someClazz2"));
+            driver.findElements(By.id("someId2")).get(0).findElements(MobileBy.className("someClazz2"));
             assertThat(listener.messages,
                     contains(prefix + "Attempt to find something using By.id: someId. The root element is null",
-                            prefix + "The searching for something using By.id: someId has beed finished. "
+                             prefix + "The searching for something using By.id: someId has beed finished. "
                                     + "The root element was null",
-                            prefix + "Attempt to find something using By.id: someId2. The root element is null",
-                            prefix + "The searching for something using By.id: someId2 has beed finished. "
+                             prefix + "Attempt to find something using By.id: someId2. The root element is null",
+                             prefix + "The searching for something using By.id: someId2 has beed finished. "
                                     + "The root element was null",
-                            prefix + "Attempt to find something using By.id: someId. The root element is null",
-                            prefix + "The searching for something using By.id: someId has beed finished. "
+                             prefix + "Attempt to find something using By.id: someId. The root element is null",
+                             prefix + "The searching for something using By.id: someId has beed finished. "
                                     + "The root element was null",
-                            prefix + "Attempt to find something using By.className: someClazz. "
+                             prefix + "Attempt to find something using By.className: someClazz. "
                                     + "The root element is io.appium.java_client.events.StubWebElement",
-                            prefix + "The searching for something using By.className: someClazz has beed finished. "
+                             prefix + "The searching for something using By.className: someClazz has beed finished. "
                                     + "The root element was io.appium.java_client.events.StubWebElement",
-                            prefix + "Attempt to find something using By.id: someId2. The root element is null",
-                            prefix + "The searching for something using By.id: someId2 has beed finished. "
+                             prefix + "Attempt to find something using By.id: someId2. The root element is null",
+                             prefix + "The searching for something using By.id: someId2 has beed finished. "
                                     + "The root element was null",
-                            prefix + "Attempt to find something using By.className: someClazz2. "
+                             prefix + "Attempt to find something using By.className: someClazz2. "
                                     + "The root element is io.appium.java_client.events.StubWebElement",
-                            prefix + "The searching for something using By.className: someClazz2 has beed finished. "
-                                    + "The root element was io.appium.java_client.events.StubWebElement"));
-            return true;
-        } finally {
-            listener.messages.clear();
-        }
-    }
-
-    protected boolean assertThatSearchListenerWorksAgainstElements(EmptyWebDriver driver, TestListener listener,
-        String prefix) {
-        try {
-            List<StubWebElement> els = driver.findElementsByAccessibilityId("SomeAccessibility");
-            StubWebElement e = driver.findElementByXPath("Some Path");
-
-            e.findElementByAccessibilityId("SomeAccessibility")
-                    .findElement(MobileBy.AndroidUIAutomator("Android UI Automator"));
-
-            assertThat(listener.messages,
-                    contains(prefix + "Attempt to find something using By.AndroidUIAutomator: Android UI Automator. "
-                                    + "The root element is io.appium.java_client.events.StubWebElement",
-                            prefix + "The searching for something using By.AndroidUIAutomator: "
-                                    + "Android UI Automator has "
-                                    + "beed finished. "
+                             prefix + "The searching for something using By.className: someClazz2 has beed finished. "
                                     + "The root element was io.appium.java_client.events.StubWebElement"));
             return true;
         } finally {
@@ -136,7 +116,9 @@ public class BaseListenerTest {
 
     protected boolean assertThatElementListenerWorks(EmptyWebDriver driver, TestListener listener, String prefix) {
         try {
-            StubWebElement e = driver.findElementByXPath("Some Path");
+            StubWebElement e = driver.findElement(MobileBy.AccessibilityId("SomeAccessibility"));
+            listener.messages.clear();
+
             e.click();
             e.sendKeys("Test keys");
 
@@ -171,16 +153,20 @@ public class BaseListenerTest {
     protected boolean assertThatExceptionListenerWorks(EmptyWebDriver driver, TestListener listener, String prefix) {
         try {
             try {
-                driver.getPageSource();
+                StubWebElement element = driver.findElement(MobileBy.AccessibilityId("SomeAccessibility"));
+                listener.messages.clear();
+
+                element.getRect();
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }
 
             try {
-                driver.findElementByXPath("Some Path").getRect();
+                driver.getPageSource();
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }
+
 
             assertThat(listener.messages,
                     contains(prefix + "The exception was thrown: "

@@ -22,11 +22,15 @@ import org.openqa.selenium.Capabilities;
 
 public class AndroidOptions extends MobileOptions<AndroidOptions> {
     public AndroidOptions() {
-        setPlatformName(MobilePlatform.ANDROID);
+        setAndroidPlatformName();
     }
 
     public AndroidOptions(Capabilities source) {
-        this();
-        merge(source);
+        super(source);
+        setAndroidPlatformName();
+    }
+
+    private void setAndroidPlatformName() {
+        setPlatformName(MobilePlatform.ANDROID);
     }
 }

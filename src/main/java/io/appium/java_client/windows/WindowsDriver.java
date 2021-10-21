@@ -19,7 +19,6 @@ package io.appium.java_client.windows;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.FindsByWindowsAutomation;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -32,8 +31,7 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 
 public class WindowsDriver<T extends WebElement>
-        extends AppiumDriver<T> implements PressesKeyCode, HidesKeyboardWithKeyName,
-        FindsByWindowsAutomation<T>, CanRecordScreen {
+        extends AppiumDriver<T> implements PressesKeyCode, HidesKeyboardWithKeyName, CanRecordScreen {
 
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, updateDefaultPlatformName(capabilities, WINDOWS));

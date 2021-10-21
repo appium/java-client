@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,6 +35,7 @@ import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
+import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -87,9 +88,6 @@ public final class AppiumServiceBuilder
     private static final Function<File, String> NODE_JS_NOT_EXIST_ERROR = (fullPath) ->
             String.format("The main NodeJS executable does not exist at '%s'", fullPath.getAbsolutePath());
 
-    // The first starting is slow sometimes on some environment
-    private long startupTimeout = 120;
-    private TimeUnit timeUnit = TimeUnit.SECONDS;
     private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,
             AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, MobileCapabilityType.APP);
 
@@ -116,8 +114,8 @@ public final class AppiumServiceBuilder
         }
 
         String browserName = capabilities.getBrowserName();
-        if (browserName.equals(BrowserType.CHROME) || browserName.equals(BrowserType.ANDROID)
-                || browserName.equals(BrowserType.SAFARI)) {
+        if (Browser.CHROME.is(browserName) || browserName.equals(BrowserType.ANDROID)
+                || Browser.SAFARI.is(browserName)) {
             score++;
         }
 
@@ -274,21 +272,6 @@ public final class AppiumServiceBuilder
 
     public AppiumServiceBuilder withIPAddress(String ipAddress) {
         this.ipAddress = ipAddress;
-        return this;
-    }
-
-    /**
-     * Sets start up timeout.
-     *
-     * @param time     a time value for the service starting up.
-     * @param timeUnit a time unit for the service starting up.
-     * @return self-reference.
-     */
-    public AppiumServiceBuilder withStartUpTimeOut(long time, TimeUnit timeUnit) {
-        checkNotNull(timeUnit);
-        checkArgument(time > 0, "Time value should be greater than zero", time);
-        this.startupTimeout = time;
-        this.timeUnit = timeUnit;
         return this;
     }
 
@@ -474,11 +457,12 @@ public final class AppiumServiceBuilder
 
     @Override
     protected AppiumDriverLocalService createDriverService(File nodeJSExecutable, int nodeJSPort,
-                                                           ImmutableList<String> nodeArguments,
-                                                           ImmutableMap<String, String> nodeEnvironment) {
+                                                           Duration startupTimeout,
+                                                           List<String> nodeArguments,
+                                                           Map<String, String> nodeEnvironment) {
         try {
-            return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort,
-                    nodeArguments, nodeEnvironment, startupTimeout, timeUnit);
+            return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort, startupTimeout, nodeArguments,
+                    nodeEnvironment);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

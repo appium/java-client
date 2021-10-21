@@ -9,9 +9,11 @@ import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -108,39 +110,35 @@ public class AndroidTouchTest extends BaseAndroidTest {
     @Test public void pressByCoordinatesTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
-        Point point =
-                driver.findElementById("io.appium.android.apis:id/button_toggle").getLocation();
+        Point point = driver.findElement(By.id("io.appium.android.apis:id/button_toggle")).getLocation();
         new TouchAction(driver)
                 .press(point(point.x + 20, point.y + 30))
                 .waitAction(waitOptions(ofSeconds(1)))
                 .release()
                 .perform();
-        assertEquals("ON" ,driver
-                .findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON", driver.findElement(By.id("io.appium.android.apis:id/button_toggle")).getText());
     }
 
     @Test public void pressByElementTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         new TouchAction(driver)
-                .press(element(driver.findElementById("io.appium.android.apis:id/button_toggle")))
+                .press(element(driver.findElement(By.id("io.appium.android.apis:id/button_toggle"))))
                 .waitAction(waitOptions(ofSeconds(1)))
                 .release()
                 .perform();
-        assertEquals("ON" ,driver
-                .findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON", driver.findElement(By.id("io.appium.android.apis:id/button_toggle")).getText());
     }
 
     @Test public void tapActionTestByElement() throws Exception {
         Activity activity = new Activity("io.appium.android.apis", ".view.ChronometerDemo");
         driver.startActivity(activity);
-        AndroidElement chronometer =
-                driver.findElementById("io.appium.android.apis:id/chronometer");
+        AndroidElement chronometer = driver.findElement(By.id("io.appium.android.apis:id/chronometer"));
 
         TouchAction startStop = new TouchAction(driver)
-                .tap(tapOptions().withElement(element(driver.findElementById("io.appium.android.apis:id/start"))))
+                .tap(tapOptions().withElement(element(driver.findElement(By.id("io.appium.android.apis:id/start")))))
                 .waitAction(waitOptions(ofSeconds(2)))
-                .tap(tapOptions().withElement(element(driver.findElementById("io.appium.android.apis:id/stop"))));
+                .tap(tapOptions().withElement(element(driver.findElement(By.id("io.appium.android.apis:id/stop")))));
 
         startStop.perform();
 
@@ -153,14 +151,13 @@ public class AndroidTouchTest extends BaseAndroidTest {
     @Test public void tapActionTestByCoordinates() throws Exception {
         Activity activity = new Activity("io.appium.android.apis", ".view.ChronometerDemo");
         driver.startActivity(activity);
-        AndroidElement chronometer =
-                driver.findElementById("io.appium.android.apis:id/chronometer");
+        AndroidElement chronometer = driver.findElement(By.id("io.appium.android.apis:id/chronometer"));
 
-        Point center1 = driver.findElementById("io.appium.android.apis:id/start").getCenter();
+        Point center1 = driver.findElement(By.id("io.appium.android.apis:id/start")).getCenter();
 
         TouchAction startStop = new TouchAction(driver)
                 .tap(point(center1.x, center1.y))
-                .tap(element(driver.findElementById("io.appium.android.apis:id/stop"), 5, 5));
+                .tap(element(driver.findElement(By.id("io.appium.android.apis:id/stop")), 5, 5));
         startStop.perform();
 
         String time = chronometer.getText();
@@ -173,9 +170,8 @@ public class AndroidTouchTest extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
 
-        AndroidElement gallery = driver.findElementById("io.appium.android.apis:id/gallery");
-        List<MobileElement> images = gallery
-                .findElementsByClassName("android.widget.ImageView");
+        AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
+        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
         int originalImageCount = images.size();
         Point location = gallery.getLocation();
         Point center = gallery.getCenter();
@@ -186,22 +182,21 @@ public class AndroidTouchTest extends BaseAndroidTest {
                 .moveTo(element(gallery,10,center.y - location.y))
                 .release();
         swipe.perform();
-        assertNotEquals(originalImageCount, gallery
-                .findElementsByClassName("android.widget.ImageView").size());
+        assertNotEquals(originalImageCount,
+                gallery.findElements(MobileBy.className("android.widget.ImageView")).size());
     }
 
     @Test public void multiTouchTest() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
         driver.startActivity(activity);
         TouchAction press = new TouchAction(driver)
-                .press(element(driver.findElementById("io.appium.android.apis:id/button_toggle")))
+                .press(element(driver.findElement(By.id("io.appium.android.apis:id/button_toggle"))))
                 .waitAction(waitOptions(ofSeconds(1)))
                 .release();
         new MultiTouchAction(driver)
                 .add(press)
                 .perform();
-        assertEquals("ON" ,driver
-                .findElementById("io.appium.android.apis:id/button_toggle").getText());
+        assertEquals("ON", driver.findElement(By.id("io.appium.android.apis:id/button_toggle")).getText());
     }
 
 }

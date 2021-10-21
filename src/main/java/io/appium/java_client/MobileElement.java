@@ -29,8 +29,6 @@ import java.util.List;
 public abstract class MobileElement
     extends DefaultGenericMobileElement<MobileElement> {
 
-    protected FileDetector fileDetector;
-
     /**
      * Method returns central coordinates of an element.
      * @return The instance of the {@link org.openqa.selenium.Point}
@@ -44,46 +42,6 @@ public abstract class MobileElement
 
     @Override public List<MobileElement> findElements(By by) {
         return super.findElements(by);
-    }
-
-    @Override public List<MobileElement> findElements(String by, String using) {
-        return super.findElements(by, using);
-    }
-
-    @Override public List<MobileElement> findElementsById(String id) {
-        return super.findElementsById(id);
-    }
-
-    public List<MobileElement> findElementsByLinkText(String using) {
-        return super.findElementsByLinkText(using);
-    }
-
-    public List<MobileElement> findElementsByPartialLinkText(String using) {
-        return super.findElementsByPartialLinkText(using);
-    }
-
-    public List<MobileElement> findElementsByTagName(String using) {
-        return super.findElementsByTagName(using);
-    }
-
-    public List<MobileElement> findElementsByName(String using) {
-        return super.findElementsByName(using);
-    }
-
-    public List<MobileElement> findElementsByClassName(String using) {
-        return super.findElementsByClassName(using);
-    }
-
-    public List<MobileElement> findElementsByCssSelector(String using) {
-        return super.findElementsByCssSelector(using);
-    }
-
-    public List<MobileElement> findElementsByXPath(String using) {
-        return super.findElementsByXPath(using);
-    }
-
-    @Override public List<MobileElement> findElementsByAccessibilityId(String using) {
-        return super.findElementsByAccessibilityId(using);
     }
 
     /**

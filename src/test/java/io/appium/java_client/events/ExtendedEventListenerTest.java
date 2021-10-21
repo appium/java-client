@@ -22,9 +22,9 @@ public class ExtendedEventListenerTest {
     @Test
     public void searchingTest() {
         StubWebElement androidElement = stubWebDriver.findElement(By.id("someId"));
-        androidElement.findElement("-some-criteria", "some value")
+        androidElement.findElement(MobileBy.custom("some value"))
             .findElements(MobileBy.AndroidUIAutomator("Android UI Automator"));
-        androidElement.findElements("-some-criteria2", "some value2").get(0)
+        androidElement.findElements(MobileBy.custom("some value2")).get(0)
             .findElements(MobileBy.AndroidUIAutomator("Android UI Automator2"));
 
         SearchingListener listener = (SearchingListener) SingleListeners

@@ -18,6 +18,5 @@ package io.appium.java_client.mac;
 
 import io.appium.java_client.MobileElement;
 
-public class Mac2Element extends MobileElement implements
-        FindsByClassChain<MobileElement>, FindsByNsPredicate<MobileElement> {
+public class Mac2Element extends MobileElement {
 }
