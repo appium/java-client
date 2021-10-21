@@ -84,7 +84,7 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
 
             try (InputStream rawIn = os.asByteSource().openBufferedStream();
                  BufferedInputStream contentStream = new BufferedInputStream(rawIn)) {
-                Method createSessionMethod = super.getClass().getDeclaredMethod("createSession",
+                Method createSessionMethod = getClass().getSuperclass().getDeclaredMethod("createSession",
                         HttpHandler.class, InputStream.class, long.class);
                 createSessionMethod.setAccessible(true);
                 //noinspection unchecked
