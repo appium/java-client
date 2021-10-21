@@ -22,8 +22,6 @@ import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
@@ -61,25 +60,22 @@ public final class AppiumDriverLocalService extends DriverService {
     private static final Duration DESTROY_TIMEOUT = Duration.ofSeconds(60);
 
     private final File nodeJSExec;
-    private final ImmutableList<String> nodeJSArgs;
-    private final ImmutableMap<String, String> nodeJSEnvironment;
-    private final long startupTimeout;
-    private final TimeUnit timeUnit;
+    private final List<String> nodeJSArgs;
+    private final Map<String, String> nodeJSEnvironment;
+    private final Duration startupTimeout;
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
     
     private CommandLine process = null;
 
-    AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort,
-                             ImmutableList<String> nodeJSArgs, ImmutableMap<String, String> nodeJSEnvironment,
-                             long startupTimeout, TimeUnit timeUnit) throws IOException {
-        super(nodeJSExec, nodeJSPort, nodeJSArgs, nodeJSEnvironment);
+    AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort, Duration startupTimeout,
+                             List<String> nodeJSArgs, Map<String, String> nodeJSEnvironment) throws IOException {
+        super(nodeJSExec, nodeJSPort, startupTimeout, nodeJSArgs, nodeJSEnvironment);
         this.nodeJSExec = nodeJSExec;
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
-        this.timeUnit = timeUnit;
         this.url = new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
     }
 
@@ -114,7 +110,7 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                ping(1500, TimeUnit.MILLISECONDS);
+                ping(Duration.ofMillis(1500));
                 return true;
             } catch (UrlChecker.TimeoutException e) {
                 return false;
@@ -127,10 +123,10 @@ public final class AppiumDriverLocalService extends DriverService {
 
     }
 
-    private void ping(long time, TimeUnit timeUnit) throws UrlChecker.TimeoutException, MalformedURLException {
+    private void ping(Duration timeout) throws UrlChecker.TimeoutException, MalformedURLException {
         // The operating system might block direct access to the universal broadcast IP address
         URL status = new URL(url.toString().replace(BROADCAST_IP_ADDRESS, "127.0.0.1") + "/status");
-        new UrlChecker().waitUntilAvailable(time, timeUnit, status);
+        new UrlChecker().waitUntilAvailable(timeout.toMillis(), TimeUnit.MILLISECONDS, status);
     }
 
     /**
@@ -152,7 +148,7 @@ public final class AppiumDriverLocalService extends DriverService {
                 process.setEnvironmentVariables(nodeJSEnvironment);
                 process.copyOutputTo(stream);
                 process.executeAsync();
-                ping(startupTimeout, timeUnit);
+                ping(startupTimeout);
             } catch (Throwable e) {
                 destroyProcess();
                 String msgTxt = "The local appium server has not been started. "

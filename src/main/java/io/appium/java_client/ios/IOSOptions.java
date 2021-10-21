@@ -22,11 +22,15 @@ import org.openqa.selenium.Capabilities;
 
 public class IOSOptions extends MobileOptions<IOSOptions> {
     public IOSOptions() {
-        setPlatformName(MobilePlatform.IOS);
+        setIOSPlatformName();
     }
 
     public IOSOptions(Capabilities source) {
-        this();
-        merge(source);
+        super(source);
+        setIOSPlatformName();
+    }
+
+    private void setIOSPlatformName() {
+        setPlatformName(MobilePlatform.IOS);
     }
 }

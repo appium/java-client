@@ -16,21 +16,21 @@
 
 package io.appium.java_client.ws;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
-public class StringWebSocketClient extends WebSocketListener implements
+import org.openqa.selenium.remote.http.ClientConfig;
+import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpMethod;
+import org.openqa.selenium.remote.http.HttpRequest;
+import org.openqa.selenium.remote.http.WebSocket;
+
+public class StringWebSocketClient implements WebSocket.Listener,
         CanHandleMessages<String>, CanHandleErrors, CanHandleConnects, CanHandleDisconnects {
     private final List<Consumer<String>> messageHandlers = new CopyOnWriteArrayList<>();
     private final List<Consumer<Throwable>> errorHandlers = new CopyOnWriteArrayList<>();
@@ -65,37 +65,36 @@ public class StringWebSocketClient extends WebSocketListener implements
             return;
         }
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .readTimeout(0, TimeUnit.MILLISECONDS)
-                .build();
-        Request request = new Request.Builder()
-                .url(endpoint.toString())
-                .build();
-        client.newWebSocket(request, this);
-        client.dispatcher().executorService().shutdown();
+        ClientConfig clientConfig = ClientConfig.defaultConfig()
+                .readTimeout(Duration.ZERO)
+                .baseUri(endpoint); // To avoid NPE in org.openqa.selenium.remote.http.netty.NettyMessages (line 78)
+        HttpClient client = HttpClient.Factory.createDefault().createClient(clientConfig);
+        HttpRequest request = new HttpRequest(HttpMethod.GET, endpoint.toString());
+        client.openSocket(request, this);
+        onOpen();
 
         setEndpoint(endpoint);
     }
 
-    @Override
-    public void onOpen(WebSocket webSocket, Response response) {
+    public void onOpen() {
         getConnectionHandlers().forEach(Runnable::run);
         isListening = true;
     }
 
     @Override
-    public void onClosing(WebSocket webSocket, int code, String reason) {
+    public void onClose(int code, String reason) {
         getDisconnectionHandlers().forEach(Runnable::run);
         isListening = false;
     }
 
     @Override
-    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+    public void onError(Throwable t) {
         getErrorHandlers().forEach(x -> x.accept(t));
     }
 
     @Override
-    public void onMessage(WebSocket webSocket, String text) {
+    public void onText(CharSequence data) {
+        String text = data.toString();
         getMessageHandlers().forEach(x -> x.accept(text));
     }
 

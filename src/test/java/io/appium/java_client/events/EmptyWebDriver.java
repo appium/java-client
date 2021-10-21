@@ -2,10 +2,6 @@ package io.appium.java_client.events;
 
 import com.google.common.collect.ImmutableList;
 
-import io.appium.java_client.FindsByAccessibilityId;
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.FindsByFluentSelector;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -15,7 +11,6 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
@@ -23,12 +18,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -38,10 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, FindsByClassName,
-    FindsByCssSelector, FindsById, FindsByLinkText, FindsByTagName, FindsByXPath,
-    FindsByAccessibilityId<StubWebElement>, FindsByAndroidUIAutomator<StubWebElement>,
-    JavascriptExecutor, HasCapabilities, FindsByFluentSelector<StubWebElement>, TakesScreenshot {
+public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, JavascriptExecutor, HasCapabilities,
+        TakesScreenshot {
 
     private static List<StubWebElement> createStubList() {
         return ImmutableList.of(new StubWebElement(), new StubWebElement());
@@ -91,17 +79,7 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         return new StubWebElement();
     }
 
-    @Override
-    public StubWebElement findElement(String by, String using) throws WebDriverException, NoSuchElementException {
-        return new StubWebElement();
-    }
-
     @Override public List<StubWebElement> findElements(By by) {
-        return createStubList();
-    }
-
-    @Override
-    public List<StubWebElement> findElements(String by, String using) throws WebDriverException {
         return createStubList();
     }
 
@@ -135,78 +113,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
 
     @Override public Options manage() {
         return new StubOptions();
-    }
-
-    @Override public StubWebElement findElementByClassName(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByClassName(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByCssSelector(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByCssSelector(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementById(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsById(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByLinkText(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByLinkText(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByPartialLinkText(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByPartialLinkText(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByTagName(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByTagName(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByXPath(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByXPath(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByAccessibilityId(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByAccessibilityId(String using) {
-        return createStubList();
-    }
-
-    @Override public StubWebElement findElementByAndroidUIAutomator(String using) {
-        return new StubWebElement();
-    }
-
-    @Override public List<StubWebElement> findElementsByAndroidUIAutomator(String using) {
-        return createStubList();
     }
 
     @Override public Object executeScript(String script, Object... args) {
@@ -254,6 +160,11 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable, Finds
         }
 
         @Override public WebDriver window(String nameOrHandle) {
+            return driver;
+        }
+
+        @Override
+        public WebDriver newWindow(WindowType typeHint) {
             return driver;
         }
 

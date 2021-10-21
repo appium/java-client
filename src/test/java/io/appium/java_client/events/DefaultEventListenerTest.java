@@ -5,6 +5,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import org.apache.commons.lang3.StringUtils;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+import org.openqa.selenium.Capabilities;
+
 import io.appium.java_client.events.listeners.AlertListener;
 import io.appium.java_client.events.listeners.ContextListener;
 import io.appium.java_client.events.listeners.ElementListener;
@@ -15,12 +22,6 @@ import io.appium.java_client.events.listeners.RotationListener;
 import io.appium.java_client.events.listeners.SearchingListener;
 import io.appium.java_client.events.listeners.SingleListeners;
 import io.appium.java_client.events.listeners.WindowListener;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import org.openqa.selenium.Capabilities;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DefaultEventListenerTest extends BaseListenerTest {
@@ -35,12 +36,6 @@ public class DefaultEventListenerTest extends BaseListenerTest {
     @Test
     public void searchContextEventTest() {
         assertThat(super.assertThatSearchListenerWorks(driver, SingleListeners
-            .listeners.get(SearchingListener.class), StringUtils.EMPTY), is(true));
-    }
-
-    @Test
-    public void searchContextEventTest2() {
-        assertThat(super.assertThatSearchListenerWorksAgainstElements(driver, SingleListeners
             .listeners.get(SearchingListener.class), StringUtils.EMPTY), is(true));
     }
 

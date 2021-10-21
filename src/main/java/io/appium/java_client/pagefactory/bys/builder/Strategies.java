@@ -46,7 +46,7 @@ enum Strategies {
     },
     BYCLASSNAME("className") {
         @Override By getBy(Annotation annotation) {
-            return By.className(getValue(annotation, this));
+            return MobileBy.className(getValue(annotation, this));
         }
     },
     BYID("id") {

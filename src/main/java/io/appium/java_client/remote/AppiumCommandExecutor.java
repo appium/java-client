@@ -35,10 +35,10 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
+import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
-import org.openqa.selenium.remote.http.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.IOException;
@@ -140,20 +140,16 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue("client", HttpClient.class);
     }
 
-    protected HttpClient withRequestsPatchedByIdempotencyKey(HttpClient httpClient) {
-        return (request) -> {
-            request.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
-            return httpClient.execute(request);
-        };
-    }
-
     private Response createSession(Command command) throws IOException {
         if (getCommandCodec() != null) {
             throw new SessionNotCreatedException("Session already exists");
         }
 
         ProtocolHandshake.Result result = new ProtocolHandshake().createSession(
-                withRequestsPatchedByIdempotencyKey(getClient()), command
+                getClient().with((httpHandler) -> (req) -> {
+                    req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
+                    return httpHandler.execute(req);
+                }), command
         );
         Dialect dialect = result.getDialect();
         setCommandCodec(dialect.getCommandCodec());
@@ -172,9 +168,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                     throw new WebDriverException(e.getMessage(), e);
                 }
             });
-        }
-        if (getAdditionalCommands().containsKey(command.getName())) {
-            super.defineCommand(command.getName(), getAdditionalCommands().get(command.getName()));
+            if (getAdditionalCommands().containsKey(command.getName())) {
+                super.defineCommand(command.getName(), getAdditionalCommands().get(command.getName()));
+            }
         }
 
         Response response;

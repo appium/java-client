@@ -18,7 +18,6 @@ package io.appium.java_client.android;
 
 import static io.appium.java_client.MobileBy.AndroidUIAutomator;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.openqa.selenium.By.id;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -28,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -66,27 +66,26 @@ public class FingerPrintTest {
     }
 
     private AndroidElement findElementByText(String text) {
-        return driver.findElements(id("android:id/title")).stream().filter(androidElement ->
+        return driver.findElements(By.id("android:id/title")).stream().filter(androidElement ->
                 text.equals(androidElement.getText())).findFirst()
                 .orElseThrow(() ->
                         new NoSuchElementException(String.format("There is no element with the text '%s'", text)));
     }
 
     private void clickNext() {
-        driver.findElementById("com.android.settings:id/next_button").click();
+        driver.findElement(By.id("com.android.settings:id/next_button")).click();
     }
 
     private void clickFingerPrintNext() {
-        driver.findElementById("com.android.settings:id/fingerprint_next_button").click();
+        driver.findElement(By.id("com.android.settings:id/fingerprint_next_button")).click();
     }
 
     private void clickOKInPopup() {
-        driver.findElementById("android:id/button1").click();
+        driver.findElement(By.id("android:id/button1")).click();
     }
 
     private void enterPasswordAndContinue() {
-        driver.findElementById("com.android.settings:id/password_entry")
-                .sendKeys("1234\n");
+        driver.findElement(By.id("com.android.settings:id/password_entry")).sendKeys("1234\n");
     }
 
     private void clickOnSecurity() {

@@ -16,10 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.FindsByIosClassChain;
-import io.appium.java_client.FindsByIosNSPredicate;
 import io.appium.java_client.MobileElement;
 
-public class IOSElement extends MobileElement
-    implements FindsByIosNSPredicate<MobileElement>, FindsByIosClassChain<MobileElement> {
+public class IOSElement extends MobileElement {
 }
