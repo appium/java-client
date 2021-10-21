@@ -54,6 +54,8 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
 
             json.name("firstMatch");
             json.beginArray();
+            json.beginObject();
+            json.endObject();
             json.endArray();
 
             json.name("alwaysMatch");
@@ -61,7 +63,14 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
                 Method getW3CMethod = NewSessionPayload.class.getDeclaredMethod("getW3C");
                 getW3CMethod.setAccessible(true);
                 //noinspection unchecked
-                ((Stream<Map<String, Object>>) getW3CMethod.invoke(srcPayload)).forEach(json::write);
+                ((Stream<Map<String, Object>>) getW3CMethod.invoke(srcPayload))
+                        .findFirst()
+                        .map(json::write)
+                        .orElseGet(() -> {
+                            json.beginObject();
+                            json.endObject();
+                            return null;
+                        });
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 throw new WebDriverException(e);
             }
