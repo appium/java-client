@@ -1,7 +1,6 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
@@ -28,9 +27,9 @@ public class AppIOSTest extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+        capabilities.setCapability("wdaLaunchTimeout", 240000);
         //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-        capabilities.setCapability("commandTimeouts", "120000");
+        capabilities.setCapability("commandTimeouts", "240000");
         capabilities.setCapability(MobileCapabilityType.APP, testAppZip().toAbsolutePath().toString());
         try {
             driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);

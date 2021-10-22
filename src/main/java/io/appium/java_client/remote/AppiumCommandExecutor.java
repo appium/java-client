@@ -26,8 +26,10 @@ import com.google.common.base.Throwables;
 
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.CommandCodec;
+import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.DriverCommand;
@@ -36,6 +38,7 @@ import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
+import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
@@ -45,6 +48,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,6 +56,7 @@ import java.util.UUID;
 public class AppiumCommandExecutor extends HttpCommandExecutor {
     // https://github.com/appium/appium-base-driver/pull/400
     private static final String IDEMPOTENCY_KEY_HEADER = "X-Idempotency-Key";
+    private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
     private final Optional<DriverService> serviceOptional;
 
@@ -59,9 +64,11 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                   URL addressOfRemoteServer,
                                   HttpClient.Factory httpClientFactory) {
         super(additionalCommands,
-                ofNullable(service)
-                        .map(DriverService::getUrl)
-                        .orElse(addressOfRemoteServer), httpClientFactory);
+                ClientConfig.defaultConfig()
+                        .baseUrl(Require.nonNull("Server URL", ofNullable(service)
+                                .map(DriverService::getUrl)
+                                .orElse(addressOfRemoteServer)))
+                        .readTimeout(DEFAULT_READ_TIMEOUT), httpClientFactory);
         serviceOptional = ofNullable(service);
     }
 
@@ -85,59 +92,50 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, service, HttpClient.Factory.createDefault());
     }
 
-    protected <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
-        Class<?> superclass = getClass().getSuperclass();
-        Throwable recentException = null;
-        while (superclass != Object.class) {
-            try {
-                final Field f = superclass.getDeclaredField(fieldName);
-                f.setAccessible(true);
-                return fieldType.cast(f.get(this));
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                recentException = e;
-            }
-            superclass = superclass.getSuperclass();
+    @SuppressWarnings("SameParameterValue")
+    protected <B> B getPrivateFieldValue(
+            Class<? extends CommandExecutor> cls, String fieldName, Class<B> fieldType) {
+        try {
+            final Field f = cls.getDeclaredField(fieldName);
+            f.setAccessible(true);
+            return fieldType.cast(f.get(this));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new WebDriverException(e);
         }
-        throw new WebDriverException(recentException);
     }
 
-    protected void setPrivateFieldValue(String fieldName, Object newValue) {
-        Class<?> superclass = getClass().getSuperclass();
-        Throwable recentException = null;
-        while (superclass != Object.class) {
-            try {
-                final Field f = superclass.getDeclaredField(fieldName);
-                f.setAccessible(true);
-                f.set(this, newValue);
-                return;
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                recentException = e;
-            }
-            superclass = superclass.getSuperclass();
+    @SuppressWarnings("SameParameterValue")
+    protected void setPrivateFieldValue(
+            Class<? extends CommandExecutor> cls, String fieldName, Object newValue) {
+        try {
+            final Field f = cls.getDeclaredField(fieldName);
+            f.setAccessible(true);
+            f.set(this, newValue);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new WebDriverException(e);
         }
-        throw new WebDriverException(recentException);
     }
 
     protected Map<String, CommandInfo> getAdditionalCommands() {
         //noinspection unchecked
-        return getPrivateFieldValue("additionalCommands", Map.class);
+        return getPrivateFieldValue(HttpCommandExecutor.class, "additionalCommands", Map.class);
     }
 
     protected CommandCodec<HttpRequest> getCommandCodec() {
         //noinspection unchecked
-        return getPrivateFieldValue("commandCodec", CommandCodec.class);
+        return getPrivateFieldValue(HttpCommandExecutor.class, "commandCodec", CommandCodec.class);
     }
 
     protected void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
-        setPrivateFieldValue("commandCodec", newCodec);
+        setPrivateFieldValue(HttpCommandExecutor.class, "commandCodec", newCodec);
     }
 
     protected void setResponseCodec(ResponseCodec<HttpResponse> codec) {
-        setPrivateFieldValue("responseCodec", codec);
+        setPrivateFieldValue(HttpCommandExecutor.class, "responseCodec", codec);
     }
 
     protected HttpClient getClient() {
-        return getPrivateFieldValue("client", HttpClient.class);
+        return getPrivateFieldValue(HttpCommandExecutor.class, "client", HttpClient.class);
     }
 
     private Response createSession(Command command) throws IOException {
@@ -152,10 +150,18 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 }), command
         );
         Dialect dialect = result.getDialect();
-        setCommandCodec(dialect.getCommandCodec());
-        getAdditionalCommands().forEach(this::defineCommand);
+        if (!(dialect.getCommandCodec() instanceof W3CHttpCommandCodec)) {
+            throw new SessionNotCreatedException("Only W3C sessions are supported. "
+                    + "Please make sure your server is up to date.");
+        }
+        setCommandCodec(new AppiumW3CHttpCommandCodec());
+        refreshAdditionalCommands();
         setResponseCodec(dialect.getResponseCodec());
         return result.createResponse();
+    }
+
+    public void refreshAdditionalCommands() {
+        getAdditionalCommands().forEach(super::defineCommand);
     }
 
     @Override
@@ -168,14 +174,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                     throw new WebDriverException(e.getMessage(), e);
                 }
             });
-            if (getAdditionalCommands().containsKey(command.getName())) {
-                super.defineCommand(command.getName(), getAdditionalCommands().get(command.getName()));
-            }
         }
 
-        Response response;
         try {
-            response = NEW_SESSION.equals(command.getName()) ? createSession(command) : super.execute(command);
+            return NEW_SESSION.equals(command.getName()) ? createSession(command) : super.execute(command);
         } catch (Throwable t) {
             Throwable rootCause = Throwables.getRootCause(t);
             if (rootCause instanceof ConnectException
@@ -196,13 +198,5 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 serviceOptional.ifPresent(DriverService::stop);
             }
         }
-
-        if (DriverCommand.NEW_SESSION.equals(command.getName())
-                && getCommandCodec() instanceof W3CHttpCommandCodec) {
-            setCommandCodec(new AppiumW3CHttpCommandCodec());
-            getAdditionalCommands().forEach(this::defineCommand);
-        }
-
-        return response;
     }
 }

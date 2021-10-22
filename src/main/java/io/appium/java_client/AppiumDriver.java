@@ -76,9 +76,9 @@ public class AppiumDriver<T extends WebElement>
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
-    private URL remoteAddress;
-    private RemoteLocationContext locationContext;
-    private ExecuteMethod executeMethod;
+    private final URL remoteAddress;
+    private final RemoteLocationContext locationContext;
+    private final ExecuteMethod executeMethod;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -254,6 +254,7 @@ public class AppiumDriver<T extends WebElement>
                         httpMethod,
                         Arrays.toString(HttpMethod.values())));
         }
+        ((AppiumCommandExecutor) getCommandExecutor()).refreshAdditionalCommands();
     }
 
     @Override

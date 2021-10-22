@@ -23,7 +23,6 @@ import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CommandPayload;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
@@ -39,14 +38,13 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
      * @return Fixed capabilities mapping.
      */
     private static Map<String, Object> makeW3CSafe(Capabilities possiblyInvalidCapabilities) {
-        Require.nonNull("Capabilities", possiblyInvalidCapabilities);
-
-        return possiblyInvalidCapabilities.asMap().entrySet().stream()
-                .map((entry) -> ACCEPTED_W3C_PATTERNS.test(entry.getKey())
-                        ? entry
-                        : new AbstractMap.SimpleEntry<>(
-                        String.format("%s%s", APPIUM_PREFIX, entry.getKey()), entry.getValue()))
-                .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
+        return Require.nonNull("Capabilities", possiblyInvalidCapabilities)
+                .asMap().entrySet().stream()
+                .collect(ImmutableMap.toImmutableMap(
+                        entry -> ACCEPTED_W3C_PATTERNS.test(entry.getKey())
+                                ? entry.getKey()
+                                : APPIUM_PREFIX + entry.getKey(),
+                        Map.Entry::getValue));
     }
 
     /**

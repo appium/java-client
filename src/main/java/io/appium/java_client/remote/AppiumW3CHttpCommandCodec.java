@@ -82,9 +82,7 @@ public class AppiumW3CHttpCommandCodec extends W3CHttpCommandCodec {
                 Stream<CharSequence> source = (rawValue instanceof Collection)
                         ? ((Collection<CharSequence>) rawValue).stream()
                         : Stream.of((CharSequence[]) rawValue);
-                String text = source
-                        .flatMap(Stream::of)
-                        .collect(Collectors.joining());
+                String text = source.collect(Collectors.joining());
 
                 final KeyInput keyboard = new KeyInput("keyboard");
                 Sequence sequence = new Sequence(keyboard, 0);
