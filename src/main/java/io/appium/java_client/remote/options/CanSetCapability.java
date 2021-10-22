@@ -14,28 +14,8 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileOptions;
-import io.appium.java_client.remote.MobilePlatform;
-import org.openqa.selenium.Capabilities;
-
-/**
- * Use the specific options class for your driver,
- * for example XCUITestOptions
- */
-@Deprecated
-public class IOSOptions extends MobileOptions<IOSOptions> {
-    public IOSOptions() {
-        setIOSPlatformName();
-    }
-
-    public IOSOptions(Capabilities source) {
-        super(source);
-        setIOSPlatformName();
-    }
-
-    private void setIOSPlatformName() {
-        setPlatformName(MobilePlatform.IOS);
-    }
+public interface CanSetCapability {
+     void setCapability(String key, Object value);
 }
