@@ -44,12 +44,6 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String BUNDLE_ID = "bundleId";
 
     /**
-     * Amount of time in ms to wait for instruments before assuming it hung and
-     * failing the session.
-     */
-    String LAUNCH_TIMEOUT = "launchTimeout";
-
-    /**
      * (Sim-only) Force location services to be either on or off.
      * Default is to keep current sim setting.
      */

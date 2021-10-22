@@ -56,6 +56,7 @@ public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceM
      * 10 pixels by default.
      *
      * @since Appium 1.21.0
+     * @param threshold The threshold value in pixels.
      * @return self instance for chaining.
      */
     public OccurrenceMatchingOptions withMatchNeighbourThreshold(int threshold) {
