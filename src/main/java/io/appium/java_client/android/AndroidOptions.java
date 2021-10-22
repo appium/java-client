@@ -22,7 +22,7 @@ import org.openqa.selenium.Capabilities;
 
 /**
  * Use the specific options class for your driver,
- * for example UiAutomator2Options
+ * for example UiAutomator2Options.
  */
 @Deprecated
 public class AndroidOptions extends MobileOptions<AndroidOptions> {

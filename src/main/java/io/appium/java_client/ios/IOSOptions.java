@@ -22,7 +22,7 @@ import org.openqa.selenium.Capabilities;
 
 /**
  * Use the specific options class for your driver,
- * for example XCUITestOptions
+ * for example XCUITestOptions.
  */
 @Deprecated
 public class IOSOptions extends MobileOptions<IOSOptions> {

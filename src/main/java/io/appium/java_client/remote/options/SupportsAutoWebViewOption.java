@@ -39,7 +39,7 @@ public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#AUTO_WEBVIEW
      */
     default T setAutoWebview(boolean bool) {
-         setCapability(MobileCapabilityType.AUTO_WEBVIEW, bool);
+        setCapability(MobileCapabilityType.AUTO_WEBVIEW, bool);
         //noinspection unchecked
         return (T) this;
     }

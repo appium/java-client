@@ -17,5 +17,5 @@
 package io.appium.java_client.remote.options;
 
 public interface CanSetCapability {
-     void setCapability(String key, Object value);
+    void setCapability(String key, Object value);
 }

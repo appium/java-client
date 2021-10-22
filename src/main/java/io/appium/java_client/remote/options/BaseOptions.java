@@ -33,7 +33,7 @@ import static java.util.Collections.unmodifiableMap;
  * This class represents capabilities that are available in the base driver,
  * e.g. are acceptable by any Appium driver
  *
- * @param <T>
+ * @param <T> The child class for a proper chaining.
  */
 @SuppressWarnings("unused")
 public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities {
@@ -258,9 +258,9 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities {
     @Override
     public Map<String, Object> asMap() {
         return unmodifiableMap(super.asMap().entrySet().stream()
-                .collect(Collectors.toMap(entry -> W3C_KEY_PATTERNS.test(entry.getKey()) ?
-                        entry.getKey() : APPIUM_PREFIX + entry.getKey(),
-                Map.Entry::getValue)));
+                .collect(Collectors.toMap(entry -> W3C_KEY_PATTERNS.test(entry.getKey())
+                        ? entry.getKey() : APPIUM_PREFIX + entry.getKey(), Map.Entry::getValue)
+                ));
     }
 
     @Override

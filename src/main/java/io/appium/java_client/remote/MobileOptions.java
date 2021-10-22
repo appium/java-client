@@ -31,9 +31,9 @@ import org.openqa.selenium.Capabilities;
 
 /**
  * Use the specific options class for your driver,
- * for example XCUITestOptions or UiAutomator2Options
+ * for example XCUITestOptions or UiAutomator2Options.
  *
- * @param <T>
+ * @param <T> The child class for a proper chaining.
  */
 @Deprecated
 public class MobileOptions<T extends MobileOptions<T>> extends BaseOptions<T>
