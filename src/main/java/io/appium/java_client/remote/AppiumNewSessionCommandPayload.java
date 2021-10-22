@@ -40,8 +40,7 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
     private static Map<String, Object> makeW3CSafe(Capabilities possiblyInvalidCapabilities) {
         return Require.nonNull("Capabilities", possiblyInvalidCapabilities)
                 .asMap().entrySet().stream()
-                .collect(ImmutableMap.toImmutableMap(
-                        entry -> ACCEPTED_W3C_PATTERNS.test(entry.getKey())
+                .collect(ImmutableMap.toImmutableMap(entry -> ACCEPTED_W3C_PATTERNS.test(entry.getKey())
                                 ? entry.getKey()
                                 : APPIUM_PREFIX + entry.getKey(),
                         Map.Entry::getValue));

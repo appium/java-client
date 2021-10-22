@@ -45,7 +45,7 @@ public class StartingAppLocallyTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
 
         AndroidDriver<?> driver = new AndroidDriver<>(capabilities);
         try {
@@ -118,16 +118,17 @@ public class StartingAppLocallyTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
+                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis());
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
 
         IOSDriver<?> driver = new IOSDriver<>(capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
-            assertEquals(AutomationName.APPIUM, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
+            assertEquals(AutomationName.IOS_XCUI_TEST, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
             assertEquals(MobilePlatform.IOS, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
             assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
@@ -141,11 +142,12 @@ public class StartingAppLocallyTest {
     @Test public void startingIOSAppWithCapabilitiesAndServiceTest() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
+                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
@@ -165,8 +167,9 @@ public class StartingAppLocallyTest {
     @Test public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
-            500000); //some environment is too slow
+        serverCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+        serverCapabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
+            BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis()); //some environment is too slow
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 

@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import static io.appium.java_client.TestUtils.waitUntilTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +29,7 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -43,6 +43,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class IOSDriverTest extends AppIOSTest {
+    @Before
+    public void setupEach() {
+        if (driver.queryAppState(BUNDLE_ID).ordinal() < ApplicationState.RUNNING_IN_FOREGROUND.ordinal()) {
+            driver.activateApp(BUNDLE_ID);
+        }
+    }
 
     @Test
     public void addCustomCommandTest() {
@@ -123,14 +129,17 @@ public class IOSDriverTest extends AppIOSTest {
         assertTrue(driver.isKeyboardShown());
     }
 
-    @Test public void putAppIntoBackgroundAndRestoreTest() {
+    @Ignore("The app crashes when restored from the background")
+    @Test
+    public void putAppIntoBackgroundAndRestoreTest() {
         final long msStarted = System.currentTimeMillis();
         driver.runAppInBackground(Duration.ofSeconds(4));
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
     }
 
-    @Test public void applicationsManagementTest() {
-        assertThat(driver.queryAppState(BUNDLE_ID), equalTo(ApplicationState.RUNNING_IN_FOREGROUND));
+    @Ignore("The app crashes when restored from the background")
+    @Test
+    public void applicationsManagementTest() {
         driver.runAppInBackground(Duration.ofSeconds(-1));
         waitUntilTrue(
                 () -> driver.queryAppState(BUNDLE_ID).ordinal() < ApplicationState.RUNNING_IN_FOREGROUND.ordinal(),
@@ -141,7 +150,9 @@ public class IOSDriverTest extends AppIOSTest {
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
     }
 
-    @Test public void putAIntoBackgroundWithoutRestoreTest() {
+    @Ignore("The app crashes when restored from the background")
+    @Test
+    public void putAIntoBackgroundWithoutRestoreTest() {
         waitUntilTrue(() -> !driver.findElements(By.id("IntegerA")).isEmpty(),
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
         driver.runAppInBackground(Duration.ofSeconds(-1));

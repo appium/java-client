@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
@@ -45,10 +46,10 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
 
         final DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
-        //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT, WDA_LAUNCH_TIMEOUT.toMillis());
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
-        capabilities.setCapability("commandTimeouts", "120000");
+        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+        capabilities.setCapability("commandTimeouts", "240000");
         capabilities.setCapability(MobileCapabilityType.APP, vodQaAppZip().toAbsolutePath().toString());
         Supplier<IOSDriver<IOSElement>> createDriver = () -> {
             try {
@@ -76,6 +77,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                     return;
                 }
             }
+            //noinspection BusyWait
             Thread.sleep(WEB_VIEW_DETECT_INTERVAL.toMillis());
         }
         throw new IllegalStateException(String.format("No web views have been detected within %sms timeout",

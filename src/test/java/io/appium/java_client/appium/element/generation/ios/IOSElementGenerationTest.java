@@ -12,6 +12,7 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSElement;
+import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -28,6 +29,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -38,17 +40,18 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
 
     private static final File webViewApp = vodQaAppZip().toFile();
 
-    private Supplier<DesiredCapabilities> commonAppCapabilitiesSupplier = () -> {
+    private final Supplier<DesiredCapabilities> commonAppCapabilitiesSupplier = () -> {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT,
-                500000); //some environment is too slow
+        serverCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+        serverCapabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
+                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis());
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         return serverCapabilities;
     };
 
-    private Function<File, Supplier<Capabilities>> appFileSupplierFunction = file -> {
+    private final Function<File, Supplier<Capabilities>> appFileSupplierFunction = file -> {
         final DesiredCapabilities clientCapabilities = new DesiredCapabilities();
         return () -> {
             clientCapabilities.setCapability(MobileCapabilityType.APP, file.getAbsolutePath());
@@ -61,8 +64,9 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
         serverCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        //sometimes environment has performance problems
-        serverCapabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        serverCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+        serverCapabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
+                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis());
         return serverCapabilities;
     };
 
@@ -89,11 +93,11 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             Capabilities caps = commonAppCapabilitiesSupplier.get();
             return caps.merge(appFileSupplierFunction.apply(webViewApp).get());
         }, (by, aClass) -> {
-            new WebDriverWait(driver, 30)
+            new WebDriverWait(driver, Duration.ofSeconds(30))
                     .until(ExpectedConditions.presenceOfElementLocated(id("login")))
                     .click();
             driver.findElement(MobileBy.AccessibilityId("webView")).click();
-            new WebDriverWait(driver, 30)
+            new WebDriverWait(driver, Duration.ofSeconds(30))
                     .until(ExpectedConditions
                             .presenceOfElementLocated(MobileBy.AccessibilityId("Webview")));
             try {

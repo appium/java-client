@@ -41,7 +41,8 @@ public class BaseSafariTest extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
+        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
+                WDA_LAUNCH_TIMEOUT.toMillis());
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
         driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
     }
