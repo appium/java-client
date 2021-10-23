@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
     /**
      * Set the app to move directly into Webview context.
      *
@@ -39,9 +39,7 @@ public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#AUTO_WEBVIEW
      */
     default T setAutoWebview(boolean bool) {
-        setCapability(MobileCapabilityType.AUTO_WEBVIEW, bool);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.AUTO_WEBVIEW, bool);
     }
 
     /**

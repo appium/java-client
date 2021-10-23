@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
     /**
      * Set language abbreviation for use in session.
@@ -30,9 +30,7 @@ public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#LANGUAGE
      */
     default T setLanguage(String language) {
-        setCapability(MobileCapabilityType.LANGUAGE, language);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.LANGUAGE, language);
     }
 
     /**

@@ -16,6 +16,19 @@
 
 package io.appium.java_client.remote.options;
 
-public interface CanSetCapability {
+public interface CanSetCapability<T extends BaseOptions<T>> {
     void setCapability(String key, Object value);
+
+    /**
+     * Set a custom option.
+     *
+     * @param optionName Option name.
+     * @param value Option value.
+     * @return self instance for chaining.
+     */
+    default T amend(String optionName, Object value) {
+        setCapability(optionName, value);
+        //noinspection unchecked
+        return (T) this;
+    }
 }

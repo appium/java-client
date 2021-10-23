@@ -36,7 +36,8 @@ import static java.util.Collections.unmodifiableMap;
  * @param <T> The child class for a proper chaining.
  */
 @SuppressWarnings("unused")
-public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities {
+public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
+    implements CanSetCapability<T> {
     private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS =
             new AcceptedW3CCapabilityKeys();
 
@@ -266,12 +267,6 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities {
     @Override
     public T merge(Capabilities extraCapabilities) {
         super.merge(extraCapabilities);
-        //noinspection unchecked
-        return (T) this;
-    }
-
-    protected T amend(String optionName, Object value) {
-        setCapability(optionName, value);
         //noinspection unchecked
         return (T) this;
     }

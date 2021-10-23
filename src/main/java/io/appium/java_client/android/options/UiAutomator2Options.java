@@ -16,7 +16,6 @@
 
 package io.appium.java_client.android.options;
 
-import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
@@ -33,11 +32,11 @@ import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
 public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implements
-        SupportsAppOption<XCUITestOptions>, SupportsAutoWebViewOption<XCUITestOptions>,
-        SupportsClearSystemFilesOption<XCUITestOptions>, SupportsDeviceNameOption<XCUITestOptions>,
-        SupportsEnablePerformanceLoggingOption<XCUITestOptions>, SupportsLanguageOption<XCUITestOptions>,
-        SupportsLocaleOption<XCUITestOptions>, SupportsOrientationOption<XCUITestOptions>,
-        SupportsOtherAppsOption<XCUITestOptions>, SupportsUdidOption<XCUITestOptions> {
+        SupportsAppOption<UiAutomator2Options>, SupportsAutoWebViewOption<UiAutomator2Options>,
+        SupportsClearSystemFilesOption<UiAutomator2Options>, SupportsDeviceNameOption<UiAutomator2Options>,
+        SupportsEnablePerformanceLoggingOption<UiAutomator2Options>, SupportsLanguageOption<UiAutomator2Options>,
+        SupportsLocaleOption<UiAutomator2Options>, SupportsOrientationOption<UiAutomator2Options>,
+        SupportsOtherAppsOption<UiAutomator2Options>, SupportsUdidOption<UiAutomator2Options> {
     public UiAutomator2Options() {
         setCommonOptions();
     }

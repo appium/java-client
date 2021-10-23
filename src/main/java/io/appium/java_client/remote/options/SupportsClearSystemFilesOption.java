@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
     /**
      * Set the app to delete any generated files at the end of a session.
@@ -40,9 +40,7 @@ public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extend
      * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
      */
     default T setClearSystemFiles(boolean bool) {
-        setCapability(MobileCapabilityType.CLEAR_SYSTEM_FILES, bool);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.CLEAR_SYSTEM_FILES, bool);
     }
 
     /**

@@ -21,7 +21,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ScreenOrientation;
 
 public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
     /**
      * Set the orientation of the screen.
@@ -31,9 +31,7 @@ public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#ORIENTATION
      */
     default T setOrientation(ScreenOrientation orientation) {
-        setCapability(MobileCapabilityType.ORIENTATION, orientation);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.ORIENTATION, orientation);
     }
 
     /**

@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsOtherAppsOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
 
     /**
@@ -31,9 +31,7 @@ public interface SupportsOtherAppsOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#OTHER_APPS
      */
     default T setOtherApps(String apps) {
-        setCapability(MobileCapabilityType.OTHER_APPS, apps);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.OTHER_APPS, apps);
     }
 
     /**

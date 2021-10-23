@@ -22,7 +22,7 @@ import org.openqa.selenium.Capabilities;
 import java.net.URL;
 
 public interface SupportsAppOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
     /**
      * Set the absolute local path for the location of the App.
@@ -33,9 +33,7 @@ public interface SupportsAppOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#APP
      */
     default T setApp(String path) {
-        setCapability(MobileCapabilityType.APP, path);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.APP, path);
     }
 
     /**

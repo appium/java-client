@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
     /**
      * Set the name of the device.
      *
@@ -29,9 +29,7 @@ public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#DEVICE_NAME
      */
     default T setDeviceName(String deviceName) {
-        setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.DEVICE_NAME, deviceName);
     }
 
     /**

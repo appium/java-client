@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
     /**
      * Set locale abbreviation for use in session.
@@ -30,9 +30,7 @@ public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#LOCALE
      */
     default T setLocale(String locale) {
-        setCapability(MobileCapabilityType.LOCALE, locale);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.LOCALE, locale);
     }
 
     /**

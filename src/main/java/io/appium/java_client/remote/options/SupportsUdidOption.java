@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsUdidOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
     /**
      * Set the id of the device.
      *
@@ -29,9 +29,7 @@ public interface SupportsUdidOption<T extends BaseOptions<T>> extends
      * @see MobileCapabilityType#UDID
      */
     default T setUdid(String id) {
-        setCapability(MobileCapabilityType.UDID, id);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.UDID, id);
     }
 
     /**

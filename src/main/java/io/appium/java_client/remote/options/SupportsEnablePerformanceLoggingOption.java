@@ -20,7 +20,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 
 public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>> extends
-        Capabilities, CanSetCapability {
+        Capabilities, CanSetCapability<T> {
 
     /**
      * Set the app to enable performance logging.
@@ -40,9 +40,7 @@ public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>
      * @see MobileCapabilityType#ENABLE_PERFORMANCE_LOGGING
      */
     default T setEnablePerformanceLogging(boolean bool) {
-        setCapability(MobileCapabilityType.ENABLE_PERFORMANCE_LOGGING, bool);
-        //noinspection unchecked
-        return (T) this;
+        return amend(MobileCapabilityType.ENABLE_PERFORMANCE_LOGGING, bool);
     }
 
     /**
