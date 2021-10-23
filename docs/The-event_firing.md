@@ -24,6 +24,9 @@ of `WebDriver` type. If the target method accepts one or more arguments then the
 should also be added to the event listeners in the same order they are accepted by the original method, 
 but the very first argument should still be the firing WebDriver instance.
 
+_Important_: Make sure that your implementation of WebDriverListener class is public
+and that event listener methods are also public.
+
 ## EventFiringDecorator
 
 This decorator creates a wrapper around an arbitrary WebDriver instance that notifies
