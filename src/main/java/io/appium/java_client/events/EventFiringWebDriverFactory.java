@@ -23,6 +23,10 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.Collection;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public class EventFiringWebDriverFactory {
 
     /**

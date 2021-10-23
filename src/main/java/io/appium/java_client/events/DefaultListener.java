@@ -42,6 +42,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 class DefaultListener
     implements Listener, AppiumWebDriverEventListener, ListensToException, SearchingEventListener,
     NavigationEventListener, JavaScriptEventListener, ElementEventListener, AlertEventListener,

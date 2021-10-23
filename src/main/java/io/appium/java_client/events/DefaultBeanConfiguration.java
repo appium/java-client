@@ -28,6 +28,10 @@ import org.springframework.context.support.AbstractApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 class DefaultBeanConfiguration {

@@ -12,6 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ServiceLoader;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public class EventFiringObjectFactory {
 
     /**

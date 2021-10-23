@@ -20,6 +20,10 @@ import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public interface ElementEventListener extends Listener {
     /**
      * Called before {@link WebElement#click WebElement.click()}.
