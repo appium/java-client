@@ -16,16 +16,20 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
+
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String AUTO_WEB_VIEW_OPTION = "autoWebView";
+
     /**
      * Set the app to move directly into Webview context.
      *
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#AUTO_WEBVIEW
+     * @return self instance for chaining.
      */
     default T setAutoWebview() {
         return setAutoWebview(true);
@@ -35,20 +39,18 @@ public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
      * Set whether the app moves directly into Webview context.
      *
      * @param bool is whether the app moves directly into Webview context.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#AUTO_WEBVIEW
+     * @return self instance for chaining.
      */
     default T setAutoWebview(boolean bool) {
-        return amend(MobileCapabilityType.AUTO_WEBVIEW, bool);
+        return amend(AUTO_WEB_VIEW_OPTION, bool);
     }
 
     /**
      * Get whether the app moves directly into Webview context.
      *
      * @return true if app moves directly into Webview context.
-     * @see MobileCapabilityType#AUTO_WEBVIEW
      */
-    default boolean doesAutoWebview() {
-        return (boolean) getCapability(MobileCapabilityType.AUTO_WEBVIEW);
+    default Optional<Boolean> doesAutoWebview() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(AUTO_WEB_VIEW_OPTION)));
     }
 }

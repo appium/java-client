@@ -18,41 +18,32 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 
-import java.net.URL;
+import java.time.Duration;
 import java.util.Optional;
 
-public interface SupportsAppOption<T extends BaseOptions<T>> extends
+public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String APP_OPTION = "app";
+    String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
 
     /**
-     * Set the absolute local path for the location of the App.
-     * The app must be located on the same machine where Appium
-     * server is running.
+     * Set the timeout for new commands.
      *
-     * @param path is a String representing the location of the App
+     * @param duration is the allowed time before seeing a new command.
      * @return self instance for chaining.
      */
-    default T setApp(String path) {
-        return amend(APP_OPTION, path);
+    default T setNewCommandTimeout(Duration duration) {
+        return amend(NEW_COMMAND_TIMEOUT, duration.getSeconds());
     }
 
     /**
-     * Set the remote http URL for the location of the App.
+     * Get the timeout for new commands.
      *
-     * @param url is the URL representing the location of the App
-     * @return self instance for chaining.
+     * @return allowed time before seeing a new command.
      */
-    default T setApp(URL url) {
-        return setApp(url.toString());
-    }
-
-    /**
-     * Get the app location.
-     *
-     * @return String representing app location
-     */
-    default Optional<String> getApp() {
-        return Optional.ofNullable((String) getCapability(APP_OPTION));
+    default Optional<Duration> getNewCommandTimeout() {
+        Object duration = getCapability(NEW_COMMAND_TIMEOUT);
+        return duration == null
+            ? Optional.empty()
+            : Optional.of(Duration.ofSeconds(Long.parseLong("" + duration)));
     }
 }

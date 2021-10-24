@@ -18,41 +18,28 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 
-import java.net.URL;
 import java.util.Optional;
 
-public interface SupportsAppOption<T extends BaseOptions<T>> extends
+public interface SupportsAutomationNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String APP_OPTION = "app";
+    String AUTOMATION_NAME_OPTION = "automationName";
 
     /**
-     * Set the absolute local path for the location of the App.
-     * The app must be located on the same machine where Appium
-     * server is running.
+     * Set the automation driver to use.
      *
-     * @param path is a String representing the location of the App
+     * @param automationName One of supported automation names.
      * @return self instance for chaining.
      */
-    default T setApp(String path) {
-        return amend(APP_OPTION, path);
+    default T setAutomationName(String automationName) {
+        return amend(AUTOMATION_NAME_OPTION, automationName);
     }
 
     /**
-     * Set the remote http URL for the location of the App.
+     * Get the automation driver to use.
      *
-     * @param url is the URL representing the location of the App
-     * @return self instance for chaining.
+     * @return String representing the name of the automation engine
      */
-    default T setApp(URL url) {
-        return setApp(url.toString());
-    }
-
-    /**
-     * Get the app location.
-     *
-     * @return String representing app location
-     */
-    default Optional<String> getApp() {
-        return Optional.ofNullable((String) getCapability(APP_OPTION));
+    default Optional<String> getAutomationName() {
+        return Optional.ofNullable((String) getCapability(AUTOMATION_NAME_OPTION));
     }
 }

@@ -18,41 +18,39 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 
-import java.net.URL;
 import java.util.Optional;
 
-public interface SupportsAppOption<T extends BaseOptions<T>> extends
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
+
+public interface SupportsNoResetOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String APP_OPTION = "app";
+    String NO_RESET_OPTION = "noReset";
 
     /**
-     * Set the absolute local path for the location of the App.
-     * The app must be located on the same machine where Appium
-     * server is running.
+     * Set the app not to do a reset.
      *
-     * @param path is a String representing the location of the App
      * @return self instance for chaining.
      */
-    default T setApp(String path) {
-        return amend(APP_OPTION, path);
+    default T setNoReset() {
+        return setNoReset(true);
     }
 
     /**
-     * Set the remote http URL for the location of the App.
+     * Set whether the app does not do a reset.
      *
-     * @param url is the URL representing the location of the App
+     * @param bool is whether the app does not do a reset.
      * @return self instance for chaining.
      */
-    default T setApp(URL url) {
-        return setApp(url.toString());
+    default T setNoReset(boolean bool) {
+        return amend(NO_RESET_OPTION, bool);
     }
 
     /**
-     * Get the app location.
+     * Get whether the app does not do a reset.
      *
-     * @return String representing app location
+     * @return true if the app does not do a reset.
      */
-    default Optional<String> getApp() {
-        return Optional.ofNullable((String) getCapability(APP_OPTION));
+    default Optional<Boolean> doesNoReset() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(NO_RESET_OPTION)));
     }
 }

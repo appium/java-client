@@ -16,13 +16,13 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CapabilityType;
 
-import java.time.Duration;
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -35,12 +35,13 @@ import static java.util.Collections.unmodifiableMap;
  *
  * @param <T> The child class for a proper chaining.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
-    implements CanSetCapability<T> {
-    private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS =
-            new AcceptedW3CCapabilityKeys();
-
+    implements CanSetCapability<T>, SupportsAutomationNameOption<T>,
+        SupportsEventTimingsOption<T>, SupportsPrintPageSourceOnFindFailureOption<T>,
+        SupportsNoResetOption<T>, SupportsFullResetOption<T>, SupportsNewCommandTimeoutOption<T>,
+        SupportsPlatformVersionOption<T> {
+    private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS = new AcceptedW3CCapabilityKeys();
 
     /**
      * Creates new instance with no preset capabilities.
@@ -68,194 +69,6 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
         return amend(CapabilityType.PLATFORM_NAME, platform);
     }
 
-    /**
-     * Set the automation engine to use.
-     *
-     * @param name is the name of the automation engine
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#AUTOMATION_NAME
-     */
-    public T setAutomationName(String name) {
-        return amend(MobileCapabilityType.AUTOMATION_NAME, name);
-    }
-
-    /**
-     * Get the automation engine to use.
-     *
-     * @return String representing the name of the automation engine
-     * @see MobileCapabilityType#AUTOMATION_NAME
-     */
-    public String getAutomationName() {
-        return (String) getCapability(MobileCapabilityType.AUTOMATION_NAME);
-    }
-
-    /**
-     * Set the app to report the timings for various Appium-internal events.
-     *
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#EVENT_TIMINGS
-     */
-    public T setEventTimings() {
-        return setEventTimings(true);
-    }
-
-    /**
-     * Set whether the app reports the timings for various Appium-internal events.
-     *
-     * @param bool is whether the app enables event timings.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#EVENT_TIMINGS
-     */
-    public T setEventTimings(boolean bool) {
-        return amend(MobileCapabilityType.EVENT_TIMINGS, bool);
-    }
-
-    /**
-     * Get whether the app reports the timings for various Appium-internal events.
-     *
-     * @return true if the app reports event timings.
-     * @see MobileCapabilityType#EVENT_TIMINGS
-     */
-    public boolean doesEventTimings() {
-        return (boolean) getCapability(MobileCapabilityType.EVENT_TIMINGS);
-    }
-
-    /**
-     * Set the app to do a full reset.
-     *
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#FULL_RESET
-     */
-    public T setFullReset() {
-        return setFullReset(true);
-    }
-
-    /**
-     * Set whether the app does a full reset.
-     *
-     * @param bool is whether the app does a full reset.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#FULL_RESET
-     */
-    public T setFullReset(boolean bool) {
-        return amend(MobileCapabilityType.FULL_RESET, bool);
-    }
-
-    /**
-     * Get whether the app does a full reset.
-     *
-     * @return true if the app does a full reset.
-     * @see MobileCapabilityType#FULL_RESET
-     */
-    public boolean doesFullReset() {
-        return (boolean) getCapability(MobileCapabilityType.FULL_RESET);
-    }
-
-    /**
-     * Set the timeout for new commands.
-     *
-     * @param duration is the allowed time before seeing a new command.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#NEW_COMMAND_TIMEOUT
-     */
-    public T setNewCommandTimeout(Duration duration) {
-        return amend(MobileCapabilityType.NEW_COMMAND_TIMEOUT, duration.getSeconds());
-    }
-
-    /**
-     * Get the timeout for new commands.
-     *
-     * @return allowed time before seeing a new command.
-     * @see MobileCapabilityType#NEW_COMMAND_TIMEOUT
-     */
-    public Duration getNewCommandTimeout() {
-        Object duration = getCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT);
-        return Duration.ofSeconds(Long.parseLong("" + duration));
-    }
-
-    /**
-     * Set the app not to do a reset.
-     *
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#NO_RESET
-     */
-    public T setNoReset() {
-        return setNoReset(true);
-    }
-
-    /**
-     * Set whether the app does not do a reset.
-     *
-     * @param bool is whether the app does not do a reset.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#NO_RESET
-     */
-    public T setNoReset(boolean bool) {
-        return amend(MobileCapabilityType.NO_RESET, bool);
-    }
-
-    /**
-     * Get whether the app does not do a reset.
-     *
-     * @return true if the app does not do a reset.
-     * @see MobileCapabilityType#NO_RESET
-     */
-    public boolean doesNoReset() {
-        return (boolean) getCapability(MobileCapabilityType.NO_RESET);
-    }
-
-    /**
-     * Set the version of the platform.
-     *
-     * @param version is the platform version.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#PLATFORM_VERSION
-     */
-    public T setPlatformVersion(String version) {
-        return amend(MobileCapabilityType.PLATFORM_VERSION, version);
-    }
-
-    /**
-     * Get the version of the platform.
-     *
-     * @return String representing the platform version.
-     * @see MobileCapabilityType#PLATFORM_VERSION
-     */
-    public String getPlatformVersion() {
-        return (String) getCapability(MobileCapabilityType.PLATFORM_VERSION);
-    }
-
-    /**
-     * Set the app to print page source when a find operation fails.
-     *
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#PRINT_PAGE_SOURCE_ON_FIND_FAILURE
-     */
-    public T setPrintPageSourceOnFindFailure() {
-        return setPrintPageSourceOnFindFailure(true);
-    }
-
-    /**
-     * Set whether the app to print page source when a find operation fails.
-     *
-     * @param bool is whether to print page source.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#PRINT_PAGE_SOURCE_ON_FIND_FAILURE
-     */
-    public T setPrintPageSourceOnFindFailure(boolean bool) {
-        return amend(MobileCapabilityType.PRINT_PAGE_SOURCE_ON_FIND_FAILURE, bool);
-    }
-
-    /**
-     * Get whether the app to print page source when a find operation fails.
-     *
-     * @return true if app prints page source.
-     * @see MobileCapabilityType#PRINT_PAGE_SOURCE_ON_FIND_FAILURE
-     */
-    public boolean doesPrintPageSourceOnFindFailure() {
-        return (boolean) getCapability(MobileCapabilityType.PRINT_PAGE_SOURCE_ON_FIND_FAILURE);
-    }
-
     @Override
     public Map<String, Object> asMap() {
         return unmodifiableMap(super.asMap().entrySet().stream()
@@ -269,5 +82,21 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
         super.merge(extraCapabilities);
         //noinspection unchecked
         return (T) this;
+    }
+
+    @Override
+    public void setCapability(String key, @Nullable Object value) {
+        Require.nonNull("Capability name", key);
+        super.setCapability(W3C_KEY_PATTERNS.test(key) ? key : APPIUM_PREFIX + key, value);
+    }
+
+    @Override
+    @Nullable
+    public Object getCapability(String capabilityName) {
+        Object value = super.getCapability(capabilityName);
+        if (value == null) {
+            value = super.getCapability(APPIUM_PREFIX + capabilityName);
+        }
+        return value;
     }
 }

@@ -16,31 +16,37 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ScreenOrientation;
 
+import java.util.Optional;
+
 public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String ORIENTATION_OPTION = "orientation";
 
     /**
      * Set the orientation of the screen.
      *
      * @param orientation is the screen orientation.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#ORIENTATION
+     * @return self instance for chaining.
      */
     default T setOrientation(ScreenOrientation orientation) {
-        return amend(MobileCapabilityType.ORIENTATION, orientation);
+        return amend(ORIENTATION_OPTION, orientation.value());
     }
 
     /**
      * Get the orientation of the screen.
      *
      * @return ScreenOrientation of the app.
-     * @see MobileCapabilityType#ORIENTATION
      */
-    default ScreenOrientation getOrientation() {
-        return (ScreenOrientation) getCapability(MobileCapabilityType.ORIENTATION);
+    default Optional<ScreenOrientation> getOrientation() {
+        Object value = getCapability(ORIENTATION_OPTION);
+        if (value == null) {
+            return Optional.empty();
+        }
+        return Optional.of(value instanceof ScreenOrientation
+                ? (ScreenOrientation) value
+                : ScreenOrientation.valueOf(((String) value).toUpperCase()));
     }
 }

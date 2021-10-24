@@ -16,29 +16,30 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
 
 public interface SupportsUdidOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String UDID_OPTION = "udid";
+
     /**
      * Set the id of the device.
      *
      * @param id is the unique device identifier.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#UDID
+     * @return self instance, for chaining.
      */
     default T setUdid(String id) {
-        return amend(MobileCapabilityType.UDID, id);
+        return amend(UDID_OPTION, id);
     }
 
     /**
      * Get the id of the device.
      *
      * @return String representing the unique device identifier.
-     * @see MobileCapabilityType#UDID
      */
-    default String getUdid() {
-        return (String) getCapability(MobileCapabilityType.UDID);
+    default Optional<String> getUdid() {
+        return Optional.ofNullable((String) getCapability(UDID_OPTION));
     }
 }

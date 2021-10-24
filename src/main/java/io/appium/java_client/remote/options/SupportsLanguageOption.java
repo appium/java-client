@@ -16,30 +16,30 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
 
 public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String LANGUAGE_OPTION = "language";
 
     /**
      * Set language abbreviation for use in session.
      *
      * @param language is the language abbreviation.
      * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#LANGUAGE
      */
     default T setLanguage(String language) {
-        return amend(MobileCapabilityType.LANGUAGE, language);
+        return amend(LANGUAGE_OPTION, language);
     }
 
     /**
      * Get language abbreviation for use in session.
      *
      * @return String representing the language abbreviation.
-     * @see MobileCapabilityType#LANGUAGE
      */
-    default String getLanguage() {
-        return (String) getCapability(MobileCapabilityType.LANGUAGE);
+    default Optional<String> getLanguage() {
+        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
     }
 }

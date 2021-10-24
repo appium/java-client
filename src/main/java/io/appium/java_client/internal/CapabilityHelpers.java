@@ -21,6 +21,7 @@ import org.openqa.selenium.Capabilities;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CapabilityHelpers {
     public static final String APPIUM_PREFIX = "appium:";
@@ -53,6 +54,57 @@ public class CapabilityHelpers {
             if (expectedType.isAssignableFrom(caps.getCapability(capName).getClass())) {
                 return expectedType.cast(caps.getCapability(capName));
             }
+        }
+        return null;
+    }
+
+    /**
+     * Converts generic capability value to boolean without
+     * throwing exceptions.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Boolean toSafeBoolean(Object value) {
+        if (value == null) {
+            return null;
+        }
+        return (value instanceof String)
+            ? ((String) value).equalsIgnoreCase("true")
+            : Objects.equals(value, true);
+    }
+
+    /**
+     * Converts generic capability value to integer without
+     * throwing exceptions.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Integer toSafeInteger(Object value) {
+        if (value instanceof String) {
+            return Integer.parseInt((String) value);
+        } else  if (value instanceof Number) {
+            return ((Number) value).intValue();
+        }
+        return null;
+    }
+
+    /**
+     * Converts generic capability value to long without
+     * throwing exceptions.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Long toSafeLong(Object value) {
+        if (value instanceof String) {
+            return Long.parseLong((String) value);
+        } else  if (value instanceof Number) {
+            return ((Number) value).longValue();
         }
         return null;
     }

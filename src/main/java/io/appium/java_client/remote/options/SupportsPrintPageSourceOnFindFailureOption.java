@@ -22,35 +22,37 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
-public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>> extends
+public interface SupportsPrintPageSourceOnFindFailureOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String ENABLE_PERFORMANCE_LOGGING_OPTION = "enablePerformanceLogging";
+    String PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION = "printPageSourceOnFindFailure";
 
     /**
-     * Set the app to enable performance logging.
+     * Set the app to print page source when a find operation fails.
      *
      * @return self instance for chaining.
      */
-    default T setEnablePerformanceLogging() {
-        return setEnablePerformanceLogging(true);
+    default T setPrintPageSourceOnFindFailure() {
+        return setPrintPageSourceOnFindFailure(true);
     }
 
     /**
-     * Set whether the app logs performance.
+     * Set whether the app to print page source when a find operation fails.
      *
-     * @param bool is whether the app logs performance.
+     * @param bool is whether to print page source.
      * @return self instance for chaining.
      */
-    default T setEnablePerformanceLogging(boolean bool) {
-        return amend(ENABLE_PERFORMANCE_LOGGING_OPTION, bool);
+    default T setPrintPageSourceOnFindFailure(boolean bool) {
+        return amend(PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION, bool);
     }
 
     /**
-     * Get the app logs performance.
+     * Get whether the app to print page source when a find operation fails.
      *
-     * @return true if the app logs performance.
+     * @return true if app prints page source.
      */
-    default Optional<Boolean> isEnablePerformanceLogging() {
-        return Optional.ofNullable(toSafeBoolean(getCapability(ENABLE_PERFORMANCE_LOGGING_OPTION)));
+    default Optional<Boolean> doesPrintPageSourceOnFindFailure() {
+        return Optional.ofNullable(
+                toSafeBoolean(getCapability(PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION))
+        );
     }
 }

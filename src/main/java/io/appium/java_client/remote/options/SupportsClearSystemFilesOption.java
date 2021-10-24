@@ -16,17 +16,20 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
+
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String CLEAR_SYSTEM_FILES_OPTION = "clearSystemFiles";
 
     /**
      * Set the app to delete any generated files at the end of a session.
      *
      * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
      */
     default T setClearSystemFiles() {
         return setClearSystemFiles(true);
@@ -37,19 +40,17 @@ public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extend
      *
      * @param bool is whether the app deletes generated files at the end of a session.
      * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
      */
     default T setClearSystemFiles(boolean bool) {
-        return amend(MobileCapabilityType.CLEAR_SYSTEM_FILES, bool);
+        return amend(CLEAR_SYSTEM_FILES_OPTION, bool);
     }
 
     /**
      * Get whether the app deletes generated files at the end of a session.
      *
      * @return true if the app deletes generated files at the end of a session.
-     * @see MobileCapabilityType#CLEAR_SYSTEM_FILES
      */
-    default boolean doesClearSystemFiles() {
-        return (boolean) getCapability(MobileCapabilityType.CLEAR_SYSTEM_FILES);
+    default Optional<Boolean> doesClearSystemFiles() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(CLEAR_SYSTEM_FILES_OPTION)));
     }
 }
