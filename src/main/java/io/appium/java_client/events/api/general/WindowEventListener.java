@@ -21,6 +21,10 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public interface WindowEventListener extends Listener {
     /**
      * This action will be performed each time before {@link WebDriver.Window#setSize(Dimension)}.

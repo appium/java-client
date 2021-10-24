@@ -18,6 +18,8 @@ package io.appium.java_client.events.api;
 
 /**
  * This interface just marks event listeners.
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
  */
+@Deprecated
 public interface Listener {
 }

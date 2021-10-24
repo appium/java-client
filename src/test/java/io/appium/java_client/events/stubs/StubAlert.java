@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.events.api.general;
+package io.appium.java_client.events.stubs;
 
-import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Alert;
 
-/**
- * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
- */
-@Deprecated
-public interface ListensToException extends Listener {
-    /**
-     * Called whenever an exception would be thrown.
-     * @param throwable the exception that will be thrown
-     * @param driver WebDriver
-     */
-    void onException(Throwable throwable, WebDriver driver);
+public class StubAlert implements Alert {
+    public StubAlert() {
+    }
+
+    public void dismiss() {
+    }
+
+    public void accept() {
+    }
+
+    public String getText() {
+        return "";
+    }
+
+    public void sendKeys(String keysToSend) {
+    }
 }

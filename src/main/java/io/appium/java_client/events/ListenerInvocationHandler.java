@@ -23,6 +23,10 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.List;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 class ListenerInvocationHandler implements InvocationHandler {
 
     private final List<Listener> listeners;

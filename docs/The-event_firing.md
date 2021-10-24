@@ -1,151 +1,76 @@
-since 4.1.0
+since v8.0.0
 
 # The purpose
 
-This feature allows end user to organize the event logging on the client side. Also this feature may be useful in a binding with standard or custom reporting
-frameworks. 
-  
-  
+This feature allows end user to organize the event logging on the client side. 
+Also this feature may be useful in a binding with standard or custom reporting
+frameworks. The feature has been introduced first since Selenium API v4.  
+
 # The API
 
-The API was designed the way which allows end user to select events (searching, navigation, exception throwing etc.) which should be listened to. It contains 
-the following list of interfaces (new items may be added further): 
+There are two main entities used to implement events firing logic: 
+- [org.openqa.selenium.support.events.EventFiringDecorator](https://github.com/SeleniumHQ/selenium/blob/trunk/java/src/org/openqa/selenium/support/events/EventFiringDecorator.java) class
+- [org.openqa.selenium.support.events.WebDriverListener](https://github.com/SeleniumHQ/selenium/blob/trunk/java/src/org/openqa/selenium/support/events/WebDriverListener.java) interface
 
-- `io.appium.java_client.events.api.Listener` is the basic interface
-- `io.appium.java_client.events.api.general.AlertEventListener` is for the listening to alerts
-- `io.appium.java_client.events.api.general.ElementEventListener` is for the listening to actions related to elements
-- `io.appium.java_client.events.api.general.JavaScriptEventListener` is for the listening to java script executing
-- `io.appium.java_client.events.api.general.ListensToException` is for the listening to exceptions which are thrown
-- `io.appium.java_client.events.api.general.NavigationEventListener` is for the listening to events related to navigation
-- `io.appium.java_client.events.api.general.SearchingEventListener` is for the listening to events related to the searching.
-- `io.appium.java_client.events.api.general.WindowEventListener` is for the listening to actions on a window
-- `io.appium.java_client.events.api.mobile.ContextEventListener` is for the listening to the switching to mobile context
-- `io.appium.java_client.events.api.mobile.RotationEventListener` is for the listening to screen rotation
-- `io.appium.java_client.events.api.general.AppiumWebDriverEventListener` was added to provide the compatibility with 
-user's implementation of `org.openqa.selenium.support.events.WebDriverEventListener`. Also it extends some interfaces above.
- 
-# Briefly about the engine. 
+## WebDriverListener
 
-This is pretty similar solution as the `org.openqa.selenium.support.events.EventFiringWebDriver` of the Selenium project. You 
-can read about this thing there [The blog post](https://seleniumworks.blogspot.com/2014/02/eventfiringwebdriver.html).  
+Classes that implement this interface are intended to be used with EventFiringDecorator.
+This interface provides empty default implementation for all methods that do nothing.
+You could easily extend that interface to add more methods that you'd like to listen to.
+The strategy to add new/custom event listeners is the following. Let say there is a public `setOrientation`
+method in the target WebDriver instance. Then you'd have to add `beforeSetOrientation` and/or
+`afterSetOrientation` methods to your WebDriverListener descendant accepting single argument 
+of `WebDriver` type. If the target method accepts one or more arguments then these arguments 
+should also be added to the event listeners in the same order they are accepted by the original method, 
+but the very first argument should still be the firing WebDriver instance.
 
-Here we were trying to improve existing drawbacks and restrictions using: 
+_Important_: Make sure that your implementation of WebDriverListener class is public
+and that event listener methods are also public.
 
-- API splitting, see above.
+## EventFiringDecorator
 
-- the binding of some [Spring framework engines](https://spring.io/projects/spring-framework) with [AspectJ](https://en.wikipedia.org/wiki/AspectJ).
+This decorator creates a wrapper around an arbitrary WebDriver instance that notifies
+registered listeners about events happening in this WebDriver and derived objects, 
+such as WebElements and Alert.
+Listeners should implement WebDriverListener. It supports three types of events:
+- "before"-event: a method is about to be called;
+- "after"-event: a method was called successfully and returned some result;
+- "error"-event: a method was called and thrown an exception.
 
-# How to use
-
-It is easy. 
-
+To use this decorator you have to prepare a listener, create a decorator using this listener, 
+decorate the original WebDriver instance with this decorator and use the new WebDriver instance
+created by the decorator instead of the original one: 
 ```java
-import io.appium.java_client.events.api.general.AlertEventListener;
-
-public class AlertListener implements AlertEventListener {
-...
-}
-
-...
-import io.appium.java_client.events.api.general.ElementEventListener;
-
-public class ElementListener implements ElementEventListener {
-...
-}
-
-//and so on
-...
-import io.appium.java_client.events.EventFiringWebDriverFactory;
-import io.appium.java_client.events.api.Listener;
-...
-
-AndroidDriver driver = new AndroidDriver(parameters);
-driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver, new AlertListener(), 
-    new ElementListener());
-    
-//or 
-AndroidDriver driver2 = new AndroidDriver(parameters); 
-List<Listener> listeners = new ArrayList<>();
-listeners.add(new AlertListener());
-listeners.add(new ElementListener());
-driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver2, listeners);
+WebDriver original = new AndroidDriver(); 
+// it is expected that MyListener class implements WebDriverListener
+// interface or its descendant
+WebDriverListener listener = new MyListener(); 
+WebDriver decorated = new EventFiringDecorator(listener).decorate(original);
+// the next call is going to fire:
+// - beforeAnyCall
+// - beforeAnyWebDriverCall
+// - beforeGet
+// - afterGet 
+// - afterAnyWebDriverCall
+// - afterAnyCall
+// events in the listener instence (in this order)
+decorated.get("http://example.com/"); 
+// the next call is going to fire:
+// - beforeAnyCall
+// - beforeAnyWebDriverCall
+// - beforeFindElement
+// - afterFindElement
+// - afterAnyWebDriverCall
+// - afterAnyCall
+// events in the listener instence (in this order)
+WebElement header = decorated.findElement(By.tagName("h1")); 
+// if an error happens during any of these calls the the onError event is fired
 ```
-
-## What if there are listeners which used everywhere by default.
-
-In order to avoid the repeating actions an end user is free to do these things: 
- 
-- create folders `/META-INF/services` and put the file `io.appium.java_client.events.api.Listener` there. Please read about 
-[SPI](https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html).
-
-![image](https://cloud.githubusercontent.com/assets/4927589/16731325/24eab680-4780-11e6-8551-a3c72d4b9c38.png)
-
-- define the list of default listeners at the `io.appium.java_client.events.api.Listener`
-
-![image](https://cloud.githubusercontent.com/assets/4927589/16731509/2734a4e0-4781-11e6-81cb-ab64a5924c35.png)
-
-And then it is enough
-
-```java
-
-//and so on
-...
-import io.appium.java_client.events.EventFiringWebDriverFactory;
-...
-
-AndroidDriver driver = new AndroidDriver(parameters);
-driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver);
-```
-
-If there are listeners defined externally when this collection is merged with default set of listeners.
-
-# How to reuse customized WebDriverEventListener
-
-If an end user has their own `org.openqa.selenium.support.events.WebDriverEventListener` implementation then in order to 
-make it compatible with this engine it is enough to do the following.
-
-
-```java
-import org.openqa.selenium.support.events.WebDriverEventListener;
-import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
-
-public class UsersWebDriverEventListener implements WebDriverEventListener, AppiumWebDriverEventListener {
-...
-}
-```
-
-or just 
-
-```java
-import io.appium.java_client.events.api.general.AppiumWebDriverEventListener;
-
-public class UsersWebDriverEventListener implements AppiumWebDriverEventListener {
-...
-}
-```
-# Also
-
-As soon as Appium java client has *Java 8-style* API  (methods with default implementation) there was provided the ability to get objects created by these interfaces (anonymous types) listenable. Also there is an option to make some objects (some single element that has been found, for example) listenable too.
-
-```java
-import static io.appium.java_client.events.EventFiringObjectFactory.getEventFiringObject;
-...
-
-AppiumDriver<AndroidElement> appiumDriver = new AppiumDriver<AndroidElement>(parameters);
-FindsByAndroidUIAutomator<AndroidElement> findsByAndroidUIAutomator =
-    new FindsByAndroidUIAutomator<AndroidElement>() {
-
-    @Override
-    public AndroidElement findElement(String by, String using) {
-        return appiumDriver.findElement(String by, String using);
-    }
-
-    @Override
-    public List<AndroidElement> findElements(String by, String using) {
-        return appiumDriver.findElements(by, using);
-    }
-};
-
-findsByAndroidUIAutomator = 
-    getEventFiringObject(findsByAndroidUIAutomator, appiumDriver, listeners);
-```
+The instance of WebDriver created by the decorator implements all the same interfaces 
+as the original driver. A listener can subscribe to "specific" or "generic" events (or both). 
+A "specific" event correspond to a single specific method, a "generic" event correspond to any 
+method called in a class or in any class. To subscribe to a "specific" event a listener should 
+implement a method with a name derived from the target method to be watched. The listener methods 
+for "before"-events receive the parameters passed to the decorated method. The listener 
+methods for "after"-events receive the parameters passed to the decorated method as well as the 
+result returned by this method.

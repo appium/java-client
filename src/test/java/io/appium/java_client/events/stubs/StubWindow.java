@@ -14,20 +14,37 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.events.api.general;
+package io.appium.java_client.events.stubs;
 
-import io.appium.java_client.events.api.Listener;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver.Window;
 
-/**
- * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
- */
-@Deprecated
-public interface ListensToException extends Listener {
-    /**
-     * Called whenever an exception would be thrown.
-     * @param throwable the exception that will be thrown
-     * @param driver WebDriver
-     */
-    void onException(Throwable throwable, WebDriver driver);
+public class StubWindow implements Window {
+    public StubWindow() {
+    }
+
+    public void setSize(Dimension targetSize) {
+    }
+
+    public void setPosition(Point targetPosition) {
+    }
+
+    public Dimension getSize() {
+        return null;
+    }
+
+    public Point getPosition() {
+        return null;
+    }
+
+    public void maximize() {
+    }
+
+    @Override
+    public void minimize() {
+    }
+
+    public void fullscreen() {
+    }
 }

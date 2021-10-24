@@ -39,6 +39,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 @SuppressWarnings("unused")
 @Aspect
 class DefaultAspect {
