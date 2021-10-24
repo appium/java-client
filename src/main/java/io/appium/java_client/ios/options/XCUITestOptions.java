@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote;
+package io.appium.java_client.ios.options;
 
+import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.SupportsAppOption;
 import io.appium.java_client.remote.options.SupportsAutoWebViewOption;
@@ -29,32 +31,23 @@ import io.appium.java_client.remote.options.SupportsOtherAppsOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
-/**
- * Use the specific options class for your driver,
- * for example XCUITestOptions or UiAutomator2Options.
- *
- * @param <T> The child class for a proper chaining.
- */
-@Deprecated
-public class MobileOptions<T extends MobileOptions<T>> extends BaseOptions<T>
-        implements SupportsAppOption<T>, SupportsAutoWebViewOption<T>,
-        SupportsClearSystemFilesOption<T>, SupportsDeviceNameOption<T>,
-        SupportsEnablePerformanceLoggingOption<T>, SupportsLanguageOption<T>,
-        SupportsLocaleOption<T>, SupportsOrientationOption<T>, SupportsOtherAppsOption<T>,
-        SupportsUdidOption<T> {
-
-    /**
-     * Creates new instance with no preset capabilities.
-     */
-    public MobileOptions() {
+public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
+        SupportsAppOption<XCUITestOptions>, SupportsAutoWebViewOption<XCUITestOptions>,
+        SupportsClearSystemFilesOption<XCUITestOptions>, SupportsDeviceNameOption<XCUITestOptions>,
+        SupportsEnablePerformanceLoggingOption<XCUITestOptions>, SupportsLanguageOption<XCUITestOptions>,
+        SupportsLocaleOption<XCUITestOptions>, SupportsOrientationOption<XCUITestOptions>,
+        SupportsOtherAppsOption<XCUITestOptions>, SupportsUdidOption<XCUITestOptions> {
+    public XCUITestOptions() {
+        setCommonOptions();
     }
 
-    /**
-     * Creates new instance with provided capabilities capabilities.
-     *
-     * @param source is Capabilities instance to merge into new instance
-     */
-    public MobileOptions(Capabilities source) {
+    public XCUITestOptions(Capabilities source) {
         super(source);
+        setCommonOptions();
+    }
+
+    private void setCommonOptions() {
+        setPlatformName(MobilePlatform.IOS);
+        setAutomationName(AutomationName.IOS_XCUI_TEST);
     }
 }

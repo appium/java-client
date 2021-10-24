@@ -14,28 +14,21 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android;
+package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileOptions;
-import io.appium.java_client.remote.MobilePlatform;
-import org.openqa.selenium.Capabilities;
+public interface CanSetCapability<T extends BaseOptions<T>> {
+    void setCapability(String key, Object value);
 
-/**
- * Use the specific options class for your driver,
- * for example UiAutomator2Options.
- */
-@Deprecated
-public class AndroidOptions extends MobileOptions<AndroidOptions> {
-    public AndroidOptions() {
-        setAndroidPlatformName();
-    }
-
-    public AndroidOptions(Capabilities source) {
-        super(source);
-        setAndroidPlatformName();
-    }
-
-    private void setAndroidPlatformName() {
-        setPlatformName(MobilePlatform.ANDROID);
+    /**
+     * Set a custom option.
+     *
+     * @param optionName Option name.
+     * @param value Option value.
+     * @return self instance for chaining.
+     */
+    default T amend(String optionName, Object value) {
+        setCapability(optionName, value);
+        //noinspection unchecked
+        return (T) this;
     }
 }

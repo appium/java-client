@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote;
+package io.appium.java_client.android.options;
 
+import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.SupportsAppOption;
 import io.appium.java_client.remote.options.SupportsAutoWebViewOption;
@@ -29,32 +31,23 @@ import io.appium.java_client.remote.options.SupportsOtherAppsOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
-/**
- * Use the specific options class for your driver,
- * for example XCUITestOptions or UiAutomator2Options.
- *
- * @param <T> The child class for a proper chaining.
- */
-@Deprecated
-public class MobileOptions<T extends MobileOptions<T>> extends BaseOptions<T>
-        implements SupportsAppOption<T>, SupportsAutoWebViewOption<T>,
-        SupportsClearSystemFilesOption<T>, SupportsDeviceNameOption<T>,
-        SupportsEnablePerformanceLoggingOption<T>, SupportsLanguageOption<T>,
-        SupportsLocaleOption<T>, SupportsOrientationOption<T>, SupportsOtherAppsOption<T>,
-        SupportsUdidOption<T> {
-
-    /**
-     * Creates new instance with no preset capabilities.
-     */
-    public MobileOptions() {
+public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implements
+        SupportsAppOption<UiAutomator2Options>, SupportsAutoWebViewOption<UiAutomator2Options>,
+        SupportsClearSystemFilesOption<UiAutomator2Options>, SupportsDeviceNameOption<UiAutomator2Options>,
+        SupportsEnablePerformanceLoggingOption<UiAutomator2Options>, SupportsLanguageOption<UiAutomator2Options>,
+        SupportsLocaleOption<UiAutomator2Options>, SupportsOrientationOption<UiAutomator2Options>,
+        SupportsOtherAppsOption<UiAutomator2Options>, SupportsUdidOption<UiAutomator2Options> {
+    public UiAutomator2Options() {
+        setCommonOptions();
     }
 
-    /**
-     * Creates new instance with provided capabilities capabilities.
-     *
-     * @param source is Capabilities instance to merge into new instance
-     */
-    public MobileOptions(Capabilities source) {
+    public UiAutomator2Options(Capabilities source) {
         super(source);
+        setCommonOptions();
+    }
+
+    private void setCommonOptions() {
+        setPlatformName(MobilePlatform.ANDROID);
+        setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);
     }
 }
