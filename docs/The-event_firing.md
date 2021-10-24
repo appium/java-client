@@ -17,7 +17,7 @@ There are two main entities used to implement events firing logic:
 Classes that implement this interface are intended to be used with EventFiringDecorator.
 This interface provides empty default implementation for all methods that do nothing.
 You could easily extend that interface to add more methods that you'd like to listen to.
-The strategy to add new/custom event listeners is the following. Let say there is a public setOrientation
+The strategy to add new/custom event listeners is the following. Let say there is a public `setOrientation`
 method in the target WebDriver instance. Then you'd have to add `beforeSetOrientation` and/or
 `afterSetOrientation` methods to your WebDriverListener descendant accepting single argument 
 of `WebDriver` type. If the target method accepts one or more arguments then these arguments 
