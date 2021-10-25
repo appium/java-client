@@ -29,6 +29,16 @@ public interface SupportsGpsEnabledOption<T extends BaseOptions<T>> extends
     String GPS_ENABLED_OPTION = "gpsEnabled";
 
     /**
+     * Enables GPS service in the Emulator.
+     * Unset by default, which means to not change the current value.
+     *
+     * @return self instance for chaining.
+     */
+    default T gpsEnabled() {
+        return amend(GPS_ENABLED_OPTION, true);
+    }
+
+    /**
      * Sets whether to enable (true) or disable (false) GPS service in the Emulator.
      * Unset by default, which means to not change the current value.
      *

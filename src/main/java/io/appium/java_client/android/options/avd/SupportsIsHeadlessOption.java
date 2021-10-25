@@ -29,6 +29,16 @@ public interface SupportsIsHeadlessOption<T extends BaseOptions<T>> extends
     String IS_HEADLESS_OPTION = "isHeadless";
 
     /**
+     * Set emulator to start in headless mode (e.g. no UI is shown).
+     * It is only applied if the emulator is not running before the test starts.
+     *
+     * @return self instance for chaining.
+     */
+    default T headless() {
+        return amend(IS_HEADLESS_OPTION, true);
+    }
+
+    /**
      * If set to true then emulator starts in headless mode (e.g. no UI is shown).
      * It is only applied if the emulator is not running before the test starts.
      * false by default.
