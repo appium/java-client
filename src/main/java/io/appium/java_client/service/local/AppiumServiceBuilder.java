@@ -25,7 +25,6 @@ import com.google.gson.GsonBuilder;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
 import org.apache.commons.io.IOUtils;
@@ -33,7 +32,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.Browser;
@@ -231,15 +229,8 @@ public final class AppiumServiceBuilder
      * @return the self-reference.
      */
     public AppiumServiceBuilder withCapabilities(Capabilities capabilities) {
-        MutableCapabilities caps = capabilities instanceof BaseOptions
-                ? ((BaseOptions<?>) capabilities).clone()
-                : new MutableCapabilities();
-        if (this.capabilities == null) {
-            this.capabilities = caps.merge(capabilities);
-        } else {
-            caps.merge(this.capabilities).merge(capabilities);
-            this.capabilities = caps;
-        }
+        this.capabilities = (this.capabilities == null ? capabilities : this.capabilities)
+                .merge(capabilities);
         return this;
     }
 
