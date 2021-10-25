@@ -23,7 +23,7 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 public interface SupportsUiautomator2ServerReadTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -49,7 +49,7 @@ public interface SupportsUiautomator2ServerReadTimeoutOption<T extends BaseOptio
      */
     default Optional<Duration> getUiautomator2ServerReadTimeout() {
         return Optional.ofNullable(
-                toSafeDuration(getCapability(UIAUTOMATOR2_SERVER_READ_TIMEOUT_OPTION))
+                toDuration(getCapability(UIAUTOMATOR2_SERVER_READ_TIMEOUT_OPTION))
         );
     }
 }

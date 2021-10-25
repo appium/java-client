@@ -23,7 +23,7 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 public interface SupportsUiautomator2ServerInstallTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -47,7 +47,7 @@ public interface SupportsUiautomator2ServerInstallTimeoutOption<T extends BaseOp
      */
     default Optional<Duration> getUiautomator2ServerInstallTimeout() {
         return Optional.ofNullable(
-                toSafeDuration(getCapability(UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT_OPTION))
+                toDuration(getCapability(UIAUTOMATOR2_SERVER_INSTALL_TIMEOUT_OPTION))
         );
     }
 }

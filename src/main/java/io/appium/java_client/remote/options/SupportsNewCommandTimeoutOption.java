@@ -21,7 +21,7 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -44,7 +44,7 @@ public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> exten
      */
     default Optional<Duration> getNewCommandTimeout() {
         return Optional.ofNullable(
-                toSafeDuration(getCapability(NEW_COMMAND_TIMEOUT_OPTION), Duration::ofSeconds)
+                toDuration(getCapability(NEW_COMMAND_TIMEOUT_OPTION), Duration::ofSeconds)
         );
     }
 }

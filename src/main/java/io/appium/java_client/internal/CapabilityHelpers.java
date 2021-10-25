@@ -78,20 +78,22 @@ public class CapabilityHelpers {
     }
 
     /**
-     * Converts generic capability value to integer without
-     * throwing exceptions.
+     * Converts generic capability value to integer.
      *
      * @param value The capability value.
+     * @throws NumberFormatException If the given value cannot be parsed
+     * to a valid integer.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
-    public static Integer toSafeInteger(Object value) {
-        if (value instanceof String) {
-            return Integer.parseInt((String) value);
+    public static Integer toInteger(Object value) {
+        if (value == null) {
+            return null;
         } else if (value instanceof Number) {
             return ((Number) value).intValue();
+        } else {
+            return Integer.parseInt(String.valueOf(value));
         }
-        return null;
     }
 
     /**
@@ -99,16 +101,19 @@ public class CapabilityHelpers {
      * throwing exceptions.
      *
      * @param value The capability value.
+     * @throws NumberFormatException If the given value cannot be parsed
+     * to a valid long.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
-    public static Long toSafeLong(Object value) {
-        if (value instanceof String) {
-            return Long.parseLong((String) value);
+    public static Long toLong(Object value) {
+        if (value == null) {
+            return null;
         } else if (value instanceof Number) {
             return ((Number) value).longValue();
+        } else {
+            return Long.parseLong(String.valueOf(value));
         }
-        return null;
     }
 
     /**
@@ -117,11 +122,13 @@ public class CapabilityHelpers {
      * measured in milliseconds.
      *
      * @param value The capability value.
+     * @throws NumberFormatException If the given value cannot be parsed
+     * to a valid number.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
-    public static Duration toSafeDuration(Object value) {
-        return toSafeDuration(value, Duration::ofMillis);
+    public static Duration toDuration(Object value) {
+        return toDuration(value, Duration::ofMillis);
     }
 
     /**
@@ -130,12 +137,14 @@ public class CapabilityHelpers {
      *
      * @param value     The capability value.
      * @param converter Converts the numeric value to a Duration instance.
+     * @throws NumberFormatException If the given value cannot be parsed
+     * to a valid number.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
-    public static Duration toSafeDuration(Object value,
-                                          Function<Long, Duration> converter) {
-        Long v = toSafeLong(value);
+    public static Duration toDuration(Object value,
+                                      Function<Long, Duration> converter) {
+        Long v = toLong(value);
         return v == null ? null : converter.apply(v);
     }
 }

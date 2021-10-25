@@ -23,7 +23,7 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 public interface SupportsAppDurationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -46,6 +46,6 @@ public interface SupportsAppDurationOption<T extends BaseOptions<T>> extends
      * @return Package identifier.
      */
     default Optional<Duration> getAppWaitDuration() {
-        return Optional.ofNullable(toSafeDuration(getCapability(APP_WAIT_DURATION_OPTION)));
+        return Optional.ofNullable(toDuration(getCapability(APP_WAIT_DURATION_OPTION)));
     }
 }

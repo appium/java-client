@@ -22,7 +22,7 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeInteger;
+import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
 public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -47,6 +47,6 @@ public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
      * @return System port value
      */
     default Optional<Integer> getSystemPort() {
-        return Optional.ofNullable(toSafeInteger(getCapability(SYSTEM_PORT_OPTION)));
+        return Optional.ofNullable(toInteger(getCapability(SYSTEM_PORT_OPTION)));
     }
 }

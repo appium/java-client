@@ -22,8 +22,7 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeInteger;
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeLong;
+import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
 public interface SupportsRemoteAppsCacheLimitOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -49,6 +48,6 @@ public interface SupportsRemoteAppsCacheLimitOption<T extends BaseOptions<T>> ex
      * @return The maximum amount of cached apps.
      */
     default Optional<Integer> getRemoteAppsCacheLimit() {
-        return Optional.ofNullable(toSafeInteger(getCapability(REMOTE_APPS_CACHE_LIMIT_OPTION)));
+        return Optional.ofNullable(toInteger(getCapability(REMOTE_APPS_CACHE_LIMIT_OPTION)));
     }
 }
