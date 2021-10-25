@@ -23,6 +23,8 @@ import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CapabilityType;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -82,6 +84,17 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
         super.merge(extraCapabilities);
         //noinspection unchecked
         return (T) this;
+    }
+
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
+    public T clone() {
+        try {
+            Constructor<?> constructor = getClass().getConstructor(Capabilities.class);
+            //noinspection unchecked
+            return (T) constructor.newInstance(this);
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override

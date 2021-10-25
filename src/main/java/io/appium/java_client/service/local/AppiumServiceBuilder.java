@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
 import org.apache.commons.io.IOUtils;
@@ -78,7 +79,7 @@ public final class AppiumServiceBuilder
     private File appiumJS;
     private File node;
     private String ipAddress = BROADCAST_IP_ADDRESS;
-    private MutableCapabilities capabilities;
+    private Capabilities capabilities;
     private boolean autoQuoteCapabilitiesOnWindows = false;
     private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
             "The main Appium script does not exist at '%s'", fullPath.getAbsolutePath());
@@ -224,16 +225,18 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * Adds a desired capabilities.
+     * Adds capabilities.
      *
      * @param capabilities is an instance of {@link Capabilities}.
      * @return the self-reference.
      */
     public AppiumServiceBuilder withCapabilities(Capabilities capabilities) {
+        MutableCapabilities caps = capabilities instanceof BaseOptions
+                ? ((BaseOptions<?>) capabilities).clone()
+                : new MutableCapabilities();
         if (this.capabilities == null) {
-            this.capabilities = new MutableCapabilities(capabilities);
+            this.capabilities = caps.merge(capabilities);
         } else {
-            MutableCapabilities caps = new MutableCapabilities();
             caps.merge(this.capabilities).merge(capabilities);
             this.capabilities = caps;
         }
@@ -241,9 +244,9 @@ public final class AppiumServiceBuilder
     }
 
     /**
-     * Adds a desired capabilities.
+     * Adds capabilities.
      *
-     * @param capabilities is an instance of {@link Capabilities}.
+     * @param capabilities                   is an instance of {@link Capabilities}.
      * @param autoQuoteCapabilitiesOnWindows automatically escape quote all
      *                                       capabilities when calling appium.
      *                                       This is required on windows systems only.
