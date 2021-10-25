@@ -16,8 +16,6 @@
 
 package io.appium.java_client.service.local;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import com.google.common.collect.ImmutableList;
@@ -25,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
@@ -33,11 +32,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.remote.BrowserType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
 import javax.annotation.Nullable;
@@ -54,7 +52,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public final class AppiumServiceBuilder
@@ -81,7 +78,7 @@ public final class AppiumServiceBuilder
     private File appiumJS;
     private File node;
     private String ipAddress = BROADCAST_IP_ADDRESS;
-    private DesiredCapabilities capabilities;
+    private MutableCapabilities capabilities;
     private boolean autoQuoteCapabilitiesOnWindows = false;
     private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
             "The main Appium script does not exist at '%s'", fullPath.getAbsolutePath());
@@ -114,7 +111,7 @@ public final class AppiumServiceBuilder
         }
 
         String browserName = capabilities.getBrowserName();
-        if (Browser.CHROME.is(browserName) || browserName.equals(BrowserType.ANDROID)
+        if (Browser.CHROME.is(browserName) || browserName.equalsIgnoreCase(MobileBrowserType.ANDROID)
                 || Browser.SAFARI.is(browserName)) {
             score++;
         }
@@ -229,16 +226,16 @@ public final class AppiumServiceBuilder
     /**
      * Adds a desired capabilities.
      *
-     * @param capabilities is an instance of {@link DesiredCapabilities}.
+     * @param capabilities is an instance of {@link Capabilities}.
      * @return the self-reference.
      */
-    public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities) {
+    public AppiumServiceBuilder withCapabilities(Capabilities capabilities) {
         if (this.capabilities == null) {
-            this.capabilities = capabilities;
+            this.capabilities = new MutableCapabilities(capabilities);
         } else {
-            DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-            desiredCapabilities.merge(this.capabilities).merge(capabilities);
-            this.capabilities = desiredCapabilities;
+            MutableCapabilities caps = new MutableCapabilities();
+            caps.merge(this.capabilities).merge(capabilities);
+            this.capabilities = caps;
         }
         return this;
     }
@@ -246,13 +243,13 @@ public final class AppiumServiceBuilder
     /**
      * Adds a desired capabilities.
      *
-     * @param capabilities is an instance of {@link DesiredCapabilities}.
+     * @param capabilities is an instance of {@link Capabilities}.
      * @param autoQuoteCapabilitiesOnWindows automatically escape quote all
      *                                       capabilities when calling appium.
      *                                       This is required on windows systems only.
      * @return the self-reference.
      */
-    public AppiumServiceBuilder withCapabilities(DesiredCapabilities capabilities,
+    public AppiumServiceBuilder withCapabilities(Capabilities capabilities,
                                                  boolean autoQuoteCapabilitiesOnWindows) {
         this.autoQuoteCapabilitiesOnWindows = autoQuoteCapabilitiesOnWindows;
         return withCapabilities(capabilities);
@@ -333,7 +330,7 @@ public final class AppiumServiceBuilder
             result.append(key).append(": ").append(value);
         }
 
-        return "{" + result.toString() + "}";
+        return "{" + result + "}";
     }
 
     private String capabilitiesToCmdlineArg() {
