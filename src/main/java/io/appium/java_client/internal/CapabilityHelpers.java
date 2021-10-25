@@ -22,7 +22,6 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class CapabilityHelpers {
@@ -69,12 +68,7 @@ public class CapabilityHelpers {
      */
     @Nullable
     public static Boolean toSafeBoolean(Object value) {
-        if (value == null) {
-            return null;
-        }
-        return (value instanceof String)
-                ? Boolean.parseBoolean((String) value)
-                : Objects.equals(value, true);
+        return value == null ? null : Boolean.parseBoolean(String.valueOf(value));
     }
 
     /**
