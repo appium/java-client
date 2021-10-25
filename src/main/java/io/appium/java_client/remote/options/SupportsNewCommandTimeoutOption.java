@@ -25,7 +25,7 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
 
 public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
+    String NEW_COMMAND_TIMEOUT_OPTION = "newCommandTimeout";
 
     /**
      * Set the timeout for new commands.
@@ -34,7 +34,7 @@ public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> exten
      * @return self instance for chaining.
      */
     default T setNewCommandTimeout(Duration duration) {
-        return amend(NEW_COMMAND_TIMEOUT, duration.getSeconds());
+        return amend(NEW_COMMAND_TIMEOUT_OPTION, duration.getSeconds());
     }
 
     /**
@@ -44,7 +44,7 @@ public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> exten
      */
     default Optional<Duration> getNewCommandTimeout() {
         return Optional.ofNullable(
-                toSafeDuration(getCapability(NEW_COMMAND_TIMEOUT), Duration::ofSeconds)
+                toSafeDuration(getCapability(NEW_COMMAND_TIMEOUT_OPTION), Duration::ofSeconds)
         );
     }
 }
