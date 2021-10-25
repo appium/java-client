@@ -16,6 +16,18 @@
 
 package io.appium.java_client.android.options;
 
+import io.appium.java_client.android.options.adb.SupportsAdbExecTimeoutOption;
+import io.appium.java_client.android.options.adb.SupportsAdbPortOption;
+import io.appium.java_client.android.options.adb.SupportsAllowDelayAdbOption;
+import io.appium.java_client.android.options.adb.SupportsBuildToolsVersionOption;
+import io.appium.java_client.android.options.adb.SupportsClearDeviceLogsOnStartOption;
+import io.appium.java_client.android.options.adb.SupportsIgnoreHiddenApiPolicyErrorOption;
+import io.appium.java_client.android.options.adb.SupportsLogcatFilterSpecsOption;
+import io.appium.java_client.android.options.adb.SupportsLogcatFormatOption;
+import io.appium.java_client.android.options.adb.SupportsMockLocationAppOption;
+import io.appium.java_client.android.options.adb.SupportsRemoteAdbHostOption;
+import io.appium.java_client.android.options.adb.SupportsSkipLogcatCaptureOption;
+import io.appium.java_client.android.options.adb.SupportsSuppressKillServerOption;
 import io.appium.java_client.android.options.app.SupportsAllowTestPackagesOption;
 import io.appium.java_client.android.options.app.SupportsAndroidInstallTimeoutOption;
 import io.appium.java_client.android.options.app.SupportsAppActivityOption;
@@ -32,6 +44,15 @@ import io.appium.java_client.android.options.app.SupportsIntentFlagsOption;
 import io.appium.java_client.android.options.app.SupportsOptionalIntentArgumentsOption;
 import io.appium.java_client.android.options.app.SupportsRemoteAppsCacheLimitOption;
 import io.appium.java_client.android.options.app.SupportsUninstallOtherPackagesOption;
+import io.appium.java_client.android.options.avd.SupportsAvdArgsOption;
+import io.appium.java_client.android.options.avd.SupportsAvdEnvOption;
+import io.appium.java_client.android.options.avd.SupportsAvdLaunchTimeoutOption;
+import io.appium.java_client.android.options.avd.SupportsAvdOption;
+import io.appium.java_client.android.options.avd.SupportsAvdReadyTimeoutOption;
+import io.appium.java_client.android.options.avd.SupportsGpsEnabledOption;
+import io.appium.java_client.android.options.avd.SupportsIsHeadlessOption;
+import io.appium.java_client.android.options.avd.SupportsNetworkSpeedOption;
+import io.appium.java_client.android.options.localization.SupportsLocaleScriptOption;
 import io.appium.java_client.android.options.server.SupportsDisableWindowAnimationOption;
 import io.appium.java_client.android.options.server.SupportsSkipDeviceInitializationOption;
 import io.appium.java_client.android.options.server.SupportsSkipServerInstallationOption;
@@ -39,6 +60,8 @@ import io.appium.java_client.android.options.server.SupportsSystemPortOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerInstallTimeoutOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerLaunchTimeoutOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerReadTimeoutOption;
+import io.appium.java_client.android.options.signing.SupportsKeystoreOptions;
+import io.appium.java_client.android.options.signing.SupportsNoSignOption;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
@@ -58,9 +81,6 @@ import org.openqa.selenium.Capabilities;
  * https://github.com/appium/appium-uiautomator2-driver#capabilities
  */
 public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implements
-        // TODO: ADB options: https://github.com/appium/appium-uiautomator2-driver#adb
-        // TODO: AVD options: https://github.com/appium/appium-uiautomator2-driver#emulator-android-virtual-device
-        // TODO: App signing options: https://github.com/appium/appium-uiautomator2-driver#app-signing
         // TODO: Device locking options: https://github.com/appium/appium-uiautomator2-driver#device-locking
         // TODO: MJPEG options: https://github.com/appium/appium-uiautomator2-driver#mjpeg
         // TODO: Web Context options: https://github.com/appium/appium-uiautomator2-driver#web-context
@@ -100,9 +120,35 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsAllowTestPackagesOption<UiAutomator2Options>,
         SupportsRemoteAppsCacheLimitOption<UiAutomator2Options>,
         SupportsEnforceAppInstallOption<UiAutomator2Options>,
-        // TODO: App localization options: https://github.com/appium/appium-uiautomator2-driver#app-localization
+        // App localization options: https://github.com/appium/appium-uiautomator2-driver#app-localization
+        SupportsLocaleScriptOption<UiAutomator2Options>,
         SupportsLanguageOption<UiAutomator2Options>,
-        SupportsLocaleOption<UiAutomator2Options> {
+        SupportsLocaleOption<UiAutomator2Options>,
+        // ADB options: https://github.com/appium/appium-uiautomator2-driver#adb
+        SupportsAdbPortOption<UiAutomator2Options>,
+        SupportsRemoteAdbHostOption<UiAutomator2Options>,
+        SupportsAdbExecTimeoutOption<UiAutomator2Options>,
+        SupportsClearDeviceLogsOnStartOption<UiAutomator2Options>,
+        SupportsBuildToolsVersionOption<UiAutomator2Options>,
+        SupportsSkipLogcatCaptureOption<UiAutomator2Options>,
+        SupportsSuppressKillServerOption<UiAutomator2Options>,
+        SupportsIgnoreHiddenApiPolicyErrorOption<UiAutomator2Options>,
+        SupportsMockLocationAppOption<UiAutomator2Options>,
+        SupportsLogcatFormatOption<UiAutomator2Options>,
+        SupportsLogcatFilterSpecsOption<UiAutomator2Options>,
+        SupportsAllowDelayAdbOption<UiAutomator2Options>,
+        // AVD options: https://github.com/appium/appium-uiautomator2-driver#emulator-android-virtual-device
+        SupportsAvdOption<UiAutomator2Options>,
+        SupportsAvdLaunchTimeoutOption<UiAutomator2Options>,
+        SupportsAvdReadyTimeoutOption<UiAutomator2Options>,
+        SupportsAvdArgsOption<UiAutomator2Options>,
+        SupportsAvdEnvOption<UiAutomator2Options>,
+        SupportsNetworkSpeedOption<UiAutomator2Options>,
+        SupportsGpsEnabledOption<UiAutomator2Options>,
+        SupportsIsHeadlessOption<UiAutomator2Options>,
+        // App signing options: https://github.com/appium/appium-uiautomator2-driver#app-signing
+        SupportsKeystoreOptions<UiAutomator2Options>,
+        SupportsNoSignOption<UiAutomator2Options> {
     public UiAutomator2Options() {
         setCommonOptions();
     }
