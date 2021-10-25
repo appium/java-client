@@ -16,29 +16,30 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
 
 public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String DEVICE_NAME_OPTION = "deviceName";
+
     /**
      * Set the name of the device.
      *
      * @param deviceName is the name of the device.
      * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#DEVICE_NAME
      */
     default T setDeviceName(String deviceName) {
-        return amend(MobileCapabilityType.DEVICE_NAME, deviceName);
+        return amend(DEVICE_NAME_OPTION, deviceName);
     }
 
     /**
      * Get the name of the device.
      *
      * @return String representing the name of the device.
-     * @see MobileCapabilityType#DEVICE_NAME
      */
-    default String getDeviceName() {
-        return (String) getCapability(MobileCapabilityType.DEVICE_NAME);
+    default Optional<String> getDeviceName() {
+        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
     }
 }

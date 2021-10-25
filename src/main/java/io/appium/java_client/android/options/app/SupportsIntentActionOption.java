@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.android.options.app;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
+public interface SupportsIntentActionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LOCALE_OPTION = "locale";
+    String INTENT_ACTION_OPTION = "intentAction";
 
     /**
-     * Set locale abbreviation for use in session.
+     * Set an optional intent action to be applied when
+     * starting the given appActivity by Activity Manager.
      *
-     * @param locale is the locale abbreviation.
+     * @param intentAction Intent action class name.
      * @return self instance for chaining.
      */
-    default T setLocale(String locale) {
-        return amend(LOCALE_OPTION, locale);
+    default T setIntentAction(String intentAction) {
+        return amend(INTENT_ACTION_OPTION, intentAction);
     }
 
     /**
-     * Get locale abbreviation for use in session.
+     * Get intent action to be applied when
+     * starting the given appActivity by Activity Manager.
      *
-     * @return String representing the locale abbreviation.
+     * @return Intent action class name.
      */
-    default Optional<String> getLocale() {
-        return Optional.ofNullable((String) getCapability(LOCALE_OPTION));
+    default Optional<String> getIntentAction() {
+        return Optional.ofNullable((String) getCapability(INTENT_ACTION_OPTION));
     }
 }

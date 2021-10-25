@@ -18,41 +18,39 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 
-import java.net.URL;
 import java.util.Optional;
 
-public interface SupportsAppOption<T extends BaseOptions<T>> extends
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
+
+public interface SupportsEventTimingsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String APP_OPTION = "app";
+    String EVENT_TIMINGS_OPTION = "eventTimings";
 
     /**
-     * Set the absolute local path for the location of the App.
-     * The app must be located on the same machine where Appium
-     * server is running.
+     * Set the app to report the timings for various Appium-internal events.
      *
-     * @param path is a String representing the location of the App
      * @return self instance for chaining.
      */
-    default T setApp(String path) {
-        return amend(APP_OPTION, path);
+    default T setEventTimings() {
+        return setEventTimings(true);
     }
 
     /**
-     * Set the remote http URL for the location of the App.
+     * Set whether the app reports the timings for various Appium-internal events.
      *
-     * @param url is the URL representing the location of the App
+     * @param bool is whether the app enables event timings.
      * @return self instance for chaining.
      */
-    default T setApp(URL url) {
-        return setApp(url.toString());
+    default T setEventTimings(boolean bool) {
+        return amend(EVENT_TIMINGS_OPTION, bool);
     }
 
     /**
-     * Get the app location.
+     * Get whether the app reports the timings for various Appium-internal events.
      *
-     * @return String representing app location
+     * @return true if the app reports event timings.
      */
-    default Optional<String> getApp() {
-        return Optional.ofNullable((String) getCapability(APP_OPTION));
+    default Optional<Boolean> doesEventTimings() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(EVENT_TIMINGS_OPTION)));
     }
 }

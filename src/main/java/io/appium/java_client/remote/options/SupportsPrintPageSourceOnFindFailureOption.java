@@ -22,35 +22,37 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
-public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
+public interface SupportsPrintPageSourceOnFindFailureOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String AUTO_WEB_VIEW_OPTION = "autoWebView";
+    String PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION = "printPageSourceOnFindFailure";
 
     /**
-     * Set the app to move directly into Webview context.
+     * Set the app to print page source when a find operation fails.
      *
      * @return self instance for chaining.
      */
-    default T autoWebview() {
-        return setAutoWebview(true);
+    default T printPageSourceOnFindFailure() {
+        return setPrintPageSourceOnFindFailure(true);
     }
 
     /**
-     * Set whether the app moves directly into Webview context.
+     * Set whether the app to print page source when a find operation fails.
      *
-     * @param bool is whether the app moves directly into Webview context.
+     * @param bool is whether to print page source.
      * @return self instance for chaining.
      */
-    default T setAutoWebview(boolean bool) {
-        return amend(AUTO_WEB_VIEW_OPTION, bool);
+    default T setPrintPageSourceOnFindFailure(boolean bool) {
+        return amend(PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION, bool);
     }
 
     /**
-     * Get whether the app moves directly into Webview context.
+     * Get whether the app to print page source when a find operation fails.
      *
-     * @return true if app moves directly into Webview context.
+     * @return true if app prints page source.
      */
-    default Optional<Boolean> doesAutoWebview() {
-        return Optional.ofNullable(toSafeBoolean(getCapability(AUTO_WEB_VIEW_OPTION)));
+    default Optional<Boolean> doesPrintPageSourceOnFindFailure() {
+        return Optional.ofNullable(
+                toSafeBoolean(getCapability(PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION))
+        );
     }
 }

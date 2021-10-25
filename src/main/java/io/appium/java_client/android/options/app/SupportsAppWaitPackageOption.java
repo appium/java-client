@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.android.options.app;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
+public interface SupportsAppWaitPackageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LOCALE_OPTION = "locale";
+    String APP_WAIT_PACKAGE_OPTION = "appWaitPackage";
 
     /**
-     * Set locale abbreviation for use in session.
+     * Identifier of the package that the driver should wait for
+     * (not necessarily the main one).
+     * If not provided then defaults to appium:appPackage.
      *
-     * @param locale is the locale abbreviation.
+     * @param appWaitPackage Package identifier to wait for.
      * @return self instance for chaining.
      */
-    default T setLocale(String locale) {
-        return amend(LOCALE_OPTION, locale);
+    default T setAppWaitPackage(String appWaitPackage) {
+        return amend(APP_WAIT_PACKAGE_OPTION, appWaitPackage);
     }
 
     /**
-     * Get locale abbreviation for use in session.
+     * Get the identifier of the app package to wait for.
      *
-     * @return String representing the locale abbreviation.
+     * @return Package identifier.
      */
-    default Optional<String> getLocale() {
-        return Optional.ofNullable((String) getCapability(LOCALE_OPTION));
+    default Optional<String> getAppWaitPackage() {
+        return Optional.ofNullable((String) getCapability(APP_WAIT_PACKAGE_OPTION));
     }
 }

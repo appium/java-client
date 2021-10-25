@@ -18,28 +18,33 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 
+import java.time.Duration;
 import java.util.Optional;
 
-public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
+
+public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LOCALE_OPTION = "locale";
+    String NEW_COMMAND_TIMEOUT_OPTION = "newCommandTimeout";
 
     /**
-     * Set locale abbreviation for use in session.
+     * Set the timeout for new commands.
      *
-     * @param locale is the locale abbreviation.
+     * @param duration is the allowed time before seeing a new command.
      * @return self instance for chaining.
      */
-    default T setLocale(String locale) {
-        return amend(LOCALE_OPTION, locale);
+    default T setNewCommandTimeout(Duration duration) {
+        return amend(NEW_COMMAND_TIMEOUT_OPTION, duration.getSeconds());
     }
 
     /**
-     * Get locale abbreviation for use in session.
+     * Get the timeout for new commands.
      *
-     * @return String representing the locale abbreviation.
+     * @return allowed time before seeing a new command.
      */
-    default Optional<String> getLocale() {
-        return Optional.ofNullable((String) getCapability(LOCALE_OPTION));
+    default Optional<Duration> getNewCommandTimeout() {
+        return Optional.ofNullable(
+                toDuration(getCapability(NEW_COMMAND_TIMEOUT_OPTION), Duration::ofSeconds)
+        );
     }
 }

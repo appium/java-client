@@ -14,32 +14,35 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.android.options.app;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
+public interface SupportsAppActivityOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LOCALE_OPTION = "locale";
+    String APP_ACTIVITY_OPTION = "appActivity";
 
     /**
-     * Set locale abbreviation for use in session.
+     * Main application activity identifier. If not provided then UiAutomator2
+     * will try to detect it automatically from the package provided by the app capability.
      *
-     * @param locale is the locale abbreviation.
+     * @param appActivity Fully qualified app activity class name.
      * @return self instance for chaining.
      */
-    default T setLocale(String locale) {
-        return amend(LOCALE_OPTION, locale);
+    default T setAppActivity(String appActivity) {
+        return amend(APP_ACTIVITY_OPTION, appActivity);
     }
 
     /**
-     * Get locale abbreviation for use in session.
+     * Get the name of the main app activity.
      *
-     * @return String representing the locale abbreviation.
+     * @return Activity class name.
      */
-    default Optional<String> getLocale() {
-        return Optional.ofNullable((String) getCapability(LOCALE_OPTION));
+    default Optional<String> getAppActivity() {
+        return Optional.ofNullable((String) getCapability(APP_ACTIVITY_OPTION));
     }
 }

@@ -16,19 +16,22 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
+
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    String ENABLE_PERFORMANCE_LOGGING_OPTION = "enablePerformanceLogging";
 
     /**
      * Set the app to enable performance logging.
      *
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#ENABLE_PERFORMANCE_LOGGING
+     * @return self instance for chaining.
      */
-    default T setEnablePerformanceLogging() {
+    default T enablePerformanceLogging() {
         return setEnablePerformanceLogging(true);
     }
 
@@ -36,20 +39,18 @@ public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>
      * Set whether the app logs performance.
      *
      * @param bool is whether the app logs performance.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#ENABLE_PERFORMANCE_LOGGING
+     * @return self instance for chaining.
      */
     default T setEnablePerformanceLogging(boolean bool) {
-        return amend(MobileCapabilityType.ENABLE_PERFORMANCE_LOGGING, bool);
+        return amend(ENABLE_PERFORMANCE_LOGGING_OPTION, bool);
     }
 
     /**
      * Get the app logs performance.
      *
      * @return true if the app logs performance.
-     * @see MobileCapabilityType#ENABLE_PERFORMANCE_LOGGING
      */
-    default boolean isEnablePerformanceLogging() {
-        return (boolean) getCapability(MobileCapabilityType.ENABLE_PERFORMANCE_LOGGING);
+    default Optional<Boolean> isEnablePerformanceLogging() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(ENABLE_PERFORMANCE_LOGGING_OPTION)));
     }
 }

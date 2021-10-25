@@ -16,31 +16,30 @@
 
 package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
 
 public interface SupportsOtherAppsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-
+    String OTHER_APPS_OPTION = "otherApps";
 
     /**
      * Set the location of the app(s) to install before running a test.
      *
      * @param apps is the apps to install.
-     * @return this MobileOptions, for chaining.
-     * @see MobileCapabilityType#OTHER_APPS
+     * @return self instance for chaining.
      */
     default T setOtherApps(String apps) {
-        return amend(MobileCapabilityType.OTHER_APPS, apps);
+        return amend(OTHER_APPS_OPTION, apps);
     }
 
     /**
      * Get the list of apps to install before running a test.
      *
      * @return String of apps to install.
-     * @see MobileCapabilityType#OTHER_APPS
      */
-    default String getOtherApps() {
-        return (String) getCapability(MobileCapabilityType.OTHER_APPS);
+    default Optional<String> getOtherApps() {
+        return Optional.ofNullable((String) getCapability(OTHER_APPS_OPTION));
     }
 }
