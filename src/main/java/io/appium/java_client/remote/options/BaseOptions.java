@@ -38,10 +38,14 @@ import static java.util.Collections.unmodifiableMap;
  * @param <T> The child class for a proper chaining.
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
-    implements CanSetCapability<T>, SupportsAutomationNameOption<T>,
-        SupportsEventTimingsOption<T>, SupportsPrintPageSourceOnFindFailureOption<T>,
-        SupportsNoResetOption<T>, SupportsFullResetOption<T>, SupportsNewCommandTimeoutOption<T>,
+public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities implements
+        CanSetCapability<T>,
+        SupportsAutomationNameOption<T>,
+        SupportsEventTimingsOption<T>,
+        SupportsPrintPageSourceOnFindFailureOption<T>,
+        SupportsNoResetOption<T>,
+        SupportsFullResetOption<T>,
+        SupportsNewCommandTimeoutOption<T>,
         SupportsPlatformVersionOption<T> {
     private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS = new AcceptedW3CCapabilityKeys();
 
@@ -81,9 +85,13 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
 
     @Override
     public T merge(Capabilities extraCapabilities) {
-        super.merge(extraCapabilities);
-        //noinspection unchecked
-        return (T) this;
+        T result = this.clone();
+        extraCapabilities.asMap().forEach((key, value) -> {
+            if (value != null) {
+                result.setCapability(key, value);
+            }
+        });
+        return result;
     }
 
     /**
