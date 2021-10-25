@@ -16,41 +16,14 @@
 
 package io.appium.java_client.android.options.signing;
 
+import lombok.Data;
+import lombok.ToString;
+
+@ToString()
+@Data()
 public class KeystoreConfig {
     private final String path;
     private final String password;
     private final String keyAlias;
     private final String keyPassword;
-
-    /**
-     * Defines the configuration of a custom keystore.
-     *
-     * @param path The full path to the keystore file on the server filesystem.
-     * @param password The password to the keystore file provided in path.
-     * @param keyAlias The alias of the key in the keystore file provided in path.
-     * @param keyPassword The password of the key in the keystore file provided in path.
-     */
-    public KeystoreConfig(String path, String password,
-                          String keyAlias, String keyPassword) {
-        this.path = path;
-        this.password = password;
-        this.keyAlias = keyAlias;
-        this.keyPassword = keyPassword;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getKeyAlias() {
-        return keyAlias;
-    }
-
-    public String getKeyPassword() {
-        return keyPassword;
-    }
 }
