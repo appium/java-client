@@ -31,7 +31,7 @@ public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>
      *
      * @return self instance for chaining.
      */
-    default T setEnablePerformanceLogging() {
+    default T enablePerformanceLogging() {
         return setEnablePerformanceLogging(true);
     }
 

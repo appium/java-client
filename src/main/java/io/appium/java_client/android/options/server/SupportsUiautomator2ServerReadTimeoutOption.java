@@ -23,11 +23,11 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeLong;
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
 
 public interface SupportsUiautomator2ServerReadTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String UIAUTOMATOR_2_SERVER_READ_TIMEOUT_OPTION = "uiautomator2ServerReadTimeout";
+    String UIAUTOMATOR2_SERVER_READ_TIMEOUT_OPTION = "uiautomator2ServerReadTimeout";
 
     /**
      * Set the maximum timeout to wait for a HTTP response from UiAutomator2Server.
@@ -39,7 +39,7 @@ public interface SupportsUiautomator2ServerReadTimeoutOption<T extends BaseOptio
      * @return self instance for chaining.
      */
     default T setUiautomator2ServerReadTimeout(Duration timeout) {
-        return amend(UIAUTOMATOR_2_SERVER_READ_TIMEOUT_OPTION, timeout.toMillis());
+        return amend(UIAUTOMATOR2_SERVER_READ_TIMEOUT_OPTION, timeout.toMillis());
     }
 
     /**
@@ -48,7 +48,8 @@ public interface SupportsUiautomator2ServerReadTimeoutOption<T extends BaseOptio
      * @return The timeout value.
      */
     default Optional<Duration> getUiautomator2ServerReadTimeout() {
-        Long value = toSafeLong(getCapability(UIAUTOMATOR_2_SERVER_READ_TIMEOUT_OPTION));
-        return Optional.ofNullable(value == null ? null : Duration.ofMillis(value));
+        return Optional.ofNullable(
+                toSafeDuration(getCapability(UIAUTOMATOR2_SERVER_READ_TIMEOUT_OPTION))
+        );
     }
 }

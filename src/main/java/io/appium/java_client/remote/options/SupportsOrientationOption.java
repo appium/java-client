@@ -41,12 +41,10 @@ public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
      * @return ScreenOrientation of the app.
      */
     default Optional<ScreenOrientation> getOrientation() {
-        Object value = getCapability(ORIENTATION_OPTION);
-        if (value == null) {
-            return Optional.empty();
-        }
-        return Optional.of(value instanceof ScreenOrientation
-                ? (ScreenOrientation) value
-                : ScreenOrientation.valueOf(((String) value).toUpperCase()));
+        return Optional.ofNullable(getCapability(ORIENTATION_OPTION))
+                .map((v) -> v instanceof ScreenOrientation
+                        ? (ScreenOrientation) v
+                        : ScreenOrientation.valueOf((String.valueOf(v)).toUpperCase())
+                );
     }
 }

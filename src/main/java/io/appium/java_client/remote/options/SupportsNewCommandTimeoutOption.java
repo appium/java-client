@@ -21,6 +21,8 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
+
 public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
@@ -41,9 +43,8 @@ public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> exten
      * @return allowed time before seeing a new command.
      */
     default Optional<Duration> getNewCommandTimeout() {
-        Object duration = getCapability(NEW_COMMAND_TIMEOUT);
-        return duration == null
-            ? Optional.empty()
-            : Optional.of(Duration.ofSeconds(Long.parseLong("" + duration)));
+        return Optional.ofNullable(
+                toSafeDuration(getCapability(NEW_COMMAND_TIMEOUT), Duration::ofSeconds)
+        );
     }
 }

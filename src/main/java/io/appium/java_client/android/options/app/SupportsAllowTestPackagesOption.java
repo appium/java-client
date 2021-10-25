@@ -34,7 +34,7 @@ public interface SupportsAllowTestPackagesOption<T extends BaseOptions<T>> exten
      *
      * @return self instance for chaining.
      */
-    default T setAllowTestPackages() {
+    default T allowTestPackages() {
         return amend(ALLOW_TEST_PACKAGES_OPTION, true);
     }
 

@@ -31,7 +31,7 @@ public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
      *
      * @return self instance for chaining.
      */
-    default T setAutoWebview() {
+    default T autoWebview() {
         return setAutoWebview(true);
     }
 

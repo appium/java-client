@@ -34,7 +34,7 @@ public interface SupportsEnforceAppInstallOption<T extends BaseOptions<T>> exten
      *
      * @return self instance for chaining.
      */
-    default T setEnforceAppInstall() {
+    default T enforceAppInstall() {
         return amend(ENFORCE_APP_INSTALL_OPTION, true);
     }
 

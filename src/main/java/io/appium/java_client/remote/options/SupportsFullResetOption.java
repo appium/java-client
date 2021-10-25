@@ -31,7 +31,7 @@ public interface SupportsFullResetOption<T extends BaseOptions<T>> extends
      *
      * @return self instance for chaining.
      */
-    default T setFullReset() {
+    default T fullReset() {
         return setFullReset(true);
     }
 

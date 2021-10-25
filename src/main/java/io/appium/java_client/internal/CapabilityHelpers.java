@@ -19,9 +19,11 @@ package io.appium.java_client.internal;
 import org.openqa.selenium.Capabilities;
 
 import javax.annotation.Nullable;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class CapabilityHelpers {
     public static final String APPIUM_PREFIX = "appium:";
@@ -47,7 +49,7 @@ public class CapabilityHelpers {
             if (caps.getCapability(capName) == null) {
                 continue;
             }
-            
+
             if (expectedType == String.class) {
                 return expectedType.cast(String.valueOf(caps.getCapability(capName)));
             }
@@ -71,8 +73,8 @@ public class CapabilityHelpers {
             return null;
         }
         return (value instanceof String)
-            ? ((String) value).equalsIgnoreCase("true")
-            : Objects.equals(value, true);
+                ? Boolean.parseBoolean((String) value)
+                : Objects.equals(value, true);
     }
 
     /**
@@ -86,7 +88,7 @@ public class CapabilityHelpers {
     public static Integer toSafeInteger(Object value) {
         if (value instanceof String) {
             return Integer.parseInt((String) value);
-        } else  if (value instanceof Number) {
+        } else if (value instanceof Number) {
             return ((Number) value).intValue();
         }
         return null;
@@ -103,9 +105,37 @@ public class CapabilityHelpers {
     public static Long toSafeLong(Object value) {
         if (value instanceof String) {
             return Long.parseLong((String) value);
-        } else  if (value instanceof Number) {
+        } else if (value instanceof Number) {
             return ((Number) value).longValue();
         }
         return null;
+    }
+
+    /**
+     * Converts generic capability value to duration without
+     * throwing exceptions. The value is assumed to be
+     * measured in milliseconds.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Duration toSafeDuration(Object value) {
+        return toSafeDuration(value, Duration::ofMillis);
+    }
+
+    /**
+     * Converts generic capability value to duration without
+     * throwing exceptions.
+     *
+     * @param value     The capability value.
+     * @param converter Converts the numeric value to a Duration instance.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Duration toSafeDuration(Object value,
+                                          Function<Long, Duration> converter) {
+        Long v = toSafeLong(value);
+        return v == null ? null : converter.apply(v);
     }
 }

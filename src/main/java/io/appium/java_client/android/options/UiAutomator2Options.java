@@ -35,6 +35,7 @@ import io.appium.java_client.android.options.app.SupportsUninstallOtherPackagesO
 import io.appium.java_client.android.options.server.SupportsDisableWindowAnimationOption;
 import io.appium.java_client.android.options.server.SupportsSkipDeviceInitializationOption;
 import io.appium.java_client.android.options.server.SupportsSkipServerInstallationOption;
+import io.appium.java_client.android.options.server.SupportsSystemPortOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerInstallTimeoutOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerLaunchTimeoutOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerReadTimeoutOption;

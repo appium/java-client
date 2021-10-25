@@ -31,7 +31,7 @@ public interface SupportsPrintPageSourceOnFindFailureOption<T extends BaseOption
      *
      * @return self instance for chaining.
      */
-    default T setPrintPageSourceOnFindFailure() {
+    default T printPageSourceOnFindFailure() {
         return setPrintPageSourceOnFindFailure(true);
     }
 

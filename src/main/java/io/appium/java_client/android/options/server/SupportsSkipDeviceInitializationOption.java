@@ -33,7 +33,7 @@ public interface SupportsSkipDeviceInitializationOption<T extends BaseOptions<T>
      *
      * @return self instance for chaining.
      */
-    default T setSkipDeviceInitialization() {
+    default T skipDeviceInitialization() {
         return amend(SKIP_DEVICE_INITIALIZATION_OPTION, true);
     }
 

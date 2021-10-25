@@ -23,7 +23,7 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeLong;
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
 
 public interface SupportsAndroidInstallTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -46,7 +46,8 @@ public interface SupportsAndroidInstallTimeoutOption<T extends BaseOptions<T>> e
      * @return Timeout value.
      */
     default Optional<Duration> getAndroidInstallTimeout() {
-        Long value = toSafeLong(getCapability(ANDROID_INSTALL_TIMEOUT_OPTION));
-        return Optional.ofNullable(value == null ? null : Duration.ofMillis(value));
+        return Optional.ofNullable(
+                toSafeDuration(getCapability(ANDROID_INSTALL_TIMEOUT_OPTION))
+        );
     }
 }

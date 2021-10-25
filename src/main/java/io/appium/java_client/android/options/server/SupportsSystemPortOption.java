@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options;
+package io.appium.java_client.android.options.server;
 
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;

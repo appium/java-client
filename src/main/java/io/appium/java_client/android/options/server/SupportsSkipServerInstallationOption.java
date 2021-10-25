@@ -38,7 +38,7 @@ public interface SupportsSkipServerInstallationOption<T extends BaseOptions<T>> 
      *
      * @return self instance for chaining.
      */
-    default T setSkipServerInstallation() {
+    default T skipServerInstallation() {
         return amend(SKIP_SERVER_INSTALLATION_OPTION, true);
     }
 
@@ -64,6 +64,8 @@ public interface SupportsSkipServerInstallationOption<T extends BaseOptions<T>> 
      * @return True or false.
      */
     default Optional<Boolean> doesSkipServerInstallation() {
-        return Optional.ofNullable(toSafeBoolean(getCapability(SKIP_SERVER_INSTALLATION_OPTION)));
+        return Optional.ofNullable(
+                toSafeBoolean(getCapability(SKIP_SERVER_INSTALLATION_OPTION))
+        );
     }
 }

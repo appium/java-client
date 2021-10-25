@@ -31,7 +31,7 @@ public interface SupportsNoResetOption<T extends BaseOptions<T>> extends
      *
      * @return self instance for chaining.
      */
-    default T setNoReset() {
+    default T noReset() {
         return setNoReset(true);
     }
 

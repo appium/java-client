@@ -23,11 +23,11 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toSafeLong;
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeDuration;
 
 public interface SupportsUiautomator2ServerLaunchTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String UIAUTOMATOR_2_SERVER_LAUNCH_TIMEOUT_OPTION = "uiautomator2ServerLaunchTimeout";
+    String UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT_OPTION = "uiautomator2ServerLaunchTimeout";
 
     /**
      * Set the maximum timeout to wait util UiAutomator2Server is listening on
@@ -37,7 +37,7 @@ public interface SupportsUiautomator2ServerLaunchTimeoutOption<T extends BaseOpt
      * @return self instance for chaining.
      */
     default T setUiautomator2ServerLaunchTimeout(Duration timeout) {
-        return amend(UIAUTOMATOR_2_SERVER_LAUNCH_TIMEOUT_OPTION, timeout.toMillis());
+        return amend(UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT_OPTION, timeout.toMillis());
     }
 
     /**
@@ -46,7 +46,8 @@ public interface SupportsUiautomator2ServerLaunchTimeoutOption<T extends BaseOpt
      * @return The timeout value.
      */
     default Optional<Duration> getUiautomator2ServerLaunchTimeout() {
-        Long value = toSafeLong(getCapability(UIAUTOMATOR_2_SERVER_LAUNCH_TIMEOUT_OPTION));
-        return Optional.ofNullable(value == null ? null : Duration.ofMillis(value));
+        return Optional.ofNullable(
+                toSafeDuration(getCapability(UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT_OPTION))
+        );
     }
 }

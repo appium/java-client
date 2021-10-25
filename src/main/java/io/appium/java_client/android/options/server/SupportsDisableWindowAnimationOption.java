@@ -33,7 +33,7 @@ public interface SupportsDisableWindowAnimationOption<T extends BaseOptions<T>> 
      *
      * @return self instance for chaining.
      */
-    default T setDisableWindowAnimation() {
+    default T disableWindowAnimation() {
         return amend(DISABLE_WINDOWS_ANIMATION_OPTION, true);
     }
 

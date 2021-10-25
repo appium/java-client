@@ -31,7 +31,7 @@ public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extend
      *
      * @return this MobileOptions, for chaining.
      */
-    default T setClearSystemFiles() {
+    default T clearSystemFiles() {
         return setClearSystemFiles(true);
     }
 
