@@ -86,13 +86,19 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
         return (T) this;
     }
 
+    /**
+     * Makes a deep clone of the current Options instance.
+     *
+     * @return A deep instance clone.
+     */
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     public T clone() {
         try {
             Constructor<?> constructor = getClass().getConstructor(Capabilities.class);
             //noinspection unchecked
             return (T) constructor.newInstance(this);
-        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+        } catch (InvocationTargetException | NoSuchMethodException
+                | InstantiationException | IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
     }
