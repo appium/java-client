@@ -75,8 +75,7 @@ public class CapabilityHelpers {
      * Converts generic capability value to integer.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed
-     * to a valid integer.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid integer.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
@@ -95,8 +94,7 @@ public class CapabilityHelpers {
      * throwing exceptions.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed
-     * to a valid long.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
@@ -116,8 +114,7 @@ public class CapabilityHelpers {
      * measured in milliseconds.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed
-     * to a valid number.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
@@ -131,8 +128,7 @@ public class CapabilityHelpers {
      *
      * @param value     The capability value.
      * @param converter Converts the numeric value to a Duration instance.
-     * @throws NumberFormatException If the given value cannot be parsed
-     * to a valid number.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
      * @return null is the passed value is null otherwise the converted value.
      */
     @Nullable
