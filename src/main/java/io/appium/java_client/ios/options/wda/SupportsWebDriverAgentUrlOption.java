@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios.options.wda;
 
+import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
@@ -57,12 +57,6 @@ public interface SupportsWebDriverAgentUrlOption<T extends BaseOptions<T>> exten
      */
     default Optional<URL> getWebDriverAgentUrl() {
         return Optional.ofNullable(getCapability(WEB_DRIVER_AGENT_URL_OPTION))
-                .map((v) -> {
-                    try {
-                        return (v instanceof URL) ? (URL) v : new URL(String.valueOf(v));
-                    } catch (MalformedURLException e) {
-                        throw new IllegalArgumentException(e);
-                    }
-                });
+                .map(CapabilityHelpers::toUrl);
     }
 }

@@ -19,6 +19,8 @@ package io.appium.java_client.internal;
 import org.openqa.selenium.Capabilities;
 
 import javax.annotation.Nullable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +77,8 @@ public class CapabilityHelpers {
      * Converts generic capability value to integer.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed to a valid integer.
      * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid integer.
      */
     @Nullable
     public static Integer toInteger(Object value) {
@@ -93,8 +95,8 @@ public class CapabilityHelpers {
      * Converts generic capability value to long.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
      * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
      */
     @Nullable
     public static Long toLong(Object value) {
@@ -111,8 +113,8 @@ public class CapabilityHelpers {
      * Converts generic capability value to double.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
      * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
      */
     @Nullable
     public static Double toDouble(Object value) {
@@ -130,8 +132,8 @@ public class CapabilityHelpers {
      * measured in milliseconds.
      *
      * @param value The capability value.
-     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
      * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
      */
     @Nullable
     public static Duration toDuration(Object value) {
@@ -143,13 +145,34 @@ public class CapabilityHelpers {
      *
      * @param value     The capability value.
      * @param converter Converts the numeric value to a Duration instance.
-     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
      * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
      */
     @Nullable
     public static Duration toDuration(Object value,
                                       Function<Long, Duration> converter) {
         Long v = toLong(value);
         return v == null ? null : converter.apply(v);
+    }
+
+    /**
+     * Converts generic capability value to a url.
+     *
+     * @param value The capability value.
+     * @throws IllegalArgumentException If the given value cannot be parsed to a valid url.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static URL toUrl(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return (value instanceof URL)
+                    ? (URL) value :
+                    new URL(String.valueOf(value));
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

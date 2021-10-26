@@ -36,9 +36,8 @@ public interface SupportsXcodeCertificateOptions<T extends BaseOptions<T>> exten
      * @return self instance for chaining.
      */
     default T setXcodeCertificate(XcodeCertificate cert) {
-        String signingId = cert.getXcodeSigningId() == null
-                ? DEFAULT_XCODE_SIGNING_ID
-                : cert.getXcodeSigningId();
+        String signingId = Optional.ofNullable(cert.getXcodeSigningId())
+                .orElse(DEFAULT_XCODE_SIGNING_ID);
         return amend(XCODE_ORG_ID_OPTION, cert.getXcodeOrgId())
                 .amend(XCODE_SIGNING_ID_OPTION, signingId);
     }
@@ -51,8 +50,7 @@ public interface SupportsXcodeCertificateOptions<T extends BaseOptions<T>> exten
     default Optional<XcodeCertificate> getXcodeCertificate() {
         String orgId = (String) getCapability(XCODE_ORG_ID_OPTION);
         String signingId = (String) getCapability(XCODE_SIGNING_ID_OPTION);
-        return orgId == null
-            ? Optional.empty()
-            : Optional.of(new XcodeCertificate(orgId, signingId));
+        return Optional.ofNullable(orgId)
+                .map((x) -> new XcodeCertificate(orgId, signingId));
     }
 }
