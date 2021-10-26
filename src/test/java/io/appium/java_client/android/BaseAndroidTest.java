@@ -16,15 +16,12 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
 
@@ -44,12 +41,11 @@ public class BaseAndroidTest {
                 "An appium server node is not started!");
         }
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.ANDROID_UIAUTOMATOR2);
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
-        capabilities.setCapability("eventTimings", true);
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        UiAutomator2Options options = new UiAutomator2Options()
+                .setDeviceName("Android Emulator")
+                .setApp(apiDemosApk().toAbsolutePath().toString())
+                .setEventTimings();
+        driver = new AndroidDriver<>(service.getUrl(), options);
     }
 
     /**

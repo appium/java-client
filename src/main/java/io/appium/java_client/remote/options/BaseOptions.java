@@ -23,6 +23,8 @@ import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CapabilityType;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -36,10 +38,14 @@ import static java.util.Collections.unmodifiableMap;
  * @param <T> The child class for a proper chaining.
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
-    implements CanSetCapability<T>, SupportsAutomationNameOption<T>,
-        SupportsEventTimingsOption<T>, SupportsPrintPageSourceOnFindFailureOption<T>,
-        SupportsNoResetOption<T>, SupportsFullResetOption<T>, SupportsNewCommandTimeoutOption<T>,
+public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities implements
+        CanSetCapability<T>,
+        SupportsAutomationNameOption<T>,
+        SupportsEventTimingsOption<T>,
+        SupportsPrintPageSourceOnFindFailureOption<T>,
+        SupportsNoResetOption<T>,
+        SupportsFullResetOption<T>,
+        SupportsNewCommandTimeoutOption<T>,
         SupportsPlatformVersionOption<T> {
     private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS = new AcceptedW3CCapabilityKeys();
 
@@ -79,9 +85,30 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities
 
     @Override
     public T merge(Capabilities extraCapabilities) {
-        super.merge(extraCapabilities);
-        //noinspection unchecked
-        return (T) this;
+        T result = this.clone();
+        extraCapabilities.asMap().forEach((key, value) -> {
+            if (value != null) {
+                result.setCapability(key, value);
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Makes a deep clone of the current Options instance.
+     *
+     * @return A deep instance clone.
+     */
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
+    public T clone() {
+        try {
+            Constructor<?> constructor = getClass().getConstructor(Capabilities.class);
+            //noinspection unchecked
+            return (T) constructor.newInstance(this);
+        } catch (InvocationTargetException | NoSuchMethodException
+                | InstantiationException | IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override

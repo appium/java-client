@@ -52,7 +52,34 @@ import io.appium.java_client.android.options.avd.SupportsAvdReadyTimeoutOption;
 import io.appium.java_client.android.options.avd.SupportsGpsEnabledOption;
 import io.appium.java_client.android.options.avd.SupportsIsHeadlessOption;
 import io.appium.java_client.android.options.avd.SupportsNetworkSpeedOption;
+import io.appium.java_client.android.options.context.SupportsAutoWebviewTimeoutOption;
+import io.appium.java_client.android.options.context.SupportsChromeLoggingPrefsOption;
+import io.appium.java_client.android.options.context.SupportsChromeOptionsOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverArgsOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverChromeMappingFileOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverDisableBuildCheckOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverExecutableDirOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverExecutableOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverPortOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverPortsOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverUseSystemExecutableOption;
+import io.appium.java_client.android.options.context.SupportsEnsureWebviewsHavePagesOption;
+import io.appium.java_client.android.options.context.SupportsExtractChromeAndroidPackageFromContextNameOption;
+import io.appium.java_client.android.options.context.SupportsNativeWebScreenshotOption;
+import io.appium.java_client.android.options.context.SupportsRecreateChromeDriverSessionsOption;
+import io.appium.java_client.android.options.context.SupportsShowChromedriverLogOption;
+import io.appium.java_client.android.options.context.SupportsWebviewDevtoolsPortOption;
 import io.appium.java_client.android.options.localization.SupportsLocaleScriptOption;
+import io.appium.java_client.android.options.locking.SupportsSkipUnlockOption;
+import io.appium.java_client.android.options.locking.SupportsUnlockKeyOption;
+import io.appium.java_client.android.options.locking.SupportsUnlockStrategyOption;
+import io.appium.java_client.android.options.locking.SupportsUnlockSuccessTimeoutOption;
+import io.appium.java_client.android.options.locking.SupportsUnlockTypeOption;
+import io.appium.java_client.android.options.mjpeg.SupportsMjpegScreenshotUrlOption;
+import io.appium.java_client.android.options.mjpeg.SupportsMjpegServerPortOption;
+import io.appium.java_client.android.options.other.SupportsDisableSuppressAccessibilityServiceOption;
+import io.appium.java_client.android.options.other.SupportsSkipLogCaptureOption;
+import io.appium.java_client.android.options.other.SupportsUserProfileOption;
 import io.appium.java_client.android.options.server.SupportsDisableWindowAnimationOption;
 import io.appium.java_client.android.options.server.SupportsSkipDeviceInitializationOption;
 import io.appium.java_client.android.options.server.SupportsSkipServerInstallationOption;
@@ -81,12 +108,6 @@ import org.openqa.selenium.Capabilities;
  * https://github.com/appium/appium-uiautomator2-driver#capabilities
  */
 public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implements
-        // TODO: Device locking options: https://github.com/appium/appium-uiautomator2-driver#device-locking
-        // TODO: MJPEG options: https://github.com/appium/appium-uiautomator2-driver#mjpeg
-        // TODO: Web Context options: https://github.com/appium/appium-uiautomator2-driver#web-context
-        // TODO: Other options: https://github.com/appium/appium-uiautomator2-driver#other
-        // TODO: Shared options
-        SupportsAutoWebViewOption<UiAutomator2Options>,
         // General options: https://github.com/appium/appium-uiautomator2-driver#general
         SupportsDeviceNameOption<UiAutomator2Options>,
         SupportsUdidOption<UiAutomator2Options>,
@@ -148,7 +169,39 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsIsHeadlessOption<UiAutomator2Options>,
         // App signing options: https://github.com/appium/appium-uiautomator2-driver#app-signing
         SupportsKeystoreOptions<UiAutomator2Options>,
-        SupportsNoSignOption<UiAutomator2Options> {
+        SupportsNoSignOption<UiAutomator2Options>,
+        // Device locking options: https://github.com/appium/appium-uiautomator2-driver#device-locking
+        SupportsSkipUnlockOption<UiAutomator2Options>,
+        SupportsUnlockTypeOption<UiAutomator2Options>,
+        SupportsUnlockKeyOption<UiAutomator2Options>,
+        SupportsUnlockStrategyOption<UiAutomator2Options>,
+        SupportsUnlockSuccessTimeoutOption<UiAutomator2Options>,
+        // MJPEG options: https://github.com/appium/appium-uiautomator2-driver#mjpeg
+        SupportsMjpegServerPortOption<UiAutomator2Options>,
+        SupportsMjpegScreenshotUrlOption<UiAutomator2Options>,
+        // Web Context options: https://github.com/appium/appium-uiautomator2-driver#web-context
+        SupportsAutoWebViewOption<UiAutomator2Options>,
+        SupportsWebviewDevtoolsPortOption<UiAutomator2Options>,
+        SupportsEnsureWebviewsHavePagesOption<UiAutomator2Options>,
+        SupportsChromedriverPortOption<UiAutomator2Options>,
+        SupportsChromedriverPortsOption<UiAutomator2Options>,
+        SupportsChromedriverArgsOption<UiAutomator2Options>,
+        SupportsChromedriverExecutableOption<UiAutomator2Options>,
+        SupportsChromedriverExecutableDirOption<UiAutomator2Options>,
+        SupportsChromedriverChromeMappingFileOption<UiAutomator2Options>,
+        SupportsChromedriverUseSystemExecutableOption<UiAutomator2Options>,
+        SupportsChromedriverDisableBuildCheckOption<UiAutomator2Options>,
+        SupportsAutoWebviewTimeoutOption<UiAutomator2Options>,
+        SupportsRecreateChromeDriverSessionsOption<UiAutomator2Options>,
+        SupportsNativeWebScreenshotOption<UiAutomator2Options>,
+        SupportsExtractChromeAndroidPackageFromContextNameOption<UiAutomator2Options>,
+        SupportsShowChromedriverLogOption<UiAutomator2Options>,
+        SupportsChromeOptionsOption<UiAutomator2Options>,
+        SupportsChromeLoggingPrefsOption<UiAutomator2Options>,
+        // Other options: https://github.com/appium/appium-uiautomator2-driver#other
+        SupportsDisableSuppressAccessibilityServiceOption<UiAutomator2Options>,
+        SupportsUserProfileOption<UiAutomator2Options>,
+        SupportsSkipLogCaptureOption<UiAutomator2Options> {
     public UiAutomator2Options() {
         setCommonOptions();
     }

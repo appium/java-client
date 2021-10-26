@@ -17,7 +17,7 @@
 package io.appium.java_client.remote;
 
 public interface MobileBrowserType {
-
+    String ANDROID = "Android";
     String SAFARI = "Safari";
     String BROWSER = "Browser";
     String CHROMIUM = "Chromium";
