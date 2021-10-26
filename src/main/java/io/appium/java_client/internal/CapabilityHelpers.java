@@ -90,8 +90,7 @@ public class CapabilityHelpers {
     }
 
     /**
-     * Converts generic capability value to long without
-     * throwing exceptions.
+     * Converts generic capability value to long.
      *
      * @param value The capability value.
      * @throws NumberFormatException If the given value cannot be parsed to a valid long.
@@ -109,8 +108,25 @@ public class CapabilityHelpers {
     }
 
     /**
-     * Converts generic capability value to duration without
-     * throwing exceptions. The value is assumed to be
+     * Converts generic capability value to double.
+     *
+     * @param value The capability value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Double toDouble(Object value) {
+        if (value == null) {
+            return null;
+        } else if (value instanceof Number) {
+            return ((Number) value).doubleValue();
+        } else {
+            return Double.parseDouble(String.valueOf(value));
+        }
+    }
+
+    /**
+     * Converts generic capability value to duration. The value is assumed to be
      * measured in milliseconds.
      *
      * @param value The capability value.
@@ -123,8 +139,7 @@ public class CapabilityHelpers {
     }
 
     /**
-     * Converts generic capability value to duration without
-     * throwing exceptions.
+     * Converts generic capability value to duration.
      *
      * @param value     The capability value.
      * @param converter Converts the numeric value to a Duration instance.

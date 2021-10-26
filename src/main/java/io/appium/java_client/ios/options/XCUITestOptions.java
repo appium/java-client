@@ -22,6 +22,39 @@ import io.appium.java_client.ios.options.app.SupportsBundleIdOption;
 import io.appium.java_client.ios.options.app.SupportsLocalizableStringsDirOption;
 import io.appium.java_client.ios.options.general.SupportsIncludeDeviceCapsToSessionInfoOption;
 import io.appium.java_client.ios.options.general.SupportsResetLocationServiceOption;
+import io.appium.java_client.ios.options.wda.SupportsAllowProvisioningDeviceRegistrationOption;
+import io.appium.java_client.ios.options.wda.SupportsAutoAcceptAlertsOption;
+import io.appium.java_client.ios.options.wda.SupportsAutoDismissAlertsOption;
+import io.appium.java_client.ios.options.wda.SupportsDerivedDataPathOption;
+import io.appium.java_client.ios.options.wda.SupportsDisableAutomaticScreenshotsOption;
+import io.appium.java_client.ios.options.wda.SupportsForceAppLaunchOption;
+import io.appium.java_client.ios.options.wda.SupportsKeychainOptions;
+import io.appium.java_client.ios.options.wda.SupportsMaxTypingFrequencyOption;
+import io.appium.java_client.ios.options.wda.SupportsMjpegServerPortOption;
+import io.appium.java_client.ios.options.wda.SupportsProcessArgumentsOption;
+import io.appium.java_client.ios.options.wda.SupportsResultBundlePathOption;
+import io.appium.java_client.ios.options.wda.SupportsScreenshotQualityOption;
+import io.appium.java_client.ios.options.wda.SupportsShouldTerminateAppOption;
+import io.appium.java_client.ios.options.wda.SupportsShouldUseSingletonTestManagerOption;
+import io.appium.java_client.ios.options.wda.SupportsShowXcodeLogOption;
+import io.appium.java_client.ios.options.wda.SupportsSimpleIsVisibleCheckOption;
+import io.appium.java_client.ios.options.wda.SupportsUpdatedWdaBundleIdOption;
+import io.appium.java_client.ios.options.wda.SupportsUseNativeCachingStrategyOption;
+import io.appium.java_client.ios.options.wda.SupportsUseNewWdaOption;
+import io.appium.java_client.ios.options.wda.SupportsUsePrebuiltWdaOption;
+import io.appium.java_client.ios.options.wda.SupportsUseSimpleBuildTestOption;
+import io.appium.java_client.ios.options.wda.SupportsUseXctestrunFileOption;
+import io.appium.java_client.ios.options.wda.SupportsWaitForIdleTimeoutOption;
+import io.appium.java_client.ios.options.wda.SupportsWaitForQuiescenceOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaBaseUrlOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaConnectionTimeoutOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaEventloopIdleDelayOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaLaunchTimeoutOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaLocalPortOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaStartupRetriesOption;
+import io.appium.java_client.ios.options.wda.SupportsWdaStartupRetryIntervalOption;
+import io.appium.java_client.ios.options.wda.SupportsWebDriverAgentUrlOption;
+import io.appium.java_client.ios.options.wda.SupportsXcodeCertificateOptions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
@@ -56,7 +89,40 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsOtherAppsOption<XCUITestOptions>,
         SupportsAppPushTimeoutOption<XCUITestOptions>,
         SupportsAppInstallStrategyOption<XCUITestOptions>,
-        // TODO: WebDriverAgent options: https://github.com/appium/appium-xcuitest-driver#webdriveragent
+        // WebDriverAgent options: https://github.com/appium/appium-xcuitest-driver#webdriveragent
+        SupportsXcodeCertificateOptions<XCUITestOptions>,
+        SupportsKeychainOptions<XCUITestOptions>,
+        SupportsUpdatedWdaBundleIdOption<XCUITestOptions>,
+        SupportsDerivedDataPathOption<XCUITestOptions>,
+        SupportsWebDriverAgentUrlOption<XCUITestOptions>,
+        SupportsUseNewWdaOption<XCUITestOptions>,
+        SupportsWdaLaunchTimeoutOption<XCUITestOptions>,
+        SupportsWdaConnectionTimeoutOption<XCUITestOptions>,
+        SupportsWdaStartupRetriesOption<XCUITestOptions>,
+        SupportsWdaStartupRetryIntervalOption<XCUITestOptions>,
+        SupportsWdaLocalPortOption<XCUITestOptions>,
+        SupportsWdaBaseUrlOption<XCUITestOptions>,
+        SupportsShowXcodeLogOption<XCUITestOptions>,
+        SupportsUsePrebuiltWdaOption<XCUITestOptions>,
+        SupportsShouldUseSingletonTestManagerOption<XCUITestOptions>,
+        SupportsWaitForIdleTimeoutOption<XCUITestOptions>,
+        SupportsUseXctestrunFileOption<XCUITestOptions>,
+        SupportsUseSimpleBuildTestOption<XCUITestOptions>,
+        SupportsWdaEventloopIdleDelayOption<XCUITestOptions>,
+        SupportsProcessArgumentsOption<XCUITestOptions>,
+        SupportsAllowProvisioningDeviceRegistrationOption<XCUITestOptions>,
+        SupportsResultBundlePathOption<XCUITestOptions>,
+        SupportsMaxTypingFrequencyOption<XCUITestOptions>,
+        SupportsSimpleIsVisibleCheckOption<XCUITestOptions>,
+        SupportsWaitForQuiescenceOption<XCUITestOptions>,
+        SupportsMjpegServerPortOption<XCUITestOptions>,
+        SupportsScreenshotQualityOption<XCUITestOptions>,
+        SupportsAutoAcceptAlertsOption<XCUITestOptions>,
+        SupportsAutoDismissAlertsOption<XCUITestOptions>,
+        SupportsDisableAutomaticScreenshotsOption<XCUITestOptions>,
+        SupportsShouldTerminateAppOption<XCUITestOptions>,
+        SupportsForceAppLaunchOption<XCUITestOptions>,
+        SupportsUseNativeCachingStrategyOption<XCUITestOptions>,
         // TODO: Simulator options: https://github.com/appium/appium-xcuitest-driver#simulator
         SupportsOrientationOption<XCUITestOptions>,
         // TODO: Web context options: https://github.com/appium/appium-xcuitest-driver#web-context
