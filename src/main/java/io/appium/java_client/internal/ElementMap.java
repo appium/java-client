@@ -34,7 +34,6 @@ import java.util.Optional;
 
 public enum ElementMap {
     ANDROID_UIAUTOMATOR2(AutomationName.ANDROID_UIAUTOMATOR2.toLowerCase(), AndroidElement.class),
-    SELENDROID(AutomationName.SELENDROID.toLowerCase(), AndroidElement.class),
     IOS_XCUI_TEST(AutomationName.IOS_XCUI_TEST.toLowerCase(), IOSElement.class),
     ANDROID_UI_AUTOMATOR(MobilePlatform.ANDROID.toLowerCase(), AndroidElement.class),
     IOS_UI_AUTOMATION(MobilePlatform.IOS.toLowerCase(), IOSElement.class),
