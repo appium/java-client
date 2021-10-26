@@ -34,7 +34,7 @@ public interface SupportsAutoGrantPermissionsOption<T extends BaseOptions<T>> ex
      *
      * @return self instance for chaining.
      */
-    default T setAutoGrantPermissions() {
+    default T autoGrantPermissions() {
         return amend(AUTO_GRANT_PERMISSIONS_OPTION, true);
     }
 
