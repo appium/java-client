@@ -29,17 +29,13 @@ public interface SupportsAppInstallStrategyOption<T extends BaseOptions<T>> exte
     /**
      * Select application installation strategy for real devices. The following
      * strategies are supported:
-     *
-     * serial (default) - pushes app files to the device in a sequential order;
+     * * serial (default) - pushes app files to the device in a sequential order;
      * this is the least performant strategy, although the most reliable;
-     *
-     * parallel - pushes app files simultaneously; this is usually the
+     * * parallel - pushes app files simultaneously; this is usually the
      * most performant strategy, but sometimes could not be very stable;
-     *
-     * ios-deploy - tells the driver to use a third-party tool ios-deploy to
+     * * ios-deploy - tells the driver to use a third-party tool ios-deploy to
      * install the app; obviously the tool must be installed separately
      * first and must be present in PATH before it could be used.
-     *
      * @param strategy App installation strategy.
      * @return self instance for chaining.
      */

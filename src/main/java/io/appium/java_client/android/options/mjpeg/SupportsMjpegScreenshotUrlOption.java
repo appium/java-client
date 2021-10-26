@@ -16,11 +16,11 @@
 
 package io.appium.java_client.android.options.mjpeg;
 
+import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
@@ -59,12 +59,6 @@ public interface SupportsMjpegScreenshotUrlOption<T extends BaseOptions<T>> exte
      */
     default Optional<URL> getMjpegScreenshotUrl() {
         return Optional.ofNullable(getCapability(MJPEG_SCREENSHOT_URL_OPTION))
-                .map((v) -> {
-                    try {
-                        return new URL(String.valueOf(v));
-                    } catch (MalformedURLException e) {
-                        throw new IllegalArgumentException(e);
-                    }
-                });
+                .map(CapabilityHelpers::toUrl);
     }
 }
