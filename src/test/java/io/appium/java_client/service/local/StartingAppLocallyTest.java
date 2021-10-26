@@ -46,6 +46,7 @@ public class StartingAppLocallyTest {
     @Test public void startingAndroidAppWithCapabilitiesOnlyTest() {
         AndroidDriver<?> driver = new AndroidDriver<>(new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
+                .autoGrantPermissions()
                 .setApp(apiDemosApk().toAbsolutePath().toString()));
         try {
             Capabilities caps = driver.getCapabilities();
@@ -53,7 +54,7 @@ public class StartingAppLocallyTest {
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
                     (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
             );
-            assertNotNull(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
+            assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
             assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(apiDemosApk().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
@@ -68,6 +69,7 @@ public class StartingAppLocallyTest {
 
         AndroidDriver<?> driver = new AndroidDriver<>(builder, new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
+                .autoGrantPermissions()
                 .setApp(apiDemosApk().toAbsolutePath().toString()));
         try {
             Capabilities caps = driver.getCapabilities();
@@ -85,6 +87,7 @@ public class StartingAppLocallyTest {
         UiAutomator2Options serverOptions = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .fullReset()
+                .autoGrantPermissions()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setApp(apiDemosApk().toAbsolutePath().toString());
 
