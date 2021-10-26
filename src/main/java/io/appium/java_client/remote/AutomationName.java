@@ -16,14 +16,28 @@
 
 package io.appium.java_client.remote;
 
-
 public interface AutomationName {
+    // Officially supported drivers
+    @Deprecated
     String APPIUM = "Appium";
     @Deprecated
     String SELENDROID = "Selendroid";
+    // https://github.com/appium/appium-xcuitest-driver
     String IOS_XCUI_TEST = "XCuiTest";
+    // https://github.com/appium/appium-uiautomator2-driver
     String ANDROID_UIAUTOMATOR2 = "UIAutomator2";
-    String YOUI_ENGINE = "youiengine";
+    // https://github.com/appium/appium-espresso-driver
     String ESPRESSO = "Espresso";
+    // https://github.com/appium/appium-mac2-driver
     String MAC2 = "Mac2";
+    // https://github.com/appium/appium-windows-driver
+    String WINDOWS = "Windows";
+    // https://github.com/appium/appium-safari-driver
+    String SAFARI = "Safari";
+    // https://github.com/appium/appium-geckodriver
+    String GECKO = "Gecko";
+
+    // Third-party drivers
+    // https://github.com/YOU-i-Labs/appium-youiengine-driver
+    String YOUI_ENGINE = "youiengine";
 }

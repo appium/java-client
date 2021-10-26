@@ -16,6 +16,12 @@
 
 package io.appium.java_client.ios.options;
 
+import io.appium.java_client.ios.options.app.SupportsAppInstallStrategyOption;
+import io.appium.java_client.ios.options.app.SupportsAppPushTimeoutOption;
+import io.appium.java_client.ios.options.app.SupportsBundleIdOption;
+import io.appium.java_client.ios.options.app.SupportsLocalizableStringsDirOption;
+import io.appium.java_client.ios.options.general.SupportsIncludeDeviceCapsToSessionInfoOption;
+import io.appium.java_client.ios.options.general.SupportsResetLocationServiceOption;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
@@ -31,12 +37,34 @@ import io.appium.java_client.remote.options.SupportsOtherAppsOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
+/**
+ * https://github.com/appium/appium-xcuitest-driver#capabilities
+ */
 public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
-        SupportsAppOption<XCUITestOptions>, SupportsAutoWebViewOption<XCUITestOptions>,
-        SupportsClearSystemFilesOption<XCUITestOptions>, SupportsDeviceNameOption<XCUITestOptions>,
-        SupportsEnablePerformanceLoggingOption<XCUITestOptions>, SupportsLanguageOption<XCUITestOptions>,
-        SupportsLocaleOption<XCUITestOptions>, SupportsOrientationOption<XCUITestOptions>,
-        SupportsOtherAppsOption<XCUITestOptions>, SupportsUdidOption<XCUITestOptions> {
+        // General options: https://github.com/appium/appium-xcuitest-driver#general
+        SupportsDeviceNameOption<XCUITestOptions>,
+        SupportsUdidOption<XCUITestOptions>,
+        SupportsIncludeDeviceCapsToSessionInfoOption<XCUITestOptions>,
+        SupportsResetLocationServiceOption<XCUITestOptions>,
+        // Localization Options
+        SupportsLocalizableStringsDirOption<XCUITestOptions>,
+        SupportsLanguageOption<XCUITestOptions>,
+        SupportsLocaleOption<XCUITestOptions>,
+        // App Options: https://github.com/appium/appium-xcuitest-driver#app
+        SupportsAppOption<XCUITestOptions>,
+        SupportsBundleIdOption<XCUITestOptions>,
+        SupportsOtherAppsOption<XCUITestOptions>,
+        SupportsAppPushTimeoutOption<XCUITestOptions>,
+        SupportsAppInstallStrategyOption<XCUITestOptions>,
+        // TODO: WebDriverAgent options: https://github.com/appium/appium-xcuitest-driver#webdriveragent
+        // TODO: Simulator options: https://github.com/appium/appium-xcuitest-driver#simulator
+        SupportsOrientationOption<XCUITestOptions>,
+        // TODO: Web context options: https://github.com/appium/appium-xcuitest-driver#web-context
+        SupportsAutoWebViewOption<XCUITestOptions>,
+        // TODO: Other options: https://github.com/appium/appium-xcuitest-driver#other
+        SupportsClearSystemFilesOption<XCUITestOptions>,
+        SupportsEnablePerformanceLoggingOption<XCUITestOptions> {
+
     public XCUITestOptions() {
         setCommonOptions();
     }
