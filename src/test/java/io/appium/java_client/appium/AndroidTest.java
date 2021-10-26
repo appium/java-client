@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidElement;
@@ -83,39 +83,39 @@ public class AndroidTest {
 
     @Test
     public void findByAccessibilityIdFromDriverTest() {
-        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
-        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
+        assertNotEquals(driver.findElement(AppiumBy.accessibilityId("Graphics")).getText(), null);
+        assertEquals(driver.findElements(AppiumBy.accessibilityId("Graphics")).size(), 1);
     }
 
     @Test  public void findByAndroidUIAutomatorFromDriverTest() {
         assertNotEquals(driver
-                .findElement(MobileBy
-                        .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
+                .findElement(AppiumBy
+                        .androidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
         assertNotEquals(driver
-                .findElements(MobileBy
-                        .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
+                .findElements(AppiumBy
+                        .androidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
         assertNotEquals(driver
-                .findElements(MobileBy
-                        .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
+                .findElements(AppiumBy
+                        .androidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
     @Test public void findByAccessibilityIdFromElementTest() {
         assertNotEquals(driver.findElement(By.id("android:id/content"))
-                .findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
+                .findElement(AppiumBy.accessibilityId("Graphics")).getText(), null);
         assertEquals(driver.findElement(By.id("android:id/content"))
-                .findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
+                .findElements(AppiumBy.accessibilityId("Graphics")).size(), 1);
     }
 
     @Test public void findByAndroidUIAutomatorFromElementTest() {
         assertNotEquals(driver.findElement(By.id("android:id/content"))
-                .findElement(MobileBy
-                        .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
+                .findElement(AppiumBy
+                        .androidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
         assertNotEquals(driver.findElement(By.id("android:id/content"))
-                .findElements(MobileBy
-                        .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
+                .findElements(AppiumBy
+                        .androidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
         assertNotEquals(driver.findElement(By.id("android:id/content"))
-                .findElements(MobileBy
-                        .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
+                .findElements(AppiumBy
+                        .androidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
     @Test public void replaceValueTest() {
@@ -124,8 +124,8 @@ public class AndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
         startsActivity.startActivity(activity);
         AndroidElement editElement = driver
-                .findElement(MobileBy
-                .AndroidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
+                .findElement(AppiumBy
+                .androidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
         editElement.sendKeys(originalValue);
         assertEquals(originalValue, editElement.getText());
         String replacedValue = "replaced value";
@@ -134,11 +134,11 @@ public class AndroidTest {
     }
 
     @Test public void scrollingToSubElement() {
-        driver.findElement(MobileBy.AccessibilityId("Views")).click();
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
         AndroidElement list = driver.findElement(By.id("android:id/list"));
         MobileElement radioGroup = list
-                .findElement(MobileBy
-                        .AndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView("
+                .findElement(AppiumBy
+                        .androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView("
                                 + "new UiSelector().text(\"Radio Group\"));"));
         assertNotNull(radioGroup.getLocation());
     }

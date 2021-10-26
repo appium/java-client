@@ -16,7 +16,7 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static io.appium.java_client.AppiumBy.androidUIAutomator;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -89,7 +89,7 @@ public class FingerPrintTest {
     }
 
     private void clickOnSecurity() {
-        driver.findElement(AndroidUIAutomator("new UiScrollable(new UiSelector()"
+        driver.findElement(androidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".scrollable(true)).scrollIntoView("
                 + "new UiSelector().text(\"Security & location\"));")).click();
     }

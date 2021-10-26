@@ -1,6 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.android;
 
-import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static io.appium.java_client.AppiumBy.androidUIAutomator;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AndroidApp.ANDROID_DEFAULT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AndroidApp.ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.android.AnnotatedAndroidWidget.ANDROID_ROOT_WIDGET_LOCATOR;
@@ -19,28 +19,28 @@ public class AndroidWidgetTest extends ExtendedWidgetTest {
     @Override
     public void checkThatWidgetsAreCreatedCorrectly() {
         checkThatLocatorsAreCreatedCorrectly(app.getWidget(), app.getWidgets(),
-                AndroidUIAutomator(ANDROID_DEFAULT_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
+                androidUIAutomator(ANDROID_DEFAULT_WIDGET_LOCATOR), androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
                 ((ExtendedApp) app).getAnnotatedWidgets(),
-                AndroidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
+                androidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
                 ((ExtendedApp) app).getExtendedWidgets(),
-                AndroidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
+                androidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDeclaredAnnotations() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
                 ((ExtendedApp) app).getExtendedWidgetsWithOverriddenLocators(),
-                AndroidUIAutomator(ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
-                AndroidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
+                androidUIAutomator(ANDROID_EXTERNALLY_DEFINED_WIDGET_LOCATOR),
+                androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 }

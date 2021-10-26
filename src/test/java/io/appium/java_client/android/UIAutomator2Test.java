@@ -3,7 +3,7 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MobileElement;
 import org.junit.After;
 import org.junit.Ignore;
@@ -25,7 +25,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     public void testLandscapeRightRotation() {
         new WebDriverWait(driver, 20).until(ExpectedConditions
                 .elementToBeClickable(driver.findElement(By.id("android:id/content"))
-                        .findElement(MobileBy.AccessibilityId("Graphics"))));
+                        .findElement(AppiumBy.accessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
@@ -35,7 +35,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     public void testLandscapeLeftRotation() {
         new WebDriverWait(driver, 20).until(ExpectedConditions
                 .elementToBeClickable(driver.findElement(By.id("android:id/content"))
-                        .findElement(MobileBy.AccessibilityId("Graphics"))));
+                        .findElement(AppiumBy.accessibilityId("Graphics"))));
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
         driver.rotate(landscapeLeftRotation);
         assertEquals(driver.rotation(), landscapeLeftRotation);
@@ -45,7 +45,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     public void testPortraitUpsideDown() {
         new WebDriverWait(driver, 20).until(ExpectedConditions
                 .elementToBeClickable(driver.findElement(By.id("android:id/content"))
-                        .findElement(MobileBy.AccessibilityId("Graphics"))));
+                        .findElement(AppiumBy.accessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 180);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
@@ -60,9 +60,9 @@ public class UIAutomator2Test extends BaseAndroidTest {
         Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
         driver.startActivity(activity);
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy
-                .AccessibilityId("Make a Popup!")));
-        MobileElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));
+        wait.until(ExpectedConditions.presenceOfElementLocated(AppiumBy
+                .accessibilityId("Make a Popup!")));
+        MobileElement popUpElement = driver.findElement(AppiumBy.accessibilityId("Make a Popup!"));
         wait.until(ExpectedConditions.elementToBeClickable(popUpElement)).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(".//*[@text='Search']"))).click();

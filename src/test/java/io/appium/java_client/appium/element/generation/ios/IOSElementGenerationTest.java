@@ -8,7 +8,7 @@ import static org.openqa.selenium.By.name;
 import static org.openqa.selenium.By.partialLinkText;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.appium.element.generation.BaseElementGenerationTest;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSElement;
@@ -82,7 +82,7 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             Capabilities caps = commonAppCapabilitiesSupplier.get();
             return caps.merge(appFileSupplierFunction.apply(testApp).get());
         }, commonPredicate,
-        MobileBy.AccessibilityId("Answer")
+        AppiumBy.accessibilityId("Answer")
         ));
     }
 
@@ -96,10 +96,10 @@ public class IOSElementGenerationTest extends BaseElementGenerationTest {
             new WebDriverWait(driver, Duration.ofSeconds(30))
                     .until(ExpectedConditions.presenceOfElementLocated(id("login")))
                     .click();
-            driver.findElement(MobileBy.AccessibilityId("webView")).click();
+            driver.findElement(AppiumBy.accessibilityId("webView")).click();
             new WebDriverWait(driver, Duration.ofSeconds(30))
                     .until(ExpectedConditions
-                            .presenceOfElementLocated(MobileBy.AccessibilityId("Webview")));
+                            .presenceOfElementLocated(AppiumBy.accessibilityId("Webview")));
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

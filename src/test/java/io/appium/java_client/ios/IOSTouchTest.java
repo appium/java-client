@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import org.junit.FixMethodOrder;
@@ -30,7 +30,7 @@ public class IOSTouchTest extends AppIOSTest {
         intA.sendKeys("2");
         intB.sendKeys("4");
 
-        MobileElement e = driver.findElement(MobileBy.AccessibilityId("ComputeSumButton"));
+        MobileElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
         new IOSTouchAction(driver).tap(tapOptions().withElement(element(e))).perform();
         assertEquals(driver.findElement(By.xpath("//*[@name = \"Answer\"]")).getText(), "6");
     }
@@ -44,7 +44,7 @@ public class IOSTouchTest extends AppIOSTest {
         intA.sendKeys("2");
         intB.sendKeys("4");
 
-        MobileElement e = driver.findElement(MobileBy.AccessibilityId("ComputeSumButton"));
+        MobileElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
         new IOSTouchAction(driver)
                 .press(iosPressOptions()
                     .withElement(element(e))
@@ -56,8 +56,8 @@ public class IOSTouchTest extends AppIOSTest {
     }
 
     @Test public void multiTouchTest() {
-        MobileElement e = driver.findElement(MobileBy.AccessibilityId("ComputeSumButton"));
-        MobileElement e2 = driver.findElement(MobileBy.AccessibilityId("show alert"));
+        MobileElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
+        MobileElement e2 = driver.findElement(AppiumBy.accessibilityId("show alert"));
 
         IOSTouchAction tap1 = new IOSTouchAction(driver).tap(tapOptions().withElement(element(e)));
         IOSTouchAction tap2 = new IOSTouchAction(driver).tap(tapOptions().withElement(element(e2)));
@@ -75,7 +75,7 @@ public class IOSTouchTest extends AppIOSTest {
 
         IOSTouchAction iosTouchAction = new IOSTouchAction(driver);
         iosTouchAction.doubleTap(element(firstField));
-        IOSElement editingMenu = driver.findElement(MobileBy.className("XCUIElementTypeTextField"));
+        IOSElement editingMenu = driver.findElement(AppiumBy.className("XCUIElementTypeTextField"));
         assertNotNull(editingMenu);
     }
 }
