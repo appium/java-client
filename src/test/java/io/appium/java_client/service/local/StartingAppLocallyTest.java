@@ -21,7 +21,6 @@ import static io.appium.java_client.TestResources.uiCatalogAppZip;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -43,7 +42,8 @@ import java.time.Duration;
 
 public class StartingAppLocallyTest {
 
-    @Test public void startingAndroidAppWithCapabilitiesOnlyTest() {
+    @Test
+    public void startingAndroidAppWithCapabilitiesOnlyTest() {
         AndroidDriver<?> driver = new AndroidDriver<>(new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
@@ -62,7 +62,8 @@ public class StartingAppLocallyTest {
         }
     }
 
-    @Test public void startingAndroidAppWithCapabilitiesAndServiceTest() {
+    @Test
+    public void startingAndroidAppWithCapabilitiesAndServiceTest() {
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
@@ -83,7 +84,8 @@ public class StartingAppLocallyTest {
         }
     }
 
-    @Test public void startingAndroidAppWithCapabilitiesAndFlagsOnServerSideTest() {
+    @Test
+    public void startingAndroidAppWithCapabilitiesAndFlagsOnServerSideTest() {
         UiAutomator2Options serverOptions = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .fullReset()
@@ -117,7 +119,8 @@ public class StartingAppLocallyTest {
         }
     }
 
-    @Test public void startingIOSAppWithCapabilitiesOnlyTest() {
+    @Test
+    public void startingIOSAppWithCapabilitiesOnlyTest() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         //sometimes environment has performance problems
@@ -133,7 +136,7 @@ public class StartingAppLocallyTest {
 
             assertEquals(AutomationName.IOS_XCUI_TEST, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
             assertEquals(MobilePlatform.IOS, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
-            assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
             assertEquals(uiCatalogAppZip().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
         } finally {
@@ -142,7 +145,8 @@ public class StartingAppLocallyTest {
     }
 
 
-    @Test public void startingIOSAppWithCapabilitiesAndServiceTest() {
+    @Test
+    public void startingIOSAppWithCapabilitiesAndServiceTest() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
@@ -161,18 +165,19 @@ public class StartingAppLocallyTest {
             Capabilities caps = driver.getCapabilities();
             assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
                     .toString().equalsIgnoreCase(MobilePlatform.IOS));
-            assertNotNull(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
             driver.quit();
         }
     }
 
-    @Test public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
+    @Test
+    public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
         DesiredCapabilities serverCapabilities = new DesiredCapabilities();
         serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
         serverCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         serverCapabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
-            BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis()); //some environment is too slow
+                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis()); //some environment is too slow
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
         serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 
@@ -188,7 +193,7 @@ public class StartingAppLocallyTest {
             Capabilities caps = driver.getCapabilities();
             assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
                     .toString().equalsIgnoreCase(MobilePlatform.IOS));
-            assertNotEquals(null, caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
             assertFalse(driver.isBrowser());
         } finally {
             driver.quit();
