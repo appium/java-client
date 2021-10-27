@@ -16,50 +16,28 @@
 
 package io.appium.java_client;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.Remotable;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 
-import java.io.Serializable;
-import java.util.List;
-
+/**
+ * Appium locating strategies.
+ *
+ * @deprecated Use {@link AppiumBy} instead.
+ */
 @SuppressWarnings("serial")
-public abstract class MobileBy extends By implements Remotable {
+@Deprecated
+public abstract class MobileBy extends AppiumBy {
 
-    @Getter(AccessLevel.PROTECTED) private final String locatorString;
-    private final Parameters parameters;
-
-    protected MobileBy(String selector, String locatorString) {
-        if (StringUtils.isBlank(locatorString)) {
-            throw new IllegalArgumentException("Must supply a not empty locator value.");
-        }
-        this.locatorString = locatorString;
-        this.parameters = new Parameters(selector, locatorString);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override public List<WebElement> findElements(SearchContext context) {
-        return context.findElements(this);
-    }
-
-    @Override public WebElement findElement(SearchContext context) {
-        return context.findElement(this);
-    }
-
-    @Override
-    public Parameters getRemoteParameters() {
-        return parameters;
+    protected MobileBy(String selector, String locatorString, String locatorName) {
+        super(selector, locatorString, locatorName);
     }
 
     /**
      * Refer to https://developer.android.com/training/testing/ui-automator
+     * @deprecated Use {@link AppiumBy#androidUIAutomator(String)} instead.
      * @param uiautomatorText is Android UIAutomator string
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
+     * @return an instance of {@link ByAndroidUIAutomator}
      */
+    @Deprecated
     public static By AndroidUIAutomator(final String uiautomatorText) {
         return new ByAndroidUIAutomator(uiautomatorText);
     }
@@ -70,65 +48,73 @@ public abstract class MobileBy extends By implements Remotable {
      * About iOS accessibility
      * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
      * UIAccessibilityIdentification_Protocol/index.html
+     * @deprecated Use {@link AppiumBy#accessibilityId(String)} instead.
      * @param accessibilityId id is a convenient UI automation accessibility Id.
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidUIAutomator}
+     * @return an instance of {@link ByAndroidUIAutomator}
      */
+    @Deprecated
     public static By AccessibilityId(final String accessibilityId) {
         return new ByAccessibilityId(accessibilityId);
     }
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
+     * @deprecated Use {@link AppiumBy#iOSClassChain(String)} instead.
      * @param iOSClassChainString is a valid class chain locator string.
      *                            See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
      *                            the documentation</a> for more details
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByIosClassChain}
+     * @return an instance of {@link ByIosClassChain}
      */
+    @Deprecated
     public static By iOSClassChain(final String iOSClassChainString) {
         return new ByIosClassChain(iOSClassChainString);
     }
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
+     * @deprecated Use {@link AppiumBy#androidDataMatcher(String)} instead.
      * @param dataMatcherString is a valid json string detailing hamcrest matcher for Espresso onData().
      *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
      *                            the documentation</a> for more details
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidDataMatcher}
+     * @return an instance of {@link ByAndroidDataMatcher}
      */
+    @Deprecated
     public static By androidDataMatcher(final String dataMatcherString) {
         return new ByAndroidDataMatcher(dataMatcherString);
     }
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
+     * @deprecated Use {@link AppiumBy#androidViewMatcher(String)} instead.
      * @param viewMatcherString is a valid json string detailing hamcrest matcher for Espresso onView().
      *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
      *                            the documentation</a> for more details
-     * @return an instance of {@link io.appium.java_client.MobileBy.ByAndroidViewMatcher}
+     * @return an instance of {@link ByAndroidViewMatcher}
      */
+    @Deprecated
     public static By androidViewMatcher(final String viewMatcherString) {
         return new ByAndroidViewMatcher(viewMatcherString);
     }
 
     /**
-    * This locator strategy is available in XCUITest Driver mode.
-    * @param iOSNsPredicateString is an an iOS NsPredicate String
-    * @return an instance of {@link io.appium.java_client.MobileBy.ByIosNsPredicate}
-    */
+     * This locator strategy is available in XCUITest Driver mode.
+     * @deprecated Use {@link AppiumBy#iOSNsPredicateString(String)} instead.
+     * @param iOSNsPredicateString is an iOS NsPredicate String
+     * @return an instance of {@link ByIosNsPredicate}
+     */
+    @Deprecated
     public static By iOSNsPredicateString(final String iOSNsPredicateString) {
         return new ByIosNsPredicate(iOSNsPredicateString);
     }
 
-    public static By windowsAutomation(final String windowsAutomation) {
-        return new ByWindowsAutomation(windowsAutomation);
-    }
-
     /**
      * This locator strategy is available in Espresso Driver mode.
+     * @deprecated Use {@link AppiumBy#androidViewTag(String)} instead.
      * @since Appium 1.8.2 beta
      * @param tag is an view tag string
      * @return an instance of {@link ByAndroidViewTag}
      */
+    @Deprecated
     public static By AndroidViewTag(final String tag) {
         return new ByAndroidViewTag(tag);
     }
@@ -137,6 +123,7 @@ public abstract class MobileBy extends By implements Remotable {
      * This locator strategy is available only if OpenCV libraries and
      * NodeJS bindings are installed on the server machine.
      *
+     * @deprecated Use {@link AppiumBy#image(String)} instead.
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
@@ -146,6 +133,7 @@ public abstract class MobileBy extends By implements Remotable {
      *                    as for OpenCV library.
      * @return an instance of {@link ByImage}
      */
+    @Deprecated
     public static By image(final String b64Template) {
         return new ByImage(b64Template);
     }
@@ -154,142 +142,182 @@ public abstract class MobileBy extends By implements Remotable {
      * This type of locator requires the use of the 'customFindModules' capability and a
      * separately-installed element finding plugin.
      *
+     * @deprecated Use {@link AppiumBy#custom(String)} instead.
      * @param selector selector to pass to the custom element finding plugin
      * @return an instance of {@link ByCustom}
      * @since Appium 1.9.2
      */
+    @Deprecated
     public static By custom(final String selector) {
         return new ByCustom(selector);
     }
 
     /**
-     * For IOS it is the full name of the XCUI element and begins with XCUIElementType.
-     * For Android it is the full name of the UIAutomator2 class (e.g.: android.widget.TextView)
-     * @param selector the class name of the element
-     * @return an instance of {@link ByClassName}
+     * Refer to https://developer.android.com/training/testing/ui-automator
+     *
+     * @deprecated Use {@link AppiumBy.ByAndroidUIAutomator} instead.
      */
-    public static By className(final String selector) {
-        return new ByClassName(selector);
-    }
-
-    public static class ByAndroidUIAutomator extends MobileBy implements Serializable {
+    @Deprecated
+    public static class ByAndroidUIAutomator extends AppiumBy.ByAndroidUIAutomator {
 
         public ByAndroidUIAutomator(String uiautomatorText) {
-            super("-android uiautomator", uiautomatorText);
+            super(uiautomatorText);
         }
 
         @Override public String toString() {
-            return "By.AndroidUIAutomator: " + getLocatorString();
+            return "By.AndroidUIAutomator: " + getRemoteParameters().value();
         }
     }
 
-
-    public static class ByAccessibilityId extends MobileBy implements Serializable {
+    /**
+     * About Android accessibility
+     * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
+     * About iOS accessibility
+     * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
+     * UIAccessibilityIdentification_Protocol/index.html
+     * @deprecated Use {@link AppiumBy.ByAccessibilityId} instead.
+     */
+    @Deprecated
+    public static class ByAccessibilityId extends AppiumBy.ByAccessibilityId {
 
         public ByAccessibilityId(String accessibilityId) {
-            super("accessibility id", accessibilityId);
+            super(accessibilityId);
         }
 
         @Override public String toString() {
-            return "By.AccessibilityId: " + getLocatorString();
+            return "By.AccessibilityId: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByIosClassChain extends MobileBy implements Serializable {
+    /**
+     * This locator strategy is available in XCUITest Driver mode.
+     * See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
+     * the documentation</a> for more details
+     * @deprecated Use {@link AppiumBy.ByIosClassChain} instead.
+     */
+    @Deprecated
+    public static class ByIosClassChain extends AppiumBy.ByIosClassChain {
 
         protected ByIosClassChain(String locatorString) {
-            super("-ios class chain", locatorString);
+            super(locatorString);
         }
 
         @Override public String toString() {
-            return "By.IosClassChain: " + getLocatorString();
+            return "By.IosClassChain: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByAndroidDataMatcher extends MobileBy implements Serializable {
+    /**
+     * This locator strategy is only available in Espresso Driver mode.
+     * See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     * the documentation</a> for more details
+     * @deprecated Use {@link AppiumBy.ByAndroidDataMatcher} instead.
+     */
+    @Deprecated
+    public static class ByAndroidDataMatcher extends AppiumBy.ByAndroidDataMatcher {
 
         protected ByAndroidDataMatcher(String locatorString) {
-            super("-android datamatcher", locatorString);
+            super(locatorString);
         }
 
         @Override public String toString() {
-            return "By.AndroidDataMatcher: " + getLocatorString();
+            return "By.AndroidDataMatcher: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByAndroidViewMatcher extends MobileBy implements Serializable {
+    /**
+     * This locator strategy is only available in Espresso Driver mode.
+     * See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     * the documentation</a> for more details
+     * @deprecated Use {@link AppiumBy.ByAndroidViewMatcher} instead.
+     */
+    @Deprecated
+    public static class ByAndroidViewMatcher extends AppiumBy.ByAndroidViewMatcher {
 
         protected ByAndroidViewMatcher(String locatorString) {
-            super("-android viewmatcher", locatorString);
+            super(locatorString);
         }
 
         @Override public String toString() {
-            return "By.AndroidViewMatcher: " + getLocatorString();
+            return "By.AndroidViewMatcher: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByIosNsPredicate extends MobileBy implements Serializable {
+    /**
+     * This locator strategy is available in XCUITest Driver mode.
+     * @deprecated Use {@link AppiumBy.ByIosNsPredicate} instead.
+     */
+    @Deprecated
+    public static class ByIosNsPredicate extends AppiumBy.ByIosNsPredicate {
 
         protected ByIosNsPredicate(String locatorString) {
-            super("-ios predicate string", locatorString);
+            super(locatorString);
         }
 
         @Override public String toString() {
-            return "By.IosNsPredicate: " + getLocatorString();
+            return "By.IosNsPredicate: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByWindowsAutomation extends MobileBy implements Serializable {
+    /**
+     * The Windows UIAutomation selector.
+     * @deprecated Use {@link AppiumBy.ByWindowsAutomation} instead.
+     */
+    @Deprecated
+    public static class ByWindowsAutomation extends AppiumBy.ByWindowsAutomation {
 
         protected ByWindowsAutomation(String locatorString) {
-            super("-windows uiautomation", locatorString);
+            super(locatorString);
         }
-
     }
 
-    public static class ByImage extends MobileBy implements Serializable {
+    /**
+     * This locator strategy is available only if OpenCV libraries and
+     * NodeJS bindings are installed on the server machine.
+     * @deprecated Use {@link AppiumBy.ByImage} instead.
+     */
+    @Deprecated
+    public static class ByImage extends AppiumBy.ByImage {
 
         protected ByImage(String b64Template) {
-            super("-image", b64Template);
+            super(b64Template);
         }
 
         @Override public String toString() {
-            return "By.Image: " + getLocatorString();
+            return "By.Image: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByCustom extends MobileBy implements Serializable {
+    /**
+     * This type of locator requires the use of the 'customFindModules' capability and a
+     * separately-installed element finding plugin.
+     * @deprecated Use {@link AppiumBy.ByCustom} instead.
+     */
+    @Deprecated
+    public static class ByCustom extends AppiumBy.ByCustom {
 
         protected ByCustom(String selector) {
-            super("-custom", selector);
+            super(selector);
         }
 
         @Override public String toString() {
-            return "By.Custom: " + getLocatorString();
+            return "By.Custom: " + getRemoteParameters().value();
         }
     }
 
-    public static class ByAndroidViewTag extends MobileBy implements Serializable {
+    /**
+     * This locator strategy is available in Espresso Driver mode.
+     * @deprecated Use {@link AppiumBy.ByAndroidViewTag} instead.
+     */
+    @Deprecated
+    public static class ByAndroidViewTag extends AppiumBy.ByAndroidViewTag {
 
         public ByAndroidViewTag(String tag) {
-            super("-android viewtag", tag);
+            super(tag);
         }
 
         @Override public String toString() {
-            return "By.AndroidViewTag: " + getLocatorString();
-        }
-    }
-
-    public static class ByClassName extends MobileBy implements Serializable {
-
-        protected ByClassName(String selector) {
-            super("class name", selector);
-        }
-
-        @Override public String toString() {
-            return "By.className: " + getLocatorString();
+            return "By.AndroidViewTag: " + getRemoteParameters().value();
         }
     }
 }
-
-

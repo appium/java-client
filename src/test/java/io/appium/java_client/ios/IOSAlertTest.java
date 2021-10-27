@@ -20,7 +20,7 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.FixMethodOrder;
@@ -46,7 +46,7 @@ public class IOSAlertTest extends AppIOSTest {
         // CI might not be performant enough, so we need to retry
         while (true) {
             try {
-                driver.findElement(MobileBy.AccessibilityId(iOSAutomationText)).click();
+                driver.findElement(AppiumBy.accessibilityId(iOSAutomationText)).click();
             } catch (WebDriverException e) {
                 // ignore
             }

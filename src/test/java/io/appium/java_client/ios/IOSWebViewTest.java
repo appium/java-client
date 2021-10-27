@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -17,9 +17,9 @@ public class IOSWebViewTest extends BaseIOSWebViewTest {
         new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("login")))
                 .click();
-        driver.findElement(MobileBy.AccessibilityId("webView")).click();
+        driver.findElement(AppiumBy.accessibilityId("webView")).click();
         new WebDriverWait(driver, Duration.ofSeconds(30))
-                .until(ExpectedConditions.presenceOfElementLocated(MobileBy.AccessibilityId("Webview")));
+                .until(ExpectedConditions.presenceOfElementLocated(AppiumBy.accessibilityId("Webview")));
         findAndSwitchToWebView();
         WebElement el = driver.findElement(By.partialLinkText("login"));
         assertTrue(el.isDisplayed());

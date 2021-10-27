@@ -1,6 +1,6 @@
 package io.appium.java_client.appium.element.generation.android;
 
-import static io.appium.java_client.MobileBy.AndroidUIAutomator;
+import static io.appium.java_client.AppiumBy.androidUIAutomator;
 import static io.appium.java_client.TestResources.apiDemosApk;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.By.name;
@@ -40,7 +40,7 @@ public class AndroidElementGeneratingTest extends BaseElementGenerationTest {
             clientCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
             clientCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
             return clientCapabilities;
-        }, commonPredicate, AndroidUIAutomator("new UiSelector().clickable(true)")
+        }, commonPredicate, androidUIAutomator("new UiSelector().clickable(true)")
         ));
     }
 

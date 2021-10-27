@@ -5,7 +5,7 @@ import static io.appium.java_client.touch.offset.ElementOption.element;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -21,7 +21,7 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         driver.findElement(By.id("io.appium.android.apis:id/gallery"));
 
         AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
-        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
+        List<MobileElement> images = gallery.findElements(AppiumBy.className("android.widget.ImageView"));
         Point location = gallery.getLocation();
         Point center = gallery.getCenter();
 
@@ -37,33 +37,33 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
 
     private final ActionSupplier<AndroidTouchAction> verticalSwiping = () ->
         new AndroidTouchAction(driver)
-                .press(element(driver.findElement(MobileBy.AccessibilityId("Gallery"))))
+                .press(element(driver.findElement(AppiumBy.accessibilityId("Gallery"))))
 
                 .waitAction(waitOptions(ofSeconds(2)))
 
-                .moveTo(element(driver.findElement(MobileBy.AccessibilityId("Auto Complete"))))
+                .moveTo(element(driver.findElement(AppiumBy.accessibilityId("Auto Complete"))))
                 .release();
 
     @Test public void horizontalSwipingWithSupplier() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
         AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
-        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
+        List<MobileElement> images = gallery.findElements(AppiumBy.className("android.widget.ImageView"));
         int originalImageCount = images.size();
 
         horizontalSwipe.get().perform();
 
         assertNotEquals(originalImageCount,
-                gallery.findElements(MobileBy.className("android.widget.ImageView")).size());
+                gallery.findElements(AppiumBy.className("android.widget.ImageView")).size());
     }
 
     @Test public void verticalSwipingWithSupplier() throws Exception {
         driver.resetApp();
-        driver.findElement(MobileBy.AccessibilityId("Views")).click();
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
 
-        Point originalLocation = driver.findElement(MobileBy.AccessibilityId("Gallery")).getLocation();
+        Point originalLocation = driver.findElement(AppiumBy.accessibilityId("Gallery")).getLocation();
         verticalSwiping.get().perform();
         Thread.sleep(5000);
-        assertNotEquals(originalLocation, driver.findElement(MobileBy.AccessibilityId("Gallery")).getLocation());
+        assertNotEquals(originalLocation, driver.findElement(AppiumBy.accessibilityId("Gallery")).getLocation());
     }
 }

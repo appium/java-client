@@ -18,7 +18,7 @@ package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import org.junit.Test;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -37,6 +37,6 @@ public class AndroidViewMatcherTest extends BaseEspressoTest {
         ));
         final WebDriverWait wait = new WebDriverWait(driver, 10);
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(MobileBy.androidViewMatcher(selector))));
+            .presenceOfElementLocated(AppiumBy.androidViewMatcher(selector))));
     }
 }
