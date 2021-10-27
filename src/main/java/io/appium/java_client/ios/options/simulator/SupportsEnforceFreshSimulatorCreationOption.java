@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options.avd;
+package io.appium.java_client.ios.options.simulator;
 
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
@@ -24,38 +24,36 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
-public interface SupportsIsHeadlessOption<T extends BaseOptions<T>> extends
+public interface SupportsEnforceFreshSimulatorCreationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String IS_HEADLESS_OPTION = "isHeadless";
+    String ENFORCE_FRESH_SIMULATOR_CREATION_OPTION = "enforceFreshSimulatorCreation";
 
     /**
-     * Set emulator to start in headless mode (e.g. no UI is shown).
-     * It is only applied if the emulator is not running before the test starts.
+     * Enforce creation of a new simulator for each new test session.
      *
      * @return self instance for chaining.
      */
-    default T headless() {
-        return amend(IS_HEADLESS_OPTION, true);
+    default T enforceFreshSimulatorCreation() {
+        return amend(ENFORCE_FRESH_SIMULATOR_CREATION_OPTION, true);
     }
 
     /**
-     * If set to true then emulator starts in headless mode (e.g. no UI is shown).
-     * It is only applied if the emulator is not running before the test starts.
-     * false by default.
+     * Creates a new simulator in session creation and deletes it in session deletion.
+     * Defaults to false.
      *
-     * @param value Whether to enable or disable headless mode.
+     * @param value Whether to create a new simulator for each new test session.
      * @return self instance for chaining.
      */
-    default T setIsHeadless(boolean value) {
-        return amend(IS_HEADLESS_OPTION, value);
+    default T setEnforceFreshSimulatorCreation(boolean value) {
+        return amend(ENFORCE_FRESH_SIMULATOR_CREATION_OPTION, value);
     }
 
     /**
-     * Get whether the emulator starts in headless mode.
+     * Get whether to create a new simulator for each new test session.
      *
      * @return True or false.
      */
-    default Optional<Boolean> isHeadless() {
-        return Optional.ofNullable(toSafeBoolean(getCapability(IS_HEADLESS_OPTION)));
+    default Optional<Boolean> doesEnforceFreshSimulatorCreation() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(ENFORCE_FRESH_SIMULATOR_CREATION_OPTION)));
     }
 }

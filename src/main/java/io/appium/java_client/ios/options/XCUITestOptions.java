@@ -22,6 +22,25 @@ import io.appium.java_client.ios.options.app.SupportsBundleIdOption;
 import io.appium.java_client.ios.options.app.SupportsLocalizableStringsDirOption;
 import io.appium.java_client.ios.options.general.SupportsIncludeDeviceCapsToSessionInfoOption;
 import io.appium.java_client.ios.options.general.SupportsResetLocationServiceOption;
+import io.appium.java_client.ios.options.simulator.SupportsCalendarAccessAuthorizedOption;
+import io.appium.java_client.ios.options.simulator.SupportsCalendarFormatOption;
+import io.appium.java_client.ios.options.simulator.SupportsConnectHardwareKeyboardOption;
+import io.appium.java_client.ios.options.simulator.SupportsCustomSslCertOption;
+import io.appium.java_client.ios.options.simulator.SupportsEnforceFreshSimulatorCreationOption;
+import io.appium.java_client.ios.options.simulator.SupportsForceSimulatorSoftwareKeyboardPresenceOption;
+import io.appium.java_client.ios.options.simulator.SupportsIosSimulatorLogsPredicateOption;
+import io.appium.java_client.ios.options.simulator.SupportsKeepKeyChainsOption;
+import io.appium.java_client.ios.options.simulator.SupportsKeychainsExcludePatternsOption;
+import io.appium.java_client.ios.options.simulator.SupportsPermissionsOption;
+import io.appium.java_client.ios.options.simulator.SupportsReduceMotionOption;
+import io.appium.java_client.ios.options.simulator.SupportsScaleFactorOption;
+import io.appium.java_client.ios.options.simulator.SupportsShutdownOtherSimulatorsOption;
+import io.appium.java_client.ios.options.simulator.SupportsSimulatorDevicesSetPathOption;
+import io.appium.java_client.ios.options.simulator.SupportsSimulatorPasteboardAutomaticSyncOption;
+import io.appium.java_client.ios.options.simulator.SupportsSimulatorStartupTimeoutOption;
+import io.appium.java_client.ios.options.simulator.SupportsSimulatorTracePointerOption;
+import io.appium.java_client.ios.options.simulator.SupportsSimulatorWindowCenterOption;
+import io.appium.java_client.ios.options.simulator.SupportsWebkitResponseTimeoutOption;
 import io.appium.java_client.ios.options.wda.SupportsAllowProvisioningDeviceRegistrationOption;
 import io.appium.java_client.ios.options.wda.SupportsAutoAcceptAlertsOption;
 import io.appium.java_client.ios.options.wda.SupportsAutoDismissAlertsOption;
@@ -63,6 +82,7 @@ import io.appium.java_client.remote.options.SupportsAutoWebViewOption;
 import io.appium.java_client.remote.options.SupportsClearSystemFilesOption;
 import io.appium.java_client.remote.options.SupportsDeviceNameOption;
 import io.appium.java_client.remote.options.SupportsEnablePerformanceLoggingOption;
+import io.appium.java_client.remote.options.SupportsIsHeadlessOption;
 import io.appium.java_client.remote.options.SupportsLanguageOption;
 import io.appium.java_client.remote.options.SupportsLocaleOption;
 import io.appium.java_client.remote.options.SupportsOrientationOption;
@@ -123,8 +143,28 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsShouldTerminateAppOption<XCUITestOptions>,
         SupportsForceAppLaunchOption<XCUITestOptions>,
         SupportsUseNativeCachingStrategyOption<XCUITestOptions>,
-        // TODO: Simulator options: https://github.com/appium/appium-xcuitest-driver#simulator
+        // Simulator options: https://github.com/appium/appium-xcuitest-driver#simulator
         SupportsOrientationOption<XCUITestOptions>,
+        SupportsScaleFactorOption<XCUITestOptions>,
+        SupportsConnectHardwareKeyboardOption<XCUITestOptions>,
+        SupportsForceSimulatorSoftwareKeyboardPresenceOption<XCUITestOptions>,
+        SupportsCalendarAccessAuthorizedOption<XCUITestOptions>,
+        SupportsCalendarFormatOption<XCUITestOptions>,
+        SupportsIsHeadlessOption<XCUITestOptions>,
+        SupportsSimulatorWindowCenterOption<XCUITestOptions>,
+        SupportsSimulatorStartupTimeoutOption<XCUITestOptions>,
+        SupportsSimulatorTracePointerOption<XCUITestOptions>,
+        SupportsShutdownOtherSimulatorsOption<XCUITestOptions>,
+        SupportsEnforceFreshSimulatorCreationOption<XCUITestOptions>,
+        SupportsKeepKeyChainsOption<XCUITestOptions>,
+        SupportsKeychainsExcludePatternsOption<XCUITestOptions>,
+        SupportsReduceMotionOption<XCUITestOptions>,
+        SupportsPermissionsOption<XCUITestOptions>,
+        SupportsIosSimulatorLogsPredicateOption<XCUITestOptions>,
+        SupportsSimulatorPasteboardAutomaticSyncOption<XCUITestOptions>,
+        SupportsSimulatorDevicesSetPathOption<XCUITestOptions>,
+        SupportsCustomSslCertOption<XCUITestOptions>,
+        SupportsWebkitResponseTimeoutOption<XCUITestOptions>,
         // TODO: Web context options: https://github.com/appium/appium-xcuitest-driver#web-context
         SupportsAutoWebViewOption<XCUITestOptions>,
         // TODO: Other options: https://github.com/appium/appium-xcuitest-driver#other
