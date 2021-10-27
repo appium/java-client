@@ -27,7 +27,6 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
@@ -49,7 +48,6 @@ import java.util.Map;
  * Default Appium driver implementation.
  */
 public class AppiumDriver extends RemoteWebDriver implements
-        WebDriver,
         ExecutesMethod,
         ComparesImages,
         ExecutesDriverScript,
