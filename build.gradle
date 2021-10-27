@@ -48,7 +48,7 @@ dependencies {
         }
     }
     implementation 'com.google.code.gson:gson:2.8.8'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'commons-codec:commons-codec:1.15'
     implementation 'cglib:cglib:3.3.0'
     implementation 'commons-validator:commons-validator:1.7'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
