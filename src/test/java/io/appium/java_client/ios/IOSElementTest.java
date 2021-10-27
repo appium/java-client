@@ -1,6 +1,5 @@
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.TestUtils.setElementValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -34,7 +33,7 @@ public class IOSElementTest extends AppIOSTest {
 
         WebElement slider = wait.until(
                 driver1 -> driver1.findElement(MobileBy.className("XCUIElementTypeSlider")));
-        setElementValue(driver, (RemoteWebElement) slider, "0%");
+        driver.setElementValue((RemoteWebElement) slider, "0%");
         assertEquals("0%", slider.getAttribute("value"));
     }
 }

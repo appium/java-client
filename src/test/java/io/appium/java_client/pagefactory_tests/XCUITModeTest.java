@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.TestUtils.setElementValue;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,7 +38,6 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -48,7 +45,6 @@ import java.util.List;
 public class XCUITModeTest extends AppIOSTest {
 
     private boolean populated = false;
-    private WebDriverWait waiting = new WebDriverWait(driver, 10);
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "label contains 'Compute'")
@@ -145,8 +141,8 @@ public class XCUITModeTest extends AppIOSTest {
     }
 
     @Test public void setValueTest() {
-        setElementValue(driver, (RemoteWebElement) textField1, "2");
-        setElementValue(driver, (RemoteWebElement) textField2, "4");
+        driver.setElementValue((RemoteWebElement) textField1, "2");
+        driver.setElementValue((RemoteWebElement) textField2, "4");
         driver.hideKeyboard();
         computeButton.click();
         assertEquals("6", answer.getText());

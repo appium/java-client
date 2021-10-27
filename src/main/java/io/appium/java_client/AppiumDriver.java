@@ -18,8 +18,6 @@ package io.appium.java_client;
 
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
 
-import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -44,19 +42,20 @@ import org.openqa.selenium.remote.http.HttpMethod;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 /**
  * Default Appium driver implementation.
  *
  */
-@SuppressWarnings("unchecked")
 public class AppiumDriver extends RemoteWebDriver implements
         WebDriver,
         ExecutesMethod,
         ComparesImages,
         ExecutesDriverScript,
         LogsEvents,
+        CanSetElementValue,
         HasBrowserCheck,
         HasSettings {
 
@@ -223,6 +222,6 @@ public class AppiumDriver extends RemoteWebDriver implements
 
     @Override
     public Response execute(String command) {
-        return super.execute(command, ImmutableMap.of());
+        return super.execute(command, Collections.emptyMap());
     }
 }

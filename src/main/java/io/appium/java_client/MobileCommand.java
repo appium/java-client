@@ -41,7 +41,7 @@ public class MobileCommand {
     //General
     protected static final String RESET;
     protected static final String GET_STRINGS;
-    protected static final String SET_VALUE;
+    public static final String SET_VALUE;
     protected static final String PULL_FILE;
     protected static final String PULL_FOLDER;
     public static final String RUN_APP_IN_BACKGROUND;

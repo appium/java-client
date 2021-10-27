@@ -16,25 +16,20 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.remote.Response;
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.remote.RemoteWebElement;
 
-import java.util.Map;
-
-public interface ExecutesMethod {
+public interface CanSetElementValue extends ExecutesMethod {
     /**
-     * Executes the given command and returns a response.
+     * Set a value to an element.
      *
-     * @param driverCommand a command to execute
-     * @param parameters map of command parameters
-     * @return a result response
+     * @param webElement Web element instance.
+     * @param value Value to set.
      */
-    Response execute(String driverCommand, Map<String, ?> parameters);
-
-    /**
-     * Executes the given command and returns a response.
-     *
-     * @param driverCommand a command to execute
-     * @return a result response
-     */
-    Response execute(String driverCommand);
+    default void setElementValue(RemoteWebElement webElement, String value) {
+        this.execute(MobileCommand.SET_VALUE, ImmutableMap.of(
+                "id", webElement.getId(),
+                "value", value
+        ));
+    }
 }

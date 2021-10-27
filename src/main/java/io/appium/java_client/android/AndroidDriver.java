@@ -58,8 +58,8 @@ import java.util.Map;
 /**
  * Android driver implementation.
  */
-public class AndroidDriver extends AppiumDriver
-    implements PressesKey,
+public class AndroidDriver extends AppiumDriver implements
+        PressesKey,
         SupportsRotation,
         SupportsContextSwitching,
         SupportsLocation,
