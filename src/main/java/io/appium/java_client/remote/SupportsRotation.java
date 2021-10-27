@@ -37,12 +37,7 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod, Rotatable {
     default DeviceRotation rotation() {
         Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
         //noinspection unchecked
-        DeviceRotation deviceRotation =
-                new DeviceRotation((Map<String, Number>) response.getValue());
-        if (deviceRotation.getX() < 0 || deviceRotation.getY() < 0 || deviceRotation.getZ() < 0) {
-            throw new WebDriverException("Unexpected orientation returned: " + deviceRotation);
-        }
-        return deviceRotation;
+        return new DeviceRotation((Map<String, Number>) response.getValue());
     }
 
     default void rotate(DeviceRotation rotation) {
