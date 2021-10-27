@@ -22,7 +22,6 @@ import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.Response;
 
@@ -56,13 +55,7 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod, Rotatable {
      */
     default ScreenOrientation getOrientation() {
         Response response = execute(DriverCommand.GET_SCREEN_ORIENTATION);
-        String orientation = response.getValue().toString().toLowerCase();
-        if (orientation.equals(ScreenOrientation.LANDSCAPE.value())) {
-            return ScreenOrientation.LANDSCAPE;
-        } else if (orientation.equals(ScreenOrientation.PORTRAIT.value())) {
-            return ScreenOrientation.PORTRAIT;
-        } else {
-            throw new WebDriverException("Unexpected orientation returned: " + orientation);
-        }
+        String orientation = String.valueOf(response.getValue());
+        return ScreenOrientation.valueOf(orientation.toUpperCase());
     }
 }
