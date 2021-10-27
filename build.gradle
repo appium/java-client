@@ -3,6 +3,7 @@ import org.apache.tools.ant.filters.*
 plugins {
     id 'java-library'
     id 'idea'
+    id 'eclipse'
     id 'maven-publish'
     id 'jacoco'
     id 'checkstyle'
