@@ -74,6 +74,25 @@ import io.appium.java_client.ios.options.wda.SupportsWdaStartupRetriesOption;
 import io.appium.java_client.ios.options.wda.SupportsWdaStartupRetryIntervalOption;
 import io.appium.java_client.ios.options.wda.SupportsWebDriverAgentUrlOption;
 import io.appium.java_client.ios.options.wda.SupportsXcodeCertificateOptions;
+import io.appium.java_client.ios.options.webview.SupportsAbsoluteWebLocationsOption;
+import io.appium.java_client.ios.options.webview.SupportsAdditionalWebviewBundleIdsOption;
+import io.appium.java_client.ios.options.webview.SupportsEnableAsyncExecuteFromHttpsOption;
+import io.appium.java_client.ios.options.webview.SupportsFullContextListOption;
+import io.appium.java_client.ios.options.webview.SupportsIncludeSafariInWebviewsOption;
+import io.appium.java_client.ios.options.webview.SupportsNativeWebTapOption;
+import io.appium.java_client.ios.options.webview.SupportsNativeWebTapStrictOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariAllowPopupsOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariGarbageCollectOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariIgnoreFraudWarningOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariIgnoreWebHostnamesOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariInitialUrlOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariLogAllCommunicationHexDumpOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariLogAllCommunicationOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariOpenLinksInBackgroundOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariSocketChunkSizeOption;
+import io.appium.java_client.ios.options.webview.SupportsSafariWebInspectorMaxFrameLengthOption;
+import io.appium.java_client.ios.options.webview.SupportsWebviewConnectRetriesOption;
+import io.appium.java_client.ios.options.webview.SupportsWebviewConnectTimeoutOption;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
@@ -164,9 +183,28 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsSimulatorPasteboardAutomaticSyncOption<XCUITestOptions>,
         SupportsSimulatorDevicesSetPathOption<XCUITestOptions>,
         SupportsCustomSslCertOption<XCUITestOptions>,
-        SupportsWebkitResponseTimeoutOption<XCUITestOptions>,
-        // TODO: Web context options: https://github.com/appium/appium-xcuitest-driver#web-context
+        // Web context options: https://github.com/appium/appium-xcuitest-driver#web-context
         SupportsAutoWebViewOption<XCUITestOptions>,
+        SupportsAbsoluteWebLocationsOption<XCUITestOptions>,
+        SupportsSafariGarbageCollectOption<XCUITestOptions>,
+        SupportsIncludeSafariInWebviewsOption<XCUITestOptions>,
+        SupportsSafariLogAllCommunicationOption<XCUITestOptions>,
+        SupportsSafariLogAllCommunicationHexDumpOption<XCUITestOptions>,
+        SupportsSafariSocketChunkSizeOption<XCUITestOptions>,
+        SupportsSafariWebInspectorMaxFrameLengthOption<XCUITestOptions>,
+        SupportsAdditionalWebviewBundleIdsOption<XCUITestOptions>,
+        SupportsWebviewConnectTimeoutOption<XCUITestOptions>,
+        SupportsSafariIgnoreWebHostnamesOption<XCUITestOptions>,
+        SupportsNativeWebTapOption<XCUITestOptions>,
+        SupportsNativeWebTapStrictOption<XCUITestOptions>,
+        SupportsSafariInitialUrlOption<XCUITestOptions>,
+        SupportsSafariAllowPopupsOption<XCUITestOptions>,
+        SupportsSafariIgnoreFraudWarningOption<XCUITestOptions>,
+        SupportsSafariOpenLinksInBackgroundOption<XCUITestOptions>,
+        SupportsWebviewConnectRetriesOption<XCUITestOptions>,
+        SupportsWebkitResponseTimeoutOption<XCUITestOptions>,
+        SupportsEnableAsyncExecuteFromHttpsOption<XCUITestOptions>,
+        SupportsFullContextListOption<XCUITestOptions>,
         // TODO: Other options: https://github.com/appium/appium-xcuitest-driver#other
         SupportsClearSystemFilesOption<XCUITestOptions>,
         SupportsEnablePerformanceLoggingOption<XCUITestOptions> {
