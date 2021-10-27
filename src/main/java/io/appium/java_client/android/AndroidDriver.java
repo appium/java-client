@@ -85,6 +85,7 @@ public class AndroidDriver extends AppiumDriver implements
         HasAndroidClipboard,
         HasBattery<AndroidBatteryInfo>,
         ExecuteCDPCommand,
+        CanReplaceElementValue,
         SupportsExtendedGeolocationCommands {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;

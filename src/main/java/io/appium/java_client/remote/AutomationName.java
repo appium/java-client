@@ -20,8 +20,6 @@ public interface AutomationName {
     // Officially supported drivers
     @Deprecated
     String APPIUM = "Appium";
-    @Deprecated
-    String SELENDROID = "Selendroid";
     // https://github.com/appium/appium-xcuitest-driver
     String IOS_XCUI_TEST = "XCuiTest";
     // https://github.com/appium/appium-uiautomator2-driver

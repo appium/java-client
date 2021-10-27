@@ -20,34 +20,34 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 
 public class IOSSearchingTest extends AppIOSTest {
 
     @Test public void findByAccessibilityIdTest() {
         assertNotEquals(driver
-                .findElement(MobileBy.AccessibilityId("ComputeSumButton"))
+                .findElement(AppiumBy.accessibilityId("ComputeSumButton"))
                 .getText(), null);
         assertNotEquals(driver
-                .findElements(MobileBy.AccessibilityId("ComputeSumButton"))
+                .findElements(AppiumBy.accessibilityId("ComputeSumButton"))
                 .size(), 0);
     }
 
     @Test public void findByByIosPredicatesTest() {
         assertNotEquals(driver
-                .findElement(MobileBy.iOSNsPredicateString("name like 'Answer'"))
+                .findElement(AppiumBy.iOSNsPredicateString("name like 'Answer'"))
                 .getText(), null);
         assertNotEquals(driver
-                .findElements(MobileBy.iOSNsPredicateString("name like 'Answer'"))
+                .findElements(AppiumBy.iOSNsPredicateString("name like 'Answer'"))
                 .size(), 0);
     }
 
     @Test public void findByByIosClassChainTest() {
         assertNotEquals(driver
-                .findElement(MobileBy.iOSClassChain("**/XCUIElementTypeButton"))
+                .findElement(AppiumBy.iOSClassChain("**/XCUIElementTypeButton"))
                 .getText(), null);
         assertNotEquals(driver
-                .findElements(MobileBy.iOSClassChain("**/XCUIElementTypeButton"))
+                .findElements(AppiumBy.iOSClassChain("**/XCUIElementTypeButton"))
                 .size(), 0);
     }
 }

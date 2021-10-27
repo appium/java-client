@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -35,20 +35,20 @@ public class AndroidSearchingTest extends BaseAndroidTest {
     }
 
     @Test  public void findByAccessibilityIdTest() {
-        assertNotEquals(driver.findElement(MobileBy.AccessibilityId("Graphics")).getText(), null);
-        assertEquals(driver.findElements(MobileBy.AccessibilityId("Graphics")).size(), 1);
+        assertNotEquals(driver.findElement(AppiumBy.accessibilityId("Graphics")).getText(), null);
+        assertEquals(driver.findElements(AppiumBy.accessibilityId("Graphics")).size(), 1);
     }
 
     @Test  public void findByAndroidUIAutomatorTest() {
         assertNotEquals(driver
-                .findElement(MobileBy
-                .AndroidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
+                .findElement(AppiumBy
+                .androidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
         assertNotEquals(driver
-                .findElements(MobileBy
-                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
+                .findElements(AppiumBy
+                .androidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
         assertNotEquals(driver
-                .findElements(MobileBy
-                .AndroidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
+                .findElements(AppiumBy
+                .androidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
     @Test public void findByXPathTest() {
@@ -58,9 +58,9 @@ public class AndroidSearchingTest extends BaseAndroidTest {
     }
 
     @Test public void findScrollable() {
-        driver.findElement(MobileBy.AccessibilityId("Views")).click();
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
         WebElement radioGroup = driver
-                .findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector()"
+                .findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".resourceId(\"android:id/list\")).scrollIntoView("
                 + "new UiSelector().text(\"Radio Group\"));"));
         assertNotNull(radioGroup.getLocation());

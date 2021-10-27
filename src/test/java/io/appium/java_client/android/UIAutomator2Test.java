@@ -3,7 +3,7 @@ package io.appium.java_client.android;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,6 +12,8 @@ import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class UIAutomator2Test extends BaseAndroidTest {
 
@@ -22,9 +24,9 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
     @Test
     public void testLandscapeRightRotation() {
-        new WebDriverWait(driver, 20).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .elementToBeClickable(driver.findElement(By.id("android:id/content"))
-                        .findElement(MobileBy.AccessibilityId("Graphics"))));
+                        .findElement(AppiumBy.accessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
@@ -32,9 +34,9 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
     @Test
     public void testLandscapeLeftRotation() {
-        new WebDriverWait(driver, 20).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .elementToBeClickable(driver.findElement(By.id("android:id/content"))
-                        .findElement(MobileBy.AccessibilityId("Graphics"))));
+                        .findElement(AppiumBy.accessibilityId("Graphics"))));
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
         driver.rotate(landscapeLeftRotation);
         assertEquals(driver.rotation(), landscapeLeftRotation);
@@ -42,9 +44,9 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
     @Test
     public void testPortraitUpsideDown() {
-        new WebDriverWait(driver, 20).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .elementToBeClickable(driver.findElement(By.id("android:id/content"))
-                        .findElement(MobileBy.AccessibilityId("Graphics"))));
+                        .findElement(AppiumBy.accessibilityId("Graphics"))));
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 180);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
@@ -55,13 +57,13 @@ public class UIAutomator2Test extends BaseAndroidTest {
      */
     @Ignore
     public void testToastMSGIsDisplayed() {
-        final WebDriverWait wait = new WebDriverWait(driver, 30);
+        final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
         driver.startActivity(activity);
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy
-                .AccessibilityId("Make a Popup!")));
-        WebElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));
+        wait.until(ExpectedConditions.presenceOfElementLocated(AppiumBy
+                .accessibilityId("Make a Popup!")));
+        WebElement popUpElement = driver.findElement(AppiumBy.accessibilityId("Make a Popup!"));
         wait.until(ExpectedConditions.elementToBeClickable(popUpElement)).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(".//*[@text='Search']"))).click();

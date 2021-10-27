@@ -1,6 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
-import static io.appium.java_client.MobileBy.iOSNsPredicateString;
+import static io.appium.java_client.AppiumBy.iOSNsPredicateString;
 import static io.appium.java_client.pagefactory_tests.widget.tests.combined.DefaultIosXCUITWidget.XCUIT_SUB_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.AnnotatedIosWidget.XCUIT_ROOT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.IOS_XCUIT_WIDGET_LOCATOR;
