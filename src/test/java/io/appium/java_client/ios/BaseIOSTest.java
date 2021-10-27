@@ -29,7 +29,7 @@ import static io.appium.java_client.TestUtils.getLocalIp4Address;
 public class BaseIOSTest {
 
     protected static AppiumDriverLocalService service;
-    protected static IOSDriver<IOSElement> driver;
+    protected static IOSDriver driver;
     protected static final int PORT = 4723;
     public static final String DEVICE_NAME = System.getenv("IOS_DEVICE_NAME") != null
             ? System.getenv("IOS_DEVICE_NAME") : "iPhone 12";

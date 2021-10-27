@@ -38,8 +38,6 @@ import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 
 public class AndroidDriverTest extends BaseAndroidTest {
 
@@ -254,18 +252,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test
-    public void getDeviceUDIDTest() {
-        String deviceSerial = driver.getSessionDetail("deviceUDID").toString();
-        assertNotNull(deviceSerial);
-    }
-
-    @Test
-    public void getSessionMapData() {
-        Map<?, ?> map = (Map<?, ?>) driver.getSessionDetail("desired");
-        assertNotEquals(map.size(), 0);
-    }
-
-    @Test
     public void deviceDetailsAndKeyboardTest() {
         assertFalse(driver.isKeyboardShown());
         assertNotNull(driver.getDisplayDensity());
@@ -314,10 +300,4 @@ public class AndroidDriverTest extends BaseAndroidTest {
     public void getCurrentPackageTest() {
         assertEquals(APP_ID, driver.getCurrentPackage());
     }
-    
-    @Test public void validateAllSessions() {
-    	List<Map<String,Object>> jsonMap = driver.getAllSessionDetails();
-		assertNotNull(jsonMap);
-    }
-
 }

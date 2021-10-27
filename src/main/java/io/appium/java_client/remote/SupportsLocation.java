@@ -14,9 +14,21 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client.remote;
 
-import io.appium.java_client.MobileElement;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.html5.LocationContext;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
 
-public class IOSElement extends MobileElement {
+public interface SupportsLocation extends WebDriver, LocationContext {
+    public RemoteLocationContext getLocationContext();
+
+    default Location location() {
+        return getLocationContext().location();
+    }
+
+    default void setLocation(Location location) {
+        getLocationContext().setLocation(location);
+    }
 }

@@ -30,8 +30,10 @@ import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 
-public class WindowsDriver<T extends WebElement>
-        extends AppiumDriver<T> implements PressesKeyCode, HidesKeyboardWithKeyName, CanRecordScreen {
+public class WindowsDriver extends AppiumDriver implements
+        PressesKeyCode,
+        HidesKeyboardWithKeyName,
+        CanRecordScreen {
 
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, updateDefaultPlatformName(capabilities, WINDOWS));

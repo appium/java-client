@@ -44,6 +44,6 @@ public class BaseSafariTest extends BaseIOSTest {
         capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
                 WDA_LAUNCH_TIMEOUT.toMillis());
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
-        driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+        driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
     }
 }

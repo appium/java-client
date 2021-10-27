@@ -21,7 +21,7 @@ import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SP
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
-import io.appium.java_client.HasSessionDetails;
+import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.SearchContext;
@@ -72,7 +72,7 @@ public final class WebDriverUnpackUtility {
      *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
      *                user's extension/implementation.
      *                Note: if you want to use your own implementation then it should
-     *                implement {@link ContextAware} or {@link WrapsDriver} or {@link HasSessionDetails}
+     *                implement {@link ContextAware} or {@link WrapsDriver} or {@link HasBrowserCheck}
      * @return current content type. It depends on current context. If current context is
      *                NATIVE_APP it will return {@link ContentType#NATIVE_MOBILE_SPECIFIC}.
      *                {@link ContentType#HTML_OR_DEFAULT} will be returned if the current context is WEB_VIEW.
@@ -81,12 +81,8 @@ public final class WebDriverUnpackUtility {
      */
     public static ContentType getCurrentContentType(SearchContext context) {
         return ofNullable(unpackWebDriverFromSearchContext(context)).map(driver -> {
-            if (HasSessionDetails.class.isAssignableFrom(driver.getClass())) {
-                HasSessionDetails hasSessionDetails = (HasSessionDetails) driver;
-
-                if (!hasSessionDetails.isBrowser()) {
-                    return NATIVE_MOBILE_SPECIFIC;
-                }
+            if (driver instanceof HasBrowserCheck && !((HasBrowserCheck) driver).isBrowser()) {
+                return NATIVE_MOBILE_SPECIFIC;
             }
 
             if (ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser

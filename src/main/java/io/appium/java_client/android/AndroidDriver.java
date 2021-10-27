@@ -26,20 +26,29 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecuteCDPCommand;
+import io.appium.java_client.HasAppStrings;
+import io.appium.java_client.HasDeviceTime;
 import io.appium.java_client.HasOnScreenKeyboard;
+import io.appium.java_client.HidesKeyboard;
+import io.appium.java_client.InteractsWithApps;
+import io.appium.java_client.InteractsWithFiles;
 import io.appium.java_client.LocksDevice;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.android.geolocation.SupportsExtendedGeolocationCommands;
 import io.appium.java_client.android.nativekey.PressesKey;
 import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.remote.SupportsContextSwitching;
+import io.appium.java_client.remote.SupportsLocation;
+import io.appium.java_client.remote.SupportsRotation;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
@@ -48,21 +57,35 @@ import java.util.Map;
 
 /**
  * Android driver implementation.
- *
- * @param <T> the required type of class which implement {@link org.openqa.selenium.WebElement}.
- *           Instances of the defined type will be returned via findElement* and findElements*.
- *           Warning (!!!). Allowed types:
- *           {@link org.openqa.selenium.WebElement}
- *           {@link org.openqa.selenium.remote.RemoteWebElement}
- *           {@link io.appium.java_client.MobileElement}
- *           {@link io.appium.java_client.android.AndroidElement}
  */
-public class AndroidDriver<T extends WebElement>
-    extends AppiumDriver<T>
-    implements PressesKey, HasNetworkConnection, PushesFiles, StartsActivity,LocksDevice, HasAndroidSettings,
-        HasAndroidDeviceDetails, HasSupportedPerformanceDataType, AuthenticatesByFinger, HasOnScreenKeyboard,
-        CanRecordScreen, SupportsSpecialEmulatorCommands, SupportsNetworkStateManagement, ListensToLogcatMessages,
-        HasAndroidClipboard, HasBattery<AndroidBatteryInfo>, ExecuteCDPCommand, SupportsExtendedGeolocationCommands {
+public class AndroidDriver extends AppiumDriver
+    implements PressesKey,
+        SupportsRotation,
+        SupportsContextSwitching,
+        SupportsLocation,
+        PerformsTouchActions,
+        HidesKeyboard,
+        HasDeviceTime,
+        InteractsWithFiles,
+        InteractsWithApps,
+        HasAppStrings,
+        HasNetworkConnection,
+        PushesFiles,
+        StartsActivity,
+        LocksDevice,
+        HasAndroidSettings,
+        HasAndroidDeviceDetails,
+        HasSupportedPerformanceDataType,
+        AuthenticatesByFinger,
+        HasOnScreenKeyboard,
+        CanRecordScreen,
+        SupportsSpecialEmulatorCommands,
+        SupportsNetworkStateManagement,
+        ListensToLogcatMessages,
+        HasAndroidClipboard,
+        HasBattery<AndroidBatteryInfo>,
+        ExecuteCDPCommand,
+        SupportsExtendedGeolocationCommands {
 
     private static final String ANDROID_PLATFORM = MobilePlatform.ANDROID;
 
@@ -194,6 +217,11 @@ public class AndroidDriver<T extends WebElement>
     public AndroidBatteryInfo getBatteryInfo() {
         return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
                 "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
+    }
+
+    @Override
+    public RemoteLocationContext getLocationContext() {
+        return locationContext;
     }
 
     @Override

@@ -4,15 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.DeviceRotation;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 public class UIAutomator2Test extends BaseAndroidTest {
 
@@ -62,7 +61,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
 
         wait.until(ExpectedConditions.presenceOfElementLocated(MobileBy
                 .AccessibilityId("Make a Popup!")));
-        MobileElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));
+        WebElement popUpElement = driver.findElement(MobileBy.AccessibilityId("Make a Popup!"));
         wait.until(ExpectedConditions.elementToBeClickable(popUpElement)).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(".//*[@text='Search']"))).click();

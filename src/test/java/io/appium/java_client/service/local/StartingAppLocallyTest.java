@@ -44,7 +44,7 @@ public class StartingAppLocallyTest {
 
     @Test
     public void startingAndroidAppWithCapabilitiesOnlyTest() {
-        AndroidDriver<?> driver = new AndroidDriver<>(new UiAutomator2Options()
+        AndroidDriver driver = new AndroidDriver(new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
                 .setApp(apiDemosApk().toAbsolutePath().toString()));
@@ -68,7 +68,7 @@ public class StartingAppLocallyTest {
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
-        AndroidDriver<?> driver = new AndroidDriver<>(builder, new UiAutomator2Options()
+        AndroidDriver driver = new AndroidDriver(builder, new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
                 .setApp(apiDemosApk().toAbsolutePath().toString()));
@@ -106,7 +106,7 @@ public class StartingAppLocallyTest {
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1");
 
-        AndroidDriver<?> driver = new AndroidDriver<>(builder, clientOptions);
+        AndroidDriver driver = new AndroidDriver(builder, clientOptions);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -130,7 +130,7 @@ public class StartingAppLocallyTest {
         capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
 
-        IOSDriver<?> driver = new IOSDriver<>(capabilities);
+        IOSDriver driver = new IOSDriver(capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -160,7 +160,7 @@ public class StartingAppLocallyTest {
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
-        IOSDriver<?> driver = new IOSDriver<>(builder, capabilities);
+        IOSDriver driver = new IOSDriver(builder, capabilities);
         try {
             Capabilities caps = driver.getCapabilities();
             assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
@@ -188,7 +188,7 @@ public class StartingAppLocallyTest {
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
 
-        IOSDriver<?> driver = new IOSDriver<>(builder, clientCapabilities);
+        IOSDriver driver = new IOSDriver(builder, clientCapabilities);
         try {
             Capabilities caps = driver.getCapabilities();
             assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)

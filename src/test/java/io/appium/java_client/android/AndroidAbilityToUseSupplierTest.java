@@ -1,17 +1,18 @@
 package io.appium.java_client.android;
 
+import static io.appium.java_client.TestUtils.getCenter;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
 import static java.time.Duration.ofSeconds;
 import static org.junit.Assert.assertNotEquals;
 
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
     private final ActionSupplier<AndroidTouchAction> horizontalSwipe = () -> {
         driver.findElement(By.id("io.appium.android.apis:id/gallery"));
 
-        AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
-        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
+        WebElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
+        List<WebElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
         Point location = gallery.getLocation();
-        Point center = gallery.getCenter();
+        Point center = getCenter(gallery, location);
 
         ElementOption pressOption = element(images.get(2),-10,center.y - location.y);
         ElementOption moveOption = element(gallery, 10,center.y - location.y);
@@ -47,8 +48,8 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
     @Test public void horizontalSwipingWithSupplier() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
-        AndroidElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
-        List<MobileElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
+        WebElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
+        List<WebElement> images = gallery.findElements(MobileBy.className("android.widget.ImageView"));
         int originalImageCount = images.size();
 
         horizontalSwipe.get().perform();

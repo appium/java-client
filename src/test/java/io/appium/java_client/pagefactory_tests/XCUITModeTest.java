@@ -17,6 +17,7 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static io.appium.java_client.TestUtils.setElementValue;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,7 +29,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
@@ -38,6 +38,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -52,45 +53,45 @@ public class XCUITModeTest extends AppIOSTest {
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "label contains 'Compute'")
     @iOSXCUITFindBy(className = "XCUIElementTypeButton")
-    private MobileElement computeButton;
+    private WebElement computeButton;
 
     @HowToUseLocators(iOSXCUITAutomation = CHAIN)
     @iOSXCUITFindBy(iOSNsPredicate = "name like 'Answer'")
     private WebElement answer;
 
     @iOSXCUITFindBy(iOSNsPredicate = "name = 'IntegerA'")
-    private MobileElement textField1;
+    private WebElement textField1;
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "name = 'IntegerB'")
     @iOSXCUITFindBy(accessibility = "IntegerB")
-    private MobileElement textField2;
+    private WebElement textField2;
 
     @iOSXCUITFindBy(iOSNsPredicate = "name ENDSWITH 'Gesture'")
-    private MobileElement gesture;
+    private WebElement gesture;
 
     @iOSXCUITFindBy(className = "XCUIElementTypeSlider")
-    private MobileElement slider;
+    private WebElement slider;
 
     @iOSXCUITFindBy(id = "locationStatus")
-    private MobileElement locationStatus;
+    private WebElement locationStatus;
 
     @HowToUseLocators(iOSXCUITAutomation = CHAIN)
     @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'contact'")
-    private MobileElement contactAlert;
+    private WebElement contactAlert;
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'location'")
-    private MobileElement locationAlert;
+    private WebElement locationAlert;
 
     @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeTextField[2]")
-    private MobileElement secondTextField;
+    private WebElement secondTextField;
 
     @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeButton[-1]")
-    private MobileElement lastButton;
+    private WebElement lastButton;
 
     @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeButton")
-    private List<MobileElement> allButtons;
+    private List<WebElement> allButtons;
 
     /**
      * The setting up.
@@ -144,8 +145,8 @@ public class XCUITModeTest extends AppIOSTest {
     }
 
     @Test public void setValueTest() {
-        textField1.setValue("2");
-        textField2.setValue("4");
+        setElementValue(driver, (RemoteWebElement) textField1, "2");
+        setElementValue(driver, (RemoteWebElement) textField2, "4");
         driver.hideKeyboard();
         computeButton.click();
         assertEquals("6", answer.getText());

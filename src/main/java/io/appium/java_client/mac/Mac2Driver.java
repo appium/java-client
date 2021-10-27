@@ -44,7 +44,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
  *
  * @since Appium 1.20.0
  */
-public class Mac2Driver<T extends WebElement> extends AppiumDriver<T> implements CanRecordScreen, HasSettings {
+public class Mac2Driver extends AppiumDriver implements CanRecordScreen, HasSettings {
     public Mac2Driver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, prepareCaps(capabilities));
     }
