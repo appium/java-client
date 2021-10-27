@@ -24,9 +24,9 @@ import org.openqa.selenium.remote.Response;
 import java.util.Map;
 
 public class AppiumExecutionMethod implements ExecuteMethod {
-    private final AppiumDriver<?> driver;
+    private final AppiumDriver driver;
 
-    public AppiumExecutionMethod(AppiumDriver<?> driver) {
+    public AppiumExecutionMethod(AppiumDriver driver) {
         this.driver = driver;
     }
 

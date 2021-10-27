@@ -26,7 +26,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.junit.Before;
@@ -34,7 +33,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -66,11 +67,13 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test
     public void addCustomCommandWithElementIdTest() {
-        IOSElement intA = driver.findElement(By.id("IntegerA"));
+        WebElement intA = driver.findElement(By.id("IntegerA"));
         intA.clear();
         driver.addCommand(HttpMethod.POST,
-                String.format("/session/%s/appium/element/%s/value", driver.getSessionId(), intA.getId()), "setNewValue");
-        final Response setNewValue = driver.execute("setNewValue", ImmutableMap.of("id", intA.getId(), "value", "8"));
+                String.format("/session/%s/appium/element/%s/value", driver.getSessionId(),
+                        ((RemoteWebElement) intA).getId()), "setNewValue");
+        final Response setNewValue = driver.execute("setNewValue",
+                ImmutableMap.of("id", ((RemoteWebElement) intA).getId(), "value", "8"));
         assertNotNull(setNewValue.getSessionId());
     }
 
@@ -124,7 +127,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void keyboardTest() {
-        MobileElement element = driver.findElement(By.id("IntegerA"));
+        WebElement element = driver.findElement(By.id("IntegerA"));
         element.click();
         assertTrue(driver.isKeyboardShown());
     }

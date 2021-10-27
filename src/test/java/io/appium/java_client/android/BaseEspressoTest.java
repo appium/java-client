@@ -29,7 +29,7 @@ import static io.appium.java_client.TestResources.apiDemosApk;
 public class BaseEspressoTest {
 
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver<AndroidElement> driver;
+    protected static AndroidDriver driver;
 
     /**
      * initialization.
@@ -48,7 +48,7 @@ public class BaseEspressoTest {
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.APP, apiDemosApk().toAbsolutePath().toString());
         capabilities.setCapability("eventTimings", true);
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
     }
 
     /**

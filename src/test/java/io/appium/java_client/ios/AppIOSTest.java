@@ -34,10 +34,10 @@ public class AppIOSTest extends BaseIOSTest {
         capabilities.setCapability("commandTimeouts", "240000");
         capabilities.setCapability(MobileCapabilityType.APP, testAppZip().toAbsolutePath().toString());
         try {
-            driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+            driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
         } catch (SessionNotCreatedException e) {
             capabilities.setCapability("useNewWDA", true);
-            driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+            driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
         }
     }
 }

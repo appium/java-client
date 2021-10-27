@@ -97,7 +97,7 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
         return new StubWebElement();
     }
 
-    public List<StubWebElement> findElements(By by) {
+    public List findElements(By by) {
         return createStubList();
     }
 

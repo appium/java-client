@@ -66,7 +66,7 @@ public class MobileBrowserCompatibilityTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-        driver = new AndroidDriver<RemoteWebElement>(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), capabilities);
         //This time out is set because test can be run on slow Android SDK emulator
         PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
     }

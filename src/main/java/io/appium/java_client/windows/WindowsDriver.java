@@ -24,14 +24,15 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 
-public class WindowsDriver<T extends WebElement>
-        extends AppiumDriver<T> implements PressesKeyCode, HidesKeyboardWithKeyName, CanRecordScreen {
+public class WindowsDriver extends AppiumDriver implements
+        PressesKeyCode,
+        HidesKeyboardWithKeyName,
+        CanRecordScreen {
 
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, updateDefaultPlatformName(capabilities, WINDOWS));

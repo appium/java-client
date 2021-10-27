@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android;
+package io.appium.java_client.remote;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.replaceElementValueCommand;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.html5.LocationContext;
+import org.openqa.selenium.remote.html5.RemoteLocationContext;
 
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.MobileElement;
+public interface SupportsLocation extends WebDriver, LocationContext {
+    public RemoteLocationContext getLocationContext();
 
-public class AndroidElement extends MobileElement {
-    /**
-     * This method replace current text value.
-     * @param value a new value
-     */
-    public void replaceValue(String value) {
-        CommandExecutionHelper.execute(this, replaceElementValueCommand(this, value));
+    default Location location() {
+        return getLocationContext().location();
+    }
+
+    default void setLocation(Location location) {
+        getLocationContext().setLocation(location);
     }
 }

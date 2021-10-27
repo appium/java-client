@@ -16,21 +16,16 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.internal.ElementMap.getElementClass;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 import static java.time.Duration.ofSeconds;
 
 import com.google.common.collect.ImmutableList;
 
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.internal.CapabilityHelpers;
-import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.windows.WindowsElement;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
@@ -60,15 +55,13 @@ import java.util.Map;
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory.
- * Please pay attention: fields of {@link WebElement}, {@link RemoteWebElement},
- * {@link MobileElement}, {@link AndroidElement} and {@link IOSElement} are allowed
+ * Please pay attention: fields of {@link WebElement} or {@link RemoteWebElement}
  * to use with this decorator
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
     private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
-            RemoteWebElement.class, MobileElement.class, AndroidElement.class,
-            IOSElement.class, WindowsElement.class);
+            RemoteWebElement.class);
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private final WebDriver webDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
@@ -213,6 +206,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
     private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriver);
-        return getEnhancedProxy(getElementClass(platform, automation), elementInterceptor);
+        return getEnhancedProxy(RemoteWebElement.class, elementInterceptor);
     }
 }

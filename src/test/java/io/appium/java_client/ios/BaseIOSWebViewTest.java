@@ -51,9 +51,9 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         capabilities.setCapability("commandTimeouts", "240000");
         capabilities.setCapability(MobileCapabilityType.APP, vodQaAppZip().toAbsolutePath().toString());
-        Supplier<IOSDriver<IOSElement>> createDriver = () -> {
+        Supplier<IOSDriver> createDriver = () -> {
             try {
-                return new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+                return new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }

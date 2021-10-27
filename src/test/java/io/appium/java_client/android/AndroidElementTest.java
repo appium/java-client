@@ -21,10 +21,11 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 public class AndroidElementTest extends BaseAndroidTest {
 
@@ -58,19 +59,19 @@ public class AndroidElementTest extends BaseAndroidTest {
 
         Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
         driver.startActivity(activity);
-        AndroidElement editElement = driver
+        WebElement editElement = driver
             .findElement(AppiumBy.androidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
         editElement.sendKeys(originalValue);
         assertEquals(originalValue, editElement.getText());
         String replacedValue = "replaced value";
-        editElement.replaceValue(replacedValue);
+        driver.replaceElementValue((RemoteWebElement) editElement, replacedValue);
         assertEquals(replacedValue, editElement.getText());
     }
 
     @Test public void scrollingToSubElement() {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
-        AndroidElement list = driver.findElement(By.id("android:id/list"));
-        MobileElement radioGroup = list
+        WebElement list = driver.findElement(By.id("android:id/list"));
+        WebElement radioGroup = list
                 .findElement(AppiumBy
                         .androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView("
                         + "new UiSelector().text(\"Radio Group\"));"));
@@ -82,9 +83,9 @@ public class AndroidElementTest extends BaseAndroidTest {
 
         Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
         driver.startActivity(activity);
-        AndroidElement editElement = driver
+        WebElement editElement = driver
             .findElement(AppiumBy.androidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
-        editElement.setValue(value);
+        driver.setElementValue((RemoteWebElement) editElement, value);
         assertEquals(value, editElement.getText());
     }
 }

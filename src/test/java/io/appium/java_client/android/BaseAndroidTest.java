@@ -28,7 +28,7 @@ import static io.appium.java_client.TestResources.apiDemosApk;
 public class BaseAndroidTest {
     public static final String APP_ID = "io.appium.android.apis";
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver<AndroidElement> driver;
+    protected static AndroidDriver driver;
 
     /**
      * initialization.
@@ -45,7 +45,7 @@ public class BaseAndroidTest {
                 .setDeviceName("Android Emulator")
                 .setApp(apiDemosApk().toAbsolutePath().toString())
                 .setEventTimings();
-        driver = new AndroidDriver<>(service.getUrl(), options);
+        driver = new AndroidDriver(service.getUrl(), options);
     }
 
     /**

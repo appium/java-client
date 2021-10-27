@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client;
 
-import io.appium.java_client.MobileElement;
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.remote.RemoteWebElement;
 
-public class IOSElement extends MobileElement {
+public interface CanSetElementValue extends ExecutesMethod {
+    /**
+     * Set a value to an element.
+     *
+     * @param webElement Web element instance.
+     * @param value Value to set.
+     */
+    default void setElementValue(RemoteWebElement webElement, String value) {
+        this.execute(MobileCommand.SET_VALUE, ImmutableMap.of(
+                "id", webElement.getId(),
+                "value", value
+        ));
+    }
 }

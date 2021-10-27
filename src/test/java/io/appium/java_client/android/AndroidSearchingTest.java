@@ -21,10 +21,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.MobileElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class AndroidSearchingTest extends BaseAndroidTest {
 
@@ -59,7 +59,7 @@ public class AndroidSearchingTest extends BaseAndroidTest {
 
     @Test public void findScrollable() {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
-        MobileElement radioGroup = driver
+        WebElement radioGroup = driver
                 .findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".resourceId(\"android:id/list\")).scrollIntoView("
                 + "new UiSelector().text(\"Radio Group\"));"));
