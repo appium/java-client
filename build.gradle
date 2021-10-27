@@ -4,7 +4,6 @@ plugins {
     id 'java-library'
     id 'idea'
     id 'maven-publish'
-    id 'eclipse'
     id 'jacoco'
     id 'checkstyle'
     id 'signing'
