@@ -16,16 +16,6 @@ repositories {
     mavenCentral()
 }
 
-configurations {
-    ecj
-    lombok
-}
-
-dependencies {
-    ecj 'org.eclipse.jdt:ecj:3.26.0'
-    lombok 'org.projectlombok:lombok:1.18.22'
-}
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,25 +23,10 @@ java {
     withSourcesJar()
 }
 
-compileJava {
-    def ecjJar = configurations.ecj.singleFile
-    def lombokjar = configurations.lombok.singleFile
-
-    options.fork = true
-    options.fork executable: 'java', jvmArgs: [ '-javaagent:'+lombokjar.path+'=ECJ', '-jar', ecjJar.path, '-cp', lombokjar.path]
-    options.define compilerArgs: [
-            '-encoding', 'utf-8',
-            // https://www.ibm.com/support/knowledgecenter/SS8PJ7_9.7.0/org.eclipse.jdt.doc.user/tasks/task-using_batch_compiler.htm
-            '-warn:-unused,-unchecked,-raw,-serial,-suppress',
-    ]
-
-    // https://github.com/gradle/gradle/issues/12904
-    options.headerOutputDirectory.convention(null)
-}
-
 dependencies {
-    compileOnly('org.projectlombok:lombok:1.18.22')
-    annotationProcessor('org.projectlombok:lombok:1.18.20')
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
     api ("org.seleniumhq.selenium:selenium-java") {
         version {
             strictly "${project.property('selenium.version')}"

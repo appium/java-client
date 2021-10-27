@@ -12,28 +12,7 @@ This is the Gradle project.
 
 Be sure that:
 
-- The `JAVA_HOME` environmental contains a path to JDK > 7
-
-- If non built-in gradle distribution is used then its version should be > 2.1
-
-## Compiler
-
-This project is compiled in some not common way. We use `ecj` Eclipse Java Compiler. Below is the sample how to define this compiler by IDE.
-![eclipse compiler](https://cloud.githubusercontent.com/assets/4927589/14228367/6fce184e-f91b-11e5-837c-2673446d24ea.png)
-
-## JDK 
-
-Please check following settings: 
-
-![](https://cloud.githubusercontent.com/assets/4927589/18324490/7ffd3ba4-7545-11e6-9f22-eb028737283c.png)
-
-![](https://cloud.githubusercontent.com/assets/4927589/18324593/f5254e3a-7545-11e6-85c5-e4c491ee268d.png)
-
-![](https://cloud.githubusercontent.com/assets/4927589/18324648/3f4635a6-7546-11e6-966c-2949059968ac.png)
-
-![](https://cloud.githubusercontent.com/assets/4927589/18324760/cbca4aee-7546-11e6-8cfb-e86d8018be6a.png)
-
-![](https://cloud.githubusercontent.com/assets/4927589/18324835/2e3bfc04-7547-11e6-8f5e-981aea8f1771.png)
+- The `JAVA_HOME` environmental contains a path to JDK 1.8+
 
 ## Coding Standards
 
