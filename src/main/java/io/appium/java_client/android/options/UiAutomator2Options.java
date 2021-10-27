@@ -50,7 +50,7 @@ import io.appium.java_client.android.options.avd.SupportsAvdLaunchTimeoutOption;
 import io.appium.java_client.android.options.avd.SupportsAvdOption;
 import io.appium.java_client.android.options.avd.SupportsAvdReadyTimeoutOption;
 import io.appium.java_client.android.options.avd.SupportsGpsEnabledOption;
-import io.appium.java_client.android.options.avd.SupportsIsHeadlessOption;
+import io.appium.java_client.remote.options.SupportsIsHeadlessOption;
 import io.appium.java_client.android.options.avd.SupportsNetworkSpeedOption;
 import io.appium.java_client.android.options.context.SupportsAutoWebviewTimeoutOption;
 import io.appium.java_client.android.options.context.SupportsChromeLoggingPrefsOption;
