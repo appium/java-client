@@ -24,11 +24,11 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
@@ -47,7 +47,6 @@ import java.util.Map;
 
 /**
  * Default Appium driver implementation.
- *
  */
 public class AppiumDriver extends RemoteWebDriver implements
         WebDriver,
@@ -131,12 +130,9 @@ public class AppiumDriver extends RemoteWebDriver implements
      */
     protected static Capabilities updateDefaultPlatformName(Capabilities originalCapabilities,
                                                             String defaultName) {
-        if (originalCapabilities.getCapability(PLATFORM_NAME) == null) {
-            DesiredCapabilities dc = new DesiredCapabilities(originalCapabilities);
-            dc.setCapability(PLATFORM_NAME, defaultName);
-            return dc;
-        }
-        return originalCapabilities;
+        return originalCapabilities.getCapability(PLATFORM_NAME) == null
+                ? originalCapabilities.merge(new ImmutableCapabilities(PLATFORM_NAME, defaultName))
+                : originalCapabilities;
     }
 
     @Override
@@ -150,6 +146,7 @@ public class AppiumDriver extends RemoteWebDriver implements
      * @return map containing version details
      */
     public Map<String, Object> getStatus() {
+        //noinspection unchecked
         return (Map<String, Object>) execute(DriverCommand.STATUS).getValue();
     }
 
@@ -157,7 +154,7 @@ public class AppiumDriver extends RemoteWebDriver implements
      * This method is used to add custom appium commands in Appium 2.0.
      *
      * @param httpMethod the available {@link HttpMethod}.
-     * @param url The url to URL template as https://www.w3.org/TR/webdriver/#endpoints.
+     * @param url        The url to URL template as https://www.w3.org/TR/webdriver/#endpoints.
      * @param methodName The name of custom appium command.
      */
     public void addCommand(HttpMethod httpMethod, String url, String methodName) {
