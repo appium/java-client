@@ -78,7 +78,7 @@ import io.appium.java_client.android.options.locking.SupportsUnlockTypeOption;
 import io.appium.java_client.android.options.mjpeg.SupportsMjpegScreenshotUrlOption;
 import io.appium.java_client.android.options.mjpeg.SupportsMjpegServerPortOption;
 import io.appium.java_client.android.options.other.SupportsDisableSuppressAccessibilityServiceOption;
-import io.appium.java_client.android.options.other.SupportsSkipLogCaptureOption;
+import io.appium.java_client.remote.options.SupportsSkipLogCaptureOption;
 import io.appium.java_client.android.options.other.SupportsUserProfileOption;
 import io.appium.java_client.android.options.server.SupportsDisableWindowAnimationOption;
 import io.appium.java_client.android.options.server.SupportsSkipDeviceInitializationOption;
