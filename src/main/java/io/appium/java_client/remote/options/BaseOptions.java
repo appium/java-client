@@ -18,6 +18,8 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CapabilityType;
@@ -26,6 +28,7 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
@@ -74,6 +77,24 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
      */
     public T setPlatformName(String platform) {
         return amend(CapabilityType.PLATFORM_NAME, platform);
+    }
+
+    @Override
+    @Nullable
+    public Platform getPlatformName() {
+        return Optional.ofNullable(getCapability(CapabilityType.PLATFORM_NAME))
+                .map(cap -> {
+                    if (cap instanceof Platform) {
+                        return (Platform) cap;
+                    }
+
+                    try {
+                        return Platform.fromString((String.valueOf(cap)));
+                    } catch (WebDriverException e) {
+                        return null;
+                    }
+                })
+                .orElse(null);
     }
 
     @Override

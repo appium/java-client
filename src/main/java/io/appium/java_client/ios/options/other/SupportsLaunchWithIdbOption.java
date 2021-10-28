@@ -52,7 +52,7 @@ public interface SupportsLaunchWithIdbOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get whether to launch WebDriverAgentRunner with idb instead of xcodebuild
+     * Get whether to launch WebDriverAgentRunner with idb instead of xcodebuild.
      *
      * @return True or false.
      */

@@ -36,6 +36,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
 
 import java.time.Duration;
 
@@ -130,7 +131,7 @@ public class StartingAppLocallyTest {
             XCUITestOptions caps = new XCUITestOptions(driver.getCapabilities());
 
             assertEquals(AutomationName.IOS_XCUI_TEST, caps.getAutomationName().orElse(null));
-            assertTrue(MobilePlatform.IOS.equalsIgnoreCase(caps.getPlatformName().toString()));
+            assertEquals(Platform.IOS, caps.getPlatformName());
             assertNotNull(caps.getDeviceName().orElse(null));
             assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getPlatformVersion().orElse(null));
             assertEquals(uiCatalogAppZip().toAbsolutePath().toString(), caps.getApp().orElse(null));
@@ -181,7 +182,7 @@ public class StartingAppLocallyTest {
         IOSDriver driver = new IOSDriver(builder, clientOptions);
         try {
             XCUITestOptions caps = new XCUITestOptions(driver.getCapabilities());
-            assertTrue(MobilePlatform.IOS.equalsIgnoreCase(caps.getPlatformName().toString()));
+            assertEquals(Platform.IOS, caps.getPlatformName());
             assertNotNull(caps.getDeviceName().orElse(null));
             assertFalse(driver.isBrowser());
         } finally {
