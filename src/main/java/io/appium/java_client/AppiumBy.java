@@ -48,7 +48,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     @Override public String toString() {
-        return String.format("By.%s: %s", locatorName, remoteParameters.value());
+        return String.format("AppiumBy.%s: %s", locatorName, remoteParameters.value());
     }
 
     /**
