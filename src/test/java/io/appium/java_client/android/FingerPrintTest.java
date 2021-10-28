@@ -18,7 +18,7 @@ package io.appium.java_client.android;
 
 import static io.appium.java_client.AppiumBy.androidUIAutomator;
 
-import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.time.Duration;
 
@@ -38,11 +37,11 @@ public class FingerPrintTest {
     private static AndroidDriver driver;
 
     private static void initDriver() {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability("appPackage", "com.android.settings");
-        capabilities.setCapability("appActivity", "Settings");
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        UiAutomator2Options options = new UiAutomator2Options()
+                .setDeviceName("Android Emulator")
+                .setAppPackage("com.android.settings")
+                .setAppActivity("Settings");
+        driver = new AndroidDriver(service.getUrl(), options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     }
 

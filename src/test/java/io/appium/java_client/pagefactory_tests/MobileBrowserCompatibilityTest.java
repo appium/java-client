@@ -19,10 +19,10 @@ package io.appium.java_client.pagefactory_tests;
 import static java.time.Duration.ofSeconds;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.Assert;
@@ -30,7 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
@@ -44,7 +43,8 @@ public class MobileBrowserCompatibilityTest {
 
     private AppiumDriverLocalService service;
 
-    @AndroidFindBy(className = "someClass") @AndroidFindBy(xpath = "//someTag")
+    @AndroidFindBy(className = "someClass")
+    @AndroidFindBy(xpath = "//someTag")
     private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
 
     @FindBy(name = "q")
@@ -53,20 +53,20 @@ public class MobileBrowserCompatibilityTest {
 
     @AndroidFindBy(className = "someClass")
     @FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
-    private List<WebElement>
-        foundLinks;
+    private List<WebElement> foundLinks;
 
     /**
      * The setting up.
      */
-    @Before public void setUp() {
+    @Before
+    public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        UiAutomator2Options options = new UiAutomator2Options()
+                .withBrowserName(MobileBrowserType.BROWSER)
+                .setDeviceName("Android Emulator");
+        driver = new AndroidDriver(service.getUrl(), options);
         //This time out is set because test can be run on slow Android SDK emulator
         PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
     }
@@ -74,7 +74,8 @@ public class MobileBrowserCompatibilityTest {
     /**
      * finishing.
      */
-    @After public void tearDown() {
+    @After
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
@@ -84,7 +85,8 @@ public class MobileBrowserCompatibilityTest {
         }
     }
 
-    @Test public void test() {
+    @Test
+    public void test() {
         driver.get("https://www.google.com");
 
         searchTextField.sendKeys("Hello");

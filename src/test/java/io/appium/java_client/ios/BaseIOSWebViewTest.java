@@ -16,13 +16,10 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
 import org.openqa.selenium.SessionNotCreatedException;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -44,16 +41,14 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
 
-        final DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
-        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT, WDA_LAUNCH_TIMEOUT.toMillis());
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-        capabilities.setCapability("commandTimeouts", "240000");
-        capabilities.setCapability(MobileCapabilityType.APP, vodQaAppZip().toAbsolutePath().toString());
+        XCUITestOptions options = new XCUITestOptions()
+                .setDeviceName(DEVICE_NAME)
+                .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
+                .setCommandTimeouts(Duration.ofSeconds(240))
+                .setApp(vodQaAppZip().toAbsolutePath().toString());
         Supplier<IOSDriver> createDriver = () -> {
             try {
-                return new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+                return new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), options);
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
@@ -63,7 +58,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
         } catch (SessionNotCreatedException e) {
             // Sometimes WDA session creation freezes unexpectedly on CI:
             // https://dev.azure.com/srinivasansekar/java-client/_build/results?buildId=356&view=ms.vss-test-web.build-test-results-tab
-            capabilities.setCapability("useNewWDA", true);
+            options.useNewWDA();
             driver = createDriver.get();
         }
     }

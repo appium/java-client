@@ -46,6 +46,7 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
         SupportsNoResetOption<T>,
         SupportsFullResetOption<T>,
         SupportsNewCommandTimeoutOption<T>,
+        SupportsBrowserNameOption<T>,
         SupportsPlatformVersionOption<T> {
     private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS = new AcceptedW3CCapabilityKeys();
 

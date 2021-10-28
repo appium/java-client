@@ -21,6 +21,7 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.time.Duration;
 import java.util.Optional;
 
 public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
@@ -58,11 +59,11 @@ public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
      * to assign the timeout for all other commands not explicitly enumerated as
      * JSON keys.
      *
-     * @param timeouts E.g. '120000', '{"findElement": 40000, "findElements": 40000}'.
+     * @param timeout The timeout value for all commands.
      * @return self instance for chaining.
      */
-    default T setCommandTimeouts(String timeouts) {
-        return amend(COMMAND_TIMEOUTS_OPTION, timeouts);
+    default T setCommandTimeouts(Duration timeout) {
+        return amend(COMMAND_TIMEOUTS_OPTION, String.valueOf(timeout.toMillis()));
     }
 
     /**
@@ -70,7 +71,9 @@ public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
      *
      * @return Command timeouts.
      */
-    default Optional<String> setCommandTimeouts() {
-        return Optional.ofNullable((String) getCapability(COMMAND_TIMEOUTS_OPTION));
+    default Optional<String> getCommandTimeouts() {
+        return Optional.ofNullable(
+                (String) getCapability(COMMAND_TIMEOUTS_OPTION)
+        );
     }
 }
