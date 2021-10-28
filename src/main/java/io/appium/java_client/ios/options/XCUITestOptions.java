@@ -22,6 +22,11 @@ import io.appium.java_client.ios.options.app.SupportsBundleIdOption;
 import io.appium.java_client.ios.options.app.SupportsLocalizableStringsDirOption;
 import io.appium.java_client.ios.options.general.SupportsIncludeDeviceCapsToSessionInfoOption;
 import io.appium.java_client.ios.options.general.SupportsResetLocationServiceOption;
+import io.appium.java_client.ios.options.other.SupportsCommandTimeoutsOption;
+import io.appium.java_client.ios.options.other.SupportsLaunchWithIdbOption;
+import io.appium.java_client.ios.options.other.SupportsResetOnSessionStartOnlyOption;
+import io.appium.java_client.ios.options.other.SupportsShowIosLogOption;
+import io.appium.java_client.ios.options.other.SupportsUseJsonSourceOption;
 import io.appium.java_client.ios.options.simulator.SupportsCalendarAccessAuthorizedOption;
 import io.appium.java_client.ios.options.simulator.SupportsCalendarFormatOption;
 import io.appium.java_client.ios.options.simulator.SupportsConnectHardwareKeyboardOption;
@@ -106,8 +111,11 @@ import io.appium.java_client.remote.options.SupportsLanguageOption;
 import io.appium.java_client.remote.options.SupportsLocaleOption;
 import io.appium.java_client.remote.options.SupportsOrientationOption;
 import io.appium.java_client.remote.options.SupportsOtherAppsOption;
+import io.appium.java_client.remote.options.SupportsSkipLogCaptureOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Map;
 
 /**
  * https://github.com/appium/appium-xcuitest-driver#capabilities
@@ -205,15 +213,26 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsWebkitResponseTimeoutOption<XCUITestOptions>,
         SupportsEnableAsyncExecuteFromHttpsOption<XCUITestOptions>,
         SupportsFullContextListOption<XCUITestOptions>,
-        // TODO: Other options: https://github.com/appium/appium-xcuitest-driver#other
-        SupportsClearSystemFilesOption<XCUITestOptions>,
-        SupportsEnablePerformanceLoggingOption<XCUITestOptions> {
+        SupportsEnablePerformanceLoggingOption<XCUITestOptions>,
+        // Other options: https://github.com/appium/appium-xcuitest-driver#other
+        SupportsResetOnSessionStartOnlyOption<XCUITestOptions>,
+        SupportsCommandTimeoutsOption<XCUITestOptions>,
+        SupportsUseJsonSourceOption<XCUITestOptions>,
+        SupportsSkipLogCaptureOption<XCUITestOptions>,
+        SupportsLaunchWithIdbOption<XCUITestOptions>,
+        SupportsShowIosLogOption<XCUITestOptions>,
+        SupportsClearSystemFilesOption<XCUITestOptions> {
 
     public XCUITestOptions() {
         setCommonOptions();
     }
 
     public XCUITestOptions(Capabilities source) {
+        super(source);
+        setCommonOptions();
+    }
+
+    public XCUITestOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();
     }

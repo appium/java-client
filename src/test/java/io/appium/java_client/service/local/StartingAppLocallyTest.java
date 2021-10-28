@@ -28,15 +28,15 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.Platform;
 
 import java.time.Duration;
 
@@ -121,24 +121,20 @@ public class StartingAppLocallyTest {
 
     @Test
     public void startingIOSAppWithCapabilitiesOnlyTest() {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
-        //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
-                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis());
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-
-        IOSDriver driver = new IOSDriver(capabilities);
+        XCUITestOptions options = new XCUITestOptions()
+                .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
+                .setDeviceName(BaseIOSTest.DEVICE_NAME)
+                .setApp(uiCatalogAppZip().toAbsolutePath().toString())
+                .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
+        IOSDriver driver = new IOSDriver(options);
         try {
-            Capabilities caps = driver.getCapabilities();
+            XCUITestOptions caps = new XCUITestOptions(driver.getCapabilities());
 
-            assertEquals(AutomationName.IOS_XCUI_TEST, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
-            assertEquals(MobilePlatform.IOS, caps.getCapability(MobileCapabilityType.PLATFORM_NAME));
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getCapability(MobileCapabilityType.PLATFORM_VERSION));
-            assertEquals(uiCatalogAppZip().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
+            assertEquals(AutomationName.IOS_XCUI_TEST, caps.getAutomationName().orElse(null));
+            assertEquals(Platform.IOS, caps.getPlatformName());
+            assertNotNull(caps.getDeviceName().orElse(null));
+            assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getPlatformVersion().orElse(null));
+            assertEquals(uiCatalogAppZip().toAbsolutePath().toString(), caps.getApp().orElse(null));
         } finally {
             driver.quit();
         }
@@ -147,20 +143,17 @@ public class StartingAppLocallyTest {
 
     @Test
     public void startingIOSAppWithCapabilitiesAndServiceTest() {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-        capabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
-        //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
-                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis());
+        XCUITestOptions options = new XCUITestOptions()
+                .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
+                .setDeviceName(BaseIOSTest.DEVICE_NAME)
+                .setApp(uiCatalogAppZip().toAbsolutePath().toString())
+                .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS);
 
-        IOSDriver driver = new IOSDriver(builder, capabilities);
+        IOSDriver driver = new IOSDriver(builder, options);
         try {
             Capabilities caps = driver.getCapabilities();
             assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
@@ -173,27 +166,24 @@ public class StartingAppLocallyTest {
 
     @Test
     public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
-        DesiredCapabilities serverCapabilities = new DesiredCapabilities();
-        serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, BaseIOSTest.DEVICE_NAME);
-        serverCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-        serverCapabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
-                BaseIOSTest.WDA_LAUNCH_TIMEOUT.toMillis()); //some environment is too slow
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, BaseIOSTest.PLATFORM_VERSION);
-        serverCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
+        XCUITestOptions serverOptions = new XCUITestOptions()
+                .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
+                .setDeviceName(BaseIOSTest.DEVICE_NAME)
+                .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
 
-        DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-        clientCapabilities.setCapability(MobileCapabilityType.APP, uiCatalogAppZip().toAbsolutePath().toString());
+        XCUITestOptions clientOptions = new XCUITestOptions()
+                .setApp(uiCatalogAppZip().toAbsolutePath().toString());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.STRICT_CAPS).withCapabilities(serverCapabilities);
+                .withArgument(GeneralServerFlag.STRICT_CAPS)
+                .withCapabilities(serverOptions);
 
-        IOSDriver driver = new IOSDriver(builder, clientCapabilities);
+        IOSDriver driver = new IOSDriver(builder, clientOptions);
         try {
-            Capabilities caps = driver.getCapabilities();
-            assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
-                    .toString().equalsIgnoreCase(MobilePlatform.IOS));
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            XCUITestOptions caps = new XCUITestOptions(driver.getCapabilities());
+            assertEquals(Platform.IOS, caps.getPlatformName());
+            assertNotNull(caps.getDeviceName().orElse(null));
             assertFalse(driver.isBrowser());
         } finally {
             driver.quit();

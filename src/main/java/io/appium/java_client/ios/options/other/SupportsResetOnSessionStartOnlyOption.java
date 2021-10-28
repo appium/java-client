@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options.other;
+package io.appium.java_client.ios.options.other;
 
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
@@ -24,36 +24,29 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
-public interface SupportsSkipLogCaptureOption<T extends BaseOptions<T>> extends
+public interface SupportsResetOnSessionStartOnlyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String SKIP_LOG_CAPTURE_OPTION = "skipLogCapture";
+    String RESET_ON_SESSION_START_ONLY_OPTION = "resetOnSessionStartOnly";
 
     /**
-     * Skips capturing logs such as logcat.
+     * Whether to perform reset on test session finish (false) or not (true).
+     * Keeping this variable set to true and Simulator running (the default
+     * behaviour since version 1.6.4) may significantly shorten the duration of
+     * test session initialization.
      *
+     * @param value Whether to perform reset on test session finish (false) or not (true)..
      * @return self instance for chaining.
      */
-    default T skipLogCapture() {
-        return amend(SKIP_LOG_CAPTURE_OPTION, true);
+    default T setResetOnSessionStartOnly(boolean value) {
+        return amend(RESET_ON_SESSION_START_ONLY_OPTION, value);
     }
 
     /**
-     * Skips to start capturing logs such as logcat. It might improve network performance.
-     * Log-related commands won't work if the capability is enabled. Defaults to false.
-     *
-     * @param value Set it to true in order to skip logcat capture.
-     * @return self instance for chaining.
-     */
-    default T setSkipLogCapture(boolean value) {
-        return amend(SKIP_LOG_CAPTURE_OPTION, value);
-    }
-
-    /**
-     * Get whether to skip capturing logs such as logcat.
+     * Get whether to perform reset on test session finish (false) or not (true).
      *
      * @return True or false.
      */
-    default Optional<Boolean> doesSkipLogCapture() {
-        return Optional.ofNullable(toSafeBoolean(getCapability(SKIP_LOG_CAPTURE_OPTION)));
+    default Optional<Boolean> doesResetOnSessionStartOnly() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(RESET_ON_SESSION_START_ONLY_OPTION)));
     }
 }

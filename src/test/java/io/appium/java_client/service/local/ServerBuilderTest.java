@@ -2,13 +2,6 @@ package io.appium.java_client.service.local;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
-import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
-import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
-import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
-import static io.appium.java_client.remote.MobileCapabilityType.APP;
-import static io.appium.java_client.remote.MobileCapabilityType.FULL_RESET;
-import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
-import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
@@ -29,19 +22,21 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class ServerBuilderTest {
 
     /**
@@ -154,16 +149,15 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToStartServiceUsingCapabilities() {
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability(PLATFORM_NAME, "Android");
-        caps.setCapability(FULL_RESET, true);
-        caps.setCapability(NEW_COMMAND_TIMEOUT, 60);
-        caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
-        caps.setCapability(APP_ACTIVITY, ".view.WebView1");
-        caps.setCapability(APP, apiDemosApk().toAbsolutePath().toString());
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getDownloadedDriverPath());
+        UiAutomator2Options options = new UiAutomator2Options()
+                .fullReset()
+                .setNewCommandTimeout(Duration.ofSeconds(60))
+                .setAppPackage("io.appium.android.apis")
+                .setAppActivity(".view.WebView1")
+                .setApp(apiDemosApk().toAbsolutePath().toString())
+                .setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
 
-        service = new AppiumServiceBuilder().withCapabilities(caps).build();
+        service = new AppiumServiceBuilder().withCapabilities(options).build();
         service.start();
         assertTrue(service.isRunning());
     }
@@ -172,25 +166,25 @@ public class ServerBuilderTest {
     public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
 
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability(PLATFORM_NAME, "Android");
-        caps.setCapability(FULL_RESET, true);
-        caps.setCapability(NEW_COMMAND_TIMEOUT, 60);
-        caps.setCapability(APP_PACKAGE, "io.appium.android.apis");
-        caps.setCapability(APP_ACTIVITY, ".view.WebView1");
-        caps.setCapability(APP, app.getAbsolutePath());
-        caps.setCapability("winPath", "C:\\selenium\\app.apk");
-        caps.setCapability("unixPath", "/selenium/app.apk");
-        caps.setCapability("quotes", "\"'");
-        caps.setCapability("goog:chromeOptions",
-                ImmutableMap.of("env", ImmutableMap.of("test", "value"), "val2", 0));
-        caps.setCapability(CHROMEDRIVER_EXECUTABLE, chromeManager.getDownloadedDriverPath());
+        UiAutomator2Options options = new UiAutomator2Options()
+                .fullReset()
+                .setNewCommandTimeout(Duration.ofSeconds(60))
+                .setAppPackage("io.appium.android.apis")
+                .setAppActivity(".view.WebView1")
+                .setApp(app.getAbsolutePath())
+                .setChromedriverExecutable(chromeManager.getDownloadedDriverPath())
+                .amend("winPath", "C:\\selenium\\app.apk")
+                .amend("unixPath", "/selenium/app.apk")
+                .amend("quotes", "\"'")
+                .setChromeOptions(
+                        ImmutableMap.of("env", ImmutableMap.of("test", "value"), "val2", 0)
+                );
 
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)
                 .withArgument(SESSION_OVERRIDE)
                 .withArgument(PRE_LAUNCH)
-                .withCapabilities(caps).build();
+                .withCapabilities(options).build();
         service.start();
         assertTrue(service.isRunning());
     }
