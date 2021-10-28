@@ -16,17 +16,18 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
-import io.appium.java_client.AppiumBy;
-import io.appium.java_client.pagefactory.AndroidBy;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-
-import org.openqa.selenium.By;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openqa.selenium.By;
+
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.AndroidFindBy;
 
 enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
@@ -84,10 +85,14 @@ enum Strategies {
                 .partialLinkText(getValue(annotation, this));
         }
     },
+    /**
+     * The Windows UIAutomation strategy.
+     * @deprecated Not supported on the server side.
+     */
+    @Deprecated
     BYWINDOWSAUTOMATION("windowsAutomation") {
         @Override By getBy(Annotation annotation) {
-            return AppiumBy
-                    .windowsAutomation(getValue(annotation, this));
+            return MobileBy.windowsAutomation(getValue(annotation, this));
         }
     },
     BY_CLASS_CHAIN("iOSClassChain") {

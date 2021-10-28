@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import java.io.Serializable;
+
 import org.openqa.selenium.By;
 
 /**
@@ -105,6 +107,17 @@ public abstract class MobileBy extends AppiumBy {
     @Deprecated
     public static By iOSNsPredicateString(final String iOSNsPredicateString) {
         return new ByIosNsPredicate(iOSNsPredicateString);
+    }
+
+    /**
+     * The Windows UIAutomation selector.
+     * @deprecated Not supported on the server side.
+     * @param windowsAutomation The element name in the Windows UIAutomation selector
+     * @return an instance of {@link MobileBy.ByWindowsAutomation}
+     */
+    @Deprecated
+    public static By windowsAutomation(final String windowsAutomation) {
+        return new ByWindowsAutomation(windowsAutomation);
     }
 
     /**
@@ -261,13 +274,17 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * The Windows UIAutomation selector.
-     * @deprecated Use {@link AppiumBy.ByWindowsAutomation} instead.
+     * @deprecated Not supported on the server side.
      */
     @Deprecated
-    public static class ByWindowsAutomation extends AppiumBy.ByWindowsAutomation {
+    public static class ByWindowsAutomation extends MobileBy implements Serializable {
 
         protected ByWindowsAutomation(String locatorString) {
-            super(locatorString);
+            super("-windows uiautomation", locatorString, "windowsAutomation");
+        }
+
+        @Override public String toString() {
+            return "By.windowsAutomation: " + getRemoteParameters().value();
         }
     }
 

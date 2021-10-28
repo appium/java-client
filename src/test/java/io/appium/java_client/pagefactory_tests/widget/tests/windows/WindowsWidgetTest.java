@@ -1,6 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.windows;
 
-import static io.appium.java_client.AppiumBy.windowsAutomation;
+import static io.appium.java_client.MobileBy.windowsAutomation;
 import static io.appium.java_client.pagefactory_tests.widget.tests.windows.AnnotatedWindowsWidget.WINDOWS_ROOT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget.WINDOWS_SUB_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.windows.WindowsApp.WINDOWS_DEFAULT_WIDGET_LOCATOR;
