@@ -23,28 +23,27 @@ java {
     withSourcesJar()
 }
 
+ext {
+    seleniumVersion = project.property('selenium.version')
+}
+
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-    api ("org.seleniumhq.selenium:selenium-java") {
+    api ('org.seleniumhq.selenium:selenium-api') {
         version {
-            strictly "${project.property('selenium.version')}"
-        }
-
-        exclude group: 'com.google.code.gson'
-        exclude module: 'htmlunit-driver'
-        exclude group: 'net.sourceforge.htmlunit'
-
-    }
-    implementation ("org.seleniumhq.selenium:selenium-support") {
-        version {
-            strictly "${project.property('selenium.version')}"
+            strictly "${seleniumVersion}"
         }
     }
-    implementation ("org.seleniumhq.selenium:selenium-api") {
+    api ('org.seleniumhq.selenium:selenium-remote-driver') {
         version {
-            strictly "${project.property('selenium.version')}"
+            strictly "${seleniumVersion}"
+        }
+    }
+    implementation ('org.seleniumhq.selenium:selenium-support') {
+        version {
+            strictly "${seleniumVersion}"
         }
     }
     implementation 'com.google.code.gson:gson:2.8.8'
@@ -61,6 +60,11 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.3') {
         exclude group: 'org.seleniumhq.selenium'
+    }
+    testImplementation ('org.seleniumhq.selenium:selenium-chrome-driver') {
+        version {
+            strictly "${seleniumVersion}"
+        }
     }
 }
 
@@ -176,7 +180,7 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            'selenium.version': project.property('selenium.version')
+            'selenium.version': seleniumVersion
     ]
 }
 
