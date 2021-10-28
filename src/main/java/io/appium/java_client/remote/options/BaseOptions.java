@@ -62,6 +62,15 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
     /**
      * Creates new instance with provided capabilities.
      *
+     * @param source Capabilities map to merge into new instance
+     */
+    public BaseOptions(Map<String, ?> source) {
+        super(source);
+    }
+
+    /**
+     * Creates new instance with provided capabilities.
+     *
      * @param source is Capabilities instance to merge into new instance
      */
     public BaseOptions(Capabilities source) {

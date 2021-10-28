@@ -104,6 +104,8 @@ import io.appium.java_client.remote.options.SupportsOtherAppsOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
+import java.util.Map;
+
 /**
  * https://github.com/appium/appium-uiautomator2-driver#capabilities
  */
@@ -207,6 +209,11 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
     }
 
     public UiAutomator2Options(Capabilities source) {
+        super(source);
+        setCommonOptions();
+    }
+
+    public UiAutomator2Options(Map<String, ?> source) {
         super(source);
         setCommonOptions();
     }

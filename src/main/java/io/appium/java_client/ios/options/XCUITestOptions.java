@@ -115,6 +115,8 @@ import io.appium.java_client.remote.options.SupportsSkipLogCaptureOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
+import java.util.Map;
+
 /**
  * https://github.com/appium/appium-xcuitest-driver#capabilities
  */
@@ -226,6 +228,11 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
     }
 
     public XCUITestOptions(Capabilities source) {
+        super(source);
+        setCommonOptions();
+    }
+
+    public XCUITestOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();
     }

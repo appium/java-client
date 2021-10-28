@@ -17,10 +17,12 @@
 package io.appium.java_client;
 
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
@@ -28,6 +30,7 @@ import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
@@ -199,7 +202,13 @@ public class AppiumDriver extends RemoteWebDriver implements
         }
 
         @SuppressWarnings("unchecked") Map<String, Object> rawCapabilities = (Map<String, Object>) responseValue;
-        MutableCapabilities returnedCapabilities = new MutableCapabilities(rawCapabilities);
+        // A workaround for Selenium API enforcing some legacy capability values
+        rawCapabilities.remove(CapabilityType.PLATFORM);
+        if (rawCapabilities.containsKey(CapabilityType.BROWSER_NAME)
+                && isBlank((String) rawCapabilities.get(CapabilityType.BROWSER_NAME))) {
+            rawCapabilities.remove(CapabilityType.BROWSER_NAME);
+        }
+        MutableCapabilities returnedCapabilities = new BaseOptions<>(rawCapabilities);
         try {
             Field capsField = RemoteWebDriver.class.getDeclaredField("capabilities");
             capsField.setAccessible(true);
