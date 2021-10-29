@@ -16,10 +16,8 @@
 
 package io.appium.java_client.android.options.localization;
 
-import io.appium.java_client.android.options.BaseMapOptionData;
+import io.appium.java_client.remote.options.BaseMapOptionData;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 

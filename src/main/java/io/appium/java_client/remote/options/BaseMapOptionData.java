@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options;
+package io.appium.java_client.remote.options;
 
 import com.google.gson.GsonBuilder;
 
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class BaseMapOptionData<T extends BaseMapOptionData<T>> {
-    protected Map<String, Object> options;
+    private Map<String, Object> options;
 
     public BaseMapOptionData() {
     }

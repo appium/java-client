@@ -16,7 +16,7 @@
 
 package io.appium.java_client.android.options.app;
 
-import io.appium.java_client.android.options.BaseMapOptionData;
+import io.appium.java_client.remote.options.BaseMapOptionData;
 
 import java.util.Map;
 import java.util.Optional;
