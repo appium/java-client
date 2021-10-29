@@ -20,6 +20,7 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.util.Map;
 import java.util.Optional;
 
 public interface SupportsAppLocaleOption<T extends BaseOptions<T>> extends
@@ -39,7 +40,7 @@ public interface SupportsAppLocaleOption<T extends BaseOptions<T>> extends
      * @return this MobileOptions, for chaining.
      */
     default T setAppLocale(AppLocale locale) {
-        return amend(APP_LOCALE_OPTION, locale);
+        return amend(APP_LOCALE_OPTION, locale.toMap());
     }
 
     /**
@@ -47,7 +48,9 @@ public interface SupportsAppLocaleOption<T extends BaseOptions<T>> extends
      *
      * @return App locale data.
      */
-    default Optional<String> getAppLocale() {
-        return Optional.ofNullable((String) getCapability(APP_LOCALE_OPTION));
+    default Optional<AppLocale> getAppLocale() {
+        //noinspection unchecked
+        return Optional.ofNullable(getCapability(APP_LOCALE_OPTION))
+                .map((v) -> new AppLocale((Map<String, Object>) v));
     }
 }

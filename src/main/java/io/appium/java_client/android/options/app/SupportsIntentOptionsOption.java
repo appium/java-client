@@ -37,7 +37,7 @@ public interface SupportsIntentOptionsOption<T extends BaseOptions<T>> extends
      * @return self instance for chaining.
      */
     default T setIntentOptions(IntentOptions options) {
-        return amend(INTENT_OPTIONS_OPTION, options);
+        return amend(INTENT_OPTIONS_OPTION, options.toMap());
     }
 
     /**

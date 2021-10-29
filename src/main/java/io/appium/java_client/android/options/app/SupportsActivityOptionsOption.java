@@ -37,7 +37,7 @@ public interface SupportsActivityOptionsOption<T extends BaseOptions<T>> extends
      * @return self instance for chaining.
      */
     default T setActivityOptions(ActivityOptions options) {
-        return amend(ACTIVITY_OPTIONS_OPTION, options);
+        return amend(ACTIVITY_OPTIONS_OPTION, options.toMap());
     }
 
     /**

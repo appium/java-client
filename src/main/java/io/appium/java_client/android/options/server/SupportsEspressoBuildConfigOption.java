@@ -56,7 +56,7 @@ public interface SupportsEspressoBuildConfigOption<T extends BaseOptions<T>> ext
     /**
      * Get the Espresso build config.
      *
-     * @return System port value
+     * @return Either the config itself or a path to a JSON file on the server FS.
      */
     default Optional<Either<EspressoBuildConfig, String>> getEspressoBuildConfig() {
         return Optional.ofNullable(getCapability(ESPRESSO_BUILD_CONFIG_OPTION))
