@@ -18,7 +18,6 @@ import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 import org.junit.Test;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class TouchOptionsTests {
 
     @Test(expected = IllegalArgumentException.class)
     public void invalidEmptyPointOptionsShouldFailOnBuild() {
-        new PointOption().build();
+        new PointOption<>().build();
         fail("The exception throwing was expected");
     }
 
