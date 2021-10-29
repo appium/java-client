@@ -31,7 +31,7 @@ import io.appium.java_client.android.options.adb.SupportsSuppressKillServerOptio
 import io.appium.java_client.android.options.app.SupportsAllowTestPackagesOption;
 import io.appium.java_client.android.options.app.SupportsAndroidInstallTimeoutOption;
 import io.appium.java_client.android.options.app.SupportsAppActivityOption;
-import io.appium.java_client.android.options.app.SupportsWaitAppDurationOption;
+import io.appium.java_client.android.options.app.SupportsAppWaitDurationOption;
 import io.appium.java_client.android.options.app.SupportsAppPackageOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitActivityOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitForLaunchOption;
@@ -130,7 +130,7 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsAppActivityOption<UiAutomator2Options>,
         SupportsAppWaitActivityOption<UiAutomator2Options>,
         SupportsAppWaitPackageOption<UiAutomator2Options>,
-        SupportsWaitAppDurationOption<UiAutomator2Options>,
+        SupportsAppWaitDurationOption<UiAutomator2Options>,
         SupportsAndroidInstallTimeoutOption<UiAutomator2Options>,
         SupportsAppWaitForLaunchOption<UiAutomator2Options>,
         SupportsIntentCategoryOption<UiAutomator2Options>,

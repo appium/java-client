@@ -25,7 +25,7 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
-public interface SupportsWaitAppDurationOption<T extends BaseOptions<T>> extends
+public interface SupportsAppWaitDurationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String APP_WAIT_DURATION_OPTION = "appWaitDuration";
 

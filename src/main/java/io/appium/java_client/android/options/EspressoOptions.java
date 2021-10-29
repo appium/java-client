@@ -33,7 +33,7 @@ import io.appium.java_client.android.options.app.SupportsAllowTestPackagesOption
 import io.appium.java_client.android.options.app.SupportsAndroidInstallTimeoutOption;
 import io.appium.java_client.android.options.app.SupportsAppActivityOption;
 import io.appium.java_client.android.options.app.SupportsIntentOptionsOption;
-import io.appium.java_client.android.options.app.SupportsWaitAppDurationOption;
+import io.appium.java_client.android.options.app.SupportsAppWaitDurationOption;
 import io.appium.java_client.android.options.app.SupportsAppPackageOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitActivityOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitPackageOption;
@@ -119,7 +119,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsAppActivityOption<EspressoOptions>,
         SupportsAppWaitActivityOption<EspressoOptions>,
         SupportsAppWaitPackageOption<EspressoOptions>,
-        SupportsWaitAppDurationOption<EspressoOptions>,
+        SupportsAppWaitDurationOption<EspressoOptions>,
         SupportsAndroidInstallTimeoutOption<EspressoOptions>,
         SupportsIntentOptionsOption<EspressoOptions>,
         SupportsActivityOptionsOption<EspressoOptions>,
