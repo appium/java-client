@@ -164,15 +164,6 @@ public abstract class AppiumBy extends By implements Remotable {
         return new ByIosNsPredicate(iOSNsPredicateString);
     }
 
-    /**
-     * The Windows UIAutomation selector.
-     * @param windowsAutomation The element name in the Windows UIAutomation selector
-     * @return an instance of {@link AppiumBy.ByWindowsAutomation}
-     */
-    public static By windowsAutomation(final String windowsAutomation) {
-        return new ByWindowsAutomation(windowsAutomation);
-    }
-
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
 
         public ByAccessibilityId(String accessibilityId) {
@@ -240,13 +231,6 @@ public abstract class AppiumBy extends By implements Remotable {
 
         protected ByIosNsPredicate(String locatorString) {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
-        }
-    }
-
-    public static class ByWindowsAutomation extends AppiumBy implements Serializable {
-
-        protected ByWindowsAutomation(String locatorString) {
-            super("-windows uiautomation", locatorString, "windowsAutomation");
         }
     }
 }
