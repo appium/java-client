@@ -16,16 +16,12 @@
 
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestResources.uiCatalogAppZip;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
@@ -33,92 +29,11 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
-import java.time.Duration;
-
-public class StartingAppLocallyTest {
-
-    @Test
-    public void startingAndroidAppWithCapabilitiesOnlyTest() {
-        AndroidDriver driver = new AndroidDriver(new UiAutomator2Options()
-                .setDeviceName("Android Emulator")
-                .autoGrantPermissions()
-                .setApp(apiDemosApk().toAbsolutePath().toString()));
-        try {
-            Capabilities caps = driver.getCapabilities();
-
-            assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
-            );
-            assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(apiDemosApk().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
-        } finally {
-            driver.quit();
-        }
-    }
-
-    @Test
-    public void startingAndroidAppWithCapabilitiesAndServiceTest() {
-        AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.STRICT_CAPS);
-
-        AndroidDriver driver = new AndroidDriver(builder, new UiAutomator2Options()
-                .setDeviceName("Android Emulator")
-                .autoGrantPermissions()
-                .setApp(apiDemosApk().toAbsolutePath().toString()));
-        try {
-            Capabilities caps = driver.getCapabilities();
-
-            assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
-            );
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-        } finally {
-            driver.quit();
-        }
-    }
-
-    @Test
-    public void startingAndroidAppWithCapabilitiesAndFlagsOnServerSideTest() {
-        UiAutomator2Options serverOptions = new UiAutomator2Options()
-                .setDeviceName("Android Emulator")
-                .fullReset()
-                .autoGrantPermissions()
-                .setNewCommandTimeout(Duration.ofSeconds(60))
-                .setApp(apiDemosApk().toAbsolutePath().toString());
-
-        WebDriverManager chromeManager = chromedriver();
-        chromeManager.setup();
-        serverOptions.setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
-
-        AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.STRICT_CAPS)
-                .withCapabilities(serverOptions);
-
-        UiAutomator2Options clientOptions = new UiAutomator2Options()
-                .setAppPackage("io.appium.android.apis")
-                .setAppActivity(".view.WebView1");
-
-        AndroidDriver driver = new AndroidDriver(builder, clientOptions);
-        try {
-            Capabilities caps = driver.getCapabilities();
-
-            assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
-            );
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-        } finally {
-            driver.quit();
-        }
-    }
-
+public class StartingAppLocallyIosTest {
     @Test
     public void startingIOSAppWithCapabilitiesOnlyTest() {
         XCUITestOptions options = new XCUITestOptions()
