@@ -69,60 +69,144 @@ public class EspressoBuildConfig {
                 : Optional.ofNullable((R) json.getAsJsonObject(TOOLS_VERSION).get(name));
     }
 
+    /**
+     * Set Gradle version.
+     * By default, the version from the build.gradle is used.
+     *
+     * @param version E.g. "6.3".
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withGradleVersion(String version) {
         return assignToolsVersionsField("gradle", version);
     }
 
+    /**
+     * Get Gradle version.
+     *
+     * @return Gradle version.
+     */
     public Optional<String> getGradleVersion() {
         return getToolsVersionsFieldValue("gradle");
     }
 
+    /**
+     * Set Gradle plugin version. It must correspond to the Gradle version
+     * (if provided). By default, the version from the build.gradle is used.
+     *
+     * @param version E.g. "4.1.1"
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withAndroidGradlePluginVersion(String version) {
         return assignToolsVersionsField("androidGradlePlugin", version);
     }
 
+    /**
+     * Get Gradle plugin version.
+     *
+     * @return Gradle plugin version.
+     */
     public Optional<String> getAndroidGradlePluginVersion() {
         return getToolsVersionsFieldValue("androidGradlePlugin");
     }
 
+    /**
+     * Set Android build tools version to compile the server with.
+     * By default, the version from the build.gradle is used.
+     *
+     * @param version E.g. "28.0.3".
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withBuildToolsVersion(String version) {
         return assignToolsVersionsField("buildTools", version);
     }
 
+    /**
+     * Get Android build tools version.
+     *
+     * @return Android build tools version.
+     */
     public Optional<String> getBuildToolsVersion() {
         return getToolsVersionsFieldValue("buildTools");
     }
 
+    /**
+     * Set Android SDK version to compile the server for.
+     * By default, the version from the app build.gradle is used.
+     *
+     * @param version E.g. "28"
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withCompileSdkVersion(String version) {
         return assignToolsVersionsField("compileSdk", version);
     }
 
+    /**
+     * Get the target Android SDK version.
+     *
+     * @return Android SDK version.
+     */
     public Optional<String> getCompileSdkVersion() {
         return getToolsVersionsFieldValue("compileSdk");
     }
 
+    /**
+     * Set the minimum Android SDK version to compile the server for.
+     * By default, the version from the app build.gradle is used.
+     *
+     * @param apiLevel E.g. 18.
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withMinSdk(int apiLevel) {
         return assignToolsVersionsField("minSdk", apiLevel);
     }
 
+    /**
+     * Get the minimum Android SDK version.
+     *
+     * @return Minimum Android SDK version.
+     */
     public Optional<Integer> getMinSdkVersion() {
         Optional<Object> result = getToolsVersionsFieldValue("minSdk");
         return result.map((v) -> Integer.parseInt(String.valueOf(v)));
     }
 
+    /**
+     * Set the target Android SDK version to compile the server for.
+     * By default, the version from the app build.gradle is used.
+     *
+     * @param apiLevel E.g. 28.
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withTargetSdk(int apiLevel) {
         return assignToolsVersionsField("targetSdk", apiLevel);
     }
 
+    /**
+     * Get the target Android SDK version.
+     *
+     * @return Target Android SDK version.
+     */
     public Optional<Integer> getTargetSdkVersion() {
         Optional<Object> result = getToolsVersionsFieldValue("targetSdk");
         return result.map((v) -> Integer.parseInt(String.valueOf(v)));
     }
 
+    /**
+     * Kotlin version to compile the server for.
+     * By default, the version from the build.gradle is used.
+     *
+     * @param version E.g. "1.5.10".
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withKotlinVersion(String version) {
         return assignToolsVersionsField("kotlin", version);
     }
 
+    /**
+     * Get the target Kotlin version.
+     *
+     * @return Kotlin version.
+     */
     public Optional<String> getKotlinVersion() {
         return getToolsVersionsFieldValue("kotlin");
     }
@@ -156,18 +240,44 @@ public class EspressoBuildConfig {
                     });
     }
 
+    /**
+     * Set a non-empty array of dependent module names with their versions.
+     * The scripts add all these items as "implementation" lines of dependencies
+     * category in the app build.gradle script.
+     *
+     * @param dependencies E.g. ["xerces.xercesImpl:2.8.0", "xerces.xmlParserAPIs:2.6.2"].
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withAdditionalAppDependencies(List<String> dependencies) {
         return assignDependenciesField(ADDITIONAL_APP_DEPENDENCIES, dependencies);
     }
 
+    /**
+     * Get the array of dependent application module names with their versions.
+     *
+     * @return Dependent module names with their versions.
+     */
     public Optional<List<String>> getAdditionalAppDependencies() {
         return getDependenciesValue(ADDITIONAL_APP_DEPENDENCIES);
     }
 
+    /**
+     * Set a non-empty array of dependent module names with their versions.
+     * The scripts add all these items as "androidTestImplementation" lines of
+     * dependencies category in the app build.gradle script.
+     *
+     * @param dependencies E.g. ["xerces.xercesImpl:2.8.0", "xerces.xmlParserAPIs:2.6.2"].
+     * @return self instance for chaining.
+     */
     public EspressoBuildConfig withAdditionalAndroidTestDependencies(List<String> dependencies) {
         return assignDependenciesField(ADDITIONAL_ANDROID_TEST_DEPENDENCIES, dependencies);
     }
 
+    /**
+     * Get the array of dependent Android test module names with their versions.
+     *
+     * @return Dependent module names with their versions.
+     */
     public Optional<List<String>> getAdditionalAndroidTestDependencies() {
         return getDependenciesValue(ADDITIONAL_ANDROID_TEST_DEPENDENCIES);
     }
