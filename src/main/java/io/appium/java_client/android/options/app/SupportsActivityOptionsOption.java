@@ -20,32 +20,34 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
-import java.time.Duration;
+import java.util.Map;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
-
-public interface SupportsAppDurationOption<T extends BaseOptions<T>> extends
+public interface SupportsActivityOptionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String APP_WAIT_DURATION_OPTION = "appWaitDuration";
+    String ACTIVITY_OPTIONS_OPTION = "activityOptions";
 
     /**
-     * Maximum amount of time to wait until the application under test is started
-     * (e.g. an activity returns the control to the caller). 20000 ms by default.
+     * The mapping of custom options for the main app activity that is going to
+     * be started. Check
+     * https://github.com/appium/appium-espresso-driver#activity-options
+     * for more details.
      *
-     * @param appWaitDuration Package identifier to wait for.
+     * @param options Activity options.
      * @return self instance for chaining.
      */
-    default T setAppWaitDuration(Duration appWaitDuration) {
-        return amend(APP_WAIT_DURATION_OPTION, appWaitDuration.toMillis());
+    default T setActivityOptions(ActivityOptions options) {
+        return amend(ACTIVITY_OPTIONS_OPTION, options);
     }
 
     /**
-     * Get the identifier of the app package to wait for.
+     * Get activity options.
      *
-     * @return Package identifier.
+     * @return Activity options.
      */
-    default Optional<Duration> getAppWaitDuration() {
-        return Optional.ofNullable(toDuration(getCapability(APP_WAIT_DURATION_OPTION)));
+    default Optional<ActivityOptions> getActivityOptions() {
+        //noinspection unchecked
+        return Optional.ofNullable(getCapability(ACTIVITY_OPTIONS_OPTION))
+                .map((v) -> new ActivityOptions((Map<String, Object>) v));
     }
 }

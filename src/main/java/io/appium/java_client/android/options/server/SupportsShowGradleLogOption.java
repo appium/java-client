@@ -22,32 +22,40 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
-public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
+public interface SupportsShowGradleLogOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String SYSTEM_PORT_OPTION = "systemPort";
+    String SHOW_GRADLE_LOG_OPTION = "showGradleLog";
 
     /**
-     * The number of the port the UiAutomator2 or Espresso server is listening on.
-     * By default, the first free port from 8200..8299 range is selected for UIA2
-     * and 8300..8399 range is selected for Espresso.
-     * It is recommended to set this value if you are running parallel
-     * tests on the same machine.
+     * Enforces inclusion of the Gradle log to the regular server logs.
      *
-     * @param port port number in range 0..65535
      * @return self instance for chaining.
      */
-    default T setSystemPort(int port) {
-        return amend(SYSTEM_PORT_OPTION, port);
+    default T showGradleLog() {
+        return amend(SHOW_GRADLE_LOG_OPTION, true);
     }
 
     /**
-     * Get the system port value.
+     * Whether to include Gradle log to the regular server logs while
+     * building Espresso server. false by default.
      *
-     * @return System port value
+     * @param value Whether to include Gradle log to the regular server logs.
+     * @return self instance for chaining.
      */
-    default Optional<Integer> getSystemPort() {
-        return Optional.ofNullable(toInteger(getCapability(SYSTEM_PORT_OPTION)));
+    default T setShowGradleLog(boolean value) {
+        return amend(SHOW_GRADLE_LOG_OPTION, value);
+    }
+
+    /**
+     * Get whether to include Gradle log to the regular server log.
+     *
+     * @return True or false.
+     */
+    default Optional<Boolean> doesShowGradleLog() {
+        return Optional.ofNullable(
+                toSafeBoolean(getCapability(SHOW_GRADLE_LOG_OPTION))
+        );
     }
 }

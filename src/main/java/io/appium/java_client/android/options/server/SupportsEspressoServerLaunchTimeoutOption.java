@@ -20,34 +20,34 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
-public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
+public interface SupportsEspressoServerLaunchTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String SYSTEM_PORT_OPTION = "systemPort";
+    String ESPRESSO_SERVER_LAUNCH_TIMEOUT_OPTION = "espressoServerLaunchTimeout";
 
     /**
-     * The number of the port the UiAutomator2 or Espresso server is listening on.
-     * By default, the first free port from 8200..8299 range is selected for UIA2
-     * and 8300..8399 range is selected for Espresso.
-     * It is recommended to set this value if you are running parallel
-     * tests on the same machine.
+     * Set the maximum timeout to wait util Espresso  is listening on the device.
+     * 45000 ms by default
      *
-     * @param port port number in range 0..65535
+     * @param timeout Timeout value.
      * @return self instance for chaining.
      */
-    default T setSystemPort(int port) {
-        return amend(SYSTEM_PORT_OPTION, port);
+    default T setUiautomator2ServerInstallTimeout(Duration timeout) {
+        return amend(ESPRESSO_SERVER_LAUNCH_TIMEOUT_OPTION, timeout.toMillis());
     }
 
     /**
-     * Get the system port value.
+     * Get the maximum timeout to wait until Espresso server is listening on the device.
      *
-     * @return System port value
+     * @return The timeout value.
      */
-    default Optional<Integer> getSystemPort() {
-        return Optional.ofNullable(toInteger(getCapability(SYSTEM_PORT_OPTION)));
+    default Optional<Duration> getUiautomator2ServerInstallTimeout() {
+        return Optional.ofNullable(
+                toDuration(getCapability(ESPRESSO_SERVER_LAUNCH_TIMEOUT_OPTION))
+        );
     }
 }

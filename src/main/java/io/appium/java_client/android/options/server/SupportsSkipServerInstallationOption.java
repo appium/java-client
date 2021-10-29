@@ -29,7 +29,7 @@ public interface SupportsSkipServerInstallationOption<T extends BaseOptions<T>> 
     String SKIP_SERVER_INSTALLATION_OPTION = "skipServerInstallation";
 
     /**
-     * Enables skipping of the UiAutomator2 Server component installation
+     * Enables skipping of the server components installation
      * on the device under test and all the related checks.
      * This could help to speed up the session startup if you know for sure the
      * correct server version is installed on the device.
@@ -43,7 +43,7 @@ public interface SupportsSkipServerInstallationOption<T extends BaseOptions<T>> 
     }
 
     /**
-     * Set whether to skip the UiAutomator2 Server component installation
+     * Set whether to skip the server components installation
      * on the device under test and all the related checks.
      * This could help to speed up the session startup if you know for sure the
      * correct server version is installed on the device.
@@ -58,7 +58,7 @@ public interface SupportsSkipServerInstallationOption<T extends BaseOptions<T>> 
     }
 
     /**
-     * Get whether to skip the UiAutomator2 Server component installation
+     * Get whether to skip the server components installation
      * on the device under test and all the related checks.
      *
      * @return True or false.

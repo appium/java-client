@@ -14,40 +14,40 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options.server;
+package io.appium.java_client.android.options.app;
 
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.util.Map;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
-
-public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
+public interface SupportsIntentOptionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String SYSTEM_PORT_OPTION = "systemPort";
+    String INTENT_OPTIONS_OPTION = "intentOptions";
 
     /**
-     * The number of the port the UiAutomator2 or Espresso server is listening on.
-     * By default, the first free port from 8200..8299 range is selected for UIA2
-     * and 8300..8399 range is selected for Espresso.
-     * It is recommended to set this value if you are running parallel
-     * tests on the same machine.
+     * The mapping of custom options for the intent that is going to be passed
+     * to the main app activity. Check
+     * https://github.com/appium/appium-espresso-driver#intent-options
+     * for more details.
      *
-     * @param port port number in range 0..65535
+     * @param options Intent options.
      * @return self instance for chaining.
      */
-    default T setSystemPort(int port) {
-        return amend(SYSTEM_PORT_OPTION, port);
+    default T setIntentOptions(IntentOptions options) {
+        return amend(INTENT_OPTIONS_OPTION, options);
     }
 
     /**
-     * Get the system port value.
+     * Get intent options.
      *
-     * @return System port value
+     * @return Intent options.
      */
-    default Optional<Integer> getSystemPort() {
-        return Optional.ofNullable(toInteger(getCapability(SYSTEM_PORT_OPTION)));
+    default Optional<IntentOptions> getIntentOptions() {
+        //noinspection unchecked
+        return Optional.ofNullable(getCapability(INTENT_OPTIONS_OPTION))
+                .map((v) -> new IntentOptions((Map<String, Object>) v));
     }
 }

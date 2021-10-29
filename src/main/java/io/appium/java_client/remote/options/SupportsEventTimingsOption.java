@@ -31,7 +31,7 @@ public interface SupportsEventTimingsOption<T extends BaseOptions<T>> extends
      *
      * @return self instance for chaining.
      */
-    default T setEventTimings() {
+    default T eventTimings() {
         return setEventTimings(true);
     }
 
