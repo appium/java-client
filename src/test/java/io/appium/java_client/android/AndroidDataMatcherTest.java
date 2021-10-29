@@ -18,7 +18,7 @@ package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import io.appium.java_client.MobileBy;
+import io.appium.java_client.AppiumBy;
 import org.junit.Test;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,8 +32,8 @@ public class AndroidDataMatcherTest extends BaseEspressoTest {
     public void testFindByDataMatcher() {
         final WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions
-            .elementToBeClickable(MobileBy.AccessibilityId("Graphics")));
-        driver.findElement(MobileBy.AccessibilityId("Graphics")).click();
+            .elementToBeClickable(AppiumBy.accessibilityId("Graphics")));
+        driver.findElement(AppiumBy.accessibilityId("Graphics")).click();
 
         String selector = new Json().toJson(ImmutableMap.of(
             "name", "hasEntry",
@@ -41,6 +41,6 @@ public class AndroidDataMatcherTest extends BaseEspressoTest {
         ));
 
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(MobileBy.androidDataMatcher(selector))));
+            .presenceOfElementLocated(AppiumBy.androidDataMatcher(selector))));
     }
 }

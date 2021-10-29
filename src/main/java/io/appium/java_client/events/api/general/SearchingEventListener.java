@@ -21,6 +21,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public interface SearchingEventListener extends Listener {
 
     /**

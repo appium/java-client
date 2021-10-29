@@ -8,12 +8,13 @@ import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
-import io.appium.java_client.HasSessionDetails;
+import io.appium.java_client.HasBrowserCheck;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
@@ -25,7 +26,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDetails,
+public abstract class AbstractStubWebDriver implements
+        WebDriver,
+        HasBrowserCheck,
         HasCapabilities {
     @Override
     public Response execute(String driverCommand, Map<String, ?> parameters) {
@@ -36,12 +39,6 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
     public Response execute(String driverCommand) {
         return null;
     }
-
-    @Override
-    public abstract String getPlatformName();
-
-    @Override
-    public abstract String getAutomationName();
 
     @Override
     public boolean isBrowser() {
@@ -64,7 +61,7 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
     }
 
     @Override
-    public List<StubWebElement> findElements(By by) {
+    public List<WebElement> findElements(By by) {
         return of(new StubWebElement(this, by), new StubWebElement(this, by));
     }
 
@@ -106,6 +103,14 @@ public abstract class AbstractStubWebDriver implements WebDriver, HasSessionDeta
     @Override
     public Navigation navigate() {
         return null;
+    }
+
+    public String getPlatformName() {
+        return "";
+    }
+
+    public String getAutomationName() {
+        return "";
     }
 
     @Override

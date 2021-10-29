@@ -23,12 +23,11 @@ import org.openqa.selenium.ScreenOrientation;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 public class MobileOptionsTest {
-    private MobileOptions mobileOptions = new MobileOptions<>();
+    private MobileOptions<?> mobileOptions = new MobileOptions<>();
 
     @Test
     public void acceptsExistingCapabilities() {

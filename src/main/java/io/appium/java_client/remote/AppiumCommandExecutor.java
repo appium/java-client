@@ -161,7 +161,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     public void refreshAdditionalCommands() {
-        getAdditionalCommands().forEach(super::defineCommand);
+        getAdditionalCommands().forEach(this::defineCommand);
     }
 
     @Override

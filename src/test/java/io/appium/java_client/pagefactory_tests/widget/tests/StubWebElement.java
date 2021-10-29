@@ -70,7 +70,7 @@ public class StubWebElement implements WebElement, WrapsDriver {
     }
 
     @Override
-    public List<StubWebElement> findElements(By by) {
+    public List findElements(By by) {
         return of(new StubWebElement(driver, by), new StubWebElement(driver, by));
     }
 

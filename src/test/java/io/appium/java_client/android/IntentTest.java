@@ -4,19 +4,18 @@ import static io.appium.java_client.TestResources.intentExampleApk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.function.Predicate;
 
 public class IntentTest {
     private static AppiumDriverLocalService service;
-    protected static AndroidDriver<?> driver;
+    protected static AndroidDriver driver;
 
     /**
      * initialization.
@@ -29,10 +28,10 @@ public class IntentTest {
             throw new RuntimeException("An appium server node is not started!");
         }
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.APP, intentExampleApk().toAbsolutePath().toString());
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
+        UiAutomator2Options options = new UiAutomator2Options()
+                .setDeviceName("Android Emulator")
+                .setApp(intentExampleApk().toAbsolutePath().toString());
+        driver = new AndroidDriver(service.getUrl(), options);
     }
 
     /**

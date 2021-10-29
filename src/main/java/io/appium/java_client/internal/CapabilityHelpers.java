@@ -19,8 +19,12 @@ package io.appium.java_client.internal;
 import org.openqa.selenium.Capabilities;
 
 import javax.annotation.Nullable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class CapabilityHelpers {
     public static final String APPIUM_PREFIX = "appium:";
@@ -46,7 +50,7 @@ public class CapabilityHelpers {
             if (caps.getCapability(capName) == null) {
                 continue;
             }
-            
+
             if (expectedType == String.class) {
                 return expectedType.cast(String.valueOf(caps.getCapability(capName)));
             }
@@ -55,5 +59,120 @@ public class CapabilityHelpers {
             }
         }
         return null;
+    }
+
+    /**
+     * Converts generic capability value to boolean without
+     * throwing exceptions.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static Boolean toSafeBoolean(Object value) {
+        return value == null ? null : Boolean.parseBoolean(String.valueOf(value));
+    }
+
+    /**
+     * Converts generic capability value to integer.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid integer.
+     */
+    @Nullable
+    public static Integer toInteger(Object value) {
+        if (value == null) {
+            return null;
+        } else if (value instanceof Number) {
+            return ((Number) value).intValue();
+        } else {
+            return Integer.parseInt(String.valueOf(value));
+        }
+    }
+
+    /**
+     * Converts generic capability value to long.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
+     */
+    @Nullable
+    public static Long toLong(Object value) {
+        if (value == null) {
+            return null;
+        } else if (value instanceof Number) {
+            return ((Number) value).longValue();
+        } else {
+            return Long.parseLong(String.valueOf(value));
+        }
+    }
+
+    /**
+     * Converts generic capability value to double.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid long.
+     */
+    @Nullable
+    public static Double toDouble(Object value) {
+        if (value == null) {
+            return null;
+        } else if (value instanceof Number) {
+            return ((Number) value).doubleValue();
+        } else {
+            return Double.parseDouble(String.valueOf(value));
+        }
+    }
+
+    /**
+     * Converts generic capability value to duration. The value is assumed to be
+     * measured in milliseconds.
+     *
+     * @param value The capability value.
+     * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
+     */
+    @Nullable
+    public static Duration toDuration(Object value) {
+        return toDuration(value, Duration::ofMillis);
+    }
+
+    /**
+     * Converts generic capability value to duration.
+     *
+     * @param value     The capability value.
+     * @param converter Converts the numeric value to a Duration instance.
+     * @return null is the passed value is null otherwise the converted value.
+     * @throws NumberFormatException If the given value cannot be parsed to a valid number.
+     */
+    @Nullable
+    public static Duration toDuration(Object value,
+                                      Function<Long, Duration> converter) {
+        Long v = toLong(value);
+        return v == null ? null : converter.apply(v);
+    }
+
+    /**
+     * Converts generic capability value to a url.
+     *
+     * @param value The capability value.
+     * @throws IllegalArgumentException If the given value cannot be parsed to a valid url.
+     * @return null is the passed value is null otherwise the converted value.
+     */
+    @Nullable
+    public static URL toUrl(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return (value instanceof URL)
+                    ? (URL) value :
+                    new URL(String.valueOf(value));
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

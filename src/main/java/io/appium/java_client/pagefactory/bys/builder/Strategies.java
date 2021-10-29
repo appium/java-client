@@ -16,17 +16,18 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.pagefactory.AndroidBy;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.iOSBy;
-import org.openqa.selenium.By;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openqa.selenium.By;
+
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.AndroidFindBy;
 
 enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
@@ -34,19 +35,19 @@ enum Strategies {
             String value = getValue(annotation, this);
             if (annotation.annotationType().equals(AndroidFindBy.class)
                     || annotation.annotationType().equals(AndroidBy.class)) {
-                return MobileBy.AndroidUIAutomator(value);
+                return AppiumBy.androidUIAutomator(value);
             }
             return super.getBy(annotation);
         }
     },
     BYACCESSABILITY("accessibility") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy.AccessibilityId(getValue(annotation, this));
+            return AppiumBy.accessibilityId(getValue(annotation, this));
         }
     },
     BYCLASSNAME("className") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy.className(getValue(annotation, this));
+            return AppiumBy.className(getValue(annotation, this));
         }
     },
     BYID("id") {
@@ -84,33 +85,37 @@ enum Strategies {
                 .partialLinkText(getValue(annotation, this));
         }
     },
+    /**
+     * The Windows UIAutomation strategy.
+     * @deprecated Not supported on the server side.
+     */
+    @Deprecated
     BYWINDOWSAUTOMATION("windowsAutomation") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy
-                    .windowsAutomation(getValue(annotation, this));
+            return MobileBy.windowsAutomation(getValue(annotation, this));
         }
     },
     BY_CLASS_CHAIN("iOSClassChain") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy
+            return AppiumBy
                     .iOSClassChain(getValue(annotation, this));
         }
     },
     BY_DATA_MATCHER("androidDataMatcher") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy
+            return AppiumBy
                     .androidDataMatcher(getValue(annotation, this));
         }
     },
     BY_VIEW_MATCHER("androidViewMatcher") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy
+            return AppiumBy
                 .androidViewMatcher(getValue(annotation, this));
         }
     },
     BY_NS_PREDICATE("iOSNsPredicate") {
         @Override By getBy(Annotation annotation) {
-            return MobileBy
+            return AppiumBy
                     .iOSNsPredicateString(getValue(annotation, this));
         }
     };

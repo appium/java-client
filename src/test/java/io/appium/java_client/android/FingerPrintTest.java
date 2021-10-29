@@ -16,10 +16,9 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.MobileBy.AndroidUIAutomator;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static io.appium.java_client.AppiumBy.androidUIAutomator;
 
-import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,19 +28,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.WebElement;
+
+import java.time.Duration;
 
 public class FingerPrintTest {
     private static AppiumDriverLocalService service;
-    private static AndroidDriver<AndroidElement> driver;
+    private static AndroidDriver driver;
 
     private static void initDriver() {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability("appPackage", "com.android.settings");
-        capabilities.setCapability("appActivity", "Settings");
-        driver = new AndroidDriver<>(service.getUrl(), capabilities);
-        driver.manage().timeouts().implicitlyWait(15, SECONDS);
+        UiAutomator2Options options = new UiAutomator2Options()
+                .setDeviceName("Android Emulator")
+                .setAppPackage("com.android.settings")
+                .setAppActivity("Settings");
+        driver = new AndroidDriver(service.getUrl(), options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     }
 
     /**
@@ -65,7 +66,7 @@ public class FingerPrintTest {
         }
     }
 
-    private AndroidElement findElementByText(String text) {
+    private WebElement findElementByText(String text) {
         return driver.findElements(By.id("android:id/title")).stream().filter(androidElement ->
                 text.equals(androidElement.getText())).findFirst()
                 .orElseThrow(() ->
@@ -89,7 +90,7 @@ public class FingerPrintTest {
     }
 
     private void clickOnSecurity() {
-        driver.findElement(AndroidUIAutomator("new UiScrollable(new UiSelector()"
+        driver.findElement(androidUIAutomator("new UiScrollable(new UiSelector()"
                 + ".scrollable(true)).scrollIntoView("
                 + "new UiSelector().text(\"Security & location\"));")).click();
     }

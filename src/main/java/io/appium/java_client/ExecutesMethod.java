@@ -22,18 +22,18 @@ import java.util.Map;
 
 public interface ExecutesMethod {
     /**
-     * Executes JSONWP command and returns a response.
+     * Executes the given command and returns a response.
      *
-     * @param driverCommand a JSONWP command
+     * @param driverCommand a command to execute
      * @param parameters map of command parameters
      * @return a result response
      */
     Response execute(String driverCommand, Map<String, ?> parameters);
 
     /**
-     * Executes JSONWP command and returns a response.
+     * Executes the given command and returns a response.
      *
-     * @param driverCommand a JSONWP command
+     * @param driverCommand a command to execute
      * @return a result response
      */
     Response execute(String driverCommand);

@@ -17,7 +17,6 @@
 package io.appium.java_client.mac;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.HasSettings;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -25,8 +24,7 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -44,7 +42,8 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
  *
  * @since Appium 1.20.0
  */
-public class Mac2Driver<T extends WebElement> extends AppiumDriver<T> implements CanRecordScreen, HasSettings {
+public class Mac2Driver extends AppiumDriver implements
+        CanRecordScreen {
     public Mac2Driver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, prepareCaps(capabilities));
     }
@@ -84,16 +83,14 @@ public class Mac2Driver<T extends WebElement> extends AppiumDriver<T> implements
     }
 
     private static Capabilities prepareCaps(Capabilities originalCaps) {
-        DesiredCapabilities dc = new DesiredCapabilities(originalCaps);
-        if (originalCaps.getCapability(PLATFORM_NAME) == null) {
-            dc.setCapability(PLATFORM_NAME, MAC);
-        }
         String automationName = CapabilityHelpers.getCapability(originalCaps,
                 MobileCapabilityType.AUTOMATION_NAME, String.class);
-        if (!AutomationName.MAC2.equalsIgnoreCase(automationName)) {
-            dc.setCapability(CapabilityHelpers.APPIUM_PREFIX
-                    + MobileCapabilityType.AUTOMATION_NAME, AutomationName.MAC2);
-        }
-        return dc;
+        return (originalCaps.getCapability(PLATFORM_NAME) == null
+                || !AutomationName.MAC2.equalsIgnoreCase(automationName))
+                ? originalCaps.merge(new ImmutableCapabilities(
+                        PLATFORM_NAME, MAC,
+                        MobileCapabilityType.AUTOMATION_NAME, AutomationName.MAC2
+                ))
+                : originalCaps;
     }
 }

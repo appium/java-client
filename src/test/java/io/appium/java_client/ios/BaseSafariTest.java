@@ -16,13 +16,10 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.IOSMobileCapabilityType;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,14 +33,11 @@ public class BaseSafariTest extends BaseIOSTest {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
-        //sometimes environment has performance problems
-        capabilities.setCapability(IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT,
-                WDA_LAUNCH_TIMEOUT.toMillis());
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
-        driver = new IOSDriver<>(new URL("http://" + ip + ":" + PORT + "/wd/hub"), capabilities);
+        XCUITestOptions options = new XCUITestOptions()
+                .withBrowserName(MobileBrowserType.SAFARI)
+                .setDeviceName(DEVICE_NAME)
+                .setPlatformVersion(PLATFORM_VERSION)
+                .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
+        driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), options);
     }
 }

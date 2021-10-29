@@ -5,6 +5,7 @@ import static org.openqa.selenium.By.id;
 
 import org.junit.Test;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
         driver.openNotifications();
         WebDriverWait wait = new WebDriverWait(driver, 20);
         assertNotEquals(0, wait.until(input -> {
-            List<AndroidElement> result = input
+            List<WebElement> result = input
                     .findElements(id("com.android.systemui:id/settings_button"));
 
             return result.isEmpty() ? null : result;

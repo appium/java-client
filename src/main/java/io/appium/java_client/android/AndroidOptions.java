@@ -20,6 +20,11 @@ import io.appium.java_client.remote.MobileOptions;
 import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.Capabilities;
 
+/**
+ * Use the specific options class for your driver,
+ * for example UiAutomator2Options.
+ */
+@Deprecated
 public class AndroidOptions extends MobileOptions<AndroidOptions> {
     public AndroidOptions() {
         setAndroidPlatformName();

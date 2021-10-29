@@ -19,6 +19,10 @@ package io.appium.java_client.events.api.general;
 import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public interface AppiumWebDriverEventListener extends Listener, WebDriverEventListener, ListensToException,
     SearchingEventListener, NavigationEventListener,
     JavaScriptEventListener, ElementEventListener {

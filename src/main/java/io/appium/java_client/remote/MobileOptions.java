@@ -18,13 +18,19 @@ package io.appium.java_client.remote;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.CapabilityType;
 
 import java.net.URL;
 import java.time.Duration;
 
+/**
+ * Use the specific options class for your driver,
+ * for example XCUITestOptions or UiAutomator2Options.
+ *
+ * @param <T> The child class for a proper chaining.
+ */
+@Deprecated
 public class MobileOptions<T extends MobileOptions<T>> extends MutableCapabilities {
 
     /**

@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.windows;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.pagefactory.WindowsFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
@@ -25,7 +26,7 @@ public class WindowsApp implements ExtendedApp {
      * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
      * This field was added to check that locator is created correctly according to current platform.
      * It is expected that the root element and sub-elements are found using
-     * {@link io.appium.java_client.MobileBy#windowsAutomation(String)}
+     * {@link AppiumBy#windowsAutomation(String)}
      */
     private AnnotatedWindowsWidget singleAnnotatedIosWidget;
 
@@ -34,7 +35,7 @@ public class WindowsApp implements ExtendedApp {
      * {@link io.appium.java_client.pagefactory.iOSXCUITFindBy}.
      * This field was added to check that locator is created correctly according to current platform.
      * It is expected that the root element and sub-elements are found using
-     * {@link io.appium.java_client.MobileBy#windowsAutomation(String)}.
+     * {@link AppiumBy#windowsAutomation(String)}.
      */
     private List<AnnotatedWindowsWidget> multipleIosIosWidgets;
 
@@ -44,7 +45,7 @@ public class WindowsApp implements ExtendedApp {
      * But the superclass is annotated by these annotations. This field was added to check that locator is
      * created correctly according to current platform.
      * It is expected that the root element and sub-elements are found using
-     * {@link io.appium.java_client.MobileBy#windowsAutomation(String)}.
+     * {@link AppiumBy#windowsAutomation(String)}.
      */
     private ExtendedWindowsWidget singleExtendedIosWidget;
 
@@ -54,7 +55,7 @@ public class WindowsApp implements ExtendedApp {
      * But the superclass is annotated by these annotations. This field was added to check that locator is
      * created correctly according to current platform.
      * It is expected that the root element and sub-elements are found using
-     * {@link io.appium.java_client.MobileBy#windowsAutomation(String)}.
+     * {@link AppiumBy#windowsAutomation(String)}.
      */
     private List<ExtendedWindowsWidget> multipleExtendedIosWidgets;
 
@@ -64,7 +65,7 @@ public class WindowsApp implements ExtendedApp {
      * But the superclass is annotated by these annotations. This field was added to check that locator is
      * created correctly according to current platform.
      * It is expected that the root element and sub-elements are found using
-     * {@link io.appium.java_client.MobileBy#windowsAutomation(String)}.
+     * {@link AppiumBy#windowsAutomation(String)}.
      */
     @WindowsFindBy(windowsAutomation = "WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR")
@@ -76,7 +77,7 @@ public class WindowsApp implements ExtendedApp {
      * But the superclass is annotated by these annotations. This field was added to check that locator is
      * created correctly according to current platform.
      * It is expected that the root element and sub-elements are found using
-     * {@link io.appium.java_client.MobileBy#windowsAutomation(String)}.
+     * {@link AppiumBy#windowsAutomation(String)}.
      */
     @WindowsFindBy(windowsAutomation = "WINDOWS_EXTERNALLY_DEFINED_WIDGET_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "SOME_XCUIT_EXTERNALLY_DEFINED_LOCATOR")

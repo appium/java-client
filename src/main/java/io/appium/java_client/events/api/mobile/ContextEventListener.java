@@ -19,6 +19,10 @@ package io.appium.java_client.events.api.mobile;
 import io.appium.java_client.events.api.Listener;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Deprecated. Use EventFiringDecorator and WebDriverListener instead.
+ */
+@Deprecated
 public interface ContextEventListener extends Listener {
 
     /**
