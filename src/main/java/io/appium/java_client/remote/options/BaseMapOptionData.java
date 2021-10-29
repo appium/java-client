@@ -16,7 +16,9 @@
 
 package io.appium.java_client.remote.options;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,6 +33,11 @@ public abstract class BaseMapOptionData<T extends BaseMapOptionData<T>> {
 
     public BaseMapOptionData(Map<String, Object> options) {
         this.options = options;
+    }
+
+    public BaseMapOptionData(String json) {
+        //noinspection unchecked
+        this((Map<String, Object>) new Gson().fromJson(json, Map.class));
     }
 
     /**
@@ -68,6 +75,10 @@ public abstract class BaseMapOptionData<T extends BaseMapOptionData<T>> {
 
     public Map<String, Object> toMap() {
         return Optional.ofNullable(options).orElseGet(Collections::emptyMap);
+    }
+
+    public JsonObject toJson() {
+        return new GsonBuilder().create().toJsonTree(toMap()).getAsJsonObject();
     }
 
     @Override
