@@ -62,13 +62,12 @@ public abstract class BaseMapOptionData<T extends BaseMapOptionData<T>> {
      */
     public <R> Optional<R> getOptionValue(String name) {
         //noinspection unchecked
-        return options == null
-                ? Optional.empty()
-                : Optional.ofNullable((R) options.getOrDefault(name, null));
+        return Optional.ofNullable(options)
+                .map(opts -> (R) opts.getOrDefault(name, null));
     }
 
     public Map<String, Object> toMap() {
-        return options == null ? Collections.emptyMap() : options;
+        return Optional.ofNullable(options).orElseGet(Collections::emptyMap);
     }
 
     @Override

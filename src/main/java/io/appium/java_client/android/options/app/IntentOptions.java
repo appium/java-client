@@ -21,6 +21,7 @@ import io.appium.java_client.android.options.BaseMapOptionData;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class IntentOptions extends BaseMapOptionData<IntentOptions> {
@@ -257,6 +258,13 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
         return assignOptionValue("ei", ei);
     }
 
+    private <T> Map<String, T> convertMapValues(Map<String, Object> map, Function<String, T> converter) {
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey, (entry) -> converter.apply(String.valueOf(entry.getValue())))
+                );
+    }
+
     /**
      * Get intent integer parameters.
      *
@@ -264,11 +272,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
      */
     public Optional<Map<String, Integer>> getEi() {
         Optional<Map<String, Object>> value = getOptionValue("ei");
-        return value.map((v) -> v.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey, (entry) -> Integer.parseInt(String.valueOf(entry.getValue())))
-                )
-        );
+        return value.map((v) -> convertMapValues(v, Integer::parseInt));
     }
 
     /**
@@ -288,11 +292,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
      */
     public Optional<Map<String, Long>> getEl() {
         Optional<Map<String, Object>> value = getOptionValue("el");
-        return value.map((v) -> v.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey, (entry) -> Long.parseLong(String.valueOf(entry.getValue())))
-                )
-        );
+        return value.map((v) -> convertMapValues(v, Long::parseLong));
     }
 
     /**
@@ -312,11 +312,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
      */
     public Optional<Map<String, Float>> getEf() {
         Optional<Map<String, Object>> value = getOptionValue("ef");
-        return value.map((v) -> v.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey, (entry) -> Float.parseFloat(String.valueOf(entry.getValue())))
-                )
-        );
+        return value.map((v) -> convertMapValues(v, Float::parseFloat));
     }
 
     /**
@@ -357,7 +353,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
         return getOptionValue("ecn");
     }
 
-    private static Map<?, ?> mergeValues(Map<String, ?> map) {
+    private static Map<String, String> mergeValues(Map<String, ?> map) {
         return map.entrySet().stream()
                 .collect(
                         Collectors.toMap(Map.Entry::getKey, (entry) -> ((List<?>) entry.getValue()).stream()

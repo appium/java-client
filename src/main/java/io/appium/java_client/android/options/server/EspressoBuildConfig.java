@@ -283,7 +283,7 @@ public class EspressoBuildConfig {
     }
 
     public JsonObject toJson() {
-        return json == null ? new JsonObject() : json;
+        return Optional.ofNullable(json).orElseGet(JsonObject::new);
     }
 
     @Override
