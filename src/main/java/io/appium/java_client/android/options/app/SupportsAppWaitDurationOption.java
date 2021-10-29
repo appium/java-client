@@ -14,40 +14,38 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options.server;
+package io.appium.java_client.android.options.app;
 
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
-public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
+public interface SupportsAppWaitDurationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String SYSTEM_PORT_OPTION = "systemPort";
+    String APP_WAIT_DURATION_OPTION = "appWaitDuration";
 
     /**
-     * The number of the port the UiAutomator2 or Espresso server is listening on.
-     * By default, the first free port from 8200..8299 range is selected for UIA2
-     * and 8300..8399 range is selected for Espresso.
-     * It is recommended to set this value if you are running parallel
-     * tests on the same machine.
+     * Maximum amount of time to wait until the application under test is started
+     * (e.g. an activity returns the control to the caller). 20000 ms by default.
      *
-     * @param port port number in range 0..65535
+     * @param appWaitDuration Package identifier to wait for.
      * @return self instance for chaining.
      */
-    default T setSystemPort(int port) {
-        return amend(SYSTEM_PORT_OPTION, port);
+    default T setAppWaitDuration(Duration appWaitDuration) {
+        return amend(APP_WAIT_DURATION_OPTION, appWaitDuration.toMillis());
     }
 
     /**
-     * Get the system port value.
+     * Get the identifier of the app package to wait for.
      *
-     * @return System port value
+     * @return Package identifier.
      */
-    default Optional<Integer> getSystemPort() {
-        return Optional.ofNullable(toInteger(getCapability(SYSTEM_PORT_OPTION)));
+    default Optional<Duration> getAppWaitDuration() {
+        return Optional.ofNullable(toDuration(getCapability(APP_WAIT_DURATION_OPTION)));
     }
 }

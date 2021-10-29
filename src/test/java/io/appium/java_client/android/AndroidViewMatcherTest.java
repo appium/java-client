@@ -24,6 +24,8 @@ import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 import static org.junit.Assert.assertNotNull;
 
 public class AndroidViewMatcherTest extends BaseEspressoTest {
@@ -35,7 +37,7 @@ public class AndroidViewMatcherTest extends BaseEspressoTest {
             "args", ImmutableList.of("Animation"),
             "class", "androidx.test.espresso.matcher.ViewMatchers"
         ));
-        final WebDriverWait wait = new WebDriverWait(driver, 10);
+        final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         assertNotNull(wait.until(ExpectedConditions
             .presenceOfElementLocated(AppiumBy.androidViewMatcher(selector))));
     }
