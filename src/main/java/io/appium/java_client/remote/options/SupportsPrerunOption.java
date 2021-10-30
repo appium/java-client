@@ -20,7 +20,7 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsPrerunOption<T extends BaseOptions<T>, S extends RunScript<?>>
+public interface SupportsPrerunOption<T extends BaseOptions<T>, S extends SystemScript<?>>
         extends Capabilities, CanSetCapability<T> {
     String PRERUN_OPTION = "prerun";
 

@@ -16,12 +16,12 @@
 
 package io.appium.java_client.windows.options;
 
-import io.appium.java_client.remote.options.RunScript;
+import io.appium.java_client.remote.options.SystemScript;
 
 import java.util.Map;
 import java.util.Optional;
 
-public class PowerShellData extends RunScript<PowerShellData> {
+public class PowerShellData extends SystemScript<PowerShellData> {
     public PowerShellData() {
     }
 

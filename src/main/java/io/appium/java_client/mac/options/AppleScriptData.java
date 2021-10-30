@@ -16,12 +16,12 @@
 
 package io.appium.java_client.mac.options;
 
-import io.appium.java_client.remote.options.RunScript;
+import io.appium.java_client.remote.options.SystemScript;
 
 import java.util.Map;
 import java.util.Optional;
 
-public class AppleScriptData extends RunScript<AppleScriptData> {
+public class AppleScriptData extends SystemScript<AppleScriptData> {
     public AppleScriptData() {
     }
 

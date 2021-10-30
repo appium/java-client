@@ -20,7 +20,7 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsPostrunOption<T extends BaseOptions<T>, S extends RunScript<?>>
+public interface SupportsPostrunOption<T extends BaseOptions<T>, S extends SystemScript<?>>
         extends Capabilities, CanSetCapability<T> {
     String POSTRUN_OPTION = "postrun";
 
