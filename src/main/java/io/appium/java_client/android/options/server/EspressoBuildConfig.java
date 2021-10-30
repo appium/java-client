@@ -16,57 +16,42 @@
 
 package io.appium.java_client.android.options.server;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.remote.options.BaseMapOptionData;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class EspressoBuildConfig {
+public class EspressoBuildConfig extends BaseMapOptionData<EspressoBuildConfig> {
     public static final String TOOLS_VERSION = "toolsVersions";
     public static final String ADDITIONAL_APP_DEPENDENCIES = "additionalAppDependencies";
     public static final String ADDITIONAL_ANDROID_TEST_DEPENDENCIES
             = "additionalAndroidTestDependencies";
 
-    private JsonObject json;
-
     public EspressoBuildConfig() {
-    }
-
-    public EspressoBuildConfig(JsonObject json) {
-        this.json = json;
+        super();
     }
 
     public EspressoBuildConfig(String json) {
-        this(JsonParser.parseString(json).getAsJsonObject());
+        super(json);
     }
 
     private EspressoBuildConfig assignToolsVersionsField(String name, Object value) {
-        if (json == null) {
-            json = new JsonObject();
-        }
-        boolean hasTools = json.has(TOOLS_VERSION);
-        JsonObject toolsVersions = hasTools
-                ? json.getAsJsonObject(TOOLS_VERSION)
-                : new JsonObject();
-        if (value instanceof Number) {
-            toolsVersions.addProperty(name, (Number) value);
-        } else {
-            toolsVersions.addProperty(name, String.valueOf(value));
-        }
-        if (!hasTools) {
-            json.add(TOOLS_VERSION, toolsVersions);
+        Optional<Map<String, Object>> toolsVersionsOptional = getOptionValue(TOOLS_VERSION);
+        Map<String, Object> toolsVersions = toolsVersionsOptional.orElseGet(HashMap::new);
+        toolsVersions.put(name, value);
+        if (!toolsVersionsOptional.isPresent()) {
+            assignOptionValue(TOOLS_VERSION, toolsVersions);
         }
         return this;
     }
 
     private <R> Optional<R> getToolsVersionsFieldValue(String name) {
+        Optional<Map<String, Object>> toolsVersionsOptional = getOptionValue(TOOLS_VERSION);
         //noinspection unchecked
-        return json == null || !json.has(TOOLS_VERSION)
-                ? Optional.empty()
-                : Optional.ofNullable((R) json.getAsJsonObject(TOOLS_VERSION).get(name));
+        return toolsVersionsOptional.map((v) -> (R) v.getOrDefault(name, null));
     }
 
     /**
@@ -167,7 +152,7 @@ public class EspressoBuildConfig {
      */
     public Optional<Integer> getMinSdkVersion() {
         Optional<Object> result = getToolsVersionsFieldValue("minSdk");
-        return result.map((v) -> Integer.parseInt(String.valueOf(v)));
+        return result.map(CapabilityHelpers::toInteger);
     }
 
     /**
@@ -188,7 +173,7 @@ public class EspressoBuildConfig {
      */
     public Optional<Integer> getTargetSdkVersion() {
         Optional<Object> result = getToolsVersionsFieldValue("targetSdk");
-        return result.map((v) -> Integer.parseInt(String.valueOf(v)));
+        return result.map(CapabilityHelpers::toInteger);
     }
 
     /**
@@ -211,35 +196,6 @@ public class EspressoBuildConfig {
         return getToolsVersionsFieldValue("kotlin");
     }
 
-    private EspressoBuildConfig assignDependenciesField(String name, List<String> value) {
-        if (json == null) {
-            json = new JsonObject();
-        }
-        boolean hasField = json.has(name);
-        JsonArray dependencies = hasField
-                ? json.getAsJsonArray(name)
-                : new JsonArray();
-        while (dependencies.size() > 0) {
-            dependencies.remove(0);
-        }
-        value.forEach(dependencies::add);
-        if (!hasField) {
-            json.add(name, dependencies);
-        }
-        return this;
-    }
-
-    private Optional<List<String>> getDependenciesValue(String name) {
-        return json == null
-                ? Optional.empty()
-                : Optional.ofNullable(json.getAsJsonArray(name))
-                    .map((v) -> {
-                        List<String> result = new ArrayList<>();
-                        v.forEach((x) -> result.add(String.valueOf(x)));
-                        return result;
-                    });
-    }
-
     /**
      * Set a non-empty array of dependent module names with their versions.
      * The scripts add all these items as "implementation" lines of dependencies
@@ -249,7 +205,7 @@ public class EspressoBuildConfig {
      * @return self instance for chaining.
      */
     public EspressoBuildConfig withAdditionalAppDependencies(List<String> dependencies) {
-        return assignDependenciesField(ADDITIONAL_APP_DEPENDENCIES, dependencies);
+        return assignOptionValue(ADDITIONAL_APP_DEPENDENCIES, dependencies);
     }
 
     /**
@@ -258,7 +214,7 @@ public class EspressoBuildConfig {
      * @return Dependent module names with their versions.
      */
     public Optional<List<String>> getAdditionalAppDependencies() {
-        return getDependenciesValue(ADDITIONAL_APP_DEPENDENCIES);
+        return getOptionValue(ADDITIONAL_APP_DEPENDENCIES);
     }
 
     /**
@@ -270,7 +226,7 @@ public class EspressoBuildConfig {
      * @return self instance for chaining.
      */
     public EspressoBuildConfig withAdditionalAndroidTestDependencies(List<String> dependencies) {
-        return assignDependenciesField(ADDITIONAL_ANDROID_TEST_DEPENDENCIES, dependencies);
+        return assignOptionValue(ADDITIONAL_ANDROID_TEST_DEPENDENCIES, dependencies);
     }
 
     /**
@@ -279,15 +235,6 @@ public class EspressoBuildConfig {
      * @return Dependent module names with their versions.
      */
     public Optional<List<String>> getAdditionalAndroidTestDependencies() {
-        return getDependenciesValue(ADDITIONAL_ANDROID_TEST_DEPENDENCIES);
-    }
-
-    public JsonObject toJson() {
-        return Optional.ofNullable(json).orElseGet(JsonObject::new);
-    }
-
-    @Override
-    public String toString() {
-        return toJson().toString();
+        return getOptionValue(ADDITIONAL_ANDROID_TEST_DEPENDENCIES);
     }
 }

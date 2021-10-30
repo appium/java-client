@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android.options.app;
 
+import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.options.BaseMapOptionData;
 
 import java.util.Map;
@@ -48,6 +49,6 @@ public class ActivityOptions extends BaseMapOptionData<ActivityOptions> {
      */
     public Optional<Integer> getLaunchDisplayId() {
         Optional<Object> result = getOptionValue("launchDisplayId");
-        return result.map((v) -> Integer.parseInt(String.valueOf(v)));
+        return result.map(CapabilityHelpers::toInteger);
     }
 }

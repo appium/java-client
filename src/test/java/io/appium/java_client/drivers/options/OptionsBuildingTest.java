@@ -47,8 +47,8 @@ public class OptionsBuildingTest {
     @Test
     public void canBuildXcuiTestOptions() throws MalformedURLException {
         XCUITestOptions options = new XCUITestOptions();
-        assertEquals(options.getPlatformName(), Platform.IOS);
-        assertEquals(options.getAutomationName().orElse(null), AutomationName.IOS_XCUI_TEST);
+        assertEquals(Platform.IOS, options.getPlatformName());
+        assertEquals(AutomationName.IOS_XCUI_TEST, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .noReset()
                 .setWdaBaseUrl("http://localhost:8000")
@@ -58,8 +58,8 @@ public class OptionsBuildingTest {
                 .setSafariSocketChunkSize(10)
                 .setCommandTimeouts(new CommandTimeouts()
                         .withCommandTimeout("yolo", Duration.ofSeconds(1)));
-        assertEquals(options.getNewCommandTimeout().orElse(null), Duration.ofSeconds(10));
-        assertEquals(options.getWdaBaseUrl().orElse(null), new URL("http://localhost:8000"));
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertEquals(new URL("http://localhost:8000"), options.getWdaBaseUrl().orElse(null));
         assertNotNull(options.getPermissions()
                 .map((v) -> v.getAppPermissions("com.apple.MobileSafari"))
                 .orElse(null));
@@ -71,27 +71,27 @@ public class OptionsBuildingTest {
     @Test
     public void canBuildUiAutomator2Options() throws MalformedURLException {
         UiAutomator2Options options = new UiAutomator2Options();
-        assertEquals(options.getPlatformName(), Platform.ANDROID);
-        assertEquals(options.getAutomationName().orElse(null), AutomationName.ANDROID_UIAUTOMATOR2);
+        assertEquals(Platform.ANDROID, options.getPlatformName());
+        assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .noReset()
                 .setAdbExecTimeout(Duration.ofSeconds(3))
                 .suppressKillServer()
                 .setMjpegScreenshotUrl(new URL("http://yolo.com"))
                 .setKeystoreConfig(new KeystoreConfig("path", "password", "keyAlias", "keyPassword"));
-        assertEquals(options.getNewCommandTimeout().orElse(null), Duration.ofSeconds(10));
-        assertEquals(options.getAdbExecTimeout().orElse(null), Duration.ofSeconds(3));
-        assertEquals(options.getMjpegScreenshotUrl().orElse(null), new URL("http://yolo.com"));
-        assertEquals(options.getKeystoreConfig().orElse(null).getPath(), "path");
-        assertEquals(options.getKeystoreConfig().orElse(null).getKeyAlias(), "keyAlias");
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertEquals(Duration.ofSeconds(3), options.getAdbExecTimeout().orElse(null));
+        assertEquals(new URL("http://yolo.com"), options.getMjpegScreenshotUrl().orElse(null));
+        assertEquals("path", options.getKeystoreConfig().orElse(null).getPath());
+        assertEquals("keyAlias", options.getKeystoreConfig().orElse(null).getKeyAlias());
         assertTrue(options.doesSuppressKillServer().orElse(false));
     }
 
     @Test
     public void canBuildEspressoOptions() {
         EspressoOptions options = new EspressoOptions();
-        assertEquals(options.getPlatformName(), Platform.ANDROID);
-        assertEquals(options.getAutomationName().orElse(null), AutomationName.ESPRESSO);
+        assertEquals(Platform.ANDROID, options.getPlatformName());
+        assertEquals(AutomationName.ESPRESSO, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .forceEspressoRebuild()
                 .setAppLocale(new AppLocale()
@@ -104,42 +104,42 @@ public class OptionsBuildingTest {
                                 "com.dep2:1.2.3"
                         ))
                 );
-        assertEquals(options.getNewCommandTimeout().orElse(null), Duration.ofSeconds(10));
-        assertEquals(options.getAppLocale().orElse(null).getCountry().orElse(null), "CN");
-        assertEquals(options.getEspressoBuildConfig().orElse(null)
-                        .left().getAdditionalAppDependencies().orElse(null).size(), 2);
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertEquals("CN", options.getAppLocale().orElse(null).getCountry().orElse(null));
+        assertEquals(2, options.getEspressoBuildConfig().orElse(null)
+                        .left().getAdditionalAppDependencies().orElse(null).size());
         assertTrue(options.doesForceEspressoRebuild().orElse(false));
     }
 
     @Test
     public void canBuildWindowsOptions() {
         WindowsOptions options = new WindowsOptions();
-        assertEquals(options.getPlatformName(), Platform.WINDOWS);
-        assertEquals(options.getAutomationName().orElse(null), AutomationName.WINDOWS);
+        assertEquals(Platform.WINDOWS, options.getPlatformName());
+        assertEquals(AutomationName.WINDOWS, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .setPrerun(new RunScript()
                         .withScript("yolo prescript"))
                 .setPostrun(new RunScript()
                         .withCommand("yolo command"));
-        assertEquals(options.getNewCommandTimeout().orElse(null), Duration.ofSeconds(10));
-        assertEquals(options.getPrerun().orElse(null).getScript().orElse(null), "yolo prescript");
-        assertEquals(options.getPostrun().orElse(null).getCommand().orElse(null), "yolo command");
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertEquals("yolo prescript", options.getPrerun().orElse(null).getScript().orElse(null));
+        assertEquals("yolo command", options.getPostrun().orElse(null).getCommand().orElse(null));
     }
 
     @Test
     public void canBuildMac2Options() {
         Mac2Options options = new Mac2Options();
-        assertEquals(options.getPlatformName(), Platform.MAC);
-        assertEquals(options.getAutomationName().orElse(null), AutomationName.MAC2);
+        assertEquals(Platform.MAC, options.getPlatformName());
+        assertEquals(AutomationName.MAC2, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .skipAppKill()
                 .setPrerun(new io.appium.java_client.mac.options.RunScript()
                         .withScript("yolo prescript"))
                 .setPostrun(new io.appium.java_client.mac.options.RunScript()
                         .withCommand("yolo command"));
-        assertEquals(options.getNewCommandTimeout().orElse(null), Duration.ofSeconds(10));
-        assertEquals(options.getPrerun().orElse(null).getScript().orElse(null), "yolo prescript");
-        assertEquals(options.getPostrun().orElse(null).getCommand().orElse(null), "yolo command");
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertEquals("yolo prescript", options.getPrerun().orElse(null).getScript().orElse(null));
+        assertEquals("yolo command", options.getPostrun().orElse(null).getCommand().orElse(null));
         assertTrue(options.doesSkipAppKill().orElse(false));
         assertFalse(options.doesEventTimings().isPresent());
     }
