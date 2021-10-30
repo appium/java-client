@@ -14,56 +14,60 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.mac.options;
+package io.appium.java_client.windows.options;
 
-import io.appium.java_client.remote.options.BaseMapOptionData;
+import io.appium.java_client.remote.options.RunScript;
 
 import java.util.Map;
 import java.util.Optional;
 
-public class RunScript extends BaseMapOptionData<RunScript> {
-    public RunScript() {
+public class PowerShellData extends RunScript<PowerShellData> {
+    public PowerShellData() {
     }
 
-    public RunScript(Map<String, Object> options) {
+    public PowerShellData(Map<String, Object> options) {
         super(options);
     }
 
     /**
-     * Allows to provide a multiline AppleScript.
+     * Allows to provide a multiline PowerShell script.
      *
-     * @param script A valid AppleScript.
+     * @param script A valid PowerShell script.
      * @return self instance for chaining.
      */
-    public RunScript withScript(String script) {
-        return assignOptionValue("script", script);
+    @Override
+    public PowerShellData withScript(String script) {
+        return super.withScript(script);
     }
 
     /**
-     * Get a multiline AppleScript.
+     * Get a multiline PowerShell script.
      *
-     * @return AppleScript snippet.
+     * @return PowerShell script.
      */
+    @Override
     public Optional<String> getScript() {
-        return getOptionValue("script");
+        return super.getScript();
     }
 
     /**
-     * Allows to provide a single-line AppleScript.
+     * Allows to provide a single-line PowerShell script.
      *
-     * @param command A valid AppleScript.
+     * @param command A valid PowerShell script.
      * @return self instance for chaining.
      */
-    public RunScript withCommand(String command) {
-        return assignOptionValue("command", command);
+    @Override
+    public PowerShellData withCommand(String command) {
+        return super.withCommand(command);
     }
 
     /**
-     * Get a single-line AppleScript.
+     * Get a single-line PowerShell script.
      *
-     * @return AppleScript snippet.
+     * @return PowerShell script.
      */
+    @Override
     public Optional<String> getCommand() {
-        return getOptionValue("command");
+        return super.getCommand();
     }
 }

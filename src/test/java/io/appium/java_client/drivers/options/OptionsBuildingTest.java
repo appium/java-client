@@ -26,9 +26,10 @@ import io.appium.java_client.android.options.signing.KeystoreConfig;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.ios.options.other.CommandTimeouts;
 import io.appium.java_client.ios.options.simulator.Permissions;
+import io.appium.java_client.mac.options.AppleScriptData;
 import io.appium.java_client.mac.options.Mac2Options;
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.windows.options.RunScript;
+import io.appium.java_client.windows.options.PowerShellData;
 import io.appium.java_client.windows.options.WindowsOptions;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
@@ -117,10 +118,8 @@ public class OptionsBuildingTest {
         assertEquals(Platform.WINDOWS, options.getPlatformName());
         assertEquals(AutomationName.WINDOWS, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
-                .setPrerun(new RunScript()
-                        .withScript("yolo prescript"))
-                .setPostrun(new RunScript()
-                        .withCommand("yolo command"));
+                .setPrerun(new PowerShellData().withScript("yolo prescript"))
+                .setPostrun(new PowerShellData().withCommand("yolo command"));
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("yolo prescript", options.getPrerun().orElse(null).getScript().orElse(null));
         assertEquals("yolo command", options.getPostrun().orElse(null).getCommand().orElse(null));
@@ -133,10 +132,8 @@ public class OptionsBuildingTest {
         assertEquals(AutomationName.MAC2, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .skipAppKill()
-                .setPrerun(new io.appium.java_client.mac.options.RunScript()
-                        .withScript("yolo prescript"))
-                .setPostrun(new io.appium.java_client.mac.options.RunScript()
-                        .withCommand("yolo command"));
+                .setPrerun(new AppleScriptData().withScript("yolo prescript"))
+                .setPostrun(new AppleScriptData().withCommand("yolo command"));
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("yolo prescript", options.getPrerun().orElse(null).getScript().orElse(null));
         assertEquals("yolo command", options.getPostrun().orElse(null).getCommand().orElse(null));
