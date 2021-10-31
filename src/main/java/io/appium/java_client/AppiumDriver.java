@@ -83,44 +83,44 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
-    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+    public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-                desiredCapabilities);
+                capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-                        Capabilities desiredCapabilities) {
+                        Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-                httpClientFactory), desiredCapabilities);
+                httpClientFactory), capabilities);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-                desiredCapabilities);
+                capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-                        Capabilities desiredCapabilities) {
+                        Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-                desiredCapabilities);
+                capabilities);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        this(builder.build(), desiredCapabilities);
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
+        this(builder.build(), capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                        Capabilities desiredCapabilities) {
-        this(builder.build(), httpClientFactory, desiredCapabilities);
+                        Capabilities capabilities) {
+        this(builder.build(), httpClientFactory, capabilities);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-                desiredCapabilities);
+                capabilities);
     }
 
-    public AppiumDriver(Capabilities desiredCapabilities) {
-        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+    public AppiumDriver(Capabilities capabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), capabilities);
     }
 
     /**
