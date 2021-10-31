@@ -24,6 +24,7 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -33,42 +34,43 @@ public class WindowsDriver extends AppiumDriver implements
         PressesKeyCode,
         HidesKeyboardWithKeyName,
         CanRecordScreen {
+    private static final String PLATFORM_NAME = Platform.WINDOWS.name();
 
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, updateDefaultPlatformName(capabilities, WINDOWS));
+        super(executor, ensurePlatformName(capabilities, WINDOWS));
     }
 
-    public WindowsDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+    public WindowsDriver(URL remoteAddress, Capabilities capabilities) {
+        super(remoteAddress, ensurePlatformName(capabilities, WINDOWS));
     }
 
-    public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(remoteAddress, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+    public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
     }
 
-    public WindowsDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+    public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities) {
+        super(service, ensurePlatformName(capabilities, WINDOWS));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-                         Capabilities desiredCapabilities) {
-        super(service, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+                         Capabilities capabilities) {
+        super(service, httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
     }
 
-    public WindowsDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+    public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
+        super(builder, ensurePlatformName(capabilities, WINDOWS));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                         Capabilities desiredCapabilities) {
-        super(builder, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+                         Capabilities capabilities) {
+        super(builder, httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
     }
 
-    public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+    public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+        super(httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
     }
 
-    public WindowsDriver(Capabilities desiredCapabilities) {
-        super(updateDefaultPlatformName(desiredCapabilities, WINDOWS));
+    public WindowsDriver(Capabilities capabilities) {
+        super(ensurePlatformName(capabilities, WINDOWS));
     }
 }
