@@ -48,6 +48,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      *                    touch actions to perform
      * @return the same touch action object
      */
+    @Deprecated
     default TouchAction performTouchAction(TouchAction touchAction) {
         Map<String, List<Object>> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
@@ -65,6 +66,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      *
      * @param multiAction the MultiTouchAction object to perform.
      */
+    @Deprecated
     default MultiTouchAction performMultiTouchAction(MultiTouchAction multiAction) {
         Map<String, List<Object>> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
