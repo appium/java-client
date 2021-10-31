@@ -16,10 +16,9 @@
 
 package io.appium.java_client.windows;
 
-import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HidesKeyboardWithKeyName;
+import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -35,42 +34,48 @@ public class WindowsDriver extends AppiumDriver implements
         HidesKeyboardWithKeyName,
         CanRecordScreen {
     private static final String PLATFORM_NAME = Platform.WINDOWS.name();
+    private static final String AUTOMATION_NAME = AutomationName.WINDOWS;
 
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, ensurePlatformName(capabilities, WINDOWS));
+        super(executor, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(URL remoteAddress, Capabilities capabilities) {
-        super(remoteAddress, ensurePlatformName(capabilities, WINDOWS));
+        super(remoteAddress, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
+        super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        super(service, ensurePlatformName(capabilities, WINDOWS));
+        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities) {
-        super(service, httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
+        super(service, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        super(builder, ensurePlatformName(capabilities, WINDOWS));
+        super(builder, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities) {
-        super(builder, httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
+        super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(httpClientFactory, ensurePlatformName(capabilities, WINDOWS));
+        super(httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(Capabilities capabilities) {
-        super(ensurePlatformName(capabilities, WINDOWS));
+        super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 }
