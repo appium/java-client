@@ -18,21 +18,16 @@ package io.appium.java_client.mac;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-
-import static io.appium.java_client.remote.MobilePlatform.MAC;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 /**
  * Mac2Driver is an officially supported Appium driver
@@ -46,53 +41,50 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 public class Mac2Driver extends AppiumDriver implements
         PerformsTouchActions,
         CanRecordScreen {
+    private static final String PLATFORM_NAME = Platform.MAC.name();
+    private static final String AUTOMATION_NAME = AutomationName.MAC2;
+
     public Mac2Driver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, prepareCaps(capabilities));
+        super(executor, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, prepareCaps(desiredCapabilities));
+    public Mac2Driver(URL remoteAddress, Capabilities capabilities) {
+        super(remoteAddress, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(remoteAddress, httpClientFactory, prepareCaps(desiredCapabilities));
+    public Mac2Driver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+        super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, prepareCaps(desiredCapabilities));
+    public Mac2Driver(AppiumDriverLocalService service, Capabilities capabilities) {
+        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-                      Capabilities desiredCapabilities) {
-        super(service, httpClientFactory, prepareCaps(desiredCapabilities));
+                      Capabilities capabilities) {
+        super(service, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, prepareCaps(desiredCapabilities));
+    public Mac2Driver(AppiumServiceBuilder builder, Capabilities capabilities) {
+        super(builder, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                      Capabilities desiredCapabilities) {
-        super(builder, httpClientFactory, prepareCaps(desiredCapabilities));
+                      Capabilities capabilities) {
+        super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, prepareCaps(desiredCapabilities));
+    public Mac2Driver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+        super(httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(Capabilities desiredCapabilities) {
-        super(prepareCaps(desiredCapabilities));
-    }
-
-    private static Capabilities prepareCaps(Capabilities originalCaps) {
-        String automationName = CapabilityHelpers.getCapability(originalCaps,
-                MobileCapabilityType.AUTOMATION_NAME, String.class);
-        return (originalCaps.getCapability(PLATFORM_NAME) == null
-                || !AutomationName.MAC2.equalsIgnoreCase(automationName))
-                ? originalCaps.merge(new ImmutableCapabilities(
-                        PLATFORM_NAME, MAC,
-                        MobileCapabilityType.AUTOMATION_NAME, AutomationName.MAC2
-                ))
-                : originalCaps;
+    public Mac2Driver(Capabilities capabilities) {
+        super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 }
