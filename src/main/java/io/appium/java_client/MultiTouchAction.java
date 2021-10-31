@@ -41,7 +41,17 @@ import java.util.Map;
  * "execution group", so these can be used to sync up complex actions.
  * Calling perform() sends the action command to the Mobile Driver. Otherwise, more and
  * more actions can be chained.
+ *
+ * @deprecated Touch actions are deprecated.
+ *     Please use W3C Actions instead or the corresponding
+ *     extension methods for the driver (if available).
+ *     Check
+ *     - https://www.youtube.com/watch?v=oAJ7jwMNFVU
+ *     - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
+ *     - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
+ *     for more details.
  */
+@Deprecated
 public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
 
     private ImmutableList.Builder<TouchAction> actions;

@@ -23,14 +23,14 @@ import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
 
 /**
- * Touch actions are deprecated.
- * Please use W3C Actions instead or the corresponding
- * extension methods for the driver (if available).
- * Check
- * - https://www.youtube.com/watch?v=oAJ7jwMNFVU
- * - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
- * - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
- * for more details.
+ * @deprecated Touch actions are deprecated.
+ *     Please use W3C Actions instead or the corresponding
+ *     extension methods for the driver (if available).
+ *     Check
+ *     - https://www.youtube.com/watch?v=oAJ7jwMNFVU
+ *     - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
+ *     - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
+ *     for more details.
  */
 @Deprecated
 public class IOSTouchAction extends TouchAction<IOSTouchAction> {
