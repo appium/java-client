@@ -54,7 +54,6 @@ import java.util.Map;
 
 /**
  * iOS driver implementation.
- *
  */
 public class IOSDriver extends AppiumDriver implements
         SupportsContextSwitching,

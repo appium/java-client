@@ -17,6 +17,7 @@
 package io.appium.java_client.mac;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -43,6 +44,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
  * @since Appium 1.20.0
  */
 public class Mac2Driver extends AppiumDriver implements
+        PerformsTouchActions,
         CanRecordScreen {
     public Mac2Driver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, prepareCaps(capabilities));

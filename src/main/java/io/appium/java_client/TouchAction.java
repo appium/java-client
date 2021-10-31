@@ -42,7 +42,17 @@ import java.util.Map;
  * action.press(element).waitAction(300).moveTo(element1).release().perform();
  * Calling perform() sends the action command to the Mobile Driver. Otherwise,
  * more and more actions can be chained.
+ *
+ * Touch actions are deprecated.
+ * Please use W3C Actions instead or the corresponding
+ * extension methods for the driver (if available).
+ * Check
+ * - https://www.youtube.com/watch?v=oAJ7jwMNFVU
+ * - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
+ * - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
+ * for more details.
  */
+@Deprecated
 public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T> {
 
     protected ImmutableList.Builder<ActionParameter> parameterBuilder;
