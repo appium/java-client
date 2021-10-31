@@ -17,8 +17,10 @@
 package io.appium.java_client.windows;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.HidesKeyboardWithKeyName;
+import io.appium.java_client.MobileCommand;
 import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.PullsFiles;
+import io.appium.java_client.PushesFiles;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -32,8 +34,8 @@ import java.net.URL;
 
 public class WindowsDriver extends AppiumDriver implements
         PerformsTouchActions,
-        PressesKeyCode,
-        HidesKeyboardWithKeyName,
+        PullsFiles,
+        PushesFiles,
         CanRecordScreen {
     private static final String PLATFORM_NAME = Platform.WINDOWS.name();
     private static final String AUTOMATION_NAME = AutomationName.WINDOWS;
@@ -79,5 +81,19 @@ public class WindowsDriver extends AppiumDriver implements
 
     public WindowsDriver(Capabilities capabilities) {
         super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+
+    /**
+     * Launch the application app under test after it was closed.
+     */
+    public void launchApp() {
+        execute(MobileCommand.LAUNCH_APP);
+    }
+
+    /**
+     * Close the app under test.
+     */
+    public void closeApp() {
+        execute(MobileCommand.CLOSE_APP);
     }
 }

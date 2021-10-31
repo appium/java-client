@@ -17,13 +17,10 @@
 package io.appium.java_client;
 
 import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
-import static io.appium.java_client.MobileCommand.CLOSE_APP;
 import static io.appium.java_client.MobileCommand.INSTALL_APP;
 import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.LAUNCH_APP;
 import static io.appium.java_client.MobileCommand.QUERY_APP_STATE;
 import static io.appium.java_client.MobileCommand.REMOVE_APP;
-import static io.appium.java_client.MobileCommand.RESET;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 import static io.appium.java_client.MobileCommand.prepareArguments;
@@ -40,15 +37,8 @@ import java.time.Duration;
 import java.util.AbstractMap;
 import javax.annotation.Nullable;
 
+@SuppressWarnings("rawtypes")
 public interface InteractsWithApps extends ExecutesMethod {
-
-    /**
-     * Launches the app, which was provided in the capabilities at session creation,
-     * and (re)starts the session.
-     */
-    default void launchApp() {
-        execute(LAUNCH_APP);
-    }
 
     /**
      * Install an app on the mobile device.
@@ -63,7 +53,7 @@ public interface InteractsWithApps extends ExecutesMethod {
      * Install an app on the mobile device.
      *
      * @param appPath path to app to install or a remote URL.
-     * @param options Set of the corresponding instllation options for
+     * @param options Set of the corresponding installation options for
      *                the particular platform.
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
@@ -84,13 +74,6 @@ public interface InteractsWithApps extends ExecutesMethod {
     default boolean isAppInstalled(String bundleId) {
         return CommandExecutionHelper.execute(this,
                 new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, prepareArguments("bundleId", bundleId)));
-    }
-
-    /**
-     * Resets the currently running app together with the session.
-     */
-    default void resetApp() {
-        execute(RESET);
     }
 
     /**
@@ -130,14 +113,6 @@ public interface InteractsWithApps extends ExecutesMethod {
                 new Object[]{bundleId, options.build()};
         return CommandExecutionHelper.execute(this,
                 new AbstractMap.SimpleEntry<>(REMOVE_APP, prepareArguments(parameters, values)));
-    }
-
-    /**
-     * Close the app which was provided in the capabilities at session creation
-     * and quits the session.
-     */
-    default void closeApp() {
-        execute(CLOSE_APP);
     }
 
     /**

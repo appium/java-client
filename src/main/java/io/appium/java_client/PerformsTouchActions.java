@@ -65,6 +65,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * is called.
      *
      * @param multiAction the MultiTouchAction object to perform.
+     * @return MultiTouchAction instance for chaining.
      */
     @Deprecated
     default MultiTouchAction performMultiTouchAction(MultiTouchAction multiAction) {

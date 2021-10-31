@@ -31,9 +31,11 @@ import io.appium.java_client.HasDeviceTime;
 import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.InteractsWithFiles;
+import io.appium.java_client.PullsFiles;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.PushesFiles;
+import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.android.geolocation.SupportsExtendedGeolocationCommands;
 import io.appium.java_client.android.nativekey.PressesKey;
@@ -66,8 +68,9 @@ public class AndroidDriver extends AppiumDriver implements
         PerformsTouchActions,
         HidesKeyboard,
         HasDeviceTime,
-        InteractsWithFiles,
+        PullsFiles,
         InteractsWithApps,
+        SupportsLegacyAppManagement,
         HasAppStrings,
         HasNetworkConnection,
         PushesFiles,
