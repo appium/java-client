@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios;
+package io.appium.java_client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.pushFileCommand;
 
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecutesMethod;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 

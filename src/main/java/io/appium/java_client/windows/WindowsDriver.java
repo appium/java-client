@@ -20,7 +20,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.PullsFiles;
-import io.appium.java_client.ios.PushesFiles;
+import io.appium.java_client.PushesFiles;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;

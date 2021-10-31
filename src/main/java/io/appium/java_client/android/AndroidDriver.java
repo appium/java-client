@@ -34,6 +34,7 @@ import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.PullsFiles;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.PushesFiles;
 import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.android.geolocation.SupportsExtendedGeolocationCommands;
