@@ -18,6 +18,7 @@ package io.appium.java_client.windows;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HidesKeyboardWithKeyName;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -30,6 +31,7 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 
 public class WindowsDriver extends AppiumDriver implements
+        PerformsTouchActions,
         PressesKeyCode,
         HidesKeyboardWithKeyName,
         CanRecordScreen {
