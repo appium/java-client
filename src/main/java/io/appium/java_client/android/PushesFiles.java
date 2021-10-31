@@ -21,14 +21,14 @@ import static io.appium.java_client.MobileCommand.pushFileCommand;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.InteractsWithFiles;
+import io.appium.java_client.PullsFiles;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 
-public interface PushesFiles extends InteractsWithFiles, ExecutesMethod {
+public interface PushesFiles extends PullsFiles, ExecutesMethod {
 
     /**
      * Saves base64 encoded data as a file on the remote mobile device.

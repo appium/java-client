@@ -30,13 +30,7 @@ import java.io.IOException;
 public interface PushesFiles extends ExecutesMethod {
 
     /**
-     * Saves base64 encoded data as a media file on the remote mobile device.
-     * The server should have ifuse
-     * libraries installed and configured properly for this feature to work
-     * on real devices.
-     *
-     * @see <a href="https://github.com/libimobiledevice/ifuse">iFuse GitHub page</a>
-     * @see <a href="https://github.com/osxfuse/osxfuse/wiki/FAQ">osxFuse FAQ</a>
+     * Saves base64 encoded data as a media file on the remote system.
      *
      * @param remotePath Path to file to write data to on remote device
      *                   Only the filename part matters there on Simulator, so the remote end
@@ -53,13 +47,7 @@ public interface PushesFiles extends ExecutesMethod {
     }
 
     /**
-     * Saves base64 encoded data as a media file on the remote mobile device.
-     * The server should have ifuse
-     * libraries installed and configured properly for this feature to work
-     * on real devices.
-     *
-     * @see <a href="https://github.com/libimobiledevice/ifuse">iFuse GitHub page</a>
-     * @see <a href="https://github.com/osxfuse/osxfuse/wiki/FAQ">osxFuse FAQ</a>
+     * Saves base64 encoded data as a media file on the remote system.
      *
      * @param remotePath See the documentation on {@link #pushFile(String, byte[])}
      * @param file Is an existing local file to be written to the remote device
@@ -68,7 +56,8 @@ public interface PushesFiles extends ExecutesMethod {
     default void pushFile(String remotePath, File file) throws IOException {
         checkNotNull(file, "A reference to file should not be NULL");
         if (!file.exists()) {
-            throw new IOException(String.format("The given file %s doesn't exist", file.getAbsolutePath()));
+            throw new IOException(String.format("The given file %s doesn't exist",
+                    file.getAbsolutePath()));
         }
         pushFile(remotePath, Base64.encodeBase64(FileUtils.readFileToByteArray(file)));
     }

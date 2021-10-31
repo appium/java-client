@@ -47,8 +47,8 @@ public class MobileCommand {
     public static final String RUN_APP_IN_BACKGROUND;
     protected static final String PERFORM_TOUCH_ACTION;
     protected static final String PERFORM_MULTI_TOUCH;
-    protected static final String LAUNCH_APP;
-    protected static final String CLOSE_APP;
+    public static final String LAUNCH_APP;
+    public static final String CLOSE_APP;
     protected static final String GET_DEVICE_TIME;
     protected static final String GET_SESSION;
     protected static final String LOG_EVENT;

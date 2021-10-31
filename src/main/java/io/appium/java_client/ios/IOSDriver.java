@@ -28,9 +28,10 @@ import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.InteractsWithFiles;
+import io.appium.java_client.PullsFiles;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.remote.SupportsLocation;
@@ -61,8 +62,9 @@ public class IOSDriver extends AppiumDriver implements
         SupportsLocation,
         HidesKeyboard,
         HasDeviceTime,
-        InteractsWithFiles,
+        PullsFiles,
         InteractsWithApps,
+        SupportsLegacyAppManagement,
         HasAppStrings,
         PerformsTouchActions,
         HidesKeyboardWithKeyName,
