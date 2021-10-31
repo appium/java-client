@@ -22,7 +22,7 @@ public final class FailsWithMatcher<E extends Throwable> extends TypeSafeMatcher
 
     public static <E extends Throwable> Matcher<Runnable> failsWith(
             final Class<E> throwableType, final Matcher<? super E> throwableMatcher) {
-        return new FailsWithMatcher<>(allOf(instanceOf(throwableType), throwableMatcher));
+        return new FailsWithMatcher<E>(allOf(instanceOf(throwableType), throwableMatcher));
     }
 
     @Override

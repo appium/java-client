@@ -50,7 +50,7 @@ public interface SupportsEspressoBuildConfigOption<T extends BaseOptions<T>> ext
      * @return self instance for chaining.
      */
     default T setEspressoBuildConfig(EspressoBuildConfig config) {
-        return amend(ESPRESSO_BUILD_CONFIG_OPTION, config.toJson().toString());
+        return amend(ESPRESSO_BUILD_CONFIG_OPTION, config.toString());
     }
 
     /**

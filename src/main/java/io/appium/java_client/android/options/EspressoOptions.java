@@ -75,6 +75,7 @@ import io.appium.java_client.android.options.locking.SupportsUnlockTypeOption;
 import io.appium.java_client.android.options.mjpeg.SupportsMjpegScreenshotUrlOption;
 import io.appium.java_client.android.options.mjpeg.SupportsMjpegServerPortOption;
 import io.appium.java_client.android.options.other.SupportsDisableSuppressAccessibilityServiceOption;
+import io.appium.java_client.android.options.server.SupportsEspressoBuildConfigOption;
 import io.appium.java_client.android.options.server.SupportsEspressoServerLaunchTimeoutOption;
 import io.appium.java_client.android.options.server.SupportsForceEspressoRebuildOption;
 import io.appium.java_client.android.options.server.SupportsShowGradleLogOption;
@@ -113,6 +114,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsForceEspressoRebuildOption<EspressoOptions>,
         SupportsShowGradleLogOption<EspressoOptions>,
         SupportsOrientationOption<EspressoOptions>,
+        SupportsEspressoBuildConfigOption<EspressoOptions>,
         // App options: https://github.com/appium/appium-uiautomator2-driver#app
         SupportsAppOption<EspressoOptions>,
         SupportsAppPackageOption<EspressoOptions>,

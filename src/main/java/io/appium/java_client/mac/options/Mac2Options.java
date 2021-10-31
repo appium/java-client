@@ -19,9 +19,12 @@ package io.appium.java_client.mac.options;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.SupportsPostrunOption;
+import io.appium.java_client.remote.options.SupportsPrerunOption;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * https://github.com/appium/appium-mac2-driver#capabilities
@@ -37,8 +40,8 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
         SupportsServerStartupTimeoutOption<Mac2Options>,
         SupportsSkipAppKillOption<Mac2Options>,
         SupportsShowServerLogsOption<Mac2Options>,
-        SupportsPrerunOption<Mac2Options>,
-        SupportsPostrunOption<Mac2Options> {
+        SupportsPrerunOption<Mac2Options, AppleScriptData>,
+        SupportsPostrunOption<Mac2Options, AppleScriptData> {
     public Mac2Options() {
         setCommonOptions();
     }
@@ -56,5 +59,55 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
     private void setCommonOptions() {
         setPlatformName(MobilePlatform.MAC);
         setAutomationName(AutomationName.MAC2);
+    }
+
+    /**
+     * An object containing either script or command key. The value of
+     * each key must be a valid AppleScript script or command to be
+     * executed after before Mac2Driver session is started. See
+     * https://github.com/appium/appium-mac2-driver#applescript-commands-execution
+     * for more details.
+     *
+     * @param script A valid AppleScript snippet.
+     * @return self instance for chaining.
+     */
+    public Mac2Options setPrerun(AppleScriptData script) {
+        return amend(PRERUN_OPTION, script.toMap());
+    }
+
+    /**
+     * Get the prerun script.
+     *
+     * @return Prerun script.
+     */
+    public Optional<AppleScriptData> getPrerun() {
+        //noinspection unchecked
+        return Optional.ofNullable(getCapability(PRERUN_OPTION))
+                .map((v) -> new AppleScriptData((Map<String, Object>) v));
+    }
+
+    /**
+     * An object containing either script or command key. The value of
+     * each key must be a valid AppleScript script or command to be
+     * executed after Mac2Driver session is stopped. See
+     * https://github.com/appium/appium-mac2-driver#applescript-commands-execution
+     * for more details.
+     *
+     * @param script A valid AppleScript snippet.
+     * @return self instance for chaining.
+     */
+    public Mac2Options setPostrun(AppleScriptData script) {
+        return amend(POSTRUN_OPTION, script.toMap());
+    }
+
+    /**
+     * Get the postrun script.
+     *
+     * @return Postrun script.
+     */
+    public Optional<AppleScriptData> getPostrun() {
+        //noinspection unchecked
+        return Optional.ofNullable(getCapability(POSTRUN_OPTION))
+                .map((v) -> new AppleScriptData((Map<String, Object>) v));
     }
 }

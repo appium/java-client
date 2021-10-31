@@ -14,55 +14,31 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.windows.options;
-
-import io.appium.java_client.remote.options.BaseMapOptionData;
+package io.appium.java_client.remote.options;
 
 import java.util.Map;
 import java.util.Optional;
 
-public class RunScript extends BaseMapOptionData<RunScript> {
-    public RunScript() {
+public abstract class SystemScript<T extends SystemScript<T>> extends BaseMapOptionData<T> {
+    public SystemScript() {
     }
 
-    public RunScript(Map<String, Object> options) {
+    public SystemScript(Map<String, Object> options) {
         super(options);
     }
 
-    /**
-     * Allows to provide a multiline PowerShell script.
-     *
-     * @param script A valid PowerShell script.
-     * @return self instance for chaining.
-     */
-    public RunScript withScript(String script) {
+    public T withScript(String script) {
         return assignOptionValue("script", script);
     }
 
-    /**
-     * Get a multiline PowerShell script.
-     *
-     * @return PowerShell script.
-     */
     public Optional<String> getScript() {
         return getOptionValue("script");
     }
 
-    /**
-     * Allows to provide a single-line PowerShell script.
-     *
-     * @param command A valid PowerShell script.
-     * @return self instance for chaining.
-     */
-    public RunScript withCommand(String command) {
+    public T withCommand(String command) {
         return assignOptionValue("command", command);
     }
 
-    /**
-     * Get a single-line PowerShell script.
-     *
-     * @return PowerShell script.
-     */
     public Optional<String> getCommand() {
         return getOptionValue("command");
     }

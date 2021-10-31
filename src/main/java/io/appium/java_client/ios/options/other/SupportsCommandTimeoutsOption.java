@@ -16,13 +16,15 @@
 
 package io.appium.java_client.ios.options.other;
 
-import com.google.gson.JsonObject;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.internal.Either;
 
 import java.time.Duration;
 import java.util.Optional;
+
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
@@ -31,33 +33,19 @@ public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
     /**
      * Custom timeout(s) in milliseconds for WDA backend commands execution.
      * This might be useful if WDA backend freezes unexpectedly or requires too
-     * much time to fail and blocks automated test execution. The value is expected
-     * to be of type string and can either contain max milliseconds to wait for
-     * each WDA command to be executed before terminating the session forcefully
-     * or a valid JSON string, where keys are internal Appium command names (you
-     * can find these in logs, look for "Executing command 'command_name'" records)
-     * and values are timeouts in milliseconds. You can also set the 'default' key
-     * to assign the timeout for all other commands not explicitly enumerated as
-     * JSON keys.
+     * much time to fail and blocks automated test execution.
      *
-     * @param timeouts E.g. '{"findElement": 40000, "findElements": 40000}'.
+     * @param timeouts Command timeouts.
      * @return self instance for chaining.
      */
-    default T setCommandTimeouts(JsonObject timeouts) {
+    default T setCommandTimeouts(CommandTimeouts timeouts) {
         return amend(COMMAND_TIMEOUTS_OPTION, timeouts.toString());
     }
 
     /**
-     * Custom timeout(s) in milliseconds for WDA backend commands execution.
+     * Custom timeout for all WDA backend commands execution.
      * This might be useful if WDA backend freezes unexpectedly or requires too
-     * much time to fail and blocks automated test execution. The value is expected
-     * to be of type string and can either contain max milliseconds to wait for
-     * each WDA command to be executed before terminating the session forcefully
-     * or a valid JSON string, where keys are internal Appium command names (you
-     * can find these in logs, look for "Executing command 'command_name'" records)
-     * and values are timeouts in milliseconds. You can also set the 'default' key
-     * to assign the timeout for all other commands not explicitly enumerated as
-     * JSON keys.
+     * much time to fail and blocks automated test execution.
      *
      * @param timeout The timeout value for all commands.
      * @return self instance for chaining.
@@ -69,11 +57,14 @@ public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
     /**
      * Get custom timeout(s) in milliseconds for WDA backend commands execution.
      *
-     * @return Command timeouts.
+     * @return Either a global timeout duration or detailed command timeouts.
      */
-    default Optional<String> getCommandTimeouts() {
-        return Optional.ofNullable(
-                (String) getCapability(COMMAND_TIMEOUTS_OPTION)
-        );
+    default Optional<Either<CommandTimeouts, Duration>> getCommandTimeouts() {
+        return Optional.ofNullable(getCapability(COMMAND_TIMEOUTS_OPTION))
+                .map(String::valueOf)
+                .map((v) ->  v.trim().startsWith("{")
+                        ? Either.left(new CommandTimeouts(v))
+                        : Either.right(toDuration(v))
+                );
     }
 }

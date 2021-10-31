@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.ios.options.simulator;
+package io.appium.java_client.remote.options;
 
-public enum PasteboardSyncState {
-    ON, OFF, SYSTEM
+import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
+
+public interface SupportsPostrunOption<T extends BaseOptions<T>, S extends SystemScript<?>>
+        extends Capabilities, CanSetCapability<T> {
+    String POSTRUN_OPTION = "postrun";
+
+    T setPostrun(S script);
+
+    Optional<S> getPostrun();
 }
