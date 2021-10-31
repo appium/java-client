@@ -21,6 +21,8 @@ import io.appium.java_client.TouchAction;
 
 
 /**
+ * Android-specific touch action.
+ *
  * @deprecated Touch actions are deprecated.
  *     Please use W3C Actions instead or the corresponding
  *     extension methods for the driver (if available).
