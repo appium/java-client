@@ -68,7 +68,6 @@ public interface PerformsTouchActions extends ExecutesMethod {
     default MultiTouchAction performMultiTouchAction(MultiTouchAction multiAction) {
         Map<String, List<Object>> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
-        multiAction.clearActions();
         return multiAction.clearActions();
     }
 }
