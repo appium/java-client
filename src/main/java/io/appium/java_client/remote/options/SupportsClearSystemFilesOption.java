@@ -29,7 +29,7 @@ public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extend
     /**
      * Set the app to delete any generated files at the end of a session.
      *
-     * @return this MobileOptions, for chaining.
+     * @return self instance for chaining.
      */
     default T clearSystemFiles() {
         return setClearSystemFiles(true);
@@ -39,7 +39,7 @@ public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extend
      * Set whether the app deletes generated files at the end of a session.
      *
      * @param bool is whether the app deletes generated files at the end of a session.
-     * @return this MobileOptions, for chaining.
+     * @return self instance for chaining.
      */
     default T setClearSystemFiles(boolean bool) {
         return amend(CLEAR_SYSTEM_FILES_OPTION, bool);

@@ -81,7 +81,7 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
      * Set the kind of mobile device or emulator to use.
      *
      * @param platform the kind of mobile device or emulator to use.
-     * @return this MobileOptions, for chaining.
+     * @return self instance for chaining.
      * @see CapabilityType#PLATFORM_NAME
      */
     public T setPlatformName(String platform) {

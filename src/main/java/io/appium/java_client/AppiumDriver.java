@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
+import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -150,14 +151,11 @@ public class AppiumDriver extends RemoteWebDriver implements
     protected static Capabilities ensureAutomationName(
             Capabilities originalCapabilities, String defaultName) {
         String currentAutomationName = CapabilityHelpers.getCapability(
-                originalCapabilities, MobileCapabilityType.AUTOMATION_NAME, String.class);
+                originalCapabilities, AUTOMATION_NAME, String.class);
         if (isBlank(currentAutomationName)) {
-            ImmutableCapabilities toMerge = originalCapabilities.getCapabilityNames()
-                    .contains(MobileCapabilityType.AUTOMATION_NAME)
-                    ? new ImmutableCapabilities(MobileCapabilityType.AUTOMATION_NAME, defaultName)
-                    : new ImmutableCapabilities(
-                            APPIUM_PREFIX + MobileCapabilityType.AUTOMATION_NAME, defaultName);
-            return originalCapabilities.merge(toMerge);
+            String capabilityName = originalCapabilities.getCapabilityNames()
+                    .contains(AUTOMATION_NAME) ? AUTOMATION_NAME : APPIUM_PREFIX + AUTOMATION_NAME;
+            return originalCapabilities.merge(new ImmutableCapabilities(capabilityName, defaultName));
         }
         return originalCapabilities;
     }
