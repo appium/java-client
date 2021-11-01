@@ -23,12 +23,16 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.android.options.localization.AppLocale;
 import io.appium.java_client.android.options.server.EspressoBuildConfig;
 import io.appium.java_client.android.options.signing.KeystoreConfig;
+import io.appium.java_client.gecko.options.GeckoOptions;
+import io.appium.java_client.gecko.options.Verbosity;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.ios.options.other.CommandTimeouts;
 import io.appium.java_client.ios.options.simulator.Permissions;
 import io.appium.java_client.mac.options.AppleScriptData;
 import io.appium.java_client.mac.options.Mac2Options;
 import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.safari.options.SafariOptions;
+import io.appium.java_client.safari.options.WebrtcData;
 import io.appium.java_client.windows.options.PowerShellData;
 import io.appium.java_client.windows.options.WindowsOptions;
 import org.junit.Test;
@@ -139,5 +143,41 @@ public class OptionsBuildingTest {
         assertEquals("yolo command", options.getPostrun().orElse(null).getCommand().orElse(null));
         assertTrue(options.doesSkipAppKill().orElse(false));
         assertFalse(options.doesEventTimings().isPresent());
+    }
+
+    @Test
+    public void canBuildGeckoOptions() {
+        GeckoOptions options = new GeckoOptions();
+        options.setPlatformName(Platform.MAC.toString());
+        assertEquals(Platform.MAC, options.getPlatformName());
+        assertEquals(AutomationName.GECKO, options.getAutomationName().orElse(null));
+        options.setNewCommandTimeout(Duration.ofSeconds(10))
+                .setVerbosity(Verbosity.TRACE)
+                .setMozFirefoxOptions(ImmutableMap.of(
+                    "profile", "yolo"
+                ));
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertEquals(Verbosity.TRACE, options.getVerbosity().orElse(null));
+        assertEquals("yolo", options.getMozFirefoxOptions().orElse(null)
+                .get("profile"));
+    }
+
+    @Test
+    public void canBuildSafariOptions() {
+        SafariOptions options = new SafariOptions();
+        assertEquals(Platform.IOS, options.getPlatformName());
+        assertEquals(AutomationName.SAFARI, options.getAutomationName().orElse(null));
+        options.setNewCommandTimeout(Duration.ofSeconds(10))
+                .safariUseSimulator()
+                .setWebkitWebrtc(new WebrtcData()
+                        .withDisableIceCandidateFiltering(true)
+                        .withDisableInsecureMediaCapture(true)
+                );
+        assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
+        assertTrue(options.doesSafariUseSimulator().orElse(false));
+        assertTrue(options.getWebkitWebrtc().orElse(null)
+                .doesDisableIceCandidateFiltering().orElse(false));
+        assertTrue(options.getWebkitWebrtc().orElse(null)
+                .doesDisableInsecureMediaCapture().orElse(false));
     }
 }
