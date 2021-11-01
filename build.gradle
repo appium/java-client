@@ -46,7 +46,7 @@ dependencies {
             strictly "${seleniumVersion}"
         }
     }
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'cglib:cglib:3.3.0'
     implementation 'commons-validator:commons-validator:1.7'
