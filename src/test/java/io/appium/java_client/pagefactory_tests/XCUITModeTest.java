@@ -36,7 +36,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
@@ -141,8 +140,8 @@ public class XCUITModeTest extends AppIOSTest {
     }
 
     @Test public void setValueTest() {
-        driver.setElementValue((RemoteWebElement) textField1, "2");
-        driver.setElementValue((RemoteWebElement) textField2, "4");
+        textField1.sendKeys("2");
+        textField2.sendKeys("4");
         driver.hideKeyboard();
         computeButton.click();
         assertEquals("6", answer.getText());

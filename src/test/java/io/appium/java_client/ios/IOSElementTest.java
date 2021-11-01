@@ -10,7 +10,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.AppiumBy;
@@ -33,7 +32,7 @@ public class IOSElementTest extends AppIOSTest {
 
         WebElement slider = wait.until(
                 driver1 -> driver1.findElement(AppiumBy.className("XCUIElementTypeSlider")));
-        driver.setElementValue((RemoteWebElement) slider, "0%");
+        slider.sendKeys("0%");
         assertEquals("0%", slider.getAttribute("value"));
     }
 }

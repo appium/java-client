@@ -85,7 +85,7 @@ public class AndroidElementTest extends BaseAndroidTest {
         driver.startActivity(activity);
         WebElement editElement = driver
             .findElement(AppiumBy.androidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
-        driver.setElementValue((RemoteWebElement) editElement, value);
+        editElement.sendKeys(value);
         assertEquals(value, editElement.getText());
     }
 }
