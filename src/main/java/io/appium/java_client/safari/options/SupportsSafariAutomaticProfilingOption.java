@@ -55,7 +55,7 @@ public interface SupportsSafariAutomaticProfilingOption<T extends BaseOptions<T>
      *
      * @return true or false.
      */
-    default Optional<Boolean> doesAafariAutomaticProfiling() {
+    default Optional<Boolean> doesSafariAutomaticProfiling() {
         return Optional.ofNullable(toSafeBoolean(getCapability(SAFARI_AUTOMATIC_PROFILING_OPTION)));
     }
 }

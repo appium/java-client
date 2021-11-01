@@ -55,7 +55,7 @@ public interface SupportsSafariAutomaticInspectionOption<T extends BaseOptions<T
      *
      * @return true or false.
      */
-    default Optional<Boolean> doesAafariAutomaticInspection() {
+    default Optional<Boolean> doesSafariAutomaticInspection() {
         return Optional.ofNullable(toSafeBoolean(getCapability(SAFARI_AUTOMATIC_INSPECTION_OPTION)));
     }
 }
