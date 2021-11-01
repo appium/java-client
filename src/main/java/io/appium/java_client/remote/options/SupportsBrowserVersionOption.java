@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.remote.options;
 
-import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.Capabilities;
 
-public interface CanSetElementValue extends ExecutesMethod {
+import java.util.Optional;
+
+public interface SupportsBrowserVersionOption<T extends BaseOptions<T>> extends
+        Capabilities, CanSetCapability<T> {
+    String BROWSER_VERSION_OPTION = "browserVersion";
+
     /**
-     * Set a value to an element.
+     * Provide the version number of the browser to automate if there are multiple
+     * versions installed on the same machine where the driver is running.
      *
-     * @param webElement Web element instance.
-     * @param value Value to set.
+     * @param version Browser version to use.
+     * @return self instance for chaining.
      */
-    default void setElementValue(RemoteWebElement webElement, String value) {
-        this.execute(MobileCommand.SET_VALUE, ImmutableMap.of(
-                "id", webElement.getId(),
-                "value", value
-        ));
+    default T setBrowserVersion(String version) {
+        return amend(BROWSER_VERSION_OPTION, version);
     }
 }

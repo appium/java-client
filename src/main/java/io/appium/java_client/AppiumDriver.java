@@ -16,9 +16,12 @@
 
 package io.appium.java_client;
 
+import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
+import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -55,7 +58,6 @@ public class AppiumDriver extends RemoteWebDriver implements
         ComparesImages,
         ExecutesDriverScript,
         LogsEvents,
-        CanSetElementValue,
         HasBrowserCheck,
         HasSettings {
 
@@ -81,59 +83,96 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
-    public AppiumDriver(URL remoteAddress, Capabilities desiredCapabilities) {
+    public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-                desiredCapabilities);
+                capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-                        Capabilities desiredCapabilities) {
+                        Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-                httpClientFactory), desiredCapabilities);
+                httpClientFactory), capabilities);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-                desiredCapabilities);
+                capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-                        Capabilities desiredCapabilities) {
+                        Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-                desiredCapabilities);
+                capabilities);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        this(builder.build(), desiredCapabilities);
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
+        this(builder.build(), capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                        Capabilities desiredCapabilities) {
-        this(builder.build(), httpClientFactory, desiredCapabilities);
+                        Capabilities capabilities) {
+        this(builder.build(), httpClientFactory, capabilities);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-                desiredCapabilities);
+                capabilities);
     }
 
-    public AppiumDriver(Capabilities desiredCapabilities) {
-        this(AppiumDriverLocalService.buildDefaultService(), desiredCapabilities);
+    public AppiumDriver(Capabilities capabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), capabilities);
     }
 
     /**
-     * Changes platform name if it is not set and returns new capabilities.
+     * Changes platform name if it is not set and returns merged capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
      * @param defaultName          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                             to be set up
-     * @return {@link Capabilities} with changed mobile platform name value or the original capabilities
+     * @return {@link Capabilities} with changed platform name value or the original capabilities
      */
-    protected static Capabilities updateDefaultPlatformName(Capabilities originalCapabilities,
-                                                            String defaultName) {
-        return originalCapabilities.getCapability(PLATFORM_NAME) == null
+    protected static Capabilities ensurePlatformName(
+            Capabilities originalCapabilities, String defaultName) {
+        String currentName = (String) originalCapabilities.getCapability(PLATFORM_NAME);
+        return isBlank(currentName)
                 ? originalCapabilities.merge(new ImmutableCapabilities(PLATFORM_NAME, defaultName))
                 : originalCapabilities;
+    }
+
+    /**
+     * Changes automation name if it is not set and returns merged capabilities.
+     *
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param defaultName          a {@link MobileCapabilityType#AUTOMATION_NAME} value which has
+     *                             to be set up
+     * @return {@link Capabilities} with changed mobile automation name value or the original capabilities
+     */
+    protected static Capabilities ensureAutomationName(
+            Capabilities originalCapabilities, String defaultName) {
+        String currentAutomationName = CapabilityHelpers.getCapability(
+                originalCapabilities, AUTOMATION_NAME, String.class);
+        if (isBlank(currentAutomationName)) {
+            String capabilityName = originalCapabilities.getCapabilityNames()
+                    .contains(AUTOMATION_NAME) ? AUTOMATION_NAME : APPIUM_PREFIX + AUTOMATION_NAME;
+            return originalCapabilities.merge(new ImmutableCapabilities(capabilityName, defaultName));
+        }
+        return originalCapabilities;
+    }
+
+    /**
+     * Changes platform and automation names if they are not set
+     * and returns merged capabilities.
+     *
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param defaultPlatformName  a {@link MobileCapabilityType#PLATFORM_NAME} value which has
+     *                             to be set up
+     * @param defaultAutomationName The default automation name to set up for this class
+     * @return {@link Capabilities} with changed platform/automation name value or the original capabilities
+     */
+    protected static Capabilities ensurePlatformAndAutomationNames(
+            Capabilities originalCapabilities, String defaultPlatformName, String defaultAutomationName) {
+        Capabilities capsWithPlatformFixed = ensurePlatformName(originalCapabilities, defaultPlatformName);
+        return ensureAutomationName(capsWithPlatformFixed, defaultAutomationName);
     }
 
     @Override

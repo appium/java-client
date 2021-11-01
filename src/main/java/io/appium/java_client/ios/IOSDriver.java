@@ -28,11 +28,12 @@ import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.InteractsWithFiles;
+import io.appium.java_client.PullsFiles;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.PushesFiles;
+import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.battery.HasBattery;
-import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.remote.SupportsLocation;
 import io.appium.java_client.remote.SupportsRotation;
@@ -42,6 +43,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
@@ -54,7 +56,6 @@ import java.util.Map;
 
 /**
  * iOS driver implementation.
- *
  */
 public class IOSDriver extends AppiumDriver implements
         SupportsContextSwitching,
@@ -62,8 +63,9 @@ public class IOSDriver extends AppiumDriver implements
         SupportsLocation,
         HidesKeyboard,
         HasDeviceTime,
-        InteractsWithFiles,
+        PullsFiles,
         InteractsWithApps,
+        SupportsLegacyAppManagement,
         HasAppStrings,
         PerformsTouchActions,
         HidesKeyboardWithKeyName,
@@ -77,8 +79,7 @@ public class IOSDriver extends AppiumDriver implements
         HasIOSClipboard,
         ListensToSyslogMessages,
         HasBattery<IOSBatteryInfo> {
-
-    private static final String IOS_DEFAULT_PLATFORM = MobilePlatform.IOS;
+    private static final String PLATFORM_NAME = Platform.IOS.name();
 
     private StringWebSocketClient syslogClient;
 
@@ -91,17 +92,17 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
-        super(executor, updateDefaultPlatformName(capabilities, IOS_DEFAULT_PLATFORM));
+        super(executor, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
      * Creates a new instance based on Appium server URL and {@code capabilities}.
      *
      * @param remoteAddress is the address of remotely/locally started Appium server
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
-    public IOSDriver(URL remoteAddress, Capabilities desiredCapabilities) {
-        super(remoteAddress, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+    public IOSDriver(URL remoteAddress, Capabilities capabilities) {
+        super(remoteAddress, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
@@ -109,22 +110,21 @@ public class IOSDriver extends AppiumDriver implements
      *
      * @param remoteAddress is the address of remotely/locally started Appium server
      * @param httpClientFactory take a look at {@link HttpClient.Factory}
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        super(remoteAddress, httpClientFactory,
-            updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        Capabilities capabilities) {
+        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
      * Creates a new instance based on Appium driver local service and {@code capabilities}.
      *
      * @param service take a look at {@link AppiumDriverLocalService}
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
-    public IOSDriver(AppiumDriverLocalService service, Capabilities desiredCapabilities) {
-        super(service, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+    public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities) {
+        super(service, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
@@ -132,21 +132,21 @@ public class IOSDriver extends AppiumDriver implements
      *
      * @param service take a look at {@link AppiumDriverLocalService}
      * @param httpClientFactory take a look at {@link HttpClient.Factory}
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        super(service, httpClientFactory, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        Capabilities capabilities) {
+        super(service, httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
      * Creates a new instance based on Appium service builder and {@code capabilities}.
      *
      * @param builder take a look at {@link AppiumServiceBuilder}
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
-    public IOSDriver(AppiumServiceBuilder builder, Capabilities desiredCapabilities) {
-        super(builder, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+    public IOSDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
+        super(builder, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
@@ -154,31 +154,30 @@ public class IOSDriver extends AppiumDriver implements
      *
      * @param builder take a look at {@link AppiumServiceBuilder}
      * @param httpClientFactory take a look at {@link HttpClient.Factory}
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-        Capabilities desiredCapabilities) {
-        super(builder, httpClientFactory,
-            updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+        Capabilities capabilities) {
+        super(builder, httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
      * Creates a new instance based on HTTP client factory and {@code capabilities}.
      *
      * @param httpClientFactory take a look at {@link HttpClient.Factory}
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
-    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities desiredCapabilities) {
-        super(httpClientFactory, updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+        super(httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     /**
      * Creates a new instance based on {@code capabilities}.
      *
-     * @param desiredCapabilities take a look at {@link Capabilities}
+     * @param capabilities take a look at {@link Capabilities}
      */
-    public IOSDriver(Capabilities desiredCapabilities) {
-        super(updateDefaultPlatformName(desiredCapabilities, IOS_DEFAULT_PLATFORM));
+    public IOSDriver(Capabilities capabilities) {
+        super(ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
     @Override public TargetLocator switchTo() {

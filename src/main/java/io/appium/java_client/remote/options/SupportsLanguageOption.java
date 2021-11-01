@@ -28,7 +28,7 @@ public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
      * Set language abbreviation for use in session.
      *
      * @param language is the language abbreviation.
-     * @return this MobileOptions, for chaining.
+     * @return self instance for chaining.
      */
     default T setLanguage(String language) {
         return amend(LANGUAGE_OPTION, language);

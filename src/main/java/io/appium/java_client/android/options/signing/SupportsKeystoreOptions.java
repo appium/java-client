@@ -38,7 +38,7 @@ public interface SupportsKeystoreOptions<T extends BaseOptions<T>> extends
      * @param keystoreConfig The keystore config to use.
      * @return self instance for chaining.
      */
-    default T useKeystore(KeystoreConfig keystoreConfig) {
+    default T setKeystoreConfig(KeystoreConfig keystoreConfig) {
         return amend(USE_KEYSTORE_OPTION, true)
                 .amend(KEYSTORE_PATH_OPTION, keystoreConfig.getPath())
                 .amend(KEYSTORE_PASSWORD_OPTION, keystoreConfig.getPassword())

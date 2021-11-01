@@ -29,8 +29,9 @@ public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
     String SYSTEM_PORT_OPTION = "systemPort";
 
     /**
-     * The number of the port the UiAutomator2 server is listening on.
-     * By default, the first free port from 8200..8299 range is selected.
+     * The number of the port the UiAutomator2 or Espresso server is listening on.
+     * By default, the first free port from 8200..8299 range is selected for UIA2
+     * and 8300..8399 range is selected for Espresso.
      * It is recommended to set this value if you are running parallel
      * tests on the same machine.
      *

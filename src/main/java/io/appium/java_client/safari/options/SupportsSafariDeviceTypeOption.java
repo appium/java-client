@@ -14,38 +14,37 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options.app;
+package io.appium.java_client.safari.options;
 
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
-import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
-
-public interface SupportsAppDurationOption<T extends BaseOptions<T>> extends
+public interface SupportsSafariDeviceTypeOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String APP_WAIT_DURATION_OPTION = "appWaitDuration";
+    String SAFARI_DEVICE_TYPE_OPTION = "safari:deviceType";
 
     /**
-     * Maximum amount of time to wait until the application under test is started
-     * (e.g. an activity returns the control to the caller). 20000 ms by default.
+     * If the value of safari:deviceType is 'iPhone', safaridriver will only create a session
+     * using an iPhone device or iPhone simulator. If the value of safari:deviceType is 'iPad',
+     * safaridriver will only create a session using an iPad device or iPad simulator.
+     * Values of safari:deviceType are compared case-insensitively.
      *
-     * @param appWaitDuration Package identifier to wait for.
+     * @param deviceType Device type name.
      * @return self instance for chaining.
      */
-    default T setAppWaitDuration(Duration appWaitDuration) {
-        return amend(APP_WAIT_DURATION_OPTION, appWaitDuration.toMillis());
+    default T setSafariDeviceType(String deviceType) {
+        return amend(SAFARI_DEVICE_TYPE_OPTION, deviceType);
     }
 
     /**
-     * Get the identifier of the app package to wait for.
+     * Get the type of the device.
      *
-     * @return Package identifier.
+     * @return String representing the type of the device.
      */
-    default Optional<Duration> getAppWaitDuration() {
-        return Optional.ofNullable(toDuration(getCapability(APP_WAIT_DURATION_OPTION)));
+    default Optional<String> getSafariDeviceType() {
+        return Optional.ofNullable((String) getCapability(SAFARI_DEVICE_TYPE_OPTION));
     }
 }

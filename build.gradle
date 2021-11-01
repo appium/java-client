@@ -8,7 +8,7 @@ plugins {
     id 'jacoco'
     id 'checkstyle'
     id 'signing'
-    id 'org.owasp.dependencycheck' version '6.3.2'
+    id 'org.owasp.dependencycheck' version '6.4.1.1'
     id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
@@ -46,7 +46,7 @@ dependencies {
             strictly "${seleniumVersion}"
         }
     }
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'cglib:cglib:3.3.0'
     implementation 'commons-validator:commons-validator:1.7'
@@ -189,15 +189,11 @@ task xcuiTest( type: Test ) {
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
     filter {
-        includeTestsMatching '*.appium.element.generation.ios.*'
-        includeTestsMatching '*.appium.AppiumFluentWaitTest'
         includeTestsMatching 'io.appium.java_client.ios.*'
         includeTestsMatching '*.pagefactory_tests.XCUITModeTest'
         includeTestsMatching '*.pagefactory_tests.widget.tests.combined.*'
         includeTestsMatching '*.pagefactory_tests.widget.tests.ios.*'
-        includeTestsMatching '*.StartingAppLocallyTest.startingIOSAppWithCapabilitiesAndServiceTest'
-        includeTestsMatching '*.StartingAppLocallyTest.startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest'
-        exclude '**/UIAutomationTest.class'
+        includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyIosTest'
         exclude '**/IOSScreenRecordTest.class'
         exclude '**/ImagesComparisonTest.class'
     }
@@ -211,5 +207,22 @@ task uiAutomationTest( type: Test ) {
         includeTestsMatching 'io.appium.java_client.android.SettingTest'
         includeTestsMatching 'io.appium.java_client.android.ClipboardTest'
         includeTestsMatching '*.AndroidAppStringsTest'
+        includeTestsMatching '*.pagefactory_tests.widget.tests.android.*'
+        includeTestsMatching '*.pagefactory_tests.widget.tests.AndroidPageObjectTest'
+        includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyAndroidTest'
+        includeTestsMatching 'io.appium.java_client.service.local.ServerBuilderTest'
+        includeTestsMatching 'io.appium.java_client.service.local.ThreadSafetyTest'
+    }
+}
+
+task miscTest( type: Test ) {
+    useJUnit()
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
+    filter {
+        includeTestsMatching 'io.appium.java_client.touch.*'
+        includeTestsMatching 'io.appium.java_client.events.*'
+        includeTestsMatching 'io.appium.java_client.remote.*'
+        includeTestsMatching 'io.appium.java_client.drivers.options.*'
     }
 }

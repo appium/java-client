@@ -22,6 +22,18 @@ import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Touch actions are deprecated.
+ * Please use W3C Actions instead or the corresponding
+ * extension methods for the driver (if available).
+ * Check
+ * - https://www.youtube.com/watch?v=oAJ7jwMNFVU
+ * - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
+ * - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
+ * for more details.
+ */
+@Deprecated
+@SuppressWarnings({"unchecked", "rawtypes"})
 public interface PerformsTouchActions extends ExecutesMethod {
     /**
      * Performs a chain of touch actions, which together can be considered an
@@ -36,6 +48,7 @@ public interface PerformsTouchActions extends ExecutesMethod {
      *                    touch actions to perform
      * @return the same touch action object
      */
+    @Deprecated
     default TouchAction performTouchAction(TouchAction touchAction) {
         Map<String, List<Object>> parameters = touchAction.getParameters();
         execute(PERFORM_TOUCH_ACTION, parameters);
@@ -52,10 +65,12 @@ public interface PerformsTouchActions extends ExecutesMethod {
      * is called.
      *
      * @param multiAction the MultiTouchAction object to perform.
+     * @return MultiTouchAction instance for chaining.
      */
-    default void performMultiTouchAction(MultiTouchAction multiAction) {
+    @Deprecated
+    default MultiTouchAction performMultiTouchAction(MultiTouchAction multiAction) {
         Map<String, List<Object>> parameters = multiAction.getParameters();
         execute(PERFORM_MULTI_TOUCH, parameters);
-        multiAction.clearActions();
+        return multiAction.clearActions();
     }
 }

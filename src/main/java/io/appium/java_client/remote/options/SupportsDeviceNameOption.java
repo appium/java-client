@@ -28,7 +28,7 @@ public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
      * Set the name of the device.
      *
      * @param deviceName is the name of the device.
-     * @return this MobileOptions, for chaining.
+     * @return self instance for chaining.
      */
     default T setDeviceName(String deviceName) {
         return amend(DEVICE_NAME_OPTION, deviceName);
