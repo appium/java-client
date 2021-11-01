@@ -139,6 +139,11 @@ publishing {
                         url = 'https://github.com/mykola-mokhnach'
                         id = 'mykola-mokhnach'
                     }
+                    developer {
+                        name = 'Valery Yatsynovich'
+                        url = 'https://github.com/valfirst'
+                        id = 'valfirst'
+                    }
                 }
                 licenses {
                     license {
