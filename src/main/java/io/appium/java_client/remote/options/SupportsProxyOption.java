@@ -16,30 +16,36 @@
 
 package io.appium.java_client.remote.options;
 
+import com.google.gson.Gson;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Proxy;
 
+import java.util.Map;
 import java.util.Optional;
 
-public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
+public interface SupportsProxyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String DEVICE_NAME_OPTION = "deviceName";
+    String PROXY_OPTION = "proxy";
 
     /**
-     * Set the name of the device.
+     * Defines the current session’s proxy configuration.
      *
-     * @param deviceName is the name of the device.
+     * @param proxy Session proxy config.
      * @return self instance for chaining.
      */
-    default T setDeviceName(String deviceName) {
-        return amend(DEVICE_NAME_OPTION, deviceName);
+    default T setProxy(Proxy proxy) {
+        return amend(PROXY_OPTION, proxy.toJson());
     }
 
     /**
-     * Get the name of the device.
+     * Get the current session’s proxy configuration.
      *
-     * @return String representing the name of the device.
+     * @return Proxy config.
      */
-    default Optional<String> getDeviceName() {
-        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
+    default Optional<Proxy> getProxy() {
+        return Optional.ofNullable(getCapability(PROXY_OPTION))
+                .map(String::valueOf)
+                .map((v) -> new Gson().fromJson(v, Map.class))
+                .map(Proxy::new);
     }
 }

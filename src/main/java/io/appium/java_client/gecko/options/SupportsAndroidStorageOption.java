@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.gecko.options;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
+public interface SupportsAndroidStorageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String DEVICE_NAME_OPTION = "deviceName";
+    String ANDROID_STORAGE_OPTION = "androidStorage";
 
     /**
-     * Set the name of the device.
+     * See
+     * https://firefox-source-docs.mozilla.org/testing/geckodriver
+     * /Flags.html#code-android-storage-var-android-storage-var-code
      *
-     * @param deviceName is the name of the device.
+     * @param storage One of supported Android storage types.
      * @return self instance for chaining.
      */
-    default T setDeviceName(String deviceName) {
-        return amend(DEVICE_NAME_OPTION, deviceName);
+    default T setAndroidStorage(String storage) {
+        return amend(ANDROID_STORAGE_OPTION, storage);
     }
 
     /**
-     * Get the name of the device.
+     * Get the currently set storage type.
      *
      * @return String representing the name of the device.
      */
-    default Optional<String> getDeviceName() {
-        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
+    default Optional<String> getAndroidStorage() {
+        return Optional.ofNullable((String) getCapability(ANDROID_STORAGE_OPTION));
     }
 }

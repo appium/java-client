@@ -20,26 +20,28 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
+public interface SupportsUnhandledPromptBehaviorOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String DEVICE_NAME_OPTION = "deviceName";
+    String UNHANDLED_PROMPT_BEHAVIOR_OPTION = "unhandledPromptBehavior";
 
     /**
-     * Set the name of the device.
+     * Defines the current session’s page load strategy.
      *
-     * @param deviceName is the name of the device.
+     * @param strategy Page load strategy.
      * @return self instance for chaining.
      */
-    default T setDeviceName(String deviceName) {
-        return amend(DEVICE_NAME_OPTION, deviceName);
+    default T setUnhandledPromptBehavior(UnhandledPromptBehavior strategy) {
+        return amend(UNHANDLED_PROMPT_BEHAVIOR_OPTION, strategy.toString());
     }
 
     /**
-     * Get the name of the device.
+     * Get the current session’s page load strategy.
      *
-     * @return String representing the name of the device.
+     * @return Page load strategy.
      */
-    default Optional<String> getDeviceName() {
-        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
+    default Optional<UnhandledPromptBehavior> getUnhandledPromptBehavior() {
+        return Optional.ofNullable(getCapability(UNHANDLED_PROMPT_BEHAVIOR_OPTION))
+                .map(String::valueOf)
+                .map(UnhandledPromptBehavior::fromString);
     }
 }

@@ -129,14 +129,37 @@ public class AppiumDriver extends RemoteWebDriver implements
      * @param originalCapabilities the given {@link Capabilities}.
      * @param defaultName          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                             to be set up
-     * @return {@link Capabilities} with changed mobile platform name value or the original capabilities
+     * @return {@link Capabilities} with changed platform name value or the original capabilities
      */
-    protected static Capabilities ensurePlatformName(Capabilities originalCapabilities,
-                                                     String defaultName) {
+    protected static Capabilities ensurePlatformName(
+            Capabilities originalCapabilities, String defaultName) {
         String currentName = (String) originalCapabilities.getCapability(PLATFORM_NAME);
         return isBlank(currentName)
                 ? originalCapabilities.merge(new ImmutableCapabilities(PLATFORM_NAME, defaultName))
                 : originalCapabilities;
+    }
+
+    /**
+     * Changes automation name if it is not set and returns merged capabilities.
+     *
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param defaultName          a {@link MobileCapabilityType#AUTOMATION_NAME} value which has
+     *                             to be set up
+     * @return {@link Capabilities} with changed mobile automation name value or the original capabilities
+     */
+    protected static Capabilities ensureAutomationName(
+            Capabilities originalCapabilities, String defaultName) {
+        String currentAutomationName = CapabilityHelpers.getCapability(
+                originalCapabilities, MobileCapabilityType.AUTOMATION_NAME, String.class);
+        if (isBlank(currentAutomationName)) {
+            ImmutableCapabilities toMerge = originalCapabilities.getCapabilityNames()
+                    .contains(MobileCapabilityType.AUTOMATION_NAME)
+                    ? new ImmutableCapabilities(MobileCapabilityType.AUTOMATION_NAME, defaultName)
+                    : new ImmutableCapabilities(
+                            APPIUM_PREFIX + MobileCapabilityType.AUTOMATION_NAME, defaultName);
+            return originalCapabilities.merge(toMerge);
+        }
+        return originalCapabilities;
     }
 
     /**
@@ -147,27 +170,12 @@ public class AppiumDriver extends RemoteWebDriver implements
      * @param defaultPlatformName  a {@link MobileCapabilityType#PLATFORM_NAME} value which has
      *                             to be set up
      * @param defaultAutomationName The default automation name to set up for this class
-     * @return {@link Capabilities} with changed mobile platform name value or the original capabilities
+     * @return {@link Capabilities} with changed platform/automation name value or the original capabilities
      */
     protected static Capabilities ensurePlatformAndAutomationNames(
             Capabilities originalCapabilities, String defaultPlatformName, String defaultAutomationName) {
-        MutableCapabilities toMerge = new MutableCapabilities();
-        String currentPlatformName = (String) originalCapabilities.getCapability(PLATFORM_NAME);
-        if (isBlank(currentPlatformName)) {
-            toMerge.setCapability(PLATFORM_NAME, defaultPlatformName);
-        }
-        String currentAutomationName = CapabilityHelpers.getCapability(
-                originalCapabilities, MobileCapabilityType.AUTOMATION_NAME, String.class);
-        if (isBlank(currentAutomationName)) {
-            toMerge.setCapability(originalCapabilities.getCapabilityNames()
-                    .contains(MobileCapabilityType.AUTOMATION_NAME)
-                            ? MobileCapabilityType.AUTOMATION_NAME
-                            : APPIUM_PREFIX + MobileCapabilityType.AUTOMATION_NAME,
-                    defaultAutomationName);
-        }
-        return toMerge.getCapabilityNames().isEmpty()
-                ? originalCapabilities
-                : originalCapabilities.merge(toMerge);
+        Capabilities capsWithPlatformFixed = ensurePlatformName(originalCapabilities, defaultPlatformName);
+        return ensureAutomationName(capsWithPlatformFixed, defaultAutomationName);
     }
 
     @Override

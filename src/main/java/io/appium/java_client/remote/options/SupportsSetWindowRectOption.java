@@ -20,26 +20,30 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
+
+public interface SupportsSetWindowRectOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String DEVICE_NAME_OPTION = "deviceName";
+    String SET_WINDOW_RECT_OPTION = "setWindowRect";
 
     /**
-     * Set the name of the device.
+     * Indicates whether the remote end supports all
+     * of the resizing and repositioning commands.
      *
-     * @param deviceName is the name of the device.
+     * @param bool True or false.
      * @return self instance for chaining.
      */
-    default T setDeviceName(String deviceName) {
-        return amend(DEVICE_NAME_OPTION, deviceName);
+    default T setWindowRect(boolean bool) {
+        return amend(SET_WINDOW_RECT_OPTION, bool);
     }
 
     /**
-     * Get the name of the device.
+     * Get whether the remote end supports all
+     * of the resizing and repositioning commands.
      *
-     * @return String representing the name of the device.
+     * @return true or false.
      */
-    default Optional<String> getDeviceName() {
-        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
+    default Optional<Boolean> doesSetWindowRect() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(SET_WINDOW_RECT_OPTION)));
     }
 }

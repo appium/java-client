@@ -14,32 +14,38 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.gecko.options;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
+public interface SupportsVerbosityOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String DEVICE_NAME_OPTION = "deviceName";
+    String VERBOSITY_OPTION = "verbosity";
 
     /**
-     * Set the name of the device.
+     * The verbosity level of driver logging.
+     * By default, minimum verbosity is applied.
      *
-     * @param deviceName is the name of the device.
+     * @param verbosity Verbosity value.
      * @return self instance for chaining.
      */
-    default T setDeviceName(String deviceName) {
-        return amend(DEVICE_NAME_OPTION, deviceName);
+    default T setVerbosity(Verbosity verbosity) {
+        return amend(VERBOSITY_OPTION, verbosity.name().toLowerCase());
     }
 
     /**
-     * Get the name of the device.
+     * Get the verbosity level of driver logging.
      *
-     * @return String representing the name of the device.
+     * @return Verbosity value.
      */
-    default Optional<String> getDeviceName() {
-        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
+    default Optional<Verbosity> getVerbosity() {
+        return Optional.ofNullable(getCapability(VERBOSITY_OPTION))
+                .map(String::valueOf)
+                .map(String::toUpperCase)
+                .map(Verbosity::valueOf);
     }
 }

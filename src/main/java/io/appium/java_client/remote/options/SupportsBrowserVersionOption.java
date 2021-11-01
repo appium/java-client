@@ -20,26 +20,18 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
+public interface SupportsBrowserVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String DEVICE_NAME_OPTION = "deviceName";
+    String BROWSER_VERSION_OPTION = "browserVersion";
 
     /**
-     * Set the name of the device.
+     * Provide the version number of the browser to automate if there are multiple
+     * versions installed on the same machine where the driver is running.
      *
-     * @param deviceName is the name of the device.
+     * @param version Browser version to use.
      * @return self instance for chaining.
      */
-    default T setDeviceName(String deviceName) {
-        return amend(DEVICE_NAME_OPTION, deviceName);
-    }
-
-    /**
-     * Get the name of the device.
-     *
-     * @return String representing the name of the device.
-     */
-    default Optional<String> getDeviceName() {
-        return Optional.ofNullable((String) getCapability(DEVICE_NAME_OPTION));
+    default T setBrowserVersion(String version) {
+        return amend(BROWSER_VERSION_OPTION, version);
     }
 }
