@@ -37,16 +37,14 @@ public enum UnhandledPromptBehavior {
      * @throws IllegalArgumentException If the provided value cannot be matched.
      */
     public static UnhandledPromptBehavior fromString(String value) {
-        for (UnhandledPromptBehavior v: UnhandledPromptBehavior.values()) {
-            if (v.toString().equals(value)) {
-                return v;
-            }
-        }
-        throw new IllegalArgumentException(
-                String.format("Unhandled prompt behavior '%s' is not supported. "
-                        + "The only supported values are: %s", value,
-                        Arrays.stream(values()).map(UnhandledPromptBehavior::toString)
-                                .collect(Collectors.joining(",")))
-        );
+        return Arrays.stream(values())
+                .filter((v) -> v.toString().equals(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Unhandled prompt behavior '%s' is not supported. "
+                                        + "The only supported values are: %s", value,
+                                Arrays.stream(values()).map(UnhandledPromptBehavior::toString)
+                                        .collect(Collectors.joining(",")))
+                ));
     }
 }
