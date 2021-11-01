@@ -58,7 +58,6 @@ public class AppiumDriver extends RemoteWebDriver implements
         ComparesImages,
         ExecutesDriverScript,
         LogsEvents,
-        CanSetElementValue,
         HasBrowserCheck,
         HasSettings {
 
