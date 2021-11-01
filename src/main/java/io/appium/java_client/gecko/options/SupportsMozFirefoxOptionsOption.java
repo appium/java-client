@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.gecko.options;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.util.Map;
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+public interface SupportsMozFirefoxOptionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String MOZ_FIREFOX_OPTIONS_OPTION = "moz:firefoxOptions";
 
     /**
-     * Set language abbreviation for use in session.
+     * See https://developer.mozilla.org/en-US/docs/Web/WebDriver/Capabilities/firefoxOptions.
      *
-     * @param language is the language abbreviation.
+     * @param options Firefox options mapping.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
+    default T setMozFirefoxOptions(Map<String, Object> options) {
+        return amend(MOZ_FIREFOX_OPTIONS_OPTION, options);
     }
 
     /**
-     * Get language abbreviation for use in session.
+     * Get Firefox options mapping.
      *
-     * @return String representing the language abbreviation.
+     * @return Firefox options mapping.
      */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default Optional<Map<String, Object>> getMozFirefoxOptions() {
+        //noinspection unchecked
+        return Optional.ofNullable((Map<String, Object>) getCapability(MOZ_FIREFOX_OPTIONS_OPTION));
     }
 }

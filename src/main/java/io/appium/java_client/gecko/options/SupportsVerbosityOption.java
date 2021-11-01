@@ -14,32 +14,38 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.gecko.options;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+public interface SupportsVerbosityOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String VERBOSITY_OPTION = "verbosity";
 
     /**
-     * Set language abbreviation for use in session.
+     * The verbosity level of driver logging.
+     * By default, minimum verbosity is applied.
      *
-     * @param language is the language abbreviation.
+     * @param verbosity Verbosity value.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
+    default T setVerbosity(Verbosity verbosity) {
+        return amend(VERBOSITY_OPTION, verbosity.name().toLowerCase());
     }
 
     /**
-     * Get language abbreviation for use in session.
+     * Get the verbosity level of driver logging.
      *
-     * @return String representing the language abbreviation.
+     * @return Verbosity value.
      */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default Optional<Verbosity> getVerbosity() {
+        return Optional.ofNullable(getCapability(VERBOSITY_OPTION))
+                .map(String::valueOf)
+                .map(String::toUpperCase)
+                .map(Verbosity::valueOf);
     }
 }

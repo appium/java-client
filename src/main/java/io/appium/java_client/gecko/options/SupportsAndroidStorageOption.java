@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote.options;
+package io.appium.java_client.gecko.options;
 
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+public interface SupportsAndroidStorageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String ANDROID_STORAGE_OPTION = "androidStorage";
 
     /**
-     * Set language abbreviation for use in session.
+     * See
+     * https://firefox-source-docs.mozilla.org/testing/geckodriver
+     * /Flags.html#code-android-storage-var-android-storage-var-code
      *
-     * @param language is the language abbreviation.
+     * @param storage One of supported Android storage types.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
+    default T setAndroidStorage(String storage) {
+        return amend(ANDROID_STORAGE_OPTION, storage);
     }
 
     /**
-     * Get language abbreviation for use in session.
+     * Get the currently set storage type.
      *
-     * @return String representing the language abbreviation.
+     * @return String representing the name of the device.
      */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default Optional<String> getAndroidStorage() {
+        return Optional.ofNullable((String) getCapability(ANDROID_STORAGE_OPTION));
     }
 }

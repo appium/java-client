@@ -20,26 +20,18 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+public interface SupportsBrowserVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String BROWSER_VERSION_OPTION = "browserVersion";
 
     /**
-     * Set language abbreviation for use in session.
+     * Provide the version number of the browser to automate if there are multiple
+     * versions installed on the same machine where the driver is running.
      *
-     * @param language is the language abbreviation.
+     * @param version Browser version to use.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
-    }
-
-    /**
-     * Get language abbreviation for use in session.
-     *
-     * @return String representing the language abbreviation.
-     */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default T setBrowserVersion(String version) {
+        return amend(BROWSER_VERSION_OPTION, version);
     }
 }

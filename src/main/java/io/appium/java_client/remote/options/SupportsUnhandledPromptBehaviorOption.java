@@ -20,26 +20,28 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+public interface SupportsUnhandledPromptBehaviorOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String UNHANDLED_PROMPT_BEHAVIOR_OPTION = "unhandledPromptBehavior";
 
     /**
-     * Set language abbreviation for use in session.
+     * Defines the current session’s page load strategy.
      *
-     * @param language is the language abbreviation.
+     * @param strategy Page load strategy.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
+    default T setUnhandledPromptBehavior(UnhandledPromptBehavior strategy) {
+        return amend(UNHANDLED_PROMPT_BEHAVIOR_OPTION, strategy.toString());
     }
 
     /**
-     * Get language abbreviation for use in session.
+     * Get the current session’s page load strategy.
      *
-     * @return String representing the language abbreviation.
+     * @return Page load strategy.
      */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default Optional<UnhandledPromptBehavior> getUnhandledPromptBehavior() {
+        return Optional.ofNullable(getCapability(UNHANDLED_PROMPT_BEHAVIOR_OPTION))
+                .map(String::valueOf)
+                .map(UnhandledPromptBehavior::fromString);
     }
 }

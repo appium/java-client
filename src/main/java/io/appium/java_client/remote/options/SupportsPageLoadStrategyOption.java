@@ -17,29 +17,33 @@
 package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.PageLoadStrategy;
 
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+public interface SupportsPageLoadStrategyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String PAGE_LOAD_STRATEGY_OPTION = "pageLoadStrategy";
 
     /**
-     * Set language abbreviation for use in session.
+     * Defines the current session’s page load strategy.
      *
-     * @param language is the language abbreviation.
+     * @param strategy Page load strategy.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
+    default T setPageLoadStrategy(PageLoadStrategy strategy) {
+        return amend(PAGE_LOAD_STRATEGY_OPTION, strategy.toString());
     }
 
     /**
-     * Get language abbreviation for use in session.
+     * Get the current session’s page load strategy.
      *
-     * @return String representing the language abbreviation.
+     * @return Page load strategy.
      */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default Optional<PageLoadStrategy> getPageLoadStrategy() {
+        return Optional.ofNullable(getCapability(PAGE_LOAD_STRATEGY_OPTION))
+                .map(String::valueOf)
+                .map(String::toUpperCase)
+                .map(PageLoadStrategy::valueOf);
     }
 }

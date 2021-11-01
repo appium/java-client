@@ -20,26 +20,30 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
+
+public interface SupportsSetWindowRectOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String LANGUAGE_OPTION = "language";
+    String SET_WINDOW_RECT_OPTION = "setWindowRect";
 
     /**
-     * Set language abbreviation for use in session.
+     * Indicates whether the remote end supports all
+     * of the resizing and repositioning commands.
      *
-     * @param language is the language abbreviation.
+     * @param bool True or false.
      * @return self instance for chaining.
      */
-    default T setLanguage(String language) {
-        return amend(LANGUAGE_OPTION, language);
+    default T setWindowRect(boolean bool) {
+        return amend(SET_WINDOW_RECT_OPTION, bool);
     }
 
     /**
-     * Get language abbreviation for use in session.
+     * Get whether the remote end supports all
+     * of the resizing and repositioning commands.
      *
-     * @return String representing the language abbreviation.
+     * @return true or false.
      */
-    default Optional<String> getLanguage() {
-        return Optional.ofNullable((String) getCapability(LANGUAGE_OPTION));
+    default Optional<Boolean> doesSetWindowRect() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(SET_WINDOW_RECT_OPTION)));
     }
 }

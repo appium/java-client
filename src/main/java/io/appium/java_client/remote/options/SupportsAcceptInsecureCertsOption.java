@@ -22,35 +22,38 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
-public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extends
+public interface SupportsAcceptInsecureCertsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String CLEAR_SYSTEM_FILES_OPTION = "clearSystemFiles";
+    String ACCEPT_INSECURE_CERTS_OPTION = "acceptInsecureCerts";
 
     /**
-     * Set the app to delete any generated files at the end of a session.
+     * Enforces untrusted and self-signed TLS certificates are
+     * implicitly trusted on navigation for the duration of the session.
      *
      * @return self instance for chaining.
      */
-    default T clearSystemFiles() {
-        return setClearSystemFiles(true);
+    default T acceptInsecureCerts() {
+        return setAcceptInsecureCerts(true);
     }
 
     /**
-     * Set whether the app deletes generated files at the end of a session.
+     * Set whether untrusted and self-signed TLS certificates are
+     * implicitly trusted on navigation for the duration of the session.
      *
-     * @param bool is whether the app deletes generated files at the end of a session.
+     * @param bool True or false.
      * @return self instance for chaining.
      */
-    default T setClearSystemFiles(boolean bool) {
-        return amend(CLEAR_SYSTEM_FILES_OPTION, bool);
+    default T setAcceptInsecureCerts(boolean bool) {
+        return amend(ACCEPT_INSECURE_CERTS_OPTION, bool);
     }
 
     /**
-     * Get whether the app deletes generated files at the end of a session.
+     * Get whether untrusted and self-signed TLS certificates are
+     * implicitly trusted on navigation for the duration of the session.
      *
-     * @return true if the app deletes generated files at the end of a session.
+     * @return true or false.
      */
-    default Optional<Boolean> doesClearSystemFiles() {
-        return Optional.ofNullable(toSafeBoolean(getCapability(CLEAR_SYSTEM_FILES_OPTION)));
+    default Optional<Boolean> doesAcceptInsecureCerts() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(ACCEPT_INSECURE_CERTS_OPTION)));
     }
 }
