@@ -109,7 +109,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'io.appium'
             artifactId = 'java-client'
-            version = '7.6.0'
+            version = '8.0.0-beta'
             from components.java
             pom {
                 name = 'java-client'

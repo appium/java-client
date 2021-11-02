@@ -66,6 +66,51 @@ dependencies {
 ```
 
 ## Changelog
+*8.0.0-beta*
+- **[ENHANCEMENTS]**
+  - Start adding UiAutomator2 options. [#1543](https://github.com/appium/java-client/pull/1543)
+  - Add more UiAutomator2 options. [#1545](https://github.com/appium/java-client/pull/1545)
+  - Finish creating options for UiAutomator2 driver. [#1548](https://github.com/appium/java-client/pull/1548)
+  - Add WDA-related XCUITestOptions. [#1552](https://github.com/appium/java-client/pull/1552)
+  - Add web view options for XCUITest driver. [#1557](https://github.com/appium/java-client/pull/1557)
+  - Add the rest of XCUITest driver options. [#1561](https://github.com/appium/java-client/pull/1561)
+  - Add Espresso options. [#1563](https://github.com/appium/java-client/pull/1563)
+  - Add Windows driver options. [#1564](https://github.com/appium/java-client/pull/1564)
+  - Add Mac2 driver options. [#1565](https://github.com/appium/java-client/pull/1565)
+  - Add Gecko driver options. [#1573](https://github.com/appium/java-client/pull/1573)
+  - Add Safari driver options. [#1576](https://github.com/appium/java-client/pull/1576)
+  - Start adding XCUITest driver options. [#1551](https://github.com/appium/java-client/pull/1551)
+  - Implement driver-specific W3C option classes. [#1540](https://github.com/appium/java-client/pull/1540)
+  - Update Service to properly work with options. [#1550](https://github.com/appium/java-client/pull/1550)
+- **[BREAKING CHANGE]**
+  - Migrate to Selenium 4. [#1531](https://github.com/appium/java-client/pull/1531)
+  - Make sure we only write W3C payload into create session command. [#1537](https://github.com/appium/java-client/pull/1537)
+  - Use the new session payload creator inherited from Selenium. [#1535](https://github.com/appium/java-client/pull/1535)
+  - unify locator factories naming and toString implementations. [#1538](https://github.com/appium/java-client/pull/1538)
+  - drop support of deprecated Selendroid driver. [#1553](https://github.com/appium/java-client/pull/1553)
+  - switch to javac compiler. [#1556](https://github.com/appium/java-client/pull/1556)
+  - revise used Selenium dependencies. [#1560](https://github.com/appium/java-client/pull/1560)
+  - change prefix to AppiumBy in locator toString implementation. [#1559](https://github.com/appium/java-client/pull/1559)
+  - enable dependencies caching. [#1567](https://github.com/appium/java-client/pull/1567)
+  - Include more tests into the pipeline. [#1566](https://github.com/appium/java-client/pull/1566)
+  - Tune setting of default platform names. [#1570](https://github.com/appium/java-client/pull/1570)
+  - Deprecate custom event listener implementation and default to the one provided by Selenium4. [#1541](https://github.com/appium/java-client/pull/1541)
+  - Deprecate touch actions. [#1569](https://github.com/appium/java-client/pull/1569)
+  - Deprecate legacy app management helpers. [#1571](https://github.com/appium/java-client/pull/1571)
+  - deprecate Windows UIAutomation selector. [#1562](https://github.com/appium/java-client/pull/1562)
+  - Remove unused entities. [#1572](https://github.com/appium/java-client/pull/1572)
+  - Remove setElementValue helper. [#1577](https://github.com/appium/java-client/pull/1577)
+  - Remove selenium package override. [#1555](https://github.com/appium/java-client/pull/1555)
+  - remove redundant exclusion of Gradle task signMavenJavaPublication. [#1568](https://github.com/appium/java-client/pull/1568)
+- **[BUG FIX]**
+  - AndroidGeoLocation: update the constructor signature to mimic order of parameters in `org.openqa.selenium.html5.Location`. [#1526](https://github.com/appium/java-client/pull/1526)
+  - Prevent duplicate builds for PRs from base repo branches. [#1496](https://github.com/appium/java-client/pull/1496)
+  - Enable Dependabot for GitHub actions. [#1500](https://github.com/appium/java-client/pull/1500)
+  - bind mac2element in element map for mac platform. [#1474](https://github.com/appium/java-client/pull/1474)
+- **[DEPENDENCY UPDATES]**
+  - `org.owasp.dependencycheck` was updated to 6.4.1.
+  - `com.google.code.gson:gson` was updated to 2.8.9.
+
 *7.6.0*
 - **[ENHANCEMENTS]**
   - Add custom commands dynamically [Appium 2.0]. [#1506](https://github.com/appium/java-client/pull/1506)
