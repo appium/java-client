@@ -30,6 +30,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,10 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                     getMethodNames(Annotation.class.getDeclaredMethods());
                 annotationClassMethodNames.removeAll(objectClassMethodNames);
                 addAll(annotationClassMethodNames);
+                List<String> proxyClassMethodNames =
+                        getMethodNames(Proxy.class.getDeclaredMethods());
+                proxyClassMethodNames.removeAll(objectClassMethodNames);
+                addAll(proxyClassMethodNames);
             }
         };
     protected final AnnotatedElementContainer annotatedElementContainer;
@@ -73,13 +78,13 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     }
 
     private static Method[] prepareAnnotationMethods(Class<? extends Annotation> annotation) {
-        List<String> targeAnnotationMethodNamesList =
+        List<String> targetAnnotationMethodNamesList =
             getMethodNames(annotation.getDeclaredMethods());
-        targeAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
-        Method[] result = new Method[targeAnnotationMethodNamesList.size()];
-        for (String methodName : targeAnnotationMethodNamesList) {
+        targetAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
+        Method[] result = new Method[targetAnnotationMethodNamesList.size()];
+        for (String methodName : targetAnnotationMethodNamesList) {
             try {
-                result[targeAnnotationMethodNamesList.indexOf(methodName)] =
+                result[targetAnnotationMethodNamesList.indexOf(methodName)] =
                     annotation.getMethod(methodName, DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
             } catch (NoSuchMethodException | SecurityException e) {
                 throw new RuntimeException(e);
