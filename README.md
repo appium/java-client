@@ -66,6 +66,10 @@ dependencies {
 ```
 
 ## Changelog
+*7.6.1*
+- **[BUG FIX]**
+  - Filter out proxyClassLookup method from Proxy class (for Java 16+) in AppiumByBuilder. [#1575](https://github.com/appium/java-client/issues/1575)
+  
 *7.6.0*
 - **[ENHANCEMENTS]**
   - Add custom commands dynamically [Appium 2.0]. [#1506](https://github.com/appium/java-client/pull/1506)
