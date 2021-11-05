@@ -33,7 +33,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -48,12 +47,10 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
             private static final long serialVersionUID = 1L; {
-                List<String> objectClassMethodNames = getMethodNames(Object.class.getDeclaredMethods());
-                Stream.of(Annotation.class, Proxy.class)
+                Stream.of(Object.class, Annotation.class, Proxy.class)
                     .map(Class::getDeclaredMethods)
                     .map(AppiumByBuilder::getMethodNames)
                     .flatMap(List::stream)
-                    .filter(m -> !objectClassMethodNames.contains(m))
                     .forEach(this::add);
             }
         };
