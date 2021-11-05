@@ -50,7 +50,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             private static final long serialVersionUID = 1L; {
                 List<String> excludeMethodNames =
                     Stream.of(getMethodNames(Annotation.class.getDeclaredMethods()),
-                              getMethodNames(Proxy.class.getDeclaredMethods()))
+                            getMethodNames(Proxy.class.getDeclaredMethods()))
                         .flatMap(List::stream)
                     .filter(m -> !getMethodNames(Object.class.getDeclaredMethods()).contains(m))
                     .collect(Collectors.toList());
