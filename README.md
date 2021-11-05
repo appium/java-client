@@ -66,10 +66,6 @@ dependencies {
 ```
 
 ## Changelog
-*8.0.1-beta*
-- **[BUG FIX]
-  - Filter out proxyClassLookup method from Proxy class (for Java 16+) in AppiumByBuilder. [#1575](https://github.com/appium/java-client/issues/1575)
-  
 *8.0.0-beta*
 - **[ENHANCEMENTS]**
   - Start adding UiAutomator2 options. [#1543](https://github.com/appium/java-client/pull/1543)
