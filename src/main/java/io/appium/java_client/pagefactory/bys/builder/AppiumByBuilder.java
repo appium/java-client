@@ -48,13 +48,13 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
             private static final long serialVersionUID = 1L; {
-                List<String> excludeMethodNames =
-                    Stream.of(getMethodNames(Annotation.class.getDeclaredMethods()),
-                            getMethodNames(Proxy.class.getDeclaredMethods()))
-                        .flatMap(List::stream)
-                    .filter(m -> !getMethodNames(Object.class.getDeclaredMethods()).contains(m))
-                    .collect(Collectors.toList());
-                addAll(excludeMethodNames);
+                List<String> objectClassMethodNames = getMethodNames(Object.class.getDeclaredMethods());
+                Stream.of(Annotation.class, Proxy.class)
+                    .map(Class::getDeclaredMethods)
+                    .map(AppiumByBuilder::getMethodNames)
+                    .flatMap(List::stream)
+                    .filter(m -> !objectMethodNames.contains(m))
+                    .forEach(this::add);
             }
         };
     protected final AnnotatedElementContainer annotatedElementContainer;
