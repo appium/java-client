@@ -25,6 +25,7 @@ import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 
+import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
@@ -33,6 +34,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -65,79 +67,68 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     }
 
     private static List<String> getMethodNames(Method[] methods) {
-        List<String> names = new ArrayList<>();
-        for (Method m : methods) {
-            names.add(m.getName());
-        }
-        return names;
+        return Stream.of(methods).map(Method::getName).collect(Collectors.toList());
     }
 
     private static Method[] prepareAnnotationMethods(Class<? extends Annotation> annotation) {
-        List<String> targetAnnotationMethodNamesList =
-            getMethodNames(annotation.getDeclaredMethods());
+        List<String> targetAnnotationMethodNamesList = getMethodNames(annotation.getDeclaredMethods());
         targetAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
-        Method[] result = new Method[targetAnnotationMethodNamesList.size()];
-        for (String methodName : targetAnnotationMethodNamesList) {
-            try {
-                result[targetAnnotationMethodNamesList.indexOf(methodName)] =
-                    annotation.getMethod(methodName, DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
-            } catch (NoSuchMethodException | SecurityException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return result;
+        return targetAnnotationMethodNamesList.stream().
+                map((methodName) -> {
+                    try {
+                        return annotation.getMethod(methodName, DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
+                    } catch (NoSuchMethodException | SecurityException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toArray(Method[]::new);
     }
 
     private static String getFilledValue(Annotation mobileBy) {
-        Method[] values = prepareAnnotationMethods(mobileBy.getClass());
-        for (Method value : values) {
-            if (!String.class.equals(value.getReturnType())) {
-                continue;
-            }
-
-            try {
-                String strategyParameter = value.invoke(mobileBy).toString();
-                if (!strategyParameter.isEmpty()) {
-                    return value.getName();
-                }
-            } catch (IllegalAccessException
-                | IllegalArgumentException
-                | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        throw new IllegalArgumentException(
-            "@" + mobileBy.getClass().getSimpleName() + ": one of " + Strategies.strategiesNames()
-                .toString() + " should be filled");
+        return Stream.of(prepareAnnotationMethods(mobileBy.getClass()))
+                .filter((method) -> String.class == method.getReturnType())
+                .filter((method) -> {
+                    try {
+                        Object strategyParameter = method.invoke(mobileBy);
+                        return strategyParameter != null && !String.valueOf(strategyParameter).isEmpty();
+                    } catch (IllegalAccessException | IllegalArgumentException
+                            | InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .findFirst()
+                .map(Method::getName)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("@%s: one of %s should be filled",
+                                mobileBy.getClass().getSimpleName(), Strategies.strategiesNames())
+                ));
     }
 
     private static By getMobileBy(Annotation annotation, String valueName) {
-        Strategies[] strategies = Strategies.values();
-        for (Strategies strategy : strategies) {
-            if (strategy.returnValueName().equals(valueName)) {
-                return strategy.getBy(annotation);
-            }
-        }
-        throw new IllegalArgumentException(
-            "@" + annotation.getClass().getSimpleName() + ": There is an unknown strategy "
-                + valueName);
+        return Stream.of(Strategies.values())
+                .filter((strategy) -> strategy.returnValueName().equals(valueName))
+                .findFirst()
+                .map((strategy) -> strategy.getBy(annotation))
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("@%s: There is an unknown strategy %s",
+                                annotation.getClass().getSimpleName(), valueName)
+                ));
     }
 
-    private static <T extends By> T getComplexMobileBy(Annotation[] annotations,
-        Class<T> requiredByClass) {
-        By[] byArray = new By[annotations.length];
-        for (int i = 0; i < annotations.length; i++) {
-            byArray[i] = getMobileBy(annotations[i], getFilledValue(annotations[i]));
-        }
+    private static <T extends By> T getComplexMobileBy(Annotation[] annotations, Class<T> requiredByClass) {
+        By[] byArray = Stream.of(annotations)
+                .map((annotation) -> getMobileBy(annotation, getFilledValue(annotation)))
+                .toArray(By[]::new);
         try {
             Constructor<T> c = requiredByClass.getConstructor(By[].class);
             Object[] values = new Object[] {byArray};
             return c.newInstance(values);
-        } catch (Exception e) {
+        } catch (InvocationTargetException | NoSuchMethodException |InstantiationException
+                | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Nullable
     protected static By createBy(Annotation[] annotations, HowToUseSelectors howToUseLocators) {
         if (annotations == null || annotations.length == 0) {
             return null;

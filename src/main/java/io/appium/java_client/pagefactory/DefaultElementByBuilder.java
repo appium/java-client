@@ -50,7 +50,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
 
     private static final String PRIORITY = "priority";
     private static final String VALUE = "value";
-    private static final Class[] ANNOTATION_ARGUMENTS = new Class[]{};
+    private static final Class<?>[] ANNOTATION_ARGUMENTS = new Class[]{};
     private static final Object[] ANNOTATION_PARAMETERS = new Object[]{};
 
     public DefaultElementByBuilder(String platform, String automation) {
@@ -155,7 +155,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             }
         }
 
-        return result.toArray(new By[result.size()]);
+        return result.toArray(new By[0]);
     }
 
     @Override
