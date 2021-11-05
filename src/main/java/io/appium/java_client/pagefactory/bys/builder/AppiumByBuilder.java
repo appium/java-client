@@ -33,6 +33,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * It is the basic handler of Appium-specific page object annotations
@@ -46,17 +48,13 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ =
         new ArrayList<String>() {
             private static final long serialVersionUID = 1L; {
-                List<String> objectClassMethodNames =
-                    getMethodNames(Object.class.getDeclaredMethods());
-                addAll(objectClassMethodNames);
-                List<String> annotationClassMethodNames =
-                    getMethodNames(Annotation.class.getDeclaredMethods());
-                annotationClassMethodNames.removeAll(objectClassMethodNames);
-                addAll(annotationClassMethodNames);
-                List<String> proxyClassMethodNames =
-                        getMethodNames(Proxy.class.getDeclaredMethods());
-                proxyClassMethodNames.removeAll(objectClassMethodNames);
-                addAll(proxyClassMethodNames);
+                List<String> excludeMethodNames =
+                    Stream.of(getMethodNames(Annotation.class.getDeclaredMethods()),
+                              getMethodNames(Proxy.class.getDeclaredMethods()))
+                        .flatMap(List::stream)
+                    .filter(m -> !getMethodNames(Object.class.getDeclaredMethods()).contains(m))
+                    .collect(Collectors.toList());
+                addAll(excludeMethodNames);
             }
         };
     protected final AnnotatedElementContainer annotatedElementContainer;
