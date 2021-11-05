@@ -53,7 +53,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                     .map(Class::getDeclaredMethods)
                     .map(AppiumByBuilder::getMethodNames)
                     .flatMap(List::stream)
-                    .filter(m -> !objectMethodNames.contains(m))
+                    .filter(m -> !objectClassMethodNames.contains(m))
                     .forEach(this::add);
             }
         };

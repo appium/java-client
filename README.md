@@ -66,6 +66,10 @@ dependencies {
 ```
 
 ## Changelog
+*8.0.1-beta*
+- **[BUG FIX]
+  - Filter out proxyClassLookup method from Proxy class (for Java 16+) in AppiumByBuilder. [#1575](https://github.com/appium/java-client/issues/1575)
+  
 *8.0.0-beta*
 - **[ENHANCEMENTS]**
   - Start adding UiAutomator2 options. [#1543](https://github.com/appium/java-client/pull/1543)
@@ -102,8 +106,6 @@ dependencies {
   - Remove setElementValue helper. [#1577](https://github.com/appium/java-client/pull/1577)
   - Remove selenium package override. [#1555](https://github.com/appium/java-client/pull/1555)
   - remove redundant exclusion of Gradle task signMavenJavaPublication. [#1568](https://github.com/appium/java-client/pull/1568)
-- **[BUG FIX]
-  - Filter out proxyClassLookup method from Proxy class (for Java 16+) in AppiumByBuilder. [#1575](https://github.com/appium/java-client/issues/1575)
 - **[DEPENDENCY UPDATES]**
   - `org.owasp.dependencycheck` was updated to 6.4.1.
   - `com.google.code.gson:gson` was updated to 2.8.9.
