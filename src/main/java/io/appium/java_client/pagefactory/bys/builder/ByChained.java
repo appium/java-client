@@ -35,6 +35,9 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
     private static AppiumFunction<SearchContext, WebElement> getSearchingFunction(By by) {
         return input -> {
             try {
+                if (input == null) {
+                    return null;
+                }
                 return input.findElement(by);
             } catch (NoSuchElementException e) {
                 return null;
@@ -71,7 +74,7 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
             checkNotNull(searchingFunction);
             return waiting.until(searchingFunction);
         } catch (TimeoutException e) {
-            throw new NoSuchElementException("Cannot locate an element using " + toString());
+            throw new NoSuchElementException("Cannot locate an element using " + this);
         }
     }
 }

@@ -19,8 +19,9 @@ package io.appium.java_client.pagefactory.bys.builder;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.openqa.selenium.By;
 
@@ -127,12 +128,7 @@ enum Strategies {
     }
 
     static List<String> strategiesNames() {
-        Strategies[] strategies = values();
-        List<String> result = new ArrayList<>();
-        for (Strategies strategy : strategies) {
-            result.add(strategy.valueName);
-        }
-        return result;
+        return Stream.of(values()).map((s) -> s.valueName).collect(Collectors.toList());
     }
 
     private static String getValue(Annotation annotation, Strategies strategy) {

@@ -17,7 +17,5 @@
 package io.appium.java_client.pagefactory.bys.builder;
 
 public enum HowToUseSelectors {
-    USE_ONE,
-    BUILD_CHAINED,
-    USE_ANY;
+    USE_ONE, BUILD_CHAINED, USE_ANY
 }
