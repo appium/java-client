@@ -13,13 +13,18 @@ jobs:
 
     runs-on: macOS-latest
 
+    strategy:
+      matrix:
+        java: [ 8, 11, 17 ]
+
+    name: JDK ${{ matrix.java }}
     steps:
     - uses: actions/checkout@v1
-    - name: Set up JDK 8
+    - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v2.3.1
       with:
         distribution: 'zulu'
-        java-version: 8
+        java-version: ${{ matrix.java }}
         cache: 'gradle'
     - name: Build with Gradle
       run: ./gradlew clean build -x test -x checkstyleTest
