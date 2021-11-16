@@ -33,6 +33,7 @@ import io.appium.java_client.mac.options.Mac2Options;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.safari.options.SafariOptions;
 import io.appium.java_client.safari.options.WebrtcData;
+import io.appium.java_client.screenrecording.ScreenRecordingUploadOptions;
 import io.appium.java_client.windows.options.PowerShellData;
 import io.appium.java_client.windows.options.WindowsOptions;
 import org.junit.Test;
@@ -41,6 +42,7 @@ import org.openqa.selenium.Platform;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -179,5 +181,22 @@ public class OptionsBuildingTest {
                 .doesDisableIceCandidateFiltering().orElse(false));
         assertTrue(options.getWebkitWebrtc().orElse(null)
                 .doesDisableInsecureMediaCapture().orElse(false));
+    }
+
+    @Test
+    public void canBuildScreenRecordingUploadOptions() {
+        ScreenRecordingUploadOptions options = ScreenRecordingUploadOptions.uploadOptions();
+        assertEquals("file", options.build().get("fileFieldName"));
+        Map<String, Object> optionsMap = options
+                .withRemotePath("http://yolo.com")
+                .withHttpMethod(ScreenRecordingUploadOptions.RequestMethod.POST)
+                .withFileFieldName("file123")
+                .withAuthCredentials("kim", "password")
+                .build();
+        assertEquals("http://yolo.com", optionsMap.get("remotePath"));
+        assertEquals("POST", optionsMap.get("method"));
+        assertEquals("file123", optionsMap.get("fileFieldName"));
+        assertEquals("kim", optionsMap.get("user"));
+        assertEquals("password", optionsMap.get("pass"));
     }
 }

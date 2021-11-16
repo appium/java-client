@@ -32,6 +32,13 @@ public class ScreenRecordingUploadOptions {
     private Map<String, String> headers;
     private Map<String, Object> formFields;
 
+    /**
+     * Creates new instance with default fileFieldName.
+     */
+    public ScreenRecordingUploadOptions() {
+        withFileFieldName("file");
+    }
+
     public static ScreenRecordingUploadOptions uploadOptions() {
         return new ScreenRecordingUploadOptions();
     }
