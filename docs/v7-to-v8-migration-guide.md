@@ -21,6 +21,8 @@ to create an UiAutomator2 driver instance.
 If there is no driver-specific options class for your driver then either use 
 `BaseOptions` builder as the base class to define your capabilities or request 
 driver developers to add one. _Do not_ use `DesiredCapabilities` class for this purpose in W3C context.
+Check [unit tests](https://github.com/appium/java-client/blob/master/src/test/java/io/appium/java_client/drivers/options/OptionsBuildingTest.java)
+for more examples on how to build driver options.
 
 ## Elements lookup
 
