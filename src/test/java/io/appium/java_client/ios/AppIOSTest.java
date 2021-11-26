@@ -1,7 +1,6 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.ios.options.XCUITestOptions;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
 import org.openqa.selenium.SessionNotCreatedException;
 
@@ -16,10 +15,6 @@ public class AppIOSTest extends BaseIOSTest {
     @BeforeClass
     public static void beforeClass() throws Exception {
         startAppiumServer();
-
-        if (!service.isRunning()) {
-            throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
-        }
 
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(PLATFORM_VERSION)

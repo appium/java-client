@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.BeforeClass;
 
 import java.io.IOException;
@@ -26,11 +25,7 @@ import java.io.IOException;
 public class BaseSafariTest extends BaseIOSTest {
 
     @BeforeClass public static void beforeClass() throws IOException {
-        final String ip = startAppiumServer();
-
-        if (service == null || !service.isRunning()) {
-            throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
-        }
+        startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()
                 .withBrowserName(MobileBrowserType.SAFARI)

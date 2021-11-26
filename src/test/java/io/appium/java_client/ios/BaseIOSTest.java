@@ -20,11 +20,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.time.Duration;
-
-import static io.appium.java_client.TestUtils.getLocalIp4Address;
 
 public class BaseIOSTest {
 
@@ -42,16 +38,15 @@ public class BaseIOSTest {
     /**
      * Starts a local server.
      *
-     * @return ip of a local host
-     * @throws UnknownHostException when it is impossible to get ip address of a local host
+     * @return service instance
      */
-    public static String startAppiumServer() throws UnknownHostException, SocketException {
+    public static AppiumDriverLocalService startAppiumServer() {
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
                 .build();
         service.start();
-        return getLocalIp4Address();
+        return service;
     }
 
     /**
