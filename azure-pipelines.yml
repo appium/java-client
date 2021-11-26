@@ -21,7 +21,7 @@ jobs:
 - job: Android_E2E_Tests
   steps:
   - template: .azure-templates/bootstrap_steps.yml
-  - script: appium driver install uiautomator2
+  - script: /usr/local/bin/appium driver install uiautomator2
     displayName: Install UIA2 driver
   - script: |
       echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;$(ANDROID_EMU_TARGET);$(ANDROID_EMU_TAG);$(ANDROID_EMU_ABI)'
@@ -52,7 +52,7 @@ jobs:
       sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
       xcrun simctl list
     displayName: Simulator configuration
-  - script: appium driver install xcuitest
+  - script: /usr/local/bin/appium driver install xcuitest
     displayName: Install XCUITest driver
   - task: Gradle@2
     inputs:

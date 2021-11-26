@@ -47,6 +47,7 @@ public class BaseIOSTest {
      */
     public static String startAppiumServer() throws UnknownHostException, SocketException {
         service = new AppiumServiceBuilder()
+                .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
                 .build();
         service.start();

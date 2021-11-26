@@ -37,6 +37,7 @@ public class BaseAndroidTest {
      */
     @BeforeClass public static void beforeClass() {
         service = new AppiumServiceBuilder()
+                .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
                 .build();
         service.start();
