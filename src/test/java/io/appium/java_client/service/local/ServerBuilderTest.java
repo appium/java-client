@@ -247,7 +247,7 @@ public class ServerBuilderTest {
     @Test
     public void checkAbilityToStartServiceWithPortUsingFlag() {
         String port = "8996";
-        String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
+        String expectedUrl = String.format("http://0.0.0.0:%s/", port);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "--port", port)
@@ -260,7 +260,7 @@ public class ServerBuilderTest {
     @Test
     public void checkAbilityToStartServiceWithPortUsingShortFlag() {
         String port = "8996";
-        String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
+        String expectedUrl = String.format("http://0.0.0.0:%s/", port);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "-p", port)
@@ -272,7 +272,7 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToStartServiceWithIpUsingFlag() {
-        String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
+        String expectedUrl = String.format("http://%s:4723/", testIP);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "--address", testIP)
@@ -284,7 +284,7 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToStartServiceWithIpUsingShortFlag() {
-        String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
+        String expectedUrl = String.format("http://%s:4723/", testIP);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "-a", testIP)

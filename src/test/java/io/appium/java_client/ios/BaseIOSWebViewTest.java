@@ -22,8 +22,6 @@ import org.junit.BeforeClass;
 import org.openqa.selenium.SessionNotCreatedException;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
 import java.util.function.Supplier;
 
@@ -46,13 +44,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
                 .setApp(vodQaAppZip().toAbsolutePath().toString());
-        Supplier<IOSDriver> createDriver = () -> {
-            try {
-                return new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), options);
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        };
+        Supplier<IOSDriver> createDriver = () -> new IOSDriver(service.getUrl(), options);
         try {
             driver = createDriver.get();
         } catch (SessionNotCreatedException e) {

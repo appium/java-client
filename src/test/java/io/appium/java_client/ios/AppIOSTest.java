@@ -5,7 +5,6 @@ import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyE
 import org.junit.BeforeClass;
 import org.openqa.selenium.SessionNotCreatedException;
 
-import java.net.URL;
 import java.time.Duration;
 
 import static io.appium.java_client.TestResources.testAppZip;
@@ -16,9 +15,9 @@ public class AppIOSTest extends BaseIOSTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        final String ip = startAppiumServer();
+        startAppiumServer();
 
-        if (service == null || !service.isRunning()) {
+        if (!service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException("An appium server node is not started!");
         }
 
@@ -29,10 +28,10 @@ public class AppIOSTest extends BaseIOSTest {
                 .setApp(testAppZip().toAbsolutePath().toString())
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
         try {
-            driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), options);
+            driver = new IOSDriver(service.getUrl(), options);
         } catch (SessionNotCreatedException e) {
             options.useNewWDA();
-            driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), options);
+            driver = new IOSDriver(service.getUrl(), options);
         }
     }
 }

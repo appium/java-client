@@ -23,6 +23,7 @@ import static org.slf4j.event.Level.INFO;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
 import org.openqa.selenium.net.UrlChecker;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
@@ -52,7 +54,7 @@ import javax.annotation.Nullable;
 
 public final class AppiumDriverLocalService extends DriverService {
 
-    private static final String URL_MASK = "http://%s:%d/wd/hub";
+    private static final String URL_MASK = "http://%s:%d/";
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
     private static final Pattern LOG_MESSAGE_PATTERN = Pattern.compile("^(.*)\\R");
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
@@ -66,11 +68,14 @@ public final class AppiumDriverLocalService extends DriverService {
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
+    private String basePath;
     
     private CommandLine process = null;
 
-    AppiumDriverLocalService(String ipAddress, File nodeJSExec, int nodeJSPort, Duration startupTimeout,
-                             List<String> nodeJSArgs, Map<String, String> nodeJSEnvironment) throws IOException {
+    AppiumDriverLocalService(String ipAddress, File nodeJSExec,
+                             int nodeJSPort, Duration startupTimeout,
+                             List<String> nodeJSArgs, Map<String, String> nodeJSEnvironment
+    ) throws IOException {
         super(nodeJSExec, nodeJSPort, startupTimeout, nodeJSArgs, nodeJSEnvironment);
         this.nodeJSExec = nodeJSExec;
         this.nodeJSArgs = nodeJSArgs;
@@ -87,6 +92,26 @@ public final class AppiumDriverLocalService extends DriverService {
         return builder.build();
     }
 
+    public AppiumDriverLocalService withBasePath(String basePath) {
+        this.basePath = basePath;
+        return this;
+    }
+
+    public String getBasePath() {
+        return this.basePath;
+    }
+
+    @SneakyThrows
+    private static URL addSuffix(URL url, String suffix) {
+        return url.toURI().resolve("." + (suffix.startsWith("/") ? suffix : "/" + suffix)).toURL();
+    }
+
+    @SneakyThrows
+    @SuppressWarnings("SameParameterValue")
+    private static URL replaceHost(URL source, String oldHost, String newHost) {
+        return new URL(source.toString().replace(oldHost, newHost));
+    }
+
     /**
      * Base URL.
      *
@@ -94,7 +119,7 @@ public final class AppiumDriverLocalService extends DriverService {
      */
     @Override
     public URL getUrl() {
-        return url;
+        return basePath == null ? url : addSuffix(url, basePath);
     }
 
     @Override
@@ -125,7 +150,7 @@ public final class AppiumDriverLocalService extends DriverService {
 
     private void ping(Duration timeout) throws UrlChecker.TimeoutException, MalformedURLException {
         // The operating system might block direct access to the universal broadcast IP address
-        URL status = new URL(url.toString().replace(BROADCAST_IP_ADDRESS, "127.0.0.1") + "/status");
+        URL status = addSuffix(replaceHost(getUrl(), BROADCAST_IP_ADDRESS, "127.0.0.1"), "/status");
         new UrlChecker().waitUntilAvailable(timeout.toMillis(), TimeUnit.MILLISECONDS, status);
     }
 

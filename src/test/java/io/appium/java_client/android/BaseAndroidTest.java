@@ -37,7 +37,6 @@ public class BaseAndroidTest {
      */
     @BeforeClass public static void beforeClass() {
         service = new AppiumServiceBuilder()
-                .withArgument(() -> "--base-path", "/wd/hub")
                 .usingPort(PORT)
                 .build();
         service.start();

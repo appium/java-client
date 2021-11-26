@@ -22,7 +22,6 @@ import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyE
 import org.junit.BeforeClass;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class BaseSafariTest extends BaseIOSTest {
 
@@ -38,6 +37,6 @@ public class BaseSafariTest extends BaseIOSTest {
                 .setDeviceName(DEVICE_NAME)
                 .setPlatformVersion(PLATFORM_VERSION)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
-        driver = new IOSDriver(new URL("http://" + ip + ":" + PORT + "/wd/hub"), options);
+        driver = new IOSDriver(service.getUrl(), options);
     }
 }
