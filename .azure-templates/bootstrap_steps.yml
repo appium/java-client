@@ -7,4 +7,4 @@ steps:
       npm config set prefix $NVM_DIR/versions/node/`node --version`
       node --version
 
-      npm install -g appium@beta
+      npm install -g appium@next

@@ -5,7 +5,6 @@ import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LAUNCH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.System.getProperty;
@@ -141,7 +140,6 @@ public class ServerBuilderTest {
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)
                 .withArgument(SESSION_OVERRIDE)
-                .withArgument(PRE_LAUNCH)
                 .build();
         service.start();
         assertTrue(service.isRunning());
@@ -183,7 +181,6 @@ public class ServerBuilderTest {
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)
                 .withArgument(SESSION_OVERRIDE)
-                .withArgument(PRE_LAUNCH)
                 .withCapabilities(options).build();
         service.start();
         assertTrue(service.isRunning());
@@ -247,7 +244,7 @@ public class ServerBuilderTest {
     @Test
     public void checkAbilityToStartServiceWithPortUsingFlag() {
         String port = "8996";
-        String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
+        String expectedUrl = String.format("http://0.0.0.0:%s/", port);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "--port", port)
@@ -260,7 +257,7 @@ public class ServerBuilderTest {
     @Test
     public void checkAbilityToStartServiceWithPortUsingShortFlag() {
         String port = "8996";
-        String expectedUrl = String.format("http://0.0.0.0:%s/wd/hub", port);
+        String expectedUrl = String.format("http://0.0.0.0:%s/", port);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "-p", port)
@@ -272,7 +269,7 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToStartServiceWithIpUsingFlag() {
-        String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
+        String expectedUrl = String.format("http://%s:4723/", testIP);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "--address", testIP)
@@ -284,7 +281,7 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToStartServiceWithIpUsingShortFlag() {
-        String expectedUrl = String.format("http://%s:4723/wd/hub", testIP);
+        String expectedUrl = String.format("http://%s:4723/", testIP);
 
         service = new AppiumServiceBuilder()
                 .withArgument(() -> "-a", testIP)

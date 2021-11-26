@@ -96,3 +96,15 @@ for more details on how to properly apply W3C Actions to your automation context
 - AppiumDriver methods `resetApp`, `launchApp` and `closeApp` have been deprecated as
 they are going to be removed from future Appium versions. Check 
 https://github.com/appium/appium/issues/15807 for more details.
+
+## AppiumDriverLocalService
+
+- The default URL the server is listening on has been changed, and it
+does not contain the `/wd/hub` suffix anymore (e.g. `http://0.0.0.0:4723/wd/hub` 
+became `http://0.0.0.0:4723/`). This has been done in order
+to align the actual behavior with Appium v2. If you still would like to use
+v8 of the Java client with Appium v1.2x, where the server URL contains the `/wd/hub` suffix
+by default, then consider providing `--base-path` setting explicitly while
+building `AppiumServiceBuilder` instance (e.g. `.withArgument(GeneralServerFlag.BASEPATH, "/wd/hub")`).
+Older versions of Appium server (v1.19 and older) won't work with `AppiumDriverLocalService`,
+because they don't allow provisioning of base path in form of a command line argument.

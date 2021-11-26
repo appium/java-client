@@ -16,7 +16,6 @@
 
 package io.appium.java_client.service.local.flags;
 
-
 /**
  * Here is the list of common Appium server arguments.
  */
@@ -43,7 +42,10 @@ public enum GeneralServerFlag implements ServerArgument {
      * Pre-launch the application before allowing the first session
      * (Requires –app and, for Android, –app-pkg and –app-activity).
      * Default: false
+     *
+     * @deprecated This argument has been removed from Appium 2.0
      */
+    @Deprecated
     PRE_LAUNCH("--pre-launch"),
     /**
      * The message log level to be shown.
@@ -75,14 +77,6 @@ public enum GeneralServerFlag implements ServerArgument {
      * --nodeconfig /abs/path/to/nodeconfig.json
      */
     CONFIGURATION_FILE("--nodeconfig"),
-    /**
-     * IP Address of robot. Sample: --robot-address 0.0.0.0
-     */
-    ROBOT_ADDRESS("--robot-address"),
-    /**
-     * Port for robot. Sample: --robot-port 4242
-     */
-    ROBOT_PORT("--robot-port"),
     /**
      * Show info about the Appium server configuration and exit. Default: false
      */
@@ -140,33 +134,21 @@ public enum GeneralServerFlag implements ServerArgument {
      * Plugins are available with Appium as of Appium 2.0.
      * To activate all plugins, you can use the single string "all" as the value (e.g --plugins=all)
      * Default: []
-     * Sample: --plugins=device-farm,images
+     * Sample: --use-plugins=device-farm,images
      */
-    PLUGINS("--plugins"),
+    USE_PLUGINS("--use-plugins"),
     /**
      * A comma-separated list of installed driver names that should be active for this server.
      * All drivers will be active by default.
      * Default: []
-     * Sample: --drivers=uiautomator2,xcuitest
+     * Sample: --use-drivers=uiautomator2,xcuitest
      */
-    DRIVERS("--drivers"),
+    USE_DRIVERS("--use-drivers"),
     /**
      * Base path to use as the prefix for all webdriver routes running on this server.
      * Sample: --base-path=/wd/hub
      */
-    BASEPATH("--base-path"),
-    /**
-     * Set the default desired client arguments for a plugin.
-     * Default: []
-     * Sample: [ '{"images":{"foo1": "bar1", "foo2": "bar2"}}' | /path/to/pluginArgs.json ]
-     */
-    PLUGINARGS("--plugin-args"),
-    /**
-     *  Set the default desired client arguments for a driver.
-     * Default: []
-     * Sample: [ '{"xcuitest": {"foo1": "bar1", "foo2": "bar2"}}' | /path/to/driverArgs.json ]
-     */
-    DRIVERARGS("--driver-args");
+    BASEPATH("--base-path");
 
     private final String arg;
 

@@ -20,11 +20,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.time.Duration;
-
-import static io.appium.java_client.TestUtils.getLocalIp4Address;
 
 public class BaseIOSTest {
 
@@ -32,21 +28,25 @@ public class BaseIOSTest {
     protected static IOSDriver driver;
     protected static final int PORT = 4723;
     public static final String DEVICE_NAME = System.getenv("IOS_DEVICE_NAME") != null
-            ? System.getenv("IOS_DEVICE_NAME") : "iPhone 12";
+            ? System.getenv("IOS_DEVICE_NAME")
+            : "iPhone 12";
     public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
-            ? System.getenv("IOS_PLATFORM_VERSION") : "14.5";
+            ? System.getenv("IOS_PLATFORM_VERSION")
+            : "14.5";
     public static final Duration WDA_LAUNCH_TIMEOUT = Duration.ofSeconds(240);
 
     /**
      * Starts a local server.
      *
-     * @return ip of a local host
-     * @throws UnknownHostException when it is impossible to get ip address of a local host
+     * @return service instance
      */
-    public static String startAppiumServer() throws UnknownHostException, SocketException {
-        service = new AppiumServiceBuilder().usingPort(PORT).build();
+    public static AppiumDriverLocalService startAppiumServer() {
+        service = new AppiumServiceBuilder()
+                .withIPAddress("127.0.0.1")
+                .usingPort(PORT)
+                .build();
         service.start();
-        return getLocalIp4Address();
+        return service;
     }
 
     /**

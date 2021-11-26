@@ -25,8 +25,10 @@ import com.google.gson.GsonBuilder;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.service.local.flags.ServerArgument;
 
+import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -446,16 +448,15 @@ public final class AppiumServiceBuilder
         return super.withLogFile(logFile);
     }
 
+    @SneakyThrows
     @Override
     protected AppiumDriverLocalService createDriverService(File nodeJSExecutable, int nodeJSPort,
                                                            Duration startupTimeout,
                                                            List<String> nodeArguments,
                                                            Map<String, String> nodeEnvironment) {
-        try {
-            return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort, startupTimeout, nodeArguments,
-                    nodeEnvironment);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String basePath = serverArguments.getOrDefault(
+                GeneralServerFlag.BASEPATH.getArgument(), serverArguments.get("-pa"));
+        return new AppiumDriverLocalService(ipAddress, nodeJSExecutable, nodeJSPort, startupTimeout, nodeArguments,
+                nodeEnvironment).withBasePath(basePath);
     }
 }
