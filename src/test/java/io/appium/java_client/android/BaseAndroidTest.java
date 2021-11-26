@@ -18,8 +18,8 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -27,6 +27,8 @@ import static io.appium.java_client.TestResources.apiDemosApk;
 
 public class BaseAndroidTest {
     public static final String APP_ID = "io.appium.android.apis";
+    protected static final int PORT = 4723;
+
     private static AppiumDriverLocalService service;
     protected static AndroidDriver driver;
 
@@ -34,12 +36,11 @@ public class BaseAndroidTest {
      * initialization.
      */
     @BeforeClass public static void beforeClass() {
-        service = AppiumDriverLocalService.buildDefaultService();
+        service = new AppiumServiceBuilder()
+                .withArgument(() -> "--base-path", "/wd/hub")
+                .usingPort(PORT)
+                .build();
         service.start();
-        if (service == null || !service.isRunning()) {
-            throw new AppiumServerHasNotBeenStartedLocallyException(
-                "An appium server node is not started!");
-        }
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")

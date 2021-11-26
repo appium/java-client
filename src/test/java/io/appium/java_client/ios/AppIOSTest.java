@@ -23,6 +23,7 @@ public class AppIOSTest extends BaseIOSTest {
         }
 
         XCUITestOptions options = new XCUITestOptions()
+                .setPlatformVersion(PLATFORM_VERSION)
                 .setDeviceName(DEVICE_NAME)
                 .setCommandTimeouts(Duration.ofSeconds(240))
                 .setApp(testAppZip().toAbsolutePath().toString())
