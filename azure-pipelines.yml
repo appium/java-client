@@ -14,14 +14,14 @@ variables:
   XCODE_VERSION: 11.5
   IOS_PLATFORM_VERSION: 13.5
   IOS_DEVICE_NAME: iPhone X
-  NODE_VERSION: 12.x
+  NODE_VERSION: 14.x
   JDK_VERSION: 1.8
 
 jobs:
 - job: Android_E2E_Tests
   steps:
   - template: .azure-templates/bootstrap_steps.yml
-  - script: /usr/local/bin/appium driver install uiautomator2
+  - script: $NVM_DIR/versions/node/`node --version`/bin/appium driver install uiautomator2
     displayName: Install UIA2 driver
   - script: |
       echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;$(ANDROID_EMU_TARGET);$(ANDROID_EMU_TAG);$(ANDROID_EMU_ABI)'
@@ -52,7 +52,7 @@ jobs:
       sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
       xcrun simctl list
     displayName: Simulator configuration
-  - script: /usr/local/bin/appium driver install xcuitest
+  - script: $NVM_DIR/versions/node/`node --version`/bin/appium driver install xcuitest
     displayName: Install XCUITest driver
   - task: Gradle@2
     inputs:
