@@ -33,17 +33,20 @@ dependencies {
 
     api ('org.seleniumhq.selenium:selenium-api') {
         version {
-            strictly "${seleniumVersion}"
+            strictly '[4.0, 5.0)'
+            prefer "${seleniumVersion}"
         }
     }
     api ('org.seleniumhq.selenium:selenium-remote-driver') {
         version {
-            strictly "${seleniumVersion}"
+            strictly '[4.0, 5.0)'
+            prefer "${seleniumVersion}"
         }
     }
     implementation ('org.seleniumhq.selenium:selenium-support') {
         version {
-            strictly "${seleniumVersion}"
+            strictly '[4.0, 5.0)'
+            prefer "${seleniumVersion}"
         }
     }
     implementation 'com.google.code.gson:gson:2.8.9'
@@ -63,7 +66,8 @@ dependencies {
     }
     testImplementation ('org.seleniumhq.selenium:selenium-chrome-driver') {
         version {
-            strictly "${seleniumVersion}"
+            strictly '[4.0, 5.0)'
+            prefer "${seleniumVersion}"
         }
     }
 }
