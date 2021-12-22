@@ -66,6 +66,22 @@ dependencies {
 ```
 
 ## Changelog
+*8.0.0-beta2*
+- **[DOCUMENTATION]**
+  - Add a link to options builder examples to the migration guide. [#1595](https://github.com/appium/java-client/pull/1595)
+- **[BUG FIX]**
+  - Filter out proxyClassLookup method from Proxy class (for Java 16+) in AppiumByBuilder. [#1575](https://github.com/appium/java-client/pull/1575)
+- **[REFRACTOR]**
+  - Add more nice functional stuff into page factory helpers. [#1584](https://github.com/appium/java-client/pull/1584)
+  - Switch e2e tests to use Appium2. [#1603](https://github.com/appium/java-client/pull/1603)
+  - relax constraints of Selenium dependencies versions. [#1606](https://github.com/appium/java-client/pull/1606)
+- **[DEPENDENCY UPDATES]**
+  - Upgrade to Selenium 4.1.1. [#1613](https://github.com/appium/java-client/pull/1613)
+  - `org.owasp.dependencycheck` was updated to 6.5.1.
+  - `org.springframework:spring-context` was updated to 5.3.14.
+  - `actions/setup-java` was updated to 2.4.0.
+  - `gradle` was updated to 7.3.
+
 *8.0.0-beta*
 - **[ENHANCEMENTS]**
   - Start adding UiAutomator2 options. [#1543](https://github.com/appium/java-client/pull/1543)
