@@ -411,7 +411,7 @@ public final class AppiumDriverLocalService extends DriverService {
     public void addLogMessageConsumer(Consumer<String> consumer) {
         checkNotNull(consumer, "consumer parameter is NULL!");
         addOutPutStream(new OutputStream() {
-            private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
             @Override
             public void write(int chr) {
