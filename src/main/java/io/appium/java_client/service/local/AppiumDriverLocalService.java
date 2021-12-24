@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -410,16 +411,15 @@ public final class AppiumDriverLocalService extends DriverService {
     public void addLogMessageConsumer(Consumer<String> consumer) {
         checkNotNull(consumer, "consumer parameter is NULL!");
         addOutPutStream(new OutputStream() {
-            StringBuilder lineBuilder = new StringBuilder();
+            private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
             @Override
             public void write(int chr) {
                 try {
-                    lineBuilder.append((char) chr);
-                    Matcher matcher = LOG_MESSAGE_PATTERN.matcher(lineBuilder.toString());
-                    if (matcher.matches()) {
-                        consumer.accept(matcher.group(1));
-                        lineBuilder = new StringBuilder();
+                    outputStream.write(chr);
+                    if ((chr == '\n')) {
+                        consumer.accept(outputStream.toString());
+                        outputStream.reset();
                     }
                 } catch (Exception e) {
                     // log error and continue
