@@ -417,7 +417,7 @@ public final class AppiumDriverLocalService extends DriverService {
             public void write(int chr) {
                 try {
                     outputStream.write(chr);
-                    if ((chr == '\n')) {
+                    if (chr == '\n') {
                         consumer.accept(outputStream.toString());
                         outputStream.reset();
                     }
