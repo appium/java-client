@@ -53,19 +53,17 @@ enum Strategies {
     },
     BYID("id") {
         @Override By getBy(Annotation annotation) {
-            return By.id(getValue(annotation, this));
+            return AppiumBy.id(getValue(annotation, this));
         }
     },
     BYTAG("tagName") {
         @Override By getBy(Annotation annotation) {
-            return By
-                .tagName(getValue(annotation, this));
+            return By.tagName(getValue(annotation, this));
         }
     },
     BYNAME("name") {
         @Override By getBy(Annotation annotation) {
-            return By
-                .name(getValue(annotation, this));
+            return AppiumBy.name(getValue(annotation, this));
         }
     },
     BYXPATH("xpath") {

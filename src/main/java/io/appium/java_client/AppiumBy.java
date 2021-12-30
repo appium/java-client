@@ -26,7 +26,6 @@ import org.openqa.selenium.WebElement;
 import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public abstract class AppiumBy extends By implements Remotable {
 
     @Getter private final Parameters remoteParameters;
@@ -38,7 +37,6 @@ public abstract class AppiumBy extends By implements Remotable {
         this.locatorName = locatorName;
     }
 
-    @SuppressWarnings("unchecked")
     @Override public List<WebElement> findElements(SearchContext context) {
         return context.findElements(this);
     }
@@ -48,7 +46,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     @Override public String toString() {
-        return String.format("AppiumBy.%s: %s", locatorName, remoteParameters.value());
+        return String.format("%s.%s: %s", AppiumBy.class.getSimpleName(), locatorName, remoteParameters.value());
     }
 
     /**
@@ -116,6 +114,26 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
+     * For IOS the element name.
+     * For Android it is the resource identifier.
+     * @param selector element id
+     * @return an instance of {@link ById}
+     */
+    public static By id(final String selector) {
+        return new ById(selector);
+    }
+
+    /**
+     * For IOS the element name.
+     * For Android it is the resource identifier.
+     * @param selector element id
+     * @return an instance of {@link ByName}
+     */
+    public static By name(final String selector) {
+        return new ByName(selector);
+    }
+
+    /**
      * This type of locator requires the use of the 'customFindModules' capability and a
      * separately-installed element finding plugin.
      *
@@ -165,70 +183,72 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
-
         public ByAccessibilityId(String accessibilityId) {
             super("accessibility id", accessibilityId, "accessibilityId");
         }
     }
 
     public static class ByAndroidDataMatcher extends AppiumBy implements Serializable {
-
         protected ByAndroidDataMatcher(String locatorString) {
             super("-android datamatcher", locatorString, "androidDataMatcher");
         }
     }
 
     public static class ByAndroidUIAutomator extends AppiumBy implements Serializable {
-
         public ByAndroidUIAutomator(String uiautomatorText) {
             super("-android uiautomator", uiautomatorText, "androidUIAutomator");
         }
     }
 
     public static class ByAndroidViewMatcher extends AppiumBy implements Serializable {
-
         protected ByAndroidViewMatcher(String locatorString) {
             super("-android viewmatcher", locatorString, "androidViewMatcher");
         }
     }
 
     public static class ByAndroidViewTag extends AppiumBy implements Serializable {
-
         public ByAndroidViewTag(String tag) {
             super("-android viewtag", tag, "androidViewTag");
         }
     }
 
-    public static class ByClassName extends AppiumBy implements Serializable {
+    public static class ById extends AppiumBy implements Serializable {
+        protected ById(String selector) {
+            super("id", selector, "id");
+        }
+    }
 
+    public static class ByName extends AppiumBy implements Serializable {
+        protected ByName(String selector) {
+            super("name", selector, "name");
+        }
+    }
+
+    public static class ByClassName extends AppiumBy implements Serializable {
         protected ByClassName(String selector) {
             super("class name", selector, "className");
         }
     }
 
     public static class ByCustom extends AppiumBy implements Serializable {
-
         protected ByCustom(String selector) {
             super("-custom", selector, "custom");
         }
     }
 
     public static class ByImage extends AppiumBy implements Serializable {
-
         protected ByImage(String b64Template) {
             super("-image", b64Template, "image");
         }
     }
 
     public static class ByIosClassChain extends AppiumBy implements Serializable {
-
         protected ByIosClassChain(String locatorString) {
             super("-ios class chain", locatorString, "iOSClassChain");
         }
     }
 
     public static class ByIosNsPredicate extends AppiumBy implements Serializable {
-
         protected ByIosNsPredicate(String locatorString) {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
         }
