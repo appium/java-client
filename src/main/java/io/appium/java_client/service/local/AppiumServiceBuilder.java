@@ -203,7 +203,7 @@ public final class AppiumServiceBuilder
      * @return the self-reference.
      */
     public AppiumServiceBuilder withArgument(ServerArgument argument, String value) {
-        String argName = argument.getArgument().trim().toLowerCase();
+        String argName = argument.getArgument();
         switch (argName) {
             case "--port":
             case "-p":
