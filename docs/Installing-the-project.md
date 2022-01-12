@@ -17,6 +17,14 @@ Add the following to pom.xml:
 </dependency>
 ```
 
+If you haven't already, change the Java version:
+```
+<properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+</properties>
+```
+
 If it is necessary to change the version of Selenium then you can configure pom.xml like following:
 
 ```
