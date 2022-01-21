@@ -20,8 +20,8 @@ Add the following to pom.xml:
 If you haven't already, change the Java version:
 ```
 <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 </properties>
 ```
 
