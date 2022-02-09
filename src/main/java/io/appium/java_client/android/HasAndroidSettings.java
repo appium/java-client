@@ -21,7 +21,7 @@ import io.appium.java_client.Setting;
 
 import java.time.Duration;
 
-interface HasAndroidSettings extends HasSettings {
+public interface HasAndroidSettings extends HasSettings {
     /**
      * Set the `ignoreUnimportantViews` setting. *Android-only method*.
      * Sets whether Android devices should use `setCompressedLayoutHeirarchy()`
