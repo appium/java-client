@@ -19,7 +19,7 @@ package io.appium.java_client.ios;
 import io.appium.java_client.HasSettings;
 import io.appium.java_client.Setting;
 
-interface HasIOSSettings extends HasSettings {
+public interface HasIOSSettings extends HasSettings {
     /**
      * Set the `nativeWebTap` setting. *iOS-only method*.
      * Sets whether Safari/webviews should convert element taps into x/y taps.
