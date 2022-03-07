@@ -71,6 +71,24 @@ dependencies {
 ```
 
 ## Changelog
+*8.0.0*
+- **[DOCUMENTATION]**
+  - Set minimum Java version to 1.8.0. [#1631](https://github.com/appium/java-client/pull/1631)
+- **[BUG FIX]**
+  - Make interfaces public to fix decorator creation. [#1644](https://github.com/appium/java-client/pull/1644)
+  - Do not convert argument names to lowercase. [#1627](https://github.com/appium/java-client/pull/1627)
+  - Avoid fallback to css for id and name locator annotations. [#1622](https://github.com/appium/java-client/pull/1622)
+  - Fix handling of chinese characters in `AppiumDriverLocalService`. [#1618](https://github.com/appium/java-client/pull/1618)
+- **[DEPENDENCY UPDATES]**
+  - `org.owasp.dependencycheck` was updated to 7.0.0.
+  - `org.springframework:spring-context` was updated to 5.3.16.
+  - `actions/setup-java` was updated to 3.
+  - `actions/checkout` was updated to 3.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.1.0.
+  - `org.aspectj:aspectjweaver` was updated to 1.9.8.
+  - `org.slf4j:slf4j-api` was updated to 1.7.36.
+  - `com.github.johnrengelman.shadow` was updated to 7.1.2.
+
 *8.0.0-beta2*
 - **[DOCUMENTATION]**
   - Add a link to options builder examples to the migration guide. [#1595](https://github.com/appium/java-client/pull/1595)
