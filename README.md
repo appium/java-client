@@ -2,7 +2,6 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
 [![Javadocs](https://www.javadoc.io/badge/io.appium/java-client.svg)](https://www.javadoc.io/doc/io.appium/java-client)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
 [![Build Status](https://travis-ci.org/appium/java-client.svg?branch=master)](https://travis-ci.org/appium/java-client)
 
 This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
@@ -16,6 +15,12 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 [How to install the project](https://github.com/appium/java-client/blob/master/docs/Installing-the-project.md)
 
 [WIKI](https://github.com/appium/java-client/wiki)
+
+## v8 Migration
+
+Since version 8 Appium Java Client had several major changes, which might require to 
+update your client code. Make sure to follow the [v7 to v8 Migration Guide](https://github.com/appium/java-client/blob/master/docs/v7-to-v8-migration-guide.md)
+in order to streamline the migration process.
 
 ## How to install latest java client Beta/Snapshots
 
@@ -66,24 +71,6 @@ dependencies {
 ```
 
 ## Changelog
-*8.0.0*
-- **[DOCUMENTATION]**
-  - Set minimum Java version to 1.8.0. [#1631](https://github.com/appium/java-client/pull/1631)
-- **[BUG FIX]**
-  - Make interfaces public to fix decorator creation. [#1644](https://github.com/appium/java-client/pull/1644)
-  - Do not convert argument names to lowercase. [#1627](https://github.com/appium/java-client/pull/1627)
-  - Avoid fallback to css for id and name locator annotations. [#1622](https://github.com/appium/java-client/pull/1622)
-  - Fix handling of chinese characters in `AppiumDriverLocalService`. [#1618](https://github.com/appium/java-client/pull/1618)
-- **[DEPENDENCY UPDATES]**
-  - `org.owasp.dependencycheck` was updated to 7.0.0.
-  - `org.springframework:spring-context` was updated to 5.3.16.
-  - `actions/setup-java` was updated to 3.
-  - `actions/checkout` was updated to 3.
-  - `io.github.bonigarcia:webdrivermanager` was updated to 5.1.0.
-  - `org.aspectj:aspectjweaver` was updated to 1.9.8.
-  - `org.slf4j:slf4j-api` was updated to 1.7.36.
-  - `com.github.johnrengelman.shadow` was updated to 7.1.2.
-
 *8.0.0-beta2*
 - **[DOCUMENTATION]**
   - Add a link to options builder examples to the migration guide. [#1595](https://github.com/appium/java-client/pull/1595)
