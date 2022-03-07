@@ -2,7 +2,6 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
 [![Javadocs](https://www.javadoc.io/badge/io.appium/java-client.svg)](https://www.javadoc.io/doc/io.appium/java-client)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f365c5e9458b42bf8a5b1d928d7e4f48)](https://www.codacy.com/app/appium/java-client)
 [![Build Status](https://travis-ci.org/appium/java-client.svg?branch=master)](https://travis-ci.org/appium/java-client)
 
 This is the Java language binding for writing Appium Tests, conforms to [Mobile JSON Wire Protocol](https://github.com/SeleniumHQ/mobile-spec/blob/master/spec-draft.md)
@@ -16,6 +15,12 @@ This is the Java language binding for writing Appium Tests, conforms to [Mobile 
 [How to install the project](https://github.com/appium/java-client/blob/master/docs/Installing-the-project.md)
 
 [WIKI](https://github.com/appium/java-client/wiki)
+
+## v8 Migration
+
+Since version 8 Appium Java Client had several major changes, which might require to 
+update your client code. Make sure to follow the [v7 to v8 Migration Guide](https://github.com/appium/java-client/blob/master/docs/v7-to-v8-migration-guide.md)
+in order to streamline the migration process.
 
 ## How to install latest java client Beta/Snapshots
 
