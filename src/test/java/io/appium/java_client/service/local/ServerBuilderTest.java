@@ -6,6 +6,7 @@ import static io.appium.java_client.service.local.AppiumDriverLocalService.build
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
@@ -311,5 +312,12 @@ public class ServerBuilderTest {
                 .build();
         service.start();
         assertTrue(testLogFile.exists());
+    }
+
+    @Test
+    public void checkAbilityToStartServiceUsingBasePath() {
+        service = new AppiumServiceBuilder().withArgument(BASEPATH, "/wd/hub").build();
+        service.start();
+        assertTrue(service.isRunning());
     }
 }
