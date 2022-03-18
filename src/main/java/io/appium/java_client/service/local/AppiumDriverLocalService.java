@@ -108,7 +108,7 @@ public final class AppiumDriverLocalService extends DriverService {
             LOG.warn("Base Path cannot be Empty or Blank -- ignoring the basepath configuration");
             return null;
         }
-        return (basePath.endsWith("/") ? basePath : basePath + "/");
+        return basePath.endsWith("/") ? basePath : basePath + "/";
     }
 
     public String getBasePath() {
