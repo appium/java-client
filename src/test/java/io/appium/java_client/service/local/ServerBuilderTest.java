@@ -6,9 +6,9 @@ import static io.appium.java_client.service.local.AppiumDriverLocalService.build
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
@@ -21,16 +21,12 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -38,6 +34,9 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.After;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class ServerBuilderTest {
@@ -327,7 +326,7 @@ public class ServerBuilderTest {
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
         service.start();
         assertTrue(service.isRunning());
-        assertEquals(baseUrl + basePath + "/",service.getUrl().toString());
+        assertEquals(baseUrl + basePath + "/", service.getUrl().toString());
     }
 
     @Test
@@ -337,38 +336,29 @@ public class ServerBuilderTest {
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
         service.start();
         assertTrue(service.isRunning());
-        assertEquals(baseUrl + basePath.substring(1) ,service.getUrl().toString());
+        assertEquals(baseUrl + basePath.substring(1), service.getUrl().toString());
     }
 
     @Test
     public void checkAbilityToValidateBasePathForEmptyBasePath() {
-        try {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             service = new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
-            fail("Base path was not validated for Blank or Empty string");
-        } catch (Exception e) {
-            assertEquals(InvalidBasePathException.class, e.getClass());
-            assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, e.getMessage());
-        }
+        });
+        assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     public void checkAbilityToValidateBasePathForBlankBasePath() {
-        try {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             service = new AppiumServiceBuilder().withArgument(BASEPATH, "   ").build();
-            fail("Base path was not validated for Blank or Empty string");
-        } catch (Exception e) {
-            assertEquals(InvalidBasePathException.class, e.getClass());
-            assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, e.getMessage());
-        }
+        });
+        assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     public void checkAbilityToValidateBasePathForNullBasePath() {
-        try {
+        assertThrows(NullPointerException.class, () -> {
             service = new AppiumServiceBuilder().withArgument(BASEPATH, null).build();
-            fail("Base path was not validated for a null value");
-        } catch (Exception e) {
-            assertEquals(NullPointerException.class, e.getClass());
-        }
+        });
     }
 }

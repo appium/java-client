@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import com.google.common.collect.ImmutableList;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -28,22 +27,8 @@ import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.service.local.flags.ServerArgument;
-
-import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.validator.routines.InetAddressValidator;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.os.ExecutableFinder;
-import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.remote.service.DriverService;
-
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,6 +40,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import javax.annotation.Nullable;
+import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.validator.routines.InetAddressValidator;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.os.ExecutableFinder;
+import org.openqa.selenium.remote.Browser;
+import org.openqa.selenium.remote.service.DriverService;
 
 public final class AppiumServiceBuilder
         extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {
@@ -219,7 +215,7 @@ public final class AppiumServiceBuilder
                 withLogFile(new File(value));
                 break;
             case "--base-path":
-                serverArguments.put(argName,sanitizeBasePath(value));
+                serverArguments.put(argName, sanitizeBasePath(value));
                 break;
             default:
                 serverArguments.put(argName, value);
@@ -230,8 +226,8 @@ public final class AppiumServiceBuilder
 
     private static String sanitizeBasePath(String basePath) {
         basePath = checkNotNull(basePath).trim();
-        if (StringUtils.isBlank(basePath) || basePath.isEmpty()) {
-            throw new InvalidBasePathException(
+        if (basePath.isEmpty()) {
+            throw new IllegalArgumentException(
                 "Given base path is not valid - blank or empty values are not allowed for base path");
         }
         return basePath.endsWith("/") ? basePath : basePath + "/";
