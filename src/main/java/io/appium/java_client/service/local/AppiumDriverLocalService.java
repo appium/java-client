@@ -94,21 +94,8 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     public AppiumDriverLocalService withBasePath(String basePath) {
-        this.basePath = sanitizeBasePath(basePath);
+        this.basePath = basePath;
         return this;
-    }
-
-    @SneakyThrows private static String sanitizeBasePath(String basePath) {
-        if (null == basePath) {
-            LOG.warn("Base Path cannot be NULL -- ignoring the basepath configuration");
-            return null;
-        }
-        basePath = basePath.trim();
-        if (basePath.isBlank() || basePath.isEmpty()) {
-            LOG.warn("Base Path cannot be Empty or Blank -- ignoring the basepath configuration");
-            return null;
-        }
-        return basePath.endsWith("/") ? basePath : basePath + "/";
     }
 
     public String getBasePath() {

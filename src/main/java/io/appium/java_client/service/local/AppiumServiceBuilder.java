@@ -16,6 +16,7 @@
 
 package io.appium.java_client.service.local;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import com.google.common.collect.ImmutableList;
@@ -217,11 +218,23 @@ public final class AppiumServiceBuilder
             case "-g":
                 withLogFile(new File(value));
                 break;
+            case "--base-path":
+                serverArguments.put(argName,sanitizeBasePath(value));
+                break;
             default:
                 serverArguments.put(argName, value);
                 break;
         }
         return this;
+    }
+
+    private static String sanitizeBasePath(String basePath) {
+        basePath = checkNotNull(basePath).trim();
+        if (StringUtils.isBlank(basePath) || basePath.isEmpty()) {
+            throw new InvalidBasePathException(
+                "Given base path is not valid - blank or empty values are not allowed for base path");
+        }
+        return basePath.endsWith("/") ? basePath : basePath + "/";
     }
 
     /**

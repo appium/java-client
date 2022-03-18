@@ -4,6 +4,8 @@ import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
@@ -20,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -54,6 +57,9 @@ public class ServerBuilderTest {
      */
     private static final Path PATH_T0_TEST_MAIN_JS = ROOT_TEST_PATH
             .resolve("service").resolve("local").resolve("main.js");
+
+    private static final String INVALID_BASE_PATH_ERROR_MESSAGE =
+        "Given base path is not valid - blank or empty values are not allowed for base path";
 
     private static String testIP;
     private AppiumDriverLocalService service;
@@ -315,9 +321,54 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingBasePath() {
-        service = new AppiumServiceBuilder().withArgument(BASEPATH, "/wd/hub").build();
+    public void checkAbilityToStartServiceUsingValidBasePathWithMultiplePathParams() {
+        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP_ADDRESS, DEFAULT_APPIUM_PORT);
+        String basePath = "wd/hub";
+        service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
         service.start();
         assertTrue(service.isRunning());
+        assertEquals(baseUrl + basePath + "/",service.getUrl().toString());
+    }
+
+    @Test
+    public void checkAbilityToStartServiceUsingValidBasePathWithSinglePathParams() {
+        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP_ADDRESS, DEFAULT_APPIUM_PORT);
+        String basePath = "/wd/";
+        service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
+        service.start();
+        assertTrue(service.isRunning());
+        assertEquals(baseUrl + basePath.substring(1) ,service.getUrl().toString());
+    }
+
+    @Test
+    public void checkAbilityToValidateBasePathForEmptyBasePath() {
+        try {
+            service = new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
+            fail("Base path was not validated for Blank or Empty string");
+        } catch (Exception e) {
+            assertEquals(InvalidBasePathException.class, e.getClass());
+            assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, e.getMessage());
+        }
+    }
+
+    @Test
+    public void checkAbilityToValidateBasePathForBlankBasePath() {
+        try {
+            service = new AppiumServiceBuilder().withArgument(BASEPATH, "   ").build();
+            fail("Base path was not validated for Blank or Empty string");
+        } catch (Exception e) {
+            assertEquals(InvalidBasePathException.class, e.getClass());
+            assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, e.getMessage());
+        }
+    }
+
+    @Test
+    public void checkAbilityToValidateBasePathForNullBasePath() {
+        try {
+            service = new AppiumServiceBuilder().withArgument(BASEPATH, null).build();
+            fail("Base path was not validated for a null value");
+        } catch (Exception e) {
+            assertEquals(NullPointerException.class, e.getClass());
+        }
     }
 }
