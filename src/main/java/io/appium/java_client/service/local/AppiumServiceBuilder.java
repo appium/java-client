@@ -226,10 +226,7 @@ public final class AppiumServiceBuilder
 
     private static String sanitizeBasePath(String basePath) {
         basePath = checkNotNull(basePath).trim();
-        if (basePath.isEmpty()) {
-            throw new IllegalArgumentException(
-                "Given base path is not valid - blank or empty values are not allowed for base path");
-        }
+        Preconditions.checkArgument(!basePath.isEmpty(), "Given base path is not valid - blank or empty values are not allowed for base path");
         return basePath.endsWith("/") ? basePath : basePath + "/";
     }
 
