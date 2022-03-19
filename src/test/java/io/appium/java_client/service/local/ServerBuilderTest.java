@@ -27,6 +27,10 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -34,9 +38,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class ServerBuilderTest {
@@ -56,9 +57,6 @@ public class ServerBuilderTest {
      */
     private static final Path PATH_T0_TEST_MAIN_JS = ROOT_TEST_PATH
             .resolve("service").resolve("local").resolve("main.js");
-
-    private static final String INVALID_BASE_PATH_ERROR_MESSAGE =
-        "Given base path is not valid - blank or empty values are not allowed for base path";
 
     private static String testIP;
     private AppiumDriverLocalService service;
@@ -341,24 +339,22 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToValidateBasePathForEmptyBasePath() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            service = new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
+        assertThrows(IllegalArgumentException.class, () -> {
+           new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
         });
-        assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     public void checkAbilityToValidateBasePathForBlankBasePath() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            service = new AppiumServiceBuilder().withArgument(BASEPATH, "   ").build();
+        assertThrows(IllegalArgumentException.class, () -> {
+            new AppiumServiceBuilder().withArgument(BASEPATH, "   ").build();
         });
-        assertEquals(INVALID_BASE_PATH_ERROR_MESSAGE, exception.getMessage());
     }
 
     @Test
     public void checkAbilityToValidateBasePathForNullBasePath() {
         assertThrows(NullPointerException.class, () -> {
-            service = new AppiumServiceBuilder().withArgument(BASEPATH, null).build();
+            new AppiumServiceBuilder().withArgument(BASEPATH, null).build();
         });
     }
 }
