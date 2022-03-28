@@ -105,6 +105,6 @@ became `http://0.0.0.0:4723/`). This has been done in order
 to align the actual behavior with Appium v2. If you still would like to use
 v8 of the Java client with Appium v1.2x, where the server URL contains the `/wd/hub` suffix
 by default, then consider providing `--base-path` setting explicitly while
-building `AppiumServiceBuilder` instance (e.g. `.withArgument(GeneralServerFlag.BASEPATH, "/wd/hub")`).
+building `AppiumServiceBuilder` instance (e.g. `.withArgument(GeneralServerFlag.BASEPATH, "/wd/hub/")`).
 Older versions of Appium server (v1.19 and older) won't work with `AppiumDriverLocalService`,
 because they don't allow provisioning of base path in form of a command line argument.
