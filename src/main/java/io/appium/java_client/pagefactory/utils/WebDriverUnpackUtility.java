@@ -55,8 +55,8 @@ public final class WebDriverUnpackUtility {
                     ((WrapsDriver) searchContext).getWrappedDriver());
         }
 
-        // Search context it is not only Webdriver. Webelement is search context too.
-        // RemoteWebElement and MobileElement implement WrapsDriver
+        // Search context it is not only WebDriver. WebElement is search context too.
+        // RemoteWebElement implements WrapsDriver
         if (searchContext instanceof WrapsElement) {
             return unpackWebDriverFromSearchContext(
                     ((WrapsElement) searchContext).getWrappedElement());

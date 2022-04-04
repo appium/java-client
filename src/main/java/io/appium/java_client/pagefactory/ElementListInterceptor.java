@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * Intercepts requests to the list of {@link io.appium.java_client.MobileElement}.
+ * Intercepts requests to the list of {@link WebElement}.
  */
 class ElementListInterceptor extends InterceptorOfAListOfElements {
 
