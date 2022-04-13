@@ -135,6 +135,83 @@ public class EspressoBuildConfig extends BaseMapOptionData<EspressoBuildConfig> 
     }
 
     /**
+     * Set the version of the included androidx.compose.ui components to compile the server for.
+     * By default, the version from app's build.gradle is used.
+     *
+     * @param composeVersion E.g. "1.0.5"
+     * @return self instance for chaining.
+     */
+    public EspressoBuildConfig withComposeVersion(String composeVersion) {
+        return assignToolsVersionsField("composeVersion", composeVersion);
+    }
+
+    /**
+     * Get the version of included androidx.compose.ui components.
+     *
+     * @return Version of androidx.compose.ui components.
+     */
+    public Optional<String> getComposeVersion() {
+        return getToolsVersionsFieldValue("composeVersion");
+    }
+
+    /**
+     * Set the minimum version of JVM the project sources are compatible with.
+     *
+     * @param sourceCompatibility E.g. "VERSION_12"
+     * @return self instance for chaining.
+     */
+    public EspressoBuildConfig withSourceCompatibility(String sourceCompatibility) {
+        return assignToolsVersionsField("sourceCompatibility", sourceCompatibility);
+    }
+
+    /**
+     * Get the minimum version of JVM the project sources are compatible with.
+     *
+     * @return Minimum version of JVM the project sources are compatible with.
+     */
+    public Optional<String> getSourceCompatibility() {
+        return getToolsVersionsFieldValue("sourceCompatibility");
+    }
+
+    /**
+     * Set the target version of the generated JVM bytecode as a string.
+     *
+     * @param jvmTarget E.g. "1_10" or `1_8`
+     * @return self instance for chaining.
+     */
+    public EspressoBuildConfig withJvmTarget(String jvmTarget) {
+        return assignToolsVersionsField("jvmTarget", jvmTarget);
+    }
+
+    /**
+     * Get the target version of the generated JVM bytecode as a string.
+     *
+     * @return Target version of the generated JVM bytecode as a string.
+     */
+    public Optional<String> getJvmTarget() {
+        return getToolsVersionsFieldValue("jvmTarget");
+    }
+
+    /**
+     * Set the target version of JVM the project sources are compatible with.
+     *
+     * @param targetCompatibility E.g. "VERSION_12"
+     * @return self instance for chaining.
+     */
+    public EspressoBuildConfig withTargetCompatibility(String targetCompatibility) {
+        return assignToolsVersionsField("targetCompatibility", targetCompatibility);
+    }
+
+    /**
+     * Get the target version of JVM the project sources are compatible with.
+     *
+     * @return Target version of JVM the project sources are compatible with.
+     */
+    public Optional<String> getTargetCompatibility() {
+        return getToolsVersionsFieldValue("targetCompatibility");
+    }
+
+    /**
      * Set the minimum Android SDK version to compile the server for.
      * By default, the version from the app build.gradle is used.
      *
