@@ -32,7 +32,7 @@ public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
      * @return self instance for chaining.
      */
     default T setOrientation(ScreenOrientation orientation) {
-        return amend(ORIENTATION_OPTION, orientation.value());
+        return amend(ORIENTATION_OPTION, orientation.name());
     }
 
     /**
