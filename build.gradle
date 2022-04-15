@@ -59,7 +59,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.0') {
+    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.1') {
         exclude group: 'org.seleniumhq.selenium'
     }
     testImplementation ('org.seleniumhq.selenium:selenium-chrome-driver') {
