@@ -24,13 +24,15 @@ import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 import static org.junit.Assert.assertNotNull;
 
 public class AndroidDataMatcherTest extends BaseEspressoTest {
 
     @Test
     public void testFindByDataMatcher() {
-        final WebDriverWait wait = new WebDriverWait(driver, 10);
+        final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions
             .elementToBeClickable(AppiumBy.accessibilityId("Graphics")));
         driver.findElement(AppiumBy.accessibilityId("Graphics")).click();

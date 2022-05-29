@@ -29,23 +29,23 @@ ext {
 
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     api ('org.seleniumhq.selenium:selenium-api') {
         version {
-            strictly '[4.0, 5.0)'
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }
     api ('org.seleniumhq.selenium:selenium-remote-driver') {
         version {
-            strictly '[4.0, 5.0)'
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }
     implementation ('org.seleniumhq.selenium:selenium-support') {
         version {
-            strictly '[4.0, 5.0)'
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }
@@ -64,7 +64,7 @@ dependencies {
     }
     testImplementation ('org.seleniumhq.selenium:selenium-chrome-driver') {
         version {
-            strictly '[4.0, 5.0)'
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }

@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class OpenNotificationsTest extends BaseAndroidTest {
@@ -15,7 +16,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
     public void openNotification() {
         driver.closeApp();
         driver.openNotifications();
-        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         assertNotEquals(0, wait.until(input -> {
             List<WebElement> result = input
                     .findElements(id("com.android.systemui:id/settings_button"));

@@ -30,15 +30,16 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.function.Supplier;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IOSAlertTest extends AppIOSTest {
 
-    private static final long ALERT_TIMEOUT_SECONDS = 5;
+    private static final Duration ALERT_TIMEOUT = Duration.ofSeconds(5);
     private static final int CLICK_RETRIES = 2;
 
-    private final WebDriverWait waiter = new WebDriverWait(driver, ALERT_TIMEOUT_SECONDS);
+    private final WebDriverWait waiter = new WebDriverWait(driver, ALERT_TIMEOUT);
     private static final String iOSAutomationText = "show alert";
 
     private void ensureAlertPresence() {

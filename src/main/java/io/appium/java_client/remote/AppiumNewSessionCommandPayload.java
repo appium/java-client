@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.internal.Require;
-import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
+import org.openqa.selenium.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CommandPayload;
 
 import java.util.Map;
