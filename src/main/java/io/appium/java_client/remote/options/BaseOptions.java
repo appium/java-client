@@ -21,7 +21,7 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
-import org.openqa.selenium.remote.AcceptedW3CCapabilityKeys;
+import org.openqa.selenium.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CapabilityType;
 
 import javax.annotation.Nullable;
