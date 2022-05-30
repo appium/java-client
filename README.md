@@ -84,7 +84,7 @@ dependencies {
 - **[DEPENDENCY UPDATES]**
   - `org.seleniumhq.selenium:selenium-java` was updated to 4.2.0.
   - `org.owasp.dependencycheck` was updated to 7.1.0.1.
-  - `org.springframework:spring-context` was updated to 5.3.18.
+  - `org.springframework:spring-context` was removed. [#1676](https://github.com/appium/java-client/pull/1676)
   - `org.aspectj:aspectjweaver` was updated to 1.9.9.
   - `io.github.bonigarcia:webdrivermanager` was updated to 5.2.0.
   - `org.projectlombok:lombok` was updated to 1.18.24.
