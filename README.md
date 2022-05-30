@@ -71,6 +71,24 @@ dependencies {
 ```
 
 ## Changelog
+*8.1.0*
+- **[ENHANCEMENTS]**
+  - Add new EspressoBuildConfig options. [#1687](https://github.com/appium/java-client/pull/1687)
+- **[DOCUMENTATION]**
+  - delete all references to removed MobileElement class. [#1677](https://github.com/appium/java-client/pull/1677)
+- **[BUG FIX]**
+  - Pass orientation name capability in uppercase. [#1686](https://github.com/appium/java-client/pull/1686)
+  - correction for ping method to get proper status URL. [#1661](https://github.com/appium/java-client/pull/1661)
+  - Remove deprecated option classes. [#1679](https://github.com/appium/java-client/pull/1679)
+  - Remove obsolete event firing decorators. [#1676](https://github.com/appium/java-client/pull/1676)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.2.0.
+  - `org.owasp.dependencycheck` was updated to 7.1.0.1.
+  - `org.springframework:spring-context` was updated to 5.3.18.
+  - `org.aspectj:aspectjweaver` was updated to 1.9.9.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.2.0.
+  - `org.projectlombok:lombok` was updated to 1.18.24.
+
 *8.0.0*
 - **[DOCUMENTATION]**
   - Set minimum Java version to 1.8.0. [#1631](https://github.com/appium/java-client/pull/1631)
