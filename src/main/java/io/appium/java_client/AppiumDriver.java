@@ -134,10 +134,7 @@ public class AppiumDriver extends RemoteWebDriver implements
     protected static Capabilities ensurePlatformName(
             Capabilities originalCapabilities, String defaultName) {
         Object currentName = originalCapabilities.getCapability(PLATFORM_NAME);
-        if (!(currentName instanceof String)) {
-            currentName = "";
-        }
-        return isBlank((String) currentName)
+        return isBlank((currentName instanceof String) ? (String) currentName : "")
                 ? originalCapabilities.merge(new ImmutableCapabilities(PLATFORM_NAME, defaultName))
                 : originalCapabilities;
     }
