@@ -21,14 +21,11 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
-import org.openqa.selenium.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CapabilityType;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,11 +50,6 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
         SupportsNewCommandTimeoutOption<T>,
         SupportsBrowserNameOption<T>,
         SupportsPlatformVersionOption<T> {
-    private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS = new AcceptedW3CCapabilityKeys();
-    // TODO: This is an ugly workaround for another Selenium workaround,
-    // which includes `platformVersion` into W3C key patterns even though
-    // this particular capability name is not a part of the standard
-    private static final List<String> EXCLUDED_KEYS = Collections.singletonList("platformVersion");
 
     /**
      * Creates new instance with no preset capabilities.
@@ -115,8 +107,7 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
     @Override
     public Map<String, Object> asMap() {
         return unmodifiableMap(super.asMap().entrySet().stream()
-                .collect(Collectors.toMap(entry -> W3C_KEY_PATTERNS.test(entry.getKey())
-                        ? entry.getKey() : APPIUM_PREFIX + entry.getKey(), Map.Entry::getValue)
+                .collect(Collectors.toMap(entry -> toW3cName(entry.getKey()), Map.Entry::getValue)
                 ));
     }
 
@@ -151,19 +142,25 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
     @Override
     public void setCapability(String key, @Nullable Object value) {
         Require.nonNull("Capability name", key);
-        String w3cName = W3C_KEY_PATTERNS.test(key) && !EXCLUDED_KEYS.contains(key)
-                ? key
-                : APPIUM_PREFIX + key;
-        super.setCapability(w3cName, value);
+        super.setCapability(toW3cName(key), value);
     }
 
     @Override
     @Nullable
     public Object getCapability(String capabilityName) {
         Object value = super.getCapability(capabilityName);
-        if (value == null) {
-            value = super.getCapability(APPIUM_PREFIX + capabilityName);
-        }
-        return value;
+        return value == null
+            ? super.getCapability(APPIUM_PREFIX + capabilityName)
+            : value;
+    }
+
+    /**
+     * Adds the 'appium:' prefix to the given capability name if necessary.
+     *
+     * @param capName the original capability name.
+     * @return The preformatted W3C-compatible capability name.
+     */
+    public static String toW3cName(String capName) {
+        return W3CCapabilityKeys.getInstance().test(capName) ? capName : APPIUM_PREFIX + capName;
     }
 }
