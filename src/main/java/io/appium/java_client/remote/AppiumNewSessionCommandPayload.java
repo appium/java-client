@@ -18,19 +18,16 @@ package io.appium.java_client.remote;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import io.appium.java_client.remote.options.BaseOptions;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.internal.Require;
-import org.openqa.selenium.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.remote.CommandPayload;
 
 import java.util.Map;
 
-import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 public class AppiumNewSessionCommandPayload extends CommandPayload {
-    private static final AcceptedW3CCapabilityKeys ACCEPTED_W3C_PATTERNS = new AcceptedW3CCapabilityKeys();
-
     /**
      * Appends "appium:" prefix to all non-prefixed non-standard capabilities.
      *
@@ -40,10 +37,10 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
     private static Map<String, Object> makeW3CSafe(Capabilities possiblyInvalidCapabilities) {
         return Require.nonNull("Capabilities", possiblyInvalidCapabilities)
                 .asMap().entrySet().stream()
-                .collect(ImmutableMap.toImmutableMap(entry -> ACCEPTED_W3C_PATTERNS.test(entry.getKey())
-                                ? entry.getKey()
-                                : APPIUM_PREFIX + entry.getKey(),
-                        Map.Entry::getValue));
+                .collect(ImmutableMap.toImmutableMap(
+                    entry -> BaseOptions.toW3cName(entry.getKey()),
+                    Map.Entry::getValue
+                ));
     }
 
     /**
