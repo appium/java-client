@@ -27,6 +27,8 @@ import org.openqa.selenium.remote.CapabilityType;
 import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,6 +54,10 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
         SupportsBrowserNameOption<T>,
         SupportsPlatformVersionOption<T> {
     private static final AcceptedW3CCapabilityKeys W3C_KEY_PATTERNS = new AcceptedW3CCapabilityKeys();
+    // TODO: This is an ugly workaround for another Selenium workaround,
+    // which includes `platformVersion` into W3C key patterns even though
+    // this particular capability name is not a part of the standard
+    private static final List<String> EXCLUDED_KEYS = Collections.singletonList("platformVersion");
 
     /**
      * Creates new instance with no preset capabilities.
@@ -145,7 +151,10 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
     @Override
     public void setCapability(String key, @Nullable Object value) {
         Require.nonNull("Capability name", key);
-        super.setCapability(W3C_KEY_PATTERNS.test(key) ? key : APPIUM_PREFIX + key, value);
+        String w3cName = W3C_KEY_PATTERNS.test(key) && !EXCLUDED_KEYS.contains(key)
+                ? key
+                : APPIUM_PREFIX + key;
+        super.setCapability(w3cName, value);
     }
 
     @Override
