@@ -44,6 +44,11 @@ public class W3CCapabilityKeys implements Predicate<String> {
         return ACCEPTED_W3C_PATTERNS.test(capabilityName);
     }
 
+    /**
+     * Returns class singleton instance.
+     *
+     * @return Singleton object.
+     */
     public static synchronized W3CCapabilityKeys getInstance() {
         if (instance == null) {
             instance = new W3CCapabilityKeys();

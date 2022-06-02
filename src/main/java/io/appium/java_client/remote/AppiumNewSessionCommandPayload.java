@@ -38,8 +38,8 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
         return Require.nonNull("Capabilities", possiblyInvalidCapabilities)
                 .asMap().entrySet().stream()
                 .collect(ImmutableMap.toImmutableMap(
-                        entry -> BaseOptions.toW3cName(entry.getKey()),
-                        Map.Entry::getValue
+                    entry -> BaseOptions.toW3cName(entry.getKey()),
+                    Map.Entry::getValue
                 ));
     }
 
