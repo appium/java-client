@@ -39,7 +39,8 @@ public class W3CCapabilityKeys implements Predicate<String> {
             .map(Pattern::asPredicate)
             .reduce(identity -> false, Predicate::or);
 
-    protected W3CCapabilityKeys () {}
+    protected W3CCapabilityKeys() {
+    }
 
     @Override
     public boolean test(String capabilityName) {
