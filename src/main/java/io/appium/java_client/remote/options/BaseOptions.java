@@ -161,6 +161,6 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
      * @return The preformatted W3C-compatible capability name.
      */
     public static String toW3cName(String capName) {
-        return W3CCapabilityKeys.getInstance().test(capName) ? capName : APPIUM_PREFIX + capName;
+        return W3CCapabilityKeys.INSTANCE.test(capName) ? capName : APPIUM_PREFIX + capName;
     }
 }

@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class W3CCapabilityKeys implements Predicate<String> {
-    private static W3CCapabilityKeys instance = null;
+    public static final W3CCapabilityKeys INSTANCE = new W3CCapabilityKeys();
     private static final Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
                     "^[\\w-]+:.*$",
                     "^acceptInsecureCerts$",
@@ -42,17 +42,5 @@ public class W3CCapabilityKeys implements Predicate<String> {
     @Override
     public boolean test(String capabilityName) {
         return ACCEPTED_W3C_PATTERNS.test(capabilityName);
-    }
-
-    /**
-     * Returns class singleton instance.
-     *
-     * @return Singleton object.
-     */
-    public static synchronized W3CCapabilityKeys getInstance() {
-        if (instance == null) {
-            instance = new W3CCapabilityKeys();
-        }
-        return instance;
     }
 }
