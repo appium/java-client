@@ -3,7 +3,7 @@
  * you may not use this file except in compliance with the License.
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
- * You may obtain a copy of the License  at
+ * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
