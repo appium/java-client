@@ -2,9 +2,9 @@ package io.appium.java_client.pagefactory_tests.widget.tests.combined;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 
+@SuppressWarnings({"unchecked", "unused"})
 @RunWith(Parameterized.class)
 public class CombinedWidgetTest extends WidgetTest {
 
@@ -49,8 +50,6 @@ public class CombinedWidgetTest extends WidgetTest {
                 dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
                 dataArray(new AppWithPartiallyCombinedWidgets(),
-                    new AbstractStubWebDriver.StubIOSDriver(), DefaultStubWidget.class),
-                dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultStubWidget.class),
                 dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubWindowsDriver(), DefaultStubWidget.class),
@@ -68,7 +67,7 @@ public class CombinedWidgetTest extends WidgetTest {
 
     @Override
     public void checkThatWidgetsAreCreatedCorrectly() {
-        assertThat("Excpected widget class was " + widgetClass.getName(),
+        assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSubWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));
 

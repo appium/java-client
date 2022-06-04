@@ -46,7 +46,7 @@ public class StartingAppLocallyAndroidTest {
             Capabilities caps = driver.getCapabilities();
 
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
+                    String.valueOf(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)))
             );
             assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
             assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
@@ -70,7 +70,7 @@ public class StartingAppLocallyAndroidTest {
             Capabilities caps = driver.getCapabilities();
 
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
+                    String.valueOf(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)))
             );
             assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
@@ -105,7 +105,7 @@ public class StartingAppLocallyAndroidTest {
             Capabilities caps = driver.getCapabilities();
 
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    (String) caps.getCapability(MobileCapabilityType.PLATFORM_NAME))
+                    String.valueOf(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)))
             );
             assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
         } finally {
