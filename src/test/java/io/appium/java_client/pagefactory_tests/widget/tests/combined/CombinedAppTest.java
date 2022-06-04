@@ -42,8 +42,6 @@ public class CombinedAppTest extends WidgetTest {
                     DefaultFindByWidget.class),
                 dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(),
                         DefaultAndroidWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSDriver(),
-                        DefaultStubWidget.class),
                 dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
                         DefaultStubWidget.class),
                 dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(),
