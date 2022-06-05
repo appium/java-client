@@ -71,6 +71,14 @@ dependencies {
 ```
 
 ## Changelog
+*8.1.1*
+- **[BUG FIX]**
+  - Perform safe typecast while getting the platform name. [#1702](https://github.com/appium/java-client/pull/1702)
+  - Add prefix to platformVersion capability name. [#1704](https://github.com/appium/java-client/pull/1704)
+- **[REFRACTOR]**
+  - Update e2e tests to make it green. [#1706](https://github.com/appium/java-client/pull/1706)
+  - Ignore the test which has a connected server issue. [#1699](https://github.com/appium/java-client/pull/1699)
+  
 *8.1.0*
 - **[ENHANCEMENTS]**
   - Add new EspressoBuildConfig options. [#1687](https://github.com/appium/java-client/pull/1687)
