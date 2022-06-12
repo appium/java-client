@@ -70,7 +70,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
     private String basePath;
-    
+
     private CommandLine process = null;
 
     AppiumDriverLocalService(String ipAddress, File nodeJSExec,
@@ -292,6 +292,37 @@ public final class AppiumDriverLocalService extends DriverService {
         for (OutputStream stream : outputStreams) {
             addOutPutStream(stream);
         }
+    }
+
+    /**
+     * Remove the outputStream which is receiving server output data
+     *
+     * @return true if the outputStream has been removed
+     */
+    public boolean removeOutputStream(OutputStream outputStream) {
+        checkNotNull(outputStream, "outputStream parameter is NULL!");
+        return stream.remove(outputStream);
+    }
+
+    /**
+     * Remove the outputStream which is receiving server output data, and close
+     *
+     * @param outputStream
+     * @return true if the outputStream has been removed
+     */
+    public boolean removeOutputStreamAndClose(OutputStream outputStream) throws IOException {
+        boolean removed = removeOutputStream(outputStream);
+        outputStream.close();
+        return removed;
+    }
+
+    /**
+     * Close all existing server output streams.
+     *
+     * @throws IOException
+     */
+    public void closeOutputStreams() throws IOException {
+        stream.close();
     }
 
     /**
