@@ -30,6 +30,10 @@ class ListOutputStream extends OutputStream {
         return this;
     }
 
+    boolean remove(OutputStream stream) {
+        return streams.remove(stream);
+    }
+
     @Override public void write(int i) throws IOException {
         for (OutputStream stream : streams) {
             stream.write(i);
