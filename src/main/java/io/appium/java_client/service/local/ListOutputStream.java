@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 class ListOutputStream extends OutputStream {
 
@@ -30,8 +31,8 @@ class ListOutputStream extends OutputStream {
         return this;
     }
 
-    boolean remove(OutputStream stream) {
-        return streams.remove(stream);
+    Optional<OutputStream> remove(OutputStream stream) {
+        return streams.remove(stream) ? Optional.of(stream) : Optional.empty();
     }
 
     @Override public void write(int i) throws IOException {

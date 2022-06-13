@@ -44,6 +44,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
@@ -295,25 +296,13 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
-     * Remove the outputStream which is receiving server output data
+     * Remove the outputStream which is receiving server output data.
      *
-     * @return true if the outputStream has been removed
+     * @return the outputStream has been removed if it is present
      */
-    public boolean removeOutputStream(OutputStream outputStream) {
+    public Optional<OutputStream> removeOutPutStream(OutputStream outputStream) {
         checkNotNull(outputStream, "outputStream parameter is NULL!");
         return stream.remove(outputStream);
-    }
-
-    /**
-     * Remove the outputStream which is receiving server output data, and close
-     *
-     * @param outputStream
-     * @return true if the outputStream has been removed
-     */
-    public boolean removeOutputStreamAndClose(OutputStream outputStream) throws IOException {
-        boolean removed = removeOutputStream(outputStream);
-        outputStream.close();
-        return removed;
     }
 
     /**
@@ -321,7 +310,7 @@ public final class AppiumDriverLocalService extends DriverService {
      *
      * @throws IOException
      */
-    public void closeOutputStreams() throws IOException {
+    public void closeOutPutStreams() throws IOException {
         stream.close();
     }
 
