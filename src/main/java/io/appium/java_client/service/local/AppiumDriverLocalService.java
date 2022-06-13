@@ -44,6 +44,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
@@ -70,7 +71,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final URL url;
     private String basePath;
-    
+
     private CommandLine process = null;
 
     AppiumDriverLocalService(String ipAddress, File nodeJSExec,
@@ -292,6 +293,16 @@ public final class AppiumDriverLocalService extends DriverService {
         for (OutputStream stream : outputStreams) {
             addOutPutStream(stream);
         }
+    }
+
+    /**
+     * Remove the outputStream which is receiving server output data.
+     *
+     * @return the outputStream has been removed if it is present
+     */
+    public Optional<OutputStream> removeOutPutStream(OutputStream outputStream) {
+        checkNotNull(outputStream, "outputStream parameter is NULL!");
+        return stream.remove(outputStream);
     }
 
     /**
