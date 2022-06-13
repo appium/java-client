@@ -306,15 +306,6 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
-     * Close all existing server output streams.
-     *
-     * @throws IOException
-     */
-    public void closeOutPutStreams() throws IOException {
-        stream.close();
-    }
-
-    /**
      * Remove all existing server output streams.
      *
      * @return true if at least one output stream has been cleared
