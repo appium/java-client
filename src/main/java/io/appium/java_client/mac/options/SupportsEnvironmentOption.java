@@ -20,7 +20,7 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface SupportsEnvironmentOption<T extends BaseOptions<T>> extends
@@ -36,7 +36,7 @@ public interface SupportsEnvironmentOption<T extends BaseOptions<T>> extends
      * @param arguments E.g. ["--help"].
      * @return self instance for chaining.
      */
-    default T setEnvironment(List<String> arguments) {
+    default T setEnvironment(Map<String, String> arguments) {
         return amend(ENVIRONMENT_OPTION, arguments);
     }
 
@@ -45,8 +45,8 @@ public interface SupportsEnvironmentOption<T extends BaseOptions<T>> extends
      *
      * @return Application environment mapping.
      */
-    default Optional<List<String>> getEnvironment() {
+    default Optional<Map<String, String>> getEnvironment() {
         //noinspection unchecked
-        return Optional.ofNullable((List<String>) getCapability(ENVIRONMENT_OPTION));
+        return Optional.ofNullable((Map<String, String>) getCapability(ENVIRONMENT_OPTION));
     }
 }
