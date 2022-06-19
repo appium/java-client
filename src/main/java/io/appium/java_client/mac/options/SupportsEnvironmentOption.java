@@ -33,11 +33,11 @@ public interface SupportsEnvironmentOption<T extends BaseOptions<T>> extends
      * the parent process. This capability is only going to be applied if the application
      * is not running on session startup.
      *
-     * @param arguments E.g. ["--help"].
+     * @param env E.g. ["--help"].
      * @return self instance for chaining.
      */
-    default T setEnvironment(Map<String, String> arguments) {
-        return amend(ENVIRONMENT_OPTION, arguments);
+    default T setEnvironment(Map<String, String> env) {
+        return amend(ENVIRONMENT_OPTION, env);
     }
 
     /**
