@@ -131,21 +131,17 @@ public class AndroidFunctionTest extends BaseAndroidTest {
 
     @Test
     public void nullPointerExceptionSafetyTestWithPrecondition() {
+        Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
+                .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
         assertThrows(TimeoutException.class,
-                () -> {
-                    Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
-                            .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
-                    assertTrue(wait.until(searchingFunction.compose(contextFunction)).size() > 0);
-                });
+                () -> assertTrue(wait.until(searchingFunction.compose(contextFunction)).size() > 0));
     }
 
     @Test
     public void nullPointerExceptionSafetyTestWithPostConditions() {
+        Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
+                .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
         assertThrows(TimeoutException.class,
-                () -> {
-                    Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
-                            .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
-                    assertTrue(wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)).size() > 0);
-                });
+                () -> assertTrue(wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)).size() > 0));
     }
 }
