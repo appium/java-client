@@ -16,13 +16,14 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClipboardTest extends AppIOSTest {
 
-    @Test public void verifySetAndGetClipboardText() {
+    @Test
+    public void verifySetAndGetClipboardText() {
         final String text = "Happy testing";
         driver.setClipboardText(text);
         assertEquals(driver.getClipboardText(), text);

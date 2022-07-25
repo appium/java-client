@@ -19,14 +19,14 @@ package io.appium.java_client.android;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AndroidDataMatcherTest extends BaseEspressoTest {
 
@@ -34,15 +34,15 @@ public class AndroidDataMatcherTest extends BaseEspressoTest {
     public void testFindByDataMatcher() {
         final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions
-            .elementToBeClickable(AppiumBy.accessibilityId("Graphics")));
+                .elementToBeClickable(AppiumBy.accessibilityId("Graphics")));
         driver.findElement(AppiumBy.accessibilityId("Graphics")).click();
 
         String selector = new Json().toJson(ImmutableMap.of(
-            "name", "hasEntry",
-            "args", ImmutableList.of("title", "Sweep")
+                "name", "hasEntry",
+                "args", ImmutableList.of("title", "Sweep")
         ));
 
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(AppiumBy.androidDataMatcher(selector))));
+                .presenceOfElementLocated(AppiumBy.androidDataMatcher(selector))));
     }
 }

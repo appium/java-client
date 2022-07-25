@@ -57,7 +57,8 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.slf4j:slf4j-api:1.7.36'
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.2.1') {
         exclude group: 'org.seleniumhq.selenium'
@@ -192,7 +193,7 @@ processResources {
 }
 
 task xcuiTest( type: Test ) {
-    useJUnit()
+    useJUnitPlatform()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
     filter {
@@ -207,7 +208,7 @@ task xcuiTest( type: Test ) {
 }
 
 task uiAutomationTest( type: Test ) {
-    useJUnit()
+    useJUnitPlatform()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
     filter {
@@ -223,7 +224,7 @@ task uiAutomationTest( type: Test ) {
 }
 
 task miscTest( type: Test ) {
-    useJUnit()
+    useJUnitPlatform()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
     filter {

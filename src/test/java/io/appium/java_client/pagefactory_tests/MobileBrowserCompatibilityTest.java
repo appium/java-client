@@ -16,18 +16,15 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static java.time.Duration.ofSeconds;
-
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -36,6 +33,9 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
+
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MobileBrowserCompatibilityTest {
 
@@ -58,7 +58,7 @@ public class MobileBrowserCompatibilityTest {
     /**
      * The setting up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -74,7 +74,7 @@ public class MobileBrowserCompatibilityTest {
     /**
      * finishing.
      */
-    @After
+    @AfterEach
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -91,7 +91,7 @@ public class MobileBrowserCompatibilityTest {
 
         searchTextField.sendKeys("Hello");
         btnG.click();
-        Assert.assertNotEquals(0, foundLinks.size());
+        assertNotEquals(0, foundLinks.size());
     }
 
 }

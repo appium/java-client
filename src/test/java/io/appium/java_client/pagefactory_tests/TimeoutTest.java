@@ -16,24 +16,12 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.pagefactory.AppiumFieldDecorator.DEFAULT_WAITING_TIMEOUT;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static java.lang.Math.abs;
-import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
-import static java.time.Duration.ofSeconds;
-import static java.time.temporal.ChronoUnit.SECONDS;
-import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.assertThat;
-import static org.openqa.selenium.support.PageFactory.initElements;
-
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.WithTimeout;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,6 +30,18 @@ import org.openqa.selenium.support.FindBy;
 
 import java.time.Duration;
 import java.util.List;
+
+import static io.appium.java_client.pagefactory.AppiumFieldDecorator.DEFAULT_WAITING_TIMEOUT;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static java.lang.Math.abs;
+import static java.lang.String.format;
+import static java.lang.System.currentTimeMillis;
+import static java.time.Duration.ofSeconds;
+import static java.time.temporal.ChronoUnit.SECONDS;
+import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class TimeoutTest {
 
@@ -69,7 +69,7 @@ public class TimeoutTest {
         long startMark = currentTimeMillis();
         runnable.run();
         long endMark = currentTimeMillis();
-        return abs(expectedMs  - (endMark - startMark));
+        return abs(expectedMs - (endMark - startMark));
     }
 
     private static String assertionMessage(Duration expectedDuration) {
@@ -77,7 +77,7 @@ public class TimeoutTest {
                 formatDuration(expectedDuration.toMillis(), "H:mm:ss:SSS", true));
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeAll() {
         chromedriver().setup();
     }
@@ -85,7 +85,8 @@ public class TimeoutTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() {
+    @BeforeEach
+    public void setUp() {
         driver = new ChromeDriver();
         timeOutDuration = DEFAULT_WAITING_TIMEOUT;
         initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
@@ -94,11 +95,13 @@ public class TimeoutTest {
     /**
      * finishing.
      */
-    @After public void tearDown() {
+    @AfterEach
+    public void tearDown() {
         driver.quit();
     }
 
-    @Test public void withCustomizedTimeOutTest() {
+    @Test
+    public void withCustomizedTimeOutTest() {
         assertThat(assertionMessage(DEFAULT_WAITING_TIMEOUT),
                 getPerformanceDiff(getExpectedMillis(DEFAULT_WAITING_TIMEOUT), () -> stubElements.size()),
                 lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));

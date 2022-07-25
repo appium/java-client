@@ -16,21 +16,24 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class IOSAppStringsTest extends AppIOSTest {
 
-    @Test public void getAppStrings() {
+    @Test
+    public void getAppStrings() {
         assertNotEquals(0, driver.getAppStringMap().size());
     }
 
-    @Test public void getGetAppStringsUsingLang() {
+    @Test
+    public void getGetAppStringsUsingLang() {
         assertNotEquals(0, driver.getAppStringMap("en").size());
     }
 
-    @Test public void getAppStringsUsingLangAndFileStrings() {
+    @Test
+    public void getAppStringsUsingLangAndFileStrings() {
         assertNotEquals(0, driver.getAppStringMap("en", "Localizable.strings").size());
     }
 }

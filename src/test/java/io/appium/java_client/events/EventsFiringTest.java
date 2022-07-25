@@ -17,20 +17,20 @@
 package io.appium.java_client.events;
 
 import io.appium.java_client.events.stubs.EmptyWebDriver;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EventsFiringTest {
     private final WebDriver emptyWebDriver = new EmptyWebDriver();
     private CustomListener listener;
     private WebDriver decorated;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         listener = new CustomListener();
         decorated = new EventFiringDecorator(listener).decorate(emptyWebDriver);

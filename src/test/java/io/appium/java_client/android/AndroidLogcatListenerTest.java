@@ -1,13 +1,13 @@
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AndroidLogcatListenerTest extends BaseAndroidTest {
 
@@ -25,9 +25,9 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
             messageSemaphore.acquire();
             // This is needed for pushing some internal log messages
             driver.runAppInBackground(Duration.ofSeconds(1));
-            assertTrue(String.format("Didn't receive any log message after %s timeout",
-                    DurationFormatUtils.formatDuration(timeout.toMillis(), "H:mm:ss", true)),
-                    messageSemaphore.tryAcquire(timeout.toMillis(), TimeUnit.MILLISECONDS));
+            assertTrue(messageSemaphore.tryAcquire(timeout.toMillis(), TimeUnit.MILLISECONDS),
+                    String.format("Didn't receive any log message after %s timeout",
+                            DurationFormatUtils.formatDuration(timeout.toMillis(), "H:mm:ss", true)));
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
         } finally {

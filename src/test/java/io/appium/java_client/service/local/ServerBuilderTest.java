@@ -1,35 +1,11 @@
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
-import static io.appium.java_client.TestUtils.getLocalIp4Address;
-import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static java.lang.System.getProperty;
-import static java.lang.System.setProperty;
-import static java.nio.file.FileSystems.getDefault;
-import static java.util.Arrays.asList;
-import static java.util.Optional.ofNullable;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,6 +14,23 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.appium.java_client.TestResources.apiDemosApk;
+import static io.appium.java_client.TestUtils.getLocalIp4Address;
+import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.*;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.*;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static java.lang.System.getProperty;
+import static java.lang.System.setProperty;
+import static java.nio.file.FileSystems.getDefault;
+import static java.util.Arrays.asList;
+import static java.util.Optional.ofNullable;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class ServerBuilderTest {
@@ -67,14 +60,14 @@ public class ServerBuilderTest {
     /**
      * initialization.
      */
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         testIP = getLocalIp4Address();
         chromeManager = chromedriver();
         chromeManager.setup();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         ofNullable(service).ifPresent(AppiumDriverLocalService::stop);
 
@@ -340,7 +333,7 @@ public class ServerBuilderTest {
     @Test
     public void checkAbilityToValidateBasePathForEmptyBasePath() {
         assertThrows(IllegalArgumentException.class, () -> {
-           new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
+            new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
         });
     }
 

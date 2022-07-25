@@ -16,21 +16,16 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.AppiumBy.androidUIAutomator;
-
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
+
+import static io.appium.java_client.AppiumBy.androidUIAutomator;
 
 public class FingerPrintTest {
     private static AppiumDriverLocalService service;
@@ -48,7 +43,8 @@ public class FingerPrintTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() {
+    @BeforeAll
+    public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -60,7 +56,8 @@ public class FingerPrintTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterAll
+    public static void afterClass() {
         if (service != null) {
             service.stop();
         }
@@ -68,7 +65,7 @@ public class FingerPrintTest {
 
     private WebElement findElementByText(String text) {
         return driver.findElements(By.id("android:id/title")).stream().filter(androidElement ->
-                text.equals(androidElement.getText())).findFirst()
+                        text.equals(androidElement.getText())).findFirst()
                 .orElseThrow(() ->
                         new NoSuchElementException(String.format("There is no element with the text '%s'", text)));
     }
@@ -98,7 +95,7 @@ public class FingerPrintTest {
     /**
      * enable system security which is required for finger print activation.
      */
-    @Before
+    @BeforeEach
     public void before() {
         initDriver();
         clickOnSecurity();
@@ -123,14 +120,14 @@ public class FingerPrintTest {
         try {
             clickNext();
         } catch (Exception e) {
-            Assert.fail("fingerprint command fail to execute");
+            Assertions.fail("fingerprint command fail to execute");
         }
     }
 
     /**
      * disabling pin lock mode.
      */
-    @After
+    @AfterEach
     public void after() {
         driver.quit();
 

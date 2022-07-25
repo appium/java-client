@@ -19,26 +19,26 @@ package io.appium.java_client.android;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AndroidViewMatcherTest extends BaseEspressoTest {
 
     @Test
     public void testFindByViewMatcher() {
         String selector = new Json().toJson(ImmutableMap.of(
-            "name", "withText",
-            "args", ImmutableList.of("Animation"),
-            "class", "androidx.test.espresso.matcher.ViewMatchers"
+                "name", "withText",
+                "args", ImmutableList.of("Animation"),
+                "class", "androidx.test.espresso.matcher.ViewMatchers"
         ));
         final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         assertNotNull(wait.until(ExpectedConditions
-            .presenceOfElementLocated(AppiumBy.androidViewMatcher(selector))));
+                .presenceOfElementLocated(AppiumBy.androidViewMatcher(selector))));
     }
 }

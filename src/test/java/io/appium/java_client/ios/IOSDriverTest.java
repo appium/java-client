@@ -16,21 +16,12 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.TestUtils.waitUntilTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
@@ -43,8 +34,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static io.appium.java_client.TestUtils.waitUntilTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class IOSDriverTest extends AppIOSTest {
-    @Before
+    @BeforeEach
     public void setupEach() {
         if (driver.queryAppState(BUNDLE_ID).ordinal() < ApplicationState.RUNNING_IN_FOREGROUND.ordinal()) {
             driver.activateApp(BUNDLE_ID);
@@ -83,19 +79,22 @@ public class IOSDriverTest extends AppIOSTest {
         assertFalse(time.isEmpty());
     }
 
-    @Test public void resetTest() {
+    @Test
+    public void resetTest() {
         driver.resetApp();
     }
 
-    @Test public void hideKeyboardWithParametersTest() {
+    @Test
+    public void hideKeyboardWithParametersTest() {
         new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("IntegerA")))
                 .click();
         driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
     }
 
-    @Ignore
-    @Test public void geolocationTest() {
+    @Disabled
+    @Test
+    public void geolocationTest() {
         Location location = new Location(45, 45, 100);
         try {
             driver.setLocation(location);
@@ -104,14 +103,16 @@ public class IOSDriverTest extends AppIOSTest {
         }
     }
 
-    @Test public void orientationTest() {
+    @Test
+    public void orientationTest() {
         assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
         driver.rotate(ScreenOrientation.LANDSCAPE);
         assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
         driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
-    @Test public void lockTest() {
+    @Test
+    public void lockTest() {
         try {
             driver.lockDevice();
             assertTrue(driver.isDeviceLocked());
@@ -121,18 +122,20 @@ public class IOSDriverTest extends AppIOSTest {
         }
     }
 
-    @Test public void pullFileTest() {
+    @Test
+    public void pullFileTest() {
         byte[] data = driver.pullFile(String.format("@%s/TestApp", BUNDLE_ID));
         assertThat(data.length, greaterThan(0));
     }
 
-    @Test public void keyboardTest() {
+    @Test
+    public void keyboardTest() {
         WebElement element = driver.findElement(By.id("IntegerA"));
         element.click();
         assertTrue(driver.isKeyboardShown());
     }
 
-    @Ignore("The app crashes when restored from the background")
+    @Disabled("The app crashes when restored from the background")
     @Test
     public void putAppIntoBackgroundAndRestoreTest() {
         final long msStarted = System.currentTimeMillis();
@@ -140,7 +143,7 @@ public class IOSDriverTest extends AppIOSTest {
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
     }
 
-    @Ignore("The app crashes when restored from the background")
+    @Disabled("The app crashes when restored from the background")
     @Test
     public void applicationsManagementTest() {
         driver.runAppInBackground(Duration.ofSeconds(-1));
@@ -153,7 +156,7 @@ public class IOSDriverTest extends AppIOSTest {
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
     }
 
-    @Ignore("The app crashes when restored from the background")
+    @Disabled("The app crashes when restored from the background")
     @Test
     public void putAIntoBackgroundWithoutRestoreTest() {
         waitUntilTrue(() -> !driver.findElements(By.id("IntegerA")).isEmpty(),
@@ -164,8 +167,9 @@ public class IOSDriverTest extends AppIOSTest {
         driver.activateApp(BUNDLE_ID);
     }
 
-    @Ignore
-    @Test public void touchIdTest() {
+    @Disabled
+    @Test
+    public void touchIdTest() {
         driver.toggleTouchIDEnrollment(true);
         driver.performTouchID(true);
         driver.performTouchID(false);

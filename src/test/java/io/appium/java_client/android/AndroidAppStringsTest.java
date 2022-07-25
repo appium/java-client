@@ -16,17 +16,19 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class AndroidAppStringsTest extends BaseAndroidTest {
 
-    @Test public void getAppStrings() {
+    @Test
+    public void getAppStrings() {
         assertNotEquals(0, driver.getAppStringMap().size());
     }
 
-    @Test public void getGetAppStringsUsingLang() {
+    @Test
+    public void getGetAppStringsUsingLang() {
         assertNotEquals(0, driver.getAppStringMap("en").size());
     }
 }

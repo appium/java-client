@@ -16,25 +16,28 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.DeviceRotation;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RotationTest extends AppIOSTest {
 
-    @After public void afterMethod() {
+    @AfterEach
+    public void afterMethod() {
         driver.rotate(new DeviceRotation(0, 0, 0));
     }
 
-    @Test public void testLandscapeRightRotation() {
+    @Test
+    public void testLandscapeRightRotation() {
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
     }
 
-    @Test public void testLandscapeLeftRotation() {
+    @Test
+    public void testLandscapeLeftRotation() {
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
         driver.rotate(landscapeLeftRotation);
         assertEquals(driver.rotation(), landscapeLeftRotation);

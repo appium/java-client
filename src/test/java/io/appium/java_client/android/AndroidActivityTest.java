@@ -16,39 +16,43 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
-
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AndroidActivityTest extends BaseAndroidTest {
 
-    @Before public void setUp() {
+    @BeforeEach
+    public void setUp() {
         Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);
     }
 
-    @Test public void startActivityInThisAppTestCase() {
+    @Test
+    public void startActivityInThisAppTestCase() {
         Activity activity = new Activity("io.appium.android.apis",
-            ".accessibility.AccessibilityNodeProviderActivity");
+                ".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(),
-            ".accessibility.AccessibilityNodeProviderActivity");
+                ".accessibility.AccessibilityNodeProviderActivity");
     }
 
-    @Test public void startActivityWithWaitingAppTestCase() {
+    @Test
+    public void startActivityWithWaitingAppTestCase() {
         final Activity activity = new Activity("io.appium.android.apis",
-            ".accessibility.AccessibilityNodeProviderActivity")
+                ".accessibility.AccessibilityNodeProviderActivity")
                 .setAppWaitPackage("io.appium.android.apis")
                 .setAppWaitActivity(".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(),
-            ".accessibility.AccessibilityNodeProviderActivity");
+                ".accessibility.AccessibilityNodeProviderActivity");
     }
 
-    @Test public void startActivityInNewAppTestCase() {
+    @Test
+    public void startActivityInNewAppTestCase() {
         Activity activity = new Activity("com.android.settings", ".Settings");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".Settings");
@@ -56,9 +60,10 @@ public class AndroidActivityTest extends BaseAndroidTest {
         assertEquals(driver.currentActivity(), ".ApiDemos");
     }
 
-    @Test public void startActivityInNewAppTestCaseWithoutClosingApp() {
+    @Test
+    public void startActivityInNewAppTestCaseWithoutClosingApp() {
         Activity activity = new Activity("io.appium.android.apis",
-            ".accessibility.AccessibilityNodeProviderActivity");
+                ".accessibility.AccessibilityNodeProviderActivity");
         driver.startActivity(activity);
         assertEquals(driver.currentActivity(), ".accessibility.AccessibilityNodeProviderActivity");
 

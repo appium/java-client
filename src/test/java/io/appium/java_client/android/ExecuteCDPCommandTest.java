@@ -20,13 +20,12 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -34,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.time.Duration.ofSeconds;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ExecuteCDPCommandTest {
 
@@ -49,7 +48,7 @@ public class ExecuteCDPCommandTest {
     /**
      * The setting up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -66,7 +65,7 @@ public class ExecuteCDPCommandTest {
     /**
      * finishing.
      */
-    @After
+    @AfterEach
     public void tearDown() {
         if (driver != null) {
             driver.quit();

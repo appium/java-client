@@ -1,22 +1,8 @@
 package io.appium.java_client.touch;
 
-import static io.appium.java_client.touch.FailsWithMatcher.failsWith;
-import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
-import static io.appium.java_client.touch.TapOptions.tapOptions;
-import static io.appium.java_client.touch.WaitOptions.waitOptions;
-import static io.appium.java_client.touch.offset.ElementOption.element;
-import static io.appium.java_client.touch.offset.PointOption.point;
-import static java.time.Duration.ofMillis;
-import static java.time.Duration.ofSeconds;
-import static junit.framework.TestCase.fail;
-import static org.hamcrest.CoreMatchers.everyItem;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.in;
-import static org.hamcrest.Matchers.is;
-
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.remote.RemoteWebElement;
 
@@ -25,19 +11,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.appium.java_client.touch.FailsWithMatcher.failsWith;
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static io.appium.java_client.touch.offset.PointOption.point;
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
+import static org.hamcrest.CoreMatchers.everyItem;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.in;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class TouchOptionsTests {
     private static final RemoteWebElement DUMMY_ELEMENT = new DummyElement();
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invalidEmptyPointOptionsShouldFailOnBuild() {
-        new PointOption<>().build();
-        fail("The exception throwing was expected");
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new PointOption<>().build();
+                    fail("The exception throwing was expected");
+                });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void invalidEmptyElementOptionsShouldFailOnBuild() {
-        new ElementOption().build();
-        fail("The exception throwing was expected");
+        assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new ElementOption().build();
+                    fail("The exception throwing was expected");
+                });
     }
 
     @Test

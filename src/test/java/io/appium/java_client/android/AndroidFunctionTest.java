@@ -1,17 +1,10 @@
 package io.appium.java_client.android;
 
-import static java.time.Duration.ofMillis;
-import static java.time.Duration.ofSeconds;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import io.appium.java_client.functions.AppiumFunction;
 import io.appium.java_client.functions.ExpectedCondition;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -24,6 +17,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AndroidFunctionTest extends BaseAndroidTest {
 
@@ -65,7 +66,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
-    @BeforeClass
+    @BeforeAll
     public static void startWebViewActivity() {
         if (driver != null) {
             Activity activity = new Activity("io.appium.android.apis", ".view.WebView1");
@@ -73,7 +74,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
 
         driver.context("NATIVE_APP");
@@ -92,7 +93,8 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         assertThat("WebView is expected", driver.getContext(), containsString("WEBVIEW"));
     }
 
-    @Test public void complexWaitingTestWithPostConditions() {
+    @Test
+    public void complexWaitingTestWithPostConditions() {
         final List<Boolean> calls = new ArrayList<>();
 
         AppiumFunction<Pattern, WebDriver> waitingForContext = input -> {
@@ -127,17 +129,23 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         assertThat("There should be 3 calls", calls.size(), is(3));
     }
 
-    @Test(expected = TimeoutException.class)
+    @Test
     public void nullPointerExceptionSafetyTestWithPrecondition() {
-        Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
-                .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
-        assertTrue(wait.until(searchingFunction.compose(contextFunction)).size() > 0);
+        assertThrows(TimeoutException.class,
+                () -> {
+                    Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
+                            .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
+                    assertTrue(wait.until(searchingFunction.compose(contextFunction)).size() > 0);
+                });
     }
 
-    @Test(expected = TimeoutException.class)
+    @Test
     public void nullPointerExceptionSafetyTestWithPostConditions() {
-        Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
-                .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
-        assertTrue(wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)).size() > 0);
+        assertThrows(TimeoutException.class,
+                () -> {
+                    Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
+                            .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
+                    assertTrue(wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)).size() > 0);
+                });
     }
 }

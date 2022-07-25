@@ -16,31 +16,26 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import io.appium.java_client.ios.AppIOSTest;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class XCUITModeTest extends AppIOSTest {
 
     private boolean populated = false;
@@ -91,7 +86,8 @@ public class XCUITModeTest extends AppIOSTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() {
+    @BeforeEach
+    public void setUp() {
         if (!populated) {
             PageFactory.initElements(new AppiumFieldDecorator(driver), this);
         }
@@ -99,47 +95,58 @@ public class XCUITModeTest extends AppIOSTest {
         populated = true;
     }
 
-    @Test public void findByXCUITSelectorTest() {
+    @Test
+    public void findByXCUITSelectorTest() {
         assertNotEquals(null, computeButton.getText());
     }
 
-    @Test public void findElementByNameTest() {
+    @Test
+    public void findElementByNameTest() {
         assertEquals("TextField1", textField1.getText());
     }
 
-    @Test public void findElementByClassNameTest() {
+    @Test
+    public void findElementByClassNameTest() {
         assertEquals("50%", slider.getAttribute("value"));
     }
 
-    @Test public void pageObjectChainingTest() {
+    @Test
+    public void pageObjectChainingTest() {
         assertTrue(contactAlert.isDisplayed());
     }
 
-    @Test public void findElementByIdTest() {
+    @Test
+    public void findElementByIdTest() {
         assertTrue(locationStatus.isDisplayed());
     }
 
-    @Test public void nativeSelectorTest() {
+    @Test
+    public void nativeSelectorTest() {
         assertTrue(locationAlert.isDisplayed());
     }
 
-    @Test public void findElementByClassChain() {
+    @Test
+    public void findElementByClassChain() {
         assertThat(secondTextField.getAttribute("name"), equalTo("IntegerB"));
     }
 
-    @Test public void findElementByClassChainWithNegativeIndex() {
+    @Test
+    public void findElementByClassChainWithNegativeIndex() {
         assertThat(lastButton.getAttribute("name"), equalTo("Check calendar authorized"));
     }
 
-    @Test public void findMultipleElementsByClassChain() {
+    @Test
+    public void findMultipleElementsByClassChain() {
         assertThat(allButtons.size(), is(greaterThan(1)));
     }
 
-    @Test public void findElementByXUISelectorTest() {
+    @Test
+    public void findElementByXUISelectorTest() {
         assertNotNull(gesture.getText());
     }
 
-    @Test public void setValueTest() {
+    @Test
+    public void setValueTest() {
         textField1.sendKeys("2");
         textField2.sendKeys("4");
         driver.hideKeyboard();

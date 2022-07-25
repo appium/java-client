@@ -1,38 +1,38 @@
 package io.appium.java_client.service.local;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ThreadSafetyTest {
 
     private final AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
     private final Action<String> run = new Action<String>() {
-        @Override protected String perform() {
+        @Override
+        protected String perform() {
             service.start();
             return "OK";
         }
     };
     private final Action<String> run2 = run.clone();
     private final Action<Boolean> isRunning = new Action<Boolean>() {
-        @Override protected Boolean perform() {
+        @Override
+        protected Boolean perform() {
             return service.isRunning();
         }
     };
     private final Action<Boolean> isRunning2 = isRunning.clone();
     private final Action<String> stop = new Action<String>() {
-        @Override protected String perform() {
+        @Override
+        protected String perform() {
             service.stop();
             return "OK";
         }
     };
     private final Action<String> stop2 = stop.clone();
 
-    @Test public void whenFewTreadsDoTheSameWork() throws Throwable {
+    @Test
+    public void whenFewTreadsDoTheSameWork() throws Throwable {
 
         TestThread<String> runTestThread = new TestThread<>(run);
         TestThread<String> runTestThread2 = new TestThread<>(run2);
@@ -116,7 +116,8 @@ public class ThreadSafetyTest {
 
     }
 
-    @Test public void whenFewTreadsDoDifferentWork() throws Throwable {
+    @Test
+    public void whenFewTreadsDoDifferentWork() throws Throwable {
         TestThread<String> runTestThread = new TestThread<>(run);
         TestThread<String> runTestThread2 = new TestThread<>(run2);
 
@@ -221,7 +222,8 @@ public class ThreadSafetyTest {
             this.action = action;
         }
 
-        @Override public void run() {
+        @Override
+        public void run() {
             try {
                 result = action.perform();
             } catch (Throwable t) {

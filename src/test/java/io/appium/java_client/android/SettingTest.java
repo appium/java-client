@@ -1,18 +1,19 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.Setting;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SettingTest extends BaseAndroidTest {
 
-    @Test public void ignoreUnimportantViewsTest() {
+    @Test
+    public void ignoreUnimportantViewsTest() {
         driver.ignoreUnimportantViews(true);
         assertEquals(true, driver.getSettings()
                 .get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
@@ -22,7 +23,8 @@ public class SettingTest extends BaseAndroidTest {
                 .get(Setting.IGNORE_UNIMPORTANT_VIEWS.toString()));
     }
 
-    @Test public void configuratorTest() {
+    @Test
+    public void configuratorTest() {
         driver.configuratorSetActionAcknowledgmentTimeout(Duration.ofMillis(500));
         assertJSONElementContains(Setting.WAIT_ACTION_ACKNOWLEDGMENT_TIMEOUT, 500);
 
@@ -39,63 +41,71 @@ public class SettingTest extends BaseAndroidTest {
         assertJSONElementContains(Setting.WAIT_FOR_SELECTOR_TIMEOUT, 1000);
     }
 
-    @Test public void testNormalizeTagNames() {
+    @Test
+    public void testNormalizeTagNames() {
         assertEquals(false, driver.getSettings()
-            .get(Setting.NORMALIZE_TAG_NAMES.toString()));
+                .get(Setting.NORMALIZE_TAG_NAMES.toString()));
         driver.normalizeTagNames(true);
         assertEquals(true, driver.getSettings()
-            .get(Setting.NORMALIZE_TAG_NAMES.toString()));
+                .get(Setting.NORMALIZE_TAG_NAMES.toString()));
     }
 
-    @Test public void testSetShouldUseCompactResponses() {
+    @Test
+    public void testSetShouldUseCompactResponses() {
         assertEquals(true, driver.getSettings()
-            .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
+                .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
         driver.setShouldUseCompactResponses(false);
         assertEquals(false, driver.getSettings()
-            .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
+                .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
     }
 
-    @Test public void testSetElementResponseAttributes() {
+    @Test
+    public void testSetElementResponseAttributes() {
         assertEquals("", driver.getSettings()
-            .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+                .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
         driver.setElementResponseAttributes("type,label");
         assertEquals("type,label", driver.getSettings()
-            .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+                .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
     }
 
-    @Test public void testAllowInvisibleElements() {
+    @Test
+    public void testAllowInvisibleElements() {
         assertEquals(false, driver.getSettings()
-            .get(Setting.ALLOW_INVISIBLE_ELEMENTS.toString()));
+                .get(Setting.ALLOW_INVISIBLE_ELEMENTS.toString()));
         driver.allowInvisibleElements(true);
         assertEquals(true, driver.getSettings()
-            .get(Setting.ALLOW_INVISIBLE_ELEMENTS.toString()));
+                .get(Setting.ALLOW_INVISIBLE_ELEMENTS.toString()));
     }
 
-    @Test public void testEnableNotificationListener() {
+    @Test
+    public void testEnableNotificationListener() {
         assertEquals(true, driver.getSettings()
-            .get(Setting.ENABLE_NOTIFICATION_LISTENER.toString()));
+                .get(Setting.ENABLE_NOTIFICATION_LISTENER.toString()));
         driver.enableNotificationListener(false);
         assertEquals(false, driver.getSettings()
-            .get(Setting.ENABLE_NOTIFICATION_LISTENER.toString()));
+                .get(Setting.ENABLE_NOTIFICATION_LISTENER.toString()));
     }
 
-    @Test public void testShutdownOnPowerDisconnect() {
+    @Test
+    public void testShutdownOnPowerDisconnect() {
         assertEquals(true, driver.getSettings()
-            .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
+                .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
         driver.shutdownOnPowerDisconnect(false);
         assertEquals(false, driver.getSettings()
-            .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
+                .get(Setting.SHUTDOWN_ON_POWER_DISCONNECT.toString()));
     }
 
-    @Test public void testSetTrackScrollEvents() {
+    @Test
+    public void testSetTrackScrollEvents() {
         assertEquals(true, driver.getSettings()
-            .get(Setting.TRACK_SCROLL_EVENTS.toString()));
+                .get(Setting.TRACK_SCROLL_EVENTS.toString()));
         driver.setTrackScrollEvents(false);
         assertEquals(false, driver.getSettings()
-            .get(Setting.TRACK_SCROLL_EVENTS.toString()));
+                .get(Setting.TRACK_SCROLL_EVENTS.toString()));
     }
 
-    @Test public void testSettingByString() {
+    @Test
+    public void testSettingByString() {
         assertEquals(true, driver.getSettings()
                 .get("shouldUseCompactResponses"));
         driver.setSetting("shouldUseCompactResponses", false);
@@ -106,7 +116,8 @@ public class SettingTest extends BaseAndroidTest {
                 .get("shouldUseCompactResponses"));
     }
 
-    @Test public void setMultipleSettings() {
+    @Test
+    public void setMultipleSettings() {
         EnumMap<Setting, Object> enumSettings = new EnumMap<>(Setting.class);
         enumSettings.put(Setting.IGNORE_UNIMPORTANT_VIEWS, true);
         enumSettings.put(Setting.ELEMENT_RESPONSE_ATTRIBUTES, "type,label");

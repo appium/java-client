@@ -1,12 +1,9 @@
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import io.appium.java_client.AppiumBy;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.WebElement;
@@ -15,9 +12,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class UIAutomator2Test extends BaseAndroidTest {
 
-    @After
+    @AfterEach
     public void afterMethod() {
         driver.rotate(new DeviceRotation(0, 0, 0));
     }
@@ -55,7 +55,8 @@ public class UIAutomator2Test extends BaseAndroidTest {
     /**
      * ignoring.
      */
-    @Ignore
+    @Disabled
+    @Test
     public void testToastMSGIsDisplayed() {
         final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");

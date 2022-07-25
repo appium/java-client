@@ -16,15 +16,15 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertNotEquals;
-
-import org.junit.Test;
-
 import io.appium.java_client.AppiumBy;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class IOSSearchingTest extends AppIOSTest {
 
-    @Test public void findByAccessibilityIdTest() {
+    @Test
+    public void findByAccessibilityIdTest() {
         assertNotEquals(driver
                 .findElement(AppiumBy.accessibilityId("ComputeSumButton"))
                 .getText(), null);
@@ -33,7 +33,8 @@ public class IOSSearchingTest extends AppIOSTest {
                 .size(), 0);
     }
 
-    @Test public void findByByIosPredicatesTest() {
+    @Test
+    public void findByByIosPredicatesTest() {
         assertNotEquals(driver
                 .findElement(AppiumBy.iOSNsPredicateString("name like 'Answer'"))
                 .getText(), null);
@@ -42,7 +43,8 @@ public class IOSSearchingTest extends AppIOSTest {
                 .size(), 0);
     }
 
-    @Test public void findByByIosClassChainTest() {
+    @Test
+    public void findByByIosClassChainTest() {
         assertNotEquals(driver
                 .findElement(AppiumBy.iOSClassChain("**/XCUIElementTypeButton"))
                 .getText(), null);

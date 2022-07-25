@@ -16,23 +16,10 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static java.time.Duration.ofSeconds;
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
 import io.appium.java_client.android.BaseAndroidTest;
-
-import io.appium.java_client.pagefactory.AndroidBy;
-import io.appium.java_client.pagefactory.AndroidFindAll;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.HowToUseLocators;
-import org.junit.Before;
-import org.junit.Test;
+import io.appium.java_client.pagefactory.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
@@ -43,6 +30,10 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AndroidPageObjectTest extends BaseAndroidTest {
 
@@ -221,7 +212,8 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() {
+    @BeforeEach
+    public void setUp() {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
             PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
@@ -230,153 +222,190 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         populated = true;
     }
 
-    @Test public void findByElementsTest() {
+    @Test
+    public void findByElementsTest() {
         assertNotEquals(0, textVieWs.size());
     }
 
-    @Test public void findByElementTest() {
+    @Test
+    public void findByElementTest() {
         assertNotEquals(null, textView.getAttribute("text"));
     }
 
 
-    @Test public void androidFindByElementsTest() {
+    @Test
+    public void androidFindByElementsTest() {
         assertNotEquals(0, androidTextViews.size());
     }
 
-    @Test public void androidFindByElementTest() {
+    @Test
+    public void androidFindByElementTest() {
         assertNotEquals(null, androidTextView.getAttribute("text"));
     }
 
-    @Test public void androidOrIOSFindByElementsTest() {
+    @Test
+    public void androidOrIOSFindByElementsTest() {
         assertNotEquals(0, androidOriOsTextViews.size());
     }
 
-    @Test public void androidOrIOSFindByElementTest() {
+    @Test
+    public void androidOrIOSFindByElementTest() {
         assertNotEquals(null, androidOriOsTextView.getAttribute("text"));
     }
 
-    @Test public void androidFindByUIAutomatorElementsTest() {
+    @Test
+    public void androidFindByUIAutomatorElementsTest() {
         assertNotEquals(0, androidUIAutomatorViews.size());
     }
 
-    @Test public void androidFindByUIAutomatorElementTest() {
+    @Test
+    public void androidFindByUIAutomatorElementTest() {
         assertNotEquals(null, androidUIAutomatorView.getAttribute("text"));
     }
 
-    @Test public void areMobileElementsTest() {
+    @Test
+    public void areMobileElementsTest() {
         assertNotEquals(0, mobileElementViews.size());
     }
 
-    @Test public void isMobileElementTest() {
+    @Test
+    public void isMobileElementTest() {
         assertNotEquals(null, mobileElementView.getAttribute("text"));
     }
 
-    @Test public void areMobileElementsFindByTest() {
+    @Test
+    public void areMobileElementsFindByTest() {
         assertNotEquals(0, mobiletextVieWs.size());
     }
 
-    @Test public void isMobileElementFindByTest() {
+    @Test
+    public void isMobileElementFindByTest() {
         assertNotEquals(null, mobiletextVieW.getAttribute("text"));
     }
 
-    @Test public void areRemoteElementsTest() {
+    @Test
+    public void areRemoteElementsTest() {
         assertNotEquals(0, remoteElementViews.size());
     }
 
-    @Test public void isRemoteElementTest() {
+    @Test
+    public void isRemoteElementTest() {
         assertNotEquals(null, remotetextVieW.getAttribute("text"));
     }
 
-    @Test public void androidChainSearchElementsTest() {
+    @Test
+    public void androidChainSearchElementsTest() {
         assertNotEquals(0, chainElementViews.size());
     }
 
-    @Test public void androidChainSearchElementTest() {
+    @Test
+    public void androidChainSearchElementTest() {
         assertNotEquals(null, chainElementView.getAttribute("text"));
     }
 
-    @Test public void androidOrIOSFindByElementsTestChainSearches() {
+    @Test
+    public void androidOrIOSFindByElementsTestChainSearches() {
         assertNotEquals(0, chainAndroidOrIOSUIAutomatorViews.size());
     }
 
-    @Test public void androidOrIOSFindByElementTestChainSearches() {
+    @Test
+    public void androidOrIOSFindByElementTestChainSearches() {
         assertNotEquals(null, chainAndroidOrIOSUIAutomatorView.getAttribute("text"));
     }
 
-    @Test public void isAndroidElementTest() {
+    @Test
+    public void isAndroidElementTest() {
         assertNotEquals(null, androidElementView.getAttribute("text"));
     }
 
-    @Test public void areAndroidElementsTest() {
+    @Test
+    public void areAndroidElementsTest() {
         assertNotEquals(0, androidElementViews.size());
     }
 
-    @Test public void findAllElementTest() {
+    @Test
+    public void findAllElementTest() {
         assertNotEquals(null, findAllElementView.getAttribute("text"));
     }
 
-    @Test public void findAllElementsTest() {
+    @Test
+    public void findAllElementsTest() {
         assertNotEquals(0, findAllElementViews.size());
     }
 
-    @Test public void findByAndroidAnnotationOnlyTest() {
+    @Test
+    public void findByAndroidAnnotationOnlyTest() {
         assertNotEquals(null, textAndroidId.getAttribute("text"));
     }
 
-    @Test(expected = NoSuchElementException.class) public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
-        assertNotNull(
-                elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+    @Test
+    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
+        assertThrows(NoSuchElementException.class,
+                () -> assertNotNull(
+                        elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text")));
     }
 
-    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
+    @Test
+    public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
         assertEquals(0, elementsWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.size());
     }
 
-    @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearching() {
+    @Test
+    public void checkThatClassObjectMethodsDoNotInvokeTheSearching() {
         assertTrue(WebElement.class.isAssignableFrom(fakeElement.getClass()));
         assertNotEquals(WebElement.class, fakeElement.getClass());
         assertEquals(driver, ((WrapsDriver) fakeElement).getWrappedDriver());
     }
 
-    @Test public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
+    @Test
+    public void checkThatClassObjectMethodsDoNotInvokeTheSearchingOfElementLest() {
         assertTrue(List.class.isAssignableFrom(fakeElements.getClass()));
         assertNotEquals(ArrayList.class, fakeElements.getClass());
     }
 
-    @Test public void checkCached() {
+    @Test
+    public void checkCached() {
         assertEquals(((RemoteWebElement) cached).getId(), ((RemoteWebElement) cached).getId());
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void checkThatElementSearchingThrowsExpectedExceptionIfChainedLocatorIsInvalid() {
-        assertNotNull(elementFoundByInvalidChainedSelector.getAttribute("text"));
+        assertThrows(NoSuchElementException.class,
+                () -> assertNotNull(elementFoundByInvalidChainedSelector.getAttribute("text")));
     }
 
-    @Test public void checkThatListSearchingWorksIfChainedLocatorIsInvalid() {
+    @Test
+    public void checkThatListSearchingWorksIfChainedLocatorIsInvalid() {
         assertEquals(0, elementsFoundByInvalidChainedSelector.size());
     }
 
-    @Test public void checkMixedElementSearching1() {
+    @Test
+    public void checkMixedElementSearching1() {
         assertNotNull(androidElementViewFoundByMixedSearching.getAttribute("text"));
     }
 
-    @Test public void checkMixedElementsSearching1() {
+    @Test
+    public void checkMixedElementsSearching1() {
         assertNotEquals(0, androidElementsViewFoundByMixedSearching.size());
     }
 
-    @Test public void checkMixedElementSearching2() {
+    @Test
+    public void checkMixedElementSearching2() {
         assertNotNull(androidElementViewFoundByMixedSearching2.getAttribute("text"));
     }
 
-    @Test public void checkMixedElementsSearching2() {
+    @Test
+    public void checkMixedElementsSearching2() {
         assertNotEquals(0, androidElementsViewFoundByMixedSearching2.size());
     }
 
-    @Test public void checkMixedElementSearching3() {
+    @Test
+    public void checkMixedElementSearching3() {
         assertNotNull(androidElementViewFoundByMixedSearching3.getAttribute("text"));
     }
 
-    @Test public void checkMixedElementsSearching3() {
+    @Test
+    public void checkMixedElementsSearching3() {
         assertNotEquals(0, androidElementsViewFoundByMixedSearching3.size());
     }
 }

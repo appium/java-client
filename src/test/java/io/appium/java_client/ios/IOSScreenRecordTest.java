@@ -1,13 +1,11 @@
 package io.appium.java_client.ios;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class IOSScreenRecordTest extends AppIOSTest {
 

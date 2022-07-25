@@ -1,26 +1,26 @@
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.ios.touch.IOSPressOptions.iosPressOptions;
-import static io.appium.java_client.touch.TapOptions.tapOptions;
-import static io.appium.java_client.touch.WaitOptions.waitOptions;
-import static io.appium.java_client.touch.offset.ElementOption.element;
-import static java.time.Duration.ofMillis;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
-
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MultiTouchAction;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+import static io.appium.java_client.ios.touch.IOSPressOptions.iosPressOptions;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofMillis;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class IOSTouchTest extends AppIOSTest {
 
     @Test
@@ -49,15 +49,16 @@ public class IOSTouchTest extends AppIOSTest {
         WebElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
         new IOSTouchAction(driver)
                 .press(iosPressOptions()
-                    .withElement(element(e))
-                    .withPressure(1))
+                        .withElement(element(e))
+                        .withPressure(1))
                 .waitAction(waitOptions(ofMillis(100)))
                 .release()
                 .perform();
         assertEquals(driver.findElement(By.xpath("//*[@name = \"Answer\"]")).getText(), "6");
     }
 
-    @Test public void multiTouchTest() {
+    @Test
+    public void multiTouchTest() {
         WebElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
         WebElement e2 = driver.findElement(AppiumBy.accessibilityId("show alert"));
 
@@ -71,7 +72,8 @@ public class IOSTouchTest extends AppIOSTest {
         driver.switchTo().alert().accept();
     }
 
-    @Test public void doubleTapTest() {
+    @Test
+    public void doubleTapTest() {
         WebElement firstField = driver.findElement(By.id("IntegerA"));
         firstField.sendKeys("2");
 
