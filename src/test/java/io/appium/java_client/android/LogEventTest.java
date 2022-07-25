@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.serverevents.CommandEvent;
 import io.appium.java_client.serverevents.CustomEvent;
-import io.appium.java_client.serverevents.ServerEvents;
 import io.appium.java_client.serverevents.TimedEvent;
+import io.appium.java_client.serverevents.ServerEvents;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -36,11 +36,11 @@ public class LogEventTest extends BaseAndroidTest {
         driver.logEvent(evt);
         ServerEvents events = driver.getEvents();
         boolean hasCustomEvent = events.events.stream().anyMatch((TimedEvent event) ->
-                event.name.equals("appium:funEvent") &&
-                        event.occurrences.get(0).intValue() > 0
+            event.name.equals("appium:funEvent") &&
+            event.occurrences.get(0).intValue() > 0
         );
         boolean hasCommandName = events.commands.stream().anyMatch((CommandEvent event) ->
-                event.name.equals("logCustomEvent")
+            event.name.equals("logCustomEvent")
         );
         assertTrue(hasCustomEvent);
         assertTrue(hasCommandName);

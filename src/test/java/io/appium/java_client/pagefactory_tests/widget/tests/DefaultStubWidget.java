@@ -1,6 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
 import com.google.common.collect.ImmutableList;
+
 import io.appium.java_client.pagefactory.Widget;
 import org.openqa.selenium.WebElement;
 

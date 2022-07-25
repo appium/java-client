@@ -16,86 +16,75 @@
 
 package io.appium.java_client.ios;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.appium.java_client.Setting;
 import org.junit.jupiter.api.Test;
-
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SettingTest extends AppIOSTest {
 
-    @Test
-    public void testSetShouldUseCompactResponses() {
+    @Test public void testSetShouldUseCompactResponses() {
         assertEquals(true, driver.getSettings()
-                .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
+            .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
         driver.setShouldUseCompactResponses(false);
         assertEquals(false, driver.getSettings()
-                .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
+            .get(Setting.SHOULD_USE_COMPACT_RESPONSES.toString()));
     }
 
-    @Test
-    public void testSetElementResponseAttributes() {
+    @Test public void testSetElementResponseAttributes() {
         assertEquals("", driver.getSettings()
-                .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+            .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
         driver.setElementResponseAttributes("type,label");
         assertEquals("type,label", driver.getSettings()
-                .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
+            .get(Setting.ELEMENT_RESPONSE_ATTRIBUTES.toString()));
     }
 
-    @Test
-    public void testSetMjpegServerScreenshotQuality() {
+    @Test public void testSetMjpegServerScreenshotQuality() {
         assertEquals(25L, driver.getSettings()
-                .get(Setting.MJPEG_SERVER_SCREENSHOT_QUALITY.toString()));
+            .get(Setting.MJPEG_SERVER_SCREENSHOT_QUALITY.toString()));
         driver.setMjpegServerScreenshotQuality(0);
         assertEquals(0L, driver.getSettings()
-                .get(Setting.MJPEG_SERVER_SCREENSHOT_QUALITY.toString()));
+            .get(Setting.MJPEG_SERVER_SCREENSHOT_QUALITY.toString()));
     }
 
-    @Test
-    public void testSetMjpegServerFramerate() {
+    @Test public void testSetMjpegServerFramerate() {
         assertEquals(10L, driver.getSettings()
-                .get(Setting.MJPEG_SERVER_FRAMERATE.toString()));
+            .get(Setting.MJPEG_SERVER_FRAMERATE.toString()));
         driver.setMjpegServerFramerate(60);
         assertEquals(60L, driver.getSettings()
-                .get(Setting.MJPEG_SERVER_FRAMERATE.toString()));
+            .get(Setting.MJPEG_SERVER_FRAMERATE.toString()));
     }
 
-    @Test
-    public void testSetScreenshotQuality() {
+    @Test public void testSetScreenshotQuality() {
         assertEquals(1L, driver.getSettings()
-                .get(Setting.SCREENSHOT_QUALITY.toString()));
+            .get(Setting.SCREENSHOT_QUALITY.toString()));
         driver.setScreenshotQuality(2);
         assertEquals(2L, driver.getSettings()
-                .get(Setting.SCREENSHOT_QUALITY.toString()));
+            .get(Setting.SCREENSHOT_QUALITY.toString()));
     }
 
-    @Test
-    public void testSetMjpegScalingFactor() {
+    @Test public void testSetMjpegScalingFactor() {
         driver.setMjpegScalingFactor(1);
         assertEquals(1L, driver.getSettings()
-                .get(Setting.MJPEG_SCALING_FACTOR.toString()));
+            .get(Setting.MJPEG_SCALING_FACTOR.toString()));
     }
 
-    @Test
-    public void testSetKeyboardAutocorrection() {
+    @Test public void testSetKeyboardAutocorrection() {
         driver.setKeyboardAutocorrection(true);
         assertEquals(true, driver.getSettings()
-                .get(Setting.KEYBOARD_AUTOCORRECTION.toString()));
+            .get(Setting.KEYBOARD_AUTOCORRECTION.toString()));
     }
 
-    @Test
-    public void testSetKeyboardPrediction() {
+    @Test public void testSetKeyboardPrediction() {
         driver.setKeyboardPrediction(true);
         assertEquals(true, driver.getSettings()
-                .get(Setting.KEYBOARD_PREDICTION.toString()));
+            .get(Setting.KEYBOARD_PREDICTION.toString()));
     }
 
-    @Test
-    public void testSettingByString() {
+    @Test public void testSettingByString() {
         assertEquals(true, driver.getSettings()
                 .get("shouldUseCompactResponses"));
         driver.setSetting("shouldUseCompactResponses", false);
@@ -106,8 +95,7 @@ public class SettingTest extends AppIOSTest {
                 .get("shouldUseCompactResponses"));
     }
 
-    @Test
-    public void setMultipleSettings() {
+    @Test public void setMultipleSettings() {
         EnumMap<Setting, Object> enumSettings = new EnumMap<>(Setting.class);
         enumSettings.put(Setting.IGNORE_UNIMPORTANT_VIEWS, true);
         enumSettings.put(Setting.ELEMENT_RESPONSE_ATTRIBUTES, "type,label");

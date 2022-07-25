@@ -27,7 +27,7 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
             driver.runAppInBackground(Duration.ofSeconds(1));
             assertTrue(messageSemaphore.tryAcquire(timeout.toMillis(), TimeUnit.MILLISECONDS),
                     String.format("Didn't receive any log message after %s timeout",
-                            DurationFormatUtils.formatDuration(timeout.toMillis(), "H:mm:ss", true)));
+                    DurationFormatUtils.formatDuration(timeout.toMillis(), "H:mm:ss", true)));
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
         } finally {

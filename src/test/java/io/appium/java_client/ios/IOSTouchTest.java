@@ -49,16 +49,15 @@ public class IOSTouchTest extends AppIOSTest {
         WebElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
         new IOSTouchAction(driver)
                 .press(iosPressOptions()
-                        .withElement(element(e))
-                        .withPressure(1))
+                    .withElement(element(e))
+                    .withPressure(1))
                 .waitAction(waitOptions(ofMillis(100)))
                 .release()
                 .perform();
         assertEquals(driver.findElement(By.xpath("//*[@name = \"Answer\"]")).getText(), "6");
     }
 
-    @Test
-    public void multiTouchTest() {
+    @Test public void multiTouchTest() {
         WebElement e = driver.findElement(AppiumBy.accessibilityId("ComputeSumButton"));
         WebElement e2 = driver.findElement(AppiumBy.accessibilityId("show alert"));
 
@@ -72,8 +71,7 @@ public class IOSTouchTest extends AppIOSTest {
         driver.switchTo().alert().accept();
     }
 
-    @Test
-    public void doubleTapTest() {
+    @Test public void doubleTapTest() {
         WebElement firstField = driver.findElement(By.id("IntegerA"));
         firstField.sendKeys("2");
 

@@ -24,20 +24,17 @@ import org.openqa.selenium.DeviceRotation;
 
 public class RotationTest extends AppIOSTest {
 
-    @AfterEach
-    public void afterMethod() {
+    @AfterEach public void afterMethod() {
         driver.rotate(new DeviceRotation(0, 0, 0));
     }
 
-    @Test
-    public void testLandscapeRightRotation() {
+    @Test public void testLandscapeRightRotation() {
         DeviceRotation landscapeRightRotation = new DeviceRotation(0, 0, 90);
         driver.rotate(landscapeRightRotation);
         assertEquals(driver.rotation(), landscapeRightRotation);
     }
 
-    @Test
-    public void testLandscapeLeftRotation() {
+    @Test public void testLandscapeLeftRotation() {
         DeviceRotation landscapeLeftRotation = new DeviceRotation(0, 0, 270);
         driver.rotate(landscapeLeftRotation);
         assertEquals(driver.rotation(), landscapeLeftRotation);

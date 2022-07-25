@@ -43,8 +43,7 @@ public class FingerPrintTest {
     /**
      * initialization.
      */
-    @BeforeAll
-    public static void beforeClass() {
+    @BeforeAll public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -56,8 +55,7 @@ public class FingerPrintTest {
     /**
      * finishing.
      */
-    @AfterAll
-    public static void afterClass() {
+    @AfterAll public static void afterClass() {
         if (service != null) {
             service.stop();
         }
@@ -65,7 +63,7 @@ public class FingerPrintTest {
 
     private WebElement findElementByText(String text) {
         return driver.findElements(By.id("android:id/title")).stream().filter(androidElement ->
-                        text.equals(androidElement.getText())).findFirst()
+                text.equals(androidElement.getText())).findFirst()
                 .orElseThrow(() ->
                         new NoSuchElementException(String.format("There is no element with the text '%s'", text)));
     }

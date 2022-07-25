@@ -9,7 +9,13 @@ import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import io.appium.java_client.HasBrowserCheck;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Response;
 

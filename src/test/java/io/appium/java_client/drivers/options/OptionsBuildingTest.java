@@ -112,7 +112,7 @@ public class OptionsBuildingTest {
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("CN", options.getAppLocale().orElse(null).getCountry().orElse(null));
         assertEquals(2, options.getEspressoBuildConfig().orElse(null)
-                .left().getAdditionalAppDependencies().orElse(null).size());
+                        .left().getAdditionalAppDependencies().orElse(null).size());
         assertTrue(options.doesForceEspressoRebuild().orElse(false));
     }
 
@@ -154,7 +154,7 @@ public class OptionsBuildingTest {
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .setVerbosity(Verbosity.TRACE)
                 .setMozFirefoxOptions(ImmutableMap.of(
-                        "profile", "yolo"
+                    "profile", "yolo"
                 ));
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals(Verbosity.TRACE, options.getVerbosity().orElse(null));

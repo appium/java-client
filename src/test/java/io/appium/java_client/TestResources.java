@@ -1,8 +1,8 @@
 package io.appium.java_client;
 
-import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
-
 import java.nio.file.Path;
+
+import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
 
 public class TestResources {
     public static Path apiDemosApk() {

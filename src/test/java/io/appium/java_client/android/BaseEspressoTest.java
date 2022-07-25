@@ -16,13 +16,13 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
-
 import io.appium.java_client.android.options.EspressoOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+
+import static io.appium.java_client.TestResources.apiDemosApk;
 
 public class BaseEspressoTest {
 
@@ -32,14 +32,13 @@ public class BaseEspressoTest {
     /**
      * initialization.
      */
-    @BeforeAll
-    public static void beforeClass() {
+    @BeforeAll public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
         if (service == null || !service.isRunning()) {
             throw new AppiumServerHasNotBeenStartedLocallyException(
-                    "An appium server node is not started!");
+                "An appium server node is not started!");
         }
 
         EspressoOptions options = new EspressoOptions()
@@ -52,8 +51,7 @@ public class BaseEspressoTest {
     /**
      * finishing.
      */
-    @AfterAll
-    public static void afterClass() {
+    @AfterAll public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }

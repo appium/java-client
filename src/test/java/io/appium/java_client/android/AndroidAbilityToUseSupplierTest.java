@@ -26,8 +26,8 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
         Point location = gallery.getLocation();
         Point center = getCenter(gallery, location);
 
-        ElementOption pressOption = element(images.get(2), -10, center.y - location.y);
-        ElementOption moveOption = element(gallery, 10, center.y - location.y);
+        ElementOption pressOption = element(images.get(2),-10,center.y - location.y);
+        ElementOption moveOption = element(gallery, 10,center.y - location.y);
 
         return new AndroidTouchAction(driver)
                 .press(pressOption)
@@ -37,16 +37,15 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
     };
 
     private final ActionSupplier<AndroidTouchAction> verticalSwiping = () ->
-            new AndroidTouchAction(driver)
-                    .press(element(driver.findElement(AppiumBy.accessibilityId("Gallery"))))
+        new AndroidTouchAction(driver)
+                .press(element(driver.findElement(AppiumBy.accessibilityId("Gallery"))))
 
-                    .waitAction(waitOptions(ofSeconds(2)))
+                .waitAction(waitOptions(ofSeconds(2)))
 
-                    .moveTo(element(driver.findElement(AppiumBy.accessibilityId("Auto Complete"))))
-                    .release();
+                .moveTo(element(driver.findElement(AppiumBy.accessibilityId("Auto Complete"))))
+                .release();
 
-    @Test
-    public void horizontalSwipingWithSupplier() {
+    @Test public void horizontalSwipingWithSupplier() {
         Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
         driver.startActivity(activity);
         WebElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
@@ -59,8 +58,7 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
                 gallery.findElements(AppiumBy.className("android.widget.ImageView")).size());
     }
 
-    @Test
-    public void verticalSwipingWithSupplier() throws Exception {
+    @Test public void verticalSwipingWithSupplier() throws Exception {
         driver.resetApp();
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
 

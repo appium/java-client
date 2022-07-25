@@ -34,39 +34,35 @@ public class AndroidSearchingTest extends BaseAndroidTest {
         driver.startActivity(activity);
     }
 
-    @Test
-    public void findByAccessibilityIdTest() {
+    @Test  public void findByAccessibilityIdTest() {
         assertNotEquals(driver.findElement(AppiumBy.accessibilityId("Graphics")).getText(), null);
         assertEquals(driver.findElements(AppiumBy.accessibilityId("Graphics")).size(), 1);
     }
 
-    @Test
-    public void findByAndroidUIAutomatorTest() {
+    @Test  public void findByAndroidUIAutomatorTest() {
         assertNotEquals(driver
                 .findElement(AppiumBy
-                        .androidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
+                .androidUIAutomator("new UiSelector().clickable(true)")).getText(), null);
         assertNotEquals(driver
                 .findElements(AppiumBy
-                        .androidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
+                .androidUIAutomator("new UiSelector().clickable(true)")).size(), 0);
         assertNotEquals(driver
                 .findElements(AppiumBy
-                        .androidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
+                .androidUIAutomator("new UiSelector().clickable(true)")).size(), 1);
     }
 
-    @Test
-    public void findByXPathTest() {
+    @Test public void findByXPathTest() {
         By byXPath = By.xpath("//android.widget.TextView[contains(@text, 'Animat')]");
         assertNotNull(driver.findElement(byXPath).getText());
         assertEquals(driver.findElements(byXPath).size(), 1);
     }
 
-    @Test
-    public void findScrollable() {
+    @Test public void findScrollable() {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
         WebElement radioGroup = driver
                 .findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()"
-                        + ".resourceId(\"android:id/list\")).scrollIntoView("
-                        + "new UiSelector().text(\"Radio Group\"));"));
+                + ".resourceId(\"android:id/list\")).scrollIntoView("
+                + "new UiSelector().text(\"Radio Group\"));"));
         assertNotNull(radioGroup.getLocation());
     }
 }

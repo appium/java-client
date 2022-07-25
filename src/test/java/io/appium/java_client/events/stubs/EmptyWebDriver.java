@@ -17,7 +17,23 @@
 package io.appium.java_client.events.stubs;
 
 import com.google.common.collect.ImmutableList;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ContextAware;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.DeviceRotation;
+import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Rotatable;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -108,15 +124,15 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
     }
 
     public TargetLocator switchTo() {
-        return new EmptyWebDriver.StubTargetLocator(this);
+        return new StubTargetLocator(this);
     }
 
     public Navigation navigate() {
-        return new EmptyWebDriver.StubNavigation();
+        return new StubNavigation();
     }
 
     public Options manage() {
-        return new EmptyWebDriver.StubOptions();
+        return new StubOptions();
     }
 
     public Object executeScript(String script, Object... args) {
