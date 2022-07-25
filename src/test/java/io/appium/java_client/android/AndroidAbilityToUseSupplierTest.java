@@ -1,5 +1,11 @@
 package io.appium.java_client.android;
 
+import static io.appium.java_client.TestUtils.getCenter;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -9,12 +15,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-
-import static io.appium.java_client.TestUtils.getCenter;
-import static io.appium.java_client.touch.WaitOptions.waitOptions;
-import static io.appium.java_client.touch.offset.ElementOption.element;
-import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
 

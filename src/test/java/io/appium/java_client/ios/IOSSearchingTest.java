@@ -16,10 +16,10 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import io.appium.java_client.AppiumBy;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class IOSSearchingTest extends AppIOSTest {
 

@@ -16,16 +16,16 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.imagecomparison.*;
-import org.apache.commons.codec.binary.Base64;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.OutputType;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import io.appium.java_client.imagecomparison.*;
+import org.apache.commons.codec.binary.Base64;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.OutputType;
 
 public class ImagesComparisonTest extends BaseAndroidTest {
 

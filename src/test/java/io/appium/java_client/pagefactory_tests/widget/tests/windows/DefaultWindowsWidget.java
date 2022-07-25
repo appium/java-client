@@ -11,11 +11,11 @@ public class DefaultWindowsWidget extends DefaultStubWidget {
 
     public static String WINDOWS_SUB_WIDGET_LOCATOR = "SOME_SUB_LOCATOR";
 
-    @WindowsFindBy(windowsAutomation =  "SOME_SUB_LOCATOR")
+    @WindowsFindBy(windowsAutomation = "SOME_SUB_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_SUB_LOCATOR")
     private DefaultWindowsWidget singleWidget;
 
-    @WindowsFindBy(windowsAutomation =  "SOME_SUB_LOCATOR")
+    @WindowsFindBy(windowsAutomation = "SOME_SUB_LOCATOR")
     @iOSXCUITFindBy(iOSNsPredicate = "XCUIT_SOME_SUB_LOCATOR")
     private List<DefaultWindowsWidget> multipleWidgets;
 

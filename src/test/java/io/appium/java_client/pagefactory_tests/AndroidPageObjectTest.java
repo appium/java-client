@@ -16,6 +16,10 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.appium.java_client.android.BaseAndroidTest;
 import io.appium.java_client.pagefactory.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +34,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class AndroidPageObjectTest extends BaseAndroidTest {
 

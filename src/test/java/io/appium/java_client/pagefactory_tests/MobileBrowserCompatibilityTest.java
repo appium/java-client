@@ -16,6 +16,9 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -33,9 +36,6 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-
-import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MobileBrowserCompatibilityTest {
 

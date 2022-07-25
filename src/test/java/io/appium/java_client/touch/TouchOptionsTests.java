@@ -1,16 +1,5 @@
 package io.appium.java_client.touch;
 
-import io.appium.java_client.touch.offset.ElementOption;
-import io.appium.java_client.touch.offset.PointOption;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.remote.RemoteWebElement;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static io.appium.java_client.touch.FailsWithMatcher.failsWith;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
@@ -25,6 +14,17 @@ import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.remote.RemoteWebElement;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TouchOptionsTests {
     private static final RemoteWebElement DUMMY_ELEMENT = new DummyElement();

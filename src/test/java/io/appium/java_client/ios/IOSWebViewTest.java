@@ -2,13 +2,13 @@ package io.appium.java_client.ios;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Duration;
-
 import io.appium.java_client.AppiumBy;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class IOSWebViewTest extends BaseIOSWebViewTest {
     private static final Duration LOOKUP_TIMEOUT = Duration.ofSeconds(30);

@@ -16,6 +16,8 @@
 
 package io.appium.java_client.android;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
@@ -25,8 +27,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AndroidViewMatcherTest extends BaseEspressoTest {
 

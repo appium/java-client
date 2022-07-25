@@ -16,6 +16,11 @@
 
 package io.appium.java_client.android;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -28,11 +33,6 @@ import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.lessThan;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class AndroidDriverTest extends BaseAndroidTest {
 

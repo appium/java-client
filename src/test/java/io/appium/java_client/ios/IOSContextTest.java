@@ -16,13 +16,13 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.NoSuchContextException;
-import org.junit.jupiter.api.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import io.appium.java_client.NoSuchContextException;
+import org.junit.jupiter.api.Test;
 
 public class IOSContextTest extends BaseIOSWebViewTest {
 

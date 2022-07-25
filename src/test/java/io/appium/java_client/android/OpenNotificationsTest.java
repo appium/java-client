@@ -1,14 +1,14 @@
 package io.appium.java_client.android;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.openqa.selenium.By.id;
+
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.openqa.selenium.By.id;
 
 public class OpenNotificationsTest extends BaseAndroidTest {
     @Test

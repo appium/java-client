@@ -16,6 +16,13 @@
 
 package io.appium.java_client.pagefactory_tests;
 
+import static io.appium.java_client.TestResources.helloAppiumHtml;
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -31,13 +38,6 @@ import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-
-import static io.appium.java_client.TestResources.helloAppiumHtml;
-import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DesktopBrowserCompatibilityTest {
 

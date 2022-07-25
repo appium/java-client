@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.DeviceRotation;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RotationTest extends AppIOSTest {
 

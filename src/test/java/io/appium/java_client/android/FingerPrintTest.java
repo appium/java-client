@@ -16,6 +16,8 @@
 
 package io.appium.java_client.android;
 
+import static io.appium.java_client.AppiumBy.androidUIAutomator;
+
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.jupiter.api.*;
@@ -24,8 +26,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
-
-import static io.appium.java_client.AppiumBy.androidUIAutomator;
 
 public class FingerPrintTest {
     private static AppiumDriverLocalService service;

@@ -25,7 +25,8 @@ import org.junit.jupiter.api.Test;
 
 public class BatteryTest extends BaseAndroidTest {
 
-    @Test public void veryGettingBatteryInformation() {
+    @Test
+    public void veryGettingBatteryInformation() {
         final AndroidBatteryInfo batteryInfo = driver.getBatteryInfo();
         assertThat(batteryInfo.getLevel(), is(greaterThan(0.0)));
         assertThat(batteryInfo.getState(), is(not(AndroidBatteryInfo.BatteryState.UNKNOWN)));

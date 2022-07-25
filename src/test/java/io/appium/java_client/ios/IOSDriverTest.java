@@ -16,6 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import static io.appium.java_client.TestUtils.waitUntilTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.remote.HideKeyboardStrategy;
@@ -33,11 +38,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
-import static io.appium.java_client.TestUtils.waitUntilTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class IOSDriverTest extends AppIOSTest {
     @BeforeEach

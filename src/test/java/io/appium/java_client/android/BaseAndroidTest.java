@@ -16,13 +16,13 @@
 
 package io.appium.java_client.android;
 
+import static io.appium.java_client.TestResources.apiDemosApk;
+
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-
-import static io.appium.java_client.TestResources.apiDemosApk;
 
 public class BaseAndroidTest {
     public static final String APP_ID = "io.appium.android.apis";
