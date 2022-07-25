@@ -1,7 +1,7 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.ios.options.XCUITestOptions;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;
 
 import java.time.Duration;
@@ -12,7 +12,7 @@ public class AppIOSTest extends BaseIOSTest {
 
     public static final String BUNDLE_ID = "io.appium.TestApp";
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         startAppiumServer();
 

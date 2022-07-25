@@ -17,7 +17,7 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.ios.options.XCUITestOptions;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);
     private static final Duration WEB_VIEW_DETECT_DURATION = Duration.ofSeconds(15);
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws IOException {
         startAppiumServer();
 

@@ -18,7 +18,7 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterAll;
 
 import java.time.Duration;
 
@@ -52,7 +52,8 @@ public class BaseIOSTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterAll
+    public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }
