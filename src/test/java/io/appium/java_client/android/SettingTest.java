@@ -1,7 +1,5 @@
 package io.appium.java_client.android;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import io.appium.java_client.Setting;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +7,8 @@ import java.time.Duration;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SettingTest extends BaseAndroidTest {
 

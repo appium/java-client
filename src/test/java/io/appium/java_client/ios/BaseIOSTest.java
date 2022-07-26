@@ -52,8 +52,7 @@ public class BaseIOSTest {
     /**
      * finishing.
      */
-    @AfterAll
-    public static void afterClass() {
+    @AfterAll public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }

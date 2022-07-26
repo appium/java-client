@@ -69,7 +69,7 @@ public class TimeoutTest {
         long startMark = currentTimeMillis();
         runnable.run();
         long endMark = currentTimeMillis();
-        return abs(expectedMs - (endMark - startMark));
+        return abs(expectedMs  - (endMark - startMark));
     }
 
     private static String assertionMessage(Duration expectedDuration) {
@@ -85,8 +85,7 @@ public class TimeoutTest {
     /**
      * The setting up.
      */
-    @BeforeEach
-    public void setUp() {
+    @BeforeEach public void setUp() {
         driver = new ChromeDriver();
         timeOutDuration = DEFAULT_WAITING_TIMEOUT;
         initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
@@ -95,13 +94,11 @@ public class TimeoutTest {
     /**
      * finishing.
      */
-    @AfterEach
-    public void tearDown() {
+    @AfterEach public void tearDown() {
         driver.quit();
     }
 
-    @Test
-    public void withCustomizedTimeOutTest() {
+    @Test public void withCustomizedTimeOutTest() {
         assertThat(assertionMessage(DEFAULT_WAITING_TIMEOUT),
                 getPerformanceDiff(getExpectedMillis(DEFAULT_WAITING_TIMEOUT), () -> stubElements.size()),
                 lessThanOrEqualTo(ACCEPTABLE_TIME_DIFF_MS));

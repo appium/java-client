@@ -16,8 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.TestResources.vodQaAppZip;
-
 import io.appium.java_client.ios.options.XCUITestOptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;
@@ -25,6 +23,8 @@ import org.openqa.selenium.SessionNotCreatedException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.function.Supplier;
+
+import static io.appium.java_client.TestResources.vodQaAppZip;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);

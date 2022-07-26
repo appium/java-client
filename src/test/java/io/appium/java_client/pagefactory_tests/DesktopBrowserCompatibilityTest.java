@@ -43,8 +43,7 @@ public class DesktopBrowserCompatibilityTest {
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @AndroidFindBy(className = "someClass")
-    @iOSXCUITFindBy(xpath = "//selector[1]")
-    @iOSXCUITFindBy(xpath = "//someTag")
+    @iOSXCUITFindBy(xpath = "//selector[1]") @iOSXCUITFindBy(xpath = "//someTag")
     @FindBys({@FindBy(id = "main"), @FindBy(tagName = "p")})
     private List<WebElement> foundLinks;
     private List<WebElement> main; //this list is located by id="main"
@@ -54,13 +53,11 @@ public class DesktopBrowserCompatibilityTest {
     /**
      * The starting.
      */
-    @BeforeAll
-    public static void beforeClass() {
+    @BeforeAll public static void beforeClass() {
         chromedriver().setup();
     }
 
-    @Test
-    public void chromeTest() {
+    @Test public void chromeTest() {
         WebDriver driver = new ChromeDriver();
         try {
             PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(15)), this);

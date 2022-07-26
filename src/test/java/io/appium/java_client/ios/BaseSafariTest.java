@@ -24,8 +24,7 @@ import java.io.IOException;
 
 public class BaseSafariTest extends BaseIOSTest {
 
-    @BeforeAll
-    public static void beforeClass() throws IOException {
+    @BeforeAll public static void beforeClass() throws IOException {
         startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()

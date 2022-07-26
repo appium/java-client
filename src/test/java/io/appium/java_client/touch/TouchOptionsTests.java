@@ -12,8 +12,10 @@ import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -25,6 +27,18 @@ import java.util.Map;
 
 public class TouchOptionsTests {
     private static final RemoteWebElement DUMMY_ELEMENT = new DummyElement();
+
+    @Test
+    public void invalidEmptyPointOptionsShouldFailOnBuild() {
+        assertThrows(IllegalArgumentException.class,
+            () -> new PointOption<>().build());
+    }
+
+    @Test
+    public void invalidEmptyElementOptionsShouldFailOnBuild() {
+        assertThrows(IllegalArgumentException.class,
+            () -> new ElementOption().build());
+    }
 
     @Test
     public void invalidOptionsArgumentsShouldFailOnAltering() {

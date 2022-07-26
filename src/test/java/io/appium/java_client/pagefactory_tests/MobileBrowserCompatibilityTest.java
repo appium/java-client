@@ -17,7 +17,6 @@
 package io.appium.java_client.pagefactory_tests;
 
 import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -26,6 +25,7 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -91,7 +91,7 @@ public class MobileBrowserCompatibilityTest {
 
         searchTextField.sendKeys("Hello");
         btnG.click();
-        assertNotEquals(0, foundLinks.size());
+        Assertions.assertNotEquals(0, foundLinks.size());
     }
 
 }

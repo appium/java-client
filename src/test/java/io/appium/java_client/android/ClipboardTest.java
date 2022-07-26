@@ -23,13 +23,11 @@ import org.junit.jupiter.api.Test;
 
 public class ClipboardTest extends BaseAndroidTest {
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeEach public void setUp() {
         driver.resetApp();
     }
 
-    @Test
-    public void verifySetAndGetClipboardText() {
+    @Test public void verifySetAndGetClipboardText() {
         final String text = "Happy testing";
         driver.setClipboardText(text);
         assertEquals(driver.getClipboardText(), text);

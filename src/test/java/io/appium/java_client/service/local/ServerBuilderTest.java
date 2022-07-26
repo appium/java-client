@@ -340,7 +340,7 @@ public class ServerBuilderTest {
     @Test
     public void checkAbilityToValidateBasePathForEmptyBasePath() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
+           new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
         });
     }
 

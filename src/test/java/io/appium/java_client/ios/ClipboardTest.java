@@ -22,8 +22,7 @@ import org.junit.jupiter.api.Test;
 
 public class ClipboardTest extends AppIOSTest {
 
-    @Test
-    public void verifySetAndGetClipboardText() {
+    @Test public void verifySetAndGetClipboardText() {
         final String text = "Happy testing";
         driver.setClipboardText(text);
         assertEquals(driver.getClipboardText(), text);

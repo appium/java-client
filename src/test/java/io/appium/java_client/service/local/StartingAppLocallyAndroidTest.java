@@ -16,12 +16,6 @@
 
 package io.appium.java_client.service.local;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.AutomationName;
@@ -33,6 +27,12 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 
 import java.time.Duration;
+
+import static io.appium.java_client.TestResources.apiDemosApk;
+import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StartingAppLocallyAndroidTest {
 

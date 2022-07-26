@@ -19,7 +19,11 @@ package io.appium.java_client.ios;
 import static io.appium.java_client.TestUtils.waitUntilTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
@@ -79,13 +83,11 @@ public class IOSDriverTest extends AppIOSTest {
         assertFalse(time.isEmpty());
     }
 
-    @Test
-    public void resetTest() {
+    @Test public void resetTest() {
         driver.resetApp();
     }
 
-    @Test
-    public void hideKeyboardWithParametersTest() {
+    @Test public void hideKeyboardWithParametersTest() {
         new WebDriverWait(driver, Duration.ofSeconds(30))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("IntegerA")))
                 .click();
@@ -93,8 +95,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Disabled
-    @Test
-    public void geolocationTest() {
+    @Test public void geolocationTest() {
         Location location = new Location(45, 45, 100);
         try {
             driver.setLocation(location);
@@ -103,16 +104,14 @@ public class IOSDriverTest extends AppIOSTest {
         }
     }
 
-    @Test
-    public void orientationTest() {
+    @Test public void orientationTest() {
         assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
         driver.rotate(ScreenOrientation.LANDSCAPE);
         assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
         driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
-    @Test
-    public void lockTest() {
+    @Test public void lockTest() {
         try {
             driver.lockDevice();
             assertTrue(driver.isDeviceLocked());
@@ -122,14 +121,12 @@ public class IOSDriverTest extends AppIOSTest {
         }
     }
 
-    @Test
-    public void pullFileTest() {
+    @Test public void pullFileTest() {
         byte[] data = driver.pullFile(String.format("@%s/TestApp", BUNDLE_ID));
         assertThat(data.length, greaterThan(0));
     }
 
-    @Test
-    public void keyboardTest() {
+    @Test public void keyboardTest() {
         WebElement element = driver.findElement(By.id("IntegerA"));
         element.click();
         assertTrue(driver.isKeyboardShown());
@@ -168,8 +165,7 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Disabled
-    @Test
-    public void touchIdTest() {
+    @Test public void touchIdTest() {
         driver.toggleTouchIDEnrollment(true);
         driver.performTouchID(true);
         driver.performTouchID(false);

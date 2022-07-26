@@ -36,25 +36,25 @@ public class CombinedWidgetTest extends WidgetTest {
     public static Stream<Arguments> data() {
         return Stream.of(
                 Arguments.of(new AppWithCombinedWidgets(),
-                        new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
+                    new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
-                        new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
+                    new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
-                        new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
+                    new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
-                        new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
+                    new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
-                        new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class),
+                    new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class),
                 Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                        new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
+                    new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
                 Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                        new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultStubWidget.class),
+                    new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultStubWidget.class),
                 Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                        new AbstractStubWebDriver.StubWindowsDriver(), DefaultStubWidget.class),
+                    new AbstractStubWebDriver.StubWindowsDriver(), DefaultStubWidget.class),
                 Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                        new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
+                    new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
                 Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                        new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class)
+                    new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class)
         );
     }
 

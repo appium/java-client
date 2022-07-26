@@ -26,30 +26,26 @@ import org.junit.jupiter.api.Test;
 
 public class IOSContextTest extends BaseIOSWebViewTest {
 
-    @Test
-    public void testGetContext() {
+    @Test public void testGetContext() {
         assertEquals("NATIVE_APP", driver.getContext());
     }
 
-    @Test
-    public void testGetContextHandles() {
+    @Test public void testGetContextHandles() {
         assertEquals(driver.getContextHandles().size(), 2);
     }
 
-    @Test
-    public void testSwitchContext() throws InterruptedException {
+    @Test public void testSwitchContext() throws InterruptedException {
         driver.getContextHandles();
         findAndSwitchToWebView();
         assertThat(driver.getContext(), containsString("WEBVIEW"));
         driver.context("NATIVE_APP");
     }
 
-    @Test
-    public void testContextError() {
+    @Test public void testContextError() {
         assertThrows(NoSuchContextException.class,
-                () -> {
-                    driver.context("Planet of the Ape-ium");
-                    assertEquals("Planet of the Ape-ium", driver.getContext());
-                });
+            () -> {
+                driver.context("Planet of the Ape-ium");
+                assertEquals("Planet of the Ape-ium", driver.getContext());
+            });
     }
 }

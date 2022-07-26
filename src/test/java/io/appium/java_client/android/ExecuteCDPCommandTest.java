@@ -16,9 +16,6 @@
 
 package io.appium.java_client.android;
 
-import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -29,11 +26,15 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.time.Duration.ofSeconds;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ExecuteCDPCommandTest {
 

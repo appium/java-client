@@ -34,21 +34,21 @@ public class CombinedAppTest extends WidgetTest {
         return Stream.of(
                 Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
                 Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
-                        DefaultIosXCUITWidget.class),
+                    DefaultIosXCUITWidget.class),
                 Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
                 Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
                 Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
-                        DefaultFindByWidget.class),
+                    DefaultFindByWidget.class),
                 Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(),
-                        DefaultAndroidWidget.class),
+                    DefaultAndroidWidget.class),
                 Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
-                        DefaultStubWidget.class),
+                    DefaultStubWidget.class),
                 Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(),
-                        DefaultStubWidget.class),
+                    DefaultStubWidget.class),
                 Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(),
-                        DefaultFindByWidget.class),
+                    DefaultFindByWidget.class),
                 Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
-                        DefaultFindByWidget.class)
+                    DefaultFindByWidget.class)
         );
     }
 
