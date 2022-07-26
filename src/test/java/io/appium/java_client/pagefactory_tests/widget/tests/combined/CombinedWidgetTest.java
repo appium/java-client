@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 
 
 @SuppressWarnings({"unchecked", "unused"})
-
 public class CombinedWidgetTest extends WidgetTest {
 
     private final Class<?> widgetClass;
@@ -32,7 +31,6 @@ public class CombinedWidgetTest extends WidgetTest {
      *
      * @return test parameters
      */
-
     public static Stream<Arguments> data() {
         return Stream.of(
                 Arguments.of(new AppWithCombinedWidgets(),

@@ -64,7 +64,7 @@ public class CombinedAppTest extends WidgetTest {
                 equalTo(widgetClass));
 
         List<Class<?>> classes = app.getWidgets().stream().map(abstractWidget -> abstractWidget
-                        .getSelfReference().getClass())
+                .getSelfReference().getClass())
                 .collect(toList());
         assertThat(classes,
                 contains(widgetClass, widgetClass));
