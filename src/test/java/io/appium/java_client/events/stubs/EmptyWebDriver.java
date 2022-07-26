@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
-        JavascriptExecutor, HasCapabilities, TakesScreenshot {
+    JavascriptExecutor, HasCapabilities, TakesScreenshot {
     public EmptyWebDriver() {
     }
 
@@ -124,15 +124,15 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
     }
 
     public TargetLocator switchTo() {
-        return new StubTargetLocator(this);
+        return new EmptyWebDriver.StubTargetLocator(this);
     }
 
     public Navigation navigate() {
-        return new StubNavigation();
+        return new EmptyWebDriver.StubNavigation();
     }
 
     public Options manage() {
-        return new StubOptions();
+        return new EmptyWebDriver.StubOptions();
     }
 
     public Object executeScript(String script, Object... args) {
