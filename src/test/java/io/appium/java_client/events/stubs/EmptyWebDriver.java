@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
-       JavascriptExecutor, HasCapabilities, TakesScreenshot {
+        JavascriptExecutor, HasCapabilities, TakesScreenshot {
     public EmptyWebDriver() {
     }
 
