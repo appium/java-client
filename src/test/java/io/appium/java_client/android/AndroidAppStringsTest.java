@@ -22,13 +22,11 @@ import org.junit.jupiter.api.Test;
 
 public class AndroidAppStringsTest extends BaseAndroidTest {
 
-    @Test
-    public void getAppStrings() {
+    @Test public void getAppStrings() {
         assertNotEquals(0, driver.getAppStringMap().size());
     }
 
-    @Test
-    public void getGetAppStringsUsingLang() {
+    @Test public void getGetAppStringsUsingLang() {
         assertNotEquals(0, driver.getAppStringMap("en").size());
     }
 }
