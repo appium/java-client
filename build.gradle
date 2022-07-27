@@ -58,7 +58,6 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.36'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.8.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.2.1') {
         exclude group: 'org.seleniumhq.selenium'

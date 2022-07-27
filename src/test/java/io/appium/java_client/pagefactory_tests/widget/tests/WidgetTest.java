@@ -1,19 +1,14 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
-import static java.util.Arrays.copyOf;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 
 public abstract class WidgetTest {
 
     protected final AbstractApp app;
-
-    protected static Object[] dataArray(Object...objects) {
-        return copyOf(objects, objects.length);
-    }
 
     protected WidgetTest(AbstractApp app, WebDriver driver) {
         this.app = app;
