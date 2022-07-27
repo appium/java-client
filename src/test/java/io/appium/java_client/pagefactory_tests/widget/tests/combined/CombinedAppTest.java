@@ -4,7 +4,9 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.openqa.selenium.support.PageFactory.initElements;
 
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
@@ -52,6 +54,7 @@ public class CombinedAppTest {
     @ParameterizedTest
     @MethodSource("data")
     public void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
+        initElements(new AppiumFieldDecorator(driver), app);
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));
