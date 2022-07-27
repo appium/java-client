@@ -9,6 +9,7 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.XC
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
+import org.junit.jupiter.api.Test;
 
 public class XCUITWidgetTest extends ExtendedWidgetTest {
 
@@ -22,6 +23,7 @@ public class XCUITWidgetTest extends ExtendedWidgetTest {
                 iOSNsPredicateString(IOS_XCUIT_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
@@ -29,6 +31,7 @@ public class XCUITWidgetTest extends ExtendedWidgetTest {
                 iOSNsPredicateString(XCUIT_ROOT_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
@@ -36,6 +39,7 @@ public class XCUITWidgetTest extends ExtendedWidgetTest {
                 iOSNsPredicateString(XCUIT_ROOT_WIDGET_LOCATOR), iOSNsPredicateString(XCUIT_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDeclaredAnnotations() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),
