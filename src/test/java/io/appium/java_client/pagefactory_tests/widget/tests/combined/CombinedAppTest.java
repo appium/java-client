@@ -9,7 +9,6 @@ import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,12 +16,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 
-
 import java.util.List;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "unchecked"})
-public class CombinedAppTest extends WidgetTest {
+public class CombinedAppTest {
 
     /**
      * Test data generation.
@@ -51,10 +49,6 @@ public class CombinedAppTest extends WidgetTest {
         );
     }
 
-    public CombinedAppTest(AbstractApp app, WebDriver driver) {
-        super(app, driver);
-    }
-
     @ParameterizedTest
     @MethodSource("data")
     public void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
@@ -67,11 +61,6 @@ public class CombinedAppTest extends WidgetTest {
                 .collect(toList());
         assertThat(classes,
                 contains(widgetClass, widgetClass));
-    }
-
-    @Override
-    public void checkThatWidgetsAreCreatedCorrectly() {
-        //Do Nothing
     }
 
     public static class CombinedApp implements AbstractApp {
