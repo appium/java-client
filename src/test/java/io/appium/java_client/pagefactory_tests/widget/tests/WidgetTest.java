@@ -4,7 +4,6 @@ import static java.util.Arrays.copyOf;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
