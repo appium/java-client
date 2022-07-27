@@ -1,5 +1,6 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.combined;
 
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -12,18 +13,18 @@ import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 
 @SuppressWarnings({"unchecked", "unused"})
+@RunWith(Parameterized.class)
 public class CombinedWidgetTest extends WidgetTest {
 
     private final Class<?> widgetClass;
@@ -33,27 +34,28 @@ public class CombinedWidgetTest extends WidgetTest {
      *
      * @return test parameters
      */
-    public static Stream<Arguments> data() {
-        return Stream.of(
-                Arguments.of(new AppWithCombinedWidgets(),
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return asList(
+                dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
+                dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
+                dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
+                dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
+                dataArray(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultStubWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubWindowsDriver(), DefaultStubWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                dataArray(new AppWithPartiallyCombinedWidgets(),
                     new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class)
         );
     }
@@ -63,8 +65,6 @@ public class CombinedWidgetTest extends WidgetTest {
         this.widgetClass = widgetClass;
     }
 
-    @ParameterizedTest
-    @MethodSource("data")
     @Override
     public void checkThatWidgetsAreCreatedCorrectly() {
         assertThat("Expected widget class was " + widgetClass.getName(),
