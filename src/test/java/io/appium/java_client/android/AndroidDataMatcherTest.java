@@ -19,14 +19,14 @@ package io.appium.java_client.android;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AndroidDataMatcherTest extends BaseEspressoTest {
 

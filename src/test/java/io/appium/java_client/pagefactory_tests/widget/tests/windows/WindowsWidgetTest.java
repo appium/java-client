@@ -8,20 +8,23 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.windows.Windo
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
-import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
+import org.junit.jupiter.api.Test;
 
-public class WindowsWidgetTest extends ExtendedWidgetTest {
+public class WindowsWidgetTest extends WidgetTest {
 
     public WindowsWidgetTest() {
         super(new WindowsApp(), new AbstractStubWebDriver.StubWindowsDriver());
     }
 
+    @Test
     @Override
     public void checkThatWidgetsAreCreatedCorrectly() {
         checkThatLocatorsAreCreatedCorrectly(app.getWidget(), app.getWidgets(),
                 windowsAutomation(WINDOWS_DEFAULT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
@@ -29,6 +32,7 @@ public class WindowsWidgetTest extends ExtendedWidgetTest {
                 windowsAutomation(WINDOWS_ROOT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
@@ -36,6 +40,7 @@ public class WindowsWidgetTest extends ExtendedWidgetTest {
                 windowsAutomation(WINDOWS_ROOT_WIDGET_LOCATOR), windowsAutomation(WINDOWS_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDeclaredAnnotations() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),

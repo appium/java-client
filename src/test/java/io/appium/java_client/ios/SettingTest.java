@@ -18,9 +18,9 @@ package io.appium.java_client.ios;
 
 
 import io.appium.java_client.Setting;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.EnumMap;
 import java.util.HashMap;

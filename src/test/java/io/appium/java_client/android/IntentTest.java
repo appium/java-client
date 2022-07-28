@@ -1,14 +1,14 @@
 package io.appium.java_client.android;
 
 import static io.appium.java_client.TestResources.intentExampleApk;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import java.util.function.Predicate;
@@ -20,7 +20,7 @@ public class IntentTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() {
+    @BeforeAll public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -37,7 +37,7 @@ public class IntentTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterAll public static void afterClass() {
         if (driver != null) {
             driver.quit();
         }

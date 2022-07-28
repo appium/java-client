@@ -16,15 +16,15 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.DeviceRotation;
 
 public class RotationTest extends AppIOSTest {
 
-    @After public void afterMethod() {
+    @AfterEach public void afterMethod() {
         driver.rotate(new DeviceRotation(0, 0, 0));
     }
 

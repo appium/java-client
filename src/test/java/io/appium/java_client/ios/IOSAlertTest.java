@@ -16,16 +16,16 @@
 
 package io.appium.java_client.ios;
 
-import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 import io.appium.java_client.AppiumBy;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,7 +33,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.function.Supplier;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class IOSAlertTest extends AppIOSTest {
 
     private static final Duration ALERT_TIMEOUT = Duration.ofSeconds(5);
@@ -63,7 +63,7 @@ public class IOSAlertTest extends AppIOSTest {
         }
     }
 
-    @After
+    @AfterEach
     public void afterEach() {
         try {
             driver.switchTo().alert().accept();

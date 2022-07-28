@@ -8,20 +8,23 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.android.Defau
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
-import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
+import org.junit.jupiter.api.Test;
 
-public class AndroidWidgetTest extends ExtendedWidgetTest {
+public class AndroidWidgetTest extends WidgetTest {
 
     public AndroidWidgetTest() {
         super(new AndroidApp(), new AbstractStubWebDriver.StubAndroidDriver());
     }
 
+    @Test
     @Override
     public void checkThatWidgetsAreCreatedCorrectly() {
         checkThatLocatorsAreCreatedCorrectly(app.getWidget(), app.getWidgets(),
                 androidUIAutomator(ANDROID_DEFAULT_WIDGET_LOCATOR), androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenWidgetClassHasDeclaredLocatorAnnotation() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getAnnotatedWidget(),
@@ -29,6 +32,7 @@ public class AndroidWidgetTest extends ExtendedWidgetTest {
                 androidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenWidgetClassHasNoDeclaredAnnotationButItHasSuperclass() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidget(),
@@ -36,6 +40,7 @@ public class AndroidWidgetTest extends ExtendedWidgetTest {
                 androidUIAutomator(ANDROID_ROOT_WIDGET_LOCATOR), androidUIAutomator(ANDROID_SUB_WIDGET_LOCATOR));
     }
 
+    @Test
     @Override
     public void checkCaseWhenBothWidgetFieldAndClassHaveDeclaredAnnotations() {
         checkThatLocatorsAreCreatedCorrectly(((ExtendedApp) app).getExtendedWidgetWithOverriddenLocators(),

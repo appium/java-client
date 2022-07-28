@@ -20,12 +20,12 @@ import static io.appium.java_client.AppiumBy.androidUIAutomator;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -48,7 +48,7 @@ public class FingerPrintTest {
     /**
      * initialization.
      */
-    @BeforeClass public static void beforeClass() {
+    @BeforeAll public static void beforeClass() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
@@ -60,7 +60,7 @@ public class FingerPrintTest {
     /**
      * finishing.
      */
-    @AfterClass public static void afterClass() {
+    @AfterAll public static void afterClass() {
         if (service != null) {
             service.stop();
         }
@@ -98,7 +98,7 @@ public class FingerPrintTest {
     /**
      * enable system security which is required for finger print activation.
      */
-    @Before
+    @BeforeEach
     public void before() {
         initDriver();
         clickOnSecurity();
@@ -123,14 +123,14 @@ public class FingerPrintTest {
         try {
             clickNext();
         } catch (Exception e) {
-            Assert.fail("fingerprint command fail to execute");
+            Assertions.fail("fingerprint command fail to execute");
         }
     }
 
     /**
      * disabling pin lock mode.
      */
-    @After
+    @AfterEach
     public void after() {
         driver.quit();
 

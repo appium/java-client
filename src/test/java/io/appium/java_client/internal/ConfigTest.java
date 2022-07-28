@@ -2,10 +2,11 @@ package io.appium.java_client.internal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ConfigTest {
     private static final String EXISTING_KEY = "selenium.version";
@@ -17,14 +18,16 @@ public class ConfigTest {
         assertTrue(Config.main().getOptionalValue(EXISTING_KEY, String.class).isPresent());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void verifyGettingNonExistingValue() {
-        assertThat(Config.main().getValue(MISSING_KEY, String.class).length(), greaterThan(0));
+        assertThrows(IllegalArgumentException.class,
+                () -> assertThat(Config.main().getValue(MISSING_KEY, String.class).length(), greaterThan(0)));
     }
 
-    @Test(expected = ClassCastException.class)
+    @Test
     public void verifyGettingExistingValueWithWrongClass() {
-        assertThat(Config.main().getValue(EXISTING_KEY, Integer.class), greaterThan(0));
+        assertThrows(ClassCastException.class,
+                () -> assertThat(Config.main().getValue(EXISTING_KEY, Integer.class), greaterThan(0)));
     }
 
     @Test

@@ -5,15 +5,15 @@ import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriverException;
 
 import java.time.Duration;
 
 public class AndroidScreenRecordTest extends BaseAndroidTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
         driver.startActivity(activity);

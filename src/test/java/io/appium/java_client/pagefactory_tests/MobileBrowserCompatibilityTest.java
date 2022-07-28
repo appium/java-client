@@ -24,10 +24,10 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -58,7 +58,7 @@ public class MobileBrowserCompatibilityTest {
     /**
      * The setting up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
@@ -74,7 +74,7 @@ public class MobileBrowserCompatibilityTest {
     /**
      * finishing.
      */
-    @After
+    @AfterEach
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -91,7 +91,7 @@ public class MobileBrowserCompatibilityTest {
 
         searchTextField.sendKeys("Hello");
         btnG.click();
-        Assert.assertNotEquals(0, foundLinks.size());
+        Assertions.assertNotEquals(0, foundLinks.size());
     }
 
 }

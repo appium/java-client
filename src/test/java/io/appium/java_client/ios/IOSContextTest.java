@@ -16,12 +16,13 @@
 
 package io.appium.java_client.ios;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.appium.java_client.NoSuchContextException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IOSContextTest extends BaseIOSWebViewTest {
 
@@ -40,8 +41,11 @@ public class IOSContextTest extends BaseIOSWebViewTest {
         driver.context("NATIVE_APP");
     }
 
-    @Test(expected = NoSuchContextException.class) public void testContextError() {
-        driver.context("Planet of the Ape-ium");
-        assertEquals("Planet of the Ape-ium", driver.getContext());
+    @Test public void testContextError() {
+        assertThrows(NoSuchContextException.class,
+            () -> {
+                driver.context("Planet of the Ape-ium");
+                assertEquals("Planet of the Ape-ium", driver.getContext());
+            });
     }
 }

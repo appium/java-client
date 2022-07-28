@@ -1,66 +1,60 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.combined;
 
-import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.openqa.selenium.support.PageFactory.initElements;
 
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "unchecked"})
-@RunWith(Parameterized.class)
-public class CombinedAppTest extends WidgetTest {
-
-    private final Class<?> widgetClass;
+public class CombinedAppTest {
 
     /**
      * Test data generation.
      *
      * @return test parameters
      */
-    @Parameterized.Parameters
-    public static Collection<Object[]> data() {
-        return asList(
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
+    public static Stream<Arguments> data() {
+        return Stream.of(
+                Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
+                Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
                         DefaultIosXCUITWidget.class),
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
-                dataArray(new CombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
+                Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
+                Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
+                Arguments.of(new CombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
                     DefaultFindByWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(),
+                Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(),
                         DefaultAndroidWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
+                Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
                         DefaultStubWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(),
+                Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(),
                         DefaultStubWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(),
+                Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(),
                         DefaultFindByWidget.class),
-                dataArray(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
+                Arguments.of(new PartiallyCombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
                     DefaultFindByWidget.class)
         );
     }
 
-    public CombinedAppTest(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
-        super(app, driver);
-        this.widgetClass = widgetClass;
-    }
-
-    @Override
-    public void checkThatWidgetsAreCreatedCorrectly() {
+    @ParameterizedTest
+    @MethodSource("data")
+    public void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
+        initElements(new AppiumFieldDecorator(driver), app);
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));

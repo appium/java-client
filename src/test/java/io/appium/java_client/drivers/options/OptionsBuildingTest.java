@@ -35,17 +35,17 @@ import io.appium.java_client.safari.options.SafariOptions;
 import io.appium.java_client.safari.options.WebrtcData;
 import io.appium.java_client.windows.options.PowerShellData;
 import io.appium.java_client.windows.options.WindowsOptions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Platform;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings("ConstantConditions")
 public class OptionsBuildingTest {

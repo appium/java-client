@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.appium.java_client.imagecomparison.FeatureDetector;
 import io.appium.java_client.imagecomparison.FeaturesMatchingOptions;
@@ -31,7 +31,7 @@ import io.appium.java_client.imagecomparison.OccurrenceMatchingResult;
 import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.OutputType;
 
 public class ImagesComparisonTest extends AppIOSTest {

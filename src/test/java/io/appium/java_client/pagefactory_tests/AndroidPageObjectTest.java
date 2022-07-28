@@ -18,10 +18,11 @@ package io.appium.java_client.pagefactory_tests;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static java.time.Duration.ofSeconds;
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.android.BaseAndroidTest;
 
@@ -31,8 +32,8 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
@@ -221,7 +222,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     /**
      * The setting up.
      */
-    @Before public void setUp() {
+    @BeforeEach public void setUp() {
         if (!populated) {
             //This time out is set because test can be run on slow Android SDK emulator
             PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
@@ -323,9 +324,10 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(null, textAndroidId.getAttribute("text"));
     }
 
-    @Test(expected = NoSuchElementException.class) public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
-        assertNotNull(
-                elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
+    @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
+        assertThrows(NoSuchElementException.class,
+            () -> assertNotNull(
+                elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text")));
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
@@ -347,9 +349,10 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertEquals(((RemoteWebElement) cached).getId(), ((RemoteWebElement) cached).getId());
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void checkThatElementSearchingThrowsExpectedExceptionIfChainedLocatorIsInvalid() {
-        assertNotNull(elementFoundByInvalidChainedSelector.getAttribute("text"));
+        assertThrows(NoSuchElementException.class,
+            () -> assertNotNull(elementFoundByInvalidChainedSelector.getAttribute("text")));
     }
 
     @Test public void checkThatListSearchingWorksIfChainedLocatorIsInvalid() {

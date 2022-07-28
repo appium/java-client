@@ -16,7 +16,7 @@
 
 package io.appium.java_client.remote;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.ScreenOrientation;
 
@@ -24,7 +24,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MobileOptionsTest {
     private MobileOptions<?> mobileOptions = new MobileOptions<>();

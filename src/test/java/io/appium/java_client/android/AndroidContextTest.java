@@ -16,15 +16,16 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.appium.java_client.NoSuchContextException;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class AndroidContextTest extends BaseAndroidTest {
 
-    @BeforeClass public static void beforeClass2() throws Exception {
+    @BeforeAll public static void beforeClass2() throws Exception {
         Activity activity = new Activity("io.appium.android.apis", ".view.WebView1");
         driver.startActivity(activity);
         Thread.sleep(20000);
@@ -46,9 +47,12 @@ public class AndroidContextTest extends BaseAndroidTest {
         assertEquals(driver.getContext(), "NATIVE_APP");
     }
 
-    @Test(expected = NoSuchContextException.class) public void testContextError() {
-        driver.context("Planet of the Ape-ium");
-        assertEquals("Planet of the Ape-ium", driver.getContext());
+    @Test public void testContextError() {
+        assertThrows(NoSuchContextException.class,
+            () -> {
+                driver.context("Planet of the Ape-ium");
+                assertEquals("Planet of the Ape-ium", driver.getContext());
+            });
     }
 
 }

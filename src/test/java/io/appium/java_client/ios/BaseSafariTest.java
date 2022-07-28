@@ -18,13 +18,13 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.MobileBrowserType;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
 
 public class BaseSafariTest extends BaseIOSTest {
 
-    @BeforeClass public static void beforeClass() throws IOException {
+    @BeforeAll public static void beforeClass() throws IOException {
         startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()

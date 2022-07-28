@@ -16,22 +16,22 @@
 
 package io.appium.java_client.android;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.android.nativekey.KeyEventFlag;
 import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 public class KeyCodeTest extends BaseAndroidTest {
     private static final By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");
 
-    @Before
+    @BeforeEach
     public void setUp() {
         final Activity activity = new Activity(driver.getCurrentPackage(), ".text.KeyEventText");
         driver.startActivity(activity);
