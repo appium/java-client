@@ -8,10 +8,10 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.android.Defau
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
-import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import org.junit.jupiter.api.Test;
 
-public class AndroidWidgetTest extends ExtendedWidgetTest {
+public class AndroidWidgetTest extends WidgetTest {
 
     public AndroidWidgetTest() {
         super(new AndroidApp(), new AbstractStubWebDriver.StubAndroidDriver());

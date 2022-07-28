@@ -8,10 +8,10 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.windows.Windo
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
-import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import org.junit.jupiter.api.Test;
 
-public class WindowsWidgetTest extends ExtendedWidgetTest {
+public class WindowsWidgetTest extends WidgetTest {
 
     public WindowsWidgetTest() {
         super(new WindowsApp(), new AbstractStubWebDriver.StubWindowsDriver());

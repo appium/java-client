@@ -8,10 +8,10 @@ import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.XC
 
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
-import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedWidgetTest;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
 import org.junit.jupiter.api.Test;
 
-public class XCUITWidgetTest extends ExtendedWidgetTest {
+public class XCUITWidgetTest extends WidgetTest {
 
     public XCUITWidgetTest() {
         super(new IosApp(), new AbstractStubWebDriver.StubIOSXCUITDriver());
