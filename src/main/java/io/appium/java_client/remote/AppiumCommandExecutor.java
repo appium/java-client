@@ -65,16 +65,16 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                   HttpClient.Factory httpClientFactory,
                                   ClientConfig clientConfig) {
         super(additionalCommands,
-                clientConfig != null ?
-                        clientConfig :
-                        ClientConfig.defaultConfig()
-                                .baseUrl(Require.nonNull("Server URL", ofNullable(service)
-                                        .map(DriverService::getUrl)
-                                        .orElse(addressOfRemoteServer)))
-                                .readTimeout(DEFAULT_READ_TIMEOUT),
-                httpClientFactory != null ?
-                        httpClientFactory :
-                        getDefaultClientFactory()
+                clientConfig != null
+                        ? clientConfig
+                        : ClientConfig.defaultConfig()
+                            .baseUrl(Require.nonNull("Server URL", ofNullable(service)
+                                    .map(DriverService::getUrl)
+                                    .orElse(addressOfRemoteServer)))
+                            .readTimeout(DEFAULT_READ_TIMEOUT),
+                httpClientFactory != null
+                        ? httpClientFactory
+                        : getDefaultClientFactory()
         );
         serviceOptional = ofNullable(service);
     }
