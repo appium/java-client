@@ -62,24 +62,33 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                   URL addressOfRemoteServer,
-                                  HttpClient.Factory httpClientFactory) {
+                                  HttpClient.Factory httpClientFactory,
+                                  ClientConfig clientConfig) {
         super(additionalCommands,
-                ClientConfig.defaultConfig()
-                        .baseUrl(Require.nonNull("Server URL", ofNullable(service)
-                                .map(DriverService::getUrl)
-                                .orElse(addressOfRemoteServer)))
-                        .readTimeout(DEFAULT_READ_TIMEOUT), httpClientFactory);
+                ofNullable(clientConfig).orElse(
+                        ClientConfig.defaultConfig()
+                                .baseUrl(Require.nonNull("Server URL", ofNullable(service)
+                                        .map(DriverService::getUrl)
+                                        .orElse(addressOfRemoteServer)))
+                                .readTimeout(DEFAULT_READ_TIMEOUT)
+                ),
+                ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
+        );
         serviceOptional = ofNullable(service);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory);
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory);
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null);
+    }
+
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig) {
+        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
