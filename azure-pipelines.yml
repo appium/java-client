@@ -4,15 +4,15 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 pool:
-  vmImage: 'macOS-10.15'
+  vmImage: 'macos-11'
 
 variables:
   ANDROID_EMU_NAME: test
   ANDROID_EMU_ABI: x86
   ANDROID_EMU_TARGET: android-28
   ANDROID_EMU_TAG: default
-  XCODE_VERSION: 11.5
-  IOS_PLATFORM_VERSION: 13.5
+  XCODE_VERSION: 13.2
+  IOS_PLATFORM_VERSION: 15.2
   IOS_DEVICE_NAME: iPhone X
   NODE_VERSION: 16.x
   JDK_VERSION: 1.8
