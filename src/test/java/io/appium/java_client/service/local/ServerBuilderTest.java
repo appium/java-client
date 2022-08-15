@@ -339,22 +339,16 @@ public class ServerBuilderTest {
 
     @Test
     public void checkAbilityToValidateBasePathForEmptyBasePath() {
-        assertThrows(IllegalArgumentException.class, () -> {
-           new AppiumServiceBuilder().withArgument(BASEPATH, "").build();
-        });
+        assertThrows(IllegalArgumentException.class, () -> new AppiumServiceBuilder().withArgument(BASEPATH, ""));
     }
 
     @Test
     public void checkAbilityToValidateBasePathForBlankBasePath() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new AppiumServiceBuilder().withArgument(BASEPATH, "   ").build();
-        });
+        assertThrows(IllegalArgumentException.class, () -> new AppiumServiceBuilder().withArgument(BASEPATH, "   "));
     }
 
     @Test
     public void checkAbilityToValidateBasePathForNullBasePath() {
-        assertThrows(NullPointerException.class, () -> {
-            new AppiumServiceBuilder().withArgument(BASEPATH, null).build();
-        });
+        assertThrows(NullPointerException.class, () -> new AppiumServiceBuilder().withArgument(BASEPATH, null));
     }
 }
