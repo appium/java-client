@@ -23,7 +23,6 @@ import static java.util.Optional.ofNullable;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
-import io.appium.java_client.pagefactory.bys.builder.ByAll;
 import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
 import org.openqa.selenium.By;
@@ -32,6 +31,7 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.pagefactory.ByAll;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
