@@ -20,14 +20,12 @@ public class ConfigTest {
 
     @Test
     public void verifyGettingNonExistingValue() {
-        assertThrows(IllegalArgumentException.class,
-                () -> assertThat(Config.main().getValue(MISSING_KEY, String.class).length(), greaterThan(0)));
+        assertThrows(IllegalArgumentException.class, () -> Config.main().getValue(MISSING_KEY, String.class));
     }
 
     @Test
     public void verifyGettingExistingValueWithWrongClass() {
-        assertThrows(ClassCastException.class,
-                () -> assertThat(Config.main().getValue(EXISTING_KEY, Integer.class), greaterThan(0)));
+        assertThrows(ClassCastException.class, () -> Config.main().getValue(EXISTING_KEY, Integer.class));
     }
 
     @Test

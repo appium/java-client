@@ -6,7 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.functions.AppiumFunction;
 import io.appium.java_client.functions.ExpectedCondition;
@@ -132,8 +131,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
     public void nullPointerExceptionSafetyTestWithPrecondition() {
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
                 .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
-        assertThrows(TimeoutException.class,
-                () -> assertTrue(wait.until(searchingFunction.compose(contextFunction)).size() > 0));
+        assertThrows(TimeoutException.class, () -> wait.until(searchingFunction.compose(contextFunction)));
     }
 
     @Test
@@ -141,6 +139,6 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("Fake_context"))
                 .withTimeout(ofSeconds(30)).pollingEvery(ofMillis(500));
         assertThrows(TimeoutException.class,
-                () -> assertTrue(wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)).size() > 0));
+                () -> wait.until(contextFunction.andThen(searchingFunction).andThen(filteringFunction)));
     }
 }

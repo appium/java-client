@@ -326,8 +326,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindBy() {
         assertThrows(NoSuchElementException.class,
-            () -> assertNotNull(
-                elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text")));
+            () -> elementWhenAndroidLocatorIsNotDefinedAndThereIsInvalidFindBy.getAttribute("text"));
     }
 
     @Test public void checkThatTestWillNotBeFailedBecauseOfInvalidFindByList() {
@@ -351,8 +350,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @Test
     public void checkThatElementSearchingThrowsExpectedExceptionIfChainedLocatorIsInvalid() {
-        assertThrows(NoSuchElementException.class,
-            () -> assertNotNull(elementFoundByInvalidChainedSelector.getAttribute("text")));
+        assertThrows(NoSuchElementException.class, () -> elementFoundByInvalidChainedSelector.getAttribute("text"));
     }
 
     @Test public void checkThatListSearchingWorksIfChainedLocatorIsInvalid() {

@@ -48,11 +48,7 @@ public class AndroidContextTest extends BaseAndroidTest {
     }
 
     @Test public void testContextError() {
-        assertThrows(NoSuchContextException.class,
-            () -> {
-                driver.context("Planet of the Ape-ium");
-                assertEquals("Planet of the Ape-ium", driver.getContext());
-            });
+        assertThrows(NoSuchContextException.class, () -> driver.context("Planet of the Ape-ium"));
     }
 
 }
