@@ -227,10 +227,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private void setDirectConnect(Response response) throws MalformedURLException {
         Map<String, ?> responseValue = (Map<String, ?>) response.getValue();
 
-        String directConnectProtocol = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PROTOCOL);
-        String directConnectPath = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PATH);
-        String directConnectHost = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_HOST);
-        String directConnectPort = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PORT);
+        String directConnectProtocol = getDirectConnectValue(responseValue,
+                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PROTOCOL);
+        String directConnectPath = getDirectConnectValue(responseValue,
+                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PATH);
+        String directConnectHost = getDirectConnectValue(responseValue,
+                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_HOST);
+        String directConnectPort = getDirectConnectValue(responseValue,
+                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PORT);
 
         if (directConnectProtocol == null || directConnectHost == null
                 || directConnectPath == null || directConnectPort == null) {
