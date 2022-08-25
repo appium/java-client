@@ -45,6 +45,7 @@ import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
 import org.openqa.selenium.remote.service.DriverService;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.ConnectException;
@@ -186,7 +187,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue(HttpCommandExecutor.class, "client", HttpClient.class);
     }
 
-    protected void setClientWithURL(URL serverUrl) {
+    protected void overrideServerUrl(URL serverUrl) {
         HttpClient.Factory httpClientFactory = getPrivateFieldValue(HttpCommandExecutor.class,
                 "httpClientFactory", HttpClient.Factory.class);
         setPrivateFieldValue(HttpCommandExecutor.class, "client", httpClientFactory.createClient(serverUrl));
@@ -212,9 +213,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         refreshAdditionalCommands();
         setResponseCodec(dialect.getResponseCodec());
         Response response = result.createResponse();
-
-        setDirectConnect(response);
-
+        if (this.appiumClientConfig.isDirectConnectEnabled()) {
+            setDirectConnect(response);
+        }
         return response;
     }
 
@@ -224,25 +225,24 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     @SuppressWarnings("unchecked")
     private void setDirectConnect(Response response) throws MalformedURLException {
-        if (!this.appiumClientConfig.isDirectConnectEnabled()) {
-            return;
-        }
-
         Map<String, ?> responseValue = (Map<String, ?>) response.getValue();
 
-        String directConnectProtocol = getDirectConnectValue(responseValue, "directConnectProtocol");
-        String directConnectPath = getDirectConnectValue(responseValue, "directConnectPath");
-        String directConnectHost = getDirectConnectValue(responseValue, "directConnectHost");
-        String directConnectPort = getDirectConnectValue(responseValue, "directConnectPort");
+        String directConnectProtocol = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PROTOCOL);
+        String directConnectPath = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PATH);
+        String directConnectHost = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_HOST);
+        String directConnectPort = getDirectConnectValue(responseValue, AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PORT);
 
         if (directConnectProtocol == null || directConnectHost == null
                 || directConnectPath == null || directConnectPort == null) {
             return;
         }
-        setClientWithURL(new URL(directConnectProtocol + "://" + directConnectHost + ":"
+
+        // TODO: update the exception message
+        overrideServerUrl(new URL(directConnectProtocol + "://" + directConnectHost + ":"
                 + directConnectPort + directConnectPath));
     }
 
+    @Nullable
     private String getDirectConnectValue(Map<String, ?> responseValue, String key) {
         String directConnectPath = String.valueOf(responseValue.get("appium:" + key));
         return directConnectPath == null ? String.valueOf(responseValue.get(key)) : directConnectPath;

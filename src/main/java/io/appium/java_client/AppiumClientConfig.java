@@ -26,6 +26,13 @@ public class AppiumClientConfig {
     public AppiumClientConfig() {
     }
 
+    public static class DirectConnect {
+        public static String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
+        public static String DIRECT_CONNECT_PATH = "directConnectPath";
+        public static String DIRECT_CONNECT_HOST = "directConnectHost";
+        public static String DIRECT_CONNECT_PORT = "directConnectPort";
+    }
+
     /**
      * Return the instance of AppiumClientConfig with a default config.
      * @return the instance of AppiumClientConfig.
