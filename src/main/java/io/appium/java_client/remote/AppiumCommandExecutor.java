@@ -61,6 +61,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final Optional<DriverService> serviceOptional;
 
+    // To enable https://appiumpro.com/editions/86-connecting-directly-to-appium-hosts-in-distributed-environments
     private final boolean directConnect;
 
     private AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
@@ -79,7 +80,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
-        directConnect = directConnect;
+        this.directConnect = directConnect;
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
@@ -87,27 +88,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, checkNotNull(service), null, httpClientFactory, null, directConnect);
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
-                                 HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null, false);
-    }
-
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory, boolean directConnect) {
         this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null, directConnect);
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null, false);
-    }
-
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig, boolean directConnect) {
         this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig, directConnect);
-    }
-
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig) {
-        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig, false);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
@@ -116,18 +103,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault(), false);
-    }
-
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  DriverService service, boolean directConnect) {
         this(additionalCommands, service, HttpClient.Factory.createDefault(), directConnect);
-    }
-
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 DriverService service) {
-        this(additionalCommands, service, HttpClient.Factory.createDefault(), false);
     }
 
     @SuppressWarnings("SameParameterValue")

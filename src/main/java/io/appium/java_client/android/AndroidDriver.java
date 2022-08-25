@@ -117,6 +117,10 @@ public class AndroidDriver extends AppiumDriver implements
         super(remoteAddress, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    public AndroidDriver(URL remoteAddress, Capabilities capabilities, boolean directConnect) {
+        super(remoteAddress, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    }
+
     /**
      * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
      *
@@ -129,6 +133,11 @@ public class AndroidDriver extends AppiumDriver implements
         super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    public AndroidDriver(
+            URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
+        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    }
+
     /**
      * Creates a new instance based on Appium driver local service and {@code capabilities}.
      *
@@ -137,6 +146,10 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+    }
+
+    public AndroidDriver(AppiumDriverLocalService service, Capabilities capabilities, boolean directConnect) {
+        super(service, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
     }
 
     /**
@@ -151,6 +164,11 @@ public class AndroidDriver extends AppiumDriver implements
         super(service, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    public AndroidDriver(
+            AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
+        super(service, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    }
+
     /**
      * Creates a new instance based on Appium service builder and {@code capabilities}.
      *
@@ -159,6 +177,10 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+    }
+
+    public AndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities, boolean directConnect) {
+        super(builder, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
     }
 
     /**
@@ -173,6 +195,11 @@ public class AndroidDriver extends AppiumDriver implements
         super(builder, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
+                         Capabilities capabilities, boolean directConnect) {
+        super(builder, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    }
+
     /**
      * Creates a new instance based on HTTP client factory and {@code capabilities}.
      *
@@ -181,6 +208,10 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+    }
+
+    public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
+        super(httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
     }
 
     /**
@@ -206,6 +237,10 @@ public class AndroidDriver extends AppiumDriver implements
         super(clientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    public AndroidDriver(ClientConfig clientConfig, Capabilities capabilities, boolean directConnect) {
+        super(clientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    }
+
     /**
      * Creates a new instance based on {@code capabilities}.
      *
@@ -213,6 +248,10 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(Capabilities capabilities) {
         super(ensurePlatformName(capabilities, ANDROID_PLATFORM));
+    }
+
+    public AndroidDriver(Capabilities capabilities, boolean directConnect) {
+        super(ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
     }
 
     /**
