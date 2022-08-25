@@ -89,13 +89,15 @@ public class AppiumDriver extends RemoteWebDriver implements
     }
 
     public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig, appiumClientConfig), capabilities);
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig, appiumClientConfig),
+                capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
                 capabilities);
     }
+
     public AppiumDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress, appiumClientConfig),
                 capabilities);
@@ -112,12 +114,14 @@ public class AppiumDriver extends RemoteWebDriver implements
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
                 httpClientFactory, appiumClientConfig), capabilities);
     }
+
     public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
                 capabilities);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities,
+                        AppiumClientConfig appiumClientConfig) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, appiumClientConfig),
                 capabilities);
     }
@@ -130,15 +134,16 @@ public class AppiumDriver extends RemoteWebDriver implements
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory, appiumClientConfig),
-                capabilities);
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service,
+                        httpClientFactory, appiumClientConfig), capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         this(builder.build(), capabilities);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities,
+                        AppiumClientConfig appiumClientConfig) {
         this(builder.build(), capabilities, appiumClientConfig);
     }
 
@@ -157,7 +162,8 @@ public class AppiumDriver extends RemoteWebDriver implements
                 capabilities);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
+                        AppiumClientConfig appiumClientConfig) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
                 capabilities, appiumClientConfig);
     }

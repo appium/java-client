@@ -160,7 +160,8 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
-    public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities,
+                     AppiumClientConfig appiumClientConfig) {
         super(service, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
     }
 
@@ -252,7 +253,8 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
-    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
+                     AppiumClientConfig appiumClientConfig) {
         super(httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
     }
 

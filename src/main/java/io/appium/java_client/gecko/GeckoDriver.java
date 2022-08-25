@@ -59,14 +59,16 @@ public class GeckoDriver extends AppiumDriver {
 
     public GeckoDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        super(remoteAddress, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME),
+                appiumClientConfig);
     }
 
     public GeckoDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
-    public GeckoDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public GeckoDriver(AppiumDriverLocalService service, Capabilities capabilities,
+                       AppiumClientConfig appiumClientConfig) {
         super(service, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
     }
 
@@ -102,7 +104,8 @@ public class GeckoDriver extends AppiumDriver {
         super(httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
-    public GeckoDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public GeckoDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
+                       AppiumClientConfig appiumClientConfig) {
         super(httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
     }
 

@@ -75,8 +75,10 @@ public class Mac2Driver extends AppiumDriver implements
         super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    public Mac2Driver(AppiumDriverLocalService service, Capabilities capabilities,
+                      AppiumClientConfig appiumClientConfig) {
+        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME),
+                appiumClientConfig);
     }
 
     public Mac2Driver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
@@ -118,7 +120,8 @@ public class Mac2Driver extends AppiumDriver implements
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public Mac2Driver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
+                      AppiumClientConfig appiumClientConfig) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }

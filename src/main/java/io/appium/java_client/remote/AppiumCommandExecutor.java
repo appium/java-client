@@ -85,35 +85,44 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null, AppiumClientConfig.defaultConfig());
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null,
+                AppiumClientConfig.defaultConfig());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null, appiumClientConfig);
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null,
+                appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null, AppiumClientConfig.defaultConfig());
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null,
+                AppiumClientConfig.defaultConfig());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null, appiumClientConfig);
+                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory,
+                                 AppiumClientConfig appiumClientConfig) {
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null,
+                appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig) {
-        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig, AppiumClientConfig.defaultConfig());
+        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig,
+                AppiumClientConfig.defaultConfig());
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig, appiumClientConfig);
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig,
+                                 AppiumClientConfig appiumClientConfig) {
+        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig,
+                appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault(), AppiumClientConfig.defaultConfig());
+        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault(),
+                AppiumClientConfig.defaultConfig());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
@@ -178,7 +187,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     protected void setClientWithURL(URL serverUrl) {
-        HttpClient.Factory httpClientFactory = getPrivateFieldValue(HttpCommandExecutor.class, "httpClientFactory", HttpClient.Factory.class);
+        HttpClient.Factory httpClientFactory = getPrivateFieldValue(HttpCommandExecutor.class,
+                "httpClientFactory", HttpClient.Factory.class);
         setPrivateFieldValue(HttpCommandExecutor.class, "client", httpClientFactory.createClient(serverUrl));
     }
 
@@ -225,10 +235,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         String directConnectHost = getDirectConnectValue(responseValue, "directConnectHost");
         String directConnectPort = getDirectConnectValue(responseValue, "directConnectPort");
 
-        if (directConnectProtocol == null || directConnectHost == null || directConnectPath == null || directConnectPort == null) {
+        if (directConnectProtocol == null || directConnectHost == null
+                || directConnectPath == null || directConnectPort == null) {
             return;
         }
-        setClientWithURL(new URL(directConnectProtocol + "://" + directConnectHost + ":" + directConnectPort + directConnectPath));
+        setClientWithURL(new URL(directConnectProtocol + "://" + directConnectHost + ":"
+                + directConnectPort + directConnectPath));
     }
 
     private String getDirectConnectValue(Map<String, ?> responseValue, String key) {

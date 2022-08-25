@@ -71,8 +71,10 @@ public class WindowsDriver extends AppiumDriver implements
         super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities,
+                         AppiumClientConfig appiumClientConfig) {
+        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME),
+                appiumClientConfig);
     }
 
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
@@ -91,8 +93,10 @@ public class WindowsDriver extends AppiumDriver implements
         super(builder, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(builder, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities,
+                         AppiumClientConfig appiumClientConfig) {
+        super(builder, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME),
+                appiumClientConfig);
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
@@ -112,7 +116,8 @@ public class WindowsDriver extends AppiumDriver implements
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
+                         AppiumClientConfig appiumClientConfig) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
@@ -161,7 +166,9 @@ public class WindowsDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      *
-     */    public WindowsDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+     */
+    public WindowsDriver(ClientConfig clientConfig, Capabilities capabilities,
+                                AppiumClientConfig appiumClientConfig) {
         super(clientConfig, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }

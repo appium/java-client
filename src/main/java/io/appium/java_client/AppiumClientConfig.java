@@ -23,9 +23,11 @@ package io.appium.java_client;
 public class AppiumClientConfig {
     private boolean directConnect = false;
 
-    public AppiumClientConfig() {}
+    public AppiumClientConfig() {
+    }
 
     /**
+     * Return the instance of AppiumClientConfig with a default config.
      * @return the instance of AppiumClientConfig.
      */
     public static AppiumClientConfig defaultConfig() {
@@ -34,7 +36,8 @@ public class AppiumClientConfig {
 
     /**
      * Whether enable directConnect feature described in
-     * <a href="https://appiumpro.com/editions/86-connecting-directly-to-appium-hosts-in-distributed-environments">Connecting Directly to Appium Hosts in Distributed Environments</a>
+     * <a href="https://appiumpro.com/editions/86-connecting-directly-to-appium-hosts-in-distributed-environments">
+     *     Connecting Directly to Appium Hosts in Distributed Environments</a>.
      *
      * @param directConnect if enable the directConnect feature
      * @return A self reference
@@ -49,5 +52,7 @@ public class AppiumClientConfig {
      *
      * @return If the directConnect is enabled.Defaults false.
      */
-    public boolean isDirectConnectEnabled() { return this.directConnect; }
+    public boolean isDirectConnectEnabled() {
+        return this.directConnect;
+    }
 }

@@ -72,7 +72,8 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public SafariDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public SafariDriver(AppiumDriverLocalService service, Capabilities capabilities,
+                        AppiumClientConfig appiumClientConfig) {
         super(service, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
@@ -94,7 +95,8 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public SafariDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public SafariDriver(AppiumServiceBuilder builder, Capabilities capabilities,
+                        AppiumClientConfig appiumClientConfig) {
         super(builder, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
@@ -116,7 +118,8 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public SafariDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+    public SafariDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
+                        AppiumClientConfig appiumClientConfig) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
