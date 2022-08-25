@@ -85,52 +85,52 @@ public class AppiumDriver extends RemoteWebDriver implements
     }
 
     public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig, false), capabilities);
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig), capabilities);
     }
 
-    public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities, boolean directConnect) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig, directConnect), capabilities);
+    public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig, appiumClientConfig), capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress, false),
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
                 capabilities);
     }
-    public AppiumDriver(URL remoteAddress, Capabilities capabilities, boolean directConnect) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress, directConnect),
+    public AppiumDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress, appiumClientConfig),
                 capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-                httpClientFactory, false), capabilities);
+                httpClientFactory), capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-                        Capabilities capabilities, boolean directConnect) {
+                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-                httpClientFactory, directConnect), capabilities);
+                httpClientFactory, appiumClientConfig), capabilities);
     }
     public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, false),
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
                 capabilities);
     }
 
-    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities, boolean directConnect) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, directConnect),
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, appiumClientConfig),
                 capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory, false),
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
                 capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-                        Capabilities capabilities, boolean directConnect) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory, directConnect),
+                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory, appiumClientConfig),
                 capabilities);
     }
 
@@ -138,8 +138,8 @@ public class AppiumDriver extends RemoteWebDriver implements
         this(builder.build(), capabilities);
     }
 
-    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities, boolean directConnect) {
-        this(builder.build(), capabilities, directConnect);
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(builder.build(), capabilities, appiumClientConfig);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
@@ -148,8 +148,8 @@ public class AppiumDriver extends RemoteWebDriver implements
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                        Capabilities capabilities, boolean directConnect) {
-        this(builder.build(), httpClientFactory, capabilities, directConnect);
+                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(builder.build(), httpClientFactory, capabilities, appiumClientConfig);
     }
 
     public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
@@ -157,17 +157,17 @@ public class AppiumDriver extends RemoteWebDriver implements
                 capabilities);
     }
 
-    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-                capabilities, directConnect);
+                capabilities, appiumClientConfig);
     }
 
     public AppiumDriver(Capabilities capabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), capabilities);
     }
 
-    public AppiumDriver(Capabilities capabilities, boolean directConnect) {
-        this(AppiumDriverLocalService.buildDefaultService(), capabilities, directConnect);
+    public AppiumDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        this(AppiumDriverLocalService.buildDefaultService(), capabilities, appiumClientConfig);
     }
 
     /**

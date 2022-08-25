@@ -23,19 +23,7 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecuteCDPCommand;
-import io.appium.java_client.HasAppStrings;
-import io.appium.java_client.HasDeviceTime;
-import io.appium.java_client.HasOnScreenKeyboard;
-import io.appium.java_client.HidesKeyboard;
-import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.PullsFiles;
-import io.appium.java_client.LocksDevice;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.PushesFiles;
-import io.appium.java_client.SupportsLegacyAppManagement;
+import io.appium.java_client.*;
 import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.android.geolocation.SupportsExtendedGeolocationCommands;
 import io.appium.java_client.android.nativekey.PressesKey;
@@ -117,8 +105,15 @@ public class AndroidDriver extends AppiumDriver implements
         super(remoteAddress, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
-    public AndroidDriver(URL remoteAddress, Capabilities capabilities, boolean directConnect) {
-        super(remoteAddress, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    /**
+     * Creates a new instance based on Appium server URL and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public AndroidDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(remoteAddress, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -133,9 +128,17 @@ public class AndroidDriver extends AppiumDriver implements
         super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    /**
+     * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
     public AndroidDriver(
-            URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
-        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+            URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -148,8 +151,15 @@ public class AndroidDriver extends AppiumDriver implements
         super(service, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
-    public AndroidDriver(AppiumDriverLocalService service, Capabilities capabilities, boolean directConnect) {
-        super(service, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    /**
+     * Creates a new instance based on Appium driver local service and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public AndroidDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(service, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -164,9 +174,17 @@ public class AndroidDriver extends AppiumDriver implements
         super(service, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    /**
+     * Creates a new instance based on Appium driver local service, HTTP client factory and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
     public AndroidDriver(
-            AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
-        super(service, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+            AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(service, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -179,8 +197,15 @@ public class AndroidDriver extends AppiumDriver implements
         super(builder, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
-    public AndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities, boolean directConnect) {
-        super(builder, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    /**
+     * Creates a new instance based on Appium service builder and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public AndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(builder, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -195,9 +220,17 @@ public class AndroidDriver extends AppiumDriver implements
         super(builder, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
+    /**
+     * Creates a new instance based on Appium service builder, HTTP client factory and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                         Capabilities capabilities, boolean directConnect) {
-        super(builder, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+                         Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(builder, httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -210,8 +243,15 @@ public class AndroidDriver extends AppiumDriver implements
         super(httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
-    public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, boolean directConnect) {
-        super(httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    /**
+     * Creates a new instance based on HTTP client factory and {@code capabilities}.
+     *
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(httpClientFactory, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -237,8 +277,29 @@ public class AndroidDriver extends AppiumDriver implements
         super(clientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
-    public AndroidDriver(ClientConfig clientConfig, Capabilities capabilities, boolean directConnect) {
-        super(clientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    /**
+     * Creates a new instance based on the given ClientConfig and {@code capabilities}.
+     * The HTTP client is default client generated by {@link HttpCommandExecutor#getDefaultClientFactory}.
+     * For example:
+     *
+     * <pre>
+     *
+     * ClientConfig clientConfig = ClientConfig.defaultConfig()
+     *     .baseUri(URI.create("WebDriver URL"))
+     *     .readTimeout(Duration.ofMinutes(5));
+     * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig().directConnect(true);
+     * UiAutomator2Options options = new UiAutomator2Options();
+     * AndroidDriver driver = new AndroidDriver(clientConfig, options);
+     *
+     * </pre>
+     *
+     * @param clientConfig take a look at {@link ClientConfig}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     *
+     */
+    public AndroidDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(clientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
@@ -250,8 +311,14 @@ public class AndroidDriver extends AppiumDriver implements
         super(ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
-    public AndroidDriver(Capabilities capabilities, boolean directConnect) {
-        super(ensurePlatformName(capabilities, ANDROID_PLATFORM), directConnect);
+    /**
+     * Creates a new instance based on {@code capabilities}.
+     *
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public AndroidDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(ensurePlatformName(capabilities, ANDROID_PLATFORM), appiumClientConfig);
     }
 
     /**
