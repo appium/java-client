@@ -17,7 +17,7 @@
 package io.appium.java_client;
 
 /**
- * Manage Appium Client options.
+ * Manage Appium Client configurations.
  */
 
 public class AppiumClientConfig {
@@ -34,7 +34,7 @@ public class AppiumClientConfig {
 
     /**
      * Whether enable directConnect feature described in
-     * https://appiumpro.com/editions/86-connecting-directly-to-appium-hosts-in-distributed-environments
+     * <a href="https://appiumpro.com/editions/86-connecting-directly-to-appium-hosts-in-distributed-environments">Connecting Directly to Appium Hosts in Distributed Environments</a>
      *
      * @param directConnect if enable the directConnect feature
      * @return A self reference
