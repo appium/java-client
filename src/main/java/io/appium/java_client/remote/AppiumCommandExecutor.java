@@ -97,6 +97,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
         this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null, AppiumClientConfig.defaultConfig());
     }
+
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory, AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null, appiumClientConfig);
@@ -180,7 +181,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         HttpClient.Factory httpClientFactory = getPrivateFieldValue(HttpCommandExecutor.class, "httpClientFactory", HttpClient.Factory.class);
         setPrivateFieldValue(HttpCommandExecutor.class, "client", httpClientFactory.createClient(serverUrl));
     }
-
 
     private Response createSession(Command command) throws IOException {
         if (getCommandCodec() != null) {
