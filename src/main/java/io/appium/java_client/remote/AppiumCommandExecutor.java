@@ -47,6 +47,7 @@ import org.openqa.selenium.remote.service.DriverService;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.ConnectException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
@@ -147,6 +148,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue(HttpCommandExecutor.class, "client", HttpClient.class);
     }
 
+    protected void setClientWithURL(URL serverUrl) {
+        HttpClient.Factory httpClientFactory = getPrivateFieldValue(HttpCommandExecutor.class, "httpClientFactory", HttpClient.Factory.class);
+        setPrivateFieldValue(HttpCommandExecutor.class, "client", httpClientFactory.createClient(serverUrl));
+    }
+
+
     private Response createSession(Command command) throws IOException {
         if (getCommandCodec() != null) {
             throw new SessionNotCreatedException("Session already exists");
@@ -166,11 +173,39 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         setCommandCodec(new AppiumW3CHttpCommandCodec());
         refreshAdditionalCommands();
         setResponseCodec(dialect.getResponseCodec());
-        return result.createResponse();
+        Response response = result.createResponse();
+
+        setDirectConnect(response);
+
+        return response;
     }
 
     public void refreshAdditionalCommands() {
         getAdditionalCommands().forEach(this::defineCommand);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void setDirectConnect(Response response) {
+        Map<String, ?> responseValue = (Map<String, ?>) response.getValue();
+
+        String directConnectProtocol = getDirectConnectValue(responseValue, "directConnectProtocol");
+        String directConnectPath = getDirectConnectValue(responseValue, "directConnectPath");
+        String directConnectHost = getDirectConnectValue(responseValue, "directConnectHost");
+        String directConnectPort = getDirectConnectValue(responseValue, "directConnectPort");
+
+        if (directConnectProtocol == null || directConnectHost == null || directConnectPath == null || directConnectPort == null) {
+            return;
+        }
+
+        String urlString = directConnectProtocol + "://" + directConnectHost + ":" + directConnectPort + directConnectPath;
+        try {
+            setClientWithURL(new URL(urlString));
+        } catch (MalformedURLException e) { /* ignore */}
+    }
+
+    private String getDirectConnectValue(Map<String, ?> responseValue, String key) {
+        String directConnectPath = String.valueOf(responseValue.get("appium:" + key));
+        return directConnectPath == null ? String.valueOf(responseValue.get(key)) : directConnectPath;
     }
 
     @Override
