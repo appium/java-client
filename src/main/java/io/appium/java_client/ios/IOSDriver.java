@@ -21,18 +21,7 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.HasAppStrings;
-import io.appium.java_client.HasDeviceTime;
-import io.appium.java_client.HasOnScreenKeyboard;
-import io.appium.java_client.HidesKeyboard;
-import io.appium.java_client.HidesKeyboardWithKeyName;
-import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.PullsFiles;
-import io.appium.java_client.LocksDevice;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.PushesFiles;
-import io.appium.java_client.SupportsLegacyAppManagement;
+import io.appium.java_client.*;
 import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.remote.SupportsLocation;
@@ -107,6 +96,17 @@ public class IOSDriver extends AppiumDriver implements
     }
 
     /**
+     * Creates a new instance based on Appium server URL and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(remoteAddress, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
+    }
+
+    /**
      * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
      *
      * @param remoteAddress is the address of remotely/locally started Appium server
@@ -119,6 +119,19 @@ public class IOSDriver extends AppiumDriver implements
     }
 
     /**
+     * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
+                     Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(remoteAddress, httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
+    }
+
+    /**
      * Creates a new instance based on Appium driver local service and {@code capabilities}.
      *
      * @param service take a look at {@link AppiumDriverLocalService}
@@ -126,6 +139,17 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensurePlatformName(capabilities, PLATFORM_NAME));
+    }
+
+    /**
+     * Creates a new instance based on Appium driver local service and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(service, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
     }
 
     /**
@@ -141,6 +165,19 @@ public class IOSDriver extends AppiumDriver implements
     }
 
     /**
+     * Creates a new instance based on Appium driver local service, HTTP client factory and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
+                     Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(service, httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
+    }
+
+    /**
      * Creates a new instance based on Appium service builder and {@code capabilities}.
      *
      * @param builder take a look at {@link AppiumServiceBuilder}
@@ -148,6 +185,17 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, ensurePlatformName(capabilities, PLATFORM_NAME));
+    }
+
+    /**
+     * Creates a new instance based on Appium service builder and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(builder, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
     }
 
     /**
@@ -163,6 +211,19 @@ public class IOSDriver extends AppiumDriver implements
     }
 
     /**
+     * Creates a new instance based on Appium service builder, HTTP client factory and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
+                     Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(builder, httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
+    }
+
+    /**
      * Creates a new instance based on HTTP client factory and {@code capabilities}.
      *
      * @param httpClientFactory take a look at {@link HttpClient.Factory}
@@ -170,6 +231,17 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME));
+    }
+
+    /**
+     * Creates a new instance based on HTTP client factory and {@code capabilities}.
+     *
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(httpClientFactory, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
     }
 
     /**
@@ -195,6 +267,32 @@ public class IOSDriver extends AppiumDriver implements
         super(clientConfig, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
+
+    /**
+     * Creates a new instance based on the given ClientConfig and {@code capabilities}.
+     * The HTTP client is default client generated by {@link HttpCommandExecutor#getDefaultClientFactory}.
+     * For example:
+     *
+     * <pre>
+     *
+     * ClientConfig clientConfig = ClientConfig.defaultConfig()
+     *     .baseUri(URI.create("WebDriver URL"))
+     *     .readTimeout(Duration.ofMinutes(5));
+     * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig().directConnect(true)
+     * XCUITestOptions options = new XCUITestOptions();
+     * IOSDriver driver = new IOSDriver(clientConfig, options, appiumClientConfig);
+     *
+     * </pre>
+     *
+     * @param clientConfig take a look at {@link ClientConfig}
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     *
+     */
+    public IOSDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(clientConfig, ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
+    }
+
     /**
      * Creates a new instance based on {@code capabilities}.
      *
@@ -202,6 +300,16 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(Capabilities capabilities) {
         super(ensurePlatformName(capabilities, PLATFORM_NAME));
+    }
+
+    /**
+     * Creates a new instance based on {@code capabilities}.
+     *
+     * @param capabilities take a look at {@link Capabilities}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
+    public IOSDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(ensurePlatformName(capabilities, PLATFORM_NAME), appiumClientConfig);
     }
 
     @Override public TargetLocator switchTo() {
