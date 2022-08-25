@@ -16,6 +16,7 @@
 
 package io.appium.java_client.safari;
 
+import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -50,14 +51,30 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    public SafariDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(remoteAddress, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    }
+
     public SafariDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    public SafariDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
+                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    }
+
     public SafariDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+
+    public SafariDriver(AppiumDriverLocalService service, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(service, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
 
     public SafariDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
@@ -66,9 +83,20 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    public SafariDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
+                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(service, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    }
+
     public SafariDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+
+    public SafariDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(builder, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
 
     public SafariDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
@@ -77,9 +105,20 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    public SafariDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
+                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    }
+
     public SafariDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+
+    public SafariDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
 
     /**
@@ -106,7 +145,16 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    public SafariDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(clientConfig, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
+    }
+
     public SafariDriver(Capabilities capabilities) {
         super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+
+    public SafariDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME), appiumClientConfig);
     }
 }
