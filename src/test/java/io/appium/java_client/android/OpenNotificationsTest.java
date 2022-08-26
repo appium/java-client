@@ -1,7 +1,7 @@
 package io.appium.java_client.android;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.openqa.selenium.By.id;
+import static org.openqa.selenium.By.xpath;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
@@ -18,7 +18,7 @@ public class OpenNotificationsTest extends BaseAndroidTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         assertNotEquals(0, wait.until(input -> {
             List<WebElement> result = input
-                    .findElements(id("com.android.systemui:id/settings_button"));
+                    .findElements(xpath("//android.widget.Switch[contains(@content-desc, 'Wi-Fi')]"));
 
             return result.isEmpty() ? null : result;
         }).size());
