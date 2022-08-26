@@ -20,10 +20,12 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.ALLOW_INSECURE;
 
 public class BaseAndroidTest {
     public static final String APP_ID = "io.appium.android.apis";
@@ -39,11 +41,12 @@ public class BaseAndroidTest {
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
+                .withArgument(ALLOW_INSECURE, "chromedriver_autodownload")
                 .build();
         service.start();
 
         UiAutomator2Options options = new UiAutomator2Options()
-                .setDeviceName("Android Emulator")
+                .setUdid("emulator-5554")
                 .setApp(apiDemosApk().toAbsolutePath().toString())
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);

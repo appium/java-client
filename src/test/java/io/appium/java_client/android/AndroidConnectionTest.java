@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.android.connection.ConnectionState;
 import io.appium.java_client.android.connection.ConnectionStateBuilder;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -29,15 +30,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 public class AndroidConnectionTest extends BaseAndroidTest {
 
     @Test
-    public void test1() {
+    public void getWiFiEnabled() {
         ConnectionState state = driver.setConnection(new ConnectionStateBuilder()
                 .withWiFiEnabled()
                 .build());
         assertTrue(state.isWiFiEnabled());
     }
-
+    @Disabled("Disabled until https://github.com/appium/appium/issues/17422 is resolved")
     @Test
-    public void test2() {
+    public void testEnableAirplaneMode() {
         ConnectionState state = driver.setConnection(new ConnectionStateBuilder()
                 .withAirplaneModeDisabled()
                 .build());
@@ -50,8 +51,9 @@ public class AndroidConnectionTest extends BaseAndroidTest {
         assertTrue(state.isAirplaneModeEnabled());
     }
 
+    @Disabled("Disabled until https://github.com/appium/appium/issues/17422 is resolved")
     @Test
-    public void test3() {
+    public void testWiFiAndDataEnabled() {
         ConnectionState state = driver.setConnection(
                 new ConnectionStateBuilder(driver.getConnection())
                         .withAirplaneModeDisabled()

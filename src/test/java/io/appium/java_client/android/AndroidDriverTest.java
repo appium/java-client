@@ -30,6 +30,7 @@ import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.html5.Location;
@@ -74,7 +75,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
             fail("Not able to toggle wifi");
         }
     }
-
+    @Disabled("Disabled until this issue is fixed https://github.com/appium/appium/issues/17422")
     @Test
     public void toggleAirplane() {
         try {
@@ -237,7 +238,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
     @Test
     public void pullFileTest() {
         byte[] data =
-                driver.pullFile("/data/system/users/userlist.xml");
+                driver.pullFile("/data/local/tmp/remote.txt");
         assert (data.length > 0);
     }
 

@@ -219,6 +219,17 @@ task uiAutomationTest( type: Test ) {
         includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyAndroidTest'
         includeTestsMatching 'io.appium.java_client.service.local.ServerBuilderTest'
         includeTestsMatching 'io.appium.java_client.service.local.ThreadSafetyTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidActivityTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidAbilityToUseSupplierTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidAppStringsTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidContextTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidDriverTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidConnectionTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidElementTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidFunctionTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidLogcatListenerTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidScreenRecordTest'
+        includeTestsMatching 'io.appium.java_client.android.AndroidSearchingTest'
     }
 }
 
