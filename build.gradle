@@ -213,6 +213,7 @@ task uiAutomationTest( type: Test ) {
     filter {
         includeTestsMatching 'io.appium.java_client.android.SettingTest'
         includeTestsMatching 'io.appium.java_client.android.ClipboardTest'
+        includeTestsMatching 'io.appium.java_client.android.OpenNotificationsTest'
         includeTestsMatching '*.AndroidAppStringsTest'
         includeTestsMatching '*.pagefactory_tests.widget.tests.android.*'
         includeTestsMatching '*.pagefactory_tests.widget.tests.AndroidPageObjectTest'
