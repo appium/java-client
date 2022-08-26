@@ -41,7 +41,7 @@ enum Strategies {
             return super.getBy(annotation);
         }
     },
-    BYACCESSABILITY("accessibility") {
+    BYACCESSIBILITY("accessibility") {
         @Override By getBy(Annotation annotation) {
             return AppiumBy.accessibilityId(getValue(annotation, this));
         }
