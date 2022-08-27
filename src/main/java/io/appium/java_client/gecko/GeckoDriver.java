@@ -26,6 +26,7 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
+import javax.annotation.Nullable;
 import java.net.URL;
 
 /**
@@ -41,72 +42,102 @@ import java.net.URL;
 public class GeckoDriver extends AppiumDriver {
     private static final String AUTOMATION_NAME = AutomationName.GECKO;
 
+    private GeckoDriver(
+            @Nullable URL remoteAddress,
+            @Nullable AppiumDriverLocalService service,
+            @Nullable ClientConfig clientConfig,
+            @Nullable HttpClient.Factory httpClientFactory,
+            @Nullable AppiumClientConfig appiumClientConfig,
+            @Nullable Capabilities capabilities) {
+        super(
+                remoteAddress,
+                service,
+                clientConfig,
+                httpClientFactory,
+                appiumClientConfig,
+                capabilities
+        );
+    }
+
     public GeckoDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(URL remoteAddress, Capabilities capabilities) {
-        super(remoteAddress, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(remoteAddress, null, null, null, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(remoteAddress, null, null, null, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(remoteAddress, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(remoteAddress, null, null, httpClientFactory, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME),
-                appiumClientConfig);
+        this(remoteAddress, null, null, httpClientFactory, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        super(service, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, service, null, null, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumDriverLocalService service, Capabilities capabilities,
                        AppiumClientConfig appiumClientConfig) {
-        super(service, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, service, null, null, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                        Capabilities capabilities) {
-        super(service, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, service, null, httpClientFactory, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(service, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, service, null, httpClientFactory, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        super(builder, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, builder.build(), null, null, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(builder, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, builder.build(), null, null, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                        Capabilities capabilities) {
-        super(builder, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, builder.build(), null, httpClientFactory, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                        Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(builder, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, builder.build(), null, httpClientFactory, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, null, null, httpClientFactory, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
                        AppiumClientConfig appiumClientConfig) {
-        super(httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, null, null, httpClientFactory, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     /**
@@ -129,7 +160,8 @@ public class GeckoDriver extends AppiumDriver {
      *
      */
     public GeckoDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(clientConfig, ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, null, clientConfig, null, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     /**
@@ -154,14 +186,17 @@ public class GeckoDriver extends AppiumDriver {
      *
      */
     public GeckoDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(clientConfig, ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, null, clientConfig, null, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(Capabilities capabilities) {
-        super(ensureAutomationName(capabilities, AUTOMATION_NAME));
+        this(null, null, null, null, null,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(ensureAutomationName(capabilities, AUTOMATION_NAME), appiumClientConfig);
+        this(null, null, null, null, appiumClientConfig,
+                ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 }

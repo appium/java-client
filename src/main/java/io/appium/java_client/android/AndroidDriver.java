@@ -134,7 +134,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(URL remoteAddress, Capabilities capabilities) {
-        this(remoteAddress, null, null, null, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(remoteAddress, null, null, null, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -145,7 +146,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public AndroidDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(remoteAddress, null, null, null, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(remoteAddress, null, null, null, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -157,7 +159,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(
             URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        this(remoteAddress, null, null, httpClientFactory, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(remoteAddress, null, null, httpClientFactory, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -171,7 +174,8 @@ public class AndroidDriver extends AppiumDriver implements
     public AndroidDriver(
             URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities,
             AppiumClientConfig appiumClientConfig) {
-        this(remoteAddress, null, null, httpClientFactory, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(remoteAddress, null, null, httpClientFactory, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -181,7 +185,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        this(null, service, null, null, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, service, null, null, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -193,7 +198,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(AppiumDriverLocalService service, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        this(null, service, null, null, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, service, null, null, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -205,7 +211,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(
             AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        this(null, service, null, httpClientFactory, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, service, null, httpClientFactory, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -219,7 +226,8 @@ public class AndroidDriver extends AppiumDriver implements
     public AndroidDriver(
             AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities capabilities,
             AppiumClientConfig appiumClientConfig) {
-        this(null, service, null, httpClientFactory, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, service, null, httpClientFactory, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -229,7 +237,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        this(null, builder.build(), null, null, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, builder.build(), null, null, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
 
     }
 
@@ -242,7 +251,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        this(null, builder.build(), null, null, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, builder.build(), null, null, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -254,7 +264,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities capabilities) {
-        this(null, builder.build(), null, httpClientFactory, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, builder.build(), null, httpClientFactory, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -267,7 +278,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(null, builder.build(), null, httpClientFactory, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, builder.build(), null, httpClientFactory, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -277,7 +289,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        this(null, null, null, httpClientFactory, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, null, null, httpClientFactory, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -289,7 +302,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        this(null, null, null, httpClientFactory, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, null, null, httpClientFactory, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -312,7 +326,8 @@ public class AndroidDriver extends AppiumDriver implements
      *
      */
     public AndroidDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        this(null, null, clientConfig, null, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, null, clientConfig, null, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -338,7 +353,8 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(ClientConfig clientConfig, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        this(null, null, clientConfig, null, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, null, clientConfig, null, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -347,7 +363,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(Capabilities capabilities) {
-        this(null, null, null, null, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, null, null, null, null,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
@@ -357,7 +374,8 @@ public class AndroidDriver extends AppiumDriver implements
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public AndroidDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(null, null, null, null, appiumClientConfig, ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        this(null, null, null, null, appiumClientConfig,
+                ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**

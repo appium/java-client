@@ -25,6 +25,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import io.appium.java_client.AppiumClientConfig;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
@@ -74,6 +75,17 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private static ClientConfig getAppiumDefaultClientConfig() {
         return ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
     }
+
+    /**
+     * Create an AppiumCommandExecutor instance.
+     *
+     * @param additionalCommands is the map of Appium commands
+     * @param service take a look at {@link DriverService}
+     * @param addressOfRemoteServer is the address of remotely/locally started Appium server
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param clientConfig take a look at {@link ClientConfig}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     */
     public AppiumCommandExecutor(
             @Nonnull Map<String, CommandInfo> additionalCommands,
             @Nullable DriverService service,
@@ -214,9 +226,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      */
     protected void overrideServerUrl(URL serverUrl) {
         setPrivateFieldValue(HttpCommandExecutor.class, "client",
-                ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory).
-                        createClient(ofNullable(this.clientConfig).orElse(
-                                AppiumCommandExecutor.getAppiumDefaultClientConfig()).baseUrl(serverUrl)));
+                ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
+                                .createClient(ofNullable(this.clientConfig).orElse(
+                                        AppiumCommandExecutor.getAppiumDefaultClientConfig()).baseUrl(serverUrl)));
     }
 
     private Response createSession(Command command) throws IOException {
