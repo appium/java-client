@@ -85,7 +85,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
-    private AppiumDriver(
+    protected AppiumDriver(
             @Nullable URL remoteAddress,
             @Nullable AppiumDriverLocalService service,
             @Nullable ClientConfig clientConfig,
