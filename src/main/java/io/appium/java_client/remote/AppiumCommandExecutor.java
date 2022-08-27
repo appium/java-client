@@ -18,6 +18,7 @@ package io.appium.java_client.remote;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static java.util.Optional.ofNullable;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
@@ -25,7 +26,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import io.appium.java_client.AppiumClientConfig;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
@@ -262,7 +263,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     @SuppressWarnings("unchecked")
-    private void setDirectConnect(Response response) throws MalformedURLException {
+    private void setDirectConnect(Response response) throws WebDriverException {
         Map<String, ?> responseValue = (Map<String, ?>) response.getValue();
 
         String directConnectProtocol = getDirectConnectValue(responseValue,
@@ -280,16 +281,25 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         }
 
         if (!directConnectProtocol.contentEquals("https")) {
-            // TODO: add error handling
-            return;
+            throw new WebDriverException(
+                    String.format("The protocol must be https. %s was given.", directConnectProtocol));
         }
-        overrideServerUrl(new URL(directConnectProtocol + "://" + directConnectHost + ":"
-                + directConnectPort + directConnectPath));
+
+        URL newUrl;
+        String newUrlCandidate = String.format("%s://%s:%s%s",
+                directConnectProtocol, directConnectHost, directConnectPort, directConnectPath);
+        try {
+            newUrl = new URL(newUrlCandidate);
+        } catch (MalformedURLException e) {
+            throw new WebDriverException(String.format("directConnect generated invalid URL as %s", newUrlCandidate));
+        }
+
+        overrideServerUrl(newUrl);
     }
 
     @Nullable
     private String getDirectConnectValue(Map<String, ?> responseValue, String key) {
-        String directConnectPath = String.valueOf(responseValue.get("appium:" + key));
+        String directConnectPath = String.valueOf(responseValue.get(APPIUM_PREFIX + key));
         return directConnectPath == null ? String.valueOf(responseValue.get(key)) : directConnectPath;
     }
 
