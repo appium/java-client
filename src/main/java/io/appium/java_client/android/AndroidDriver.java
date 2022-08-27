@@ -134,7 +134,7 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(URL remoteAddress, Capabilities capabilities) {
-        this(remoteAddress, null, null, null, null, capabilities);
+        this(remoteAddress, null, null, null, null, ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 
     /**
