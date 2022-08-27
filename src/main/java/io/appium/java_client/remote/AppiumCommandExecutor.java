@@ -63,8 +63,15 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final Optional<DriverService> serviceOptional;
 
+    private final HttpClient.Factory httpClientFactory;
+
+    private final ClientConfig clientConfig;
+
     private final AppiumClientConfig appiumClientConfig;
 
+    private static ClientConfig getAppiumDefaultClientConfig() {
+        return ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
+    }
     private AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                   URL addressOfRemoteServer,
                                   HttpClient.Factory httpClientFactory,
@@ -72,15 +79,18 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                   AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
                 ofNullable(clientConfig).orElse(
-                        ClientConfig.defaultConfig()
+                        AppiumCommandExecutor.getAppiumDefaultClientConfig()
                                 .baseUrl(Require.nonNull("Server URL", ofNullable(service)
                                         .map(DriverService::getUrl)
                                         .orElse(addressOfRemoteServer)))
-                                .readTimeout(DEFAULT_READ_TIMEOUT)
+
                 ),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
+
+        this.clientConfig = clientConfig;
+        this.httpClientFactory = httpClientFactory;
         this.appiumClientConfig = appiumClientConfig;
     }
 
@@ -187,10 +197,17 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue(HttpCommandExecutor.class, "client", HttpClient.class);
     }
 
+    /**
+     * Override the http client in the HttpCommandExecutor class with a new http client instance with the given URL.
+     * Use the same http client factory and client config if the constructor got them.
+     *
+     * @param serverUrl to set the URL as the new client's base url.
+     */
     protected void overrideServerUrl(URL serverUrl) {
-        HttpClient.Factory httpClientFactory = getPrivateFieldValue(HttpCommandExecutor.class,
-                "httpClientFactory", HttpClient.Factory.class);
-        setPrivateFieldValue(HttpCommandExecutor.class, "client", httpClientFactory.createClient(serverUrl));
+        setPrivateFieldValue(HttpCommandExecutor.class, "client",
+                ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory).
+                        createClient(ofNullable(this.clientConfig).orElse(
+                                AppiumCommandExecutor.getAppiumDefaultClientConfig()).baseUrl(serverUrl)));
     }
 
     private Response createSession(Command command) throws IOException {
@@ -241,7 +258,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             return;
         }
 
-        // TODO: update the exception message
+        if (!directConnectProtocol.contentEquals("https")) {
+            // TODO: add error handling
+            return;
+        }
         overrideServerUrl(new URL(directConnectProtocol + "://" + directConnectHost + ":"
                 + directConnectPort + directConnectPath));
     }
