@@ -45,6 +45,7 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
@@ -84,96 +85,105 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
+    private AppiumDriver(
+            @Nullable URL remoteAddress,
+            @Nullable AppiumDriverLocalService service,
+            @Nullable ClientConfig clientConfig,
+            @Nullable HttpClient.Factory httpClientFactory,
+            @Nullable AppiumClientConfig appiumClientConfig,
+            @Nullable Capabilities capabilities) {
+
+        this(
+                new AppiumCommandExecutor(
+                        MobileCommand.commandRepository,
+                        service,
+                        remoteAddress,
+                        httpClientFactory,
+                        clientConfig,
+                        appiumClientConfig),
+                capabilities
+        );
+    }
+
     public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig), capabilities);
+        this(null, null, clientConfig, null, null, capabilities);
     }
 
     public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig, appiumClientConfig),
-                capabilities);
+        this(null, null, clientConfig, null, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
-                capabilities);
+        this(remoteAddress, null, null, null, null, capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress, appiumClientConfig),
-                capabilities);
+        this(remoteAddress, null, null, null, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-                httpClientFactory), capabilities);
+        this(remoteAddress, null, null, httpClientFactory, null, capabilities);
     }
 
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
-                httpClientFactory, appiumClientConfig), capabilities);
+        this(remoteAddress, null, null, httpClientFactory, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
-                capabilities);
+        this(null, service, null, null, null, capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities,
                         AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, appiumClientConfig),
-                capabilities);
+        this(null, service, null, null, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
-                capabilities);
+        this(null, service, null, httpClientFactory, null, capabilities);
     }
 
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service,
-                        httpClientFactory, appiumClientConfig), capabilities);
+        this(null, service, null, httpClientFactory, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        this(builder.build(), capabilities);
+        this(null, builder.build(), null, null, null, capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities,
                         AppiumClientConfig appiumClientConfig) {
-        this(builder.build(), capabilities, appiumClientConfig);
+        this(null, builder.build(), null, null, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
-        this(builder.build(), httpClientFactory, capabilities);
+        this(null, builder.build(), null, httpClientFactory, null, capabilities);
     }
 
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(builder.build(), httpClientFactory, capabilities, appiumClientConfig);
+        this(null, builder.build(), null, httpClientFactory, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-                capabilities);
+        this(null, null, null, httpClientFactory, null, capabilities);
     }
 
     public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
                         AppiumClientConfig appiumClientConfig) {
-        this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
-                capabilities, appiumClientConfig);
+        this(null, null, null, httpClientFactory, appiumClientConfig, capabilities);
     }
 
     public AppiumDriver(Capabilities capabilities) {
-        this(AppiumDriverLocalService.buildDefaultService(), capabilities);
+        this(null, null, null, null, null, capabilities);
     }
 
     public AppiumDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        this(AppiumDriverLocalService.buildDefaultService(), capabilities, appiumClientConfig);
+        this(null, null, null, null, appiumClientConfig, capabilities);
     }
 
     /**

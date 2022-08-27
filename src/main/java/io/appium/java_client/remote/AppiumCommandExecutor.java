@@ -45,6 +45,7 @@ import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
 import org.openqa.selenium.remote.service.DriverService;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -53,6 +54,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -72,17 +74,23 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private static ClientConfig getAppiumDefaultClientConfig() {
         return ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
     }
-    private AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
-                                  URL addressOfRemoteServer,
-                                  HttpClient.Factory httpClientFactory,
-                                  ClientConfig clientConfig,
-                                  AppiumClientConfig appiumClientConfig) {
+    public AppiumCommandExecutor(
+            @Nonnull Map<String, CommandInfo> additionalCommands,
+            @Nullable DriverService service,
+            @Nullable URL addressOfRemoteServer,
+            @Nullable HttpClient.Factory httpClientFactory,
+            @Nullable ClientConfig clientConfig,
+            @Nullable AppiumClientConfig appiumClientConfig) {
+
         super(additionalCommands,
                 ofNullable(clientConfig).orElse(
                         AppiumCommandExecutor.getAppiumDefaultClientConfig()
-                                .baseUrl(Require.nonNull("Server URL", ofNullable(service)
-                                        .map(DriverService::getUrl)
-                                        .orElse(addressOfRemoteServer)))
+                                .baseUrl(Require.nonNull(
+                                        "Server URL",
+                                        Objects.requireNonNull(ofNullable(service)
+                                                .map(DriverService::getUrl)
+                                                .orElse(addressOfRemoteServer))
+                                ))
 
                 ),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
@@ -113,7 +121,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 URL addressOfRemoteServer, HttpClient.Factory httpClientFactory,
+                                 URL addressOfRemoteServer,
+                                 HttpClient.Factory httpClientFactory,
                                  AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null,
                 appiumClientConfig);
