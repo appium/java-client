@@ -82,7 +82,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     public AppiumCommandExecutor(
             @Nonnull Map<String, CommandInfo> additionalCommands,
             @Nullable DriverService service,
-            @Nullable URL addressOfRemoteServer,
+            @Nonnull URL addressOfRemoteServer,
             @Nullable HttpClient.Factory httpClientFactory,
             @Nullable AppiumClientConfig appiumClientConfig) {
 
@@ -90,14 +90,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 ofNullable(appiumClientConfig)
                         .orElse(AppiumClientConfig.defaultConfig())
                         .getHttpClientConfig()
-                        .baseUrl(Require.nonNull(
-                                "Server URL",
-                                Objects.requireNonNull(ofNullable(service)
-                                        .map(DriverService::getUrl)
-                                        .orElse(addressOfRemoteServer))
-                        )
-
-                ),
+                        .baseUrl(addressOfRemoteServer),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
@@ -108,13 +101,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory,
+        this(additionalCommands, checkNotNull(service),  checkNotNull(service).getUrl(), httpClientFactory,
                 AppiumClientConfig.defaultConfig());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory,
+        this(additionalCommands, checkNotNull(service), checkNotNull(service).getUrl(), httpClientFactory,
                 appiumClientConfig);
     }
 
@@ -139,13 +132,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault(),
+        this(additionalCommands, checkNotNull(addressOfRemoteServer), HttpClient.Factory.createDefault(),
                 AppiumClientConfig.defaultConfig());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, addressOfRemoteServer, HttpClient.Factory.createDefault(), appiumClientConfig);
+        this(additionalCommands, checkNotNull(addressOfRemoteServer), HttpClient.Factory.createDefault(), appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
