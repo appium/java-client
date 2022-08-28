@@ -60,7 +60,6 @@ import java.util.UUID;
 public class AppiumCommandExecutor extends HttpCommandExecutor {
     // https://github.com/appium/appium-base-driver/pull/400
     private static final String IDEMPOTENCY_KEY_HEADER = "X-Idempotency-Key";
-    private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
     private final Optional<DriverService> serviceOptional;
 
@@ -88,11 +87,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable DriverService service,
             @Nullable URL addressOfRemoteServer,
             @Nullable HttpClient.Factory httpClientFactory,
-            @Nullable AppiumClientConfig appiumClientConfig) {
+            @Nonnull AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
-                ofNullable(appiumClientConfig)
-                        .orElseGet(AppiumClientConfig::defaultConfig)
-                        .getHttpClientConfig()
+                appiumClientConfig.getHttpClientConfig()
                         .baseUrl(Require.nonNull("Server URL",
                                 // To fix annotation message
                                 service != null ? service.getUrl() : checkNotNull(addressOfRemoteServer))),
@@ -259,7 +256,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             return;
         }
 
-        if (!directConnectProtocol.contentEquals("https")) {
+        if (!directConnectProtocol.equals("https")) {
             throw new SessionNotCreatedException(
                     String.format("The protocol must be https. %s was given.", directConnectProtocol));
         }
