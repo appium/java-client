@@ -302,7 +302,7 @@ public class AndroidDriver extends AppiumDriver implements
      * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig()
      *     .setHttpClientConfig(clientConfig).directConnect(true);
      * UiAutomator2Options options = new UiAutomator2Options();
-     * AndroidDriver driver = new AndroidDriver(options, clientConfig);
+     * AndroidDriver driver = new AndroidDriver(options, appiumClientConfig);
      *
      * </pre>
      *

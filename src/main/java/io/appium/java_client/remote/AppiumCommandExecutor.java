@@ -87,7 +87,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable AppiumClientConfig appiumClientConfig) {
 
         super(additionalCommands,
-                ofNullable(appiumClientConfig).orElse(AppiumClientConfig.defaultConfig())
+                ofNullable(appiumClientConfig)
+                        .orElse(AppiumClientConfig.defaultConfig())
                         .getHttpClientConfig()
                         .baseUrl(Require.nonNull(
                                 "Server URL",
