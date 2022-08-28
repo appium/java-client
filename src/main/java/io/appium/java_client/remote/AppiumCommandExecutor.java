@@ -69,10 +69,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private final AppiumClientConfig appiumClientConfig;
 
 
-    private final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
-    private final String DIRECT_CONNECT_PATH = "directConnectPath";
-    private final String DIRECT_CONNECT_HOST = "directConnectHost";
-    private final String DIRECT_CONNECT_PORT = "directConnectPort";
+    private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
+    private static final String DIRECT_CONNECT_PATH = "directConnectPath";
+    private static final String DIRECT_CONNECT_HOST = "directConnectHost";
+    private static final String DIRECT_CONNECT_PORT = "directConnectPort";
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -271,7 +271,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             newUrl = new URL(newUrlCandidate);
         } catch (MalformedURLException e) {
             // TODO: tweak the description
-            throw new SessionNotCreatedException(String.format("directConnect generated invalid URL as %s", newUrlCandidate));
+            throw new SessionNotCreatedException(String.format("directConnect generated invalid URL as %s",
+                    newUrlCandidate));
         }
 
         overrideServerUrl(newUrl);
