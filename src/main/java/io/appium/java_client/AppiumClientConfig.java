@@ -16,14 +16,24 @@
 
 package io.appium.java_client;
 
+import org.openqa.selenium.remote.http.ClientConfig;
+
+import java.time.Duration;
+
 /**
  * Manage Appium Client configurations.
  */
 
 public class AppiumClientConfig {
-    private boolean directConnect = false;
+    private boolean directConnect;
+
+    private ClientConfig clientConfig;
+
+    private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
     public AppiumClientConfig() {
+        this.clientConfig = ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
+        this.directConnect = false;
     }
 
     public static class DirectConnect {
@@ -61,5 +71,19 @@ public class AppiumClientConfig {
      */
     public boolean isDirectConnectEnabled() {
         return this.directConnect;
+    }
+
+    /**
+     * Set the given {@link ClientConfig} for the HTTP client instance.
+     * @param clientConfig to keep it in AppiumClientConfig instance
+     * @return A self reference
+     */
+    public AppiumClientConfig setHttpClientConfig(ClientConfig clientConfig) {
+        this.clientConfig = clientConfig;
+        return this;
+    }
+
+    public ClientConfig getHttpClientConfig() {
+        return this.clientConfig;
     }
 }

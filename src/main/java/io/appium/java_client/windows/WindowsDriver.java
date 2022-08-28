@@ -48,80 +48,80 @@ public class WindowsDriver extends AppiumDriver implements
     }
 
     public WindowsDriver(URL remoteAddress, Capabilities capabilities) {
-        super(remoteAddress, null, null, null, null,
+        super(remoteAddress, null, null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, null, null, null, appiumClientConfig,
+        super(remoteAddress, null, null, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(remoteAddress, null, null, httpClientFactory, null,
+        super(remoteAddress, null, httpClientFactory, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, null, null, httpClientFactory, appiumClientConfig,
+        super(remoteAddress, null, httpClientFactory, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        super(null, service, null, null, null,
+        super(null, service, null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        super(null, service, null, null, appiumClientConfig,
+        super(null, service, null, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities) {
-        super(null, service, null, httpClientFactory, null,
+        super(null, service, httpClientFactory, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, service, null, httpClientFactory, appiumClientConfig,
+        super(null, service, httpClientFactory, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        super(null, builder.build(), null, null, null,
+        super(null, builder.build(), null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        super(null, builder.build(), null, null, appiumClientConfig,
+        super(null, builder.build(), null, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities) {
-        super(null, builder.build(), null, httpClientFactory, null,
+        super(null, builder.build(), httpClientFactory, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, builder.build(), null, httpClientFactory, appiumClientConfig,
+        super(null, builder.build(), httpClientFactory, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(null, null, null, httpClientFactory, null,
+        super(null, null, httpClientFactory, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
                          AppiumClientConfig appiumClientConfig) {
-        super(null, null, null, httpClientFactory, appiumClientConfig,
+        super(null, null, httpClientFactory, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
@@ -135,54 +135,24 @@ public class WindowsDriver extends AppiumDriver implements
      * ClientConfig clientConfig = ClientConfig.defaultConfig()
      *     .baseUri(URI.create("WebDriver URL"))
      *     .readTimeout(Duration.ofMinutes(5));
+     * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig()
+     *     .setHttpClientConfig(clientConfig).directConnect(true);
      * WindowsOptions options = new WindowsOptions();
-     * WindowsDriver driver = new WindowsDriver(clientConfig, options);
+     * WindowsDriver driver = new WindowsDriver(options, appiumClientConfig);
      *
      * </pre>
      *
-     * @param clientConfig take a look at {@link ClientConfig}
-     * @param capabilities take a look at {@link Capabilities}
-     *
-     */
-    public WindowsDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(null, null, clientConfig, null, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    /**
-     * Creates a new instance based on the given ClientConfig and {@code capabilities}.
-     * The HTTP client is default client generated by {@link HttpCommandExecutor#getDefaultClientFactory}.
-     * For example:
-     *
-     * <pre>
-     *
-     * ClientConfig clientConfig = ClientConfig.defaultConfig()
-     *     .baseUri(URI.create("WebDriver URL"))
-     *     .readTimeout(Duration.ofMinutes(5));
-     * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig().directConnect(true);
-     * WindowsOptions options = new WindowsOptions();
-     * WindowsDriver driver = new WindowsDriver(clientConfig, options, appiumClientConfig);
-     *
-     * </pre>
-     *
-     * @param clientConfig take a look at {@link ClientConfig}
      * @param capabilities take a look at {@link Capabilities}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      *
      */
-    public WindowsDriver(ClientConfig clientConfig, Capabilities capabilities,
-                                AppiumClientConfig appiumClientConfig) {
-        super(null, null, clientConfig, null, appiumClientConfig,
+    public WindowsDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(null, null, null, appiumClientConfig,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public WindowsDriver(Capabilities capabilities) {
-        super(null, null, null, null, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    public WindowsDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, null, null, null, appiumClientConfig,
+        super(null, null, null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 

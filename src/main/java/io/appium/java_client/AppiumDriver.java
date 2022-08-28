@@ -88,7 +88,6 @@ public class AppiumDriver extends RemoteWebDriver implements
     protected AppiumDriver(
             @Nullable URL remoteAddress,
             @Nullable AppiumDriverLocalService service,
-            @Nullable ClientConfig clientConfig,
             @Nullable HttpClient.Factory httpClientFactory,
             @Nullable AppiumClientConfig appiumClientConfig,
             @Nullable Capabilities capabilities) {
@@ -99,7 +98,6 @@ public class AppiumDriver extends RemoteWebDriver implements
                         service,
                         remoteAddress,
                         httpClientFactory,
-                        clientConfig,
                         appiumClientConfig),
                 capabilities
         );

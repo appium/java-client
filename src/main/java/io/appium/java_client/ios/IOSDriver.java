@@ -105,7 +105,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(URL remoteAddress, Capabilities capabilities) {
-        super(remoteAddress, null, null, null, null,
+        super(remoteAddress, null, null, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -117,7 +117,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public IOSDriver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, null, null, null, appiumClientConfig,
+        super(remoteAddress, null, null, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -130,7 +130,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
         Capabilities capabilities) {
-        super(remoteAddress, null, null, httpClientFactory, null,
+        super(remoteAddress, null, httpClientFactory, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -144,7 +144,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                      Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, null, null, httpClientFactory, appiumClientConfig,
+        super(remoteAddress, null, httpClientFactory, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -155,7 +155,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities) {
-        super(null, service, null, null, null,
+        super(null, service, null, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -168,7 +168,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumDriverLocalService service, Capabilities capabilities,
                      AppiumClientConfig appiumClientConfig) {
-        super(null, service, null, null, appiumClientConfig,
+        super(null, service, null, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
 
     }
@@ -182,7 +182,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
         Capabilities capabilities) {
-        super(null, service, null, httpClientFactory, null,
+        super(null, service, httpClientFactory, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -196,7 +196,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                      Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, service, null, httpClientFactory, appiumClientConfig,
+        super(null, service, httpClientFactory, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -207,7 +207,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        super(null, builder.build(), null, null, null,
+        super(null, builder.build(), null, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -219,7 +219,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public IOSDriver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, builder.build(), null, null, appiumClientConfig,
+        super(null, builder.build(), null, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -232,7 +232,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
         Capabilities capabilities) {
-        super(null, builder.build(), null, httpClientFactory, null,
+        super(null, builder.build(), httpClientFactory, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -246,7 +246,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                      Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, builder.build(), null, httpClientFactory, appiumClientConfig,
+        super(null, builder.build(), httpClientFactory, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -257,7 +257,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(null, null, null, httpClientFactory, null,
+        super(null, null, httpClientFactory, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -270,7 +270,7 @@ public class IOSDriver extends AppiumDriver implements
      */
     public IOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
                      AppiumClientConfig appiumClientConfig) {
-        super(null, null, null, httpClientFactory, appiumClientConfig,
+        super(null, null, httpClientFactory, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -284,44 +284,19 @@ public class IOSDriver extends AppiumDriver implements
      * ClientConfig clientConfig = ClientConfig.defaultConfig()
      *     .baseUri(URI.create("WebDriver URL"))
      *     .readTimeout(Duration.ofMinutes(5));
+     * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig()
+     *     .setHttpClientConfig(clientConfig).directConnect(true);
      * XCUITestOptions options = new XCUITestOptions();
-     * IOSDriver driver = new IOSDriver(clientConfig, options);
+     * IOSDriver driver = new IOSDriver(options, appiumClientConfig);
      *
      * </pre>
      *
-     * @param clientConfig take a look at {@link ClientConfig}
-     * @param capabilities take a look at {@link Capabilities}
-     *
-     */
-    public IOSDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(null, null, clientConfig, null, null,
-                ensurePlatformName(capabilities, PLATFORM_NAME));
-    }
-
-
-    /**
-     * Creates a new instance based on the given ClientConfig and {@code capabilities}.
-     * The HTTP client is default client generated by {@link HttpCommandExecutor#getDefaultClientFactory}.
-     * For example:
-     *
-     * <pre>
-     *
-     * ClientConfig clientConfig = ClientConfig.defaultConfig()
-     *     .baseUri(URI.create("WebDriver URL"))
-     *     .readTimeout(Duration.ofMinutes(5));
-     * AppiumClientConfig appiumClientConfig = AppiumClientConfig.defaultConfig().directConnect(true)
-     * XCUITestOptions options = new XCUITestOptions();
-     * IOSDriver driver = new IOSDriver(clientConfig, options, appiumClientConfig);
-     *
-     * </pre>
-     *
-     * @param clientConfig take a look at {@link ClientConfig}
      * @param capabilities take a look at {@link Capabilities}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      *
      */
-    public IOSDriver(ClientConfig clientConfig, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, null, clientConfig, null, appiumClientConfig,
+    public IOSDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
+        super(null, null, null, appiumClientConfig,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
@@ -331,18 +306,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(Capabilities capabilities) {
-        super(null, null, null, null, null,
-                ensurePlatformName(capabilities, PLATFORM_NAME));
-    }
-
-    /**
-     * Creates a new instance based on {@code capabilities}.
-     *
-     * @param capabilities take a look at {@link Capabilities}
-     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
-     */
-    public IOSDriver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, null, null, null, appiumClientConfig,
+        super(null, null, null, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 

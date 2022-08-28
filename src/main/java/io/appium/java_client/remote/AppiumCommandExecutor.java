@@ -26,7 +26,6 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
 import io.appium.java_client.AppiumClientConfig;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
@@ -41,7 +40,6 @@ import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
-import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
@@ -69,13 +67,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final HttpClient.Factory httpClientFactory;
 
-    private final ClientConfig clientConfig;
-
     private final AppiumClientConfig appiumClientConfig;
 
-    private static ClientConfig getAppiumDefaultClientConfig() {
-        return ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
-    }
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -84,7 +77,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * @param service take a look at {@link DriverService}
      * @param addressOfRemoteServer is the address of remotely/locally started Appium server
      * @param httpClientFactory take a look at {@link HttpClient.Factory}
-     * @param clientConfig take a look at {@link ClientConfig}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public AppiumCommandExecutor(
@@ -92,44 +84,41 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable DriverService service,
             @Nullable URL addressOfRemoteServer,
             @Nullable HttpClient.Factory httpClientFactory,
-            @Nullable ClientConfig clientConfig,
             @Nullable AppiumClientConfig appiumClientConfig) {
 
         super(additionalCommands,
-                ofNullable(clientConfig).orElse(
-                        AppiumCommandExecutor.getAppiumDefaultClientConfig()
-                                .baseUrl(Require.nonNull(
-                                        "Server URL",
-                                        Objects.requireNonNull(ofNullable(service)
-                                                .map(DriverService::getUrl)
-                                                .orElse(addressOfRemoteServer))
-                                ))
+                appiumClientConfig.getHttpClientConfig()
+                        .baseUrl(Require.nonNull(
+                                "Server URL",
+                                Objects.requireNonNull(ofNullable(service)
+                                        .map(DriverService::getUrl)
+                                        .orElse(addressOfRemoteServer))
+                        )
 
                 ),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
 
-        this.clientConfig = clientConfig;
         this.httpClientFactory = httpClientFactory;
         this.appiumClientConfig = appiumClientConfig;
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null,
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory,
                 AppiumClientConfig.defaultConfig());
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, checkNotNull(service), null, httpClientFactory, null,
+        this(additionalCommands, checkNotNull(service), null, httpClientFactory,
                 appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null,
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory,
                 AppiumClientConfig.defaultConfig());
     }
 
@@ -137,19 +126,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                                  URL addressOfRemoteServer,
                                  HttpClient.Factory httpClientFactory,
                                  AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null,
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory,
                 appiumClientConfig);
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig) {
-        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig,
-                AppiumClientConfig.defaultConfig());
-    }
-
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, ClientConfig clientConfig,
-                                 AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, null, checkNotNull(clientConfig.baseUrl()), null, clientConfig,
-                appiumClientConfig);
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumClientConfig appiumClientConfig) {
+        this(additionalCommands, null, checkNotNull(appiumClientConfig.getHttpClientConfig().baseUrl()),
+                null, appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
@@ -228,8 +211,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     protected void overrideServerUrl(URL serverUrl) {
         setPrivateFieldValue(HttpCommandExecutor.class, "client",
                 ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
-                                .createClient(ofNullable(this.clientConfig).orElse(
-                                        AppiumCommandExecutor.getAppiumDefaultClientConfig()).baseUrl(serverUrl)));
+                                .createClient(this.appiumClientConfig.getHttpClientConfig().baseUrl(serverUrl)));
     }
 
     private Response createSession(Command command) throws IOException {
