@@ -138,7 +138,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, checkNotNull(addressOfRemoteServer), HttpClient.Factory.createDefault(), appiumClientConfig);
+        this(additionalCommands, checkNotNull(addressOfRemoteServer),
+                HttpClient.Factory.createDefault(), appiumClientConfig);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
