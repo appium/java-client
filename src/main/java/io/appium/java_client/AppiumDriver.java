@@ -27,7 +27,6 @@ import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
@@ -41,7 +40,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
-import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
