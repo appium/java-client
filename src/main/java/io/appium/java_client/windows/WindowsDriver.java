@@ -152,7 +152,7 @@ public class WindowsDriver extends AppiumDriver implements
     }
 
     public WindowsDriver(Capabilities capabilities) {
-        super(null, null, null, null,
+        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 

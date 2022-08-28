@@ -150,7 +150,7 @@ public class GeckoDriver extends AppiumDriver {
     }
 
     public GeckoDriver(Capabilities capabilities) {
-        super(null, null, null, null,
+        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
                 ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 }

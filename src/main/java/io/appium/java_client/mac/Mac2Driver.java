@@ -155,7 +155,7 @@ public class Mac2Driver extends AppiumDriver implements
     }
 
     public Mac2Driver(Capabilities capabilities) {
-        super(null, null, null, null,
+        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 }

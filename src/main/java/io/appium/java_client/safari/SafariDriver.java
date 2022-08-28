@@ -153,7 +153,7 @@ public class SafariDriver extends AppiumDriver {
     }
 
     public SafariDriver(Capabilities capabilities) {
-        super(null, null, null, null,
+        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
                 ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 }

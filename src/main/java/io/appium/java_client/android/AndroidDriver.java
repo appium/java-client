@@ -321,7 +321,7 @@ public class AndroidDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public AndroidDriver(Capabilities capabilities) {
-        super(null, null, null, null,
+        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
                 ensurePlatformName(capabilities, ANDROID_PLATFORM));
     }
 

@@ -306,7 +306,7 @@ public class IOSDriver extends AppiumDriver implements
      * @param capabilities take a look at {@link Capabilities}
      */
     public IOSDriver(Capabilities capabilities) {
-        super(null, null, null, null,
+        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
                 ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
