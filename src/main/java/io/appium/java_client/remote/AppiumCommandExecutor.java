@@ -54,7 +54,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,6 +68,11 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final AppiumClientConfig appiumClientConfig;
 
+
+    private final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
+    private final String DIRECT_CONNECT_PATH = "directConnectPath";
+    private final String DIRECT_CONNECT_HOST = "directConnectHost";
+    private final String DIRECT_CONNECT_PORT = "directConnectPort";
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -87,11 +91,11 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
                 ofNullable(appiumClientConfig)
-                        .orElse(AppiumClientConfig.defaultConfig())
+                        .orElseGet(AppiumClientConfig::defaultConfig)
                         .getHttpClientConfig()
-                        .baseUrl(Require.nonNull("Server URL", ofNullable(service)
-                                .map(DriverService::getUrl)
-                                .orElse(checkNotNull(addressOfRemoteServer)))),
+                        .baseUrl(Require.nonNull("Server URL",
+                                // To fix annotation message
+                                service != null ? service.getUrl() : checkNotNull(addressOfRemoteServer))),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
@@ -242,17 +246,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     @SuppressWarnings("unchecked")
-    private void setDirectConnect(Response response) throws WebDriverException {
+    private void setDirectConnect(Response response) throws SessionNotCreatedException {
         Map<String, ?> responseValue = (Map<String, ?>) response.getValue();
 
-        String directConnectProtocol = getDirectConnectValue(responseValue,
-                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PROTOCOL);
-        String directConnectPath = getDirectConnectValue(responseValue,
-                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PATH);
-        String directConnectHost = getDirectConnectValue(responseValue,
-                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_HOST);
-        String directConnectPort = getDirectConnectValue(responseValue,
-                AppiumClientConfig.DirectConnect.DIRECT_CONNECT_PORT);
+        String directConnectProtocol = getDirectConnectValue(responseValue, DIRECT_CONNECT_PROTOCOL);
+        String directConnectPath = getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
+        String directConnectHost = getDirectConnectValue(responseValue, DIRECT_CONNECT_HOST);
+        String directConnectPort = getDirectConnectValue(responseValue, DIRECT_CONNECT_PORT);
 
         if (directConnectProtocol == null || directConnectHost == null
                 || directConnectPath == null || directConnectPort == null) {
@@ -260,7 +260,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         }
 
         if (!directConnectProtocol.contentEquals("https")) {
-            throw new WebDriverException(
+            throw new SessionNotCreatedException(
                     String.format("The protocol must be https. %s was given.", directConnectProtocol));
         }
 
@@ -270,7 +270,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         try {
             newUrl = new URL(newUrlCandidate);
         } catch (MalformedURLException e) {
-            throw new WebDriverException(String.format("directConnect generated invalid URL as %s", newUrlCandidate));
+            // TODO: tweak the description
+            throw new SessionNotCreatedException(String.format("directConnect generated invalid URL as %s", newUrlCandidate));
         }
 
         overrideServerUrl(newUrl);
