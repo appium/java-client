@@ -43,6 +43,7 @@ import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.net.URL;

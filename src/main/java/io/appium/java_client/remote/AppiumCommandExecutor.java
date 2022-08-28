@@ -82,15 +82,16 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     public AppiumCommandExecutor(
             @Nonnull Map<String, CommandInfo> additionalCommands,
             @Nullable DriverService service,
-            @Nonnull URL addressOfRemoteServer,
+            @Nullable URL addressOfRemoteServer,
             @Nullable HttpClient.Factory httpClientFactory,
             @Nullable AppiumClientConfig appiumClientConfig) {
-
         super(additionalCommands,
                 ofNullable(appiumClientConfig)
                         .orElse(AppiumClientConfig.defaultConfig())
                         .getHttpClientConfig()
-                        .baseUrl(addressOfRemoteServer),
+                        .baseUrl(Require.nonNull("Server URL", ofNullable(service)
+                                .map(DriverService::getUrl)
+                                .orElse(checkNotNull(addressOfRemoteServer)))),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
