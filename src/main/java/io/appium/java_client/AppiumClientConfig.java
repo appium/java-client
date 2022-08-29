@@ -24,16 +24,15 @@ import java.time.Duration;
  * Manage Appium Client configurations.
  */
 
+// TODO: extends ClientConfig
 public class AppiumClientConfig {
-    private boolean directConnect;
+    private boolean directConnect =  false;
 
-    private ClientConfig clientConfig;
+    private ClientConfig clientConfig = ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
     public AppiumClientConfig() {
-        this.clientConfig = ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
-        this.directConnect = false;
     }
 
     /**
