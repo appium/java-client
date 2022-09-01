@@ -59,7 +59,7 @@ public class CombinedWidgetTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    public void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<?> widgetClass) {
+    void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<?> widgetClass) {
         initElements(new AppiumFieldDecorator(driver), app);
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSubWidget().getSelfReference().getClass(),
