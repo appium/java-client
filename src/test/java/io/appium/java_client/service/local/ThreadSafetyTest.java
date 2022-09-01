@@ -4,11 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.junit.jupiter.api.Test;
 
-public class ThreadSafetyTest {
+class ThreadSafetyTest {
 
     private final AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
     private final Action<String> run = new Action<String>() {
@@ -32,7 +30,8 @@ public class ThreadSafetyTest {
     };
     private final Action<String> stop2 = stop.clone();
 
-    @Test public void whenFewTreadsDoTheSameWork() throws Throwable {
+    @Test
+    void whenFewTreadsDoTheSameWork() throws Throwable {
 
         TestThread<String> runTestThread = new TestThread<>(run);
         TestThread<String> runTestThread2 = new TestThread<>(run2);
@@ -116,7 +115,8 @@ public class ThreadSafetyTest {
 
     }
 
-    @Test public void whenFewTreadsDoDifferentWork() throws Throwable {
+    @Test
+    void whenFewTreadsDoDifferentWork() throws Throwable {
         TestThread<String> runTestThread = new TestThread<>(run);
         TestThread<String> runTestThread2 = new TestThread<>(run2);
 

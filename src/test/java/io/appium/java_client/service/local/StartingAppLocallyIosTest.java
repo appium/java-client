@@ -33,9 +33,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
-public class StartingAppLocallyIosTest {
+class StartingAppLocallyIosTest {
     @Test
-    public void startingIOSAppWithCapabilitiesOnlyTest() {
+    void startingIOSAppWithCapabilitiesOnlyTest() {
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
@@ -57,7 +57,7 @@ public class StartingAppLocallyIosTest {
 
 
     @Test
-    public void startingIOSAppWithCapabilitiesAndServiceTest() {
+    void startingIOSAppWithCapabilitiesAndServiceTest() {
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
@@ -80,7 +80,7 @@ public class StartingAppLocallyIosTest {
     }
 
     @Test
-    public void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
+    void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
         XCUITestOptions serverOptions = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
