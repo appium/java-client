@@ -13,13 +13,12 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDrive
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
+import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
-
-import java.util.List;
-import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "unchecked"})
 public class CombinedAppTest {
@@ -53,7 +52,7 @@ public class CombinedAppTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    public void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
+    void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<? extends DefaultStubWidget> widgetClass) {
         initElements(new AppiumFieldDecorator(driver), app);
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),

@@ -27,20 +27,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class ServerBuilderTest {
+class ServerBuilderTest {
 
     /**
      * It may be impossible to find the path to the instance of appium server due to different circumstance.
@@ -93,7 +92,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToAddLogMessageConsumer() {
+    void checkAbilityToAddLogMessageConsumer() {
         List<String> log = new ArrayList<>();
         service = buildDefaultService();
         service.clearOutPutStreams();
@@ -103,21 +102,21 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartDefaultService() {
+    void checkAbilityToStartDefaultService() {
         service = buildDefaultService();
         service.start();
         assertTrue(service.isRunning());
     }
 
     @Test
-    public void checkAbilityToFindNodeDefinedInProperties() {
+    void checkAbilityToFindNodeDefinedInProperties() {
         File definedNode = PATH_T0_TEST_MAIN_JS.toFile();
         setProperty(APPIUM_PATH, definedNode.getAbsolutePath());
         assertThat(new AppiumServiceBuilder().createArgs().get(0), is(definedNode.getAbsolutePath()));
     }
 
     @Test
-    public void checkAbilityToUseNodeDefinedExplicitly() {
+    void checkAbilityToUseNodeDefinedExplicitly() {
         File mainJS = PATH_T0_TEST_MAIN_JS.toFile();
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withAppiumJS(mainJS);
@@ -126,21 +125,21 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceOnAFreePort() {
+    void checkAbilityToStartServiceOnAFreePort() {
         service = new AppiumServiceBuilder().usingAnyFreePort().build();
         service.start();
         assertTrue(service.isRunning());
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingNonLocalhostIP() {
+    void checkAbilityToStartServiceUsingNonLocalhostIP() {
         service = new AppiumServiceBuilder().withIPAddress(testIP).build();
         service.start();
         assertTrue(service.isRunning());
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingFlags() {
+    void checkAbilityToStartServiceUsingFlags() {
         service = new AppiumServiceBuilder()
                 .withArgument(CALLBACK_ADDRESS, testIP)
                 .withArgument(SESSION_OVERRIDE)
@@ -150,7 +149,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingCapabilities() {
+    void checkAbilityToStartServiceUsingCapabilities() {
         UiAutomator2Options options = new UiAutomator2Options()
                 .fullReset()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
@@ -165,7 +164,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
+    void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
         File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
 
         UiAutomator2Options options = new UiAutomator2Options()
@@ -191,10 +190,10 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToChangeOutputStream() throws Exception {
+    void checkAbilityToChangeOutputStream() throws Exception {
         testLogFile = new File("test");
         testLogFile.createNewFile();
-        stream = new FileOutputStream(testLogFile);
+        stream = Files.newOutputStream(testLogFile.toPath());
         service = buildDefaultService();
         service.addOutPutStream(stream);
         service.start();
@@ -202,10 +201,10 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
+    void checkAbilityToChangeOutputStreamAfterTheServiceIsStarted() throws Exception {
         testLogFile = new File("test");
         testLogFile.createNewFile();
-        stream = new FileOutputStream(testLogFile);
+        stream = Files.newOutputStream(testLogFile.toPath());
         service = buildDefaultService();
         service.start();
         service.addOutPutStream(stream);
@@ -214,7 +213,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToShutDownService() {
+    void checkAbilityToShutDownService() {
         service = buildDefaultService();
         service.start();
         service.stop();
@@ -222,7 +221,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartAndShutDownFewServices() throws Exception {
+    void checkAbilityToStartAndShutDownFewServices() throws Exception {
         List<AppiumDriverLocalService> services = asList(
                 new AppiumServiceBuilder().usingAnyFreePort().build(),
                 new AppiumServiceBuilder().usingAnyFreePort().build(),
@@ -236,7 +235,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithLogFile() throws Exception {
+    void checkAbilityToStartServiceWithLogFile() throws Exception {
         testLogFile = new File("Log.txt");
         testLogFile.createNewFile();
         service = new AppiumServiceBuilder().withLogFile(testLogFile).build();
@@ -246,7 +245,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithPortUsingFlag() {
+    void checkAbilityToStartServiceWithPortUsingFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/", port);
 
@@ -259,7 +258,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithPortUsingShortFlag() {
+    void checkAbilityToStartServiceWithPortUsingShortFlag() {
         String port = "8996";
         String expectedUrl = String.format("http://0.0.0.0:%s/", port);
 
@@ -272,7 +271,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithIpUsingFlag() {
+    void checkAbilityToStartServiceWithIpUsingFlag() {
         String expectedUrl = String.format("http://%s:4723/", testIP);
 
         service = new AppiumServiceBuilder()
@@ -284,7 +283,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithIpUsingShortFlag() {
+    void checkAbilityToStartServiceWithIpUsingShortFlag() {
         String expectedUrl = String.format("http://%s:4723/", testIP);
 
         service = new AppiumServiceBuilder()
@@ -296,7 +295,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithLogFileUsingFlag() {
+    void checkAbilityToStartServiceWithLogFileUsingFlag() {
         testLogFile = new File("Log2.txt");
 
         service = new AppiumServiceBuilder()
@@ -307,7 +306,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceWithLogFileUsingShortFlag() {
+    void checkAbilityToStartServiceWithLogFileUsingShortFlag() {
         testLogFile = new File("Log3.txt");
 
         service = new AppiumServiceBuilder()
@@ -318,7 +317,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingValidBasePathWithMultiplePathParams() {
+    void checkAbilityToStartServiceUsingValidBasePathWithMultiplePathParams() {
         String baseUrl = String.format("http://%s:%d/", BROADCAST_IP_ADDRESS, DEFAULT_APPIUM_PORT);
         String basePath = "wd/hub";
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
@@ -328,7 +327,7 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToStartServiceUsingValidBasePathWithSinglePathParams() {
+    void checkAbilityToStartServiceUsingValidBasePathWithSinglePathParams() {
         String baseUrl = String.format("http://%s:%d/", BROADCAST_IP_ADDRESS, DEFAULT_APPIUM_PORT);
         String basePath = "/wd/";
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
@@ -338,17 +337,17 @@ public class ServerBuilderTest {
     }
 
     @Test
-    public void checkAbilityToValidateBasePathForEmptyBasePath() {
+    void checkAbilityToValidateBasePathForEmptyBasePath() {
         assertThrows(IllegalArgumentException.class, () -> new AppiumServiceBuilder().withArgument(BASEPATH, ""));
     }
 
     @Test
-    public void checkAbilityToValidateBasePathForBlankBasePath() {
+    void checkAbilityToValidateBasePathForBlankBasePath() {
         assertThrows(IllegalArgumentException.class, () -> new AppiumServiceBuilder().withArgument(BASEPATH, "   "));
     }
 
     @Test
-    public void checkAbilityToValidateBasePathForNullBasePath() {
+    void checkAbilityToValidateBasePathForNullBasePath() {
         assertThrows(NullPointerException.class, () -> new AppiumServiceBuilder().withArgument(BASEPATH, null));
     }
 }

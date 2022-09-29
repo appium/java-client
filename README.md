@@ -71,6 +71,26 @@ dependencies {
 ```
 
 ## Changelog
+*8.2.0*
+- **[ENHANCEMENTS]**
+  - AppiumDriverLocalService can handle outputStreams. [#1709](https://github.com/appium/java-client/pull/1709)
+  - Add creating a driver with ClientConfig. [#1735](https://github.com/appium/java-client/pull/1735)
+- **[BUG FIX]**
+  - Update the environment argument type for mac SupportsEnvironmentOption. [#1712](https://github.com/appium/java-client/pull/1712)
+- **[REFRACTOR]**
+  - Deprecate Appium ByAll in favour of Selenium ByAll. [#1740](https://github.com/appium/java-client/pull/1740)
+  - Bump Node.js version in pipeline. [#1713](https://github.com/appium/java-client/pull/1713)
+  - Switch unit tests to run on Junit 5 Jupiter Platform. [#1721](https://github.com/appium/java-client/pull/1721)
+  - Clean up unit tests asserting thrown exceptions. [#1741](https://github.com/appium/java-client/pull/1741)
+  - Fix open notification test. [#1749](https://github.com/appium/java-client/pull/1749)
+  - update Azure pipeline to use macos-11 VM image. [#1728](https://github.com/appium/java-client/pull/1728)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.4.0.
+  - `org.owasp.dependencycheck` was updated to 7.1.2.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.3.0.
+  - `gradle` was updated to 7.5.1.
+  - `com.google.code.gson:gson` was updated to 2.9.1.
+
 *8.1.1*
 - **[BUG FIX]**
   - Perform safe typecast while getting the platform name. [#1702](https://github.com/appium/java-client/pull/1702)

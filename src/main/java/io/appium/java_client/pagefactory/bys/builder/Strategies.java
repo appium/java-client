@@ -41,7 +41,17 @@ enum Strategies {
             return super.getBy(annotation);
         }
     },
+    /**
+     * This has been deprecated due to misspelling.
+     * @deprecated Use {@link Strategies#BYACCESSIBILITY} instead.
+     */
+    @Deprecated
     BYACCESSABILITY("accessibility") {
+        @Override By getBy(Annotation annotation) {
+            return AppiumBy.accessibilityId(getValue(annotation, this));
+        }
+    },
+    BYACCESSIBILITY("accessibility") {
         @Override By getBy(Annotation annotation) {
             return AppiumBy.accessibilityId(getValue(annotation, this));
         }
