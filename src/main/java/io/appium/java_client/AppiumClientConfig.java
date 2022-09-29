@@ -16,23 +16,30 @@
 
 package io.appium.java_client;
 
+import org.openqa.selenium.Credentials;
 import org.openqa.selenium.remote.http.ClientConfig;
+import org.openqa.selenium.remote.http.Filter;
 
+import java.net.Proxy;
+import java.net.URI;
 import java.time.Duration;
 
-/**
- * Manage Appium Client configurations.
- */
-
-// TODO: extends ClientConfig
-public class AppiumClientConfig {
+public class AppiumClientConfig extends ClientConfig {
     private boolean directConnect =  false;
 
-    private ClientConfig clientConfig = ClientConfig.defaultConfig().readTimeout(DEFAULT_READ_TIMEOUT);
+    // TODO: Update to use Appium Java UserAgent
+    private static final Filter DEFAULT_FILTER = new AddAppiumUserAgent();
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
-    public AppiumClientConfig() {
+    protected AppiumClientConfig(
+            URI baseUri,
+            Duration connectionTimeout,
+            Duration readTimeout,
+            Filter filters,
+            Proxy proxy,
+            Credentials credentials) {
+        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
     }
 
     /**
@@ -40,7 +47,23 @@ public class AppiumClientConfig {
      * @return the instance of AppiumClientConfig.
      */
     public static AppiumClientConfig defaultConfig() {
-        return new AppiumClientConfig();
+        return new AppiumClientConfig(
+                null,
+                Duration.ofSeconds(10),
+                DEFAULT_READ_TIMEOUT,
+                DEFAULT_FILTER,
+                null,
+                null);
+    }
+
+    public static AppiumClientConfig configFromClientConfig(ClientConfig clientConfig) {
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials());
     }
 
     /**
@@ -63,19 +86,5 @@ public class AppiumClientConfig {
      */
     public boolean isDirectConnectEnabled() {
         return this.directConnect;
-    }
-
-    /**
-     * Set the given {@link ClientConfig} for the HTTP client instance.
-     * @param clientConfig to keep it in AppiumClientConfig instance
-     * @return A self reference
-     */
-    public AppiumClientConfig setHttpClientConfig(ClientConfig clientConfig) {
-        this.clientConfig = clientConfig;
-        return this;
-    }
-
-    public ClientConfig getHttpClientConfig() {
-        return this.clientConfig;
     }
 }

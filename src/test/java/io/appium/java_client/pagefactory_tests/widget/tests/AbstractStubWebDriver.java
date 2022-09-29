@@ -174,11 +174,6 @@ public abstract class AbstractStubWebDriver implements
             }
 
             @Override
-            public ImeHandler ime() {
-                return null;
-            }
-
-            @Override
             public Window window() {
                 return null;
             }

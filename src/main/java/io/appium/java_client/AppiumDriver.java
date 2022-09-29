@@ -29,6 +29,7 @@ import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
@@ -43,6 +44,7 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
+import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
@@ -87,23 +89,48 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
-    protected AppiumDriver(
-            @Nullable URL remoteAddress,
-            @Nullable AppiumDriverLocalService service,
-            @Nullable HttpClient.Factory httpClientFactory,
-            @Nullable AppiumClientConfig appiumClientConfig,
-            @Nullable Capabilities capabilities) {
+    public AppiumDriver(AppiumClientConfig clientConfig, Capabilities capabilities) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig), capabilities);
+    }
 
-        this(
-                new AppiumCommandExecutor(
-                        MobileCommand.commandRepository,
-                        service,
-                        remoteAddress,
-                        httpClientFactory,
-                        ofNullable(appiumClientConfig)
-                                .orElseGet(AppiumClientConfig::defaultConfig)),
-                capabilities
-        );
+    public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
+                capabilities);
+    }
+
+    public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
+                        Capabilities capabilities) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
+                httpClientFactory), capabilities);
+    }
+
+    public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
+                capabilities);
+    }
+
+    public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
+                        Capabilities capabilities) {
+        this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
+                capabilities);
+    }
+
+    public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
+        this(builder.build(), capabilities);
+    }
+
+    public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
+                        Capabilities capabilities) {
+        this(builder.build(), httpClientFactory, capabilities);
+    }
+
+    public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
+                capabilities);
+    }
+
+    public AppiumDriver(Capabilities capabilities) {
+        this(AppiumDriverLocalService.buildDefaultService(), capabilities);
     }
 
     /**

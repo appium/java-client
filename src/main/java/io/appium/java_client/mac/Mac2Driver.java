@@ -52,81 +52,43 @@ public class Mac2Driver extends AppiumDriver implements
     }
 
     public Mac2Driver(URL remoteAddress, Capabilities capabilities) {
-        super(remoteAddress, null, null, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    public Mac2Driver(URL remoteAddress, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, null, null, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(remoteAddress, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(remoteAddress, null, httpClientFactory, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    public Mac2Driver(URL remoteAddress, HttpClient.Factory httpClientFactory,
-                      Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(remoteAddress, null, httpClientFactory, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(AppiumDriverLocalService service, Capabilities capabilities) {
-        super(null, service, null, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    public Mac2Driver(AppiumDriverLocalService service, Capabilities capabilities,
-                      AppiumClientConfig appiumClientConfig) {
-        super(null, service, null, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                       Capabilities capabilities) {
-        super(null, service, httpClientFactory, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    public Mac2Driver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
-                      Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, service, httpClientFactory, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(service, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(AppiumServiceBuilder builder, Capabilities capabilities) {
-        super(null, builder.build(), null, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(builder, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(AppiumServiceBuilder builder, Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, builder.build(), null, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
+
 
     public Mac2Driver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                       Capabilities capabilities) {
-        super(null, builder.build(), httpClientFactory, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
-
-    public Mac2Driver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
-                      Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, builder.build(), httpClientFactory, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
-        super(null, null, httpClientFactory, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(httpClientFactory, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-    public Mac2Driver(HttpClient.Factory httpClientFactory, Capabilities capabilities,
-                      AppiumClientConfig appiumClientConfig) {
-        super(null, null, httpClientFactory, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
-    }
 
     /**
      * Creates a new instance based on the given ClientConfig and {@code capabilities}.
@@ -146,16 +108,19 @@ public class Mac2Driver extends AppiumDriver implements
      * </pre>
      *
      * @param capabilities take a look at {@link Capabilities}
-     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
+     * @param clientConfig take a look at {@link AppiumClientConfig}
      *
      */
-    public Mac2Driver(Capabilities capabilities, AppiumClientConfig appiumClientConfig) {
-        super(null, null, null, appiumClientConfig,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    public Mac2Driver(ClientConfig clientConfig, Capabilities capabilities) {
+        super(AppiumClientConfig.configFromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+    public Mac2Driver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {
+        super(appiumClientConfig, ensurePlatformAndAutomationNames(
+                capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
     public Mac2Driver(Capabilities capabilities) {
-        super(null, AppiumDriverLocalService.buildDefaultService(), null, null,
-                ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+        super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 }

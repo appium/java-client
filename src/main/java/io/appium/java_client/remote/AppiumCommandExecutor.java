@@ -40,6 +40,7 @@ import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
+import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
@@ -85,14 +86,17 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     public AppiumCommandExecutor(
             @Nonnull Map<String, CommandInfo> additionalCommands,
             @Nullable DriverService service,
-            @Nullable URL addressOfRemoteServer,
+            @Nonnull URL addressOfRemoteServer,
             @Nullable HttpClient.Factory httpClientFactory,
-            @Nonnull AppiumClientConfig appiumClientConfig) {
+            @Nullable AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
-                appiumClientConfig.getHttpClientConfig()
-                        .baseUrl(Require.nonNull("Server URL",
-                                // To fix annotation message
-                                service != null ? service.getUrl() : checkNotNull(addressOfRemoteServer))),
+                ofNullable(appiumClientConfig).orElse(
+                        AppiumClientConfig.configFromClientConfig(
+                                ClientConfig.defaultConfig().baseUrl(Require.nonNull("Server URL", ofNullable(service)
+                                        .map(DriverService::getUrl)
+                                        .orElse(addressOfRemoteServer))
+                                ))
+                ),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
@@ -128,7 +132,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, null, checkNotNull(appiumClientConfig.getHttpClientConfig().baseUrl()),
+        this(additionalCommands, null, checkNotNull(appiumClientConfig.baseUrl()),
                 null, appiumClientConfig);
     }
 
@@ -209,7 +213,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     protected void overrideServerUrl(URL serverUrl) {
         setPrivateFieldValue(HttpCommandExecutor.class, "client",
                 ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
-                                .createClient(this.appiumClientConfig.getHttpClientConfig().baseUrl(serverUrl)));
+                                .createClient(this.appiumClientConfig.baseUrl(serverUrl)));
     }
 
     private Response createSession(Command command) throws IOException {
