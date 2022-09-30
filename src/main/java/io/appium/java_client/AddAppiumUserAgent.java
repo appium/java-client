@@ -19,6 +19,7 @@ package io.appium.java_client;
 import io.appium.java_client.internal.Config;
 import org.openqa.selenium.BuildInfo;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
 
@@ -37,12 +38,10 @@ public class AddAppiumUserAgent implements Filter {
      * e.g. appium/8.2.0 (selenium/4.5.0 (java mac))
      */
     public static final String USER_AGENT = String.format(
-            "appium/%s (selenium/%s (java %s))",
+            "appium/%s (%s)",
             Config.main().getValue(VERSION_KEY, String.class),
-            new BuildInfo().getReleaseLabel(),
-            (Platform.getCurrent().family() == null
-                    ? Platform.getCurrent().toString().toLowerCase(Locale.US)
-                    : Platform.getCurrent().family().toString().toLowerCase(Locale.US)));
+            AddSeleniumUserAgent.USER_AGENT
+    );
 
     @Override
     public HttpHandler apply(HttpHandler next) {

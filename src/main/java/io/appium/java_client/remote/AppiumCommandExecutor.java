@@ -25,11 +25,10 @@ import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
+import io.appium.java_client.AddAppiumUserAgent;
 import io.appium.java_client.AppiumClientConfig;
-import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.CommandCodec;
 import org.openqa.selenium.remote.CommandExecutor;
@@ -87,7 +86,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nonnull AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
                 appiumClientConfig,
-                ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
+                ofNullable(httpClientFactory).orElseGet(AppiumCommandExecutor::getDefaultClientFactory)
         );
         serviceOptional = ofNullable(service);
 
@@ -188,7 +187,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             return;
         }
         setPrivateFieldValue(HttpCommandExecutor.class, "client",
-                ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
+                ofNullable(this.httpClientFactory).orElseGet(AppiumCommandExecutor::getDefaultClientFactory)
                                 .createClient(this.appiumClientConfig.baseUrl(serverUrl)));
     }
 
@@ -199,6 +198,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(
                 getClient().with((httpHandler) -> (req) -> {
+                    req.setHeader("User-Agent", AddAppiumUserAgent.USER_AGENT);
                     req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
                     return httpHandler.execute(req);
                 }), command
