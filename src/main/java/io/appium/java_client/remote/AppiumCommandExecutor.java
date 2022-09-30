@@ -248,7 +248,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         try {
             newUrl = new URL(newUrlCandidate);
         } catch (MalformedURLException e) {
-            // TODO: tweak the description
             throw new SessionNotCreatedException(
                     String.format("The remote server returned an invalid value to build the direct connect URL: %s",
                     newUrlCandidate));
