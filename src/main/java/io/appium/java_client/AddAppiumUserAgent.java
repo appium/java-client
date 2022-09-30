@@ -14,9 +14,11 @@ import java.util.Locale;
 
 public class AddAppiumUserAgent implements Filter {
 
+    public static final String VERSION_KEY = "appiumClient.version";
+
     public static final String USER_AGENT = String.format(
             "appium/%s (selenium/%s (java %s))",
-            Config.main().getValue("appiumClient.version", String.class),
+            Config.main().getValue(VERSION_KEY, String.class),
             new BuildInfo().getReleaseLabel(),
             (Platform.getCurrent().family() == null
                     ? Platform.getCurrent().toString().toLowerCase(Locale.US)

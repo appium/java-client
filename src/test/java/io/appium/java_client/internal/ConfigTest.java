@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.appium.java_client.AddAppiumUserAgent;
 import org.junit.jupiter.api.Test;
 
 class ConfigTest {
     private static final String SELENIUM_EXISTING_KEY = "selenium.version";
 
-    private static final String APPIUM_EXISTING_KEY = "appiumClient.version";
     private static final String MISSING_KEY = "bla";
 
     @Test
@@ -19,8 +19,8 @@ class ConfigTest {
         assertThat(Config.main().getValue(SELENIUM_EXISTING_KEY, String.class).length(), greaterThan(0));
         assertTrue(Config.main().getOptionalValue(SELENIUM_EXISTING_KEY, String.class).isPresent());
 
-        assertThat(Config.main().getValue(APPIUM_EXISTING_KEY, String.class).length(), greaterThan(0));
-        assertTrue(Config.main().getOptionalValue(APPIUM_EXISTING_KEY, String.class).isPresent());
+        assertThat(Config.main().getValue(AddAppiumUserAgent.VERSION_KEY, String.class).length(), greaterThan(0));
+        assertTrue(Config.main().getOptionalValue(AddAppiumUserAgent.VERSION_KEY, String.class).isPresent());
     }
 
     @Test
@@ -31,7 +31,7 @@ class ConfigTest {
     @Test
     void verifyGettingExistingValueWithWrongClass() {
         assertThrows(ClassCastException.class, () -> Config.main().getValue(SELENIUM_EXISTING_KEY, Integer.class));
-        assertThrows(ClassCastException.class, () -> Config.main().getValue(APPIUM_EXISTING_KEY, Integer.class));
+        assertThrows(ClassCastException.class, () -> Config.main().getValue(AddAppiumUserAgent.VERSION_KEY, Integer.class));
     }
 
     @Test
