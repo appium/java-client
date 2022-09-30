@@ -25,6 +25,7 @@ java {
 
 ext {
     seleniumVersion = project.property('selenium.version')
+    appiumClientVersion = project.property('appiumClient.version')
 }
 
 dependencies {
@@ -111,7 +112,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'io.appium'
             artifactId = 'java-client'
-            version = '8.2.0'
+            version = appiumClientVersion
             from components.java
             pom {
                 name = 'java-client'
@@ -187,8 +188,18 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            'selenium.version': seleniumVersion
+            'selenium.version': seleniumVersion,
+            'appiumClient.version': appiumClientVersion
     ]
+}
+
+task unitTest( type: Test ) {
+    useJUnitPlatform()
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
+    filter {
+        includeTestsMatching 'io.appium.java_client.internal.*'
+    }
 }
 
 task xcuiTest( type: Test ) {
