@@ -44,7 +44,7 @@ public class AppiumClientConfig extends ClientConfig {
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
     /**
-     * Client side configuration
+     * Client side configuration.
      *
      * @param baseUri Base URL the client sends HTTP request to.
      * @param connectionTimeout The client connection timeout.
