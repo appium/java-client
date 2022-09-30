@@ -213,7 +213,7 @@ public class IOSDriver extends AppiumDriver implements
      *
      * </pre>
      *
-     * @param appiumClientConfig take a look at {@link appiumClientConfig}
+     * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      * @param capabilities take a look at {@link Capabilities}
      *
      */

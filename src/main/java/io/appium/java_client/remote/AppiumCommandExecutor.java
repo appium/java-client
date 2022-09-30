@@ -40,7 +40,6 @@ import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
-import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
@@ -205,9 +204,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * @param serverUrl to set the URL as the new client's base url.
      */
     protected void overrideServerUrl(URL serverUrl) {
+        if (this.appiumClientConfig == null) {
+            return;
+        }
         setPrivateFieldValue(HttpCommandExecutor.class, "client",
                 ofNullable(this.httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
-                                .createClient(this.appiumClientConfig.baseUrl(serverUrl)));
+                                .createClient(this.appiumClientConfig));
     }
 
     private Response createSession(Command command) throws IOException {
@@ -230,7 +232,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         refreshAdditionalCommands();
         setResponseCodec(dialect.getResponseCodec());
         Response response = result.createResponse();
-        if (this.appiumClientConfig.isDirectConnectEnabled()) {
+        if (this.appiumClientConfig != null && this.appiumClientConfig.isDirectConnectEnabled()) {
             setDirectConnect(response);
         }
         return response;

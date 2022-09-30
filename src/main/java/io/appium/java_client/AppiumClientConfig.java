@@ -38,6 +38,13 @@ public class AppiumClientConfig extends ClientConfig {
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
+    private final URI baseUri;
+    private final Duration connectionTimeout;
+    private final Duration readTimeout;
+    private final Filter filters;
+    private final Proxy proxy;
+    private final Credentials credentials;
+
     protected AppiumClientConfig(
             URI baseUri,
             Duration connectionTimeout,
@@ -48,8 +55,16 @@ public class AppiumClientConfig extends ClientConfig {
             boolean directConnect) {
         super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
 
+        // Parameter check has done in the super
+        this.baseUri = baseUri;
+        this.connectionTimeout = connectionTimeout;
+        this.readTimeout = readTimeout;
+        this.filters = filters;
+        this.proxy = proxy;
+        this.credentials = credentials;
+
         this.directConnect = directConnect;
-     }
+    }
 
     /**
      * Return the instance of {@link AppiumClientConfig} with a default config.
@@ -68,6 +83,7 @@ public class AppiumClientConfig extends ClientConfig {
 
     /**
      * Return the instance of {@link AppiumClientConfig} from the given {@link ClientConfig} parameters.
+     * @param clientConfig take a look at {@link ClientConfig}
      * @return the instance of {@link AppiumClientConfig}.
      */
     public static AppiumClientConfig fromClientConfig(ClientConfig clientConfig) {
@@ -199,13 +215,14 @@ public class AppiumClientConfig extends ClientConfig {
      * @return A new instance of AppiumClientConfig
      */
     public AppiumClientConfig directConnect(boolean directConnect) {
+        // follows ClientConfig's design
         return new AppiumClientConfig(
-            this.baseUri(),
-            this.connectionTimeout(),
-            this.readTimeout(),
-            this.filter(),
-            this.proxy(),
-            this.credentials(),
+            baseUri,
+            connectionTimeout,
+            readTimeout,
+            filters,
+            proxy,
+            credentials,
             Require.nonNull("Direct Connect", directConnect)
         );
     }
