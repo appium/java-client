@@ -16,16 +16,22 @@
 
 package io.appium.java_client;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.openqa.selenium.Credentials;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 /**
  * A class to store the appium http client configuration.
@@ -44,6 +50,18 @@ public class AppiumClientConfig extends ClientConfig {
     private final Proxy proxy;
     private final Credentials credentials;
 
+    /**
+     * Client side configuration
+     *
+     * @param baseUri Base URL the client sends HTTP request to.
+     * @param connectionTimeout The client connection timeout.
+     * @param readTimeout The client read timeout.
+     * @param filters Filters to modify incoming {@link org.openqa.selenium.remote.http.HttpRequest} or outgoing
+     *                {@link org.openqa.selenium.remote.http.HttpResponse}.
+     * @param proxy The client proxy preference.
+     * @param credentials Credentials used for authenticating http requests
+     * @param directConnect If directConnect is enabled.
+     */
     protected AppiumClientConfig(
             URI baseUri,
             Duration connectionTimeout,
@@ -54,7 +72,7 @@ public class AppiumClientConfig extends ClientConfig {
             boolean directConnect) {
         super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
 
-        // Parameter check has done in the super
+        // Parameter checks have done in the super class
         this.baseUri = baseUri;
         this.connectionTimeout = connectionTimeout;
         this.readTimeout = readTimeout;
@@ -62,7 +80,7 @@ public class AppiumClientConfig extends ClientConfig {
         this.proxy = proxy;
         this.credentials = credentials;
 
-        this.directConnect = directConnect;
+        this.directConnect = Require.nonNull("Direct Connect", directConnect);
     }
 
     /**
@@ -222,14 +240,14 @@ public class AppiumClientConfig extends ClientConfig {
             filters,
             proxy,
             credentials,
-            Require.nonNull("Direct Connect", directConnect)
+            directConnect
         );
     }
 
     /**
      * Whether enable directConnect feature is enabled.
      *
-     * @return If the directConnect is enabled.Defaults false.
+     * @return If the directConnect is enabled. Defaults false.
      */
     public boolean isDirectConnectEnabled() {
         return directConnect;
