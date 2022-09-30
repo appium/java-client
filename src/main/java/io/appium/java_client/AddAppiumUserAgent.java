@@ -16,6 +16,10 @@ public class AddAppiumUserAgent implements Filter {
 
     public static final String VERSION_KEY = "appiumClient.version";
 
+    /**
+     * A custom User Agent name for Appium Java client.
+     * e.g. appium/8.3.0 (selenium/4.5.0 (java mac))
+     */
     public static final String USER_AGENT = String.format(
             "appium/%s (selenium/%s (java %s))",
             Config.main().getValue(VERSION_KEY, String.class),
