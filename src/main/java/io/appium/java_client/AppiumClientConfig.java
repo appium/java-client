@@ -43,13 +43,6 @@ public class AppiumClientConfig extends ClientConfig {
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
-    private final URI baseUri;
-    private final Duration connectionTimeout;
-    private final Duration readTimeout;
-    private final Filter filters;
-    private final Proxy proxy;
-    private final Credentials credentials;
-
     /**
      * Client side configuration
      *
@@ -71,14 +64,6 @@ public class AppiumClientConfig extends ClientConfig {
             Credentials credentials,
             boolean directConnect) {
         super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
-
-        // Parameter checks have done in the super class
-        this.baseUri = baseUri;
-        this.connectionTimeout = connectionTimeout;
-        this.readTimeout = readTimeout;
-        this.filters = filters;
-        this.proxy = proxy;
-        this.credentials = credentials;
 
         this.directConnect = Require.nonNull("Direct Connect", directConnect);
     }
@@ -234,12 +219,12 @@ public class AppiumClientConfig extends ClientConfig {
     public AppiumClientConfig directConnect(boolean directConnect) {
         // follows ClientConfig's design
         return new AppiumClientConfig(
-            baseUri,
-            connectionTimeout,
-            readTimeout,
-            filters,
-            proxy,
-            credentials,
+            this.baseUri(),
+            this.connectionTimeout(),
+            this.readTimeout(),
+            this.filter(),
+            this.proxy(),
+            this.credentials(),
             directConnect
         );
     }
