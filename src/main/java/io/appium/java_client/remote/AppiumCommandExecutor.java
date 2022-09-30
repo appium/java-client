@@ -67,7 +67,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final AppiumClientConfig appiumClientConfig;
 
-
     private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
     private static final String DIRECT_CONNECT_PATH = "directConnectPath";
     private static final String DIRECT_CONNECT_HOST = "directConnectHost";
@@ -90,11 +89,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
                 ofNullable(appiumClientConfig).orElse(
-                        AppiumClientConfig.fromClientConfig(
-                                ClientConfig.defaultConfig().baseUrl(Require.nonNull("Server URL", ofNullable(service)
+                        AppiumClientConfig.defaultConfig()
+                                .baseUrl(Require.nonNull("Server URL", ofNullable(service)
                                         .map(DriverService::getUrl)
-                                        .orElse(addressOfRemoteServer))
-                                ))
+                                        .orElse(addressOfRemoteServer)))
                 ),
                 ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
         );
@@ -106,8 +104,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service),  checkNotNull(service).getUrl(), httpClientFactory,
-                AppiumClientConfig.defaultConfig());
+        this(additionalCommands, checkNotNull(service),  checkNotNull(service).getUrl(), httpClientFactory, null);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
@@ -118,8 +115,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer, HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory,
-                AppiumClientConfig.defaultConfig());
+        this(additionalCommands, null, checkNotNull(addressOfRemoteServer), httpClientFactory, null);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
@@ -137,8 +133,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  URL addressOfRemoteServer) {
-        this(additionalCommands, checkNotNull(addressOfRemoteServer), HttpClient.Factory.createDefault(),
-                AppiumClientConfig.defaultConfig());
+        this(additionalCommands, checkNotNull(addressOfRemoteServer), HttpClient.Factory.createDefault(), null);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
@@ -149,7 +144,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
                                  DriverService service) {
-        this(additionalCommands, service, HttpClient.Factory.createDefault(), AppiumClientConfig.defaultConfig());
+        this(additionalCommands, service, HttpClient.Factory.createDefault(), null);
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
