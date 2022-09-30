@@ -17,15 +17,21 @@
 package io.appium.java_client;
 
 import org.openqa.selenium.Credentials;
+import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
 import java.net.Proxy;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.Duration;
 
+/**
+ * A class to store the appium http client configuration.
+ */
 public class AppiumClientConfig extends ClientConfig {
-    private boolean directConnect =  false;
+    private final boolean directConnect;
 
     // TODO: Update to use Appium Java UserAgent
     private static final Filter DEFAULT_FILTER = new AddAppiumUserAgent();
@@ -38,13 +44,16 @@ public class AppiumClientConfig extends ClientConfig {
             Duration readTimeout,
             Filter filters,
             Proxy proxy,
-            Credentials credentials) {
+            Credentials credentials,
+            boolean directConnect) {
         super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
-    }
+
+        this.directConnect = directConnect;
+     }
 
     /**
-     * Return the instance of AppiumClientConfig with a default config.
-     * @return the instance of AppiumClientConfig.
+     * Return the instance of {@link AppiumClientConfig} with a default config.
+     * @return the instance of {@link AppiumClientConfig}.
      */
     public static AppiumClientConfig defaultConfig() {
         return new AppiumClientConfig(
@@ -53,18 +62,133 @@ public class AppiumClientConfig extends ClientConfig {
                 DEFAULT_READ_TIMEOUT,
                 DEFAULT_FILTER,
                 null,
-                null);
+                null,
+                false);
     }
 
-    public static AppiumClientConfig configFromClientConfig(ClientConfig clientConfig) {
+    /**
+     * Return the instance of {@link AppiumClientConfig} from the given {@link ClientConfig} parameters.
+     * @return the instance of {@link AppiumClientConfig}.
+     */
+    public static AppiumClientConfig fromClientConfig(ClientConfig clientConfig) {
         return new AppiumClientConfig(
                 clientConfig.baseUri(),
                 clientConfig.connectionTimeout(),
                 clientConfig.readTimeout(),
                 clientConfig.filter(),
                 clientConfig.proxy(),
-                clientConfig.credentials());
+                clientConfig.credentials(),
+                false);
     }
+
+    @Override
+    public AppiumClientConfig baseUri(URI baseUri) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.baseUri(baseUri);
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
+    @Override
+    public AppiumClientConfig baseUrl(URL baseUrl) {
+        try {
+            return baseUri(Require.nonNull("Base URL", baseUrl).toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public AppiumClientConfig connectionTimeout(Duration timeout) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.connectionTimeout(timeout);
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
+    @Override
+    public AppiumClientConfig readTimeout(Duration timeout) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.connectionTimeout(timeout);
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
+    @Override
+    public AppiumClientConfig withFilter(Filter filter) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.withFilter(filter);
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
+    @Override
+    public AppiumClientConfig withRetries() {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.withRetries();
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
+
+    @Override
+    public ClientConfig proxy(Proxy proxy) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.proxy(proxy);
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
+    @Override
+    public AppiumClientConfig authenticateAs(Credentials credentials) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.authenticateAs(credentials);
+        return new AppiumClientConfig(
+                clientConfig.baseUri(),
+                clientConfig.connectionTimeout(),
+                clientConfig.readTimeout(),
+                clientConfig.filter(),
+                clientConfig.proxy(),
+                clientConfig.credentials(),
+                directConnect);
+    }
+
 
     /**
      * Whether enable directConnect feature described in
@@ -72,11 +196,18 @@ public class AppiumClientConfig extends ClientConfig {
      *     Connecting Directly to Appium Hosts in Distributed Environments</a>.
      *
      * @param directConnect if enable the directConnect feature
-     * @return A self reference
+     * @return A new instance of AppiumClientConfig
      */
     public AppiumClientConfig directConnect(boolean directConnect) {
-        this.directConnect = directConnect;
-        return this;
+        return new AppiumClientConfig(
+            this.baseUri(),
+            this.connectionTimeout(),
+            this.readTimeout(),
+            this.filter(),
+            this.proxy(),
+            this.credentials(),
+            Require.nonNull("Direct Connect", directConnect)
+        );
     }
 
     /**
@@ -85,6 +216,6 @@ public class AppiumClientConfig extends ClientConfig {
      * @return If the directConnect is enabled.Defaults false.
      */
     public boolean isDirectConnectEnabled() {
-        return this.directConnect;
+        return directConnect;
     }
 }

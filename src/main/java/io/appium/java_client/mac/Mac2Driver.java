@@ -29,7 +29,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import javax.annotation.Nullable;
 import java.net.URL;
 
 /**
@@ -76,8 +75,6 @@ public class Mac2Driver extends AppiumDriver implements
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-
-
     public Mac2Driver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                       Capabilities capabilities) {
         super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
@@ -88,7 +85,6 @@ public class Mac2Driver extends AppiumDriver implements
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
-
 
     /**
      * Creates a new instance based on the given ClientConfig and {@code capabilities}.
@@ -112,9 +108,10 @@ public class Mac2Driver extends AppiumDriver implements
      *
      */
     public Mac2Driver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(AppiumClientConfig.configFromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
+        super(AppiumClientConfig.fromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
+
     public Mac2Driver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {
         super(appiumClientConfig, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));

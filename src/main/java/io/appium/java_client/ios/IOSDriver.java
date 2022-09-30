@@ -52,7 +52,6 @@ import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import javax.annotation.Nullable;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
@@ -196,7 +195,7 @@ public class IOSDriver extends AppiumDriver implements
      *
      */
     public IOSDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(AppiumClientConfig.configFromClientConfig(clientConfig),
+        super(AppiumClientConfig.fromClientConfig(clientConfig),
                     ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 

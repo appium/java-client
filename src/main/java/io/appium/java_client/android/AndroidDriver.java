@@ -206,7 +206,8 @@ public class AndroidDriver extends AppiumDriver implements
      *
      */
     public AndroidDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(AppiumClientConfig.configFromClientConfig(clientConfig), ensurePlatformName(capabilities, ANDROID_PLATFORM));
+        super(AppiumClientConfig.fromClientConfig(clientConfig), ensurePlatformName(capabilities,
+                ANDROID_PLATFORM));
     }
 
     public AndroidDriver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {

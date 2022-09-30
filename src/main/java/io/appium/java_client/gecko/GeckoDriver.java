@@ -26,7 +26,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import javax.annotation.Nullable;
 import java.net.URL;
 
 /**
@@ -98,7 +97,7 @@ public class GeckoDriver extends AppiumDriver {
      *
      */
     public GeckoDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(AppiumClientConfig.configFromClientConfig(clientConfig), ensureAutomationName(capabilities, AUTOMATION_NAME));
+        super(AppiumClientConfig.fromClientConfig(clientConfig), ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
     public GeckoDriver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {

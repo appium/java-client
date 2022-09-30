@@ -53,7 +53,6 @@ import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -91,7 +90,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
                 ofNullable(appiumClientConfig).orElse(
-                        AppiumClientConfig.configFromClientConfig(
+                        AppiumClientConfig.fromClientConfig(
                                 ClientConfig.defaultConfig().baseUrl(Require.nonNull("Server URL", ofNullable(service)
                                         .map(DriverService::getUrl)
                                         .orElse(addressOfRemoteServer))

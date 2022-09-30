@@ -27,7 +27,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import javax.annotation.Nullable;
 import java.net.URL;
 
 /**
@@ -107,7 +106,7 @@ public class SafariDriver extends AppiumDriver {
      */
 
     public SafariDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(AppiumClientConfig.configFromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
+        super(AppiumClientConfig.fromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 

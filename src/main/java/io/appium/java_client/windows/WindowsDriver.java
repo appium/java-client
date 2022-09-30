@@ -32,7 +32,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
-import javax.annotation.Nullable;
 import java.net.URL;
 
 public class WindowsDriver extends AppiumDriver implements
@@ -42,7 +41,7 @@ public class WindowsDriver extends AppiumDriver implements
         CanRecordScreen {
     private static final String PLATFORM_NAME = Platform.WINDOWS.name();
     private static final String AUTOMATION_NAME = AutomationName.WINDOWS;
-    
+
     public WindowsDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
@@ -105,7 +104,7 @@ public class WindowsDriver extends AppiumDriver implements
      *
      */
     public WindowsDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(AppiumClientConfig.configFromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
+        super(AppiumClientConfig.fromClientConfig(clientConfig), ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
