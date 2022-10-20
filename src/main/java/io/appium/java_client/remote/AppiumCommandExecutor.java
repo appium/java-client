@@ -283,7 +283,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         overrideServerUrl(newUrl);
     }
 
-
     @Override
     public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {

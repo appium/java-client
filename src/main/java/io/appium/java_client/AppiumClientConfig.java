@@ -109,7 +109,6 @@ public class AppiumClientConfig extends ClientConfig {
 
     @Override
     public AppiumClientConfig baseUri(URI baseUri) {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.baseUri(baseUri);
         return buildAppiumClientConfig(clientConfig, directConnect);
     }
