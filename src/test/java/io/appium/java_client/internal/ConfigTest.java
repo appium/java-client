@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.appium.java_client.AddAppiumUserAgent;
 import org.junit.jupiter.api.Test;
 
 class ConfigTest {
@@ -17,6 +18,9 @@ class ConfigTest {
     void verifyGettingExistingValue() {
         assertThat(Config.main().getValue(SELENIUM_EXISTING_KEY, String.class).length(), greaterThan(0));
         assertTrue(Config.main().getOptionalValue(SELENIUM_EXISTING_KEY, String.class).isPresent());
+
+        assertThat(Config.main().getValue(AddAppiumUserAgent.VERSION_KEY, String.class).length(), greaterThan(0));
+        assertTrue(Config.main().getOptionalValue(AddAppiumUserAgent.VERSION_KEY, String.class).isPresent());
     }
 
     @Test
@@ -27,6 +31,7 @@ class ConfigTest {
     @Test
     void verifyGettingExistingValueWithWrongClass() {
         assertThrows(ClassCastException.class, () -> Config.main().getValue(SELENIUM_EXISTING_KEY, Integer.class));
+        assertThrows(ClassCastException.class, () -> Config.main().getValue(AddAppiumUserAgent.VERSION_KEY, Integer.class));
     }
 
     @Test
