@@ -39,7 +39,6 @@ import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
-import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
@@ -66,10 +65,47 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final AppiumClientConfig appiumClientConfig;
 
-    private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
-    private static final String DIRECT_CONNECT_PATH = "directConnectPath";
-    private static final String DIRECT_CONNECT_HOST = "directConnectHost";
-    private static final String DIRECT_CONNECT_PORT = "directConnectPort";
+    private static class DirectConnect {
+        private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
+        private static final String DIRECT_CONNECT_PATH = "directConnectPath";
+        private static final String DIRECT_CONNECT_HOST = "directConnectHost";
+        private static final String DIRECT_CONNECT_PORT = "directConnectPort";
+
+        private final String protocol;
+        private final String path;
+        private final String host;
+        private final String port;
+
+        private DirectConnect(Map<String, ?> responseValue) {
+            this.protocol = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PROTOCOL);
+            this.path = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
+            this.host = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_HOST);
+            this.port = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PORT);
+        }
+
+        @Nullable
+        private String getDirectConnectValue(Map<String, ?> responseValue, String key) {
+            String directConnectPath = String.valueOf(responseValue.get(APPIUM_PREFIX + key));
+            return directConnectPath == null ? String.valueOf(responseValue.get(key)) : directConnectPath;
+        }
+
+        private boolean isValid() {
+            return !(this.protocol == null || this.path == null || this.host == null || this.port == null);
+        }
+
+        private URL getUrl() throws MalformedURLException {
+            String newUrlCandidate = String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path);
+
+            try {
+                return new URL(newUrlCandidate);
+            } catch (MalformedURLException e) {
+                throw new MalformedURLException(
+                        String.format("The remote server returned an invalid value to build the direct connect URL: %s",
+                                newUrlCandidate)
+                );
+            }
+        }
+    }
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -226,41 +262,27 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private void setDirectConnect(Response response) throws SessionNotCreatedException {
         Map<String, ?> responseValue = (Map<String, ?>) response.getValue();
 
-        String directConnectProtocol = getDirectConnectValue(responseValue, DIRECT_CONNECT_PROTOCOL);
-        String directConnectPath = getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
-        String directConnectHost = getDirectConnectValue(responseValue, DIRECT_CONNECT_HOST);
-        String directConnectPort = getDirectConnectValue(responseValue, DIRECT_CONNECT_PORT);
+        DirectConnect directConnect = new DirectConnect(responseValue);
 
-        if (directConnectProtocol == null || directConnectHost == null
-                || directConnectPath == null || directConnectPort == null) {
+        if (!directConnect.isValid()) {
             return;
         }
 
-        if (!directConnectProtocol.equals("https")) {
+        if (!directConnect.protocol.equals("https")) {
             throw new SessionNotCreatedException(
-                    String.format("The protocol must be https. %s was given.", directConnectProtocol));
+                    String.format("The protocol must be https. %s was given.", directConnect.protocol));
         }
 
         URL newUrl;
-        String newUrlCandidate = String.format("%s://%s:%s%s",
-                directConnectProtocol, directConnectHost, directConnectPort, directConnectPath);
         try {
-            newUrl = new URL(newUrlCandidate);
+            newUrl = directConnect.getUrl();
         } catch (MalformedURLException e) {
-            // TODO: tweak the description
-            throw new SessionNotCreatedException(
-                    String.format("The remote server returned an invalid value to build the direct connect URL: %s",
-                    newUrlCandidate));
+            throw new SessionNotCreatedException(e.getMessage());
         }
 
         overrideServerUrl(newUrl);
     }
 
-    @Nullable
-    private String getDirectConnectValue(Map<String, ?> responseValue, String key) {
-        String directConnectPath = String.valueOf(responseValue.get(APPIUM_PREFIX + key));
-        return directConnectPath == null ? String.valueOf(responseValue.get(key)) : directConnectPath;
-    }
 
     @Override
     public Response execute(Command command) throws WebDriverException {
