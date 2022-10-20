@@ -38,6 +38,8 @@ public class AppiumClientConfig extends ClientConfig {
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
+    private static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
+
     /**
      * Client side configuration.
      *
@@ -70,7 +72,7 @@ public class AppiumClientConfig extends ClientConfig {
     public static AppiumClientConfig defaultConfig() {
         return new AppiumClientConfig(
                 null,
-                Duration.ofSeconds(10),
+                DEFAULT_CONNECTION_TIMEOUT,
                 DEFAULT_READ_TIMEOUT,
                 DEFAULT_FILTER,
                 null,
@@ -94,10 +96,7 @@ public class AppiumClientConfig extends ClientConfig {
                 false);
     }
 
-    @Override
-    public AppiumClientConfig baseUri(URI baseUri) {
-        // ClientConfig returns a new instance
-        ClientConfig clientConfig = super.baseUri(baseUri);
+    private AppiumClientConfig buildAppiumClientConfig(ClientConfig clientConfig, Boolean directConnect) {
         return new AppiumClientConfig(
                 clientConfig.baseUri(),
                 clientConfig.connectionTimeout(),
@@ -106,6 +105,13 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.proxy(),
                 clientConfig.credentials(),
                 directConnect);
+    }
+
+    @Override
+    public AppiumClientConfig baseUri(URI baseUri) {
+        // ClientConfig returns a new instance
+        ClientConfig clientConfig = super.baseUri(baseUri);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
     @Override
@@ -119,87 +125,39 @@ public class AppiumClientConfig extends ClientConfig {
 
     @Override
     public AppiumClientConfig connectionTimeout(Duration timeout) {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.connectionTimeout(timeout);
-        return new AppiumClientConfig(
-                clientConfig.baseUri(),
-                clientConfig.connectionTimeout(),
-                clientConfig.readTimeout(),
-                clientConfig.filter(),
-                clientConfig.proxy(),
-                clientConfig.credentials(),
-                directConnect);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
     @Override
     public AppiumClientConfig readTimeout(Duration timeout) {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.connectionTimeout(timeout);
-        return new AppiumClientConfig(
-                clientConfig.baseUri(),
-                clientConfig.connectionTimeout(),
-                clientConfig.readTimeout(),
-                clientConfig.filter(),
-                clientConfig.proxy(),
-                clientConfig.credentials(),
-                directConnect);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
     @Override
     public AppiumClientConfig withFilter(Filter filter) {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.withFilter(filter);
-        return new AppiumClientConfig(
-                clientConfig.baseUri(),
-                clientConfig.connectionTimeout(),
-                clientConfig.readTimeout(),
-                clientConfig.filter(),
-                clientConfig.proxy(),
-                clientConfig.credentials(),
-                directConnect);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
     @Override
     public AppiumClientConfig withRetries() {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.withRetries();
-        return new AppiumClientConfig(
-                clientConfig.baseUri(),
-                clientConfig.connectionTimeout(),
-                clientConfig.readTimeout(),
-                clientConfig.filter(),
-                clientConfig.proxy(),
-                clientConfig.credentials(),
-                directConnect);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
 
     @Override
     public ClientConfig proxy(Proxy proxy) {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.proxy(proxy);
-        return new AppiumClientConfig(
-                clientConfig.baseUri(),
-                clientConfig.connectionTimeout(),
-                clientConfig.readTimeout(),
-                clientConfig.filter(),
-                clientConfig.proxy(),
-                clientConfig.credentials(),
-                directConnect);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
     @Override
     public AppiumClientConfig authenticateAs(Credentials credentials) {
-        // ClientConfig returns a new instance
         ClientConfig clientConfig = super.authenticateAs(credentials);
-        return new AppiumClientConfig(
-                clientConfig.baseUri(),
-                clientConfig.connectionTimeout(),
-                clientConfig.readTimeout(),
-                clientConfig.filter(),
-                clientConfig.proxy(),
-                clientConfig.credentials(),
-                directConnect);
+        return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
 
