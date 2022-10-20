@@ -160,7 +160,6 @@ public class AppiumClientConfig extends ClientConfig {
         return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
-
     /**
      * Whether enable directConnect feature described in
      * <a href="https://appiumpro.com/editions/86-connecting-directly-to-appium-hosts-in-distributed-environments">
