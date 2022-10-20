@@ -59,7 +59,7 @@ public class AppiumClientConfig extends ClientConfig {
             Filter filters,
             Proxy proxy,
             Credentials credentials,
-            boolean directConnect) {
+            Boolean directConnect) {
         super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
 
         this.directConnect = Require.nonNull("Direct Connect", directConnect);
