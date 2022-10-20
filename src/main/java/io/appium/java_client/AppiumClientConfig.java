@@ -16,22 +16,17 @@
 
 package io.appium.java_client;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.openqa.selenium.Credentials;
 import org.openqa.selenium.internal.Require;
+import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * A class to store the appium http client configuration.
@@ -39,7 +34,7 @@ import static java.util.Optional.ofNullable;
 public class AppiumClientConfig extends ClientConfig {
     private final boolean directConnect;
 
-    private static final Filter DEFAULT_FILTER = new AddAppiumUserAgent();
+    private static final Filter DEFAULT_FILTER = new AddSeleniumUserAgent();
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 

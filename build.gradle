@@ -112,7 +112,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'io.appium'
             artifactId = 'java-client'
-            version = appiumClientVersion
+            version = '8.2.0'
             from components.java
             pom {
                 name = 'java-client'
@@ -188,8 +188,7 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            'selenium.version': seleniumVersion,
-            'appiumClient.version': appiumClientVersion
+            'selenium.version': seleniumVersion
     ]
 }
 
