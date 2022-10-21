@@ -46,15 +46,15 @@ public class DirectConnect {
     }
 
     /**
-     * Returns true if the {@link DirectConnect} instance has a valid connection data.
-     * @return true if all connection information have each value
+     * Returns true if the {@link DirectConnect} instance member has nonnull values.
+     * @return true if each connection information has a nonnull value
      */
     public boolean isValid() {
         return Stream.of(this.protocol, this.path, this.host, this.port).noneMatch(Objects::isNull);
     }
 
     /**
-     * Return a URL with stored protocol, host, port and path.
+     * Returns a URL instance built with members in the DirectConnect instance.
      * @return A URL object
      * @throws MalformedURLException if the built url was invalid
      */
