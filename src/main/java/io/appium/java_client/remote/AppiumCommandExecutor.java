@@ -18,7 +18,6 @@ package io.appium.java_client.remote;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
-import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static java.util.Optional.ofNullable;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
@@ -64,48 +63,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private final HttpClient.Factory httpClientFactory;
 
     private final AppiumClientConfig appiumClientConfig;
-
-    private static class DirectConnect {
-        private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
-        private static final String DIRECT_CONNECT_PATH = "directConnectPath";
-        private static final String DIRECT_CONNECT_HOST = "directConnectHost";
-        private static final String DIRECT_CONNECT_PORT = "directConnectPort";
-
-        private final String protocol;
-        private final String path;
-        private final String host;
-        private final String port;
-
-        private DirectConnect(Map<String, ?> responseValue) {
-            this.protocol = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PROTOCOL);
-            this.path = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
-            this.host = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_HOST);
-            this.port = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PORT);
-        }
-
-        @Nullable
-        private String getDirectConnectValue(Map<String, ?> responseValue, String key) {
-            String directConnectPath = String.valueOf(responseValue.get(APPIUM_PREFIX + key));
-            return directConnectPath == null ? String.valueOf(responseValue.get(key)) : directConnectPath;
-        }
-
-        private boolean isValid() {
-            return !(this.protocol == null || this.path == null || this.host == null || this.port == null);
-        }
-
-        private URL getUrl() throws MalformedURLException {
-            String newUrlCandidate = String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path);
-
-            try {
-                return new URL(newUrlCandidate);
-            } catch (MalformedURLException e) {
-                throw new MalformedURLException(
-                        String.format("The remote server returned an invalid value to build the direct connect URL: %s",
-                                newUrlCandidate)
-                );
-            }
-        }
-    }
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -270,7 +227,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         if (!directConnect.protocol.equals("https")) {
             throw new SessionNotCreatedException(
-                    String.format("The protocol must be https. %s was given.", directConnect.protocol));
+                    String.format("The given protocol '%s' as the direct connection url returned by " +
+                            "the remote server is not accurate. Only 'https' is supported.", directConnect.protocol));
         }
 
         URL newUrl;
