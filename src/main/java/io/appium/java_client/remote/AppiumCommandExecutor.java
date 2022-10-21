@@ -174,6 +174,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * Override the http client in the HttpCommandExecutor class with a new http client instance with the given URL.
      * It uses the same http client factory and client config for the new http client instance
      * if the constructor got them.
+     * @param serverUrl A url to override.
      */
     protected void overrideServerUrl(URL serverUrl) {
         if (this.appiumClientConfig == null) {
@@ -227,8 +228,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         if (!directConnect.protocol.equals("https")) {
             throw new SessionNotCreatedException(
-                    String.format("The given protocol '%s' as the direct connection url returned by " +
-                            "the remote server is not accurate. Only 'https' is supported.", directConnect.protocol));
+                    String.format("The given protocol '%s' as the direct connection url returned by "
+                            + "the remote server is not accurate. Only 'https' is supported.", directConnect.protocol));
         }
 
         URL newUrl;

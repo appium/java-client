@@ -24,6 +24,10 @@ public class DirectConnect {
 
     public final String port;
 
+    /**
+     * Create a DirectConnect instance.
+     * @param responseValue is the response body
+     */
     public DirectConnect(Map<String, ?> responseValue) {
         this.protocol = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PROTOCOL);
         this.path = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
@@ -42,17 +46,17 @@ public class DirectConnect {
     }
 
     /**
-     * Returns true if the {@link DirectConnect} instance has a valid connection data
-     * @return true if all connection information have each value.
+     * Returns true if the {@link DirectConnect} instance has a valid connection data.
+     * @return true if all connection information have each value
      */
     public boolean isValid() {
         return Stream.of(this.protocol, this.path, this.host, this.port).noneMatch(Objects::isNull);
     }
 
     /**
-     * Return a URL with stored protocol, host, port and path
+     * Return a URL with stored protocol, host, port and path.
      * @return A URL object
-     * @throws MalformedURLException
+     * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
         String newUrlCandidate = String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path);
