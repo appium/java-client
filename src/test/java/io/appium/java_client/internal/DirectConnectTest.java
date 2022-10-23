@@ -48,7 +48,7 @@ class DirectConnectTest {
     }
 
     @Test
-    void hasValidDirectConnectInvalid() {
+    void hasInvalidDirectConnect() {
         Map<String, String> responseValue = new HashMap<>();
         DirectConnect directConnect = new DirectConnect(responseValue);
         assertFalse(directConnect.isValid());

@@ -16,13 +16,13 @@ public class DirectConnect {
     private static final String DIRECT_CONNECT_HOST = "directConnectHost";
     private static final String DIRECT_CONNECT_PORT = "directConnectPort";
 
-    public final String protocol;
+    private final String protocol;
 
-    public final String path;
+    private final String path;
 
-    public final String host;
+    private final String host;
 
-    public final String port;
+    private final String port;
 
     /**
      * Create a DirectConnect instance.
@@ -33,6 +33,10 @@ public class DirectConnect {
         this.path = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
         this.host = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_HOST);
         this.port = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PORT);
+    }
+
+    public String getProtocol() {
+        return protocol;
     }
 
     @Nullable

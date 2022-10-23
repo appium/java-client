@@ -226,10 +226,11 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             return;
         }
 
-        if (!directConnect.protocol.equals("https")) {
+        if (!directConnect.getProtocol().equals("https")) {
             throw new SessionNotCreatedException(
                     String.format("The given protocol '%s' as the direct connection url returned by "
-                            + "the remote server is not accurate. Only 'https' is supported.", directConnect.protocol));
+                            + "the remote server is not accurate. Only 'https' is supported.",
+                            directConnect.getProtocol()));
         }
 
         URL newUrl;
