@@ -202,10 +202,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
             return null;
         }
 
-        public ImeHandler ime() {
-            return null;
-        }
-
         public Window window() {
             return new StubWindow();
         }

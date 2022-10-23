@@ -191,6 +191,15 @@ processResources {
     ]
 }
 
+task unitTest( type: Test ) {
+    useJUnitPlatform()
+    testLogging.showStandardStreams = true
+    testLogging.exceptionFormat = 'full'
+    filter {
+        includeTestsMatching 'io.appium.java_client.internal.*'
+    }
+}
+
 task xcuiTest( type: Test ) {
     useJUnitPlatform()
     testLogging.showStandardStreams = true

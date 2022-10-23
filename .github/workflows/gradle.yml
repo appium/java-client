@@ -27,4 +27,4 @@ jobs:
         java-version: ${{ matrix.java }}
         cache: 'gradle'
     - name: Build with Gradle
-      run: ./gradlew clean build -x test -x checkstyleTest
+      run: ./gradlew clean build -x unitTest -x checkstyleTest

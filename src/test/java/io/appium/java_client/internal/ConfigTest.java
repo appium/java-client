@@ -9,13 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class ConfigTest {
-    private static final String EXISTING_KEY = "selenium.version";
+    private static final String SELENIUM_EXISTING_KEY = "selenium.version";
+
     private static final String MISSING_KEY = "bla";
 
     @Test
     void verifyGettingExistingValue() {
-        assertThat(Config.main().getValue(EXISTING_KEY, String.class).length(), greaterThan(0));
-        assertTrue(Config.main().getOptionalValue(EXISTING_KEY, String.class).isPresent());
+        assertThat(Config.main().getValue(SELENIUM_EXISTING_KEY, String.class).length(), greaterThan(0));
+        assertTrue(Config.main().getOptionalValue(SELENIUM_EXISTING_KEY, String.class).isPresent());
     }
 
     @Test
@@ -25,7 +26,7 @@ class ConfigTest {
 
     @Test
     void verifyGettingExistingValueWithWrongClass() {
-        assertThrows(ClassCastException.class, () -> Config.main().getValue(EXISTING_KEY, Integer.class));
+        assertThrows(ClassCastException.class, () -> Config.main().getValue(SELENIUM_EXISTING_KEY, Integer.class));
     }
 
     @Test

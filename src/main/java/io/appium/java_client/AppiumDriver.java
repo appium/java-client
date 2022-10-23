@@ -41,7 +41,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
-import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
@@ -84,7 +83,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
-    public AppiumDriver(ClientConfig clientConfig, Capabilities capabilities) {
+    public AppiumDriver(AppiumClientConfig clientConfig, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig), capabilities);
     }
 
