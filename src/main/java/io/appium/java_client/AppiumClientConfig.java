@@ -16,22 +16,16 @@
 
 package io.appium.java_client;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.openqa.selenium.Credentials;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * A class to store the appium http client configuration.
