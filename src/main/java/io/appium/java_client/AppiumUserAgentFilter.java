@@ -17,19 +17,15 @@
 package io.appium.java_client;
 
 import io.appium.java_client.internal.Config;
-import org.openqa.selenium.BuildInfo;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
-
-import java.util.Locale;
 
 /**
  * Manage Appium Client configurations.
  */
 
-public class AddAppiumUserAgent implements Filter {
+public class AppiumUserAgentFilter implements Filter {
 
     public static final String VERSION_KEY = "appiumClient.version";
 

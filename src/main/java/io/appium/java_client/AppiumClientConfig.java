@@ -33,7 +33,7 @@ import java.time.Duration;
 public class AppiumClientConfig extends ClientConfig {
     private final boolean directConnect;
 
-    private static final Filter DEFAULT_FILTER = new AddAppiumUserAgent();
+    private static final Filter DEFAULT_FILTER = new AppiumUserAgentFilter();
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 

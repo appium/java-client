@@ -24,7 +24,7 @@ import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 
-import io.appium.java_client.AddAppiumUserAgent;
+import io.appium.java_client.AppiumUserAgentFilter;
 import io.appium.java_client.AppiumClientConfig;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
@@ -196,7 +196,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(
                 getClient().with((httpHandler) -> (req) -> {
-                    req.setHeader("User-Agent", AddAppiumUserAgent.USER_AGENT);
+                    req.setHeader("User-Agent", AppiumUserAgentFilter.USER_AGENT);
                     req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
                     return httpHandler.execute(req);
                 }), command
