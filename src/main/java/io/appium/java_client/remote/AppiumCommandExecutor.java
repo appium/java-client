@@ -65,7 +65,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final AppiumClientConfig appiumClientConfig;
 
-    /*
+    /**
      * Create an AppiumCommandExecutor instance.
      *
      * @param additionalCommands is the map of Appium commands
@@ -175,10 +175,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * Override the http client in the HttpCommandExecutor class with a new http client instance with the given URL.
      * It uses the same http client factory and client config for the new http client instance
      * if the constructor got them.
-<<<<<<< HEAD
-=======
      * @param serverUrl A url to override.
->>>>>>> master
      */
     protected void overrideServerUrl(URL serverUrl) {
         if (this.appiumClientConfig == null) {
