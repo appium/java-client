@@ -16,6 +16,7 @@
 
 package io.appium.java_client;
 
+import com.google.common.net.HttpHeaders;
 import io.appium.java_client.internal.Config;
 import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
@@ -42,9 +43,12 @@ public class AppiumUserAgentFilter implements Filter {
     @Override
     public HttpHandler apply(HttpHandler next) {
 
+
+
+
         return req -> {
-            if (req.getHeader("User-Agent") == null) {
-                req.addHeader("User-Agent", USER_AGENT);
+            if (req.getHeader(HttpHeaders.USER_AGENT) == null) {
+                req.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
             }
 
             return next.execute(req);
