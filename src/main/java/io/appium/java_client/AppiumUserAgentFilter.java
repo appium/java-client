@@ -22,6 +22,8 @@ import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
 
+import javax.annotation.Nullable;
+
 /**
  * Manage Appium Client configurations.
  */
@@ -40,14 +42,25 @@ public class AppiumUserAgentFilter implements Filter {
             AddSeleniumUserAgent.USER_AGENT
     );
 
+    /**
+     * Returns true if the given User Agent includes "appium/", which
+     * implies the User Agent already has Appium UA by this method.
+     * @param userAgent the User Agent in the request headers.
+     * @return whether the given User Agent includes Appium UA
+     *         like by this filter.
+     */
+    public boolean containsAppiumName(@Nullable String userAgent) {
+        if (userAgent == null) {
+            return false;
+        }
+        return userAgent.contains("appium/");
+    }
+
     @Override
     public HttpHandler apply(HttpHandler next) {
 
-
-
-
         return req -> {
-            if (req.getHeader(HttpHeaders.USER_AGENT) == null) {
+            if (containsAppiumName(req.getHeader(HttpHeaders.USER_AGENT))) {
                 req.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
             }
 
