@@ -50,10 +50,7 @@ public class AppiumUserAgentFilter implements Filter {
      *         like by this filter.
      */
     public boolean containsAppiumName(@Nullable String userAgent) {
-        if (userAgent == null) {
-            return false;
-        }
-        return userAgent.contains("appium/");
+        return userAgent != null && userAgent.contains("appium/");
     }
 
     @Override
