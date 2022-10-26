@@ -8,19 +8,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appium.java_client.AppiumUserAgentFilter;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 class ConfigTest {
     private static final String SELENIUM_EXISTING_KEY = "selenium.version";
 
     private static final String MISSING_KEY = "bla";
 
-    @Test
-    void verifyGettingExistingValue() {
-        assertThat(Config.main().getValue(SELENIUM_EXISTING_KEY, String.class).length(), greaterThan(0));
-        assertTrue(Config.main().getOptionalValue(SELENIUM_EXISTING_KEY, String.class).isPresent());
-
-        assertThat(Config.main().getValue(AppiumUserAgentFilter.VERSION_KEY, String.class).length(), greaterThan(0));
-        assertTrue(Config.main().getOptionalValue(AppiumUserAgentFilter.VERSION_KEY, String.class).isPresent());
+    @ParameterizedTest
+    @ValueSource(strings = {SELENIUM_EXISTING_KEY, AppiumUserAgentFilter.VERSION_KEY})
+    void verifyGettingExistingValue(String key) {
+        assertThat(Config.main().getValue(key, String.class).length(), greaterThan(0));
+        assertTrue(Config.main().getOptionalValue(key, String.class).isPresent());
     }
 
     @Test
@@ -28,10 +32,10 @@ class ConfigTest {
         assertThrows(IllegalArgumentException.class, () -> Config.main().getValue(MISSING_KEY, String.class));
     }
 
-    @Test
-    void verifyGettingExistingValueWithWrongClass() {
-        assertThrows(ClassCastException.class, () -> Config.main().getValue(SELENIUM_EXISTING_KEY, Integer.class));
-        assertThrows(ClassCastException.class, () -> Config.main().getValue(AppiumUserAgentFilter.VERSION_KEY, Integer.class));
+    @ParameterizedTest
+    @ValueSource(strings = {SELENIUM_EXISTING_KEY, AppiumUserAgentFilter.VERSION_KEY})
+    void verifyGettingExistingValueWithWrongClass(String key) {
+        assertThrows(ClassCastException.class, () -> Config.main().getValue(key, Integer.class));
     }
 
     @Test

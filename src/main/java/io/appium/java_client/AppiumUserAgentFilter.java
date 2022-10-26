@@ -32,6 +32,8 @@ public class AppiumUserAgentFilter implements Filter {
 
     public static final String VERSION_KEY = "appiumClient.version";
 
+    private String USER_AGENT_PREFIX = "appium/";
+
     /**
      * A custom User Agent name for Appium Java client.
      * e.g. appium/8.2.0 (selenium/4.5.0 (java mac))
@@ -50,7 +52,7 @@ public class AppiumUserAgentFilter implements Filter {
      *         like by this filter.
      */
     public boolean containsAppiumName(@Nullable String userAgent) {
-        return userAgent != null && userAgent.contains("appium/");
+        return userAgent != null && userAgent.contains(USER_AGENT_PREFIX);
     }
 
     @Override
