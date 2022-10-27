@@ -18,7 +18,6 @@ package io.appium.java_client.imagecomparison;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.apache.commons.codec.binary.Base64;
 
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
@@ -28,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 
 public abstract class ComparisonResult {
@@ -70,7 +70,7 @@ public abstract class ComparisonResult {
      * @throws IOException On file system I/O error.
      */
     public void storeVisualization(File destination) throws IOException {
-        final byte[] data = Base64.decodeBase64(getVisualization());
+        final byte[] data = Base64.getDecoder().decode(getVisualization());
         try (OutputStream stream = new FileOutputStream(destination)) {
             stream.write(data);
         }

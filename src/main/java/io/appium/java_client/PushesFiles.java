@@ -19,11 +19,11 @@ package io.appium.java_client;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.pushFileCommand;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 
 public interface PushesFiles extends ExecutesMethod {
 
@@ -57,7 +57,7 @@ public interface PushesFiles extends ExecutesMethod {
             throw new IOException(String.format("The given file %s doesn't exist",
                     file.getAbsolutePath()));
         }
-        pushFile(remotePath, Base64.encodeBase64(FileUtils.readFileToByteArray(file)));
+        pushFile(remotePath, Base64.getEncoder().encode(FileUtils.readFileToByteArray(file)));
     }
 
 }

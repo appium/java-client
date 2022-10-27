@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import io.appium.java_client.appmanagement.ApplicationState;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -37,6 +36,7 @@ import org.openqa.selenium.html5.Location;
 import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class AndroidDriverTest extends BaseAndroidTest {
@@ -155,7 +155,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void pushFileTest() {
-        byte[] data = Base64.encodeBase64(
+        byte[] data = Base64.getEncoder().encode(
                 "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra"
                         .getBytes());
         driver.pushFile("/data/local/tmp/remote.txt", data);
