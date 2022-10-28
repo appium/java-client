@@ -39,7 +39,8 @@ public class AppiumUserAgentFilter implements Filter {
      * e.g. appium/8.2.0 (selenium/4.5.0 (java mac))
      */
     public static final String USER_AGENT = String.format(
-            "appium/%s (%s)",
+            "%s%s (%s)",
+            USER_AGENT_PREFIX,
             Config.main().getValue(VERSION_KEY, String.class),
             AddSeleniumUserAgent.USER_AGENT
     );
@@ -52,7 +53,7 @@ public class AppiumUserAgentFilter implements Filter {
      * @return whether the given User Agent includes Appium UA
      *         like by this filter.
      */
-    public boolean containsAppiumName(@Nullable String userAgent) {
+    public static boolean containsAppiumName(@Nullable String userAgent) {
         return userAgent != null && userAgent.toLowerCase().contains(USER_AGENT_PREFIX.toLowerCase());
     }
 
@@ -64,7 +65,7 @@ public class AppiumUserAgentFilter implements Filter {
      * @param userAgent the User Agent in the request headers.
      * @return the User Agent for the request
      */
-    public String buildUserAgent(@Nullable String userAgent) {
+    public static String buildUserAgent(@Nullable String userAgent) {
         if (userAgent == null) {
             return USER_AGENT;
         }
@@ -73,14 +74,15 @@ public class AppiumUserAgentFilter implements Filter {
             return userAgent;
         }
 
-        return String.format("appium/%s (%s)",Config.main().getValue(VERSION_KEY, String.class), userAgent);
+        return String.format("%s%s (%s)",
+                USER_AGENT_PREFIX, Config.main().getValue(VERSION_KEY, String.class), userAgent);
     }
 
     @Override
     public HttpHandler apply(HttpHandler next) {
 
         return req -> {
-            req.addHeader(HttpHeaders.USER_AGENT, buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
+            req.setHeader(HttpHeaders.USER_AGENT, buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
             return next.execute(req);
         };
     }

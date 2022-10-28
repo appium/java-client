@@ -194,7 +194,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
         ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(
                 getClient().with((httpHandler) -> (req) -> {
-                    req.setHeader(HttpHeaders.USER_AGENT, AppiumUserAgentFilter.USER_AGENT);
+                    req.setHeader(HttpHeaders.USER_AGENT,
+                            AppiumUserAgentFilter.buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
                     req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
                     return httpHandler.execute(req);
                 }), command
