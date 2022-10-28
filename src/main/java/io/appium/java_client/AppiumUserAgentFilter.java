@@ -46,13 +46,14 @@ public class AppiumUserAgentFilter implements Filter {
 
     /**
      * Returns true if the given User Agent includes "appium/", which
-     * implies the User Agent already has Appium UA by this method.
+     * implies the User Agent already has the Appium UA by this method.
+     * The matching is case-insensitive.
      * @param userAgent the User Agent in the request headers.
      * @return whether the given User Agent includes Appium UA
      *         like by this filter.
      */
     public boolean containsAppiumName(@Nullable String userAgent) {
-        return userAgent != null && userAgent.contains(USER_AGENT_PREFIX);
+        return userAgent != null && userAgent.toLowerCase().contains(USER_AGENT_PREFIX.toLowerCase());
     }
 
     /**

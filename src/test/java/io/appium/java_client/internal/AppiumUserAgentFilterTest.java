@@ -20,6 +20,8 @@ public class AppiumUserAgentFilterTest {
         return Stream.of(
                 Arguments.of("selenium/4.5.0 (java mac)", false),
                 Arguments.of("appium/8.2.0 (selenium/4.5.0 (java mac))", true),
+                Arguments.of("APPIUM/8.2.0 (selenium/4.5.0 (java mac))", true),
+                Arguments.of("something (Appium/8.2.0 (selenium/4.5.0 (java mac)))", true),
                 Arguments.of("something (appium/8.2.0 (selenium/4.5.0 (java mac)))", true)
         );
     }
