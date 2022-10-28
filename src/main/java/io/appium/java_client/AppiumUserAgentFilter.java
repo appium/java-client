@@ -35,7 +35,7 @@ public class AppiumUserAgentFilter implements Filter {
     private static final String USER_AGENT_PREFIX = "appium/";
 
     /**
-     * A custom User Agent name for Appium Java client.
+     * A default User Agent name for Appium Java client.
      * e.g. appium/8.2.0 (selenium/4.5.0 (java mac))
      */
     public static final String USER_AGENT = String.format(
@@ -55,14 +55,31 @@ public class AppiumUserAgentFilter implements Filter {
         return userAgent != null && userAgent.contains(USER_AGENT_PREFIX);
     }
 
+    /**
+     * Returns the User Agent. If the given UA already has
+     * {@link USER_AGENT_PREFIX}, it returns the UA.
+     * IF the given UA does not have {@link USER_AGENT_PREFIX},
+     * it returns UA with the Appium prefix.
+     * @param userAgent the User Agent in the request headers.
+     * @return the User Agent for the request
+     */
+    public String buildUserAgent(@Nullable String userAgent) {
+        if (userAgent == null) {
+            return USER_AGENT;
+        }
+
+        if (containsAppiumName(userAgent)) {
+            return userAgent;
+        }
+
+        return String.format("appium/%s (%s)",Config.main().getValue(VERSION_KEY, String.class), userAgent);
+    }
+
     @Override
     public HttpHandler apply(HttpHandler next) {
 
         return req -> {
-            if (containsAppiumName(req.getHeader(HttpHeaders.USER_AGENT))) {
-                req.addHeader(HttpHeaders.USER_AGENT, USER_AGENT);
-            }
-
+            req.addHeader(HttpHeaders.USER_AGENT, buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
             return next.execute(req);
         };
     }
