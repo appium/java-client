@@ -281,7 +281,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         return super.getScreenshotAs(new OutputType<X>() {
             @Override
             public X convertFromBase64Png(String base64Png) {
-                String rfc4648Base64 = base64Png.replaceAll("\r?\n", "");
+                String rfc4648Base64 = base64Png.replaceAll("\\r?\\n", "");
                 return outputType.convertFromBase64Png(rfc4648Base64);
             }
 
