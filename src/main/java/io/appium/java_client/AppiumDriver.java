@@ -45,15 +45,9 @@ import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Map;
 
@@ -278,47 +272,23 @@ public class AppiumDriver extends RemoteWebDriver implements
         return super.execute(command, Collections.emptyMap());
     }
 
-    private static File saveToFile(byte[] data) {
-        try {
-            Path tmpFilePath = Files.createTempFile("screenshot", ".png");
-            File tmpFile = tmpFilePath.toFile();
-            tmpFile.deleteOnExit();
-            Files.write(tmpFilePath, data);
-            return tmpFile;
-        } catch (IOException e) {
-            throw new WebDriverException(e);
-        }
-    }
-
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) {
-        Response response = execute(DriverCommand.SCREENSHOT);
-        Object result = response.getValue();
-        final byte[] screenshotBase64Bytes;
-        if (result instanceof String) {
-            screenshotBase64Bytes = ((String) result).getBytes(StandardCharsets.UTF_8);
-        } else if (result instanceof byte[]) {
-            screenshotBase64Bytes = (byte[]) result;
-        } else {
-            throw new RuntimeException(
-                    String.format("Unexpected result for %s command: %s", DriverCommand.SCREENSHOT,
-                        result == null ? "null" : (result.getClass().getName() + " instance"))
-            );
-        }
         // TODO: Eventually we should not override this method.
         // TODO: Although, we have a legacy burden,
         // TODO: so it's impossible to do it the other way as of Oct 29 2022.
         // TODO: See https://github.com/SeleniumHQ/selenium/issues/11168
-        byte[] screenshotRawBytes = Base64.getMimeDecoder().decode(screenshotBase64Bytes);
-        if (outputType == OutputType.BYTES) {
-            return (X) screenshotRawBytes;
-        } else if (outputType == OutputType.BASE64) {
-            //noinspection unchecked
-            return (X) Base64.getEncoder().encodeToString(screenshotRawBytes);
-        } else if (outputType == OutputType.FILE) {
-            //noinspection unchecked
-            return (X) saveToFile(screenshotRawBytes);
-        }
-        throw new IllegalArgumentException(String.format("Unsupported %s instance", OutputType.class.getName()));
+        return super.getScreenshotAs(new OutputType<X>() {
+            @Override
+            public X convertFromBase64Png(String base64Png) {
+                String rfc4648Base64 = base64Png.replaceAll("\r?\n", "");
+                return outputType.convertFromBase64Png(rfc4648Base64);
+            }
+
+            @Override
+            public X convertFromPngBytes(byte[] png) {
+                return outputType.convertFromPngBytes(png);
+            }
+        });
     }
 }
