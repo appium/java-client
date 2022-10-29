@@ -31,6 +31,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
@@ -269,5 +270,25 @@ public class AppiumDriver extends RemoteWebDriver implements
     @Override
     public Response execute(String command) {
         return super.execute(command, Collections.emptyMap());
+    }
+
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> outputType) {
+        // TODO: Eventually we should not override this method.
+        // TODO: Although, we have a legacy burden,
+        // TODO: so it's impossible to do it the other way as of Oct 29 2022.
+        // TODO: See https://github.com/SeleniumHQ/selenium/issues/11168
+        return super.getScreenshotAs(new OutputType<X>() {
+            @Override
+            public X convertFromBase64Png(String base64Png) {
+                String rfc4648Base64 = base64Png.replaceAll("\\r?\\n", "");
+                return outputType.convertFromBase64Png(rfc4648Base64);
+            }
+
+            @Override
+            public X convertFromPngBytes(byte[] png) {
+                return outputType.convertFromPngBytes(png);
+            }
+        });
     }
 }
