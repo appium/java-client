@@ -314,7 +314,7 @@ public class AppiumDriver extends RemoteWebDriver implements
             return (X) screenshotRawBytes;
         } else if (outputType == OutputType.BASE64) {
             //noinspection unchecked
-            return (X) new String(Base64.getEncoder().encode(screenshotRawBytes), StandardCharsets.UTF_8);
+            return (X) Base64.getEncoder().encodeToString(screenshotRawBytes);
         } else if (outputType == OutputType.FILE) {
             //noinspection unchecked
             return (X) saveToFile(screenshotRawBytes);
