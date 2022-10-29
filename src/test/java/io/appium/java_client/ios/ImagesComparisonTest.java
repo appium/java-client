@@ -22,6 +22,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.Base64;
+
 import io.appium.java_client.imagecomparison.FeatureDetector;
 import io.appium.java_client.imagecomparison.FeaturesMatchingOptions;
 import io.appium.java_client.imagecomparison.FeaturesMatchingResult;
@@ -30,7 +32,6 @@ import io.appium.java_client.imagecomparison.OccurrenceMatchingOptions;
 import io.appium.java_client.imagecomparison.OccurrenceMatchingResult;
 import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
-import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.OutputType;
 
@@ -38,7 +39,7 @@ public class ImagesComparisonTest extends AppIOSTest {
 
     @Test
     public void verifyFeaturesMatching() {
-        byte[] screenshot = Base64.encodeBase64(driver.getScreenshotAs(OutputType.BYTES));
+        byte[] screenshot = Base64.getEncoder().encode(driver.getScreenshotAs(OutputType.BYTES));
         FeaturesMatchingResult result = driver
                 .matchImagesFeatures(screenshot, screenshot, new FeaturesMatchingOptions()
                         .withDetectorName(FeatureDetector.ORB)
@@ -56,7 +57,7 @@ public class ImagesComparisonTest extends AppIOSTest {
 
     @Test
     public void verifyOccurrencesSearch() {
-        byte[] screenshot = Base64.encodeBase64(driver.getScreenshotAs(OutputType.BYTES));
+        byte[] screenshot = Base64.getEncoder().encode(driver.getScreenshotAs(OutputType.BYTES));
         OccurrenceMatchingResult result = driver
                 .findImageOccurrence(screenshot, screenshot, new OccurrenceMatchingOptions()
                         .withEnabledVisualization());
@@ -66,7 +67,7 @@ public class ImagesComparisonTest extends AppIOSTest {
 
     @Test
     public void verifySimilarityCalculation() {
-        byte[] screenshot = Base64.encodeBase64(driver.getScreenshotAs(OutputType.BYTES));
+        byte[] screenshot = Base64.getEncoder().encode(driver.getScreenshotAs(OutputType.BYTES));
         SimilarityMatchingResult result = driver
                 .getImagesSimilarity(screenshot, screenshot, new SimilarityMatchingOptions()
                         .withEnabledVisualization());

@@ -25,11 +25,11 @@ import io.appium.java_client.imagecomparison.OccurrenceMatchingOptions;
 import io.appium.java_client.imagecomparison.OccurrenceMatchingResult;
 import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Map;
 import javax.annotation.Nullable;
 
@@ -93,8 +93,8 @@ public interface ComparesImages extends ExecutesMethod {
      */
     default FeaturesMatchingResult matchImagesFeatures(File image1, File image2,
                                                        @Nullable FeaturesMatchingOptions options) throws IOException {
-        return matchImagesFeatures(Base64.encodeBase64(FileUtils.readFileToByteArray(image1)),
-                Base64.encodeBase64(FileUtils.readFileToByteArray(image2)), options);
+        return matchImagesFeatures(Base64.getEncoder().encode(FileUtils.readFileToByteArray(image1)),
+                Base64.getEncoder().encode(FileUtils.readFileToByteArray(image2)), options);
     }
 
     /**
@@ -160,8 +160,8 @@ public interface ComparesImages extends ExecutesMethod {
     default OccurrenceMatchingResult findImageOccurrence(File fullImage, File partialImage,
                                                          @Nullable OccurrenceMatchingOptions options)
             throws IOException {
-        return findImageOccurrence(Base64.encodeBase64(FileUtils.readFileToByteArray(fullImage)),
-                Base64.encodeBase64(FileUtils.readFileToByteArray(partialImage)), options);
+        return findImageOccurrence(Base64.getEncoder().encode(FileUtils.readFileToByteArray(fullImage)),
+                Base64.getEncoder().encode(FileUtils.readFileToByteArray(partialImage)), options);
     }
 
     /**
@@ -227,7 +227,7 @@ public interface ComparesImages extends ExecutesMethod {
     default SimilarityMatchingResult getImagesSimilarity(File image1, File image2,
                                                          @Nullable SimilarityMatchingOptions options)
             throws IOException {
-        return getImagesSimilarity(Base64.encodeBase64(FileUtils.readFileToByteArray(image1)),
-                Base64.encodeBase64(FileUtils.readFileToByteArray(image2)), options);
+        return getImagesSimilarity(Base64.getEncoder().encode(FileUtils.readFileToByteArray(image1)),
+                Base64.getEncoder().encode(FileUtils.readFileToByteArray(image2)), options);
     }
 }
