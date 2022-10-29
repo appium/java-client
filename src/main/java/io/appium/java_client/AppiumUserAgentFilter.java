@@ -23,6 +23,7 @@ import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -39,12 +40,12 @@ public class AppiumUserAgentFilter implements Filter {
      * A default User Agent name for Appium Java client.
      * e.g. appium/8.2.0 (selenium/4.5.0 (java mac))
      */
-    public static final String USER_AGENT = String.format(
-            "%s%s (%s)",
-            USER_AGENT_PREFIX,
-            Config.main().getValue(VERSION_KEY, String.class),
-            AddSeleniumUserAgent.USER_AGENT
-    );
+    public static final String USER_AGENT = buildUserAgentHeaderValue(AddSeleniumUserAgent.USER_AGENT);
+
+    private static String buildUserAgentHeaderValue(@Nonnull String previousUA) {
+        return String.format("%s%s (%s)",
+                USER_AGENT_PREFIX, Config.main().getValue(VERSION_KEY, String.class), previousUA);
+    }
 
     /**
      * Returns true if the given User Agent includes "appium/", which
@@ -76,8 +77,7 @@ public class AppiumUserAgentFilter implements Filter {
             return userAgent;
         }
 
-        return String.format("%s%s (%s)",
-                USER_AGENT_PREFIX, Config.main().getValue(VERSION_KEY, String.class), userAgent);
+        return buildUserAgentHeaderValue(userAgent);
     }
 
     @Override
