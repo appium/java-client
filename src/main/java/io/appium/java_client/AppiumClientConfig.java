@@ -18,7 +18,6 @@ package io.appium.java_client;
 
 import org.openqa.selenium.Credentials;
 import org.openqa.selenium.internal.Require;
-import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
@@ -34,7 +33,7 @@ import java.time.Duration;
 public class AppiumClientConfig extends ClientConfig {
     private final boolean directConnect;
 
-    private static final Filter DEFAULT_FILTER = new AddSeleniumUserAgent();
+    private static final Filter DEFAULT_FILTER = new AppiumUserAgentFilter();
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 

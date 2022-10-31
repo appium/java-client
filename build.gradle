@@ -25,6 +25,7 @@ java {
 
 ext {
     seleniumVersion = project.property('selenium.version')
+    appiumClientVersion = project.property('appiumClient.version')
 }
 
 dependencies {
@@ -110,7 +111,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'io.appium'
             artifactId = 'java-client'
-            version = '8.2.0'
+            version = appiumClientVersion
             from components.java
             pom {
                 name = 'java-client'
@@ -186,7 +187,8 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            'selenium.version': seleniumVersion
+            'selenium.version': seleniumVersion,
+            'appiumClient.version': appiumClientVersion
     ]
 }
 
