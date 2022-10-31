@@ -50,7 +50,7 @@ dependencies {
             prefer "${seleniumVersion}"
         }
     }
-    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation 'com.google.code.gson:gson:2.10'
     implementation 'cglib:cglib:3.3.0'
     implementation 'commons-validator:commons-validator:1.7'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
