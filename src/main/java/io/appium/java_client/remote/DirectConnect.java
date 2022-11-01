@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 
-@Accessors(fluent = false, chain = false)
+@Accessors
 public class DirectConnect {
     private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
     private static final String DIRECT_CONNECT_PATH = "directConnectPath";
