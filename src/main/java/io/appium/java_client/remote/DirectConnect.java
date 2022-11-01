@@ -1,5 +1,9 @@
 package io.appium.java_client.remote;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
 import javax.annotation.Nullable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,20 +13,20 @@ import java.util.stream.Stream;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 
-// TODO: simplify with lombok as another PR
+@Accessors
 public class DirectConnect {
     private static final String DIRECT_CONNECT_PROTOCOL = "directConnectProtocol";
     private static final String DIRECT_CONNECT_PATH = "directConnectPath";
     private static final String DIRECT_CONNECT_HOST = "directConnectHost";
     private static final String DIRECT_CONNECT_PORT = "directConnectPort";
 
-    private final String protocol;
+    @Getter(AccessLevel.PUBLIC) private final String protocol;
 
-    private final String path;
+    @Getter(AccessLevel.PUBLIC) private final String path;
 
-    private final String host;
+    @Getter(AccessLevel.PUBLIC) private final String host;
 
-    private final String port;
+    @Getter(AccessLevel.PUBLIC) private final String port;
 
     /**
      * Create a DirectConnect instance.
@@ -33,10 +37,6 @@ public class DirectConnect {
         this.path = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PATH);
         this.host = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_HOST);
         this.port = this.getDirectConnectValue(responseValue, DIRECT_CONNECT_PORT);
-    }
-
-    public String getProtocol() {
-        return protocol;
     }
 
     @Nullable
