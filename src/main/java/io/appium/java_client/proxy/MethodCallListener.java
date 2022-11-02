@@ -45,8 +45,7 @@ public interface MethodCallListener {
      * @param method   Method to be replaced
      * @param args     Array of method arguments
      * @param original The reference to the original method in case it is necessary to instrument its result.
-     * @return It is expected that the type of the returned argument could be cast to
-     * the returned type of the original method.
+     * @return The type of the returned result should be castable to the returned type of the original method.
      */
     default Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         throw new NotImplementedException();
