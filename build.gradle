@@ -198,6 +198,7 @@ task unitTest( type: Test ) {
     testLogging.exceptionFormat = 'full'
     filter {
         includeTestsMatching 'io.appium.java_client.internal.*'
+        includeTestsMatching 'io.appium.java_client.proxy.*'
     }
 }
 

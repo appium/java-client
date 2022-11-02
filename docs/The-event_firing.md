@@ -3,7 +3,7 @@ since v8.0.0
 # The purpose
 
 This feature allows end user to organize the event logging on the client side. 
-Also this feature may be useful in a binding with standard or custom reporting
+Also, this feature may be useful in a binding with standard or custom reporting
 frameworks. The feature has been introduced first since Selenium API v4.  
 
 # The API
@@ -40,6 +40,7 @@ Listeners should implement WebDriverListener. It supports three types of events:
 To use this decorator you have to prepare a listener, create a decorator using this listener, 
 decorate the original WebDriver instance with this decorator and use the new WebDriver instance
 created by the decorator instead of the original one: 
+
 ```java
 WebDriver original = new AndroidDriver(); 
 // it is expected that MyListener class implements WebDriverListener
@@ -66,6 +67,7 @@ decorated.get("http://example.com/");
 WebElement header = decorated.findElement(By.tagName("h1")); 
 // if an error happens during any of these calls the the onError event is fired
 ```
+
 The instance of WebDriver created by the decorator implements all the same interfaces 
 as the original driver. A listener can subscribe to "specific" or "generic" events (or both). 
 A "specific" event correspond to a single specific method, a "generic" event correspond to any 
@@ -74,3 +76,80 @@ implement a method with a name derived from the target method to be watched. The
 for "before"-events receive the parameters passed to the decorated method. The listener 
 methods for "after"-events receive the parameters passed to the decorated method as well as the 
 result returned by this method.
+
+## createProxy API (since Java Client 8.3.0)
+
+This API is unique to Appium Java Client and does not exist in Selenium. The reason for 
+its existence is the fact that the original event listeners API provided by Selenium is limited
+because it can only use interface types for decorator objects. For example, the code below won't
+work:
+
+```java
+IOSDriver driver = new IOSDriver(new URL("http://doesnot.matter/"), new ImmutableCapabilities())
+{
+    @Override
+    protected void startSession(Capabilities capabilities)
+    {
+        // Override in a sake of simplicity to avoid the actual session start
+    }
+};
+WebDriverListener webDriverListener = new WebDriverListener()
+{
+};
+IOSDriver decoratedDriver = (IOSDriver) new EventFiringDecorator(IOSDriver.class, webDriverListener).decorate(
+        driver);
+```
+
+The last line throws `ClassCastException` because `decoratedDriver` is of type `IOSDriver`, 
+which is a class rather than an interface. 
+See the issue [#1694](https://github.com/appium/java-client/issues/1694) for more
+details. In order to workaround this limitation a special proxy implementation has been created,
+which is capable of decorating class types:
+
+```java
+import io.appium.java_client.proxy.MethodCallListener;
+import io.appium.java_client.proxy.NotImplementedException;
+
+import static io.appium.java_client.proxy.Helpers.createProxy;
+
+// ...
+
+MethodCallListener listener = new MethodCallListener() {
+    @Override
+    public void beforeCall(Object target, Method method, Object[] args) {
+        if (!method.getName().equals("get")) {
+            throw new NotImplementedException();
+        }
+        acc.append("beforeCall ").append(method.getName()).append("\n");
+    }
+
+    @Override
+    public void afterCall(Object target, Method method, Object[] args, Object result) {
+        if (!method.getName().equals("get")) {
+            throw new NotImplementedException();
+        }
+        acc.append("afterCall ").append(method.getName()).append("\n");
+    }
+};
+IOSDriver decoratedDriver = createProxy(
+        IOSDriver.class,
+        new Objetc[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
+        new Class<>[] {URL.class, Capabilities.class},
+        Collections.singletonList(listener)
+);
+
+decoratedDriver.get("http://example.com/");
+
+assertThat(acc.toString().trim()).isEqualTo(
+        String.join("\n",
+                "beforeCall get",
+                "afterCall get"
+        )
+);
+```
+
+This proxy is not tied to WebDriver descendants and could be used to any classes that have
+**public** constructors. It also allows to intercept exceptions thrown by **public** class methods and/or
+change/replace the original methods behavior. It is important to know that callbacks are **not** invoked 
+for methods derived from the standard `Object` class, like `toString` or `equals`. 
+Check [unit tests](../src/test/java/io/appium/java_client/proxy/ProxyHelpersTest.java) for more examples.
