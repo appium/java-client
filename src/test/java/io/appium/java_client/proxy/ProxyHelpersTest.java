@@ -18,14 +18,10 @@ package io.appium.java_client.proxy;
 
 import io.appium.java_client.ios.IOSDriver;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 
@@ -37,89 +33,89 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProxyHelpersTest {
 
-  @Test
-  void shouldFireBeforeAndAfterEvents() {
-    final StringBuilder acc = new StringBuilder();
-    MethodCallListener listener = new MethodCallListener() {
-      @Override
-      public void beforeCall(Object target, Method method, Object[] args) {
-        acc.append("beforeCall ").append(method.getName()).append("\n");
-        // should be ignored
-        throw new IllegalStateException();
-      }
+    @Test
+    void shouldFireBeforeAndAfterEvents() {
+        final StringBuilder acc = new StringBuilder();
+        MethodCallListener listener = new MethodCallListener() {
+            @Override
+            public void beforeCall(Object target, Method method, Object[] args) {
+                acc.append("beforeCall ").append(method.getName()).append("\n");
+                // should be ignored
+                throw new IllegalStateException();
+            }
 
-      @Override
-      public void afterCall(Object target, Method method, Object[] args, Object result) {
-        acc.append("afterCall ").append(method.getName()).append("\n");
-        // should be ignored
-        throw new IllegalStateException();
-      }
-    };
-    RemoteWebDriver driver = createProxy(RemoteWebDriver.class, Collections.singletonList(listener));
+            @Override
+            public void afterCall(Object target, Method method, Object[] args, Object result) {
+                acc.append("afterCall ").append(method.getName()).append("\n");
+                // should be ignored
+                throw new IllegalStateException();
+            }
+        };
+        RemoteWebDriver driver = createProxy(RemoteWebDriver.class, Collections.singletonList(listener));
 
-    assertThrows(
-      UnreachableBrowserException.class,
-      () -> driver.get("http://example.com/")
-    );
+        assertThrows(
+                UnreachableBrowserException.class,
+                () -> driver.get("http://example.com/")
+        );
 
-    assertThat(acc.toString().trim(), is(equalTo(
-      String.join("\n",
-        "beforeCall get",
-          "beforeCall getSessionId",
-          "afterCall getSessionId",
-          "beforeCall getCapabilities",
-          "afterCall getCapabilities",
-          "beforeCall getCapabilities",
-          "afterCall getCapabilities")
-    )));
-  }
+        assertThat(acc.toString().trim(), is(equalTo(
+                String.join("\n",
+                        "beforeCall get",
+                        "beforeCall getSessionId",
+                        "afterCall getSessionId",
+                        "beforeCall getCapabilities",
+                        "afterCall getCapabilities",
+                        "beforeCall getCapabilities",
+                        "afterCall getCapabilities")
+        )));
+    }
 
-  @Test
-  void shouldFireErrorEvents() {
-    MethodCallListener listener = new MethodCallListener() {
-      @Override
-      public Object onError(Object obj, Method method, Object[] args, Throwable e) {
-        throw new IllegalStateException();
-      }
-    };
-    RemoteWebDriver driver = createProxy(RemoteWebDriver.class, Collections.singletonList(listener));
+    @Test
+    void shouldFireErrorEvents() {
+        MethodCallListener listener = new MethodCallListener() {
+            @Override
+            public Object onError(Object obj, Method method, Object[] args, Throwable e) {
+                throw new IllegalStateException();
+            }
+        };
+        RemoteWebDriver driver = createProxy(RemoteWebDriver.class, Collections.singletonList(listener));
 
-    assertThrows(
-      IllegalStateException.class,
-      () -> driver.get("http://example.com/")
-    );
-  }
+        assertThrows(
+                IllegalStateException.class,
+                () -> driver.get("http://example.com/")
+        );
+    }
 
-  @Test
-  void shouldFireCallEvents() {
-    final StringBuilder acc = new StringBuilder();
-    MethodCallListener listener = new MethodCallListener() {
-      @Override
-      public Object call(Object obj, Method method, Object[] args, Callable<?> original) {
-        acc.append("onCall ").append(method.getName()).append("\n");
-        throw new IllegalStateException();
-      }
+    @Test
+    void shouldFireCallEvents() {
+        final StringBuilder acc = new StringBuilder();
+        MethodCallListener listener = new MethodCallListener() {
+            @Override
+            public Object call(Object obj, Method method, Object[] args, Callable<?> original) {
+                acc.append("onCall ").append(method.getName()).append("\n");
+                throw new IllegalStateException();
+            }
 
-      @Override
-      public Object onError(Object obj, Method method, Object[] args, Throwable e) throws Throwable {
-        acc.append("onError ").append(method.getName()).append("\n");
-        throw e;
-      }
-    };
-    IOSDriver driver = createProxy(
-            IOSDriver.class,
-            Collections.singletonList(listener)
-    );
+            @Override
+            public Object onError(Object obj, Method method, Object[] args, Throwable e) throws Throwable {
+                acc.append("onError ").append(method.getName()).append("\n");
+                throw e;
+            }
+        };
+        IOSDriver driver = createProxy(
+                IOSDriver.class,
+                Collections.singletonList(listener)
+        );
 
-    assertThrows(
-      IllegalStateException.class,
-      () -> driver.get("http://example.com/")
-    );
+        assertThrows(
+                IllegalStateException.class,
+                () -> driver.get("http://example.com/")
+        );
 
-    assertThat(acc.toString().trim(), is(equalTo(
-      String.join("\n",
-        "onCall get",
-        "onError get")
-    )));
-  }
+        assertThat(acc.toString().trim(), is(equalTo(
+                String.join("\n",
+                        "onCall get",
+                        "onError get")
+        )));
+    }
 }
