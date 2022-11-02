@@ -15,5 +15,6 @@
  */
 
 package io.appium.java_client.proxy;
+
 public class NotImplementedException extends RuntimeException {
 }

@@ -44,8 +44,7 @@ public interface MethodCallListener {
      * @param obj      The proxy instance
      * @param method   Method to be replaced
      * @param args     Array of method arguments
-     * @param original The reference to the original method in case it is necessary to
-     *                 instrument its result.
+     * @param original The reference to the original method in case it is necessary to instrument its result.
      * @return It is expected that the type of the returned argument could be cast to
      * the returned type of the original method.
      */
@@ -75,8 +74,8 @@ public interface MethodCallListener {
      * @param args   Array of method arguments
      * @param e      Exception instance thrown by the original method invocation.
      * @return You could either (re)throw the exception in this callback or
-     * overwrite the behavior and return a result from it. It is expected that the
-     * type of the returned argument could be cast to the returned type of the original method.
+     *     overwrite the behavior and return a result from it. It is expected that the
+     *     type of the returned argument could be cast to the returned type of the original method.
      */
     default Object onError(Object obj, Method method, Object[] args, Throwable e) throws Throwable {
         throw new NotImplementedException();

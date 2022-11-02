@@ -41,6 +41,16 @@ public class Interceptor {
             .map(Method::getName)
             .collect(Collectors.toSet());
 
+    /**
+     * A magic method used to wrap public method calls in classes
+     * patched by ByteBuddy and acting as proxies.
+     *
+     * @param self The reference to the original instance.
+     * @param method The reference to the original method.
+     * @param args The reference to method args.
+     * @param callable The reference to the non-patched callable to avoid call recursion.
+     * @return Either the original method result or the patched one.
+     */
     @RuntimeType
     public static Object intercept(
             @This Object self,
@@ -77,7 +87,7 @@ public class Interceptor {
             } catch (Exception e) {
                 try {
                     return listener.onError(self, method, args, e);
-                } catch (NotImplementedException e1) {
+                } catch (NotImplementedException ignore) {
                     // ignore
                 }
                 throw e;
@@ -90,7 +100,7 @@ public class Interceptor {
                 for (MethodCallListener listener : listeners) {
                     try {
                         return listener.onError(self, method, args, e);
-                    } catch (NotImplementedException e1) {
+                    } catch (NotImplementedException ignore) {
                         // ignore
                     }
                 }
