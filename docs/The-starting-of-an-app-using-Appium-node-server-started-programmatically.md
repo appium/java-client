@@ -7,30 +7,6 @@
 
 It works the similar way as common [ChromeDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/chrome/ChromeDriver.html), [InternetExplorerDriver](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/ie/InternetExplorerDriver.html) of Selenium project or [PhantomJSDriver](https://cdn.rawgit.com/detro/ghostdriver/master/binding/java/docs/javadoc/org/openqa/selenium/phantomjs/PhantomJSDriver.html). They use subclasses of the [DriverService](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/service/DriverService.html).
 
-# Which capabilities this feature provides
-
-This feature provides abilities and options of the starting of a local Appium node server. End users still able to open apps as usual 
-
-```java
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-    driver = new AndroidDriver<>(new URL("remoteOrLocalAddress"), capabilities);        
-```
-
-when the server is launched locally\remotely. Also user is free to launch a local Appium node server and open their app for the further testing the following way:
-
-```java
-    DesiredCapabilities capabilities = new DesiredCapabilities();
-    capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
-    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-    capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 120);
-    driver = new AndroidDriver<>(capabilities);        
-``` 
-
 # How to prepare the local service before the starting
 
 
@@ -49,6 +25,7 @@ when the server is launched locally\remotely. Also user is free to launch a loca
 ### FYI
 
 There are possible problems related to local environment which could break this:
+
 ```java
 AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
 ```
