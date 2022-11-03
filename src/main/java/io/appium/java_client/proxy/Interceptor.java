@@ -21,6 +21,8 @@ import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -29,13 +31,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Interceptor {
-    private static final Logger logger = Logger.getLogger(Interceptor.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
     public static final Map<Object, Collection<MethodCallListener>> LISTENERS = new WeakHashMap<>();
     private static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
@@ -72,7 +72,10 @@ public class Interceptor {
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Got an unexpected error in beforeCall listener", e);
+                logger.error(
+                        String.format("Got an unexpected error in beforeCall listener of %s.%s method",
+                                self.getClass().getName(), method.getName()), e
+                );
             }
         });
 
@@ -115,7 +118,10 @@ public class Interceptor {
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Got an unexpected error in afterCall listener", e);
+                logger.error(
+                        String.format("Got an unexpected error in afterCall listener of %s.%s method",
+                                self.getClass().getName(), method.getName()), e
+                );
             }
         });
         return endResult;
