@@ -18,7 +18,6 @@ package io.appium.java_client.remote;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import javax.annotation.Nullable;
 import java.net.MalformedURLException;
