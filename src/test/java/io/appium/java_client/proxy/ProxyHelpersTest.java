@@ -17,11 +17,15 @@
 package io.appium.java_client.proxy;
 
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 
@@ -32,6 +36,15 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProxyHelpersTest {
+
+    public static class FakeIOSDriver extends IOSDriver {
+        public FakeIOSDriver(URL url, Capabilities caps) {
+            super(url, caps);
+        }
+
+        @Override
+        protected void startSession(Capabilities capabilities) {}
+    }
 
     @Test
     void shouldFireBeforeAndAfterEvents() {
@@ -87,7 +100,7 @@ class ProxyHelpersTest {
     }
 
     @Test
-    void shouldFireCallEvents() {
+    void shouldFireCallEvents() throws MalformedURLException {
         final StringBuilder acc = new StringBuilder();
         MethodCallListener listener = new MethodCallListener() {
             @Override
@@ -102,9 +115,11 @@ class ProxyHelpersTest {
                 throw e;
             }
         };
-        IOSDriver driver = createProxy(
-                IOSDriver.class,
-                Collections.singletonList(listener)
+        FakeIOSDriver driver = createProxy(
+                FakeIOSDriver.class,
+                new Object[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
+                new Class[] {URL.class, Capabilities.class},
+                listener
         );
 
         assertThrows(

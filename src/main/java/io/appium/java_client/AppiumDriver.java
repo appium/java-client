@@ -68,14 +68,6 @@ public class AppiumDriver extends RemoteWebDriver implements
     protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
 
-    // Needed for tests
-    protected AppiumDriver() {
-        super();
-        remoteAddress = null;
-        executeMethod = new AppiumExecutionMethod(this);
-        locationContext = new RemoteLocationContext(executeMethod);
-    }
-
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
      *

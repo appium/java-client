@@ -131,11 +131,12 @@ MethodCallListener listener = new MethodCallListener() {
         acc.append("afterCall ").append(method.getName()).append("\n");
     }
 };
+
 IOSDriver decoratedDriver = createProxy(
         IOSDriver.class,
-        new Objetc[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
-        new Class<>[] {URL.class, Capabilities.class},
-        Collections.singletonList(listener)
+        new Object[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
+        new Class[] {URL.class, Capabilities.class},
+        listener
 );
 
 decoratedDriver.get("http://example.com/");

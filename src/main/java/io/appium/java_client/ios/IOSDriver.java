@@ -85,11 +85,6 @@ public class IOSDriver extends AppiumDriver implements
 
     private StringWebSocketClient syslogClient;
 
-    // Needed for tests
-    protected IOSDriver() {
-        super();
-    }
-
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
      *

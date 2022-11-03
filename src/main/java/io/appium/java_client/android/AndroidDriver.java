@@ -96,11 +96,6 @@ public class AndroidDriver extends AppiumDriver implements
 
     private StringWebSocketClient logcatClient;
 
-    // Needed for tests
-    protected AndroidDriver() {
-        super();
-    }
-
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
      *
