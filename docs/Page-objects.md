@@ -46,16 +46,15 @@ List<IOSElement> someElements;
 # The example for the crossplatform mobile native testing
 
 ```java
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.*;
 
 @AndroidFindBy(someStrategy) 
 @iOSFindBy(someStrategy) 
-MobileElement someElement;
+WebElement someElement;
 
 @AndroidFindBy(someStrategy) //for the crossplatform mobile native
 @iOSFindBy(someStrategy) //testing
-List<MobileElement> someElements;
+List<WebElement> someElements;
 ```
 
 # The fully cross platform example
