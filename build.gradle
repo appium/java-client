@@ -96,7 +96,7 @@ jacocoTestReport.dependsOn test
 
 checkstyle {
     toolVersion = '8.32'
-    configFile = file("$projectDir/google-style.xml")
+    configFile = file("$projectDir/appium-style.xml")
     showViolations = true
     ignoreFailures = false
 }
