@@ -1,12 +1,5 @@
 package io.appium.java_client.android;
 
-import static java.time.Duration.ofMillis;
-import static java.time.Duration.ofSeconds;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import io.appium.java_client.functions.AppiumFunction;
 import io.appium.java_client.functions.ExpectedCondition;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,6 +17,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.time.Duration.ofMillis;
+import static java.time.Duration.ofSeconds;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AndroidFunctionTest extends BaseAndroidTest {
 

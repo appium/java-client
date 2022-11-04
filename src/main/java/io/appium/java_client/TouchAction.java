@@ -16,13 +16,8 @@
 
 package io.appium.java_client;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.ImmutableList.builder;
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.touch.ActionOptions;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
@@ -32,6 +27,10 @@ import io.appium.java_client.touch.offset.PointOption;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.builder;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Used for Webdriver 3 touch actions

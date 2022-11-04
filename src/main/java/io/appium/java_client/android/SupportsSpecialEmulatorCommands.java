@@ -1,5 +1,8 @@
 package io.appium.java_client.android;
 
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
+
 import static io.appium.java_client.android.AndroidMobileCommandHelper.gsmCallCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.gsmSignalStrengthCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.gsmVoiceCommand;
@@ -7,9 +10,6 @@ import static io.appium.java_client.android.AndroidMobileCommandHelper.networkSp
 import static io.appium.java_client.android.AndroidMobileCommandHelper.powerACCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.powerCapacityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.sendSMSCommand;
-
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecutesMethod;
 
 public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
 

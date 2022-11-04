@@ -16,11 +16,7 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.MobileCommand.prepareArguments;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.HasAppStrings;
@@ -29,9 +25,9 @@ import io.appium.java_client.HasOnScreenKeyboard;
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.InteractsWithApps;
-import io.appium.java_client.PullsFiles;
 import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
 import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.battery.HasBattery;
@@ -55,6 +51,9 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
+
+import static io.appium.java_client.MobileCommand.prepareArguments;
+import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 /**
  * iOS driver implementation.

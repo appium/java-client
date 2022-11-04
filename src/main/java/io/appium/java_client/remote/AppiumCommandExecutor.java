@@ -16,17 +16,11 @@
 
 package io.appium.java_client.remote;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Throwables.throwIfUnchecked;
-import static java.util.Optional.ofNullable;
-import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
-
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
-
 import com.google.common.net.HttpHeaders;
-import io.appium.java_client.AppiumUserAgentFilter;
 import io.appium.java_client.AppiumClientConfig;
+import io.appium.java_client.AppiumUserAgentFilter;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
@@ -55,6 +49,11 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.util.Optional.ofNullable;
+import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor {
     // https://github.com/appium/appium-base-driver/pull/400

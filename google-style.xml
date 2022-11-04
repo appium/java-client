@@ -41,9 +41,16 @@
             <property name="allowByTailComment" value="true"/>
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
-        <module name="AvoidStarImport">
-            <property name="severity" value="warning"/>
-        </module>
+        <module name="AvoidStarImport"/>
+        <module name="CustomImportOrder">
+          <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
+          <property name="specialImportsRegExp" value="^javax\."/>
+          <property name="standardPackageRegExp" value="^java\."/>
+          <property name="sortImportsInGroupAlphabetically" value="true"/>
+          <property name="separateLineBetweenGroups" value="false"/>
+       </module>
+       <module name="RedundantImport"/>
+       <module name="UnusedImports"/>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap"/>
         <module name="EmptyBlock">

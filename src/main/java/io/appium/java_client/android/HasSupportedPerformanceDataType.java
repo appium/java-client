@@ -1,12 +1,12 @@
 package io.appium.java_client.android;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getPerformanceDataCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getSupportedPerformanceDataTypesCommand;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
 import java.util.List;
+
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getPerformanceDataCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getSupportedPerformanceDataTypesCommand;
 
 public interface HasSupportedPerformanceDataType extends ExecutesMethod {
 

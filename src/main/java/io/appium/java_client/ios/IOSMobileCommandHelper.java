@@ -17,7 +17,6 @@
 package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.MobileCommand;
 
 import java.util.AbstractMap;

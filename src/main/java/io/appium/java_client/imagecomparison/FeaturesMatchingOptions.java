@@ -16,12 +16,12 @@
 
 package io.appium.java_client.imagecomparison;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.Optional.ofNullable;
-
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Optional.ofNullable;
 
 public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatchingOptions> {
     private String detectorName;

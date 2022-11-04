@@ -16,9 +16,9 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class IOSAppStringsTest extends AppIOSTest {
 

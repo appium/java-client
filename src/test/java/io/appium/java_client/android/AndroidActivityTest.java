@@ -16,12 +16,12 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AndroidActivityTest extends BaseAndroidTest {
 

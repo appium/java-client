@@ -16,19 +16,20 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.GET_EVENTS;
-import static io.appium.java_client.MobileCommand.LOG_EVENT;
-
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.serverevents.CommandEvent;
 import io.appium.java_client.serverevents.CustomEvent;
-import io.appium.java_client.serverevents.TimedEvent;
 import io.appium.java_client.serverevents.ServerEvents;
+import io.appium.java_client.serverevents.TimedEvent;
+import org.openqa.selenium.json.Json;
+import org.openqa.selenium.remote.Response;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.openqa.selenium.json.Json;
-import org.openqa.selenium.remote.Response;
+
+import static io.appium.java_client.MobileCommand.GET_EVENTS;
+import static io.appium.java_client.MobileCommand.LOG_EVENT;
 
 public interface LogsEvents extends ExecutesMethod {
 

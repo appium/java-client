@@ -16,9 +16,9 @@
 
 package io.appium.java_client.android;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class AndroidAppStringsTest extends BaseAndroidTest {
 

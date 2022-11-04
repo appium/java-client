@@ -16,14 +16,14 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
-
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Method;
+
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 
 /**
  * Intercepts requests to {@link WebElement}.

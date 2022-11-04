@@ -16,12 +16,12 @@
 
 package io.appium.java_client.touch;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.touch.offset.AbstractOptionCombinedWithPosition;
 
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Optional.ofNullable;
 
 public class TapOptions extends AbstractOptionCombinedWithPosition<TapOptions> {
     private Integer tapsCount = null;

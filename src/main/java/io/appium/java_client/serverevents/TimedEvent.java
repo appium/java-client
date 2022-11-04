@@ -1,7 +1,8 @@
 package io.appium.java_client.serverevents;
 
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class TimedEvent {

@@ -16,19 +16,19 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.WithTimeout.DurationBuilder.build;
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.time.Duration;
-import javax.annotation.Nullable;
+
+import static io.appium.java_client.pagefactory.WithTimeout.DurationBuilder.build;
+import static java.util.Optional.ofNullable;
 
 public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;

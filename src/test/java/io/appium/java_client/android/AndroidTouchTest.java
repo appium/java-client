@@ -1,5 +1,16 @@
 package io.appium.java_client.android;
 
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
 import static io.appium.java_client.TestUtils.getCenter;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
@@ -9,18 +20,6 @@ import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import io.appium.java_client.AppiumBy;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 public class AndroidTouchTest extends BaseAndroidTest {
 

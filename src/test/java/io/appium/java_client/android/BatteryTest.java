@@ -16,12 +16,12 @@
 
 package io.appium.java_client.android;
 
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-
-import org.junit.jupiter.api.Test;
 
 public class BatteryTest extends BaseAndroidTest {
 

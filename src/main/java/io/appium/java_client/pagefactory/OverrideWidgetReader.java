@@ -16,19 +16,18 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConvenientConstructor;
-import static io.appium.java_client.remote.MobilePlatform.ANDROID;
-import static io.appium.java_client.remote.MobilePlatform.IOS;
-import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
-
 import io.appium.java_client.pagefactory.bys.ContentType;
-import io.appium.java_client.remote.AutomationName;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConvenientConstructor;
+import static io.appium.java_client.remote.MobilePlatform.ANDROID;
+import static io.appium.java_client.remote.MobilePlatform.IOS;
+import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 class OverrideWidgetReader {
     private static final Class<? extends Widget> EMPTY = Widget.class;

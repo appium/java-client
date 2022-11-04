@@ -16,17 +16,17 @@
 
 package io.appium.java_client.clipboard;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.MobileCommand.GET_CLIPBOARD;
-import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
-import static io.appium.java_client.MobileCommand.prepareArguments;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.Base64;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.GET_CLIPBOARD;
+import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
+import static io.appium.java_client.MobileCommand.prepareArguments;
 
 public interface HasClipboard extends ExecutesMethod {
     /**

@@ -16,10 +16,6 @@
 
 package io.appium.java_client.android;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.android.nativekey.KeyEventFlag;
@@ -27,6 +23,10 @@ import io.appium.java_client.android.nativekey.KeyEventMetaModifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KeyCodeTest extends BaseAndroidTest {
     private static final By PRESS_RESULT_VIEW = By.id("io.appium.android.apis:id/text");

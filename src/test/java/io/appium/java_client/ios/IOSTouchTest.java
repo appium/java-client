@@ -1,14 +1,5 @@
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.ios.touch.IOSPressOptions.iosPressOptions;
-import static io.appium.java_client.touch.TapOptions.tapOptions;
-import static io.appium.java_client.touch.WaitOptions.waitOptions;
-import static io.appium.java_client.touch.offset.ElementOption.element;
-import static java.time.Duration.ofMillis;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
-
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MultiTouchAction;
 import org.junit.jupiter.api.MethodOrderer;
@@ -19,6 +10,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+
+import static io.appium.java_client.ios.touch.IOSPressOptions.iosPressOptions;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofMillis;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class IOSTouchTest extends AppIOSTest {

@@ -16,13 +16,13 @@
 
 package io.appium.java_client.screenrecording;
 
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
+
 import static io.appium.java_client.MobileCommand.START_RECORDING_SCREEN;
 import static io.appium.java_client.MobileCommand.STOP_RECORDING_SCREEN;
 import static io.appium.java_client.MobileCommand.startRecordingScreenCommand;
 import static io.appium.java_client.MobileCommand.stopRecordingScreenCommand;
-
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecutesMethod;
 
 public interface CanRecordScreen extends ExecutesMethod {
 

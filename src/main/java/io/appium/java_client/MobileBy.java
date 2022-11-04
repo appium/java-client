@@ -16,9 +16,9 @@
 
 package io.appium.java_client;
 
-import java.io.Serializable;
-
 import org.openqa.selenium.By;
+
+import java.io.Serializable;
 
 /**
  * Appium locating strategies.

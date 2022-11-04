@@ -16,16 +16,15 @@
 
 package io.appium.java_client.android.appmanagement;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.Optional.ofNullable;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 
 import java.time.Duration;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Optional.ofNullable;
 
 public class AndroidRemoveApplicationOptions extends
         BaseRemoveApplicationOptions<AndroidRemoveApplicationOptions> {

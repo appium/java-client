@@ -16,12 +16,12 @@
 
 package io.appium.java_client.android;
 
+import io.appium.java_client.CommandExecutionHelper;
+import io.appium.java_client.ExecutesMethod;
+
 import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.currentPackageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
-
-import io.appium.java_client.CommandExecutionHelper;
-import io.appium.java_client.ExecutesMethod;
 
 public interface StartsActivity extends ExecutesMethod {
     /**

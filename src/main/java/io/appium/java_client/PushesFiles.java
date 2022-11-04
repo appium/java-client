@@ -16,14 +16,14 @@
 
 package io.appium.java_client;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.MobileCommand.pushFileCommand;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.pushFileCommand;
 
 public interface PushesFiles extends ExecutesMethod {
 

@@ -16,17 +16,15 @@
 
 package io.appium.java_client.android;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.MobileCommand;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.AbstractMap;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * This util class helps to prepare parameters of Android-specific JSONWP

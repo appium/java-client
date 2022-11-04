@@ -16,11 +16,11 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.GET_STRINGS;
-import static io.appium.java_client.MobileCommand.prepareArguments;
-
 import java.util.AbstractMap;
 import java.util.Map;
+
+import static io.appium.java_client.MobileCommand.GET_STRINGS;
+import static io.appium.java_client.MobileCommand.prepareArguments;
 
 public interface HasAppStrings extends ExecutesMethod {
     /**

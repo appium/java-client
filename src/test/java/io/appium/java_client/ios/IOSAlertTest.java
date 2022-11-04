@@ -16,10 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
-
 import io.appium.java_client.AppiumBy;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -32,6 +28,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.function.Supplier;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class IOSAlertTest extends AppIOSTest {

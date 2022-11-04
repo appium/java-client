@@ -16,11 +16,7 @@
 
 package io.appium.java_client.android;
 
-import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -29,6 +25,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.function.Consumer;
+
+import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
+import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 public interface ListensToLogcatMessages extends ExecutesMethod {
     StringWebSocketClient getLogcatClient();
