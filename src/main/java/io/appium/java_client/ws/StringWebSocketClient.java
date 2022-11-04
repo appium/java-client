@@ -16,19 +16,18 @@
 
 package io.appium.java_client.ws;
 
-import java.net.URI;
-import java.time.Duration;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Consumer;
-
-import javax.annotation.Nullable;
-
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.WebSocket;
+
+import javax.annotation.Nullable;
+import java.net.URI;
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 
 public class StringWebSocketClient implements WebSocket.Listener,
         CanHandleMessages<String>, CanHandleErrors, CanHandleConnects, CanHandleDisconnects {

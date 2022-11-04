@@ -16,11 +16,11 @@
 
 package io.appium.java_client.android.nativekey;
 
-import static java.util.Optional.ofNullable;
-
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 public class KeyEvent {
     private Integer keyCode;

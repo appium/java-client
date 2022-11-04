@@ -17,7 +17,6 @@
 package io.appium.java_client;
 
 import com.google.common.base.Throwables;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.TimeoutException;

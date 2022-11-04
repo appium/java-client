@@ -16,8 +16,6 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.compareImagesCommand;
-
 import io.appium.java_client.imagecomparison.ComparisonMode;
 import io.appium.java_client.imagecomparison.FeaturesMatchingOptions;
 import io.appium.java_client.imagecomparison.FeaturesMatchingResult;
@@ -27,11 +25,13 @@ import io.appium.java_client.imagecomparison.SimilarityMatchingOptions;
 import io.appium.java_client.imagecomparison.SimilarityMatchingResult;
 import org.apache.commons.io.FileUtils;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
-import javax.annotation.Nullable;
+
+import static io.appium.java_client.MobileCommand.compareImagesCommand;
 
 public interface ComparesImages extends ExecutesMethod {
 

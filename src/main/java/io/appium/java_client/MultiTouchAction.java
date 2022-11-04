@@ -16,14 +16,14 @@
 
 package io.appium.java_client;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Used for Webdriver 3 multi-touch gestures

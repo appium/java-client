@@ -1,10 +1,10 @@
 package io.appium.java_client.touch.offset;
 
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.touch.ActionOptions;
 
 import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 public abstract class AbstractOptionCombinedWithPosition<T extends AbstractOptionCombinedWithPosition<T>>
         extends ActionOptions<AbstractOptionCombinedWithPosition<T>> {

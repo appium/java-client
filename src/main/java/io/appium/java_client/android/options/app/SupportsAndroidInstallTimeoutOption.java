@@ -24,8 +24,6 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
-
 public interface SupportsAndroidInstallTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String ANDROID_INSTALL_TIMEOUT_OPTION = "androidInstallTimeout";

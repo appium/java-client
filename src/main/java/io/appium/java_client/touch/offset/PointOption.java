@@ -1,11 +1,11 @@
 package io.appium.java_client.touch.offset;
 
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.touch.ActionOptions;
 import org.openqa.selenium.Point;
 
 import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 public class PointOption<T extends PointOption<T>> extends ActionOptions<T> {
 

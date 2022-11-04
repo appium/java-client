@@ -16,8 +16,6 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import io.appium.java_client.functions.AppiumFunction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -27,6 +25,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained {
 

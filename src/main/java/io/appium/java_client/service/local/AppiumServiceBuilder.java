@@ -16,12 +16,7 @@
 
 package io.appium.java_client.service.local;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
-
 import com.google.common.collect.ImmutableList;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -29,7 +24,6 @@ import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.service.local.flags.ServerArgument;
-
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +38,6 @@ import org.openqa.selenium.remote.service.DriverService;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,6 +49,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 public final class AppiumServiceBuilder
         extends DriverService.Builder<AppiumDriverLocalService, AppiumServiceBuilder> {

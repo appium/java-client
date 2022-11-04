@@ -18,7 +18,6 @@ package io.appium.java_client.imagecomparison;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 

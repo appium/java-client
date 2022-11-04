@@ -16,11 +16,10 @@
 
 package io.appium.java_client.ios;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import io.appium.java_client.clipboard.ClipboardContentType;
 import io.appium.java_client.clipboard.HasClipboard;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +28,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import javax.imageio.ImageIO;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public interface HasIOSClipboard extends HasClipboard {
     /**

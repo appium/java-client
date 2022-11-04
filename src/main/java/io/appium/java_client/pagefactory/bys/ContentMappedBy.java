@@ -16,16 +16,16 @@
 
 package io.appium.java_client.pagefactory.bys;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;

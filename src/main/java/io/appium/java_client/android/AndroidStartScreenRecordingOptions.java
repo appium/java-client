@@ -16,15 +16,14 @@
 
 package io.appium.java_client.android;
 
-import static java.util.Optional.ofNullable;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.ScreenRecordingUploadOptions;
 
 import java.time.Duration;
 import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 public class AndroidStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<AndroidStartScreenRecordingOptions> {

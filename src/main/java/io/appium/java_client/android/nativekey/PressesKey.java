@@ -16,13 +16,13 @@
 
 package io.appium.java_client.android.nativekey;
 
-import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
-import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
 import java.util.AbstractMap;
+
+import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
+import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
 
 public interface PressesKey extends ExecutesMethod {
 

@@ -16,11 +16,11 @@
 
 package io.appium.java_client.imagecomparison;
 
-import static java.util.Optional.ofNullable;
-
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceMatchingOptions> {
     private Double threshold;

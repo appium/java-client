@@ -16,16 +16,9 @@
 
 package io.appium.java_client.service.local;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
-import static org.slf4j.event.Level.DEBUG;
-import static org.slf4j.event.Level.INFO;
-
 import com.google.common.annotations.VisibleForTesting;
-
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-
 import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
@@ -33,13 +26,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
+import javax.annotation.Nullable;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
@@ -52,7 +45,10 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nullable;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
+import static org.slf4j.event.Level.DEBUG;
+import static org.slf4j.event.Level.INFO;
 
 public final class AppiumDriverLocalService extends DriverService {
 

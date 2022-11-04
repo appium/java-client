@@ -16,15 +16,14 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.PULL_FILE;
-import static io.appium.java_client.MobileCommand.PULL_FOLDER;
-
 import com.google.common.collect.ImmutableMap;
-
 import org.openqa.selenium.remote.Response;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 
 public interface PullsFiles extends ExecutesMethod {
 

@@ -16,10 +16,10 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+
+import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
 public interface ShakesDevice extends ExecutesMethod {
 

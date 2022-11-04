@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios;
 
-import static io.appium.java_client.ios.IOSMobileCommandHelper.toggleTouchIdEnrollmentCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.touchIdCommand;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+
+import static io.appium.java_client.ios.IOSMobileCommandHelper.toggleTouchIdEnrollmentCommand;
+import static io.appium.java_client.ios.IOSMobileCommandHelper.touchIdCommand;
 
 public interface PerformsTouchID extends ExecutesMethod {
 

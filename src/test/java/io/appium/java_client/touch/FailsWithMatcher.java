@@ -1,11 +1,11 @@
 package io.appium.java_client.touch;
 
-import static org.hamcrest.core.AllOf.allOf;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
 public final class FailsWithMatcher<E extends Throwable> extends TypeSafeMatcher<Runnable> {
 

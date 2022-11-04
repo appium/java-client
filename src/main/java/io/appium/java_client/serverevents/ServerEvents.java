@@ -1,10 +1,11 @@
 package io.appium.java_client.serverevents;
 
+import lombok.Data;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import lombok.Data;
 
 @Data
 public class ServerEvents {

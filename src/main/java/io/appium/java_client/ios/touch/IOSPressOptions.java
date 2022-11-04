@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ios.touch;
 
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.touch.offset.AbstractOptionCombinedWithPosition;
 
 import java.util.Map;
+
+import static java.util.Optional.ofNullable;
 
 public class IOSPressOptions extends AbstractOptionCombinedWithPosition<IOSPressOptions> {
     private Double pressure = null;

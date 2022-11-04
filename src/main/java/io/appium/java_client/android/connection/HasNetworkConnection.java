@@ -16,11 +16,11 @@
 
 package io.appium.java_client.android.connection;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+
+import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
+import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
 
 public interface HasNetworkConnection extends ExecutesMethod {
 

@@ -1,9 +1,9 @@
 package io.appium.java_client.android;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.fingerPrintCommand;
-
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+
+import static io.appium.java_client.android.AndroidMobileCommandHelper.fingerPrintCommand;
 
 public interface AuthenticatesByFinger extends ExecutesMethod {
 

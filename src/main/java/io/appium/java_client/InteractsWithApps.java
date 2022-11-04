@@ -16,6 +16,17 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.appmanagement.ApplicationState;
+import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
+import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
+import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
+import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
+
+import javax.annotation.Nullable;
+import java.time.Duration;
+import java.util.AbstractMap;
+
 import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
 import static io.appium.java_client.MobileCommand.INSTALL_APP;
 import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
@@ -24,18 +35,6 @@ import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 import static io.appium.java_client.MobileCommand.prepareArguments;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.appium.java_client.appmanagement.ApplicationState;
-import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
-import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
-import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
-import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
-
-import java.time.Duration;
-import java.util.AbstractMap;
-import javax.annotation.Nullable;
 
 @SuppressWarnings("rawtypes")
 public interface InteractsWithApps extends ExecutesMethod {

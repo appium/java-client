@@ -16,11 +16,6 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
-import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
-import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
@@ -50,6 +45,11 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+
+import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
+import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
+import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Default Appium driver implementation.

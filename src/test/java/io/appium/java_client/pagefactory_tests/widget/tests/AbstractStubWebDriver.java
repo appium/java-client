@@ -1,13 +1,5 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
-import static com.google.common.collect.ImmutableList.of;
-import static io.appium.java_client.remote.AutomationName.ANDROID_UIAUTOMATOR2;
-import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
-import static io.appium.java_client.remote.MobilePlatform.ANDROID;
-import static io.appium.java_client.remote.MobilePlatform.IOS;
-import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-
 import io.appium.java_client.HasBrowserCheck;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
@@ -24,6 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static com.google.common.collect.ImmutableList.of;
+import static io.appium.java_client.remote.AutomationName.ANDROID_UIAUTOMATOR2;
+import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
+import static io.appium.java_client.remote.MobilePlatform.ANDROID;
+import static io.appium.java_client.remote.MobilePlatform.IOS;
+import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public abstract class AbstractStubWebDriver implements
         WebDriver,

@@ -16,15 +16,15 @@
 
 package io.appium.java_client.android;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import io.appium.java_client.serverevents.CommandEvent;
 import io.appium.java_client.serverevents.CustomEvent;
-import io.appium.java_client.serverevents.TimedEvent;
 import io.appium.java_client.serverevents.ServerEvents;
+import io.appium.java_client.serverevents.TimedEvent;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LogEventTest extends BaseAndroidTest {
 

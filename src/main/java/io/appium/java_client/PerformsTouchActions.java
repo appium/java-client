@@ -16,11 +16,11 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
-import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
-
 import java.util.List;
 import java.util.Map;
+
+import static io.appium.java_client.MobileCommand.PERFORM_MULTI_TOUCH;
+import static io.appium.java_client.MobileCommand.PERFORM_TOUCH_ACTION;
 
 /**
  * Touch actions are deprecated.

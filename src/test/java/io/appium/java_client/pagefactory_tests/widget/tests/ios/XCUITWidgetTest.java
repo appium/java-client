@@ -1,15 +1,15 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.ios;
 
+import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
+import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
+import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
+import org.junit.jupiter.api.Test;
+
 import static io.appium.java_client.AppiumBy.iOSNsPredicateString;
 import static io.appium.java_client.pagefactory_tests.widget.tests.combined.DefaultIosXCUITWidget.XCUIT_SUB_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.AnnotatedIosWidget.XCUIT_ROOT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.IOS_XCUIT_WIDGET_LOCATOR;
 import static io.appium.java_client.pagefactory_tests.widget.tests.ios.IosApp.XCUIT_EXTERNALLY_DEFINED_WIDGET_LOCATOR;
-
-import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
-import io.appium.java_client.pagefactory_tests.widget.tests.ExtendedApp;
-import io.appium.java_client.pagefactory_tests.widget.tests.WidgetTest;
-import org.junit.jupiter.api.Test;
 
 public class XCUITWidgetTest extends WidgetTest {
 

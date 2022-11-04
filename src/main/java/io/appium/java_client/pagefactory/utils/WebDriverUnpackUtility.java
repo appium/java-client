@@ -16,11 +16,6 @@
 
 package io.appium.java_client.pagefactory.utils;
 
-import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
-import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
-import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
-
 import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import org.openqa.selenium.ContextAware;
@@ -28,6 +23,11 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
+
+import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
+import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";

@@ -17,7 +17,6 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
-
 import io.appium.java_client.imagecomparison.BaseComparisonOptions;
 import io.appium.java_client.imagecomparison.ComparisonMode;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
@@ -26,12 +25,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import javax.annotation.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 /**
  * The repository of mobile commands defined in the Mobile JSON

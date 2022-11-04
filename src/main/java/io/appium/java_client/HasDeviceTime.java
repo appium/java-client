@@ -16,15 +16,14 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
+
+import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 
 public interface HasDeviceTime extends ExecutesMethod {
 

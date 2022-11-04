@@ -16,15 +16,8 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
-import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
-import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
-import static java.lang.String.format;
-
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -39,6 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
+import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {
 

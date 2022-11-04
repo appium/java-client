@@ -16,10 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import static java.lang.Integer.signum;
-import static java.util.Arrays.asList;
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
@@ -45,6 +41,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static java.lang.Integer.signum;
+import static java.util.Arrays.asList;
+import static java.util.Optional.ofNullable;
 
 public class DefaultElementByBuilder extends AppiumByBuilder {
 

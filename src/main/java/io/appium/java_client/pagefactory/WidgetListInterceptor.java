@@ -16,10 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
-import static java.util.Optional.ofNullable;
-
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -33,6 +29,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.util.Optional.ofNullable;
 
 class WidgetListInterceptor extends InterceptorOfAListOfElements {
 

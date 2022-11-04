@@ -16,12 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
-import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
-import static java.time.Duration.ofSeconds;
-
 import com.google.common.collect.ImmutableList;
-
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -48,6 +43,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
+import static java.time.Duration.ofSeconds;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the

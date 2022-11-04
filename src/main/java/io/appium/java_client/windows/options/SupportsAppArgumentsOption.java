@@ -20,7 +20,6 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
-import java.net.URL;
 import java.util.Optional;
 
 public interface SupportsAppArgumentsOption<T extends BaseOptions<T>> extends

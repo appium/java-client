@@ -16,15 +16,15 @@
 
 package io.appium.java_client;
 
-import static io.appium.java_client.MobileCommand.getSettingsCommand;
-import static io.appium.java_client.MobileCommand.setSettingsCommand;
-
 import org.openqa.selenium.remote.Response;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import static io.appium.java_client.MobileCommand.getSettingsCommand;
+import static io.appium.java_client.MobileCommand.setSettingsCommand;
 
 public interface HasSettings extends ExecutesMethod {
 
