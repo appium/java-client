@@ -1,0 +1,20 @@
+name: Publish package to the Maven Central Repository
+on:
+  release:
+    types: [created]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'zulu'
+          cache: 'gradle'
+      - name: Publish package
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        run: ./gradlew publish
