@@ -201,6 +201,30 @@ You could find much more code examples by checking client's
 [unit and integration tests](src/test/java/io/appium/java_client).
 
 ## Changelog
+*8.2.1*
+- **[ENHANCEMENTS]**
+  - BYACCESSABILITY is deprecated in favor of BYACCESSIBILITY. [#1752](https://github.com/appium/java-client/pull/1752)
+  - Connect directly to Appium Hosts in Distributed Environments. [#1747](https://github.com/appium/java-client/pull/1747)
+  - use own User Agent. [#1779](https://github.com/appium/java-client/pull/1779)
+  - Add alternative proxy implementation. [#1790](https://github.com/appium/java-client/pull/1790)
+- **[BUG FIX]**
+  - Enforce usage of Base64 compliant with RFC 4648 for all operations. [#1785](https://github.com/appium/java-client/pull/1785)
+  - Override getScreenshotAs to support the legacy base64 encoding. [#1787](https://github.com/appium/java-client/pull/1787)
+- **[REFRACTOR]**
+  - BYACCESSABILITY is deprecated in favor of BYACCESSIBILITY. [#1752](https://github.com/appium/java-client/pull/1752)
+  - JUnit5 test classes and methods are updated to have default package visibility. [#1755](https://github.com/appium/java-client/pull/1755)
+  - Verify if the PR title complies with conventional commits spec. [#1757](https://github.com/appium/java-client/pull/1757)
+  - Use Lombok in direct connect class. [#1789](https://github.com/appium/java-client/pull/1789)
+  - Update readme and remove obsolete documents. [#1792](https://github.com/appium/java-client/pull/1792)
+  - Remove unnecessary annotation. [#1791](https://github.com/appium/java-client/pull/1791)
+  - Force unified imports order. [#1793](https://github.com/appium/java-client/pull/1793)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.5.0.
+  - `org.owasp.dependencycheck` was updated to 7.3.0.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.3.1.
+  - `org.junit.jupiter:junit-jupiter` was updated to 5.9.1.
+  - `org.slf4j:slf4j-api` was updated to 2.0.3.
+  - `com.google.code.gson:gson` was updated to 2.10.0.
 *8.2.0*
 - **[ENHANCEMENTS]**
   - AppiumDriverLocalService can handle outputStreams. [#1709](https://github.com/appium/java-client/pull/1709)
