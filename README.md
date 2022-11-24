@@ -207,6 +207,7 @@ You could find much more code examples by checking client's
   - Connect directly to Appium Hosts in Distributed Environments. [#1747](https://github.com/appium/java-client/pull/1747)
   - use own User Agent. [#1779](https://github.com/appium/java-client/pull/1779)
   - Add alternative proxy implementation. [#1790](https://github.com/appium/java-client/pull/1790)
+  - Automated artefact publish to maven central. [#1803](https://github.com/appium/java-client/pull/1803) & [#1807](https://github.com/appium/java-client/pull/1807)
 - **[BUG FIX]**
   - Enforce usage of Base64 compliant with RFC 4648 for all operations. [#1785](https://github.com/appium/java-client/pull/1785)
   - Override getScreenshotAs to support the legacy base64 encoding. [#1787](https://github.com/appium/java-client/pull/1787)
@@ -220,10 +221,10 @@ You could find much more code examples by checking client's
   - Force unified imports order. [#1793](https://github.com/appium/java-client/pull/1793)
 - **[DEPENDENCY UPDATES]**
   - `org.seleniumhq.selenium:selenium-java` was updated to 4.5.0.
-  - `org.owasp.dependencycheck` was updated to 7.3.0.
+  - `org.owasp.dependencycheck` was updated to 7.3.2.
   - `io.github.bonigarcia:webdrivermanager` was updated to 5.3.1.
   - `org.junit.jupiter:junit-jupiter` was updated to 5.9.1.
-  - `org.slf4j:slf4j-api` was updated to 2.0.3.
+  - `org.slf4j:slf4j-api` was updated to 2.0.4.
   - `com.google.code.gson:gson` was updated to 2.10.0.
 *8.2.0*
 - **[ENHANCEMENTS]**
