@@ -17,4 +17,6 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          PGP_SECRET: ${{ secrets.SIGNING_KEY }}
+          PGP_PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew publish

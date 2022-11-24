@@ -177,6 +177,9 @@ publishing {
 }
 
 signing {
+    def signingKey = System.getenv("PGP_SECRET")
+    def signingPassword = System.getenv("PGP_PASSPHRASE")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
 }
 
