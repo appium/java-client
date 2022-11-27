@@ -200,6 +200,33 @@ Check the corresponding driver's READMEs to know the list of capabilities and fe
 You could find much more code examples by checking client's 
 [unit and integration tests](src/test/java/io/appium/java_client).
 
+## Troubleshooting
+
+### InaccessibleObjectException is thrown in runtime if Java 16+ is used
+
+Appium Java client uses reflective access to private members of other modules
+to ensure proper functionality of several features, like Page Object model.
+If you get a runtime exception and `InaccessibleObjectException` is present in
+the stacktrace, and your Java runtime is at version 16 or higher, then consider following 
+[Oracle's tutorial](https://docs.oracle.com/en/java/javase/16/migrate/migrating-jdk-8-later-jdk-releases.html#GUID-7BB28E4D-99B3-4078-BDC4-FC24180CE82B)
+and/or checking [existing issues](https://github.com/appium/java-client/search?q=InaccessibleObjectException&type=issues)
+for possible solutions. Basically, the idea there would be to explicitly allow
+access for particular modules using `--add-exports/--add-opens` command line arguments.
+
+Another possible, but weakly advised solution, would be to downgrade Java to
+version 15 or lower.
+
+### Issues related to environment variables presence or to their values
+
+Such issues are usually the case when Appium server is started directly from your
+framework code rather than run separately by a script or manually. Depending
+on the way the server process is started it may or may not inherit the currently
+active shell environment. That is why you may still receive errors about variables
+presence even though these variables ar actually defined for your command line interpreter.
+Again, there is no universal solution to that, as there are many ways to spin up a new 
+server process. Consider checking the [Appium Environment Troubleshooting](docs/environment.md)
+document for more information on how to debug and fix process environment issues. 
+
 ## Changelog
 *8.2.1*
 - **[ENHANCEMENTS]**
