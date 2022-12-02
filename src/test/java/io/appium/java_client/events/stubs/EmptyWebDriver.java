@@ -22,13 +22,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -43,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
+public class EmptyWebDriver implements WebDriver, ContextAware,
         JavascriptExecutor, HasCapabilities, TakesScreenshot {
     public EmptyWebDriver() {
     }
@@ -62,20 +59,6 @@ public class EmptyWebDriver implements WebDriver, ContextAware, Rotatable,
 
     public String getContext() {
         return "";
-    }
-
-    public void rotate(ScreenOrientation orientation) {
-    }
-
-    public void rotate(DeviceRotation rotation) {
-    }
-
-    public ScreenOrientation getOrientation() {
-        return null;
-    }
-
-    public DeviceRotation rotation() {
-        return null;
     }
 
     public void get(String url) {
