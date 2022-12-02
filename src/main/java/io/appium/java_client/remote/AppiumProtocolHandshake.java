@@ -30,7 +30,6 @@ import org.openqa.selenium.remote.NewSessionPayload;
 import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.http.HttpHandler;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -39,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -62,7 +62,7 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
             try {
                 Method getW3CMethod = NewSessionPayload.class.getDeclaredMethod("getW3C");
                 getW3CMethod.setAccessible(true);
-                //noinspection unchecked
+                //noinspection unchecked,resource
                 ((Stream<Map<String, Object>>) getW3CMethod.invoke(srcPayload))
                         .findFirst()
                         .map(json::write)
@@ -111,26 +111,31 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
     public Either<SessionNotCreatedException, Result> createSession(
             HttpHandler client, NewSessionPayload payload) throws IOException {
         int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
-        FileBackedOutputStream os = new FileBackedOutputStream(threshold);
+        FileBackedOutputStream os = new FileBackedOutputStream(threshold, true);
 
         try (CountingOutputStream counter = new CountingOutputStream(os);
              Writer writer = new OutputStreamWriter(counter, UTF_8)) {
             writeJsonPayload(payload, writer);
 
-            try (InputStream rawIn = os.asByteSource().openBufferedStream();
-                 BufferedInputStream contentStream = new BufferedInputStream(rawIn)) {
-                Method createSessionMethod = ProtocolHandshake.class.getDeclaredMethod("createSession",
-                        HttpHandler.class, InputStream.class, long.class);
+            Supplier<InputStream> contentSupplier = () -> {
+                try {
+                    return os.asByteSource().openBufferedStream();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            };
+            try {
+                Method createSessionMethod = ProtocolHandshake.class.getDeclaredMethod(
+                        "createSession", HttpHandler.class, Supplier.class, long.class
+                );
                 createSessionMethod.setAccessible(true);
                 //noinspection unchecked
                 return (Either<SessionNotCreatedException, Result>) createSessionMethod.invoke(
-                        this, client, contentStream, counter.getCount()
+                        this, client, contentSupplier, counter.getCount()
                 );
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 throw new WebDriverException(e);
             }
-        } finally {
-            os.reset();
         }
     }
 }
