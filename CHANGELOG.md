@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+*8.3.0*
+- **[DOCUMENTATION]**
+  - Added troubleshooting section. [#1808](https://github.com/appium/java-client/pull/1808)
+  - Added CHANGELOG.md. [#1810](https://github.com/appium/java-client/pull/1810)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.7.0.
+  - `org.slf4j:slf4j-api` was updated to 2.0.5.
+
 *8.2.1*
 - **[ENHANCEMENTS]**
     - BYACCESSABILITY is deprecated in favor of BYACCESSIBILITY. [#1752](https://github.com/appium/java-client/pull/1752)
