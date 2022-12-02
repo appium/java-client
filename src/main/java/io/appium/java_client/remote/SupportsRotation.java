@@ -19,7 +19,6 @@ package io.appium.java_client.remote;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.DeviceRotation;
-import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DriverCommand;
@@ -27,7 +26,7 @@ import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 
-public interface SupportsRotation extends WebDriver, ExecutesMethod, Rotatable {
+public interface SupportsRotation extends WebDriver, ExecutesMethod {
     /**
      * Get device rotation.
      *
