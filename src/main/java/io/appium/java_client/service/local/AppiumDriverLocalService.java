@@ -17,6 +17,7 @@
 package io.appium.java_client.service.local;
 
 import com.google.common.annotations.VisibleForTesting;
+import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.net.UrlChecker;
@@ -31,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -226,15 +226,15 @@ public final class AppiumDriverLocalService extends DriverService {
         // it does not exit after two seconds, which is in most cases not enough for
         // Appium
         try {
-            Field processField = process.getClass().getDeclaredField("process");
-            processField.setAccessible(true);
-            Object osProcess = processField.get(process);
-            Field watchdogField = osProcess.getClass().getDeclaredField("executeWatchdog");
-            watchdogField.setAccessible(true);
-            Object watchdog = watchdogField.get(osProcess);
-            Field nativeProcessField = watchdog.getClass().getDeclaredField("process");
-            nativeProcessField.setAccessible(true);
-            Process nativeProcess = (Process) nativeProcessField.get(watchdog);
+            Object osProcess = ReflectionHelpers.getPrivateFieldValue(
+                    process.getClass(), process, "process", Object.class
+            );
+            Object watchdog = ReflectionHelpers.getPrivateFieldValue(
+                    osProcess.getClass(), osProcess, "executeWatchdog", Object.class
+            );
+            Process nativeProcess = ReflectionHelpers.getPrivateFieldValue(
+                    watchdog.getClass(), watchdog, "process", Process.class
+            );
             nativeProcess.destroy();
             nativeProcess.waitFor(timeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (Exception e) {

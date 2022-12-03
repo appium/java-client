@@ -46,7 +46,6 @@ public class WindowsDriver extends AppiumDriver implements
         super(executor, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
-
     public WindowsDriver(URL remoteAddress, Capabilities capabilities) {
         super(remoteAddress, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
@@ -80,6 +79,10 @@ public class WindowsDriver extends AppiumDriver implements
     public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
+    }
+
+    public WindowsDriver(URL remoteSessionAddress) {
+        super(remoteSessionAddress, PLATFORM_NAME, AUTOMATION_NAME);
     }
 
     /**

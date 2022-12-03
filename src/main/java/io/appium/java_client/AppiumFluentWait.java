@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.base.Throwables;
+import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.TimeoutException;
@@ -24,7 +25,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Sleeper;
 
-import java.lang.reflect.Field;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -99,23 +99,15 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
-        try {
-            final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
-            f.setAccessible(true);
-            return fieldType.cast(f.get(this));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
-        }
+        return ReflectionHelpers.getPrivateFieldValue(
+                getClass().getSuperclass(), this, fieldName, fieldType
+        );
     }
 
     private Object getPrivateFieldValue(String fieldName) {
-        try {
-            final Field f = getClass().getSuperclass().getDeclaredField(fieldName);
-            f.setAccessible(true);
-            return f.get(this);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
-        }
+        return ReflectionHelpers.getPrivateFieldValue(
+                getClass().getSuperclass(), this, fieldName, Object.class
+        );
     }
 
     protected Clock getClock() {

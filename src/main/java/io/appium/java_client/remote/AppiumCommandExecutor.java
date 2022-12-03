@@ -21,6 +21,7 @@ import com.google.common.base.Throwables;
 import com.google.common.net.HttpHeaders;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumUserAgentFilter;
+import io.appium.java_client.internal.ReflectionHelpers;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
@@ -42,7 +43,6 @@ import org.openqa.selenium.remote.service.DriverService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -128,25 +128,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     @SuppressWarnings("SameParameterValue")
     protected <B> B getPrivateFieldValue(
             Class<? extends CommandExecutor> cls, String fieldName, Class<B> fieldType) {
-        try {
-            final Field f = cls.getDeclaredField(fieldName);
-            f.setAccessible(true);
-            return fieldType.cast(f.get(this));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
-        }
+        return ReflectionHelpers.getPrivateFieldValue(cls, this, fieldName, fieldType);
     }
 
     @SuppressWarnings("SameParameterValue")
     protected void setPrivateFieldValue(
             Class<? extends CommandExecutor> cls, String fieldName, Object newValue) {
-        try {
-            final Field f = cls.getDeclaredField(fieldName);
-            f.setAccessible(true);
-            f.set(this, newValue);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
-        }
+        ReflectionHelpers.setPrivateFieldValue(cls, this, fieldName, newValue);
     }
 
     protected Map<String, CommandInfo> getAdditionalCommands() {
@@ -159,11 +147,11 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue(HttpCommandExecutor.class, "commandCodec", CommandCodec.class);
     }
 
-    protected void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+    public void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
         setPrivateFieldValue(HttpCommandExecutor.class, "commandCodec", newCodec);
     }
 
-    protected void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+    public void setResponseCodec(ResponseCodec<HttpResponse> codec) {
         setPrivateFieldValue(HttpCommandExecutor.class, "responseCodec", codec);
     }
 
