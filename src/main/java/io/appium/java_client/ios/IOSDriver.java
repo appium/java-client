@@ -31,6 +31,7 @@ import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
 import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.battery.HasBattery;
+import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.remote.SupportsLocation;
 import io.appium.java_client.remote.SupportsRotation;
@@ -228,10 +229,9 @@ public class IOSDriver extends AppiumDriver implements
      * !!! This API is supposed to be used for **debugging purposes only**.
      *
      * @param remoteSessionAddress The address of the **running** session including the session identifier.
-     * @param automationName The name of the target automation.
      */
-    public IOSDriver(URL remoteSessionAddress, String automationName) {
-        super(remoteSessionAddress, PLATFORM_NAME, automationName);
+    public IOSDriver(URL remoteSessionAddress) {
+        super(remoteSessionAddress, PLATFORM_NAME, AutomationName.IOS_XCUI_TEST);
     }
 
     /**

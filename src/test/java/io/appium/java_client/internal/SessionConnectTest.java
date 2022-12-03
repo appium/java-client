@@ -29,9 +29,7 @@ public class SessionConnectTest {
 
     @Test
     void canConnectToASession() throws MalformedURLException {
-        IOSDriver driver = new IOSDriver(
-                new URL("http://localhost:4723/session/1234"), "xcuitest"
-        );
+        IOSDriver driver = new IOSDriver(new URL("http://localhost:4723/session/1234"));
         assertEquals(driver.getSessionId().toString(), "1234");
         assertThrows(WebDriverException.class, driver::quit);
     }
