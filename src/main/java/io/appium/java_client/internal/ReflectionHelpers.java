@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.appium.java_client.internal;
 
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.CommandExecutor;
 
 import java.lang.reflect.Field;
 
 public class ReflectionHelpers {
+
+    /**
+     * Sets the given value to a private instance field.
+     *
+     * @param cls The target class or a superclass.
+     * @param target Target instance.
+     * @param fieldName Target field name.
+     * @param newValue The value to be set.
+     * @return The same instance for chaining.
+     */
     public static <T> T setPrivateFieldValue(Class<?> cls, T target, String fieldName, Object newValue) {
         try {
             final Field f = cls.getDeclaredField(fieldName);
@@ -32,6 +42,15 @@ public class ReflectionHelpers {
         return target;
     }
 
+    /**
+     * Fetches the value of a private instance field.
+     *
+     * @param cls The target class or a superclass.
+     * @param target Target instance.
+     * @param fieldName Target field name.
+     * @param fieldType Field type.
+     * @return The retrieved field value.
+     */
     public static <T> T getPrivateFieldValue(Class<?> cls, Object target, String fieldName, Class<T> fieldType) {
         try {
             final Field f = cls.getDeclaredField(fieldName);
