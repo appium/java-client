@@ -99,15 +99,11 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
-        return ReflectionHelpers.getPrivateFieldValue(
-                getClass().getSuperclass(), this, fieldName, fieldType
-        );
+        return ReflectionHelpers.getPrivateFieldValue(FluentWait.class, this, fieldName, fieldType);
     }
 
     private Object getPrivateFieldValue(String fieldName) {
-        return ReflectionHelpers.getPrivateFieldValue(
-                getClass().getSuperclass(), this, fieldName, Object.class
-        );
+        return getPrivateFieldValue(fieldName, Object.class);
     }
 
     protected Clock getClock() {
