@@ -16,9 +16,13 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.internal.ReflectionHelpers;
+import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
+import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -36,11 +40,11 @@ import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -126,6 +130,42 @@ public class AppiumDriver extends RemoteWebDriver implements
 
     public AppiumDriver(Capabilities capabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), capabilities);
+    }
+
+    /**
+     * This is a special constructor used to connect to a running driver instance.
+     * It does not do any necessary verifications, but rather assumes the given
+     * driver session is already running at `remoteSessionAddress`.
+     * The maintenance of driver state(s) is the caller's responsibility.
+     * !!! This API is supposed to be used for **debugging purposes only**.
+     *
+     * @param remoteSessionAddress The address of the **running** session including the session identifier.
+     * @param platformName The name of the target platform.
+     * @param automationName The name of the target automation.
+     */
+    public AppiumDriver(URL remoteSessionAddress, String platformName, String automationName) {
+        super();
+        ReflectionHelpers.setPrivateFieldValue(
+                RemoteWebDriver.class, this, "capabilities", new ImmutableCapabilities(
+                        ImmutableMap.of(
+                                PLATFORM_NAME, platformName,
+                                APPIUM_PREFIX + AUTOMATION_NAME, automationName
+                        )
+                )
+        );
+        SessionHelpers.SessionAddress sessionAddress = SessionHelpers.parseSessionAddress(remoteSessionAddress);
+        AppiumCommandExecutor executor = new AppiumCommandExecutor(
+                MobileCommand.commandRepository, sessionAddress.getServerUrl()
+        );
+        executor.setCommandCodec(new AppiumW3CHttpCommandCodec());
+        executor.setResponseCodec(new W3CHttpResponseCodec());
+        setCommandExecutor(executor);
+        this.executeMethod = new AppiumExecutionMethod(this);
+        locationContext = new RemoteLocationContext(executeMethod);
+        super.setErrorHandler(errorHandler);
+        this.remoteAddress = executor.getAddressOfRemoteServer();
+
+        setSessionId(sessionAddress.getId());
     }
 
     /**
@@ -252,13 +292,9 @@ public class AppiumDriver extends RemoteWebDriver implements
             rawCapabilities.remove(CapabilityType.BROWSER_NAME);
         }
         MutableCapabilities returnedCapabilities = new BaseOptions<>(rawCapabilities);
-        try {
-            Field capsField = RemoteWebDriver.class.getDeclaredField("capabilities");
-            capsField.setAccessible(true);
-            capsField.set(this, returnedCapabilities);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
-        }
+        ReflectionHelpers.setPrivateFieldValue(
+                RemoteWebDriver.class, this, "capabilities", returnedCapabilities
+        );
         setSessionId(response.getSessionId());
     }
 

@@ -31,6 +31,7 @@ import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
 import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.battery.HasBattery;
+import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.remote.SupportsLocation;
 import io.appium.java_client.remote.SupportsRotation;
@@ -220,6 +221,18 @@ public class IOSDriver extends AppiumDriver implements
         super(appiumClientConfig, ensurePlatformName(capabilities, PLATFORM_NAME));
     }
 
+    /**
+     * This is a special constructor used to connect to a running driver instance.
+     * It does not do any necessary verifications, but rather assumes the given
+     * driver session is already running at `remoteSessionAddress`.
+     * The maintenance of driver state(s) is the caller's responsibility.
+     * !!! This API is supposed to be used for **debugging purposes only**.
+     *
+     * @param remoteSessionAddress The address of the **running** session including the session identifier.
+     */
+    public IOSDriver(URL remoteSessionAddress) {
+        super(remoteSessionAddress, PLATFORM_NAME, AutomationName.IOS_XCUI_TEST);
+    }
 
     /**
      * Creates a new instance based on {@code capabilities}.

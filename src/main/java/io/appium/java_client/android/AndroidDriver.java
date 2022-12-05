@@ -241,6 +241,20 @@ public class AndroidDriver extends AppiumDriver implements
     }
 
     /**
+     * This is a special constructor used to connect to a running driver instance.
+     * It does not do any necessary verifications, but rather assumes the given
+     * driver session is already running at `remoteSessionAddress`.
+     * The maintenance of driver state(s) is the caller's responsibility.
+     * !!! This API is supposed to be used for **debugging purposes only**.
+     *
+     * @param remoteSessionAddress The address of the **running** session including the session identifier.
+     * @param automationName The name of the target automation.
+     */
+    public AndroidDriver(URL remoteSessionAddress, String automationName) {
+        super(remoteSessionAddress, ANDROID_PLATFORM, automationName);
+    }
+
+    /**
      * Get test-coverage data.
      *
      * @param intent intent to broadcast.
