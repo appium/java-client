@@ -38,7 +38,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * is assigned to the default port (4723).
      */
     default void startLogcatBroadcast() {
-        startLogcatBroadcast("localhost", DEFAULT_APPIUM_PORT);
+        startLogcatBroadcast("127.0.0.1", DEFAULT_APPIUM_PORT);
     }
 
     /**
