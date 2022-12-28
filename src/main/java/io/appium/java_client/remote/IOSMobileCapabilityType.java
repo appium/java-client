@@ -170,7 +170,10 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     /**
      * The desired capability to specify a length for tapping, if the regular
      * tap is too long for the app under test. The  XCUITest specific capability.
+     * 
+     * @Deprecated This capability is not being used.
      */
+    @Deprecated
     String TAP_WITH_SHORT_PRESS_DURATION = "tapWithShortPressDuration";
 
     /**
