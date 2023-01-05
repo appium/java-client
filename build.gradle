@@ -100,7 +100,6 @@ checkstyle {
     showViolations = true
     ignoreFailures = false
 }
-checkstyleMain.excludes = ['**/org/openqa/selenium/**']
 
 javadoc {
     options.addStringOption('encoding', 'UTF-8')
