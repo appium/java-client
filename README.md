@@ -87,6 +87,13 @@ dependencies {
 }
 ```
 
+### How to pin Selenium dependencies?
+
+Appium Java Client declares Selenium dependencies using open version range which is handled in differently by different
+build tools. Sometimes users may want to pin used Selenium dependencies for [various reasons](https://github.com/appium/java-client/issues/1823).
+Follow the [Transitive Dependencies Management article](docs/transitive-dependencies-management.md) for more information
+about establishing a fixed Selenium version for your Java test framework.
+
 ## Drivers Support
 
 Appium java client has dedicated classes to support the following Appium drivers:
