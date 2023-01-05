@@ -4,9 +4,19 @@ on:
   push:
     branches:
     - master
+    paths:
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'gradle/wrapper/**'
+      - '.github/workflows/gradle-wrapper-validation.yml'
   pull_request:
     branches:
     - master
+    paths:
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'gradle/wrapper/**'
+      - '.github/workflows/gradle-wrapper-validation.yml'
 
 jobs:
   validation:
