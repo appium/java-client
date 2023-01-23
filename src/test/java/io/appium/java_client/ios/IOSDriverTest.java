@@ -73,7 +73,7 @@ public class IOSDriverTest extends AppIOSTest {
                 String.format("/session/%s/appium/element/%s/value", driver.getSessionId(),
                         ((RemoteWebElement) intA).getId()), "setNewValue");
         final Response setNewValue = driver.execute("setNewValue",
-                ImmutableMap.of("id", ((RemoteWebElement) intA).getId(), "value", "8"));
+                ImmutableMap.of("id", ((RemoteWebElement) intA).getId(), "text", "8"));
         assertNotNull(setNewValue.getSessionId());
     }
 
