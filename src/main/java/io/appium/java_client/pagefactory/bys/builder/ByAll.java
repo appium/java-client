@@ -16,11 +16,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Mechanism used to locate elements within a document using a series of  lookups. This class will
  * find all DOM elements that matches any of the locators in sequence, e.g.
- *
  * <pre>
  * driver.findElements(new ByAll(by1, by2))
  * </pre>
- *
  * will find all elements that match <var>by1</var> and then all elements that match <var>by2</var>.
  * This means that the list of elements returned may not be in document order.
  * 

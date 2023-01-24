@@ -35,9 +35,10 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * Refer to https://developer.android.com/training/testing/ui-automator
-     * @deprecated Use {@link AppiumBy#androidUIAutomator(String)} instead.
+     *
      * @param uiautomatorText is Android UIAutomator string
      * @return an instance of {@link ByAndroidUIAutomator}
+     * @deprecated Use {@link AppiumBy#androidUIAutomator(String)} instead.
      */
     @Deprecated
     public static By AndroidUIAutomator(final String uiautomatorText) {
@@ -50,9 +51,10 @@ public abstract class MobileBy extends AppiumBy {
      * About iOS accessibility
      * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
      * UIAccessibilityIdentification_Protocol/index.html
-     * @deprecated Use {@link AppiumBy#accessibilityId(String)} instead.
+     *
      * @param accessibilityId id is a convenient UI automation accessibility Id.
      * @return an instance of {@link ByAndroidUIAutomator}
+     * @deprecated Use {@link AppiumBy#accessibilityId(String)} instead.
      */
     @Deprecated
     public static By AccessibilityId(final String accessibilityId) {
@@ -61,11 +63,12 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
-     * @deprecated Use {@link AppiumBy#iOSClassChain(String)} instead.
+     *
      * @param iOSClassChainString is a valid class chain locator string.
      *                            See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
      *                            the documentation</a> for more details
      * @return an instance of {@link ByIosClassChain}
+     * @deprecated Use {@link AppiumBy#iOSClassChain(String)} instead.
      */
     @Deprecated
     public static By iOSClassChain(final String iOSClassChainString) {
@@ -74,11 +77,12 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     * @deprecated Use {@link AppiumBy#androidDataMatcher(String)} instead.
+     *
      * @param dataMatcherString is a valid json string detailing hamcrest matcher for Espresso onData().
-     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
-     *                            the documentation</a> for more details
+     *                          See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                          the documentation</a> for more details
      * @return an instance of {@link ByAndroidDataMatcher}
+     * @deprecated Use {@link AppiumBy#androidDataMatcher(String)} instead.
      */
     @Deprecated
     public static By androidDataMatcher(final String dataMatcherString) {
@@ -87,11 +91,12 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     * @deprecated Use {@link AppiumBy#androidViewMatcher(String)} instead.
+     *
      * @param viewMatcherString is a valid json string detailing hamcrest matcher for Espresso onView().
-     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
-     *                            the documentation</a> for more details
+     *                          See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                          the documentation</a> for more details
      * @return an instance of {@link ByAndroidViewMatcher}
+     * @deprecated Use {@link AppiumBy#androidViewMatcher(String)} instead.
      */
     @Deprecated
     public static By androidViewMatcher(final String viewMatcherString) {
@@ -100,9 +105,10 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
-     * @deprecated Use {@link AppiumBy#iOSNsPredicateString(String)} instead.
+     *
      * @param iOSNsPredicateString is an iOS NsPredicate String
      * @return an instance of {@link ByIosNsPredicate}
+     * @deprecated Use {@link AppiumBy#iOSNsPredicateString(String)} instead.
      */
     @Deprecated
     public static By iOSNsPredicateString(final String iOSNsPredicateString) {
@@ -111,9 +117,10 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * The Windows UIAutomation selector.
-     * @deprecated Not supported on the server side.
+     *
      * @param windowsAutomation The element name in the Windows UIAutomation selector
      * @return an instance of {@link MobileBy.ByWindowsAutomation}
+     * @deprecated Not supported on the server side.
      */
     @Deprecated
     public static By windowsAutomation(final String windowsAutomation) {
@@ -122,10 +129,11 @@ public abstract class MobileBy extends AppiumBy {
 
     /**
      * This locator strategy is available in Espresso Driver mode.
-     * @deprecated Use {@link AppiumBy#androidViewTag(String)} instead.
-     * @since Appium 1.8.2 beta
+     *
      * @param tag is an view tag string
      * @return an instance of {@link ByAndroidViewTag}
+     * @since Appium 1.8.2 beta
+     * @deprecated Use {@link AppiumBy#androidViewTag(String)} instead.
      */
     @Deprecated
     public static By AndroidViewTag(final String tag) {
@@ -136,15 +144,15 @@ public abstract class MobileBy extends AppiumBy {
      * This locator strategy is available only if OpenCV libraries and
      * NodeJS bindings are installed on the server machine.
      *
-     * @deprecated Use {@link AppiumBy#image(String)} instead.
+     * @param b64Template base64-encoded template image string. Supported image formats are the same
+     *                    as for OpenCV library.
+     * @return an instance of {@link ByImage}
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
      * The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
-     * @param b64Template base64-encoded template image string. Supported image formats are the same
-     *                    as for OpenCV library.
-     * @return an instance of {@link ByImage}
+     * @deprecated Use {@link AppiumBy#image(String)} instead.
      */
     @Deprecated
     public static By image(final String b64Template) {
@@ -155,10 +163,10 @@ public abstract class MobileBy extends AppiumBy {
      * This type of locator requires the use of the 'customFindModules' capability and a
      * separately-installed element finding plugin.
      *
-     * @deprecated Use {@link AppiumBy#custom(String)} instead.
      * @param selector selector to pass to the custom element finding plugin
      * @return an instance of {@link ByCustom}
      * @since Appium 1.9.2
+     * @deprecated Use {@link AppiumBy#custom(String)} instead.
      */
     @Deprecated
     public static By custom(final String selector) {

@@ -159,8 +159,8 @@ public class CapabilityHelpers {
      * Converts generic capability value to a url.
      *
      * @param value The capability value.
-     * @throws IllegalArgumentException If the given value cannot be parsed to a valid url.
      * @return null is the passed value is null otherwise the converted value.
+     * @throws IllegalArgumentException If the given value cannot be parsed to a valid url.
      */
     @Nullable
     public static URL toUrl(Object value) {

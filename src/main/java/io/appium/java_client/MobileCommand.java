@@ -317,13 +317,11 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * keyboard hiding.
+     * This method forms a {@link Map} of parameters for the keyboard hiding.
      *
      * @param keyName The button pressed by the mobile driver to attempt hiding the
      *                keyboard.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
         return new AbstractMap.SimpleEntry<>(
@@ -331,14 +329,12 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * keyboard hiding.
+     * This method forms a {@link Map} of parameters for the keyboard hiding.
      *
      * @param strategy HideKeyboardStrategy.
      * @param keyName  a String, representing the text displayed on the button of the
      *                 keyboard you want to press. For example: "Done".
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
                                                                         String keyName) {
@@ -381,12 +377,10 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * key event invocation.
+     * This method forms a {@link Map} of parameters for the key event invocation.
      *
      * @param key code for the key pressed on the device.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
@@ -394,13 +388,11 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * key event invocation.
+     * This method forms a {@link Map} of parameters for the key event invocation.
      *
      * @param key       code for the key pressed on the Android device.
      * @param metastate metastate for the keypress.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
                                                                         Integer metastate) {
@@ -411,12 +403,10 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * long key event invocation.
+     * This method forms a {@link Map} of parameters for the long key event invocation.
      *
      * @param key code for the long key pressed on the device.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
@@ -424,13 +414,11 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * long key event invocation.
+     * This method forms a {@link Map} of parameters for the long key event invocation.
      *
      * @param key       code for the long key pressed on the Android device.
      * @param metastate metastate for the long key press.
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
                                                                             Integer metastate) {
@@ -441,12 +429,10 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * device locking.
+     * This method forms a {@link Map} of parameters for the device locking.
      *
      * @param duration for how long to lock the screen for. Minimum time resolution is one second
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(Duration duration) {
         return new AbstractMap.SimpleEntry<>(
@@ -454,22 +440,18 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * device unlocking.
+     * This method forms a {@link Map} of parameters for the device unlocking.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
         return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * device locked query.
+     * This method forms a {@link Map} of parameters for the device locked query.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
         return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
@@ -488,13 +470,11 @@ public class MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * file pushing.
+     * This method forms a {@link Map} of parameters for the file pushing.
      *
      * @param remotePath Path to file to write data to on remote device
      * @param base64Data Base64 encoded byte array of data to write to remote device
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link java.util.Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
         String[] parameters = new String[]{"path", "data"};
@@ -513,7 +493,7 @@ public class MobileCommand {
     }
 
     /**
-     * Forms a {@link java.util.Map} of parameters for images comparison.
+     * Forms a {@link Map} of parameters for images comparison.
      *
      * @param mode one of possible comparison modes
      * @param img1Data base64-encoded data of the first image

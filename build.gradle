@@ -6,7 +6,6 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'jacoco'
-    id 'checkstyle'
     id 'signing'
     id 'org.owasp.dependencycheck' version '8.0.1'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
@@ -94,11 +93,17 @@ tasks.withType(JacocoReport) {
 }
 jacocoTestReport.dependsOn test
 
-checkstyle {
-    toolVersion = '8.32'
-    configFile = file("$projectDir/appium-style.xml")
-    showViolations = true
-    ignoreFailures = false
+// Checkstyle requires Java 11 starting from 10.0
+if (JavaVersion.current().isJava11Compatible()) {
+    apply plugin: 'checkstyle'
+
+    checkstyle {
+        toolVersion = '10.6.0'
+        configFile = file("$projectDir/appium-style.xml")
+        showViolations = true
+        ignoreFailures = false
+    }
+    checkstyleTest.enabled = false
 }
 
 javadoc {

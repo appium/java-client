@@ -43,7 +43,7 @@ jobs:
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       tasks: 'build'
-      options: 'uiAutomationTest -x checkstyleTest -x test'
+      options: 'uiAutomationTest -x test'
 - job: iOS_E2E_Tests
 #  timeoutInMinutes: '90'
   steps:
@@ -63,7 +63,7 @@ jobs:
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       tasks: 'build'
-      options: 'xcuiTest -x checkstyleTest -x test'
+      options: 'xcuiTest -x test'
 - job: Misc_Tests
   steps:
     - task: Gradle@2
@@ -75,4 +75,4 @@ jobs:
         jdkArchitectureOption: 'x64'
         publishJUnitResults: true
         tasks: 'build'
-        options: 'miscTest -x checkstyleTest -x test -x signMavenJavaPublication'
+        options: 'miscTest -x test -x signMavenJavaPublication'
