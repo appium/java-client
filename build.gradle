@@ -99,7 +99,7 @@ if (JavaVersion.current().isJava11Compatible()) {
 
     checkstyle {
         toolVersion = '10.6.0'
-        configFile = file("$projectDir/appium-style.xml")
+        configFile = configDirectory.file('appium-style.xml').get().getAsFile()
         showViolations = true
         ignoreFailures = false
     }
