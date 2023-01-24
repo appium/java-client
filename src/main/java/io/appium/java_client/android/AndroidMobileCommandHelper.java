@@ -113,11 +113,9 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link Map} of parameters to
-     * Retrieve the display density of the Android device.
+     * This method forms a {@link Map} of parameters to retrieve the display density of the Android device.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getDisplayDensityCommand() {
         return new AbstractMap.SimpleEntry<>(GET_DISPLAY_DENSITY, ImmutableMap.of());
@@ -126,16 +124,15 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     /**
      * This method forms a {@link Map} of parameters for the getting of a network connection value.
      *
-     * @return a key-value pair. The key is the command name. The value is a
-     * {@link Map} command arguments.
+     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
         return new AbstractMap.SimpleEntry<>(GET_NETWORK_CONNECTION, ImmutableMap.of());
     }
 
     /**
-     * This method forms a {@link Map} of parameters to
-     * Retrieve visibility and bounds information of the status and navigation bars.
+     * This method forms a {@link Map} of parameters to retrieve visibility and bounds information of the status and
+     * navigation bars.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
@@ -144,8 +141,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the
-     * finger print authentication invocation.
+     * This method forms a {@link Map} of parameters for the finger print authentication invocation.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
@@ -243,7 +239,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     }
 
     /**
-     * This method forms a {@link java.util.Map} of parameters for the element.
+     * This method forms a {@link Map} of parameters for the element.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
