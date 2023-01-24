@@ -103,7 +103,6 @@ if (JavaVersion.current().isJava11Compatible()) {
         showViolations = true
         ignoreFailures = false
     }
-    checkstyleTest.enabled = false
 }
 
 javadoc {
