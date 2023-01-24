@@ -60,7 +60,8 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test
     public void addCustomCommandWithSessionIdTest() {
-        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/app/launch", "launchApplication");
+        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/app/launch",
+                "launchApplication");
         final Response launchApplication = driver.execute("launchApplication");
         assertNotNull(launchApplication.getSessionId());
     }

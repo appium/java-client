@@ -50,13 +50,13 @@ public class TimeoutTest {
     private WebDriver driver;
 
     @FindAll({
-            @FindBy(className = "ClassWhichDoesNotExist"),
-            @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
+        @FindBy(className = "ClassWhichDoesNotExist"),
+        @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
     private List<WebElement> stubElements;
 
     @WithTimeout(time = 5, chronoUnit = SECONDS)
     @FindAll({@FindBy(className = "ClassWhichDoesNotExist"),
-            @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
+        @FindBy(className = "OneAnotherClassWhichDoesNotExist")})
     private List<WebElement> stubElements2;
 
     private Duration timeOutDuration;

@@ -108,7 +108,7 @@ public class OptionsBuildingTest {
                                 "com.dep1:1.2.3",
                                 "com.dep2:1.2.3"
                         ))
-                );
+            );
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("CN", options.getAppLocale().orElse(null).getCountry().orElse(null));
         assertEquals(2, options.getEspressoBuildConfig().orElse(null)
@@ -172,7 +172,7 @@ public class OptionsBuildingTest {
                 .setWebkitWebrtc(new WebrtcData()
                         .withDisableIceCandidateFiltering(true)
                         .withDisableInsecureMediaCapture(true)
-                );
+            );
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertTrue(options.doesSafariUseSimulator().orElse(false));
         assertTrue(options.getWebkitWebrtc().orElse(null)

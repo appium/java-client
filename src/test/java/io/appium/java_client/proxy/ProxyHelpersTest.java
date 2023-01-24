@@ -43,7 +43,8 @@ class ProxyHelpersTest {
         }
 
         @Override
-        protected void startSession(Capabilities capabilities) {}
+        protected void startSession(Capabilities capabilities) {
+        }
     }
 
     @Test

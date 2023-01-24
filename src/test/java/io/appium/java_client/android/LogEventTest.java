@@ -36,8 +36,8 @@ public class LogEventTest extends BaseAndroidTest {
         driver.logEvent(evt);
         ServerEvents events = driver.getEvents();
         boolean hasCustomEvent = events.events.stream().anyMatch((TimedEvent event) ->
-            event.name.equals("appium:funEvent") &&
-            event.occurrences.get(0).intValue() > 0
+            event.name.equals("appium:funEvent")
+                    && event.occurrences.get(0).intValue() > 0
         );
         boolean hasCommandName = events.commands.stream().anyMatch((CommandEvent event) ->
             event.name.equals("logCustomEvent")
