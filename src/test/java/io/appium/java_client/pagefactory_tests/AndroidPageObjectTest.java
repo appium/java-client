@@ -167,41 +167,41 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @AndroidFindBy(id = "android:id/text1", priority = 2)
     @AndroidFindAll(value = {
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-            @AndroidBy(id = "android:id/fakeId")}, priority = 1)
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+        @AndroidBy(id = "android:id/fakeId")}, priority = 1)
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
     private WebElement androidElementViewFoundByMixedSearching;
 
     @AndroidFindBy(id = "android:id/text1", priority = 2)
     @AndroidFindAll(value = {
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
-            @AndroidBy(id = "android:id/fakeId")}, priority = 1)
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")"),
+        @AndroidBy(id = "android:id/fakeId")}, priority = 1)
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")")
     private List<WebElement> androidElementsViewFoundByMixedSearching;
 
     @AndroidFindBys({
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
-            @AndroidBy(className = "android.widget.FrameLayout")})
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+        @AndroidBy(className = "android.widget.FrameLayout")})
     @AndroidFindBys({@AndroidBy(id = "android:id/text1", priority = 1),
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
     private WebElement androidElementViewFoundByMixedSearching2;
 
     @AndroidFindBys({
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
-            @AndroidBy(className = "android.widget.FrameLayout")})
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+        @AndroidBy(className = "android.widget.FrameLayout")})
     @AndroidFindBys({
-            @AndroidBy(id = "android:id/text1", priority = 1),
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
+        @AndroidBy(id = "android:id/text1", priority = 1),
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")})
     private List<WebElement> androidElementsViewFoundByMixedSearching2;
 
     @HowToUseLocators(androidAutomation = ALL_POSSIBLE)
     @AndroidFindBy(id = "android:id/fakeId1")
     @AndroidFindBy(id = "android:id/fakeId2", priority = 1)
     @AndroidFindBys(value = {
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
-            @AndroidBy(id = "android:id/text1", priority = 3),
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
-            @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+        @AndroidBy(id = "android:id/text1", priority = 3),
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
+        @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
     @AndroidFindBy(id = "android:id/fakeId3", priority = 3)
     @AndroidFindBy(id = "android:id/fakeId4", priority = 4)
     private WebElement androidElementViewFoundByMixedSearching3;
@@ -210,10 +210,10 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     @AndroidFindBy(id = "android:id/fakeId1")
     @AndroidFindBy(id = "android:id/fakeId2", priority = 1)
     @AndroidFindBys(value = {
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
-            @AndroidBy(id = "android:id/text1", priority = 3),
-            @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
-            @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/content\")", priority = 1),
+        @AndroidBy(id = "android:id/text1", priority = 3),
+        @AndroidBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")", priority = 2),
+        @AndroidBy(className = "android.widget.FrameLayout")}, priority = 2)
     @AndroidFindBy(id = "android:id/fakeId3", priority = 3)
     @AndroidFindBy(id = "android:id/fakeId4", priority = 4)
     private List<WebElement> androidElementsViewFoundByMixedSearching3;
