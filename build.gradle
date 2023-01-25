@@ -25,6 +25,7 @@ java {
 ext {
     seleniumVersion = project.property('selenium.version')
     appiumClientVersion = project.property('appiumClient.version')
+    slf4jVersion = '2.0.6'
 }
 
 dependencies {
@@ -54,7 +55,7 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.7'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-io:commons-io:2.11.0'
-    implementation 'org.slf4j:slf4j-api:2.0.6'
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
@@ -67,6 +68,7 @@ dependencies {
             prefer "${seleniumVersion}"
         }
     }
+    testRuntimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 }
 
 ext {
