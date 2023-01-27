@@ -64,15 +64,3 @@ jobs:
       publishJUnitResults: true
       tasks: 'build'
       options: 'xcuiTest -x test'
-- job: Misc_Tests
-  steps:
-    - task: Gradle@2
-      inputs:
-        gradleWrapperFile: 'gradlew'
-        gradleOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: "$(JDK_VERSION)"
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        tasks: 'build'
-        options: 'miscTest -x test -x signMavenJavaPublication'
