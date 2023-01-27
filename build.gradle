@@ -205,8 +205,12 @@ task unitTest( type: Test ) {
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
     filter {
+        includeTestsMatching 'io.appium.java_client.drivers.options.*'
+        includeTestsMatching 'io.appium.java_client.events.*'
         includeTestsMatching 'io.appium.java_client.internal.*'
         includeTestsMatching 'io.appium.java_client.proxy.*'
+        includeTestsMatching 'io.appium.java_client.remote.*'
+        includeTestsMatching 'io.appium.java_client.touch.*'
     }
 }
 
@@ -239,17 +243,5 @@ task uiAutomationTest( type: Test ) {
         includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyAndroidTest'
         includeTestsMatching 'io.appium.java_client.service.local.ServerBuilderTest'
         includeTestsMatching 'io.appium.java_client.service.local.ThreadSafetyTest'
-    }
-}
-
-task miscTest( type: Test ) {
-    useJUnitPlatform()
-    testLogging.showStandardStreams = true
-    testLogging.exceptionFormat = 'full'
-    filter {
-        includeTestsMatching 'io.appium.java_client.touch.*'
-        includeTestsMatching 'io.appium.java_client.events.*'
-        includeTestsMatching 'io.appium.java_client.remote.*'
-        includeTestsMatching 'io.appium.java_client.drivers.options.*'
     }
 }
