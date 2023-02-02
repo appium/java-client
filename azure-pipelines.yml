@@ -42,8 +42,7 @@ jobs:
       jdkVersionOption: "$(JDK_VERSION)"
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
-      tasks: 'build'
-      options: 'uiAutomationTest -x test'
+      tasks: 'build uiAutomationTest'
 - job: iOS_E2E_Tests
 #  timeoutInMinutes: '90'
   steps:
@@ -62,5 +61,4 @@ jobs:
       jdkVersionOption: "$(JDK_VERSION)"
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
-      tasks: 'build'
-      options: 'xcuiTest -x test'
+      tasks: 'build xcuiTest'
