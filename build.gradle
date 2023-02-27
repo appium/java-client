@@ -90,7 +90,7 @@ tasks.withType(JacocoReport) {
     sourceSets sourceSets.main
     reports {
         html.required = true
-        html.destination file("${buildDir}/Reports/jacoco")
+        html.outputLocation = file("${buildDir}/Reports/jacoco")
     }
 }
 jacocoTestReport.dependsOn test
