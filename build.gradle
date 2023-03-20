@@ -25,7 +25,7 @@ java {
 ext {
     seleniumVersion = project.property('selenium.version')
     appiumClientVersion = project.property('appiumClient.version')
-    slf4jVersion = '2.0.6'
+    slf4jVersion = '2.0.7'
 }
 
 dependencies {
