@@ -54,7 +54,6 @@ public final class AppiumDriverLocalService extends DriverService {
 
     private static final String URL_MASK = "http://%s:%d/";
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
-    private static final Pattern LOG_MESSAGE_PATTERN = Pattern.compile("^(.*)\\R");
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private static final String APPIUM_SERVICE_SLF4J_LOGGER_PREFIX = "appium.service";
     private static final Duration DESTROY_TIMEOUT = Duration.ofSeconds(60);
@@ -217,7 +216,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * @return The exit code of the process or zero if the process was not running.
      */
     private int destroyProcess(Duration timeout) {
-        if (!process.isRunning()) {
+        if (process == null || !process.isRunning()) {
             return 0;
         }
 
