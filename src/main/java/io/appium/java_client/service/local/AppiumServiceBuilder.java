@@ -406,7 +406,7 @@ public final class AppiumServiceBuilder
     @Override
     public AppiumDriverLocalService build() {
         File driverExecutable = ReflectionHelpers.getPrivateFieldValue(
-                AppiumServiceBuilder.class, this, "exe", File.class
+                DriverService.Builder.class, this, "exe", File.class
         );
         if (driverExecutable == null) {
             usingDriverExecutable(findDefaultExecutable());
