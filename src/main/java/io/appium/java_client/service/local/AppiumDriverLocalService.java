@@ -123,11 +123,7 @@ public final class AppiumDriverLocalService extends DriverService {
     public boolean isRunning() {
         lock.lock();
         try {
-            if (process == null) {
-                return false;
-            }
-
-            if (!process.isRunning()) {
+            if (process == null || !process.isRunning()) {
                 return false;
             }
 

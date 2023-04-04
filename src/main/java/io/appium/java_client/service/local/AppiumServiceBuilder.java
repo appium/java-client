@@ -19,6 +19,7 @@ package io.appium.java_client.service.local;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -160,7 +161,6 @@ public final class AppiumServiceBuilder
         return mainAppiumJs;
     }
 
-    @Override
     protected File findDefaultExecutable() {
         if (this.node != null) {
             validatePath(this.node.getAbsolutePath(), NODE_JS_NOT_EXIST_ERROR.apply(this.node));
@@ -228,8 +228,10 @@ public final class AppiumServiceBuilder
 
     private static String sanitizeBasePath(String basePath) {
         basePath = checkNotNull(basePath).trim();
-        checkArgument(!basePath.isEmpty(),
-            "Given base path is not valid - blank or empty values are not allowed for base path");
+        checkArgument(
+                !basePath.isEmpty(),
+                "Given base path is not valid - blank or empty values are not allowed for base path"
+        );
         return basePath.endsWith("/") ? basePath : basePath + "/";
     }
 
@@ -399,6 +401,17 @@ public final class AppiumServiceBuilder
         }
 
         return new ImmutableList.Builder<String>().addAll(argList).build();
+    }
+
+    @Override
+    public AppiumDriverLocalService build() {
+        File driverExecutable = ReflectionHelpers.getPrivateFieldValue(
+                DriverService.Builder.class, this, "exe", File.class
+        );
+        if (driverExecutable == null) {
+            usingDriverExecutable(findDefaultExecutable());
+        }
+        return super.build();
     }
 
     /**
