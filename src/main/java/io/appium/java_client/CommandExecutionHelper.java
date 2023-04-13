@@ -18,13 +18,34 @@ package io.appium.java_client;
 
 import org.openqa.selenium.remote.Response;
 
+import javax.annotation.Nullable;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+
+import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 public final class CommandExecutionHelper {
 
     public static <T> T execute(ExecutesMethod executesMethod,
         Map.Entry<String, Map<String, ?>> keyValuePair) {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
+    }
+
+    public static <T> T executeScript(ExecutesMethod executesMethod, String scriptName) {
+        return executeScript(executesMethod, scriptName, null);
+    }
+
+    public static <T> T executeScript(
+            ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
+    ) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("script", scriptName);
+        if (args != null) {
+            payload.put("args", args.isEmpty() ? Collections.emptyList() : Collections.singletonList(args));
+        }
+        return CommandExecutionHelper.execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
     }
 
     public static <T> T execute(ExecutesMethod executesMethod, String command) {

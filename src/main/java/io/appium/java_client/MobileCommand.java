@@ -35,83 +35,144 @@ import java.util.Map;
 /**
  * The repository of mobile commands defined in the Mobile JSON
  * wire protocol.
+ *
+ * Most of these commands are platform-specific obsolete things and should eventually be replaced with
+ * calls to corresponding `mobile:` extensions, so we don't abuse non-w3c APIs
  */
 public class MobileCommand {
     //General
+    @Deprecated
     protected static final String RESET;
+    @Deprecated
     protected static final String GET_STRINGS;
+    @Deprecated
     public static final String SET_VALUE;
+    @Deprecated
     protected static final String PULL_FILE;
+    @Deprecated
     protected static final String PULL_FOLDER;
     public static final String RUN_APP_IN_BACKGROUND;
+    @Deprecated
     protected static final String PERFORM_TOUCH_ACTION;
+    @Deprecated
     protected static final String PERFORM_MULTI_TOUCH;
+    @Deprecated
     public static final String LAUNCH_APP;
+    @Deprecated
     public static final String CLOSE_APP;
+    @Deprecated
     protected static final String GET_DEVICE_TIME;
+    @Deprecated
     protected static final String GET_SESSION;
     protected static final String LOG_EVENT;
     protected static final String GET_EVENTS;
 
     //region Applications Management
+    @Deprecated
     protected static final String IS_APP_INSTALLED;
+    @Deprecated
     protected static final String INSTALL_APP;
+    @Deprecated
     protected static final String ACTIVATE_APP;
+    @Deprecated
     protected static final String QUERY_APP_STATE;
+    @Deprecated
     protected static final String TERMINATE_APP;
+    @Deprecated
     protected static final String REMOVE_APP;
     //endregion
 
     //region Clipboard
+    @Deprecated
     public static final String GET_CLIPBOARD;
+    @Deprecated
     public static final String SET_CLIPBOARD;
     //endregion
 
+    @Deprecated
     protected static final String GET_PERFORMANCE_DATA;
+    @Deprecated
     protected static final String GET_SUPPORTED_PERFORMANCE_DATA_TYPES;
 
+    @Deprecated
     public static final String START_RECORDING_SCREEN;
+    @Deprecated
     public static final String STOP_RECORDING_SCREEN;
 
+    @Deprecated
     protected static final String HIDE_KEYBOARD;
+    @Deprecated
     protected static final String LOCK;
     //iOS
+    @Deprecated
     protected static final String SHAKE;
+    @Deprecated
     protected static final String TOUCH_ID;
+    @Deprecated
     protected static final String TOUCH_ID_ENROLLMENT;
     //Android
+    @Deprecated
     protected static final String CURRENT_ACTIVITY;
+    @Deprecated
     protected static final String END_TEST_COVERAGE;
+    @Deprecated
     protected static final String GET_DISPLAY_DENSITY;
+    @Deprecated
     protected static final String GET_NETWORK_CONNECTION;
+    @Deprecated
     protected static final String GET_SYSTEM_BARS;
+    @Deprecated
     protected static final String IS_KEYBOARD_SHOWN;
+    @Deprecated
     protected static final String IS_LOCKED;
+    @Deprecated
     public static final String LONG_PRESS_KEY_CODE;
+    @Deprecated
     protected static final String FINGER_PRINT;
+    @Deprecated
     protected static final String OPEN_NOTIFICATIONS;
+    @Deprecated
     public static final String PRESS_KEY_CODE;
+    @Deprecated
     protected static final String PUSH_FILE;
+    @Deprecated
     protected static final String SET_NETWORK_CONNECTION;
+    @Deprecated
     protected static final String START_ACTIVITY;
+    @Deprecated
     protected static final String TOGGLE_LOCATION_SERVICES;
+    @Deprecated
     protected static final String UNLOCK;
+    @Deprecated
     public static final String REPLACE_VALUE;
     protected static final String GET_SETTINGS;
+    @Deprecated
     protected static final String SET_SETTINGS;
+    @Deprecated
     protected static final String GET_CURRENT_PACKAGE;
+    @Deprecated
     protected static final String SEND_SMS;
+    @Deprecated
     protected static final String GSM_CALL;
+    @Deprecated
     protected static final String GSM_SIGNAL;
+    @Deprecated
     protected static final String GSM_VOICE;
+    @Deprecated
     protected static final String NETWORK_SPEED;
+    @Deprecated
     protected static final String POWER_CAPACITY;
+    @Deprecated
     protected static final String POWER_AC_STATE;
+    @Deprecated
     protected static final String TOGGLE_WIFI;
+    @Deprecated
     protected static final String TOGGLE_AIRPLANE_MODE;
+    @Deprecated
     protected static final String TOGGLE_DATA;
     protected static final String COMPARE_IMAGES;
     protected static final String EXECUTE_DRIVER_SCRIPT;
+    @Deprecated
     protected static final String GET_ALLSESSION;
     protected static final String EXECUTE_GOOGLE_CDP_COMMAND;
 

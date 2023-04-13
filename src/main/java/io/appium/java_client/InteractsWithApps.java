@@ -20,21 +20,17 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
 import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
+import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
-import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
-import static io.appium.java_client.MobileCommand.INSTALL_APP;
-import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.QUERY_APP_STATE;
-import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
-import static io.appium.java_client.MobileCommand.TERMINATE_APP;
-import static io.appium.java_client.MobileCommand.prepareArguments;
 
 @SuppressWarnings("rawtypes")
 public interface InteractsWithApps extends ExecutesMethod {
@@ -56,12 +52,11 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                the particular platform.
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
-        String[] parameters = options == null ? new String[]{"appPath"} :
-                new String[]{"appPath", "options"};
-        Object[] values = options == null ? new Object[]{appPath} :
-                new Object[]{appPath, options.build()};
-        CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(INSTALL_APP, prepareArguments(parameters, values)));
+        Map<String, Object> args = new HashMap<>();
+        args.put("app", appPath);
+        args.put("appPath", appPath);
+        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
     }
 
     /**
@@ -71,8 +66,10 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return True if app is installed, false otherwise.
      */
     default boolean isAppInstalled(String bundleId) {
-        return CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, prepareArguments("bundleId", bundleId)));
+        return CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
+                "bundleId", bundleId,
+                "appId", bundleId
+        ));
     }
 
     /**
@@ -106,12 +103,11 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the uninstall was successful.
      */
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
-        String[] parameters = options == null ? new String[]{"bundleId"} :
-                new String[]{"bundleId", "options"};
-        Object[] values = options == null ? new Object[]{bundleId} :
-                new Object[]{bundleId, options.build()};
-        return CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(REMOVE_APP, prepareArguments(parameters, values)));
+        Map<String, Object> args = new HashMap<>();
+        args.put("bundleId", bundleId);
+        args.put("appId", bundleId);
+        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        return CommandExecutionHelper.executeScript(this, "mobile: removeApp", args);
     }
 
     /**
@@ -133,12 +129,11 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                 particular platform.
      */
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
-        String[] parameters = options == null ? new String[]{"bundleId"} :
-                new String[]{"bundleId", "options"};
-        Object[] values = options == null ? new Object[]{bundleId} :
-                new Object[]{bundleId, options.build()};
-        CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(ACTIVATE_APP, prepareArguments(parameters, values)));
+        Map<String, Object> args = new HashMap<>();
+        args.put("bundleId", bundleId);
+        args.put("appId", bundleId);
+        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
     }
 
     /**
@@ -148,8 +143,12 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return one of possible {@link ApplicationState} values,
      */
     default ApplicationState queryAppState(String bundleId) {
-        return ApplicationState.ofCode(CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(QUERY_APP_STATE, ImmutableMap.of("bundleId", bundleId))));
+        return ApplicationState.ofCode(
+                CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
+                "bundleId", bundleId,
+                "appId", bundleId
+                ))
+        );
     }
 
     /**
@@ -171,11 +170,10 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the app was running before and has been successfully stopped.
      */
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
-        String[] parameters = options == null ? new String[]{"bundleId"} :
-                new String[]{"bundleId", "options"};
-        Object[] values = options == null ? new Object[]{bundleId} :
-                new Object[]{bundleId, options.build()};
-        return CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(TERMINATE_APP, prepareArguments(parameters, values)));
+        Map<String, Object> args = new HashMap<>();
+        args.put("bundleId", bundleId);
+        args.put("appId", bundleId);
+        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        return CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args);
     }
 }
