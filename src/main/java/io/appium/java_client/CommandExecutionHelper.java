@@ -64,6 +64,6 @@ public final class CommandExecutionHelper {
         if (args != null) {
             payload.put("args", args.isEmpty() ? Collections.emptyList() : Collections.singletonList(args));
         }
-        return CommandExecutionHelper.execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
+        return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
     }
 }
