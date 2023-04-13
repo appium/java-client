@@ -33,21 +33,6 @@ public final class CommandExecutionHelper {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
-    public static <T> T executeScript(ExecutesMethod executesMethod, String scriptName) {
-        return executeScript(executesMethod, scriptName, null);
-    }
-
-    public static <T> T executeScript(
-            ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
-    ) {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("script", scriptName);
-        if (args != null) {
-            payload.put("args", args.isEmpty() ? Collections.emptyList() : Collections.singletonList(args));
-        }
-        return CommandExecutionHelper.execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
-    }
-
     public static <T> T execute(ExecutesMethod executesMethod, String command) {
         return handleResponse(executesMethod.execute(command));
     }
@@ -57,5 +42,28 @@ public final class CommandExecutionHelper {
             return (T) response.getValue();
         }
         return null;
+    }
+
+    public static <T> T executeScript(ExecutesMethod executesMethod, String scriptName) {
+        return executeScript(executesMethod, scriptName, null);
+    }
+
+    /**
+     * Simplifies arguments preparation for the script execution command.
+     *
+     * @param executesMethod Method executor instance.
+     * @param scriptName Extension script name.
+     * @param args Extension script arguments (if present).
+     * @return Script execution result.
+     */
+    public static <T> T executeScript(
+            ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
+    ) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("script", scriptName);
+        if (args != null) {
+            payload.put("args", args.isEmpty() ? Collections.emptyList() : Collections.singletonList(args));
+        }
+        return CommandExecutionHelper.execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
     }
 }
