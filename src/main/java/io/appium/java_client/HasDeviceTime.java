@@ -16,14 +16,7 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.Response;
-
-import java.util.Map;
-
-import static io.appium.java_client.MobileCommand.GET_DEVICE_TIME;
 
 public interface HasDeviceTime extends ExecutesMethod {
 
@@ -38,12 +31,9 @@ public interface HasDeviceTime extends ExecutesMethod {
      * @return Device time string
      */
     default String getDeviceTime(String format) {
-        Map<String, ?> params = ImmutableMap.of(
-                "script", "mobile: getDeviceTime",
-                "args", ImmutableList.of(ImmutableMap.of("format", format))
+        return CommandExecutionHelper.executeScript(
+                this, "mobile: getDeviceTime", ImmutableMap.of("format", format)
         );
-        Response response = execute(DriverCommand.EXECUTE_SCRIPT, params);
-        return response.getValue().toString();
     }
 
     /**
@@ -53,7 +43,6 @@ public interface HasDeviceTime extends ExecutesMethod {
      * @return Device time string
      */
     default String getDeviceTime() {
-        Response response = execute(GET_DEVICE_TIME);
-        return response.getValue().toString();
+        return CommandExecutionHelper.executeScript(this, "mobile: getDeviceTime");
     }
 }
