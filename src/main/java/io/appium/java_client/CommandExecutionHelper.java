@@ -38,10 +38,8 @@ public final class CommandExecutionHelper {
     }
 
     private static <T> T handleResponse(Response response) {
-        if (response != null) {
-            return (T) response.getValue();
-        }
-        return null;
+        //noinspection unchecked
+        return response == null ? null : (T) response.getValue();
     }
 
     public static <T> T executeScript(ExecutesMethod executesMethod, String scriptName) {
