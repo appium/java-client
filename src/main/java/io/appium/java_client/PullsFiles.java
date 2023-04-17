@@ -17,13 +17,9 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.remote.Response;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-
-import static io.appium.java_client.MobileCommand.PULL_FILE;
-import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 
 public interface PullsFiles extends ExecutesMethod {
 
@@ -33,15 +29,16 @@ public interface PullsFiles extends ExecutesMethod {
      * built with debuggable flag enabled in order to get access to its container
      * on the internal file system.
      *
-     * @param remotePath If the path starts with <em>@applicationId/</em>/ prefix, then the file
-     *                   will be pulled from the root of the corresponding application container.
-     *                   Otherwise, the root folder is considered as / on Android and
-     *                   on iOS it is a media folder root (real devices only).
+     * @param remotePath Path to file to read data from the remote device.
+     *                   Check the documentation on `mobile: pullFile`
+     *                   extension for more details on possible values
+     *                   for different platforms.
      * @return A byte array of Base64 encoded data.
      */
     default byte[] pullFile(String remotePath) {
-        Response response = execute(PULL_FILE, ImmutableMap.of("path", remotePath));
-        String base64String = response.getValue().toString();
+        String base64String = CommandExecutionHelper.executeScript(this, "mobile: pullFile", ImmutableMap.of(
+                "remotePath", remotePath
+        ));
         return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -51,15 +48,16 @@ public interface PullsFiles extends ExecutesMethod {
      * built with debuggable flag enabled in order to get access to its container
      * on the internal file system.
      *
-     * @param remotePath If the path starts with <em>@applicationId/</em> prefix, then the folder
-     *                   will be pulled from the root of the corresponding application container.
-     *                   Otherwise, the root folder is considered as / on Android and
-     *                   on iOS it is a media folder root (real devices only).
+     * @param remotePath Path to a folder to read data from the remote device.
+     *                   Check the documentation on `mobile: pullFolder`
+     *                   extension for more details on possible values
+     *                   for different platforms.
      * @return A byte array of Base64 encoded zip archive data.
      */
     default byte[] pullFolder(String remotePath) {
-        Response response = execute(PULL_FOLDER, ImmutableMap.of("path", remotePath));
-        String base64String = response.getValue().toString();
+        String base64String = CommandExecutionHelper.executeScript(this, "mobile: pullFolder", ImmutableMap.of(
+                "remotePath", remotePath
+        ));
         return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
