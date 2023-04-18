@@ -37,7 +37,7 @@ public interface HidesKeyboardWithKeyName extends HidesKeyboard {
     default void hideKeyboard(String keyName) {
         try {
             CommandExecutionHelper.executeScript(this, "mobile: hideKeyboard", ImmutableMap.of(
-               "keys", ImmutableList.of(keyName)
+                "keys", ImmutableList.of(keyName)
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
@@ -50,10 +50,10 @@ public interface HidesKeyboardWithKeyName extends HidesKeyboard {
      * depends on the way an app is implemented, no single strategy always
      * works.
      *
-     * @deprecated This API is deprecated and will be removed in the future.
      * @param strategy HideKeyboardStrategy.
      * @param keyName  a String, representing the text displayed on the button of the
      *                 keyboard you want to press. For example: "Done".
+     * @deprecated This API is deprecated and will be removed in the future.
      */
     @Deprecated
     default void hideKeyboard(String strategy, String keyName) {
