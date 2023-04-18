@@ -16,7 +16,6 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.CommandExecutionHelper;
@@ -50,13 +49,10 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 /**
  * Android driver implementation.
@@ -275,11 +271,9 @@ public class AndroidDriver extends AppiumDriver implements
         CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public AndroidBatteryInfo getBatteryInfo() {
-        return new AndroidBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
-                "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
+        return new AndroidBatteryInfo(CommandExecutionHelper.executeScript(this, "mobile: batteryInfo"));
     }
 
     @Override

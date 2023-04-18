@@ -16,6 +16,9 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.UnsupportedCommandException;
+
 import java.util.AbstractMap;
 import java.util.Map;
 
@@ -25,37 +28,62 @@ import static io.appium.java_client.MobileCommand.prepareArguments;
 public interface HasAppStrings extends ExecutesMethod {
     /**
      * Get all defined Strings from an app for the default language.
+     * See the documentation for 'mobile: getAppStrings' extension for more details.
      *
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap() {
-        return CommandExecutionHelper.execute(this, GET_STRINGS);
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getAppStrings");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return CommandExecutionHelper.execute(this, GET_STRINGS);
+        }
     }
 
     /**
      * Get all defined Strings from an app for the specified language.
+     * See the documentation for 'mobile: getAppStrings' extension for more details.
      *
      * @param language strings language code
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap(String language) {
-        return CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(GET_STRINGS,
-                prepareArguments("language", language)));
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getAppStrings", ImmutableMap.of(
+                    "language", language
+            ));
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return CommandExecutionHelper.execute(
+                    this, new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments("language", language))
+            );
+        }
     }
 
     /**
      * Get all defined Strings from an app for the specified language and
-     * strings filename.
+     * strings filename. See the documentation for 'mobile: getAppStrings'
+     * extension for more details.
      *
      * @param language   strings language code
-     * @param stringFile strings filename
+     * @param stringFile strings filename. Ignored on Android
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap(String language, String stringFile) {
-        String[] parameters = new String[] {"language", "stringFile"};
-        Object[] values = new Object[] {language, stringFile};
-        return CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments(parameters, values)));
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getAppStrings", ImmutableMap.of(
+                    "language", language,
+                    "stringFile", stringFile
+            ));
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            String[] parameters = new String[]{"language", "stringFile"};
+            Object[] values = new Object[]{language, stringFile};
+            return CommandExecutionHelper.execute(
+                    this, new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments(parameters, values))
+            );
+        }
     }
 
 }

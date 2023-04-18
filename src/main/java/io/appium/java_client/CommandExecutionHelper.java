@@ -28,20 +28,24 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 public final class CommandExecutionHelper {
 
+    @Nullable
     public static <T> T execute(ExecutesMethod executesMethod,
         Map.Entry<String, Map<String, ?>> keyValuePair) {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
+    @Nullable
     public static <T> T execute(ExecutesMethod executesMethod, String command) {
         return handleResponse(executesMethod.execute(command));
     }
 
+    @Nullable
     private static <T> T handleResponse(Response response) {
         //noinspection unchecked
         return response == null ? null : (T) response.getValue();
     }
 
+    @Nullable
     public static <T> T executeScript(ExecutesMethod executesMethod, String scriptName) {
         return executeScript(executesMethod, scriptName, null);
     }
@@ -54,6 +58,7 @@ public final class CommandExecutionHelper {
      * @param args Extension script arguments (if present).
      * @return Script execution result.
      */
+    @Nullable
     public static <T> T executeScript(
             ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
     ) {

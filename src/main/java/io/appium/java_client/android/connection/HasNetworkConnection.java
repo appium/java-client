@@ -16,9 +16,14 @@
 
 package io.appium.java_client.android.connection;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import org.openqa.selenium.UnsupportedCommandException;
 
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
 
@@ -31,8 +36,21 @@ public interface HasNetworkConnection extends ExecutesMethod {
      * @return Connection object, which represents the resulting state
      */
     default ConnectionState setConnection(ConnectionState connection) {
-        return new ConnectionState(CommandExecutionHelper.execute(this,
-                setConnectionCommand(connection.getBitMask())));
+        try {
+            CommandExecutionHelper.executeScript(this, "mobile: setConnectivity", ImmutableMap.of(
+                    "wifi", connection.isWiFiEnabled(),
+                    "data", connection.isDataEnabled(),
+                    "airplaneMode", connection.isAirplaneModeEnabled()
+            ));
+            return getConnection();
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return new ConnectionState(
+                    checkNotNull(
+                            CommandExecutionHelper.execute(this, setConnectionCommand(connection.getBitMask()))
+                    )
+            );
+        }
     }
 
     /**
@@ -41,6 +59,22 @@ public interface HasNetworkConnection extends ExecutesMethod {
      * @return Connection object, which lets you to inspect the current status
      */
     default ConnectionState getConnection() {
-        return new ConnectionState(CommandExecutionHelper.execute(this, getNetworkConnectionCommand()));
+        try {
+            Map<String, Object> result = checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: getConnectivity")
+            );
+            return new ConnectionState(
+                    ((boolean) result.get("wifi") ? ConnectionState.WIFI_MASK : 0)
+                    | ((boolean) result.get("data") ? ConnectionState.DATA_MASK : 0)
+                    | ((boolean) result.get("airplaneMode") ? ConnectionState.AIRPLANE_MODE_MASK  : 0)
+            );
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return new ConnectionState(
+                    checkNotNull(
+                            CommandExecutionHelper.execute(this, getNetworkConnectionCommand())
+                    )
+            );
+        }
     }
 }

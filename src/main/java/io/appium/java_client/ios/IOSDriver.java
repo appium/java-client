@@ -16,9 +16,9 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.HasAppStrings;
 import io.appium.java_client.HasDeviceTime;
 import io.appium.java_client.HasOnScreenKeyboard;
@@ -50,11 +50,8 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.prepareArguments;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 /**
  * iOS driver implementation.
@@ -247,11 +244,9 @@ public class IOSDriver extends AppiumDriver implements
         return new InnerTargetLocator();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public IOSBatteryInfo getBatteryInfo() {
-        return new IOSBatteryInfo((Map<String, Object>) execute(EXECUTE_SCRIPT, ImmutableMap.of(
-                "script", "mobile: batteryInfo", "args", Collections.emptyList())).getValue());
+        return new IOSBatteryInfo(CommandExecutionHelper.executeScript(this, "mobile: batteryInfo"));
     }
 
     private class InnerTargetLocator extends RemoteTargetLocator {

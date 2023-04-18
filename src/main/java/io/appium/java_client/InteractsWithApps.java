@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 
 @SuppressWarnings("rawtypes")
@@ -66,10 +67,12 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return True if app is installed, false otherwise.
      */
     default boolean isAppInstalled(String bundleId) {
-        return CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
+        return checkNotNull(
+            CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
                 "bundleId", bundleId,
                 "appId", bundleId
-        ));
+            ))
+        );
     }
 
     /**
@@ -107,7 +110,9 @@ public interface InteractsWithApps extends ExecutesMethod {
         args.put("bundleId", bundleId);
         args.put("appId", bundleId);
         Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-        return CommandExecutionHelper.executeScript(this, "mobile: removeApp", args);
+        return checkNotNull(
+                CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
+        );
     }
 
     /**
@@ -144,10 +149,12 @@ public interface InteractsWithApps extends ExecutesMethod {
      */
     default ApplicationState queryAppState(String bundleId) {
         return ApplicationState.ofCode(
+            checkNotNull(
                 CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
                 "bundleId", bundleId,
                 "appId", bundleId
                 ))
+            )
         );
     }
 
@@ -174,6 +181,8 @@ public interface InteractsWithApps extends ExecutesMethod {
         args.put("bundleId", bundleId);
         args.put("appId", bundleId);
         Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-        return CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args);
+        return checkNotNull(
+                CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
+        );
     }
 }
