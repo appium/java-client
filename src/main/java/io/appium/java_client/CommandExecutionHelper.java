@@ -16,12 +16,12 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.Response;
 
 import javax.annotation.Nullable;
 import java.util.AbstractMap;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
@@ -29,8 +29,9 @@ import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 public final class CommandExecutionHelper {
 
     @Nullable
-    public static <T> T execute(ExecutesMethod executesMethod,
-                                Map.Entry<String, Map<String, ?>> keyValuePair) {
+    public static <T> T execute(
+            ExecutesMethod executesMethod, Map.Entry<String, Map<String, ?>> keyValuePair
+    ) {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
@@ -62,12 +63,9 @@ public final class CommandExecutionHelper {
     public static <T> T executeScript(
             ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
     ) {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("script", scriptName);
-        payload.put(
-                "args",
-                (args == null || args.isEmpty()) ? Collections.emptyList() : Collections.singletonList(args)
-        );
-        return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
+        return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, ImmutableMap.of(
+                "script", scriptName,
+                "args", (args == null || args.isEmpty()) ? Collections.emptyList() : Collections.singletonList(args)
+        )));
     }
 }
