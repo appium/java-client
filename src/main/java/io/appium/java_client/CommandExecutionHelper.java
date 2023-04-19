@@ -30,7 +30,7 @@ public final class CommandExecutionHelper {
 
     @Nullable
     public static <T> T execute(ExecutesMethod executesMethod,
-        Map.Entry<String, Map<String, ?>> keyValuePair) {
+                                Map.Entry<String, Map<String, ?>> keyValuePair) {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
@@ -54,8 +54,8 @@ public final class CommandExecutionHelper {
      * Simplifies arguments preparation for the script execution command.
      *
      * @param executesMethod Method executor instance.
-     * @param scriptName Extension script name.
-     * @param args Extension script arguments (if present).
+     * @param scriptName     Extension script name.
+     * @param args           Extension script arguments (if present).
      * @return Script execution result.
      */
     @Nullable
@@ -64,9 +64,10 @@ public final class CommandExecutionHelper {
     ) {
         Map<String, Object> payload = new HashMap<>();
         payload.put("script", scriptName);
-        if (args != null) {
-            payload.put("args", args.isEmpty() ? Collections.emptyList() : Collections.singletonList(args));
-        }
+        payload.put(
+                "args",
+                (args == null || args.isEmpty()) ? Collections.emptyList() : Collections.singletonList(args)
+        );
         return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
     }
 }
