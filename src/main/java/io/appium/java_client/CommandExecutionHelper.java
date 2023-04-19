@@ -16,32 +16,37 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.Response;
 
 import javax.annotation.Nullable;
 import java.util.AbstractMap;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 public final class CommandExecutionHelper {
 
-    public static <T> T execute(ExecutesMethod executesMethod,
-        Map.Entry<String, Map<String, ?>> keyValuePair) {
+    @Nullable
+    public static <T> T execute(
+            ExecutesMethod executesMethod, Map.Entry<String, Map<String, ?>> keyValuePair
+    ) {
         return handleResponse(executesMethod.execute(keyValuePair.getKey(), keyValuePair.getValue()));
     }
 
+    @Nullable
     public static <T> T execute(ExecutesMethod executesMethod, String command) {
         return handleResponse(executesMethod.execute(command));
     }
 
+    @Nullable
     private static <T> T handleResponse(Response response) {
         //noinspection unchecked
         return response == null ? null : (T) response.getValue();
     }
 
+    @Nullable
     public static <T> T executeScript(ExecutesMethod executesMethod, String scriptName) {
         return executeScript(executesMethod, scriptName, null);
     }
@@ -50,18 +55,17 @@ public final class CommandExecutionHelper {
      * Simplifies arguments preparation for the script execution command.
      *
      * @param executesMethod Method executor instance.
-     * @param scriptName Extension script name.
-     * @param args Extension script arguments (if present).
+     * @param scriptName     Extension script name.
+     * @param args           Extension script arguments (if present).
      * @return Script execution result.
      */
+    @Nullable
     public static <T> T executeScript(
             ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
     ) {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("script", scriptName);
-        if (args != null) {
-            payload.put("args", args.isEmpty() ? Collections.emptyList() : Collections.singletonList(args));
-        }
-        return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, payload));
+        return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, ImmutableMap.of(
+                "script", scriptName,
+                "args", (args == null || args.isEmpty()) ? Collections.emptyList() : Collections.singletonList(args)
+        )));
     }
 }

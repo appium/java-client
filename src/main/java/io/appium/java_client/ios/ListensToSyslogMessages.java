@@ -16,18 +16,16 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 public interface ListensToSyslogMessages extends ExecutesMethod {
 
@@ -59,8 +57,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startSyslogBroadcast(String host, int port) {
-        execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: startLogsBroadcast",
-                "args", Collections.emptyList()));
+        CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
         final URI endpointUri;
         try {
             endpointUri = new URI(String.format("ws://%s:%s/ws/session/%s/appium/device/syslog",
@@ -132,7 +129,6 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * Stops syslog messages broadcast via web socket.
      */
     default void stopSyslogBroadcast() {
-        execute(EXECUTE_SCRIPT, ImmutableMap.of("script", "mobile: stopLogsBroadcast",
-                "args", Collections.emptyList()));
+        CommandExecutionHelper.executeScript(this, "mobile: stopLogsBroadcast");
     }
 }
