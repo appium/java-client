@@ -1,17 +1,14 @@
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.internal.CapabilityHelpers;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
 
-import java.util.Collections;
-
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
 public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
     /**
@@ -24,10 +21,9 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
                 CapabilityType.BROWSER_NAME, String.class);
         if (!isBlank(browserName)) {
             try {
-                return (boolean) execute(EXECUTE_SCRIPT, ImmutableMap.of(
-                        "script", "return !!window.navigator;",
-                        "args", Collections.emptyList()
-                )).getValue();
+                return checkNotNull(
+                        CommandExecutionHelper.executeScript(this, "return !!window.navigator;")
+                );
             } catch (WebDriverException ign) {
                 // ignore
             }
