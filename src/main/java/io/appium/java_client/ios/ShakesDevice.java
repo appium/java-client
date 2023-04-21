@@ -18,15 +18,21 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import org.openqa.selenium.UnsupportedCommandException;
 
 import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
 public interface ShakesDevice extends ExecutesMethod {
 
     /**
-     * Simulate shaking the device.
+     * Simulate shaking the Simulator. This API does not work for real devices.
      */
     default void shake() {
-        CommandExecutionHelper.execute(this, shakeCommand());
+        try {
+            CommandExecutionHelper.executeScript(this, "mobile: shake");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            CommandExecutionHelper.execute(this, shakeCommand());
+        }
     }
 }

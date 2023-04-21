@@ -16,34 +16,36 @@
 
 package io.appium.java_client.ios;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-
-import static io.appium.java_client.ios.IOSMobileCommandHelper.toggleTouchIdEnrollmentCommand;
-import static io.appium.java_client.ios.IOSMobileCommandHelper.touchIdCommand;
 
 public interface PerformsTouchID extends ExecutesMethod {
 
     /**
-     * Simulate touchId event.
+     * Simulate touchId event on iOS Simulator. Check the documentation on 'mobile: sendBiometricMatch'
+     * extension for more details.
      *
      * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan.
      */
     default void performTouchID(boolean match) {
-        CommandExecutionHelper.execute(this, touchIdCommand(match));
+        CommandExecutionHelper.executeScript(this, "mobile: sendBiometricMatch", ImmutableMap.of(
+                "type", "touchId",
+                "match", match
+        ));
     }
 
     /**
-     * Enrolls touchId in iOS Simulators. This call will only work if Appium process or its
-     * parent application (e.g. Terminal.app or Appium.app) has
-     * access to Mac OS accessibility in System Preferences &gt;
-     * Security &amp; Privacy &gt; Privacy &gt; Accessibility list.
+     * Enrolls touchId in iOS Simulator. Check the documentation on 'mobile: enrollBiometric'
+     * extension for more details.
      *
      * @param enabled Whether to enable or disable Touch ID Enrollment. The actual state of the feature
      *                will only be changed if the current value is different from the previous one.
      *                Multiple calls of the method with the same argument value have no effect.
      */
     default void toggleTouchIDEnrollment(boolean enabled) {
-        CommandExecutionHelper.execute(this, toggleTouchIdEnrollmentCommand(enabled));
+        CommandExecutionHelper.executeScript(this, "mobile: enrollBiometric", ImmutableMap.of(
+                "isEnabled", enabled
+        ));
     }
 }

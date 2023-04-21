@@ -16,8 +16,12 @@
 
 package io.appium.java_client;
 
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.UnsupportedCommandException;
+
 import java.time.Duration;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.getIsDeviceLockedCommand;
 import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import static io.appium.java_client.MobileCommand.unlockDeviceCommand;
@@ -41,7 +45,14 @@ public interface LocksDevice extends ExecutesMethod {
      *                 A negative/zero value will lock the device and return immediately.
      */
     default void lockDevice(Duration duration) {
-        CommandExecutionHelper.execute(this, lockDeviceCommand(duration));
+        try {
+            CommandExecutionHelper.executeScript(this, "mobile: lock", ImmutableMap.of(
+                    "seconds", duration.getSeconds()
+            ));
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            CommandExecutionHelper.execute(this, lockDeviceCommand(duration));
+        }
     }
 
     /**
@@ -49,7 +60,16 @@ public interface LocksDevice extends ExecutesMethod {
      * is not locked.
      */
     default void unlockDevice() {
-        CommandExecutionHelper.execute(this, unlockDeviceCommand());
+        try {
+            //noinspection ConstantConditions
+            if (!(Boolean) CommandExecutionHelper.executeScript(this, "mobile: isLocked")) {
+                return;
+            }
+            CommandExecutionHelper.executeScript(this, "mobile: unlock");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            CommandExecutionHelper.execute(this, unlockDeviceCommand());
+        }
     }
 
     /**
@@ -58,6 +78,13 @@ public interface LocksDevice extends ExecutesMethod {
      * @return true if the device is locked or false otherwise.
      */
     default boolean isDeviceLocked() {
-        return CommandExecutionHelper.execute(this, getIsDeviceLockedCommand());
+        try {
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: isLocked")
+            );
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return checkNotNull(CommandExecutionHelper.execute(this, getIsDeviceLockedCommand()));
+        }
     }
 }

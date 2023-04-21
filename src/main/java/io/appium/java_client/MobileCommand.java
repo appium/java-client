@@ -35,7 +35,6 @@ import java.util.Map;
 /**
  * The repository of mobile commands defined in the Mobile JSON
  * wire protocol.
- *
  * Most of these commands are platform-specific obsolete things and should eventually be replaced with
  * calls to corresponding `mobile:` extensions, so we don't abuse non-w3c APIs
  */
@@ -383,7 +382,9 @@ public class MobileCommand {
      * @param keyName The button pressed by the mobile driver to attempt hiding the
      *                keyboard.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
         return new AbstractMap.SimpleEntry<>(
                 HIDE_KEYBOARD, prepareArguments("keyName", keyName));
@@ -396,7 +397,9 @@ public class MobileCommand {
      * @param keyName  a String, representing the text displayed on the button of the
      *                 keyboard you want to press. For example: "Done".
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
                                                                         String keyName) {
         String[] parameters = new String[]{"strategy", "key"};
@@ -442,7 +445,9 @@ public class MobileCommand {
      *
      * @param key code for the key pressed on the device.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
                 PRESS_KEY_CODE, prepareArguments("keycode", key));
@@ -454,7 +459,9 @@ public class MobileCommand {
      * @param key       code for the key pressed on the Android device.
      * @param metastate metastate for the keypress.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
                                                                         Integer metastate) {
         String[] parameters = new String[]{"keycode", "metastate"};
@@ -468,7 +475,9 @@ public class MobileCommand {
      *
      * @param key code for the long key pressed on the device.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
         return new AbstractMap.SimpleEntry<>(
                 LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
@@ -480,7 +489,9 @@ public class MobileCommand {
      * @param key       code for the long key pressed on the Android device.
      * @param metastate metastate for the long key press.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
                                                                             Integer metastate) {
         String[] parameters = new String[]{"keycode", "metastate"};
@@ -494,7 +505,9 @@ public class MobileCommand {
      *
      * @param duration for how long to lock the screen for. Minimum time resolution is one second
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(Duration duration) {
         return new AbstractMap.SimpleEntry<>(
                 LOCK, prepareArguments("seconds", duration.getSeconds()));
@@ -504,7 +517,9 @@ public class MobileCommand {
      * This method forms a {@link Map} of parameters for the device unlocking.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
         return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
     }
@@ -513,7 +528,9 @@ public class MobileCommand {
      * This method forms a {@link Map} of parameters for the device locked query.
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
         return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
     }
@@ -536,7 +553,9 @@ public class MobileCommand {
      * @param remotePath Path to file to write data to on remote device
      * @param base64Data Base64 encoded byte array of data to write to remote device
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
         String[] parameters = new String[]{"path", "data"};
         Object[] values = new Object[]{remotePath, new String(base64Data, StandardCharsets.UTF_8)};
@@ -580,7 +599,9 @@ public class MobileCommand {
      * This method forms a {@link Map} of parameters for the checking of the keyboard state (is it shown or not).
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
+     * @deprecated This helper is deprecated and will be removed in future versions.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
         return new AbstractMap.SimpleEntry<>(IS_KEYBOARD_SHOWN, ImmutableMap.of());
     }
