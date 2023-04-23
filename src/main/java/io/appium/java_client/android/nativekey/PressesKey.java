@@ -51,7 +51,7 @@ public interface PressesKey extends ExecutesMethod {
      */
     default void longPressKey(KeyEvent keyEvent) {
         try {
-            Map<String, Object> args = ImmutableMap.<String, Object> builder()
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
                     .putAll(keyEvent.build())
                     .put("isLongPress", true)
                     .build();
