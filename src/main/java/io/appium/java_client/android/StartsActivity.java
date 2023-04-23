@@ -40,13 +40,16 @@ public interface StartsActivity extends ExecutesMethod {
      * </pre>
      *
      * @param activity The {@link Activity} object
+     * @deprecated Use 'mobile: startActivity' extension instead
      */
+    @Deprecated
     default void startActivity(Activity activity) {
         CommandExecutionHelper.execute(this,
-            startActivityCommand(activity.getAppPackage(), activity.getAppActivity(),
-                activity.getAppWaitPackage(), activity.getAppWaitActivity(),
-                activity.getIntentAction(), activity.getIntentCategory(), activity.getIntentFlags(),
-                activity.getOptionalIntentArguments(), activity.isStopApp()));
+                startActivityCommand(activity.getAppPackage(), activity.getAppActivity(),
+                        activity.getAppWaitPackage(), activity.getAppWaitActivity(),
+                        activity.getIntentAction(), activity.getIntentCategory(), activity.getIntentFlags(),
+                        activity.getOptionalIntentArguments(), activity.isStopApp())
+        );
     }
 
     /**
