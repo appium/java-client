@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.android.options.app;
+package io.appium.java_client.remote.options;
 
-import io.appium.java_client.remote.options.BaseOptions;
-import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
@@ -40,7 +38,7 @@ public interface SupportsEnforceAppInstallOption<T extends BaseOptions<T>> exten
 
     /**
      * Allows setting whether the application under test is always reinstalled even
-     * if a newer version of it already exists on the device under test. false by default.
+     * if a newer version of it already exists on the device under test. False (Android), true (iOS) by default.
      *
      * @param value True to allow test packages installation.
      * @return self instance for chaining.
