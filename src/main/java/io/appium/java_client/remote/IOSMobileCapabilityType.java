@@ -303,6 +303,15 @@ public interface IOSMobileCapabilityType extends CapabilityType {
     String UPDATE_WDA_BUNDLEID = "updatedWDABundleId";
 
     /**
+     * By default application installation is not skipped if newer or the same version of this app is already present on
+     * the device under test. Setting this option to {@code false} will enforce Appium to always skip the current
+     * application build. Defaults to {@code true}.
+     *
+     * @since 4.19.0
+     */
+    String ENFORCE_APP_INSTALL = "enforceAppInstall";
+
+    /**
      * Whether to perform reset on test session finish (false) or not (true).
      * Keeping this variable set to true and Simulator running
      * (the default behaviour since version 1.6.4) may significantly shorten the
