@@ -50,6 +50,7 @@ public class MobileCommand {
     protected static final String PULL_FILE;
     @Deprecated
     protected static final String PULL_FOLDER;
+    @Deprecated
     public static final String RUN_APP_IN_BACKGROUND;
     @Deprecated
     protected static final String PERFORM_TOUCH_ACTION;
