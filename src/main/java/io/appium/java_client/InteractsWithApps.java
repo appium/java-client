@@ -23,18 +23,26 @@ import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
-import java.util.HashMap;
+import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
+import static io.appium.java_client.MobileCommand.INSTALL_APP;
+import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
+import static io.appium.java_client.MobileCommand.QUERY_APP_STATE;
+import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unchecked"})
 public interface InteractsWithApps extends ExecutesMethod {
 
     /**
@@ -54,11 +62,23 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                the particular platform.
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("app", appPath);
-        args.put("appPath", appPath);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-        CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                .put("app", appPath)
+                .put("appPath", appPath)
+                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                .build();
+            CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("appPath", appPath)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(INSTALL_APP, args));
+        }
     }
 
     /**
@@ -68,12 +88,21 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return True if app is installed, false otherwise.
      */
     default boolean isAppInstalled(String bundleId) {
-        return checkNotNull(
-            CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
-                "bundleId", bundleId,
-                "appId", bundleId
-            ))
-        );
+        try {
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
+                            "bundleId", bundleId,
+                            "appId", bundleId
+                    ))
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            return checkNotNull(
+                    CommandExecutionHelper.execute(this,
+                        new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId))
+                    )
+            );
+        }
     }
 
     /**
@@ -114,13 +143,30 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the uninstall was successful.
      */
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("bundleId", bundleId);
-        args.put("appId", bundleId);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-        return checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
-        );
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                    .put("bundleId", bundleId)
+                    .put("appId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                    .build();
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("bundleId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            //noinspection RedundantCast
+            return checkNotNull(
+                    (Boolean) CommandExecutionHelper.execute(
+                            this, new AbstractMap.SimpleEntry<>(REMOVE_APP, args)
+                    )
+            );
+        }
     }
 
     /**
@@ -142,11 +188,23 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                 particular platform.
      */
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("bundleId", bundleId);
-        args.put("appId", bundleId);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-        CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                    .put("bundleId", bundleId)
+                    .put("appId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                    .build();
+            CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("bundleId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(ACTIVATE_APP, args));
+        }
     }
 
     /**
@@ -156,14 +214,24 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return one of possible {@link ApplicationState} values,
      */
     default ApplicationState queryAppState(String bundleId) {
-        return ApplicationState.ofCode(
-            checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
-                "bundleId", bundleId,
-                "appId", bundleId
-                ))
-            )
-        );
+        try {
+            return ApplicationState.ofCode(
+                    checkNotNull(
+                            CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
+                                    "bundleId", bundleId,
+                                    "appId", bundleId
+                            ))
+                    )
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            return ApplicationState.ofCode(
+                    checkNotNull(
+                        CommandExecutionHelper.execute(this,
+                                new AbstractMap.SimpleEntry<>(QUERY_APP_STATE, ImmutableMap.of("bundleId", bundleId)))
+                    )
+            );
+        }
     }
 
     /**
@@ -185,12 +253,29 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the app was running before and has been successfully stopped.
      */
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("bundleId", bundleId);
-        args.put("appId", bundleId);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-        return checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
-        );
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                    .put("bundleId", bundleId)
+                    .put("appId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                    .build();
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("bundleId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            //noinspection RedundantCast
+            return checkNotNull(
+                    (Boolean) CommandExecutionHelper.execute(
+                            this, new AbstractMap.SimpleEntry<>(TERMINATE_APP, args)
+                    )
+            );
+        }
     }
 }
