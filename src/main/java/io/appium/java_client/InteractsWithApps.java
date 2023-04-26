@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
@@ -23,19 +25,24 @@ import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
+import org.openqa.selenium.HasCapabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 @SuppressWarnings("rawtypes")
-public interface InteractsWithApps extends ExecutesMethod {
+public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
 
     /**
      * Install an app on the mobile device.
@@ -54,10 +61,20 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                the particular platform.
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("app", appPath);
-        args.put("appPath", appPath);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        List<String> argNames = ImmutableList.of("app", "appPath");
+        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
+        if (platformName != null) {
+            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
+                argNames = ImmutableList.of("app");
+            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
+                argNames = ImmutableList.of("appPath");
+            }
+        }
+        //noinspection unchecked
+        Map<String, Object> args = ImmutableMap.<String, Object>builder()
+            .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> appPath)))
+            .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+            .build();
         CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
     }
 
@@ -68,11 +85,20 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return True if app is installed, false otherwise.
      */
     default boolean isAppInstalled(String bundleId) {
+        List<String> argNames = ImmutableList.of("bundleId", "appId");
+        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
+        if (platformName != null) {
+            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
+                argNames = ImmutableList.of("bundleId");
+            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
+                argNames = ImmutableList.of("appId");
+            }
+        }
+        Map<String, Object> args = argNames.stream().collect(Collectors.toMap(
+                Functions.identity(), (ign) -> bundleId
+        ));
         return checkNotNull(
-            CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
-                "bundleId", bundleId,
-                "appId", bundleId
-            ))
+            CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", args)
         );
     }
 
@@ -114,10 +140,20 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the uninstall was successful.
      */
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("bundleId", bundleId);
-        args.put("appId", bundleId);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        List<String> argNames = ImmutableList.of("bundleId", "appId");
+        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
+        if (platformName != null) {
+            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
+                argNames = ImmutableList.of("bundleId");
+            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
+                argNames = ImmutableList.of("appId");
+            }
+        }
+        //noinspection unchecked
+        Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId)))
+                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                .build();
         return checkNotNull(
                 CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
         );
@@ -142,10 +178,20 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                 particular platform.
      */
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("bundleId", bundleId);
-        args.put("appId", bundleId);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        List<String> argNames = ImmutableList.of("bundleId", "appId");
+        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
+        if (platformName != null) {
+            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
+                argNames = ImmutableList.of("bundleId");
+            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
+                argNames = ImmutableList.of("appId");
+            }
+        }
+        //noinspection unchecked
+        Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId)))
+                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                .build();
         CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
     }
 
@@ -156,12 +202,19 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return one of possible {@link ApplicationState} values,
      */
     default ApplicationState queryAppState(String bundleId) {
+        List<String> argNames = ImmutableList.of("bundleId", "appId");
+        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
+        if (platformName != null) {
+            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
+                argNames = ImmutableList.of("bundleId");
+            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
+                argNames = ImmutableList.of("appId");
+            }
+        }
+        Map<String, Object> args = argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId));
         return ApplicationState.ofCode(
             checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
-                "bundleId", bundleId,
-                "appId", bundleId
-                ))
+                CommandExecutionHelper.executeScript(this, "mobile: queryAppState", args)
             )
         );
     }
@@ -185,10 +238,20 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the app was running before and has been successfully stopped.
      */
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
-        Map<String, Object> args = new HashMap<>();
-        args.put("bundleId", bundleId);
-        args.put("appId", bundleId);
-        Optional.ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        List<String> argNames = ImmutableList.of("bundleId", "appId");
+        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
+        if (platformName != null) {
+            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
+                argNames = ImmutableList.of("bundleId");
+            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
+                argNames = ImmutableList.of("appId");
+            }
+        }
+        //noinspection unchecked
+        Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId)))
+                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                .build();
         return checkNotNull(
                 CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
         );
