@@ -16,8 +16,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.base.Functions;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
@@ -25,24 +23,27 @@ import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.Platform;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
+import java.util.AbstractMap;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
+import static io.appium.java_client.MobileCommand.INSTALL_APP;
+import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
+import static io.appium.java_client.MobileCommand.QUERY_APP_STATE;
+import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
+import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 
-@SuppressWarnings("rawtypes")
-public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public interface InteractsWithApps extends ExecutesMethod {
 
     /**
      * Install an app on the mobile device.
@@ -61,21 +62,23 @@ public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
      *                the particular platform.
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
-        List<String> argNames = ImmutableList.of("app", "appPath");
-        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
-        if (platformName != null) {
-            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
-                argNames = ImmutableList.of("app");
-            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
-                argNames = ImmutableList.of("appPath");
-            }
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                .put("app", appPath)
+                .put("appPath", appPath)
+                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                .build();
+            CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("appPath", appPath)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(INSTALL_APP, args));
         }
-        //noinspection unchecked
-        Map<String, Object> args = ImmutableMap.<String, Object>builder()
-            .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> appPath)))
-            .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-            .build();
-        CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
     }
 
     /**
@@ -85,21 +88,21 @@ public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
      * @return True if app is installed, false otherwise.
      */
     default boolean isAppInstalled(String bundleId) {
-        List<String> argNames = ImmutableList.of("bundleId", "appId");
-        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
-        if (platformName != null) {
-            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
-                argNames = ImmutableList.of("bundleId");
-            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
-                argNames = ImmutableList.of("appId");
-            }
+        try {
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
+                            "bundleId", bundleId,
+                            "appId", bundleId
+                    ))
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            return checkNotNull(
+                    CommandExecutionHelper.execute(this,
+                        new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId))
+                    )
+            );
         }
-        Map<String, Object> args = argNames.stream().collect(Collectors.toMap(
-                Functions.identity(), (ign) -> bundleId
-        ));
-        return checkNotNull(
-            CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", args)
-        );
     }
 
     /**
@@ -140,23 +143,30 @@ public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
      * @return true if the uninstall was successful.
      */
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
-        List<String> argNames = ImmutableList.of("bundleId", "appId");
-        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
-        if (platformName != null) {
-            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
-                argNames = ImmutableList.of("bundleId");
-            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
-                argNames = ImmutableList.of("appId");
-            }
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                    .put("bundleId", bundleId)
+                    .put("appId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                    .build();
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("bundleId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            //noinspection RedundantCast
+            return checkNotNull(
+                    (Boolean) CommandExecutionHelper.execute(
+                            this, new AbstractMap.SimpleEntry<>(REMOVE_APP, args)
+                    )
+            );
         }
-        //noinspection unchecked
-        Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId)))
-                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                .build();
-        return checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
-        );
     }
 
     /**
@@ -178,21 +188,23 @@ public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
      *                 particular platform.
      */
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
-        List<String> argNames = ImmutableList.of("bundleId", "appId");
-        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
-        if (platformName != null) {
-            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
-                argNames = ImmutableList.of("bundleId");
-            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
-                argNames = ImmutableList.of("appId");
-            }
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                    .put("bundleId", bundleId)
+                    .put("appId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                    .build();
+            CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("bundleId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(ACTIVATE_APP, args));
         }
-        //noinspection unchecked
-        Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId)))
-                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                .build();
-        CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
     }
 
     /**
@@ -202,21 +214,24 @@ public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
      * @return one of possible {@link ApplicationState} values,
      */
     default ApplicationState queryAppState(String bundleId) {
-        List<String> argNames = ImmutableList.of("bundleId", "appId");
-        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
-        if (platformName != null) {
-            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
-                argNames = ImmutableList.of("bundleId");
-            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
-                argNames = ImmutableList.of("appId");
-            }
+        try {
+            return ApplicationState.ofCode(
+                    checkNotNull(
+                            CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
+                                    "bundleId", bundleId,
+                                    "appId", bundleId
+                            ))
+                    )
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            return ApplicationState.ofCode(
+                    checkNotNull(
+                        CommandExecutionHelper.execute(this,
+                                new AbstractMap.SimpleEntry<>(QUERY_APP_STATE, ImmutableMap.of("bundleId", bundleId)))
+                    )
+            );
         }
-        Map<String, Object> args = argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId));
-        return ApplicationState.ofCode(
-            checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: queryAppState", args)
-            )
-        );
     }
 
     /**
@@ -238,22 +253,29 @@ public interface InteractsWithApps extends ExecutesMethod, HasCapabilities {
      * @return true if the app was running before and has been successfully stopped.
      */
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
-        List<String> argNames = ImmutableList.of("bundleId", "appId");
-        String platformName = (String) getCapabilities().getCapability(PLATFORM_NAME);
-        if (platformName != null) {
-            if (platformName.equalsIgnoreCase(Platform.IOS.name())) {
-                argNames = ImmutableList.of("bundleId");
-            } else if (platformName.equalsIgnoreCase(Platform.ANDROID.name())) {
-                argNames = ImmutableList.of("appId");
-            }
+        try {
+            Map<String, Object> args = ImmutableMap.<String, Object>builder()
+                    .put("bundleId", bundleId)
+                    .put("appId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
+                    .build();
+            return checkNotNull(
+                    CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
+            );
+        } catch (UnsupportedCommandException | InvalidArgumentException e) {
+            // TODO: Remove the fallback
+            Map args = ImmutableMap.builder()
+                    .put("bundleId", bundleId)
+                    .putAll(Optional.ofNullable(options).map(
+                            (opts) -> ImmutableMap.of("options", opts.build())
+                    ).orElseGet(ImmutableMap::of))
+                    .build();
+            //noinspection RedundantCast
+            return checkNotNull(
+                    (Boolean) CommandExecutionHelper.execute(
+                            this, new AbstractMap.SimpleEntry<>(TERMINATE_APP, args)
+                    )
+            );
         }
-        //noinspection unchecked
-        Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                .putAll(argNames.stream().collect(Collectors.toMap(Functions.identity(), (ign) -> bundleId)))
-                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                .build();
-        return checkNotNull(
-                CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
-        );
     }
 }
