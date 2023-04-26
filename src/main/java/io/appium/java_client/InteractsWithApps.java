@@ -23,6 +23,7 @@ import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
+import org.openqa.selenium.UnsupportedCommandException;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
@@ -76,15 +77,22 @@ public interface InteractsWithApps extends ExecutesMethod {
     }
 
     /**
-     * Runs the current app as a background app for the time
+     * Runs the current app in the background for the time
      * requested. This is a synchronous method, it blocks while the
      * application is in background.
      *
-     * @param duration The time to run App in background. Minimum time resolution is one millisecond.
-     *                 Passing zero or a negative value will switch to Home screen and return immediately.
+     * @param duration The time to run App in background. Minimum time resolution unit is one millisecond.
+     *                 Passing a negative value will switch to Home screen and return immediately.
      */
     default void runAppInBackground(Duration duration) {
-        execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.toMillis() / 1000.0));
+        try {
+            CommandExecutionHelper.executeScript(this, "mobile: backgroundApp", ImmutableMap.of(
+                    "seconds", duration.toMillis() / 1000.0
+            ));
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.toMillis() / 1000.0));
+        }
     }
 
     /**
