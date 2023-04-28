@@ -17,7 +17,7 @@ public interface AuthenticatesByFinger extends ExecutesMethod {
     default void fingerPrint(int fingerPrintId) {
         try {
             CommandExecutionHelper.executeScript(this, "mobile: fingerprint", ImmutableMap.of(
-               "fingerprintId", fingerPrintId
+                    "fingerprintId", fingerPrintId
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback

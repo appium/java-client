@@ -24,8 +24,8 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
     default void sendSMS(String phoneNumber, String message) {
         try {
             CommandExecutionHelper.executeScript(this, "mobile: sendSms", ImmutableMap.of(
-               "phoneNumber", phoneNumber,
-               "message", message
+                    "phoneNumber", phoneNumber,
+                    "message", message
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
@@ -65,7 +65,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
     default void setGsmSignalStrength(GsmSignalStrength gsmSignalStrength) {
         try {
             CommandExecutionHelper.executeScript(this, "mobile: gsmSignal", ImmutableMap.of(
-               "strength", gsmSignalStrength.ordinal()
+                    "strength", gsmSignalStrength.ordinal()
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
@@ -102,7 +102,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
     default void setNetworkSpeed(NetworkSpeed networkSpeed) {
         try {
             CommandExecutionHelper.executeScript(this, "mobile: networkSpeed", ImmutableMap.of(
-               "speed", networkSpeed.toString().toLowerCase()
+                    "speed", networkSpeed.toString().toLowerCase()
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback

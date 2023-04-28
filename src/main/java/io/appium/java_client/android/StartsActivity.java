@@ -27,8 +27,6 @@ import java.util.AbstractMap;
 
 import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
 import static io.appium.java_client.MobileCommand.GET_CURRENT_PACKAGE;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.currentPackageCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 
 public interface StartsActivity extends ExecutesMethod {
