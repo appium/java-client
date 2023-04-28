@@ -247,11 +247,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test
-    public void endTestCoverage() {
-        driver.endTestCoverage("android.intent.action.MAIN", "");
-    }
-
-    @Test
     public void deviceDetailsAndKeyboardTest() {
         assertFalse(driver.isKeyboardShown());
         assertNotNull(driver.getDisplayDensity());

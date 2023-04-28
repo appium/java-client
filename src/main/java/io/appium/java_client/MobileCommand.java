@@ -112,7 +112,7 @@ public class MobileCommand {
     protected static final String TOUCH_ID_ENROLLMENT;
     //Android
     @Deprecated
-    protected static final String CURRENT_ACTIVITY;
+    public static final String CURRENT_ACTIVITY;
     @Deprecated
     protected static final String END_TEST_COVERAGE;
     @Deprecated
@@ -149,21 +149,21 @@ public class MobileCommand {
     @Deprecated
     protected static final String SET_SETTINGS;
     @Deprecated
-    protected static final String GET_CURRENT_PACKAGE;
+    public static final String GET_CURRENT_PACKAGE;
     @Deprecated
-    protected static final String SEND_SMS;
+    public static final String SEND_SMS;
     @Deprecated
-    protected static final String GSM_CALL;
+    public static final String GSM_CALL;
     @Deprecated
-    protected static final String GSM_SIGNAL;
+    public static final String GSM_SIGNAL;
     @Deprecated
-    protected static final String GSM_VOICE;
+    public static final String GSM_VOICE;
     @Deprecated
-    protected static final String NETWORK_SPEED;
+    public static final String NETWORK_SPEED;
     @Deprecated
-    protected static final String POWER_CAPACITY;
+    public static final String POWER_CAPACITY;
     @Deprecated
-    protected static final String POWER_AC_STATE;
+    public static final String POWER_AC_STATE;
     @Deprecated
     protected static final String TOGGLE_WIFI;
     @Deprecated
