@@ -50,7 +50,10 @@ jobs:
   - script: |
       sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
       xcrun simctl list
-    displayName: Simulator configuration
+      target_sim_id=$(xcrun simctl list devices available | grep "$IOS_DEVICE_NAME (" | cut -d "(" -f2 | cut -d ")" -f1)
+      open -Fn "/Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer/Applications/Simulator.app"
+      xcrun simctl bootstatus $target_sim_id -b
+    displayName: Prepare iOS Simulator
   - script: $NVM_DIR/versions/node/$(node --version)/bin/appium driver install xcuitest
     displayName: Install XCUITest driver
   - script: $NVM_DIR/versions/node/$(node --version)/bin/appium driver run xcuitest build-wda
