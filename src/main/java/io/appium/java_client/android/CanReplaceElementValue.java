@@ -28,6 +28,7 @@ public interface CanReplaceElementValue extends ExecutesMethod {
             // TODO: Remove the fallback
             this.execute(MobileCommand.REPLACE_VALUE, ImmutableMap.of(
                     "id", element.getId(),
+                    "text", value,
                     "value", value
             ));
         }
