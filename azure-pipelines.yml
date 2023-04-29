@@ -4,17 +4,17 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 pool:
-  vmImage: 'macos-11'
+  vmImage: 'macos-12'
 
 variables:
   ANDROID_EMU_NAME: test
   ANDROID_EMU_ABI: x86
   ANDROID_EMU_TARGET: android-28
   ANDROID_EMU_TAG: default
-  XCODE_VERSION: 13.2
-  IOS_PLATFORM_VERSION: 15.2
-  IOS_DEVICE_NAME: iPhone X
-  NODE_VERSION: 16.x
+  XCODE_VERSION: 14.2
+  IOS_PLATFORM_VERSION: 16.2
+  IOS_DEVICE_NAME: iPhone 12
+  NODE_VERSION: 18.x
   JDK_VERSION: 1.8
 
 jobs:
@@ -50,9 +50,14 @@ jobs:
   - script: |
       sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
       xcrun simctl list
-    displayName: Simulator configuration
-  - script: $NVM_DIR/versions/node/`node --version`/bin/appium driver install xcuitest
+      target_sim_id=$(xcrun simctl list devices available | grep "$IOS_DEVICE_NAME (" | cut -d "(" -f2 | cut -d ")" -f1)
+      open -Fn "/Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer/Applications/Simulator.app"
+      xcrun simctl bootstatus $target_sim_id -b
+    displayName: Prepare iOS Simulator
+  - script: $NVM_DIR/versions/node/$(node --version)/bin/appium driver install xcuitest
     displayName: Install XCUITest driver
+  - script: $NVM_DIR/versions/node/$(node --version)/bin/appium driver run xcuitest build-wda
+    displayName: Prebuild XCUITest driver
   - task: Gradle@2
     inputs:
       gradleWrapperFile: 'gradlew'
