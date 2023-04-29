@@ -16,11 +16,17 @@
 
 package io.appium.java_client.android;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import org.openqa.selenium.UnsupportedCommandException;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.currentActivityCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.currentPackageCommand;
+import javax.annotation.Nullable;
+
+import java.util.AbstractMap;
+
+import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
+import static io.appium.java_client.MobileCommand.GET_CURRENT_PACKAGE;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 
 public interface StartsActivity extends ExecutesMethod {
@@ -57,8 +63,16 @@ public interface StartsActivity extends ExecutesMethod {
      *
      * @return a current activity being run on the mobile device.
      */
+    @Nullable
     default String currentActivity() {
-        return CommandExecutionHelper.execute(this, currentActivityCommand());
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getCurrentActivity");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return CommandExecutionHelper.execute(
+                    this, new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of())
+            );
+        }
     }
 
     /**
@@ -66,7 +80,15 @@ public interface StartsActivity extends ExecutesMethod {
      *
      * @return a current package being run on the mobile device.
      */
+    @Nullable
     default String getCurrentPackage() {
-        return CommandExecutionHelper.execute(this, currentPackageCommand());
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getCurrentPackage");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return CommandExecutionHelper.execute(
+                    this, new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of())
+            );
+        }
     }
 }

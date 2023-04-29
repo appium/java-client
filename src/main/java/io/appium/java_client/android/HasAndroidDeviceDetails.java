@@ -2,6 +2,7 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.Map;
 
@@ -16,7 +17,12 @@ public interface HasAndroidDeviceDetails extends ExecutesMethod {
      @return The density value in dpi
      */
     default Long getDisplayDensity() {
-        return CommandExecutionHelper.execute(this, getDisplayDensityCommand());
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getDisplayDensity");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return CommandExecutionHelper.execute(this, getDisplayDensityCommand());
+        }
     }
 
     /**
@@ -25,7 +31,12 @@ public interface HasAndroidDeviceDetails extends ExecutesMethod {
      @return The map where keys are bar types and values are mappings of bar properties.
      */
     default Map<String, Map<String, Object>> getSystemBars() {
-        return CommandExecutionHelper.execute(this, getSystemBarsCommand());
+        try {
+            return CommandExecutionHelper.executeScript(this, "mobile: getSystemBars");
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            return CommandExecutionHelper.execute(this, getSystemBarsCommand());
+        }
     }
 
 }

@@ -37,6 +37,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> currentActivityCommand() {
         return new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of());
     }
@@ -46,6 +47,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
         return new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of());
     }
@@ -57,6 +59,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @param path   path to .ec file.
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> endTestCoverageCommand(String intent,
         String path) {
         String[] parameters = new String[] {"intent", "path"};
@@ -117,6 +120,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> getDisplayDensityCommand() {
         return new AbstractMap.SimpleEntry<>(GET_DISPLAY_DENSITY, ImmutableMap.of());
     }
@@ -126,6 +130,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
         return new AbstractMap.SimpleEntry<>(GET_NETWORK_CONNECTION, ImmutableMap.of());
     }
@@ -136,6 +141,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> getSystemBarsCommand() {
         return new AbstractMap.SimpleEntry<>(GET_SYSTEM_BARS, ImmutableMap.of());
     }
@@ -145,6 +151,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
         return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
     }
@@ -155,6 +162,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> fingerPrintCommand(int fingerPrintId) {
         return new AbstractMap.SimpleEntry<>(FINGER_PRINT,
             prepareArguments("fingerprintId", fingerPrintId));
@@ -165,6 +173,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
         return new AbstractMap.SimpleEntry<>(OPEN_NOTIFICATIONS, ImmutableMap.of());
     }
@@ -175,6 +184,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @param bitMask The bitmask of the desired connection
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> setConnectionCommand(long bitMask) {
         String[] parameters = new String[] {"name", "parameters"};
         Object[] values = new Object[] {"network_connection", ImmutableMap.of("type", bitMask)};
@@ -198,6 +208,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      * @throws IllegalArgumentException when any required argument is empty
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> startActivityCommand(String appPackage,
         String appActivity, String appWaitPackage, String appWaitActivity,
         String intentAction, String intentCategory, String intentFlags,
@@ -234,6 +245,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
         return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.of());
     }
@@ -243,6 +255,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> unlockCommand() {
         return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
     }
@@ -256,6 +269,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @param value a new value
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
         RemoteWebElement remoteWebElement, String value) {
         String[] parameters = new String[] {"id", "value"};
@@ -275,6 +289,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> sendSMSCommand(
             String phoneNumber, String message) {
         ImmutableMap<String, ?> parameters = ImmutableMap
@@ -294,6 +309,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmCallCommand(
             String phoneNumber, GsmCallActions gsmCallActions) {
         String[] parameters = new String[] {"phoneNumber", "action"};
@@ -309,6 +325,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmSignalStrengthCommand(
             GsmSignalStrength gsmSignalStrength) {
         return new AbstractMap.SimpleEntry<>(GSM_SIGNAL,
@@ -327,6 +344,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmVoiceCommand(
             GsmVoiceState gsmVoiceState) {
         return new AbstractMap.SimpleEntry<>(GSM_VOICE,
@@ -341,6 +359,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> networkSpeedCommand(
             NetworkSpeed networkSpeed) {
         return new AbstractMap.SimpleEntry<>(NETWORK_SPEED,
@@ -355,6 +374,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> powerCapacityCommand(
             int percent) {
         return new AbstractMap.SimpleEntry<>(POWER_CAPACITY,
@@ -369,6 +389,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> powerACCommand(
             PowerACState powerACState) {
         return new AbstractMap.SimpleEntry<>(POWER_AC_STATE,
@@ -380,6 +401,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleWifiCommand() {
         return new AbstractMap.SimpleEntry<>(TOGGLE_WIFI, ImmutableMap.of());
     }
@@ -389,6 +411,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleAirplaneCommand() {
         return new AbstractMap.SimpleEntry<>(TOGGLE_AIRPLANE_MODE, ImmutableMap.of());
     }
@@ -398,6 +421,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
+    @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleDataCommand() {
         return new AbstractMap.SimpleEntry<>(TOGGLE_DATA, ImmutableMap.of());
     }

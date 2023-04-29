@@ -255,7 +255,9 @@ public class AndroidDriver extends AppiumDriver implements
      *
      * @param intent intent to broadcast.
      * @param path   path to .ec file.
+     * @deprecated This API will be removed
      */
+    @Deprecated
     public void endTestCoverage(String intent, String path) {
         CommandExecutionHelper.execute(this, endTestCoverageCommand(intent, path));
     }
