@@ -51,8 +51,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.openNotificationsCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
 
 /**
  * Android driver implementation.
@@ -86,6 +84,8 @@ public class AndroidDriver extends AppiumDriver implements
         HasBattery<AndroidBatteryInfo>,
         ExecuteCDPCommand,
         CanReplaceElementValue,
+        SupportsGpsStateManagement,
+        HasNotifications,
         SupportsExtendedGeolocationCommands {
     private static final String ANDROID_PLATFORM = Platform.ANDROID.name();
 
@@ -260,17 +260,6 @@ public class AndroidDriver extends AppiumDriver implements
     @Deprecated
     public void endTestCoverage(String intent, String path) {
         CommandExecutionHelper.execute(this, endTestCoverageCommand(intent, path));
-    }
-
-    /**
-     * Open the notification shade, on Android devices.
-     */
-    public void openNotifications() {
-        CommandExecutionHelper.execute(this, openNotificationsCommand());
-    }
-
-    public void toggleLocationServices() {
-        CommandExecutionHelper.execute(this, toggleLocationServicesCommand());
     }
 
     @Override
