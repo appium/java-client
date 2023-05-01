@@ -234,10 +234,13 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
         try {
             return ApplicationState.ofCode(
                     checkNotNull(
-                            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
-                                    "bundleId", bundleId,
-                                    "appId", bundleId
-                            ))
+                            CommandExecutionHelper.executeScript(
+                                    assertExtensionExists(extName),
+                                    extName, ImmutableMap.of(
+                                            "bundleId", bundleId,
+                                            "appId", bundleId
+                                    )
+                            )
                     )
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {

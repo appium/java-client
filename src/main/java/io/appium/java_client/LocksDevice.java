@@ -87,7 +87,9 @@ public interface LocksDevice extends ExecutesMethod, CanRememberExtensionPresenc
             );
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            return checkNotNull(CommandExecutionHelper.execute(markExtensionAbsence(extName), getIsDeviceLockedCommand()));
+            return checkNotNull(
+                    CommandExecutionHelper.execute(markExtensionAbsence(extName), getIsDeviceLockedCommand())
+            );
         }
     }
 }
