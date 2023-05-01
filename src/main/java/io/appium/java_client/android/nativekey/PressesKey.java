@@ -17,6 +17,7 @@
 package io.appium.java_client.android.nativekey;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
@@ -27,7 +28,7 @@ import java.util.Map;
 import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
 import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
 
-public interface PressesKey extends ExecutesMethod {
+public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      * Send a key event to the device under test.
@@ -35,12 +36,15 @@ public interface PressesKey extends ExecutesMethod {
      * @param keyEvent The generated native key event
      */
     default void pressKey(KeyEvent keyEvent) {
+        final String extName = "mobile: pressKey";
         try {
-            CommandExecutionHelper.executeScript(this, "mobile: pressKey", keyEvent.build());
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, keyEvent.build());
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            CommandExecutionHelper.execute(this,
-                    new AbstractMap.SimpleEntry<>(PRESS_KEY_CODE, keyEvent.build()));
+            CommandExecutionHelper.execute(
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(PRESS_KEY_CODE, keyEvent.build())
+            );
         }
     }
 
@@ -50,16 +54,19 @@ public interface PressesKey extends ExecutesMethod {
      * @param keyEvent The generated native key event
      */
     default void longPressKey(KeyEvent keyEvent) {
+        final String extName = "mobile: pressKey";
         try {
             Map<String, Object> args = ImmutableMap.<String, Object>builder()
                     .putAll(keyEvent.build())
                     .put("isLongPress", true)
                     .build();
-            CommandExecutionHelper.executeScript(this, "mobile: pressKey", args);
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            CommandExecutionHelper.execute(this,
-                    new AbstractMap.SimpleEntry<>(LONG_PRESS_KEY_CODE, keyEvent.build()));
+            CommandExecutionHelper.execute(
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(LONG_PRESS_KEY_CODE, keyEvent.build())
+            );
         }
     }
 }

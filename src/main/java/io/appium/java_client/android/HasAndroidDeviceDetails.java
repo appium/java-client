@@ -1,5 +1,6 @@
 package io.appium.java_client.android;
 
+import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
@@ -9,7 +10,7 @@ import java.util.Map;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getDisplayDensityCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getSystemBarsCommand;
 
-public interface HasAndroidDeviceDetails extends ExecutesMethod {
+public interface HasAndroidDeviceDetails extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      Retrieve the display density of the Android device.
@@ -17,11 +18,12 @@ public interface HasAndroidDeviceDetails extends ExecutesMethod {
      @return The density value in dpi
      */
     default Long getDisplayDensity() {
+        final String extName = "mobile: getDisplayDensity";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getDisplayDensity");
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(this, getDisplayDensityCommand());
+            return CommandExecutionHelper.execute(markExtensionAbsence(extName), getDisplayDensityCommand());
         }
     }
 
@@ -31,11 +33,12 @@ public interface HasAndroidDeviceDetails extends ExecutesMethod {
      @return The map where keys are bar types and values are mappings of bar properties.
      */
     default Map<String, Map<String, Object>> getSystemBars() {
+        final String extName = "mobile: getSystemBars";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getSystemBars");
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(this, getSystemBarsCommand());
+            return CommandExecutionHelper.execute(markExtensionAbsence(extName), getSystemBarsCommand());
         }
     }
 

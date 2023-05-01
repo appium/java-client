@@ -43,7 +43,7 @@ import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public interface InteractsWithApps extends ExecutesMethod {
+public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      * Install an app on the mobile device.
@@ -62,13 +62,14 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                the particular platform.
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
+        final String extName = "mobile: installApp";
         try {
             Map<String, Object> args = ImmutableMap.<String, Object>builder()
                 .put("app", appPath)
                 .put("appPath", appPath)
                 .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
                 .build();
-            CommandExecutionHelper.executeScript(this, "mobile: installApp", args);
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
             Map args = ImmutableMap.builder()
@@ -77,7 +78,9 @@ public interface InteractsWithApps extends ExecutesMethod {
                             (opts) -> ImmutableMap.of("options", opts.build())
                     ).orElseGet(ImmutableMap::of))
                     .build();
-            CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(INSTALL_APP, args));
+            CommandExecutionHelper.execute(
+                    markExtensionAbsence(extName), new AbstractMap.SimpleEntry<>(INSTALL_APP, args)
+            );
         }
     }
 
@@ -88,9 +91,10 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return True if app is installed, false otherwise.
      */
     default boolean isAppInstalled(String bundleId) {
+        final String extName = "mobile: isAppInstalled";
         try {
             return checkNotNull(
-                    CommandExecutionHelper.executeScript(this, "mobile: isAppInstalled", ImmutableMap.of(
+                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                             "bundleId", bundleId,
                             "appId", bundleId
                     ))
@@ -98,8 +102,9 @@ public interface InteractsWithApps extends ExecutesMethod {
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
             return checkNotNull(
-                    CommandExecutionHelper.execute(this,
-                        new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId))
+                    CommandExecutionHelper.execute(
+                            markExtensionAbsence(extName),
+                            new AbstractMap.SimpleEntry<>(IS_APP_INSTALLED, ImmutableMap.of("bundleId", bundleId))
                     )
             );
         }
@@ -114,13 +119,19 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                 Passing a negative value will switch to Home screen and return immediately.
      */
     default void runAppInBackground(Duration duration) {
+        final String extName = "mobile: backgroundApp";
         try {
-            CommandExecutionHelper.executeScript(this, "mobile: backgroundApp", ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                     "seconds", duration.toMillis() / 1000.0
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            execute(RUN_APP_IN_BACKGROUND, ImmutableMap.of("seconds", duration.toMillis() / 1000.0));
+            CommandExecutionHelper.execute(
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(RUN_APP_IN_BACKGROUND, ImmutableMap.of(
+                            "seconds", duration.toMillis() / 1000.0)
+                    )
+            );
         }
     }
 
@@ -143,6 +154,7 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the uninstall was successful.
      */
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
+        final String extName = "mobile: removeApp";
         try {
             Map<String, Object> args = ImmutableMap.<String, Object>builder()
                     .put("bundleId", bundleId)
@@ -150,7 +162,7 @@ public interface InteractsWithApps extends ExecutesMethod {
                     .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
                     .build();
             return checkNotNull(
-                    CommandExecutionHelper.executeScript(this, "mobile: removeApp", args)
+                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args)
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
@@ -163,7 +175,8 @@ public interface InteractsWithApps extends ExecutesMethod {
             //noinspection RedundantCast
             return checkNotNull(
                     (Boolean) CommandExecutionHelper.execute(
-                            this, new AbstractMap.SimpleEntry<>(REMOVE_APP, args)
+                            markExtensionAbsence(extName),
+                            new AbstractMap.SimpleEntry<>(REMOVE_APP, args)
                     )
             );
         }
@@ -188,13 +201,14 @@ public interface InteractsWithApps extends ExecutesMethod {
      *                 particular platform.
      */
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
+        final String extName = "mobile: activateApp";
         try {
             Map<String, Object> args = ImmutableMap.<String, Object>builder()
                     .put("bundleId", bundleId)
                     .put("appId", bundleId)
                     .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
                     .build();
-            CommandExecutionHelper.executeScript(this, "mobile: activateApp", args);
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
             Map args = ImmutableMap.builder()
@@ -203,7 +217,9 @@ public interface InteractsWithApps extends ExecutesMethod {
                             (opts) -> ImmutableMap.of("options", opts.build())
                     ).orElseGet(ImmutableMap::of))
                     .build();
-            CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(ACTIVATE_APP, args));
+            CommandExecutionHelper.execute(
+                    markExtensionAbsence(extName), new AbstractMap.SimpleEntry<>(ACTIVATE_APP, args)
+            );
         }
     }
 
@@ -214,21 +230,27 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return one of possible {@link ApplicationState} values,
      */
     default ApplicationState queryAppState(String bundleId) {
+        final String extName = "mobile: queryAppState";
         try {
             return ApplicationState.ofCode(
                     checkNotNull(
-                            CommandExecutionHelper.executeScript(this, "mobile: queryAppState", ImmutableMap.of(
-                                    "bundleId", bundleId,
-                                    "appId", bundleId
-                            ))
+                            CommandExecutionHelper.executeScript(
+                                    assertExtensionExists(extName),
+                                    extName, ImmutableMap.of(
+                                            "bundleId", bundleId,
+                                            "appId", bundleId
+                                    )
+                            )
                     )
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
             return ApplicationState.ofCode(
                     checkNotNull(
-                        CommandExecutionHelper.execute(this,
-                                new AbstractMap.SimpleEntry<>(QUERY_APP_STATE, ImmutableMap.of("bundleId", bundleId)))
+                        CommandExecutionHelper.execute(
+                                markExtensionAbsence(extName),
+                                new AbstractMap.SimpleEntry<>(QUERY_APP_STATE, ImmutableMap.of("bundleId", bundleId))
+                        )
                     )
             );
         }
@@ -253,6 +275,7 @@ public interface InteractsWithApps extends ExecutesMethod {
      * @return true if the app was running before and has been successfully stopped.
      */
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
+        final String extName = "mobile: terminateApp";
         try {
             Map<String, Object> args = ImmutableMap.<String, Object>builder()
                     .put("bundleId", bundleId)
@@ -260,7 +283,7 @@ public interface InteractsWithApps extends ExecutesMethod {
                     .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
                     .build();
             return checkNotNull(
-                    CommandExecutionHelper.executeScript(this, "mobile: terminateApp", args)
+                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args)
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
@@ -273,7 +296,7 @@ public interface InteractsWithApps extends ExecutesMethod {
             //noinspection RedundantCast
             return checkNotNull(
                     (Boolean) CommandExecutionHelper.execute(
-                            this, new AbstractMap.SimpleEntry<>(TERMINATE_APP, args)
+                            markExtensionAbsence(extName), new AbstractMap.SimpleEntry<>(TERMINATE_APP, args)
                     )
             );
         }

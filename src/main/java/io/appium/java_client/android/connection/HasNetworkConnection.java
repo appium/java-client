@@ -17,6 +17,7 @@
 package io.appium.java_client.android.connection;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
@@ -27,7 +28,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
 
-public interface HasNetworkConnection extends ExecutesMethod {
+public interface HasNetworkConnection extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      * Set the network connection of the device.
@@ -36,8 +37,9 @@ public interface HasNetworkConnection extends ExecutesMethod {
      * @return Connection object, which represents the resulting state
      */
     default ConnectionState setConnection(ConnectionState connection) {
+        final String extName = "mobile: setConnectivity";
         try {
-            CommandExecutionHelper.executeScript(this, "mobile: setConnectivity", ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                     "wifi", connection.isWiFiEnabled(),
                     "data", connection.isDataEnabled(),
                     "airplaneMode", connection.isAirplaneModeEnabled()
@@ -47,7 +49,10 @@ public interface HasNetworkConnection extends ExecutesMethod {
             // TODO: Remove the fallback
             return new ConnectionState(
                     checkNotNull(
-                            CommandExecutionHelper.execute(this, setConnectionCommand(connection.getBitMask()))
+                            CommandExecutionHelper.execute(
+                                    markExtensionAbsence(extName),
+                                    setConnectionCommand(connection.getBitMask())
+                            )
                     )
             );
         }
@@ -59,9 +64,10 @@ public interface HasNetworkConnection extends ExecutesMethod {
      * @return Connection object, which lets you to inspect the current status
      */
     default ConnectionState getConnection() {
+        final String extName = "mobile: getConnectivity";
         try {
             Map<String, Object> result = checkNotNull(
-                    CommandExecutionHelper.executeScript(this, "mobile: getConnectivity")
+                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName)
             );
             return new ConnectionState(
                     ((boolean) result.get("wifi") ? ConnectionState.WIFI_MASK : 0)
@@ -72,7 +78,10 @@ public interface HasNetworkConnection extends ExecutesMethod {
             // TODO: Remove the fallback
             return new ConnectionState(
                     checkNotNull(
-                            CommandExecutionHelper.execute(this, getNetworkConnectionCommand())
+                            CommandExecutionHelper.execute(
+                                    markExtensionAbsence(extName),
+                                    getNetworkConnectionCommand()
+                            )
                     )
             );
         }

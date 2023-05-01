@@ -1,13 +1,16 @@
 package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-public interface CanReplaceElementValue extends ExecutesMethod {
+import java.util.AbstractMap;
+
+public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExtensionPresence {
     /**
      * Sends a text to the given element by replacing its previous content.
      *
@@ -19,18 +22,22 @@ public interface CanReplaceElementValue extends ExecutesMethod {
      *              off from the typed text).
      */
     default void replaceElementValue(RemoteWebElement element, String value) {
+        final String extName = "mobile: replaceValue";
         try {
-            CommandExecutionHelper.executeScript(this, "mobile: replaceValue", ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                 "elementId", element.getId(),
                 "text", value
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            this.execute(MobileCommand.REPLACE_VALUE, ImmutableMap.of(
-                    "id", element.getId(),
-                    "text", value,
-                    "value", value
-            ));
+            CommandExecutionHelper.execute(
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(MobileCommand.REPLACE_VALUE, ImmutableMap.of(
+                            "id", element.getId(),
+                            "text", value,
+                            "value", value
+                    ))
+            );
         }
     }
 }

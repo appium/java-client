@@ -32,6 +32,7 @@ import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DriverCommand;
@@ -48,7 +49,9 @@ import org.openqa.selenium.remote.http.HttpMethod;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
@@ -64,6 +67,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         ExecutesDriverScript,
         LogsEvents,
         HasBrowserCheck,
+        CanRememberExtensionPresence,
         HasSettings {
 
     private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
@@ -71,6 +75,7 @@ public class AppiumDriver extends RemoteWebDriver implements
     private final URL remoteAddress;
     protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
+    private final Set<String> absentExtensionNames = new HashSet<>();
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -326,5 +331,19 @@ public class AppiumDriver extends RemoteWebDriver implements
                 return outputType.convertFromPngBytes(png);
             }
         });
+    }
+
+    @Override
+    public AppiumDriver assertExtensionExists(String extName) {
+        if (absentExtensionNames.contains(extName)) {
+            throw new UnsupportedCommandException();
+        }
+        return this;
+    }
+
+    @Override
+    public AppiumDriver markExtensionAbsence(String extName) {
+        absentExtensionNames.add(extName);
+        return this;
     }
 }
