@@ -35,13 +35,14 @@ public interface HidesKeyboardWithKeyName extends HidesKeyboard {
      *                keyboard.
      */
     default void hideKeyboard(String keyName) {
+        final String extName = "mobile: hideKeyboard";
         try {
-            CommandExecutionHelper.executeScript(this, "mobile: hideKeyboard", ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                 "keys", ImmutableList.of(keyName)
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            CommandExecutionHelper.execute(this, hideKeyboardCommand(keyName));
+            CommandExecutionHelper.execute(markExtensionAbsence(extName), hideKeyboardCommand(keyName));
         }
     }
 

@@ -17,6 +17,7 @@
 package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
@@ -29,7 +30,7 @@ import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
 import static io.appium.java_client.MobileCommand.GET_CURRENT_PACKAGE;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 
-public interface StartsActivity extends ExecutesMethod {
+public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPresence {
     /**
      * This method should start arbitrary activity during a test. If the activity belongs to
      * another application, that application is started and the activity is opened.
@@ -65,12 +66,14 @@ public interface StartsActivity extends ExecutesMethod {
      */
     @Nullable
     default String currentActivity() {
+        final String extName = "mobile: getCurrentActivity";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getCurrentActivity");
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             return CommandExecutionHelper.execute(
-                    this, new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of())
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of())
             );
         }
     }
@@ -82,12 +85,14 @@ public interface StartsActivity extends ExecutesMethod {
      */
     @Nullable
     default String getCurrentPackage() {
+        final String extName = "mobile: getCurrentPackage";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getCurrentPackage");
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             return CommandExecutionHelper.execute(
-                    this, new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of())
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of())
             );
         }
     }

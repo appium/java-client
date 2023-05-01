@@ -16,23 +16,25 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import static io.appium.java_client.ios.IOSMobileCommandHelper.shakeCommand;
 
-public interface ShakesDevice extends ExecutesMethod {
+public interface ShakesDevice extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      * Simulate shaking the Simulator. This API does not work for real devices.
      */
     default void shake() {
+        final String extName = "mobile: shake";
         try {
-            CommandExecutionHelper.executeScript(this, "mobile: shake");
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            CommandExecutionHelper.execute(this, shakeCommand());
+            CommandExecutionHelper.execute(markExtensionAbsence(extName), shakeCommand());
         }
     }
 }

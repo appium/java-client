@@ -25,7 +25,7 @@ import java.util.Map;
 import static io.appium.java_client.MobileCommand.GET_STRINGS;
 import static io.appium.java_client.MobileCommand.prepareArguments;
 
-public interface HasAppStrings extends ExecutesMethod {
+public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPresence {
     /**
      * Get all defined Strings from an app for the default language.
      * See the documentation for 'mobile: getAppStrings' extension for more details.
@@ -33,11 +33,12 @@ public interface HasAppStrings extends ExecutesMethod {
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap() {
+        final String extName = "mobile: getAppStrings";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getAppStrings");
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(this, GET_STRINGS);
+            return CommandExecutionHelper.execute(markExtensionAbsence(extName), GET_STRINGS);
         }
     }
 
@@ -49,14 +50,16 @@ public interface HasAppStrings extends ExecutesMethod {
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap(String language) {
+        final String extName = "mobile: getAppStrings";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getAppStrings", ImmutableMap.of(
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                     "language", language
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             return CommandExecutionHelper.execute(
-                    this, new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments("language", language))
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments("language", language))
             );
         }
     }
@@ -71,8 +74,9 @@ public interface HasAppStrings extends ExecutesMethod {
      * @return a map with localized strings defined in the app
      */
     default Map<String, String> getAppStringMap(String language, String stringFile) {
+        final String extName = "mobile: getAppStrings";
         try {
-            return CommandExecutionHelper.executeScript(this, "mobile: getAppStrings", ImmutableMap.of(
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
                     "language", language,
                     "stringFile", stringFile
             ));
@@ -81,7 +85,8 @@ public interface HasAppStrings extends ExecutesMethod {
             String[] parameters = new String[]{"language", "stringFile"};
             Object[] values = new Object[]{language, stringFile};
             return CommandExecutionHelper.execute(
-                    this, new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments(parameters, values))
+                    markExtensionAbsence(extName),
+                    new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments(parameters, values))
             );
         }
     }
