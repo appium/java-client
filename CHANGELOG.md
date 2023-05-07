@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+*8.4.0*
+- **[ENHANCEMENTS]**
+  - Added possibility to connect to a running session. [#1813](https://github.com/appium/java-client/pull/1813)
+  - deprecate tapWithShortPressDuration capability.[#1825](https://github.com/appium/java-client/pull/1825)
+  - Add SupportsEnforceAppInstallOption to XCUITestOptions.[#1895](https://github.com/appium/java-client/pull/1895)
+- **[BUG FIX]**
+  - Use ipv4 address instead of localhost. [#1815](https://github.com/appium/java-client/pull/1815)
+  - Fix test broken by updates in `appium-xcuitest-driver`. [#1839](https://github.com/appium/java-client/pull/1839)
+  - Merge misc tests suite into unit tests suite. [#1850](https://github.com/appium/java-client/pull/1850)
+  - Avoid NPE in destroyProcess call. [#1878](https://github.com/appium/java-client/pull/1878)
+  - Send arguments for mobile methods depending on the target platform. [#1897](https://github.com/appium/java-client/pull/1897)
+- **[REFACTOR]**
+  - Run Gradle wrapper validation only on Gradle files changes. [#1828](https://github.com/appium/java-client/pull/1828)
+  - Skip GH Actions build on changes in docs. [#1829](https://github.com/appium/java-client/pull/1829)
+  - Remove Checkstyle exclusion of removed Selenium package. [#1831](https://github.com/appium/java-client/pull/1831)
+  - Enable Checkstyle checks for test code. [#1843](https://github.com/appium/java-client/pull/1843)
+  - Configure `CODEOWNERS` to automate review requests. [#1846](https://github.com/appium/java-client/pull/1846)
+  - Enable execution of unit tests in CI. [#1845](https://github.com/appium/java-client/pull/1845)
+  - Add Simple SLF4J binding to unit tests runtime. [#1848](https://github.com/appium/java-client/pull/1848)
+  - Improve performance of proxy `Interceptor` logging. [#1849](https://github.com/appium/java-client/pull/1849)
+  - Make unit tests execution a part of Gradle build lifecycle. [#1853](https://github.com/appium/java-client/pull/1853)
+  - Replace non-W3C API calls with corresponding extension calls in app management. [#1883](https://github.com/appium/java-client/pull/1883)
+  - Switch the time getter to use mobile extensions. [#1884](https://github.com/appium/java-client/pull/1884)
+  - Switch file management APIs to use mobile: extensions. [#1886](https://github.com/appium/java-client/pull/1886)
+  - Use mobile extensions for app strings getters and keyboard commands. [#1890](https://github.com/appium/java-client/pull/1890)
+  - Finish replacing iOS extensions with their mobile alternatives. [#1892](https://github.com/appium/java-client/pull/1892)
+  - Change some Android APIs to use mobile extensions. [#1893](https://github.com/appium/java-client/pull/1893)
+  - Change backgroundApp command to use the corresponding mobile extension. [#1896](https://github.com/appium/java-client/pull/1896)
+  - Switch more Android helpers to use extensions. [#1898](https://github.com/appium/java-client/pull/1898)
+  - Perform xcuitest driver prebuild. [#1900](https://github.com/appium/java-client/pull/1900)
+  - Finish migrating Android helpers to mobile extensions. [#1901](https://github.com/appium/java-client/pull/1901)
+  - Avoid sending unnecessary requests if corresponding extensions are absent. [#1903](https://github.com/appium/java-client/pull/1903)
+- **[DOCUMENTATION]**
+  - Describe transitive Selenium dependencies management. [#1827](https://github.com/appium/java-client/pull/1827)
+  - Fix build badge to point GH Actions CI. [#1844](https://github.com/appium/java-client/pull/1844)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.8.2.
+  - `org.slf4j:slf4j-api` was updated to 2.0.7.
+  - `org.owasp.dependencycheck` was updated to 8.2.1.
+  - `gradle` was updated to 8.1.0.
+  - `com.google.code.gson:gson` was updated to 2.10.1.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.3.2.
+  - `org.junit.jupiter:junit-jupiter` was updated to 5.9.2.
+  - `checkstyle` was updated to 10.0.
+  - `jacoco` was updated to 0.8.8.
+  - `org.projectlombok:lombok` was updated to 1.18.26.
+  - `com.github.johnrengelman.shadow` was updated to 8.1.1.
+
 *8.3.0*
 - **[DOCUMENTATION]**
   - Added troubleshooting section. [#1808](https://github.com/appium/java-client/pull/1808)
