@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.UnsupportedCommandException;
 
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
@@ -49,7 +50,7 @@ public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence
                         ImmutableMap.of("remotePath", remotePath)
                 )
             );
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             base64String = checkNotNull(
                 CommandExecutionHelper.execute(markExtensionAbsence(extName),
@@ -81,7 +82,7 @@ public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence
                         ImmutableMap.of("remotePath", remotePath)
                 )
             );
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             base64String = checkNotNull(
                 CommandExecutionHelper.execute(markExtensionAbsence(extName),
