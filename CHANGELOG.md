@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+*8.5.0*
+- **[BUG FIX]**
+  - Restore Jitpack builds. [#1911](https://github.com/appium/java-client/pull/1911)
+  - Add fallback commands for file management APIs. [#1910](https://github.com/appium/java-client/pull/1910)
+- **[REFACTOR]**
+  - Replace performance data APIs with mobile extensions. [#1905](https://github.com/appium/java-client/pull/1905)
+- **[DEPENDENCY UPDATES]**
+  - `org.seleniumhq.selenium:selenium-java` was updated to 4.9.1.
+  - `org.junit.jupiter:junit-jupiter` was updated to 5.9.3.
+
 *8.4.0*
 - **[ENHANCEMENTS]**
   - Added possibility to connect to a running session. [#1813](https://github.com/appium/java-client/pull/1813)
