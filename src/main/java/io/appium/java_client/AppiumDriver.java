@@ -290,8 +290,8 @@ public class AppiumDriver extends RemoteWebDriver implements
         }
 
         @SuppressWarnings("unchecked") Map<String, Object> rawCapabilities = (Map<String, Object>) responseValue;
-        // A workaround for Selenium API enforcing some legacy capability values
-        rawCapabilities.remove(CapabilityType.PLATFORM);
+        // TODO: remove this workaround for Selenium API enforcing some legacy capability values in major version
+        rawCapabilities.remove("platform");
         if (rawCapabilities.containsKey(CapabilityType.BROWSER_NAME)
                 && isBlank((String) rawCapabilities.get(CapabilityType.BROWSER_NAME))) {
             rawCapabilities.remove(CapabilityType.BROWSER_NAME);

@@ -404,14 +404,13 @@ public final class AppiumServiceBuilder
     }
 
     @Override
-    public AppiumDriverLocalService build() {
+    protected void loadSystemProperties() {
         File driverExecutable = ReflectionHelpers.getPrivateFieldValue(
                 DriverService.Builder.class, this, "exe", File.class
         );
         if (driverExecutable == null) {
             usingDriverExecutable(findDefaultExecutable());
         }
-        return super.build();
     }
 
     /**
