@@ -18,13 +18,16 @@ package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.UnsupportedCommandException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public interface PushesFiles extends ExecutesMethod {
+import static io.appium.java_client.MobileCommand.pushFileCommand;
+
+public interface PushesFiles extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      * Saves base64-encoded data as a file on the remote system.
@@ -36,10 +39,16 @@ public interface PushesFiles extends ExecutesMethod {
      * @param base64Data Base64 encoded byte array of media file data to write to remote device
      */
     default void pushFile(String remotePath, byte[] base64Data) {
-        CommandExecutionHelper.executeScript(this, "mobile: pushFile", ImmutableMap.of(
-                "remotePath", remotePath,
-                "payload", new String(base64Data, StandardCharsets.UTF_8)
-        ));
+        final String extName = "mobile: pushFile";
+        try {
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+                    "remotePath", remotePath,
+                    "payload", new String(base64Data, StandardCharsets.UTF_8)
+            ));
+        } catch (UnsupportedCommandException e) {
+            // TODO: Remove the fallback
+            CommandExecutionHelper.execute(markExtensionAbsence(extName), pushFileCommand(remotePath, base64Data));
+        }
     }
 
     /**

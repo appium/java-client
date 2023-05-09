@@ -19,11 +19,14 @@ package io.appium.java_client;
 import com.google.common.collect.ImmutableMap;
 
 import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap;
 import java.util.Base64;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 
-public interface PullsFiles extends ExecutesMethod {
+public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence {
 
     /**
      * Pull a file from the remote system.
@@ -38,11 +41,22 @@ public interface PullsFiles extends ExecutesMethod {
      * @return A byte array of Base64 encoded data.
      */
     default byte[] pullFile(String remotePath) {
-        String base64String = checkNotNull(
-            CommandExecutionHelper.executeScript(this, "mobile: pullFile", ImmutableMap.of(
-                "remotePath", remotePath
-            ))
-        );
+        final String extName = "mobile: pullFile";
+        String base64String;
+        try {
+            base64String = checkNotNull(
+                CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName,
+                        ImmutableMap.of("remotePath", remotePath)
+                )
+            );
+        } catch (UnsupportedOperationException e) {
+            // TODO: Remove the fallback
+            base64String = checkNotNull(
+                CommandExecutionHelper.execute(markExtensionAbsence(extName),
+                        new AbstractMap.SimpleEntry<>(PULL_FILE, ImmutableMap.of("path", remotePath))
+                )
+            );
+        }
         return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -59,11 +73,22 @@ public interface PullsFiles extends ExecutesMethod {
      * @return A byte array of Base64 encoded zip archive data.
      */
     default byte[] pullFolder(String remotePath) {
-        String base64String = checkNotNull(
-            CommandExecutionHelper.executeScript(this, "mobile: pullFolder", ImmutableMap.of(
-                "remotePath", remotePath
-            ))
-        );
+        final String extName = "mobile: pullFolder";
+        String base64String;
+        try {
+            base64String = checkNotNull(
+                CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName,
+                        ImmutableMap.of("remotePath", remotePath)
+                )
+            );
+        } catch (UnsupportedOperationException e) {
+            // TODO: Remove the fallback
+            base64String = checkNotNull(
+                CommandExecutionHelper.execute(markExtensionAbsence(extName),
+                        new AbstractMap.SimpleEntry<>(PULL_FOLDER, ImmutableMap.of("path", remotePath))
+                )
+            );
+        }
         return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
