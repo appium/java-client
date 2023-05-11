@@ -24,7 +24,7 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
-    String AUTO_WEB_VIEW_OPTION = "autoWebView";
+    String AUTO_WEB_VIEW_OPTION = "autoWebview";
 
     /**
      * Set the app to move directly into Webview context.
