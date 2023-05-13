@@ -44,6 +44,7 @@ public class BaseIOSTest {
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
+                .withTimeout(Duration.ofSeconds(40))
                 .build();
         service.start();
         return service;
