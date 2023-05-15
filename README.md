@@ -87,7 +87,20 @@ dependencies {
 }
 ```
 
-### How to pin Selenium dependencies?
+### Compatibility Matrix
+| Appium Java Client | Selenium client                             |
+|--------------------|---------------------------------------------|
+| `8.5.0`            | `4.9.1`                                     |
+| `8.4.0`            | `4.8.2`, `4.8.3`, `4.9.0`                   |
+| `8.3.0`            | `4.7.0`, `4.7.1`, `4.7.2`, `4.8.0`, `4.8.1` |
+| `8.2.1`            | `4.5.0`, `4.5.1`, `4.5.2`, `4.5.3`, `4.6.0` |
+
+#### Why is it so complicated?
+
+Selenium client does not follow [Semantic Versioning](https://semver.org/), so breaking changes might be introduced
+even in patches, which requires Appium team to update Java client in response.
+
+#### How to pin Selenium dependencies?
 
 Appium Java Client declares Selenium dependencies using open version range which is handled in differently by different
 build tools. Sometimes users may want to pin used Selenium dependencies for [various reasons](https://github.com/appium/java-client/issues/1823).
