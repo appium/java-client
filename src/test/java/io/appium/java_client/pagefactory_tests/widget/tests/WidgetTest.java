@@ -37,7 +37,6 @@ public abstract class WidgetTest {
     protected static void checkThatLocatorsAreCreatedCorrectly(DefaultStubWidget single,
                                                                List<DefaultStubWidget> multiple, By rootLocator,
                                                                By subLocator) {
-
         assertThat(single.toString(), containsString(rootLocator.toString()));
         assertThat(multiple.stream().map(DefaultStubWidget::toString).collect(toList()),
                 contains(containsString(rootLocator.toString()),

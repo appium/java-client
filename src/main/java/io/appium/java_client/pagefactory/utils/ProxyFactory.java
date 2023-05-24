@@ -16,8 +16,21 @@
 
 package io.appium.java_client.pagefactory.utils;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
+import io.appium.java_client.proxy.MethodCallListener;
+import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.matcher.ElementMatcher;
+import net.bytebuddy.matcher.ElementMatchers;
+import org.openqa.selenium.remote.RemoteWebElement;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Consumer;
+
+import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
+import static io.appium.java_client.proxy.Helpers.createProxy;
+import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
 /**
  * Original class is a super class of a
@@ -29,30 +42,55 @@ public final class ProxyFactory {
         super();
     }
 
-    public static <T> T getEnhancedProxy(Class<T> requiredClazz, MethodInterceptor interceptor) {
-        return getEnhancedProxy(requiredClazz, new Class<?>[] {}, new Object[] {}, interceptor);
-    }
-
     /**
-     * It returns some proxies created by CGLIB.
+     * Creates a proxy instance for the given class with an empty constructor.
      *
      * @param <T> The proxy object class.
      * @param requiredClazz is a {@link java.lang.Class} whose instance should be created
+     * @param listener is the instance of a method listener class
+     * @return a proxied instance of the desired class
+     */
+    public static <T> T getEnhancedProxy(Class<T> requiredClazz, MethodCallListener listener) {
+        return getEnhancedProxy(requiredClazz, new Class<?>[] {}, new Object[] {}, listener);
+    }
+
+    /**
+     * Creates a proxy instance for the given class.
+     *
+     * @param <T> The proxy object class.
+     * @param cls is a {@link java.lang.Class} whose instance should be created
      * @param params is an array of @link java.lang.Class}. It should be convenient to
      *               parameter types of some declared constructor which belongs to desired
      *               class.
      * @param values is an array of @link java.lang.Object}. It should be convenient to
      *               parameter types of some declared constructor which belongs to desired
      *               class.
-     * @param interceptor is the instance of {@link net.sf.cglib.proxy.MethodInterceptor}
+     * @param listener is the instance of a method listener class
      * @return a proxied instance of the desired class
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T getEnhancedProxy(Class<T> requiredClazz, Class<?>[] params, Object[] values,
-        MethodInterceptor interceptor) {
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(requiredClazz);
-        enhancer.setCallback(interceptor);
-        return (T) enhancer.create(params, values);
+    public static <T> T getEnhancedProxy(
+            Class<T> cls, Class<?>[] params, Object[] values, MethodCallListener listener
+    ) {
+        // This is an ugly hack that ensures a newly created instance of
+        // RemoteWebElement could be put into a map.
+        // By default, it cannot because
+        //  @Override
+        //  public int hashCode() {
+        //    return id.hashCode();
+        //  }
+        // and, guess what the `id` property equals to for a newly created instance
+        Consumer<T> onInstanceCreated = cls.isAssignableFrom(RemoteWebElement.class)
+                ? (instance) -> ((RemoteWebElement) instance).setId(UUID.randomUUID().toString())
+                : null;
+        Set<String> skippedMethods = new HashSet<>(OBJECT_METHOD_NAMES);
+        skippedMethods.add("iterator");
+        skippedMethods.add("listIterator");
+        skippedMethods.remove("toString");
+        ElementMatcher<MethodDescription> extraMatcher = ElementMatchers.not(namedOneOf(
+                skippedMethods.toArray(new String[0])
+        ));
+        return createProxy(
+                cls, values, params, Collections.singletonList(listener), onInstanceCreated, extraMatcher
+        );
     }
 }

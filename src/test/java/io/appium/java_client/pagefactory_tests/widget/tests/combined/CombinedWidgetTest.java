@@ -6,7 +6,6 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
-import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,8 +37,6 @@ public class CombinedWidgetTest {
                     new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
-                    new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
                     new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
                 Arguments.of(new AppWithCombinedWidgets(),
@@ -79,15 +76,13 @@ public class CombinedWidgetTest {
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
-                iOSXCUITAutomation = DefaultIosXCUITWidget.class,
-                windowsAutomation = DefaultWindowsWidget.class
+                iOSXCUITAutomation = DefaultIosXCUITWidget.class
         )
         private DefaultStubWidget singleWidget;
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
-                iOSXCUITAutomation = DefaultIosXCUITWidget.class,
-                windowsAutomation = DefaultWindowsWidget.class
+                iOSXCUITAutomation = DefaultIosXCUITWidget.class
         )
         private List<DefaultStubWidget> multipleWidget;
 

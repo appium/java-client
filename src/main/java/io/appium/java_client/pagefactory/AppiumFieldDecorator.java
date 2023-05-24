@@ -32,6 +32,7 @@ import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -92,17 +93,17 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this.duration = duration;
 
         defaultElementFieldDecoracor = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(context, duration,
-                        new DefaultElementByBuilder(platform, automation))) {
+                new AppiumElementLocatorFactory(context, duration, new DefaultElementByBuilder(platform, automation))
+        ) {
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
                 return proxyForAnElement(locator);
             }
 
             @Override
-            @SuppressWarnings("unchecked")
             protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
                 ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
+                //noinspection unchecked
                 return getEnhancedProxy(ArrayList.class, elementInterceptor);
             }
 
@@ -121,14 +122,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 List<Type> bounds = (listType instanceof TypeVariable)
                         ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
                         : Collections.emptyList();
-
                 return availableElementClasses.stream()
                         .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
             }
         };
 
-        widgetLocatorFactory =
-                new AppiumElementLocatorFactory(context, duration, new WidgetByBuilder(platform, automation));
+        widgetLocatorFactory = new AppiumElementLocatorFactory(
+                context, duration, new WidgetByBuilder(platform, automation)
+        );
     }
 
     public AppiumFieldDecorator(SearchContext context) {
@@ -144,14 +145,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public Object decorate(ClassLoader ignored, Field field) {
         Object result = defaultElementFieldDecoracor.decorate(ignored, field);
-        if (result != null) {
-            return result;
-        }
-
-        return decorateWidget(field);
+        return result == null ? decorateWidget(field) : result;
     }
 
-    @SuppressWarnings("unchecked")
+    @Nullable
     private Object decorateWidget(Field field) {
         Class<?> type = field.getType();
         if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
@@ -177,30 +174,34 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 if (!Widget.class.isAssignableFrom((Class<?>) listType)) {
                     return null;
                 }
+                //noinspection unchecked
                 widgetType = (Class<? extends Widget>) listType;
             } else {
                 return null;
             }
 
         } else {
+            //noinspection unchecked
             widgetType = (Class<? extends Widget>) field.getType();
         }
 
         CacheableLocator locator = widgetLocatorFactory.createLocator(field);
-        Map<ContentType, Constructor<? extends Widget>> map =
-                OverrideWidgetReader.read(widgetType, field, platform);
+        Map<ContentType, Constructor<? extends Widget>> map = OverrideWidgetReader.read(widgetType, field, platform);
 
         if (isAlist) {
-            return getEnhancedProxy(ArrayList.class,
-                    new WidgetListInterceptor(locator, webDriver, map, widgetType,
-                            duration));
+            return getEnhancedProxy(
+                    ArrayList.class,
+                    new WidgetListInterceptor(locator, webDriver, map, widgetType, duration)
+            );
         }
 
-        Constructor<? extends Widget> constructor =
-                WidgetConstructorUtil.findConvenientConstructor(widgetType);
-        return getEnhancedProxy(widgetType, new Class[]{constructor.getParameterTypes()[0]},
+        Constructor<? extends Widget> constructor = WidgetConstructorUtil.findConvenientConstructor(widgetType);
+        return getEnhancedProxy(
+                widgetType,
+                new Class[]{constructor.getParameterTypes()[0]},
                 new Object[]{proxyForAnElement(locator)},
-                new WidgetInterceptor(locator, webDriver, null, map, duration));
+                new WidgetInterceptor(locator, webDriver, null, map, duration)
+        );
     }
 
     private WebElement proxyForAnElement(ElementLocator locator) {

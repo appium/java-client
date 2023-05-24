@@ -6,7 +6,6 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
-import io.appium.java_client.pagefactory_tests.widget.tests.windows.DefaultWindowsWidget;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -35,7 +34,6 @@ public class CombinedAppTest {
                 arguments(new CombinedApp(), new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
                 arguments(new CombinedApp(), new AbstractStubWebDriver.StubIOSXCUITDriver(),
                         DefaultIosXCUITWidget.class),
-                arguments(new CombinedApp(), new AbstractStubWebDriver.StubWindowsDriver(), DefaultWindowsWidget.class),
                 arguments(new CombinedApp(), new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
                 arguments(new CombinedApp(), new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(),
                     DefaultFindByWidget.class),
@@ -72,14 +70,12 @@ public class CombinedAppTest {
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
-                iOSXCUITAutomation = DefaultIosXCUITWidget.class,
-                windowsAutomation = DefaultWindowsWidget.class)
+                iOSXCUITAutomation = DefaultIosXCUITWidget.class)
         private DefaultStubWidget singleWidget;
 
         @OverrideWidget(html = DefaultFindByWidget.class,
                 androidUIAutomator = DefaultAndroidWidget.class,
-                iOSXCUITAutomation = DefaultIosXCUITWidget.class,
-                windowsAutomation = DefaultWindowsWidget.class)
+                iOSXCUITAutomation = DefaultIosXCUITWidget.class)
         private List<DefaultStubWidget> multipleWidget;
 
         @Override

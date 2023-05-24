@@ -28,13 +28,14 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 /**
  * Intercepts requests to {@link WebElement}.
  */
-class ElementInterceptor extends InterceptorOfASingleElement {
+public class ElementInterceptor extends InterceptorOfASingleElement {
 
-    ElementInterceptor(ElementLocator locator, WebDriver driver) {
+    public ElementInterceptor(ElementLocator locator, WebDriver driver) {
         super(locator, driver);
     }
 
-    @Override protected Object getObject(WebElement element, Method method, Object[] args)
+    @Override
+    protected Object getObject(WebElement element, Method method, Object[] args)
         throws Throwable {
         try {
             return method.invoke(element, args);

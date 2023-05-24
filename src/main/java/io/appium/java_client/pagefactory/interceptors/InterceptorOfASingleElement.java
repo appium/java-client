@@ -16,16 +16,16 @@
 
 package io.appium.java_client.pagefactory.interceptors;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import io.appium.java_client.proxy.MethodCallListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.Callable;
 
-public abstract class InterceptorOfASingleElement implements MethodInterceptor {
+public abstract class InterceptorOfASingleElement implements MethodCallListener {
     protected final ElementLocator locator;
     protected final WebDriver driver;
 
@@ -37,22 +37,18 @@ public abstract class InterceptorOfASingleElement implements MethodInterceptor {
     protected abstract Object getObject(WebElement element, Method method, Object[] args)
         throws Throwable;
 
-    /**
-     * Look at {@link MethodInterceptor#intercept(Object, Method, Object[], MethodProxy)}.
-     */
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)
-        throws Throwable {
-
+    @Override
+    public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         if (method.getName().equals("toString") && args.length == 0) {
             return locator.toString();
         }
 
         if (Object.class.equals(method.getDeclaringClass())) {
-            return proxy.invokeSuper(obj, args);
+            return original.call();
         }
 
-        if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass()) && method.getName()
-            .equals("getWrappedDriver")) {
+        if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass())
+                && method.getName().equals("getWrappedDriver")) {
             return driver;
         }
 

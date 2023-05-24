@@ -27,19 +27,13 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Interceptor {
     private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
     public static final Map<Object, Collection<MethodCallListener>> LISTENERS = new WeakHashMap<>();
-    private static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
-            .map(Method::getName)
-            .collect(Collectors.toSet());
 
     /**
      * A magic method used to wrap public method calls in classes
@@ -51,6 +45,7 @@ public class Interceptor {
      * @param callable The reference to the non-patched callable to avoid call recursion.
      * @return Either the original method result or the patched one.
      */
+    @SuppressWarnings("unused")
     @RuntimeType
     public static Object intercept(
             @This Object self,
@@ -58,11 +53,17 @@ public class Interceptor {
             @AllArguments Object[] args,
             @SuperCall Callable<?> callable
     ) throws Throwable {
-        if (OBJECT_METHOD_NAMES.contains(method.getName())) {
+        boolean hasListeners = false;
+        try {
+            hasListeners = LISTENERS.containsKey(self);
+        } catch (RuntimeException e) {
+            // ignore
+        }
+        if (!hasListeners) {
             return callable.call();
         }
         Collection<MethodCallListener> listeners = LISTENERS.get(self);
-        if (listeners == null || listeners.isEmpty()) {
+        if (listeners.isEmpty()) {
             return callable.call();
         }
 
