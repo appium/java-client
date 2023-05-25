@@ -42,6 +42,9 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     private final Duration duration;
     private WebElement cachedElement;
 
+    /**
+     * Proxy interceptor class for widgets.
+     */
     public WidgetInterceptor(
             CacheableLocator locator,
             WebDriver driver,

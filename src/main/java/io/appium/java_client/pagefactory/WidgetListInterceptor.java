@@ -42,6 +42,9 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final WebDriver driver;
     private List<WebElement> cachedElements;
 
+    /**
+     * Proxy interceptor class for lists of widgets.
+     */
     public WidgetListInterceptor(CacheableLocator locator, WebDriver driver,
         Map<ContentType, Constructor<? extends Widget>> instantiationMap,
         Class<? extends Widget> declaredType, Duration duration) {

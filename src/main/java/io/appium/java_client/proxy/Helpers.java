@@ -40,7 +40,8 @@ public class Helpers {
             .map(Method::getName)
             .collect(Collectors.toSet());
 
-    private Helpers() {}
+    private Helpers() {
+    }
 
     /**
      * Creates a transparent proxy instance for the given class.
@@ -123,7 +124,7 @@ public class Helpers {
                 .asSubclass(cls);
 
         try {
-            return Interceptor.setListeners(
+            return ProxyListenersContainer.getInstance().setListeners(
                     cls.cast(proxy.getConstructor(constructorArgTypes).newInstance(constructorArgs)),
                     listeners
             );

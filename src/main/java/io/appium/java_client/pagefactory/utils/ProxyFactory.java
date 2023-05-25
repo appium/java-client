@@ -80,6 +80,12 @@ public final class ProxyFactory {
         ElementMatcher<MethodDescription> extraMatcher = ElementMatchers.not(namedOneOf(
                 NON_PROXYABLE_METHODS.toArray(new String[0])
         ));
-        return createProxy(cls, values, params, Collections.singletonList(listener), extraMatcher);
+        return createProxy(
+                cls,
+                values,
+                params,
+                Collections.singletonList(listener),
+                extraMatcher
+        );
     }
 }
