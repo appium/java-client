@@ -26,10 +26,10 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -41,7 +41,7 @@ public class Interceptor {
     // we had to change it to a list, which has O(N). The reason for that is that
     // maps implicitly call `hashCode` API on instances, which might not always
     // work as expected for arbitrary proxies
-    private static final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> LISTENERS = new ArrayList<>();
+    private static final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> LISTENERS = new LinkedList<>();
     private static final Semaphore LISTENERS_GUARD = new Semaphore(1);
 
     private static class Pair<K, V> {
