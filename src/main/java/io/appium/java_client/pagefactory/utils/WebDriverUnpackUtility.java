@@ -24,6 +24,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
 
+import javax.annotation.Nullable;
+
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Optional.ofNullable;
@@ -45,21 +47,20 @@ public final class WebDriverUnpackUtility {
      *         {@link WrapsDriver} or {@link WrapsElement} then this method returns null.
      *
      */
+    @Nullable
     public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
         if (searchContext instanceof WebDriver) {
             return (WebDriver) searchContext;
         }
 
         if (searchContext instanceof WrapsDriver) {
-            return unpackWebDriverFromSearchContext(
-                    ((WrapsDriver) searchContext).getWrappedDriver());
+            return unpackWebDriverFromSearchContext(((WrapsDriver) searchContext).getWrappedDriver());
         }
 
         // Search context it is not only WebDriver. WebElement is search context too.
         // RemoteWebElement implements WrapsDriver
         if (searchContext instanceof WrapsElement) {
-            return unpackWebDriverFromSearchContext(
-                    ((WrapsElement) searchContext).getWrappedElement());
+            return unpackWebDriverFromSearchContext(((WrapsElement) searchContext).getWrappedElement());
         }
 
         return null;

@@ -18,14 +18,28 @@ package io.appium.java_client.proxy;
 
 import com.google.common.base.Preconditions;
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 
+import javax.annotation.Nullable;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
 public class Helpers {
+
+    public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
+            .map(Method::getName)
+            .collect(Collectors.toSet());
+
     private Helpers() {
     }
 
@@ -54,6 +68,40 @@ public class Helpers {
             Class<?>[] constructorArgTypes,
             Collection<MethodCallListener> listeners
     ) {
+        ElementMatcher<MethodDescription> extraMatcher = ElementMatchers.not(namedOneOf(
+                OBJECT_METHOD_NAMES.toArray(new String[0])
+        ));
+        return createProxy(cls, constructorArgs, constructorArgTypes, listeners, extraMatcher);
+    }
+
+    /**
+     * Creates a transparent proxy instance for the given class.
+     * It is possible to provide one or more method execution listeners
+     * or replace particular method calls completely. Callbacks
+     * defined in these listeners are going to be called when any
+     * **public** method of the given class is invoked. Overridden callbacks
+     * are expected to be skipped if they throw
+     * {@link io.appium.java_client.proxy.NotImplementedException}.
+     * !!! This API is designed for private usage.
+     *
+     * @param cls                    The class to which the proxy should be created.
+     *                               Must not be an interface.
+     * @param constructorArgs        Array of constructor arguments. Could be an
+     *                               empty array if the class provides a constructor without arguments.
+     * @param constructorArgTypes    Array of constructor argument types. Must
+     *                               represent types of constructorArgs.
+     * @param listeners              One or more method invocation listeners.
+     * @param extraMethodMatcher     Optional additional method proxy conditions
+     * @param <T>                    Any class derived from Object
+     * @return Proxy instance
+     */
+    public static <T> T createProxy(
+            Class<T> cls,
+            Object[] constructorArgs,
+            Class<?>[] constructorArgTypes,
+            Collection<MethodCallListener> listeners,
+            @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
+    ) {
         Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                 String.format(
                         "Constructor arguments array length %d must be equal to the types array length %d",
@@ -64,27 +112,22 @@ public class Helpers {
         Preconditions.checkArgument(cls != null, "Class must not be null");
         Preconditions.checkArgument(!cls.isInterface(), "Class must not be an interface");
 
+        ElementMatcher.Junction<MethodDescription> matcher = ElementMatchers.isPublic();
         //noinspection resource
         Class<?> proxy = new ByteBuddy()
                 .subclass(cls)
-                .method(ElementMatchers.isPublic()
-                        .and(ElementMatchers.not(
-                                ElementMatchers.isDeclaredBy(Object.class)
-                                        .or(ElementMatchers.isOverriddenFrom(Object.class))
-                        )))
+                .method(extraMethodMatcher == null ? matcher : matcher.and(extraMethodMatcher))
                 .intercept(MethodDelegation.to(Interceptor.class))
                 .make()
-                .load(cls.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+                .load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
                 .getLoaded()
                 .asSubclass(cls);
 
         try {
-            //noinspection unchecked
-            T instance = (T) proxy
-                    .getConstructor(constructorArgTypes)
-                    .newInstance(constructorArgs);
-            Interceptor.LISTENERS.put(instance, listeners);
-            return instance;
+            return ProxyListenersContainer.getInstance().setListeners(
+                    cls.cast(proxy.getConstructor(constructorArgTypes).newInstance(constructorArgs)),
+                    listeners
+            );
         } catch (SecurityException | ReflectiveOperationException e) {
             throw new IllegalStateException(String.format("Unable to create a proxy of %s", cls.getName()), e);
         }

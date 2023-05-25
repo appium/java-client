@@ -206,15 +206,13 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         String idOrName = ((Field) annotatedElementContainer.getAnnotated()).getName();
 
         if (defaultBy == null && mobileNativeBy == null) {
-            defaultBy =
-                    new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
             mobileNativeBy = new By.ById(idOrName);
             return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
         if (defaultBy == null) {
-            defaultBy =
-                    new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
+            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
             return returnMappedBy(defaultBy, mobileNativeBy);
         }
 
