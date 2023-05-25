@@ -16,7 +16,6 @@
 
 package io.appium.java_client.proxy;
 
-import javafx.util.Pair;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -44,6 +43,25 @@ public class Interceptor {
     // work as expected for arbitrary proxies
     private static final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> LISTENERS = new ArrayList<>();
     private static final Semaphore LISTENERS_GUARD = new Semaphore(1);
+
+    private static class Pair<K, V> {
+        private final K key;
+        private final V value;
+
+        public Pair(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
+
 
     /**
      * Assign listeners for the particular proxied instance.
