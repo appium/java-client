@@ -20,13 +20,11 @@ import io.appium.java_client.proxy.MethodCallListener;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
-import org.openqa.selenium.remote.RemoteWebElement;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-import java.util.function.Consumer;
 
 import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
@@ -37,6 +35,14 @@ import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
  * proxy object here.
  */
 public final class ProxyFactory {
+    private static final Set<String> NON_PROXYABLE_METHODS = setWithout(OBJECT_METHOD_NAMES, "toString");
+
+    @SuppressWarnings("unchecked")
+    private static <T> Set<T> setWithout(@SuppressWarnings("SameParameterValue") Set<T> source, T... items) {
+        Set<T> result = new HashSet<>(source);
+        Arrays.asList(items).forEach(result::remove);
+        return Collections.unmodifiableSet(result);
+    }
 
     private ProxyFactory() {
         super();
@@ -71,26 +77,9 @@ public final class ProxyFactory {
     public static <T> T getEnhancedProxy(
             Class<T> cls, Class<?>[] params, Object[] values, MethodCallListener listener
     ) {
-        // This is an ugly hack that ensures a newly created instance of
-        // RemoteWebElement could be put into a map.
-        // By default, it cannot because
-        //  @Override
-        //  public int hashCode() {
-        //    return id.hashCode();
-        //  }
-        // and, guess what the `id` property equals to for a newly created instance
-        Consumer<T> onInstanceCreated = cls.isAssignableFrom(RemoteWebElement.class)
-                ? (instance) -> ((RemoteWebElement) instance).setId(UUID.randomUUID().toString())
-                : null;
-        Set<String> skippedMethods = new HashSet<>(OBJECT_METHOD_NAMES);
-        skippedMethods.add("iterator");
-        skippedMethods.add("listIterator");
-        skippedMethods.remove("toString");
         ElementMatcher<MethodDescription> extraMatcher = ElementMatchers.not(namedOneOf(
-                skippedMethods.toArray(new String[0])
+                NON_PROXYABLE_METHODS.toArray(new String[0])
         ));
-        return createProxy(
-                cls, values, params, Collections.singletonList(listener), onInstanceCreated, extraMatcher
-        );
+        return createProxy(cls, values, params, Collections.singletonList(listener), extraMatcher);
     }
 }

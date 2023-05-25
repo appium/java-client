@@ -16,6 +16,7 @@
 
 package io.appium.java_client.proxy;
 
+import javafx.util.Pair;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -24,16 +25,100 @@ import net.bytebuddy.implementation.bind.annotation.This;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
-import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Semaphore;
 
 public class Interceptor {
     private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
-    public static final Map<Object, Collection<MethodCallListener>> LISTENERS = new WeakHashMap<>();
+    // Previously WeakHashMap has been used because of O(1) lookup performance, although
+    // we had to change it to a list, which has O(N). The reason for that is that
+    // maps implicitly call `hashCode` API on instances, which might not always
+    // work as expected for arbitrary proxies
+    private static final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> LISTENERS = new ArrayList<>();
+    private static final Semaphore LISTENERS_GUARD = new Semaphore(1);
+
+    /**
+     * Assign listeners for the particular proxied instance.
+     *
+     * @param instance The proxied instance.
+     * @param listeners Collection of listeners.
+     * @return The same given instance.
+     */
+    public static <T> T setListeners(T instance, Collection<MethodCallListener> listeners) {
+        try {
+            LISTENERS_GUARD.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            int i = 0;
+            boolean wasInstancePresent = false;
+            while (i < LISTENERS.size()) {
+                Pair<WeakReference<?>, Collection<MethodCallListener>> pair = LISTENERS.get(i);
+                Object key = pair.getKey().get();
+                if (key == null) {
+                    // The instance has been garbage-collected
+                    LISTENERS.remove(i);
+                    continue;
+                }
+
+                if (key == instance) {
+                    pair.getValue().clear();
+                    pair.getValue().addAll(listeners);
+                    wasInstancePresent = true;
+                }
+                i++;
+            }
+            if (!wasInstancePresent) {
+                LISTENERS.add(new Pair<>(new WeakReference<>(instance), new HashSet<>(listeners)));
+            }
+        } finally {
+            LISTENERS_GUARD.release();
+        }
+        return instance;
+    }
+
+    /**
+     * Fetches listeners for the particular proxied instance.
+     *
+     * @param instance The proxied instance.
+     */
+    public static Collection<MethodCallListener> getListeners(Object instance) {
+        try {
+            LISTENERS_GUARD.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            int i = 0;
+            Collection<MethodCallListener> result = Collections.emptySet();
+            while (i < LISTENERS.size()) {
+                Pair<WeakReference<?>, Collection<MethodCallListener>> pair = LISTENERS.get(i);
+                Object key = pair.getKey().get();
+                if (key == null) {
+                    // The instance has been garbage-collected
+                    LISTENERS.remove(i);
+                    continue;
+                }
+
+                if (key == instance) {
+                    result = pair.getValue();
+                }
+                i++;
+            }
+            return result;
+        } finally {
+            LISTENERS_GUARD.release();
+        }
+    }
 
     /**
      * A magic method used to wrap public method calls in classes
@@ -53,16 +138,7 @@ public class Interceptor {
             @AllArguments Object[] args,
             @SuperCall Callable<?> callable
     ) throws Throwable {
-        boolean hasListeners = false;
-        try {
-            hasListeners = LISTENERS.containsKey(self);
-        } catch (RuntimeException e) {
-            // ignore
-        }
-        if (!hasListeners) {
-            return callable.call();
-        }
-        Collection<MethodCallListener> listeners = LISTENERS.get(self);
+        Collection<MethodCallListener> listeners = getListeners(self);
         if (listeners.isEmpty()) {
             return callable.call();
         }

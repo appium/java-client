@@ -34,8 +34,7 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
         this.driver = driver;
     }
 
-    protected abstract Object getObject(WebElement element, Method method, Object[] args)
-        throws Throwable;
+    protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {

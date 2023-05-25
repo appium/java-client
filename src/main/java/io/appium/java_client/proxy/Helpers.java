@@ -29,7 +29,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -71,7 +70,7 @@ public class Helpers {
         ElementMatcher<MethodDescription> extraMatcher = ElementMatchers.not(namedOneOf(
                 OBJECT_METHOD_NAMES.toArray(new String[0])
         ));
-        return createProxy(cls, constructorArgs, constructorArgTypes, listeners, null, extraMatcher);
+        return createProxy(cls, constructorArgs, constructorArgTypes, listeners, extraMatcher);
     }
 
     /**
@@ -91,7 +90,6 @@ public class Helpers {
      * @param constructorArgTypes    Array of constructor argument types. Must
      *                               represent types of constructorArgs.
      * @param listeners              One or more method invocation listeners.
-     * @param onInstanceCreated      Optional proxy instance postprocessor
      * @param extraMethodMatcher     Optional additional method proxy conditions
      * @param <T>                    Any class derived from Object
      * @return Proxy instance
@@ -101,7 +99,6 @@ public class Helpers {
             Object[] constructorArgs,
             Class<?>[] constructorArgTypes,
             Collection<MethodCallListener> listeners,
-            @Nullable Consumer<T> onInstanceCreated,
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
         Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
@@ -115,14 +112,10 @@ public class Helpers {
         Preconditions.checkArgument(!cls.isInterface(), "Class must not be an interface");
 
         ElementMatcher.Junction<MethodDescription> matcher = ElementMatchers.isPublic();
-        if (extraMethodMatcher != null) {
-            matcher = matcher.and(extraMethodMatcher);
-        }
-
         //noinspection resource
         Class<?> proxy = new ByteBuddy()
                 .subclass(cls)
-                .method(matcher)
+                .method(extraMethodMatcher == null ? matcher : matcher.and(extraMethodMatcher))
                 .intercept(MethodDelegation.to(Interceptor.class))
                 .make()
                 .load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
@@ -130,15 +123,10 @@ public class Helpers {
                 .asSubclass(cls);
 
         try {
-            //noinspection unchecked
-            T instance = (T) proxy
-                    .getConstructor(constructorArgTypes)
-                    .newInstance(constructorArgs);
-            if (onInstanceCreated != null) {
-                onInstanceCreated.accept(instance);
-            }
-            Interceptor.LISTENERS.put(instance, listeners);
-            return instance;
+            return Interceptor.setListeners(
+                    cls.cast(proxy.getConstructor(constructorArgTypes).newInstance(constructorArgs)),
+                    listeners
+            );
         } catch (SecurityException | ReflectiveOperationException e) {
             throw new IllegalStateException(String.format("Unable to create a proxy of %s", cls.getName()), e);
         }

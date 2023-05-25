@@ -35,8 +35,7 @@ public class ElementListInterceptor extends InterceptorOfAListOfElements {
     }
 
     @Override
-    protected Object getObject(List<WebElement> elements, Method method, Object[] args)
-        throws Throwable {
+    protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws Throwable {
         try {
             return method.invoke(elements, args);
         } catch (Throwable t) {

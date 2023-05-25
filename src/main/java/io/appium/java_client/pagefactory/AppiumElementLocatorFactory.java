@@ -53,7 +53,9 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
         return this.createLocator((AnnotatedElement) field);
     }
 
-    @Override public @Nullable CacheableLocator createLocator(AnnotatedElement annotatedElement) {
+    @Override
+    @Nullable
+    public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
         Duration customDuration;
         if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
