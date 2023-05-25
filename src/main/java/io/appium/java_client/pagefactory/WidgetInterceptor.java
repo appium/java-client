@@ -35,14 +35,14 @@ import java.util.concurrent.Callable;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 
-class WidgetInterceptor extends InterceptorOfASingleElement {
+public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final Duration duration;
     private WebElement cachedElement;
 
-    WidgetInterceptor(
+    public WidgetInterceptor(
             CacheableLocator locator,
             WebDriver driver,
             @Nullable
@@ -56,7 +56,8 @@ class WidgetInterceptor extends InterceptorOfASingleElement {
         this.duration = duration;
     }
 
-    @Override protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
+    @Override
+    protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
         if (cachedElement == null
             || (locator != null && !((CacheableLocator) locator).isLookUpCached())
