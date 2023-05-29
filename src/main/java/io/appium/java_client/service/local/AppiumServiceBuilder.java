@@ -29,7 +29,6 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.validator.routines.InetAddressValidator;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
@@ -72,13 +71,14 @@ public final class AppiumServiceBuilder
      */
     private static final String NODE_PATH = "NODE_BINARY_PATH";
 
-    public static final String BROADCAST_IP_ADDRESS = "0.0.0.0";
+    public static final String BROADCAST_IP4_ADDRESS = "0.0.0.0";
+    public static final String BROADCAST_IP6_ADDRESS = "::";
     private static final Path APPIUM_PATH_SUFFIX = Paths.get("appium", "build", "lib", "main.js");
     public static final int DEFAULT_APPIUM_PORT = 4723;
     private final Map<String, String> serverArguments = new HashMap<>();
     private File appiumJS;
     private File node;
-    private String ipAddress = BROADCAST_IP_ADDRESS;
+    private String ipAddress = BROADCAST_IP4_ADDRESS;
     private Capabilities capabilities;
     private boolean autoQuoteCapabilitiesOnWindows = false;
     private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
@@ -363,14 +363,7 @@ public final class AppiumServiceBuilder
         argList.add(String.valueOf(getPort()));
 
         if (StringUtils.isBlank(ipAddress)) {
-            ipAddress = BROADCAST_IP_ADDRESS;
-        } else {
-            InetAddressValidator validator = InetAddressValidator.getInstance();
-            if (!validator.isValid(ipAddress) && !validator.isValidInet4Address(ipAddress)
-                    && !validator.isValidInet6Address(ipAddress)) {
-                throw new IllegalArgumentException(
-                        "The invalid IP address " + ipAddress + " is defined");
-            }
+            ipAddress = BROADCAST_IP4_ADDRESS;
         }
         argList.add("--address");
         argList.add(ipAddress);

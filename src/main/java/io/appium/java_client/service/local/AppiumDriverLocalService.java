@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,7 +47,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
@@ -57,6 +59,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private static final String APPIUM_SERVICE_SLF4J_LOGGER_PREFIX = "appium.service";
     private static final Duration DESTROY_TIMEOUT = Duration.ofSeconds(60);
+    private static final Duration IS_RUNNING_PING_TIMEOUT = Duration.ofMillis(1500);
 
     private final File nodeJSExec;
     private final List<String> nodeJSArgs;
@@ -106,7 +109,7 @@ public final class AppiumDriverLocalService extends DriverService {
     @SneakyThrows
     @SuppressWarnings("SameParameterValue")
     private static URL replaceHost(URL source, String oldHost, String newHost) {
-        return new URL(source.toString().replace(oldHost, newHost));
+        return new URL(source.toString().replaceFirst(oldHost, newHost));
     }
 
     /**
@@ -128,7 +131,7 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                ping(Duration.ofMillis(1500));
+                ping(IS_RUNNING_PING_TIMEOUT);
                 return true;
             } catch (UrlChecker.TimeoutException e) {
                 return false;
@@ -142,8 +145,15 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     private void ping(Duration timeout) throws UrlChecker.TimeoutException, MalformedURLException {
-        // The operating system might block direct access to the universal broadcast IP address
-        URL status = addSuffix(replaceHost(getUrl(), BROADCAST_IP_ADDRESS, "127.0.0.1"), "/status");
+        URL url = getUrl();
+        String host = url.getHost();
+        // The operating system will block direct access to the universal broadcast IP address
+        if (host.equals(BROADCAST_IP4_ADDRESS)) {
+            url = replaceHost(url, BROADCAST_IP4_ADDRESS, "127.0.0.1");
+        } else if (host.equals(BROADCAST_IP6_ADDRESS)) {
+            url = replaceHost(url, BROADCAST_IP6_ADDRESS, "::1");
+        }
+        URL status = addSuffix(url, "/status");
         new UrlChecker().waitUntilAvailable(timeout.toMillis(), TimeUnit.MILLISECONDS, status);
     }
 
@@ -161,25 +171,36 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                process = new CommandLine(this.nodeJSExec.getCanonicalPath(),
-                        nodeJSArgs.toArray(new String[]{}));
+                process = new CommandLine(
+                        this.nodeJSExec.getCanonicalPath(),
+                        nodeJSArgs.toArray(new String[]{})
+                );
                 process.setEnvironmentVariables(nodeJSEnvironment);
                 process.copyOutputTo(stream);
                 process.executeAsync();
                 ping(startupTimeout);
-            } catch (Throwable e) {
+            } catch (Exception e) {
+                final Optional<String> output = Optional.ofNullable(process)
+                        .map(CommandLine::getStdOut)
+                        .filter((o) -> !StringUtils.isBlank(o));
                 destroyProcess();
-                String msgTxt = "The local appium server has not been started. "
-                        + "The given Node.js executable: " + this.nodeJSExec.getAbsolutePath()
-                        + " Arguments: " + nodeJSArgs.toString() + " " + "\n";
-                if (process != null) {
-                    String processStream = process.getStdOut();
-                    if (!StringUtils.isBlank(processStream)) {
-                        msgTxt = msgTxt + "Process output: " + processStream + "\n";
-                    }
+                List<String> errorLines = new ArrayList<>();
+                errorLines.add("The local appium server has not been started");
+                errorLines.add(String.format("Reason: %s", e.getMessage()));
+                if (e instanceof UrlChecker.TimeoutException) {
+                    errorLines.add(String.format(
+                            "Consider increasing the server startup timeout value (currently %sms)",
+                            startupTimeout.toMillis()
+                    ));
                 }
-
-                throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt, e);
+                errorLines.add(
+                        String.format("Node.js executable path: %s", nodeJSExec.getAbsolutePath())
+                );
+                errorLines.add(String.format("Arguments: %s", nodeJSArgs));
+                output.ifPresent((o) -> errorLines.add(String.format("Output: %s", o)));
+                throw new AppiumServerHasNotBeenStartedLocallyException(
+                        StringUtils.joinWith("\n", errorLines), e
+                );
             }
         } finally {
             lock.unlock();

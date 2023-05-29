@@ -19,7 +19,7 @@ import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP_ADDRESS;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
@@ -323,7 +323,7 @@ class ServerBuilderTest {
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
         service.start();
         assertTrue(service.isRunning());
-        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP_ADDRESS, DEFAULT_APPIUM_PORT);
+        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP4_ADDRESS, DEFAULT_APPIUM_PORT);
         assertEquals(baseUrl + basePath + "/", service.getUrl().toString());
     }
 
@@ -333,7 +333,7 @@ class ServerBuilderTest {
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
         service.start();
         assertTrue(service.isRunning());
-        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP_ADDRESS, DEFAULT_APPIUM_PORT);
+        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP4_ADDRESS, DEFAULT_APPIUM_PORT);
         assertEquals(baseUrl + basePath.substring(1), service.getUrl().toString());
     }
 
