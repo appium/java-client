@@ -180,7 +180,9 @@ public final class AppiumDriverLocalService extends DriverService {
                 process.executeAsync();
                 ping(startupTimeout);
             } catch (Exception e) {
-                final Optional<String> output = Optional.ofNullable(process).map(CommandLine::getStdOut);
+                final Optional<String> output = Optional.ofNullable(process)
+                        .map(CommandLine::getStdOut)
+                        .filter((o) -> !StringUtils.isBlank(o));
                 destroyProcess();
                 List<String> errorLines = new ArrayList<>();
                 errorLines.add("The local appium server has not been started");
@@ -192,7 +194,7 @@ public final class AppiumDriverLocalService extends DriverService {
                     ));
                 }
                 errorLines.add(
-                        String.format("The given Node.js executable: %s", nodeJSExec.getAbsolutePath())
+                        String.format("Node.js executable path: %s", nodeJSExec.getAbsolutePath())
                 );
                 errorLines.add(String.format("Arguments: %s", nodeJSArgs));
                 output.ifPresent((o) -> errorLines.add(String.format("Output: %s", o)));
