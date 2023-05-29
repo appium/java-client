@@ -180,7 +180,7 @@ public final class AppiumDriverLocalService extends DriverService {
                 process.executeAsync();
                 ping(startupTimeout);
             } catch (Exception e) {
-                Optional<String> output = Optional.ofNullable(process).map(CommandLine::getStdOut);
+                final Optional<String> output = Optional.ofNullable(process).map(CommandLine::getStdOut);
                 destroyProcess();
                 List<String> errorLines = new ArrayList<>();
                 errorLines.add("The local appium server has not been started");
