@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+*8.5.1*
+- **[BUG FIX]**
+  - Use correct exception type for fallback at file/folder pulling. [#1912](https://github.com/appium/java-client/pull/1912)
+  - Update autoWebview capability name. [#1917](https://github.com/appium/java-client/pull/1917)
+- **[REFACTOR]**
+  - Move execution of E2E tests to GitHub Actions. [#1913](https://github.com/appium/java-client/pull/1913)
+  - Replace cglib with bytebuddy. [#1923](https://github.com/appium/java-client/pull/1923)
+  - Improve the error message on service startup. [#1928](https://github.com/appium/java-client/pull/1928)
+- **[DOCUMENTATION]**
+  - Initiate Selenium client compatibility matrix. [#1918](https://github.com/appium/java-client/pull/1918)
+- **[DEPENDENCY UPDATES]**
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.3.3.
+  - `org.projectlombok:lombok` was updated to 1.18.28.
+  - `commons-io:commons-io` was updated to 2.12.0.
+
 *8.5.0*
 - **[BUG FIX]**
   - Restore Jitpack builds. [#1911](https://github.com/appium/java-client/pull/1911)
