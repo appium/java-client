@@ -30,7 +30,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * {@link org.openqa.selenium.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
  * using Windows automation selectors, accessibility, id, name, class name, tag and xpath
+ * @deprecated This annotation is deprecated and will be removed.
  */
+@Deprecated
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(WindowsFindBySet.class)
 public @interface WindowsFindBy {

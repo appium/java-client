@@ -29,7 +29,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * of {@link WindowsBy} tags
  * It will then search for all elements that match any criteria. Note that elements
  * are not guaranteed to be in document order.
+ * @deprecated This annotation is deprecated and will be removed.
  */
+@Deprecated
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(WindowsFindByAllSet.class)
 public @interface WindowsFindAll {
