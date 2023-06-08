@@ -18,7 +18,9 @@ package io.appium.java_client.pagefactory;
 
 /**
  * Used to build a complex Windows automation locator.
+ * @deprecated This annotation is deprecated and will be removed.
  */
+@Deprecated
 public @interface WindowsBy {
 
     /**

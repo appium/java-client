@@ -26,7 +26,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Defines set of chained/possible locators. Each one locator
  * should be defined with {@link WindowsFindBy}
+ * @deprecated This annotation is deprecated and will be removed.
  */
+@Deprecated
 @Target(value = {TYPE, FIELD})
 @Retention(value = RUNTIME)
 public @interface WindowsFindBySet {

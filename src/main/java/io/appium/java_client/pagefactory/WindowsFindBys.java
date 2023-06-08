@@ -27,7 +27,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used to mark a field on a Page Object to indicate that lookup should use
  * a series of {@link WindowsBy} tags.
+ * @deprecated This annotation is deprecated and will be removed.
  */
+@Deprecated
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(WindowsFindByChainSet.class)
 public @interface WindowsFindBys {
