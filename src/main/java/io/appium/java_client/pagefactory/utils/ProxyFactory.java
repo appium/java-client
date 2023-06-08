@@ -19,7 +19,6 @@ package io.appium.java_client.pagefactory.utils;
 import io.appium.java_client.proxy.MethodCallListener;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
-import net.bytebuddy.matcher.ElementMatchers;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,7 +27,9 @@ import java.util.Set;
 
 import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
+import static net.bytebuddy.matcher.ElementMatchers.isAbstract;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 
 /**
  * Original class is a super class of a
@@ -77,9 +78,11 @@ public final class ProxyFactory {
     public static <T> T getEnhancedProxy(
             Class<T> cls, Class<?>[] params, Object[] values, MethodCallListener listener
     ) {
-        ElementMatcher<MethodDescription> extraMatcher = ElementMatchers.not(namedOneOf(
-                NON_PROXYABLE_METHODS.toArray(new String[0])
-        ));
+        ElementMatcher<MethodDescription> extraMatcher = not(
+                namedOneOf(NON_PROXYABLE_METHODS.toArray(new String[0]))
+        ).and(
+                not(isAbstract())
+        );
         return createProxy(
                 cls,
                 values,
