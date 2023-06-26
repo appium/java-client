@@ -34,6 +34,7 @@ public class BaseIOSTest {
             ? System.getenv("IOS_PLATFORM_VERSION")
             : "14.5";
     public static final Duration WDA_LAUNCH_TIMEOUT = Duration.ofSeconds(240);
+    public static final Duration SERVER_START_TIMEOUT = Duration.ofSeconds(40);
 
     /**
      * Starts a local server.
@@ -44,7 +45,7 @@ public class BaseIOSTest {
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
-                .withTimeout(Duration.ofSeconds(40))
+                .withTimeout(SERVER_START_TIMEOUT)
                 .build();
         service.start();
         return service;

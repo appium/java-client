@@ -66,7 +66,8 @@ class StartingAppLocallyIosTest {
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.STRICT_CAPS);
+                .withArgument(GeneralServerFlag.STRICT_CAPS)
+                .withTimeout(BaseIOSTest.SERVER_START_TIMEOUT);
 
         IOSDriver driver = new IOSDriver(builder, options);
         try {
@@ -92,6 +93,7 @@ class StartingAppLocallyIosTest {
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                 .withArgument(GeneralServerFlag.STRICT_CAPS)
+                .withTimeout(BaseIOSTest.SERVER_START_TIMEOUT)
                 .withCapabilities(serverOptions);
 
         IOSDriver driver = new IOSDriver(builder, clientOptions);
