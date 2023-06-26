@@ -319,11 +319,11 @@ class ServerBuilderTest {
 
     @Test
     void checkAbilityToStartServiceUsingValidBasePathWithMultiplePathParams() {
-        String basePath = "wd/hub";
+        String basePath = "/wd/hub";
         service = new AppiumServiceBuilder().withArgument(BASEPATH, basePath).build();
         service.start();
         assertTrue(service.isRunning());
-        String baseUrl = String.format("http://%s:%d/", BROADCAST_IP4_ADDRESS, DEFAULT_APPIUM_PORT);
+        String baseUrl = String.format("http://%s:%d", BROADCAST_IP4_ADDRESS, DEFAULT_APPIUM_PORT);
         assertEquals(baseUrl + basePath + "/", service.getUrl().toString());
     }
 
