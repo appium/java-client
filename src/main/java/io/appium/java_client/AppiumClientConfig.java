@@ -129,7 +129,7 @@ public class AppiumClientConfig extends ClientConfig {
 
     @Override
     public AppiumClientConfig readTimeout(Duration timeout) {
-        ClientConfig clientConfig = super.connectionTimeout(timeout);
+        ClientConfig clientConfig = super.readTimeout(timeout);
         return buildAppiumClientConfig(clientConfig, directConnect);
     }
 
