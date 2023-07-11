@@ -85,7 +85,7 @@ public interface MobileCapabilityType extends CapabilityType {
     /**
      * Move directly into Webview context. Default false.
      */
-    String AUTO_WEBVIEW = "autoWebview";
+    String AUTO_WEBVIEW = "autoWebView";
 
     /**
      * Don't reset app state before this session. See
