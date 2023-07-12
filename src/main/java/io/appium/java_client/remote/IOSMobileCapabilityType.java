@@ -27,7 +27,10 @@ import org.openqa.selenium.remote.CapabilityType;
  * and<br>
  * <a href="https://github.com/appium/appium-xcuitest-driver#desired-capabilities">
  * https://github.com/appium/appium-xcuitest-driver#desired-capabilities</a>
+ *
+ * @deprecated This interface will be removed. Use Options instead.
  */
+@Deprecated
 public interface IOSMobileCapabilityType extends CapabilityType {
 
     /**
