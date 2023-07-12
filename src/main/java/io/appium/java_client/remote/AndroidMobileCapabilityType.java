@@ -23,7 +23,10 @@ import org.openqa.selenium.remote.CapabilityType;
  * Read: <br>
  * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only">
  * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only</a>
+ *
+ * @deprecated This interface will be removed. Use Options instead.
  */
+@Deprecated
 public interface AndroidMobileCapabilityType extends CapabilityType {
 
     /**
