@@ -56,7 +56,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.13.0'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.3') {
         exclude group: 'org.seleniumhq.selenium'
