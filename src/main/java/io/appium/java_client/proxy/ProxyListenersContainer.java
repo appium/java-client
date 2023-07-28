@@ -16,7 +16,6 @@
 
 package io.appium.java_client.proxy;
 
-import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -40,28 +39,15 @@ class ProxyListenersContainer {
     // work as expected for arbitrary proxies
     // As of (this version?) we are now using a LinkedHashMap as a caching mechanism. This can be overridden by a System
     // Property value "appium.override.listener.limit": default 5000.
-    private final LinkedHashMap<Object, Pair<WeakReference<?>, HashSet<MethodCallListener>>>
+    private final LinkedHashMap<Object, HashSet<MethodCallListener>>
         listeners =
-        new LinkedHashMap<Object, Pair<WeakReference<?>, HashSet<MethodCallListener>>>() {
+        new LinkedHashMap<Object, HashSet<MethodCallListener>>() {
             protected boolean removeEldestEntry(
-                Map.Entry<Object, Pair<WeakReference<?>, HashSet<MethodCallListener>>> eldest) {
+                Map.Entry<Object, HashSet<MethodCallListener>> eldest) {
                 return size() > Integer.parseInt(
                     System.getProperty("appium.override.listener.limit", "5000"));
             }
         };
-
-
-    private static class Pair<K, V> {
-        private final V value;
-
-        public Pair(K key, V value) {
-            this.value = value;
-        }
-
-        public V getValue() {
-            return value;
-        }
-    }
 
     private ProxyListenersContainer() {
     }
@@ -80,9 +66,7 @@ class ProxyListenersContainer {
             throw new RuntimeException(e);
         }
         try {
-            Pair<WeakReference<?>, HashSet<MethodCallListener>> pair =
-                new Pair<>(new WeakReference<>(proxyInstance), new HashSet<>(listeners));
-            this.listeners.put(String.valueOf(proxyInstance.getClass()), pair);
+            this.listeners.put(String.valueOf(proxyInstance.getClass()), new HashSet<>(listeners));
         } finally {
             listenersGuard.release();
         }
@@ -101,7 +85,7 @@ class ProxyListenersContainer {
             throw new RuntimeException(e);
         }
         try {
-            return listeners.get(String.valueOf(proxyInstance.getClass())).getValue();
+            return listeners.get(String.valueOf(proxyInstance.getClass()));
         } finally {
             listenersGuard.release();
         }
