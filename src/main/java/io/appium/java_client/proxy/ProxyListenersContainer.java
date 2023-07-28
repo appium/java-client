@@ -66,7 +66,7 @@ class ProxyListenersContainer {
             throw new RuntimeException(e);
         }
         try {
-            this.listeners.put(String.valueOf(proxyInstance.getClass()), new HashSet<>(listeners));
+            this.listeners.put(proxyInstance.getClass(), new HashSet<>(listeners));
         } finally {
             listenersGuard.release();
         }
@@ -85,7 +85,7 @@ class ProxyListenersContainer {
             throw new RuntimeException(e);
         }
         try {
-            return listeners.get(String.valueOf(proxyInstance.getClass()));
+            return listeners.get(proxyInstance.getClass());
         } finally {
             listenersGuard.release();
         }
