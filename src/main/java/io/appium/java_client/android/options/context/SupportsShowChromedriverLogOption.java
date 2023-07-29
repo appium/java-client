@@ -45,8 +45,19 @@ public interface SupportsShowChromedriverLogOption<T extends BaseOptions<T>>
      * @param value Whether to forward chromedriver output to the Appium server log.
      * @return self instance for chaining.
      */
-    default T setDhowChromedriverLog(boolean value) {
+    default T setShowChromedriverLog(boolean value) {
         return amend(SHOW_CHROMEDRIVER_LOG_OPTION, value);
+    }
+
+    /**
+     * If set to true then all the output from chromedriver binary will be
+     * forwarded to the Appium server log. false by default.
+     *
+     * @deprecated Use {@link SupportsShowChromedriverLogOption#setShowChromedriverLog(boolean)} instead.
+     */
+    @Deprecated
+    default T setDhowChromedriverLog(boolean value) {
+        return setShowChromedriverLog(value);
     }
 
     /**
@@ -54,9 +65,19 @@ public interface SupportsShowChromedriverLogOption<T extends BaseOptions<T>>
      *
      * @return True or false.
      */
-    default Optional<Boolean> doesDhowChromedriverLog() {
+    default Optional<Boolean> doesShowChromedriverLog() {
         return Optional.ofNullable(
                 toSafeBoolean(getCapability(SHOW_CHROMEDRIVER_LOG_OPTION))
         );
+    }
+
+    /**
+     * Get whether to forward chromedriver output to the Appium server log.
+     *
+     * @deprecated Use {@link SupportsShowChromedriverLogOption#doesShowChromedriverLog()} (boolean)} instead.
+     */
+    @Deprecated
+    default Optional<Boolean> doesDhowChromedriverLog() {
+        return doesShowChromedriverLog();
     }
 }
