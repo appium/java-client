@@ -21,8 +21,8 @@ import org.openqa.selenium.remote.CapabilityType;
 /**
  * The list of common capabilities. <br>
  * Read: <br>
- * <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#general-capabilities">
- * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#general-capabilities</a>
+ * <a href="https://appium.io/docs/en/latest/guides/caps/#appium-capabilities">
+ * https://appium.io/docs/en/latest/guides/caps/#appium-capabilities</a>
  *
  * @deprecated This interface will be removed. Use Options instead.
  */
@@ -117,8 +117,8 @@ public interface MobileCapabilityType extends CapabilityType {
      * (e.g., the start and end of each command, etc.). Defaults to {@code false}.
      * To enable, use {@code true}. The timings are then reported as {@code events} property on response
      * to querying the current session. See the
-     * <a href="https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/event-timings.md">
-     * event timing docs</a> for the the structure of this response.
+     * <a href="https://appium.io/docs/en/latest/guides/event-timing/">
+     * event timing docs</a> for the structure of this response.
      */
     String EVENT_TIMINGS = "eventTimings";
 

@@ -25,8 +25,8 @@ import org.openqa.selenium.remote.CapabilityType;
  * https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md#ios-only</a>
  * <br>
  * and<br>
- * <a href="https://github.com/appium/appium-xcuitest-driver#desired-capabilities">
- * https://github.com/appium/appium-xcuitest-driver#desired-capabilities</a>
+ * <a href="https://appium.github.io/appium-xcuitest-driver/latest/capabilities/">
+ * https://appium.github.io/appium-xcuitest-driver/latest/capabilities/</a>
  *
  * @deprecated This interface will be removed. Use Options instead.
  */
