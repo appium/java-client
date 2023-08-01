@@ -147,7 +147,7 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available only if OpenCV libraries and
-     * NodeJS bindings are installed on the server machine.
+     * Node.js bindings are installed on the server machine.
      *
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
