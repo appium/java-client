@@ -61,12 +61,11 @@ dependencies {
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.3') {
         exclude group: 'org.seleniumhq.selenium'
     }
-    testImplementation ('org.seleniumhq.selenium:selenium-chrome-driver') {
-        version {
-            strictly "[${seleniumVersion}, 5.0)"
-            prefer "${seleniumVersion}"
-        }
-    }
+    testImplementation platform(group: 'org.seleniumhq.selenium', name: 'selenium-bom', version: '4.11.0')
+    testImplementation 'org.seleniumhq.selenium:selenium-api'
+    testImplementation 'org.seleniumhq.selenium:selenium-remote-driver'
+    testImplementation 'org.seleniumhq.selenium:selenium-support'
+    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver'
     testRuntimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 }
 
