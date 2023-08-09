@@ -32,7 +32,6 @@ import java.time.Duration;
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.AppiumFieldDecorator.DEFAULT_WAITING_TIMEOUT;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.Math.abs;
 import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
@@ -75,11 +74,6 @@ public class TimeoutTest {
     private static String assertionMessage(Duration expectedDuration) {
         return format("Check difference from the expected waiting duration %s",
                 formatDuration(expectedDuration.toMillis(), "H:mm:ss:SSS", true));
-    }
-
-    @BeforeAll
-    public static void beforeAll() {
-        chromedriver().setup();
     }
 
     /**

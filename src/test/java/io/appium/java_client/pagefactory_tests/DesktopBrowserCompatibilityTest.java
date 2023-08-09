@@ -34,7 +34,6 @@ import java.util.List;
 
 import static io.appium.java_client.TestResources.helloAppiumHtml;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -49,13 +48,6 @@ public class DesktopBrowserCompatibilityTest {
     private List<WebElement> main; //this list is located by id="main"
     private WebDriver trap1;
     private List<AndroidDriver> trap2;
-
-    /**
-     * The starting.
-     */
-    @BeforeAll public static void beforeClass() {
-        chromedriver().setup();
-    }
 
     @Test public void chromeTest() {
         WebDriver driver = new ChromeDriver();

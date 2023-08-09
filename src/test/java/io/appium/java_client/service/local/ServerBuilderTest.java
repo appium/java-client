@@ -2,7 +2,6 @@ package io.appium.java_client.service.local;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,13 +17,8 @@ import java.util.List;
 import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static io.appium.java_client.service.local.AppiumServiceBuilder.*;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.*;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
 import static java.nio.file.FileSystems.getDefault;
@@ -34,10 +28,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 class ServerBuilderTest {
@@ -62,7 +53,6 @@ class ServerBuilderTest {
     private AppiumDriverLocalService service;
     private File testLogFile;
     private OutputStream stream;
-    private static WebDriverManager chromeManager;
 
     /**
      * initialization.
@@ -70,8 +60,6 @@ class ServerBuilderTest {
     @BeforeAll
     public static void beforeClass() throws Exception {
         testIP = getLocalIp4Address();
-        chromeManager = chromedriver();
-        chromeManager.setup();
     }
 
     @AfterEach
@@ -156,8 +144,7 @@ class ServerBuilderTest {
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
-                .setApp(apiDemosApk().toAbsolutePath().toString())
-                .setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
+                .setApp(apiDemosApk().toAbsolutePath().toString());
 
         service = new AppiumServiceBuilder().withCapabilities(options).build();
         service.start();
@@ -174,7 +161,6 @@ class ServerBuilderTest {
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
                 .setApp(app.getAbsolutePath())
-                .setChromedriverExecutable(chromeManager.getDownloadedDriverPath())
                 .amend("winPath", "C:\\selenium\\app.apk")
                 .amend("unixPath", "/selenium/app.apk")
                 .amend("quotes", "\"'")

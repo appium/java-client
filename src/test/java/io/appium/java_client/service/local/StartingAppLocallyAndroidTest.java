@@ -22,14 +22,12 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 
 import java.time.Duration;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -86,10 +84,6 @@ class StartingAppLocallyAndroidTest {
                 .autoGrantPermissions()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setApp(apiDemosApk().toAbsolutePath().toString());
-
-        WebDriverManager chromeManager = chromedriver();
-        chromeManager.setup();
-        serverOptions.setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
