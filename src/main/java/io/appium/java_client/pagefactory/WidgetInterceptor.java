@@ -35,6 +35,7 @@ import java.util.concurrent.Callable;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.util.Optional.ofNullable;
 
 public class WidgetInterceptor extends InterceptorOfASingleElement {
 
@@ -92,7 +93,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        WebElement element = cachedElementReference.get();
+        WebElement element = ofNullable(cachedElementReference).map(WeakReference::get).orElse(null);
         return locator == null && element != null
                 ? getObject(element, method, args)
                 : super.call(obj, method, args, original);
