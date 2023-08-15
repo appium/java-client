@@ -31,6 +31,7 @@ import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
@@ -40,7 +41,7 @@ import static java.util.Optional.ofNullable;
 public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
-    private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
+    private final Map<WebElement, Map<ContentType, Widget>> cachedInstances = new WeakHashMap<>();
     private final Duration duration;
     private WeakReference<WebElement> cachedElementReference;
 
@@ -80,12 +81,14 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
             }
 
             Widget widget = constructor.newInstance(element);
-            cachedInstances.put(type, widget);
+            Map<ContentType, Widget> typeMap = ofNullable(cachedInstances.get(element)).orElseGet(HashMap::new);
+            typeMap.put(type, widget);
+            cachedInstances.put(element, typeMap);
             PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
         }
         try {
             method.setAccessible(true);
-            return method.invoke(cachedInstances.get(type), args);
+            return method.invoke(cachedInstances.get(cachedElementReference.get()).get(type), args);
         } catch (Throwable t) {
             throw extractReadableException(t);
         }
