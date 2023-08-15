@@ -33,6 +33,7 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -63,7 +64,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
             RemoteWebElement.class);
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
-    private final WebDriver webDriver;
+    private final WeakReference<WebDriver> webDriver;
     private final DefaultFieldDecorator defaultElementFieldDecoracor;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
     private final String platform;
@@ -79,10 +80,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
-        this.webDriver = unpackWebDriverFromSearchContext(context);
+        this.webDriver = new WeakReference<>(unpackWebDriverFromSearchContext(context));
+        WebDriver wd = webDriver.get();
 
-        if (this.webDriver instanceof HasCapabilities) {
-            Capabilities caps = ((HasCapabilities) this.webDriver).getCapabilities();
+        if (wd instanceof HasCapabilities) {
+            Capabilities caps = ((HasCapabilities) wd).getCapabilities();
             this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
             this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
         } else {

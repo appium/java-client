@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -40,16 +41,16 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final Duration duration;
-    private WebElement cachedElement;
+    private WeakReference<WebElement> cachedElement;
 
     /**
      * Proxy interceptor class for widgets.
      */
     public WidgetInterceptor(
             CacheableLocator locator,
-            WebDriver driver,
+            WeakReference<WebDriver> driver,
             @Nullable
-            WebElement cachedElement,
+            WeakReference<WebElement> cachedElement,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
             Duration duration
     ) {
@@ -62,11 +63,11 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override
     protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
-        if (cachedElement == null
+        if (cachedElement == null || cachedElement.get() == null
             || (locator != null && !((CacheableLocator) locator).isLookUpCached())
             || cachedInstances.isEmpty()
         ) {
-            cachedElement = element;
+            cachedElement = new WeakReference<>(element);
 
             Constructor<? extends Widget> constructor = instantiationMap.get(type);
             Class<? extends Widget> clazz = constructor.getDeclaringClass();
@@ -92,7 +93,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         return locator == null
-                ? getObject(cachedElement, method, args)
+                ? getObject(cachedElement.get(), method, args)
                 : super.call(obj, method, args, original);
     }
 }
