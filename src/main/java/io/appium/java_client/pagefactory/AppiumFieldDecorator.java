@@ -64,8 +64,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
             RemoteWebElement.class);
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
-    private final WeakReference<WebDriver> webDriver;
-    private final DefaultFieldDecorator defaultElementFieldDecoracor;
+    private final WeakReference<WebDriver> webDriverReference;
+    private final DefaultFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
     private final String platform;
     private final String automation;
@@ -80,9 +80,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
-        this.webDriver = new WeakReference<>(unpackWebDriverFromSearchContext(context));
-        WebDriver wd = webDriver.get();
-
+        WebDriver wd = unpackWebDriverFromSearchContext(context);
+        this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
         if (wd instanceof HasCapabilities) {
             Capabilities caps = ((HasCapabilities) wd).getCapabilities();
             this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
@@ -94,7 +93,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         this.duration = duration;
 
-        defaultElementFieldDecoracor = new DefaultFieldDecorator(
+        defaultElementFieldDecorator = new DefaultFieldDecorator(
                 new AppiumElementLocatorFactory(context, duration, new DefaultElementByBuilder(platform, automation))
         ) {
             @Override
@@ -146,7 +145,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @return a field value or null.
      */
     public Object decorate(ClassLoader ignored, Field field) {
-        Object result = defaultElementFieldDecoracor.decorate(ignored, field);
+        Object result = defaultElementFieldDecorator.decorate(ignored, field);
         return result == null ? decorateWidget(field) : result;
     }
 
@@ -193,7 +192,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         if (isAlist) {
             return getEnhancedProxy(
                     ArrayList.class,
-                    new WidgetListInterceptor(locator, webDriver, map, widgetType, duration)
+                    new WidgetListInterceptor(locator, webDriverReference, map, widgetType, duration)
             );
         }
 
@@ -202,12 +201,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 widgetType,
                 new Class[]{constructor.getParameterTypes()[0]},
                 new Object[]{proxyForAnElement(locator)},
-                new WidgetInterceptor(locator, webDriver, null, map, duration)
+                new WidgetInterceptor(locator, webDriverReference, null, map, duration)
         );
     }
 
     private WebElement proxyForAnElement(ElementLocator locator) {
-        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriver);
+        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriverReference);
         return getEnhancedProxy(RemoteWebElement.class, elementInterceptor);
     }
 }
