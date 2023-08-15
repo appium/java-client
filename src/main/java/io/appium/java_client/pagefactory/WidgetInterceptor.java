@@ -41,7 +41,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final Duration duration;
-    private WeakReference<WebElement> cachedElement;
+    private WeakReference<WebElement> cachedElementReference;
 
     /**
      * Proxy interceptor class for widgets.
@@ -50,12 +50,12 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
             CacheableLocator locator,
             WeakReference<WebDriver> driver,
             @Nullable
-            WeakReference<WebElement> cachedElement,
+            WeakReference<WebElement> cachedElementReference,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
             Duration duration
     ) {
         super(locator, driver);
-        this.cachedElement = cachedElement;
+        this.cachedElementReference = cachedElementReference;
         this.instantiationMap = instantiationMap;
         this.duration = duration;
     }
@@ -63,11 +63,11 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override
     protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
-        if (cachedElement == null || cachedElement.get() == null
+        if (cachedElementReference == null || cachedElementReference.get() == null
             || (locator != null && !((CacheableLocator) locator).isLookUpCached())
             || cachedInstances.isEmpty()
         ) {
-            cachedElement = new WeakReference<>(element);
+            cachedElementReference = new WeakReference<>(element);
 
             Constructor<? extends Widget> constructor = instantiationMap.get(type);
             Class<? extends Widget> clazz = constructor.getDeclaringClass();
@@ -78,7 +78,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
                 );
             }
 
-            Widget widget = constructor.newInstance(cachedElement);
+            Widget widget = constructor.newInstance(element);
             cachedInstances.put(type, widget);
             PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
         }
@@ -92,8 +92,9 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        return locator == null
-                ? getObject(cachedElement.get(), method, args)
+        WebElement element = cachedElementReference.get();
+        return locator == null && element != null
+                ? getObject(element, method, args)
                 : super.call(obj, method, args, original);
     }
 }
