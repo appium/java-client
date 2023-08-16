@@ -61,8 +61,10 @@ import static java.time.Duration.ofSeconds;
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
-    private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
-            RemoteWebElement.class);
+    private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(
+            WebElement.class,
+            RemoteWebElement.class
+    );
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private final WeakReference<WebDriver> webDriverReference;
     private final DefaultFieldDecorator defaultElementFieldDecorator;
@@ -136,6 +138,73 @@ public class AppiumFieldDecorator implements FieldDecorator {
     public AppiumFieldDecorator(SearchContext context) {
         this(context, DEFAULT_WAITING_TIMEOUT);
     }
+
+    /**
+     * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
+     *
+     * @param contextReference  reference to {@link SearchContext}
+     *                          It may be the instance of {@link WebDriver} or {@link WebElement} or
+     *                          {@link Widget} or some other user's extension/implementation.
+     * @param duration is a desired duration of the waiting for an element presence.
+     */
+    public AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
+        WebDriver wd = unpackWebDriverFromSearchContext(contextReference.get());
+        this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
+        if (wd instanceof HasCapabilities) {
+            Capabilities caps = ((HasCapabilities) wd).getCapabilities();
+            this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
+            this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
+        } else {
+            this.platform = null;
+            this.automation = null;
+        }
+
+        this.duration = duration;
+
+        defaultElementFieldDecorator = new DefaultFieldDecorator(
+                new AppiumElementLocatorFactory(contextReference, duration, new DefaultElementByBuilder(platform, automation))
+        ) {
+            @Override
+            protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
+                return proxyForAnElement(locator);
+            }
+
+            @Override
+            protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
+                ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
+                //noinspection unchecked
+                return getEnhancedProxy(ArrayList.class, elementInterceptor);
+            }
+
+            @Override
+            protected boolean isDecoratableList(Field field) {
+                if (!List.class.isAssignableFrom(field.getType())) {
+                    return false;
+                }
+
+                Type genericType = field.getGenericType();
+                if (!(genericType instanceof ParameterizedType)) {
+                    return false;
+                }
+
+                Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
+                List<Type> bounds = (listType instanceof TypeVariable)
+                        ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
+                        : Collections.emptyList();
+                return availableElementClasses.stream()
+                        .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
+            }
+        };
+
+        widgetLocatorFactory = new AppiumElementLocatorFactory(
+                contextReference, duration, new WidgetByBuilder(platform, automation)
+        );
+    }
+
+    public AppiumFieldDecorator(WeakReference<SearchContext> contextReference) {
+        this(contextReference, DEFAULT_WAITING_TIMEOUT);
+    }
+
 
     /**
      * Decorated page object {@code field}.

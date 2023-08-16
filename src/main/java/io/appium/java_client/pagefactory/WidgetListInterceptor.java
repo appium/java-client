@@ -22,6 +22,7 @@ import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -49,6 +50,7 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
      * Proxy interceptor class for lists of widgets.
      */
     public WidgetListInterceptor(
+            @Nullable
             CacheableLocator locator,
             WeakReference<WebDriver> driver,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,

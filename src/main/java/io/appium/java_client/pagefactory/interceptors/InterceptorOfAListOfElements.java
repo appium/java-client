@@ -20,6 +20,7 @@ import io.appium.java_client.proxy.MethodCallListener;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.concurrent.Callable;
 public abstract class InterceptorOfAListOfElements implements MethodCallListener {
     protected final ElementLocator locator;
 
-    public InterceptorOfAListOfElements(ElementLocator locator) {
+    public InterceptorOfAListOfElements(@Nullable ElementLocator locator) {
         this.locator = locator;
     }
 
@@ -38,7 +39,7 @@ public abstract class InterceptorOfAListOfElements implements MethodCallListener
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        if (Object.class.equals(method.getDeclaringClass())) {
+        if (locator == null || Object.class.equals(method.getDeclaringClass())) {
             return original.call();
         }
 
