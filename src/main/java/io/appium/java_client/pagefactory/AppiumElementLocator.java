@@ -155,8 +155,8 @@ class AppiumElementLocator implements CacheableLocator {
 
         SearchContext searchContext = getSearchContext()
                 .orElseThrow(() -> new IllegalStateException(
-                        String.format("The element %s is not locatable anymore " +
-                                "because its context has been garbage collected", by)
+                        String.format("The element %s is not locatable anymore "
+                                + "because its context has been garbage collected", by)
                 ));
 
         By bySearching = getBy(this.by, searchContext);
@@ -181,8 +181,8 @@ class AppiumElementLocator implements CacheableLocator {
 
         SearchContext searchContext = getSearchContext()
                 .orElseThrow(() -> new IllegalStateException(
-                    String.format("Elements %s are not locatable anymore " +
-                            "because their context has been garbage collected", by)
+                    String.format("Elements %s are not locatable anymore "
+                            + "because their context has been garbage collected", by)
                 ));
 
         List<WebElement> result;

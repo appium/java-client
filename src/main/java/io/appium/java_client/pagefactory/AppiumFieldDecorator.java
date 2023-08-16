@@ -162,7 +162,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
         this.duration = duration;
 
         defaultElementFieldDecorator = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(contextReference, duration, new DefaultElementByBuilder(platform, automation))
+                new AppiumElementLocatorFactory(
+                        contextReference, duration, new DefaultElementByBuilder(platform, automation)
+                )
         ) {
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
