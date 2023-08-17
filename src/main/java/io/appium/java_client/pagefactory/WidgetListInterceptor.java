@@ -40,11 +40,11 @@ import static java.util.Optional.ofNullable;
 
 public class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
-    private final List<WeakReference<Widget>> cachedWidgetReferences = new ArrayList<>();
+    private final List<Widget> cachedWidgets = new ArrayList<>();
     private final Class<? extends Widget> declaredType;
     private final Duration duration;
     private final WeakReference<WebDriver> driver;
-    private List<WeakReference<WebElement>> cachedElementReferences;
+    private final List<WeakReference<WebElement>> cachedElementReferences = new ArrayList<>();
 
     /**
      * Proxy interceptor class for lists of widgets.
@@ -66,39 +66,31 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
 
     @Override
     protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws Throwable {
-        if (cachedElementReferences == null
-                || (locator != null && !((CacheableLocator) locator).isLookUpCached())) {
-            cachedElementReferences = elements.stream()
+        List<WebElement> cachedElements = cachedElementReferences.stream()
+                    .map(WeakReference::get)
                     .filter(Objects::nonNull)
-                    .map(WeakReference::new)
                     .collect(Collectors.toList());
-            cachedWidgetReferences.clear();
+        if (cachedElements.size() != cachedWidgets.size()
+                || (locator != null && !((CacheableLocator) locator).isLookUpCached())) {
+            cachedWidgets.clear();
+            cachedElementReferences.clear();
 
             ContentType type = null;
-            for (WeakReference<WebElement> elementReference : cachedElementReferences) {
-                WebElement element = elementReference.get();
-                if (element == null) {
-                    continue;
-                }
+            for (WebElement element : elements) {
                 type = ofNullable(type).orElseGet(() -> getCurrentContentType(element));
                 Class<?>[] params = new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
-                cachedWidgetReferences.add(new WeakReference<>(
+                WeakReference<WebElement> elementReference = new WeakReference<>(element);
+                cachedWidgets.add(
                         getEnhancedProxy(
                                 declaredType, params, new Object[] {element},
                                 new WidgetInterceptor(null, driver, elementReference, instantiationMap, duration)
                         )
-                    )
                 );
+                cachedElementReferences.add(elementReference);
             }
         }
         try {
-            return method.invoke(
-                    cachedWidgetReferences.stream()
-                            .map(WeakReference::get)
-                            .filter(Objects::nonNull)
-                            .collect(Collectors.toList()),
-                    args
-            );
+            return method.invoke(cachedWidgets, args);
         } catch (Throwable t) {
             throw extractReadableException(t);
         }
