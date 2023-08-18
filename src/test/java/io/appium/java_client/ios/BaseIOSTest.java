@@ -33,8 +33,8 @@ public class BaseIOSTest {
     public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
             ? System.getenv("IOS_PLATFORM_VERSION")
             : "14.5";
-    public static final Duration WDA_LAUNCH_TIMEOUT = Duration.ofSeconds(240);
-    public static final Duration SERVER_START_TIMEOUT = Duration.ofSeconds(40);
+    public static final Duration WDA_LAUNCH_TIMEOUT = Duration.ofMinutes(4);
+    public static final Duration SERVER_START_TIMEOUT = Duration.ofMinutes(3);
 
     /**
      * Starts a local server.
