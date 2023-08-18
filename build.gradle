@@ -57,6 +57,7 @@ dependencies {
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.3') {
         exclude group: 'org.seleniumhq.selenium'
@@ -189,7 +190,7 @@ signing {
 }
 
 wrapper {
-    gradleVersion = '8.1'
+    gradleVersion = '8.3'
     distributionType = Wrapper.DistributionType.ALL
 }
 
