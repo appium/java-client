@@ -30,6 +30,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
+import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import javax.annotation.Nullable;
@@ -95,40 +96,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         this.duration = duration;
 
-        defaultElementFieldDecorator = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(context, duration, new DefaultElementByBuilder(platform, automation))
-        ) {
-            @Override
-            protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
-                return proxyForAnElement(locator);
-            }
-
-            @Override
-            protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
-                ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
-                //noinspection unchecked
-                return getEnhancedProxy(ArrayList.class, elementInterceptor);
-            }
-
-            @Override
-            protected boolean isDecoratableList(Field field) {
-                if (!List.class.isAssignableFrom(field.getType())) {
-                    return false;
-                }
-
-                Type genericType = field.getGenericType();
-                if (!(genericType instanceof ParameterizedType)) {
-                    return false;
-                }
-
-                Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-                List<Type> bounds = (listType instanceof TypeVariable)
-                        ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
-                        : Collections.emptyList();
-                return availableElementClasses.stream()
-                        .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
-            }
-        };
+        defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
+                context, duration, new DefaultElementByBuilder(platform, automation)
+        ));
 
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 context, duration, new WidgetByBuilder(platform, automation)
@@ -161,11 +131,21 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         this.duration = duration;
 
-        defaultElementFieldDecorator = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(
-                        contextReference, duration, new DefaultElementByBuilder(platform, automation)
-                )
-        ) {
+        defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
+                contextReference, duration, new DefaultElementByBuilder(platform, automation)
+        ));
+
+        widgetLocatorFactory = new AppiumElementLocatorFactory(
+                contextReference, duration, new WidgetByBuilder(platform, automation)
+        );
+    }
+
+    public AppiumFieldDecorator(WeakReference<SearchContext> contextReference) {
+        this(contextReference, DEFAULT_WAITING_TIMEOUT);
+    }
+
+    private DefaultFieldDecorator createFieldDecorator(ElementLocatorFactory factory) {
+        return new DefaultFieldDecorator(factory) {
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
                 return proxyForAnElement(locator);
@@ -197,16 +177,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
                         .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
             }
         };
-
-        widgetLocatorFactory = new AppiumElementLocatorFactory(
-                contextReference, duration, new WidgetByBuilder(platform, automation)
-        );
     }
-
-    public AppiumFieldDecorator(WeakReference<SearchContext> contextReference) {
-        this(contextReference, DEFAULT_WAITING_TIMEOUT);
-    }
-
 
     /**
      * Decorated page object {@code field}.
