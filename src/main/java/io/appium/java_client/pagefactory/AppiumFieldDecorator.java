@@ -117,7 +117,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      *                          {@link Widget} or some other user's extension/implementation.
      * @param duration is a desired duration of the waiting for an element presence.
      */
-    public AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
+    AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
         WebDriver wd = unpackWebDriverFromSearchContext(contextReference.get());
         this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
         if (wd instanceof HasCapabilities) {
@@ -138,10 +138,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 contextReference, duration, new WidgetByBuilder(platform, automation)
         );
-    }
-
-    public AppiumFieldDecorator(WeakReference<SearchContext> contextReference) {
-        this(contextReference, DEFAULT_WAITING_TIMEOUT);
     }
 
     private DefaultFieldDecorator createFieldDecorator(ElementLocatorFactory factory) {

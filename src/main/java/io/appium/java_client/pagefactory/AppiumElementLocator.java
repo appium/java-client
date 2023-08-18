@@ -65,7 +65,7 @@ class AppiumElementLocator implements CacheableLocator {
      *                                   are found once should be cached
      * @param duration                   timeout parameter for the element to be found
      */
-    public AppiumElementLocator(
+    AppiumElementLocator(
             WeakReference<SearchContext> searchContextReference,
             By by,
             boolean shouldCache,
@@ -103,13 +103,9 @@ class AppiumElementLocator implements CacheableLocator {
     }
 
     private Optional<SearchContext> getSearchContext() {
-        if (searchContext != null) {
-            return Optional.of(searchContext);
-        }
-        if (searchContextReference != null) {
-            return Optional.ofNullable(searchContextReference.get());
-        }
-        return Optional.empty();
+        return searchContext == null
+                ? Optional.ofNullable(searchContextReference).map(WeakReference::get)
+                : Optional.of(searchContext);
     }
 
     /**

@@ -62,7 +62,7 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
      * @param duration                   timeout parameters for the elements to be found
      * @param builder                    is handler of Appium-specific page object annotations
      */
-    public AppiumElementLocatorFactory(
+    AppiumElementLocatorFactory(
             WeakReference<SearchContext> searchContextReference,
             Duration duration,
             AppiumByBuilder builder
