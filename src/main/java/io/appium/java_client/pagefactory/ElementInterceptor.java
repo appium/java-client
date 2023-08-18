@@ -21,6 +21,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
@@ -30,7 +31,7 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
  */
 public class ElementInterceptor extends InterceptorOfASingleElement {
 
-    public ElementInterceptor(ElementLocator locator, WebDriver driver) {
+    public ElementInterceptor(ElementLocator locator, WeakReference<WebDriver> driver) {
         super(locator, driver);
     }
 

@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -34,27 +35,29 @@ import java.util.concurrent.Callable;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static java.util.Optional.ofNullable;
 
 public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final Duration duration;
-    private WebElement cachedElement;
+    private WeakReference<WebElement> cachedElementReference;
 
     /**
      * Proxy interceptor class for widgets.
      */
     public WidgetInterceptor(
-            CacheableLocator locator,
-            WebDriver driver,
             @Nullable
-            WebElement cachedElement,
+            CacheableLocator locator,
+            WeakReference<WebDriver> driverReference,
+            @Nullable
+            WeakReference<WebElement> cachedElementReference,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
             Duration duration
     ) {
-        super(locator, driver);
-        this.cachedElement = cachedElement;
+        super(locator, driverReference);
+        this.cachedElementReference = cachedElementReference;
         this.instantiationMap = instantiationMap;
         this.duration = duration;
     }
@@ -62,24 +65,24 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override
     protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
-        if (cachedElement == null
+        WebElement cachedElement = cachedElementReference == null ? null : cachedElementReference.get();
+        if (cachedElement == null || !cachedInstances.containsKey(type)
             || (locator != null && !((CacheableLocator) locator).isLookUpCached())
-            || cachedInstances.isEmpty()
         ) {
-            cachedElement = element;
+            cachedElementReference = new WeakReference<>(element);
 
             Constructor<? extends Widget> constructor = instantiationMap.get(type);
             Class<? extends Widget> clazz = constructor.getDeclaringClass();
 
             if (Modifier.isAbstract(clazz.getModifiers())) {
                 throw new InstantiationException(
-                        String.format("%s  is abstract so it cannot be instantiated", clazz.getName())
+                        String.format("%s is abstract so it cannot be instantiated", clazz.getName())
                 );
             }
 
-            Widget widget = constructor.newInstance(cachedElement);
+            Widget widget = constructor.newInstance(element);
             cachedInstances.put(type, widget);
-            PageFactory.initElements(new AppiumFieldDecorator(widget, duration), widget);
+            PageFactory.initElements(new AppiumFieldDecorator(new WeakReference<>(widget), duration), widget);
         }
         try {
             method.setAccessible(true);
@@ -91,8 +94,9 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        return locator == null
-                ? getObject(cachedElement, method, args)
+        WebElement element = ofNullable(cachedElementReference).map(WeakReference::get).orElse(null);
+        return locator == null && element != null
+                ? getObject(element, method, args)
                 : super.call(obj, method, args, original);
     }
 }

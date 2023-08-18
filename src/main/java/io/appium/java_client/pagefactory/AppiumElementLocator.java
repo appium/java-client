@@ -27,9 +27,11 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
+import java.lang.ref.WeakReference;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -46,9 +48,35 @@ class AppiumElementLocator implements CacheableLocator {
     private final boolean shouldCache;
     private final By by;
     private final Duration duration;
+    private final WeakReference<SearchContext> searchContextReference;
     private final SearchContext searchContext;
+
     private WebElement cachedElement;
     private List<WebElement> cachedElementList;
+
+    /**
+     * Creates a new mobile element locator. It instantiates {@link WebElement}
+     * using @AndroidFindBy (-s), @iOSFindBy (-s) and @FindBy (-s) annotation
+     * sets
+     *
+     * @param searchContextReference     The context reference to use when finding the element
+     * @param by                         a By locator strategy
+     * @param shouldCache                is the flag that signalizes that elements which
+     *                                   are found once should be cached
+     * @param duration                   timeout parameter for the element to be found
+     */
+    AppiumElementLocator(
+            WeakReference<SearchContext> searchContextReference,
+            By by,
+            boolean shouldCache,
+            Duration duration
+    ) {
+        this.searchContextReference = searchContextReference;
+        this.searchContext = null;
+        this.shouldCache = shouldCache;
+        this.duration = duration;
+        this.by = by;
+    }
 
     /**
      * Creates a new mobile element locator. It instantiates {@link WebElement}
@@ -61,13 +89,23 @@ class AppiumElementLocator implements CacheableLocator {
      *                          are found once should be cached
      * @param duration          timeout parameter for the element to be found
      */
-
-    public AppiumElementLocator(SearchContext searchContext, By by, boolean shouldCache,
-                                Duration duration) {
+    public AppiumElementLocator(
+            SearchContext searchContext,
+            By by,
+            boolean shouldCache,
+            Duration duration
+    ) {
+        this.searchContextReference = null;
         this.searchContext = searchContext;
         this.shouldCache = shouldCache;
         this.duration = duration;
         this.by = by;
+    }
+
+    private Optional<SearchContext> getSearchContext() {
+        return searchContext == null
+                ? Optional.ofNullable(searchContextReference).map(WeakReference::get)
+                : Optional.of(searchContext);
     }
 
     /**
@@ -85,8 +123,7 @@ class AppiumElementLocator implements CacheableLocator {
             return currentBy;
         }
 
-        return ContentMappedBy.class.cast(currentBy)
-                .useContent(getCurrentContentType(currentContent));
+        return ((ContentMappedBy) currentBy).useContent(getCurrentContentType(currentContent));
     }
 
     private <T> T waitFor(Supplier<T> supplier) {
@@ -98,8 +135,7 @@ class AppiumElementLocator implements CacheableLocator {
             return wait.until(function);
         } catch (TimeoutException e) {
             if (function.foundStaleElementReferenceException != null) {
-                throw StaleElementReferenceException
-                        .class.cast(function.foundStaleElementReferenceException);
+                throw (StaleElementReferenceException) function.foundStaleElementReferenceException;
             }
             throw e;
         }
@@ -113,10 +149,15 @@ class AppiumElementLocator implements CacheableLocator {
             return cachedElement;
         }
 
+        SearchContext searchContext = getSearchContext()
+                .orElseThrow(() -> new IllegalStateException(
+                        String.format("The element %s is not locatable anymore "
+                                + "because its context has been garbage collected", by)
+                ));
+
         By bySearching = getBy(this.by, searchContext);
         try {
-            WebElement result =  waitFor(() ->
-                    searchContext.findElement(bySearching));
+            WebElement result = waitFor(() -> searchContext.findElement(bySearching));
             if (shouldCache) {
                 cachedElement = result;
             }
@@ -134,12 +175,17 @@ class AppiumElementLocator implements CacheableLocator {
             return cachedElementList;
         }
 
+        SearchContext searchContext = getSearchContext()
+                .orElseThrow(() -> new IllegalStateException(
+                    String.format("Elements %s are not locatable anymore "
+                            + "because their context has been garbage collected", by)
+                ));
+
         List<WebElement> result;
         try {
             result = waitFor(() -> {
-                List<WebElement> list = searchContext
-                        .findElements(getBy(by, searchContext));
-                return list.size() > 0 ? list : null;
+                List<WebElement> list = searchContext.findElements(getBy(by, searchContext));
+                return list.isEmpty() ? null : list;
             });
         } catch (TimeoutException | StaleElementReferenceException e) {
             result = new ArrayList<>();
@@ -171,30 +217,22 @@ class AppiumElementLocator implements CacheableLocator {
                 return supplier.get();
             } catch (Throwable e) {
                 boolean isRootCauseStaleElementReferenceException = false;
-                Throwable shouldBeThrown;
                 boolean isRootCauseInvalidSelector = isInvalidSelectorRootCause(e);
-
                 if (!isRootCauseInvalidSelector) {
                     isRootCauseStaleElementReferenceException = isStaleElementReferenceException(e);
                 }
-
                 if (isRootCauseStaleElementReferenceException) {
                     foundStaleElementReferenceException = extractReadableException(e);
                 }
-
-                if (!isRootCauseInvalidSelector & !isRootCauseStaleElementReferenceException) {
-                    shouldBeThrown = extractReadableException(e);
-                    if (shouldBeThrown != null) {
-                        if (NoSuchElementException.class.equals(shouldBeThrown.getClass())) {
-                            throw NoSuchElementException.class.cast(shouldBeThrown);
-                        } else {
-                            throw new WebDriverException(shouldBeThrown);
-                        }
-                    } else {
-                        throw new WebDriverException(e);
-                    }
-                } else {
+                if (isRootCauseInvalidSelector || isRootCauseStaleElementReferenceException) {
                     return null;
+                }
+
+                Throwable excToThrow = extractReadableException(e);
+                if (excToThrow instanceof WebDriverException) {
+                    throw (WebDriverException) excToThrow;
+                } else {
+                    throw new WebDriverException(excToThrow);
                 }
             }
         }

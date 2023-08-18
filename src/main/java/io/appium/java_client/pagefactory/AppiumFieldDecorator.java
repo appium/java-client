@@ -30,9 +30,11 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
+import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -60,11 +62,13 @@ import static java.time.Duration.ofSeconds;
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
-    private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(WebElement.class,
-            RemoteWebElement.class);
+    private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(
+            WebElement.class,
+            RemoteWebElement.class
+    );
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
-    private final WebDriver webDriver;
-    private final DefaultFieldDecorator defaultElementFieldDecoracor;
+    private final WeakReference<WebDriver> webDriverReference;
+    private final DefaultFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
     private final String platform;
     private final String automation;
@@ -79,10 +83,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
-        this.webDriver = unpackWebDriverFromSearchContext(context);
-
-        if (this.webDriver instanceof HasCapabilities) {
-            Capabilities caps = ((HasCapabilities) this.webDriver).getCapabilities();
+        WebDriver wd = unpackWebDriverFromSearchContext(context);
+        this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
+        if (wd instanceof HasCapabilities) {
+            Capabilities caps = ((HasCapabilities) wd).getCapabilities();
             this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
             this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
         } else {
@@ -92,9 +96,52 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
         this.duration = duration;
 
-        defaultElementFieldDecoracor = new DefaultFieldDecorator(
-                new AppiumElementLocatorFactory(context, duration, new DefaultElementByBuilder(platform, automation))
-        ) {
+        defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
+                context, duration, new DefaultElementByBuilder(platform, automation)
+        ));
+
+        widgetLocatorFactory = new AppiumElementLocatorFactory(
+                context, duration, new WidgetByBuilder(platform, automation)
+        );
+    }
+
+    public AppiumFieldDecorator(SearchContext context) {
+        this(context, DEFAULT_WAITING_TIMEOUT);
+    }
+
+    /**
+     * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
+     *
+     * @param contextReference  reference to {@link SearchContext}
+     *                          It may be the instance of {@link WebDriver} or {@link WebElement} or
+     *                          {@link Widget} or some other user's extension/implementation.
+     * @param duration is a desired duration of the waiting for an element presence.
+     */
+    AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
+        WebDriver wd = unpackWebDriverFromSearchContext(contextReference.get());
+        this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
+        if (wd instanceof HasCapabilities) {
+            Capabilities caps = ((HasCapabilities) wd).getCapabilities();
+            this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
+            this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
+        } else {
+            this.platform = null;
+            this.automation = null;
+        }
+
+        this.duration = duration;
+
+        defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
+                contextReference, duration, new DefaultElementByBuilder(platform, automation)
+        ));
+
+        widgetLocatorFactory = new AppiumElementLocatorFactory(
+                contextReference, duration, new WidgetByBuilder(platform, automation)
+        );
+    }
+
+    private DefaultFieldDecorator createFieldDecorator(ElementLocatorFactory factory) {
+        return new DefaultFieldDecorator(factory) {
             @Override
             protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
                 return proxyForAnElement(locator);
@@ -126,14 +173,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
                         .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
             }
         };
-
-        widgetLocatorFactory = new AppiumElementLocatorFactory(
-                context, duration, new WidgetByBuilder(platform, automation)
-        );
-    }
-
-    public AppiumFieldDecorator(SearchContext context) {
-        this(context, DEFAULT_WAITING_TIMEOUT);
     }
 
     /**
@@ -144,7 +183,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @return a field value or null.
      */
     public Object decorate(ClassLoader ignored, Field field) {
-        Object result = defaultElementFieldDecoracor.decorate(ignored, field);
+        Object result = defaultElementFieldDecorator.decorate(ignored, field);
         return result == null ? decorateWidget(field) : result;
     }
 
@@ -191,7 +230,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         if (isAlist) {
             return getEnhancedProxy(
                     ArrayList.class,
-                    new WidgetListInterceptor(locator, webDriver, map, widgetType, duration)
+                    new WidgetListInterceptor(locator, webDriverReference, map, widgetType, duration)
             );
         }
 
@@ -200,12 +239,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 widgetType,
                 new Class[]{constructor.getParameterTypes()[0]},
                 new Object[]{proxyForAnElement(locator)},
-                new WidgetInterceptor(locator, webDriver, null, map, duration)
+                new WidgetInterceptor(locator, webDriverReference, null, map, duration)
         );
     }
 
     private WebElement proxyForAnElement(ElementLocator locator) {
-        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriver);
+        ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriverReference);
         return getEnhancedProxy(RemoteWebElement.class, elementInterceptor);
     }
 }

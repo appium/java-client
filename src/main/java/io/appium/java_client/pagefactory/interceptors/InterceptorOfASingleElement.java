@@ -22,22 +22,32 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
+import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
     protected final ElementLocator locator;
-    protected final WebDriver driver;
+    private final WeakReference<WebDriver> driverReference;
 
-    public InterceptorOfASingleElement(ElementLocator locator, WebDriver driver) {
+    public InterceptorOfASingleElement(
+            @Nullable
+            ElementLocator locator,
+            WeakReference<WebDriver> driverReference
+    ) {
         this.locator = locator;
-        this.driver = driver;
+        this.driverReference = driverReference;
     }
 
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
+        if (locator == null) {
+            return original.call();
+        }
+
         if (method.getName().equals("toString") && args.length == 0) {
             return locator.toString();
         }
@@ -48,7 +58,7 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
 
         if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass())
                 && method.getName().equals("getWrappedDriver")) {
-            return driver;
+            return driverReference.get();
         }
 
         WebElement realElement = locator.findElement();
