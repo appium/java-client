@@ -63,7 +63,7 @@ jobs:
 
     - name: Install Appium
       if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios'
-      run: npm install -g appium@next
+      run: npm install --location=global appium
 
     - name: Install UIA2 driver
       if: matrix.e2e-tests == 'android'
