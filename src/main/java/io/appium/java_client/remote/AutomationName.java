@@ -34,6 +34,8 @@ public interface AutomationName {
     String SAFARI = "Safari";
     // https://github.com/appium/appium-geckodriver
     String GECKO = "Gecko";
+    // https://github.com/appium/appium-chromium-driver
+    String CHROMIUM = "Chromium";
 
     // Third-party drivers
     // https://github.com/YOU-i-Labs/appium-youiengine-driver
