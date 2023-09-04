@@ -59,7 +59,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.5.2') {
+    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.5.3') {
         exclude group: 'org.seleniumhq.selenium'
     }
     testImplementation platform(group: 'org.seleniumhq.selenium', name: 'selenium-bom', version: '4.11.0')
