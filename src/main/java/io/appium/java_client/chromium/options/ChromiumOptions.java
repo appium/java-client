@@ -16,16 +16,8 @@
 
 package io.appium.java_client.chromium.options;
 
-import io.appium.java_client.mac.options.SupportsSystemPortOption;
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.options.BaseOptions;
-import io.appium.java_client.remote.options.SupportsAcceptInsecureCertsOption;
-import io.appium.java_client.remote.options.SupportsBrowserNameOption;
-import io.appium.java_client.remote.options.SupportsBrowserVersionOption;
-import io.appium.java_client.remote.options.SupportsPageLoadStrategyOption;
-import io.appium.java_client.remote.options.SupportsProxyOption;
-import io.appium.java_client.remote.options.SupportsSetWindowRectOption;
-import io.appium.java_client.remote.options.SupportsUnhandledPromptBehaviorOption;
+import io.appium.java_client.remote.options.*;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Map;
@@ -33,8 +25,18 @@ import java.util.Map;
 /**
  * <a href='https://github.com/appium/appium-chromium-driver#usage'>appium-chromium-driver usage section</a>
  */
-public class ChromiumOptions extends BaseOptions<ChromiumOptions>
+public class ChromiumOptions extends BaseOptions<ChromiumOptions> implements
+        SupportsBrowserNameOption<ChromiumOptions>,
+        SupportsChromeDrivePortOption<ChromiumOptions>,
+        SupportsExecutableOption<ChromiumOptions>,
+        SupportsExecutableDirOption<ChromiumOptions>,
+        SupportsVerboseOption<ChromiumOptions>,
+        SupportsLogPathOption<ChromiumOptions>,
+        SupportsBuildCheckOption<ChromiumOptions>,
+        SupportsAutodownloadOption<ChromiumOptions>,
+        SupportsUseSystemExecutableOption<ChromiumOptions>
 {
+
     public ChromiumOptions() {
         setCommonOptions();
     }
