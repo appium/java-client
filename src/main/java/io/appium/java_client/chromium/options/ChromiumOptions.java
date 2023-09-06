@@ -17,13 +17,16 @@
 package io.appium.java_client.chromium.options;
 
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.options.*;
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.SupportsBrowserNameOption;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Map;
 
 /**
- * <a href='https://github.com/appium/appium-chromium-driver#usage'>appium-chromium-driver usage section</a>
+ * <p>Options class that sets options for Chromium when testing websites.</p>
+ * <br>
+ * @see <a href='https://github.com/appium/appium-chromium-driver#usage'>appium-chromium-driver usage section</a>
  */
 public class ChromiumOptions extends BaseOptions<ChromiumOptions> implements
         SupportsBrowserNameOption<ChromiumOptions>,
@@ -34,9 +37,7 @@ public class ChromiumOptions extends BaseOptions<ChromiumOptions> implements
         SupportsLogPathOption<ChromiumOptions>,
         SupportsBuildCheckOption<ChromiumOptions>,
         SupportsAutodownloadOption<ChromiumOptions>,
-        SupportsUseSystemExecutableOption<ChromiumOptions>
-{
-
+        SupportsUseSystemExecutableOption<ChromiumOptions> {
     public ChromiumOptions() {
         setCommonOptions();
     }

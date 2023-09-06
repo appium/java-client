@@ -33,7 +33,7 @@ public interface SupportsVerboseOption<T extends BaseOptions<T>> extends
      * Unless the verbose preference has been user-set, the capability
      * is not present because the default value is false.
      *
-     * @param verbose flag for --verbose
+     * @param verbose flag for --verbose.
      * @return self instance for chaining.
      */
     default T setVerbose(boolean verbose) {
@@ -41,7 +41,7 @@ public interface SupportsVerboseOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get the verbose flag
+     * Get the verbose flag.
      *
      * @return verbose flag.
      */

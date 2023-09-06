@@ -22,8 +22,6 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
-import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
-
 public interface SupportsExecutableOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String EXECUTABLE = "executable";
