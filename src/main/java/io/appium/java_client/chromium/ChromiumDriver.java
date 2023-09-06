@@ -32,7 +32,7 @@ import java.net.URL;
  * <p>ChromiumDriver is an officially supported Appium driver created to automate Mobile browsers
  * and web views based on the Chromium engine. The driver uses W3CWebDriver protocol and is built
  * on top of chromium driver server.</p>
- * </br>
+ * <br>
  * <p>Read <a href='https://github.com/appium/appium-chromium-driver'>appium-chromium-driver</a>
  * for more details on how to configure and use it.</p>
  */
