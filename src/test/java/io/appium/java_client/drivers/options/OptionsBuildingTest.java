@@ -43,7 +43,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings("ConstantConditions")
 public class OptionsBuildingTest {
@@ -106,7 +109,7 @@ public class OptionsBuildingTest {
                                 "com.dep1:1.2.3",
                                 "com.dep2:1.2.3"
                         ))
-                );
+            );
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("CN", options.getAppLocale().orElse(null).getCountry().orElse(null));
         assertEquals(2, options.getEspressoBuildConfig().orElse(null)
@@ -170,7 +173,7 @@ public class OptionsBuildingTest {
                 .setWebkitWebrtc(new WebrtcData()
                         .withDisableIceCandidateFiltering(true)
                         .withDisableInsecureMediaCapture(true)
-                );
+            );
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertTrue(options.doesSafariUseSimulator().orElse(false));
         assertTrue(options.getWebkitWebrtc().orElse(null)
@@ -201,10 +204,10 @@ public class OptionsBuildingTest {
         assertTrue(options.isAutodownloadEnabled().orElse(null));
         assertTrue(options.isBuildCheckDisabled().orElse(null));
         assertEquals(5485, options.getChromeDriverPort().orElse(null));
-        assertNull(options.getExecutableDir().orElse(null));
+        assertFalse(options.getExecutableDir().isPresent());
         assertEquals("/absolute/executable/path", options.getExecutable().orElse(null));
         assertEquals("/wonderful/log/path", options.getLogPath().orElse(null));
-        assertNull(options.isUseSystemExecutable().orElse(null));
+        assertFalse(options.isUseSystemExecutable().isPresent());
         assertTrue(options.isVerbose().orElse(null));
     }
 }
