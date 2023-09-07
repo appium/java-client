@@ -33,8 +33,7 @@ public class KeyCodeTest extends BaseAndroidTest {
 
     @BeforeEach
     public void setUp() {
-        final Activity activity = new Activity(driver.getCurrentPackage(), ".text.KeyEventText");
-        driver.startActivity(activity);
+        startActivity(".text.KeyEventText");
     }
 
     @Test

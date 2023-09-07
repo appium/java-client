@@ -25,7 +25,7 @@ java {
 ext {
     seleniumVersion = project.property('selenium.version')
     appiumClientVersion = project.property('appiumClient.version')
-    slf4jVersion = '2.0.7'
+    slf4jVersion = '2.0.9'
 }
 
 dependencies {
@@ -59,10 +59,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.5.2') {
+    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.5.3') {
         exclude group: 'org.seleniumhq.selenium'
     }
-    testImplementation platform(group: 'org.seleniumhq.selenium', name: 'selenium-bom', version: '4.11.0')
+    testImplementation platform(group: 'org.seleniumhq.selenium', name: 'selenium-bom', version: '4.12.1')
     testImplementation 'org.seleniumhq.selenium:selenium-api'
     testImplementation 'org.seleniumhq.selenium:selenium-remote-driver'
     testImplementation 'org.seleniumhq.selenium:selenium-support'
