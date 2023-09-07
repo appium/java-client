@@ -23,6 +23,7 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.android.options.localization.AppLocale;
 import io.appium.java_client.android.options.server.EspressoBuildConfig;
 import io.appium.java_client.android.options.signing.KeystoreConfig;
+import io.appium.java_client.chromium.options.ChromiumOptions;
 import io.appium.java_client.gecko.options.GeckoOptions;
 import io.appium.java_client.gecko.options.Verbosity;
 import io.appium.java_client.ios.options.XCUITestOptions;
@@ -42,10 +43,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("ConstantConditions")
 public class OptionsBuildingTest {
@@ -108,11 +106,11 @@ public class OptionsBuildingTest {
                                 "com.dep1:1.2.3",
                                 "com.dep2:1.2.3"
                         ))
-            );
+                );
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("CN", options.getAppLocale().orElse(null).getCountry().orElse(null));
         assertEquals(2, options.getEspressoBuildConfig().orElse(null)
-                        .left().getAdditionalAppDependencies().orElse(null).size());
+                .left().getAdditionalAppDependencies().orElse(null).size());
         assertTrue(options.doesForceEspressoRebuild().orElse(false));
     }
 
@@ -154,7 +152,7 @@ public class OptionsBuildingTest {
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .setVerbosity(Verbosity.TRACE)
                 .setMozFirefoxOptions(ImmutableMap.of(
-                    "profile", "yolo"
+                        "profile", "yolo"
                 ));
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals(Verbosity.TRACE, options.getVerbosity().orElse(null));
@@ -172,12 +170,41 @@ public class OptionsBuildingTest {
                 .setWebkitWebrtc(new WebrtcData()
                         .withDisableIceCandidateFiltering(true)
                         .withDisableInsecureMediaCapture(true)
-            );
+                );
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertTrue(options.doesSafariUseSimulator().orElse(false));
         assertTrue(options.getWebkitWebrtc().orElse(null)
                 .doesDisableIceCandidateFiltering().orElse(false));
         assertTrue(options.getWebkitWebrtc().orElse(null)
                 .doesDisableInsecureMediaCapture().orElse(false));
+    }
+
+    @Test
+    public void canBuildChromiumOptions() {
+        // Given
+        // When
+        ChromiumOptions options = new ChromiumOptions();
+
+        options.setNewCommandTimeout(Duration.ofSeconds(10))
+                .setPlatformName(Platform.MAC.name())
+                .withBrowserName("Chrome")
+                .setAutodownloadEnabled(true)
+                .setBuildCheckDisabled(true)
+                .setChromeDriverPort(5485)
+                .setExecutable("/absolute/executable/path")
+                .setLogPath("/wonderful/log/path")
+                .setVerbose(true);
+
+        // Then
+        assertEquals(AutomationName.CHROMIUM, options.getAutomationName().orElse(null));
+        assertEquals("Chrome", options.getBrowserName());
+        assertTrue(options.isAutodownloadEnabled().orElse(null));
+        assertTrue(options.isBuildCheckDisabled().orElse(null));
+        assertEquals(5485, options.getChromeDriverPort().orElse(null));
+        assertNull(options.getExecutableDir().orElse(null));
+        assertEquals("/absolute/executable/path", options.getExecutable().orElse(null));
+        assertEquals("/wonderful/log/path", options.getLogPath().orElse(null));
+        assertNull(options.isUseSystemExecutable().orElse(null));
+        assertTrue(options.isVerbose().orElse(null));
     }
 }
