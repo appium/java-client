@@ -1,5 +1,6 @@
 package io.appium.java_client.android;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
@@ -25,12 +26,12 @@ public class AndroidTouchTest extends BaseAndroidTest {
 
     @BeforeEach
     public void setUp() {
-        driver.resetApp();
+        driver.executeScript("mobile: terminateApp", ImmutableMap.of("appId", APP_ID));
+        driver.executeScript("mobile: activateApp", ImmutableMap.of("appId", APP_ID));
     }
 
     @Test public void dragNDropByElementTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
-        driver.startActivity(activity);
+        startActivity(".view.DragAndDropDemo");
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -46,8 +47,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByElementAndDurationTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
-        driver.startActivity(activity);
+        startActivity(".view.DragAndDropDemo");
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -65,8 +65,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByCoordinatesTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
-        driver.startActivity(activity);
+        startActivity(".view.DragAndDropDemo");
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -85,8 +84,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void dragNDropByCoordinatesAndDurationTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.DragAndDropDemo");
-        driver.startActivity(activity);
+        startActivity(".view.DragAndDropDemo");
         WebElement dragDot1 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_1"));
         WebElement dragDot3 = driver.findElement(By.id("io.appium.android.apis:id/drag_dot_3"));
 
@@ -107,8 +105,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void pressByCoordinatesTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
-        driver.startActivity(activity);
+        startActivity(".view.Buttons1");
         Point point = driver.findElement(By.id("io.appium.android.apis:id/button_toggle")).getLocation();
         new TouchAction(driver)
                 .press(point(point.x + 20, point.y + 30))
@@ -119,8 +116,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void pressByElementTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
-        driver.startActivity(activity);
+        startActivity(".view.Buttons1");
         new TouchAction(driver)
                 .press(element(driver.findElement(By.id("io.appium.android.apis:id/button_toggle"))))
                 .waitAction(waitOptions(ofSeconds(1)))
@@ -130,8 +126,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void tapActionTestByElement() throws Exception {
-        Activity activity = new Activity("io.appium.android.apis", ".view.ChronometerDemo");
-        driver.startActivity(activity);
+        startActivity(".view.ChronometerDemo");
         WebElement chronometer = driver.findElement(By.id("io.appium.android.apis:id/chronometer"));
 
         TouchAction startStop = new TouchAction(driver)
@@ -148,8 +143,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void tapActionTestByCoordinates() throws Exception {
-        Activity activity = new Activity("io.appium.android.apis", ".view.ChronometerDemo");
-        driver.startActivity(activity);
+        startActivity(".view.ChronometerDemo");
         WebElement chronometer = driver.findElement(By.id("io.appium.android.apis:id/chronometer"));
 
         Point center1 = getCenter(driver.findElement(By.id("io.appium.android.apis:id/start")));
@@ -166,8 +160,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void horizontalSwipingTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
-        driver.startActivity(activity);
+        startActivity(".view.Gallery1");
 
         WebElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
         List<WebElement> images = gallery.findElements(AppiumBy.className("android.widget.ImageView"));
@@ -186,8 +179,7 @@ public class AndroidTouchTest extends BaseAndroidTest {
     }
 
     @Test public void multiTouchTest() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.Buttons1");
-        driver.startActivity(activity);
+        startActivity(".view.Buttons1");
         TouchAction press = new TouchAction(driver)
                 .press(element(driver.findElement(By.id("io.appium.android.apis:id/button_toggle"))))
                 .waitAction(waitOptions(ofSeconds(1)))

@@ -15,8 +15,7 @@ public class AndroidScreenRecordTest extends BaseAndroidTest {
 
     @BeforeEach
     public void setUp() {
-        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
-        driver.startActivity(activity);
+        startActivity(".ApiDemos");
     }
 
     @Test

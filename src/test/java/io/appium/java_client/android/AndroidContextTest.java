@@ -26,8 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AndroidContextTest extends BaseAndroidTest {
 
     @BeforeAll public static void beforeClass2() throws Exception {
-        Activity activity = new Activity("io.appium.android.apis", ".view.WebView1");
-        driver.startActivity(activity);
+        startActivity(".view.WebView1");
         Thread.sleep(20000);
     }
 

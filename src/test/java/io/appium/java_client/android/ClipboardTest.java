@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ClipboardTest extends BaseAndroidTest {
 
     @BeforeEach public void setUp() {
-        driver.resetApp();
+        driver.executeScript("mobile: terminateApp", ImmutableMap.of("appId", APP_ID));
+        driver.executeScript("mobile: activateApp", ImmutableMap.of("appId", APP_ID));
     }
 
     @Test public void verifySetAndGetClipboardText() {

@@ -18,7 +18,6 @@ package io.appium.java_client.ios;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
-import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -29,8 +28,6 @@ import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -85,14 +82,8 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void resetTest() {
-        driver.resetApp();
-    }
-
-    @Test public void hideKeyboardWithParametersTest() {
-        new WebDriverWait(driver, Duration.ofSeconds(30))
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("IntegerA")))
-                .click();
-        driver.hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
+        driver.executeScript("mobile: terminateApp", ImmutableMap.of("bundleId", BUNDLE_ID));
+        driver.executeScript("mobile: activateApp", ImmutableMap.of("bundleId", BUNDLE_ID));
     }
 
     @Disabled
@@ -170,7 +161,7 @@ public class IOSDriverTest extends AppIOSTest {
         driver.toggleTouchIDEnrollment(true);
         driver.performTouchID(true);
         driver.performTouchID(false);
-        //noinspection SimplifiableAssertion
+        //noinspection SimplifiableAssertion,EqualsWithItself
         assertEquals(true, true);
     }
 }

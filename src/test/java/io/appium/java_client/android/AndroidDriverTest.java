@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
@@ -148,8 +149,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void closeAppTest() {
-        driver.closeApp();
-        driver.launchApp();
+        driver.executeScript("mobile: terminateApp", ImmutableMap.of("appId", APP_ID));
+        driver.executeScript("mobile: activateApp", ImmutableMap.of("appId", APP_ID));
         assertEquals(".ApiDemos", driver.currentActivity());
     }
 
@@ -242,11 +243,6 @@ public class AndroidDriverTest extends BaseAndroidTest {
     }
 
     @Test
-    public void resetTest() {
-        driver.resetApp();
-    }
-
-    @Test
     public void deviceDetailsAndKeyboardTest() {
         assertFalse(driver.isKeyboardShown());
         assertNotNull(driver.getDisplayDensity());
@@ -255,7 +251,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void getSupportedPerformanceDataTypesTest() {
-        driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
+        startActivity(".ApiDemos");
 
         List<String> dataTypes = new ArrayList<>();
         dataTypes.add("cpuinfo");
@@ -270,13 +266,11 @@ public class AndroidDriverTest extends BaseAndroidTest {
         for (int i = 0; i < supportedPerformanceDataTypes.size(); ++i) {
             assertEquals(dataTypes.get(i), supportedPerformanceDataTypes.get(i));
         }
-
-
     }
 
     @Test
     public void getPerformanceDataTest() {
-        driver.startActivity(new Activity(APP_ID, ".ApiDemos"));
+        startActivity(".ApiDemos");
 
         List<String> supportedPerformanceDataTypes = driver.getSupportedPerformanceDataTypes();
 

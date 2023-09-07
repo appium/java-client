@@ -16,6 +16,7 @@
 
 package io.appium.java_client.android;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -58,5 +59,14 @@ public class BaseAndroidTest {
         if (service != null) {
             service.stop();
         }
+    }
+
+    public static void startActivity(String name) {
+        driver.executeScript(
+                "mobile: startActivity",
+                ImmutableMap.of(
+                        "component", String.format("%s/%s", APP_ID, name)
+                )
+        );
     }
 }
