@@ -1,5 +1,6 @@
 package io.appium.java_client.android;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -46,8 +47,7 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
                 .release();
 
     @Test public void horizontalSwipingWithSupplier() {
-        Activity activity = new Activity("io.appium.android.apis", ".view.Gallery1");
-        driver.startActivity(activity);
+        startActivity(".view.Gallery1");
         WebElement gallery = driver.findElement(By.id("io.appium.android.apis:id/gallery"));
         List<WebElement> images = gallery.findElements(AppiumBy.className("android.widget.ImageView"));
         int originalImageCount = images.size();
@@ -59,7 +59,8 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
     }
 
     @Test public void verticalSwipingWithSupplier() throws Exception {
-        driver.resetApp();
+        driver.executeScript("mobile: terminateApp", ImmutableMap.of("appId", APP_ID));
+        driver.executeScript("mobile: activateApp", ImmutableMap.of("appId", APP_ID));
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
 
         Point originalLocation = driver.findElement(AppiumBy.accessibilityId("Gallery")).getLocation();

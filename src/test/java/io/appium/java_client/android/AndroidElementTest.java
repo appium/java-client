@@ -30,8 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AndroidElementTest extends BaseAndroidTest {
 
     @BeforeEach public void setup() {
-        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
-        driver.startActivity(activity);
+        startActivity(".ApiDemos");
     }
 
 
@@ -57,8 +56,7 @@ public class AndroidElementTest extends BaseAndroidTest {
     @Test public void replaceValueTest() {
         String originalValue = "original value";
 
-        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
-        driver.startActivity(activity);
+        startActivity(".view.Controls1");
         WebElement editElement = driver
             .findElement(AppiumBy.androidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
         editElement.sendKeys(originalValue);
@@ -81,8 +79,7 @@ public class AndroidElementTest extends BaseAndroidTest {
     @Test public void setValueTest() {
         String value = "new value";
 
-        Activity activity = new Activity("io.appium.android.apis", ".view.Controls1");
-        driver.startActivity(activity);
+        startActivity(".view.Controls1");
         WebElement editElement = driver
             .findElement(AppiumBy.androidUIAutomator("resourceId(\"io.appium.android.apis:id/edit\")"));
         editElement.sendKeys(value);

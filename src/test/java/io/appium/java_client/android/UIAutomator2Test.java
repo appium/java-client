@@ -59,8 +59,7 @@ public class UIAutomator2Test extends BaseAndroidTest {
     @Test
     public void testToastMSGIsDisplayed() {
         final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        Activity activity = new Activity("io.appium.android.apis", ".view.PopupMenu1");
-        driver.startActivity(activity);
+        startActivity(".view.PopupMenu1");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(AppiumBy
                 .accessibilityId("Make a Popup!")));

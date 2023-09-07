@@ -30,8 +30,7 @@ public class AndroidSearchingTest extends BaseAndroidTest {
 
     @BeforeEach
     public void setup() {
-        Activity activity = new Activity("io.appium.android.apis", ".ApiDemos");
-        driver.startActivity(activity);
+        startActivity(".ApiDemos");
     }
 
     @Test  public void findByAccessibilityIdTest() {
