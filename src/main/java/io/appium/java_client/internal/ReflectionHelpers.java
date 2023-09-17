@@ -16,10 +16,12 @@
 
 package io.appium.java_client.internal;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebDriverException;
 
 import java.lang.reflect.Field;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReflectionHelpers {
 
     /**

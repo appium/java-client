@@ -51,7 +51,7 @@ public class EspressoBuildConfig extends BaseMapOptionData<EspressoBuildConfig> 
     private <R> Optional<R> getToolsVersionsFieldValue(String name) {
         Optional<Map<String, Object>> toolsVersionsOptional = getOptionValue(TOOLS_VERSION);
         //noinspection unchecked
-        return toolsVersionsOptional.map((v) -> (R) v.getOrDefault(name, null));
+        return toolsVersionsOptional.map(v -> (R) v.getOrDefault(name, null));
     }
 
     /**

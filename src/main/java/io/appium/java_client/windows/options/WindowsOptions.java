@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * https://github.com/appium/appium-windows-driver#usage
+ * <a href="https://github.com/appium/appium-windows-driver#usage">https://github.com/appium/appium-windows-driver#usage</a>
  */
 public class WindowsOptions extends BaseOptions<WindowsOptions> implements
         SupportsAppOption<WindowsOptions>,
@@ -65,7 +65,7 @@ public class WindowsOptions extends BaseOptions<WindowsOptions> implements
      * each key must be a valid PowerShell script or command to be
      * executed prior to the WinAppDriver session startup.
      * See
-     * https://github.com/appium/appium-windows-driver#power-shell-commands-execution
+     * <a href="https://github.com/appium/appium-windows-driver#power-shell-commands-execution">https://github.com/appium/appium-windows-driver#power-shell-commands-execution</a>
      * for more details.
      *
      * @param script E.g. {script: 'Get-Process outlook -ErrorAction SilentlyContinue'}.
@@ -83,7 +83,7 @@ public class WindowsOptions extends BaseOptions<WindowsOptions> implements
     public Optional<PowerShellData> getPrerun() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(PRERUN_OPTION))
-                .map((v) -> new PowerShellData((Map<String, Object>) v));
+                .map(v -> new PowerShellData((Map<String, Object>) v));
     }
 
     /**
@@ -91,7 +91,7 @@ public class WindowsOptions extends BaseOptions<WindowsOptions> implements
      * each key must be a valid PowerShell script or command to be
      * executed after an WinAppDriver session is finished.
      * See
-     * https://github.com/appium/appium-windows-driver#power-shell-commands-execution
+     * <a href="https://github.com/appium/appium-windows-driver#power-shell-commands-execution">https://github.com/appium/appium-windows-driver#power-shell-commands-execution</a>
      * for more details.
      *
      * @param script E.g. {script: 'Get-Process outlook -ErrorAction SilentlyContinue'}.
@@ -109,6 +109,6 @@ public class WindowsOptions extends BaseOptions<WindowsOptions> implements
     public Optional<PowerShellData> getPostrun() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(POSTRUN_OPTION))
-                .map((v) -> new PowerShellData((Map<String, Object>) v));
+                .map(v -> new PowerShellData((Map<String, Object>) v));
     }
 }

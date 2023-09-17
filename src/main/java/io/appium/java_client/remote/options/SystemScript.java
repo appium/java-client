@@ -20,10 +20,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class SystemScript<T extends SystemScript<T>> extends BaseMapOptionData<T> {
-    public SystemScript() {
+    protected SystemScript() {
     }
 
-    public SystemScript(Map<String, Object> options) {
+    protected SystemScript(Map<String, Object> options) {
         super(options);
     }
 

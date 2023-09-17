@@ -17,6 +17,8 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
@@ -28,7 +30,7 @@ import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConven
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class OverrideWidgetReader {
     private static final Class<? extends Widget> EMPTY = Widget.class;
     private static final String HTML = "html";

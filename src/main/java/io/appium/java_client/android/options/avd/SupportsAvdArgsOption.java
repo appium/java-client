@@ -56,7 +56,7 @@ public interface SupportsAvdArgsOption<T extends BaseOptions<T>> extends
     default Optional<Either<List<String>, String>> getAvdArgs() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(AVD_ARGS_OPTION))
-                .map((v) -> v instanceof List
+                .map(v -> v instanceof List
                         ? Either.left((List<String>) v)
                         : Either.right(String.valueOf(v))
                 );

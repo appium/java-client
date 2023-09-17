@@ -145,15 +145,15 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     private void ping(Duration timeout) throws UrlChecker.TimeoutException, MalformedURLException {
-        URL url = getUrl();
-        String host = url.getHost();
+        URL baseURL = getUrl();
+        String host = baseURL.getHost();
         // The operating system will block direct access to the universal broadcast IP address
         if (host.equals(BROADCAST_IP4_ADDRESS)) {
-            url = replaceHost(url, BROADCAST_IP4_ADDRESS, "127.0.0.1");
+            baseURL = replaceHost(baseURL, BROADCAST_IP4_ADDRESS, "127.0.0.1");
         } else if (host.equals(BROADCAST_IP6_ADDRESS)) {
-            url = replaceHost(url, BROADCAST_IP6_ADDRESS, "::1");
+            baseURL = replaceHost(baseURL, BROADCAST_IP6_ADDRESS, "::1");
         }
-        URL status = addSuffix(url, "/status");
+        URL status = addSuffix(baseURL, "/status");
         new UrlChecker().waitUntilAvailable(timeout.toMillis(), TimeUnit.MILLISECONDS, status);
     }
 
@@ -163,6 +163,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
      * @see #stop()
      */
+    @Override
     public void start() throws AppiumServerHasNotBeenStartedLocallyException {
         lock.lock();
         try {
@@ -182,7 +183,7 @@ public final class AppiumDriverLocalService extends DriverService {
             } catch (Exception e) {
                 final Optional<String> output = Optional.ofNullable(process)
                         .map(CommandLine::getStdOut)
-                        .filter((o) -> !StringUtils.isBlank(o));
+                        .filter(o -> !StringUtils.isBlank(o));
                 destroyProcess();
                 List<String> errorLines = new ArrayList<>();
                 errorLines.add("The local appium server has not been started");
@@ -197,7 +198,7 @@ public final class AppiumDriverLocalService extends DriverService {
                         String.format("Node.js executable path: %s", nodeJSExec.getAbsolutePath())
                 );
                 errorLines.add(String.format("Arguments: %s", nodeJSArgs));
-                output.ifPresent((o) -> errorLines.add(String.format("Output: %s", o)));
+                output.ifPresent(o -> errorLines.add(String.format("Output: %s", o)));
                 throw new AppiumServerHasNotBeenStartedLocallyException(
                         StringUtils.joinWith("\n", errorLines), e
                 );
@@ -302,8 +303,8 @@ public final class AppiumDriverLocalService extends DriverService {
      */
     public void addOutPutStreams(List<OutputStream> outputStreams) {
         checkNotNull(outputStreams, "outputStreams parameter is NULL!");
-        for (OutputStream stream : outputStreams) {
-            addOutPutStream(stream);
+        for (OutputStream outputStream : outputStreams) {
+            addOutPutStream(outputStream);
         }
     }
 

@@ -53,6 +53,6 @@ public interface SupportsWaitForIdleTimeoutOption<T extends BaseOptions<T>> exte
     default Optional<Duration> getWaitForIdleTimeout() {
         return Optional.ofNullable(getCapability(WAIT_FOR_IDLE_TIMEOUT_OPTION))
                 .map(CapabilityHelpers::toDouble)
-                .map((d) -> toDuration((long) (d * 1000.0)));
+                .map(d -> toDuration((long) (d * 1000.0)));
     }
 }

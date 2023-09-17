@@ -16,6 +16,8 @@
 
 package io.appium.java_client.proxy;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -29,6 +31,7 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Interceptor {
     private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
 

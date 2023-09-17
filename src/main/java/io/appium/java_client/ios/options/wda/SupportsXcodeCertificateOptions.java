@@ -51,6 +51,6 @@ public interface SupportsXcodeCertificateOptions<T extends BaseOptions<T>> exten
         String orgId = (String) getCapability(XCODE_ORG_ID_OPTION);
         String signingId = (String) getCapability(XCODE_SIGNING_ID_OPTION);
         return Optional.ofNullable(orgId)
-                .map((x) -> new XcodeCertificate(orgId, signingId));
+                .map(x -> new XcodeCertificate(orgId, signingId));
     }
 }

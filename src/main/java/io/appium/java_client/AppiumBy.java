@@ -16,7 +16,9 @@
 
 package io.appium.java_client;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.Validate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.Remotable;
@@ -25,6 +27,7 @@ import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AppiumBy extends By implements Remotable {
 
@@ -51,9 +54,9 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * About Android accessibility
-     * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
+     * <a href="https://developer.android.com/intl/ru/training/accessibility/accessible-app.html">https://developer.android.com/intl/ru/training/accessibility/accessible-app.html</a>
      * About iOS accessibility
-     * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
+     * <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/">https://developer.apple.com/library/ios/documentation/UIKit/Reference/</a>
      * UIAccessibilityIdentification_Protocol/index.html
      * @param accessibilityId id is a convenient UI automation accessibility Id.
      * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
@@ -74,7 +77,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * Refer to https://developer.android.com/training/testing/ui-automator
+     * Refer to <a href="https://developer.android.com/training/testing/ui-automator">https://developer.android.com/training/testing/ui-automator</a>
      * @param uiautomatorText is Android UIAutomator string
      * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
      */
@@ -252,6 +255,20 @@ public abstract class AppiumBy extends By implements Remotable {
         protected ByIosNsPredicate(String locatorString) {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AppiumBy appiumBy = (AppiumBy) o;
+        return Objects.equals(remoteParameters, appiumBy.remoteParameters) && Objects.equals(locatorName, appiumBy.locatorName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), remoteParameters, locatorName);
     }
 }
 

@@ -83,7 +83,7 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
     public Optional<AppleScriptData> getPrerun() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(PRERUN_OPTION))
-                .map((v) -> new AppleScriptData((Map<String, Object>) v));
+                .map(v -> new AppleScriptData((Map<String, Object>) v));
     }
 
     /**
@@ -108,6 +108,6 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
     public Optional<AppleScriptData> getPostrun() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(POSTRUN_OPTION))
-                .map((v) -> new AppleScriptData((Map<String, Object>) v));
+                .map(v -> new AppleScriptData((Map<String, Object>) v));
     }
 }

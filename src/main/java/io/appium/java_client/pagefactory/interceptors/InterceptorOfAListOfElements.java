@@ -29,7 +29,7 @@ import java.util.concurrent.Callable;
 public abstract class InterceptorOfAListOfElements implements MethodCallListener {
     protected final ElementLocator locator;
 
-    public InterceptorOfAListOfElements(@Nullable ElementLocator locator) {
+    protected InterceptorOfAListOfElements(@Nullable ElementLocator locator) {
         this.locator = locator;
     }
 

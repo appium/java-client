@@ -16,6 +16,9 @@
 
 package io.appium.java_client.pagefactory;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -43,6 +46,7 @@ public @interface WithTimeout {
      */
     ChronoUnit chronoUnit();
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     class DurationBuilder {
         static Duration build(WithTimeout withTimeout) {
             return Duration.of(withTimeout.time(), withTimeout.chronoUnit());

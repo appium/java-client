@@ -17,6 +17,8 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.remote.Response;
 
 import javax.annotation.Nullable;
@@ -26,6 +28,7 @@ import java.util.Map;
 
 import static org.openqa.selenium.remote.DriverCommand.EXECUTE_SCRIPT;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CommandExecutionHelper {
 
     @Nullable

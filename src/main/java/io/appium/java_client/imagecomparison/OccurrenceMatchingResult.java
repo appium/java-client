@@ -65,7 +65,7 @@ public class OccurrenceMatchingResult extends ComparisonResult {
         //noinspection unchecked
         List<Map<String, Object>> multiple = (List<Map<String, Object>>) getCommandResult().get(MULTIPLE);
         return multiple.stream()
-                .map((m) -> new OccurrenceMatchingResult(m, false))
+                .map(m -> new OccurrenceMatchingResult(m, false))
                 .collect(Collectors.toList());
     }
 }

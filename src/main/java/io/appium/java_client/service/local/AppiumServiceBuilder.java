@@ -81,9 +81,9 @@ public final class AppiumServiceBuilder
     private String ipAddress = BROADCAST_IP4_ADDRESS;
     private Capabilities capabilities;
     private boolean autoQuoteCapabilitiesOnWindows = false;
-    private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = (fullPath) -> String.format(
+    private static final Function<File, String> APPIUM_JS_NOT_EXIST_ERROR = fullPath -> String.format(
             "The main Appium script does not exist at '%s'", fullPath.getAbsolutePath());
-    private static final Function<File, String> NODE_JS_NOT_EXIST_ERROR = (fullPath) ->
+    private static final Function<File, String> NODE_JS_NOT_EXIST_ERROR = fullPath ->
             String.format("The main NodeJS executable does not exist at '%s'", fullPath.getAbsolutePath());
 
     private static final List<String> PATH_CAPABILITIES = ImmutableList.of(AndroidMobileCapabilityType.KEYSTORE_PATH,

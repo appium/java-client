@@ -75,7 +75,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
             Map args = ImmutableMap.builder()
                     .put("appPath", appPath)
                     .putAll(Optional.ofNullable(options).map(
-                            (opts) -> ImmutableMap.of("options", opts.build())
+                            opts -> ImmutableMap.of("options", opts.build())
                     ).orElseGet(ImmutableMap::of))
                     .build();
             CommandExecutionHelper.execute(
@@ -169,7 +169,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
             Map args = ImmutableMap.builder()
                     .put("bundleId", bundleId)
                     .putAll(Optional.ofNullable(options).map(
-                            (opts) -> ImmutableMap.of("options", opts.build())
+                            opts -> ImmutableMap.of("options", opts.build())
                     ).orElseGet(ImmutableMap::of))
                     .build();
             //noinspection RedundantCast
@@ -214,7 +214,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
             Map args = ImmutableMap.builder()
                     .put("bundleId", bundleId)
                     .putAll(Optional.ofNullable(options).map(
-                            (opts) -> ImmutableMap.of("options", opts.build())
+                            opts -> ImmutableMap.of("options", opts.build())
                     ).orElseGet(ImmutableMap::of))
                     .build();
             CommandExecutionHelper.execute(
@@ -290,7 +290,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
             Map args = ImmutableMap.builder()
                     .put("bundleId", bundleId)
                     .putAll(Optional.ofNullable(options).map(
-                            (opts) -> ImmutableMap.of("options", opts.build())
+                            opts -> ImmutableMap.of("options", opts.build())
                     ).orElseGet(ImmutableMap::of))
                     .build();
             //noinspection RedundantCast

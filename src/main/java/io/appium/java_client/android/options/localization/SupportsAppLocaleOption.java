@@ -51,6 +51,6 @@ public interface SupportsAppLocaleOption<T extends BaseOptions<T>> extends
     default Optional<AppLocale> getAppLocale() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(APP_LOCALE_OPTION))
-                .map((v) -> new AppLocale((Map<String, Object>) v));
+                .map(v -> new AppLocale((Map<String, Object>) v));
     }
 }

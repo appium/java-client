@@ -31,7 +31,7 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
     protected final ElementLocator locator;
     private final WeakReference<WebDriver> driverReference;
 
-    public InterceptorOfASingleElement(
+    protected InterceptorOfASingleElement(
             @Nullable
             ElementLocator locator,
             WeakReference<WebDriver> driverReference

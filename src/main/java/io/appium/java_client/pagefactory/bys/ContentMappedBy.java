@@ -23,6 +23,7 @@ import org.openqa.selenium.WebElement;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
@@ -56,5 +57,19 @@ public class ContentMappedBy extends By {
 
     @Override public String toString() {
         return map.get(currentContent).toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ContentMappedBy that = (ContentMappedBy) o;
+        return Objects.equals(map, that.map) && currentContent == that.currentContent;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), map, currentContent);
     }
 }

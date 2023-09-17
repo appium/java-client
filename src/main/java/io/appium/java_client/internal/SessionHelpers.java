@@ -16,7 +16,9 @@
 
 package io.appium.java_client.internal;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriverException;
 
@@ -25,6 +27,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SessionHelpers {
     private static final Pattern SESSION = Pattern.compile("/session/([^/]+)");
 

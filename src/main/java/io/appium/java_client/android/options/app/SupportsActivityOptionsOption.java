@@ -48,6 +48,6 @@ public interface SupportsActivityOptionsOption<T extends BaseOptions<T>> extends
     default Optional<ActivityOptions> getActivityOptions() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(ACTIVITY_OPTIONS_OPTION))
-                .map((v) -> new ActivityOptions((Map<String, Object>) v));
+                .map(v -> new ActivityOptions((Map<String, Object>) v));
     }
 }

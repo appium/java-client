@@ -61,7 +61,7 @@ public interface SupportsEspressoBuildConfigOption<T extends BaseOptions<T>> ext
     default Optional<Either<EspressoBuildConfig, String>> getEspressoBuildConfig() {
         return Optional.ofNullable(getCapability(ESPRESSO_BUILD_CONFIG_OPTION))
                 .map(String::valueOf)
-                .map((v) -> v.trim().startsWith("{")
+                .map(v -> v.trim().startsWith("{")
                         ? Either.left(new EspressoBuildConfig(v))
                         : Either.right(v)
                 );

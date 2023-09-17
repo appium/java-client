@@ -175,7 +175,7 @@ public class ScreenshotState {
      * @throws ScreenshotComparisonError   if {@link #remember()} method has not been invoked yet
      */
     public ScreenshotState verifyChanged(Duration timeout, double minScore) {
-        return checkState((x) -> x < minScore, timeout);
+        return checkState(x -> x < minScore, timeout);
     }
 
     /**
@@ -190,7 +190,7 @@ public class ScreenshotState {
      * @throws ScreenshotComparisonError   if {@link #remember()} method has not been invoked yet
      */
     public ScreenshotState verifyNotChanged(Duration timeout, double minScore) {
-        return checkState((x) -> x >= minScore, timeout);
+        return checkState(x -> x >= minScore, timeout);
     }
 
     /**
