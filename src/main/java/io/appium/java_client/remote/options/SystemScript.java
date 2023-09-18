@@ -23,7 +23,7 @@ public abstract class SystemScript<T extends SystemScript<T>> extends BaseMapOpt
     protected SystemScript() {
     }
 
-    protected SystemScript(Map<String, Object> options) {
+    public SystemScript(Map<String, Object> options) {
         super(options);
     }
 

@@ -34,7 +34,7 @@ public abstract class ComparisonResult {
 
     @Getter(AccessLevel.PROTECTED) private final Map<String, Object> commandResult;
 
-    protected ComparisonResult(Map<String, Object> commandResult) {
+    public ComparisonResult(Map<String, Object> commandResult) {
         this.commandResult = commandResult;
     }
 
