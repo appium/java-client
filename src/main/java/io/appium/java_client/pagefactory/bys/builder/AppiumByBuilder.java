@@ -39,7 +39,7 @@ import static io.appium.java_client.remote.MobilePlatform.TVOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 /**
- * It is the basic handler of Appium-specific page object annotations
+ * It is the basic handler of Appium-specific page object annotations.
  * About the Page Object design pattern please read these documents:
  * - <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
  * - <a href="https://code.google.com/p/selenium/wiki/PageFactory">https://code.google.com/p/selenium/wiki/PageFactory</a>
@@ -93,7 +93,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                         Object strategyParameter = method.invoke(mobileBy);
                         return strategyParameter != null && !String.valueOf(strategyParameter).isEmpty();
                     } catch (IllegalAccessException | IllegalArgumentException
-                            | InvocationTargetException e) {
+                             | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
                 })
@@ -125,7 +125,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
             Object[] values = new Object[]{byArray};
             return c.newInstance(values);
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException
-                | IllegalAccessException e) {
+                 | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

@@ -64,7 +64,8 @@ public interface LocksDevice extends ExecutesMethod, CanRememberExtensionPresenc
         final String extName = "mobile: unlock";
         try {
             //noinspection ConstantConditions
-            if (!Boolean.parseBoolean(CommandExecutionHelper.executeScript(assertExtensionExists(extName), "mobile: isLocked"))) {
+            if (!Boolean.parseBoolean(CommandExecutionHelper.executeScript(assertExtensionExists(extName),
+                    "mobile: isLocked"))) {
                 return;
             }
             CommandExecutionHelper.executeScript(this, extName);

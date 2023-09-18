@@ -30,6 +30,7 @@ import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConven
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class OverrideWidgetReader {
     private static final Class<? extends Widget> EMPTY = Widget.class;
@@ -40,15 +41,15 @@ class OverrideWidgetReader {
 
     @SuppressWarnings("unchecked")
     private static Class<? extends Widget> getConvenientClass(Class<? extends Widget> declaredClass,
-        AnnotatedElement annotatedElement, String method) {
+                                                              AnnotatedElement annotatedElement, String method) {
         Class<? extends Widget> convenientClass;
         OverrideWidget overrideWidget = annotatedElement.getAnnotation(OverrideWidget.class);
 
         try {
             if (overrideWidget == null || (convenientClass =
-                (Class<? extends Widget>) OverrideWidget.class
-                    .getDeclaredMethod(method).invoke(overrideWidget))
-                .equals(EMPTY)) {
+                    (Class<? extends Widget>) OverrideWidget.class
+                            .getDeclaredMethod(method).invoke(overrideWidget))
+                    .equals(EMPTY)) {
                 convenientClass = declaredClass;
             }
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -57,9 +58,9 @@ class OverrideWidgetReader {
 
         if (!declaredClass.isAssignableFrom(convenientClass)) {
             throw new IllegalArgumentException(
-                new InstantiationException(declaredClass.getName()
-                    + " is not assignable from "
-                    + convenientClass.getName()));
+                    new InstantiationException(declaredClass.getName()
+                            + " is not assignable from "
+                            + convenientClass.getName()));
         }
 
         return convenientClass;
@@ -67,12 +68,12 @@ class OverrideWidgetReader {
     }
 
     static Class<? extends Widget> getDefaultOrHTMLWidgetClass(
-        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement) {
+            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement) {
         return getConvenientClass(declaredClass, annotatedElement, HTML);
     }
 
     static Class<? extends Widget> getMobileNativeWidgetClass(Class<? extends Widget> declaredClass,
-        AnnotatedElement annotatedElement, String platform) {
+                                                              AnnotatedElement annotatedElement, String platform) {
         String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
 
         if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
@@ -91,26 +92,26 @@ class OverrideWidgetReader {
     }
 
     private static Constructor<? extends Widget> getConstructorOfADefaultOrHTMLWidget(
-        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement) {
+            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement) {
         Class<? extends Widget> clazz =
-            getDefaultOrHTMLWidgetClass(declaredClass, annotatedElement);
+                getDefaultOrHTMLWidgetClass(declaredClass, annotatedElement);
         return findConvenientConstructor(clazz);
     }
 
     private static Constructor<? extends Widget> getConstructorOfAMobileNativeWidgets(
-        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
+            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
         Class<? extends Widget> clazz =
-            getMobileNativeWidgetClass(declaredClass, annotatedElement, platform);
+                getMobileNativeWidgetClass(declaredClass, annotatedElement, platform);
         return findConvenientConstructor(clazz);
     }
 
     protected static Map<ContentType, Constructor<? extends Widget>> read(
-        Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
+            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
         Map<ContentType, Constructor<? extends Widget>> result = new HashMap<>();
         result.put(ContentType.HTML_OR_DEFAULT,
-            getConstructorOfADefaultOrHTMLWidget(declaredClass, annotatedElement));
+                getConstructorOfADefaultOrHTMLWidget(declaredClass, annotatedElement));
         result.put(ContentType.NATIVE_MOBILE_SPECIFIC,
-            getConstructorOfAMobileNativeWidgets(declaredClass, annotatedElement, platform));
+                getConstructorOfAMobileNativeWidgets(declaredClass, annotatedElement, platform));
         return result;
     }
 }

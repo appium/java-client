@@ -27,6 +27,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CapabilityHelpers {
     public static final String APPIUM_PREFIX = "appium:";

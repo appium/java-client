@@ -1,18 +1,18 @@
 /*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* See the NOTICE file distributed with this work for additional
-* information regarding copyright ownership.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.appium.java_client.pagefactory.bys;
 
@@ -38,6 +38,7 @@ public class ContentMappedBy extends By {
 
     /**
      * This method sets required content type for the further searching.
+     *
      * @param type required content type {@link ContentType}
      * @return self-reference.
      */
@@ -47,23 +48,32 @@ public class ContentMappedBy extends By {
         return this;
     }
 
-    @Override public WebElement findElement(SearchContext context) {
+    @Override
+    public WebElement findElement(SearchContext context) {
         return context.findElement(map.get(currentContent));
     }
 
-    @Override public List<WebElement> findElements(SearchContext context) {
+    @Override
+    public List<WebElement> findElements(SearchContext context) {
         return context.findElements(map.get(currentContent));
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return map.get(currentContent).toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         ContentMappedBy that = (ContentMappedBy) o;
         return Objects.equals(map, that.map) && currentContent == that.currentContent;
     }
