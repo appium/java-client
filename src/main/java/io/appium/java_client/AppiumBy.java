@@ -166,9 +166,9 @@ public abstract class AppiumBy extends By implements Remotable {
      *                    as for OpenCV library.
      * @return an instance of {@link ByImage}
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
-     * The documentation on Image Comparison Features</a>
+     * The documentation on Image Comparison Features</a>.
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tuning</a>
+     * The settings available for lookup fine-tuning</a>.
      * @since Appium 1.8.2
      */
     public static By image(final String b64Template) {
@@ -178,9 +178,9 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * This locator strategy is available in XCUITest Driver mode.
      *
-     * @param iOSClassChainString is a valid class chain locator string.
-     *See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
-     * the documentation</a> for more details
+     * @param iOSClassChainString is a valid class chain locator string
+     *                            See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
+     *                            the documentation</a> for more details.
      * @return an instance of {@link AppiumBy.ByIosClassChain}
      */
     public static By iOSClassChain(final String iOSClassChainString) {
