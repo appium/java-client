@@ -29,8 +29,7 @@ import java.util.Objects;
 
 public abstract class AppiumBy extends By implements Remotable {
 
-    @Getter
-    private final Parameters remoteParameters;
+    @Getter private final Parameters remoteParameters;
     private final String locatorName;
 
     protected AppiumBy(String selector, String locatorString, String locatorName) {
@@ -39,28 +38,24 @@ public abstract class AppiumBy extends By implements Remotable {
         this.locatorName = locatorName;
     }
 
-    @Override
-    public List<WebElement> findElements(SearchContext context) {
+    @Override public List<WebElement> findElements(SearchContext context) {
         return context.findElements(this);
     }
 
-    @Override
-    public WebElement findElement(SearchContext context) {
+    @Override public WebElement findElement(SearchContext context) {
         return context.findElement(this);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return String.format("%s.%s: %s", AppiumBy.class.getSimpleName(), locatorName, remoteParameters.value());
     }
 
     /**
      * About Android accessibility
-     * <a href="https://developer.android.com/intl/ru/training/accessibility/accessible-app.html">https://developer.android.com/intl/ru/training/accessibility/accessible-app.html</a>
+     * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
      * About iOS accessibility
-     * <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/">https://developer.apple.com/library/ios/documentation/UIKit/Reference/</a>
+     * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
      * UIAccessibilityIdentification_Protocol/index.html
-     *
      * @param accessibilityId id is a convenient UI automation accessibility Id.
      * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
      */
@@ -70,10 +65,9 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     *
      * @param dataMatcherString is a valid json string detailing hamcrest matcher for Espresso onData().
-     *                          See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
-     *                          the documentation</a> for more details.
+     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                            the documentation</a> for more details
      * @return an instance of {@link AppiumBy.ByAndroidDataMatcher}
      */
     public static By androidDataMatcher(final String dataMatcherString) {
@@ -81,8 +75,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * Refer to <a href="https://developer.android.com/training/testing/ui-automator">https://developer.android.com/training/testing/ui-automator</a>
-     *
+     * Refer to https://developer.android.com/training/testing/ui-automator
      * @param uiautomatorText is Android UIAutomator string
      * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
      */
@@ -92,10 +85,9 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
-     *
      * @param viewMatcherString is a valid json string detailing hamcrest matcher for Espresso onView().
-     *                          See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
-     *                          the documentation</a> for more details
+     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                            the documentation</a> for more details
      * @return an instance of {@link AppiumBy.ByAndroidViewMatcher}
      */
     public static By androidViewMatcher(final String viewMatcherString) {
@@ -104,10 +96,9 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available in Espresso Driver mode.
-     *
+     * @since Appium 1.8.2 beta
      * @param tag is a view tag string
      * @return an instance of {@link ByAndroidViewTag}
-     * @since Appium 1.8.2 beta
      */
     public static By androidViewTag(final String tag) {
         return new ByAndroidViewTag(tag);
@@ -116,7 +107,6 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * For IOS it is the full name of the XCUI element and begins with XCUIElementType.
      * For Android it is the full name of the UIAutomator2 class (e.g.: android.widget.TextView)
-     *
      * @param selector the class name of the element
      * @return an instance of {@link ByClassName}
      */
@@ -127,7 +117,6 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * For IOS the element name.
      * For Android it is the resource identifier.
-     *
      * @param selector element id
      * @return an instance of {@link ById}
      */
@@ -138,7 +127,6 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * For IOS the element name.
      * For Android it is the resource identifier.
-     *
      * @param selector element id
      * @return an instance of {@link ByName}
      */
@@ -162,14 +150,14 @@ public abstract class AppiumBy extends By implements Remotable {
      * This locator strategy is available only if OpenCV libraries and
      * Node.js bindings are installed on the server machine.
      *
+     * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
+     * The documentation on Image Comparison Features</a>
+     * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
+     * The settings available for lookup fine-tuning</a>
+     * @since Appium 1.8.2
      * @param b64Template base64-encoded template image string. Supported image formats are the same
      *                    as for OpenCV library.
      * @return an instance of {@link ByImage}
-     * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
-     * The documentation on Image Comparison Features</a>.
-     * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tuning</a>.
-     * @since Appium 1.8.2
      */
     public static By image(final String b64Template) {
         return new ByImage(b64Template);
@@ -177,10 +165,9 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
-     *
-     * @param iOSClassChainString is a valid class chain locator string
+     * @param iOSClassChainString is a valid class chain locator string.
      *                            See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
-     *                            the documentation</a> for more details.
+     *                            the documentation</a> for more details
      * @return an instance of {@link AppiumBy.ByIosClassChain}
      */
     public static By iOSClassChain(final String iOSClassChainString) {
@@ -189,7 +176,6 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
-     *
      * @param iOSNsPredicateString is an iOS NsPredicate String
      * @return an instance of {@link AppiumBy.ByIosNsPredicate}
      */
@@ -259,8 +245,7 @@ public abstract class AppiumBy extends By implements Remotable {
 
     public static class ByIosClassChain extends AppiumBy implements Serializable {
         protected ByIosClassChain(String locatorString) {
-            super("-ios class chain", locatorString,
-                    "iOSClassChain");
+            super("-ios class chain", locatorString, "iOSClassChain");
         }
     }
 
