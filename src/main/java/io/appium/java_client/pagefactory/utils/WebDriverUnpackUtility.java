@@ -39,15 +39,16 @@ public final class WebDriverUnpackUtility {
 
     /**
      * This method extract an instance of {@link WebDriver} from the given {@link SearchContext}.
-     *
      * @param searchContext is an instance of {@link SearchContext}. It may be the instance of
-     *                      {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
-     *                      user's extension/implementation.
-     *                      Note: if you want to use your own implementation then it should implement
-     *                      {@link WrapsDriver} or {@link WrapsElement}
+     *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
+     *                user's extension/implementation.
+     *                Note: if you want to use your own implementation then it should implement
+     *                {@link WrapsDriver} or {@link WrapsElement}
      * @return the instance of {@link WebDriver}.
-     * Note: if the given {@link SearchContext} is not {@link WebDriver} and it doesn't implement {@link WrapsDriver}
-     * or {@link WrapsElement} then this method returns null.
+     *         Note: if the given {@link SearchContext} is not
+     *         {@link WebDriver} and it doesn't implement
+     *         {@link WrapsDriver} or {@link WrapsElement} then this method returns null.
+     *
      */
     @Nullable
     public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
@@ -71,15 +72,16 @@ public final class WebDriverUnpackUtility {
     /**
      * Detects content type by the provided search {@code context}.
      *
-     * @param context is an instance of {@link SearchContext}. It may be the instance of {@link WebDriver} or
-     *                {@link org.openqa.selenium.WebElement} or some other user's extension/implementation.
-     *                Note: if you want to use your own implementation then it should implement {@link ContextAware} or
-     *                {@link WrapsDriver} or {@link HasBrowserCheck}
+     * @param context is an instance of {@link SearchContext}. It may be the instance of
+     *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
+     *                user's extension/implementation.
+     *                Note: if you want to use your own implementation then it should
+     *                implement {@link ContextAware} or {@link WrapsDriver} or {@link HasBrowserCheck}
      * @return current content type. It depends on current context. If current context is
-     * NATIVE_APP it will return {@link ContentType#NATIVE_MOBILE_SPECIFIC}.
-     * {@link ContentType#HTML_OR_DEFAULT} will be returned if the current context is WEB_VIEW.
-     * {@link ContentType#HTML_OR_DEFAULT} also will be returned if the given
-     * {@link SearchContext} instance doesn't implement {@link ContextAware} and {@link WrapsDriver}
+     *                NATIVE_APP it will return {@link ContentType#NATIVE_MOBILE_SPECIFIC}.
+     *                {@link ContentType#HTML_OR_DEFAULT} will be returned if the current context is WEB_VIEW.
+     *                {@link ContentType#HTML_OR_DEFAULT} also will be returned if the given
+     *                {@link SearchContext} instance doesn't implement {@link ContextAware} and {@link WrapsDriver}
      */
     public static ContentType getCurrentContentType(SearchContext context) {
         return ofNullable(unpackWebDriverFromSearchContext(context)).map(driver -> {
