@@ -267,7 +267,8 @@ public abstract class AppiumBy extends By implements Remotable {
             return false;
         }
         AppiumBy appiumBy = (AppiumBy) o;
-        return Objects.equals(remoteParameters, appiumBy.remoteParameters) && Objects.equals(locatorName, appiumBy.locatorName);
+        return Objects.equals(remoteParameters, appiumBy.remoteParameters) &&
+                Objects.equals(locatorName, appiumBy.locatorName);
     }
 
     @Override
