@@ -44,7 +44,7 @@ dependencies {
             prefer "${seleniumVersion}"
         }
     }
-    implementation ('org.seleniumhq.selenium:selenium-support') {
+    api ('org.seleniumhq.selenium:selenium-support') {
         version {
             strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
