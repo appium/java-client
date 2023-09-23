@@ -48,6 +48,6 @@ public interface SupportsIntentOptionsOption<T extends BaseOptions<T>> extends
     default Optional<IntentOptions> getIntentOptions() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(INTENT_OPTIONS_OPTION))
-                .map((v) -> new IntentOptions((Map<String, Object>) v));
+                .map(v -> new IntentOptions((Map<String, Object>) v));
     }
 }

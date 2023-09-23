@@ -135,7 +135,7 @@ enum Strategies {
     }
 
     static List<String> strategiesNames() {
-        return Stream.of(values()).map((s) -> s.valueName).collect(Collectors.toList());
+        return Stream.of(values()).map(s -> s.valueName).collect(Collectors.toList());
     }
 
     private static String getValue(Annotation annotation, Strategies strategy) {

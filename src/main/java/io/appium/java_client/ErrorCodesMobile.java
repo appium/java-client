@@ -43,6 +43,7 @@ public class ErrorCodesMobile extends ErrorCodes {
     * @param statusCode The status code to convert.
     * @return The exception type that corresponds to the provided status
     */
+    @Override
     public Class<? extends WebDriverException> getExceptionType(int statusCode) {
         switch (statusCode) {
             case NO_SUCH_CONTEXT:
@@ -60,6 +61,7 @@ public class ErrorCodesMobile extends ErrorCodes {
      * @return The exception type that corresponds to the provided error message or {@code null} if
      *     there are no matching mobile exceptions.
      */
+    @Override
     public Class<? extends WebDriverException> getExceptionType(String message) {
         for (Map.Entry<Integer, String> entry : statusToState.entrySet()) {
             if (message.contains(entry.getValue())) {
@@ -75,6 +77,7 @@ public class ErrorCodesMobile extends ErrorCodes {
     * @param thrown The thrown error.
     * @return The corresponding status code for the given thrown error.
     */
+    @Override
     public int toStatusCode(Throwable thrown) {
         if (thrown instanceof NoSuchContextException) {
             return NO_SUCH_CONTEXT;

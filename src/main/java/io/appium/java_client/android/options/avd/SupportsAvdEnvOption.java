@@ -45,6 +45,6 @@ public interface SupportsAvdEnvOption<T extends BaseOptions<T>> extends
     default Optional<Map<String, Object>> getAvdEnv() {
         //noinspection unchecked
         return Optional.ofNullable(getCapability(AVD_ENV_OPTION))
-                .map((v) -> (Map<String, Object>) v);
+                .map(v -> (Map<String, Object>) v);
     }
 }

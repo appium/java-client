@@ -43,7 +43,7 @@ import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {
 
-    private static final String exceptionMessageIfElementNotFound = "Can't locate an element by this strategy: %s";
+    private static final String EXCEPTION_MESSAGE_IF_ELEMENT_NOT_FOUND = "Can't locate an element by this strategy: %s";
 
     private final boolean shouldCache;
     private final By by;
@@ -163,7 +163,7 @@ class AppiumElementLocator implements CacheableLocator {
             }
             return result;
         } catch (TimeoutException | StaleElementReferenceException e) {
-            throw new NoSuchElementException(format(exceptionMessageIfElementNotFound, bySearching.toString()), e);
+            throw new NoSuchElementException(format(EXCEPTION_MESSAGE_IF_ELEMENT_NOT_FOUND, bySearching.toString()), e);
         }
     }
 

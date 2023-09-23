@@ -33,11 +33,11 @@ public interface SupportsBuildCheckOption<T extends BaseOptions<T>> extends
      * Unless disable build check preference has been user-set, the capability
      * is not present because the default value is false.
      *
-     * @param BuildCheckDisabled flag for --disable-build-check.
+     * @param buildCheckDisabled flag for --disable-build-check.
      * @return self instance for chaining.
      */
-    default T setBuildCheckDisabled(boolean BuildCheckDisabled) {
-        return amend(DISABLE_BUILD_CHECK, BuildCheckDisabled);
+    default T setBuildCheckDisabled(boolean buildCheckDisabled) {
+        return amend(DISABLE_BUILD_CHECK, buildCheckDisabled);
     }
 
     /**

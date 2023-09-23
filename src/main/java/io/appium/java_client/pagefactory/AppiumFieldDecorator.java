@@ -170,7 +170,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
                         ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
                         : Collections.emptyList();
                 return availableElementClasses.stream()
-                        .anyMatch((webElClass) -> webElClass.equals(listType) || bounds.contains(webElClass));
+                        .anyMatch(webElClass -> webElClass.equals(listType) || bounds.contains(webElClass));
             }
         };
     }

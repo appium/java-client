@@ -54,6 +54,6 @@ public interface SupportsWdaEventloopIdleDelayOption<T extends BaseOptions<T>> e
     default Optional<Duration> getWdaEventloopIdleDelay() {
         return Optional.ofNullable(getCapability(WDA_EVENTLOOP_IDLE_DELAY_OPTION))
                 .map(CapabilityHelpers::toDouble)
-                .map((d) -> toDuration((long) (d * 1000.0)));
+                .map(d -> toDuration((long) (d * 1000.0)));
     }
 }

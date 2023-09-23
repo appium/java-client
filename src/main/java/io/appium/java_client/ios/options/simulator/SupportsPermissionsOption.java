@@ -44,6 +44,6 @@ public interface SupportsPermissionsOption<T extends BaseOptions<T>> extends
      */
     default Optional<Permissions> getPermissions() {
         return Optional.ofNullable(getCapability(PERMISSIONS_OPTION))
-                .map((v) -> new Permissions(String.valueOf(v)));
+                .map(v -> new Permissions(String.valueOf(v)));
     }
 }

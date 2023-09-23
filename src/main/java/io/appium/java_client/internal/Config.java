@@ -58,7 +58,7 @@ public class Config {
      * @throws ClassCastException if the retrieved value cannot be cast to `valueType` type
      */
     public <T> Optional<T> getOptionalValue(String key, Class<T> valueType) {
-        final Properties cachedProps = cache.computeIfAbsent(configName, (k) -> {
+        final Properties cachedProps = cache.computeIfAbsent(configName, k -> {
             try (InputStream configFileStream = getClass().getClassLoader().getResourceAsStream(configName)) {
                 final Properties p = new Properties();
                 p.load(configFileStream);

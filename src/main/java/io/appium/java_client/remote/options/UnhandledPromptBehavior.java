@@ -38,7 +38,7 @@ public enum UnhandledPromptBehavior {
      */
     public static UnhandledPromptBehavior fromString(String value) {
         return Arrays.stream(values())
-                .filter((v) -> v.toString().equals(value))
+                .filter(v -> v.toString().equals(value))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("Unhandled prompt behavior '%s' is not supported. "

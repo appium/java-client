@@ -47,6 +47,6 @@ public interface SupportsSimulatorPasteboardAutomaticSyncOption<T extends BaseOp
      */
     default Optional<PasteboardSyncState> getSimulatorPasteboardAutomaticSync() {
         return Optional.ofNullable(getCapability(SIMULATOR_PASTEBOARD_AUTOMATIC_SYNC))
-                .map((v) -> PasteboardSyncState.valueOf(String.valueOf(v).toUpperCase()));
+                .map(v -> PasteboardSyncState.valueOf(String.valueOf(v).toUpperCase()));
     }
 }

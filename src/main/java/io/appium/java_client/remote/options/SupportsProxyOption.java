@@ -45,7 +45,7 @@ public interface SupportsProxyOption<T extends BaseOptions<T>> extends
     default Optional<Proxy> getProxy() {
         return Optional.ofNullable(getCapability(PROXY_OPTION))
                 .map(String::valueOf)
-                .map((v) -> new Gson().fromJson(v, Map.class))
+                .map(v -> new Gson().fromJson(v, Map.class))
                 .map(Proxy::new);
     }
 }

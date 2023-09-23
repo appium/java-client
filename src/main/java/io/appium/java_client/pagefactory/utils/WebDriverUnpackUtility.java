@@ -18,6 +18,8 @@ package io.appium.java_client.pagefactory.utils;
 
 import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.pagefactory.bys.ContentType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -31,6 +33,7 @@ import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SP
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
 

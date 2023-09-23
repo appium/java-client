@@ -25,6 +25,7 @@ import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AppiumBy extends By implements Remotable {
 
@@ -252,6 +253,27 @@ public abstract class AppiumBy extends By implements Remotable {
         protected ByIosNsPredicate(String locatorString) {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        AppiumBy appiumBy = (AppiumBy) o;
+        return Objects.equals(remoteParameters, appiumBy.remoteParameters)
+                && Objects.equals(locatorName, appiumBy.locatorName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), remoteParameters, locatorName);
     }
 }
 

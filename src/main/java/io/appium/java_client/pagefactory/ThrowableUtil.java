@@ -16,11 +16,14 @@
 
 package io.appium.java_client.pagefactory;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.StaleElementReferenceException;
 
 import java.lang.reflect.InvocationTargetException;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class ThrowableUtil {
     private static final String INVALID_SELECTOR_PATTERN = "Invalid locator strategy:";
 

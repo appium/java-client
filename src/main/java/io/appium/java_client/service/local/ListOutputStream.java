@@ -53,12 +53,14 @@ class ListOutputStream extends OutputStream {
         }
     }
 
+    @Override
     public void flush() throws IOException {
         for (OutputStream stream : streams) {
             stream.flush();
         }
     }
 
+    @Override
     public void close() throws IOException {
         for (OutputStream stream : streams) {
             stream.close();

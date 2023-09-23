@@ -39,10 +39,10 @@ import static io.appium.java_client.remote.MobilePlatform.TVOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
 
 /**
- * It is the basic handler of Appium-specific page object annotations
+ * It is the basic handler of Appium-specific page object annotations.
  * About the Page Object design pattern please read these documents:
- * - https://code.google.com/p/selenium/wiki/PageObjects
- * - https://code.google.com/p/selenium/wiki/PageFactory
+ * - <a href="https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/">Selenium Page Object models</a>
+ * - <a href="https://github.com/SeleniumHQ/selenium/wiki/PageFactory">Selenium Page Factory</a>
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
     protected static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[]{};
@@ -76,7 +76,7 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         List<String> targetAnnotationMethodNamesList = getMethodNames(annotation.getDeclaredMethods());
         targetAnnotationMethodNamesList.removeAll(METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ);
         return targetAnnotationMethodNamesList.stream()
-                .map((methodName) -> {
+                .map(methodName -> {
                     try {
                         return annotation.getMethod(methodName, DEFAULT_ANNOTATION_METHOD_ARGUMENTS);
                     } catch (NoSuchMethodException | SecurityException e) {
@@ -87,13 +87,13 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     private static String getFilledValue(Annotation mobileBy) {
         return Stream.of(prepareAnnotationMethods(mobileBy.getClass()))
-                .filter((method) -> String.class == method.getReturnType())
-                .filter((method) -> {
+                .filter(method -> String.class == method.getReturnType())
+                .filter(method -> {
                     try {
                         Object strategyParameter = method.invoke(mobileBy);
                         return strategyParameter != null && !String.valueOf(strategyParameter).isEmpty();
                     } catch (IllegalAccessException | IllegalArgumentException
-                            | InvocationTargetException e) {
+                             | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
                 })
@@ -107,9 +107,9 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     private static By getMobileBy(Annotation annotation, String valueName) {
         return Stream.of(Strategies.values())
-                .filter((strategy) -> strategy.returnValueName().equals(valueName))
+                .filter(strategy -> strategy.returnValueName().equals(valueName))
                 .findFirst()
-                .map((strategy) -> strategy.getBy(annotation))
+                .map(strategy -> strategy.getBy(annotation))
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("@%s: There is an unknown strategy %s",
                                 annotation.getClass().getSimpleName(), valueName)
@@ -118,14 +118,14 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
 
     private static <T extends By> T getComplexMobileBy(Annotation[] annotations, Class<T> requiredByClass) {
         By[] byArray = Stream.of(annotations)
-                .map((annotation) -> getMobileBy(annotation, getFilledValue(annotation)))
+                .map(annotation -> getMobileBy(annotation, getFilledValue(annotation)))
                 .toArray(By[]::new);
         try {
             Constructor<T> c = requiredByClass.getConstructor(By[].class);
             Object[] values = new Object[]{byArray};
             return c.newInstance(values);
         } catch (InvocationTargetException | NoSuchMethodException | InstantiationException
-                | IllegalAccessException e) {
+                 | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

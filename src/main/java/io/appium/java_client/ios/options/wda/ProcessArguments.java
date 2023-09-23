@@ -49,8 +49,8 @@ public class ProcessArguments {
      */
     public Map<String, Object> toMap() {
         Map<String, Object> result = new HashMap<>();
-        Optional.ofNullable(args).ifPresent((v) -> result.put("args", v));
-        Optional.ofNullable(env).ifPresent((v) -> result.put("env", v));
+        Optional.ofNullable(args).ifPresent(v -> result.put("args", v));
+        Optional.ofNullable(env).ifPresent(v -> result.put("env", v));
         return Collections.unmodifiableMap(result);
     }
 }

@@ -261,7 +261,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
     private <T> Map<String, T> convertMapValues(Map<String, Object> map, Function<String, T> converter) {
         return map.entrySet().stream()
                 .collect(Collectors.toMap(
-                        Map.Entry::getKey, (entry) -> converter.apply(String.valueOf(entry.getValue())))
+                        Map.Entry::getKey, entry -> converter.apply(String.valueOf(entry.getValue())))
                 );
     }
 
@@ -272,7 +272,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
      */
     public Optional<Map<String, Integer>> getEi() {
         Optional<Map<String, Object>> value = getOptionValue("ei");
-        return value.map((v) -> convertMapValues(v, Integer::parseInt));
+        return value.map(v -> convertMapValues(v, Integer::parseInt));
     }
 
     /**
@@ -292,7 +292,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
      */
     public Optional<Map<String, Long>> getEl() {
         Optional<Map<String, Object>> value = getOptionValue("el");
-        return value.map((v) -> convertMapValues(v, Long::parseLong));
+        return value.map(v -> convertMapValues(v, Long::parseLong));
     }
 
     /**
@@ -312,7 +312,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
      */
     public Optional<Map<String, Float>> getEf() {
         Optional<Map<String, Object>> value = getOptionValue("ef");
-        return value.map((v) -> convertMapValues(v, Float::parseFloat));
+        return value.map(v -> convertMapValues(v, Float::parseFloat));
     }
 
     /**
@@ -356,7 +356,7 @@ public class IntentOptions extends BaseMapOptionData<IntentOptions> {
     private static Map<String, String> mergeValues(Map<String, ?> map) {
         return map.entrySet().stream()
                 .collect(
-                        Collectors.toMap(Map.Entry::getKey, (entry) -> ((List<?>) entry.getValue()).stream()
+                        Collectors.toMap(Map.Entry::getKey, entry -> ((List<?>) entry.getValue()).stream()
                                 .map(String::valueOf)
                                 .collect(Collectors.joining(",")))
                 );
