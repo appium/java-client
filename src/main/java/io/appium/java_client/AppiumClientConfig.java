@@ -147,7 +147,7 @@ public class AppiumClientConfig extends ClientConfig {
 
 
     @Override
-    public ClientConfig proxy(Proxy proxy) {
+    public AppiumClientConfig proxy(Proxy proxy) {
         ClientConfig clientConfig = super.proxy(proxy);
         return buildAppiumClientConfig(clientConfig, directConnect);
     }
