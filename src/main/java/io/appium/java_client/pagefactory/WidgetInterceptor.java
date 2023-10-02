@@ -67,7 +67,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
         ContentType type = getCurrentContentType(element);
         WebElement cachedElement = cachedElementReference == null ? null : cachedElementReference.get();
         if (cachedElement == null || !cachedInstances.containsKey(type)
-            || (locator != null && !((CacheableLocator) locator).isLookUpCached())
+            || locator != null && !((CacheableLocator) locator).isLookUpCached()
         ) {
             cachedElementReference = new WeakReference<>(element);
 

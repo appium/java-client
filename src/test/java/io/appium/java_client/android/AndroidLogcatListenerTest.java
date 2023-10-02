@@ -16,7 +16,7 @@ public class AndroidLogcatListenerTest extends BaseAndroidTest {
         final Semaphore messageSemaphore = new Semaphore(1);
         final Duration timeout = Duration.ofSeconds(15);
 
-        driver.addLogcatMessagesListener((msg) -> messageSemaphore.release());
+        driver.addLogcatMessagesListener(msg -> messageSemaphore.release());
         driver.addLogcatConnectionListener(() -> System.out.println("Connected to the web socket"));
         driver.addLogcatDisconnectionListener(() -> System.out.println("Disconnected from the web socket"));
         driver.addLogcatErrorsListener(Throwable::printStackTrace);

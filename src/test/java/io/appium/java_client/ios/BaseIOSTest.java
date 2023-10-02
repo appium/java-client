@@ -22,6 +22,7 @@ import org.junit.jupiter.api.AfterAll;
 
 import java.time.Duration;
 
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class BaseIOSTest {
 
     protected static AppiumDriverLocalService service;

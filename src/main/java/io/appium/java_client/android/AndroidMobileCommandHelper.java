@@ -214,8 +214,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         String intentAction, String intentCategory, String intentFlags,
         String optionalIntentArguments, boolean stopApp) throws IllegalArgumentException {
 
-        checkArgument((!StringUtils.isBlank(appPackage)
-                && !StringUtils.isBlank(appActivity)),
+        checkArgument(!StringUtils.isBlank(appPackage) && !StringUtils.isBlank(appActivity),
             String.format("'%s' and '%s' are required.", "appPackage", "appActivity"));
 
         String targetWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";

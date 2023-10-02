@@ -71,7 +71,7 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         if (cachedElements.size() != cachedWidgets.size()
-                || (locator != null && !((CacheableLocator) locator).isLookUpCached())) {
+                || locator != null && !((CacheableLocator) locator).isLookUpCached()) {
             cachedWidgets.clear();
             cachedElementReferences.clear();
 

@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Config {
     private static Config mainInstance = null;
     private static final String MAIN_CONFIG = "main.properties";
-    private static final Map<String, Properties> cache = new ConcurrentHashMap<>();
+    private static final Map<String, Properties> CACHE = new ConcurrentHashMap<>();
     private final String configName;
 
     /**
@@ -58,7 +58,7 @@ public class Config {
      * @throws ClassCastException if the retrieved value cannot be cast to `valueType` type
      */
     public <T> Optional<T> getOptionalValue(String key, Class<T> valueType) {
-        final Properties cachedProps = cache.computeIfAbsent(configName, k -> {
+        final Properties cachedProps = CACHE.computeIfAbsent(configName, k -> {
             try (InputStream configFileStream = getClass().getClassLoader().getResourceAsStream(configName)) {
                 final Properties p = new Properties();
                 p.load(configFileStream);

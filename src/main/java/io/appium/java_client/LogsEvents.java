@@ -63,8 +63,8 @@ public interface LogsEvents extends ExecutesMethod {
             .stream()
             .map((Map<String, Object> cmd) -> new CommandEvent(
                 (String) cmd.get("cmd"),
-                ((Long) cmd.get("startTime")),
-                ((Long) cmd.get("endTime"))
+                (Long) cmd.get("startTime"),
+                (Long) cmd.get("endTime")
             ))
             .collect(Collectors.toList());
 

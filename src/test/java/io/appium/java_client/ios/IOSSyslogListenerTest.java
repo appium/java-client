@@ -16,7 +16,7 @@ public class IOSSyslogListenerTest extends AppIOSTest {
         final Semaphore messageSemaphore = new Semaphore(1);
         final Duration timeout = Duration.ofSeconds(15);
 
-        driver.addSyslogMessagesListener((msg) -> messageSemaphore.release());
+        driver.addSyslogMessagesListener(msg -> messageSemaphore.release());
         driver.addSyslogConnectionListener(() -> System.out.println("Connected to the web socket"));
         driver.addSyslogDisconnectionListener(() -> System.out.println("Disconnected from the web socket"));
         driver.addSyslogErrorsListener(Throwable::printStackTrace);

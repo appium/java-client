@@ -186,7 +186,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     public boolean isLookupCached() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        return (annotatedElement.getAnnotation(CacheLookup.class) != null);
+        return annotatedElement.getAnnotation(CacheLookup.class) != null;
     }
 
     private By returnMappedBy(By byDefault, By nativeAppBy) {

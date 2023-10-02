@@ -62,7 +62,7 @@ import static java.time.Duration.ofSeconds;
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
-    private static final List<Class<? extends WebElement>> availableElementClasses = ImmutableList.of(
+    private static final List<Class<? extends WebElement>> AVAILABLE_ELEMENT_CLASSES = ImmutableList.of(
             WebElement.class,
             RemoteWebElement.class
     );
@@ -169,7 +169,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 List<Type> bounds = (listType instanceof TypeVariable)
                         ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
                         : Collections.emptyList();
-                return availableElementClasses.stream()
+                return AVAILABLE_ELEMENT_CLASSES.stream()
                         .anyMatch(webElClass -> webElClass.equals(listType) || bounds.contains(webElClass));
             }
         };

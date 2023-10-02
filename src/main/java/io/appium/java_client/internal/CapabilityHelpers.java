@@ -16,8 +16,6 @@
 
 package io.appium.java_client.internal;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.openqa.selenium.Capabilities;
 
 import javax.annotation.Nullable;
@@ -28,9 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CapabilityHelpers {
     public static final String APPIUM_PREFIX = "appium:";
+
+    private CapabilityHelpers() {
+    }
 
     /**
      * Helper that is used for capability values retrieval.
