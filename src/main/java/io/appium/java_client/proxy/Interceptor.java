@@ -16,8 +16,6 @@
 
 package io.appium.java_client.proxy;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -31,9 +29,11 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Interceptor {
-    private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
+
+    private Interceptor() {
+    }
 
     /**
      * A magic method used to wrap public method calls in classes
@@ -64,7 +64,7 @@ public class Interceptor {
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
-                logger.atError()
+                LOGGER.atError()
                         .addArgument(() -> self.getClass().getName())
                         .addArgument(method::getName)
                         .log("Got an unexpected error in beforeCall listener of {}.{} method", e);
@@ -110,7 +110,7 @@ public class Interceptor {
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
-                logger.atError()
+                LOGGER.atError()
                         .addArgument(() -> self.getClass().getName())
                         .addArgument(method::getName)
                         .log("Got an unexpected error in afterCall listener of {}.{} method", e);

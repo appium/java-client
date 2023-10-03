@@ -70,7 +70,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         CanRememberExtensionPresence,
         HasSettings {
 
-    private static final ErrorHandler errorHandler = new ErrorHandler(new ErrorCodesMobile(), true);
+    private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
     private final URL remoteAddress;
     protected final RemoteLocationContext locationContext;
@@ -89,7 +89,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
-        super.setErrorHandler(errorHandler);
+        super.setErrorHandler(ERROR_HANDLER);
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
@@ -167,7 +167,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
         locationContext = new RemoteLocationContext(executeMethod);
-        super.setErrorHandler(errorHandler);
+        super.setErrorHandler(ERROR_HANDLER);
         this.remoteAddress = executor.getAddressOfRemoteServer();
 
         setSessionId(sessionAddress.getId());

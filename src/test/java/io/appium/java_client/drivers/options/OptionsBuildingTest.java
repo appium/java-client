@@ -67,7 +67,7 @@ public class OptionsBuildingTest {
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals(new URL("http://localhost:8000"), options.getWdaBaseUrl().orElse(null));
         assertNotNull(options.getPermissions()
-                .map((v) -> v.getAppPermissions("com.apple.MobileSafari"))
+                .map(v -> v.getAppPermissions("com.apple.MobileSafari"))
                 .orElse(null));
         assertEquals(10L, (long) options.getSafariSocketChunkSize().orElse(0));
         assertEquals(1L, options.getCommandTimeouts().orElse(null).left()

@@ -24,6 +24,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
 
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class BaseEspressoTest {
 
     private static AppiumDriverLocalService service;

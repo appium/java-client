@@ -38,16 +38,16 @@ public class IOSAlertTest extends AppIOSTest {
 
     private static final Duration ALERT_TIMEOUT = Duration.ofSeconds(5);
     private static final int CLICK_RETRIES = 2;
+    private static final String IOS_AUTOMATION_TEXT = "show alert";
 
     private final WebDriverWait waiter = new WebDriverWait(driver, ALERT_TIMEOUT);
-    private static final String iOSAutomationText = "show alert";
 
     private void ensureAlertPresence() {
         int retry = 0;
         // CI might not be performant enough, so we need to retry
         while (true) {
             try {
-                driver.findElement(AppiumBy.accessibilityId(iOSAutomationText)).click();
+                driver.findElement(AppiumBy.accessibilityId(IOS_AUTOMATION_TEXT)).click();
             } catch (WebDriverException e) {
                 // ignore
             }

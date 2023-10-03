@@ -19,6 +19,9 @@ import java.time.Duration;
 import java.util.function.Supplier;
 
 public class TestUtils {
+    private TestUtils() {
+    }
+
     public static String getLocalIp4Address() throws SocketException, UnknownHostException {
         // https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
         try (final DatagramSocket socket = new DatagramSocket()) {

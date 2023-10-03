@@ -96,7 +96,7 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
                     }
 
                     try {
-                        return Platform.fromString((String.valueOf(cap)));
+                        return Platform.fromString(String.valueOf(cap));
                     } catch (WebDriverException e) {
                         return null;
                     }

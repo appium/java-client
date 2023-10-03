@@ -38,6 +38,7 @@ import java.util.Map;
  * Most of these commands are platform-specific obsolete things and should eventually be replaced with
  * calls to corresponding `mobile:` extensions, so we don't abuse non-w3c APIs
  */
+@SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "checkstyle:ConstantName"})
 public class MobileCommand {
     //General
     @Deprecated
@@ -434,7 +435,7 @@ public class MobileCommand {
                                                                 Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
-            if (!StringUtils.isBlank(params[i]) && (values[i] != null)) {
+            if (!StringUtils.isBlank(params[i]) && values[i] != null) {
                 builder.put(params[i], values[i]);
             }
         }

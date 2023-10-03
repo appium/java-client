@@ -128,6 +128,7 @@
             <message key="name.invalidPattern"
              value="Interface type name ''{0}'' must match pattern ''{1}''."/>
         </module>
+        <module name="ConstantName"/>
         <module name="GenericWhitespace">
             <message key="ws.followed"
              value="GenericWhitespace ''{0}'' is followed by whitespace."/>
@@ -198,6 +199,12 @@
 
         </module>
         <module name="CommentsIndentation"/>
+        <module name="MissingOverride"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="HideUtilityClassConstructor"/>
+
+        <!-- Make the @SuppressWarnings annotations available to Checkstyle -->
+        <module name="SuppressWarningsHolder"/>
     </module>
     <module name="LineLength">
         <property name="max" value="120"/>
@@ -208,4 +215,7 @@
         <property name="file" value="${config_loc}/suppressions.xml"/>
         <property name="optional" value="false"/>
     </module>
+
+    <!-- Filter out Checkstyle warnings that have been suppressed with the @SuppressWarnings annotation -->
+    <module name="SuppressWarningsFilter"/>
 </module>

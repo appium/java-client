@@ -220,7 +220,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
         long time = System.currentTimeMillis();
         driver.runAppInBackground(Duration.ofSeconds(4));
         long timeAfter = System.currentTimeMillis();
-        assert (timeAfter - time > 3000);
+        assert timeAfter - time > 3000;
     }
 
     @Test
@@ -237,9 +237,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void pullFileTest() {
-        byte[] data =
-                driver.pullFile("/data/system/users/userlist.xml");
-        assert (data.length > 0);
+        byte[] data = driver.pullFile("/data/system/users/userlist.xml");
+        assert data.length > 0;
     }
 
     @Test
