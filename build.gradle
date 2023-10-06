@@ -34,19 +34,19 @@ dependencies {
 
     api ('org.seleniumhq.selenium:selenium-api') {
         version {
-            strictly "[${seleniumVersion}, 5.0)"
+            strictly "[${seleniumVersion}, 4.14)"
             prefer "${seleniumVersion}"
         }
     }
     api ('org.seleniumhq.selenium:selenium-remote-driver') {
         version {
-            strictly "[${seleniumVersion}, 5.0)"
+            strictly "[${seleniumVersion}, 4.14)"
             prefer "${seleniumVersion}"
         }
     }
     api ('org.seleniumhq.selenium:selenium-support') {
         version {
-            strictly "[${seleniumVersion}, 5.0)"
+            strictly "[${seleniumVersion}, 4.14)"
             prefer "${seleniumVersion}"
         }
     }
