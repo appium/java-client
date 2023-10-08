@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_8.6.0_
+
+- **[BUG FIX]**
+  - Exclude abstract methods from proxy matching. [#1937](https://github.com/appium/java-client/pull/1937)
+  - AppiumClientConfig#readTimeout to call super.readTimeout. [#1959](https://github.com/appium/java-client/pull/1959)
+  - Use weak references to elements inside of interceptor objects. [#1981](https://github.com/appium/java-client/pull/1981)
+  - Correct spelling and semantic mistakes in method naming. [#1970](https://github.com/appium/java-client/pull/1970)
+  - Change scope of selenium-support dependency to compile. [#2019](https://github.com/appium/java-client/pull/2019)
+  - Fix Code style issues to match Java standards. [#2017](https://github.com/appium/java-client/pull/2017)
+  - class of proxy method in AppiumClientConfig. [#2026](https://github.com/appium/java-client/pull/2026)
+- **[ENHANCEMENTS]**
+  - Mark Windows page object annotations as deprecated. [#1938](https://github.com/appium/java-client/pull/1938)
+  - Deprecate obsolete capabilities constants. [#1961](https://github.com/appium/java-client/pull/1961)
+  - patch AutomationName with Chromium. [#1993](https://github.com/appium/java-client/pull/1993)
+  - Implementation of Chromium driver plus capabilities. [#2003](https://github.com/appium/java-client/pull/2003)
+- **[REFACTOR]**
+  - Increase server start timeout for iOS tests. [#1983](https://github.com/appium/java-client/pull/1983)
+  - Fix Android test: --base-path arg must start with /. [#1952](https://github.com/appium/java-client/pull/1952)
+  - Added fixes for No service provider found for `io.appium.java_client.events.api.Listener`. [#1975](https://github.com/appium/java-client/pull/1975)
+  - Run tests against latest Selenium release. [#1978](https://github.com/appium/java-client/pull/1978)
+  - Use server releases from the main branch for testing. [#1994](https://github.com/appium/java-client/pull/1994)
+  - Remove obsolete API calls from tests. [#2006](https://github.com/appium/java-client/pull/2006)
+  - Automate more static code checks. [#2028](https://github.com/appium/java-client/pull/2028)
+  - Limit the maximum selenium version to 4.14. [#2031](https://github.com/appium/java-client/pull/2031)
+  - Remove the obsolete commons-validator dependency. [#2032](https://github.com/appium/java-client/pull/2032)
+- **[DOCUMENTATION]**
+  - Add the latest versions of clients to the compatibility matrix. [#1935](https://github.com/appium/java-client/pull/1935)
+  - Added correct url path for the latest appium documentation. [#1974](https://github.com/appium/java-client/pull/1974)
+  - Add Selenium 4.11.0, 4.12.0, 4.12.1 & 4.13.0 to compatibility matrix. [#1986](https://github.com/appium/java-client/pull/1986) & [#1999](https://github.com/appium/java-client/pull/1999) & [#2002](https://github.com/appium/java-client/pull/2025) & [#1986](https://github.com/appium/java-client/pull/2025)
+  - Add known compatibility issue for Selenium 4.12.1. [#2008](https://github.com/appium/java-client/pull/2008)
+- **[DEPENDENCY UPDATES]**
+  - `org.owasp.dependencycheck` was updated to 8.4.0.
+  - `org.junit.jupiter:junit-jupiter` was updated to 5.10.0.
+  - `commons-io:commons-io` was updated to 2.14.0.
+  - `checkstyle` was updated to 10.12.1.
+  - `org.apache.commons:commons-lang3` was updated to 3.13.0.
+  - `gradle` was updated to 8.4.0.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.5.3.
+  - `org.seleniumhq.selenium:selenium-bom` was updated to 4.13.0.
+  - `org.projectlombok:lombok` was updated to 1.18.30.
+
 *8.5.1*
 - **[BUG FIX]**
   - Use correct exception type for fallback at file/folder pulling. [#1912](https://github.com/appium/java-client/pull/1912)
