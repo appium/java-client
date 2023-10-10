@@ -14,6 +14,10 @@ on:
       - 'docs/**'
       - '*.md'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   ANDROID_SDK_VERSION: 28
   ANDROID_EMU_NAME: test
