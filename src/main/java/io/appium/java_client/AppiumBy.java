@@ -16,8 +16,8 @@
 
 package io.appium.java_client;
 
+import com.google.common.base.Preconditions;
 import lombok.Getter;
-import org.apache.commons.lang3.Validate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.Remotable;
 import org.openqa.selenium.SearchContext;
@@ -27,13 +27,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 public abstract class AppiumBy extends By implements Remotable {
 
     @Getter private final Parameters remoteParameters;
     private final String locatorName;
 
     protected AppiumBy(String selector, String locatorString, String locatorName) {
-        Validate.notBlank(locatorString, "Must supply a not empty locator value.");
+        Preconditions.checkArgument(!isNullOrEmpty(locatorString), "Must supply a not empty locator value.");
         this.remoteParameters = new Parameters(selector, locatorString);
         this.locatorName = locatorName;
     }

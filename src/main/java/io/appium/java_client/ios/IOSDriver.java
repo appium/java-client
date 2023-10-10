@@ -29,7 +29,6 @@ import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
-import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.battery.HasBattery;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.SupportsContextSwitching;
@@ -64,7 +63,6 @@ public class IOSDriver extends AppiumDriver implements
         HasDeviceTime,
         PullsFiles,
         InteractsWithApps,
-        SupportsLegacyAppManagement,
         HasAppStrings,
         PerformsTouchActions,
         HidesKeyboardWithKeyName,

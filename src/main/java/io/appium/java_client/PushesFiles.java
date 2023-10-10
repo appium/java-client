@@ -17,12 +17,12 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Base64;
 
 import static io.appium.java_client.MobileCommand.pushFileCommand;
@@ -59,7 +59,7 @@ public interface PushesFiles extends ExecutesMethod, CanRememberExtensionPresenc
      * @throws IOException when there are problems with a file on current file system
      */
     default void pushFile(String remotePath, File file) throws IOException {
-        pushFile(remotePath, Base64.getEncoder().encode(FileUtils.readFileToByteArray(file)));
+        pushFile(remotePath, Base64.getEncoder().encode(Files.readAllBytes(file.toPath())));
     }
 
 }

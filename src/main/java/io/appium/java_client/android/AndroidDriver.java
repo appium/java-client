@@ -29,7 +29,6 @@ import io.appium.java_client.LocksDevice;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
-import io.appium.java_client.SupportsLegacyAppManagement;
 import io.appium.java_client.android.connection.HasNetworkConnection;
 import io.appium.java_client.android.geolocation.SupportsExtendedGeolocationCommands;
 import io.appium.java_client.android.nativekey.PressesKey;
@@ -50,8 +49,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.endTestCoverageCommand;
-
 /**
  * Android driver implementation.
  */
@@ -65,7 +62,6 @@ public class AndroidDriver extends AppiumDriver implements
         HasDeviceTime,
         PullsFiles,
         InteractsWithApps,
-        SupportsLegacyAppManagement,
         HasAppStrings,
         HasNetworkConnection,
         PushesFiles,
@@ -248,18 +244,6 @@ public class AndroidDriver extends AppiumDriver implements
      */
     public AndroidDriver(URL remoteSessionAddress, String automationName) {
         super(remoteSessionAddress, ANDROID_PLATFORM, automationName);
-    }
-
-    /**
-     * Get test-coverage data.
-     *
-     * @param intent intent to broadcast.
-     * @param path   path to .ec file.
-     * @deprecated This API will be removed
-     */
-    @Deprecated
-    public void endTestCoverage(String intent, String path) {
-        CommandExecutionHelper.execute(this, endTestCoverageCommand(intent, path));
     }
 
     @Override

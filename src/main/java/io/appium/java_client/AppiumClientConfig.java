@@ -21,6 +21,8 @@ import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
+import javax.annotation.Nullable;
+import javax.net.ssl.SSLContext;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,6 +51,7 @@ public class AppiumClientConfig extends ClientConfig {
      *                {@link org.openqa.selenium.remote.http.HttpResponse}.
      * @param proxy The client proxy preference.
      * @param credentials Credentials used for authenticating http requests
+     * @param sslContext SSL context (if present)
      * @param directConnect If directConnect is enabled.
      */
     protected AppiumClientConfig(
@@ -56,10 +59,11 @@ public class AppiumClientConfig extends ClientConfig {
             Duration connectionTimeout,
             Duration readTimeout,
             Filter filters,
-            Proxy proxy,
-            Credentials credentials,
+            @Nullable Proxy proxy,
+            @Nullable Credentials credentials,
+            @Nullable SSLContext sslContext,
             Boolean directConnect) {
-        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
+        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials, sslContext);
 
         this.directConnect = Require.nonNull("Direct Connect", directConnect);
     }
@@ -74,6 +78,7 @@ public class AppiumClientConfig extends ClientConfig {
                 DEFAULT_CONNECTION_TIMEOUT,
                 DEFAULT_READ_TIMEOUT,
                 DEFAULT_FILTER,
+                null,
                 null,
                 null,
                 false);
@@ -92,6 +97,7 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.filter(),
                 clientConfig.proxy(),
                 clientConfig.credentials(),
+                clientConfig.sslContext(),
                 false);
     }
 
@@ -103,6 +109,7 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.filter(),
                 clientConfig.proxy(),
                 clientConfig.credentials(),
+                clientConfig.sslContext(),
                 directConnect);
     }
 
@@ -175,6 +182,7 @@ public class AppiumClientConfig extends ClientConfig {
             this.filter(),
             this.proxy(),
             this.credentials(),
+            this.sslContext(),
             directConnect
         );
     }

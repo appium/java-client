@@ -58,14 +58,4 @@ public interface SupportsSimulatorTracePointerOption<T extends BaseOptions<T>> e
     default Optional<Boolean> doesSimulatorTracePointer() {
         return Optional.ofNullable(toSafeBoolean(getCapability(SIMULATOR_TRACE_POINTER_OPTION)));
     }
-
-    /**
-     * Get whether to highlight pointer moves in the Simulator window.
-     *
-     * @deprecated use {@link SupportsSimulatorTracePointerOption#doesSimulatorTracePointer()} instead
-     */
-    @Deprecated
-    default Optional<Boolean> doesSimulatorTracePointerd() {
-        return doesSimulatorTracePointer();
-    }
 }

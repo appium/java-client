@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
@@ -49,6 +48,7 @@ import java.util.Map;
 
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
+import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static java.time.Duration.ofSeconds;
 
 /**
@@ -88,7 +88,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         if (wd instanceof HasCapabilities) {
             Capabilities caps = ((HasCapabilities) wd).getCapabilities();
             this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
-            this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
+            this.automation = CapabilityHelpers.getCapability(caps, AUTOMATION_NAME_OPTION, String.class);
         } else {
             this.platform = null;
             this.automation = null;
@@ -123,7 +123,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         if (wd instanceof HasCapabilities) {
             Capabilities caps = ((HasCapabilities) wd).getCapabilities();
             this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
-            this.automation = CapabilityHelpers.getCapability(caps, MobileCapabilityType.AUTOMATION_NAME, String.class);
+            this.automation = CapabilityHelpers.getCapability(caps, AUTOMATION_NAME_OPTION, String.class);
         } else {
             this.platform = null;
             this.automation = null;

@@ -23,10 +23,10 @@ import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import lombok.Getter;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
@@ -53,10 +53,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
-import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
-import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 /**
  * Default Appium driver implementation.
@@ -72,6 +72,7 @@ public class AppiumDriver extends RemoteWebDriver implements
 
     private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
+    @Getter
     private final URL remoteAddress;
     protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
@@ -154,7 +155,7 @@ public class AppiumDriver extends RemoteWebDriver implements
                 RemoteWebDriver.class, this, "capabilities", new ImmutableCapabilities(
                         ImmutableMap.of(
                                 PLATFORM_NAME, platformName,
-                                APPIUM_PREFIX + AUTOMATION_NAME, automationName
+                                APPIUM_PREFIX + AUTOMATION_NAME_OPTION, automationName
                         )
                 )
         );
@@ -177,8 +178,7 @@ public class AppiumDriver extends RemoteWebDriver implements
      * Changes platform name if it is not set and returns merged capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
-     * @param defaultName          a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     *                             to be set up
+     * @param defaultName          a platformName value which has to be set up
      * @return {@link Capabilities} with changed platform name value or the original capabilities
      */
     protected static Capabilities ensurePlatformName(
@@ -192,17 +192,16 @@ public class AppiumDriver extends RemoteWebDriver implements
      * Changes automation name if it is not set and returns merged capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
-     * @param defaultName          a {@link MobileCapabilityType#AUTOMATION_NAME} value which has
-     *                             to be set up
+     * @param defaultName          a platformName value which has to be set up
      * @return {@link Capabilities} with changed mobile automation name value or the original capabilities
      */
     protected static Capabilities ensureAutomationName(
             Capabilities originalCapabilities, String defaultName) {
         String currentAutomationName = CapabilityHelpers.getCapability(
-                originalCapabilities, AUTOMATION_NAME, String.class);
-        if (isBlank(currentAutomationName)) {
+                originalCapabilities, AUTOMATION_NAME_OPTION, String.class);
+        if (isNullOrEmpty(currentAutomationName)) {
             String capabilityName = originalCapabilities.getCapabilityNames()
-                    .contains(AUTOMATION_NAME) ? AUTOMATION_NAME : APPIUM_PREFIX + AUTOMATION_NAME;
+                    .contains(AUTOMATION_NAME_OPTION) ? AUTOMATION_NAME_OPTION : APPIUM_PREFIX + AUTOMATION_NAME_OPTION;
             return originalCapabilities.merge(new ImmutableCapabilities(capabilityName, defaultName));
         }
         return originalCapabilities;
@@ -213,8 +212,7 @@ public class AppiumDriver extends RemoteWebDriver implements
      * and returns merged capabilities.
      *
      * @param originalCapabilities the given {@link Capabilities}.
-     * @param defaultPlatformName  a {@link MobileCapabilityType#PLATFORM_NAME} value which has
-     *                             to be set up
+     * @param defaultPlatformName  a platformName value which has to be set up
      * @param defaultAutomationName The default automation name to set up for this class
      * @return {@link Capabilities} with changed platform/automation name value or the original capabilities
      */
@@ -265,10 +263,6 @@ public class AppiumDriver extends RemoteWebDriver implements
         ((AppiumCommandExecutor) getCommandExecutor()).refreshAdditionalCommands();
     }
 
-    public URL getRemoteAddress() {
-        return remoteAddress;
-    }
-
     @Override
     protected void startSession(Capabilities capabilities) {
         Response response = execute(new AppiumNewSessionCommandPayload(capabilities));
@@ -293,7 +287,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         // TODO: remove this workaround for Selenium API enforcing some legacy capability values in major version
         rawCapabilities.remove("platform");
         if (rawCapabilities.containsKey(CapabilityType.BROWSER_NAME)
-                && isBlank((String) rawCapabilities.get(CapabilityType.BROWSER_NAME))) {
+                && isNullOrEmpty((String) rawCapabilities.get(CapabilityType.BROWSER_NAME))) {
             rawCapabilities.remove(CapabilityType.BROWSER_NAME);
         }
         MutableCapabilities returnedCapabilities = new BaseOptions<>(rawCapabilities);

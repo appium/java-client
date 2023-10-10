@@ -40,16 +40,6 @@ public interface SupportsCustomSslCertOption<T extends BaseOptions<T>> extends
     /**
      * Get the SSL certificate content.
      *
-     * @deprecated use {@link SupportsCustomSslCertOption#getCustomSSLCert()} instead
-     */
-    @Deprecated
-    default Optional<String> setCustomSSLCert() {
-        return getCustomSSLCert();
-    }
-
-    /**
-     * Get the SSL certificate content.
-     *
      * @return Certificate content.
      */
     default Optional<String> getCustomSSLCert() {

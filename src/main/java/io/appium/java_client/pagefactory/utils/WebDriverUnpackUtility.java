@@ -29,7 +29,6 @@ import javax.annotation.Nullable;
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
@@ -91,8 +90,8 @@ public final class WebDriverUnpackUtility {
 
             if (ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
                 ContextAware contextAware = (ContextAware) driver;
-                String currentContext = contextAware.getContext();
-                if (containsIgnoreCase(currentContext, NATIVE_APP_PATTERN)) {
+                var currentContext = contextAware.getContext();
+                if (currentContext != null && currentContext.toUpperCase().contains(NATIVE_APP_PATTERN)) {
                     return NATIVE_MOBILE_SPECIFIC;
                 }
             }

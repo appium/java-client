@@ -7,8 +7,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
     /**
@@ -19,7 +18,7 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
     default boolean isBrowser() {
         String browserName = CapabilityHelpers.getCapability(getCapabilities(),
                 CapabilityType.BROWSER_NAME, String.class);
-        if (!isBlank(browserName)) {
+        if (!isNullOrEmpty(browserName)) {
             try {
                 return checkNotNull(
                         CommandExecutionHelper.executeScript(this, "return !!window.navigator;")
@@ -32,7 +31,8 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
             return false;
         }
         try {
-            return !containsIgnoreCase(((ContextAware) this).getContext(), "NATIVE_APP");
+            var context = ((ContextAware) this).getContext();
+            return context != null && !context.toUpperCase().contains("NATIVE_APP");
         } catch (WebDriverException e) {
             return false;
         }

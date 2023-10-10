@@ -28,37 +28,8 @@ import java.util.AbstractMap;
 
 import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
 import static io.appium.java_client.MobileCommand.GET_CURRENT_PACKAGE;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.startActivityCommand;
 
 public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPresence {
-    /**
-     * This method should start arbitrary activity during a test. If the activity belongs to
-     * another application, that application is started and the activity is opened.
-     * <p>
-     * Usage:
-     * </p>
-     * <pre>
-     *     {@code
-     *     Activity activity = new Activity("app package goes here", "app activity goes here");
-     *     activity.setWaitAppPackage("app wait package goes here");
-     *     activity.setWaitAppActivity("app wait activity goes here");
-     *     driver.startActivity(activity);
-     *     }
-     * </pre>
-     *
-     * @param activity The {@link Activity} object
-     * @deprecated Use 'mobile: startActivity' extension instead
-     */
-    @Deprecated
-    default void startActivity(Activity activity) {
-        CommandExecutionHelper.execute(this,
-                startActivityCommand(activity.getAppPackage(), activity.getAppActivity(),
-                        activity.getAppWaitPackage(), activity.getAppWaitActivity(),
-                        activity.getIntentAction(), activity.getIntentCategory(), activity.getIntentFlags(),
-                        activity.getOptionalIntentArguments(), activity.isStopApp())
-        );
-    }
-
     /**
      * Get the current activity being run on the mobile device.
      *

@@ -39,15 +39,6 @@ public enum GeneralServerFlag implements ServerArgument {
      */
     SESSION_OVERRIDE("--session-override"),
     /**
-     * Pre-launch the application before allowing the first session
-     * (Requires –app and, for Android, –app-pkg and –app-activity).
-     * Default: false
-     *
-     * @deprecated This argument has been removed from Appium 2.0
-     */
-    @Deprecated
-    PRE_LAUNCH("--pre-launch"),
-    /**
      * The message log level to be shown.
      * Sample: --log-level debug
      */
