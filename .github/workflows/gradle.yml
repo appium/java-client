@@ -27,14 +27,13 @@ jobs:
     strategy:
       matrix:
         include:
-        # TODO: add new LTS Java ( 21 ) once it's released
-          - java: 8
-            platform: macos-latest
-            e2e-tests: android
           - java: 11
             # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
             platform: macos-12
             e2e-tests: ios
+          - java: 15
+            platform: macos-latest
+            e2e-tests: android
           - java: 17
             platform: ubuntu-latest
       fail-fast: false
