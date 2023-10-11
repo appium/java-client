@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import io.appium.java_client.internal.filters.AppiumHttp11EnforcerFilter;
 import io.appium.java_client.internal.filters.AppiumIdempotencyFilter;
 import io.appium.java_client.internal.filters.AppiumUserAgentFilter;
 import org.openqa.selenium.Credentials;
@@ -39,8 +38,7 @@ public class AppiumClientConfig extends ClientConfig {
     private final boolean directConnect;
 
     private static final Filter DEFAULT_FILTERS = new AppiumUserAgentFilter()
-            .andThen(new AppiumIdempotencyFilter())
-            .andThen(new AppiumHttp11EnforcerFilter());
+            .andThen(new AppiumIdempotencyFilter());
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
