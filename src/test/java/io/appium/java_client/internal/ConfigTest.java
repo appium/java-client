@@ -1,6 +1,6 @@
 package io.appium.java_client.internal;
 
-import io.appium.java_client.AppiumUserAgentFilter;
+import io.appium.java_client.internal.filters.AppiumUserAgentFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

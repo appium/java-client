@@ -18,9 +18,7 @@ package io.appium.java_client.remote;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
-import com.google.common.net.HttpHeaders;
 import io.appium.java_client.AppiumClientConfig;
-import io.appium.java_client.AppiumUserAgentFilter;
 import io.appium.java_client.internal.ReflectionHelpers;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
@@ -48,7 +46,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
@@ -56,8 +53,6 @@ import static java.util.Optional.ofNullable;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
 public class AppiumCommandExecutor extends HttpCommandExecutor {
-    // https://github.com/appium/appium-base-driver/pull/400
-    private static final String IDEMPOTENCY_KEY_HEADER = "X-Idempotency-Key";
 
     private final Optional<DriverService> serviceOptional;
 
@@ -179,14 +174,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new SessionNotCreatedException("Session already exists");
         }
 
-        ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(
-                getClient().with(httpHandler -> req -> {
-                    req.setHeader(HttpHeaders.USER_AGENT,
-                            AppiumUserAgentFilter.buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
-                    req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
-                    return httpHandler.execute(req);
-                }), command
-        );
+        ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(getClient(), command);
         Dialect dialect = result.getDialect();
         if (!(dialect.getCommandCodec() instanceof W3CHttpCommandCodec)) {
             throw new SessionNotCreatedException("Only W3C sessions are supported. "
