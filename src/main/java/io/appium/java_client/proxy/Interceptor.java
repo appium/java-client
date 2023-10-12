@@ -65,9 +65,9 @@ public class Interceptor {
                 // ignore
             } catch (Exception e) {
                 LOGGER.atError()
-                        .addArgument(() -> self.getClass().getName())
-                        .addArgument(method::getName)
-                        .log("Got an unexpected error in beforeCall listener of {}.{} method", e);
+                        .log("Got an unexpected error in beforeCall listener of {}.{} method",
+                                self.getClass().getName(), method.getName(), e
+                        );
             }
         });
 
@@ -111,9 +111,9 @@ public class Interceptor {
                 // ignore
             } catch (Exception e) {
                 LOGGER.atError()
-                        .addArgument(() -> self.getClass().getName())
-                        .addArgument(method::getName)
-                        .log("Got an unexpected error in afterCall listener of {}.{} method", e);
+                        .log("Got an unexpected error in afterCall listener of {}.{} method",
+                                self.getClass().getName(), method.getName(), e
+                        );
             }
         });
         return endResult;
