@@ -78,14 +78,20 @@ public class StringWebSocketClient implements WebSocket.Listener,
     }
 
     public void onOpen() {
-        getConnectionHandlers().forEach(Runnable::run);
-        isListening = true;
+        try {
+            getConnectionHandlers().forEach(Runnable::run);
+        } finally {
+            isListening = true;
+        }
     }
 
     @Override
     public void onClose(int code, String reason) {
-        getDisconnectionHandlers().forEach(Runnable::run);
-        isListening = false;
+        try {
+            getDisconnectionHandlers().forEach(Runnable::run);
+        } finally {
+            isListening = false;
+        }
     }
 
     @Override
