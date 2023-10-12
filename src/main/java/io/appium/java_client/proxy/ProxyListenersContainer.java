@@ -104,7 +104,7 @@ class ProxyListenersContainer {
         }
         try {
             int i = 0;
-            Collection<MethodCallListener> result = Collections.emptySet();
+            Collection<MethodCallListener> result = Collections.emptyList();
             while (i < listenerPairs.size()) {
                 var pair = listenerPairs.get(i);
                 Object key = pair.getKey().get();
@@ -119,7 +119,7 @@ class ProxyListenersContainer {
                 }
                 i++;
             }
-            return List.copyOf(result);
+            return result;
         } finally {
             listenersGuard.release();
         }
