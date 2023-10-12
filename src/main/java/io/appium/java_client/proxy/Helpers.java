@@ -17,8 +17,6 @@
 package io.appium.java_client.proxy;
 
 import com.google.common.base.Preconditions;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
@@ -36,11 +34,13 @@ import java.util.stream.Stream;
 
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Helpers {
     public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
             .collect(Collectors.toSet());
+
+    private Helpers() {
+    }
 
     /**
      * Creates a transparent proxy instance for the given class.

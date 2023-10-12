@@ -17,8 +17,6 @@
 package io.appium.java_client.pagefactory.utils;
 
 import io.appium.java_client.proxy.MethodCallListener;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 
@@ -38,7 +36,6 @@ import static net.bytebuddy.matcher.ElementMatchers.not;
  * Original class is a super class of a
  * proxy object here.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ProxyFactory {
     private static final Set<String> NON_PROXYABLE_METHODS = setWith(
             setWithout(OBJECT_METHOD_NAMES, "toString"),
@@ -57,6 +54,9 @@ public final class ProxyFactory {
         Set<T> result = new HashSet<>(source);
         result.addAll(List.of(items));
         return Collections.unmodifiableSet(result);
+    }
+
+    private ProxyFactory() {
     }
 
     /**
