@@ -35,7 +35,6 @@ import java.util.stream.Stream;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
 public class Helpers {
-
     public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
             .collect(Collectors.toSet());

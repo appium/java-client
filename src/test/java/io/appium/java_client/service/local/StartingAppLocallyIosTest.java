@@ -20,7 +20,6 @@ import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.junit.jupiter.api.Test;
@@ -28,10 +27,12 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
 import static io.appium.java_client.TestResources.uiCatalogAppZip;
+import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyIosTest {
     @Test
@@ -72,9 +73,9 @@ class StartingAppLocallyIosTest {
         IOSDriver driver = new IOSDriver(builder, options);
         try {
             Capabilities caps = driver.getCapabilities();
-            assertTrue(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)
+            assertTrue(caps.getCapability(PLATFORM_NAME)
                     .toString().equalsIgnoreCase(MobilePlatform.IOS));
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
         } finally {
             driver.quit();
         }

@@ -16,14 +16,20 @@
 
 package io.appium.java_client.proxy;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class ProxyListenersContainer {
     private static ProxyListenersContainer INSTANCE;
 
@@ -35,31 +41,14 @@ class ProxyListenersContainer {
     }
 
     private final Semaphore listenersGuard = new Semaphore(1);
-    // Previously WeakHashMap has been used because of O(1) lookup performance, although
-    // we had to change it to a list, which has O(N). The reason for that is that
-    // maps implicitly call `hashCode` API on instances, which might not always
-    // work as expected for arbitrary proxies
-    private final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> listeners = new LinkedList<>();
+    private final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> listenerPairs = new LinkedList<>();
 
+    @Getter
+    @AllArgsConstructor
     private static class Pair<K, V> {
         private final K key;
-        private final V value;
-
-        public Pair(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
-    }
-
-    private ProxyListenersContainer() {
+        @Setter
+        private V value;
     }
 
     /**
@@ -78,24 +67,23 @@ class ProxyListenersContainer {
         try {
             int i = 0;
             boolean wasInstancePresent = false;
-            while (i < this.listeners.size()) {
-                Pair<WeakReference<?>, Collection<MethodCallListener>> pair = this.listeners.get(i);
+            while (i < listenerPairs.size()) {
+                var pair = listenerPairs.get(i);
                 Object key = pair.getKey().get();
                 if (key == null) {
                     // The instance has been garbage-collected
-                    this.listeners.remove(i);
+                    listenerPairs.remove(i);
                     continue;
                 }
 
                 if (key == proxyInstance) {
-                    pair.getValue().clear();
-                    pair.getValue().addAll(listeners);
+                    pair.setValue(List.copyOf(listeners));
                     wasInstancePresent = true;
                 }
                 i++;
             }
             if (!wasInstancePresent) {
-                this.listeners.add(new Pair<>(new WeakReference<>(proxyInstance), new HashSet<>(listeners)));
+                listenerPairs.add(new Pair<>(new WeakReference<>(proxyInstance), List.copyOf(listeners)));
             }
         } finally {
             listenersGuard.release();
@@ -116,13 +104,13 @@ class ProxyListenersContainer {
         }
         try {
             int i = 0;
-            Collection<MethodCallListener> result = Collections.emptySet();
-            while (i < listeners.size()) {
-                Pair<WeakReference<?>, Collection<MethodCallListener>> pair = listeners.get(i);
+            Collection<MethodCallListener> result = Collections.emptyList();
+            while (i < listenerPairs.size()) {
+                var pair = listenerPairs.get(i);
                 Object key = pair.getKey().get();
                 if (key == null) {
                     // The instance has been garbage-collected
-                    listeners.remove(i);
+                    listenerPairs.remove(i);
                     continue;
                 }
 

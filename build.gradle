@@ -16,8 +16,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     withJavadocJar()
     withSourcesJar()
 }
@@ -34,25 +34,23 @@ dependencies {
 
     api ('org.seleniumhq.selenium:selenium-api') {
         version {
-            strictly "[${seleniumVersion}, 4.14)"
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }
     api ('org.seleniumhq.selenium:selenium-remote-driver') {
         version {
-            strictly "[${seleniumVersion}, 4.14)"
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }
     api ('org.seleniumhq.selenium:selenium-support') {
         version {
-            strictly "[${seleniumVersion}, 4.14)"
+            strictly "[${seleniumVersion}, 5.0)"
             prefer "${seleniumVersion}"
         }
     }
     implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'org.apache.commons:commons-lang3:3.13.0'
-    implementation 'commons-io:commons-io:2.14.0'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
@@ -93,16 +91,13 @@ tasks.withType(JacocoReport) {
 }
 jacocoTestReport.dependsOn test
 
-// Checkstyle requires Java 11 starting from 10.0
-if (JavaVersion.current().isJava11Compatible()) {
-    apply plugin: 'checkstyle'
+apply plugin: 'checkstyle'
 
-    checkstyle {
-        toolVersion = '10.12.1'
-        configFile = configDirectory.file('appium-style.xml').get().getAsFile()
-        showViolations = true
-        ignoreFailures = false
-    }
+checkstyle {
+    toolVersion = '10.12.1'
+    configFile = configDirectory.file('appium-style.xml').get().getAsFile()
+    showViolations = true
+    ignoreFailures = false
 }
 
 javadoc {

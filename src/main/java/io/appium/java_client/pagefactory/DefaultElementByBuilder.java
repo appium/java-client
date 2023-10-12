@@ -175,11 +175,6 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
                     getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
         }
 
-        if (isWindows()) {
-            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::windowsAutomation).orElse(null),
-                    getBys(WindowsFindBy.class, WindowsFindBys.class, WindowsFindAll.class));
-        }
-
         return null;
     }
 

@@ -19,7 +19,6 @@ package io.appium.java_client.service.local;
 import com.google.common.annotations.VisibleForTesting;
 import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.CommandLine;
 import org.openqa.selenium.remote.service.DriverService;
@@ -47,6 +46,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
 import static org.slf4j.event.Level.DEBUG;
@@ -183,7 +183,7 @@ public final class AppiumDriverLocalService extends DriverService {
             } catch (Exception e) {
                 final Optional<String> output = Optional.ofNullable(process)
                         .map(CommandLine::getStdOut)
-                        .filter(o -> !StringUtils.isBlank(o));
+                        .filter(o -> !isNullOrEmpty(o));
                 destroyProcess();
                 List<String> errorLines = new ArrayList<>();
                 errorLines.add("The local appium server has not been started");
@@ -200,7 +200,7 @@ public final class AppiumDriverLocalService extends DriverService {
                 errorLines.add(String.format("Arguments: %s", nodeJSArgs));
                 output.ifPresent(o -> errorLines.add(String.format("Output: %s", o)));
                 throw new AppiumServerHasNotBeenStartedLocallyException(
-                        StringUtils.joinWith("\n", errorLines), e
+                        String.join("\n", errorLines), e
                 );
             }
         } finally {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.appium.java_client;
+package io.appium.java_client.internal.filters;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.net.HttpHeaders;
@@ -82,7 +82,6 @@ public class AppiumUserAgentFilter implements Filter {
 
     @Override
     public HttpHandler apply(HttpHandler next) {
-
         return req -> {
             req.setHeader(HttpHeaders.USER_AGENT, buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
             return next.execute(req);

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * This is a simple POJO class to support the {@link StartsActivity}.
@@ -29,9 +29,9 @@ public class Activity {
      * @param appActivity The value for the app activity.
      */
     public Activity(String appPackage, String appActivity) {
-        checkArgument(!isBlank(appPackage),
+        checkArgument(!isNullOrEmpty(appPackage),
             "App package should be defined as not empty or null string");
-        checkArgument(!isBlank(appActivity),
+        checkArgument(!isNullOrEmpty(appActivity),
             "App activity should be defined as not empty or null string");
         this.appPackage = appPackage;
         this.appActivity = appActivity;

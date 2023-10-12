@@ -23,6 +23,7 @@ import net.bytebuddy.matcher.ElementMatcher;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
@@ -36,17 +37,26 @@ import static net.bytebuddy.matcher.ElementMatchers.not;
  * proxy object here.
  */
 public final class ProxyFactory {
-    private static final Set<String> NON_PROXYABLE_METHODS = setWithout(OBJECT_METHOD_NAMES, "toString");
+    private static final Set<String> NON_PROXYABLE_METHODS = setWith(
+            setWithout(OBJECT_METHOD_NAMES, "toString"),
+            "iterator"
+    );
 
-    @SuppressWarnings("unchecked")
+    @SafeVarargs
     private static <T> Set<T> setWithout(@SuppressWarnings("SameParameterValue") Set<T> source, T... items) {
         Set<T> result = new HashSet<>(source);
         Arrays.asList(items).forEach(result::remove);
         return Collections.unmodifiableSet(result);
     }
 
+    @SafeVarargs
+    private static <T> Set<T> setWith(@SuppressWarnings("SameParameterValue") Set<T> source, T... items) {
+        Set<T> result = new HashSet<>(source);
+        result.addAll(List.of(items));
+        return Collections.unmodifiableSet(result);
+    }
+
     private ProxyFactory() {
-        super();
     }
 
     /**

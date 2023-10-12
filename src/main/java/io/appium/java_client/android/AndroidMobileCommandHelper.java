@@ -18,13 +18,10 @@ package io.appium.java_client.android;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileCommand;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.AbstractMap;
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * This util class helps to prepare parameters of Android-specific JSONWP
@@ -50,22 +47,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
         return new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of());
-    }
-
-    /**
-     * This method forms a {@link Map} of parameters for the ending of the test coverage.
-     *
-     * @param intent intent to broadcast.
-     * @param path   path to .ec file.
-     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> endTestCoverageCommand(String intent,
-        String path) {
-        String[] parameters = new String[] {"intent", "path"};
-        Object[] values = new Object[] {intent, path};
-        return new AbstractMap.SimpleEntry<>(
-                END_TEST_COVERAGE, prepareArguments(parameters, values));
     }
 
     /**
@@ -190,53 +171,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         Object[] values = new Object[] {"network_connection", ImmutableMap.of("type", bitMask)};
         return new AbstractMap.SimpleEntry<>(
                 SET_NETWORK_CONNECTION, prepareArguments(parameters, values));
-    }
-
-    /**
-     * This method forms a {@link Map} of parameters for the activity starting.
-     *
-     * @param appPackage      The package containing the activity. [Required]
-     * @param appActivity     The activity to start. [Required]
-     * @param appWaitPackage  Automation will begin after this package starts. [Optional]
-     * @param appWaitActivity Automation will begin after this activity starts. [Optional]
-     * @param intentAction  Intent action which will be used to start activity [Optional]
-     * @param intentCategory  Intent category which will be used to start activity [Optional]
-     * @param intentFlags  Flags that will be used to start activity [Optional]
-     * @param optionalIntentArguments Additional intent arguments that will be used to
-     *                                start activity [Optional]
-     * @param stopApp         Stop app on reset or not
-     * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
-     * @throws IllegalArgumentException when any required argument is empty
-     */
-    @Deprecated
-    public static Map.Entry<String, Map<String, ?>> startActivityCommand(String appPackage,
-        String appActivity, String appWaitPackage, String appWaitActivity,
-        String intentAction, String intentCategory, String intentFlags,
-        String optionalIntentArguments, boolean stopApp) throws IllegalArgumentException {
-
-        checkArgument(!StringUtils.isBlank(appPackage) && !StringUtils.isBlank(appActivity),
-            String.format("'%s' and '%s' are required.", "appPackage", "appActivity"));
-
-        String targetWaitPackage = !StringUtils.isBlank(appWaitPackage) ? appWaitPackage : "";
-        String targetWaitActivity = !StringUtils.isBlank(appWaitActivity) ? appWaitActivity : "";
-        String targetIntentAction = !StringUtils.isBlank(intentAction) ? intentAction : "";
-        String targetIntentCategory = !StringUtils.isBlank(intentCategory) ? intentCategory : "";
-        String targetIntentFlags = !StringUtils.isBlank(intentFlags) ? intentFlags : "";
-        String targetOptionalIntentArguments = !StringUtils.isBlank(optionalIntentArguments)
-            ? optionalIntentArguments : "";
-
-        ImmutableMap<String, ?> parameters = ImmutableMap
-            .<String, Object>builder().put("appPackage", appPackage)
-            .put("appActivity", appActivity)
-            .put("appWaitPackage", targetWaitPackage)
-            .put("appWaitActivity", targetWaitActivity)
-            .put("dontStopAppOnReset", !stopApp)
-            .put("intentAction", targetIntentAction)
-            .put("intentCategory", targetIntentCategory)
-            .put("intentFlags", targetIntentFlags)
-            .put("optionalIntentArguments", targetOptionalIntentArguments)
-            .build();
-        return new AbstractMap.SimpleEntry<>(START_ACTIVITY, parameters);
     }
 
     /**

@@ -16,11 +16,15 @@
 
 package io.appium.java_client;
 
+import io.appium.java_client.internal.filters.AppiumIdempotencyFilter;
+import io.appium.java_client.internal.filters.AppiumUserAgentFilter;
 import org.openqa.selenium.Credentials;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
+import javax.annotation.Nullable;
+import javax.net.ssl.SSLContext;
 import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,7 +37,10 @@ import java.time.Duration;
 public class AppiumClientConfig extends ClientConfig {
     private final boolean directConnect;
 
-    private static final Filter DEFAULT_FILTER = new AppiumUserAgentFilter();
+    private static final Filter DEFAULT_FILTERS = new AppiumUserAgentFilter()
+            .andThen(new AppiumIdempotencyFilter());
+
+    private static final String DEFAULT_HTTP_VERSION = "HTTP_1_1";
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
@@ -49,6 +56,7 @@ public class AppiumClientConfig extends ClientConfig {
      *                {@link org.openqa.selenium.remote.http.HttpResponse}.
      * @param proxy The client proxy preference.
      * @param credentials Credentials used for authenticating http requests
+     * @param sslContext SSL context (if present)
      * @param directConnect If directConnect is enabled.
      */
     protected AppiumClientConfig(
@@ -56,10 +64,12 @@ public class AppiumClientConfig extends ClientConfig {
             Duration connectionTimeout,
             Duration readTimeout,
             Filter filters,
-            Proxy proxy,
-            Credentials credentials,
+            @Nullable Proxy proxy,
+            @Nullable Credentials credentials,
+            @Nullable SSLContext sslContext,
+            @Nullable String version,
             Boolean directConnect) {
-        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials);
+        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials, sslContext, version);
 
         this.directConnect = Require.nonNull("Direct Connect", directConnect);
     }
@@ -73,9 +83,11 @@ public class AppiumClientConfig extends ClientConfig {
                 null,
                 DEFAULT_CONNECTION_TIMEOUT,
                 DEFAULT_READ_TIMEOUT,
-                DEFAULT_FILTER,
+                DEFAULT_FILTERS,
                 null,
                 null,
+                null,
+                DEFAULT_HTTP_VERSION,
                 false);
     }
 
@@ -92,6 +104,8 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.filter(),
                 clientConfig.proxy(),
                 clientConfig.credentials(),
+                clientConfig.sslContext(),
+                clientConfig.version(),
                 false);
     }
 
@@ -103,6 +117,8 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.filter(),
                 clientConfig.proxy(),
                 clientConfig.credentials(),
+                clientConfig.sslContext(),
+                clientConfig.version(),
                 directConnect);
     }
 
@@ -175,6 +191,8 @@ public class AppiumClientConfig extends ClientConfig {
             this.filter(),
             this.proxy(),
             this.credentials(),
+            this.sslContext(),
+            this.version(),
             directConnect
         );
     }

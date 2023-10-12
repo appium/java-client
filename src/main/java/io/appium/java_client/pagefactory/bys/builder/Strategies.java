@@ -17,7 +17,6 @@
 package io.appium.java_client.pagefactory.bys.builder;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.By;
@@ -38,16 +37,6 @@ enum Strategies {
                 return AppiumBy.androidUIAutomator(value);
             }
             return super.getBy(annotation);
-        }
-    },
-    /**
-     * This has been deprecated due to misspelling.
-     * @deprecated Use {@link Strategies#BYACCESSIBILITY} instead.
-     */
-    @Deprecated
-    BYACCESSABILITY("accessibility") {
-        @Override By getBy(Annotation annotation) {
-            return AppiumBy.accessibilityId(getValue(annotation, this));
         }
     },
     BYACCESSIBILITY("accessibility") {
@@ -91,16 +80,6 @@ enum Strategies {
         @Override By getBy(Annotation annotation) {
             return By
                 .partialLinkText(getValue(annotation, this));
-        }
-    },
-    /**
-     * The Windows UIAutomation strategy.
-     * @deprecated Not supported on the server side.
-     */
-    @Deprecated
-    BYWINDOWSAUTOMATION("windowsAutomation") {
-        @Override By getBy(Annotation annotation) {
-            return MobileBy.windowsAutomation(getValue(annotation, this));
         }
     },
     BY_CLASS_CHAIN("iOSClassChain") {

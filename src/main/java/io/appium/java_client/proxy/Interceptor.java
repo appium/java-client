@@ -39,9 +39,9 @@ public class Interceptor {
      * A magic method used to wrap public method calls in classes
      * patched by ByteBuddy and acting as proxies.
      *
-     * @param self The reference to the original instance.
-     * @param method The reference to the original method.
-     * @param args The reference to method args.
+     * @param self     The reference to the original instance.
+     * @param method   The reference to the original method.
+     * @param args     The reference to method args.
      * @param callable The reference to the non-patched callable to avoid call recursion.
      * @return Either the original method result or the patched one.
      */
@@ -64,10 +64,9 @@ public class Interceptor {
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
-                LOGGER.atError()
-                        .addArgument(() -> self.getClass().getName())
-                        .addArgument(method::getName)
-                        .log("Got an unexpected error in beforeCall listener of {}.{} method", e);
+                LOGGER.atError().log("Got an unexpected error in beforeCall listener of {}.{} method",
+                        self.getClass().getName(), method.getName(), e
+                );
             }
         });
 
@@ -110,10 +109,9 @@ public class Interceptor {
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
-                LOGGER.atError()
-                        .addArgument(() -> self.getClass().getName())
-                        .addArgument(method::getName)
-                        .log("Got an unexpected error in afterCall listener of {}.{} method", e);
+                LOGGER.atError().log("Got an unexpected error in afterCall listener of {}.{} method",
+                        self.getClass().getName(), method.getName(), e
+                );
             }
         });
         return endResult;

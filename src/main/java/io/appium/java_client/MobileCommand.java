@@ -21,7 +21,6 @@ import io.appium.java_client.imagecomparison.BaseComparisonOptions;
 import io.appium.java_client.imagecomparison.ComparisonMode;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.http.HttpMethod;
 
@@ -31,6 +30,8 @@ import java.time.Duration;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * The repository of mobile commands defined in the Mobile JSON
@@ -435,7 +436,7 @@ public class MobileCommand {
                                                                 Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         for (int i = 0; i < params.length; i++) {
-            if (!StringUtils.isBlank(params[i]) && values[i] != null) {
+            if (!isNullOrEmpty(params[i]) && values[i] != null) {
                 builder.put(params[i], values[i]);
             }
         }

@@ -16,16 +16,15 @@
 
 package io.appium.java_client.android;
 
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -53,11 +52,9 @@ public class ExecuteCDPCommandTest {
         service = AppiumDriverLocalService.buildDefaultService();
         service.start();
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-        driver = new AndroidDriver(service.getUrl(), capabilities);
+        driver = new AndroidDriver(service.getUrl(), new UiAutomator2Options()
+                .withBrowserName(MobileBrowserType.CHROME)
+                .setDeviceName("Android Emulator"));
         //This time out is set because test can be run on slow Android SDK emulator
         PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(5)), this);
     }

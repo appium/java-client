@@ -19,7 +19,6 @@ package io.appium.java_client.service.local;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.AutomationName;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -29,10 +28,14 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
+import static io.appium.java_client.remote.options.SupportsAppOption.APP_OPTION;
+import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
+import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyAndroidTest {
 
@@ -46,11 +49,11 @@ class StartingAppLocallyAndroidTest {
             Capabilities caps = driver.getCapabilities();
 
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    String.valueOf(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)))
+                    String.valueOf(caps.getCapability(PLATFORM_NAME)))
             );
-            assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(MobileCapabilityType.AUTOMATION_NAME));
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
-            assertEquals(apiDemosApk().toAbsolutePath().toString(), caps.getCapability(MobileCapabilityType.APP));
+            assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(AUTOMATION_NAME_OPTION));
+            assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
+            assertEquals(apiDemosApk().toAbsolutePath().toString(), caps.getCapability(APP_OPTION));
         } finally {
             driver.quit();
         }
@@ -70,9 +73,9 @@ class StartingAppLocallyAndroidTest {
             Capabilities caps = driver.getCapabilities();
 
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    String.valueOf(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)))
+                    String.valueOf(caps.getCapability(PLATFORM_NAME)))
             );
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
         } finally {
             driver.quit();
         }
@@ -105,9 +108,9 @@ class StartingAppLocallyAndroidTest {
             Capabilities caps = driver.getCapabilities();
 
             assertTrue(MobilePlatform.ANDROID.equalsIgnoreCase(
-                    String.valueOf(caps.getCapability(MobileCapabilityType.PLATFORM_NAME)))
+                    String.valueOf(caps.getCapability(PLATFORM_NAME)))
             );
-            assertNotNull(caps.getCapability(MobileCapabilityType.DEVICE_NAME));
+            assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
         } finally {
             driver.quit();
         }
