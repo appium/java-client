@@ -16,16 +16,16 @@
 
 package io.appium.java_client.ws;
 
-import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.WebSocket;
 
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.net.URI;
-import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
@@ -37,6 +37,12 @@ public class StringWebSocketClient implements WebSocket.Listener,
     private final List<Runnable> disconnectHandlers = new CopyOnWriteArrayList<>();
 
     private volatile boolean isListening = false;
+
+    private final WeakReference<HttpClient> httpClient;
+
+    public StringWebSocketClient(HttpClient httpClient) {
+        this.httpClient = new WeakReference<>(httpClient);
+    }
 
     private URI endpoint;
 
@@ -64,12 +70,8 @@ public class StringWebSocketClient implements WebSocket.Listener,
             return;
         }
 
-        ClientConfig clientConfig = ClientConfig.defaultConfig()
-                .readTimeout(Duration.ZERO)
-                .baseUri(endpoint); // To avoid NPE in org.openqa.selenium.remote.http.netty.NettyMessages (line 78)
-        HttpClient client = HttpClient.Factory.createDefault().createClient(clientConfig);
         HttpRequest request = new HttpRequest(HttpMethod.GET, endpoint.toString());
-        client.openSocket(request, this);
+        Objects.requireNonNull(httpClient.get()).openSocket(request, this);
         onOpen();
 
         setEndpoint(endpoint);

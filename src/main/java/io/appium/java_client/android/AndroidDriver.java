@@ -259,7 +259,7 @@ public class AndroidDriver extends AppiumDriver implements
     @Override
     public synchronized StringWebSocketClient getLogcatClient() {
         if (logcatClient == null) {
-            logcatClient = new StringWebSocketClient();
+            logcatClient = new StringWebSocketClient(getHttpClient());
         }
         return logcatClient;
     }

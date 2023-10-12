@@ -340,4 +340,10 @@ public class AppiumDriver extends RemoteWebDriver implements
         absentExtensionNames.add(extName);
         return this;
     }
+
+    protected HttpClient getHttpClient() {
+        return ReflectionHelpers.getPrivateFieldValue(
+                HttpCommandExecutor.class, getCommandExecutor(), "client", HttpClient.class
+        );
+    }
 }

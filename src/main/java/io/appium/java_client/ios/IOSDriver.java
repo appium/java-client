@@ -288,7 +288,7 @@ public class IOSDriver extends AppiumDriver implements
     @Override
     public synchronized StringWebSocketClient getSyslogClient() {
         if (syslogClient == null) {
-            syslogClient = new StringWebSocketClient();
+            syslogClient = new StringWebSocketClient(getHttpClient());
         }
         return syslogClient;
     }
