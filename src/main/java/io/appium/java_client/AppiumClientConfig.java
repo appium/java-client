@@ -40,6 +40,8 @@ public class AppiumClientConfig extends ClientConfig {
     private static final Filter DEFAULT_FILTERS = new AppiumUserAgentFilter()
             .andThen(new AppiumIdempotencyFilter());
 
+    private static final String DEFAULT_HTTP_VERSION = "HTTP_1_1";
+
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofMinutes(10);
 
     private static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ofSeconds(10);
@@ -65,8 +67,9 @@ public class AppiumClientConfig extends ClientConfig {
             @Nullable Proxy proxy,
             @Nullable Credentials credentials,
             @Nullable SSLContext sslContext,
+            @Nullable String version,
             Boolean directConnect) {
-        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials, sslContext);
+        super(baseUri, connectionTimeout, readTimeout, filters, proxy, credentials, sslContext, version);
 
         this.directConnect = Require.nonNull("Direct Connect", directConnect);
     }
@@ -84,6 +87,7 @@ public class AppiumClientConfig extends ClientConfig {
                 null,
                 null,
                 null,
+                DEFAULT_HTTP_VERSION,
                 false);
     }
 
@@ -101,6 +105,7 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.proxy(),
                 clientConfig.credentials(),
                 clientConfig.sslContext(),
+                clientConfig.version(),
                 false);
     }
 
@@ -113,6 +118,7 @@ public class AppiumClientConfig extends ClientConfig {
                 clientConfig.proxy(),
                 clientConfig.credentials(),
                 clientConfig.sslContext(),
+                clientConfig.version(),
                 directConnect);
     }
 
@@ -186,6 +192,7 @@ public class AppiumClientConfig extends ClientConfig {
             this.proxy(),
             this.credentials(),
             this.sslContext(),
+            this.version(),
             directConnect
         );
     }
