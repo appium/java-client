@@ -77,6 +77,9 @@ public class StringWebSocketClient implements WebSocket.Listener,
         setEndpoint(endpoint);
     }
 
+    /**
+     * The callback method invoked on websocket opening.
+     */
     public void onOpen() {
         try {
             getConnectionHandlers().forEach(Runnable::run);
