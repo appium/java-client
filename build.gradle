@@ -13,9 +13,6 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri('https://oss.sonatype.org/content/repositories/snapshots/')
-    }
 }
 
 java {
@@ -35,28 +32,24 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    api 'org.seleniumhq.selenium:selenium-api:4.15.0-SNAPSHOT'
-    api 'org.seleniumhq.selenium:selenium-remote-driver:4.15.0-SNAPSHOT'
-    api 'org.seleniumhq.selenium:selenium-support:4.15.0-SNAPSHOT'
-
-//    api ('org.seleniumhq.selenium:selenium-api') {
-//        version {
-//            strictly "[${seleniumVersion}, 5.0)"
-//            prefer "${seleniumVersion}"
-//        }
-//    }
-//    api ('org.seleniumhq.selenium:selenium-remote-driver') {
-//        version {
-//            strictly "[${seleniumVersion}, 5.0)"
-//            prefer "${seleniumVersion}"
-//        }
-//    }
-//    api ('org.seleniumhq.selenium:selenium-support') {
-//        version {
-//            strictly "[${seleniumVersion}, 5.0)"
-//            prefer "${seleniumVersion}"
-//        }
-//    }
+    api ('org.seleniumhq.selenium:selenium-api') {
+        version {
+            strictly "[${seleniumVersion}, 5.0)"
+            prefer "${seleniumVersion}"
+        }
+    }
+    api ('org.seleniumhq.selenium:selenium-remote-driver') {
+        version {
+            strictly "[${seleniumVersion}, 5.0)"
+            prefer "${seleniumVersion}"
+        }
+    }
+    api ('org.seleniumhq.selenium:selenium-support') {
+        version {
+            strictly "[${seleniumVersion}, 5.0)"
+            prefer "${seleniumVersion}"
+        }
+    }
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
 

@@ -16,11 +16,20 @@
 
 package io.appium.java_client.proxy;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class ProxyListenersContainer {
     private static ProxyListenersContainer INSTANCE;
 
@@ -31,9 +40,15 @@ class ProxyListenersContainer {
         return INSTANCE;
     }
 
-    private final Map<Object, Collection<MethodCallListener>> listenersMap = new WeakHashMap<>();
+    private final Semaphore listenersGuard = new Semaphore(1);
+    private final List<Pair<WeakReference<?>, Collection<MethodCallListener>>> listenerPairs = new LinkedList<>();
 
-    private ProxyListenersContainer() {
+    @Getter
+    @AllArgsConstructor
+    private static class Pair<K, V> {
+        private final K key;
+        @Setter
+        private V value;
     }
 
     /**
@@ -44,8 +59,34 @@ class ProxyListenersContainer {
      * @return The same given instance.
      */
     public <T> T setListeners(T proxyInstance, Collection<MethodCallListener> listeners) {
-        synchronized (listenersMap) {
-            listenersMap.put(proxyInstance, listeners);
+        try {
+            listenersGuard.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            int i = 0;
+            boolean wasInstancePresent = false;
+            while (i < listenerPairs.size()) {
+                var pair = listenerPairs.get(i);
+                Object key = pair.getKey().get();
+                if (key == null) {
+                    // The instance has been garbage-collected
+                    listenerPairs.remove(i);
+                    continue;
+                }
+
+                if (key == proxyInstance) {
+                    pair.setValue(List.copyOf(listeners));
+                    wasInstancePresent = true;
+                }
+                i++;
+            }
+            if (!wasInstancePresent) {
+                listenerPairs.add(new Pair<>(new WeakReference<>(proxyInstance), List.copyOf(listeners)));
+            }
+        } finally {
+            listenersGuard.release();
         }
         return proxyInstance;
     }
@@ -56,8 +97,31 @@ class ProxyListenersContainer {
      * @param proxyInstance The proxied instance.
      */
     public Collection<MethodCallListener> getListeners(Object proxyInstance) {
-        synchronized (listenersMap) {
-            return listenersMap.getOrDefault(proxyInstance, Collections.emptySet());
+        try {
+            listenersGuard.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            int i = 0;
+            Collection<MethodCallListener> result = Collections.emptySet();
+            while (i < listenerPairs.size()) {
+                var pair = listenerPairs.get(i);
+                Object key = pair.getKey().get();
+                if (key == null) {
+                    // The instance has been garbage-collected
+                    listenerPairs.remove(i);
+                    continue;
+                }
+
+                if (key == proxyInstance) {
+                    result = pair.getValue();
+                }
+                i++;
+            }
+            return List.copyOf(result);
+        } finally {
+            listenersGuard.release();
         }
     }
 
