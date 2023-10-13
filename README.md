@@ -6,10 +6,15 @@
 
 This is the Java language bindings for writing Appium Tests that conform to [WebDriver Protocol](https://w3c.github.io/webdriver/)
 
-## v8 Migration
+## v8 to v9 Migration
+
+Since v9 the client only supports Java 11 and above.
+Follow the [v8 to v9 Migration Guide](./docs/v8-to-v9-migration-guide.md) in order to streamline the migration process.
+
+## v7 to v8 Migration
 
 Since version 8 Appium Java Client had several major changes, which might require to 
-update your client code. Make sure to follow the [v7 to v8 Migration Guide](https://github.com/appium/java-client/blob/master/docs/v7-to-v8-migration-guide.md)
+update your client code. Make sure to follow the [v7 to v8 Migration Guide](./docs/v7-to-v8-migration-guide.md)
 in order to streamline the migration process.
 
 ## Add Appium java client to your test framework
@@ -90,6 +95,7 @@ dependencies {
 ### Compatibility Matrix
  Appium Java Client | Selenium client
 --------------------|-----------------
+ `9.0.0`            | `4.14.1`
  `8.5.0`, `8.5.1`   | `4.9.1`, `4.10.0`, `4.11.0`, `4.12.0`, `4.12.1` (known issue: appium/java-client#2004), `4.13.0`
  `8.4.0`            | `4.8.2`, `4.8.3`, `4.9.0`
  `8.3.0`            | `4.7.0`, `4.7.1`, `4.7.2`, `4.8.0`, `4.8.1`
