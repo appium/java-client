@@ -35,10 +35,10 @@ jobs:
             # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
             platform: macos-12
             e2e-tests: ios
-          - java: 15
+          - java: 17
             platform: macos-latest
             e2e-tests: android
-          - java: 17
+          - java: 21
             platform: ubuntu-latest
       fail-fast: false
 
