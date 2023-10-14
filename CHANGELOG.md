@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.0.0_
+- **[DOCUMENTATION]**
+  - Add 8 to 9 migration guide. [#2039](https://github.com/appium/java-client/pull/2039)
+- **[BREAKING CHANGE]** [#2036](https://github.com/appium/java-client/pull/2036)
+  - Set minimum Java version to 11.
+  - The previously deprecated MobileBy class has been removed. Use AppiumBy instead.
+  - The previously deprecated launchApp, resetApp and closeApp methods have been removed. Use extension methods instead.
+  - The previously deprecated WindowsBy class and related location strategies have been removed.
+  - The previously deprecated ByAll class has been removed in favour of the Selenium one.
+  - The previously deprecated AndroidMobileCapabilityType interface has been removed. Use driver options instead
+  - The previously deprecated IOSMobileCapabilityType interface has been removed. Use driver options instead
+  - The previously deprecated MobileCapabilityType interface has been removed. Use driver options instead
+  - The previously deprecated MobileOptions class has been removed. Use driver options instead
+  - The previously deprecated YouiEngineCapabilityType interface has been removed. Use driver options instead
+  - Removed several misspelled methods. Use properly spelled alternatives instead
+  - Removed startActivity method from AndroidDriver. Use 'mobile: startActivity' extension method instead
+  - Removed the previously deprecated APPIUM constant from the AutomationName interface
+  - Removed the previously deprecated PRE_LAUNCH value from the GeneralServerFlag enum
+  - Moved AppiumUserAgentFilter class to io.appium.java_client.internal.filters package
+- **[REFACTOR]**
+  - Align Selenium version in test dependencies. [#2042](https://github.com/appium/java-client/pull/2042)
+- **[DEPENDENCY CHANGE]**
+  - Removed dependencies to Apache Commons libraries.
+
 _8.6.0_
 
 - **[BUG FIX]**
