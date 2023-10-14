@@ -24,6 +24,8 @@ _9.0.0_
   - Removed the previously deprecated APPIUM constant from the AutomationName interface
   - Removed the previously deprecated PRE_LAUNCH value from the GeneralServerFlag enum
   - Moved AppiumUserAgentFilter class to io.appium.java_client.internal.filters package
+- **[REFACTOR]**
+  - Align Selenium version in test dependencies. [#2042](https://github.com/appium/java-client/pull/2042)
 - **[DEPENDENCY CHANGE]**
   - Removed dependencies to Apache Commons libraries.
 
