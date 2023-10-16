@@ -86,8 +86,27 @@ or the corresponding extension methods for the driver (if available).
 Check
   - https://www.youtube.com/watch?v=oAJ7jwMNFVU
   - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
-  - https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/android/android-mobile-gestures.md
-  - https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md
+  - Android gesture shortcuts:
+    * [mobile: longClickGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-longclickgesture)
+    * [mobile: doubleClickGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-doubleclickgesture)
+    * [mobile: clickGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-clickgesture)
+    * [mobile: dragGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-draggesture)
+    * [mobile: flingGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-flinggesture)
+    * [mobile: pinchOpenGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-pinchopengesture)
+    * [mobile: pinchCloseGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-pinchclosegesture)
+    * [mobile: swipeGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-swipegesture)
+    * [mobile: scrollGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-scrollgesture)
+  - iOS gesture shortcuts:
+    * [mobile: swipe](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-swipe)
+    * [mobile: scroll](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-scroll)
+    * [mobile: pinch](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-pinch)
+    * [mobile: doubleTap](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-doubletap)
+    * [mobile: touchAndHold](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-touchandhold)
+    * [mobile: twoFingerTap](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-twofingertap)
+    * [mobile: tap](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-tap)
+    * [mobile: dragFromToForDuration](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-dragfromtoforduration)
+    * [mobile: dragFromToWithVelocity](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-dragfromtowithvelocity)
+    * [mobile: scrollToElement](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-scrolltoelement)
   - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
 for more details on how to properly apply W3C Actions to your automation context.
 
