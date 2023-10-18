@@ -49,8 +49,7 @@ import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
-
-import static io.appium.java_client.MobileCommand.prepareArguments;
+import java.util.Map;
 
 /**
  * iOS driver implementation.
@@ -275,7 +274,7 @@ public class IOSDriver extends AppiumDriver implements
         }
 
         @Override public void sendKeys(String keysToSend) {
-            execute(DriverCommand.SET_ALERT_VALUE, prepareArguments("value", keysToSend));
+            execute(DriverCommand.SET_ALERT_VALUE, Map.of("value", keysToSend));
         }
 
     }

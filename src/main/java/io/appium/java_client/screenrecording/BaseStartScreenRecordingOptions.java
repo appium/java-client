@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import java.time.Duration;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenRecordingOptions<T>>
@@ -36,7 +36,7 @@ public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenR
      * @return self instance for chaining.
      */
     public T withTimeLimit(Duration timeLimit) {
-        this.timeLimit = checkNotNull(timeLimit);
+        this.timeLimit = requireNonNull(timeLimit);
         //noinspection unchecked
         return (T) this;
     }

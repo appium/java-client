@@ -16,10 +16,8 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileCommand;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 @Deprecated
@@ -32,8 +30,8 @@ public class IOSMobileCommandHelper extends MobileCommand {
      * @deprecated this helper is deprecated and will be removed in future versions.
      */
     @Deprecated
-    public static Map.Entry<String, Map<String, ?>>  shakeCommand() {
-        return new AbstractMap.SimpleEntry<>(SHAKE, ImmutableMap.of());
+    public static Map.Entry<String, Map<String, ?>> shakeCommand() {
+        return Map.entry(SHAKE, Map.of());
     }
 
     /**
@@ -45,8 +43,7 @@ public class IOSMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> touchIdCommand(boolean match) {
-        return new AbstractMap.SimpleEntry<>(
-            TOUCH_ID, prepareArguments("match", match));
+        return Map.entry(TOUCH_ID, Map.of("match", match));
     }
 
     /**
@@ -59,7 +56,6 @@ public class IOSMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleTouchIdEnrollmentCommand(boolean enabled) {
-        return new AbstractMap.SimpleEntry<>(
-                TOUCH_ID_ENROLLMENT, prepareArguments("enabled", enabled));
+        return Map.entry(TOUCH_ID_ENROLLMENT, Map.of("enabled", enabled));
     }
 }

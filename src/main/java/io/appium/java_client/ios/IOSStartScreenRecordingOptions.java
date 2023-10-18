@@ -23,7 +23,7 @@ import io.appium.java_client.screenrecording.ScreenRecordingUploadOptions;
 import java.time.Duration;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public class IOSStartScreenRecordingOptions
@@ -56,7 +56,7 @@ public class IOSStartScreenRecordingOptions
      * @return self instance for chaining.
      */
     public IOSStartScreenRecordingOptions withVideoType(String videoType) {
-        this.videoType = checkNotNull(videoType);
+        this.videoType = requireNonNull(videoType);
         return this;
     }
 
@@ -72,7 +72,7 @@ public class IOSStartScreenRecordingOptions
      * @return self instance for chaining.
      */
     public IOSStartScreenRecordingOptions withVideoQuality(VideoQuality videoQuality) {
-        this.videoQuality = checkNotNull(videoQuality).name().toLowerCase();
+        this.videoQuality = requireNonNull(videoQuality).name().toLowerCase();
         return this;
     }
 
@@ -98,7 +98,7 @@ public class IOSStartScreenRecordingOptions
      * @return self instance for chaining.
      */
     public IOSStartScreenRecordingOptions withVideoScale(String videoScale) {
-        this.videoScale = checkNotNull(videoScale);
+        this.videoScale = requireNonNull(videoScale);
         return this;
     }
 

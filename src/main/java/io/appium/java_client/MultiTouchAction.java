@@ -17,7 +17,6 @@
 package io.appium.java_client;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 import java.util.Map;
@@ -89,10 +88,10 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
     }
 
     protected Map<String, List<Object>> getParameters() {
-        ImmutableList<TouchAction> touchActions = actions.build();
-        return ImmutableMap.of("actions",
-                touchActions.stream().map(touchAction ->
-                        touchAction.getParameters().get("actions")).collect(toList()));
+        return Map.of("actions",
+                actions.build().stream().map(touchAction ->
+                        touchAction.getParameters().get("actions")).collect(toList())
+        );
     }
 
     /**

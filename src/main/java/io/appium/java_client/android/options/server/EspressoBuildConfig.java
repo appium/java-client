@@ -42,7 +42,7 @@ public class EspressoBuildConfig extends BaseMapOptionData<EspressoBuildConfig> 
         Optional<Map<String, Object>> toolsVersionsOptional = getOptionValue(TOOLS_VERSION);
         Map<String, Object> toolsVersions = toolsVersionsOptional.orElseGet(HashMap::new);
         toolsVersions.put(name, value);
-        if (!toolsVersionsOptional.isPresent()) {
+        if (toolsVersionsOptional.isEmpty()) {
             assignOptionValue(TOOLS_VERSION, toolsVersions);
         }
         return this;

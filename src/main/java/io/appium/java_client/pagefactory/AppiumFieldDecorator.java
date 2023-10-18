@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import com.google.common.collect.ImmutableList;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
@@ -62,7 +61,7 @@ import static java.time.Duration.ofSeconds;
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
-    private static final List<Class<? extends WebElement>> AVAILABLE_ELEMENT_CLASSES = ImmutableList.of(
+    private static final List<Class<? extends WebElement>> AVAILABLE_ELEMENT_CLASSES = List.of(
             WebElement.class,
             RemoteWebElement.class
     );

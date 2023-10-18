@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public abstract class BaseScreenRecordingOptions<T extends BaseScreenRecordingOptions<T>> {
@@ -34,7 +34,7 @@ public abstract class BaseScreenRecordingOptions<T extends BaseScreenRecordingOp
      * @return self instance for chaining.
      */
     protected T withUploadOptions(ScreenRecordingUploadOptions uploadOptions) {
-        this.uploadOptions = checkNotNull(uploadOptions);
+        this.uploadOptions = requireNonNull(uploadOptions);
         //noinspection unchecked
         return (T) this;
     }

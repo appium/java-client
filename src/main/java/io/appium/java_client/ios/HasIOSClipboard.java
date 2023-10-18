@@ -29,7 +29,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 public interface HasIOSClipboard extends HasClipboard {
     /**
@@ -40,7 +40,7 @@ public interface HasIOSClipboard extends HasClipboard {
      */
     default void setClipboardImage(BufferedImage img) throws IOException {
         try (final ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-            ImageIO.write(checkNotNull(img), "png", os);
+            ImageIO.write(requireNonNull(img), "png", os);
             setClipboard(ClipboardContentType.IMAGE, Base64
                     .getMimeEncoder()
                     .encode(os.toByteArray()));
@@ -68,7 +68,7 @@ public interface HasIOSClipboard extends HasClipboard {
     default void setClipboardUrl(URL url) {
         setClipboard(ClipboardContentType.URL, Base64
                 .getMimeEncoder()
-                .encode(checkNotNull(url).toString().getBytes(StandardCharsets.UTF_8)));
+                .encode(requireNonNull(url).toString().getBytes(StandardCharsets.UTF_8)));
     }
 
     /**

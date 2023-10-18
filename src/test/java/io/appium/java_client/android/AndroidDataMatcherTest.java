@@ -16,8 +16,6 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.json.Json;
@@ -25,6 +23,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -37,9 +37,9 @@ public class AndroidDataMatcherTest extends BaseEspressoTest {
             .elementToBeClickable(AppiumBy.accessibilityId("Graphics")));
         driver.findElement(AppiumBy.accessibilityId("Graphics")).click();
 
-        String selector = new Json().toJson(ImmutableMap.of(
+        String selector = new Json().toJson(Map.of(
             "name", "hasEntry",
-            "args", ImmutableList.of("title", "Sweep")
+            "args", List.of("title", "Sweep")
         ));
 
         assertNotNull(wait.until(ExpectedConditions

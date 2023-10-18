@@ -1,6 +1,5 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
-import com.google.common.collect.ImmutableList;
 import io.appium.java_client.pagefactory.Widget;
 import org.openqa.selenium.WebElement;
 
@@ -16,7 +15,7 @@ public class DefaultStubWidget extends Widget {
     }
 
     public <T extends Widget> List<T> getSubWidgets() {
-        return ImmutableList.of();
+        return List.of();
     }
 
     @Override

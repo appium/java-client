@@ -22,7 +22,7 @@ import java.time.Duration;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public class LongPressOptions extends AbstractOptionCombinedWithPosition<LongPressOptions> {
@@ -45,7 +45,7 @@ public class LongPressOptions extends AbstractOptionCombinedWithPosition<LongPre
      * @return this instance for chaining.
      */
     public LongPressOptions withDuration(Duration duration) {
-        checkNotNull(duration);
+        requireNonNull(duration);
         checkArgument(duration.toMillis() >= 0,
                 "Duration value should be greater or equal to zero");
         this.duration = duration;

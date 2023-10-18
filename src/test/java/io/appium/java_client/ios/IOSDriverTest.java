@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -30,6 +29,7 @@ import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.time.Duration;
+import java.util.Map;
 
 import static io.appium.java_client.TestUtils.waitUntilTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,7 +71,7 @@ public class IOSDriverTest extends AppIOSTest {
                 String.format("/session/%s/appium/element/%s/value", driver.getSessionId(),
                         ((RemoteWebElement) intA).getId()), "setNewValue");
         final Response setNewValue = driver.execute("setNewValue",
-                ImmutableMap.of("id", ((RemoteWebElement) intA).getId(), "text", "8"));
+                Map.of("id", ((RemoteWebElement) intA).getId(), "text", "8"));
         assertNotNull(setNewValue.getSessionId());
     }
 
@@ -82,8 +82,8 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void resetTest() {
-        driver.executeScript("mobile: terminateApp", ImmutableMap.of("bundleId", BUNDLE_ID));
-        driver.executeScript("mobile: activateApp", ImmutableMap.of("bundleId", BUNDLE_ID));
+        driver.executeScript("mobile: terminateApp", Map.of("bundleId", BUNDLE_ID));
+        driver.executeScript("mobile: activateApp", Map.of("bundleId", BUNDLE_ID));
     }
 
     @Disabled

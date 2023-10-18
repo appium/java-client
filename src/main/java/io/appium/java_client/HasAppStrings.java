@@ -16,14 +16,11 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.UnsupportedCommandException;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.GET_STRINGS;
-import static io.appium.java_client.MobileCommand.prepareArguments;
 
 public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPresence {
     /**
@@ -52,14 +49,14 @@ public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPrese
     default Map<String, String> getAppStringMap(String language) {
         final String extName = "mobile: getAppStrings";
         try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "language", language
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             return CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments("language", language))
+                    Map.entry(GET_STRINGS, Map.of("language", language))
             );
         }
     }
@@ -75,18 +72,17 @@ public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPrese
      */
     default Map<String, String> getAppStringMap(String language, String stringFile) {
         final String extName = "mobile: getAppStrings";
+        Map<String, Object> args = Map.of(
+                "language", language,
+                "stringFile", stringFile
+        );
         try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
-                    "language", language,
-                    "stringFile", stringFile
-            ));
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            String[] parameters = new String[]{"language", "stringFile"};
-            Object[] values = new Object[]{language, stringFile};
             return CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(GET_STRINGS, prepareArguments(parameters, values))
+                    Map.entry(GET_STRINGS, args)
             );
         }
     }

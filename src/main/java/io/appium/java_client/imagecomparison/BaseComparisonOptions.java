@@ -46,7 +46,7 @@ public abstract class BaseComparisonOptions<T extends BaseComparisonOptions<T>> 
      */
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(visualize).map(x -> builder.put("visualize", x));
+        ofNullable(visualize).ifPresent(x -> builder.put("visualize", x));
         return builder.build();
     }
 }

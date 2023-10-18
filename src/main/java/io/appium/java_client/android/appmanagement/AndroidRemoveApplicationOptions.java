@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public class AndroidRemoveApplicationOptions extends
@@ -39,7 +39,7 @@ public class AndroidRemoveApplicationOptions extends
      * @return self instance for chaining.
      */
     public AndroidRemoveApplicationOptions withTimeout(Duration timeout) {
-        checkArgument(!checkNotNull(timeout).isNegative(),
+        checkArgument(!requireNonNull(timeout).isNegative(),
                 "The timeout value cannot be negative");
         this.timeout = timeout;
         return this;
@@ -69,8 +69,8 @@ public class AndroidRemoveApplicationOptions extends
     @Override
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(timeout).map(x -> builder.put("timeout", x.toMillis()));
-        ofNullable(keepData).map(x -> builder.put("keepData", x));
+        ofNullable(timeout).ifPresent(x -> builder.put("timeout", x.toMillis()));
+        ofNullable(keepData).ifPresent(x -> builder.put("keepData", x));
         return builder.build();
     }
 }

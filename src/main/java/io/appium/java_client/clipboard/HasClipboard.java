@@ -20,13 +20,12 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
 import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap;
 import java.util.Base64;
+import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.GET_CLIPBOARD;
 import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
-import static io.appium.java_client.MobileCommand.prepareArguments;
+import static java.util.Objects.requireNonNull;
 
 public interface HasClipboard extends ExecutesMethod {
     /**
@@ -36,11 +35,12 @@ public interface HasClipboard extends ExecutesMethod {
      * @param base64Content base64-encoded content to be set.
      */
     default void setClipboard(ClipboardContentType contentType, byte[] base64Content) {
-        String[] parameters = new String[]{"content", "contentType"};
-        Object[] values = new Object[]{new String(checkNotNull(base64Content), StandardCharsets.UTF_8),
-                contentType.name().toLowerCase()};
-        CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(SET_CLIPBOARD,
-                prepareArguments(parameters, values)));
+        CommandExecutionHelper.execute(this, Map.entry(SET_CLIPBOARD,
+                Map.of(
+                        "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
+                        "contentType", contentType.name().toLowerCase()
+                )
+        ));
     }
 
     /**
@@ -50,8 +50,8 @@ public interface HasClipboard extends ExecutesMethod {
      * @return the actual content of the clipboard as base64-encoded string or an empty string if the clipboard is empty
      */
     default String getClipboard(ClipboardContentType contentType) {
-        return CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(GET_CLIPBOARD,
-                prepareArguments("contentType", contentType.name().toLowerCase())));
+        return CommandExecutionHelper.execute(this, Map.entry(GET_CLIPBOARD,
+                Map.of("contentType", contentType.name().toLowerCase())));
     }
 
     /**

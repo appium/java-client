@@ -16,7 +16,6 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
@@ -24,7 +23,7 @@ import org.openqa.selenium.UnsupportedCommandException;
 
 import javax.annotation.Nullable;
 
-import java.util.AbstractMap;
+import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
 import static io.appium.java_client.MobileCommand.GET_CURRENT_PACKAGE;
@@ -44,7 +43,7 @@ public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPres
             // TODO: Remove the fallback
             return CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of())
+                    Map.entry(CURRENT_ACTIVITY, Map.of())
             );
         }
     }
@@ -63,7 +62,7 @@ public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPres
             // TODO: Remove the fallback
             return CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of())
+                    Map.entry(GET_CURRENT_PACKAGE, Map.of())
             );
         }
     }

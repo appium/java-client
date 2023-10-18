@@ -16,11 +16,9 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.Response;
 
 import javax.annotation.Nullable;
-import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.Map;
 
@@ -66,7 +64,7 @@ public final class CommandExecutionHelper {
     public static <T> T executeScript(
             ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
     ) {
-        return execute(executesMethod, new AbstractMap.SimpleEntry<>(EXECUTE_SCRIPT, ImmutableMap.of(
+        return execute(executesMethod, Map.entry(EXECUTE_SCRIPT, Map.of(
                 "script", scriptName,
                 "args", (args == null || args.isEmpty()) ? Collections.emptyList() : Collections.singletonList(args)
         )));

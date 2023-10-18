@@ -16,16 +16,15 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap;
 import java.util.Base64;
+import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.PULL_FILE;
 import static io.appium.java_client.MobileCommand.PULL_FOLDER;
+import static java.util.Objects.requireNonNull;
 
 public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence {
 
@@ -45,16 +44,16 @@ public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence
         final String extName = "mobile: pullFile";
         String base64String;
         try {
-            base64String = checkNotNull(
+            base64String = requireNonNull(
                 CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName,
-                        ImmutableMap.of("remotePath", remotePath)
+                        Map.of("remotePath", remotePath)
                 )
             );
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            base64String = checkNotNull(
+            base64String = requireNonNull(
                 CommandExecutionHelper.execute(markExtensionAbsence(extName),
-                        new AbstractMap.SimpleEntry<>(PULL_FILE, ImmutableMap.of("path", remotePath))
+                        Map.entry(PULL_FILE, Map.of("path", remotePath))
                 )
             );
         }
@@ -77,16 +76,16 @@ public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence
         final String extName = "mobile: pullFolder";
         String base64String;
         try {
-            base64String = checkNotNull(
+            base64String = requireNonNull(
                 CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName,
-                        ImmutableMap.of("remotePath", remotePath)
+                        Map.of("remotePath", remotePath)
                 )
             );
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            base64String = checkNotNull(
+            base64String = requireNonNull(
                 CommandExecutionHelper.execute(markExtensionAbsence(extName),
-                        new AbstractMap.SimpleEntry<>(PULL_FOLDER, ImmutableMap.of("path", remotePath))
+                        Map.entry(PULL_FOLDER, Map.of("path", remotePath))
                 )
             );
         }

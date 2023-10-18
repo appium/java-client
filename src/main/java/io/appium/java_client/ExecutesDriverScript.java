@@ -24,8 +24,8 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.EXECUTE_DRIVER_SCRIPT;
+import static java.util.Objects.requireNonNull;
 
 public interface ExecutesDriverScript extends ExecutesMethod {
 
@@ -46,7 +46,7 @@ public interface ExecutesDriverScript extends ExecutesMethod {
      */
     default ScriptValue executeDriverScript(String script, @Nullable ScriptOptions options) {
         Map<String, Object> data = new HashMap<>();
-        data.put("script", checkNotNull(script));
+        data.put("script", requireNonNull(script));
         if (options != null) {
             data.putAll(options.build());
         }

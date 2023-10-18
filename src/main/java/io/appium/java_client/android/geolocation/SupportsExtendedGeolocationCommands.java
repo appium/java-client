@@ -16,12 +16,11 @@
 
 package io.appium.java_client.android.geolocation;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.remote.DriverCommand;
 
-import java.util.AbstractMap;
+import java.util.Map;
 
 public interface SupportsExtendedGeolocationCommands extends ExecutesMethod {
 
@@ -32,9 +31,8 @@ public interface SupportsExtendedGeolocationCommands extends ExecutesMethod {
      * @param location The location object to set.
      */
     default void setLocation(AndroidGeoLocation location) {
-        ImmutableMap<String, ?> parameters = ImmutableMap
-                .of("location", location.build());
-        CommandExecutionHelper.execute(this,
-                new AbstractMap.SimpleEntry<>(DriverCommand.SET_LOCATION, parameters));
+        CommandExecutionHelper.execute(this, Map.entry(DriverCommand.SET_LOCATION,
+                Map.of("location", location.build())
+        ));
     }
 }

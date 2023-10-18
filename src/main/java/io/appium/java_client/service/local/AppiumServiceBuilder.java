@@ -49,8 +49,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.Objects.requireNonNull;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 public final class AppiumServiceBuilder
@@ -229,7 +229,7 @@ public final class AppiumServiceBuilder
     }
 
     private static String sanitizeBasePath(String basePath) {
-        basePath = checkNotNull(basePath).trim();
+        basePath = requireNonNull(basePath).trim();
         checkArgument(
                 !basePath.isEmpty(),
                 "Given base path is not valid - blank or empty values are not allowed for base path"
@@ -357,7 +357,7 @@ public final class AppiumServiceBuilder
     }
 
     @Override
-    protected ImmutableList<String> createArgs() {
+    protected List<String> createArgs() {
         List<String> argList = new ArrayList<>();
         loadPathToMainScript();
         argList.add(appiumJS.getAbsolutePath());

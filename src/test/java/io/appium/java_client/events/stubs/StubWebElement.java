@@ -16,7 +16,6 @@
 
 package io.appium.java_client.events.stubs;
 
-import com.google.common.collect.ImmutableList;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
@@ -33,7 +32,7 @@ public class StubWebElement implements WebElement {
     }
 
     private static List<WebElement> createStubSubElementList() {
-        return new ArrayList<>(ImmutableList.of(new StubWebElement(), new StubWebElement()));
+        return new ArrayList<>(List.of(new StubWebElement(), new StubWebElement()));
     }
 
     public void click() {

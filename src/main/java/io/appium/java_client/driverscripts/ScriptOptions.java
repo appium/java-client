@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 
@@ -35,7 +35,7 @@ public class ScriptOptions {
      * @return self instance for chaining
      */
     public ScriptOptions withScriptType(ScriptType type) {
-        this.scriptType = checkNotNull(type);
+        this.scriptType = requireNonNull(type);
         return this;
     }
 
@@ -59,8 +59,8 @@ public class ScriptOptions {
      */
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(scriptType).map(x -> builder.put("type", x.name().toLowerCase()));
-        ofNullable(timeoutMs).map(x -> builder.put("timeout", x));
+        ofNullable(scriptType).ifPresent(x -> builder.put("type", x.name().toLowerCase()));
+        ofNullable(timeoutMs).ifPresent(x -> builder.put("timeout", x));
         return builder.build();
     }
 }

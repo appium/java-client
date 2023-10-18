@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 public class ScreenRecordingUploadOptions {
@@ -43,7 +43,7 @@ public class ScreenRecordingUploadOptions {
      * @return self instance for chaining.
      */
     public ScreenRecordingUploadOptions withRemotePath(String remotePath) {
-        this.remotePath = checkNotNull(remotePath);
+        this.remotePath = requireNonNull(remotePath);
         return this;
     }
 
@@ -56,8 +56,8 @@ public class ScreenRecordingUploadOptions {
      * @return self instance for chaining.
      */
     public ScreenRecordingUploadOptions withAuthCredentials(String user, String pass) {
-        this.user = checkNotNull(user);
-        this.pass = checkNotNull(pass);
+        this.user = requireNonNull(user);
+        this.pass = requireNonNull(pass);
         return this;
     }
 
@@ -73,7 +73,7 @@ public class ScreenRecordingUploadOptions {
      * @return self instance for chaining.
      */
     public ScreenRecordingUploadOptions withHttpMethod(RequestMethod method) {
-        this.method = checkNotNull(method).name();
+        this.method = requireNonNull(method).name();
         return this;
     }
 
@@ -87,7 +87,7 @@ public class ScreenRecordingUploadOptions {
      * @return self instance for chaining.
      */
     public ScreenRecordingUploadOptions withFileFieldName(String fileFieldName) {
-        this.fileFieldName = checkNotNull(fileFieldName);
+        this.fileFieldName = requireNonNull(fileFieldName);
         return this;
     }
 
@@ -100,7 +100,7 @@ public class ScreenRecordingUploadOptions {
      * @return self instance for chaining.
      */
     public ScreenRecordingUploadOptions withFormFields(Map<String, Object> formFields) {
-        this.formFields = checkNotNull(formFields);
+        this.formFields = requireNonNull(formFields);
         return this;
     }
 
@@ -112,7 +112,7 @@ public class ScreenRecordingUploadOptions {
      * @return self instance for chaining.
      */
     public ScreenRecordingUploadOptions withHeaders(Map<String, String> headers) {
-        this.headers = checkNotNull(headers);
+        this.headers = requireNonNull(headers);
         return this;
     }
 

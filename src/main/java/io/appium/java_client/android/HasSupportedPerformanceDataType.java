@@ -1,12 +1,12 @@
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getPerformanceDataCommand;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.getSupportedPerformanceDataTypesCommand;
@@ -63,7 +63,7 @@ public interface HasSupportedPerformanceDataType extends ExecutesMethod, CanReme
     default List<List<Object>> getPerformanceData(String packageName, String dataType, int dataReadTimeout) {
         final String extName = "mobile: getPerformanceData";
         try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "packageName", packageName,
                     "dataType", dataType
             ));

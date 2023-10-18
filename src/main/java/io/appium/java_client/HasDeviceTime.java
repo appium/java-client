@@ -16,7 +16,7 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 public interface HasDeviceTime extends ExecutesMethod {
 
@@ -32,7 +32,7 @@ public interface HasDeviceTime extends ExecutesMethod {
      */
     default String getDeviceTime(String format) {
         return CommandExecutionHelper.executeScript(
-                this, "mobile: getDeviceTime", ImmutableMap.of("format", format)
+                this, "mobile: getDeviceTime", Map.of("format", format)
         );
     }
 

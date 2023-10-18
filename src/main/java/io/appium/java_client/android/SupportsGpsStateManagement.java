@@ -5,8 +5,8 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
+import static java.util.Objects.requireNonNull;
 
 public interface SupportsGpsStateManagement extends ExecutesMethod, CanRememberExtensionPresence {
 
@@ -30,7 +30,7 @@ public interface SupportsGpsStateManagement extends ExecutesMethod, CanRememberE
      * @return true if GPS service is enabled.
      */
     default boolean isLocationServicesEnabled() {
-        return checkNotNull(
+        return requireNonNull(
                 CommandExecutionHelper.executeScript(this, "mobile: isGpsEnabled")
         );
     }

@@ -1,6 +1,5 @@
 package io.appium.java_client.service.local;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +13,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
@@ -179,7 +179,7 @@ class ServerBuilderTest {
                 .amend("unixPath", "/selenium/app.apk")
                 .amend("quotes", "\"'")
                 .setChromeOptions(
-                        ImmutableMap.of("env", ImmutableMap.of("test", "value"), "val2", 0)
+                        Map.of("env", Map.of("test", "value"), "val2", 0)
                 );
 
         service = new AppiumServiceBuilder()

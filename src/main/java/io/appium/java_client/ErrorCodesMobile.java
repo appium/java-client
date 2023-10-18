@@ -17,7 +17,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.ErrorCodes;
 
@@ -32,9 +31,7 @@ public class ErrorCodesMobile extends ErrorCodes {
 
     public static final int NO_SUCH_CONTEXT = 35;
 
-    private static Map<Integer, String> statusToState =
-        ImmutableMap.<Integer, String>builder().put(NO_SUCH_CONTEXT, "No such context found")
-            .build();
+    private static Map<Integer, String> statusToState = Map.of(NO_SUCH_CONTEXT, "No such context found");
 
     /**
     * Returns the exception type that corresponds to the given {@code statusCode}. All unrecognized

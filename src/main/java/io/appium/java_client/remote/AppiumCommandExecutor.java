@@ -16,7 +16,6 @@
 
 package io.appium.java_client.remote;
 
-import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.internal.ReflectionHelpers;
@@ -47,8 +46,8 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.throwIfUnchecked;
+import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
@@ -85,14 +84,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
                                  HttpClient.Factory httpClientFactory) {
-        this(additionalCommands, checkNotNull(service), httpClientFactory,
-                AppiumClientConfig.defaultConfig().baseUrl(checkNotNull(service).getUrl()));
+        this(additionalCommands, requireNonNull(service), httpClientFactory,
+                AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(service).getUrl()));
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer,
                                  HttpClient.Factory httpClientFactory) {
         this(additionalCommands, null, httpClientFactory,
-                AppiumClientConfig.defaultConfig().baseUrl(checkNotNull(addressOfRemoteServer)));
+                AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumClientConfig appiumClientConfig) {
@@ -101,13 +100,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer) {
         this(additionalCommands, null, HttpClient.Factory.createDefault(),
-                AppiumClientConfig.defaultConfig().baseUrl(checkNotNull(addressOfRemoteServer)));
+                AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer,
                                  AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, null, HttpClient.Factory.createDefault(),
-                appiumClientConfig.baseUrl(checkNotNull(addressOfRemoteServer)));
+                appiumClientConfig.baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service) {
@@ -246,8 +245,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                     }
 
                     return new WebDriverException("The appium server has accidentally died!", rootCause);
-                }).orElseGet((Supplier<WebDriverException>) () ->
-                        new WebDriverException(rootCause.getMessage(), rootCause));
+                }).orElseGet(() -> new WebDriverException(rootCause.getMessage(), rootCause));
             }
             throwIfUnchecked(t);
             throw new WebDriverException(t);

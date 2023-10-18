@@ -6,8 +6,8 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.Objects.requireNonNull;
 
 public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
     /**
@@ -20,7 +20,7 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
                 CapabilityType.BROWSER_NAME, String.class);
         if (!isNullOrEmpty(browserName)) {
             try {
-                return checkNotNull(
+                return requireNonNull(
                         CommandExecutionHelper.executeScript(this, "return !!window.navigator;")
                 );
             } catch (WebDriverException ign) {
