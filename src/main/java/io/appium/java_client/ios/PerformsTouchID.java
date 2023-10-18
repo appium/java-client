@@ -16,9 +16,10 @@
 
 package io.appium.java_client.ios;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+
+import java.util.Map;
 
 public interface PerformsTouchID extends ExecutesMethod {
 
@@ -29,7 +30,7 @@ public interface PerformsTouchID extends ExecutesMethod {
      * @param match If true, simulates a successful fingerprint scan. If false, simulates a failed fingerprint scan.
      */
     default void performTouchID(boolean match) {
-        CommandExecutionHelper.executeScript(this, "mobile: sendBiometricMatch", ImmutableMap.of(
+        CommandExecutionHelper.executeScript(this, "mobile: sendBiometricMatch", Map.of(
                 "type", "touchId",
                 "match", match
         ));
@@ -44,7 +45,7 @@ public interface PerformsTouchID extends ExecutesMethod {
      *                Multiple calls of the method with the same argument value have no effect.
      */
     default void toggleTouchIDEnrollment(boolean enabled) {
-        CommandExecutionHelper.executeScript(this, "mobile: enrollBiometric", ImmutableMap.of(
+        CommandExecutionHelper.executeScript(this, "mobile: enrollBiometric", Map.of(
                 "isEnabled", enabled
         ));
     }

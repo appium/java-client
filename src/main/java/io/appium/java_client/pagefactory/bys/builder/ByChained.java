@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
-import io.appium.java_client.functions.AppiumFunction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -25,14 +24,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.Optional;
+import java.util.function.Function;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained {
 
     private final By[] bys;
 
-    private static AppiumFunction<SearchContext, WebElement> getSearchingFunction(By by) {
+    private static Function<SearchContext, WebElement> getSearchingFunction(By by) {
         return input -> {
             try {
                 if (input == null) {
@@ -51,8 +51,7 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
      * @param bys is a set of {@link By} which forms the chain of the searching.
      */
     public ByChained(By[] bys) {
-        super(bys);
-        checkNotNull(bys);
+        super(requireNonNull(bys));
         if (bys.length == 0) {
             throw new IllegalArgumentException("By array should not be empty");
         }
@@ -61,7 +60,7 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
 
     @Override
     public WebElement findElement(SearchContext context) {
-        AppiumFunction<SearchContext, WebElement> searchingFunction = null;
+        Function<SearchContext, WebElement> searchingFunction = null;
 
         for (By by: bys) {
             searchingFunction = Optional.ofNullable(searchingFunction != null
@@ -71,7 +70,7 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
         FluentWait<SearchContext> waiting = new FluentWait<>(context);
 
         try {
-            checkNotNull(searchingFunction);
+            requireNonNull(searchingFunction);
             return waiting.until(searchingFunction);
         } catch (TimeoutException e) {
             throw new NoSuchElementException("Cannot locate an element using " + this);

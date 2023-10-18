@@ -16,12 +16,13 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+
+import java.util.Map;
 
 import static io.appium.java_client.TestResources.apiDemosApk;
 
@@ -65,7 +66,7 @@ public class BaseAndroidTest {
     public static void startActivity(String name) {
         driver.executeScript(
                 "mobile: startActivity",
-                ImmutableMap.of(
+                Map.of(
                         "component", String.format("%s/%s", APP_ID, name)
                 )
         );

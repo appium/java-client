@@ -107,9 +107,9 @@ public class AndroidStartScreenRecordingOptions
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.putAll(super.build());
-        ofNullable(bitRate).map(x -> builder.put("bitRate", x));
-        ofNullable(videoSize).map(x -> builder.put("videoSize", x));
-        ofNullable(isBugReportEnabled).map(x -> builder.put("bugReport", x));
+        ofNullable(bitRate).ifPresent(x -> builder.put("bitRate", x));
+        ofNullable(videoSize).ifPresent(x -> builder.put("videoSize", x));
+        ofNullable(isBugReportEnabled).ifPresent(x -> builder.put("bugReport", x));
         return builder.build();
     }
 }

@@ -1,6 +1,5 @@
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
@@ -8,7 +7,7 @@ import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-import java.util.AbstractMap;
+import java.util.Map;
 
 public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExtensionPresence {
     /**
@@ -24,7 +23,7 @@ public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExten
     default void replaceElementValue(RemoteWebElement element, String value) {
         final String extName = "mobile: replaceValue";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                 "elementId", element.getId(),
                 "text", value
             ));
@@ -32,7 +31,7 @@ public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExten
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(MobileCommand.REPLACE_VALUE, ImmutableMap.of(
+                    Map.entry(MobileCommand.REPLACE_VALUE, Map.of(
                             "id", element.getId(),
                             "text", value,
                             "value", value

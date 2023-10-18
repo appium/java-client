@@ -16,11 +16,9 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 /**
@@ -36,7 +34,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> currentActivityCommand() {
-        return new AbstractMap.SimpleEntry<>(CURRENT_ACTIVITY, ImmutableMap.of());
+        return Map.entry(CURRENT_ACTIVITY, Map.of());
     }
 
     /**
@@ -46,7 +44,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> currentPackageCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_CURRENT_PACKAGE, ImmutableMap.of());
+        return Map.entry(GET_CURRENT_PACKAGE, Map.of());
     }
 
     /**
@@ -57,7 +55,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      *
      */
     public static Map.Entry<String, Map<String, ?>> getSupportedPerformanceDataTypesCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_SUPPORTED_PERFORMANCE_DATA_TYPES, ImmutableMap.of());
+        return Map.entry(GET_SUPPORTED_PERFORMANCE_DATA_TYPES, Map.of());
     }
 
     /**
@@ -90,10 +88,11 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     public static Map.Entry<String, Map<String, ?>> getPerformanceDataCommand(
                     String packageName, String dataType, int dataReadTimeout) {
-        String[] parameters = new String[] {"packageName", "dataType", "dataReadTimeout"};
-        Object[] values = new Object[] {packageName, dataType, dataReadTimeout};
-        return new AbstractMap.SimpleEntry<>(
-            GET_PERFORMANCE_DATA, prepareArguments(parameters, values));
+        return Map.entry(GET_PERFORMANCE_DATA, Map.of(
+                "packageName", packageName,
+                "dataType", dataType,
+                "dataReadTimeout",  dataReadTimeout
+        ));
     }
 
     /**
@@ -103,7 +102,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> getDisplayDensityCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_DISPLAY_DENSITY, ImmutableMap.of());
+        return Map.entry(GET_DISPLAY_DENSITY, Map.of());
     }
 
     /**
@@ -113,7 +112,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> getNetworkConnectionCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_NETWORK_CONNECTION, ImmutableMap.of());
+        return Map.entry(GET_NETWORK_CONNECTION, Map.of());
     }
 
     /**
@@ -124,7 +123,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> getSystemBarsCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_SYSTEM_BARS, ImmutableMap.of());
+        return Map.entry(GET_SYSTEM_BARS, Map.of());
     }
 
     /**
@@ -134,7 +133,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> isLockedCommand() {
-        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
+        return Map.entry(IS_LOCKED, Map.of());
     }
 
     /**
@@ -145,8 +144,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> fingerPrintCommand(int fingerPrintId) {
-        return new AbstractMap.SimpleEntry<>(FINGER_PRINT,
-            prepareArguments("fingerprintId", fingerPrintId));
+        return Map.entry(FINGER_PRINT, Map.of("fingerprintId", fingerPrintId));
     }
 
     /**
@@ -156,7 +154,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> openNotificationsCommand() {
-        return new AbstractMap.SimpleEntry<>(OPEN_NOTIFICATIONS, ImmutableMap.of());
+        return Map.entry(OPEN_NOTIFICATIONS, Map.of());
     }
 
     /**
@@ -167,10 +165,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> setConnectionCommand(long bitMask) {
-        String[] parameters = new String[] {"name", "parameters"};
-        Object[] values = new Object[] {"network_connection", ImmutableMap.of("type", bitMask)};
-        return new AbstractMap.SimpleEntry<>(
-                SET_NETWORK_CONNECTION, prepareArguments(parameters, values));
+        return Map.entry(SET_NETWORK_CONNECTION, Map.of(
+                "name", "network_connection",
+                "parameters", Map.of("type", bitMask)
+        ));
     }
 
     /**
@@ -180,7 +178,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleLocationServicesCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_LOCATION_SERVICES, ImmutableMap.of());
+        return Map.entry(TOGGLE_LOCATION_SERVICES, Map.of());
     }
 
     /**
@@ -190,7 +188,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> unlockCommand() {
-        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
+        return Map.entry(UNLOCK, Map.of());
     }
 
 
@@ -205,12 +203,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
         RemoteWebElement remoteWebElement, String value) {
-        String[] parameters = new String[] {"id", "value"};
-        Object[] values =
-            new Object[] {remoteWebElement.getId(), value};
-
-        return new AbstractMap.SimpleEntry<>(
-                REPLACE_VALUE, prepareArguments(parameters, values));
+        return Map.entry(REPLACE_VALUE, Map.of(
+                "id", remoteWebElement.getId(),
+                "value", value
+        ));
     }
 
     /**
@@ -225,12 +221,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> sendSMSCommand(
             String phoneNumber, String message) {
-        ImmutableMap<String, ?> parameters = ImmutableMap
-                .<String, Object>builder().put("phoneNumber", phoneNumber)
-                .put("message", message)
-                .build();
-
-        return new AbstractMap.SimpleEntry<>(SEND_SMS, parameters);
+        return Map.entry(SEND_SMS, Map.of(
+                "phoneNumber", phoneNumber,
+                "message", message
+        ));
     }
 
     /**
@@ -245,9 +239,10 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmCallCommand(
             String phoneNumber, GsmCallActions gsmCallActions) {
-        String[] parameters = new String[] {"phoneNumber", "action"};
-        Object[] values = new Object[]{phoneNumber, gsmCallActions.name().toLowerCase()};
-        return new AbstractMap.SimpleEntry<>(GSM_CALL, prepareArguments(parameters, values));
+        return Map.entry(GSM_CALL, Map.of(
+                "phoneNumber", phoneNumber,
+                "action",  gsmCallActions.name().toLowerCase()
+        ));
     }
 
     /**
@@ -261,11 +256,11 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmSignalStrengthCommand(
             GsmSignalStrength gsmSignalStrength) {
-        return new AbstractMap.SimpleEntry<>(GSM_SIGNAL,
-                prepareArguments(
+        return Map.entry(GSM_SIGNAL,
+                Map.of(
                         // https://github.com/appium/appium/issues/12234
-                        new String[] {"signalStrengh", "signalStrength" },
-                        new Object[] {gsmSignalStrength.ordinal(), gsmSignalStrength.ordinal()}
+                        "signalStrengh", gsmSignalStrength.ordinal(),
+                        "signalStrength", gsmSignalStrength.ordinal()
                 ));
     }
 
@@ -280,8 +275,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmVoiceCommand(
             GsmVoiceState gsmVoiceState) {
-        return new AbstractMap.SimpleEntry<>(GSM_VOICE,
-                prepareArguments("state", gsmVoiceState.name().toLowerCase()));
+        return Map.entry(GSM_VOICE, Map.of("state", gsmVoiceState.name().toLowerCase()));
     }
 
     /**
@@ -295,8 +289,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> networkSpeedCommand(
             NetworkSpeed networkSpeed) {
-        return new AbstractMap.SimpleEntry<>(NETWORK_SPEED,
-                prepareArguments("netspeed", networkSpeed.name().toLowerCase()));
+        return Map.entry(NETWORK_SPEED, Map.of("netspeed", networkSpeed.name().toLowerCase()));
     }
 
     /**
@@ -310,8 +303,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> powerCapacityCommand(
             int percent) {
-        return new AbstractMap.SimpleEntry<>(POWER_CAPACITY,
-                prepareArguments("percent", percent));
+        return Map.entry(POWER_CAPACITY, Map.of("percent", percent));
     }
 
     /**
@@ -325,8 +317,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> powerACCommand(
             PowerACState powerACState) {
-        return new AbstractMap.SimpleEntry<>(POWER_AC_STATE,
-                prepareArguments("state", powerACState.name().toLowerCase()));
+        return Map.entry(POWER_AC_STATE, Map.of("state", powerACState.name().toLowerCase()));
     }
 
     /**
@@ -336,7 +327,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleWifiCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_WIFI, ImmutableMap.of());
+        return Map.entry(TOGGLE_WIFI, Map.of());
     }
 
     /**
@@ -346,7 +337,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleAirplaneCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_AIRPLANE_MODE, ImmutableMap.of());
+        return Map.entry(TOGGLE_AIRPLANE_MODE, Map.of());
     }
 
     /**
@@ -356,6 +347,6 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> toggleDataCommand() {
-        return new AbstractMap.SimpleEntry<>(TOGGLE_DATA, ImmutableMap.of());
+        return Map.entry(TOGGLE_DATA, Map.of());
     }
 }

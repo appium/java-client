@@ -117,9 +117,9 @@ public class AndroidGeoLocation {
         ofNullable(latitude).map(x -> builder.put("latitude", x))
                 .orElseThrow(() -> new IllegalArgumentException(
                         "A valid 'latitude' must be provided"));
-        ofNullable(altitude).map(x -> builder.put("altitude", x));
-        ofNullable(satellites).map(x -> builder.put("satellites", x));
-        ofNullable(speed).map(x -> builder.put("speed", x));
+        ofNullable(altitude).ifPresent(x -> builder.put("altitude", x));
+        ofNullable(satellites).ifPresent(x -> builder.put("satellites", x));
+        ofNullable(speed).ifPresent(x -> builder.put("speed", x));
         return builder.build();
     }
 }

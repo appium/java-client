@@ -21,12 +21,11 @@ import io.appium.java_client.clipboard.ClipboardContentType;
 import io.appium.java_client.clipboard.HasClipboard;
 
 import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap;
 import java.util.Base64;
+import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
-import static io.appium.java_client.MobileCommand.prepareArguments;
+import static java.util.Objects.requireNonNull;
 
 public interface HasAndroidClipboard extends HasClipboard {
     /**
@@ -37,11 +36,13 @@ public interface HasAndroidClipboard extends HasClipboard {
      * @param base64Content base64-encoded content to be set.
      */
     default void setClipboard(String label, ClipboardContentType contentType, byte[] base64Content) {
-        String[] parameters = new String[]{"content", "contentType", "label"};
-        Object[] values = new Object[]{new String(checkNotNull(base64Content), StandardCharsets.UTF_8),
-                contentType.name().toLowerCase(), checkNotNull(label)};
-        CommandExecutionHelper.execute(this, new AbstractMap.SimpleEntry<>(SET_CLIPBOARD,
-                prepareArguments(parameters, values)));
+        CommandExecutionHelper.execute(this, Map.entry(SET_CLIPBOARD,
+                Map.of(
+                        "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
+                        "contentType", contentType.name().toLowerCase(),
+                        "label", requireNonNull(label)
+                )
+        ));
     }
 
     /**

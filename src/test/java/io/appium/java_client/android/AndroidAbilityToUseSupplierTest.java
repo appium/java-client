@@ -1,6 +1,5 @@
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.functions.ActionSupplier;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -10,6 +9,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.appium.java_client.TestUtils.getCenter;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
@@ -59,8 +59,8 @@ public class AndroidAbilityToUseSupplierTest extends BaseAndroidTest {
     }
 
     @Test public void verticalSwipingWithSupplier() throws Exception {
-        driver.executeScript("mobile: terminateApp", ImmutableMap.of("appId", APP_ID));
-        driver.executeScript("mobile: activateApp", ImmutableMap.of("appId", APP_ID));
+        driver.executeScript("mobile: terminateApp", Map.of("appId", APP_ID));
+        driver.executeScript("mobile: activateApp", Map.of("appId", APP_ID));
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
 
         Point originalLocation = driver.findElement(AppiumBy.accessibilityId("Gallery")).getLocation();

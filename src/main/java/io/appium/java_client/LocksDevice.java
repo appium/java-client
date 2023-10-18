@@ -16,15 +16,15 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.UnsupportedCommandException;
 
 import java.time.Duration;
+import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.getIsDeviceLockedCommand;
 import static io.appium.java_client.MobileCommand.lockDeviceCommand;
 import static io.appium.java_client.MobileCommand.unlockDeviceCommand;
+import static java.util.Objects.requireNonNull;
 
 public interface LocksDevice extends ExecutesMethod, CanRememberExtensionPresence {
 
@@ -47,7 +47,7 @@ public interface LocksDevice extends ExecutesMethod, CanRememberExtensionPresenc
     default void lockDevice(Duration duration) {
         final String extName = "mobile: lock";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "seconds", duration.getSeconds()
             ));
         } catch (UnsupportedCommandException e) {
@@ -82,12 +82,12 @@ public interface LocksDevice extends ExecutesMethod, CanRememberExtensionPresenc
     default boolean isDeviceLocked() {
         final String extName = "mobile: isLocked";
         try {
-            return checkNotNull(
+            return requireNonNull(
                     CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName)
             );
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            return checkNotNull(
+            return requireNonNull(
                     CommandExecutionHelper.execute(markExtensionAbsence(extName), getIsDeviceLockedCommand())
             );
         }

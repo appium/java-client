@@ -16,7 +16,6 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
@@ -29,6 +28,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -149,8 +149,8 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void closeAppTest() {
-        driver.executeScript("mobile: terminateApp", ImmutableMap.of("appId", APP_ID));
-        driver.executeScript("mobile: activateApp", ImmutableMap.of("appId", APP_ID));
+        driver.executeScript("mobile: terminateApp", Map.of("appId", APP_ID));
+        driver.executeScript("mobile: activateApp", Map.of("appId", APP_ID));
         assertEquals(".ApiDemos", driver.currentActivity());
     }
 

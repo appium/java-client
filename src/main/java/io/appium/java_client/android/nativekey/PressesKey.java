@@ -22,7 +22,6 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
@@ -43,7 +42,7 @@ public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(PRESS_KEY_CODE, keyEvent.build())
+                    Map.entry(PRESS_KEY_CODE, keyEvent.build())
             );
         }
     }
@@ -65,7 +64,7 @@ public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(LONG_PRESS_KEY_CODE, keyEvent.build())
+                    Map.entry(LONG_PRESS_KEY_CODE, keyEvent.build())
             );
         }
     }

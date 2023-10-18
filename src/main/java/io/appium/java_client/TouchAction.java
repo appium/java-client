@@ -28,8 +28,8 @@ import io.appium.java_client.touch.offset.PointOption;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.builder;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -58,7 +58,7 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
     private PerformsTouchActions performsTouchActions;
 
     public TouchAction(PerformsTouchActions performsTouchActions) {
-        this.performsTouchActions = checkNotNull(performsTouchActions);
+        this.performsTouchActions = requireNonNull(performsTouchActions);
         parameterBuilder = builder();
     }
 
@@ -204,9 +204,9 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
      * @return A map of parameters for this touch action to pass as part of mjsonwp.
      */
     protected Map<String, List<Object>> getParameters() {
-        List<ActionParameter> actionList = parameterBuilder.build();
-        return ImmutableMap.of("actions", actionList.stream()
-                .map(ActionParameter::getParameterMap).collect(toList()));
+        return Map.of("actions",
+                parameterBuilder.build().stream().map(ActionParameter::getParameterMap).collect(toList())
+        );
     }
 
     /**
@@ -233,17 +233,18 @@ public class TouchAction<T extends TouchAction<T>> implements PerformsActions<T>
         }
 
         public ActionParameter(String actionName, ActionOptions opts) {
-            checkNotNull(opts);
+            requireNonNull(opts);
             this.actionName = actionName;
             optionsBuilder = ImmutableMap.builder();
             //noinspection unchecked
             optionsBuilder.putAll(opts.build());
         }
 
-        public ImmutableMap<String, Object> getParameterMap() {
-            ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-            builder.put("action", actionName).put("options", optionsBuilder.build());
-            return builder.build();
+        public Map<String, Object> getParameterMap() {
+            return Map.of(
+                    "action", actionName,
+                    "options", optionsBuilder.build()
+            );
         }
     }
 }

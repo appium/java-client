@@ -70,9 +70,9 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.putAll(super.build());
-        ofNullable(detectorName).map(x -> builder.put("detectorName", x));
-        ofNullable(matchFunc).map(x -> builder.put("matchFunc", x));
-        ofNullable(goodMatchesFactor).map(x -> builder.put("goodMatchesFactor", x));
+        ofNullable(detectorName).ifPresent(x -> builder.put("detectorName", x));
+        ofNullable(matchFunc).ifPresent(x -> builder.put("matchFunc", x));
+        ofNullable(goodMatchesFactor).ifPresent(x -> builder.put("goodMatchesFactor", x));
         return builder.build();
     }
 }

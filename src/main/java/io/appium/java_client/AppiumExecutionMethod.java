@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.Response;
 
@@ -40,7 +39,7 @@ public class AppiumExecutionMethod implements ExecuteMethod {
         Response response;
 
         if (parameters == null || parameters.isEmpty()) {
-            response = driver.execute(commandName, ImmutableMap.of());
+            response = driver.execute(commandName, Map.of());
         } else {
             response = driver.execute(commandName, parameters);
         }

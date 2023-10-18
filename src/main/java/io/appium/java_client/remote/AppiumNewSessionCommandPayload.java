@@ -17,13 +17,13 @@
 package io.appium.java_client.remote;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import io.appium.java_client.remote.options.BaseOptions;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.CommandPayload;
 
 import java.util.Map;
+import java.util.Set;
 
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
@@ -50,8 +50,8 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
      * @param capabilities User-provided capabilities.
      */
     public AppiumNewSessionCommandPayload(Capabilities capabilities) {
-        super(NEW_SESSION, ImmutableMap.of(
-                "capabilities", ImmutableSet.of(makeW3CSafe(capabilities)),
+        super(NEW_SESSION, Map.of(
+                "capabilities", Set.of(makeW3CSafe(capabilities)),
                 "desiredCapabilities", capabilities
         ));
     }

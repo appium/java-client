@@ -1,12 +1,11 @@
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
 
-import java.util.AbstractMap;
+import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.GSM_CALL;
 import static io.appium.java_client.MobileCommand.GSM_SIGNAL;
@@ -27,7 +26,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void sendSMS(String phoneNumber, String message) {
         final String extName = "mobile: sendSms";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "phoneNumber", phoneNumber,
                     "message", message
             ));
@@ -35,7 +34,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(SEND_SMS,  ImmutableMap.of(
+                    Map.entry(SEND_SMS,  Map.of(
                             "phoneNumber", phoneNumber,
                             "message", message
                     ))
@@ -52,7 +51,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void makeGsmCall(String phoneNumber, GsmCallActions gsmCallAction) {
         final String extName = "mobile: gsmCall";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "phoneNumber", phoneNumber,
                     "action", gsmCallAction.toString().toLowerCase()
             ));
@@ -60,7 +59,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(GSM_CALL, ImmutableMap.of(
+                    Map.entry(GSM_CALL, Map.of(
                             "phoneNumber", phoneNumber,
                             "action", gsmCallAction.toString().toLowerCase()
                     ))
@@ -76,14 +75,14 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void setGsmSignalStrength(GsmSignalStrength gsmSignalStrength) {
         final String extName = "mobile: gsmSignal";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "strength", gsmSignalStrength.ordinal()
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(GSM_SIGNAL, ImmutableMap.of(
+                    Map.entry(GSM_SIGNAL, Map.of(
                             "signalStrengh", gsmSignalStrength.ordinal(),
                             "signalStrength", gsmSignalStrength.ordinal()
                     ))
@@ -99,14 +98,14 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void setGsmVoice(GsmVoiceState gsmVoiceState) {
         final String extName = "mobile: gsmVoice";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "state", gsmVoiceState.toString().toLowerCase()
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(GSM_VOICE, ImmutableMap.of(
+                    Map.entry(GSM_VOICE, Map.of(
                             "state", gsmVoiceState.name().toLowerCase()
                     ))
             );
@@ -121,14 +120,14 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void setNetworkSpeed(NetworkSpeed networkSpeed) {
         final String extName = "mobile: networkSpeed";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "speed", networkSpeed.toString().toLowerCase()
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(NETWORK_SPEED, ImmutableMap.of(
+                    Map.entry(NETWORK_SPEED, Map.of(
                             "netspeed", networkSpeed.name().toLowerCase()
                     ))
             );
@@ -143,14 +142,14 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void setPowerCapacity(int percent) {
         final String extName = "mobile: powerCapacity";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "percent", percent
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(POWER_CAPACITY, ImmutableMap.of(
+                    Map.entry(POWER_CAPACITY, Map.of(
                             "percent", percent
                     ))
             );
@@ -165,14 +164,14 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
     default void setPowerAC(PowerACState powerACState) {
         final String extName = "mobile: powerAC";
         try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, ImmutableMap.of(
+            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                     "state", powerACState.toString().toLowerCase()
             ));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    new AbstractMap.SimpleEntry<>(POWER_AC_STATE, ImmutableMap.of(
+                    Map.entry(POWER_AC_STATE, Map.of(
                             "state", powerACState.name().toLowerCase()
                     ))
             );

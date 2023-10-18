@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
+import static java.util.Objects.requireNonNull;
 
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
@@ -43,7 +43,7 @@ public class ContentMappedBy extends By {
      * @return self-reference.
      */
     public By useContent(@Nonnull ContentType type) {
-        checkNotNull(type);
+        requireNonNull(type);
         currentContent = type;
         return this;
     }

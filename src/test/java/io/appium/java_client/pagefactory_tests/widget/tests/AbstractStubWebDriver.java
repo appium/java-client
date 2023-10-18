@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import static com.google.common.collect.ImmutableList.of;
 import static io.appium.java_client.remote.AutomationName.ANDROID_UIAUTOMATOR2;
 import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
@@ -61,7 +60,7 @@ public abstract class AbstractStubWebDriver implements
 
     @Override
     public List<WebElement> findElements(By by) {
-        return of(new StubWebElement(this, by), new StubWebElement(this, by));
+        return List.of(new StubWebElement(this, by), new StubWebElement(this, by));
     }
 
     @Override

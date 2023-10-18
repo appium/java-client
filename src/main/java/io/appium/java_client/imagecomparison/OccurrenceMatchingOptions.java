@@ -68,9 +68,9 @@ public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceM
     public Map<String, Object> build() {
         final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
         builder.putAll(super.build());
-        ofNullable(threshold).map(x -> builder.put("threshold", x));
-        ofNullable(matchNeighbourThreshold).map(x -> builder.put("matchNeighbourThreshold", x));
-        ofNullable(multiple).map(x -> builder.put("multiple", x));
+        ofNullable(threshold).ifPresent(x -> builder.put("threshold", x));
+        ofNullable(matchNeighbourThreshold).ifPresent(x -> builder.put("matchNeighbourThreshold", x));
+        ofNullable(multiple).ifPresent(x -> builder.put("multiple", x));
         return builder.build();
     }
 }

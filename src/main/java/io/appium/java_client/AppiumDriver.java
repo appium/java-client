@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.internal.SessionHelpers;
@@ -153,7 +152,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         super();
         ReflectionHelpers.setPrivateFieldValue(
                 RemoteWebDriver.class, this, "capabilities", new ImmutableCapabilities(
-                        ImmutableMap.of(
+                        Map.of(
                                 PLATFORM_NAME, platformName,
                                 APPIUM_PREFIX + AUTOMATION_NAME_OPTION, automationName
                         )

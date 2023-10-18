@@ -16,7 +16,6 @@
 
 package io.appium.java_client.remote;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.ScreenOrientation;
@@ -44,7 +43,7 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod {
 
     default void rotate(ScreenOrientation orientation) {
         execute(DriverCommand.SET_SCREEN_ORIENTATION,
-                ImmutableMap.of("orientation", orientation.value().toUpperCase()));
+                Map.of("orientation", orientation.value().toUpperCase()));
     }
 
     /**

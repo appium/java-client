@@ -16,7 +16,6 @@
 
 package io.appium.java_client.events.stubs;
 
-import com.google.common.collect.ImmutableList;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
@@ -46,7 +45,7 @@ public class EmptyWebDriver implements WebDriver, ContextAware,
     }
 
     private static List<StubWebElement> createStubList() {
-        return ImmutableList.of(new StubWebElement(), new StubWebElement());
+        return List.of(new StubWebElement(), new StubWebElement());
     }
 
     public WebDriver context(String name) {

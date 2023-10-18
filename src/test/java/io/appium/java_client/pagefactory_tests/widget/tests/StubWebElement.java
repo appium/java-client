@@ -12,16 +12,15 @@ import org.openqa.selenium.WrapsDriver;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.ImmutableList.of;
+import static java.util.Objects.requireNonNull;
 
 public class StubWebElement implements WebElement, WrapsDriver {
     private final WebDriver driver;
     private final By by;
 
     public StubWebElement(WebDriver driver, By by) {
-        this.driver = checkNotNull(driver);
-        this.by = checkNotNull(by);
+        this.driver = requireNonNull(driver);
+        this.by = requireNonNull(by);
     }
 
     @Override
@@ -70,8 +69,8 @@ public class StubWebElement implements WebElement, WrapsDriver {
     }
 
     @Override
-    public List findElements(By by) {
-        return of(new StubWebElement(driver, by), new StubWebElement(driver, by));
+    public List<WebElement> findElements(By by) {
+        return List.of(new StubWebElement(driver, by), new StubWebElement(driver, by));
     }
 
     @Override

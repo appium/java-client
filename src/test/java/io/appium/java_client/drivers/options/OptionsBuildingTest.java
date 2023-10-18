@@ -16,8 +16,6 @@
 
 package io.appium.java_client.drivers.options;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.options.EspressoOptions;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.android.options.localization.AppLocale;
@@ -42,6 +40,8 @@ import org.openqa.selenium.Platform;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -60,7 +60,7 @@ public class OptionsBuildingTest {
                 .setWdaBaseUrl("http://localhost:8000")
                 .setPermissions(new Permissions()
                         .withAppPermissions("com.apple.MobileSafari",
-                                ImmutableMap.of("calendar", "YES")))
+                                Map.of("calendar", "YES")))
                 .setSafariSocketChunkSize(10)
                 .setCommandTimeouts(new CommandTimeouts()
                         .withCommandTimeout("yolo", Duration.ofSeconds(1)));
@@ -105,7 +105,7 @@ public class OptionsBuildingTest {
                         .withLanguage("zh")
                         .withVariant("hans"))
                 .setEspressoBuildConfig(new EspressoBuildConfig()
-                        .withAdditionalAppDependencies(ImmutableList.of(
+                        .withAdditionalAppDependencies(List.of(
                                 "com.dep1:1.2.3",
                                 "com.dep2:1.2.3"
                         ))
@@ -154,7 +154,7 @@ public class OptionsBuildingTest {
         assertEquals(AutomationName.GECKO, options.getAutomationName().orElse(null));
         options.setNewCommandTimeout(Duration.ofSeconds(10))
                 .setVerbosity(Verbosity.TRACE)
-                .setMozFirefoxOptions(ImmutableMap.of(
+                .setMozFirefoxOptions(Map.of(
                         "profile", "yolo"
                 ));
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));

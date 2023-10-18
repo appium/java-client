@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Objects.requireNonNull;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
 public class Helpers {
@@ -108,7 +109,7 @@ public class Helpers {
                 )
         );
         Preconditions.checkArgument(!listeners.isEmpty(), "The collection of listeners must not be empty");
-        Preconditions.checkArgument(cls != null, "Class must not be null");
+        requireNonNull(cls, "Class must not be null");
         Preconditions.checkArgument(!cls.isInterface(), "Class must not be an interface");
 
         ElementMatcher.Junction<MethodDescription> matcher = ElementMatchers.isPublic();

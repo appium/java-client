@@ -45,10 +45,10 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
+import static java.util.Objects.requireNonNull;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
@@ -291,7 +291,7 @@ public final class AppiumDriverLocalService extends DriverService {
      *                     that is ready to accept server output
      */
     public void addOutPutStream(OutputStream outputStream) {
-        checkNotNull(outputStream, "outputStream parameter is NULL!");
+        requireNonNull(outputStream, "outputStream parameter is NULL!");
         stream.add(outputStream);
     }
 
@@ -302,7 +302,7 @@ public final class AppiumDriverLocalService extends DriverService {
      *                      that are ready to accept server output
      */
     public void addOutPutStreams(List<OutputStream> outputStreams) {
-        checkNotNull(outputStreams, "outputStreams parameter is NULL!");
+        requireNonNull(outputStreams, "outputStreams parameter is NULL!");
         for (OutputStream outputStream : outputStreams) {
             addOutPutStream(outputStream);
         }
@@ -314,7 +314,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * @return the outputStream has been removed if it is present
      */
     public Optional<OutputStream> removeOutPutStream(OutputStream outputStream) {
-        checkNotNull(outputStream, "outputStream parameter is NULL!");
+        requireNonNull(outputStream, "outputStream parameter is NULL!");
         return stream.remove(outputStream);
     }
 
@@ -399,7 +399,7 @@ public final class AppiumDriverLocalService extends DriverService {
      *                                available.
      */
     public void addSlf4jLogMessageConsumer(BiConsumer<String, Slf4jLogMessageContext> slf4jLogMessageConsumer) {
-        checkNotNull(slf4jLogMessageConsumer, "slf4jLogMessageConsumer parameter is NULL!");
+        requireNonNull(slf4jLogMessageConsumer, "slf4jLogMessageConsumer parameter is NULL!");
         addLogMessageConsumer(logMessage -> {
             slf4jLogMessageConsumer.accept(logMessage, parseSlf4jContextFromLogMessage(logMessage));
         });
@@ -433,7 +433,7 @@ public final class AppiumDriverLocalService extends DriverService {
      * @param consumer Consumer block to be executed when a log message is available.
      */
     public void addLogMessageConsumer(Consumer<String> consumer) {
-        checkNotNull(consumer, "consumer parameter is NULL!");
+        requireNonNull(consumer, "consumer parameter is NULL!");
         addOutPutStream(new OutputStream() {
             private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

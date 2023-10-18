@@ -27,9 +27,9 @@ import org.openqa.selenium.remote.http.HttpMethod;
 import javax.annotation.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -389,8 +389,7 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String keyName) {
-        return new AbstractMap.SimpleEntry<>(
-                HIDE_KEYBOARD, prepareArguments("keyName", keyName));
+        return Map.entry(HIDE_KEYBOARD, Map.of("keyName", keyName));
     }
 
     /**
@@ -405,10 +404,10 @@ public class MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> hideKeyboardCommand(String strategy,
                                                                         String keyName) {
-        String[] parameters = new String[]{"strategy", "key"};
-        Object[] values = new Object[]{strategy, keyName};
-        return new AbstractMap.SimpleEntry<>(
-                HIDE_KEYBOARD, prepareArguments(parameters, values));
+        return Map.entry(HIDE_KEYBOARD, Map.of(
+                "strategy", strategy,
+                "key", keyName
+        ));
     }
 
     /**
@@ -417,7 +416,9 @@ public class MobileCommand {
      * @param param is a parameter name.
      * @param value is the parameter value.
      * @return built {@link ImmutableMap}.
+     * @deprecated Use {@link Map#of(Object, Object)}
      */
+    @Deprecated
     public static ImmutableMap<String, Object> prepareArguments(String param,
                                                                 Object value) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
@@ -431,7 +432,9 @@ public class MobileCommand {
      * @param params is the array with parameter names.
      * @param values is the array with parameter values.
      * @return built {@link ImmutableMap}.
+     * @deprecated Use {@link Map#of(Object, Object, Object, Object)}
      */
+    @Deprecated
     public static ImmutableMap<String, Object> prepareArguments(String[] params,
                                                                 Object[] values) {
         ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
@@ -452,8 +455,7 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<>(
-                PRESS_KEY_CODE, prepareArguments("keycode", key));
+        return Map.entry(PRESS_KEY_CODE, Map.of("keycode", key));
     }
 
     /**
@@ -467,10 +469,10 @@ public class MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> pressKeyCodeCommand(int key,
                                                                         Integer metastate) {
-        String[] parameters = new String[]{"keycode", "metastate"};
-        Object[] values = new Object[]{key, metastate};
-        return new AbstractMap.SimpleEntry<>(
-                PRESS_KEY_CODE, prepareArguments(parameters, values));
+        return Map.entry(PRESS_KEY_CODE, Map.of(
+                "keycode", key,
+                "metastate", metastate
+        ));
     }
 
     /**
@@ -482,8 +484,7 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key) {
-        return new AbstractMap.SimpleEntry<>(
-                LONG_PRESS_KEY_CODE, prepareArguments("keycode", key));
+        return Map.entry(LONG_PRESS_KEY_CODE, Map.of("keycode", key));
     }
 
     /**
@@ -497,10 +498,10 @@ public class MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> longPressKeyCodeCommand(int key,
                                                                             Integer metastate) {
-        String[] parameters = new String[]{"keycode", "metastate"};
-        Object[] values = new Object[]{key, metastate};
-        return new AbstractMap.SimpleEntry<>(
-                LONG_PRESS_KEY_CODE, prepareArguments(parameters, values));
+        return Map.entry(LONG_PRESS_KEY_CODE, Map.of(
+                "keycode", key,
+                "metastate", metastate
+        ));
     }
 
     /**
@@ -512,8 +513,7 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> lockDeviceCommand(Duration duration) {
-        return new AbstractMap.SimpleEntry<>(
-                LOCK, prepareArguments("seconds", duration.getSeconds()));
+        return Map.entry(LOCK, Map.of("seconds", duration.getSeconds()));
     }
 
     /**
@@ -524,7 +524,7 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> unlockDeviceCommand() {
-        return new AbstractMap.SimpleEntry<>(UNLOCK, ImmutableMap.of());
+        return Map.entry(UNLOCK, Map.of());
     }
 
     /**
@@ -535,19 +535,19 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> getIsDeviceLockedCommand() {
-        return new AbstractMap.SimpleEntry<>(IS_LOCKED, ImmutableMap.of());
+        return Map.entry(IS_LOCKED, Map.of());
     }
 
     public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
-        return new AbstractMap.SimpleEntry<>(GET_SETTINGS, ImmutableMap.of());
+        return Map.entry(GET_SETTINGS, Map.of());
     }
 
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(String setting, Object value) {
-        return setSettingsCommand(prepareArguments(setting, value));
+        return setSettingsCommand(Map.of(setting, value));
     }
 
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Map<String, Object> settings) {
-        return new AbstractMap.SimpleEntry<>(SET_SETTINGS, prepareArguments("settings", settings));
+        return Map.entry(SET_SETTINGS, Map.of("settings", settings));
     }
 
     /**
@@ -560,19 +560,18 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> pushFileCommand(String remotePath, byte[] base64Data) {
-        String[] parameters = new String[]{"path", "data"};
-        Object[] values = new Object[]{remotePath, new String(base64Data, StandardCharsets.UTF_8)};
-        return new AbstractMap.SimpleEntry<>(PUSH_FILE, prepareArguments(parameters, values));
+        return Map.entry(PUSH_FILE, Map.of(
+                "path", remotePath,
+                "data", new String(base64Data, StandardCharsets.UTF_8)
+        ));
     }
 
     public static Map.Entry<String, Map<String, ?>> startRecordingScreenCommand(BaseStartScreenRecordingOptions opts) {
-        return new AbstractMap.SimpleEntry<>(START_RECORDING_SCREEN,
-                prepareArguments("options", opts.build()));
+        return Map.entry(START_RECORDING_SCREEN, Map.of("options", opts.build()));
     }
 
     public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand(BaseStopScreenRecordingOptions opts) {
-        return new AbstractMap.SimpleEntry<>(STOP_RECORDING_SCREEN,
-                prepareArguments("options", opts.build()));
+        return Map.entry(STOP_RECORDING_SCREEN, Map.of("options", opts.build()));
     }
 
     /**
@@ -587,15 +586,12 @@ public class MobileCommand {
     public static Map.Entry<String, Map<String, ?>> compareImagesCommand(ComparisonMode mode,
                                                                          byte[] img1Data, byte[] img2Data,
                                                                          @Nullable BaseComparisonOptions options) {
-        String[] parameters = options == null
-                ? new String[]{"mode", "firstImage", "secondImage"}
-                : new String[]{"mode", "firstImage", "secondImage", "options"};
-        Object[] values = options == null
-                ? new Object[]{mode.toString(), new String(img1Data, StandardCharsets.UTF_8),
-                               new String(img2Data, StandardCharsets.UTF_8)}
-                : new Object[]{mode.toString(), new String(img1Data, StandardCharsets.UTF_8),
-                               new String(img2Data, StandardCharsets.UTF_8), options.build()};
-        return new AbstractMap.SimpleEntry<>(COMPARE_IMAGES, prepareArguments(parameters, values));
+        ImmutableMap.Builder<String, Object> argsBuilder = ImmutableMap.<String, Object>builder()
+                .put("mode", mode.toString())
+                .put("firstImage", new String(img1Data, StandardCharsets.UTF_8))
+                .put("secondImage", new String(img2Data, StandardCharsets.UTF_8));
+        Optional.ofNullable(options).ifPresent(opts -> argsBuilder.put("options", options.build()));
+        return Map.entry(COMPARE_IMAGES, argsBuilder.build());
     }
 
     /**
@@ -606,6 +602,6 @@ public class MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> isKeyboardShownCommand() {
-        return new AbstractMap.SimpleEntry<>(IS_KEYBOARD_SHOWN, ImmutableMap.of());
+        return Map.entry(IS_KEYBOARD_SHOWN, Map.of());
     }
 }

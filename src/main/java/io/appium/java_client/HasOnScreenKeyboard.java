@@ -2,8 +2,8 @@ package io.appium.java_client;
 
 import org.openqa.selenium.UnsupportedCommandException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.MobileCommand.isKeyboardShownCommand;
+import static java.util.Objects.requireNonNull;
 
 public interface HasOnScreenKeyboard extends ExecutesMethod, CanRememberExtensionPresence {
 
@@ -16,10 +16,10 @@ public interface HasOnScreenKeyboard extends ExecutesMethod, CanRememberExtensio
     default boolean isKeyboardShown() {
         final String extName = "mobile: isKeyboardShown";
         try {
-            return checkNotNull(CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName));
+            return requireNonNull(CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName));
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback
-            return checkNotNull(
+            return requireNonNull(
                     CommandExecutionHelper.execute(markExtensionAbsence(extName), isKeyboardShownCommand())
             );
         }
