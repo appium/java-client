@@ -125,6 +125,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         );
     }
 
+    @Nullable
     private String readStringCapability(SearchContext searchContext, String capName) {
         if (searchContext == null) {
             return null;
