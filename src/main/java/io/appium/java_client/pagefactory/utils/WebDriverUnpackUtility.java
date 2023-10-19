@@ -51,21 +51,16 @@ public final class WebDriverUnpackUtility {
      */
     @Nullable
     public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
-        if (searchContext instanceof WebDriver) {
-            return (WebDriver) searchContext;
-        }
-
+        // ! The sequence is important here
         if (searchContext instanceof WrapsDriver) {
             return unpackWebDriverFromSearchContext(((WrapsDriver) searchContext).getWrappedDriver());
         }
-
         // Search context it is not only WebDriver. WebElement is search context too.
         // RemoteWebElement implements WrapsDriver
         if (searchContext instanceof WrapsElement) {
             return unpackWebDriverFromSearchContext(((WrapsElement) searchContext).getWrappedElement());
         }
-
-        return null;
+        return (searchContext instanceof WebDriver) ? (WebDriver) searchContext : null;
     }
 
     /**
@@ -88,9 +83,8 @@ public final class WebDriverUnpackUtility {
                 return NATIVE_MOBILE_SPECIFIC;
             }
 
-            if (ContextAware.class.isAssignableFrom(driver.getClass())) { //it is desktop browser
-                ContextAware contextAware = (ContextAware) driver;
-                var currentContext = contextAware.getContext();
+            if (driver instanceof ContextAware) {
+                var currentContext = ((ContextAware) driver ).getContext();
                 if (currentContext != null && currentContext.toUpperCase().contains(NATIVE_APP_PATTERN)) {
                     return NATIVE_MOBILE_SPECIFIC;
                 }
