@@ -26,14 +26,47 @@ import org.openqa.selenium.WrapsElement;
 
 import javax.annotation.Nullable;
 
+import java.util.Optional;
+
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
-import static java.util.Optional.ofNullable;
 
 public final class WebDriverUnpackUtility {
     private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
 
     private WebDriverUnpackUtility() {
+    }
+
+    /**
+     * This method extracts an instance of the given interface from the given {@link SearchContext}.
+     * It is expected that the {@link SearchContext} itself or the object it wraps implements it.
+     *
+     * @param searchContext is an instance of {@link SearchContext}. It may be the instance of
+     *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
+     *                user's extension/implementation.
+     *                Note: if you want to use your own implementation then it should implement
+     *                {@link WrapsDriver} or {@link WrapsElement}
+     * @param cls interface whose instance is going to be extracted.
+     * @return Either an instance of the given interface or Optional.empty().
+     */
+    public static <T> Optional<T> unpackObjectFromSearchContext(@Nullable SearchContext searchContext, Class<T> cls) {
+        if (searchContext == null) {
+            return Optional.empty();
+        }
+
+        if (searchContext.getClass().isAssignableFrom(cls)) {
+            return Optional.of(cls.cast(searchContext));
+        }
+        if (searchContext instanceof WrapsDriver) {
+            return unpackObjectFromSearchContext(((WrapsDriver) searchContext).getWrappedDriver(), cls);
+        }
+        // Search context it is not only WebDriver. WebElement is search context too.
+        // RemoteWebElement implements WrapsDriver
+        if (searchContext instanceof WrapsElement) {
+            return unpackObjectFromSearchContext(((WrapsElement) searchContext).getWrappedElement(), cls);
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -50,17 +83,8 @@ public final class WebDriverUnpackUtility {
      *
      */
     @Nullable
-    public static WebDriver unpackWebDriverFromSearchContext(SearchContext searchContext) {
-        // ! The sequence is important here
-        if (searchContext instanceof WrapsDriver) {
-            return unpackWebDriverFromSearchContext(((WrapsDriver) searchContext).getWrappedDriver());
-        }
-        // Search context it is not only WebDriver. WebElement is search context too.
-        // RemoteWebElement implements WrapsDriver
-        if (searchContext instanceof WrapsElement) {
-            return unpackWebDriverFromSearchContext(((WrapsElement) searchContext).getWrappedElement());
-        }
-        return (searchContext instanceof WebDriver) ? (WebDriver) searchContext : null;
+    public static WebDriver unpackWebDriverFromSearchContext(@Nullable SearchContext searchContext) {
+        return unpackObjectFromSearchContext(searchContext, WebDriver.class).orElse(null);
     }
 
     /**
@@ -78,19 +102,17 @@ public final class WebDriverUnpackUtility {
      *                {@link SearchContext} instance doesn't implement {@link ContextAware} and {@link WrapsDriver}
      */
     public static ContentType getCurrentContentType(SearchContext context) {
-        return ofNullable(unpackWebDriverFromSearchContext(context)).map(driver -> {
-            if (driver instanceof HasBrowserCheck && !((HasBrowserCheck) driver).isBrowser()) {
-                return NATIVE_MOBILE_SPECIFIC;
-            }
+        var browserCheckHolder = unpackObjectFromSearchContext(context, HasBrowserCheck.class);
+        if (browserCheckHolder.filter(HasBrowserCheck::isBrowser).isPresent()) {
+            return NATIVE_MOBILE_SPECIFIC;
+        }
 
-            if (driver instanceof ContextAware) {
-                var currentContext = ((ContextAware) driver ).getContext();
-                if (currentContext != null && currentContext.toUpperCase().contains(NATIVE_APP_PATTERN)) {
-                    return NATIVE_MOBILE_SPECIFIC;
-                }
-            }
+        var contextAware = unpackObjectFromSearchContext(context, ContextAware.class);
+        if (contextAware.map(ContextAware::getContext)
+                .filter(c -> c.toUpperCase().contains(NATIVE_APP_PATTERN)).isPresent()) {
+            return NATIVE_MOBILE_SPECIFIC;
+        }
 
-            return HTML_OR_DEFAULT;
-        }).orElse(HTML_OR_DEFAULT);
+        return HTML_OR_DEFAULT;
     }
 }
