@@ -54,7 +54,7 @@ public final class WebDriverUnpackUtility {
             return Optional.empty();
         }
 
-        if (searchContext.getClass().isAssignableFrom(cls)) {
+        if (cls.isAssignableFrom(searchContext.getClass())) {
             return Optional.of(cls.cast(searchContext));
         }
         if (searchContext instanceof WrapsDriver) {
