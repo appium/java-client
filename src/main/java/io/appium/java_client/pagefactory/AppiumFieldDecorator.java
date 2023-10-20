@@ -43,11 +43,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static java.time.Duration.ofSeconds;
 
@@ -83,7 +81,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
-        this.webDriverReference = Optional.ofNullable(unpackWebDriverFromSearchContext(context))
+        this.webDriverReference = unpackObjectFromSearchContext(context, WebDriver.class)
                 .map(WeakReference::new).orElse(null);
         this.platform = readStringCapability(context, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(context, AUTOMATION_NAME_OPTION);
@@ -111,7 +109,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
         var cr = contextReference.get();
-        this.webDriverReference = Optional.ofNullable(unpackWebDriverFromSearchContext(cr))
+        this.webDriverReference = unpackObjectFromSearchContext(cr, WebDriver.class)
                 .map(WeakReference::new).orElse(null);
         this.platform = readStringCapability(cr, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(cr, AUTOMATION_NAME_OPTION);

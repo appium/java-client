@@ -103,7 +103,7 @@ public final class WebDriverUnpackUtility {
      */
     public static ContentType getCurrentContentType(SearchContext context) {
         var browserCheckHolder = unpackObjectFromSearchContext(context, HasBrowserCheck.class);
-        if (browserCheckHolder.filter(HasBrowserCheck::isBrowser).isPresent()) {
+        if (browserCheckHolder.filter(hbc -> !hbc.isBrowser()).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
 
