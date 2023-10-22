@@ -19,7 +19,6 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -46,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static java.time.Duration.ofSeconds;
 
@@ -82,23 +81,15 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
-        WebDriver wd = unpackWebDriverFromSearchContext(context);
-        this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
-        if (wd instanceof HasCapabilities) {
-            Capabilities caps = ((HasCapabilities) wd).getCapabilities();
-            this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
-            this.automation = CapabilityHelpers.getCapability(caps, AUTOMATION_NAME_OPTION, String.class);
-        } else {
-            this.platform = null;
-            this.automation = null;
-        }
-
+        this.webDriverReference = unpackObjectFromSearchContext(context, WebDriver.class)
+                .map(WeakReference::new).orElse(null);
+        this.platform = readStringCapability(context, CapabilityType.PLATFORM_NAME);
+        this.automation = readStringCapability(context, AUTOMATION_NAME_OPTION);
         this.duration = duration;
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
                 context, duration, new DefaultElementByBuilder(platform, automation)
         ));
-
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 context, duration, new WidgetByBuilder(platform, automation)
         );
@@ -117,26 +108,30 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
-        WebDriver wd = unpackWebDriverFromSearchContext(contextReference.get());
-        this.webDriverReference = wd == null ? null : new WeakReference<>(wd);
-        if (wd instanceof HasCapabilities) {
-            Capabilities caps = ((HasCapabilities) wd).getCapabilities();
-            this.platform = CapabilityHelpers.getCapability(caps, CapabilityType.PLATFORM_NAME, String.class);
-            this.automation = CapabilityHelpers.getCapability(caps, AUTOMATION_NAME_OPTION, String.class);
-        } else {
-            this.platform = null;
-            this.automation = null;
-        }
-
+        var cr = contextReference.get();
+        this.webDriverReference = unpackObjectFromSearchContext(cr, WebDriver.class)
+                .map(WeakReference::new).orElse(null);
+        this.platform = readStringCapability(cr, CapabilityType.PLATFORM_NAME);
+        this.automation = readStringCapability(cr, AUTOMATION_NAME_OPTION);
         this.duration = duration;
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
                 contextReference, duration, new DefaultElementByBuilder(platform, automation)
         ));
-
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 contextReference, duration, new WidgetByBuilder(platform, automation)
         );
+    }
+
+    @Nullable
+    private String readStringCapability(SearchContext searchContext, String capName) {
+        if (searchContext == null) {
+            return null;
+        }
+        return unpackObjectFromSearchContext(searchContext, HasCapabilities.class)
+                .map(HasCapabilities::getCapabilities)
+                .map(caps -> CapabilityHelpers.getCapability(caps, capName, String.class))
+                .orElse(null);
     }
 
     private DefaultFieldDecorator createFieldDecorator(ElementLocatorFactory factory) {
