@@ -34,7 +34,7 @@ public interface SupportsSpecialEmulatorCommands extends ExecutesMethod, CanReme
             // TODO: Remove the fallback
             CommandExecutionHelper.execute(
                     markExtensionAbsence(extName),
-                    Map.entry(SEND_SMS,  Map.of(
+                    Map.entry(SEND_SMS, Map.of(
                             "phoneNumber", phoneNumber,
                             "message", message
                     ))

@@ -91,7 +91,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
         return Map.entry(GET_PERFORMANCE_DATA, Map.of(
                 "packageName", packageName,
                 "dataType", dataType,
-                "dataReadTimeout",  dataReadTimeout
+                "dataReadTimeout", dataReadTimeout
         ));
     }
 
@@ -201,7 +201,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     @Deprecated
-    public static Map.Entry<String, Map<String, ?>>  replaceElementValueCommand(
+    public static Map.Entry<String, Map<String, ?>> replaceElementValueCommand(
         RemoteWebElement remoteWebElement, String value) {
         return Map.entry(REPLACE_VALUE, Map.of(
                 "id", remoteWebElement.getId(),
@@ -241,7 +241,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             String phoneNumber, GsmCallActions gsmCallActions) {
         return Map.entry(GSM_CALL, Map.of(
                 "phoneNumber", phoneNumber,
-                "action",  gsmCallActions.name().toLowerCase()
+                "action", gsmCallActions.name().toLowerCase()
         ));
     }
 

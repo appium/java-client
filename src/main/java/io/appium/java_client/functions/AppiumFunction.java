@@ -30,7 +30,7 @@ import java.util.Optional;
  * @param <T> The return type
  */
 @FunctionalInterface
-public interface AppiumFunction<F, T>  extends Function<F, T>, java.util.function.Function<F, T> {
+public interface AppiumFunction<F, T> extends Function<F, T>, java.util.function.Function<F, T> {
 
     @Override default <V> AppiumFunction<V, T> compose(java.util.function.Function<? super V, ? extends F> before) {
         Objects.requireNonNull(before);

@@ -69,7 +69,7 @@ public class TimeoutTest {
         long startMark = currentTimeMillis();
         runnable.run();
         long endMark = currentTimeMillis();
-        return abs(expectedMs  - (endMark - startMark));
+        return abs(expectedMs - (endMark - startMark));
     }
 
     private static String assertionMessage(Duration expectedDuration) {
