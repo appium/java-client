@@ -71,7 +71,7 @@ public interface HasNetworkConnection extends ExecutesMethod, CanRememberExtensi
             return new ConnectionState(
                     ((boolean) result.get("wifi") ? ConnectionState.WIFI_MASK : 0)
                     | ((boolean) result.get("data") ? ConnectionState.DATA_MASK : 0)
-                    | ((boolean) result.get("airplaneMode") ? ConnectionState.AIRPLANE_MODE_MASK  : 0)
+                    | ((boolean) result.get("airplaneMode") ? ConnectionState.AIRPLANE_MODE_MASK : 0)
             );
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback

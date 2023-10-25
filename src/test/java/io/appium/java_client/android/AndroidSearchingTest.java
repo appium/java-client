@@ -33,12 +33,12 @@ public class AndroidSearchingTest extends BaseAndroidTest {
         startActivity(".ApiDemos");
     }
 
-    @Test  public void findByAccessibilityIdTest() {
+    @Test public void findByAccessibilityIdTest() {
         assertNotEquals(driver.findElement(AppiumBy.accessibilityId("Graphics")).getText(), null);
         assertEquals(driver.findElements(AppiumBy.accessibilityId("Graphics")).size(), 1);
     }
 
-    @Test  public void findByAndroidUIAutomatorTest() {
+    @Test public void findByAndroidUIAutomatorTest() {
         assertNotEquals(driver
                 .findElement(AppiumBy
                 .androidUIAutomator("new UiSelector().clickable(true)")).getText(), null);

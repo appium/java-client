@@ -14,7 +14,7 @@ public class ServerEvents {
     public final List<TimedEvent> events;
     public final String jsonData;
 
-    public void save(Path output) throws IOException  {
+    public void save(Path output) throws IOException {
         Files.write(output, this.jsonData.getBytes());
     }
 }

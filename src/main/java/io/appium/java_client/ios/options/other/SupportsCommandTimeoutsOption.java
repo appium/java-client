@@ -62,7 +62,7 @@ public interface SupportsCommandTimeoutsOption<T extends BaseOptions<T>> extends
     default Optional<Either<CommandTimeouts, Duration>> getCommandTimeouts() {
         return Optional.ofNullable(getCapability(COMMAND_TIMEOUTS_OPTION))
                 .map(String::valueOf)
-                .map(v ->  v.trim().startsWith("{")
+                .map(v -> v.trim().startsWith("{")
                         ? Either.left(new CommandTimeouts(v))
                         : Either.right(toDuration(v))
                 );
