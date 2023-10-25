@@ -67,12 +67,6 @@ dependencies {
     testRuntimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 }
 
-ext {
-    Sources = fileTree("$buildDir/src/main/java").include('**/*.java')
-    Tests = fileTree("$buildDir/src/test/java").include('**/*.java')
-    Docs = file("$buildDir/doc")
-}
-
 dependencyCheck {
     failBuildOnCVSS=22
 }
@@ -81,7 +75,7 @@ jacoco {
     toolVersion = '0.8.8'
 }
 
-tasks.withType(JacocoReport) {
+tasks.withType(JacocoReport).configureEach {
     description = 'Generate Jacoco coverage reports after running tests'
     sourceSets sourceSets.main
     reports {
@@ -209,7 +203,7 @@ test {
     finalizedBy jacocoTestReport
 }
 
-task xcuiTest( type: Test ) {
+tasks.register('xcuiTest', Test) {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
@@ -224,7 +218,7 @@ task xcuiTest( type: Test ) {
     }
 }
 
-task uiAutomationTest( type: Test ) {
+tasks.register('uiAutomationTest', Test) {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
