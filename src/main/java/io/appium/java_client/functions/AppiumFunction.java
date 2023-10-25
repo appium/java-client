@@ -28,7 +28,9 @@ import java.util.Optional;
  *
  * @param <F> The input type
  * @param <T> The return type
+ * @deprecated Use {@link java.util.function.Function} instead
  */
+@Deprecated
 @FunctionalInterface
 public interface AppiumFunction<F, T>  extends Function<F, T>, java.util.function.Function<F, T> {
 
