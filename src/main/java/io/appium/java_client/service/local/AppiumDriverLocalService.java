@@ -17,10 +17,9 @@
 package io.appium.java_client.service.local;
 
 import com.google.common.annotations.VisibleForTesting;
-import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.SneakyThrows;
 import org.openqa.selenium.net.UrlChecker;
-import org.openqa.selenium.os.CommandLine;
+import org.openqa.selenium.os.ExternalProcess;
 import org.openqa.selenium.remote.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +48,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
@@ -70,7 +70,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final URL url;
     private String basePath;
 
-    private CommandLine process = null;
+    private ExternalProcess process = null;
 
     AppiumDriverLocalService(String ipAddress, File nodeJSExec,
                              int nodeJSPort, Duration startupTimeout,
@@ -126,7 +126,7 @@ public final class AppiumDriverLocalService extends DriverService {
     public boolean isRunning() {
         lock.lock();
         try {
-            if (process == null || !process.isRunning()) {
+            if (process == null || !process.isAlive()) {
                 return false;
             }
 
@@ -172,17 +172,15 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                process = new CommandLine(
-                        this.nodeJSExec.getCanonicalPath(),
-                        nodeJSArgs.toArray(new String[]{})
-                );
-                process.setEnvironmentVariables(nodeJSEnvironment);
-                process.copyOutputTo(stream);
-                process.executeAsync();
+                ExternalProcess.Builder processBuilder = ExternalProcess.builder()
+                        .command(this.nodeJSExec.getCanonicalPath(), nodeJSArgs)
+                        .copyOutputTo(stream);
+                nodeJSEnvironment.forEach(processBuilder::environment);
+                process = processBuilder.start();
                 ping(startupTimeout);
             } catch (Exception e) {
-                final Optional<String> output = Optional.ofNullable(process)
-                        .map(CommandLine::getStdOut)
+                final Optional<String> output = ofNullable(process)
+                        .map(ExternalProcess::getOutput)
                         .filter(o -> !isNullOrEmpty(o));
                 destroyProcess();
                 List<String> errorLines = new ArrayList<>();
@@ -228,46 +226,15 @@ public final class AppiumDriverLocalService extends DriverService {
     }
 
     /**
-     * Destroys the service if it is running.
-     *
-     * @param timeout The maximum time to wait before the process will be force-killed.
-     * @return The exit code of the process or zero if the process was not running.
-     */
-    private int destroyProcess(Duration timeout) {
-        if (process == null || !process.isRunning()) {
-            return 0;
-        }
-
-        // This all magic is necessary, because Selenium does not publicly expose
-        // process killing timeouts. By default a process is killed forcibly if
-        // it does not exit after two seconds, which is in most cases not enough for
-        // Appium
-        try {
-            Object osProcess = ReflectionHelpers.getPrivateFieldValue(
-                    process.getClass(), process, "process", Object.class
-            );
-            Object watchdog = ReflectionHelpers.getPrivateFieldValue(
-                    osProcess.getClass(), osProcess, "executeWatchdog", Object.class
-            );
-            Process nativeProcess = ReflectionHelpers.getPrivateFieldValue(
-                    watchdog.getClass(), watchdog, "process", Process.class
-            );
-            nativeProcess.destroy();
-            nativeProcess.waitFor(timeout.toMillis(), TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
-            LOG.warn("No explicit timeout could be applied to the process termination", e);
-        }
-
-        return process.destroy();
-    }
-
-    /**
      * Destroys the service.
-     * This methods waits up to `DESTROY_TIMEOUT` seconds for the Appium service
+     * This method waits up to `DESTROY_TIMEOUT` seconds for the Appium service
      * to exit gracefully.
      */
     private void destroyProcess() {
-        destroyProcess(DESTROY_TIMEOUT);
+        if (process == null || !process.isAlive()) {
+            return;
+        }
+        process.shutdown(DESTROY_TIMEOUT);
     }
 
     /**
@@ -277,11 +244,7 @@ public final class AppiumDriverLocalService extends DriverService {
      */
     @Nullable
     public String getStdOut() {
-        if (process != null) {
-            return process.getStdOut();
-        }
-
-        return null;
+        return ofNullable(process).map(ExternalProcess::getOutput).orElse(null);
     }
 
     /**
