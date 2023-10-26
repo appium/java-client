@@ -23,7 +23,9 @@ import org.openqa.selenium.WebDriver;
  * with {@link java.util.function.Function}.
  *
  * @param <T> The return type
+ * @deprecated Use {@link org.openqa.selenium.support.ui.ExpectedCondition} instead
  */
+@Deprecated
 @FunctionalInterface
 public interface ExpectedCondition<T> extends org.openqa.selenium.support.ui.ExpectedCondition<T>,
         AppiumFunction<WebDriver, T> {

@@ -20,6 +20,12 @@ import io.appium.java_client.PerformsActions;
 
 import java.util.function.Supplier;
 
+/**
+ * Represents a supplier of actions.
+ *
+ * @deprecated Use {@link Supplier} instead
+ */
+@Deprecated
 @FunctionalInterface
 public interface ActionSupplier<T extends PerformsActions<?>> extends Supplier<T> {
 }
