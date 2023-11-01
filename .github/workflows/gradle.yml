@@ -61,7 +61,7 @@ jobs:
 
     - name: Install Node.js
       if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios'
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
 
