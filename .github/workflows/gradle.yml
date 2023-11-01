@@ -5,25 +5,26 @@ on:
     branches:
     - master
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
+    - 'docs/**'
+    - '*.md'
   pull_request:
     branches:
     - master
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
+    - 'docs/**'
+    - '*.md'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
-  ANDROID_SDK_VERSION: 28
+  ANDROID_SDK_VERSION: "28"
   ANDROID_EMU_NAME: test
-  XCODE_VERSION: 14.2
+  ANDROID_EMU_TARGET: default
+  XCODE_VERSION: "14.2"
   IOS_DEVICE_NAME: iPhone 12
-  IOS_PLATFORM_VERSION: 16.2
+  IOS_PLATFORM_VERSION: "16.2"
 
 jobs:
   build:
@@ -59,7 +60,7 @@ jobs:
       run: ./gradlew clean build
 
     - name: Install Node.js
-      if: ${{ matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' }}
+      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios'
       uses: actions/setup-node@v3
       with:
         node-version: 'lts/*'
@@ -71,50 +72,28 @@ jobs:
     - name: Install UIA2 driver
       if: matrix.e2e-tests == 'android'
       run: appium driver install uiautomator2
-
-    - name: AVD cache
-      if: matrix.e2e-tests == 'android'
-      uses: actions/cache@v3
-      id: avd-cache
-      with:
-        path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-${{ env.ANDROID_SDK_VERSION }}
-
-    - name: Generate AVD snapshot for caching
-      if: matrix.e2e-tests == 'android' && steps.avd-cache.outputs.cache-hit != 'true'
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: ${{ env.ANDROID_SDK_VERSION }}
-        avd-name: ${{ env.ANDROID_EMU_NAME }}
-        force-avd-creation: false
-        script: echo "Generated AVD snapshot for caching."
-
     - name: Run Android E2E tests
       if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
+        script: ./gradlew uiAutomationTest
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
-        force-avd-creation: false
-        emulator-options: -no-snapshot -delay-adb
-        script: ./gradlew uiAutomationTest
+        sdcard-path-or-size: 1500M
+        disable-spellchecker: true
+        target: ${{ env.ANDROID_EMU_TARGET }}
 
     - name: Select Xcode
       if: matrix.e2e-tests == 'ios'
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: "${{ env.XCODE_VERSION }}"
-
     - name: Install XCUITest driver
       if: matrix.e2e-tests == 'ios'
       run: appium driver install xcuitest
-
     - name: Prebuild XCUITest driver
       if: matrix.e2e-tests == 'ios'
       run: appium driver run xcuitest build-wda
-
     - name: Prepare iOS simulator
       if: matrix.e2e-tests == 'ios'
       run: |
@@ -122,7 +101,6 @@ jobs:
         target_sim_id=$(xcrun simctl list devices available | grep "$IOS_DEVICE_NAME (" | cut -d "(" -f2 | cut -d ")" -f1)
         open -Fn "/Applications/Xcode_$XCODE_VERSION.app/Contents/Developer/Applications/Simulator.app"
         xcrun simctl bootstatus $target_sim_id -b
-
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
       run: ./gradlew xcuiTest
