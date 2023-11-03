@@ -34,11 +34,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -148,6 +150,10 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
 
     @FindBy(id = "fakeId")
     private List<WebElement> fakeElements;
+
+    @FindBy(id = "android.widget.TextView")
+    @CacheLookup
+    private List<WebElement> cachedViews;
 
     @CacheLookup
     @FindBy(className = "android.widget.TextView")
@@ -343,8 +349,22 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(ArrayList.class, fakeElements.getClass());
     }
 
-    @Test public void checkCached() {
+    @Test public void checkCachedElements() {
         assertEquals(((RemoteWebElement) cached).getId(), ((RemoteWebElement) cached).getId());
+        assertEquals(cached.hashCode(), cached.hashCode());
+        //noinspection SimplifiableAssertion,EqualsWithItself
+        assertTrue(cached.equals(cached));
+    }
+
+    @Test public void checkCachedLists() {
+        assertEquals(cachedViews.hashCode(), cachedViews.hashCode());
+        //noinspection SimplifiableAssertion,EqualsWithItself
+        assertTrue(cachedViews.equals(cachedViews));
+    }
+
+    @Test public void checkListHashing() {
+        assertFalse(cachedViews.isEmpty());
+        assertEquals(cachedViews.size(), new HashSet<>(cachedViews).size());
     }
 
     @Test

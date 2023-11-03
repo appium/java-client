@@ -26,6 +26,7 @@ import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
     protected final ElementLocator locator;
@@ -52,16 +53,21 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
             return locator.toString();
         }
 
-        if (Object.class.equals(method.getDeclaringClass())) {
-            return original.call();
-        }
-
         if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass())
                 && method.getName().equals("getWrappedDriver")) {
             return driverReference.get();
         }
 
-        WebElement realElement = locator.findElement();
-        return getObject(realElement, method, args);
+        Supplier<WebElement> realElementSupplier = locator::findElement;
+        if (Object.class == method.getDeclaringClass()) {
+            if ("equals".equals(method.getName()) && args.length == 1) {
+                return realElementSupplier.get().equals(args[0]);
+            }
+            if ("hashCode".equals(method.getName()) && args.length == 0) {
+                return realElementSupplier.get().hashCode();
+            }
+            return original.call();
+        }
+        return getObject(realElementSupplier.get(), method, args);
     }
 }
