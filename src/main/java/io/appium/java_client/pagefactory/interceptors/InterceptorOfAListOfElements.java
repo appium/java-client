@@ -24,12 +24,9 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
 
 public abstract class InterceptorOfAListOfElements implements MethodCallListener {
-    private final static WeakHashMap<List<WebElement>, List<WebElement>> FORMER_LISTS = new WeakHashMap<>();
     protected final ElementLocator locator;
 
     public InterceptorOfAListOfElements(@Nullable ElementLocator locator) {
@@ -46,18 +43,7 @@ public abstract class InterceptorOfAListOfElements implements MethodCallListener
             return original.call();
         }
 
-        final List<WebElement> realElements = locator.findElements();
-        List<WebElement> resultElements;
-        // This is needed to be able to compare two element lists
-        // and validate if caching happened
-        synchronized (FORMER_LISTS) {
-            resultElements = Optional.ofNullable(FORMER_LISTS.get(realElements))
-                    .orElseGet(() -> {
-                        var result = new ArrayList<>(realElements);
-                        FORMER_LISTS.put(realElements, result);
-                        return result;
-                    });
-        }
-        return getObject(resultElements, method, args);
+        final var realElements = new ArrayList<>(locator.findElements());
+        return getObject(realElements, method, args);
     }
 }
