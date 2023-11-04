@@ -24,6 +24,7 @@ import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -46,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
 public class AndroidPageObjectTest extends BaseAndroidTest {
 
     private boolean populated = false;
@@ -384,10 +386,10 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
         assertNotEquals(0, androidElementsViewFoundByMixedSearching.size());
     }
 
-// FIXME: This test is not stable
-//    @Test public void checkMixedElementSearching2() {
-//        assertNotNull(androidElementViewFoundByMixedSearching2.getAttribute("text"));
-//    }
+    @Disabled("FIXME")
+    @Test public void checkMixedElementSearching2() {
+        assertNotNull(androidElementViewFoundByMixedSearching2.getAttribute("text"));
+    }
 
     @Test public void checkMixedElementsSearching2() {
         assertNotEquals(0, androidElementsViewFoundByMixedSearching2.size());
