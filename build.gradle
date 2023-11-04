@@ -228,7 +228,7 @@ tasks.register('uiAutomationTest', Test) {
         includeTestsMatching 'io.appium.java_client.android.OpenNotificationsTest'
         includeTestsMatching '*.AndroidAppStringsTest'
         includeTestsMatching '*.pagefactory_tests.widget.tests.android.*'
-        includeTestsMatching '*.pagefactory_tests.widget.tests.AndroidPageObjectTest'
+        includeTestsMatching '*.AndroidPageObjectTest'
         includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyAndroidTest'
         includeTestsMatching 'io.appium.java_client.service.local.ServerBuilderTest'
         includeTestsMatching 'io.appium.java_client.service.local.ThreadSafetyTest'

@@ -20,13 +20,14 @@ import io.appium.java_client.proxy.MethodCallListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.concurrent.Callable;
-import java.util.function.Supplier;
 
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
     protected final ElementLocator locator;
@@ -43,6 +44,15 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
 
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
+    private static boolean areElementsEqual(Object we1, Object we2) {
+        if (!(we1 instanceof RemoteWebElement) || !(we2 instanceof RemoteWebElement)) {
+            return false;
+        }
+
+        return we1 == we2
+                || (Objects.equals(((RemoteWebElement) we1).getId(), ((RemoteWebElement) we2).getId()));
+    }
+
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         if (locator == null) {
@@ -53,21 +63,19 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
             return locator.toString();
         }
 
+        if (Object.class == method.getDeclaringClass()) {
+            return original.call();
+        }
+
         if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass())
                 && method.getName().equals("getWrappedDriver")) {
             return driverReference.get();
         }
 
-        Supplier<WebElement> realElementSupplier = locator::findElement;
-        if (Object.class == method.getDeclaringClass()) {
-            if ("equals".equals(method.getName()) && args.length == 1) {
-                return realElementSupplier.get().equals(args[0]);
-            }
-            if ("hashCode".equals(method.getName()) && args.length == 0) {
-                return realElementSupplier.get().hashCode();
-            }
-            return original.call();
+        WebElement realElement = locator.findElement();
+        if ("equals".equals(method.getName()) && args.length == 1) {
+            return areElementsEqual(realElement, args[0]);
         }
-        return getObject(realElementSupplier.get(), method, args);
+        return getObject(realElement, method, args);
     }
 }
