@@ -30,6 +30,7 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -44,6 +45,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
@@ -81,8 +83,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
-        this.webDriverReference = unpackObjectFromSearchContext(context, WebDriver.class)
-                .map(WeakReference::new).orElse(null);
+        this.webDriverReference = requireWebDriverReference(context);
         this.platform = readStringCapability(context, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(context, AUTOMATION_NAME_OPTION);
         this.duration = duration;
@@ -109,8 +110,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
         var cr = contextReference.get();
-        this.webDriverReference = unpackObjectFromSearchContext(cr, WebDriver.class)
-                .map(WeakReference::new).orElse(null);
+        this.webDriverReference = requireWebDriverReference(cr);
         this.platform = readStringCapability(cr, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(cr, AUTOMATION_NAME_OPTION);
         this.duration = duration;
@@ -121,6 +121,22 @@ public class AppiumFieldDecorator implements FieldDecorator {
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 contextReference, duration, new WidgetByBuilder(platform, automation)
         );
+    }
+
+    @Nonnull
+    private static WeakReference<WebDriver> requireWebDriverReference(SearchContext searchContext) {
+        var wd = unpackObjectFromSearchContext(
+                checkNotNull(searchContext, "The provided search context cannot be null"),
+                WebDriver.class
+        );
+        return wd.map(WeakReference::new)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format(
+                                "No driver implementing %s interface could be extracted from the %s instance. "
+                                        + "Is the provided search context valid?",
+                                WebDriver.class.getName(), searchContext.getClass().getName()
+                        )
+                ));
     }
 
     @Nullable
