@@ -132,8 +132,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
         return wd.map(WeakReference::new)
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format(
-                                "No driver implementing %s interface could be extracted from the %s instance. " +
-                                        "Is the provided search context valid?",
+                                "No driver implementing %s interface could be extracted from the %s instance. "
+                                        + "Is the provided search context valid?",
                                 WebDriver.class.getName(), searchContext.getClass().getName()
                         )
                 ));
