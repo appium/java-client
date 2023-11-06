@@ -134,7 +134,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
                         String.format(
                                 "No driver implementing %s interface could be extracted from the %s instance. " +
                                         "Is the provided search context valid?",
-                                WebDriver.class, searchContext.getClass().getName()
+                                WebDriver.class.getName(), searchContext.getClass().getName()
                         )
                 ));
     }
