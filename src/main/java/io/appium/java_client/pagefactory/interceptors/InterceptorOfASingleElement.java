@@ -20,11 +20,13 @@ import io.appium.java_client.proxy.MethodCallListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
@@ -42,6 +44,15 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
 
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
+    private static boolean areElementsEqual(Object we1, Object we2) {
+        if (!(we1 instanceof RemoteWebElement) || !(we2 instanceof RemoteWebElement)) {
+            return false;
+        }
+
+        return we1 == we2
+                || (Objects.equals(((RemoteWebElement) we1).getId(), ((RemoteWebElement) we2).getId()));
+    }
+
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         if (locator == null) {
@@ -52,7 +63,7 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
             return locator.toString();
         }
 
-        if (Object.class.equals(method.getDeclaringClass())) {
+        if (Object.class == method.getDeclaringClass()) {
             return original.call();
         }
 
@@ -62,6 +73,9 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
         }
 
         WebElement realElement = locator.findElement();
+        if ("equals".equals(method.getName()) && args.length == 1) {
+            return areElementsEqual(realElement, args[0]);
+        }
         return getObject(realElement, method, args);
     }
 }

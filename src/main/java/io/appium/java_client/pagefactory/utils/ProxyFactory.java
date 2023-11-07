@@ -37,9 +37,8 @@ import static net.bytebuddy.matcher.ElementMatchers.not;
  * proxy object here.
  */
 public final class ProxyFactory {
-    private static final Set<String> NON_PROXYABLE_METHODS = setWith(
-            setWithout(OBJECT_METHOD_NAMES, "toString"),
-            "iterator"
+    private static final Set<String> NON_PROXYABLE_METHODS = setWithout(
+            OBJECT_METHOD_NAMES, "toString", "equals", "hashCode"
     );
 
     @SafeVarargs

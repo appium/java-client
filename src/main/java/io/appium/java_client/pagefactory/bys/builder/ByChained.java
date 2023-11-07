@@ -61,17 +61,15 @@ public class ByChained extends org.openqa.selenium.support.pagefactory.ByChained
     @Override
     public WebElement findElement(SearchContext context) {
         Function<SearchContext, WebElement> searchingFunction = null;
-
         for (By by: bys) {
-            searchingFunction = Optional.ofNullable(searchingFunction != null
-                    ? searchingFunction.andThen(getSearchingFunction(by)) : null).orElse(getSearchingFunction(by));
+            searchingFunction = Optional.ofNullable(searchingFunction)
+                    .map(sf -> sf.andThen(getSearchingFunction(by)))
+                    .orElseGet(() -> getSearchingFunction(by));
         }
-
-        FluentWait<SearchContext> waiting = new FluentWait<>(context);
+        requireNonNull(searchingFunction);
 
         try {
-            requireNonNull(searchingFunction);
-            return waiting.until(searchingFunction);
+            return new FluentWait<>(context).until(searchingFunction);
         } catch (TimeoutException e) {
             throw new NoSuchElementException("Cannot locate an element using " + this);
         }

@@ -39,11 +39,11 @@ public abstract class InterceptorOfAListOfElements implements MethodCallListener
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        if (locator == null || Object.class.equals(method.getDeclaringClass())) {
+        if (locator == null || Object.class == method.getDeclaringClass()) {
             return original.call();
         }
 
-        List<WebElement> realElements = new ArrayList<>(locator.findElements());
+        final var realElements = new ArrayList<>(locator.findElements());
         return getObject(realElements, method, args);
     }
 }
