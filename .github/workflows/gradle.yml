@@ -57,12 +57,7 @@ jobs:
         cache: 'gradle'
 
     - name: Build with Gradle
-      run: |
-        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
-          python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
-        echo ">>> $latest_snapshot"
-        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
-        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
+      run: ./gradlew clean build -PisCI -Pselenium.version=latest.integration
 
     - name: Install Node.js
       if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios'
@@ -81,7 +76,7 @@ jobs:
       if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        script: ./gradlew uiAutomationTest -PisCI -Pselenium.version=$latest_snapshot
+        script: ./gradlew uiAutomationTest -PisCI -Pselenium.version=latest.integration
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
         sdcard-path-or-size: 1500M
@@ -108,4 +103,4 @@ jobs:
         xcrun simctl bootstatus $target_sim_id -b
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
-      run: ./gradlew xcuiTest -PisCI -Pselenium.version=$latest_snapshot
+      run: ./gradlew xcuiTest -PisCI -Pselenium.version=latest.integration

@@ -20,6 +20,9 @@ repositories {
             mavenContent {
                 snapshotsOnly()
             }
+            metadataSources {
+                artifact()
+            }
         }
     }
 }
