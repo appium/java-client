@@ -61,7 +61,7 @@ jobs:
         latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
           grep -oE "\d+\.\d+\.\d+-SNAPSHOT" | tail -n 1)
         echo "$latest_snapshot"
-        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_OUTPUT"
+        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
         ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
     - name: Install Node.js
