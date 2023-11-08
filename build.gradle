@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.6.1') {
