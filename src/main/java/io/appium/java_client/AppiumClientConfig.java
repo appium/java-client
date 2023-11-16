@@ -205,4 +205,28 @@ public class AppiumClientConfig extends ClientConfig {
     public boolean isDirectConnectEnabled() {
         return directConnect;
     }
+
+    @Override
+    public String toString() {
+        return "AppiumClientConfig{"
+                + "baseUri="
+                + this.baseUri()
+                + ", connectionTimeout="
+                + this.connectionTimeout()
+                + ", readTimeout="
+                + this.readTimeout()
+                + ", filters="
+                + this.filter()
+                + ", proxy="
+                + this.proxy()
+                + ", credentials="
+                + this.credentials()
+                + ", sslcontext="
+                + this.sslContext()
+                + ", version="
+                + this.version()
+                + ", directConnect="
+                + this.directConnect
+                + '}';
+    }
 }
