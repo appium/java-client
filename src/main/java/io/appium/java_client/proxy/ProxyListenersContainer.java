@@ -16,21 +16,23 @@
 
 package io.appium.java_client.proxy;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.lang.ref.WeakReference;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class ProxyListenersContainer {
+    private static final Duration LISTENERS_CLEANUP_INTERVAL = Duration.ofMinutes(1);
+
     private static ProxyListenersContainer INSTANCE;
 
     public static synchronized ProxyListenersContainer getInstance() {
@@ -38,6 +40,21 @@ class ProxyListenersContainer {
             INSTANCE = new ProxyListenersContainer();
         }
         return INSTANCE;
+    }
+
+    private ProxyListenersContainer() {
+        var task = new TimerTask() {
+            @Override
+            public void run() {
+                getListeners(null);
+            }
+        };
+        // Listeners are cleaned up lazily, e.g. every time getListeners API
+        // is called we also remove garbage-collected items. Although, due to an
+        // unpredictable nature of the garbage collector and no guarantees about the
+        // frequency of getListeners API calls we schedule the below loop to be executed every
+        // minute, and make sure there are no extra references to obsolete listeners
+        new Timer().scheduleAtFixedRate(task, 0, LISTENERS_CLEANUP_INTERVAL.toMillis());
     }
 
     private final Semaphore listenersGuard = new Semaphore(1);
@@ -55,7 +72,7 @@ class ProxyListenersContainer {
      * Assign listeners for the particular proxied instance.
      *
      * @param proxyInstance The proxied instance.
-     * @param listeners Collection of listeners.
+     * @param listeners     Collection of listeners.
      * @return The same given instance.
      */
     public <T> T setListeners(T proxyInstance, Collection<MethodCallListener> listeners) {
