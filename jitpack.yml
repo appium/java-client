@@ -1,4 +1,4 @@
 jdk:
-  - openjdk8
+  - openjdk11
 install:
    - ./gradlew clean build publishToMavenLocal -PsigningDisabled=true
