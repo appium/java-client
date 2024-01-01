@@ -71,7 +71,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.6.2') {
+    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.6.3') {
         exclude group: 'org.seleniumhq.selenium'
     }
     testImplementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
