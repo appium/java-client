@@ -95,7 +95,7 @@ dependencies {
 ### Compatibility Matrix
  Appium Java Client        | Selenium client
 ---------------------------|-----------------
- `9.0.0`                   | `4.14.1`, `4.15.0`, `4.16.0` (partially corrupted: https://github.com/SeleniumHQ/selenium/issues/13256), `4.16.1`
+ `9.0.0`                   | `4.14.1`, `4.15.0`, `4.16.0` (partially [corrupted](https://github.com/SeleniumHQ/selenium/issues/13256)), `4.16.1`
  N/A                       | `4.14.0`
  `8.5.0`, `8.5.1`, `8.6.0` | `4.9.1`, `4.10.0`, `4.11.0`, `4.12.0`, `4.12.1` (known issue: appium/java-client#2004), `4.13.0`
  `8.4.0`                   | `4.8.2`, `4.8.3`, `4.9.0`
