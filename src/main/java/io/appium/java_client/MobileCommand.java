@@ -178,6 +178,15 @@ public class MobileCommand {
     protected static final String GET_ALLSESSION;
     protected static final String EXECUTE_GOOGLE_CDP_COMMAND;
 
+    public static final String GET_SCREEN_ORIENTATION = "getScreenOrientation";
+    public static final String SET_SCREEN_ORIENTATION = "setScreenOrientation";
+    public static final String GET_SCREEN_ROTATION = "getScreenRotation";
+    public static final String SET_SCREEN_ROTATION = "setScreenRotation";
+
+    public static final String GET_CONTEXT_HANDLES = "getContextHandles";
+    public static final String GET_CURRENT_CONTEXT_HANDLE = "getCurrentContextHandle";
+    public static final String SWITCH_TO_CONTEXT = "switchToContext";
+
     public static final Map<String, CommandInfo> commandRepository;
 
     static {
@@ -347,6 +356,15 @@ public class MobileCommand {
         commandRepository.put(EXECUTE_DRIVER_SCRIPT, postC("/session/:sessionId/appium/execute_driver"));
         commandRepository.put(GET_ALLSESSION, getC("/sessions"));
         commandRepository.put(EXECUTE_GOOGLE_CDP_COMMAND, postC("/session/:sessionId/goog/cdp/execute"));
+
+        commandRepository.put(GET_SCREEN_ORIENTATION, getC("/session/:sessionId/orientation"));
+        commandRepository.put(SET_SCREEN_ORIENTATION, postC("/session/:sessionId/orientation"));
+        commandRepository.put(GET_SCREEN_ROTATION, getC("/session/:sessionId/rotation"));
+        commandRepository.put(SET_SCREEN_ROTATION, postC("/session/:sessionId/rotation"));
+
+        commandRepository.put(GET_CONTEXT_HANDLES, getC("/session/:sessionId/contexts"));
+        commandRepository.put(GET_CURRENT_CONTEXT_HANDLE, getC("/session/:sessionId/context"));
+        commandRepository.put(SWITCH_TO_CONTEXT, postC("/session/:sessionId/context"));
     }
 
     /**

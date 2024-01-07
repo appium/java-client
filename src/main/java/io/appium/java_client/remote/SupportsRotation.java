@@ -17,10 +17,10 @@
 package io.appium.java_client.remote;
 
 import io.appium.java_client.ExecutesMethod;
+import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
@@ -32,17 +32,17 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod {
      * @return The rotation value.
      */
     default DeviceRotation rotation() {
-        Response response = execute(DriverCommand.GET_SCREEN_ROTATION);
+        Response response = execute(MobileCommand.GET_SCREEN_ROTATION);
         //noinspection unchecked
         return new DeviceRotation((Map<String, Number>) response.getValue());
     }
 
     default void rotate(DeviceRotation rotation) {
-        execute(DriverCommand.SET_SCREEN_ROTATION, rotation.parameters());
+        execute(MobileCommand.SET_SCREEN_ROTATION, rotation.parameters());
     }
 
     default void rotate(ScreenOrientation orientation) {
-        execute(DriverCommand.SET_SCREEN_ORIENTATION,
+        execute(MobileCommand.SET_SCREEN_ORIENTATION,
                 Map.of("orientation", orientation.value().toUpperCase()));
     }
 
@@ -52,7 +52,7 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod {
      * @return The orientation value.
      */
     default ScreenOrientation getOrientation() {
-        Response response = execute(DriverCommand.GET_SCREEN_ORIENTATION);
+        Response response = execute(MobileCommand.GET_SCREEN_ORIENTATION);
         String orientation = String.valueOf(response.getValue());
         return ScreenOrientation.valueOf(orientation.toUpperCase());
     }
