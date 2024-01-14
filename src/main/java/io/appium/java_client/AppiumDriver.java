@@ -73,6 +73,7 @@ public class AppiumDriver extends RemoteWebDriver implements
     // frequently used command parameters
     @Getter
     private final URL remoteAddress;
+    @Deprecated(forRemoval = true)
     protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
     private final Set<String> absentExtensionNames = new HashSet<>();

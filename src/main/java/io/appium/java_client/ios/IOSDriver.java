@@ -280,6 +280,7 @@ public class IOSDriver extends AppiumDriver implements
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public RemoteLocationContext getLocationContext() {
         return locationContext;
     }

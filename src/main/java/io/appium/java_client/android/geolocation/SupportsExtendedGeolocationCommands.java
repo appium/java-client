@@ -18,7 +18,7 @@ package io.appium.java_client.android.geolocation;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.remote.DriverCommand;
+import io.appium.java_client.MobileCommand;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public interface SupportsExtendedGeolocationCommands extends ExecutesMethod {
      * @param location The location object to set.
      */
     default void setLocation(AndroidGeoLocation location) {
-        CommandExecutionHelper.execute(this, Map.entry(DriverCommand.SET_LOCATION,
+        CommandExecutionHelper.execute(this, Map.entry(MobileCommand.SET_LOCATION,
                 Map.of("location", location.build())
         ));
     }
