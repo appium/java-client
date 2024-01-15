@@ -187,6 +187,9 @@ public class MobileCommand {
     public static final String GET_CURRENT_CONTEXT_HANDLE = "getCurrentContextHandle";
     public static final String SWITCH_TO_CONTEXT = "switchToContext";
 
+    public static final String GET_LOCATION = "getLocation";
+    public static final String SET_LOCATION = "setLocation";
+
     public static final Map<String, CommandInfo> commandRepository;
 
     static {
@@ -365,6 +368,9 @@ public class MobileCommand {
         commandRepository.put(GET_CONTEXT_HANDLES, getC("/session/:sessionId/contexts"));
         commandRepository.put(GET_CURRENT_CONTEXT_HANDLE, getC("/session/:sessionId/context"));
         commandRepository.put(SWITCH_TO_CONTEXT, postC("/session/:sessionId/context"));
+
+        commandRepository.put(GET_LOCATION, getC("/session/:sessionId/location"));
+        commandRepository.put(SET_LOCATION, postC("/session/:sessionId/location"));
     }
 
     /**
