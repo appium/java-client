@@ -279,6 +279,14 @@ public class IOSDriver extends AppiumDriver implements
 
     }
 
+    /**
+     * Provides the location context.
+     *
+     * @return instance of {@link RemoteLocationContext}
+     * @deprecated This method, {@link org.openqa.selenium.html5.LocationContext} and {@link RemoteLocationContext}
+     *     interface are deprecated, use {@link #getLocation()} and
+     *     {@link #setLocation(io.appium.java_client.Location)} instead.
+     */
     @Override
     @Deprecated(forRemoval = true)
     public RemoteLocationContext getLocationContext() {

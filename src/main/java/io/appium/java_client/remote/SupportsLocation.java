@@ -31,6 +31,13 @@ import java.util.Optional;
 
 public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationContext {
 
+    /**
+     * Provides the location context.
+     *
+     * @return instance of {@link RemoteLocationContext}
+     * @deprecated This method, {@link LocationContext} and {@link RemoteLocationContext} interface are deprecated, use
+     *     {@link #getLocation()} and {@link #setLocation(io.appium.java_client.Location)} instead.
+     */
     @Deprecated(forRemoval = true)
     RemoteLocationContext getLocationContext();
 
@@ -83,6 +90,6 @@ public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationCon
         locationParameters.put("latitude", location.getLatitude());
         locationParameters.put("longitude", location.getLongitude());
         Optional.ofNullable(location.getAltitude()).ifPresent(altitude -> locationParameters.put("altitude", altitude));
-        execute(MobileCommand.SET_LOCATION, Map.of("location", location));
+        execute(MobileCommand.SET_LOCATION, Map.of("location", locationParameters));
     }
 }
