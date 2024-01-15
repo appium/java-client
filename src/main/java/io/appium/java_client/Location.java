@@ -16,6 +16,7 @@
 
 package io.appium.java_client;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -26,10 +27,11 @@ import javax.annotation.Nullable;
  */
 @Getter
 @ToString
+@EqualsAndHashCode
 public class Location {
     private final double latitude;
     private final double longitude;
-    private final Double altitude;
+    @Nullable private final Double altitude;
 
     /**
      * Create {@link Location} with latitude, longitude and altitude values.
