@@ -30,13 +30,16 @@ import java.util.concurrent.Callable;
 
 public class Interceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
+    private static final UUID NOT_ASSIGNED = UUID.randomUUID();
 
     private Interceptor() {
     }
 
     /**
      * A magic method used to wrap public method calls in classes
-     * patched by ByteBuddy and acting as proxies.
+     * patched by ByteBuddy and acting as proxies. The performance
+     * of this method is mission-critical as it gets called upon
+     * every invocation of any method of the proxied class.
      *
      * @param self     The reference to the original instance.
      * @param method   The reference to the original method.
@@ -53,7 +56,7 @@ public class Interceptor {
             @SuperCall Callable<?> callable
     ) throws Throwable {
         var listeners = ((HasMethodCallListeners) self).getMethodCallListeners();
-        if (listeners.length == 0) {
+        if (listeners == null || listeners.length == 0) {
             return callable.call();
         }
 
@@ -69,8 +72,7 @@ public class Interceptor {
             }
         }
 
-        final UUID notAssigned = UUID.randomUUID();
-        Object result = notAssigned;
+        Object result = NOT_ASSIGNED;
         for (var listener : listeners) {
             try {
                 result = listener.call(self, method, args, callable);
@@ -86,7 +88,7 @@ public class Interceptor {
                 throw e;
             }
         }
-        if (notAssigned == result) {
+        if (NOT_ASSIGNED == result) {
             try {
                 result = callable.call();
             } catch (Exception e) {
@@ -101,7 +103,7 @@ public class Interceptor {
             }
         }
 
-        final Object endResult = result == notAssigned ? null : result;
+        final Object endResult = result == NOT_ASSIGNED ? null : result;
         for (var listener : listeners) {
             try {
                 listener.afterCall(self, method, args, endResult);
