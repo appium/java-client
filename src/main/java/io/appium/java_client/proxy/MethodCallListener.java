@@ -32,7 +32,8 @@ public interface MethodCallListener {
      * @param method Method to be called
      * @param args   Array of method arguments
      */
-    default void beforeCall(Object obj, Method method, Object[] args) {}
+    default void beforeCall(Object obj, Method method, Object[] args) {
+    }
 
     /**
      * Override this callback in order to change/customize the behavior
@@ -60,7 +61,8 @@ public interface MethodCallListener {
      * @param method Method to be called
      * @param args   Array of method arguments
      */
-    default void afterCall(Object obj, Method method, Object[] args, Object result) {}
+    default void afterCall(Object obj, Method method, Object[] args, Object result) {
+    }
 
     /**
      * The callback to be invoked if a public method or its
