@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
@@ -53,12 +52,12 @@ public class Interceptor {
             @AllArguments Object[] args,
             @SuperCall Callable<?> callable
     ) throws Throwable {
-        Collection<MethodCallListener> listeners = ProxyListenersContainer.getInstance().getListeners(self);
-        if (listeners.isEmpty()) {
+        var listeners = ((HasMethodCallListeners) self).getMethodCallListeners();
+        if (listeners.length == 0) {
             return callable.call();
         }
 
-        listeners.forEach(listener -> {
+        for (var listener : listeners) {
             try {
                 listener.beforeCall(self, method, args);
             } catch (NotImplementedException e) {
@@ -68,11 +67,11 @@ public class Interceptor {
                         self.getClass().getName(), method.getName(), e
                 );
             }
-        });
+        }
 
-        final UUID noResult = UUID.randomUUID();
-        Object result = noResult;
-        for (MethodCallListener listener : listeners) {
+        final UUID notAssigned = UUID.randomUUID();
+        Object result = notAssigned;
+        for (var listener : listeners) {
             try {
                 result = listener.call(self, method, args, callable);
                 break;
@@ -87,11 +86,11 @@ public class Interceptor {
                 throw e;
             }
         }
-        if (noResult.equals(result)) {
+        if (notAssigned == result) {
             try {
                 result = callable.call();
             } catch (Exception e) {
-                for (MethodCallListener listener : listeners) {
+                for (var listener : listeners) {
                     try {
                         return listener.onError(self, method, args, e);
                     } catch (NotImplementedException ignore) {
@@ -102,8 +101,8 @@ public class Interceptor {
             }
         }
 
-        final Object endResult = result == noResult ? null : result;
-        listeners.forEach(listener -> {
+        final Object endResult = result == notAssigned ? null : result;
+        for (var listener : listeners) {
             try {
                 listener.afterCall(self, method, args, endResult);
             } catch (NotImplementedException e) {
@@ -113,7 +112,7 @@ public class Interceptor {
                         self.getClass().getName(), method.getName(), e
                 );
             }
-        });
+        }
         return endResult;
     }
 }

@@ -19,7 +19,9 @@ package io.appium.java_client.proxy;
 import com.google.common.base.Preconditions;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;
+import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
+import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
@@ -118,16 +120,18 @@ public class Helpers {
                 .subclass(cls)
                 .method(extraMethodMatcher == null ? matcher : matcher.and(extraMethodMatcher))
                 .intercept(MethodDelegation.to(Interceptor.class))
+                // https://github.com/raphw/byte-buddy/blob/2caef35c172897cbdd21d163c55305a64649ce41/byte-buddy-dep/src/test/java/net/bytebuddy/ByteBuddyTutorialExamplesTest.java#L346
+                .defineField("methodCallListeners", MethodCallListener[].class, Visibility.PRIVATE)
+                .implement(HasMethodCallListeners.class).intercept(FieldAccessor.ofBeanProperty())
                 .make()
                 .load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
                 .getLoaded()
                 .asSubclass(cls);
 
         try {
-            return ProxyListenersContainer.getInstance().setListeners(
-                    cls.cast(proxy.getConstructor(constructorArgTypes).newInstance(constructorArgs)),
-                    listeners
-            );
+            T result = cls.cast(proxy.getConstructor(constructorArgTypes).newInstance(constructorArgs));
+            ((HasMethodCallListeners) result).setMethodCallListeners(listeners.toArray(MethodCallListener[]::new));
+            return result;
         } catch (SecurityException | ReflectiveOperationException e) {
             throw new IllegalStateException(String.format("Unable to create a proxy of %s", cls.getName()), e);
         }
