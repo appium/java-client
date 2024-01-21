@@ -25,12 +25,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import static io.appium.java_client.proxy.MethodCallListener.UNSET;
 
 public class Interceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
-    private static final UUID NOT_ASSIGNED = UUID.randomUUID();
 
     private Interceptor() {
     }
@@ -72,29 +72,37 @@ public class Interceptor {
             }
         }
 
-        Object result = NOT_ASSIGNED;
+        Object result = UNSET;
         for (var listener : listeners) {
             try {
                 result = listener.call(self, method, args, callable);
-                break;
+                if (result != UNSET) {
+                    break;
+                }
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
                 try {
-                    return listener.onError(self, method, args, e);
+                    result = listener.onError(self, method, args, e);
+                    if (result != UNSET) {
+                        return result;
+                    }
                 } catch (NotImplementedException ignore) {
                     // ignore
                 }
                 throw e;
             }
         }
-        if (NOT_ASSIGNED == result) {
+        if (UNSET == result) {
             try {
                 result = callable.call();
             } catch (Exception e) {
                 for (var listener : listeners) {
                     try {
-                        return listener.onError(self, method, args, e);
+                        result = listener.onError(self, method, args, e);
+                        if (result != UNSET) {
+                            return result;
+                        }
                     } catch (NotImplementedException ignore) {
                         // ignore
                     }
@@ -103,7 +111,7 @@ public class Interceptor {
             }
         }
 
-        final Object endResult = result == NOT_ASSIGNED ? null : result;
+        final Object endResult = result == UNSET ? null : result;
         for (var listener : listeners) {
             try {
                 listener.afterCall(self, method, args, endResult);

@@ -17,9 +17,11 @@
 package io.appium.java_client.proxy;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public interface MethodCallListener {
+    UUID UNSET = UUID.randomUUID();
 
     /**
      * The callback to be invoked before any public method of the proxy is called.
@@ -30,9 +32,7 @@ public interface MethodCallListener {
      * @param method Method to be called
      * @param args   Array of method arguments
      */
-    default void beforeCall(Object obj, Method method, Object[] args) {
-        throw new NotImplementedException();
-    }
+    default void beforeCall(Object obj, Method method, Object[] args) {}
 
     /**
      * Override this callback in order to change/customize the behavior
@@ -48,7 +48,7 @@ public interface MethodCallListener {
      * @return The type of the returned result should be castable to the returned type of the original method.
      */
     default Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        throw new NotImplementedException();
+        return UNSET;
     }
 
     /**
@@ -60,9 +60,7 @@ public interface MethodCallListener {
      * @param method Method to be called
      * @param args   Array of method arguments
      */
-    default void afterCall(Object obj, Method method, Object[] args, Object result) {
-        throw new NotImplementedException();
-    }
+    default void afterCall(Object obj, Method method, Object[] args, Object result) {}
 
     /**
      * The callback to be invoked if a public method or its
@@ -77,6 +75,6 @@ public interface MethodCallListener {
      *     type of the returned argument could be cast to the returned type of the original method.
      */
     default Object onError(Object obj, Method method, Object[] args, Throwable e) throws Throwable {
-        throw new NotImplementedException();
+        return UNSET;
     }
 }
