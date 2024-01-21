@@ -25,9 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import static io.appium.java_client.proxy.MethodCallListener.UNSET;
 
 public class Interceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
@@ -37,7 +37,9 @@ public class Interceptor {
 
     /**
      * A magic method used to wrap public method calls in classes
-     * patched by ByteBuddy and acting as proxies.
+     * patched by ByteBuddy and acting as proxies. The performance
+     * of this method is mission-critical as it gets called upon
+     * every invocation of any method of the proxied class.
      *
      * @param self     The reference to the original instance.
      * @param method   The reference to the original method.
@@ -53,12 +55,12 @@ public class Interceptor {
             @AllArguments Object[] args,
             @SuperCall Callable<?> callable
     ) throws Throwable {
-        Collection<MethodCallListener> listeners = ProxyListenersContainer.getInstance().getListeners(self);
-        if (listeners.isEmpty()) {
+        var listeners = ((HasMethodCallListeners) self).getMethodCallListeners();
+        if (listeners == null || listeners.length == 0) {
             return callable.call();
         }
 
-        listeners.forEach(listener -> {
+        for (var listener : listeners) {
             try {
                 listener.beforeCall(self, method, args);
             } catch (NotImplementedException e) {
@@ -68,32 +70,39 @@ public class Interceptor {
                         self.getClass().getName(), method.getName(), e
                 );
             }
-        });
+        }
 
-        final UUID noResult = UUID.randomUUID();
-        Object result = noResult;
-        for (MethodCallListener listener : listeners) {
+        Object result = UNSET;
+        for (var listener : listeners) {
             try {
                 result = listener.call(self, method, args, callable);
-                break;
+                if (result != UNSET) {
+                    break;
+                }
             } catch (NotImplementedException e) {
                 // ignore
             } catch (Exception e) {
                 try {
-                    return listener.onError(self, method, args, e);
+                    result = listener.onError(self, method, args, e);
+                    if (result != UNSET) {
+                        return result;
+                    }
                 } catch (NotImplementedException ignore) {
                     // ignore
                 }
                 throw e;
             }
         }
-        if (noResult.equals(result)) {
+        if (UNSET == result) {
             try {
                 result = callable.call();
             } catch (Exception e) {
-                for (MethodCallListener listener : listeners) {
+                for (var listener : listeners) {
                     try {
-                        return listener.onError(self, method, args, e);
+                        result = listener.onError(self, method, args, e);
+                        if (result != UNSET) {
+                            return result;
+                        }
                     } catch (NotImplementedException ignore) {
                         // ignore
                     }
@@ -102,8 +111,8 @@ public class Interceptor {
             }
         }
 
-        final Object endResult = result == noResult ? null : result;
-        listeners.forEach(listener -> {
+        final Object endResult = result == UNSET ? null : result;
+        for (var listener : listeners) {
             try {
                 listener.afterCall(self, method, args, endResult);
             } catch (NotImplementedException e) {
@@ -113,7 +122,7 @@ public class Interceptor {
                         self.getClass().getName(), method.getName(), e
                 );
             }
-        });
+        }
         return endResult;
     }
 }
