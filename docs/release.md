@@ -8,6 +8,7 @@ Its target auditory is project maintainers.
 1. Update the [Changelog](../CHANGELOG.md) for the given version based on previous commits.
 1. Create a pull request to approve the changelog.
 1. Merge the changelog after it is approved.
+1. Bump the `appiumClient.version` number in [gradle.properties](../gradle.properties).
 1. Create and push a new repository tag. The tag name should look like 
   `v<major_number>.<minor_number>.<patch_number>`. 
 1. Login to Nexus using 1Password credentials. Ask Appium maintainers
