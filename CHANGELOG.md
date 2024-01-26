@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.1.0_
+- **[ENHANCEMENTS]**
+  - Introduce better constructor argument validation for the `AppiumFieldDecorator` class. [#2070](https://github.com/appium/java-client/pull/2070)
+  - Add `toString` to `AppiumClientConfig`. [#2076](https://github.com/appium/java-client/pull/2076)
+  - Perform listeners cleanup periodically. [#2077](https://github.com/appium/java-client/pull/2077)
+  - Add non-W3C context, orientation and rotation management endpoints removed from Selenium client. [#2093](https://github.com/appium/java-client/pull/2093)
+  - Add non-W3C Location-management endpoints deprecated in Selenium client. [#2098](https://github.com/appium/java-client/pull/2098)
+- **[BUG FIX]**
+  - Properly unwrap driver instance if the `ContextAware` object is deeply nested. [#2052](https://github.com/appium/java-client/pull/2052)
+  - Update hashing and iteration logic of page object items. [#2067](https://github.com/appium/java-client/pull/2067)
+  - Assign method call listeners directly to the proxy instance. [#2102](https://github.com/appium/java-client/pull/2102)
+  - Use JDK 11 to build Jitpack snapshots. [#2083](https://github.com/appium/java-client/pull/2083)
+- **[DEPRECATION]**
+  - Deprecate custom functional interfaces. [#2055](https://github.com/appium/java-client/pull/2055)
+- **[REFACTOR]**
+  - Use Java 9+ APIs instead of outdated/3rd-party APIs. [#2048](https://github.com/appium/java-client/pull/2048)
+  - Migrate to new Selenium API for process management. [#2054](https://github.com/appium/java-client/pull/2054)
+- **[DEPENDENCY CHANGE]**
+  - Bump minimum supported Selenium version from `4.14.1` to `4.17.0`.
+  - Bump SLF4J from `2.0.9` to `2.0.11`. [#2091](https://github.com/appium/java-client/pull/2091), [#2099](https://github.com/appium/java-client/pull/2099)
+- **[DOCUMENTATION]**
+  - Describe the release procedure. [#2104](https://github.com/appium/java-client/pull/2104)
+
 _9.0.0_
 - **[DOCUMENTATION]**
   - Add 8 to 9 migration guide. [#2039](https://github.com/appium/java-client/pull/2039)
