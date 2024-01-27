@@ -10,12 +10,16 @@ Its target auditory is project maintainers.
 1. Create a pull request to approve the changelog and version bump.
 1. Merge the pull request after it is approved.
 1. Create and push a new repository tag. The tag name should look like 
-  `v<major_number>.<minor_number>.<patch_number>`. 
+  `v<major_number>.<minor_number>.<patch_number>`.
+1. Create a new [Release](https://github.com/appium/java-client/releases/new) in GitHub. 
+  Paste the above changelist into the release notes. Make sure the name of the new release
+  matches to the name of the above tag.
 1. Open [Sonatype](https://oss.sonatype.org/#welcome) in your browser.
 1. Login to Nexus using 1Password credentials. Ask Appium maintainers
-   if you need access to the team's 1Password vault.
+  if you need access to the team's 1Password vault.
 1. Navigate to `Staging Repositories`. 
-1. Select the corresponding release and click `Close`.
+1. Select the corresponding release and click `Close`. Note that it may take
+  some minutes until Sonatype picks up the GitHub release.
 1. Wait until checks are completed.
 1. Click `Release`.
 1. After the new release is published, it becomes available in 
