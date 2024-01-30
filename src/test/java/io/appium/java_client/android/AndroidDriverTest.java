@@ -16,12 +16,12 @@
 
 package io.appium.java_client.android;
 
+import io.appium.java_client.Location;
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.html5.Location;
 
 import java.io.File;
 import java.time.Duration;
@@ -192,7 +192,7 @@ public class AndroidDriverTest extends BaseAndroidTest {
 
     @Test
     public void geolocationTest() {
-        Location location = new Location(45, 45, 100);
+        Location location = new Location(45, 45, 100.0);
         driver.setLocation(location);
     }
 
