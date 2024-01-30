@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.Location;
 import io.appium.java_client.appmanagement.ApplicationState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -23,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
@@ -88,7 +88,7 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Disabled
     @Test public void geolocationTest() {
-        Location location = new Location(45, 45, 100);
+        Location location = new Location(45, 45, 100.0);
         try {
             driver.setLocation(location);
         } catch (Exception e) {

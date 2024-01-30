@@ -90,6 +90,6 @@ public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationCon
         locationParameters.put("latitude", location.getLatitude());
         locationParameters.put("longitude", location.getLongitude());
         Optional.ofNullable(location.getAltitude()).ifPresent(altitude -> locationParameters.put("altitude", altitude));
-        execute(MobileCommand.SET_LOCATION, Map.of("location", locationParameters));
+        execute(MobileCommand.SET_LOCATION, Map.of("location", locationParameters.build()));
     }
 }
