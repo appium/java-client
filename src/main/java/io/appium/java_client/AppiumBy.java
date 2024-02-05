@@ -185,6 +185,15 @@ public abstract class AppiumBy extends By implements Remotable {
         return new ByIosNsPredicate(iOSNsPredicateString);
     }
 
+    /**
+     * This locator strategy is available in Windows Driver mode.
+     * @param locatorString is a Windows Application locator string
+     * @return an instance of {@link AppiumBy.ByWindowsAutomation}
+     */
+    public static By windowsAutomation(final String locatorString) {
+        return new ByWindowsAutomation(locatorString);
+    }
+    
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
         public ByAccessibilityId(String accessibilityId) {
             super("accessibility id", accessibilityId, "accessibilityId");
@@ -257,6 +266,12 @@ public abstract class AppiumBy extends By implements Remotable {
         }
     }
 
+    public static class ByWindowsAutomation extends AppiumBy implements Serializable {
+        protected ByWindowsAutomation(String locatorString) {
+            super("-windows uiautomation", locatorString, "windowsAutomation");
+        }
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
