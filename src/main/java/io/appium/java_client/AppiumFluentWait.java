@@ -18,7 +18,6 @@ package io.appium.java_client;
 
 import com.google.common.base.Throwables;
 import io.appium.java_client.internal.ReflectionHelpers;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.TimeoutException;
@@ -30,6 +29,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
