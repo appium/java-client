@@ -101,6 +101,13 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         super(input, clock, sleeper);
     }
 
+    /**
+     * Sets how long to wait before starting to evaluate condition to be true.
+     * The default pollDelay is {@link #DEFAULT_POLL_DELAY_DURATION}.
+     *
+     * @param pollDelay The pollDelay duration.
+     * @return A self reference.
+     */
     public AppiumFluentWait<T> withPollDelay(Duration pollDelay) {
         this.pollDelay = pollDelay;
         return this;
