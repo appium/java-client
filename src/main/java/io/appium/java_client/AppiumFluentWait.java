@@ -35,6 +35,9 @@ import java.util.function.Supplier;
 public class AppiumFluentWait<T> extends FluentWait<T> {
     private Function<IterationInfo, Duration> pollingStrategy = null;
 
+    private static final Duration DEFAULT_POLL_DELAY_DURATION = Duration.ZERO;
+    private Duration pollDelay = DEFAULT_POLL_DELAY_DURATION;
+
     public static class IterationInfo {
         /**
          * The current iteration number.
@@ -96,6 +99,11 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      */
     public AppiumFluentWait(T input, Clock clock, Sleeper sleeper) {
         super(input, clock, sleeper);
+    }
+
+    public AppiumFluentWait<T> withPollDelay(Duration pollDelay) {
+        this.pollDelay = pollDelay;
+        return this;
     }
 
     private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
@@ -201,9 +209,17 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
         final Instant start = getClock().instant();
-        final Instant end = getClock().instant().plus(getTimeout());
+        final Instant end = start.plus(getTimeout()).plus(pollDelay);
+
+        return performIteration(isTrue, start, end);
+    }
+
+    private <V> V performIteration(Function<? super T, V> isTrue, Instant start, Instant end) {
         long iterationNumber = 1;
         Throwable lastException;
+
+        sleepWaitFor(pollDelay);
+
         while (true) {
             try {
                 V value = isTrue.apply(getInput());
@@ -222,29 +238,43 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
             // Check the timeout after evaluating the function to ensure conditions
             // with a zero timeout can succeed.
             if (end.isBefore(getClock().instant())) {
-                String message = getMessageSupplier() != null ? getMessageSupplier().get() : null;
-
-                String timeoutMessage = String.format(
-                        "Expected condition failed: %s (tried for %d second(s) with %s interval)",
-                        message == null ? "waiting for " + isTrue : message,
-                        getTimeout().getSeconds(), getInterval());
-                throw timeoutException(timeoutMessage, lastException);
+                handleTimeoutException(lastException, isTrue);
             }
 
-            try {
-                Duration interval = getInterval();
-                if (pollingStrategy != null) {
-                    final IterationInfo info = new IterationInfo(iterationNumber,
-                            Duration.between(start, getClock().instant()), getTimeout(),
-                            interval);
-                    interval = pollingStrategy.apply(info);
-                }
-                getSleeper().sleep(interval);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new WebDriverException(e);
-            }
+            Duration interval = getIntervalWithPollingStrategy(start, iterationNumber);
+            sleepWaitFor(interval);
+
             ++iterationNumber;
+        }
+    }
+
+    private <V> void handleTimeoutException(Throwable lastException, Function<? super T, V> isTrue) {
+        String message = getMessageSupplier() != null ? getMessageSupplier().get() : null;
+
+        String timeoutMessage = String.format(
+                "Expected condition failed: %s (tried for %d second(s) with %s interval)",
+                message == null ? "waiting for " + isTrue : message,
+                getTimeout().getSeconds(), getInterval());
+
+        throw timeoutException(timeoutMessage, lastException);
+    }
+
+    private Duration getIntervalWithPollingStrategy(Instant start, long iterationNumber) {
+        Duration interval = getInterval();
+        if (pollingStrategy != null) {
+            final IterationInfo info = new IterationInfo(iterationNumber,
+                    Duration.between(start, getClock().instant()), getTimeout(), interval);
+            interval = pollingStrategy.apply(info);
+        }
+        return interval;
+    }
+
+    private void sleepWaitFor(Duration duration) {
+        try {
+            getSleeper().sleep(duration);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new WebDriverException(e);
         }
     }
 
