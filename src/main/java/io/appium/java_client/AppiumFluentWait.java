@@ -18,6 +18,7 @@ package io.appium.java_client;
 
 import com.google.common.base.Throwables;
 import io.appium.java_client.internal.ReflectionHelpers;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.TimeoutException;
@@ -216,6 +217,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
         final Instant start = getClock().instant();
+        // Adding pollDelay to end instant will allow to verify the condition for the expected timeout duration.
         final Instant end = start.plus(getTimeout()).plus(pollDelay);
 
         return performIteration(isTrue, start, end);
@@ -225,7 +227,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         long iterationNumber = 1;
         Throwable lastException;
 
-        sleepWaitFor(pollDelay);
+        sleepUninterruptible(pollDelay);
 
         while (true) {
             try {
@@ -249,7 +251,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
             }
 
             Duration interval = getIntervalWithPollingStrategy(start, iterationNumber);
-            sleepWaitFor(interval);
+            sleepUninterruptible(interval);
 
             ++iterationNumber;
         }
@@ -257,28 +259,35 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
 
     private <V> void handleTimeoutException(Throwable lastException, Function<? super T, V> isTrue) {
         String message = getMessageSupplier() != null ? getMessageSupplier().get() : null;
+        String waitingMessage = message != null ? message : "waiting for " + isTrue;
 
         String timeoutMessage = String.format(
-                "Expected condition failed: %s (tried for %d second(s) with %s interval)",
-                message == null ? "waiting for " + isTrue : message,
-                getTimeout().getSeconds(), getInterval());
+                "Expected condition failed: %s (tried for %s millis with an interval of %s millis)",
+                waitingMessage,
+                getTimeout().toMillis(),
+                getInterval().toMillis()
+        );
 
         throw timeoutException(timeoutMessage, lastException);
     }
 
     private Duration getIntervalWithPollingStrategy(Instant start, long iterationNumber) {
         Duration interval = getInterval();
-        if (pollingStrategy != null) {
-            final IterationInfo info = new IterationInfo(iterationNumber,
-                    Duration.between(start, getClock().instant()), getTimeout(), interval);
-            interval = pollingStrategy.apply(info);
-        }
-        return interval;
+        return Optional.ofNullable(pollingStrategy)
+                .map(strategy -> {
+                    final IterationInfo info = new IterationInfo(
+                            iterationNumber,
+                            Duration.between(start, getClock().instant()), getTimeout(), interval);
+                    return strategy.apply(info);
+                })
+                .orElse(interval);
     }
 
-    private void sleepWaitFor(Duration duration) {
+    private void sleepUninterruptible(Duration duration) {
         try {
-            getSleeper().sleep(duration);
+            if(!duration.isZero()) {
+                getSleeper().sleep(duration);
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new WebDriverException(e);
