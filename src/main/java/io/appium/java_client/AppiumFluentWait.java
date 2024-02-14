@@ -285,7 +285,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
 
     private void sleepUninterruptible(Duration duration) {
         try {
-            if(!duration.isZero()) {
+            if (!duration.isZero()) {
                 getSleeper().sleep(duration);
             }
         } catch (InterruptedException e) {
