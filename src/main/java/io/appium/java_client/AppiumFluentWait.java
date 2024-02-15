@@ -258,12 +258,11 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     private <V> void handleTimeoutException(Throwable lastException, Function<? super T, V> isTrue) {
-        String message = getMessageSupplier() != null ? getMessageSupplier().get() : null;
-        String waitingMessage = message != null ? message : "waiting for " + isTrue;
+        String message = Optional.ofNullable(getMessageSupplier()).map(Supplier::get).orElseGet(() -> "waiting for " + isTrue);
 
         String timeoutMessage = String.format(
                 "Expected condition failed: %s (tried for %s millis with an interval of %s millis)",
-                waitingMessage,
+                message,
                 getTimeout().toMillis(),
                 getInterval().toMillis()
         );
