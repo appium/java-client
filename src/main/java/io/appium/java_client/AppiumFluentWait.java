@@ -227,7 +227,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         long iterationNumber = 1;
         Throwable lastException;
 
-        sleepUninterruptible(pollDelay);
+        sleepInterruptibly(pollDelay);
 
         while (true) {
             try {
@@ -251,14 +251,16 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
             }
 
             Duration interval = getIntervalWithPollingStrategy(start, iterationNumber);
-            sleepUninterruptible(interval);
+            sleepInterruptibly(interval);
 
             ++iterationNumber;
         }
     }
 
     private <V> void handleTimeoutException(Throwable lastException, Function<? super T, V> isTrue) {
-        String message = Optional.ofNullable(getMessageSupplier()).map(Supplier::get).orElseGet(() -> "waiting for " + isTrue);
+        String message = Optional.ofNullable(getMessageSupplier())
+                .map(Supplier::get)
+                .orElseGet(() -> "waiting for " + isTrue);
 
         String timeoutMessage = String.format(
                 "Expected condition failed: %s (tried for %s millis with an interval of %s millis)",
@@ -282,9 +284,9 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 .orElse(interval);
     }
 
-    private void sleepUninterruptible(Duration duration) {
+    private void sleepInterruptibly(Duration duration) {
         try {
-            if (!duration.isZero()) {
+            if (!duration.isZero() && !duration.isNegative()) {
                 getSleeper().sleep(duration);
             }
         } catch (InterruptedException e) {
