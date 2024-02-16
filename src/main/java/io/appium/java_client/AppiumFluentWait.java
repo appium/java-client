@@ -216,15 +216,15 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      */
     @Override
     public <V> V until(Function<? super T, V> isTrue) {
-        final Instant start = getClock().instant();
+        final var start = getClock().instant();
         // Adding pollDelay to end instant will allow to verify the condition for the expected timeout duration.
-        final Instant end = start.plus(getTimeout()).plus(pollDelay);
+        final var end = start.plus(getTimeout()).plus(pollDelay);
 
         return performIteration(isTrue, start, end);
     }
 
     private <V> V performIteration(Function<? super T, V> isTrue, Instant start, Instant end) {
-        long iterationNumber = 1;
+        var iterationNumber = 1;
         Throwable lastException;
 
         sleepInterruptibly(pollDelay);
@@ -250,7 +250,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 handleTimeoutException(lastException, isTrue);
             }
 
-            Duration interval = getIntervalWithPollingStrategy(start, iterationNumber);
+            var interval = getIntervalWithPollingStrategy(start, iterationNumber);
             sleepInterruptibly(interval);
 
             ++iterationNumber;
@@ -258,11 +258,11 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     private <V> void handleTimeoutException(Throwable lastException, Function<? super T, V> isTrue) {
-        String message = Optional.ofNullable(getMessageSupplier())
+        var message = Optional.ofNullable(getMessageSupplier())
                 .map(Supplier::get)
                 .orElseGet(() -> "waiting for " + isTrue);
 
-        String timeoutMessage = String.format(
+        var timeoutMessage = String.format(
                 "Expected condition failed: %s (tried for %s millis with an interval of %s millis)",
                 message,
                 getTimeout().toMillis(),
@@ -273,10 +273,10 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     }
 
     private Duration getIntervalWithPollingStrategy(Instant start, long iterationNumber) {
-        Duration interval = getInterval();
+        var interval = getInterval();
         return Optional.ofNullable(pollingStrategy)
                 .map(strategy -> {
-                    final IterationInfo info = new IterationInfo(
+                    final var info = new IterationInfo(
                             iterationNumber,
                             Duration.between(start, getClock().instant()), getTimeout(), interval);
                     return strategy.apply(info);
