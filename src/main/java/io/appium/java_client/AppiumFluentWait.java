@@ -275,12 +275,9 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     private Duration getIntervalWithPollingStrategy(Instant start, long iterationNumber) {
         var interval = getInterval();
         return Optional.ofNullable(pollingStrategy)
-                .map(strategy -> {
-                    final var info = new IterationInfo(
-                            iterationNumber,
-                            Duration.between(start, getClock().instant()), getTimeout(), interval);
-                    return strategy.apply(info);
-                })
+                .map(strategy -> strategy.apply(new IterationInfo(
+                        iterationNumber,
+                        Duration.between(start, getClock().instant()), getTimeout(), interval)))
                 .orElse(interval);
     }
 
