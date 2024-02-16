@@ -263,7 +263,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 .orElseGet(() -> "waiting for " + isTrue);
 
         var timeoutMessage = String.format(
-                "Expected condition failed: %s (tried for %s millis with an interval of %s millis)",
+                "Expected condition failed: %s (tried for %s ms with an interval of %s ms)",
                 message,
                 getTimeout().toMillis(),
                 getInterval().toMillis()
