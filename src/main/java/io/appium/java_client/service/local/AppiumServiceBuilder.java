@@ -147,7 +147,8 @@ public final class AppiumServiceBuilder
         List<String> cmdLine = System.getProperty("os.name").toLowerCase().contains("win")
                 // npm is a batch script, so on windows we need to use cmd.exe in order to execute it
                 ? Arrays.asList("cmd.exe", "/c", String.format("\"%s\" root -g", npm.getAbsolutePath()))
-                : Arrays.asList(npm.getAbsolutePath(), "root", "-g");
+                //ProcessBuilder doesn't execute a shell, some npm functionality requires the user's shell profile
+                : Arrays.asList("/bin/sh", "--login", "-c", npm.getAbsolutePath() + " root -g");
         ProcessBuilder pb = new ProcessBuilder(cmdLine);
         String nodeModulesRoot;
         try {
