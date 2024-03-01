@@ -91,10 +91,12 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
         builder.setAnnotated(annotatedElement);
         try {
             return ofNullable(builder.buildBy())
-                    .map(by -> searchContextReference != null
-                            ? new AppiumElementLocator(searchContextReference, by, builder.isLookupCached(), customDuration)
-                            : new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration)
-                    )
+                    .map(by -> {
+                        var isLookupCached = builder.isLookupCached();
+                        return searchContextReference != null
+                            ? new AppiumElementLocator(searchContextReference, by, isLookupCached, customDuration)
+                            : new AppiumElementLocator(searchContext, by, isLookupCached, customDuration);
+                    })
                     .orElse(null);
         } finally {
             // unleak element reference after the locator is built
