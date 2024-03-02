@@ -115,7 +115,7 @@ public class Helpers {
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
         var signature = ClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
-        var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, (k) -> {
+        var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, k -> {
             Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                     String.format(
                             "Constructor arguments array length %d must be equal to the types array length %d",
