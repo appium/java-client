@@ -45,7 +45,7 @@ public class Helpers {
             .map(Method::getName)
             .collect(Collectors.toSet());
 
-    // Each proxy classes created by ByteBuddy get automatically cached by the
+    // Each proxy class created by ByteBuddy gets automatically cached by the
     // given class loader. It is important to have this cache here in order to improve
     // the performance and to avoid extensive memory usage for our case, where
     // the amount of instrumented proxy classes we create is low in comparison to the amount
@@ -114,7 +114,7 @@ public class Helpers {
             Collection<MethodCallListener> listeners,
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
-        var signature = ClassSignature.of(cls, constructorArgs, constructorArgTypes);
+        var signature = ClassSignature.of(cls, constructorArgs, constructorArgTypes, extraMethodMatcher);
         var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, (k) -> {
             Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                     String.format(
@@ -220,5 +220,6 @@ public class Helpers {
         Class<?> cls;
         Object[] constructorArgs;
         Class<?>[] constructorArgTypes;
+        ElementMatcher<MethodDescription> extraMethodMatcher;
     }
 }
