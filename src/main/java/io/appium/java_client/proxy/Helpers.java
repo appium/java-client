@@ -114,7 +114,7 @@ public class Helpers {
             Collection<MethodCallListener> listeners,
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
-        var signature = ClassSignature.of(cls, constructorArgs, constructorArgTypes, extraMethodMatcher);
+        var signature = ClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
         var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, (k) -> {
             Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                     String.format(
@@ -218,7 +218,6 @@ public class Helpers {
     @Value(staticConstructor = "of")
     private static class ClassSignature {
         Class<?> cls;
-        Object[] constructorArgs;
         Class<?>[] constructorArgTypes;
         ElementMatcher<MethodDescription> extraMethodMatcher;
     }
