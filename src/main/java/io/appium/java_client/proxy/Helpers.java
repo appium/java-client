@@ -50,7 +50,7 @@ public class Helpers {
     // the performance and to avoid extensive memory usage for our case, where
     // the amount of instrumented proxy classes we create is low in comparison to the amount
     // of proxy instances.
-    private static final ConcurrentMap<ClassSignature, Class<?>> CACHED_PROXY_CLASSES = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES = new ConcurrentHashMap<>();
 
     private Helpers() {
     }
@@ -114,7 +114,7 @@ public class Helpers {
             Collection<MethodCallListener> listeners,
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
-        var signature = ClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
+        var signature = ProxyClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
         var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, k -> {
             Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                     String.format(
@@ -216,7 +216,7 @@ public class Helpers {
     }
 
     @Value(staticConstructor = "of")
-    private static class ClassSignature {
+    private static class ProxyClassSignature {
         Class<?> cls;
         Class<?>[] constructorArgTypes;
         ElementMatcher<MethodDescription> extraMethodMatcher;
