@@ -17,6 +17,7 @@
 package io.appium.java_client.proxy;
 
 import com.google.common.base.Preconditions;
+import lombok.Value;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.Visibility;
@@ -31,6 +32,8 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,6 +44,13 @@ public class Helpers {
     public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
             .collect(Collectors.toSet());
+
+    // Each proxy class created by ByteBuddy gets automatically cached by the
+    // given class loader. It is important to have this cache here in order to improve
+    // the performance and to avoid extensive memory usage for our case, where
+    // the amount of instrumented proxy classes we create is low in comparison to the amount
+    // of proxy instances.
+    private static final ConcurrentMap<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES = new ConcurrentHashMap<>();
 
     private Helpers() {
     }
@@ -104,32 +114,35 @@ public class Helpers {
             Collection<MethodCallListener> listeners,
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
-        Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
-                String.format(
-                        "Constructor arguments array length %d must be equal to the types array length %d",
-                        constructorArgs.length, constructorArgTypes.length
-                )
-        );
-        Preconditions.checkArgument(!listeners.isEmpty(), "The collection of listeners must not be empty");
-        requireNonNull(cls, "Class must not be null");
-        Preconditions.checkArgument(!cls.isInterface(), "Class must not be an interface");
+        var signature = ProxyClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
+        var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, k -> {
+            Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
+                    String.format(
+                            "Constructor arguments array length %d must be equal to the types array length %d",
+                            constructorArgs.length, constructorArgTypes.length
+                    )
+            );
+            Preconditions.checkArgument(!listeners.isEmpty(), "The collection of listeners must not be empty");
+            requireNonNull(cls, "Class must not be null");
+            Preconditions.checkArgument(!cls.isInterface(), "Class must not be an interface");
 
-        ElementMatcher.Junction<MethodDescription> matcher = ElementMatchers.isPublic();
-        //noinspection resource
-        Class<?> proxy = new ByteBuddy()
-                .subclass(cls)
-                .method(extraMethodMatcher == null ? matcher : matcher.and(extraMethodMatcher))
-                .intercept(MethodDelegation.to(Interceptor.class))
-                // https://github.com/raphw/byte-buddy/blob/2caef35c172897cbdd21d163c55305a64649ce41/byte-buddy-dep/src/test/java/net/bytebuddy/ByteBuddyTutorialExamplesTest.java#L346
-                .defineField("methodCallListeners", MethodCallListener[].class, Visibility.PRIVATE)
-                .implement(HasMethodCallListeners.class).intercept(FieldAccessor.ofBeanProperty())
-                .make()
-                .load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
-                .getLoaded()
-                .asSubclass(cls);
+            ElementMatcher.Junction<MethodDescription> matcher = ElementMatchers.isPublic();
+            //noinspection resource
+            return new ByteBuddy()
+                    .subclass(cls)
+                    .method(extraMethodMatcher == null ? matcher : matcher.and(extraMethodMatcher))
+                    .intercept(MethodDelegation.to(Interceptor.class))
+                    // https://github.com/raphw/byte-buddy/blob/2caef35c172897cbdd21d163c55305a64649ce41/byte-buddy-dep/src/test/java/net/bytebuddy/ByteBuddyTutorialExamplesTest.java#L346
+                    .defineField("methodCallListeners", MethodCallListener[].class, Visibility.PRIVATE)
+                    .implement(HasMethodCallListeners.class).intercept(FieldAccessor.ofBeanProperty())
+                    .make()
+                    .load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+                    .getLoaded()
+                    .asSubclass(cls);
+        });
 
         try {
-            T result = cls.cast(proxy.getConstructor(constructorArgTypes).newInstance(constructorArgs));
+            T result = cls.cast(proxyClass.getConstructor(constructorArgTypes).newInstance(constructorArgs));
             ((HasMethodCallListeners) result).setMethodCallListeners(listeners.toArray(MethodCallListener[]::new));
             return result;
         } catch (SecurityException | ReflectiveOperationException e) {
@@ -200,5 +213,12 @@ public class Helpers {
             MethodCallListener listener
     ) {
         return createProxy(cls, constructorArgs, constructorArgTypes, Collections.singletonList(listener));
+    }
+
+    @Value(staticConstructor = "of")
+    private static class ProxyClassSignature {
+        Class<?> cls;
+        Class<?>[] constructorArgTypes;
+        ElementMatcher<MethodDescription> extraMethodMatcher;
     }
 }
