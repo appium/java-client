@@ -19,7 +19,6 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
-import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 
 import javax.annotation.Nullable;
@@ -90,12 +89,18 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
             customDuration = duration;
         }
         builder.setAnnotated(annotatedElement);
-        By byResult = builder.buildBy();
-        return ofNullable(byResult)
-                .map(by -> searchContextReference != null
-                        ? new AppiumElementLocator(searchContextReference, by, builder.isLookupCached(), customDuration)
-                        : new AppiumElementLocator(searchContext, by, builder.isLookupCached(), customDuration)
-                )
-                .orElse(null);
+        try {
+            return ofNullable(builder.buildBy())
+                    .map(by -> {
+                        var isLookupCached = builder.isLookupCached();
+                        return searchContextReference != null
+                            ? new AppiumElementLocator(searchContextReference, by, isLookupCached, customDuration)
+                            : new AppiumElementLocator(searchContext, by, isLookupCached, customDuration);
+                    })
+                    .orElse(null);
+        } finally {
+            // unleak element reference after the locator is built
+            builder.setAnnotated(null);
+        }
     }
 }
