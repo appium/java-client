@@ -16,16 +16,16 @@
 
 package io.appium.java_client.service.local;
 
-public class AppiumServerHasNotBeenStartedLocallyException extends RuntimeException {
-    public AppiumServerHasNotBeenStartedLocallyException(String message, Throwable cause) {
-        super(message, cause);
-    }
+import lombok.Getter;
 
-    public AppiumServerHasNotBeenStartedLocallyException(String message) {
-        super(message);
-    }
+import java.time.Duration;
 
-    public AppiumServerHasNotBeenStartedLocallyException(Throwable cause) {
+@Getter
+public class AppiumServerConnectionTimeout extends RuntimeException {
+    private final Duration timeout;
+
+    public AppiumServerConnectionTimeout(Duration timeout, Throwable cause) {
         super(cause);
+        this.timeout = timeout;
     }
 }
