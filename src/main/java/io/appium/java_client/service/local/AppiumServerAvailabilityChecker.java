@@ -93,7 +93,7 @@ public class AppiumServerAvailabilityChecker {
 
     @Getter
     public static class ConnectionError extends RuntimeException {
-        private static final int MAX_PAYLOAD_LEN = 500;
+        private static final int MAX_PAYLOAD_LEN = 1024;
 
         private final URL statusUrl;
         private final int responseCode;
@@ -135,7 +135,7 @@ public class AppiumServerAvailabilityChecker {
         private static String abbreviate(List<String> filo) {
             var result = String.join("\n", filo).trim();
             return result.length() > MAX_PAYLOAD_LEN
-                ? result.substring(0, MAX_PAYLOAD_LEN) + "…"
+                ? "…" + result.substring(0, MAX_PAYLOAD_LEN)
                 : result;
         }
     }
