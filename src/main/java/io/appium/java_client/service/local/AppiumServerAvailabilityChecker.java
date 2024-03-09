@@ -16,11 +16,18 @@
 
 package io.appium.java_client.service.local;
 
+import lombok.Getter;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class AppiumServerAvailabilityChecker {
@@ -39,9 +46,9 @@ public class AppiumServerAvailabilityChecker {
      *                immediately.
      * @return true in case of success
      * @throws InterruptedException If the API is interrupted
-     * @throws AppiumServerConnectionTimeout If it is not possible to successfully open
-     * an HTTP connection to the server /status endpoint.
-     * @throws AppiumServerConnectionError If an HTTP connection was opened successfully,
+     * @throws ConnectionTimeout If it is not possible to successfully open
+     * an HTTP connection to the server's /status endpoint.
+     * @throws ConnectionError If an HTTP connection was opened successfully,
      * but non-200 error code was received.
      */
     public boolean waitUntilAvailable(URL serverStatusUrl, Duration timeout) throws InterruptedException {
@@ -62,7 +69,7 @@ public class AppiumServerAvailabilityChecker {
             Thread.sleep(interval.toMillis());
             interval = interval.compareTo(MAX_POLL_INTERVAL) >= 0 ? interval : interval.multipliedBy(2);
         }
-        throw new AppiumServerConnectionTimeout(timeout, lastError);
+        throw new ConnectionTimeout(timeout, lastError);
     }
 
     private HttpURLConnection connectToUrl(URL url) throws IOException {
@@ -81,6 +88,58 @@ public class AppiumServerAvailabilityChecker {
         var is = responseCode < HttpURLConnection.HTTP_BAD_REQUEST
                 ? connection.getInputStream()
                 : connection.getErrorStream();
-        throw new AppiumServerConnectionError(connection.getURL(), responseCode, is);
+        throw new ConnectionError(connection.getURL(), responseCode, is);
+    }
+
+    @Getter
+    public static class ConnectionError extends RuntimeException {
+        private static final int MAX_PAYLOAD_LEN = 500;
+
+        private final URL statusUrl;
+        private final int responseCode;
+        private final Optional<String> payload;
+
+        public ConnectionError(URL statusUrl, int responseCode, InputStream body) {
+            super(ConnectionError.class.getSimpleName());
+            this.statusUrl = statusUrl;
+            this.responseCode = responseCode;
+            this.payload = readResponseStreamSafely(body);
+        }
+
+        private static Optional<String> readResponseStreamSafely(InputStream is) {
+            try (var br = new BufferedReader(new InputStreamReader(is))) {
+                var result = new LinkedList<String>();
+                String currentLine;
+                var payloadSize = 0L;
+                while ((currentLine = br.readLine()) != null) {
+                    result.addFirst(currentLine);
+                    payloadSize += currentLine.length();
+                    while (payloadSize > MAX_PAYLOAD_LEN && result.size() > 1) {
+                        payloadSize -= result.removeLast().length();
+                    }
+                }
+                var s = abbreviate(result);
+                return s.isEmpty() ? Optional.empty() : Optional.of(s);
+            } catch (IOException e) {
+                return Optional.empty();
+            }
+        }
+
+        private static String abbreviate(List<String> filo) {
+            var result = String.join("\n", filo).trim();
+            return result.length() > MAX_PAYLOAD_LEN
+                ? result.substring(0, MAX_PAYLOAD_LEN) + "…"
+                : result;
+        }
+    }
+
+    @Getter
+    public static class ConnectionTimeout extends RuntimeException {
+        private final Duration timeout;
+
+        public ConnectionTimeout(Duration timeout, Throwable cause) {
+            super(ConnectionTimeout.class.getSimpleName(), cause);
+            this.timeout = timeout;
+        }
     }
 }

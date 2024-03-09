@@ -130,7 +130,8 @@ public final class AppiumDriverLocalService extends DriverService {
 
             try {
                 return ping(IS_RUNNING_PING_TIMEOUT);
-            } catch (AppiumServerConnectionTimeout | AppiumServerConnectionError e) {
+            } catch (AppiumServerAvailabilityChecker.ConnectionTimeout |
+                     AppiumServerAvailabilityChecker.ConnectionError e) {
                 return false;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -186,7 +187,8 @@ public final class AppiumDriverLocalService extends DriverService {
             try {
                 ping(startupTimeout);
                 didPingSucceed = true;
-            } catch (AppiumServerConnectionTimeout | AppiumServerConnectionError e) {
+            } catch (AppiumServerAvailabilityChecker.ConnectionTimeout |
+                     AppiumServerAvailabilityChecker.ConnectionError e) {
                 var errorLines = new ArrayList<>(generateDetailedErrorMessagePrefix(e));
                 errorLines.addAll(retrieveServerDebugInfo());
                 throw new AppiumServerHasNotBeenStartedLocallyException(
@@ -206,24 +208,25 @@ public final class AppiumDriverLocalService extends DriverService {
 
     private List<String> generateDetailedErrorMessagePrefix(RuntimeException e) {
         var errorLines = new ArrayList<String>();
-        if (e instanceof AppiumServerConnectionTimeout) {
+        if (e instanceof AppiumServerAvailabilityChecker.ConnectionTimeout) {
             errorLines.add(String.format(
                     "Appium HTTP server is not listening at %s after %s ms timeout. " +
                             "Consider increasing the server startup timeout value and " +
                             "check the server log for possible error messages.",
-                    getUrl(), ((AppiumServerConnectionTimeout) e).getTimeout().toMillis()
+                    getUrl(),
+                    ((AppiumServerAvailabilityChecker.ConnectionTimeout) e).getTimeout().toMillis()
             ));
-        } else if (e instanceof AppiumServerConnectionError) {
-            var statusCode = ((AppiumServerConnectionError) e).getResponseCode();
-            var statusUrl = ((AppiumServerConnectionError) e).getStatusUrl();
-            var payload = ((AppiumServerConnectionError) e).getPayload();
+        } else if (e instanceof AppiumServerAvailabilityChecker.ConnectionError) {
+            var statusCode = ((AppiumServerAvailabilityChecker.ConnectionError) e).getResponseCode();
+            var statusUrl = ((AppiumServerAvailabilityChecker.ConnectionError) e).getStatusUrl();
+            var payload = ((AppiumServerAvailabilityChecker.ConnectionError) e).getPayload();
             errorLines.add(String.format(
                     "Appium HTTP server has started and is listening although we were " +
-                            "unable to get a successful response from %s. Make sure both client " +
-                            "and server use the same base path and check the server log for possible " +
-                            "error messages.", statusUrl
+                            "unable to get an OK response from %s. Make sure both the client " +
+                            "and the server use the same base path '%s' and check the server log for possible " +
+                            "error messages.", statusUrl, Optional.ofNullable(basePath).orElse("/")
             ));
-            errorLines.add(String.format("HTTP status code: %s", statusCode));
+            errorLines.add(String.format("Response status code: %s", statusCode));
             payload.ifPresent(p -> errorLines.add(String.format("Response payload: %s", p)));
         }
         return errorLines;
