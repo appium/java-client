@@ -236,7 +236,7 @@ public final class AppiumDriverLocalService extends DriverService {
         ofNullable(process)
                 .map(ExternalProcess::getOutput)
                 .filter(o -> !isNullOrEmpty(o))
-                .ifPresent(o -> result.add(String.format("Server process output: %s", o)));
+                .ifPresent(o -> result.add(String.format("Server log: %s", o)));
         return result;
     }
 
