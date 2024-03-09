@@ -17,6 +17,7 @@
 package io.appium.java_client.service.local;
 
 import com.google.common.annotations.VisibleForTesting;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.openqa.selenium.os.ExternalProcess;
 import org.openqa.selenium.remote.service.DriverService;
@@ -66,6 +67,7 @@ public final class AppiumDriverLocalService extends DriverService {
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
     private final AppiumServerAvailabilityChecker availabilityChecker = new AppiumServerAvailabilityChecker();
     private final URL url;
+    @Getter
     private String basePath;
 
     private ExternalProcess process = null;
@@ -93,10 +95,6 @@ public final class AppiumDriverLocalService extends DriverService {
     public AppiumDriverLocalService withBasePath(String basePath) {
         this.basePath = basePath;
         return this;
-    }
-
-    public String getBasePath() {
-        return this.basePath;
     }
 
     @SneakyThrows
@@ -212,8 +210,7 @@ public final class AppiumDriverLocalService extends DriverService {
             errorLines.add(String.format(
                     "Appium HTTP server is not listening at %s after %s ms timeout. "
                             + "Consider increasing the server startup timeout value and "
-                            + "check the server log for possible error messages.",
-                    getUrl(),
+                            + "check the server log for possible error messages.", getUrl(),
                     ((AppiumServerAvailabilityChecker.ConnectionTimeout) e).getTimeout().toMillis()
             ));
         } else if (e instanceof AppiumServerAvailabilityChecker.ConnectionError) {
