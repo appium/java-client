@@ -47,9 +47,9 @@ public class AppiumServerAvailabilityChecker {
      * @return true in case of success
      * @throws InterruptedException If the API is interrupted
      * @throws ConnectionTimeout If it is not possible to successfully open
-     * an HTTP connection to the server's /status endpoint.
+     *         an HTTP connection to the server's /status endpoint.
      * @throws ConnectionError If an HTTP connection was opened successfully,
-     * but non-200 error code was received.
+     *         but non-200 error code was received.
      */
     public boolean waitUntilAvailable(URL serverStatusUrl, Duration timeout) throws InterruptedException {
         var interval = MIN_POLL_INTERVAL;
@@ -99,6 +99,13 @@ public class AppiumServerAvailabilityChecker {
         private final int responseCode;
         private final Optional<String> payload;
 
+        /**
+         * Thrown on server connection errors.
+         *
+         * @param statusUrl Appium server status URL.
+         * @param responseCode The response code received from the URL above.
+         * @param body The response body stream received from the URL above.
+         */
         public ConnectionError(URL statusUrl, int responseCode, InputStream body) {
             super(ConnectionError.class.getSimpleName());
             this.statusUrl = statusUrl;
@@ -137,6 +144,12 @@ public class AppiumServerAvailabilityChecker {
     public static class ConnectionTimeout extends RuntimeException {
         private final Duration timeout;
 
+        /**
+         * Thrown on server timeout errors.
+         *
+         * @param timeout Timeout value.
+         * @param cause Timeout cause.
+         */
         public ConnectionTimeout(Duration timeout, Throwable cause) {
             super(ConnectionTimeout.class.getSimpleName(), cause);
             this.timeout = timeout;
