@@ -210,7 +210,7 @@ public final class AppiumDriverLocalService extends DriverService {
             errorLines.add(String.format(
                     "Appium HTTP server is not listening at %s after %s ms timeout. "
                             + "Consider increasing the server startup timeout value and "
-                            + "check the server log for possible error messages.", getUrl(),
+                            + "check the server log for possible error messages occurrences.", getUrl(),
                     ((AppiumServerAvailabilityChecker.ConnectionTimeout) e).getTimeout().toMillis()
             ));
         } else if (e instanceof AppiumServerAvailabilityChecker.ConnectionError) {
@@ -221,7 +221,7 @@ public final class AppiumDriverLocalService extends DriverService {
                     "Appium HTTP server has started and is listening although we were "
                             + "unable to get an OK response from %s. Make sure both the client "
                             + "and the server use the same base path '%s' and check the server log for possible "
-                            + "error messages.", statusUrl, Optional.ofNullable(basePath).orElse("/")
+                            + "error messages occurrences.", statusUrl, Optional.ofNullable(basePath).orElse("/")
             ));
             errorLines.add(String.format("Response status code: %s", statusCode));
             payload.ifPresent(p -> errorLines.add(String.format("Response payload: %s", p)));
