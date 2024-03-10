@@ -214,9 +214,10 @@ public final class AppiumDriverLocalService extends DriverService {
                     ((AppiumServerAvailabilityChecker.ConnectionTimeout) e).getTimeout().toMillis()
             ));
         } else if (e instanceof AppiumServerAvailabilityChecker.ConnectionError) {
-            var statusCode = ((AppiumServerAvailabilityChecker.ConnectionError) e).getResponseCode();
-            var statusUrl = ((AppiumServerAvailabilityChecker.ConnectionError) e).getStatusUrl();
-            var payload = ((AppiumServerAvailabilityChecker.ConnectionError) e).getPayload();
+            var connectionError = (AppiumServerAvailabilityChecker.ConnectionError) e;
+            var statusCode = connectionError.getResponseCode();
+            var statusUrl = connectionError.getStatusUrl();
+            var payload = connectionError.getPayload();
             errorLines.add(String.format(
                     "Appium HTTP server has started and is listening although we were "
                             + "unable to get an OK response from %s. Make sure both the client "
