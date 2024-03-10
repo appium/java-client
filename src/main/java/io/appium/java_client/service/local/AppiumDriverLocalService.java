@@ -17,8 +17,8 @@
 package io.appium.java_client.service.local;
 
 import com.google.common.annotations.VisibleForTesting;
+import lombok.Getter;
 import lombok.SneakyThrows;
-import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.ExternalProcess;
 import org.openqa.selenium.remote.service.DriverService;
 import org.slf4j.Logger;
@@ -30,14 +30,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -67,7 +65,9 @@ public final class AppiumDriverLocalService extends DriverService {
     private final Duration startupTimeout;
     private final ReentrantLock lock = new ReentrantLock(true); //uses "fair" thread ordering policy
     private final ListOutputStream stream = new ListOutputStream().add(System.out);
+    private final AppiumServerAvailabilityChecker availabilityChecker = new AppiumServerAvailabilityChecker();
     private final URL url;
+    @Getter
     private String basePath;
 
     private ExternalProcess process = null;
@@ -95,10 +95,6 @@ public final class AppiumDriverLocalService extends DriverService {
     public AppiumDriverLocalService withBasePath(String basePath) {
         this.basePath = basePath;
         return this;
-    }
-
-    public String getBasePath() {
-        return this.basePath;
     }
 
     @SneakyThrows
@@ -131,36 +127,40 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                ping(IS_RUNNING_PING_TIMEOUT);
-                return true;
-            } catch (UrlChecker.TimeoutException e) {
+                return ping(IS_RUNNING_PING_TIMEOUT);
+            } catch (AppiumServerAvailabilityChecker.ConnectionTimeout
+                     | AppiumServerAvailabilityChecker.ConnectionError e) {
                 return false;
-            } catch (MalformedURLException e) {
-                throw new AppiumServerHasNotBeenStartedLocallyException(e.getMessage(), e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         } finally {
             lock.unlock();
         }
-
     }
 
-    private void ping(Duration timeout) throws UrlChecker.TimeoutException, MalformedURLException {
-        URL baseURL = getUrl();
-        String host = baseURL.getHost();
+    private boolean ping(Duration timeout) throws InterruptedException {
+        var baseURL = fixBroadcastAddresses(getUrl());
+        var statusUrl = addSuffix(baseURL, "/status");
+        return availabilityChecker.waitUntilAvailable(statusUrl, timeout);
+    }
+
+    private URL fixBroadcastAddresses(URL url) {
+        var host = url.getHost();
         // The operating system will block direct access to the universal broadcast IP address
         if (host.equals(BROADCAST_IP4_ADDRESS)) {
-            baseURL = replaceHost(baseURL, BROADCAST_IP4_ADDRESS, "127.0.0.1");
-        } else if (host.equals(BROADCAST_IP6_ADDRESS)) {
-            baseURL = replaceHost(baseURL, BROADCAST_IP6_ADDRESS, "::1");
+            return replaceHost(url, BROADCAST_IP4_ADDRESS, "127.0.0.1");
         }
-        URL status = addSuffix(baseURL, "/status");
-        new UrlChecker().waitUntilAvailable(timeout.toMillis(), TimeUnit.MILLISECONDS, status);
+        if (host.equals(BROADCAST_IP6_ADDRESS)) {
+            return replaceHost(url, BROADCAST_IP6_ADDRESS, "::1");
+        }
+        return url;
     }
 
     /**
      * Starts the defined appium server.
      *
-     * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs while spawning the child process.
+     * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs on Appium server startup.
      * @see #stop()
      */
     @Override
@@ -172,38 +172,73 @@ public final class AppiumDriverLocalService extends DriverService {
             }
 
             try {
-                ExternalProcess.Builder processBuilder = ExternalProcess.builder()
+                var processBuilder = ExternalProcess.builder()
                         .command(this.nodeJSExec.getCanonicalPath(), nodeJSArgs)
                         .copyOutputTo(stream);
                 nodeJSEnvironment.forEach(processBuilder::environment);
                 process = processBuilder.start();
+            } catch (IOException e) {
+                throw new AppiumServerHasNotBeenStartedLocallyException(e);
+            }
+
+            var didPingSucceed = false;
+            try {
                 ping(startupTimeout);
-            } catch (Exception e) {
-                final Optional<String> output = ofNullable(process)
-                        .map(ExternalProcess::getOutput)
-                        .filter(o -> !isNullOrEmpty(o));
-                destroyProcess();
-                List<String> errorLines = new ArrayList<>();
-                errorLines.add("The local appium server has not been started");
-                errorLines.add(String.format("Reason: %s", e.getMessage()));
-                if (e instanceof UrlChecker.TimeoutException) {
-                    errorLines.add(String.format(
-                            "Consider increasing the server startup timeout value (currently %sms)",
-                            startupTimeout.toMillis()
-                    ));
-                }
-                errorLines.add(
-                        String.format("Node.js executable path: %s", nodeJSExec.getAbsolutePath())
-                );
-                errorLines.add(String.format("Arguments: %s", nodeJSArgs));
-                output.ifPresent(o -> errorLines.add(String.format("Output: %s", o)));
+                didPingSucceed = true;
+            } catch (AppiumServerAvailabilityChecker.ConnectionTimeout
+                     | AppiumServerAvailabilityChecker.ConnectionError e) {
+                var errorLines = new ArrayList<>(generateDetailedErrorMessagePrefix(e));
+                errorLines.addAll(retrieveServerDebugInfo());
                 throw new AppiumServerHasNotBeenStartedLocallyException(
                         String.join("\n", errorLines), e
                 );
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                if (!didPingSucceed) {
+                    destroyProcess();
+                }
             }
         } finally {
             lock.unlock();
         }
+    }
+
+    private List<String> generateDetailedErrorMessagePrefix(RuntimeException e) {
+        var errorLines = new ArrayList<String>();
+        if (e instanceof AppiumServerAvailabilityChecker.ConnectionTimeout) {
+            errorLines.add(String.format(
+                    "Appium HTTP server is not listening at %s after %s ms timeout. "
+                            + "Consider increasing the server startup timeout value and "
+                            + "check the server log for possible error messages occurrences.", getUrl(),
+                    ((AppiumServerAvailabilityChecker.ConnectionTimeout) e).getTimeout().toMillis()
+            ));
+        } else if (e instanceof AppiumServerAvailabilityChecker.ConnectionError) {
+            var connectionError = (AppiumServerAvailabilityChecker.ConnectionError) e;
+            var statusCode = connectionError.getResponseCode();
+            var statusUrl = connectionError.getStatusUrl();
+            var payload = connectionError.getPayload();
+            errorLines.add(String.format(
+                    "Appium HTTP server has started and is listening although we were "
+                            + "unable to get an OK response from %s. Make sure both the client "
+                            + "and the server use the same base path '%s' and check the server log for possible "
+                            + "error messages occurrences.", statusUrl, Optional.ofNullable(basePath).orElse("/")
+            ));
+            errorLines.add(String.format("Response status code: %s", statusCode));
+            payload.ifPresent(p -> errorLines.add(String.format("Response payload: %s", p)));
+        }
+        return errorLines;
+    }
+
+    private List<String> retrieveServerDebugInfo() {
+        var result = new ArrayList<String>();
+        result.add(String.format("Node.js executable path: %s", nodeJSExec.getAbsolutePath()));
+        result.add(String.format("Arguments: %s", nodeJSArgs));
+        ofNullable(process)
+                .map(ExternalProcess::getOutput)
+                .filter(o -> !isNullOrEmpty(o))
+                .ifPresent(o -> result.add(String.format("Server log: %s", o)));
+        return result;
     }
 
     /**

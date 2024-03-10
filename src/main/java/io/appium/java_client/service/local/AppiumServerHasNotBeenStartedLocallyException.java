@@ -16,16 +16,16 @@
 
 package io.appium.java_client.service.local;
 
-
 public class AppiumServerHasNotBeenStartedLocallyException extends RuntimeException {
-
-    private static final long serialVersionUID = 1L;
-
-    public AppiumServerHasNotBeenStartedLocallyException(String messege, Throwable t) {
-        super(messege, t);
+    public AppiumServerHasNotBeenStartedLocallyException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public AppiumServerHasNotBeenStartedLocallyException(String messege) {
-        super(messege);
+    public AppiumServerHasNotBeenStartedLocallyException(String message) {
+        super(message);
+    }
+
+    public AppiumServerHasNotBeenStartedLocallyException(Throwable cause) {
+        super(cause);
     }
 }
