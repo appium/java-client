@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.2.0_
+- **[ENHANCEMENTS]**
+  - Incorporate poll delay mechanism into `AppiumFluentWait` [#2116](https://github.com/appium/java-client/pull/2116) (Closes [#2111](https://github.com/appium/java-client/pull/2111))
+  - Make server startup error messages more useful [#2130](https://github.com/appium/java-client/pull/2130)
+- **[BUG FIX]**
+  - Set correct geolocation coordinates of the current device [#2109](https://github.com/appium/java-client/pull/2109) (Fixes [#2108](https://github.com/appium/java-client/pull/2108))
+  - Always release annotated element reference from the builder instance [#2128](https://github.com/appium/java-client/pull/2128)
+  - Cache dynamic proxy classes created by ByteBuddy [#2129](https://github.com/appium/java-client/pull/2129) (Fixes [#2119](https://github.com/appium/java-client/pull/2119))
+- **[DEPENDENCY CHANGE]**
+  - Bump SLF4J from `2.0.11` to `2.0.12` [#2115](https://github.com/appium/java-client/pull/2115)
+- **[DOCUMENTATION]**
+  - Improve release steps [#2107](https://github.com/appium/java-client/pull/2107)
+
 _9.1.0_
 - **[ENHANCEMENTS]**
   - Introduce better constructor argument validation for the `AppiumFieldDecorator` class. [#2070](https://github.com/appium/java-client/pull/2070)
