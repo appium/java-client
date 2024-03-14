@@ -13,7 +13,7 @@ Follow the [v8 to v9 Migration Guide](./docs/v8-to-v9-migration-guide.md) in ord
 
 ## v7 to v8 Migration
 
-Since version 8 Appium Java Client had several major changes, which might require to 
+Since version 8 Appium Java Client had several major changes, which might require to
 update your client code. Make sure to follow the [v7 to v8 Migration Guide](./docs/v7-to-v8-migration-guide.md)
 in order to streamline the migration process.
 
@@ -21,7 +21,7 @@ in order to streamline the migration process.
 
 ### Stable
 
-#### Maven 
+#### Maven
 
 Add the following to pom.xml:
 
@@ -62,19 +62,19 @@ Add the following to pom.xml:
 ```
 
 Add the dependency:
- 
+
 ```xml
 <dependency>
     <groupId>com.github.appium</groupId>
     <artifactId>java-client</artifactId>
     <version>latest commit ID from master branch</version>
 </dependency>
-``` 
+```
 
 #### Gradle
 
 Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
- 
+
 ```groovy
 allprojects {
     repositories {
@@ -85,7 +85,7 @@ allprojects {
 ```
 
 Add the dependency:
- 
+
 ```groovy
 dependencies {
     implementation 'com.github.appium:java-client:latest commit id from master branch'
@@ -95,7 +95,7 @@ dependencies {
 ### Compatibility Matrix
  Appium Java Client        | Selenium client
 ---------------------------|-----------------
- `9.1.0`                   | `4.17.0`
+ `9.1.0`, `9.2.0`          | `4.17.0`, `4.18.0`, `4.18.1`
  `9.0.0`                   | `4.14.1`, `4.15.0`, `4.16.0` (partially [corrupted](https://github.com/SeleniumHQ/selenium/issues/13256)), `4.16.1`
  N/A                       | `4.14.0`
  `8.5.0`, `8.5.1`, `8.6.0` | `4.9.1`, `4.10.0`, `4.11.0`, `4.12.0`, `4.12.1` (known issue: appium/java-client#2004), `4.13.0`
@@ -126,7 +126,7 @@ Appium java client has dedicated classes to support the following Appium drivers
 - [Gecko](https://github.com/appium/appium-geckodriver): [GeckoDriver](src/main/java/io/appium/java_client/gecko/GeckoDriver.java)
 - [Mac2](https://github.com/appium/appium-mac2-driver): [Mac2Driver](src/main/java/io/appium/java_client/mac/Mac2Driver.java)
 
-To automate other platforms that are not listed above you could use 
+To automate other platforms that are not listed above you could use
 [AppiumDriver](src/main/java/io/appium/java_client/AppiumDriver.java) or its custom derivatives.
 
 Appium java client is built on top of Selenium and implements same interfaces that the foundation
@@ -225,7 +225,7 @@ try {
 
 Check the corresponding driver's READMEs to know the list of capabilities and features it supports.
 
-You could find much more code examples by checking client's 
+You could find much more code examples by checking client's
 [unit and integration tests](src/test/java/io/appium/java_client).
 
 ## Troubleshooting
@@ -235,7 +235,7 @@ You could find much more code examples by checking client's
 Appium Java client uses reflective access to private members of other modules
 to ensure proper functionality of several features, like Page Object model.
 If you get a runtime exception and `InaccessibleObjectException` is present in
-the stacktrace, and your Java runtime is at version 16 or higher, then consider following 
+the stacktrace, and your Java runtime is at version 16 or higher, then consider following
 [Oracle's tutorial](https://docs.oracle.com/en/java/javase/16/migrate/migrating-jdk-8-later-jdk-releases.html#GUID-7BB28E4D-99B3-4078-BDC4-FC24180CE82B)
 and/or checking [existing issues](https://github.com/appium/java-client/search?q=InaccessibleObjectException&type=issues)
 for possible solutions. Basically, the idea there would be to explicitly allow
@@ -251,9 +251,9 @@ framework code rather than run separately by a script or manually. Depending
 on the way the server process is started it may or may not inherit the currently
 active shell environment. That is why you may still receive errors about variables
 presence even though these variables ar actually defined for your command line interpreter.
-Again, there is no universal solution to that, as there are many ways to spin up a new 
+Again, there is no universal solution to that, as there are many ways to spin up a new
 server process. Consider checking the [Appium Environment Troubleshooting](docs/environment.md)
-document for more information on how to debug and fix process environment issues. 
+document for more information on how to debug and fix process environment issues.
 
 ## Changelog
 
