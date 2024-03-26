@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.appmanagement.BaseActivateApplicationOptions;
 import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
@@ -28,9 +27,8 @@ import org.openqa.selenium.UnsupportedCommandException;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
 import static io.appium.java_client.MobileCommand.INSTALL_APP;
@@ -40,6 +38,7 @@ import static io.appium.java_client.MobileCommand.REMOVE_APP;
 import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
 import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionPresence {
@@ -63,23 +62,17 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
         final String extName = "mobile: installApp";
         try {
-            Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                .put("app", appPath)
-                .put("appPath", appPath)
-                .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                .build();
+            var args = new HashMap<String, Object>();
+            args.put("app", appPath);
+            args.put("appPath", appPath);
+            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map args = ImmutableMap.builder()
-                    .put("appPath", appPath)
-                    .putAll(Optional.ofNullable(options).map(
-                            opts -> Map.of("options", opts.build())
-                    ).orElseGet(Map::of))
-                    .build();
-            CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName), Map.entry(INSTALL_APP, args)
-            );
+            var args = new HashMap<String, Object>();
+            args.put("appPath", appPath);
+            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
+            CommandExecutionHelper.execute(markExtensionAbsence(extName), Map.entry(INSTALL_APP, args));
         }
     }
 
@@ -153,22 +146,18 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
         final String extName = "mobile: removeApp";
         try {
-            Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                    .put("bundleId", bundleId)
-                    .put("appId", bundleId)
-                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                    .build();
+            var args = new HashMap<String, Object>();
+            args.put("bundleId", bundleId);
+            args.put("appId", bundleId);
+            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
             return requireNonNull(
                     CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args)
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map args = ImmutableMap.builder()
-                    .put("bundleId", bundleId)
-                    .putAll(Optional.ofNullable(options).map(
-                            opts -> Map.of("options", opts.build())
-                    ).orElseGet(Map::of))
-                    .build();
+            var args = new HashMap<String, Object>();
+            args.put("bundleId", bundleId);
+            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
             //noinspection RedundantCast
             return requireNonNull(
                     (Boolean) CommandExecutionHelper.execute(
@@ -200,23 +189,17 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
         final String extName = "mobile: activateApp";
         try {
-            Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                    .put("bundleId", bundleId)
-                    .put("appId", bundleId)
-                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                    .build();
+            var args = new HashMap<String, Object>();
+            args.put("bundleId", bundleId);
+            args.put("appId", bundleId);
+            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map args = ImmutableMap.builder()
-                    .put("bundleId", bundleId)
-                    .putAll(Optional.ofNullable(options).map(
-                            opts -> Map.of("options", opts.build())
-                    ).orElseGet(Map::of))
-                    .build();
-            CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName), Map.entry(ACTIVATE_APP, args)
-            );
+            var args = new HashMap<String, Object>();
+            args.put("bundleId", bundleId);
+            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
+            CommandExecutionHelper.execute(markExtensionAbsence(extName), Map.entry(ACTIVATE_APP, args));
         }
     }
 
@@ -274,22 +257,18 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
         final String extName = "mobile: terminateApp";
         try {
-            Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                    .put("bundleId", bundleId)
-                    .put("appId", bundleId)
-                    .putAll(Optional.ofNullable(options).map(BaseOptions::build).orElseGet(Collections::emptyMap))
-                    .build();
+            var args = new HashMap<String, Object>();
+            args.put("bundleId", bundleId);
+            args.put("appId", bundleId);
+            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
             return requireNonNull(
                     CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args)
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map args = ImmutableMap.builder()
-                    .put("bundleId", bundleId)
-                    .putAll(Optional.ofNullable(options).map(
-                            opts -> Map.of("options", opts.build())
-                    ).orElseGet(Map::of))
-                    .build();
+            var args = new HashMap<String, Object>();
+            args.put("bundleId", bundleId);
+            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
             //noinspection RedundantCast
             return requireNonNull(
                     (Boolean) CommandExecutionHelper.execute(

@@ -16,10 +16,11 @@
 
 package io.appium.java_client.android.appmanagement;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -138,12 +139,12 @@ public class AndroidInstallApplicationOptions extends
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(replace).ifPresent(x -> builder.put("replace", x));
-        ofNullable(timeout).ifPresent(x -> builder.put("timeout", x.toMillis()));
-        ofNullable(allowTestPackages).ifPresent(x -> builder.put("allowTestPackages", x));
-        ofNullable(useSdcard).ifPresent(x -> builder.put("useSdcard", x));
-        ofNullable(grantPermissions).ifPresent(x -> builder.put("grantPermissions", x));
-        return builder.build();
+        var map = new HashMap<String, Object>();
+        ofNullable(replace).ifPresent(x -> map.put("replace", x));
+        ofNullable(timeout).ifPresent(x -> map.put("timeout", x.toMillis()));
+        ofNullable(allowTestPackages).ifPresent(x -> map.put("allowTestPackages", x));
+        ofNullable(useSdcard).ifPresent(x -> map.put("useSdcard", x));
+        ofNullable(grantPermissions).ifPresent(x -> map.put("grantPermissions", x));
+        return Collections.unmodifiableMap(map);
     }
 }

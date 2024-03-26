@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.remote.Response;
 
 import javax.annotation.Nullable;
@@ -44,7 +43,7 @@ public interface ExecuteCDPCommand extends ExecutesMethod {
         data.put("params", params == null ? Collections.emptyMap() : params);
         Response response = execute(EXECUTE_GOOGLE_CDP_COMMAND, data);
         //noinspection unchecked
-        return ImmutableMap.copyOf((Map<String, Object>) response.getValue());
+        return Collections.unmodifiableMap((Map<String, Object>) response.getValue());
     }
 
     /**

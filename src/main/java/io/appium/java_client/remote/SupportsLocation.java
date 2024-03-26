@@ -16,7 +16,6 @@
 
 package io.appium.java_client.remote;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.MobileCommand;
@@ -26,6 +25,7 @@ import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.html5.LocationContext;
 import org.openqa.selenium.remote.html5.RemoteLocationContext;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -86,10 +86,10 @@ public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationCon
      * @param location A {@link Location} containing the new location information.
      */
     default void setLocation(io.appium.java_client.Location location) {
-        ImmutableMap.Builder<String, Object> locationParameters = ImmutableMap.builder();
+        var locationParameters = new HashMap<String, Object>();
         locationParameters.put("latitude", location.getLatitude());
         locationParameters.put("longitude", location.getLongitude());
         Optional.ofNullable(location.getAltitude()).ifPresent(altitude -> locationParameters.put("altitude", altitude));
-        execute(MobileCommand.SET_LOCATION, Map.of("location", locationParameters.build()));
+        execute(MobileCommand.SET_LOCATION, Map.of("location", locationParameters));
     }
 }

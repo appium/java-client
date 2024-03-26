@@ -27,6 +27,7 @@ import org.openqa.selenium.remote.http.HttpMethod;
 import javax.annotation.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -610,12 +611,12 @@ public class MobileCommand {
     public static Map.Entry<String, Map<String, ?>> compareImagesCommand(ComparisonMode mode,
                                                                          byte[] img1Data, byte[] img2Data,
                                                                          @Nullable BaseComparisonOptions options) {
-        ImmutableMap.Builder<String, Object> argsBuilder = ImmutableMap.<String, Object>builder()
-                .put("mode", mode.toString())
-                .put("firstImage", new String(img1Data, StandardCharsets.UTF_8))
-                .put("secondImage", new String(img2Data, StandardCharsets.UTF_8));
-        Optional.ofNullable(options).ifPresent(opts -> argsBuilder.put("options", options.build()));
-        return Map.entry(COMPARE_IMAGES, argsBuilder.build());
+        var args = new HashMap<String, Object>();
+        args.put("mode", mode.toString());
+        args.put("firstImage", new String(img1Data, StandardCharsets.UTF_8));
+        args.put("secondImage", new String(img2Data, StandardCharsets.UTF_8));
+        Optional.ofNullable(options).ifPresent(opts -> args.put("options", options.build()));
+        return Map.entry(COMPARE_IMAGES, Collections.unmodifiableMap(args));
     }
 
     /**

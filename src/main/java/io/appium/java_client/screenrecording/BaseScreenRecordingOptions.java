@@ -16,8 +16,6 @@
 
 package io.appium.java_client.screenrecording;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
@@ -46,9 +44,6 @@ public abstract class BaseScreenRecordingOptions<T extends BaseScreenRecordingOp
      * @return arguments mapping.
      */
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        //noinspection unchecked
-        ofNullable(uploadOptions).map(x -> builder.putAll(x.build()));
-        return builder.build();
+        return ofNullable(uploadOptions).map(ScreenRecordingUploadOptions::build).orElseGet(Map::of);
     }
 }

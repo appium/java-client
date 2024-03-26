@@ -16,10 +16,11 @@
 
 package io.appium.java_client.mac;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -139,14 +140,13 @@ public class Mac2StartScreenRecordingOptions
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        builder.putAll(super.build());
-        ofNullable(fps).map(x -> builder.put("fps", x));
-        ofNullable(preset).map(x -> builder.put("preset", x));
-        ofNullable(videoFilter).map(x -> builder.put("videoFilter", x));
-        ofNullable(captureClicks).map(x -> builder.put("captureClicks", x));
-        ofNullable(captureCursor).map(x -> builder.put("captureCursor", x));
-        ofNullable(deviceId).map(x -> builder.put("deviceId", x));
-        return builder.build();
+        var map = new HashMap<>(super.build());
+        ofNullable(fps).map(x -> map.put("fps", x));
+        ofNullable(preset).map(x -> map.put("preset", x));
+        ofNullable(videoFilter).map(x -> map.put("videoFilter", x));
+        ofNullable(captureClicks).map(x -> map.put("captureClicks", x));
+        ofNullable(captureCursor).map(x -> map.put("captureCursor", x));
+        ofNullable(deviceId).map(x -> map.put("deviceId", x));
+        return Collections.unmodifiableMap(map);
     }
 }

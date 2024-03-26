@@ -16,8 +16,8 @@
 
 package io.appium.java_client.imagecomparison;
 
-import com.google.common.collect.ImmutableMap;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -66,11 +66,10 @@ public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceM
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        builder.putAll(super.build());
-        ofNullable(threshold).ifPresent(x -> builder.put("threshold", x));
-        ofNullable(matchNeighbourThreshold).ifPresent(x -> builder.put("matchNeighbourThreshold", x));
-        ofNullable(multiple).ifPresent(x -> builder.put("multiple", x));
-        return builder.build();
+        var map = new HashMap<>(super.build());
+        ofNullable(threshold).ifPresent(x -> map.put("threshold", x));
+        ofNullable(matchNeighbourThreshold).ifPresent(x -> map.put("matchNeighbourThreshold", x));
+        ofNullable(multiple).ifPresent(x -> map.put("multiple", x));
+        return Collections.unmodifiableMap(map);
     }
 }
