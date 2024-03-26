@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
@@ -35,7 +36,11 @@ public class TestUtils {
         if (url == null) {
             throw new IllegalArgumentException(String.format("Cannot find the '%s' resource", resourcePath));
         }
-        return Paths.get(url.getPath());
+        try {
+            return Paths.get(url.toURI());
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public static String resourceAsString(String resourcePath) {
