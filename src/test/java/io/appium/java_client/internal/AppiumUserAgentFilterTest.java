@@ -3,10 +3,7 @@ package io.appium.java_client.internal;
 import io.appium.java_client.internal.filters.AppiumUserAgentFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,20 +14,15 @@ public class AppiumUserAgentFilterTest {
         assertTrue(AppiumUserAgentFilter.USER_AGENT.startsWith("appium/"));
     }
 
-    public static Stream<Arguments> userAgentParams() {
-        return Stream.of(
-                Arguments.of("selenium/4.5.0 (java mac)", false),
-                Arguments.of("appium/8.2.0 (selenium/4.5.0 (java mac))", true),
-                Arguments.of("APPIUM/8.2.0 (selenium/4.5.0 (java mac))", true),
-                Arguments.of("something (Appium/8.2.0 (selenium/4.5.0 (java mac)))", true),
-                Arguments.of("something (appium/8.2.0 (selenium/4.5.0 (java mac)))", true)
-        );
-    }
-
     @ParameterizedTest
-    @MethodSource("userAgentParams")
-    void validUserAgentIfContainsAppiumName(String userAgent, boolean expected) {
-        assertEquals(AppiumUserAgentFilter.containsAppiumName(userAgent), expected);
+    @ValueSource(strings = {
+        "appium/8.2.0 (selenium/4.5.0 (java mac))",
+        "APPIUM/8.2.0 (selenium/4.5.0 (java mac))",
+        "something (Appium/8.2.0 (selenium/4.5.0 (java mac)))",
+        "something (appium/8.2.0 (selenium/4.5.0 (java mac)))"
+    })
+    void validUserAgentIfContainsAppiumName(String userAgent) {
+        assertEquals(AppiumUserAgentFilter.buildUserAgent(userAgent), userAgent);
     }
 
     @Test

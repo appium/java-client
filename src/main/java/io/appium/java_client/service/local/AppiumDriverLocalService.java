@@ -16,7 +16,6 @@
 
 package io.appium.java_client.service.local;
 
-import com.google.common.annotations.VisibleForTesting;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.openqa.selenium.os.ExternalProcess;
@@ -403,8 +402,7 @@ public final class AppiumDriverLocalService extends DriverService {
         });
     }
 
-    @VisibleForTesting
-    static Slf4jLogMessageContext parseSlf4jContextFromLogMessage(String logMessage) {
+    private static Slf4jLogMessageContext parseSlf4jContextFromLogMessage(String logMessage) {
         Matcher m = LOGGER_CONTEXT_PATTERN.matcher(logMessage);
         String loggerName = APPIUM_SERVICE_SLF4J_LOGGER_PREFIX;
         Level level = INFO;
