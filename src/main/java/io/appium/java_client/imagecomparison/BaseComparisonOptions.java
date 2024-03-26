@@ -16,8 +16,8 @@
 
 package io.appium.java_client.imagecomparison;
 
-import com.google.common.collect.ImmutableMap;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -45,8 +45,8 @@ public abstract class BaseComparisonOptions<T extends BaseComparisonOptions<T>> 
      * @return comparison options mapping.
      */
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(visualize).ifPresent(x -> builder.put("visualize", x));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>();
+        ofNullable(visualize).ifPresent(x -> map.put("visualize", x));
+        return Collections.unmodifiableMap(map);
     }
 }

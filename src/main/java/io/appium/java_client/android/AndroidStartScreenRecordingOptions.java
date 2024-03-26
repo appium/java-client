@@ -16,11 +16,12 @@
 
 package io.appium.java_client.android;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.ScreenRecordingUploadOptions;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -105,11 +106,10 @@ public class AndroidStartScreenRecordingOptions
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        builder.putAll(super.build());
-        ofNullable(bitRate).ifPresent(x -> builder.put("bitRate", x));
-        ofNullable(videoSize).ifPresent(x -> builder.put("videoSize", x));
-        ofNullable(isBugReportEnabled).ifPresent(x -> builder.put("bugReport", x));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>(super.build());
+        ofNullable(bitRate).ifPresent(x -> map.put("bitRate", x));
+        ofNullable(videoSize).ifPresent(x -> map.put("videoSize", x));
+        ofNullable(isBugReportEnabled).ifPresent(x -> map.put("bugReport", x));
+        return Collections.unmodifiableMap(map);
     }
 }

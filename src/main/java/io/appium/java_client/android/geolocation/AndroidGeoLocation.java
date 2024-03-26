@@ -16,8 +16,8 @@
 
 package io.appium.java_client.android.geolocation;
 
-import com.google.common.collect.ImmutableMap;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
@@ -110,16 +110,14 @@ public class AndroidGeoLocation {
      * @return Parameters mapping
      */
     public Map<String, ?> build() {
-        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(longitude).map(x -> builder.put("longitude", x))
-            .orElseThrow(() -> new IllegalArgumentException(
-                    "A valid 'longitude' must be provided"));
-        ofNullable(latitude).map(x -> builder.put("latitude", x))
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "A valid 'latitude' must be provided"));
-        ofNullable(altitude).ifPresent(x -> builder.put("altitude", x));
-        ofNullable(satellites).ifPresent(x -> builder.put("satellites", x));
-        ofNullable(speed).ifPresent(x -> builder.put("speed", x));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>();
+        ofNullable(longitude).map(x -> map.put("longitude", x)).orElseThrow(() -> new IllegalArgumentException(
+                "A valid 'longitude' must be provided"));
+        ofNullable(latitude).map(x -> map.put("latitude", x)).orElseThrow(() -> new IllegalArgumentException(
+                "A valid 'latitude' must be provided"));
+        ofNullable(altitude).ifPresent(x -> map.put("altitude", x));
+        ofNullable(satellites).ifPresent(x -> map.put("satellites", x));
+        ofNullable(speed).ifPresent(x -> map.put("speed", x));
+        return Collections.unmodifiableMap(map);
     }
 }

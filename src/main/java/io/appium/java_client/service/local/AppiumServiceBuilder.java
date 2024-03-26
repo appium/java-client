@@ -16,7 +16,6 @@
 
 package io.appium.java_client.service.local;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableOption;
@@ -42,6 +41,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -395,7 +395,7 @@ public final class AppiumServiceBuilder
             argList.add(capabilitiesToCmdlineArg());
         }
 
-        return new ImmutableList.Builder<String>().addAll(argList).build();
+        return Collections.unmodifiableList(argList);
     }
 
     @Override

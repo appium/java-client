@@ -16,10 +16,11 @@
 
 package io.appium.java_client.android.appmanagement;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -45,8 +46,8 @@ public class AndroidTerminateApplicationOptions extends
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(timeout).ifPresent(x -> builder.put("timeout", x.toMillis()));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>();
+        ofNullable(timeout).ifPresent(x -> map.put("timeout", x.toMillis()));
+        return Collections.unmodifiableMap(map);
     }
 }

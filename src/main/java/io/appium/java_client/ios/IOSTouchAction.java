@@ -48,9 +48,7 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      * @return self-reference
      */
     public IOSTouchAction doubleTap(PointOption doubleTapOption) {
-        ActionParameter action = new ActionParameter("doubleTap",
-                doubleTapOption);
-        parameterBuilder.add(action);
+        parameters.add(new ActionParameter("doubleTap", doubleTapOption));
         return this;
     }
 
@@ -61,7 +59,7 @@ public class IOSTouchAction extends TouchAction<IOSTouchAction> {
      * @return this TouchAction, for chaining.
      */
     public IOSTouchAction press(IOSPressOptions pressOptions) {
-        parameterBuilder.add(new ActionParameter("press", pressOptions));
+        parameters.add(new ActionParameter("press", pressOptions));
         return this;
     }
 }

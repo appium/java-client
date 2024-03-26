@@ -16,7 +16,6 @@
 
 package io.appium.java_client.remote;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.remote.options.BaseOptions;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.internal.Require;
@@ -24,6 +23,7 @@ import org.openqa.selenium.remote.CommandPayload;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
@@ -37,7 +37,7 @@ public class AppiumNewSessionCommandPayload extends CommandPayload {
     private static Map<String, Object> makeW3CSafe(Capabilities possiblyInvalidCapabilities) {
         return Require.nonNull("Capabilities", possiblyInvalidCapabilities)
                 .asMap().entrySet().stream()
-                .collect(ImmutableMap.toImmutableMap(
+                .collect(Collectors.toUnmodifiableMap(
                     entry -> BaseOptions.toW3cName(entry.getKey()),
                     Map.Entry::getValue
                 ));

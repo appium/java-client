@@ -16,8 +16,8 @@
 
 package io.appium.java_client.screenrecording;
 
-import com.google.common.collect.ImmutableMap;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
@@ -123,14 +123,14 @@ public class ScreenRecordingUploadOptions {
      * @return arguments mapping.
      */
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(remotePath).map(x -> builder.put("remotePath", x));
-        ofNullable(user).map(x -> builder.put("user", x));
-        ofNullable(pass).map(x -> builder.put("pass", x));
-        ofNullable(method).map(x -> builder.put("method", x));
-        ofNullable(fileFieldName).map(x -> builder.put("fileFieldName", x));
-        ofNullable(formFields).map(x -> builder.put("formFields", x));
-        ofNullable(headers).map(x -> builder.put("headers", x));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>();
+        ofNullable(remotePath).map(x -> map.put("remotePath", x));
+        ofNullable(user).map(x -> map.put("user", x));
+        ofNullable(pass).map(x -> map.put("pass", x));
+        ofNullable(method).map(x -> map.put("method", x));
+        ofNullable(fileFieldName).map(x -> map.put("fileFieldName", x));
+        ofNullable(formFields).map(x -> map.put("formFields", x));
+        ofNullable(headers).map(x -> map.put("headers", x));
+        return Collections.unmodifiableMap(map);
     }
 }

@@ -16,8 +16,8 @@
 
 package io.appium.java_client.imagecomparison;
 
-import com.google.common.collect.ImmutableMap;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -68,11 +68,10 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        builder.putAll(super.build());
-        ofNullable(detectorName).ifPresent(x -> builder.put("detectorName", x));
-        ofNullable(matchFunc).ifPresent(x -> builder.put("matchFunc", x));
-        ofNullable(goodMatchesFactor).ifPresent(x -> builder.put("goodMatchesFactor", x));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>(super.build());
+        ofNullable(detectorName).ifPresent(x -> map.put("detectorName", x));
+        ofNullable(matchFunc).ifPresent(x -> map.put("matchFunc", x));
+        ofNullable(goodMatchesFactor).ifPresent(x -> map.put("goodMatchesFactor", x));
+        return Collections.unmodifiableMap(map);
     }
 }

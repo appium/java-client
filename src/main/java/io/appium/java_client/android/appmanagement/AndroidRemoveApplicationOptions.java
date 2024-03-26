@@ -16,10 +16,11 @@
 
 package io.appium.java_client.android.appmanagement;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -68,9 +69,9 @@ public class AndroidRemoveApplicationOptions extends
 
     @Override
     public Map<String, Object> build() {
-        final ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        ofNullable(timeout).ifPresent(x -> builder.put("timeout", x.toMillis()));
-        ofNullable(keepData).ifPresent(x -> builder.put("keepData", x));
-        return builder.build();
+        final Map<String, Object> map = new HashMap<>();
+        ofNullable(timeout).ifPresent(x -> map.put("timeout", x.toMillis()));
+        ofNullable(keepData).ifPresent(x -> map.put("keepData", x));
+        return Collections.unmodifiableMap(map);
     }
 }

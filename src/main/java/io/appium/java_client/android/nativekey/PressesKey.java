@@ -16,12 +16,12 @@
 
 package io.appium.java_client.android.nativekey;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.openqa.selenium.UnsupportedCommandException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
@@ -55,10 +55,8 @@ public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence
     default void longPressKey(KeyEvent keyEvent) {
         final String extName = "mobile: pressKey";
         try {
-            Map<String, Object> args = ImmutableMap.<String, Object>builder()
-                    .putAll(keyEvent.build())
-                    .put("isLongPress", true)
-                    .build();
+            Map<String, Object> args = new HashMap<>(keyEvent.build());
+            args.put("isLongPress", true);
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException e) {
             // TODO: Remove the fallback

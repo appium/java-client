@@ -16,8 +16,7 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableList;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,12 +52,12 @@ import static java.util.stream.Collectors.toList;
 @Deprecated
 public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
 
-    private ImmutableList.Builder<TouchAction> actions;
+    private List<TouchAction> actions;
     private PerformsTouchActions performsTouchActions;
 
     public MultiTouchAction(PerformsTouchActions performsTouchActions) {
         this.performsTouchActions = performsTouchActions;
-        actions = ImmutableList.builder();
+        actions = new ArrayList<>();
     }
 
     /**
@@ -76,21 +75,19 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
      * Perform the multi-touch action on the mobile performsTouchActions.
      */
     public MultiTouchAction perform() {
-        List<TouchAction> touchActions = actions.build();
-        checkArgument(touchActions.size() > 0,
+        checkArgument(!actions.isEmpty(),
                 "MultiTouch action must have at least one TouchAction added before it can be performed");
-        if (touchActions.size() > 1) {
+        if (actions.size() > 1) {
             performsTouchActions.performMultiTouchAction(this);
             return this;
         }  //android doesn't like having multi-touch actions with only a single TouchAction...
-        performsTouchActions.performTouchAction(touchActions.get(0));
+        performsTouchActions.performTouchAction(actions.get(0));
         return this;
     }
 
     protected Map<String, List<Object>> getParameters() {
         return Map.of("actions",
-                actions.build().stream().map(touchAction ->
-                        touchAction.getParameters().get("actions")).collect(toList())
+                actions.stream().map(touchAction -> touchAction.getParameters().get("actions")).collect(toList())
         );
     }
 
@@ -100,7 +97,7 @@ public class MultiTouchAction implements PerformsActions<MultiTouchAction> {
      * @return this MultiTouchAction, for possible segmented-touches.
      */
     protected MultiTouchAction clearActions() {
-        actions = ImmutableList.builder();
+        actions = new ArrayList<>();
         return this;
     }
 }
