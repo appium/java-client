@@ -58,7 +58,7 @@ public class ScriptOptions {
      * @return The map containing the provided options
      */
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
         ofNullable(scriptType).ifPresent(x -> map.put("type", x.name().toLowerCase()));
         ofNullable(timeoutMs).ifPresent(x -> map.put("timeout", x));
         return Collections.unmodifiableMap(map);

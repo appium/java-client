@@ -82,7 +82,7 @@ public class KeyEvent {
      * @throws IllegalStateException if key code is not set
      */
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
         ofNullable(this.keyCode).map(x -> map.put("keycode", x)).orElseThrow(() -> new IllegalStateException(
                 "The key code must be set"));
         ofNullable(this.metaState).ifPresent(x -> map.put("metastate", x));

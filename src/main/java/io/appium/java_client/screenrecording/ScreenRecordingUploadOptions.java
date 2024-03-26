@@ -123,7 +123,7 @@ public class ScreenRecordingUploadOptions {
      * @return arguments mapping.
      */
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
         ofNullable(remotePath).map(x -> map.put("remotePath", x));
         ofNullable(user).map(x -> map.put("user", x));
         ofNullable(pass).map(x -> map.put("pass", x));

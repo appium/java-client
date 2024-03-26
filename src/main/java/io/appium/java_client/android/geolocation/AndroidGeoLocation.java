@@ -110,7 +110,7 @@ public class AndroidGeoLocation {
      * @return Parameters mapping
      */
     public Map<String, ?> build() {
-        final Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
         ofNullable(longitude).map(x -> map.put("longitude", x)).orElseThrow(() -> new IllegalArgumentException(
                 "A valid 'longitude' must be provided"));
         ofNullable(latitude).map(x -> map.put("latitude", x)).orElseThrow(() -> new IllegalArgumentException(

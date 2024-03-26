@@ -16,8 +16,6 @@
 
 package io.appium.java_client.screenrecording;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
@@ -46,9 +44,6 @@ public abstract class BaseScreenRecordingOptions<T extends BaseScreenRecordingOp
      * @return arguments mapping.
      */
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>();
-        //noinspection unchecked
-        ofNullable(uploadOptions).map(ScreenRecordingUploadOptions::build).ifPresent(map::putAll);
-        return Collections.unmodifiableMap(map);
+        return ofNullable(uploadOptions).map(ScreenRecordingUploadOptions::build).orElseGet(Map::of);
     }
 }

@@ -66,7 +66,7 @@ public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenR
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>(super.build());
+        var map = new HashMap<>(super.build());
         ofNullable(timeLimit).map(x -> map.put("timeLimit", x.getSeconds()));
         ofNullable(forceRestart).map(x -> map.put("forceRestart", x));
         return Collections.unmodifiableMap(map);

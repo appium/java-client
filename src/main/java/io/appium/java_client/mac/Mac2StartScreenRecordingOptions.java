@@ -140,7 +140,7 @@ public class Mac2StartScreenRecordingOptions
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>(super.build());
+        var map = new HashMap<>(super.build());
         ofNullable(fps).map(x -> map.put("fps", x));
         ofNullable(preset).map(x -> map.put("preset", x));
         ofNullable(videoFilter).map(x -> map.put("videoFilter", x));

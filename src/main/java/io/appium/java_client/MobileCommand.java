@@ -611,7 +611,7 @@ public class MobileCommand {
     public static Map.Entry<String, Map<String, ?>> compareImagesCommand(ComparisonMode mode,
                                                                          byte[] img1Data, byte[] img2Data,
                                                                          @Nullable BaseComparisonOptions options) {
-        Map<String, Object> args = new HashMap<>();
+        var args = new HashMap<String, Object>();
         args.put("mode", mode.toString());
         args.put("firstImage", new String(img1Data, StandardCharsets.UTF_8));
         args.put("secondImage", new String(img2Data, StandardCharsets.UTF_8));

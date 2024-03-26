@@ -134,7 +134,7 @@ public class IOSStartScreenRecordingOptions
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>(super.build());
+        var map = new HashMap<>(super.build());
         ofNullable(videoType).map(x -> map.put("videoType", x));
         ofNullable(videoQuality).map(x -> map.put("videoQuality", x));
         ofNullable(videoScale).map(x -> map.put("videoScale", x));

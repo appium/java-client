@@ -55,7 +55,7 @@ public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence
     default void longPressKey(KeyEvent keyEvent) {
         final String extName = "mobile: pressKey";
         try {
-            Map<String, Object> args = new HashMap<>(keyEvent.build());
+            var args = new HashMap<>(keyEvent.build());
             args.put("isLongPress", true);
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException e) {

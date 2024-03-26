@@ -66,7 +66,7 @@ public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceM
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>(super.build());
+        var map = new HashMap<>(super.build());
         ofNullable(threshold).ifPresent(x -> map.put("threshold", x));
         ofNullable(matchNeighbourThreshold).ifPresent(x -> map.put("matchNeighbourThreshold", x));
         ofNullable(multiple).ifPresent(x -> map.put("multiple", x));

@@ -139,7 +139,7 @@ public class AndroidInstallApplicationOptions extends
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>();
+        var map = new HashMap<String, Object>();
         ofNullable(replace).ifPresent(x -> map.put("replace", x));
         ofNullable(timeout).ifPresent(x -> map.put("timeout", x.toMillis()));
         ofNullable(allowTestPackages).ifPresent(x -> map.put("allowTestPackages", x));

@@ -62,14 +62,14 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
         final String extName = "mobile: installApp";
         try {
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("app", appPath);
             args.put("appPath", appPath);
             ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("appPath", appPath);
             ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
             CommandExecutionHelper.execute(markExtensionAbsence(extName), Map.entry(INSTALL_APP, args));
@@ -146,7 +146,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
         final String extName = "mobile: removeApp";
         try {
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("bundleId", bundleId);
             args.put("appId", bundleId);
             ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
@@ -155,7 +155,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("bundleId", bundleId);
             ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
             //noinspection RedundantCast
@@ -189,14 +189,14 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
         final String extName = "mobile: activateApp";
         try {
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("bundleId", bundleId);
             args.put("appId", bundleId);
             ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("bundleId", bundleId);
             ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
             CommandExecutionHelper.execute(markExtensionAbsence(extName), Map.entry(ACTIVATE_APP, args));
@@ -257,7 +257,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
         final String extName = "mobile: terminateApp";
         try {
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("bundleId", bundleId);
             args.put("appId", bundleId);
             ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
@@ -266,7 +266,7 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
             );
         } catch (UnsupportedCommandException | InvalidArgumentException e) {
             // TODO: Remove the fallback
-            Map<String, Object> args = new HashMap<>();
+            var args = new HashMap<String, Object>();
             args.put("bundleId", bundleId);
             ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
             //noinspection RedundantCast

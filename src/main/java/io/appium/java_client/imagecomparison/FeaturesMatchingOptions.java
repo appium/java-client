@@ -68,7 +68,7 @@ public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatch
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>(super.build());
+        var map = new HashMap<>(super.build());
         ofNullable(detectorName).ifPresent(x -> map.put("detectorName", x));
         ofNullable(matchFunc).ifPresent(x -> map.put("matchFunc", x));
         ofNullable(goodMatchesFactor).ifPresent(x -> map.put("goodMatchesFactor", x));

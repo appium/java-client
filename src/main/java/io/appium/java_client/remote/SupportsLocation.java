@@ -86,7 +86,7 @@ public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationCon
      * @param location A {@link Location} containing the new location information.
      */
     default void setLocation(io.appium.java_client.Location location) {
-        Map<String, Object> locationParameters = new HashMap<>();
+        var locationParameters = new HashMap<String, Object>();
         locationParameters.put("latitude", location.getLatitude());
         locationParameters.put("longitude", location.getLongitude());
         Optional.ofNullable(location.getAltitude()).ifPresent(altitude -> locationParameters.put("altitude", altitude));

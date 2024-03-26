@@ -106,7 +106,7 @@ public class AndroidStartScreenRecordingOptions
 
     @Override
     public Map<String, Object> build() {
-        final Map<String, Object> map = new HashMap<>(super.build());
+        var map = new HashMap<>(super.build());
         ofNullable(bitRate).ifPresent(x -> map.put("bitRate", x));
         ofNullable(videoSize).ifPresent(x -> map.put("videoSize", x));
         ofNullable(isBugReportEnabled).ifPresent(x -> map.put("bugReport", x));
