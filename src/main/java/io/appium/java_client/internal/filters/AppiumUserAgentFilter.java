@@ -16,7 +16,6 @@
 
 package io.appium.java_client.internal.filters;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.net.HttpHeaders;
 import io.appium.java_client.internal.Config;
 import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
@@ -55,8 +54,7 @@ public class AppiumUserAgentFilter implements Filter {
      * @return whether the given User Agent includes Appium UA
      *         like by this filter.
      */
-    @VisibleForTesting
-    public static boolean containsAppiumName(@Nullable String userAgent) {
+    private static boolean containsAppiumName(@Nullable String userAgent) {
         return userAgent != null && userAgent.toLowerCase().contains(USER_AGENT_PREFIX.toLowerCase());
     }
 
