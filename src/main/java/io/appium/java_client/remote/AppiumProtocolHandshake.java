@@ -16,8 +16,6 @@
 
 package io.appium.java_client.remote;
 
-import com.google.common.io.CountingOutputStream;
-import com.google.common.io.FileBackedOutputStream;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
@@ -28,20 +26,16 @@ import org.openqa.selenium.json.JsonOutput;
 import org.openqa.selenium.remote.Command;
 import org.openqa.selenium.remote.NewSessionPayload;
 import org.openqa.selenium.remote.ProtocolHandshake;
+import org.openqa.selenium.remote.http.Contents;
 import org.openqa.selenium.remote.http.HttpHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @SuppressWarnings("UnstableApiUsage")
 public class AppiumProtocolHandshake extends ProtocolHandshake {
@@ -108,34 +102,22 @@ public class AppiumProtocolHandshake extends ProtocolHandshake {
     }
 
     @Override
-    public Either<SessionNotCreatedException, Result> createSession(
-            HttpHandler client, NewSessionPayload payload) throws IOException {
-        int threshold = (int) Math.min(Runtime.getRuntime().freeMemory() / 10, Integer.MAX_VALUE);
-        FileBackedOutputStream os = new FileBackedOutputStream(threshold, true);
+    public Either<SessionNotCreatedException, Result> createSession(HttpHandler client, NewSessionPayload payload) {
 
-        try (CountingOutputStream counter = new CountingOutputStream(os);
-             Writer writer = new OutputStreamWriter(counter, UTF_8)) {
-            writeJsonPayload(payload, writer);
+        StringWriter stringWriter = new StringWriter();
+        writeJsonPayload(payload, stringWriter);
 
-            Supplier<InputStream> contentSupplier = () -> {
-                try {
-                    return os.asByteSource().openBufferedStream();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            };
-            try {
-                Method createSessionMethod = ProtocolHandshake.class.getDeclaredMethod(
-                        "createSession", HttpHandler.class, Supplier.class, long.class
-                );
-                createSessionMethod.setAccessible(true);
-                //noinspection unchecked
-                return (Either<SessionNotCreatedException, Result>) createSessionMethod.invoke(
-                        this, client, contentSupplier, counter.getCount()
-                );
-            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                throw new WebDriverException(e);
-            }
+        try {
+            Method createSessionMethod = ProtocolHandshake.class.getDeclaredMethod(
+                    "createSession", HttpHandler.class, Contents.Supplier.class
+            );
+            createSessionMethod.setAccessible(true);
+            //noinspection unchecked
+            return (Either<SessionNotCreatedException, Result>) createSessionMethod.invoke(
+                    this, client, Contents.utf8String(stringWriter.toString())
+            );
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new WebDriverException(e);
         }
     }
 }
