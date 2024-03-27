@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
@@ -86,7 +87,7 @@ public class TimeoutTest {
      * The setting up.
      */
     @BeforeEach public void setUp() {
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
         timeOutDuration = DEFAULT_WAITING_TIMEOUT;
         initElements(new AppiumFieldDecorator(driver, timeOutDuration), this);
     }

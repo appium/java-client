@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
@@ -58,7 +59,7 @@ public class DesktopBrowserCompatibilityTest {
     }
 
     @Test public void chromeTest() {
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
         try {
             PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(15)), this);
             driver.get(helloAppiumHtml().toUri().toString());

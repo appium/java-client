@@ -207,6 +207,8 @@ test {
         includeTestsMatching 'io.appium.java_client.drivers.options.*'
         includeTestsMatching 'io.appium.java_client.events.*'
         includeTestsMatching 'io.appium.java_client.internal.*'
+        includeTestsMatching 'io.appium.java_client.pagefactory_tests.DesktopBrowserCompatibilityTest'
+        includeTestsMatching 'io.appium.java_client.pagefactory_tests.TimeoutTest'
         includeTestsMatching 'io.appium.java_client.proxy.*'
         includeTestsMatching 'io.appium.java_client.remote.*'
         includeTestsMatching 'io.appium.java_client.touch.*'
