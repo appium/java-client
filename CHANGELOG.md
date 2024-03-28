@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.2.1_
+- **[REFACTOR]**
+  - Replace private usages of Guava Collections API with Java Collections API [#2136](https://github.com/appium/java-client/pull/2136)
+  - Remove usages of Guava's `@VisibleForTesting` annotation [#2138](https://github.com/appium/java-client/pull/2138). Previously opened internal API marked with `@VisibleForTesting` annotation is private now:
+    - `io.appium.java_client.internal.filters.AppiumUserAgentFilter#containsAppiumName`
+    - `io.appium.java_client.service.local.AppiumDriverLocalService#parseSlf4jContextFromLogMessage`
+- **[DEPENDENCY CHANGE]**
+  - Bump minimum supported Selenium version from `4.17.0` to `4.19.0` [#2142](https://github.com/appium/java-client/pull/2142)
+
 _9.2.0_
 - **[ENHANCEMENTS]**
   - Incorporate poll delay mechanism into `AppiumFluentWait` [#2116](https://github.com/appium/java-client/pull/2116) (Closes [#2111](https://github.com/appium/java-client/pull/2111))
