@@ -204,6 +204,7 @@ test {
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
     filter {
+        includeTestsMatching 'io.appium.java_client.android.geolocation.*'
         includeTestsMatching 'io.appium.java_client.drivers.options.*'
         includeTestsMatching 'io.appium.java_client.events.*'
         includeTestsMatching 'io.appium.java_client.internal.*'

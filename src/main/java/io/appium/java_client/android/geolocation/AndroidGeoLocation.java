@@ -111,10 +111,12 @@ public class AndroidGeoLocation {
      */
     public Map<String, ?> build() {
         var map = new HashMap<String, Object>();
-        map.put("longitude", ofNullable(longitude).orElseThrow(() -> new IllegalArgumentException(
-                "A valid 'longitude' must be provided")));
-        map.put("latitude", ofNullable(latitude).orElseThrow(() -> new IllegalArgumentException(
-                "A valid 'latitude' must be provided")));
+        ofNullable(longitude).ifPresentOrElse(x -> map.put("longitude", x), () -> {
+            throw new IllegalArgumentException("A valid 'longitude' must be provided");
+        });
+        ofNullable(latitude).ifPresentOrElse(x -> map.put("latitude", x), () -> {
+            throw new IllegalArgumentException("A valid 'latitude' must be provided");
+        });
         ofNullable(altitude).ifPresent(x -> map.put("altitude", x));
         ofNullable(satellites).ifPresent(x -> map.put("satellites", x));
         ofNullable(speed).ifPresent(x -> map.put("speed", x));
