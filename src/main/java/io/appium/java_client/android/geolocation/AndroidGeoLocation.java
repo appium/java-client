@@ -19,6 +19,7 @@ package io.appium.java_client.android.geolocation;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
@@ -39,7 +40,7 @@ public class AndroidGeoLocation {
     /**
      * Initializes AndroidLocation instance with longitude and latitude values.
      *
-     * @param latitude latitude value
+     * @param latitude  latitude value
      * @param longitude longitude value
      */
     public AndroidGeoLocation(double latitude, double longitude) {
@@ -111,10 +112,10 @@ public class AndroidGeoLocation {
      */
     public Map<String, ?> build() {
         var map = new HashMap<String, Object>();
-        ofNullable(longitude).map(x -> map.put("longitude", x)).orElseThrow(() -> new IllegalArgumentException(
-                "A valid 'longitude' must be provided"));
-        ofNullable(latitude).map(x -> map.put("latitude", x)).orElseThrow(() -> new IllegalArgumentException(
-                "A valid 'latitude' must be provided"));
+        map.put("longitude", ofNullable(longitude).orElseThrow(() -> new IllegalArgumentException(
+                "A valid 'longitude' must be provided")));
+        map.put("latitude", ofNullable(latitude).orElseThrow(() -> new IllegalArgumentException(
+                "A valid 'latitude' must be provided")));
         ofNullable(altitude).ifPresent(x -> map.put("altitude", x));
         ofNullable(satellites).ifPresent(x -> map.put("satellites", x));
         ofNullable(speed).ifPresent(x -> map.put("speed", x));
