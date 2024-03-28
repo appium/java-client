@@ -19,7 +19,6 @@ package io.appium.java_client.android.geolocation;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
