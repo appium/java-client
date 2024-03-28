@@ -39,7 +39,7 @@ public class AndroidGeoLocation {
     /**
      * Initializes AndroidLocation instance with longitude and latitude values.
      *
-     * @param latitude  latitude value
+     * @param latitude latitude value
      * @param longitude longitude value
      */
     public AndroidGeoLocation(double latitude, double longitude) {
