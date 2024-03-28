@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.2.2_
+- **[BUG FIX]**
+  - fix: Fix building of Android key event parameters [#2145](https://github.com/appium/java-client/pull/2145)
+  - fix: Fix building of Android geo location parameters [#2146](https://github.com/appium/java-client/pull/2146)
+
 _9.2.1_
 - **[REFACTOR]**
   - Replace private usages of Guava Collections API with Java Collections API [#2136](https://github.com/appium/java-client/pull/2136)
