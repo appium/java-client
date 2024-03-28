@@ -83,8 +83,9 @@ public class KeyEvent {
      */
     public Map<String, Object> build() {
         var map = new HashMap<String, Object>();
-        Integer keyCode = ofNullable(this.keyCode).orElseThrow(() -> new IllegalStateException("The key code must be set"));
-        map.put("keycode", keyCode);
+        ofNullable(this.keyCode).ifPresentOrElse(x -> map.put("keycode", x), () -> {
+            throw new IllegalStateException("The key code must be set");
+        });
         ofNullable(this.metaState).ifPresent(x -> map.put("metastate", x));
         ofNullable(this.flags).ifPresent(x -> map.put("flags", x));
         return Collections.unmodifiableMap(map);
