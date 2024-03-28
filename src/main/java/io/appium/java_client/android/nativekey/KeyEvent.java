@@ -19,6 +19,7 @@ package io.appium.java_client.android.nativekey;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
@@ -83,8 +84,8 @@ public class KeyEvent {
      */
     public Map<String, Object> build() {
         var map = new HashMap<String, Object>();
-        ofNullable(this.keyCode).map(x -> map.put("keycode", x)).orElseThrow(() -> new IllegalStateException(
-                "The key code must be set"));
+        Integer keyCode = ofNullable(this.keyCode).orElseThrow(() -> new IllegalStateException("The key code must be set"));
+        map.put("keycode", keyCode);
         ofNullable(this.metaState).ifPresent(x -> map.put("metastate", x));
         ofNullable(this.flags).ifPresent(x -> map.put("flags", x));
         return Collections.unmodifiableMap(map);
