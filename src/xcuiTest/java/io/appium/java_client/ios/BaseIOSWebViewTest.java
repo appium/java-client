@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.function.Supplier;
 
-import static io.appium.java_client.TestResources.vodQaAppZip;
+import static io.appium.java_client.ios.TestResources.vodQaAppZip;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);

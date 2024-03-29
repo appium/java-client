@@ -1,5 +1,6 @@
 package io.appium.java_client.service.local;
 
+import io.appium.java_client.TestUtils;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
+import static io.appium.java_client.android.TestResources.apiDemosApk;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
@@ -27,7 +28,6 @@ import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSIO
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.System.getProperty;
 import static java.lang.System.setProperty;
-import static java.nio.file.FileSystems.getDefault;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -49,14 +49,10 @@ class ServerBuilderTest {
      */
     private static final String PATH_TO_APPIUM_NODE_IN_PROPERTIES = getProperty(APPIUM_PATH);
 
-    private static final Path ROOT_TEST_PATH = getDefault().getPath("src")
-            .resolve("test").resolve("java").resolve("io").resolve("appium").resolve("java_client");
-
     /**
      * This is the path to the stub main.js file
      */
-    private static final Path PATH_T0_TEST_MAIN_JS = ROOT_TEST_PATH
-            .resolve("service").resolve("local").resolve("main.js");
+    private static final Path PATH_T0_TEST_MAIN_JS = TestUtils.resourcePathToLocalPath("main.js");
 
     private static String testIP;
     private AppiumDriverLocalService service;
@@ -166,7 +162,7 @@ class ServerBuilderTest {
 
     @Test
     void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
-        File app = ROOT_TEST_PATH.resolve("ApiDemos-debug.apk").toFile();
+        File app = apiDemosApk().toFile();
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .fullReset()

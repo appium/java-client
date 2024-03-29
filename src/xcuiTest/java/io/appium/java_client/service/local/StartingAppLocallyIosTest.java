@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
-import static io.appium.java_client.TestResources.uiCatalogAppZip;
+import static io.appium.java_client.ios.TestResources.uiCatalogAppZip;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

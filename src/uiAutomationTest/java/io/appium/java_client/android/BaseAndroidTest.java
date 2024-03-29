@@ -24,7 +24,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 import java.util.Map;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
+import static io.appium.java_client.android.TestResources.apiDemosApk;
 
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class BaseAndroidTest {

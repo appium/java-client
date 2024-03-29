@@ -27,7 +27,7 @@ import org.openqa.selenium.Capabilities;
 
 import java.time.Duration;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
+import static io.appium.java_client.android.TestResources.apiDemosApk;
 import static io.appium.java_client.remote.options.SupportsAppOption.APP_OPTION;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;

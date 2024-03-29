@@ -6,7 +6,7 @@ import org.openqa.selenium.SessionNotCreatedException;
 
 import java.time.Duration;
 
-import static io.appium.java_client.TestResources.testAppZip;
+import static io.appium.java_client.ios.TestResources.testAppZip;
 
 public class AppIOSTest extends BaseIOSTest {
 
