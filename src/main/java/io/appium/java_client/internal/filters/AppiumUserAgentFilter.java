@@ -16,11 +16,11 @@
 
 package io.appium.java_client.internal.filters;
 
-import com.google.common.net.HttpHeaders;
 import io.appium.java_client.internal.Config;
 import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
+import org.openqa.selenium.remote.http.HttpHeader;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -81,7 +81,9 @@ public class AppiumUserAgentFilter implements Filter {
     @Override
     public HttpHandler apply(HttpHandler next) {
         return req -> {
-            req.setHeader(HttpHeaders.USER_AGENT, buildUserAgent(req.getHeader(HttpHeaders.USER_AGENT)));
+            var originalUserAgentHeader = req.getHeader(HttpHeader.UserAgent.getName());
+            var newUserAgentHeader = buildUserAgent(originalUserAgentHeader);
+            req.setHeader(HttpHeader.UserAgent.getName(), newUserAgentHeader);
             return next.execute(req);
         };
     }
