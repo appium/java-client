@@ -22,8 +22,6 @@ import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyE
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
-import static io.appium.java_client.android.TestResources.apiDemosApk;
-
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class BaseEspressoTest {
 
@@ -44,7 +42,7 @@ public class BaseEspressoTest {
 
         EspressoOptions options = new EspressoOptions()
                 .setDeviceName("Android Emulator")
-                .setApp(apiDemosApk().toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString())
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }

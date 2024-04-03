@@ -24,8 +24,6 @@ import org.junit.jupiter.api.BeforeAll;
 
 import java.util.Map;
 
-import static io.appium.java_client.android.TestResources.apiDemosApk;
-
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class BaseAndroidTest {
     public static final String APP_ID = "io.appium.android.apis";
@@ -46,7 +44,7 @@ public class BaseAndroidTest {
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
-                .setApp(apiDemosApk().toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString())
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }

@@ -33,7 +33,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-import static io.appium.java_client.TestResources.helloAppiumHtml;
+import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.time.Duration.ofSeconds;
@@ -62,7 +62,7 @@ public class DesktopBrowserCompatibilityTest {
         WebDriver driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
         try {
             PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(15)), this);
-            driver.get(helloAppiumHtml().toUri().toString());
+            driver.get(resourcePathToLocalPath("html/hello appium - saved page.htm").toUri().toString());
             assertNotEquals(0, foundLinks.size());
             assertNotEquals(0, main.size());
             assertNull(trap1);

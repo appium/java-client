@@ -1,6 +1,7 @@
 package io.appium.java_client.service.local;
 
 import io.appium.java_client.TestUtils;
+import io.appium.java_client.android.TestResources;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static io.appium.java_client.TestUtils.getLocalIp4Address;
-import static io.appium.java_client.android.TestResources.apiDemosApk;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
@@ -152,7 +152,7 @@ class ServerBuilderTest {
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
-                .setApp(apiDemosApk().toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString())
                 .setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
 
         service = new AppiumServiceBuilder().withCapabilities(options).build();
@@ -162,7 +162,7 @@ class ServerBuilderTest {
 
     @Test
     void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
-        File app = apiDemosApk().toFile();
+        File app = TestResources.API_DEMOS_APK.toFile();
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .fullReset()

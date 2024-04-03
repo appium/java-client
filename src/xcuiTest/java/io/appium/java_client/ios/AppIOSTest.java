@@ -6,7 +6,7 @@ import org.openqa.selenium.SessionNotCreatedException;
 
 import java.time.Duration;
 
-import static io.appium.java_client.ios.TestResources.testAppZip;
+import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
 
 public class AppIOSTest extends BaseIOSTest {
 
@@ -20,7 +20,7 @@ public class AppIOSTest extends BaseIOSTest {
                 .setPlatformVersion(PLATFORM_VERSION)
                 .setDeviceName(DEVICE_NAME)
                 .setCommandTimeouts(Duration.ofSeconds(240))
-                .setApp(testAppZip().toAbsolutePath().toString())
+                .setApp(resourcePathToLocalPath("TestApp.app.zip").toAbsolutePath().toString())
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
         try {
             driver = new IOSDriver(service.getUrl(), options);

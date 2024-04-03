@@ -17,6 +17,7 @@
 package io.appium.java_client.service.local;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.TestResources;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
@@ -27,7 +28,6 @@ import org.openqa.selenium.Capabilities;
 
 import java.time.Duration;
 
-import static io.appium.java_client.android.TestResources.apiDemosApk;
 import static io.appium.java_client.remote.options.SupportsAppOption.APP_OPTION;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
@@ -44,7 +44,7 @@ class StartingAppLocallyAndroidTest {
         AndroidDriver driver = new AndroidDriver(new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
-                .setApp(apiDemosApk().toAbsolutePath().toString()));
+                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString()));
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -53,7 +53,7 @@ class StartingAppLocallyAndroidTest {
             );
             assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(AUTOMATION_NAME_OPTION));
             assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
-            assertEquals(apiDemosApk().toAbsolutePath().toString(), caps.getCapability(APP_OPTION));
+            assertEquals(TestResources.API_DEMOS_APK.toAbsolutePath().toString(), caps.getCapability(APP_OPTION));
         } finally {
             driver.quit();
         }
@@ -68,7 +68,7 @@ class StartingAppLocallyAndroidTest {
         AndroidDriver driver = new AndroidDriver(builder, new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
-                .setApp(apiDemosApk().toAbsolutePath().toString()));
+                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString()));
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -88,7 +88,7 @@ class StartingAppLocallyAndroidTest {
                 .fullReset()
                 .autoGrantPermissions()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
-                .setApp(apiDemosApk().toAbsolutePath().toString());
+                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString());
 
         WebDriverManager chromeManager = chromedriver();
         chromeManager.setup();

@@ -5,10 +5,8 @@ import java.nio.file.Path;
 import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
 
 public class TestResources {
-    private TestResources() {
-    }
+    public static final Path API_DEMOS_APK = resourcePathToLocalPath("ApiDemos-debug.apk");
 
-    public static Path apiDemosApk() {
-        return resourcePathToLocalPath("ApiDemos-debug.apk");
+    private TestResources() {
     }
 }
