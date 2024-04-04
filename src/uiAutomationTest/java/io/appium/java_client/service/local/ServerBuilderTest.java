@@ -52,7 +52,7 @@ class ServerBuilderTest {
     /**
      * This is the path to the stub main.js file
      */
-    private static final Path PATH_T0_TEST_MAIN_JS = TestUtils.resourcePathToLocalPath("main.js");
+    private static final Path PATH_T0_TEST_MAIN_JS = TestUtils.resourcePathToAbsolutePath("main.js");
 
     private static String testIP;
     private AppiumDriverLocalService service;
@@ -107,18 +107,14 @@ class ServerBuilderTest {
 
     @Test
     void checkAbilityToFindNodeDefinedInProperties() {
-        File definedNode = PATH_T0_TEST_MAIN_JS.toFile();
-        setProperty(APPIUM_PATH, definedNode.getAbsolutePath());
-        assertThat(new AppiumServiceBuilder().createArgs().get(0), is(definedNode.getAbsolutePath()));
+        setProperty(APPIUM_PATH, PATH_T0_TEST_MAIN_JS.toString());
+        assertThat(new AppiumServiceBuilder().createArgs().get(0), is(PATH_T0_TEST_MAIN_JS.toString()));
     }
 
     @Test
     void checkAbilityToUseNodeDefinedExplicitly() {
-        File mainJS = PATH_T0_TEST_MAIN_JS.toFile();
-        AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withAppiumJS(mainJS);
-        assertThat(builder.createArgs().get(0),
-                is(mainJS.getAbsolutePath()));
+        AppiumServiceBuilder builder = new AppiumServiceBuilder().withAppiumJS(PATH_T0_TEST_MAIN_JS.toFile());
+        assertThat(builder.createArgs().get(0), is(PATH_T0_TEST_MAIN_JS.toString()));
     }
 
     @Test
@@ -152,7 +148,7 @@ class ServerBuilderTest {
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
-                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toString())
                 .setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
 
         service = new AppiumServiceBuilder().withCapabilities(options).build();
@@ -162,14 +158,13 @@ class ServerBuilderTest {
 
     @Test
     void checkAbilityToStartServiceUsingCapabilitiesAndFlags() {
-        File app = TestResources.API_DEMOS_APK.toFile();
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .fullReset()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
-                .setApp(app.getAbsolutePath())
+                .setApp(TestResources.API_DEMOS_APK.toString())
                 .setChromedriverExecutable(chromeManager.getDownloadedDriverPath())
                 .amend("winPath", "C:\\selenium\\app.apk")
                 .amend("unixPath", "/selenium/app.apk")

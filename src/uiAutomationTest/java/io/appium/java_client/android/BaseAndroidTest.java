@@ -44,7 +44,7 @@ public class BaseAndroidTest {
 
         UiAutomator2Options options = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
-                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toString())
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }

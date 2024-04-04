@@ -16,6 +16,7 @@
 
 package io.appium.java_client.service.local;
 
+import io.appium.java_client.TestUtils;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
@@ -26,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
-import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,8 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyIosTest {
-    private static final String UI_CATALOG_ZIP =
-            resourcePathToLocalPath("UICatalog.app.zip").toAbsolutePath().toString();
+    private static final String UI_CATALOG_ZIP = TestUtils.resourcePathToAbsolutePath("UICatalog.app.zip").toString();
 
     @Test
     void startingIOSAppWithCapabilitiesOnlyTest() {

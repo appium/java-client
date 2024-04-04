@@ -44,7 +44,7 @@ class StartingAppLocallyAndroidTest {
         AndroidDriver driver = new AndroidDriver(new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
-                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString()));
+                .setApp(TestResources.API_DEMOS_APK.toString()));
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -53,7 +53,7 @@ class StartingAppLocallyAndroidTest {
             );
             assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(AUTOMATION_NAME_OPTION));
             assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
-            assertEquals(TestResources.API_DEMOS_APK.toAbsolutePath().toString(), caps.getCapability(APP_OPTION));
+            assertEquals(TestResources.API_DEMOS_APK.toString(), caps.getCapability(APP_OPTION));
         } finally {
             driver.quit();
         }
@@ -68,7 +68,7 @@ class StartingAppLocallyAndroidTest {
         AndroidDriver driver = new AndroidDriver(builder, new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
-                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString()));
+                .setApp(TestResources.API_DEMOS_APK.toString()));
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -88,7 +88,7 @@ class StartingAppLocallyAndroidTest {
                 .fullReset()
                 .autoGrantPermissions()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
-                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString());
+                .setApp(TestResources.API_DEMOS_APK.toString());
 
         WebDriverManager chromeManager = chromedriver();
         chromeManager.setup();

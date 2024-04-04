@@ -42,7 +42,7 @@ public class BaseEspressoTest {
 
         EspressoOptions options = new EspressoOptions()
                 .setDeviceName("Android Emulator")
-                .setApp(TestResources.API_DEMOS_APK.toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toString())
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }

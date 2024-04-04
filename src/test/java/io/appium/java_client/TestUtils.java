@@ -6,14 +6,12 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -31,23 +29,15 @@ public class TestUtils {
         }
     }
 
-    public static Path resourcePathToLocalPath(String resourcePath) {
+    public static Path resourcePathToAbsolutePath(String resourcePath) {
         URL url = ClassLoader.getSystemResource(resourcePath);
         if (url == null) {
             throw new IllegalArgumentException(String.format("Cannot find the '%s' resource", resourcePath));
         }
         try {
-            return Paths.get(url.toURI());
+            return Paths.get(url.toURI()).toAbsolutePath();
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e);
-        }
-    }
-
-    public static String resourceAsString(String resourcePath) {
-        try {
-            return new String(Files.readAllBytes(resourcePathToLocalPath(resourcePath)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 

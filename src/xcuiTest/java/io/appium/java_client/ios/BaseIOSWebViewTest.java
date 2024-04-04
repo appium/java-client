@@ -16,6 +16,7 @@
 
 package io.appium.java_client.ios;
 
+import io.appium.java_client.TestUtils;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;
@@ -23,9 +24,9 @@ import org.openqa.selenium.SessionNotCreatedException;
 import java.time.Duration;
 import java.util.function.Supplier;
 
-import static io.appium.java_client.TestUtils.resourcePathToLocalPath;
-
 public class BaseIOSWebViewTest extends BaseIOSTest {
+    private static final String VODQA_ZIP = TestUtils.resourcePathToAbsolutePath("vodqa.zip").toString();
+
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);
     private static final Duration WEB_VIEW_DETECT_DURATION = Duration.ofSeconds(15);
 
@@ -37,7 +38,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                 .setDeviceName(DEVICE_NAME)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
-                .setApp(resourcePathToLocalPath("vodqa.zip").toAbsolutePath().toString());
+                .setApp(VODQA_ZIP);
         Supplier<IOSDriver> createDriver = () -> new IOSDriver(service.getUrl(), options);
         try {
             driver = createDriver.get();
