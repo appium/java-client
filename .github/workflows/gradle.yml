@@ -81,7 +81,7 @@ jobs:
       if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        script: ./gradlew uiAutomationTest -PisCI -Pselenium.version=$latest_snapshot
+        script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
         sdcard-path-or-size: 1500M
@@ -108,4 +108,4 @@ jobs:
         xcrun simctl bootstatus $target_sim_id -b
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
-      run: ./gradlew xcuiTest -PisCI -Pselenium.version=$latest_snapshot
+      run: ./gradlew e2eIosTest -PisCI -Pselenium.version=$latest_snapshot

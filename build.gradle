@@ -224,10 +224,10 @@ testing {
             }
         }
 
-        xcuiTest(JvmTestSuite) {
+        e2eIosTest(JvmTestSuite) {
             sources {
                 java {
-                    srcDirs = ['src/xcuiTest/java']
+                    srcDirs = ['src/e2eIosTest/java']
                 }
             }
             dependencies {
@@ -247,10 +247,10 @@ testing {
             }
         }
 
-        uiAutomationTest(JvmTestSuite) {
+        e2eAndroidTest(JvmTestSuite) {
             sources {
                 java {
-                    srcDirs = ['src/uiAutomationTest/java']
+                    srcDirs = ['src/e2eAndroidTest/java']
                 }
             }
             dependencies {
