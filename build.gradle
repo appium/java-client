@@ -67,15 +67,6 @@ dependencies {
     }
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
-
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation (group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.7.0') {
-        exclude group: 'org.seleniumhq.selenium'
-    }
-    testImplementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
-    testRuntimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 }
 
 dependencyCheck {
@@ -199,51 +190,104 @@ processResources {
     ]
 }
 
-test {
-    useJUnitPlatform()
-    testLogging.showStandardStreams = true
-    testLogging.exceptionFormat = 'full'
-    filter {
-        includeTestsMatching 'io.appium.java_client.android.geolocation.*'
-        includeTestsMatching 'io.appium.java_client.drivers.options.*'
-        includeTestsMatching 'io.appium.java_client.events.*'
-        includeTestsMatching 'io.appium.java_client.internal.*'
-        includeTestsMatching 'io.appium.java_client.pagefactory_tests.DesktopBrowserCompatibilityTest'
-        includeTestsMatching 'io.appium.java_client.pagefactory_tests.TimeoutTest'
-        includeTestsMatching 'io.appium.java_client.proxy.*'
-        includeTestsMatching 'io.appium.java_client.remote.*'
-        includeTestsMatching 'io.appium.java_client.touch.*'
-    }
-    finalizedBy jacocoTestReport
-}
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+            dependencies {
+                implementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+                runtimeOnly 'org.junit.platform:junit-platform-launcher'
+                implementation 'org.hamcrest:hamcrest:2.2'
+                runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
+            }
+            targets.configureEach {
+                testTask.configure {
+                    testLogging {
+                        showStandardStreams = true
+                        exceptionFormat = 'full'
+                    }
+                }
+            }
+        }
 
-tasks.register('xcuiTest', Test) {
-    useJUnitPlatform()
-    testLogging.showStandardStreams = true
-    testLogging.exceptionFormat = 'full'
-    filter {
-        includeTestsMatching 'io.appium.java_client.ios.*'
-        includeTestsMatching '*.pagefactory_tests.XCUITModeTest'
-        includeTestsMatching '*.pagefactory_tests.widget.tests.combined.*'
-        includeTestsMatching '*.pagefactory_tests.widget.tests.ios.*'
-        includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyIosTest'
-        exclude '**/IOSScreenRecordTest.class'
-        exclude '**/ImagesComparisonTest.class'
-    }
-}
+        test {
+            dependencies {
+                implementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
+                implementation('io.github.bonigarcia:webdrivermanager:5.7.0') {
+                    exclude group: 'org.seleniumhq.selenium'
+                }
+            }
+            targets.configureEach {
+                testTask.configure {
+                    finalizedBy jacocoTestReport
+                }
+            }
+        }
 
-tasks.register('uiAutomationTest', Test) {
-    useJUnitPlatform()
-    testLogging.showStandardStreams = true
-    testLogging.exceptionFormat = 'full'
-    filter {
-        includeTestsMatching 'io.appium.java_client.android.SettingTest'
-        includeTestsMatching 'io.appium.java_client.android.ClipboardTest'
-        includeTestsMatching 'io.appium.java_client.android.OpenNotificationsTest'
-        includeTestsMatching '*.AndroidAppStringsTest'
-        includeTestsMatching '*.pagefactory_tests.widget.tests.android.*'
-        includeTestsMatching 'io.appium.java_client.service.local.StartingAppLocallyAndroidTest'
-        includeTestsMatching 'io.appium.java_client.service.local.ServerBuilderTest'
-        includeTestsMatching 'io.appium.java_client.service.local.ThreadSafetyTest'
+        e2eIosTest(JvmTestSuite) {
+            sources {
+                java {
+                    srcDirs = ['src/e2eIosTest/java']
+                }
+            }
+            dependencies {
+                implementation project()
+                implementation(sourceSets.test.output)
+                implementation('org.apache.commons:commons-lang3:3.14.0')
+            }
+
+            targets.configureEach {
+                testTask.configure {
+                    shouldRunAfter(test)
+                    filter {
+                        exclude '**/IOSScreenRecordTest.class'
+                        exclude '**/ImagesComparisonTest.class'
+                    }
+                }
+            }
+        }
+
+        e2eAndroidTest(JvmTestSuite) {
+            sources {
+                java {
+                    srcDirs = ['src/e2eAndroidTest/java']
+                }
+            }
+            dependencies {
+                implementation project()
+                implementation(sourceSets.test.output)
+                implementation('io.github.bonigarcia:webdrivermanager:5.7.0') {
+                    exclude group: 'org.seleniumhq.selenium'
+                }
+            }
+
+            targets.configureEach {
+                testTask.configure {
+                    shouldRunAfter(test)
+                    filter {
+                        // The following tests fail and should be reviewed/fixed
+                        exclude '**/AndroidAbilityToUseSupplierTest.class'
+                        exclude '**/AndroidConnectionTest.class'
+                        exclude '**/AndroidContextTest.class'
+                        exclude '**/AndroidDataMatcherTest.class'
+                        exclude '**/AndroidDriverTest.class'
+                        exclude '**/AndroidElementTest.class'
+                        exclude '**/AndroidFunctionTest.class'
+                        exclude '**/AndroidSearchingTest.class'
+                        exclude '**/AndroidTouchTest.class'
+                        exclude '**/AndroidViewMatcherTest.class'
+                        exclude '**/ExecuteCDPCommandTest.class'
+                        exclude '**/ExecuteDriverScriptTest.class'
+                        exclude '**/FingerPrintTest.class'
+                        exclude '**/ImagesComparisonTest.class'
+                        exclude '**/KeyCodeTest.class'
+                        exclude '**/LogEventTest.class'
+                        exclude '**/UIAutomator2Test.class'
+                        exclude '**/AndroidPageObjectTest.class'
+                        exclude '**/MobileBrowserCompatibilityTest.class'
+                    }
+                }
+            }
+        }
     }
 }

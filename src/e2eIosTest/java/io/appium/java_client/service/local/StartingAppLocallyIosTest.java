@@ -16,6 +16,7 @@
 
 package io.appium.java_client.service.local;
 
+import io.appium.java_client.TestUtils;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
@@ -26,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
-import static io.appium.java_client.TestResources.uiCatalogAppZip;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,12 +35,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyIosTest {
+    private static final String UI_CATALOG_ZIP = TestUtils.resourcePathToAbsolutePath("UICatalog.app.zip").toString();
+
     @Test
     void startingIOSAppWithCapabilitiesOnlyTest() {
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
-                .setApp(uiCatalogAppZip().toAbsolutePath().toString())
+                .setApp(UI_CATALOG_ZIP)
                 .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
         IOSDriver driver = new IOSDriver(options);
         try {
@@ -50,7 +52,7 @@ class StartingAppLocallyIosTest {
             assertEquals(Platform.IOS, caps.getPlatformName());
             assertNotNull(caps.getDeviceName().orElse(null));
             assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getPlatformVersion().orElse(null));
-            assertEquals(uiCatalogAppZip().toAbsolutePath().toString(), caps.getApp().orElse(null));
+            assertEquals(UI_CATALOG_ZIP, caps.getApp().orElse(null));
         } finally {
             driver.quit();
         }
@@ -62,7 +64,7 @@ class StartingAppLocallyIosTest {
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
-                .setApp(uiCatalogAppZip().toAbsolutePath().toString())
+                .setApp(UI_CATALOG_ZIP)
                 .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
@@ -89,7 +91,7 @@ class StartingAppLocallyIosTest {
                 .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
 
         XCUITestOptions clientOptions = new XCUITestOptions()
-                .setApp(uiCatalogAppZip().toAbsolutePath().toString());
+                .setApp(UI_CATALOG_ZIP);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)

@@ -16,16 +16,18 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.android.options.EspressoOptions;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
-import static io.appium.java_client.TestResources.apiDemosApk;
+import java.util.Map;
 
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
-public class BaseEspressoTest {
+public class BaseAndroidTest {
+    public static final String APP_ID = "io.appium.android.apis";
+    protected static final int PORT = 4723;
 
     private static AppiumDriverLocalService service;
     protected static AndroidDriver driver;
@@ -34,17 +36,15 @@ public class BaseEspressoTest {
      * initialization.
      */
     @BeforeAll public static void beforeClass() {
-        service = AppiumDriverLocalService.buildDefaultService();
+        service = new AppiumServiceBuilder()
+                .withIPAddress("127.0.0.1")
+                .usingPort(PORT)
+                .build();
         service.start();
 
-        if (service == null || !service.isRunning()) {
-            throw new AppiumServerHasNotBeenStartedLocallyException(
-                "An appium server node is not started!");
-        }
-
-        EspressoOptions options = new EspressoOptions()
+        UiAutomator2Options options = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
-                .setApp(apiDemosApk().toAbsolutePath().toString())
+                .setApp(TestResources.API_DEMOS_APK.toString())
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }
@@ -59,5 +59,14 @@ public class BaseEspressoTest {
         if (service != null) {
             service.stop();
         }
+    }
+
+    public static void startActivity(String name) {
+        driver.executeScript(
+                "mobile: startActivity",
+                Map.of(
+                        "component", String.format("%s/%s", APP_ID, name)
+                )
+        );
     }
 }
