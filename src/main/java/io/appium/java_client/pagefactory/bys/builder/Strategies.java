@@ -39,6 +39,16 @@ enum Strategies {
             return super.getBy(annotation);
         }
     },
+    BYTESTTAG("composeTestTag") {
+        @Override By getBy(Annotation annotation) {
+            String value = getValue(annotation, this);
+            if (annotation.annotationType().equals(AndroidFindBy.class)
+                    || annotation.annotationType().equals(AndroidBy.class)) {
+                return AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"" + value + "\")");
+            }
+            return super.getBy(annotation);
+        }
+    },
     BYACCESSIBILITY("accessibility") {
         @Override By getBy(Annotation annotation) {
             return AppiumBy.accessibilityId(getValue(annotation, this));

@@ -44,6 +44,14 @@ public @interface AndroidFindBy {
     String uiAutomator() default "";
 
     /**
+     * A String of Compose testTag.
+     * Refer to https://developer.android.com/develop/ui/compose/testing
+     *
+     * @return an Android Compose test tag string
+     */
+    String composeTestTag() default "";
+
+    /**
      * It an UI automation accessibility Id which is a convenient to Android.
      * About Android accessibility
      * https://developer.android.com/intl/ru/training/accessibility/accessible-app.html
