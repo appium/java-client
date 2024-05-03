@@ -21,8 +21,10 @@ import io.appium.java_client.remote.MobileBrowserType;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
+import java.time.Duration;
 
 public class BaseSafariTest extends BaseIOSTest {
+    private static final Duration WEBVIEW_CONNECT_TIMEOUT = Duration.ofSeconds(30);
 
     @BeforeAll public static void beforeClass() throws IOException {
         startAppiumServer();
@@ -31,6 +33,7 @@ public class BaseSafariTest extends BaseIOSTest {
                 .withBrowserName(MobileBrowserType.SAFARI)
                 .setDeviceName(DEVICE_NAME)
                 .setPlatformVersion(PLATFORM_VERSION)
+                .setWebviewConnectTimeout(WEBVIEW_CONNECT_TIMEOUT)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
         driver = new IOSDriver(service.getUrl(), options);
     }
