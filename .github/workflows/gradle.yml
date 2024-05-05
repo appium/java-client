@@ -37,7 +37,7 @@ jobs:
             platform: macos-12
             e2e-tests: ios
           - java: 17
-            platform: macos-latest
+            platform: ubuntu-latest
             e2e-tests: android
           - java: 21
             platform: ubuntu-latest
@@ -48,6 +48,13 @@ jobs:
     name: JDK ${{ matrix.java }} - ${{ matrix.platform }}
     steps:
     - uses: actions/checkout@v4
+
+    - name: Enable KVM group perms
+      if: matrix.e2e-tests == 'android'
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
 
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v4
@@ -84,8 +91,8 @@ jobs:
         script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
-        sdcard-path-or-size: 1500M
         disable-spellchecker: true
+        disable-animations: true
         target: ${{ env.ANDROID_EMU_TARGET }}
 
     - name: Select Xcode
