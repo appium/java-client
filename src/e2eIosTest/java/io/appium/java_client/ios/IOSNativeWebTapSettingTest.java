@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class IOSNativeWebTapSettingTest extends BaseSafariTest {
 
     @Test
-    @Disabled("https://github.com/appium/appium/issues/17014")
     public void nativeWebTapSettingTest() {
         assertTrue(driver.isBrowser());
         driver.get("https://saucelabs.com/test/guinea-pig");
