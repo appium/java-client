@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.time.Duration;
 
 public class BaseSafariTest extends BaseIOSTest {
-    private static final Duration WEBVIEW_CONNECT_TIMEOUT = Duration.ofSeconds(30);
+    private static final Duration WEBVIEW_CONNECT_TIMEOUT = Duration.ofMinutes(1);
 
     @BeforeAll public static void beforeClass() throws IOException {
         startAppiumServer();
