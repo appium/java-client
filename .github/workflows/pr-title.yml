@@ -8,8 +8,8 @@ jobs:
     name: https://www.conventionalcommits.org
     runs-on: ubuntu-latest
     steps:
-    - uses: beemojs/conventional-pr-action@v2
+    - uses: beemojs/conventional-pr-action@v3
       with:
-          config-preset: angular
+        config-preset: angular
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
