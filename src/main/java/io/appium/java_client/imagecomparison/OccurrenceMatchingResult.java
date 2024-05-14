@@ -36,7 +36,9 @@ public class OccurrenceMatchingResult extends ComparisonResult {
     }
 
     /**
-     * @return Whether the current instance contains multiple matches.
+     * Check whether the current instance contains multiple matches.
+     *
+     * @return True or false.
      */
     public boolean hasMultiple() {
         return hasMultiple;
