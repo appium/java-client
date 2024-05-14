@@ -104,7 +104,7 @@ public class OccurrenceMatchingResult extends ComparisonResult {
         if (value instanceof Long) {
             return ((Long) value).doubleValue();
         }
-        return ((Double) value);
+        return (Double) value;
     }
 
     /**
@@ -148,7 +148,7 @@ public class OccurrenceMatchingResult extends ComparisonResult {
      * @throws IllegalStateException If the current instance does not represent multiple matches.
      */
     public void storeVisualization(int matchIndex, File destination) throws IOException {
-       getMatch(matchIndex).storeVisualization(destination);
+        getMatch(matchIndex).storeVisualization(destination);
     }
 
     /**
