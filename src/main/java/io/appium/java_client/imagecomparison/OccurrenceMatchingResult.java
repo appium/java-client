@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Getter
 public class OccurrenceMatchingResult extends ComparisonResult {
     private static final String RECT = "rect";
     private static final String SCORE = "score";
@@ -37,32 +36,11 @@ public class OccurrenceMatchingResult extends ComparisonResult {
         hasMultiple = input instanceof List;
     }
 
-    private List<OccurrenceMatchingResult> getMultipleMatches(boolean throwIfEmpty) {
-        if (!hasMultiple) {
-            throw new IllegalStateException(String.format(
-                    "This %s does not represent multiple matches. Did you set options properly?",
-                    getClass().getSimpleName()
-            ));
-        }
-        //noinspection unchecked
-        var matches = ((List<Map<String, Object>>) commandResult).stream()
-                .map(OccurrenceMatchingResult::new)
-                .collect(Collectors.toList());
-        if (matches.isEmpty() && throwIfEmpty) {
-            throw new IllegalStateException("Zero matches have been found. Try the lookup with different options.");
-        }
-        return matches;
-    }
-
-    private OccurrenceMatchingResult getMatch(int index) {
-        var matches = getMultipleMatches(true);
-        if (index < 0 || index >= matches.size()) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "The match #%s does not exist. The total number of found matches is %s",
-                    index, matches.size()
-            ));
-        }
-        return matches.get(index);
+    /**
+     * @return Whether the current instance contains multiple matches.
+     */
+    public boolean hasMultiple() {
+        return hasMultiple;
     }
 
     /**
@@ -142,8 +120,23 @@ public class OccurrenceMatchingResult extends ComparisonResult {
     /**
      * Stores visualization image into the given file.
      *
+     * @param destination File path to save the image to.
+     * @throws IOException On file system I/O error.
+     */
+    @Override
+    public void storeVisualization(File destination) throws IOException {
+        if (hasMultiple) {
+            getMatch(0).storeVisualization(destination);
+        } else {
+            super.storeVisualization(destination);
+        }
+    }
+
+    /**
+     * Stores visualization image into the given file.
+     *
      * @param matchIndex Match index.
-     * @param destination file to save image.
+     * @param destination File path to save the image to.
      * @throws IOException On file system I/O error.
      * @throws IllegalStateException If the current instance does not represent multiple matches.
      */
@@ -161,5 +154,33 @@ public class OccurrenceMatchingResult extends ComparisonResult {
      */
     public List<OccurrenceMatchingResult> getMultiple() {
         return getMultipleMatches(false);
+    }
+
+    private List<OccurrenceMatchingResult> getMultipleMatches(boolean throwIfEmpty) {
+        if (!hasMultiple) {
+            throw new IllegalStateException(String.format(
+                    "This %s does not represent multiple matches. Did you set options properly?",
+                    getClass().getSimpleName()
+            ));
+        }
+        //noinspection unchecked
+        var matches = ((List<Map<String, Object>>) commandResult).stream()
+                .map(OccurrenceMatchingResult::new)
+                .collect(Collectors.toList());
+        if (matches.isEmpty() && throwIfEmpty) {
+            throw new IllegalStateException("Zero matches have been found. Try the lookup with different options.");
+        }
+        return matches;
+    }
+
+    private OccurrenceMatchingResult getMatch(int index) {
+        var matches = getMultipleMatches(true);
+        if (index < 0 || index >= matches.size()) {
+            throw new IndexOutOfBoundsException(String.format(
+                    "The match #%s does not exist. The total number of found matches is %s",
+                    index, matches.size()
+            ));
+        }
+        return matches.get(index);
     }
 }

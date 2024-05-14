@@ -68,7 +68,7 @@ public abstract class ComparisonResult {
     /**
      * Stores visualization image into the given file.
      *
-     * @param destination file to save image.
+     * @param destination File path to save the image to.
      * @throws IOException On file system I/O error.
      */
     public void storeVisualization(File destination) throws IOException {
