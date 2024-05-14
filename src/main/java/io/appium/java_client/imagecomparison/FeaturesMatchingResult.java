@@ -43,7 +43,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
      */
     public int getCount() {
         verifyPropertyPresence(COUNT);
-        return ((Long) getCommandResult().get(COUNT)).intValue();
+        return ((Long) getResultAsMap().get(COUNT)).intValue();
     }
 
     /**
@@ -56,7 +56,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
      */
     public int getTotalCount() {
         verifyPropertyPresence(TOTAL_COUNT);
-        return ((Long) getCommandResult().get(TOTAL_COUNT)).intValue();
+        return ((Long) getResultAsMap().get(TOTAL_COUNT)).intValue();
     }
 
     /**
@@ -67,7 +67,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
     public List<Point> getPoints1() {
         verifyPropertyPresence(POINTS1);
         //noinspection unchecked
-        return ((List<Map<String, Object>>) getCommandResult().get(POINTS1)).stream()
+        return ((List<Map<String, Object>>) getResultAsMap().get(POINTS1)).stream()
                 .map(ComparisonResult::mapToPoint)
                 .collect(Collectors.toList());
     }
@@ -80,7 +80,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
     public Rectangle getRect1() {
         verifyPropertyPresence(RECT1);
         //noinspection unchecked
-        return mapToRect((Map<String, Object>) getCommandResult().get(RECT1));
+        return mapToRect((Map<String, Object>) getResultAsMap().get(RECT1));
     }
 
     /**
@@ -91,7 +91,7 @@ public class FeaturesMatchingResult extends ComparisonResult {
     public List<Point> getPoints2() {
         verifyPropertyPresence(POINTS2);
         //noinspection unchecked
-        return ((List<Map<String, Object>>) getCommandResult().get(POINTS2)).stream()
+        return ((List<Map<String, Object>>) getResultAsMap().get(POINTS2)).stream()
                 .map(ComparisonResult::mapToPoint)
                 .collect(Collectors.toList());
     }
@@ -104,6 +104,6 @@ public class FeaturesMatchingResult extends ComparisonResult {
     public Rectangle getRect2() {
         verifyPropertyPresence(RECT2);
         //noinspection unchecked
-        return mapToRect((Map<String, Object>) getCommandResult().get(RECT2));
+        return mapToRect((Map<String, Object>) getResultAsMap().get(RECT2));
     }
 }
