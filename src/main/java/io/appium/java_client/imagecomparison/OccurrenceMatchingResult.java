@@ -16,7 +16,6 @@
 
 package io.appium.java_client.imagecomparison;
 
-import lombok.Getter;
 import org.openqa.selenium.Rectangle;
 
 import java.io.File;
