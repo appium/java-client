@@ -126,8 +126,7 @@ public interface ComparesImages extends ExecutesMethod {
                                                          @Nullable OccurrenceMatchingOptions options) {
         Object response = CommandExecutionHelper.execute(this,
                 compareImagesCommand(ComparisonMode.MATCH_TEMPLATE, fullImage, partialImage, options));
-        //noinspection unchecked
-        return new OccurrenceMatchingResult((Map<String, Object>) response);
+        return new OccurrenceMatchingResult(response);
     }
 
     /**

@@ -18,34 +18,131 @@ package io.appium.java_client.imagecomparison;
 
 import org.openqa.selenium.Rectangle;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OccurrenceMatchingResult extends ComparisonResult {
     private static final String RECT = "rect";
-    private static final String MULTIPLE = "multiple";
+    private static final String SCORE = "score";
 
-    private final boolean isAtRoot;
+    private final boolean hasMultiple;
 
-    public OccurrenceMatchingResult(Map<String, Object> input) {
-        this(input, true);
-    }
-
-    private OccurrenceMatchingResult(Map<String, Object> input, boolean isAtRoot) {
+    public OccurrenceMatchingResult(Object input) {
         super(input);
-        this.isAtRoot = isAtRoot;
+        hasMultiple = input instanceof List;
     }
 
     /**
-     * Returns rectangle of partial image occurrence.
+     * Check whether the current instance contains multiple matches.
+     *
+     * @return True or false.
+     */
+    public boolean hasMultiple() {
+        return hasMultiple;
+    }
+
+    /**
+     * Returns rectangle of the partial image occurrence.
      *
      * @return The region of the partial image occurrence on the full image.
      */
     public Rectangle getRect() {
+        if (hasMultiple) {
+            return getRect(0);
+        }
         verifyPropertyPresence(RECT);
         //noinspection unchecked
-        return mapToRect((Map<String, Object>) getCommandResult().get(RECT));
+        return mapToRect((Map<String, Object>) getResultAsMap().get(RECT));
+    }
+
+    /**
+     * Returns rectangle of the partial image occurrence for the given match index.
+     *
+     * @param matchIndex Match index.
+     * @return Matching rectangle.
+     * @throws IllegalStateException If the current instance does not represent multiple matches.
+     */
+    public Rectangle getRect(int matchIndex) {
+        return getMatch(matchIndex).getRect();
+    }
+
+    /**
+     * Returns the score of the partial image occurrence.
+     *
+     * @return Matching score in range 0..1.
+     */
+    public double getScore() {
+        if (hasMultiple) {
+            return getScore(0);
+        }
+        verifyPropertyPresence(SCORE);
+        var value = getResultAsMap().get(SCORE);
+        if (value instanceof Long) {
+            return ((Long) value).doubleValue();
+        }
+        return (Double) value;
+    }
+
+    /**
+     * Returns the score of the partial image occurrence for the given match index.
+     *
+     * @param matchIndex Match index.
+     * @return Matching score in range 0..1.
+     * @throws IllegalStateException If the current instance does not represent multiple matches.
+     */
+    public double getScore(int matchIndex) {
+        return getMatch(matchIndex).getScore();
+    }
+
+    /**
+     * Returns the visualization of the matching result.
+     *
+     * @return The visualization of the matching result represented as base64-encoded PNG image.
+     */
+    @Override
+    public byte[] getVisualization() {
+        return hasMultiple ? getVisualization(0) : super.getVisualization();
+    }
+
+    /**
+     * Returns the visualization of the partial image occurrence for the given match index.
+     *
+     * @param matchIndex Match index.
+     * @return The visualization of the matching result represented as base64-encoded PNG image.
+     * @throws IllegalStateException If the current instance does not represent multiple matches.
+     */
+    public byte[] getVisualization(int matchIndex) {
+        return getMatch(matchIndex).getVisualization();
+    }
+
+    /**
+     * Stores visualization image into the given file.
+     *
+     * @param destination File path to save the image to.
+     * @throws IOException On file system I/O error.
+     */
+    @Override
+    public void storeVisualization(File destination) throws IOException {
+        if (hasMultiple) {
+            getMatch(0).storeVisualization(destination);
+        } else {
+            super.storeVisualization(destination);
+        }
+    }
+
+    /**
+     * Stores visualization image into the given file.
+     *
+     * @param matchIndex Match index.
+     * @param destination File path to save the image to.
+     * @throws IOException On file system I/O error.
+     * @throws IllegalStateException If the current instance does not represent multiple matches.
+     */
+    public void storeVisualization(int matchIndex, File destination) throws IOException {
+        getMatch(matchIndex).storeVisualization(destination);
     }
 
     /**
@@ -54,18 +151,37 @@ public class OccurrenceMatchingResult extends ComparisonResult {
      *
      * @since Appium 1.21.0
      * @return The list containing properties of each single match or an empty list.
-     * @throws IllegalStateException If the accessor is called on a non-root match instance.
+     * @throws IllegalStateException If the current instance does not represent multiple matches.
      */
     public List<OccurrenceMatchingResult> getMultiple() {
-        if (!isAtRoot) {
-            throw new IllegalStateException("Only the root match could contain multiple submatches");
-        }
-        verifyPropertyPresence(MULTIPLE);
+        return getMultipleMatches(false);
+    }
 
+    private List<OccurrenceMatchingResult> getMultipleMatches(boolean throwIfEmpty) {
+        if (!hasMultiple) {
+            throw new IllegalStateException(String.format(
+                    "This %s does not represent multiple matches. Did you set options properly?",
+                    getClass().getSimpleName()
+            ));
+        }
         //noinspection unchecked
-        List<Map<String, Object>> multiple = (List<Map<String, Object>>) getCommandResult().get(MULTIPLE);
-        return multiple.stream()
-                .map(m -> new OccurrenceMatchingResult(m, false))
+        var matches = ((List<Map<String, Object>>) commandResult).stream()
+                .map(OccurrenceMatchingResult::new)
                 .collect(Collectors.toList());
+        if (matches.isEmpty() && throwIfEmpty) {
+            throw new IllegalStateException("Zero matches have been found. Try the lookup with different options.");
+        }
+        return matches;
+    }
+
+    private OccurrenceMatchingResult getMatch(int index) {
+        var matches = getMultipleMatches(true);
+        if (index < 0 || index >= matches.size()) {
+            throw new IndexOutOfBoundsException(String.format(
+                    "The match #%s does not exist. The total number of found matches is %s",
+                    index, matches.size()
+            ));
+        }
+        return matches.get(index);
     }
 }

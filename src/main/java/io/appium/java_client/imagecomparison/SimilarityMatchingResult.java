@@ -33,10 +33,9 @@ public class SimilarityMatchingResult extends ComparisonResult {
      */
     public double getScore() {
         verifyPropertyPresence(SCORE);
-        //noinspection unchecked
-        if (getCommandResult().get(SCORE) instanceof Long) {
-            return ((Long) getCommandResult().get(SCORE)).doubleValue();
+        if (getResultAsMap().get(SCORE) instanceof Long) {
+            return ((Long) getResultAsMap().get(SCORE)).doubleValue();
         }
-        return (double) getCommandResult().get(SCORE);
+        return (double) getResultAsMap().get(SCORE);
     }
 }

@@ -16,8 +16,6 @@
 
 package io.appium.java_client.imagecomparison;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 
@@ -32,10 +30,15 @@ import java.util.Map;
 public abstract class ComparisonResult {
     private static final String VISUALIZATION = "visualization";
 
-    @Getter(AccessLevel.PROTECTED) private final Map<String, Object> commandResult;
+    protected final Object commandResult;
 
-    public ComparisonResult(Map<String, Object> commandResult) {
+    public ComparisonResult(Object commandResult) {
         this.commandResult = commandResult;
+    }
+
+    protected Map<String, Object> getResultAsMap() {
+        //noinspection unchecked
+        return (Map<String, Object>) commandResult;
     }
 
     /**
@@ -45,7 +48,7 @@ public abstract class ComparisonResult {
      * @param propertyName the actual property name to be verified for presence
      */
     protected void verifyPropertyPresence(String propertyName) {
-        if (!commandResult.containsKey(propertyName)) {
+        if (!getResultAsMap().containsKey(propertyName)) {
             throw new IllegalStateException(
                     String.format("There is no '%s' attribute in the resulting command output %s. "
                             + "Did you set the options properly?", propertyName, commandResult));
@@ -59,13 +62,13 @@ public abstract class ComparisonResult {
      */
     public byte[] getVisualization() {
         verifyPropertyPresence(VISUALIZATION);
-        return ((String) getCommandResult().get(VISUALIZATION)).getBytes(StandardCharsets.UTF_8);
+        return ((String) getResultAsMap().get(VISUALIZATION)).getBytes(StandardCharsets.UTF_8);
     }
 
     /**
      * Stores visualization image into the given file.
      *
-     * @param destination file to save image.
+     * @param destination File path to save the image to.
      * @throws IOException On file system I/O error.
      */
     public void storeVisualization(File destination) throws IOException {
