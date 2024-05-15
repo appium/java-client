@@ -21,7 +21,7 @@ public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExten
      *              off from the typed text).
      */
     default void replaceElementValue(RemoteWebElement element, String value) {
-        final String extName = "mobile: replaceValue";
+        final String extName = "mobile: replaceElementValue";
         try {
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
                 "elementId", element.getId(),
