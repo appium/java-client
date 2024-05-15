@@ -173,7 +173,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new SessionNotCreatedException("Session already exists");
         }
 
-        ProtocolHandshake.Result result = new AppiumProtocolHandshake().createSession(getClient(), command);
+        var result = new AppiumProtocolHandshake().createSession(getClient(), command);
         Dialect dialect = result.getDialect();
         if (!(dialect.getCommandCodec() instanceof W3CHttpCommandCodec)) {
             throw new SessionNotCreatedException("Only W3C sessions are supported. "
