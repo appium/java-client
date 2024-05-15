@@ -19,6 +19,8 @@ package io.appium.java_client.remote;
 import org.openqa.selenium.remote.ProtocolHandshake;
 
 /**
+ * This class is deprecated and should be removed.
+ *
  * @deprecated Use ProtocolHandshake instead.
  */
 @Deprecated
