@@ -136,7 +136,7 @@ public class Helpers {
                     .defineField("methodCallListeners", MethodCallListener[].class, Visibility.PRIVATE)
                     .implement(HasMethodCallListeners.class).intercept(FieldAccessor.ofBeanProperty())
                     .make()
-                    .load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+                    .load(Helpers.class.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
                     .getLoaded()
                     .asSubclass(cls);
         });
