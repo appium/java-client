@@ -28,6 +28,7 @@ import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.Dialect;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.ProtocolHandshake;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
@@ -172,7 +173,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new SessionNotCreatedException("Session already exists");
         }
 
-        var result = new AppiumProtocolHandshake().createSession(getClient(), command);
+        var result = new ProtocolHandshake().createSession(getClient(), command);
         Dialect dialect = result.getDialect();
         if (!(dialect.getCommandCodec() instanceof W3CHttpCommandCodec)) {
             throw new SessionNotCreatedException("Only W3C sessions are supported. "
