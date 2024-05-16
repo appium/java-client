@@ -27,6 +27,12 @@ import java.util.stream.Collectors;
 
 import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
+/**
+ * This class is deprecated and will be removed.
+ *
+ * @deprecated Use CommandPayload instead.
+ */
+@Deprecated
 public class AppiumNewSessionCommandPayload extends CommandPayload {
     /**
      * Appends "appium:" prefix to all non-prefixed non-standard capabilities.
