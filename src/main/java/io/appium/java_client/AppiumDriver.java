@@ -20,7 +20,6 @@ import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
-import io.appium.java_client.remote.AppiumNewSessionCommandPayload;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -50,11 +49,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
+import static java.util.Collections.singleton;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 /**
@@ -265,25 +266,27 @@ public class AppiumDriver extends RemoteWebDriver implements
 
     @Override
     protected void startSession(Capabilities capabilities) {
-        Response response = execute(new AppiumNewSessionCommandPayload(capabilities));
-        if (response == null) {
-            throw new SessionNotCreatedException(
-                    "The underlying command executor returned a null response.");
-        }
+        var response = Optional.ofNullable(
+                execute(DriverCommand.NEW_SESSION(singleton(capabilities)))
+        ).orElseThrow(() -> new SessionNotCreatedException(
+                    "The underlying command executor returned a null response."
+        ));
 
-        Object responseValue = response.getValue();
-        if (responseValue == null) {
-            throw new SessionNotCreatedException(
-                    "The underlying command executor returned a response without payload: "
-                            + response);
-        }
-        if (!(responseValue instanceof Map)) {
-            throw new SessionNotCreatedException(
-                    "The underlying command executor returned a response with a non well formed payload: "
-                            + response);
-        }
+        var rawCapabilities = Optional.ofNullable(response.getValue())
+                .map(value -> {
+                    if (!(value instanceof Map)) {
+                        throw new SessionNotCreatedException(String.format(
+                                "The underlying command executor returned a response "
+                                        + "with a non well formed payload: %s", response)
+                        );
+                    }
+                    //noinspection unchecked
+                    return (Map<String, Object>) value;
+                })
+                .orElseThrow(() -> new SessionNotCreatedException(
+                    "The underlying command executor returned a response without payload: " + response)
+                );
 
-        @SuppressWarnings("unchecked") Map<String, Object> rawCapabilities = (Map<String, Object>) responseValue;
         // TODO: remove this workaround for Selenium API enforcing some legacy capability values in major version
         rawCapabilities.remove("platform");
         if (rawCapabilities.containsKey(CapabilityType.BROWSER_NAME)
