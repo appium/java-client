@@ -23,9 +23,9 @@ env:
   ANDROID_EMU_NAME: test
   ANDROID_EMU_TARGET: default
   # https://github.com/actions/runner-images/blob/main/images/macos/macos-14-arm64-Readme.md
-  XCODE_VERSION: "15.3"
+  XCODE_VERSION: "15.4"
   IOS_DEVICE_NAME: iPhone 15
-  IOS_PLATFORM_VERSION: "17.4"
+  IOS_PLATFORM_VERSION: "17.5"
 
 jobs:
   build:
