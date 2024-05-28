@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.*
-
 plugins {
     id 'java-library'
     id 'idea'
