@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.2.3_
+- **[BUG FIX]**
+  - Properly represent `FeaturesMatchingResult` model if `multiple` option is enabled [#2170](https://github.com/appium/java-client/pull/2170)
+  - Use current class loader for the ByteBuddy wrapper [#2172](https://github.com/appium/java-client/pull/2172) \
+    This fixes errors like `NoClassDefFoundError: org/openqa/selenium/remote/RemoteWebElement`, `NoClassDefFoundError: io/appium/java_client/proxy/HasMethodCallListeners` when `PageFactory` is used.
+  - Correct extension name for `mobile: replaceElementValue` [#2171](https://github.com/appium/java-client/pull/2171)
+- **[DEPRECATION]**
+  - Deprecate `AppiumProtocolHandshake` class [#2173](https://github.com/appium/java-client/pull/2173) \
+    The original `ProtocolHandshake` class only supports W3C protocol now. There is no need to hack it anymore.
+- **[REFACTOR]**
+  - Replace Guava `HttpHeaders` with Selenium `HttpHeader` [#2151](https://github.com/appium/java-client/pull/2151)
+- **[DEPENDENCY CHANGE]**
+  - Bump SLF4J from `2.0.12` to `2.0.13` [#2158](https://github.com/appium/java-client/pull/2158)
+  - Bump Gson from `2.10.1` to `2.11.0` [#2175](https://github.com/appium/java-client/pull/2175)
+
 _9.2.2_
 - **[BUG FIX]**
   - fix: Fix building of Android key event parameters [#2145](https://github.com/appium/java-client/pull/2145)
