@@ -20,13 +20,12 @@ import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.MobileBrowserType;
 import org.junit.jupiter.api.BeforeAll;
 
-import java.io.IOException;
 import java.time.Duration;
 
 public class BaseSafariTest extends BaseIOSTest {
     private static final Duration WEBVIEW_CONNECT_TIMEOUT = Duration.ofSeconds(30);
 
-    @BeforeAll public static void beforeClass() throws IOException {
+    @BeforeAll public static void beforeClass() {
         startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()

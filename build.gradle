@@ -242,6 +242,7 @@ testing {
                     filter {
                         exclude '**/IOSScreenRecordTest.class'
                         exclude '**/ImagesComparisonTest.class'
+                        exclude '**/IOSNativeWebTapSettingTest.class'
                     }
                 }
             }

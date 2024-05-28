@@ -1,6 +1,5 @@
 package io.appium.java_client.ios;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class IOSNativeWebTapSettingTest extends BaseSafariTest {
 
     @Test
-    @Disabled("https://github.com/appium/appium/issues/17014")
     public void nativeWebTapSettingTest() {
         assertTrue(driver.isBrowser());
         driver.get("https://saucelabs.com/test/guinea-pig");

@@ -27,17 +27,19 @@ import java.util.function.Supplier;
 public class BaseIOSWebViewTest extends BaseIOSTest {
     private static final String VODQA_ZIP = TestUtils.resourcePathToAbsolutePath("vodqa.zip").toString();
 
-    private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(1);
-    private static final Duration WEB_VIEW_DETECT_DURATION = Duration.ofSeconds(15);
+    private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(2);
+    private static final Duration WEB_VIEW_DETECT_DURATION = Duration.ofSeconds(30);
 
     @BeforeAll
     public static void beforeClass() {
         startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()
+                .setPlatformVersion(PLATFORM_VERSION)
                 .setDeviceName(DEVICE_NAME)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
+                .setShowIosLog(true)
                 .setApp(VODQA_ZIP);
         Supplier<IOSDriver> createDriver = () -> new IOSDriver(service.getUrl(), options);
         try {
