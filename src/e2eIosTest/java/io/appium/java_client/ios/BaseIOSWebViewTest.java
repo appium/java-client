@@ -35,6 +35,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
         startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()
+                .setPlatformVersion(PLATFORM_VERSION)
                 .setDeviceName(DEVICE_NAME)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
