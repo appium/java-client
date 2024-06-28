@@ -62,7 +62,7 @@ public final class CommandExecutionHelper {
      */
     @Nullable
     public static <T> T executeScript(
-            ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, Object> args
+            ExecutesMethod executesMethod, String scriptName, @Nullable Map<String, ?> args
     ) {
         return execute(executesMethod, Map.entry(EXECUTE_SCRIPT, Map.of(
                 "script", scriptName,
