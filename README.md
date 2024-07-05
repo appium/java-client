@@ -9,13 +9,13 @@ This is the Java language bindings for writing Appium Tests that conform to [Web
 ## v8 to v9 Migration
 
 Since v9 the client only supports Java 11 and above.
-Follow the [v8 to v9 Migration Guide](./docs/v8-to-v9-migration-guide.md) in order to streamline the migration process.
+Follow the [v8 to v9 Migration Guide](./docs/v8-to-v9-migration-guide.md) to streamline the migration process.
 
 ## v7 to v8 Migration
 
 Since version 8 Appium Java Client had several major changes, which might require to
 update your client code. Make sure to follow the [v7 to v8 Migration Guide](./docs/v7-to-v8-migration-guide.md)
-in order to streamline the migration process.
+to streamline the migration process.
 
 ## Add Appium java client to your test framework
 
@@ -46,7 +46,7 @@ dependencies {
 
 ### Beta/Snapshots
 
-Java client project is available to use even before it is officially published to maven central. Refer [jitpack.io](https://jitpack.io/#appium/java-client)
+Java client project is available to use even before it is officially published to Maven Central. Refer [jitpack.io](https://jitpack.io/#appium/java-client)
 
 #### Maven
 
@@ -73,7 +73,7 @@ Add the dependency:
 
 #### Gradle
 
-Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+Add the JitPack repository to your build file. Add it to your root build.gradle at the end of repositories:
 
 ```groovy
 allprojects {
@@ -107,11 +107,11 @@ dependencies {
 #### Why is it so complicated?
 
 Selenium client does not follow [Semantic Versioning](https://semver.org/), so breaking changes might be introduced
-even in patches, which requires Appium team to update Java client in response.
+even in patches, which requires the Appium team to update the Java client in response.
 
 #### How to pin Selenium dependencies?
 
-Appium Java Client declares Selenium dependencies using open version range which is handled in differently by different
+Appium Java Client declares Selenium dependencies using an open version range which is handled differently by different
 build tools. Sometimes users may want to pin used Selenium dependencies for [various reasons](https://github.com/appium/java-client/issues/1823).
 Follow the [Transitive Dependencies Management article](docs/transitive-dependencies-management.md) for more information
 about establishing a fixed Selenium version for your Java test framework.
@@ -130,10 +130,10 @@ Appium java client has dedicated classes to support the following Appium drivers
 To automate other platforms that are not listed above you could use
 [AppiumDriver](src/main/java/io/appium/java_client/AppiumDriver.java) or its custom derivatives.
 
-Appium java client is built on top of Selenium and implements same interfaces that the foundation
+Appium java client is built on top of Selenium and implements the same interfaces that the foundation
 [RemoteWebDriver](https://github.com/SeleniumHQ/selenium/blob/trunk/java/src/org/openqa/selenium/remote/RemoteWebDriver.java)
-does. However, Selenium lib is mostly focused on web browsers automation while
-Appium is universal and covers wide range of possible platforms, e.g. mobile and desktop
+does. However, Selenium lib is mostly focused on web browser automation while
+Appium is universal and covers a wide range of possible platforms, e.g. mobile and desktop
 operating systems, IOT devices, etc. Thus, the foundation `AppiumDriver` class in this package
 extends `RemoteWebDriver` with additional features, and makes it more flexible, so it is not so
 strictly focused on web-browser related operations.
@@ -161,7 +161,7 @@ using [AppiumServiceBuilder](src/main/java/io/appium/java_client/service/local/A
 
 **Note**
 
-> AppiumDriverLocalService does not support the server management on non-local hosts
+> AppiumDriverLocalService does not support server management on non-local hosts
 
 ## Usage Examples
 
@@ -169,14 +169,14 @@ using [AppiumServiceBuilder](src/main/java/io/appium/java_client/service/local/A
 
 ```java
 UiAutomator2Options options = new UiAutomator2Options()
-    .setUdid('123456')
+    .setUdid("123456")
     .setApp("/home/myapp.apk");
 AndroidDriver driver = new AndroidDriver(
     // The default URL in Appium 1 is http://127.0.0.1:4723/wd/hub
     new URL("http://127.0.0.1:4723"), options
 );
 try {
-    WebElement el = driver.findElement(AppiumBy.xpath, "//Button");
+    WebElement el = driver.findElement(AppiumBy.xpath("//Button"));
     el.click();
     driver.getPageSource();
 } finally {
@@ -188,14 +188,14 @@ try {
 
 ```java
 XCUITestOptions options = new XCUITestOptions()
-    .setUdid('123456')
+    .setUdid("123456")
     .setApp("/home/myapp.ipa");
 IOSDriver driver = new IOSDriver(
     // The default URL in Appium 1 is http://127.0.0.1:4723/wd/hub
     new URL("http://127.0.0.1:4723"), options
 );
 try {
-    WebElement el = driver.findElement(AppiumBy.accessibilityId, "myId");
+    WebElement el = driver.findElement(AppiumBy.accessibilityId("myId"));
     el.click();
     driver.getPageSource();
 } finally {
@@ -216,7 +216,7 @@ AppiumDriver driver = new AppiumDriver(
     new URL("http://127.0.0.1:4723"), options
 );
 try {
-    WebElement el = driver.findElement(AppiumBy.className, "myClass");
+    WebElement el = driver.findElement(AppiumBy.className("myClass"));
     el.click();
     driver.getPageSource();
 } finally {
@@ -226,7 +226,7 @@ try {
 
 Check the corresponding driver's READMEs to know the list of capabilities and features it supports.
 
-You could find much more code examples by checking client's
+You can find many more code examples by checking client's
 [unit and integration tests](src/test/java/io/appium/java_client).
 
 ## Troubleshooting
@@ -234,24 +234,24 @@ You could find much more code examples by checking client's
 ### InaccessibleObjectException is thrown in runtime if Java 16+ is used
 
 Appium Java client uses reflective access to private members of other modules
-to ensure proper functionality of several features, like Page Object model.
+to ensure proper functionality of several features, like the Page Object model.
 If you get a runtime exception and `InaccessibleObjectException` is present in
-the stacktrace, and your Java runtime is at version 16 or higher, then consider following
+the stack trace and your Java runtime is at version 16 or higher, then consider the following
 [Oracle's tutorial](https://docs.oracle.com/en/java/javase/16/migrate/migrating-jdk-8-later-jdk-releases.html#GUID-7BB28E4D-99B3-4078-BDC4-FC24180CE82B)
 and/or checking [existing issues](https://github.com/appium/java-client/search?q=InaccessibleObjectException&type=issues)
-for possible solutions. Basically, the idea there would be to explicitly allow
+for possible solutions. The idea there would be to explicitly allow
 access for particular modules using `--add-exports/--add-opens` command line arguments.
 
 Another possible, but weakly advised solution, would be to downgrade Java to
 version 15 or lower.
 
-### Issues related to environment variables presence or to their values
+### Issues related to environment variables' presence or to their values
 
-Such issues are usually the case when Appium server is started directly from your
+Such issues are usually the case when the Appium server is started directly from your
 framework code rather than run separately by a script or manually. Depending
 on the way the server process is started it may or may not inherit the currently
-active shell environment. That is why you may still receive errors about variables
-presence even though these variables ar actually defined for your command line interpreter.
+active shell environment. That is why you may still receive errors about the variables'
+presence even though these variables are defined for your command line interpreter.
 Again, there is no universal solution to that, as there are many ways to spin up a new
 server process. Consider checking the [Appium Environment Troubleshooting](docs/environment.md)
 document for more information on how to debug and fix process environment issues.
