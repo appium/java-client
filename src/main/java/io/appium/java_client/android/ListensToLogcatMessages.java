@@ -19,10 +19,12 @@ package io.appium.java_client.android;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.ws.StringWebSocketClient;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
 
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
@@ -36,7 +38,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * is assigned to the default port (4723).
      */
     default void startLogcatBroadcast() {
-        startLogcatBroadcast("127.0.0.1", DEFAULT_APPIUM_PORT);
+        startLogcatBroadcast("127.0.0.1");
     }
 
     /**
@@ -56,15 +58,13 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startLogcatBroadcast(String host, int port) {
+        var remoteWebDriver = (RemoteWebDriver) this;
+        URL serverUrl = ((HttpCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
+        var scheme = "https".equals(serverUrl.getProtocol()) ? "wss" : "ws";
         CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
-        final URI endpointUri;
-        try {
-            endpointUri = new URI(String.format("ws://%s:%s/ws/session/%s/appium/device/logcat",
-                    host, port, ((RemoteWebDriver) this).getSessionId()));
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e);
-        }
-        getLogcatClient().connect(endpointUri);
+        SessionId sessionId = remoteWebDriver.getSessionId();
+        var endpoint = String.format("%s://%s:%s/ws/session/%s/appium/device/logcat", scheme, host, port, sessionId);
+        getLogcatClient().connect(URI.create(endpoint));
     }
 
     /**
