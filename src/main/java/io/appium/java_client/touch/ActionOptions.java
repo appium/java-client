@@ -19,6 +19,7 @@ package io.appium.java_client.touch;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public abstract class ActionOptions<T extends ActionOptions<T>> {
     /**
      * This method is automatically called before building

@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.base.Preconditions;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.Remotable;
@@ -25,10 +26,10 @@ import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+@EqualsAndHashCode(callSuper = true)
 public abstract class AppiumBy extends By implements Remotable {
 
     @Getter private final Parameters remoteParameters;
@@ -256,27 +257,4 @@ public abstract class AppiumBy extends By implements Remotable {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
-        AppiumBy appiumBy = (AppiumBy) o;
-        return Objects.equals(remoteParameters, appiumBy.remoteParameters)
-                && Objects.equals(locatorName, appiumBy.locatorName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), remoteParameters, locatorName);
-    }
 }
-
-

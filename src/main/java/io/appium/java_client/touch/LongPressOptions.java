@@ -25,6 +25,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+@Deprecated
 public class LongPressOptions extends AbstractOptionCombinedWithPosition<LongPressOptions> {
     protected Duration duration = null;
 

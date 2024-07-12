@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+@Deprecated
 public class PointOption<T extends PointOption<T>> extends ActionOptions<T> {
 
     protected Point coordinates;

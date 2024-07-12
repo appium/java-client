@@ -23,6 +23,7 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Optional.ofNullable;
 
+@Deprecated
 public class TapOptions extends AbstractOptionCombinedWithPosition<TapOptions> {
     private Integer tapsCount = null;
 
