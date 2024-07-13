@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.time.Duration.ofMillis;
 import static java.util.Objects.requireNonNull;
 
+@Deprecated
 public class WaitOptions extends ActionOptions<WaitOptions> {
     protected Duration duration = ofMillis(0);
 

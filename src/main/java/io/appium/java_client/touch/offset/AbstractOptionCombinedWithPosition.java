@@ -6,6 +6,7 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+@Deprecated
 public abstract class AbstractOptionCombinedWithPosition<T extends AbstractOptionCombinedWithPosition<T>>
         extends ActionOptions<AbstractOptionCombinedWithPosition<T>> {
     private ActionOptions<?> positionOption;

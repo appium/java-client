@@ -11,6 +11,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+@Deprecated
 public class ElementOption extends PointOption<ElementOption> {
 
     private String elementId;
