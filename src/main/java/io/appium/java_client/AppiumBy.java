@@ -26,6 +26,9 @@ import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.Collections;
+import java.util.HashMap;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -51,6 +54,13 @@ public abstract class AppiumBy extends By implements Remotable {
 
     @Override public String toString() {
         return String.format("%s.%s: %s", AppiumBy.class.getSimpleName(), locatorName, remoteParameters.value());
+    }
+
+    public Map<String, Object> toJson() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("using", this.remoteParameters.using());
+        params.put("value", this.remoteParameters.value());
+        return Collections.unmodifiableMap(params);
     }
 
     /**
@@ -186,6 +196,51 @@ public abstract class AppiumBy extends By implements Remotable {
         return new ByIosNsPredicate(iOSNsPredicateString);
     }
 
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     * @param selector is the value defined to the key attribute of the flutter element
+     * @return an instance of {@link AppiumBy.ByFlutterKey}
+     */
+    public static By flutterKey(final String selector) {
+        return new ByFlutterKey(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     * @param selector is the Type of widget mounted in the app tree
+     * @return an instance of {@link AppiumBy.ByFlutterType}
+     */
+    public static By flutterType(final String selector) {
+        return new ByFlutterType(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     * @param selector is the text that is present on the widget
+     * @return an instance of {@link AppiumBy.ByFlutterText}
+     */
+    public static By flutterText(final String selector) {
+        return new ByFlutterText(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     * @param selector is the text that is partially present on the widget
+     * @return an instance of {@link AppiumBy.ByFlutterTextContaining}
+     */
+    public static By flutterTextContaining(final String selector) {
+        return new ByFlutterTextContaining(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     * @param semanticsLabel represents the value assigned to the label attribute of semantics element
+     * @return an instance of {@link AppiumBy.ByFlutterSemanticsLabel}
+     */
+    public static By flutterSemanticsLabel(final String semanticsLabel) {
+        return new ByFlutterSemanticsLabel(semanticsLabel);
+    }
+
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
         public ByAccessibilityId(String accessibilityId) {
             super("accessibility id", accessibilityId, "accessibilityId");
@@ -255,6 +310,36 @@ public abstract class AppiumBy extends By implements Remotable {
     public static class ByIosNsPredicate extends AppiumBy implements Serializable {
         protected ByIosNsPredicate(String locatorString) {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
+        }
+    }
+
+    public static class ByFlutterType extends AppiumBy implements Serializable {
+        protected ByFlutterType(String locatorString) {
+            super("-flutter type", locatorString, "flutterType");
+        }
+    }
+
+    public static class ByFlutterKey extends AppiumBy implements Serializable {
+        protected ByFlutterKey(String locatorString) {
+            super("-flutter key", locatorString, "flutterKey");
+        }
+    }
+
+    public static class ByFlutterSemanticsLabel extends AppiumBy implements Serializable {
+        protected ByFlutterSemanticsLabel(String locatorString) {
+            super("-flutter semantics label", locatorString, "flutterSemanticsLabel");
+        }
+    }
+
+    public static class ByFlutterText extends AppiumBy implements Serializable {
+        protected ByFlutterText(String locatorString) {
+            super("-flutter text", locatorString, "flutterText");
+        }
+    }
+
+    public static class ByFlutterTextContaining extends AppiumBy implements Serializable {
+        protected ByFlutterTextContaining(String locatorString) {
+            super("-flutter text containing", locatorString, "flutterTextContaining");
         }
     }
 }
