@@ -1,7 +1,8 @@
-package io.appium.java_client.flutter;
+package io.appium.java_client.flutter.android;
 
 import io.appium.java_client.AppiumClientConfig;
-import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.flutter.FlutterDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
@@ -15,56 +16,56 @@ import java.net.URL;
 /**
  * Custom AndroidDriver implementation with additional Flutter-specific capabilities.
  */
-public class FlutterIOSDriver extends IOSDriver implements FlutterDriver {
+public class FlutterAndroidDriver extends AndroidDriver implements FlutterDriver {
 
-    public FlutterIOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public FlutterAndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
     }
 
-    public FlutterIOSDriver(URL remoteAddress, Capabilities capabilities) {
+    public FlutterAndroidDriver(URL remoteAddress, Capabilities capabilities) {
         super(remoteAddress, capabilities);
     }
 
-    public FlutterIOSDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+    public FlutterAndroidDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(remoteAddress, httpClientFactory, capabilities);
     }
 
-    public FlutterIOSDriver(AppiumDriverLocalService service, Capabilities capabilities) {
+    public FlutterAndroidDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, capabilities);
     }
 
-    public FlutterIOSDriver(
+    public FlutterAndroidDriver(
             AppiumDriverLocalService service, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(service, httpClientFactory, capabilities);
     }
 
-    public FlutterIOSDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
+    public FlutterAndroidDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, capabilities);
     }
 
-    public FlutterIOSDriver(
+    public FlutterAndroidDriver(
             AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(builder, httpClientFactory, capabilities);
     }
 
-    public FlutterIOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
+    public FlutterAndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, capabilities);
     }
 
-    public FlutterIOSDriver(ClientConfig clientConfig, Capabilities capabilities) {
+    public FlutterAndroidDriver(ClientConfig clientConfig, Capabilities capabilities) {
         super(clientConfig, capabilities);
     }
 
-    public FlutterIOSDriver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {
+    public FlutterAndroidDriver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {
         super(appiumClientConfig, capabilities);
     }
 
-    public FlutterIOSDriver(URL remoteSessionAddress) {
-        super(remoteSessionAddress);
+    public FlutterAndroidDriver(Capabilities capabilities) {
+        super(capabilities);
     }
 
-    public FlutterIOSDriver(Capabilities capabilities) {
-        super(capabilities);
+    public FlutterAndroidDriver(URL remoteSessionAddress, String automationName) {
+        super(remoteSessionAddress, automationName);
     }
 
     @Override
