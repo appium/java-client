@@ -28,7 +28,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 @EqualsAndHashCode(callSuper = true)
@@ -324,7 +323,7 @@ public abstract class AppiumBy extends By implements Remotable {
         }
     }
 
-    public static class FlutterBy extends AppiumBy {
+    public abstract static class FlutterBy extends AppiumBy {
 
         protected FlutterBy(String selector, String locatorString, String locatorName) {
             super(selector, locatorString, locatorName);
