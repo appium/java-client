@@ -33,7 +33,7 @@ public class ScrollOptions implements FlutterCommandOptions {
     @Override
     public Map<String, Object> toJson() {
         return Map.of(
-                "finder", scrollTo != null ? parseBy(scrollTo) : null,
+                "finder", scrollTo != null ? scrollTo.toJson() : null,
                 "scrollView", scrollView,
                 "delta", delta,
                 "maxScrolls", maxScrolls,
