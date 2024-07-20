@@ -25,10 +25,11 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -58,13 +59,6 @@ public abstract class AppiumBy extends By implements Remotable {
     @Override
     public String toString() {
         return String.format("%s.%s: %s", AppiumBy.class.getSimpleName(), locatorName, remoteParameters.value());
-    }
-
-    public Map<String, Object> toJson() {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("using", this.remoteParameters.using());
-        params.put("value", this.remoteParameters.value());
-        return Collections.unmodifiableMap(params);
     }
 
     /**
