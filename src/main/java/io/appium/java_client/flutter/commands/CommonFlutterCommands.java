@@ -2,7 +2,6 @@ package io.appium.java_client.flutter.commands;
 
 import io.appium.java_client.flutter.FlutterDriver;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CommonFlutterCommands {

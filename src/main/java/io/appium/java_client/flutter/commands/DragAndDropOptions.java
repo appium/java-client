@@ -3,7 +3,6 @@ package io.appium.java_client.flutter.commands;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
 

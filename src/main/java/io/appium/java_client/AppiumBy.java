@@ -25,8 +25,6 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -333,11 +331,17 @@ public abstract class AppiumBy extends By implements Remotable {
             super(selector, locatorString, locatorName);
         }
 
+        /**
+         * Parses an {@link AppiumBy.FlutterBy} object into a Map of parameters
+         * to be executed by flutter integration driver.
+         *
+         * @return A {@link Map} containing the parsed parameters
+         */
         public Map<String, Object> toJson() {
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("using", this.getRemoteParameters().using());
-            params.put("value", this.getRemoteParameters().value());
-            return Collections.unmodifiableMap(params);
+            return Map.of(
+                    "using", this.getRemoteParameters().using(),
+                    "value", this.getRemoteParameters().value()
+            );
         }
     }
 
