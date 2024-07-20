@@ -22,7 +22,7 @@ public class FlutterGestureOptions implements FlutterCommandOptions {
         Map<String, Object> args = new HashMap<>();
         args.put("origin", element);
         if (point != null) {
-            args.put("offset", Map.of("x", point.x, "y", point.y));
+            args.put("offset", Map.of("x", point.getX(), "y", point.getY()));
         }
         return Collections.unmodifiableMap(args);
     }
