@@ -1,7 +1,9 @@
 package io.appium.java_client.flutter.commands;
 
+import com.google.common.base.Preconditions;
 import io.appium.java_client.AppiumBy;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
@@ -9,6 +11,8 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 @Accessors(chain = true)
 @Getter
@@ -26,6 +30,7 @@ public class ScrollOptions implements FlutterCommandOptions {
     }
 
     public ScrollOptions(AppiumBy.FlutterBy scrollTo, ScrollDirection scrollDirection) {
+        Preconditions.checkArgument(scrollTo != null, "Must supply a valid locator for scrollTo");
         this.scrollTo = scrollTo;
         this.scrollDirection = scrollDirection;
     }
@@ -33,13 +38,15 @@ public class ScrollOptions implements FlutterCommandOptions {
     @Override
     public Map<String, Object> toJson() {
         return Map.of(
-                "finder", scrollTo != null ? scrollTo.toJson() : null,
+                "finder", scrollTo.toJson(),
                 "scrollView", scrollView,
                 "delta", delta,
                 "maxScrolls", maxScrolls,
                 "settleBetweenScrollsTimeout", settleBetweenScrollsTimeout,
-                "scrollDirection", Optional.ofNullable(scrollDirection).orElse(ScrollDirection.UP).getDirection(),
-                "dragDuration", Optional.ofNullable(dragDuration).orElse(Duration.ZERO).getSeconds()
+                "scrollDirection", Optional.ofNullable(scrollDirection)
+                        .orElse(ScrollDirection.UP).getDirection(),
+                "dragDuration", Optional.ofNullable(dragDuration)
+                        .orElse(Duration.ZERO).getSeconds()
         );
     }
 

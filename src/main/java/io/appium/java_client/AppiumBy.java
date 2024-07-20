@@ -113,7 +113,6 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param tag is a view tag string
      * @return an instance of {@link ByAndroidViewTag}
      * @since Appium 1.8.2 beta
-     * @since Appium 1.8.2 beta
      */
     public static By androidViewTag(final String tag) {
         return new ByAndroidViewTag(tag);
