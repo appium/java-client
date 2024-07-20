@@ -328,19 +328,7 @@ public abstract class AppiumBy extends By implements Remotable {
         protected FlutterBy(String selector, String locatorString, String locatorName) {
             super(selector, locatorString, locatorName);
         }
-
-        /**
-         * Parses an {@link AppiumBy.FlutterBy} object into a Map of parameters
-         * to be executed by flutter integration driver.
-         *
-         * @return A {@link Map} containing the parsed parameters
-         */
-        public Map<String, Object> toJson() {
-            return Map.of(
-                    "using", this.getRemoteParameters().using(),
-                    "value", this.getRemoteParameters().value()
-            );
-        }
+        
     }
 
 
