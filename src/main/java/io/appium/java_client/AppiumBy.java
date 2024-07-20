@@ -32,7 +32,8 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 @EqualsAndHashCode(callSuper = true)
 public abstract class AppiumBy extends By implements Remotable {
 
-    @Getter private final Parameters remoteParameters;
+    @Getter
+    private final Parameters remoteParameters;
     private final String locatorName;
 
     protected AppiumBy(String selector, String locatorString, String locatorName) {
@@ -41,15 +42,18 @@ public abstract class AppiumBy extends By implements Remotable {
         this.locatorName = locatorName;
     }
 
-    @Override public List<WebElement> findElements(SearchContext context) {
+    @Override
+    public List<WebElement> findElements(SearchContext context) {
         return context.findElements(this);
     }
 
-    @Override public WebElement findElement(SearchContext context) {
+    @Override
+    public WebElement findElement(SearchContext context) {
         return context.findElement(this);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return String.format("%s.%s: %s", AppiumBy.class.getSimpleName(), locatorName, remoteParameters.value());
     }
 
@@ -59,6 +63,7 @@ public abstract class AppiumBy extends By implements Remotable {
      * About iOS accessibility
      * https://developer.apple.com/library/ios/documentation/UIKit/Reference/
      * UIAccessibilityIdentification_Protocol/index.html
+     *
      * @param accessibilityId id is a convenient UI automation accessibility Id.
      * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
      */
@@ -68,9 +73,10 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
+     *
      * @param dataMatcherString is a valid json string detailing hamcrest matcher for Espresso onData().
-     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
-     *                            the documentation</a> for more details
+     *                          See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                          the documentation</a> for more details
      * @return an instance of {@link AppiumBy.ByAndroidDataMatcher}
      */
     public static By androidDataMatcher(final String dataMatcherString) {
@@ -79,6 +85,7 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * Refer to https://developer.android.com/training/testing/ui-automator
+     *
      * @param uiautomatorText is Android UIAutomator string
      * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
      */
@@ -88,9 +95,10 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is only available in Espresso Driver mode.
+     *
      * @param viewMatcherString is a valid json string detailing hamcrest matcher for Espresso onView().
-     *                            See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
-     *                            the documentation</a> for more details
+     *                          See <a href="http://appium.io/docs/en/writing-running-appium/android/espresso-datamatcher-selector/">
+     *                          the documentation</a> for more details
      * @return an instance of {@link AppiumBy.ByAndroidViewMatcher}
      */
     public static By androidViewMatcher(final String viewMatcherString) {
@@ -99,9 +107,10 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available in Espresso Driver mode.
-     * @since Appium 1.8.2 beta
+     *
      * @param tag is a view tag string
      * @return an instance of {@link ByAndroidViewTag}
+     * @since Appium 1.8.2 beta
      */
     public static By androidViewTag(final String tag) {
         return new ByAndroidViewTag(tag);
@@ -110,6 +119,7 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * For IOS it is the full name of the XCUI element and begins with XCUIElementType.
      * For Android it is the full name of the UIAutomator2 class (e.g.: android.widget.TextView)
+     *
      * @param selector the class name of the element
      * @return an instance of {@link ByClassName}
      */
@@ -120,6 +130,7 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * For IOS the element name.
      * For Android it is the resource identifier.
+     *
      * @param selector element id
      * @return an instance of {@link ById}
      */
@@ -130,6 +141,7 @@ public abstract class AppiumBy extends By implements Remotable {
     /**
      * For IOS the element name.
      * For Android it is the resource identifier.
+     *
      * @param selector element id
      * @return an instance of {@link ByName}
      */
@@ -153,14 +165,14 @@ public abstract class AppiumBy extends By implements Remotable {
      * This locator strategy is available only if OpenCV libraries and
      * Node.js bindings are installed on the server machine.
      *
+     * @param b64Template base64-encoded template image string. Supported image formats are the same
+     *                    as for OpenCV library.
+     * @return an instance of {@link ByImage}
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
      * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
      * The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
-     * @param b64Template base64-encoded template image string. Supported image formats are the same
-     *                    as for OpenCV library.
-     * @return an instance of {@link ByImage}
      */
     public static By image(final String b64Template) {
         return new ByImage(b64Template);
@@ -168,6 +180,7 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
+     *
      * @param iOSClassChainString is a valid class chain locator string.
      *                            See <a href="https://github.com/facebookarchive/WebDriverAgent/wiki/Class-Chain-Queries-Construction-Rules">
      *                            the documentation</a> for more details
@@ -179,11 +192,62 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * This locator strategy is available in XCUITest Driver mode.
+     *
      * @param iOSNsPredicateString is an iOS NsPredicate String
      * @return an instance of {@link AppiumBy.ByIosNsPredicate}
      */
     public static By iOSNsPredicateString(final String iOSNsPredicateString) {
         return new ByIosNsPredicate(iOSNsPredicateString);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param selector is the value defined to the key attribute of the flutter element
+     * @return an instance of {@link AppiumBy.ByFlutterKey}
+     */
+    public static By flutterKey(final String selector) {
+        return new ByFlutterKey(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param selector is the Type of widget mounted in the app tree
+     * @return an instance of {@link AppiumBy.ByFlutterType}
+     */
+    public static By flutterType(final String selector) {
+        return new ByFlutterType(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param selector is the text that is present on the widget
+     * @return an instance of {@link AppiumBy.ByFlutterText}
+     */
+    public static By flutterText(final String selector) {
+        return new ByFlutterText(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param selector is the text that is partially present on the widget
+     * @return an instance of {@link AppiumBy.ByFlutterTextContaining}
+     */
+    public static By flutterTextContaining(final String selector) {
+        return new ByFlutterTextContaining(selector);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param semanticsLabel represents the value assigned to the label attribute of semantics element
+     * @return an instance of {@link AppiumBy.ByFlutterSemanticsLabel}
+     */
+    public static By flutterSemanticsLabel(final String semanticsLabel) {
+        return new ByFlutterSemanticsLabel(semanticsLabel);
     }
 
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
@@ -257,4 +321,41 @@ public abstract class AppiumBy extends By implements Remotable {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
         }
     }
+
+    public abstract static class FlutterBy extends AppiumBy {
+        protected FlutterBy(String selector, String locatorString, String locatorName) {
+            super(selector, locatorString, locatorName);
+        }
+    }
+
+    public static class ByFlutterType extends FlutterBy implements Serializable {
+        protected ByFlutterType(String locatorString) {
+            super("-flutter type", locatorString, "flutterType");
+        }
+    }
+
+    public static class ByFlutterKey extends FlutterBy implements Serializable {
+        protected ByFlutterKey(String locatorString) {
+            super("-flutter key", locatorString, "flutterKey");
+        }
+    }
+
+    public static class ByFlutterSemanticsLabel extends FlutterBy implements Serializable {
+        protected ByFlutterSemanticsLabel(String locatorString) {
+            super("-flutter semantics label", locatorString, "flutterSemanticsLabel");
+        }
+    }
+
+    public static class ByFlutterText extends FlutterBy implements Serializable {
+        protected ByFlutterText(String locatorString) {
+            super("-flutter text", locatorString, "flutterText");
+        }
+    }
+
+    public static class ByFlutterTextContaining extends FlutterBy implements Serializable {
+        protected ByFlutterTextContaining(String locatorString) {
+            super("-flutter text containing", locatorString, "flutterTextContaining");
+        }
+    }
+
 }
