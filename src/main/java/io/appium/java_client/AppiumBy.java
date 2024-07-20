@@ -26,7 +26,6 @@ import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -324,13 +323,10 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     public abstract static class FlutterBy extends AppiumBy {
-
         protected FlutterBy(String selector, String locatorString, String locatorName) {
             super(selector, locatorString, locatorName);
         }
-        
     }
-
 
     public static class ByFlutterType extends FlutterBy implements Serializable {
         protected ByFlutterType(String locatorString) {
