@@ -3,7 +3,6 @@ package io.appium.java_client.flutter.commands;
 import com.google.common.base.Preconditions;
 import io.appium.java_client.AppiumBy;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
@@ -11,8 +10,6 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 @Accessors(chain = true)
 @Getter
@@ -29,6 +26,13 @@ public class ScrollOptions implements FlutterCommandOptions {
     private ScrollOptions() {
     }
 
+    /**
+     * Constructs a new ScrollOptions object with the given parameters.
+     *
+     * @param scrollTo        the locator used for scrolling to a specific element
+     * @param scrollDirection the direction in which to scroll (e.g., ScrollDirection.DOWN)
+     * @throws IllegalArgumentException if scrollTo is null
+     */
     public ScrollOptions(AppiumBy.FlutterBy scrollTo, ScrollDirection scrollDirection) {
         Preconditions.checkArgument(scrollTo != null, "Must supply a valid locator for scrollTo");
         this.scrollTo = scrollTo;

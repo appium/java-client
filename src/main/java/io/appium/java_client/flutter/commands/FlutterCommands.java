@@ -1,10 +1,10 @@
 package io.appium.java_client.flutter.commands;
 
-import io.appium.java_client.flutter.FlutterDriver;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class CommonFlutterCommands {
+public class FlutterCommands {
 
     private static final String FLUTTER_COMMAND_PREFIX = "flutter";
     private static final String WAIT_FOR_VISIBLE_COMMAND = "waitForVisible";
@@ -14,7 +14,7 @@ public class CommonFlutterCommands {
     private static final String LONG_PRESS = "longPress";
     private static final String DRAG_AND_DROP = "dragAndDrop";
 
-    private CommonFlutterCommands() {
+    private FlutterCommands() {
     }
 
     /**
@@ -23,7 +23,7 @@ public class CommonFlutterCommands {
      * @param driver WebDriver instance to execute the command on.
      * @param option WaitOptions specifying the element and optional timeout.
      */
-    public static void waitForVisible(FlutterDriver driver, WaitOptions option) {
+    public static void waitForVisible(RemoteWebDriver driver, WaitOptions option) {
         executeScript(driver, WAIT_FOR_VISIBLE_COMMAND, option);
     }
 
@@ -33,7 +33,7 @@ public class CommonFlutterCommands {
      * @param driver WebDriver instance to execute the command on.
      * @param option WaitOptions specifying the element and optional timeout.
      */
-    public static void waitForInVisible(FlutterDriver driver, WaitOptions option) {
+    public static void waitForInVisible(RemoteWebDriver driver, WaitOptions option) {
         executeScript(driver, WAIT_FOR_INVISIBLE_COMMAND, option);
     }
 
@@ -44,7 +44,7 @@ public class CommonFlutterCommands {
      * @param option ScrollOptions specifying the finder and scroll direction.
      * @return WebElement that was scrolled to and made visible.
      */
-    public static WebElement scrollTillVisible(FlutterDriver driver, ScrollOptions option) {
+    public static WebElement scrollTillVisible(RemoteWebDriver driver, ScrollOptions option) {
         return (WebElement) executeScript(driver, SCROLL_TILL_VISIBLE, option);
     }
 
@@ -54,7 +54,7 @@ public class CommonFlutterCommands {
      * @param driver WebDriver instance to execute the command on.
      * @param option DoubleClickOptions specifying the element to double-click.
      */
-    public static void performDoubleClick(FlutterDriver driver, DoubleClickOptions option) {
+    public static void performDoubleClick(RemoteWebDriver driver, DoubleClickOptions option) {
         executeScript(driver, DOUBLE_CLICK, option);
     }
 
@@ -64,7 +64,7 @@ public class CommonFlutterCommands {
      * @param driver WebDriver instance to execute the command on.
      * @param option LongPressOptions specifying the element to long-press.
      */
-    public static void performLongPress(FlutterDriver driver, LongPressOptions option) {
+    public static void performLongPress(RemoteWebDriver driver, LongPressOptions option) {
         executeScript(driver, LONG_PRESS, option);
     }
 
@@ -74,7 +74,7 @@ public class CommonFlutterCommands {
      * @param driver WebDriver instance to execute the command on.
      * @param option DragAndDropOptions specifying the source and target elements for the drag-and-drop operation.
      */
-    public static void performDragAndDrop(FlutterDriver driver, DragAndDropOptions option) {
+    public static void performDragAndDrop(RemoteWebDriver driver, DragAndDropOptions option) {
         executeScript(driver, DRAG_AND_DROP, option);
     }
 
@@ -86,7 +86,7 @@ public class CommonFlutterCommands {
      * @param args       FlutterCommandOptions containing the command arguments.
      * @return Object returned by the JavaScript execution.
      */
-    public static Object executeScript(FlutterDriver driver, String scriptName, FlutterCommandOptions args) {
+    public static Object executeScript(RemoteWebDriver driver, String scriptName, FlutterCommandOptions args) {
         String commandName = String.format("%s: %s", FLUTTER_COMMAND_PREFIX, scriptName);
         return ((JavascriptExecutor) driver).executeScript(commandName, args.toJson());
     }
