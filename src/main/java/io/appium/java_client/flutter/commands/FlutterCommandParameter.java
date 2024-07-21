@@ -13,7 +13,7 @@ public abstract class FlutterCommandParameter {
      * @param by The FlutterBy instance representing the locator to parse.
      * @return A Map containing the parsed locator information with keys using and value.
      */
-    Map<String, Object> parseFlutterLocator(AppiumBy.FlutterBy by) {
+    protected static Map<String, Object> parseFlutterLocator(AppiumBy.FlutterBy by) {
         By.Remotable.Parameters parameters = by.getRemoteParameters();
         return Map.of(
                 "using", parameters.using(),

@@ -1,9 +1,6 @@
 package io.appium.java_client.flutter;
 
-import io.appium.java_client.flutter.commands.DoubleClickParameter;
-import io.appium.java_client.flutter.commands.DragAndDropParameter;
 import io.appium.java_client.flutter.commands.FlutterCommandParameter;
-import io.appium.java_client.flutter.commands.LongPressParameter;
 import io.appium.java_client.flutter.commands.ScrollParameter;
 import io.appium.java_client.flutter.commands.WaitParameter;
 import org.openqa.selenium.JavascriptExecutor;
@@ -43,34 +40,7 @@ public interface FlutterDriver {
     default WebElement scrollTillVisible(ScrollParameter parameter) {
         return (WebElement) executeScript("scrollTillVisible", parameter);
     }
-
-    /**
-     * Performs a double-click action on an element.
-     *
-     * @param parameter The parameters for double-clicking, specifying element details.
-     */
-    default void performDoubleClick(DoubleClickParameter parameter) {
-        executeScript("doubleClick", parameter);
-    }
-
-    /**
-     * Performs a long press action on an element.
-     *
-     * @param parameter The parameters for long pressing, specifying element details.
-     */
-    default void performLongPress(LongPressParameter parameter) {
-        executeScript("longPress", parameter);
-    }
-
-    /**
-     * Performs a drag-and-drop action between two elements.
-     *
-     * @param parameter The parameters for drag-and-drop, specifying source and target elements.
-     */
-    default void performDragAndDrop(DragAndDropParameter parameter) {
-        executeScript("dragAndDrop", parameter);
-    }
-
+    
     /**
      * Executes a Flutter-specific script using JavascriptExecutor.
      *

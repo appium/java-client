@@ -26,6 +26,7 @@ env:
   XCODE_VERSION: "15.4"
   IOS_DEVICE_NAME: iPhone 15
   IOS_PLATFORM_VERSION: "17.5"
+  FLUTTER_ANDROID_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/app-debug.apk"
 
 jobs:
   build:
@@ -33,15 +34,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - java: 11
-            # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
-            platform: macos-14
-            e2e-tests: ios
-          - java: 17
-            platform: ubuntu-latest
-            e2e-tests: android
-          - java: 21
-            platform: ubuntu-latest
+        - java: 11
+          # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
+          platform: macos-14
+          e2e-tests: ios
+        - java: 17
+          platform: ubuntu-latest
+          e2e-tests: android
+        - java: 21
+          platform: ubuntu-latest
       fail-fast: false
 
     runs-on: ${{ matrix.platform }}
@@ -78,9 +79,11 @@ jobs:
       with:
         node-version: 'lts/*'
 
-    - name: Install Appium
+    - name: Install Appium & Flutter driver
       if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios'
-      run: npm install --location=global appium
+      run: |
+        npm install --location=global appium
+        appium driver install appium-flutter-integration-driver --source npm
 
     - name: Install UIA2 driver
       if: matrix.e2e-tests == 'android'
@@ -89,7 +92,8 @@ jobs:
       if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot
+        script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot  &&
+          ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
         disable-spellchecker: true

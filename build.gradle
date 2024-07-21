@@ -70,7 +70,7 @@ dependencies {
 }
 
 dependencyCheck {
-    failBuildOnCVSS=22
+    failBuildOnCVSS = 22
 }
 
 jacoco {
@@ -185,7 +185,7 @@ wrapper {
 
 processResources {
     filter ReplaceTokens, tokens: [
-            'selenium.version': seleniumVersion,
+            'selenium.version'    : seleniumVersion,
             'appiumClient.version': appiumClientVersion
     ]
 }
@@ -287,6 +287,28 @@ testing {
                         exclude '**/AndroidPageObjectTest.class'
                         exclude '**/MobileBrowserCompatibilityTest.class'
                     }
+                }
+            }
+        }
+
+        e2eFlutterTest(JvmTestSuite) {
+            sources {
+                java {
+                    srcDirs = ['src/e2eFlutterTest/java']
+                }
+            }
+            dependencies {
+                implementation project()
+                implementation(sourceSets.test.output)
+                implementation('io.github.bonigarcia:webdrivermanager:5.9.1') {
+                    exclude group: 'org.seleniumhq.selenium'
+                }
+            }
+
+            targets.configureEach {
+                testTask.configure {
+                    shouldRunAfter(test)
+                    systemProperties project.properties.subMap(["platform", "flutterApp"])
                 }
             }
         }
