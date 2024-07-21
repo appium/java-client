@@ -14,7 +14,7 @@ import java.util.Optional;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class ScrollOptions implements FlutterCommandOptions {
+public class ScrollParameter extends FlutterCommandParameter {
     AppiumBy.FlutterBy scrollTo;
     WebElement scrollView;
     ScrollDirection scrollDirection;
@@ -23,7 +23,7 @@ public class ScrollOptions implements FlutterCommandOptions {
     Integer settleBetweenScrollsTimeout;
     Duration dragDuration;
 
-    private ScrollOptions() {
+    private ScrollParameter() {
     }
 
     /**
@@ -33,7 +33,7 @@ public class ScrollOptions implements FlutterCommandOptions {
      * @param scrollDirection the direction in which to scroll (e.g., ScrollDirection.DOWN)
      * @throws IllegalArgumentException if scrollTo is null
      */
-    public ScrollOptions(AppiumBy.FlutterBy scrollTo, ScrollDirection scrollDirection) {
+    public ScrollParameter(AppiumBy.FlutterBy scrollTo, ScrollDirection scrollDirection) {
         Preconditions.checkArgument(scrollTo != null, "Must supply a valid locator for scrollTo");
         this.scrollTo = scrollTo;
         this.scrollDirection = scrollDirection;
@@ -42,7 +42,7 @@ public class ScrollOptions implements FlutterCommandOptions {
     @Override
     public Map<String, Object> toJson() {
         return Map.of(
-                "finder", scrollTo.toJson(),
+                "finder", parseFlutterLocator(scrollTo),
                 "scrollView", scrollView,
                 "delta", delta,
                 "maxScrolls", maxScrolls,

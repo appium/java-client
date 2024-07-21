@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Accessors(chain = true)
-@Getter
 @Setter
-public class FlutterGestureOptions implements FlutterCommandOptions {
+@Getter
+public class FlutterGestureParameter extends FlutterCommandParameter {
     WebElement element;
     Point point;
 

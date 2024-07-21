@@ -14,7 +14,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class WaitOptions implements FlutterCommandOptions {
+public class WaitParameter extends FlutterCommandParameter {
     private WebElement element;
     private AppiumBy.FlutterBy locator;
     private Duration timeout;
@@ -24,7 +24,7 @@ public class WaitOptions implements FlutterCommandOptions {
         Map<String, Object> args = new HashMap<>();
         args.put("element", element);
         if (locator != null) {
-            args.put("locator", locator.toJson());
+            args.put("locator", parseFlutterLocator(locator));
         }
         if (timeout != null) {
             args.put("timeout", timeout.getSeconds());

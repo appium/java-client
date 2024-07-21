@@ -11,13 +11,13 @@ import java.util.Map;
 @Accessors(chain = true)
 @Getter
 @AllArgsConstructor
-public class DragAndDropOptions implements FlutterCommandOptions {
+public class DragAndDropParameter extends FlutterCommandParameter {
     @NonNull
     WebElement source;
     @NonNull
     WebElement target;
 
-    private DragAndDropOptions() {
+    private DragAndDropParameter() {
     }
 
     @Override
