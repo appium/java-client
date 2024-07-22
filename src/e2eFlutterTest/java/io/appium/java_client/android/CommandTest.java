@@ -17,7 +17,7 @@ class CommandTest extends BaseFlutterTest {
 
     @Test
     public void testWaitCommand() {
-        WebElement loginButton = driver.findElement(this.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
         loginButton.click();
         openScreen("Lazy Loading");
 
@@ -40,7 +40,7 @@ class CommandTest extends BaseFlutterTest {
 
     @Test
     public void testScrollTillVisibleCommand() {
-        WebElement loginButton = driver.findElement(this.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
         loginButton.click();
         openScreen("Vertical Swiping");
 

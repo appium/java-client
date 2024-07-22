@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class FinderTests extends BaseFlutterTest {
-    
+
     @Test
     public void testFlutterByKey() {
         WebElement userNameField = driver.findElement(AppiumBy.flutterKey("username_text_field"));
@@ -35,7 +35,7 @@ class FinderTests extends BaseFlutterTest {
 
     @Test
     public void testFlutterTextContaining() {
-        WebElement loginButton = driver.findElement(this.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
         loginButton.click();
         assertEquals(driver.findElement(AppiumBy.flutterTextContaining("Vertical")).getText(),
                 "Vertical Swiping");
@@ -43,7 +43,7 @@ class FinderTests extends BaseFlutterTest {
 
     @Test
     public void testFlutterSemanticsLabel() {
-        WebElement loginButton = driver.findElement(this.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
         loginButton.click();
         openScreen("Lazy Loading");
 

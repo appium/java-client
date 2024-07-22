@@ -41,6 +41,9 @@ jobs:
         - java: 17
           platform: ubuntu-latest
           e2e-tests: android
+        - java: 17
+          platform: ubuntu-latest
+          e2e-tests: flutter-android
         - java: 21
           platform: ubuntu-latest
       fail-fast: false
@@ -79,21 +82,34 @@ jobs:
       with:
         node-version: 'lts/*'
 
-    - name: Install Appium & Flutter driver
-      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios'
-      run: |
-        npm install --location=global appium
-        appium driver install appium-flutter-integration-driver --source npm
+    - name: Install Appium
+      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android'
+      run: npm install --location=global appium
 
     - name: Install UIA2 driver
-      if: matrix.e2e-tests == 'android'
+      if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
       run: appium driver install uiautomator2
+
+    - name: Install Flutter Integration driver
+      if: matrix.e2e-tests == 'flutter-android'
+      run: appium driver install appium-flutter-integration-driver --source npm
+
     - name: Run Android E2E tests
       if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot  &&
-          ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
+        script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot
+        api-level: ${{ env.ANDROID_SDK_VERSION }}
+        avd-name: ${{ env.ANDROID_EMU_NAME }}
+        disable-spellchecker: true
+        disable-animations: true
+        target: ${{ env.ANDROID_EMU_TARGET }}
+
+    - name: Run Flutter Android E2E tests
+      if: matrix.e2e-tests == 'flutter-android'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        script: ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
         disable-spellchecker: true
