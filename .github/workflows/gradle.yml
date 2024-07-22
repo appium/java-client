@@ -50,7 +50,7 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
 
-    name: JDK ${{ matrix.java }} - ${{ matrix.platform }}
+    name: JDK ${{ matrix.java }} - ${{ matrix.platform }} ${{ matrix.e2e-tests }}
     steps:
     - uses: actions/checkout@v4
 
