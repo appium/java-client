@@ -7,9 +7,8 @@ import org.openqa.selenium.WebElement;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class FinderTests extends BaseFlutterTest {
-
-
+class FinderTests extends BaseFlutterTest {
+    
     @Test
     public void testFlutterByKey() {
         WebElement userNameField = driver.findElement(AppiumBy.flutterKey("username_text_field"));

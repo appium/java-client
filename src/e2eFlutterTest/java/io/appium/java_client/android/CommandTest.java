@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CommandTest extends BaseFlutterTest {
+class CommandTest extends BaseFlutterTest {
 
-    AppiumBy.FlutterBy messageFieldLocator = AppiumBy.flutterKey("message_field");
-    AppiumBy.FlutterBy toggleButtonLocator = AppiumBy.flutterKey("toggle_button");
+    private static final AppiumBy.FlutterBy messageFieldLocator = AppiumBy.flutterKey("message_field");
+    private static final AppiumBy.FlutterBy toggleButtonLocator = AppiumBy.flutterKey("toggle_button");
 
     @Test
     public void testWaitCommand() {

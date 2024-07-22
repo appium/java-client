@@ -17,13 +17,13 @@ import java.util.Optional;
 @Getter
 @Setter
 public class ScrollParameter extends FlutterCommandParameter {
-    AppiumBy.FlutterBy scrollTo;
-    WebElement scrollView;
-    ScrollDirection scrollDirection;
-    Integer delta;
-    Integer maxScrolls;
-    Integer settleBetweenScrollsTimeout;
-    Duration dragDuration;
+    private AppiumBy.FlutterBy scrollTo;
+    private WebElement scrollView;
+    private ScrollDirection scrollDirection;
+    private Integer delta;
+    private Integer maxScrolls;
+    private Integer settleBetweenScrollsTimeout;
+    private Duration dragDuration;
 
     private ScrollParameter() {
     }
@@ -55,16 +55,19 @@ public class ScrollParameter extends FlutterCommandParameter {
         Map<String, Object> params = new HashMap<>();
 
         params.put("finder", parseFlutterLocator(scrollTo));
-        params.put("scrollView", scrollView);
-        params.put("delta", delta);
-        params.put("maxScrolls", maxScrolls);
-        params.put("settleBetweenScrollsTimeout", settleBetweenScrollsTimeout);
+        Optional.ofNullable(scrollView)
+                .ifPresent(scrollView -> params.put("scrollView", scrollView));
+        Optional.ofNullable(delta)
+                .ifPresent(delta -> params.put("delta", delta));
+        Optional.ofNullable(maxScrolls)
+                .ifPresent(maxScrolls -> params.put("delta", maxScrolls));
+        Optional.ofNullable(settleBetweenScrollsTimeout)
+                .ifPresent(timeout -> params.put("delta", settleBetweenScrollsTimeout));
         Optional.ofNullable(scrollDirection)
                 .ifPresent(direction -> params.put("scrollDirection", direction.getDirection()));
         Optional.ofNullable(dragDuration)
                 .ifPresent(direction -> params.put("dragDuration", dragDuration.getSeconds()));
 
-        params.entrySet().removeIf(entry -> entry.getValue() == null);
         return Collections.unmodifiableMap(params);
     }
 

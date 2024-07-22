@@ -2,12 +2,12 @@ package io.appium.java_client.flutter.android;
 
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.flutter.FlutterDriver;
+import io.appium.java_client.flutter.SupportsScrollingOfFlutterElements;
+import io.appium.java_client.flutter.SupportsWaitingForFlutterElements;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -16,7 +16,9 @@ import java.net.URL;
 /**
  * Custom AndroidDriver implementation with additional Flutter-specific capabilities.
  */
-public class FlutterAndroidDriver extends AndroidDriver implements FlutterDriver {
+public class FlutterAndroidDriver extends AndroidDriver implements
+        SupportsWaitingForFlutterElements,
+        SupportsScrollingOfFlutterElements {
 
     public FlutterAndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
@@ -66,10 +68,5 @@ public class FlutterAndroidDriver extends AndroidDriver implements FlutterDriver
 
     public FlutterAndroidDriver(URL remoteSessionAddress, String automationName) {
         super(remoteSessionAddress, automationName);
-    }
-
-    @Override
-    public RemoteWebDriver getDriver() {
-        return this;
     }
 }

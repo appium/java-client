@@ -18,19 +18,19 @@ import org.openqa.selenium.WebElement;
 import java.net.MalformedURLException;
 import java.util.Optional;
 
-public class BaseFlutterTest {
+class BaseFlutterTest {
 
-    protected static final boolean IS_ANDROID = Optional
+    private static final boolean IS_ANDROID = Optional
             .ofNullable(System.getProperty("platform"))
             .orElse("android")
             .equalsIgnoreCase("android");
-    public static final String APP_ID = IS_ANDROID
+    private static final String APP_ID = IS_ANDROID
             ? "com.example.appium_testing_app" : "com.example.appiumTestingApp";
     protected static final int PORT = 4723;
 
     private static AppiumDriverLocalService service;
     protected static FlutterAndroidDriver driver;
-    protected By loginButton = AppiumBy.flutterText("Login");
+    protected static final By loginButton = AppiumBy.flutterText("Login");
 
     /**
      * initialization.
