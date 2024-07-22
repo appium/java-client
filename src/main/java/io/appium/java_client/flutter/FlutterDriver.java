@@ -40,7 +40,7 @@ public interface FlutterDriver {
     default WebElement scrollTillVisible(ScrollParameter parameter) {
         return (WebElement) executeScript("scrollTillVisible", parameter);
     }
-    
+
     /**
      * Executes a Flutter-specific script using JavascriptExecutor.
      *
