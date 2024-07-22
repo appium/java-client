@@ -35,7 +35,7 @@ class FinderTests extends BaseFlutterTest {
 
     @Test
     public void testFlutterTextContaining() {
-        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         assertEquals(driver.findElement(AppiumBy.flutterTextContaining("Vertical")).getText(),
                 "Vertical Swiping");
@@ -43,7 +43,7 @@ class FinderTests extends BaseFlutterTest {
 
     @Test
     public void testFlutterSemanticsLabel() {
-        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Lazy Loading");
 

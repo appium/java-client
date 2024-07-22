@@ -12,35 +12,35 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommandTest extends BaseFlutterTest {
 
-    private static final AppiumBy.FlutterBy messageFieldLocator = AppiumBy.flutterKey("message_field");
-    private static final AppiumBy.FlutterBy toggleButtonLocator = AppiumBy.flutterKey("toggle_button");
+    private static final AppiumBy.FlutterBy MESSAGE_FIELD = AppiumBy.flutterKey("message_field");
+    private static final AppiumBy.FlutterBy TOGGLE_BUTTON = AppiumBy.flutterKey("toggle_button");
 
     @Test
     public void testWaitCommand() {
-        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Lazy Loading");
 
-        WebElement messageField = driver.findElement(messageFieldLocator);
-        WebElement toggleButton = driver.findElement(toggleButtonLocator);
+        WebElement messageField = driver.findElement(MESSAGE_FIELD);
+        WebElement toggleButton = driver.findElement(TOGGLE_BUTTON);
 
         assertEquals(messageField.getText(), "Hello world");
         toggleButton.click();
         assertEquals(messageField.getText(), "Hello world");
 
-        WaitParameter waitParameter = new WaitParameter().setLocator(messageFieldLocator);
+        WaitParameter waitParameter = new WaitParameter().setLocator(MESSAGE_FIELD);
 
         driver.waitForInVisible(waitParameter);
-        assertEquals(0, driver.findElements(messageFieldLocator).size());
+        assertEquals(0, driver.findElements(MESSAGE_FIELD).size());
         toggleButton.click();
         driver.waitForVisible(waitParameter);
-        assertEquals(1, driver.findElements(messageFieldLocator).size());
+        assertEquals(1, driver.findElements(MESSAGE_FIELD).size());
         assertEquals(messageField.getText(), "Hello world");
     }
 
     @Test
     public void testScrollTillVisibleCommand() {
-        WebElement loginButton = driver.findElement(BaseFlutterTest.loginButton);
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Vertical Swiping");
 

@@ -30,7 +30,7 @@ class BaseFlutterTest {
 
     private static AppiumDriverLocalService service;
     protected static FlutterAndroidDriver driver;
-    protected static final By loginButton = AppiumBy.flutterText("Login");
+    protected static final By LOGIN_BUTTON = AppiumBy.flutterText("Login");
 
     /**
      * initialization.
