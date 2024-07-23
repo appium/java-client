@@ -2,8 +2,8 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.options.UiAutomator2Options;
-import io.appium.java_client.flutter.FlutterDriver;
 import io.appium.java_client.flutter.FlutterDriverOptions;
+import io.appium.java_client.flutter.FlutterIntegrationTestDriver;
 import io.appium.java_client.flutter.android.FlutterAndroidDriver;
 import io.appium.java_client.flutter.commands.ScrollParameter;
 import io.appium.java_client.flutter.ios.FlutterIOSDriver;
@@ -32,7 +32,7 @@ class BaseFlutterTest {
     protected static final int PORT = 4723;
 
     private static AppiumDriverLocalService service;
-    protected static FlutterDriver driver;
+    protected static FlutterIntegrationTestDriver driver;
     protected static final By LOGIN_BUTTON = AppiumBy.flutterText("Login");
 
     /**

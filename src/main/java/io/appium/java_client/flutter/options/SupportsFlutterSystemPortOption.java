@@ -18,7 +18,7 @@ public interface SupportsFlutterSystemPortOption<T extends BaseOptions<T>> exten
      * @param flutterSystemPort is the port number
      * @return self instance for chaining.
      */
-    default T setFlutterSystemPort(Integer flutterSystemPort) {
+    default T setFlutterSystemPort(int flutterSystemPort) {
         return amend(FLUTTER_SYSTEM_PORT_OPTION, flutterSystemPort);
     }
 

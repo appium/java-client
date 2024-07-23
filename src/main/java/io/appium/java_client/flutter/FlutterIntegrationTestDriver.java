@@ -15,7 +15,7 @@ import org.openqa.selenium.WebDriver;
  * @see SupportsScrollingOfFlutterElements
  * @see SupportsWaitingForFlutterElements
  */
-public interface FlutterDriver extends
+public interface FlutterIntegrationTestDriver extends
         WebDriver,
         SupportsGestureOnFlutterElements,
         SupportsScrollingOfFlutterElements,

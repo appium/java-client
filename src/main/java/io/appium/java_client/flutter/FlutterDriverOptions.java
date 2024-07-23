@@ -20,28 +20,32 @@ public class FlutterDriverOptions extends BaseOptions<FlutterDriverOptions> impl
         SupportsFlutterElementWaitTimeoutOption<FlutterDriverOptions> {
 
     public FlutterDriverOptions() {
-        setCommonOptions();
+        setDefaultOptions();
     }
 
     public FlutterDriverOptions(Capabilities source) {
         super(source);
-        setCommonOptions();
+        setDefaultOptions();
     }
 
     public FlutterDriverOptions(Map<String, ?> source) {
         super(source);
-        setCommonOptions();
+        setDefaultOptions();
     }
 
     public FlutterDriverOptions setUiAutomator2Options(UiAutomator2Options uiAutomator2Options) {
-        return merge(uiAutomator2Options);
+        return setDefaultOptions(merge(uiAutomator2Options));
     }
 
     public FlutterDriverOptions setXCUITestOptions(XCUITestOptions xcuiTestOptions) {
-        return merge(xcuiTestOptions);
+        return setDefaultOptions(merge(xcuiTestOptions));
     }
 
-    private void setCommonOptions() {
-        setAutomationName(AutomationName.FLUTTER_INTEGRATION);
+    private void setDefaultOptions() {
+        setDefaultOptions(this);
+    }
+
+    private FlutterDriverOptions setDefaultOptions(FlutterDriverOptions flutterDriverOptions) {
+        return flutterDriverOptions.setAutomationName(AutomationName.FLUTTER_INTEGRATION);
     }
 }

@@ -1,7 +1,7 @@
 package io.appium.java_client.flutter.ios;
 
 import io.appium.java_client.AppiumClientConfig;
-import io.appium.java_client.flutter.FlutterDriver;
+import io.appium.java_client.flutter.FlutterIntegrationTestDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -15,7 +15,7 @@ import java.net.URL;
 /**
  * Custom IOSDriver implementation with additional Flutter-specific capabilities.
  */
-public class FlutterIOSDriver extends IOSDriver implements FlutterDriver {
+public class FlutterIOSDriver extends IOSDriver implements FlutterIntegrationTestDriver {
 
     public FlutterIOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
