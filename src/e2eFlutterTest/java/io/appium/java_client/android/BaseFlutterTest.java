@@ -52,7 +52,7 @@ class BaseFlutterTest {
         FlutterDriverOptions flutterOptions = new FlutterDriverOptions()
                 .setFlutterServerLaunchTimeout(Duration.ofMinutes(2))
                 .setFlutterSystemPort(9999)
-                .setFlutterElementWaitTimeout(Duration.ofSeconds(3));
+                .setFlutterElementWaitTimeout(Duration.ofSeconds(10));
         if (IS_ANDROID) {
             driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
                     .setUiAutomator2Options(new UiAutomator2Options()
