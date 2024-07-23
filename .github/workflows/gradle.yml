@@ -27,6 +27,7 @@ env:
   IOS_DEVICE_NAME: iPhone 15
   IOS_PLATFORM_VERSION: "17.5"
   FLUTTER_ANDROID_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/app-debug.apk"
+  FLUTTER_IOS_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/ios.zip"
 
 jobs:
   build:
@@ -38,6 +39,10 @@ jobs:
           # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
           platform: macos-14
           e2e-tests: ios
+        - java: 17
+          # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
+          platform: macos-14
+          e2e-tests: flutter-ios
         - java: 17
           platform: ubuntu-latest
           e2e-tests: android
@@ -77,13 +82,13 @@ jobs:
         ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
     - name: Install Node.js
-      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android'
+      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
       uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
 
     - name: Install Appium
-      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android'
+      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
       run: npm install --location=global appium
 
     - name: Install UIA2 driver
@@ -117,22 +122,26 @@ jobs:
         target: ${{ env.ANDROID_EMU_TARGET }}
 
     - name: Select Xcode
-      if: matrix.e2e-tests == 'ios'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: "${{ env.XCODE_VERSION }}"
     - name: Prepare iOS simulator
-      if: matrix.e2e-tests == 'ios'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       uses: futureware-tech/simulator-action@v3
       with:
         model: "${{ env.IOS_DEVICE_NAME }}"
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
     - name: Install XCUITest driver
-      if: matrix.e2e-tests == 'ios'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver install xcuitest
     - name: Prebuild XCUITest driver
-      if: matrix.e2e-tests == 'ios'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver run xcuitest build-wda
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
       run: ./gradlew e2eIosTest -PisCI -Pselenium.version=$latest_snapshot
+
+    - name: Run Flutter iOS E2E tests
+      if: matrix.e2e-tests == 'flutter-ios'
+      run: ./gradlew e2eFlutterTest -Pplatform="ios" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_IOS_APP }}

@@ -3,7 +3,11 @@ package io.appium.java_client.android;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.flutter.commands.ScrollParameter;
 import io.appium.java_client.flutter.commands.WaitParameter;
+import io.appium.java_client.flutter.commands.DoubleClickParameter;
+import io.appium.java_client.flutter.commands.LongPressParameter;
+import io.appium.java_client.flutter.commands.DragAndDropParameter;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,4 +63,56 @@ class CommandTest extends BaseFlutterTest {
         assertFalse(Boolean.parseBoolean(lastElement.getAttribute("displayed")));
     }
 
+    @Test
+    public void testDoubleClickCommand() {
+        driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
+        openScreen("Double Tap");
+
+        WebElement doubleTapButton = driver
+                .findElement(AppiumBy.flutterKey("double_tap_button"))
+                .findElement(AppiumBy.flutterText("Double Tap"));
+        assertEquals("Double Tap", doubleTapButton.getText());
+
+        AppiumBy.FlutterBy okButton = AppiumBy.flutterText("Ok");
+        AppiumBy.FlutterBy successPopup = AppiumBy.flutterTextContaining("Successful");
+
+        driver.performDoubleClick(new DoubleClickParameter().setElement(doubleTapButton));
+        assertEquals(driver.findElement(successPopup).getText(), "Double Tap Successful");
+        driver.findElement(okButton).click();
+
+        driver.performDoubleClick(new DoubleClickParameter()
+                .setElement(doubleTapButton)
+                .setOffset(new Point(10, 2))
+        );
+        assertEquals(driver.findElement(successPopup).getText(), "Double Tap Successful");
+        driver.findElement(okButton).click();
+    }
+
+    @Test
+    public void testLongPressCommand() {
+        driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
+        openScreen("Long Press");
+
+        AppiumBy.FlutterBy successPopup = AppiumBy.flutterText("It was a long press");
+        WebElement longPressButton = driver
+                .findElement(AppiumBy.flutterKey("long_press_button"));
+
+        driver.performLongPress(new LongPressParameter().setElement(longPressButton));
+        assertEquals(driver.findElement(successPopup).getText(), "It was a long press");
+        assertTrue(driver.findElement(successPopup).isDisplayed());
+    }
+
+    @Test
+    public void testDragAndDropCommand() {
+        driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
+        openScreen("Drag & Drop");
+
+        driver.performDragAndDrop(new DragAndDropParameter(
+                driver.findElement(AppiumBy.flutterKey("drag_me")),
+                driver.findElement(AppiumBy.flutterKey("drop_zone"))
+        ));
+        assertTrue(driver.findElement(AppiumBy.flutterText("The box is dropped")).isDisplayed());
+        assertEquals(driver.findElement(AppiumBy.flutterText("The box is dropped")).getText(), "The box is dropped");
+
+    }
 }
