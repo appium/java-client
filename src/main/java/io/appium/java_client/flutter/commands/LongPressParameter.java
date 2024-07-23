@@ -1,11 +1,11 @@
 package io.appium.java_client.flutter.commands;
 
-import com.google.common.base.Preconditions;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Require;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class LongPressParameter extends FlutterCommandParameter {
 
     @Override
     public Map<String, Object> toJson() {
-        Preconditions.checkArgument(element != null || offset != null,
+        Require.precondition(element != null || offset != null,
                 "Must supply a valid element or offset to perform flutter gesture event");
 
         Map<String, Object> params = new HashMap<>();

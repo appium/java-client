@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FinderTests extends BaseFlutterTest {
 
     @Test
-    public void testFlutterByKey() {
+    void testFlutterByKey() {
         WebElement userNameField = driver.findElement(AppiumBy.flutterKey("username_text_field"));
         assertEquals("admin", userNameField.getText());
         userNameField.clear();
@@ -19,13 +19,13 @@ class FinderTests extends BaseFlutterTest {
     }
 
     @Test
-    public void testFlutterByType() {
+    void testFlutterByType() {
         WebElement loginButton = driver.findElement(AppiumBy.flutterType("ElevatedButton"));
         assertEquals(loginButton.findElement(AppiumBy.flutterType("Text")).getText(), "Login");
     }
 
     @Test
-    public void testFlutterText() {
+    void testFlutterText() {
         WebElement loginButton = driver.findElement(AppiumBy.flutterText("Login"));
         assertEquals(loginButton.getText(), "Login");
         loginButton.click();
@@ -34,7 +34,7 @@ class FinderTests extends BaseFlutterTest {
     }
 
     @Test
-    public void testFlutterTextContaining() {
+    void testFlutterTextContaining() {
         WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         assertEquals(driver.findElement(AppiumBy.flutterTextContaining("Vertical")).getText(),
@@ -42,7 +42,7 @@ class FinderTests extends BaseFlutterTest {
     }
 
     @Test
-    public void testFlutterSemanticsLabel() {
+    void testFlutterSemanticsLabel() {
         WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Lazy Loading");

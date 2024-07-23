@@ -48,7 +48,7 @@ class BaseFlutterTest {
     }
 
     @BeforeEach
-    public void startSession() throws MalformedURLException {
+    void startSession() throws MalformedURLException {
         FlutterDriverOptions flutterOptions = new FlutterDriverOptions()
                 .setFlutterSystemPort(9999)
                 .setFlutterServerLaunchTimeout(Duration.ofSeconds(30))
@@ -64,6 +64,8 @@ class BaseFlutterTest {
                     .setXCUITestOptions(new XCUITestOptions()
                             .setApp(System.getProperty("flutterApp"))
                             .setWdaLaunchTimeout(Duration.ofMinutes(2))
+                            .setNoReset(true)
+                            .setFullReset(false)
                             .eventTimings()
                     )
             );
@@ -71,20 +73,20 @@ class BaseFlutterTest {
     }
 
     @AfterEach
-    public void stopSession() {
+    void stopSession() {
         if (driver != null) {
             driver.quit();
         }
     }
 
     @AfterAll
-    public static void afterClass() {
+    static void afterClass() {
         if (service.isRunning()) {
             service.stop();
         }
     }
 
-    public void openScreen(String screenTitle) {
+    void openScreen(String screenTitle) {
         ScrollParameter scrollOptions = new ScrollParameter(
                 AppiumBy.flutterText(screenTitle), ScrollParameter.ScrollDirection.DOWN);
         WebElement element = driver.scrollTillVisible(scrollOptions);

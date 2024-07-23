@@ -20,7 +20,7 @@ class CommandTest extends BaseFlutterTest {
     private static final AppiumBy.FlutterBy TOGGLE_BUTTON = AppiumBy.flutterKey("toggle_button");
 
     @Test
-    public void testWaitCommand() {
+    void testWaitCommand() {
         WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Lazy Loading");
@@ -43,7 +43,7 @@ class CommandTest extends BaseFlutterTest {
     }
 
     @Test
-    public void testScrollTillVisibleCommand() {
+    void testScrollTillVisibleCommand() {
         WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Vertical Swiping");
@@ -64,7 +64,7 @@ class CommandTest extends BaseFlutterTest {
     }
 
     @Test
-    public void testDoubleClickCommand() {
+    void testDoubleClickCommand() {
         driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
         openScreen("Double Tap");
 
@@ -89,7 +89,7 @@ class CommandTest extends BaseFlutterTest {
     }
 
     @Test
-    public void testLongPressCommand() {
+    void testLongPressCommand() {
         driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
         openScreen("Long Press");
 
@@ -103,7 +103,7 @@ class CommandTest extends BaseFlutterTest {
     }
 
     @Test
-    public void testDragAndDropCommand() {
+    void testDragAndDropCommand() {
         driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
         openScreen("Drag & Drop");
 

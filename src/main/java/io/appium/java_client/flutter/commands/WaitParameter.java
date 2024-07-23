@@ -1,11 +1,11 @@
 package io.appium.java_client.flutter.commands;
 
-import com.google.common.base.Preconditions;
 import io.appium.java_client.AppiumBy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Require;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -23,7 +23,7 @@ public class WaitParameter extends FlutterCommandParameter {
 
     @Override
     public Map<String, Object> toJson() {
-        Preconditions.checkArgument(element != null || locator != null,
+        Require.precondition(element != null || locator != null,
                 "Must supply a valid element or locator to wait for");
         Map<String, Object> params = new HashMap<>();
         Optional.ofNullable(element)

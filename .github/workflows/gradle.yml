@@ -82,13 +82,13 @@ jobs:
         ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
     - name: Install Node.js
-      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
+      if: ${{ matrix.e2e-tests }}
       uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
 
     - name: Install Appium
-      if: matrix.e2e-tests == 'android' ||  matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
+      if: ${{ matrix.e2e-tests }}
       run: npm install --location=global appium
 
     - name: Install UIA2 driver

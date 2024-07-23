@@ -1,9 +1,9 @@
 package io.appium.java_client.flutter.commands;
 
-import com.google.common.base.Preconditions;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Require;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class DragAndDropParameter extends FlutterCommandParameter {
      * @throws IllegalArgumentException if {@code source} or {@code target} is {@code null}.
      */
     public DragAndDropParameter(WebElement source, WebElement target) {
-        Preconditions.checkArgument(source != null && target != null,
+        Require.precondition(source != null && target != null,
                 "Must supply valid source and target element to perform drag and drop event");
         this.source = source;
         this.target = target;
