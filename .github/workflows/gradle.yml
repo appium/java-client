@@ -75,11 +75,12 @@ jobs:
 
     - name: Build with Gradle
       run: |
-        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
-          python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
-        echo ">>> $latest_snapshot"
-        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
-        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
+        #        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
+        #          python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
+             latest_snapshot=4.24.0-SNAPSHOT
+             echo ">>> $latest_snapshot"
+             echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
+             ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
