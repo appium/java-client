@@ -1,12 +1,14 @@
 package io.appium.java_client.flutter.commands;
 
 import com.google.common.base.Preconditions;
+import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 
 @Accessors(chain = true)
+@Getter
 public class DragAndDropParameter extends FlutterCommandParameter {
     private final WebElement source;
     private final WebElement target;

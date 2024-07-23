@@ -51,18 +51,21 @@ class BaseFlutterTest {
     public void startSession() throws MalformedURLException {
         FlutterDriverOptions flutterOptions = new FlutterDriverOptions()
                 .setFlutterSystemPort(9999)
-                .setFlutterServerLaunchTimeout(Duration.ofSeconds(10));
-
+                .setFlutterServerLaunchTimeout(Duration.ofSeconds(30))
+                .setFlutterElementWaitTimeout(Duration.ofSeconds(3));
         if (IS_ANDROID) {
-            UiAutomator2Options options = new UiAutomator2Options()
-                    .setApp(System.getProperty("flutterApp"))
-                    .eventTimings();
-            driver = new FlutterAndroidDriver(service.getUrl(), options.merge(flutterOptions));
+            driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
+                    .setUiAutomator2Options(new UiAutomator2Options()
+                            .setApp(System.getProperty("flutterApp"))
+                            .eventTimings()));
         } else {
-            XCUITestOptions options = new XCUITestOptions()
-                    .setApp(System.getProperty("flutterApp"))
-                    .eventTimings();
-            driver = new FlutterIOSDriver(service.getUrl(), options.merge(flutterOptions));
+            driver = new FlutterIOSDriver(service.getUrl(), flutterOptions
+                    .setXCUITestOptions(new XCUITestOptions()
+                            .setApp(System.getProperty("flutterApp"))
+                            .setWdaLaunchTimeout(Duration.ofMinutes(2))
+                            .eventTimings()
+                    )
+            );
         }
     }
 

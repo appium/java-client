@@ -1,7 +1,10 @@
 package io.appium.java_client.flutter;
 
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.flutter.options.SupportsFlutterElementWaitTimeoutOption;
 import io.appium.java_client.flutter.options.SupportsFlutterServerLaunchTimeoutOption;
 import io.appium.java_client.flutter.options.SupportsFlutterSystemPortOption;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.options.BaseOptions;
 import org.openqa.selenium.Capabilities;
@@ -13,7 +16,8 @@ import java.util.Map;
  */
 public class FlutterDriverOptions extends BaseOptions<FlutterDriverOptions> implements
         SupportsFlutterSystemPortOption<FlutterDriverOptions>,
-        SupportsFlutterServerLaunchTimeoutOption<FlutterDriverOptions> {
+        SupportsFlutterServerLaunchTimeoutOption<FlutterDriverOptions>,
+        SupportsFlutterElementWaitTimeoutOption<FlutterDriverOptions> {
 
     public FlutterDriverOptions() {
         setCommonOptions();
@@ -27,6 +31,14 @@ public class FlutterDriverOptions extends BaseOptions<FlutterDriverOptions> impl
     public FlutterDriverOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();
+    }
+
+    public FlutterDriverOptions setUiAutomator2Options(UiAutomator2Options uiAutomator2Options) {
+        return merge(uiAutomator2Options);
+    }
+
+    public FlutterDriverOptions setXCUITestOptions(XCUITestOptions xcuiTestOptions) {
+        return merge(xcuiTestOptions);
     }
 
     private void setCommonOptions() {

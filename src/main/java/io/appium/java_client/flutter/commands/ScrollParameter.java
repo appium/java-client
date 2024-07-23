@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Accessors(chain = true)
 @Setter
+@Getter
 public class ScrollParameter extends FlutterCommandParameter {
     private AppiumBy.FlutterBy scrollTo;
     private WebElement scrollView;

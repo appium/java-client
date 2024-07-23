@@ -1,6 +1,7 @@
 package io.appium.java_client.flutter.commands;
 
 import com.google.common.base.Preconditions;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.Point;
@@ -13,11 +14,12 @@ import java.util.Optional;
 
 @Accessors(chain = true)
 @Setter
+@Getter
 public class DoubleClickParameter extends FlutterCommandParameter {
     private WebElement element;
     private Point offset;
 
-    
+
     @Override
     public Map<String, Object> toJson() {
         Preconditions.checkArgument(element != null || offset != null,
