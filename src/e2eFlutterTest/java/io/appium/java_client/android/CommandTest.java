@@ -1,11 +1,11 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.flutter.commands.DoubleClickParameter;
+import io.appium.java_client.flutter.commands.DragAndDropParameter;
+import io.appium.java_client.flutter.commands.LongPressParameter;
 import io.appium.java_client.flutter.commands.ScrollParameter;
 import io.appium.java_client.flutter.commands.WaitParameter;
-import io.appium.java_client.flutter.commands.DoubleClickParameter;
-import io.appium.java_client.flutter.commands.LongPressParameter;
-import io.appium.java_client.flutter.commands.DragAndDropParameter;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;

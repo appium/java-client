@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Accessors(chain = true)
-@Getter
 @Setter
 public class ScrollParameter extends FlutterCommandParameter {
     private AppiumBy.FlutterBy scrollTo;

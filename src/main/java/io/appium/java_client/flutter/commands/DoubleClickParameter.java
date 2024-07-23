@@ -17,6 +17,7 @@ public class DoubleClickParameter extends FlutterCommandParameter {
     private WebElement element;
     private Point offset;
 
+    
     @Override
     public Map<String, Object> toJson() {
         Preconditions.checkArgument(element != null || offset != null,
