@@ -50,11 +50,11 @@ class BaseFlutterTest {
     @BeforeEach
     void startSession() throws MalformedURLException {
         FlutterDriverOptions flutterOptions = new FlutterDriverOptions()
-                .setFlutterServerLaunchTimeout(Duration.ofSeconds(30))
+                .setFlutterServerLaunchTimeout(Duration.ofMinutes(2))
+                .setFlutterSystemPort(9999)
                 .setFlutterElementWaitTimeout(Duration.ofSeconds(3));
         if (IS_ANDROID) {
             driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
-                    .setFlutterSystemPort(9999)
                     .setUiAutomator2Options(new UiAutomator2Options()
                             .setApp(System.getProperty("flutterApp"))
                             .eventTimings())
