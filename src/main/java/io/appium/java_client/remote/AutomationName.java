@@ -38,4 +38,6 @@ public interface AutomationName {
     // Third-party drivers
     // https://github.com/YOU-i-Labs/appium-youiengine-driver
     String YOUI_ENGINE = "youiengine";
+    //https://github.com/AppiumTestDistribution/appium-flutter-integration-driver
+    String FLUTTER_INTEGRATION = "FlutterIntegration";
 }

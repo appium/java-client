@@ -206,7 +206,7 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param selector is the value defined to the key attribute of the flutter element
      * @return an instance of {@link AppiumBy.ByFlutterKey}
      */
-    public static By flutterKey(final String selector) {
+    public static FlutterBy flutterKey(final String selector) {
         return new ByFlutterKey(selector);
     }
 
@@ -216,7 +216,7 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param selector is the Type of widget mounted in the app tree
      * @return an instance of {@link AppiumBy.ByFlutterType}
      */
-    public static By flutterType(final String selector) {
+    public static FlutterBy flutterType(final String selector) {
         return new ByFlutterType(selector);
     }
 
@@ -226,7 +226,7 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param selector is the text that is present on the widget
      * @return an instance of {@link AppiumBy.ByFlutterText}
      */
-    public static By flutterText(final String selector) {
+    public static FlutterBy flutterText(final String selector) {
         return new ByFlutterText(selector);
     }
 
@@ -236,7 +236,7 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param selector is the text that is partially present on the widget
      * @return an instance of {@link AppiumBy.ByFlutterTextContaining}
      */
-    public static By flutterTextContaining(final String selector) {
+    public static FlutterBy flutterTextContaining(final String selector) {
         return new ByFlutterTextContaining(selector);
     }
 
@@ -246,7 +246,7 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param semanticsLabel represents the value assigned to the label attribute of semantics element
      * @return an instance of {@link AppiumBy.ByFlutterSemanticsLabel}
      */
-    public static By flutterSemanticsLabel(final String semanticsLabel) {
+    public static FlutterBy flutterSemanticsLabel(final String semanticsLabel) {
         return new ByFlutterSemanticsLabel(semanticsLabel);
     }
 
