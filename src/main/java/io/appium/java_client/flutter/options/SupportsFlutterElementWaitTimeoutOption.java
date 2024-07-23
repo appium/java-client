@@ -26,8 +26,7 @@ public interface SupportsFlutterElementWaitTimeoutOption<T extends BaseOptions<T
     /**
      * Retrieves the current Flutter element wait timeout if set.
      *
-     * @return An {@link Optional} containing the duration of the Flutter element wait timeout,
-     * or empty if not set
+     * @return An {@link Optional} containing the duration of the Flutter element wait timeout, or empty if not set.
      */
     default Optional<Duration> getFlutterElementWaitTimeout() {
         return Optional.ofNullable(
