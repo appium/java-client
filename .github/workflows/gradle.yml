@@ -96,7 +96,7 @@ jobs:
       run: appium driver install uiautomator2
 
     - name: Install Flutter Integration driver
-      if: matrix.e2e-tests == 'flutter-android'
+      if: matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver install appium-flutter-integration-driver --source npm
 
     - name: Run Android E2E tests
