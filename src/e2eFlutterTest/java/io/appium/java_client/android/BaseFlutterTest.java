@@ -57,7 +57,8 @@ class BaseFlutterTest {
             driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
                     .setUiAutomator2Options(new UiAutomator2Options()
                             .setApp(System.getProperty("flutterApp"))
-                            .eventTimings()));
+                            .eventTimings())
+            );
         } else {
             driver = new FlutterIOSDriver(service.getUrl(), flutterOptions
                     .setXCUITestOptions(new XCUITestOptions()
