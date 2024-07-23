@@ -73,8 +73,6 @@ class BaseFlutterTest {
                             .setPlatformVersion(platformVersion)
                             .setWdaLaunchTimeout(Duration.ofMinutes(4))
                             .setSimulatorStartupTimeout(Duration.ofMinutes(5))
-                            .setNoReset(true)
-                            .setFullReset(false)
                             .eventTimings()
                     )
             );
