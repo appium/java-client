@@ -10,6 +10,7 @@ import io.appium.java_client.flutter.ios.FlutterIOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,6 +44,10 @@ class BaseFlutterTest {
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
+                // Flutter driver mocking command required adb_shell permission to set certain permissions
+                // to the AUT. This can be removed once the server logic is updated to use a different approach
+                // for setting the permission
+                .withArgument(GeneralServerFlag.ALLOW_INSECURE, "adb_shell")
                 .build();
         service.start();
     }
@@ -52,7 +57,9 @@ class BaseFlutterTest {
         FlutterDriverOptions flutterOptions = new FlutterDriverOptions()
                 .setFlutterServerLaunchTimeout(Duration.ofMinutes(2))
                 .setFlutterSystemPort(9999)
-                .setFlutterElementWaitTimeout(Duration.ofSeconds(10));
+                .setFlutterElementWaitTimeout(Duration.ofSeconds(10))
+                .setFlutterEnableMockCamera(true);
+
         if (IS_ANDROID) {
             driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
                     .setUiAutomator2Options(new UiAutomator2Options()
