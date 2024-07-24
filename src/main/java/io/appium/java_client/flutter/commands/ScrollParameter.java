@@ -1,11 +1,11 @@
 package io.appium.java_client.flutter.commands;
 
-import com.google.common.base.Preconditions;
 import io.appium.java_client.AppiumBy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Require;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -45,7 +45,7 @@ public class ScrollParameter extends FlutterCommandParameter {
      * @throws IllegalArgumentException if scrollTo is null
      */
     public ScrollParameter(AppiumBy.FlutterBy scrollTo, ScrollDirection scrollDirection) {
-        Preconditions.checkArgument(scrollTo != null, "Must supply a valid locator for scrollTo");
+        Require.precondition(scrollTo != null, "Must supply a valid locator for scrollTo");
         this.scrollTo = scrollTo;
         this.scrollDirection = scrollDirection;
     }

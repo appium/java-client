@@ -2,9 +2,12 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.flutter.FlutterDriverOptions;
+import io.appium.java_client.flutter.FlutterIntegrationTestDriver;
 import io.appium.java_client.flutter.android.FlutterAndroidDriver;
 import io.appium.java_client.flutter.commands.ScrollParameter;
-import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.flutter.ios.FlutterIOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.junit.jupiter.api.AfterAll;
@@ -12,10 +15,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebElement;
 
 import java.net.MalformedURLException;
+import java.time.Duration;
 import java.util.Optional;
 
 class BaseFlutterTest {
@@ -29,7 +32,7 @@ class BaseFlutterTest {
     protected static final int PORT = 4723;
 
     private static AppiumDriverLocalService service;
-    protected static FlutterAndroidDriver driver;
+    protected static FlutterIntegrationTestDriver driver;
     protected static final By LOGIN_BUTTON = AppiumBy.flutterText("Login");
 
     /**
@@ -45,35 +48,52 @@ class BaseFlutterTest {
     }
 
     @BeforeEach
-    public void startSession() throws MalformedURLException {
+    void startSession() throws MalformedURLException {
+        FlutterDriverOptions flutterOptions = new FlutterDriverOptions()
+                .setFlutterServerLaunchTimeout(Duration.ofMinutes(2))
+                .setFlutterSystemPort(9999)
+                .setFlutterElementWaitTimeout(Duration.ofSeconds(10));
         if (IS_ANDROID) {
-            // TODO: update it with FlutterDriverOptions once implemented
-            UiAutomator2Options options = new UiAutomator2Options()
-                    .setAutomationName(AutomationName.FLUTTER_INTEGRATION)
-                    .setApp(System.getProperty("flutterApp"))
-                    .eventTimings();
-            driver = new FlutterAndroidDriver(service.getUrl(), options);
+            driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
+                    .setUiAutomator2Options(new UiAutomator2Options()
+                            .setApp(System.getProperty("flutterApp"))
+                            .eventTimings())
+            );
         } else {
-            throw new InvalidArgumentException(
-                    "Currently flutter driver implementation only supports android platform");
+            String deviceName = System.getenv("IOS_DEVICE_NAME") != null
+                    ? System.getenv("IOS_DEVICE_NAME")
+                    : "iPhone 12";
+            String platformVersion = System.getenv("IOS_PLATFORM_VERSION") != null
+                    ? System.getenv("IOS_PLATFORM_VERSION")
+                    : "14.5";
+            driver = new FlutterIOSDriver(service.getUrl(), flutterOptions
+                    .setXCUITestOptions(new XCUITestOptions()
+                            .setApp(System.getProperty("flutterApp"))
+                            .setDeviceName(deviceName)
+                            .setPlatformVersion(platformVersion)
+                            .setWdaLaunchTimeout(Duration.ofMinutes(4))
+                            .setSimulatorStartupTimeout(Duration.ofMinutes(5))
+                            .eventTimings()
+                    )
+            );
         }
     }
 
     @AfterEach
-    public void stopSession() {
+    void stopSession() {
         if (driver != null) {
             driver.quit();
         }
     }
 
     @AfterAll
-    public static void afterClass() {
+    static void afterClass() {
         if (service.isRunning()) {
             service.stop();
         }
     }
 
-    public void openScreen(String screenTitle) {
+    void openScreen(String screenTitle) {
         ScrollParameter scrollOptions = new ScrollParameter(
                 AppiumBy.flutterText(screenTitle), ScrollParameter.ScrollDirection.DOWN);
         WebElement element = driver.scrollTillVisible(scrollOptions);
