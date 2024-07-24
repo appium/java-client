@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -126,19 +125,18 @@ class CommandTest extends BaseFlutterTest {
         openScreen("Image Picker");
 
         final String successQr = driver.injectMockImage(
-                new File(String.valueOf(TestUtils.resourcePathToAbsolutePath("success_qr.png"))));
-        driver.injectMockImage(new File(String.valueOf(TestUtils.resourcePathToAbsolutePath("second_qr.png"))));
+                TestUtils.resourcePathToAbsolutePath("success_qr.png").toFile());
+        driver.injectMockImage(
+                TestUtils.resourcePathToAbsolutePath("second_qr.png").toFile());
 
         driver.findElement(AppiumBy.flutterKey("capture_image")).click();
         driver.findElement(AppiumBy.flutterText("PICK")).click();
-        assertEquals(driver.findElement(AppiumBy.flutterText("SecondInjectedImage")).getText(), "SecondInjectedImage");
         assertTrue(driver.findElement(AppiumBy.flutterText("SecondInjectedImage")).isDisplayed());
 
         driver.activateInjectedImage(successQr);
 
         driver.findElement(AppiumBy.flutterKey("capture_image")).click();
         driver.findElement(AppiumBy.flutterText("PICK")).click();
-        assertEquals(driver.findElement(AppiumBy.flutterText("Success!")).getText(), "Success!");
         assertTrue(driver.findElement(AppiumBy.flutterText("Success!")).isDisplayed());
     }
 }

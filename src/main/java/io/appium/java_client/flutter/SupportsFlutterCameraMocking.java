@@ -15,8 +15,8 @@ public interface SupportsFlutterCameraMocking extends CanExecuteFlutterScripts {
     /**
      * Injects a mock image into the Flutter application using the provided file.
      *
-     * @param image the image file to be mocked
-     * @return an {@code Integer} representing the result of the injection operation
+     * @param image the image file to be mocked (must be in PNG format)
+     * @return an {@code String} representing a unique id of the injected image
      * @throws IOException if an I/O error occurs while reading the image file
      */
     default String injectMockImage(File image) throws IOException {
@@ -27,8 +27,8 @@ public interface SupportsFlutterCameraMocking extends CanExecuteFlutterScripts {
     /**
      * Injects a mock image into the Flutter application using the provided Base64-encoded image string.
      *
-     * @param base64Image the Base64-encoded string representation of the image
-     * @return an {@code Integer} representing the result of the injection operation
+     * @param base64Image the Base64-encoded string representation of the image (must be in PNG format)
+     * @return an {@code String} representing the result of the injection operation
      */
     default String injectMockImage(String base64Image) {
         return (String) executeFlutterCommand("injectImage", Map.of(

@@ -64,6 +64,7 @@ class BaseFlutterTest {
             driver = new FlutterAndroidDriver(service.getUrl(), flutterOptions
                     .setUiAutomator2Options(new UiAutomator2Options()
                             .setApp(System.getProperty("flutterApp"))
+                            .setAutoGrantPermissions(true)
                             .eventTimings())
             );
         } else {
