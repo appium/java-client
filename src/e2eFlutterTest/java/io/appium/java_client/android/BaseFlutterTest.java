@@ -44,7 +44,7 @@ class BaseFlutterTest {
         service = new AppiumServiceBuilder()
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
-                // Flutter driver mocking command required adb_shell permission to set certain permissions
+                // Flutter driver mocking command requires adb_shell permission to set certain permissions
                 // to the AUT. This can be removed once the server logic is updated to use a different approach
                 // for setting the permission
                 .withArgument(GeneralServerFlag.ALLOW_INSECURE, "adb_shell")
