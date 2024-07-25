@@ -19,5 +19,6 @@ public interface FlutterIntegrationTestDriver extends
         WebDriver,
         SupportsGestureOnFlutterElements,
         SupportsScrollingOfFlutterElements,
-        SupportsWaitingForFlutterElements {
+        SupportsWaitingForFlutterElements,
+        SupportsFlutterCameraMocking {
 }

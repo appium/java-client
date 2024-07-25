@@ -1,6 +1,7 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.TestUtils;
 import io.appium.java_client.flutter.commands.DoubleClickParameter;
 import io.appium.java_client.flutter.commands.DragAndDropParameter;
 import io.appium.java_client.flutter.commands.LongPressParameter;
@@ -9,6 +10,8 @@ import io.appium.java_client.flutter.commands.WaitParameter;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -114,5 +117,26 @@ class CommandTest extends BaseFlutterTest {
         assertTrue(driver.findElement(AppiumBy.flutterText("The box is dropped")).isDisplayed());
         assertEquals(driver.findElement(AppiumBy.flutterText("The box is dropped")).getText(), "The box is dropped");
 
+    }
+
+    @Test
+    void testCameraMocking() throws IOException {
+        driver.findElement(BaseFlutterTest.LOGIN_BUTTON).click();
+        openScreen("Image Picker");
+
+        final String successQr = driver.injectMockImage(
+                TestUtils.resourcePathToAbsolutePath("success_qr.png").toFile());
+        driver.injectMockImage(
+                TestUtils.resourcePathToAbsolutePath("second_qr.png").toFile());
+
+        driver.findElement(AppiumBy.flutterKey("capture_image")).click();
+        driver.findElement(AppiumBy.flutterText("PICK")).click();
+        assertTrue(driver.findElement(AppiumBy.flutterText("SecondInjectedImage")).isDisplayed());
+
+        driver.activateInjectedImage(successQr);
+
+        driver.findElement(AppiumBy.flutterKey("capture_image")).click();
+        driver.findElement(AppiumBy.flutterText("PICK")).click();
+        assertTrue(driver.findElement(AppiumBy.flutterText("Success!")).isDisplayed());
     }
 }
