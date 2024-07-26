@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+_9.3.0_
+- **[ENHANCEMENTS]**
+  - Add support for FlutterIOSDriver. [#2206](https://github.com/appium/java-client/pull/2206)
+  - add support for FlutterAndroidDriver. [#2203](https://github.com/appium/java-client/pull/2203)
+  - Add locator types supported by flutter integration driver. [#2201](https://github.com/appium/java-client/pull/2201)
+  - add flutter driver commands to support camera mocking. [#2207](https://github.com/appium/java-client/pull/2207)
+  - Add ability to use secure WebSocket to listen Logcat messages. [#2182](https://github.com/appium/java-client/pull/2182)
+  - Add mobile: replacements to clipboard API wrappers. [#2188](https://github.com/appium/java-client/pull/2188)
+- **[DEPRECATION]**
+  - Deprecate obsolete TouchAction helpers. [#2199](https://github.com/appium/java-client/pull/2199)
+- **[REFACTOR]**
+  - Bump iOS version in CI. [#2167](https://github.com/appium/java-client/pull/2167)
+- **[DOCUMENTATION]**
+  - README updates. [#2193](https://github.com/appium/java-client/pull/2193)
+- **[DEPENDENCY UPDATES]**
+  - `org.junit.jupiter:junit-jupiter` was updated to 5.10.3.
+  - `org.projectlombok:lombok` was updated to 1.18.34.
+  - `io.github.bonigarcia:webdrivermanager` was updated to 5.9.1.
+  - `org.owasp.dependencycheck` was updated to 10.0.3.
+  - `org.apache.commons:commons-lang3` was updated to 3.15.0.
+
 _9.2.3_
 - **[BUG FIX]**
   - Properly represent `FeaturesMatchingResult` model if `multiple` option is enabled [#2170](https://github.com/appium/java-client/pull/2170)
