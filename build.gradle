@@ -90,7 +90,7 @@ jacocoTestReport.dependsOn test
 apply plugin: 'checkstyle'
 
 checkstyle {
-    toolVersion = '10.14.2'
+    toolVersion = '10.17.0'
     configFile = configDirectory.file('appium-style.xml').get().getAsFile()
     showViolations = true
     ignoreFailures = false
