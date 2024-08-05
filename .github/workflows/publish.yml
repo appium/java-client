@@ -12,7 +12,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'zulu'
-          cache: 'gradle'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Publish package
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
