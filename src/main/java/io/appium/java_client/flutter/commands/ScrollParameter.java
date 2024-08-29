@@ -4,7 +4,6 @@ import io.appium.java_client.AppiumBy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Require;
 
 import java.time.Duration;
@@ -18,7 +17,7 @@ import java.util.Optional;
 @Setter
 public class ScrollParameter extends FlutterCommandParameter {
     private AppiumBy.FlutterBy scrollTo;
-    private WebElement scrollView;
+    private AppiumBy.FlutterBy scrollView;
     private ScrollDirection scrollDirection;
     private Integer delta;
     private Integer maxScrolls;
@@ -56,13 +55,13 @@ public class ScrollParameter extends FlutterCommandParameter {
 
         params.put("finder", parseFlutterLocator(scrollTo));
         Optional.ofNullable(scrollView)
-                .ifPresent(scrollView -> params.put("scrollView", scrollView));
+                .ifPresent(scrollView -> params.put("scrollView", parseFlutterLocator(scrollView)));
         Optional.ofNullable(delta)
                 .ifPresent(delta -> params.put("delta", delta));
         Optional.ofNullable(maxScrolls)
-                .ifPresent(maxScrolls -> params.put("delta", maxScrolls));
+                .ifPresent(maxScrolls -> params.put("maxScrolls", maxScrolls));
         Optional.ofNullable(settleBetweenScrollsTimeout)
-                .ifPresent(timeout -> params.put("delta", settleBetweenScrollsTimeout));
+                .ifPresent(timeout -> params.put("settleBetweenScrollsTimeout", settleBetweenScrollsTimeout));
         Optional.ofNullable(scrollDirection)
                 .ifPresent(direction -> params.put("scrollDirection", direction.getDirection()));
         Optional.ofNullable(dragDuration)
