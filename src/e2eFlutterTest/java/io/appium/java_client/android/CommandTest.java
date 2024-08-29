@@ -12,7 +12,9 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
+import java.time.Duration;
 
+import static java.lang.Boolean.parseBoolean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,18 +54,37 @@ class CommandTest extends BaseFlutterTest {
         openScreen("Vertical Swiping");
 
         WebElement firstElement = driver.scrollTillVisible(new ScrollParameter(AppiumBy.flutterText("Java")));
-        assertTrue(Boolean.parseBoolean(firstElement.getAttribute("displayed")));
+        assertTrue(parseBoolean(firstElement.getAttribute("displayed")));
 
         WebElement lastElement = driver.scrollTillVisible(new ScrollParameter(AppiumBy.flutterText("Protractor")));
-        assertTrue(Boolean.parseBoolean(lastElement.getAttribute("displayed")));
-        assertFalse(Boolean.parseBoolean(firstElement.getAttribute("displayed")));
+        assertTrue(parseBoolean(lastElement.getAttribute("displayed")));
+        assertFalse(parseBoolean(firstElement.getAttribute("displayed")));
 
         firstElement = driver.scrollTillVisible(
                 new ScrollParameter(AppiumBy.flutterText("Java"),
                         ScrollParameter.ScrollDirection.UP)
         );
-        assertTrue(Boolean.parseBoolean(firstElement.getAttribute("displayed")));
-        assertFalse(Boolean.parseBoolean(lastElement.getAttribute("displayed")));
+        assertTrue(parseBoolean(firstElement.getAttribute("displayed")));
+        assertFalse(parseBoolean(lastElement.getAttribute("displayed")));
+    }
+
+    @Test
+    void testScrollTillVisibleWithScrollParametersCommand() {
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
+        loginButton.click();
+        openScreen("Vertical Swiping");
+
+        ScrollParameter scrollParameter = new ScrollParameter(AppiumBy.flutterText("Playwright"));
+        scrollParameter
+                .setScrollView(AppiumBy.flutterType("Scrollable"))
+                .setMaxScrolls(30)
+                .setDelta(30)
+                // Drag duration currently works when the value is greater than 33 secs
+                .setDragDuration(Duration.ofMillis(35000))
+                .setSettleBetweenScrollsTimeout(5000);
+
+        WebElement element = driver.scrollTillVisible(scrollParameter);
+        assertTrue(parseBoolean(element.getAttribute("displayed")));
     }
 
     @Test
