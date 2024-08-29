@@ -83,8 +83,8 @@ class CommandTest extends BaseFlutterTest {
                 .setDragDuration(Duration.ofMillis(35000))
                 .setSettleBetweenScrollsTimeout(10);
 
-        WebElement firstElement = driver.scrollTillVisible(scrollParameter);
-        assertTrue(parseBoolean(firstElement.getAttribute("displayed")));
+        WebElement element = driver.scrollTillVisible(scrollParameter);
+        assertTrue(parseBoolean(element.getAttribute("displayed")));
     }
 
     @Test
