@@ -74,14 +74,14 @@ class CommandTest extends BaseFlutterTest {
         loginButton.click();
         openScreen("Vertical Swiping");
 
-        ScrollParameter scrollParameter = new ScrollParameter(AppiumBy.flutterText("Protractor"));
+        ScrollParameter scrollParameter = new ScrollParameter(AppiumBy.flutterText("Playwright"));
         scrollParameter
                 .setScrollView(AppiumBy.flutterType("Scrollable"))
                 .setMaxScrolls(30)
                 .setDelta(30)
-                // Drag duration currently works when the value is greater than 34 secs
+                // Drag duration currently works when the value is greater than 33 secs
                 .setDragDuration(Duration.ofMillis(35000))
-                .setSettleBetweenScrollsTimeout(10);
+                .setSettleBetweenScrollsTimeout(5000);
 
         WebElement element = driver.scrollTillVisible(scrollParameter);
         assertTrue(parseBoolean(element.getAttribute("displayed")));
