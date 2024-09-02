@@ -7,7 +7,7 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'signing'
-    id 'org.owasp.dependencycheck' version '10.0.3'
+    id 'org.owasp.dependencycheck' version '10.0.4'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
