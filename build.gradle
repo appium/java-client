@@ -195,7 +195,7 @@ testing {
         configureEach {
             useJUnitJupiter()
             dependencies {
-                implementation 'org.junit.jupiter:junit-jupiter:5.11.1'
+                implementation 'org.junit.jupiter:junit-jupiter:5.11.2'
                 runtimeOnly 'org.junit.platform:junit-platform-launcher'
                 implementation 'org.hamcrest:hamcrest:3.0'
                 runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
