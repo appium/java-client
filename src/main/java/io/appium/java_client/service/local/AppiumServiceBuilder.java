@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableOption;
 import io.appium.java_client.android.options.signing.SupportsKeystoreOptions;
-import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.options.SupportsAppOption;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -400,10 +399,7 @@ public final class AppiumServiceBuilder
 
     @Override
     protected void loadSystemProperties() {
-        File driverExecutable = ReflectionHelpers.getPrivateFieldValue(
-                DriverService.Builder.class, this, "exe", File.class
-        );
-        if (driverExecutable == null) {
+        if (this.exe == null) {
             usingDriverExecutable(findDefaultExecutable());
         }
     }

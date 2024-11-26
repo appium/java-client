@@ -119,12 +119,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this(additionalCommands, service, HttpClient.Factory.createDefault(), appiumClientConfig);
     }
 
+    @Deprecated
     @SuppressWarnings("SameParameterValue")
     protected <B> B getPrivateFieldValue(
             Class<? extends CommandExecutor> cls, String fieldName, Class<B> fieldType) {
         return ReflectionHelpers.getPrivateFieldValue(cls, this, fieldName, fieldType);
     }
 
+    @Deprecated
     @SuppressWarnings("SameParameterValue")
     protected void setPrivateFieldValue(
             Class<? extends CommandExecutor> cls, String fieldName, Object newValue) {
@@ -137,20 +139,19 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     protected CommandCodec<HttpRequest> getCommandCodec() {
-        //noinspection unchecked
-        return getPrivateFieldValue(HttpCommandExecutor.class, "commandCodec", CommandCodec.class);
+        return this.commandCodec;
     }
 
     public void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
-        setPrivateFieldValue(HttpCommandExecutor.class, "commandCodec", newCodec);
+        this.commandCodec = newCodec;
     }
 
     public void setResponseCodec(ResponseCodec<HttpResponse> codec) {
-        setPrivateFieldValue(HttpCommandExecutor.class, "responseCodec", codec);
+        this.responseCodec = codec;
     }
 
     protected HttpClient getClient() {
-        return getPrivateFieldValue(HttpCommandExecutor.class, "client", HttpClient.class);
+        return this.client;
     }
 
     /**

@@ -17,7 +17,6 @@
 package io.appium.java_client;
 
 import com.google.common.base.Throwables;
-import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.TimeoutException;
@@ -114,43 +113,32 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         return this;
     }
 
-    private <B> B getPrivateFieldValue(String fieldName, Class<B> fieldType) {
-        return ReflectionHelpers.getPrivateFieldValue(FluentWait.class, this, fieldName, fieldType);
-    }
-
-    private Object getPrivateFieldValue(String fieldName) {
-        return getPrivateFieldValue(fieldName, Object.class);
-    }
-
     protected Clock getClock() {
-        return getPrivateFieldValue("clock", Clock.class);
+        return clock;
     }
 
     protected Duration getTimeout() {
-        return getPrivateFieldValue("timeout", Duration.class);
+        return timeout;
     }
 
     protected Duration getInterval() {
-        return getPrivateFieldValue("interval", Duration.class);
+        return interval;
     }
 
     protected Sleeper getSleeper() {
-        return getPrivateFieldValue("sleeper", Sleeper.class);
+        return sleeper;
     }
 
-    @SuppressWarnings("unchecked")
     protected List<Class<? extends Throwable>> getIgnoredExceptions() {
-        return getPrivateFieldValue("ignoredExceptions", List.class);
+        return ignoredExceptions;
     }
 
-    @SuppressWarnings("unchecked")
     protected Supplier<String> getMessageSupplier() {
-        return getPrivateFieldValue("messageSupplier", Supplier.class);
+        return messageSupplier;
     }
 
-    @SuppressWarnings("unchecked")
     protected T getInput() {
-        return (T) getPrivateFieldValue("input");
+        return (T) input;
     }
 
     /**
