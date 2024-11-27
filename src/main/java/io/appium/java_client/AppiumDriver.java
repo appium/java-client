@@ -17,7 +17,6 @@
 package io.appium.java_client;
 
 import io.appium.java_client.internal.CapabilityHelpers;
-import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
@@ -27,7 +26,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import lombok.Getter;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.UnsupportedCommandException;
@@ -152,12 +150,10 @@ public class AppiumDriver extends RemoteWebDriver implements
      */
     public AppiumDriver(URL remoteSessionAddress, String platformName, String automationName) {
         super();
-        ReflectionHelpers.setPrivateFieldValue(
-                RemoteWebDriver.class, this, "capabilities", new ImmutableCapabilities(
-                        Map.of(
-                                PLATFORM_NAME, platformName,
-                                APPIUM_PREFIX + AUTOMATION_NAME_OPTION, automationName
-                        )
+        this.capabilities = new ImmutableCapabilities(
+                Map.of(
+                        PLATFORM_NAME, platformName,
+                        APPIUM_PREFIX + AUTOMATION_NAME_OPTION, automationName
                 )
         );
         SessionHelpers.SessionAddress sessionAddress = SessionHelpers.parseSessionAddress(remoteSessionAddress);
@@ -168,7 +164,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         executor.setResponseCodec(new W3CHttpResponseCodec());
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
-        locationContext = new RemoteLocationContext(executeMethod);
+        this.locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(ERROR_HANDLER);
         this.remoteAddress = executor.getAddressOfRemoteServer();
 
@@ -293,10 +289,7 @@ public class AppiumDriver extends RemoteWebDriver implements
                 && isNullOrEmpty((String) rawCapabilities.get(CapabilityType.BROWSER_NAME))) {
             rawCapabilities.remove(CapabilityType.BROWSER_NAME);
         }
-        MutableCapabilities returnedCapabilities = new BaseOptions<>(rawCapabilities);
-        ReflectionHelpers.setPrivateFieldValue(
-                RemoteWebDriver.class, this, "capabilities", returnedCapabilities
-        );
+        this.capabilities = new BaseOptions<>(rawCapabilities);
         setSessionId(response.getSessionId());
     }
 
@@ -345,8 +338,6 @@ public class AppiumDriver extends RemoteWebDriver implements
     }
 
     protected HttpClient getHttpClient() {
-        return ReflectionHelpers.getPrivateFieldValue(
-                HttpCommandExecutor.class, getCommandExecutor(), "client", HttpClient.class
-        );
+        return ((HttpCommandExecutor) getCommandExecutor()).client;
     }
 }
