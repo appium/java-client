@@ -133,7 +133,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         ReflectionHelpers.setPrivateFieldValue(cls, this, fieldName, newValue);
     }
 
-    protected Map<String, CommandInfo> getAdditionalCommands() {
+    public Map<String, CommandInfo> getAdditionalCommands() {
         //noinspection unchecked
         return getPrivateFieldValue(HttpCommandExecutor.class, "additionalCommands", Map.class);
     }
