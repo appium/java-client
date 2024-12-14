@@ -277,16 +277,16 @@ public class AppiumDriver extends RemoteWebDriver implements
         var webSocketUrl = ((BaseOptions<?>) this.capabilities).getWebSocketUrl().orElseThrow(
                 () -> new BiDiException(
                         String.format(
-                                "BiDi is not enabled for this driver session. " +
-                                        "Did you set %s to true?", SupportsWebSocketUrlOption.WEB_SOCKET_URL
+                                "BiDi is not enabled for this driver session. "
+                                        + "Did you set %s to true?", SupportsWebSocketUrlOption.WEB_SOCKET_URL
                         )
                 )
         );
         if (this.biDiUri == null) {
             throw new BiDiException(
                     String.format(
-                            "BiDi is not enabled for this driver session. " +
-                                    "Is the %s '%s' received from the create session response valid?",
+                            "BiDi is not enabled for this driver session. "
+                                    + "Is the %s '%s' received from the create session response valid?",
                             SupportsWebSocketUrlOption.WEB_SOCKET_URL, webSocketUrl
                     )
             );
@@ -399,8 +399,8 @@ public class AppiumDriver extends RemoteWebDriver implements
         }
         if (uriSyntaxError != null || this.biDiUri.getScheme() == null) {
             var message = String.format(
-                    "BiDi cannot be enabled for this driver session. " +
-                            "Is the %s '%s' received from the create session response valid?",
+                    "BiDi cannot be enabled for this driver session. "
+                            + "Is the %s '%s' received from the create session response valid?",
                     SupportsWebSocketUrlOption.WEB_SOCKET_URL, webSocketUrl.get()
             );
             if (uriSyntaxError == null) {
