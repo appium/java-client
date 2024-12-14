@@ -23,6 +23,7 @@ import org.openqa.selenium.bidi.module.LogInspector;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class IOSBiDiTest extends AppIOSTest {
@@ -31,7 +32,7 @@ public class IOSBiDiTest extends AppIOSTest {
     @Disabled("Need to resolve compatibility issues")
     public void listenForIosLogs() {
         var logs = new CopyOnWriteArrayList<LogEntry>();
-        try (var logInspector = new LogInspector(driver)) {
+        try (var logInspector = new LogInspector(NATIVE_CONTEXT, driver)) {
             logInspector.onLog(logs::add);
             driver.getPageSource();
         }

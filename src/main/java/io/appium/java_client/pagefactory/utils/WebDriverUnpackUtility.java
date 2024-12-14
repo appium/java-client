@@ -28,12 +28,11 @@ import javax.annotation.Nullable;
 
 import java.util.Optional;
 
+import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 
 public final class WebDriverUnpackUtility {
-    private static final String NATIVE_APP_PATTERN = "NATIVE_APP";
-
     private WebDriverUnpackUtility() {
     }
 
@@ -109,7 +108,7 @@ public final class WebDriverUnpackUtility {
 
         var contextAware = unpackObjectFromSearchContext(context, ContextAware.class);
         if (contextAware.map(ContextAware::getContext)
-                .filter(c -> c.toUpperCase().contains(NATIVE_APP_PATTERN)).isPresent()) {
+                .filter(c -> c.toUpperCase().contains(NATIVE_CONTEXT)).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
 

@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -75,7 +76,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
     @BeforeEach
     public void setUp() {
 
-        driver.context("NATIVE_APP");
+        driver.context(NATIVE_CONTEXT);
     }
 
     @Test
