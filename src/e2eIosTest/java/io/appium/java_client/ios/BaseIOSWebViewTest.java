@@ -39,7 +39,6 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                 .setDeviceName(DEVICE_NAME)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
-                .setShowIosLog(true)
                 .setApp(VODQA_ZIP);
         Supplier<IOSDriver> createDriver = () -> new IOSDriver(service.getUrl(), options);
         try {
