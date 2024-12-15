@@ -86,6 +86,7 @@ public class AppiumDriver extends RemoteWebDriver implements
     private final Set<String> absentExtensionNames = new HashSet<>();
     protected URI biDiUri;
     protected BiDi biDi;
+    private boolean wasBiDiRequested = false;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -275,12 +276,14 @@ public class AppiumDriver extends RemoteWebDriver implements
     @Nonnull
     public BiDi getBiDi() {
         var webSocketUrl = ((BaseOptions<?>) this.capabilities).getWebSocketUrl().orElseThrow(
-                () -> new BiDiException(
-                        String.format(
-                                "BiDi is not enabled for this driver session. "
-                                        + "Did you set %s to true?", SupportsWebSocketUrlOption.WEB_SOCKET_URL
-                        )
-                )
+                () -> {
+                    var suffix = wasBiDiRequested
+                            ? "Do both the server and the driver declare BiDi support?"
+                            : String.format("Did you set %s to true?", SupportsWebSocketUrlOption.WEB_SOCKET_URL);
+                    return new BiDiException(String.format(
+                            "BiDi is not enabled for this driver session. %s", suffix
+                    ));
+                }
         );
         if (this.biDiUri == null) {
             throw new BiDiException(
@@ -332,7 +335,10 @@ public class AppiumDriver extends RemoteWebDriver implements
             rawResponseCapabilities.remove(CapabilityType.BROWSER_NAME);
         }
         this.capabilities = new BaseOptions<>(rawResponseCapabilities);
-        if (Boolean.TRUE.equals(requestCapabilities.getCapability(SupportsWebSocketUrlOption.WEB_SOCKET_URL))) {
+        this.wasBiDiRequested = Boolean.TRUE.equals(
+                requestCapabilities.getCapability(SupportsWebSocketUrlOption.WEB_SOCKET_URL)
+        );
+        if (wasBiDiRequested) {
             this.initBiDi((BaseOptions<?>) capabilities);
         }
         setSessionId(response.getSessionId());
