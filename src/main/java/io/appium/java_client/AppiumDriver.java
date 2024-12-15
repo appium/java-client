@@ -84,8 +84,8 @@ public class AppiumDriver extends RemoteWebDriver implements
     protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
     private final Set<String> absentExtensionNames = new HashSet<>();
-    protected URI biDiUri;
-    protected BiDi biDi;
+    private URI biDiUri;
+    private BiDi biDi;
     private boolean wasBiDiRequested = false;
 
     /**
