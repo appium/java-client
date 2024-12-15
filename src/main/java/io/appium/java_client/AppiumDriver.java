@@ -35,6 +35,7 @@ import org.openqa.selenium.bidi.BiDi;
 import org.openqa.selenium.bidi.BiDiException;
 import org.openqa.selenium.bidi.HasBiDi;
 import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.ErrorHandler;
 import org.openqa.selenium.remote.ExecuteMethod;
@@ -205,22 +206,23 @@ public class AppiumDriver extends RemoteWebDriver implements
      * @param methodName The name of custom appium command.
      */
     public void addCommand(HttpMethod httpMethod, String url, String methodName) {
+        CommandInfo commandInfo;
         switch (httpMethod) {
             case GET:
-                MobileCommand.commandRepository.put(methodName, MobileCommand.getC(url));
+                commandInfo = MobileCommand.getC(url);
                 break;
             case POST:
-                MobileCommand.commandRepository.put(methodName, MobileCommand.postC(url));
+                commandInfo = MobileCommand.postC(url);
                 break;
             case DELETE:
-                MobileCommand.commandRepository.put(methodName, MobileCommand.deleteC(url));
+                commandInfo = MobileCommand.deleteC(url);
                 break;
             default:
                 throw new WebDriverException(String.format("Unsupported HTTP Method: %s. Only %s methods are supported",
                         httpMethod,
                         Arrays.toString(HttpMethod.values())));
         }
-        ((AppiumCommandExecutor) getCommandExecutor()).refreshAdditionalCommands();
+        ((AppiumCommandExecutor) getCommandExecutor()).defineCommand(methodName, commandInfo);
     }
 
     @Override
