@@ -19,6 +19,7 @@ package io.appium.java_client.ios;
 import io.appium.java_client.NoSuchContextException;
 import org.junit.jupiter.api.Test;
 
+import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class IOSContextTest extends BaseIOSWebViewTest {
 
     @Test public void testGetContext() {
-        assertEquals("NATIVE_APP", driver.getContext());
+        assertEquals(NATIVE_CONTEXT, driver.getContext());
     }
 
     @Test public void testGetContextHandles() {
@@ -38,7 +39,7 @@ public class IOSContextTest extends BaseIOSWebViewTest {
         driver.getContextHandles();
         findAndSwitchToWebView();
         assertThat(driver.getContext(), containsString("WEBVIEW"));
-        driver.context("NATIVE_APP");
+        driver.context(NATIVE_CONTEXT);
     }
 
     @Test public void testContextError() {

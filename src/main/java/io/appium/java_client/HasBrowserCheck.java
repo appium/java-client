@@ -10,6 +10,8 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.Objects.requireNonNull;
 
 public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
+    String NATIVE_CONTEXT = "NATIVE_APP";
+
     /**
      * Validates if the driver is currently in a web browser context.
      *
@@ -32,7 +34,7 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
         }
         try {
             var context = ((ContextAware) this).getContext();
-            return context != null && !context.toUpperCase().contains("NATIVE_APP");
+            return context != null && !context.toUpperCase().contains(NATIVE_CONTEXT);
         } catch (WebDriverException e) {
             return false;
         }

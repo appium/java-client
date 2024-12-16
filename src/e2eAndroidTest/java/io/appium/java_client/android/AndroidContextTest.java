@@ -20,6 +20,7 @@ import io.appium.java_client.NoSuchContextException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,7 +32,7 @@ public class AndroidContextTest extends BaseAndroidTest {
     }
 
     @Test public void testGetContext() {
-        assertEquals("NATIVE_APP", driver.getContext());
+        assertEquals(NATIVE_CONTEXT, driver.getContext());
     }
 
     @Test public void testGetContextHandles() {
@@ -42,8 +43,8 @@ public class AndroidContextTest extends BaseAndroidTest {
         driver.getContextHandles();
         driver.context("WEBVIEW_io.appium.android.apis");
         assertEquals(driver.getContext(), "WEBVIEW_io.appium.android.apis");
-        driver.context("NATIVE_APP");
-        assertEquals(driver.getContext(), "NATIVE_APP");
+        driver.context(NATIVE_CONTEXT);
+        assertEquals(driver.getContext(), NATIVE_CONTEXT);
     }
 
     @Test public void testContextError() {

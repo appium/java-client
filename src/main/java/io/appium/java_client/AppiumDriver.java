@@ -21,6 +21,7 @@ import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
 import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.SupportsWebSocketUrlOption;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import lombok.Getter;
@@ -30,6 +31,9 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.bidi.BiDi;
+import org.openqa.selenium.bidi.BiDiException;
+import org.openqa.selenium.bidi.HasBiDi;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DriverCommand;
@@ -43,6 +47,9 @@ import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+import javax.annotation.Nonnull;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -67,7 +74,8 @@ public class AppiumDriver extends RemoteWebDriver implements
         LogsEvents,
         HasBrowserCheck,
         CanRememberExtensionPresence,
-        HasSettings {
+        HasSettings,
+        HasBiDi {
 
     private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile(), true);
     // frequently used command parameters
@@ -77,6 +85,9 @@ public class AppiumDriver extends RemoteWebDriver implements
     protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
     private final Set<String> absentExtensionNames = new HashSet<>();
+    private URI biDiUri;
+    private BiDi biDi;
+    private boolean wasBiDiRequested = false;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -146,8 +157,8 @@ public class AppiumDriver extends RemoteWebDriver implements
      * !!! This API is supposed to be used for **debugging purposes only**.
      *
      * @param remoteSessionAddress The address of the **running** session including the session identifier.
-     * @param platformName The name of the target platform.
-     * @param automationName The name of the target automation.
+     * @param platformName         The name of the target platform.
+     * @param automationName       The name of the target automation.
      */
     public AppiumDriver(URL remoteSessionAddress, String platformName, String automationName) {
         super();
@@ -170,54 +181,6 @@ public class AppiumDriver extends RemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
 
         setSessionId(sessionAddress.getId());
-    }
-
-    /**
-     * Changes platform name if it is not set and returns merged capabilities.
-     *
-     * @param originalCapabilities the given {@link Capabilities}.
-     * @param defaultName          a platformName value which has to be set up
-     * @return {@link Capabilities} with changed platform name value or the original capabilities
-     */
-    protected static Capabilities ensurePlatformName(
-            Capabilities originalCapabilities, String defaultName) {
-        return originalCapabilities.getPlatformName() == null
-                ? originalCapabilities.merge(new ImmutableCapabilities(PLATFORM_NAME, defaultName))
-                : originalCapabilities;
-    }
-
-    /**
-     * Changes automation name if it is not set and returns merged capabilities.
-     *
-     * @param originalCapabilities the given {@link Capabilities}.
-     * @param defaultName          a platformName value which has to be set up
-     * @return {@link Capabilities} with changed mobile automation name value or the original capabilities
-     */
-    protected static Capabilities ensureAutomationName(
-            Capabilities originalCapabilities, String defaultName) {
-        String currentAutomationName = CapabilityHelpers.getCapability(
-                originalCapabilities, AUTOMATION_NAME_OPTION, String.class);
-        if (isNullOrEmpty(currentAutomationName)) {
-            String capabilityName = originalCapabilities.getCapabilityNames()
-                    .contains(AUTOMATION_NAME_OPTION) ? AUTOMATION_NAME_OPTION : APPIUM_PREFIX + AUTOMATION_NAME_OPTION;
-            return originalCapabilities.merge(new ImmutableCapabilities(capabilityName, defaultName));
-        }
-        return originalCapabilities;
-    }
-
-    /**
-     * Changes platform and automation names if they are not set
-     * and returns merged capabilities.
-     *
-     * @param originalCapabilities the given {@link Capabilities}.
-     * @param defaultPlatformName  a platformName value which has to be set up
-     * @param defaultAutomationName The default automation name to set up for this class
-     * @return {@link Capabilities} with changed platform/automation name value or the original capabilities
-     */
-    protected static Capabilities ensurePlatformAndAutomationNames(
-            Capabilities originalCapabilities, String defaultPlatformName, String defaultAutomationName) {
-        Capabilities capsWithPlatformFixed = ensurePlatformName(originalCapabilities, defaultPlatformName);
-        return ensureAutomationName(capsWithPlatformFixed, defaultAutomationName);
     }
 
     @Override
@@ -260,39 +223,6 @@ public class AppiumDriver extends RemoteWebDriver implements
                         Arrays.toString(HttpMethod.values())));
         }
         ((AppiumCommandExecutor) getCommandExecutor()).defineCommand(methodName, commandInfo);
-    }
-
-    @Override
-    protected void startSession(Capabilities capabilities) {
-        var response = Optional.ofNullable(
-                execute(DriverCommand.NEW_SESSION(singleton(capabilities)))
-        ).orElseThrow(() -> new SessionNotCreatedException(
-                    "The underlying command executor returned a null response."
-        ));
-
-        var rawCapabilities = Optional.ofNullable(response.getValue())
-                .map(value -> {
-                    if (!(value instanceof Map)) {
-                        throw new SessionNotCreatedException(String.format(
-                                "The underlying command executor returned a response "
-                                        + "with a non well formed payload: %s", response)
-                        );
-                    }
-                    //noinspection unchecked
-                    return (Map<String, Object>) value;
-                })
-                .orElseThrow(() -> new SessionNotCreatedException(
-                    "The underlying command executor returned a response without payload: " + response)
-                );
-
-        // TODO: remove this workaround for Selenium API enforcing some legacy capability values in major version
-        rawCapabilities.remove("platform");
-        if (rawCapabilities.containsKey(CapabilityType.BROWSER_NAME)
-                && isNullOrEmpty((String) rawCapabilities.get(CapabilityType.BROWSER_NAME))) {
-            rawCapabilities.remove(CapabilityType.BROWSER_NAME);
-        }
-        this.capabilities = new BaseOptions<>(rawCapabilities);
-        setSessionId(response.getSessionId());
     }
 
     @Override
@@ -339,7 +269,163 @@ public class AppiumDriver extends RemoteWebDriver implements
         return this;
     }
 
+    @Override
+    public Optional<BiDi> maybeGetBiDi() {
+        return Optional.ofNullable(this.biDi);
+    }
+
+    @Override
+    @Nonnull
+    public BiDi getBiDi() {
+        var webSocketUrl = ((BaseOptions<?>) this.capabilities).getWebSocketUrl().orElseThrow(
+                () -> {
+                    var suffix = wasBiDiRequested
+                            ? "Do both the server and the driver declare BiDi support?"
+                            : String.format("Did you set %s to true?", SupportsWebSocketUrlOption.WEB_SOCKET_URL);
+                    return new BiDiException(String.format(
+                            "BiDi is not enabled for this driver session. %s", suffix
+                    ));
+                }
+        );
+        if (this.biDiUri == null) {
+            throw new BiDiException(
+                    String.format(
+                            "BiDi is not enabled for this driver session. "
+                                    + "Is the %s '%s' received from the create session response valid?",
+                            SupportsWebSocketUrlOption.WEB_SOCKET_URL, webSocketUrl
+                    )
+            );
+        }
+        if (this.biDi == null) {
+            // This should not happen
+            throw new IllegalStateException();
+        }
+        return this.biDi;
+    }
+
     protected HttpClient getHttpClient() {
         return ((HttpCommandExecutor) getCommandExecutor()).client;
+    }
+
+    @Override
+    protected void startSession(Capabilities requestCapabilities) {
+        var response = Optional.ofNullable(
+                execute(DriverCommand.NEW_SESSION(singleton(requestCapabilities)))
+        ).orElseThrow(() -> new SessionNotCreatedException(
+                "The underlying command executor returned a null response."
+        ));
+
+        var rawResponseCapabilities = Optional.ofNullable(response.getValue())
+                .map(value -> {
+                    if (!(value instanceof Map)) {
+                        throw new SessionNotCreatedException(String.format(
+                                "The underlying command executor returned a response "
+                                        + "with a non well formed payload: %s", response)
+                        );
+                    }
+                    //noinspection unchecked
+                    return (Map<String, Object>) value;
+                })
+                .orElseThrow(() -> new SessionNotCreatedException(
+                        "The underlying command executor returned a response without payload: " + response)
+                );
+
+        // TODO: remove this workaround for Selenium API enforcing some legacy capability values in major version
+        rawResponseCapabilities.remove("platform");
+        if (rawResponseCapabilities.containsKey(CapabilityType.BROWSER_NAME)
+                && isNullOrEmpty((String) rawResponseCapabilities.get(CapabilityType.BROWSER_NAME))) {
+            rawResponseCapabilities.remove(CapabilityType.BROWSER_NAME);
+        }
+        this.capabilities = new BaseOptions<>(rawResponseCapabilities);
+        this.wasBiDiRequested = Boolean.TRUE.equals(
+                requestCapabilities.getCapability(SupportsWebSocketUrlOption.WEB_SOCKET_URL)
+        );
+        if (wasBiDiRequested) {
+            this.initBiDi((BaseOptions<?>) capabilities);
+        }
+        setSessionId(response.getSessionId());
+    }
+
+    /**
+     * Changes platform name if it is not set and returns merged capabilities.
+     *
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param defaultName          a platformName value which has to be set up
+     * @return {@link Capabilities} with changed platform name value or the original capabilities
+     */
+    protected static Capabilities ensurePlatformName(
+            Capabilities originalCapabilities, String defaultName) {
+        return originalCapabilities.getPlatformName() == null
+                ? originalCapabilities.merge(new ImmutableCapabilities(PLATFORM_NAME, defaultName))
+                : originalCapabilities;
+    }
+
+    /**
+     * Changes automation name if it is not set and returns merged capabilities.
+     *
+     * @param originalCapabilities the given {@link Capabilities}.
+     * @param defaultName          a platformName value which has to be set up
+     * @return {@link Capabilities} with changed mobile automation name value or the original capabilities
+     */
+    protected static Capabilities ensureAutomationName(
+            Capabilities originalCapabilities, String defaultName) {
+        String currentAutomationName = CapabilityHelpers.getCapability(
+                originalCapabilities, AUTOMATION_NAME_OPTION, String.class);
+        if (isNullOrEmpty(currentAutomationName)) {
+            String capabilityName = originalCapabilities.getCapabilityNames()
+                    .contains(AUTOMATION_NAME_OPTION) ? AUTOMATION_NAME_OPTION : APPIUM_PREFIX + AUTOMATION_NAME_OPTION;
+            return originalCapabilities.merge(new ImmutableCapabilities(capabilityName, defaultName));
+        }
+        return originalCapabilities;
+    }
+
+    /**
+     * Changes platform and automation names if they are not set
+     * and returns merged capabilities.
+     *
+     * @param originalCapabilities  the given {@link Capabilities}.
+     * @param defaultPlatformName   a platformName value which has to be set up
+     * @param defaultAutomationName The default automation name to set up for this class
+     * @return {@link Capabilities} with changed platform/automation name value or the original capabilities
+     */
+    protected static Capabilities ensurePlatformAndAutomationNames(
+            Capabilities originalCapabilities, String defaultPlatformName, String defaultAutomationName) {
+        Capabilities capsWithPlatformFixed = ensurePlatformName(originalCapabilities, defaultPlatformName);
+        return ensureAutomationName(capsWithPlatformFixed, defaultAutomationName);
+    }
+
+    private void initBiDi(BaseOptions<?> responseCaps) {
+        var webSocketUrl = responseCaps.getWebSocketUrl();
+        if (webSocketUrl.isEmpty()) {
+            return;
+        }
+        URISyntaxException uriSyntaxError = null;
+        try {
+            this.biDiUri = new URI(String.valueOf(webSocketUrl.get()));
+        } catch (URISyntaxException e) {
+            uriSyntaxError = e;
+        }
+        if (uriSyntaxError != null || this.biDiUri.getScheme() == null) {
+            var message = String.format(
+                    "BiDi cannot be enabled for this driver session. "
+                            + "Is the %s '%s' received from the create session response valid?",
+                    SupportsWebSocketUrlOption.WEB_SOCKET_URL, webSocketUrl.get()
+            );
+            if (uriSyntaxError == null) {
+                throw new BiDiException(message);
+            }
+            throw new BiDiException(message, uriSyntaxError);
+        }
+        var executor = getCommandExecutor();
+        final HttpClient wsClient;
+        if (executor instanceof AppiumCommandExecutor) {
+            var wsConfig = ((AppiumCommandExecutor) executor).getAppiumClientConfig().baseUri(biDiUri);
+            wsClient = ((AppiumCommandExecutor) executor).getHttpClientFactory().createClient(wsConfig);
+        } else {
+            var wsConfig = AppiumClientConfig.defaultConfig().baseUri(biDiUri);
+            wsClient = HttpClient.Factory.createDefault().createClient(wsConfig);
+        }
+        var biDiConnection = new org.openqa.selenium.bidi.Connection(wsClient, biDiUri.toString());
+        this.biDi = new BiDi(biDiConnection);
     }
 }

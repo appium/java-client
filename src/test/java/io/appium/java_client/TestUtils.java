@@ -78,4 +78,8 @@ public class TestUtils {
         }
         return new Point(location.x + dim.width / 2, location.y + dim.height / 2);
     }
+
+    public static boolean isCiEnv() {
+        return System.getenv("CI") != null;
+    }
 }

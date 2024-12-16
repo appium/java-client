@@ -49,7 +49,8 @@ public class BaseOptions<T extends BaseOptions<T>> extends MutableCapabilities i
         SupportsFullResetOption<T>,
         SupportsNewCommandTimeoutOption<T>,
         SupportsBrowserNameOption<T>,
-        SupportsPlatformVersionOption<T> {
+        SupportsPlatformVersionOption<T>,
+        SupportsWebSocketUrlOption<T> {
 
     /**
      * Creates new instance with no preset capabilities.

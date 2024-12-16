@@ -21,6 +21,7 @@ public class AppIOSTest extends BaseIOSTest {
                 .setDeviceName(DEVICE_NAME)
                 .setCommandTimeouts(Duration.ofSeconds(240))
                 .setApp(TEST_APP_ZIP)
+                .enableBiDi()
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
         try {
             driver = new IOSDriver(service.getUrl(), options);

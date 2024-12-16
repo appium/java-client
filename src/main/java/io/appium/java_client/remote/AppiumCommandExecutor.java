@@ -19,6 +19,7 @@ package io.appium.java_client.remote;
 import com.google.common.base.Throwables;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.internal.ReflectionHelpers;
+import lombok.Getter;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
@@ -54,9 +55,9 @@ import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final Optional<DriverService> serviceOptional;
-
+    @Getter
     private final HttpClient.Factory httpClientFactory;
-
+    @Getter
     private final AppiumClientConfig appiumClientConfig;
 
     /**

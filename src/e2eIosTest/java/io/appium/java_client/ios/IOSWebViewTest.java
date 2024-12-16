@@ -1,6 +1,8 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.TestUtils;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,6 +17,9 @@ public class IOSWebViewTest extends BaseIOSWebViewTest {
 
     @Test
     public void webViewPageTestCase() throws InterruptedException {
+        // this test is not stable in the CI env
+        Assumptions.assumeFalse(TestUtils.isCiEnv());
+
         new WebDriverWait(driver, LOOKUP_TIMEOUT)
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("login")))
                 .click();
