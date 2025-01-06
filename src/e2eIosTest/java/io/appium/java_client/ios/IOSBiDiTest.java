@@ -16,8 +16,8 @@
 
 package io.appium.java_client.ios;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.bidi.Event;
 import org.openqa.selenium.bidi.log.LogEntry;
 import org.openqa.selenium.bidi.module.LogInspector;
 
@@ -29,8 +29,23 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class IOSBiDiTest extends AppIOSTest {
 
     @Test
-    @Disabled("Need to resolve compatibility issues")
-    public void listenForIosLogs() {
+    public void listenForIosLogsGeneric() {
+        var logs = new CopyOnWriteArrayList<>();
+        var listenerId = driver.getBiDi().addListener(
+                NATIVE_CONTEXT,
+                new Event<Object>("log.entryAdded", (m) -> m),
+                logs::add
+        );
+        try {
+            driver.getPageSource();
+        } finally {
+            driver.getBiDi().removeListener(listenerId);
+        }
+        assertFalse(logs.isEmpty());
+    }
+
+    @Test
+    public void listenForIosLogsSpecific() {
         var logs = new CopyOnWriteArrayList<LogEntry>();
         try (var logInspector = new LogInspector(NATIVE_CONTEXT, driver)) {
             logInspector.onLog(logs::add);
