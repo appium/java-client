@@ -33,7 +33,7 @@ public class IOSBiDiTest extends AppIOSTest {
         var logs = new CopyOnWriteArrayList<>();
         var listenerId = driver.getBiDi().addListener(
                 NATIVE_CONTEXT,
-                new Event<Object>("log.entryAdded", (m) -> m),
+                new Event<Object>("log.entryAdded", m -> m),
                 logs::add
         );
         try {
