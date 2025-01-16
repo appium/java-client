@@ -20,6 +20,7 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.CanSetCapability;
 import org.openqa.selenium.Capabilities;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SupportsLogcatFilterSpecsOption<T extends BaseOptions<T>> extends
@@ -27,25 +28,28 @@ public interface SupportsLogcatFilterSpecsOption<T extends BaseOptions<T>> exten
     String LOGCAT_FILTER_SPECS_OPTION = "logcatFilterSpecs";
 
     /**
-     * Series of tag[:priority] where tag is a log component tag (or * for all)
-     * and priority is: V Verbose, D Debug, I Info, W Warn, E Error, F Fatal,
-     * S Silent (supress all output). '' means ':d' and tag by itself means tag:v.
-     * If not specified on the commandline, filterspec is set from ANDROID_LOG_TAGS.
-     * If no filterspec is found, filter defaults to '*:I'.
+     * Allows to customize logcat output filtering.
      *
-     * @param format The filter specifier.
+     * @param format The filter specifier. Consists from series of `tag[:priority]` items,
+     *               where `tag` is a log component tag (or `*` to match any value)
+     *               and `priority`: V (Verbose), D (Debug), I (Info), W (Warn), E (Error), F (Fatal),
+     *               S (Silent - supresses all output). `tag` without `priority` defaults to `tag:v`.
+     *               If not specified, filterspec is set from ANDROID_LOG_TAGS environment variable.
+     *               If no filterspec is found, filter defaults to `*:I`, which means
+     *               to only show log lines with any tag and the log level INFO or higher.
      * @return self instance for chaining.
      */
-    default T setLogcatFilterSpecs(String format) {
+    default T setLogcatFilterSpecs(List<String> format) {
         return amend(LOGCAT_FILTER_SPECS_OPTION, format);
     }
 
     /**
      * Get the logcat filter format.
      *
-     * @return Format specifier.
+     * @return Format specifier. See the documentation on {@link #setLogcatFilterSpecs(List)} for more details.
      */
-    default Optional<String> getLogcatFilterSpecs() {
-        return Optional.ofNullable((String) getCapability(LOGCAT_FILTER_SPECS_OPTION));
+    default Optional<List<String>> getLogcatFilterSpecs() {
+        //noinspection unchecked
+        return Optional.ofNullable((List<String>) getCapability(LOGCAT_FILTER_SPECS_OPTION));
     }
 }
