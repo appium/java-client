@@ -16,10 +16,7 @@
 
 package io.appium.java_client.proxy;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import java.util.Map;
-import java.util.WeakHashMap;
 import lombok.Value;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;
@@ -34,7 +31,9 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,18 +50,8 @@ public class Helpers {
     // the performance and to avoid extensive memory usage for our case, where
     // the amount of instrumented proxy classes we create is low in comparison to the amount
     // of proxy instances.
-    private static final Map<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES = Collections.synchronizedMap(new WeakHashMap<>());
-
-    /**
-     * Gets CACHED_PROXY_CLASSES size.
-     * Used for cache clear up tests {@see io.appium.java_client.pagefactory_tests.widget.tests.combined.CombinedWidgetTest}.
-     *
-     * @return the cached proxy classes size
-     */
-    @VisibleForTesting
-    public static int getCachedProxyClassesSize() {
-        return CACHED_PROXY_CLASSES.size();
-    }
+    private static final Map<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES =
+        Collections.synchronizedMap(new WeakHashMap<>());
 
     private Helpers() {
     }
