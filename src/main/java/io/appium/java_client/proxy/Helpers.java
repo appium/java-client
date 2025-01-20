@@ -16,6 +16,7 @@
 
 package io.appium.java_client.proxy;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -57,10 +58,11 @@ public class Helpers {
 
     /**
      * Gets CACHED_PROXY_CLASSES size.
-     * Used for cache clear up tests.
+     * Used for cache clear up tests {@see io.appium.java_client.pagefactory_tests.widget.tests.combined.CombinedWidgetTest}.
      *
      * @return the cached proxy classes size
      */
+    @VisibleForTesting
     public static int getCachedProxyClassesSize() {
         return CACHED_PROXY_CLASSES.size();
     }
@@ -128,7 +130,6 @@ public class Helpers {
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
         var signature = ProxyClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
-        System.out.println("CACHED_PROXY_CLASSES size = " + CACHED_PROXY_CLASSES.size());
         var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, k -> {
             Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                     String.format(
