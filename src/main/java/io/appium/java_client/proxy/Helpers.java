@@ -17,6 +17,8 @@
 package io.appium.java_client.proxy;
 
 import com.google.common.base.Preconditions;
+import java.util.Map;
+import java.util.WeakHashMap;
 import lombok.Value;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;
@@ -32,14 +34,15 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
+/**
+ * The type Helpers.
+ */
 public class Helpers {
     public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
@@ -51,6 +54,16 @@ public class Helpers {
     // the amount of instrumented proxy classes we create is low in comparison to the amount
     // of proxy instances.
     private static final Map<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES = Collections.synchronizedMap(new WeakHashMap<>());
+
+    /**
+     * Gets CACHED_PROXY_CLASSES size.
+     * Used for cache clear up tests.
+     *
+     * @return the cached proxy classes size
+     */
+    public static int getCachedProxyClassesSize() {
+        return CACHED_PROXY_CLASSES.size();
+    }
 
     private Helpers() {
     }
@@ -115,6 +128,7 @@ public class Helpers {
             @Nullable ElementMatcher<MethodDescription> extraMethodMatcher
     ) {
         var signature = ProxyClassSignature.of(cls, constructorArgTypes, extraMethodMatcher);
+        System.out.println("CACHED_PROXY_CLASSES size = " + CACHED_PROXY_CLASSES.size());
         var proxyClass = CACHED_PROXY_CLASSES.computeIfAbsent(signature, k -> {
             Preconditions.checkArgument(constructorArgs.length == constructorArgTypes.length,
                     String.format(
