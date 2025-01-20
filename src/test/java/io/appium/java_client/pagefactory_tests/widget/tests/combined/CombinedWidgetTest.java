@@ -12,19 +12,28 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 
 @SuppressWarnings({"unchecked", "unused"})
 public class CombinedWidgetTest {
+
+    /**
+     * Based on how many Proxy Classes are created during this test class,
+     * this number is used to determine if the cache is being purged correctly between tests.
+     */
+    private static final int THRESHOLD_SIZE = 50;
 
     /**
      * Test data generation.
@@ -57,6 +66,7 @@ public class CombinedWidgetTest {
     @ParameterizedTest
     @MethodSource("data")
     void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<?> widgetClass) {
+        assertProxyClassCacheGrowth();
         initElements(new AppiumFieldDecorator(driver), app);
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSubWidget().getSelfReference().getClass(),
@@ -159,6 +169,34 @@ public class CombinedWidgetTest {
         @Override
         public List<PartiallyCombinedWidget> getWidgets() {
             return multipleWidgets;
+        }
+    }
+
+
+    /**
+     * Assert proxy class cache growth for this test class.
+     * The (@link io.appium.java_client.proxy.Helpers#CACHED_PROXY_CLASSES) should be populated during these tests.
+     * Prior to the Caching issue being resolved
+     * - the CACHED_PROXY_CLASSES would grow indefinitely, resulting in an Out Of Memory exception.
+     * - this ParameterizedTest would have the CACHED_PROXY_CLASSES grow to 266 entries.
+     */
+    private void assertProxyClassCacheGrowth() {
+        System.gc(); //Trying to force a collection for more accurate check numbers
+        assertThat(
+            "Proxy Class Cache threshold is " + THRESHOLD_SIZE,
+            getCachedProxyClassesSize(),
+            lessThan(THRESHOLD_SIZE)
+        );
+    }
+
+    private int getCachedProxyClassesSize() {
+        try {
+            Field cpc = Class.forName("io.appium.java_client.proxy.Helpers").getDeclaredField("CACHED_PROXY_CLASSES");
+            cpc.setAccessible(true);
+            Map<?, ?> cachedProxyClasses = (Map<?, ?>) cpc.get(null);
+            return cachedProxyClasses.size();
+        } catch (NoSuchFieldException | ClassNotFoundException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 }
