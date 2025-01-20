@@ -50,7 +50,7 @@ public class Helpers {
     // the performance and to avoid extensive memory usage for our case, where
     // the amount of instrumented proxy classes we create is low in comparison to the amount
     // of proxy instances.
-    private static final ConcurrentMap<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES = new ConcurrentHashMap<>();
+    private static final Map<ProxyClassSignature, Class<?>> CACHED_PROXY_CLASSES = Collections.synchronizedMap(new WeakHashMap<>());
 
     private Helpers() {
     }
