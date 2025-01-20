@@ -41,9 +41,6 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
-/**
- * The type Helpers.
- */
 public class Helpers {
     public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
