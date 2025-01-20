@@ -6,15 +6,16 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
-import io.appium.java_client.proxy.Helpers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -178,8 +179,19 @@ public class CombinedWidgetTest {
         int thresholdSize = 50;
         assertThat(
             "Proxy Class Cache threshold is " + thresholdSize,
-            Helpers.getCachedProxyClassesSize(),
+            getCachedProxyClassesSize(),
             lessThan(thresholdSize)
         );
+    }
+
+    private int getCachedProxyClassesSize() {
+        try {
+            Field cpc = Class.forName("io.appium.java_client.proxy.Helpers").getDeclaredField("CACHED_PROXY_CLASSES");
+            cpc.setAccessible(true);
+            Map<?, ?> cachedProxyClasses = (Map<?, ?>) cpc.get(null);
+            return cachedProxyClasses.size();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
