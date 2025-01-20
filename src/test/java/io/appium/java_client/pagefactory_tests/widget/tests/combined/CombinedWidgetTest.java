@@ -30,6 +30,12 @@ import static org.openqa.selenium.support.PageFactory.initElements;
 public class CombinedWidgetTest {
 
     /**
+     * Based on how many Proxy Classes are created during this test class,
+     * this number is used to determine if the cache is being purged correctly between tests.
+     */
+    private static final int THRESHOLD_SIZE = 50;
+
+    /**
      * Test data generation.
      *
      * @return test parameters
@@ -176,11 +182,10 @@ public class CombinedWidgetTest {
      */
     private void assertProxyClassCacheGrowth() {
         System.gc(); //Trying to force a collection for more accurate check numbers
-        int thresholdSize = 50;
         assertThat(
-            "Proxy Class Cache threshold is " + thresholdSize,
+            "Proxy Class Cache threshold is " + THRESHOLD_SIZE,
             getCachedProxyClassesSize(),
-            lessThan(thresholdSize)
+            lessThan(THRESHOLD_SIZE)
         );
     }
 
@@ -190,7 +195,7 @@ public class CombinedWidgetTest {
             cpc.setAccessible(true);
             Map<?, ?> cachedProxyClasses = (Map<?, ?>) cpc.get(null);
             return cachedProxyClasses.size();
-        } catch (Exception e) {
+        } catch (NoSuchFieldException | ClassNotFoundException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
