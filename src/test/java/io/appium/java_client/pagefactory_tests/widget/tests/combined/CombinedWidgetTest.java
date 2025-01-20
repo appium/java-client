@@ -6,6 +6,8 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
+import io.appium.java_client.proxy.Helpers;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 
@@ -33,30 +36,31 @@ public class CombinedWidgetTest {
      */
     public static Stream<Arguments> data() {
         return Stream.of(
-                Arguments.of(new AppWithCombinedWidgets(),
-                    new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
-                    new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
-                    new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
-                Arguments.of(new AppWithCombinedWidgets(),
-                    new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                    new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                    new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultStubWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                    new AbstractStubWebDriver.StubWindowsDriver(), DefaultStubWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                    new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
-                Arguments.of(new AppWithPartiallyCombinedWidgets(),
-                    new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class)
+            Arguments.of(new AppWithCombinedWidgets(),
+                new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
+            Arguments.of(new AppWithCombinedWidgets(),
+                new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultIosXCUITWidget.class),
+            Arguments.of(new AppWithCombinedWidgets(),
+                new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
+            Arguments.of(new AppWithCombinedWidgets(),
+                new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class),
+            Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                new AbstractStubWebDriver.StubAndroidDriver(), DefaultAndroidWidget.class),
+            Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                new AbstractStubWebDriver.StubIOSXCUITDriver(), DefaultStubWidget.class),
+            Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                new AbstractStubWebDriver.StubWindowsDriver(), DefaultStubWidget.class),
+            Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                new AbstractStubWebDriver.StubBrowserDriver(), DefaultFindByWidget.class),
+            Arguments.of(new AppWithPartiallyCombinedWidgets(),
+                new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver(), DefaultFindByWidget.class)
         );
     }
 
     @ParameterizedTest
     @MethodSource("data")
     void checkThatWidgetsAreCreatedCorrectly(AbstractApp app, WebDriver driver, Class<?> widgetClass) {
+        assertProxyClassCacheGrowth();
         initElements(new AppiumFieldDecorator(driver), app);
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSubWidget().getSelfReference().getClass(),
@@ -160,5 +164,23 @@ public class CombinedWidgetTest {
         public List<PartiallyCombinedWidget> getWidgets() {
             return multipleWidgets;
         }
+    }
+
+
+    /**
+     * Assert proxy class cache growth for this test class.
+     * The (@link io.appium.java_client.proxy.Helpers#CACHED_PROXY_CLASSES) should be populated during these tests.
+     * Prior to the Caching issue being resolved
+     * - the CACHED_PROXY_CLASSES would grow indefinitely, resulting in an Out Of Memory exception.
+     * - this ParameterizedTest would have the CACHED_PROXY_CLASSES grow to 266 entries.
+     */
+    private void assertProxyClassCacheGrowth() {
+        System.gc(); //Trying to force a collection for more accurate check numbers
+        int thresholdSize = 50;
+        assertThat(
+            "Proxy Class Cache threshold is " + thresholdSize,
+            Helpers.getCachedProxyClassesSize(),
+            lessThan(thresholdSize)
+        );
     }
 }
