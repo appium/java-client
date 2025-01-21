@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.4.0_
+- **[ENHANCEMENTS]**
+  - Implement `HasBiDi` interface support in `AppiumDriver` [#2250](https://github.com/appium/java-client/pull/2250), [#2254](https://github.com/appium/java-client/pull/2254), [#2256](https://github.com/appium/java-client/pull/2256)
+  - Add compatibility with Selenium `4.28.0` [#2249](https://github.com/appium/java-client/pull/2249)
+- **[BUG FIX]**
+  - Fix scroll issue in flutter integration driver [#2227](https://github.com/appium/java-client/pull/2227)
+  - Fix the definition of `logcatFilterSpecs` option [#2258](https://github.com/appium/java-client/pull/2258)
+  - Use `WeakHashMap` for caching proxy classes [#2260](https://github.com/appium/java-client/pull/2260)
+- **[DEPENDENCY UPDATES]**
+  - Bump minimum supported Selenium version from `4.19.0` to `4.26.0` [#2246](https://github.com/appium/java-client/pull/2246)
+  - Bump Apache Commons Lang from `3.15.0` to `3.16.1` [#2220](https://github.com/appium/java-client/pull/2220), [#2228](https://github.com/appium/java-client/pull/2228)
+  - Bump SLF4J from `2.0.13` to `2.0.16` [#2221](https://github.com/appium/java-client/pull/2221)
 
 _9.3.0_
 - **[ENHANCEMENTS]**
