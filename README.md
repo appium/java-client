@@ -174,7 +174,7 @@ UiAutomator2Options options = new UiAutomator2Options()
     .setApp("/home/myapp.apk");
 AndroidDriver driver = new AndroidDriver(
     // The default URL in Appium 1 is http://127.0.0.1:4723/wd/hub
-    new URL("http://127.0.0.1:4723"), options
+    new URI("http://127.0.0.1:4723").toURL(), options
 );
 try {
     WebElement el = driver.findElement(AppiumBy.xpath("//Button"));
@@ -193,7 +193,7 @@ XCUITestOptions options = new XCUITestOptions()
     .setApp("/home/myapp.ipa");
 IOSDriver driver = new IOSDriver(
     // The default URL in Appium 1 is http://127.0.0.1:4723/wd/hub
-    new URL("http://127.0.0.1:4723"), options
+    new URI("http://127.0.0.1:4723").toURL(), options
 );
 try {
     WebElement el = driver.findElement(AppiumBy.accessibilityId("myId"));
@@ -214,7 +214,7 @@ BaseOptions options = new BaseOptions()
     .amend("mycapability2", "capvalue2");
 AppiumDriver driver = new AppiumDriver(
     // The default URL in Appium 1 is http://127.0.0.1:4723/wd/hub
-    new URL("http://127.0.0.1:4723"), options
+    new URI("http://127.0.0.1:4723").toURL(), options
 );
 try {
     WebElement el = driver.findElement(AppiumBy.className("myClass"));
