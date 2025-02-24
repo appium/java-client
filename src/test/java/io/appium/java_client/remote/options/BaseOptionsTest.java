@@ -15,7 +15,6 @@ class BaseOptionsTest {
       "browserName, browserName",
       "digital.ai:accessKey, digital.ai:accessKey",
       "digital-ai:accessKey, digital-ai:accessKey",
-      "<VENDOR-KEY>:<CAP-NAME>:<SUB-CAP-NAME>, <VENDOR-KEY>:<CAP-NAME>:<SUB-CAP-NAME>",
       "digital-ai:my_custom-cap:xyz, digital-ai:my_custom-cap:xyz",
       "digital-ai:my_custom-cap?xyz, digital-ai:my_custom-cap?xyz",
   })

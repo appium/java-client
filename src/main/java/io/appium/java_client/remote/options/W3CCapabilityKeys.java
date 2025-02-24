@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 public class W3CCapabilityKeys implements Predicate<String> {
     public static final W3CCapabilityKeys INSTANCE = new W3CCapabilityKeys();
     private static final Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
-                    "^[^:]+:.*$",
+                    "^[\\w-\\.]+:.*$",
                     "^acceptInsecureCerts$",
                     "^browserName$",
                     "^browserVersion$",
