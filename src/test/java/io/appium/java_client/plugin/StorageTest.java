@@ -19,7 +19,6 @@ package io.appium.java_client.plugin;
 import io.appium.java_client.TestUtils;
 import io.appium.java_client.plugins.storage.StorageClient;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
@@ -27,6 +26,7 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class StorageTest {
     private StorageClient storageClient;
@@ -38,8 +38,10 @@ public class StorageTest {
     }
 
     @Test
-    @Disabled
     void shouldBeAbleToPerformBasicStorageActions() {
+        // This test assumes Appium server with storage plugin is already running
+        // at the given baseUrl
+        assumeTrue(!TestUtils.isCiEnv());
         assertTrue(storageClient.list().isEmpty());
         var name = "hello appium - saved page.htm";
         var testFile = TestUtils.resourcePathToAbsolutePath("html/" + name).toFile();
