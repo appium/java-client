@@ -193,8 +193,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @return a field value or null.
      */
     public Object decorate(ClassLoader ignored, Field field) {
-        Object result = defaultElementFieldDecorator.decorate(ignored, field);
-        return result == null ? decorateWidget(field) : result;
+        Object result = decorateWidget(field);
+        return result == null ? defaultElementFieldDecorator.decorate(ignored, field) : result;
     }
 
     @Nullable
