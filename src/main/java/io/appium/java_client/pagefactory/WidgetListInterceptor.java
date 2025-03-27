@@ -19,10 +19,10 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -50,8 +50,7 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
      * Proxy interceptor class for lists of widgets.
      */
     public WidgetListInterceptor(
-            @Nullable
-            CacheableLocator locator,
+            @Nullable CacheableLocator locator,
             WeakReference<WebDriver> driver,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
             Class<? extends Widget> declaredType,

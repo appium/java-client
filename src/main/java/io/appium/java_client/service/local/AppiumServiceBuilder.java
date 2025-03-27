@@ -25,13 +25,13 @@ import io.appium.java_client.remote.options.SupportsAppOption;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.service.local.flags.ServerArgument;
 import lombok.SneakyThrows;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.service.DriverService;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

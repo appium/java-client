@@ -19,12 +19,12 @@ package io.appium.java_client.remote;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.NoSuchContextException;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Response;
 
-import javax.annotation.Nullable;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;

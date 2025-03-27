@@ -16,9 +16,9 @@
 
 package io.appium.java_client;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.remote.Response;
 
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

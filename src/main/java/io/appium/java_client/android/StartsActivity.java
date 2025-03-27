@@ -19,9 +19,8 @@ package io.appium.java_client.android;
 import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.UnsupportedCommandException;
-
-import javax.annotation.Nullable;
 
 import java.util.Map;
 

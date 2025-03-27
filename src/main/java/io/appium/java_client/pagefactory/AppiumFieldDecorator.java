@@ -19,6 +19,8 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -30,8 +32,6 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -123,7 +123,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         );
     }
 
-    @Nonnull
+    @NonNull
     private static WeakReference<WebDriver> requireWebDriverReference(SearchContext searchContext) {
         var wd = unpackObjectFromSearchContext(
                 checkNotNull(searchContext, "The provided search context cannot be null"),

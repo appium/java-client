@@ -22,10 +22,10 @@ import io.appium.java_client.appmanagement.BaseInstallApplicationOptions;
 import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.UnsupportedCommandException;
 
-import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
