@@ -18,12 +18,12 @@ package io.appium.java_client;
 
 import io.appium.java_client.internal.filters.AppiumIdempotencyFilter;
 import io.appium.java_client.internal.filters.AppiumUserAgentFilter;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Credentials;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.Filter;
 
-import javax.annotation.Nullable;
 import javax.net.ssl.SSLContext;
 import java.net.Proxy;
 import java.net.URI;

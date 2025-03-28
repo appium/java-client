@@ -18,13 +18,12 @@ package io.appium.java_client.pagefactory.utils;
 
 import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.pagefactory.bys.ContentType;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
-
-import javax.annotation.Nullable;
 
 import java.util.Optional;
 

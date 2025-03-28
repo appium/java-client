@@ -26,8 +26,8 @@ import net.bytebuddy.implementation.FieldAccessor;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;

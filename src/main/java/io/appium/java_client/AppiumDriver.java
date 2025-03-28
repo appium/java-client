@@ -25,6 +25,7 @@ import io.appium.java_client.remote.options.SupportsWebSocketUrlOption;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import lombok.Getter;
+import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.OutputType;
@@ -47,7 +48,6 @@ import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
-import javax.annotation.Nonnull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -275,7 +275,7 @@ public class AppiumDriver extends RemoteWebDriver implements
     }
 
     @Override
-    @Nonnull
+    @NonNull
     public BiDi getBiDi() {
         var webSocketUrl = ((BaseOptions<?>) this.capabilities).getWebSocketUrl().orElseThrow(
                 () -> {

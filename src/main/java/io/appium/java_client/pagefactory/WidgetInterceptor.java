@@ -19,11 +19,11 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
-import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -48,11 +48,9 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
      * Proxy interceptor class for widgets.
      */
     public WidgetInterceptor(
-            @Nullable
-            CacheableLocator locator,
+            @Nullable CacheableLocator locator,
             WeakReference<WebDriver> driverReference,
-            @Nullable
-            WeakReference<WebElement> cachedElementReference,
+            @Nullable WeakReference<WebElement> cachedElementReference,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
             Duration duration
     ) {
