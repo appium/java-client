@@ -214,7 +214,7 @@ testing {
         test {
             dependencies {
                 implementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
-                implementation('io.github.bonigarcia:webdrivermanager:6.0.0') {
+                implementation('io.github.bonigarcia:webdrivermanager:6.0.1') {
                     exclude group: 'org.seleniumhq.selenium'
                 }
             }
@@ -258,7 +258,7 @@ testing {
             dependencies {
                 implementation project()
                 implementation(sourceSets.test.output)
-                implementation('io.github.bonigarcia:webdrivermanager:6.0.0') {
+                implementation('io.github.bonigarcia:webdrivermanager:6.0.1') {
                     exclude group: 'org.seleniumhq.selenium'
                 }
             }
