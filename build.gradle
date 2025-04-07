@@ -38,8 +38,8 @@ ext {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
     if (project.hasProperty("isCI")) {
         api "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
