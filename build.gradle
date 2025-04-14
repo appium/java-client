@@ -65,7 +65,7 @@ dependencies {
             }
         }
     }
-    implementation 'com.google.code.gson:gson:2.12.1'
+    implementation 'com.google.code.gson:gson:2.13.0'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     implementation 'org.jspecify:jspecify:1.0.0'
 }
