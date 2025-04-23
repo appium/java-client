@@ -1,11 +1,11 @@
 package io.appium.java_client;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;

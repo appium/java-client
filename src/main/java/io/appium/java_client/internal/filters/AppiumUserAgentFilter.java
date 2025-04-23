@@ -17,13 +17,12 @@
 package io.appium.java_client.internal.filters;
 
 import io.appium.java_client.internal.Config;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
 import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
 import org.openqa.selenium.remote.http.HttpHeader;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Manage Appium Client configurations.
@@ -41,7 +40,7 @@ public class AppiumUserAgentFilter implements Filter {
      */
     public static final String USER_AGENT = buildUserAgentHeaderValue(AddSeleniumUserAgent.USER_AGENT);
 
-    private static String buildUserAgentHeaderValue(@Nonnull String previousUA) {
+    private static String buildUserAgentHeaderValue(@NonNull String previousUA) {
         return String.format("%s%s (%s)",
                 USER_AGENT_PREFIX, Config.main().getValue(VERSION_KEY, String.class), previousUA);
     }

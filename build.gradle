@@ -7,7 +7,7 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'signing'
-    id 'org.owasp.dependencycheck' version '12.1.0'
+    id 'org.owasp.dependencycheck' version '12.1.1'
     id 'com.gradleup.shadow' version '8.3.6'
 }
 
@@ -38,8 +38,8 @@ ext {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
     if (project.hasProperty("isCI")) {
         api "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
@@ -65,8 +65,9 @@ dependencies {
             }
         }
     }
-    implementation 'com.google.code.gson:gson:2.12.1'
+    implementation 'com.google.code.gson:gson:2.13.0'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation 'org.jspecify:jspecify:1.0.0'
 }
 
 dependencyCheck {
@@ -195,7 +196,7 @@ testing {
         configureEach {
             useJUnitJupiter()
             dependencies {
-                implementation 'org.junit.jupiter:junit-jupiter:5.12.0'
+                implementation 'org.junit.jupiter:junit-jupiter:5.12.2'
                 runtimeOnly 'org.junit.platform:junit-platform-launcher'
                 implementation 'org.hamcrest:hamcrest:3.0'
                 runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
@@ -213,7 +214,7 @@ testing {
         test {
             dependencies {
                 implementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
-                implementation('io.github.bonigarcia:webdrivermanager:5.9.3') {
+                implementation('io.github.bonigarcia:webdrivermanager:6.0.1') {
                     exclude group: 'org.seleniumhq.selenium'
                 }
             }
@@ -257,7 +258,7 @@ testing {
             dependencies {
                 implementation project()
                 implementation(sourceSets.test.output)
-                implementation('io.github.bonigarcia:webdrivermanager:5.9.3') {
+                implementation('io.github.bonigarcia:webdrivermanager:6.0.1') {
                     exclude group: 'org.seleniumhq.selenium'
                 }
             }

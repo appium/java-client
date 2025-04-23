@@ -20,6 +20,8 @@ import com.google.common.base.Throwables;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.Getter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Command;
@@ -34,12 +36,11 @@ import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.ResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpClient.Factory;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
 import org.openqa.selenium.remote.service.DriverService;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
@@ -69,10 +70,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public AppiumCommandExecutor(
-            @Nonnull Map<String, CommandInfo> additionalCommands,
+            @NonNull Map<String, CommandInfo> additionalCommands,
             @Nullable DriverService service,
-            @Nullable HttpClient.Factory httpClientFactory,
-            @Nonnull AppiumClientConfig appiumClientConfig) {
+            @Nullable Factory httpClientFactory,
+            @NonNull AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
                 appiumClientConfig,
                 ofNullable(httpClientFactory).orElseGet(AppiumCommandExecutor::getDefaultClientFactory)

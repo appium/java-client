@@ -16,9 +16,9 @@
 
 package io.appium.java_client.internal;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Capabilities;
 
-import javax.annotation.Nullable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;

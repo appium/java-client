@@ -17,11 +17,11 @@
 package io.appium.java_client.pagefactory.bys;
 
 import lombok.EqualsAndHashCode;
+import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class ContentMappedBy extends By {
      * @param type required content type {@link ContentType}
      * @return self-reference.
      */
-    public By useContent(@Nonnull ContentType type) {
+    public By useContent(@NonNull ContentType type) {
         requireNonNull(type);
         currentContent = type;
         return this;

@@ -16,12 +16,12 @@
 
 package io.appium.java_client.ws;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.WebSocket;
 
-import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.List;
