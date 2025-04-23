@@ -17,10 +17,10 @@
 package io.appium.java_client.pagefactory.interceptors;
 
 import io.appium.java_client.proxy.MethodCallListener;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;

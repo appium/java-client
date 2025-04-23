@@ -18,13 +18,13 @@ package io.appium.java_client.service.local;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.os.ExternalProcess;
 import org.openqa.selenium.remote.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-import javax.annotation.Nullable;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

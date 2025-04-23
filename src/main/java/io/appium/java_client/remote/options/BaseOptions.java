@@ -16,6 +16,7 @@
 
 package io.appium.java_client.remote.options;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.Platform;
@@ -23,7 +24,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.Require;
 import org.openqa.selenium.remote.CapabilityType;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
