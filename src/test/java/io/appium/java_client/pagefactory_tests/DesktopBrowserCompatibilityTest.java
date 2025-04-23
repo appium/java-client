@@ -18,10 +18,7 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.TestUtils;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.pagefactory.HowToUseLocators;
-import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import io.appium.java_client.pagefactory.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -37,8 +34,7 @@ import java.util.List;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.time.Duration.ofSeconds;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DesktopBrowserCompatibilityTest {
     private static final String HELLO_APPIUM_HTML =
@@ -69,6 +65,7 @@ public class DesktopBrowserCompatibilityTest {
             assertNotEquals(0, main.size());
             assertNull(trap1);
             assertNull(trap2);
+            foundLinks.forEach(element -> assertFalse(Widget.class.isAssignableFrom(element.getClass())));
         } finally {
             driver.quit();
         }
