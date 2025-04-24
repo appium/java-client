@@ -60,7 +60,7 @@ public class CombinedAppTest {
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));
-        assertThat(app.getWidget().getSelfReference().getClass(),
+        assertThat(app.getWidget().getSelfReference(),
                 Matchers.instanceOf(WebElement.class));
 
         List<Class<?>> classes = app.getWidgets().stream().map(abstractWidget -> abstractWidget
