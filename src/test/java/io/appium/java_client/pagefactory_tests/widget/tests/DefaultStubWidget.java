@@ -2,10 +2,10 @@ package io.appium.java_client.pagefactory_tests.widget.tests;
 
 import io.appium.java_client.pagefactory.Widget;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
