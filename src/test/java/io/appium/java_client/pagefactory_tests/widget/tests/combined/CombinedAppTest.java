@@ -6,10 +6,12 @@ import io.appium.java_client.pagefactory_tests.widget.tests.AbstractApp;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
 import io.appium.java_client.pagefactory_tests.widget.tests.android.DefaultAndroidWidget;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -58,6 +60,8 @@ public class CombinedAppTest {
         assertThat("Expected widget class was " + widgetClass.getName(),
                 app.getWidget().getSelfReference().getClass(),
                 equalTo(widgetClass));
+        assertThat(app.getWidget().getSelfReference(),
+                Matchers.instanceOf(WebElement.class));
 
         List<Class<?>> classes = app.getWidgets().stream().map(abstractWidget -> abstractWidget
                 .getSelfReference().getClass())
