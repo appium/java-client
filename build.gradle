@@ -180,7 +180,7 @@ signing {
 }
 
 wrapper {
-    gradleVersion = '8.9'
+    gradleVersion = '8.14'
     distributionType = Wrapper.DistributionType.ALL
 }
 
