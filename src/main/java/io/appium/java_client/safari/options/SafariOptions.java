@@ -31,7 +31,10 @@ import org.openqa.selenium.Platform;
 import java.util.Map;
 
 /**
- * https://github.com/appium/appium-safari-driver#usage
+ * Provides options specific to the Safari Driver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://github.com/appium/appium-safari-driver#usage">capabilities documentation</a></p>
  */
 public class SafariOptions extends BaseOptions<SafariOptions> implements
         SupportsBrowserNameOption<SafariOptions>,

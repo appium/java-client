@@ -101,7 +101,10 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 
 /**
- * https://github.com/appium/appium-espresso-driver#capabilities
+ * Provides options specific to the Espresso Driver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://github.com/appium/appium-espresso-driver#capabilities">capabilities documentation</a></p>
  */
 public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         // General options: https://github.com/appium/appium-uiautomator2-driver#general

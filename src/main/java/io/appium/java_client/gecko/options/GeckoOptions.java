@@ -31,7 +31,10 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 
 /**
- * https://github.com/appium/appium-geckodriver#usage
+ * Provides options specific to the Geckodriver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://github.com/appium/appium-geckodriver#capabilities">capabilities documentation</a></p>
  */
 public class GeckoOptions extends BaseOptions<GeckoOptions> implements
         SupportsBrowserNameOption<GeckoOptions>,

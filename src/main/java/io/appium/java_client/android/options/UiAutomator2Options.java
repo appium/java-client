@@ -107,7 +107,10 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 
 /**
- * https://github.com/appium/appium-uiautomator2-driver#capabilities
+ * Provides options specific to the UiAutomator2 Driver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://github.com/appium/appium-uiautomator2-driver#capabilities">capabilities documentation</a></p>
  */
 public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implements
         // General options: https://github.com/appium/appium-uiautomator2-driver#general
