@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Response;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -175,11 +176,23 @@ public abstract class AbstractStubWebDriver implements
             return this;
         }
 
+        public Timeouts implicitlyWait(Duration duration) {
+            return this;
+        }
+
         public Timeouts setScriptTimeout(long time, TimeUnit unit) {
             return this;
         }
 
+        public Timeouts setScriptTimeout(Duration duration) {
+            return this;
+        }
+
         public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+            return this;
+        }
+
+        public Timeouts pageLoadTimeout(Duration duration) {
             return this;
         }
     }
