@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Response;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -154,22 +155,7 @@ public abstract class AbstractStubWebDriver implements
 
             @Override
             public Timeouts timeouts() {
-                return new Timeouts() {
-                    @Override
-                    public Timeouts implicitlyWait(long time, TimeUnit unit) {
-                        return this;
-                    }
-
-                    @Override
-                    public Timeouts setScriptTimeout(long time, TimeUnit unit) {
-                        return this;
-                    }
-
-                    @Override
-                    public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
-                        return this;
-                    }
-                };
+                return new TimeoutsImpl();
             }
 
             @Override
@@ -182,6 +168,33 @@ public abstract class AbstractStubWebDriver implements
                 return null;
             }
         };
+    }
+
+    private static class TimeoutsImpl implements Timeouts {
+
+        public Timeouts implicitlyWait(long time, TimeUnit unit) {
+            return this;
+        }
+
+        public Timeouts implicitlyWait(Duration duration) {
+            return this;
+        }
+
+        public Timeouts setScriptTimeout(long time, TimeUnit unit) {
+            return this;
+        }
+
+        public Timeouts setScriptTimeout(Duration duration) {
+            return this;
+        }
+
+        public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+            return this;
+        }
+
+        public Timeouts pageLoadTimeout(Duration duration) {
+            return this;
+        }
     }
 
     public static class StubAndroidDriver extends AbstractStubWebDriver {

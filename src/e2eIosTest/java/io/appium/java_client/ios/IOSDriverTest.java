@@ -50,9 +50,8 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test
     public void addCustomCommandTest() {
-        driver.addCommand(HttpMethod.GET, "/sessions", "getSessions");
-        final Response getSessions = driver.execute("getSessions");
-        assertNotNull(getSessions.getSessionId());
+        driver.addCommand(HttpMethod.GET, "/status", "getStatus");
+        assertNotNull(driver.execute("getStatus"));
     }
 
     @Test
