@@ -155,17 +155,14 @@ public abstract class AbstractStubWebDriver implements
             @Override
             public Timeouts timeouts() {
                 return new Timeouts() {
-                    @Override
                     public Timeouts implicitlyWait(long time, TimeUnit unit) {
                         return this;
                     }
 
-                    @Override
                     public Timeouts setScriptTimeout(long time, TimeUnit unit) {
                         return this;
                     }
 
-                    @Override
                     public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
                         return this;
                     }
