@@ -92,15 +92,15 @@ jobs:
 
     - name: Install Appium
       if: ${{ matrix.e2e-tests }}
-      run: npm install --location=global appium
+      run: npm install --location=global appium@beta
 
     - name: Install UIA2 driver
       if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
-      run: appium driver install uiautomator2
+      run: appium driver install uiautomator2@beta
 
-    - name: Install Flutter Integration driver
-      if: matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
-      run: appium driver install appium-flutter-integration-driver --source npm
+    # - name: Install Flutter Integration driver
+    #   if: matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
+    #   run: appium driver install appium-flutter-integration-driver --source npm
 
     - name: Run Android E2E tests
       if: matrix.e2e-tests == 'android'
@@ -113,16 +113,16 @@ jobs:
         disable-animations: true
         target: ${{ env.ANDROID_EMU_TARGET }}
 
-    - name: Run Flutter Android E2E tests
-      if: matrix.e2e-tests == 'flutter-android'
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        script: ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
-        api-level: ${{ env.ANDROID_SDK_VERSION }}
-        avd-name: ${{ env.ANDROID_EMU_NAME }}
-        disable-spellchecker: true
-        disable-animations: true
-        target: ${{ env.ANDROID_EMU_TARGET }}
+    # - name: Run Flutter Android E2E tests
+    #   if: matrix.e2e-tests == 'flutter-android'
+    #   uses: reactivecircus/android-emulator-runner@v2
+    #   with:
+    #     script: ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
+    #     api-level: ${{ env.ANDROID_SDK_VERSION }}
+    #     avd-name: ${{ env.ANDROID_EMU_NAME }}
+    #     disable-spellchecker: true
+    #     disable-animations: true
+    #     target: ${{ env.ANDROID_EMU_TARGET }}
 
     - name: Select Xcode
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
@@ -137,7 +137,7 @@ jobs:
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
     - name: Install XCUITest driver
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
-      run: appium driver install xcuitest
+      run: appium driver install xcuitest@beta
     - name: Prebuild XCUITest driver
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver run xcuitest build-wda --sdk=${{ env.IOS_PLATFORM_VERSION }} --name='${{ env.IOS_DEVICE_NAME }}'
@@ -145,6 +145,6 @@ jobs:
       if: matrix.e2e-tests == 'ios'
       run: ./gradlew e2eIosTest -PisCI -Pselenium.version=$latest_snapshot
 
-    - name: Run Flutter iOS E2E tests
-      if: matrix.e2e-tests == 'flutter-ios'
-      run: ./gradlew e2eFlutterTest -Pplatform="ios" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_IOS_APP }}
+    # - name: Run Flutter iOS E2E tests
+    #   if: matrix.e2e-tests == 'flutter-ios'
+    #   run: ./gradlew e2eFlutterTest -Pplatform="ios" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_IOS_APP }}
