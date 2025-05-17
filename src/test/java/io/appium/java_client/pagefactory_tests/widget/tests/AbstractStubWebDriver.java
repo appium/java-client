@@ -154,19 +154,7 @@ public abstract class AbstractStubWebDriver implements
 
             @Override
             public Timeouts timeouts() {
-                return new Timeouts() {
-                    public Timeouts implicitlyWait(long time, TimeUnit unit) {
-                        return this;
-                    }
-
-                    public Timeouts setScriptTimeout(long time, TimeUnit unit) {
-                        return this;
-                    }
-
-                    public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
-                        return this;
-                    }
-                };
+                return new TimeoutsImpl();
             }
 
             @Override
@@ -179,6 +167,21 @@ public abstract class AbstractStubWebDriver implements
                 return null;
             }
         };
+    }
+
+    private static class TimeoutsImpl implements Timeouts {
+
+        public Timeouts implicitlyWait(long time, TimeUnit unit) {
+            return this;
+        }
+
+        public Timeouts setScriptTimeout(long time, TimeUnit unit) {
+            return this;
+        }
+
+        public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+            return this;
+        }
     }
 
     public static class StubAndroidDriver extends AbstractStubWebDriver {
