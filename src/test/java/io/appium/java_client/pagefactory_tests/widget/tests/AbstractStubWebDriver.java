@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Response;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -155,18 +156,70 @@ public abstract class AbstractStubWebDriver implements
             @Override
             public Timeouts timeouts() {
                 return new Timeouts() {
-                    @Override
+                    /**
+                     * Does nothing.
+                     *
+                     * @param time The amount of time to wait.
+                     * @param unit The unit of measure for {@code time}.
+                     * @return A self reference.
+                     * @deprecated Kept for the backward compatibility, should be removed when a minimum Selenium
+                     *     version is bumped to 4.33.0 or higher.
+                     */
+                    @Deprecated
                     public Timeouts implicitlyWait(long time, TimeUnit unit) {
                         return this;
                     }
 
-                    @Override
+                    public Timeouts implicitlyWait(Duration duration) {
+                        return this;
+                    }
+
+                    /**
+                     * Does nothing.
+                     *
+                     * @param time The timeout value.
+                     * @param unit The unit of time.
+                     * @return A self reference.
+                     * @deprecated Kept for the backward compatibility, should be removed when Selenium client removes
+                     *     this method from its interface.
+                     */
+                    @Deprecated
                     public Timeouts setScriptTimeout(long time, TimeUnit unit) {
                         return this;
                     }
 
-                    @Override
+                    /**
+                     * Does nothing.
+                     *
+                     * @param duration The timeout value.
+                     * @return A self reference.
+                     * @deprecated Kept for the backward compatibility, should be removed when Selenium client removes
+                     *     this method from its interface.
+                     */
+                    @Deprecated
+                    public Timeouts setScriptTimeout(Duration duration) {
+                        return this;
+                    }
+
+                    public Timeouts scriptTimeout(Duration duration) {
+                        return this;
+                    }
+
+                    /**
+                     * Does nothing.
+                     *
+                     * @param time The timeout value.
+                     * @param unit The unit of time.
+                     * @return A self reference.
+                     * @deprecated Kept for the backward compatibility, should be removed when Selenium client removes
+                     *     this method from its interface.
+                     */
+                    @Deprecated
                     public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+                        return this;
+                    }
+
+                    public Timeouts pageLoadTimeout(Duration duration) {
                         return this;
                     }
                 };
