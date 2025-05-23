@@ -119,7 +119,10 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 
 /**
- * https://github.com/appium/appium-xcuitest-driver#capabilities
+ * Provides options specific to the XCUITest Driver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/">capabilities documentation</a></p>
  */
 public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         // General options: https://github.com/appium/appium-xcuitest-driver#general

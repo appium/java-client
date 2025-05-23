@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
  * Flutter applications, extending WebDriver and providing additional capabilities for
  * interacting with Flutter-specific elements and behaviors.
  *
- * <p> This interface serves as a common entity for drivers that support Flutter applications
- * on different platforms, such as Android and iOS. </p>
+ * <p>This interface serves as a common entity for drivers that support Flutter applications
+ * on different platforms, such as Android and iOS.</p>
  *
  * @see WebDriver
  * @see SupportsGestureOnFlutterElements

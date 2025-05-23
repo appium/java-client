@@ -27,7 +27,10 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * https://github.com/appium/appium-mac2-driver#capabilities
+ * Provides options specific to the Appium Mac2 Driver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://github.com/appium/appium-mac2-driver#capabilities">capabilities documentation</a></p>
  */
 public class Mac2Options extends BaseOptions<Mac2Options> implements
         SupportsSystemPortOption<Mac2Options>,

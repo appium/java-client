@@ -84,10 +84,10 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * Refer to https://developer.android.com/training/testing/ui-automator
+     * Refer to <a href="https://developer.android.com/training/testing/ui-automator">UI Automator</a> .
      *
      * @param uiautomatorText is Android UIAutomator string
-     * @return an instance of {@link AppiumBy.ByAndroidUIAutomator}
+     * @return an instance of {@link ByAndroidUIAutomator}
      */
     public static By androidUIAutomator(final String uiautomatorText) {
         return new ByAndroidUIAutomator(uiautomatorText);
@@ -169,9 +169,9 @@ public abstract class AppiumBy extends By implements Remotable {
      *                    as for OpenCV library.
      * @return an instance of {@link ByImage}
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
-     * The documentation on Image Comparison Features</a>
+     *     The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tuning</a>
+     *     The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
      */
     public static By image(final String b64Template) {

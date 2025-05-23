@@ -50,7 +50,7 @@ class ServerBuilderTest {
     private static final String PATH_TO_APPIUM_NODE_IN_PROPERTIES = getProperty(APPIUM_PATH);
 
     /**
-     * This is the path to the stub main.js file
+     * This is the path to the stub main.js file.
      */
     private static final Path PATH_T0_TEST_MAIN_JS = TestUtils.resourcePathToAbsolutePath("main.js");
 

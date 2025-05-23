@@ -13,7 +13,10 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 
 /**
- * https://github.com/AppiumTestDistribution/appium-flutter-integration-driver#capabilities-for-appium-flutter-integration-driver
+ * Provides options specific to the Appium Flutter Integration Driver.
+ *
+ * <p>For more details, refer to the
+ * <a href="https://github.com/AppiumTestDistribution/appium-flutter-integration-driver#capabilities-for-appium-flutter-integration-driver">capabilities documentation</a></p>
  */
 public class FlutterDriverOptions extends BaseOptions<FlutterDriverOptions> implements
         SupportsFlutterSystemPortOption<FlutterDriverOptions>,

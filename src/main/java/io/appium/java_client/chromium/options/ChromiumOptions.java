@@ -24,7 +24,7 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 
 /**
- * <p>Options class that sets options for Chromium when testing websites.</p>
+ * Options class that sets options for Chromium when testing websites.
  * <br>
  * @see <a href='https://github.com/appium/appium-chromium-driver#usage'>appium-chromium-driver usage section</a>
  */

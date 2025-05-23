@@ -75,7 +75,7 @@ dependencyCheck {
 }
 
 jacoco {
-    toolVersion = '0.8.12'
+    toolVersion = '0.8.13'
 }
 
 tasks.withType(JacocoReport).configureEach {
@@ -91,7 +91,7 @@ jacocoTestReport.dependsOn test
 apply plugin: 'checkstyle'
 
 checkstyle {
-    toolVersion = '10.17.0'
+    toolVersion = '10.23.1'
     configFile = configDirectory.file('appium-style.xml').get().getAsFile()
     showViolations = true
     ignoreFailures = false
@@ -180,7 +180,7 @@ signing {
 }
 
 wrapper {
-    gradleVersion = '8.9'
+    gradleVersion = '8.14'
     distributionType = Wrapper.DistributionType.ALL
 }
 

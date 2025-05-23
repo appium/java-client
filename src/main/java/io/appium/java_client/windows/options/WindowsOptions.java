@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * <a href="https://github.com/appium/appium-windows-driver#usage">https://github.com/appium/appium-windows-driver#usage</a>
+ * <a href="https://github.com/appium/appium-windows-driver#usage">https://github.com/appium/appium-windows-driver#usage</a>.
  */
 public class WindowsOptions extends BaseOptions<WindowsOptions> implements
         SupportsAppOption<WindowsOptions>,
