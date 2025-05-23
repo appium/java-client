@@ -30,7 +30,7 @@ public enum KeyEventMetaModifier {
      */
     ALT_ON(0x02),
     /**
-     * his mask is used to check whether the left ALT meta key is pressed.
+     * This mask is used to check whether the left ALT meta key is pressed.
      *
      * @see AndroidKey#ALT_LEFT
      */
