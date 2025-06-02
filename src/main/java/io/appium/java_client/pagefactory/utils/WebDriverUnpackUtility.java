@@ -18,8 +18,8 @@ package io.appium.java_client.pagefactory.utils;
 
 import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.pagefactory.bys.ContentType;
+import io.appium.java_client.remote.SupportsContextSwitching;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
@@ -92,12 +92,13 @@ public final class WebDriverUnpackUtility {
      *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
      *                user's extension/implementation.
      *                Note: if you want to use your own implementation then it should
-     *                implement {@link ContextAware} or {@link WrapsDriver} or {@link HasBrowserCheck}
+     *                implement {@link SupportsContextSwitching} or {@link WrapsDriver} or {@link HasBrowserCheck}
      * @return current content type. It depends on current context. If current context is
      *                NATIVE_APP it will return {@link ContentType#NATIVE_MOBILE_SPECIFIC}.
      *                {@link ContentType#HTML_OR_DEFAULT} will be returned if the current context is WEB_VIEW.
      *                {@link ContentType#HTML_OR_DEFAULT} also will be returned if the given
-     *                {@link SearchContext} instance doesn't implement {@link ContextAware} and {@link WrapsDriver}
+     *                {@link SearchContext} instance doesn't implement {@link SupportsContextSwitching} and
+     *                {@link WrapsDriver}
      */
     public static ContentType getCurrentContentType(SearchContext context) {
         var browserCheckHolder = unpackObjectFromSearchContext(context, HasBrowserCheck.class);
@@ -105,8 +106,8 @@ public final class WebDriverUnpackUtility {
             return NATIVE_MOBILE_SPECIFIC;
         }
 
-        var contextAware = unpackObjectFromSearchContext(context, ContextAware.class);
-        if (contextAware.map(ContextAware::getContext)
+        var contextAware = unpackObjectFromSearchContext(context, SupportsContextSwitching.class);
+        if (contextAware.map(SupportsContextSwitching::getContext)
                 .filter(c -> c.toUpperCase().contains(NATIVE_CONTEXT)).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
