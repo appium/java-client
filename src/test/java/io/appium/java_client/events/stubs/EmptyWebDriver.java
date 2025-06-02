@@ -46,18 +46,6 @@ public class EmptyWebDriver implements WebDriver, JavascriptExecutor, HasCapabil
         return List.of(new StubWebElement(), new StubWebElement());
     }
 
-    public WebDriver context(String name) {
-        return null;
-    }
-
-    public Set<String> getContextHandles() {
-        return null;
-    }
-
-    public String getContext() {
-        return "";
-    }
-
     public void get(String url) {
     }
 
