@@ -1,7 +1,7 @@
 package io.appium.java_client;
 
 import io.appium.java_client.internal.CapabilityHelpers;
-import org.openqa.selenium.ContextAware;
+import io.appium.java_client.remote.SupportsContextSwitching;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
@@ -29,11 +29,11 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
                 // ignore
             }
         }
-        if (!(this instanceof ContextAware)) {
+        if (!(this instanceof SupportsContextSwitching)) {
             return false;
         }
         try {
-            var context = ((ContextAware) this).getContext();
+            var context = ((SupportsContextSwitching) this).getContext();
             return context != null && !context.toUpperCase().contains(NATIVE_CONTEXT);
         } catch (WebDriverException e) {
             return false;

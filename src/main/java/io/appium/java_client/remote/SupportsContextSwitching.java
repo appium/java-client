@@ -20,7 +20,6 @@ import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.MobileCommand;
 import io.appium.java_client.NoSuchContextException;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.Response;
@@ -32,7 +31,7 @@ import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
-public interface SupportsContextSwitching extends WebDriver, ContextAware, ExecutesMethod {
+public interface SupportsContextSwitching extends WebDriver, ExecutesMethod {
     /**
      * Switches to the given context.
      *

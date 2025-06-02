@@ -19,7 +19,6 @@ package io.appium.java_client.events.stubs;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
@@ -39,25 +38,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EmptyWebDriver implements WebDriver, ContextAware,
-        JavascriptExecutor, HasCapabilities, TakesScreenshot {
+public class EmptyWebDriver implements WebDriver, JavascriptExecutor, HasCapabilities, TakesScreenshot {
     public EmptyWebDriver() {
     }
 
     private static List<StubWebElement> createStubList() {
         return List.of(new StubWebElement(), new StubWebElement());
-    }
-
-    public WebDriver context(String name) {
-        return null;
-    }
-
-    public Set<String> getContextHandles() {
-        return null;
-    }
-
-    public String getContext() {
-        return "";
     }
 
     public void get(String url) {
