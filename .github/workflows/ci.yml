@@ -29,6 +29,7 @@ env:
   IOS_PLATFORM_VERSION: "17.5"
   FLUTTER_ANDROID_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/app-debug.apk"
   FLUTTER_IOS_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/ios.zip"
+  PREBUILT_WDA_PATH: ${{ github.workspace }}/wda/WebDriverAgentRunner-Runner.app
 
 jobs:
   build:
@@ -135,12 +136,14 @@ jobs:
       with:
         model: "${{ env.IOS_DEVICE_NAME }}"
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
+        wait_for_boot: true
+        shutdown_after_job: false
     - name: Install XCUITest driver
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver install xcuitest
-    - name: Prebuild XCUITest driver
+    - name: Download prebuilt WDA
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
-      run: appium driver run xcuitest build-wda --sdk=${{ env.IOS_PLATFORM_VERSION }} --name='${{ env.IOS_DEVICE_NAME }}'
+      run: appium driver run xcuitest download-wda-sim  --platform=ios --outdir=$(dirname "$PREBUILT_WDA_PATH")
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
       run: ./gradlew e2eIosTest -PisCI -Pselenium.version=$latest_snapshot

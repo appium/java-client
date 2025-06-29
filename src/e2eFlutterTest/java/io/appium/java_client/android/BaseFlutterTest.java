@@ -35,6 +35,7 @@ class BaseFlutterTest {
     private static AppiumDriverLocalService service;
     protected static FlutterIntegrationTestDriver driver;
     protected static final By LOGIN_BUTTON = AppiumBy.flutterText("Login");
+    private static String PREBUILT_WDA_PATH = System.getenv("PREBUILT_WDA_PATH");
 
     /**
      * initialization.
@@ -74,15 +75,19 @@ class BaseFlutterTest {
             String platformVersion = System.getenv("IOS_PLATFORM_VERSION") != null
                     ? System.getenv("IOS_PLATFORM_VERSION")
                     : "14.5";
-            driver = new FlutterIOSDriver(service.getUrl(), flutterOptions
-                    .setXCUITestOptions(new XCUITestOptions()
-                            .setApp(System.getProperty("flutterApp"))
-                            .setDeviceName(deviceName)
-                            .setPlatformVersion(platformVersion)
-                            .setWdaLaunchTimeout(Duration.ofMinutes(4))
-                            .setSimulatorStartupTimeout(Duration.ofMinutes(5))
-                            .eventTimings()
-                    )
+            XCUITestOptions xcuiTestOptions = new XCUITestOptions()
+                    .setApp(System.getProperty("flutterApp"))
+                    .setDeviceName(deviceName)
+                    .setPlatformVersion(platformVersion)
+                    .setWdaLaunchTimeout(Duration.ofMinutes(4))
+                    .setSimulatorStartupTimeout(Duration.ofMinutes(5))
+                    .eventTimings();
+            if (PREBUILT_WDA_PATH != null) {
+                xcuiTestOptions.usePreinstalledWda().setPrebuiltWdaPath(PREBUILT_WDA_PATH);
+            }
+            driver = new FlutterIOSDriver(
+                    service.getUrl(),
+                    flutterOptions.setXCUITestOptions(xcuiTestOptions)
             );
         }
     }

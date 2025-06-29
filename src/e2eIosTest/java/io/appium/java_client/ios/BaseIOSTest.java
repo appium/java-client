@@ -36,6 +36,8 @@ public class BaseIOSTest {
             : "14.5";
     public static final Duration WDA_LAUNCH_TIMEOUT = Duration.ofMinutes(4);
     public static final Duration SERVER_START_TIMEOUT = Duration.ofMinutes(3);
+    protected static String PREBUILT_WDA_PATH = System.getenv("PREBUILT_WDA_PATH");
+
 
     /**
      * Starts a local server.

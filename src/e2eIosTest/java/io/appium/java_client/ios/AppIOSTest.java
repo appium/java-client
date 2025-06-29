@@ -23,6 +23,9 @@ public class AppIOSTest extends BaseIOSTest {
                 .setApp(TEST_APP_ZIP)
                 .enableBiDi()
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
+        if (PREBUILT_WDA_PATH != null) {
+            options.usePreinstalledWda().setPrebuiltWdaPath(PREBUILT_WDA_PATH);
+        }
         try {
             driver = new IOSDriver(service.getUrl(), options);
         } catch (SessionNotCreatedException e) {

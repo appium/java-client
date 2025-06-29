@@ -34,6 +34,9 @@ public class BaseSafariTest extends BaseIOSTest {
                 .setPlatformVersion(PLATFORM_VERSION)
                 .setWebviewConnectTimeout(WEBVIEW_CONNECT_TIMEOUT)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT);
+        if (PREBUILT_WDA_PATH != null) {
+            options.usePreinstalledWda().setPrebuiltWdaPath(PREBUILT_WDA_PATH);
+        }
         driver = new IOSDriver(service.getUrl(), options);
     }
 }
