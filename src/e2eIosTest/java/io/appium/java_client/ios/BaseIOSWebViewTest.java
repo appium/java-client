@@ -40,6 +40,9 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
                 .setApp(VODQA_ZIP);
+        if (PREBUILT_WDA_PATH != null) {
+            options.usePreinstalledWda().setPrebuiltWdaPath(PREBUILT_WDA_PATH);
+        }
         Supplier<IOSDriver> createDriver = () -> new IOSDriver(service.getUrl(), options);
         try {
             driver = createDriver.get();

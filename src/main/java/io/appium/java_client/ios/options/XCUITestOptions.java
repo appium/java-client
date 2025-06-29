@@ -55,6 +55,7 @@ import io.appium.java_client.ios.options.wda.SupportsForceAppLaunchOption;
 import io.appium.java_client.ios.options.wda.SupportsKeychainOptions;
 import io.appium.java_client.ios.options.wda.SupportsMaxTypingFrequencyOption;
 import io.appium.java_client.ios.options.wda.SupportsMjpegServerPortOption;
+import io.appium.java_client.ios.options.wda.SupportsPrebuiltWdaPathOption;
 import io.appium.java_client.ios.options.wda.SupportsProcessArgumentsOption;
 import io.appium.java_client.ios.options.wda.SupportsResultBundlePathOption;
 import io.appium.java_client.ios.options.wda.SupportsScreenshotQualityOption;
@@ -66,6 +67,7 @@ import io.appium.java_client.ios.options.wda.SupportsUpdatedWdaBundleIdOption;
 import io.appium.java_client.ios.options.wda.SupportsUseNativeCachingStrategyOption;
 import io.appium.java_client.ios.options.wda.SupportsUseNewWdaOption;
 import io.appium.java_client.ios.options.wda.SupportsUsePrebuiltWdaOption;
+import io.appium.java_client.ios.options.wda.SupportsUsePreinstalledWdaOption;
 import io.appium.java_client.ios.options.wda.SupportsUseSimpleBuildTestOption;
 import io.appium.java_client.ios.options.wda.SupportsUseXctestrunFileOption;
 import io.appium.java_client.ios.options.wda.SupportsWaitForIdleTimeoutOption;
@@ -156,6 +158,8 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsWdaBaseUrlOption<XCUITestOptions>,
         SupportsShowXcodeLogOption<XCUITestOptions>,
         SupportsUsePrebuiltWdaOption<XCUITestOptions>,
+        SupportsUsePreinstalledWdaOption<XCUITestOptions>,
+        SupportsPrebuiltWdaPathOption<XCUITestOptions>,
         SupportsShouldUseSingletonTestManagerOption<XCUITestOptions>,
         SupportsWaitForIdleTimeoutOption<XCUITestOptions>,
         SupportsUseXctestrunFileOption<XCUITestOptions>,
