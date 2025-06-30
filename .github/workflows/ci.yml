@@ -92,17 +92,18 @@ jobs:
         METADATA_URL="${REPO_URL}/${GROUP_PATH}/${ARTIFACT_ID}/maven-metadata.xml"
 
         metadata=$(curl -s "$METADATA_URL")
-        latest_version=$(python3 -c "
+        latest_snapshot=$(python3 -c "
         import sys, xml.etree.ElementTree as ET
         root = ET.fromstring(sys.stdin.read())
         print(root.findtext('./versioning/latest'))
         " <<< "$metadata")
-        if [ -z "$latest_version" ]; then
+        if [ -z "$latest_snapshot" ]; then
           echo "❌ Failed to extract latest released version of ${ARTIFACT_ID} from $metadata"
           exit 1
         fi
-        echo "✅ Latest released version of ${ARTIFACT_ID} is: $latest_version"
-        ./gradlew clean build -PisCI -Pselenium.version=$latest_version
+        echo "✅ Latest released version of ${ARTIFACT_ID} is: $latest_snapshot"
+        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
+        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
