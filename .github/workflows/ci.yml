@@ -78,12 +78,22 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
 
     - name: Build with Gradle
+      # FIXME: Sonatype returns 401 for the snapshots repository
+      #        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
+      #        python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
+      #        echo ">>> $latest_snapshot"
+      #        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
+      #        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
       run: |
-        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
-        python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
-        echo ">>> $latest_snapshot"
-        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
-        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
+        GROUP_ID="org.seleniumhq.selenium"
+        ARTIFACT_ID="selenium-api"
+        REPO_URL="https://repo1.maven.org/maven2"
+        GROUP_PATH="${GROUP_ID//.//}"
+        METADATA_URL="${REPO_URL}/${GROUP_PATH}/${ARTIFACT_ID}/maven-metadata.xml"
+
+        sudo apt-get update && sudo apt-get install -y libxml2-utils
+        LATEST_VERSION=$(curl -s "$METADATA_URL" | xmllint --xpath "string(//metadata/versioning/latest)" -)    
+        ./gradlew clean build -PisCI -Pselenium.version=$LATEST_VERSION
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
