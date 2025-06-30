@@ -98,9 +98,10 @@ jobs:
         print(root.findtext('./versioning/latest'))
         " <<< "$metadata")
         if [ -z "$latest_version" ]; then
-          echo "❌ Failed to extract latest Selenium version from $metadata"
+          echo "❌ Failed to extract latest released version of ${ARTIFACT_ID} from $metadata"
           exit 1
         fi
+        echo "✅ Latest released version of ${ARTIFACT_ID} is: $latest_version"
         ./gradlew clean build -PisCI -Pselenium.version=$latest_version
 
     - name: Install Node.js
