@@ -78,10 +78,30 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
 
     - name: Build with Gradle
+      # FIXME: Sonatype returns 401 for the snapshots repository
+      #        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
+      #        python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
+      #        echo ">>> $latest_snapshot"
+      #        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
+      #        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
       run: |
-        latest_snapshot=$(curl -sf https://oss.sonatype.org/content/repositories/snapshots/org/seleniumhq/selenium/selenium-api/ | \
-        python -c "import sys,re; print(re.findall(r'\d+\.\d+\.\d+-SNAPSHOT', sys.stdin.read())[-1])")
-        echo ">>> $latest_snapshot"
+        GROUP_ID="org.seleniumhq.selenium"
+        ARTIFACT_ID="selenium-api"
+        REPO_URL="https://repo1.maven.org/maven2"
+        GROUP_PATH="${GROUP_ID//.//}"
+        METADATA_URL="${REPO_URL}/${GROUP_PATH}/${ARTIFACT_ID}/maven-metadata.xml"
+
+        metadata=$(curl -s "$METADATA_URL")
+        latest_snapshot=$(python3 -c "
+        import sys, xml.etree.ElementTree as ET
+        root = ET.fromstring(sys.stdin.read())
+        print(root.findtext('./versioning/latest'))
+        " <<< "$metadata")
+        if [ -z "$latest_snapshot" ]; then
+          echo "❌ Failed to extract latest released version of ${ARTIFACT_ID} from $metadata"
+          exit 1
+        fi
+        echo "✅ Latest released version of ${ARTIFACT_ID} is: $latest_snapshot"
         echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
         ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
