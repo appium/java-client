@@ -91,9 +91,17 @@ jobs:
         GROUP_PATH="${GROUP_ID//.//}"
         METADATA_URL="${REPO_URL}/${GROUP_PATH}/${ARTIFACT_ID}/maven-metadata.xml"
 
-        sudo apt-get update && sudo apt-get install -y libxml2-utils
-        LATEST_VERSION=$(curl -s "$METADATA_URL" | xmllint --xpath "string(//metadata/versioning/latest)" -)    
-        ./gradlew clean build -PisCI -Pselenium.version=$LATEST_VERSION
+        metadata=$(curl -s "$METADATA_URL")
+        latest_version=$(python3 -c "
+        import sys, xml.etree.ElementTree as ET
+        root = ET.fromstring(sys.stdin.read())
+        print(root.findtext('./versioning/latest'))
+        " <<< "$metadata")
+        if [ -z "$latest_version" ]; then
+          echo "❌ Failed to extract latest Selenium version from $metadata"
+          exit 1
+        fi
+        ./gradlew clean build -PisCI -Pselenium.version=$latest_version
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
