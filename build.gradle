@@ -12,6 +12,12 @@ plugins {
     id 'org.jreleaser' version '1.19.0'
 }
 
+ext {
+    seleniumVersion = project.property('selenium.version')
+    appiumClientVersion = project.property('appiumClient.version')
+    slf4jVersion = '2.0.17'
+}
+
 group = 'io.appium'
 version = appiumClientVersion
 
@@ -33,12 +39,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
     withJavadocJar()
     withSourcesJar()
-}
-
-ext {
-    seleniumVersion = project.property('selenium.version')
-    appiumClientVersion = project.property('appiumClient.version')
-    slf4jVersion = '2.0.17'
 }
 
 dependencies {
@@ -178,9 +178,6 @@ signing {
 }
 
 jreleaser {
-    project {
-        version = project.version
-    }
     signing {
         active = 'ALWAYS'
         armored = true
