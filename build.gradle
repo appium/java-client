@@ -12,6 +12,9 @@ plugins {
     id 'org.jreleaser' version '1.19.0'
 }
 
+group = 'io.appium'
+version = appiumClientVersion
+
 repositories {
     mavenCentral()
 
@@ -175,6 +178,9 @@ signing {
 }
 
 jreleaser {
+    project {
+        version = project.version
+    }
     signing {
         active = 'ALWAYS'
         armored = true
