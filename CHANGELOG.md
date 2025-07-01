@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_9.5.0_
+- **[ENHANCEMENTS]**
+  - Allow extension capability keys to contain dot characters  [#2271](https://github.com/appium/java-client/pull/2271)
+  - Add a client for Appium server storage plugin [#2275](https://github.com/appium/java-client/pull/2275)
+  - Swap check for `Widget` and `WebElement` [#2277](https://github.com/appium/java-client/pull/2277)
+  - Add compatibility with Selenium `4.34.0` [#2298](https://github.com/appium/java-client/pull/2298)
+  - Add new option classes for `prebuiltWDAPath` and `usePreinstalledWDA` XCUITest capabilities [#2304](https://github.com/appium/java-client/pull/2304)
+- **[REFACTOR]**
+  - Migrate from JSR 305 to [JSpecify](https://jspecify.dev/)'s nullability annotations [#2281](https://github.com/appium/java-client/pull/2281)
+- **[DEPENDENCY UPDATES]**
+  - Bump minimum supported Selenium version from `4.26.0` to `4.34.0` [#2305](https://github.com/appium/java-client/pull/2305)
+  - Bump Gson from `2.11.0` to `2.13.1` [#2267](https://github.com/appium/java-client/pull/2267), [#2286](https://github.com/appium/java-client/pull/2286), [#2290](https://github.com/appium/java-client/pull/2290)
+  - Bump SLF4J from `2.0.16` to `2.0.17` [#2274](https://github.com/appium/java-client/pull/2274)
+
 _9.4.0_
 - **[ENHANCEMENTS]**
   - Implement `HasBiDi` interface support in `AppiumDriver` [#2250](https://github.com/appium/java-client/pull/2250), [#2254](https://github.com/appium/java-client/pull/2254), [#2256](https://github.com/appium/java-client/pull/2256)
