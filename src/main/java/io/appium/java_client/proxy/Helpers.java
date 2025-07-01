@@ -27,13 +27,11 @@ import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.jspecify.annotations.Nullable;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -221,5 +219,29 @@ public class Helpers {
         Class<?> cls;
         Class<?>[] constructorArgTypes;
         ElementMatcher<MethodDescription> extraMethodMatcher;
+    }
+
+    public static RemoteWebElement wrapElement(
+            RemoteWebElement original,
+            HasMethodCallListeners parent,
+            MethodCallListener[] listeners
+    ) {
+        RemoteWebElement proxy = createProxy(
+                RemoteWebElement.class,
+                new Object[]{},
+                new Class[]{},
+                List.of(listeners),
+                ElementMatchers.not(
+                        namedOneOf(
+                        OBJECT_METHOD_NAMES.toArray(new String[0]))
+                                .or(ElementMatchers.named("setId").or(ElementMatchers.named("setParent")))
+                )
+        );
+
+        proxy.setId(original.getId());
+
+        proxy.setParent((RemoteWebDriver) parent);
+
+        return proxy;
     }
 }

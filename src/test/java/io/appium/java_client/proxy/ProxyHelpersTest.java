@@ -19,14 +19,20 @@ package io.appium.java_client.proxy;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import static io.appium.java_client.proxy.Helpers.createProxy;
@@ -44,6 +50,31 @@ class ProxyHelpersTest {
 
         @Override
         protected void startSession(Capabilities capabilities) {
+        }
+
+        @Override
+        public WebElement findElement(By locator) {
+            RemoteWebElement webElement = new RemoteWebElement();
+            webElement.setId(locator.toString());
+            webElement.setParent(this);
+            return webElement;
+        }
+
+        @Override
+        public List<WebElement> findElements(By locator) {
+            List<WebElement> webElements = new ArrayList<>();
+
+            RemoteWebElement webElement1 = new RemoteWebElement();
+            webElement1.setId("1234");
+            webElement1.setParent(this);
+            webElements.add(webElement1);
+
+            RemoteWebElement webElement2 = new RemoteWebElement();
+            webElement2.setId("5678");
+            webElement2.setParent(this);
+            webElements.add(webElement2);
+
+            return webElements;
         }
     }
 
@@ -131,6 +162,54 @@ class ProxyHelpersTest {
                 String.join("\n",
                         "onCall get",
                         "onError get")
+        )));
+    }
+
+
+    @Test
+    void shouldFireEventsForRemoteWebElement() throws MalformedURLException {
+        final StringBuilder acc = new StringBuilder();
+        MethodCallListener listener = new MethodCallListener() {
+            @Override
+            public void beforeCall(Object target, Method method, Object[] args) {
+                acc.append("beforeCall ").append(method.getName()).append("\n");
+            }
+        };
+
+        FakeIOSDriver driver = createProxy(
+                FakeIOSDriver.class,
+                new Object[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
+                new Class[] {URL.class, Capabilities.class},
+                listener
+        );
+
+        WebElement element = driver.findElement(By.id("button"));
+
+        assertThrows(
+                NoSuchSessionException.class,
+                element::click
+        );
+
+        List<WebElement> elements = driver.findElements(By.id("button"));
+
+        assertThrows(
+                NoSuchSessionException.class,
+                () -> elements.get(1).isSelected()
+        );
+
+        assertThat(acc.toString().trim(), is(equalTo(
+                String.join("\n",
+                        "beforeCall findElement",
+                        "beforeCall click",
+                        "beforeCall getSessionId",
+                        "beforeCall getCapabilities",
+                        "beforeCall getCapabilities",
+                        "beforeCall findElements",
+                        "beforeCall isSelected",
+                        "beforeCall getSessionId",
+                        "beforeCall getCapabilities",
+                        "beforeCall getCapabilities"
+                )
         )));
     }
 }
