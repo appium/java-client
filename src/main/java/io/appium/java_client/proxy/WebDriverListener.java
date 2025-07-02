@@ -16,14 +16,12 @@
 
 package io.appium.java_client.proxy;
 
-import com.google.common.base.Preconditions;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,22 +31,14 @@ import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
-public class RemoteWebElementListener implements MethodCallListener, ProxyAwareListener {
+public class WebDriverListener implements MethodCallListener, ProxyAwareListener {
     private WebDriver parent;
-    private final Collection<MethodCallListener> listeners;
-
-    public RemoteWebElementListener(MethodCallListener listener) {
-        this.listeners = Collections.singletonList(listener);
-    }
-
-    public RemoteWebElementListener(Collection<MethodCallListener> listeners) {
-        this.listeners = listeners;
-    }
 
     @Override
     public void attachProxyInstance(Object proxy) {
-        Preconditions.checkArgument(proxy instanceof WebDriver);
-        this.parent = (WebDriver) proxy;
+        if (proxy instanceof WebDriver) {
+            this.parent = (WebDriver) proxy;
+        }
     }
 
     @Override
@@ -59,13 +49,13 @@ public class RemoteWebElementListener implements MethodCallListener, ProxyAwareL
             return wrapElement(
                     (RemoteWebElement) result,
                     parent,
-                    listeners);
+                    this);
         }
 
         if (result instanceof List) {
             return ((List<?>) result).stream()
                     .map(item -> item instanceof RemoteWebElement ? wrapElement(
-                                    (RemoteWebElement) item, parent, listeners) : item)
+                                    (RemoteWebElement) item, parent, this) : item)
                     .collect(Collectors.toList());
         }
 
@@ -75,13 +65,13 @@ public class RemoteWebElementListener implements MethodCallListener, ProxyAwareL
     private RemoteWebElement wrapElement(
             RemoteWebElement original,
             WebDriver parent,
-            Collection<MethodCallListener> listeners
+            MethodCallListener listener
     ) {
         RemoteWebElement proxy = createProxy(
                 RemoteWebElement.class,
                 new Object[]{},
                 new Class[]{},
-                listeners,
+                Collections.singletonList(listener),
                 ElementMatchers.not(
                         namedOneOf(
                                 OBJECT_METHOD_NAMES.toArray(new String[0]))

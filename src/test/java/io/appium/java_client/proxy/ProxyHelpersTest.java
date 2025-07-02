@@ -167,22 +167,21 @@ class ProxyHelpersTest {
 
 
     @Test
-    void shouldFireEventsForRemoteWebElement() throws MalformedURLException {
+    void shouldFireEventsForAllWebDriverCommands() throws MalformedURLException {
         final StringBuilder acc = new StringBuilder();
-        MethodCallListener listener = new MethodCallListener() {
+
+        WebDriverListener remoteWebElementListener = new WebDriverListener() {
             @Override
             public void beforeCall(Object target, Method method, Object[] args) {
                 acc.append("beforeCall ").append(method.getName()).append("\n");
             }
         };
 
-        RemoteWebElementListener remoteWebElementListener = new RemoteWebElementListener(listener);
-
         FakeIOSDriver driver = createProxy(
                 FakeIOSDriver.class,
                 new Object[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
                 new Class[] {URL.class, Capabilities.class},
-                List.of(remoteWebElementListener, listener)
+                remoteWebElementListener
         );
 
         WebElement element = driver.findElement(By.id("button"));
