@@ -31,7 +31,7 @@ import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
-public class WebDriverListener implements MethodCallListener, ProxyAwareListener {
+public class ElementAwareWebDriverListener implements MethodCallListener, ProxyAwareListener {
     private WebDriver parent;
 
     @Override
