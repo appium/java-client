@@ -26,9 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import static io.appium.java_client.proxy.MethodCallListener.UNSET;
 
@@ -115,21 +115,25 @@ public class Interceptor {
         }
 
         if (result instanceof RemoteWebElement) {
-            result = Helpers.wrapElement((RemoteWebElement) result, (HasMethodCallListeners) self, listeners);
+            result = Helpers.wrapElement(
+                    (RemoteWebElement) result,
+                    (HasMethodCallListeners) self,
+                    listeners);
         } else if (result instanceof List) {
             List<?> originalList = (List<?>) result;
-            if (!originalList.isEmpty() && originalList.get(0) instanceof RemoteWebElement) {
-                List<Object> wrappedList = new ArrayList<>(originalList.size());
-                for (Object item : originalList) {
-                    if (item instanceof RemoteWebElement) {
-                        wrappedList.add(Helpers.wrapElement(
-                                (RemoteWebElement) item,
-                                (HasMethodCallListeners) self, listeners));
-                    } else {
-                        wrappedList.add(item);
-                    }
-                }
-                result = wrappedList;
+
+            if (!originalList.isEmpty()) {
+                result = originalList.stream()
+                        .map(item -> {
+                            if (item instanceof RemoteWebElement) {
+                                return Helpers.wrapElement(
+                                        (RemoteWebElement) item,
+                                        (HasMethodCallListeners) self,
+                                        listeners);
+                            }
+                            return item;
+                        })
+                        .collect(Collectors.toList());
             }
         }
 
