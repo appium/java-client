@@ -27,13 +27,10 @@ import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -148,6 +145,11 @@ public class Helpers {
         try {
             T result = cls.cast(proxyClass.getConstructor(constructorArgTypes).newInstance(constructorArgs));
             ((HasMethodCallListeners) result).setMethodCallListeners(listeners.toArray(MethodCallListener[]::new));
+
+            listeners.stream()
+                    .filter(ProxyAwareListener.class::isInstance)
+                    .forEach(listener -> ((ProxyAwareListener) listener).attachProxyInstance(result));
+
             return result;
         } catch (SecurityException | ReflectiveOperationException e) {
             throw new IllegalStateException(String.format("Unable to create a proxy of %s", cls.getName()), e);
@@ -224,29 +226,5 @@ public class Helpers {
         Class<?> cls;
         Class<?>[] constructorArgTypes;
         ElementMatcher<MethodDescription> extraMethodMatcher;
-    }
-
-    public static RemoteWebElement wrapElement(
-            RemoteWebElement original,
-            HasMethodCallListeners parent,
-            MethodCallListener[] listeners
-    ) {
-        RemoteWebElement proxy = createProxy(
-                RemoteWebElement.class,
-                new Object[]{},
-                new Class[]{},
-                List.of(listeners),
-                ElementMatchers.not(
-                        namedOneOf(
-                        OBJECT_METHOD_NAMES.toArray(new String[0]))
-                                .or(ElementMatchers.named("setId").or(ElementMatchers.named("setParent")))
-                )
-        );
-
-        proxy.setId(original.getId());
-
-        proxy.setParent((RemoteWebDriver) parent);
-
-        return proxy;
     }
 }

@@ -176,11 +176,13 @@ class ProxyHelpersTest {
             }
         };
 
+        RemoteWebElementListener remoteWebElementListener = new RemoteWebElementListener(listener);
+
         FakeIOSDriver driver = createProxy(
                 FakeIOSDriver.class,
                 new Object[] {new URL("http://localhost:4723/"), new XCUITestOptions()},
                 new Class[] {URL.class, Capabilities.class},
-                listener
+                List.of(remoteWebElementListener, listener)
         );
 
         WebElement element = driver.findElement(By.id("button"));

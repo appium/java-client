@@ -114,29 +114,6 @@ public class Interceptor {
             }
         }
 
-        if (result instanceof RemoteWebElement) {
-            result = Helpers.wrapElement(
-                    (RemoteWebElement) result,
-                    (HasMethodCallListeners) self,
-                    listeners);
-        } else if (result instanceof List) {
-            List<?> originalList = (List<?>) result;
-
-            if (!originalList.isEmpty()) {
-                result = originalList.stream()
-                        .map(item -> {
-                            if (item instanceof RemoteWebElement) {
-                                return Helpers.wrapElement(
-                                        (RemoteWebElement) item,
-                                        (HasMethodCallListeners) self,
-                                        listeners);
-                            }
-                            return item;
-                        })
-                        .collect(Collectors.toList());
-            }
-        }
-
         final Object endResult = result == UNSET ? null : result;
         for (var listener : listeners) {
             try {
