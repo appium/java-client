@@ -64,15 +64,8 @@ public class RemoteWebElementListener implements MethodCallListener, ProxyAwareL
 
         if (result instanceof List) {
             return ((List<?>) result).stream()
-                    .map(item -> {
-                        if (item instanceof RemoteWebElement) {
-                            return wrapElement(
-                                    (RemoteWebElement) item,
-                                    parent,
-                                    listeners);
-                        }
-                        return item;
-                    })
+                    .map(item -> item instanceof RemoteWebElement ? wrapElement(
+                                    (RemoteWebElement) item, parent, listeners) : item)
                     .collect(Collectors.toList());
         }
 
