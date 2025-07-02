@@ -170,7 +170,7 @@ class ProxyHelpersTest {
     void shouldFireEventsForAllWebDriverCommands() throws MalformedURLException {
         final StringBuilder acc = new StringBuilder();
 
-        ElementAwareWebDriverListener remoteWebElementListener = new ElementAwareWebDriverListener() {
+        var remoteWebElementListener = new ElementAwareWebDriverListener() {
             @Override
             public void beforeCall(Object target, Method method, Object[] args) {
                 acc.append("beforeCall ").append(method.getName()).append("\n");
