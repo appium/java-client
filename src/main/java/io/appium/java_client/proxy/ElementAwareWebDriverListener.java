@@ -34,6 +34,13 @@ import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 public class ElementAwareWebDriverListener implements MethodCallListener, ProxyAwareListener {
     private WebDriver parent;
 
+    /**
+     * Attaches the WebDriver proxy instance to this listener.
+     * <p>
+     * The listener stores the WebDriver instance to associate it as parent to RemoteWebElement proxies.
+     *
+     * @param proxy A proxy instance of {@link WebDriver}.
+     */
     @Override
     public void attachProxyInstance(Object proxy) {
         if (proxy instanceof WebDriver) {
@@ -41,6 +48,22 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
         }
     }
 
+    /**
+     * Intercepts method calls on a proxied WebDriver.
+     * <p>
+     * If the result of the method call is a {@link RemoteWebElement},
+     * it is wrapped with a proxy to allow further interception of RemoteWebElement method calls.
+     * If the result is a list, each item is checked, and all RemoteWebElements are
+     * individually proxied. All other return types are passed through unmodified.
+     * Avoid overriding this method, it will alter the behaviour of the listener.
+     *
+     * @param obj      The object on which the method was invoked.
+     * @param method   The method being invoked.
+     * @param args     The arguments passed to the method.
+     * @param original A {@link Callable} that represents the original method execution.
+     * @return The (possibly wrapped) result of the method call.
+     * @throws Throwable if the original method or any wrapping logic throws an exception.
+     */
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         Object result = original.call();

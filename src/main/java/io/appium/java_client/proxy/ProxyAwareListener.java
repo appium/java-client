@@ -16,7 +16,26 @@
 
 package io.appium.java_client.proxy;
 
+/**
+ * Extension of {@link MethodCallListener} that allows access to the proxy instance it depends on.
+ * <p>
+ * This interface is intended for listeners that need a reference to the proxy object.
+ * <p>
+ * The {@link #attachProxyInstance(Object)} method will be invoked immediately after the proxy is created,
+ * allowing the listener to bind to it before any method interception begins.
+ * <p>
+ * Example usage: Working with elements such as
+ * {@code RemoteWebElement} that require runtime mutation (e.g. setting parent driver or element ID).
+ */
 public interface ProxyAwareListener extends MethodCallListener {
+
+    /**
+     * Binds the listener to the proxy instance passed.
+     * <p>
+     * This is called once, immediately after proxy creation and before the proxy is returned to the caller.
+     *
+     * @param proxy the proxy instance created via {@code createProxy} that this listener is attached to.
+     */
     void attachProxyInstance(Object proxy);
 }
 
