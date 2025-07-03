@@ -148,7 +148,8 @@ public class Helpers {
 
             listeners.stream()
                     .filter(ProxyAwareListener.class::isInstance)
-                    .forEach(listener -> ((ProxyAwareListener) listener).attachProxyInstance(result));
+                    .map(ProxyAwareListener.class::cast)
+                    .forEach(listener -> listener.attachProxyInstance(result));
 
             return result;
         } catch (SecurityException | ReflectiveOperationException e) {
