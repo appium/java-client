@@ -145,6 +145,12 @@ public class Helpers {
         try {
             T result = cls.cast(proxyClass.getConstructor(constructorArgTypes).newInstance(constructorArgs));
             ((HasMethodCallListeners) result).setMethodCallListeners(listeners.toArray(MethodCallListener[]::new));
+
+            listeners.stream()
+                    .filter(ProxyAwareListener.class::isInstance)
+                    .map(ProxyAwareListener.class::cast)
+                    .forEach(listener -> listener.attachProxyInstance(result));
+
             return result;
         } catch (SecurityException | ReflectiveOperationException e) {
             throw new IllegalStateException(String.format("Unable to create a proxy of %s", cls.getName()), e);

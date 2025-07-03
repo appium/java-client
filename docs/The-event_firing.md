@@ -154,3 +154,60 @@ This proxy is not tied to WebDriver descendants and could be used to any classes
 change/replace the original methods behavior. It is important to know that callbacks are **not** invoked 
 for methods derived from the standard `Object` class, like `toString` or `equals`. 
 Check [unit tests](../src/test/java/io/appium/java_client/proxy/ProxyHelpersTest.java) for more examples.
+
+#### ElementAwareWebDriverListener
+
+A specialized MethodCallListener that listens to all method calls on a WebDriver instance and automatically wraps any returned RemoteWebElement (or list of elements) with a proxy. This enables your listener to intercept and react to method calls on both:
+
+- The driver itself (e.g., findElement, getTitle)
+
+- Any elements returned by the driver (e.g., click, isSelected on a WebElement)
+
+```java
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
+import io.appium.java_client.proxy.ElementAwareWebDriverListener;
+import io.appium.java_client.proxy.Helpers;
+import io.appium.java_client.proxy.MethodCallListener;
+
+
+// ...
+
+final StringBuilder acc = new StringBuilder();
+
+var listener = new ElementAwareWebDriverListener() {
+    @Override
+    public void beforeCall(Object target, Method method, Object[] args) {
+        acc.append("beforeCall ").append(method.getName()).append("\n");
+    }
+};
+
+IOSDriver<?> decoratedDriver = createProxy(
+        IOSDriver.class,
+        new Object[]{new URL("http://localhost:4723/"), new XCUITestOptions()},
+        new Class[]{URL.class, Capabilities.class},
+        listener
+);
+
+WebElement element = decoratedDriver.findElement(By.id("button"));
+element::click;
+
+List<WebElement> elements = decoratedDriver.findElements(By.id("button"));
+elements.get(1).isSelected();
+
+assertThat(acc.toString().trim()).isEqualTo(
+        String.join("\n",
+                "beforeCall findElement",
+                "beforeCall click",
+                "beforeCall getSessionId",
+                "beforeCall getCapabilities",
+                "beforeCall getCapabilities",
+                "beforeCall findElements",
+                "beforeCall isSelected",
+                "beforeCall getSessionId",
+                "beforeCall getCapabilities",
+                "beforeCall getCapabilities"
+        )
+);
+
+```
