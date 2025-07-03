@@ -69,16 +69,13 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
         Object result = original.call();
 
         if (result instanceof RemoteWebElement) {
-            return wrapElement(
-                    (RemoteWebElement) result,
-                    parent,
-                    this);
+            return wrapElement((RemoteWebElement) result);
         }
 
         if (result instanceof List) {
             return ((List<?>) result).stream()
                     .map(item -> item instanceof RemoteWebElement ? wrapElement(
-                                    (RemoteWebElement) item, parent, this) : item)
+                            (RemoteWebElement) item) : item)
                     .collect(Collectors.toList());
         }
 
@@ -86,15 +83,13 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
     }
 
     private RemoteWebElement wrapElement(
-            RemoteWebElement original,
-            WebDriver parent,
-            MethodCallListener listener
+            RemoteWebElement original
     ) {
         RemoteWebElement proxy = createProxy(
                 RemoteWebElement.class,
                 new Object[]{},
                 new Class[]{},
-                Collections.singletonList(listener),
+                Collections.singletonList(this),
                 ElementMatchers.not(
                         namedOneOf(
                                 OBJECT_METHOD_NAMES.toArray(new String[0]))
