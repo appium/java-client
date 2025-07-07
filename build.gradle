@@ -9,14 +9,24 @@ plugins {
     id 'signing'
     id 'org.owasp.dependencycheck' version '12.1.3'
     id 'com.gradleup.shadow' version '8.3.7'
+    id 'org.jreleaser' version '1.19.0'
 }
+
+ext {
+    seleniumVersion = project.property('selenium.version')
+    appiumClientVersion = project.property('appiumClient.version')
+    slf4jVersion = '2.0.17'
+}
+
+group = 'io.appium'
+version = appiumClientVersion
 
 repositories {
     mavenCentral()
 
     if (project.hasProperty("isCI")) {
         maven {
-            url uri('https://oss.sonatype.org/content/repositories/snapshots/')
+            url uri('https://central.sonatype.com/api/v1/publisher')
             mavenContent {
                 snapshotsOnly()
             }
@@ -29,12 +39,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
     withJavadocJar()
     withSourcesJar()
-}
-
-ext {
-    seleniumVersion = project.property('selenium.version')
-    appiumClientVersion = project.property('appiumClient.version')
-    slf4jVersion = '2.0.17'
 }
 
 dependencies {
@@ -160,23 +164,27 @@ publishing {
     }
     repositories {
         maven {
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/'"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            url = layout.buildDirectory.dir('staging-deploy')
         }
     }
 }
 
-signing {
-    required { !'true'.equalsIgnoreCase(project.findProperty('signingDisabled')) }
-    def signingKey = System.getenv("PGP_SECRET")
-    def signingPassword = System.getenv("PGP_PASSPHRASE")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+        }
+    }
 }
 
 wrapper {
