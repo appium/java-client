@@ -169,14 +169,6 @@ publishing {
     }
 }
 
-signing {
-    required { !'true'.equalsIgnoreCase(project.findProperty('signingDisabled')) }
-    def signingKey = System.getenv("PGP_SECRET")
-    def signingPassword = System.getenv("PGP_PASSPHRASE")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
-}
-
 jreleaser {
     signing {
         active = 'ALWAYS'
