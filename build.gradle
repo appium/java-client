@@ -8,7 +8,7 @@ plugins {
     id 'jacoco'
     id 'signing'
     id 'org.owasp.dependencycheck' version '12.1.3'
-    id 'com.gradleup.shadow' version '8.3.7'
+    id 'com.gradleup.shadow' version '8.3.8'
     id 'org.jreleaser' version '1.19.0'
 }
 
