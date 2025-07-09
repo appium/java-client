@@ -1,6 +1,6 @@
 # java-client
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.appium/java-client)
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.appium/java-client)](https://central.sonatype.com/artifact/io.appium/java-client)
 [![Javadocs](https://www.javadoc.io/badge/io.appium/java-client.svg)](https://www.javadoc.io/doc/io.appium/java-client)
 [![Appium Java Client CI](https://github.com/appium/java-client/actions/workflows/gradle.yml/badge.svg)](https://github.com/appium/java-client/actions/workflows/gradle.yml)
 
