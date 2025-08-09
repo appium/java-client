@@ -2,9 +2,10 @@ package io.appium.java_client.remote;
 
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.MobileCommand;
+import org.junit.jupiter.api.Test;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
