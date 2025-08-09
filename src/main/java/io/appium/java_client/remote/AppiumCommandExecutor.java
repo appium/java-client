@@ -58,8 +58,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     private final Optional<DriverService> serviceOptional;
     @Getter
-    private final Factory httpClientFactory;
-    @Getter
     private final AppiumClientConfig appiumClientConfig;
 
     /**
@@ -81,7 +79,6 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         );
         serviceOptional = ofNullable(service);
 
-        this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory);
         this.appiumClientConfig = appiumClientConfig;
     }
 
@@ -141,6 +138,10 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         return getPrivateFieldValue(HttpCommandExecutor.class, "additionalCommands", Map.class);
     }
 
+    public Factory getHttpClientFactory() {
+        return getPrivateFieldValue(HttpCommandExecutor.class, "httpClientFactory", Factory.class);
+    }
+
     @Nullable
     protected CommandCodec<HttpRequest> getCommandCodec() {
         return this.commandCodec;
@@ -165,8 +166,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * @param serverUrl A url to override.
      */
     protected void overrideServerUrl(URL serverUrl) {
-        setPrivateFieldValue(HttpCommandExecutor.class, "client",
-                this.httpClientFactory.createClient(this.appiumClientConfig.baseUrl(serverUrl)));
+        HttpClient newClient = getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl));
+        setPrivateFieldValue(HttpCommandExecutor.class, "client", newClient);
     }
 
     private Response createSession(Command command) throws IOException {
