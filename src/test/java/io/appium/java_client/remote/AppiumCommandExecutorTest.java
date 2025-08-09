@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AppiumCommandExecutorTest {
-    private static final String APPIUM_URL = "https://appium.exaple.com";
+    private static final String APPIUM_URL = "https://appium.example.com";
 
     private AppiumCommandExecutor createExecutor() {
         URL baseUrl;
