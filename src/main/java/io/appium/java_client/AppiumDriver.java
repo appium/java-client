@@ -44,7 +44,6 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpMethod;
 
@@ -81,8 +80,6 @@ public class AppiumDriver extends RemoteWebDriver implements
     // frequently used command parameters
     @Getter
     private final URL remoteAddress;
-    @Deprecated(forRemoval = true)
-    protected final RemoteLocationContext locationContext;
     private final ExecuteMethod executeMethod;
     private final Set<String> absentExtensionNames = new HashSet<>();
     private URI biDiUri;
@@ -100,7 +97,6 @@ public class AppiumDriver extends RemoteWebDriver implements
     public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
-        locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(ERROR_HANDLER);
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
@@ -176,7 +172,6 @@ public class AppiumDriver extends RemoteWebDriver implements
         executor.setResponseCodec(new W3CHttpResponseCodec());
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
-        this.locationContext = new RemoteLocationContext(executeMethod);
         super.setErrorHandler(ERROR_HANDLER);
         this.remoteAddress = executor.getAddressOfRemoteServer();
 

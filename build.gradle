@@ -188,7 +188,7 @@ jreleaser {
 }
 
 wrapper {
-    gradleVersion = '8.14'
+    gradleVersion = '8.14.3'
     distributionType = Wrapper.DistributionType.ALL
 }
 

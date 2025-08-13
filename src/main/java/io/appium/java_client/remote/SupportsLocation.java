@@ -18,40 +18,16 @@ package io.appium.java_client.remote;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import io.appium.java_client.Location;
 import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.html5.LocationContext;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationContext {
-
-    /**
-     * Provides the location context.
-     *
-     * @return instance of {@link RemoteLocationContext}
-     * @deprecated This method, {@link LocationContext} and {@link RemoteLocationContext} interface are deprecated, use
-     *     {@link #getLocation()} and {@link #setLocation(io.appium.java_client.Location)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    RemoteLocationContext getLocationContext();
-
-    /**
-     * Gets the current device's geolocation coordinates.
-     *
-     * @return A {@link Location} containing the location information. Returns null if the location is not available
-     * @deprecated This method and whole {@link LocationContext} interface are deprecated, use {@link #getLocation()}
-     *     instead.
-     */
-    @Deprecated(forRemoval = true)
-    default Location location() {
-        return getLocationContext().location();
-    }
+public interface SupportsLocation extends WebDriver, ExecutesMethod {
 
     /**
      * Gets the current device's geolocation coordinates.
@@ -59,9 +35,9 @@ public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationCon
      * @return A {@link Location} containing the location information. Throws {@link WebDriverException} if the
      *     location is not available.
      */
-    default io.appium.java_client.Location getLocation() {
+    default Location getLocation() {
         Map<String, Number> result = CommandExecutionHelper.execute(this, MobileCommand.GET_LOCATION);
-        return new io.appium.java_client.Location(
+        return new Location(
                 result.get("latitude").doubleValue(),
                 result.get("longitude").doubleValue(),
                 Optional.ofNullable(result.get("altitude")).map(Number::doubleValue).orElse(null)
@@ -72,20 +48,8 @@ public interface SupportsLocation extends WebDriver, ExecutesMethod, LocationCon
      * Sets the current device's geolocation coordinates.
      *
      * @param location A {@link Location} containing the new location information.
-     * @deprecated This method and whole {@link LocationContext} interface are deprecated, use
-     *     {@link #setLocation(io.appium.java_client.Location)} instead.
      */
-    @Deprecated(forRemoval = true)
     default void setLocation(Location location) {
-        getLocationContext().setLocation(location);
-    }
-
-    /**
-     * Sets the current device's geolocation coordinates.
-     *
-     * @param location A {@link Location} containing the new location information.
-     */
-    default void setLocation(io.appium.java_client.Location location) {
         var locationParameters = new HashMap<String, Object>();
         locationParameters.put("latitude", location.getLatitude());
         locationParameters.put("longitude", location.getLongitude());
