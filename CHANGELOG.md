@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _10.0.0_
 - **[DOCUMENTATION]**
+  - Document the migration guide from v9 to v10 [#2331](https://github.com/appium/java-client/pull/2331) 
   - updated maven central release badge [#2316](https://github.com/appium/java-client/pull/2316)
   - updated CI badge to use ci.yml workflow [#2317](https://github.com/appium/java-client/pull/2317)
 - **[BREAKING CHANGE]** [#2327](https://github.com/appium/java-client/pull/2327)
