@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_10.0.0_
+- **[DOCUMENTATION]**
+  - Document the migration guide from v9 to v10 [#2331](https://github.com/appium/java-client/pull/2331) 
+  - updated maven central release badge [#2316](https://github.com/appium/java-client/pull/2316)
+  - updated CI badge to use ci.yml workflow [#2317](https://github.com/appium/java-client/pull/2317)
+- **[BREAKING CHANGE]** [#2327](https://github.com/appium/java-client/pull/2327)
+  - Removed all deprecated methods with Selenium's Location and LocationContext (these classes have been removed in Selenium 4.35.0)
+- **[ENHANCEMENTS]**
+  - Proxy commands issues via RemoteWebElement [#2311](https://github.com/appium/java-client/pull/2311)
+  - Automated Release to Maven Central Repository using JReleaser [#2313](https://github.com/appium/java-client/pull/2313)
+- **[BUG FIX]**
+  - Possible NPE in initBiDi() [#2325](https://github.com/appium/java-client/pull/2325)
+- **[DEPENDENCY CHANGE]**
+  - Bump minimum Selenium version to 4.35.0 [#2327](https://github.com/appium/java-client/pull/2327)
+  - Bump org.junit.jupiter:junit-jupiter from 5.13.2 to 5.13.3 [#2314](https://github.com/appium/java-client/pull/2314)
+  - Bump io.github.bonigarcia:webdrivermanager [#2322](https://github.com/appium/java-client/pull/2322)
+  - Bump com.gradleup.shadow from 8.3.7 to 8.3.8 [#2315](https://github.com/appium/java-client/pull/2315)
+  - Bump org.apache.commons:commons-lang3 from 3.17.0 to 3.18.0 [#2320](https://github.com/appium/java-client/pull/2320)
+
 _9.5.0_
 - **[ENHANCEMENTS]**
   - Allow extension capability keys to contain dot characters  [#2271](https://github.com/appium/java-client/pull/2271)
