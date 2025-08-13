@@ -6,6 +6,12 @@
 
 This is the Java language bindings for writing Appium Tests that conform to [WebDriver Protocol](https://w3c.github.io/webdriver/)
 
+
+## v9 to v10 Migration
+
+Follow the [v9 to v10 Migration Guide](./docs/v9-to-v10-migration-guide.md) to streamline the migration process.
+
+
 ## v8 to v9 Migration
 
 Since v9 the client only supports Java 11 and above.
