@@ -44,7 +44,6 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DriverCommand;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -277,20 +276,6 @@ public class IOSDriver extends AppiumDriver implements
             execute(DriverCommand.SET_ALERT_VALUE, Map.of("value", keysToSend));
         }
 
-    }
-
-    /**
-     * Provides the location context.
-     *
-     * @return instance of {@link RemoteLocationContext}
-     * @deprecated This method, {@link org.openqa.selenium.html5.LocationContext} and {@link RemoteLocationContext}
-     *     interface are deprecated, use {@link #getLocation()} and
-     *     {@link #setLocation(io.appium.java_client.Location)} instead.
-     */
-    @Override
-    @Deprecated(forRemoval = true)
-    public RemoteLocationContext getLocationContext() {
-        return locationContext;
     }
 
     @Override
