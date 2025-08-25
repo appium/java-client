@@ -59,7 +59,7 @@ jobs:
 
     name: JDK ${{ matrix.java }} - ${{ matrix.platform }} ${{ matrix.e2e-tests }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Enable KVM group perms
       if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
