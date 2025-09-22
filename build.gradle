@@ -42,8 +42,8 @@ java {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.38'
-    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
     if (project.hasProperty("isCI")) {
         api "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
