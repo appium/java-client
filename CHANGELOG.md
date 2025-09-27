@@ -686,14 +686,14 @@ _8.6.0_
 
 *6.0.0-BETA1*
 - **[ENHANCEMENT]** **[REFACTOR]** **[BREAKING CHANGE]** **[MAJOR CHANGE]** Improvements of the TouchActions API [#756](https://github.com/appium/java-client/pull/756), [#760](https://github.com/appium/java-client/pull/760):
-    - `io.appium.java_client.touch.ActionOptions` and sublasses were added
+    - `io.appium.java_client.touch.ActionOptions` and subclasses were added
     - old methods of the `TouchActions` were marked `@Deprecated`
     - new methods which take new options.
-- **[ENHANCEMENT]**. Appium drivr local service uses default process environment by default. [#753](https://github.com/appium/java-client/pull/753)
+- **[ENHANCEMENT]**. Appium driver local service uses default process environment by default. [#753](https://github.com/appium/java-client/pull/753)
 - **[BUG FIX]**. Removed 'set' prefix from waitForIdleTimeout setting. [#754](https://github.com/appium/java-client/pull/754)
 - **[BUG FIX]**. The asking for session details was optimized. Issue report [764](https://github.com/appium/java-client/issues/764).
   FIX [#769](https://github.com/appium/java-client/pull/769)
-- **[BUG FIX]** **[REFACTOR]**. Inconcistent MissingParameterException was removed. Improvements of MultiTouchAction. Report: [#102](https://github.com/appium/java-client/issues/102). FIX [#772](https://github.com/appium/java-client/pull/772)
+- **[BUG FIX]** **[REFACTOR]**. Inconsistent MissingParameterException was removed. Improvements of MultiTouchAction. Report: [#102](https://github.com/appium/java-client/issues/102). FIX [#772](https://github.com/appium/java-client/pull/772)
 - **[DEPENDENCY UPDATES]**
     - `org.apache.commons:commons-lang3` was updated to 3.7
     - `commons-io:commons-io` was updated to 2.6
