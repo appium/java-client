@@ -18,6 +18,7 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.junit.jupiter.api.AfterAll;
 
 import java.time.Duration;
@@ -49,6 +50,7 @@ public class BaseIOSTest {
                 .withIPAddress("127.0.0.1")
                 .usingPort(PORT)
                 .withTimeout(SERVER_START_TIMEOUT)
+                .withArgument(GeneralServerFlag.ALLOW_INSECURE, "*:session_discovery")
                 .build();
         service.start();
         return service;
