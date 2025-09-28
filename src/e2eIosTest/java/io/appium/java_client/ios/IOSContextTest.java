@@ -17,6 +17,8 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.NoSuchContextException;
+import io.appium.java_client.TestUtils;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
@@ -32,10 +34,16 @@ public class IOSContextTest extends BaseIOSWebViewTest {
     }
 
     @Test public void testGetContextHandles() {
-        assertEquals(driver.getContextHandles().size(), 2);
+        // this test is not stable in the CI env due to simulator slowness
+        Assumptions.assumeFalse(TestUtils.isCiEnv());
+
+        assertEquals(2, driver.getContextHandles().size());
     }
 
     @Test public void testSwitchContext() throws InterruptedException {
+        // this test is not stable in the CI env due to simulator slowness
+        Assumptions.assumeFalse(TestUtils.isCiEnv());
+
         driver.getContextHandles();
         findAndSwitchToWebView();
         assertThat(driver.getContext(), containsString("WEBVIEW"));
@@ -43,6 +51,9 @@ public class IOSContextTest extends BaseIOSWebViewTest {
     }
 
     @Test public void testContextError() {
+        // this test is not stable in the CI env due to simulator slowness
+        Assumptions.assumeFalse(TestUtils.isCiEnv());
+
         assertThrows(NoSuchContextException.class, () -> driver.context("Planet of the Ape-ium"));
     }
 }

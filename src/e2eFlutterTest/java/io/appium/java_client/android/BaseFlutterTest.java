@@ -48,7 +48,7 @@ class BaseFlutterTest {
                 // Flutter driver mocking command requires adb_shell permission to set certain permissions
                 // to the AUT. This can be removed once the server logic is updated to use a different approach
                 // for setting the permission
-                .withArgument(GeneralServerFlag.ALLOW_INSECURE, "adb_shell")
+                .withArgument(GeneralServerFlag.ALLOW_INSECURE, "*:adb_shell")
                 .build();
         service.start();
     }
