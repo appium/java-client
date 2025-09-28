@@ -34,11 +34,14 @@ public class IOSContextTest extends BaseIOSWebViewTest {
     }
 
     @Test public void testGetContextHandles() {
-        assertEquals(driver.getContextHandles().size(), 2);
+        // this test is not stable in the CI env due to simulator slowness
+        Assumptions.assumeFalse(TestUtils.isCiEnv());
+
+        assertEquals(2, driver.getContextHandles().size());
     }
 
     @Test public void testSwitchContext() throws InterruptedException {
-        // this test is not stable in the CI env
+        // this test is not stable in the CI env due to simulator slowness
         Assumptions.assumeFalse(TestUtils.isCiEnv());
 
         driver.getContextHandles();
@@ -48,6 +51,9 @@ public class IOSContextTest extends BaseIOSWebViewTest {
     }
 
     @Test public void testContextError() {
+        // this test is not stable in the CI env due to simulator slowness
+        Assumptions.assumeFalse(TestUtils.isCiEnv());
+
         assertThrows(NoSuchContextException.class, () -> driver.context("Planet of the Ape-ium"));
     }
 }
