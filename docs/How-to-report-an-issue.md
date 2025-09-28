@@ -1,6 +1,6 @@
 # Be sure that it is not a server-side problem if you are facing something that looks like a bug
 
-The Appium Java client is the thin client which just sends requests and receives responces generally. 
+The Appium Java client is the thin client which just sends requests and receives responses generally.
 Be sure that this bug is not reported [here](https://github.com/appium/appium/issues) and/or there is
 no progress on this issue.
 
@@ -13,8 +13,8 @@ If it is the feature request then there should be the description of this featur
 
 ### Environment (bug report)
 
-* java client build version or git revision if you use some shapshot:
-* Appium server version or git revision if you use some shapshot:
+* java client build version or git revision if you use some snapshot:
+* Appium server version or git revision if you use some snapshot:
 * Desktop OS/version used to run Appium if necessary:
 * Node.js version (unless using Appium.app|exe) or Appium CLI or Appium.app|exe:
 * Mobile platform/version under test:
@@ -32,7 +32,7 @@ You can git clone https://github.com/appium/appium/tree/master/sample-code or ht
 Also you can create a [gist](https://gist.github.com) with pasted java code sample or paste it at ussue description using markdown. About markdown please read [Mastering markdown](https://guides.github.com/features/mastering-markdown/) and 
 [Writing on GitHub](https://help.github.com/categories/writing-on-github/)
 
-### Ecxeption stacktraces (bug report)
+### Exception stacktraces (bug report)
 
 There should be created a [gist](https://gist.github.com) with pasted stacktrace of exception thrown by java.
 

@@ -26,7 +26,7 @@ public class AppiumCommandInfo extends CommandInfo {
     @Getter(AccessLevel.PUBLIC) private final HttpMethod method;
 
     /**
-     * It conntains method and URL of the command.
+     * It contains method and URL of the command.
      *
      * @param url command URL
      * @param method is http-method

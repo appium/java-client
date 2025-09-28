@@ -16,7 +16,7 @@ WebElement someElement;
 List<WebElement> someElements;
 ```
 
-# If there is need to use convinient locators for mobile native applications then the following is available:
+# If there is need to use convenient locators for mobile native applications then the following is available:
 
 ```java
 import io.appium.java_client.android.AndroidElement;
@@ -324,13 +324,13 @@ A typical page object could look like:
 
 ```java
 public class RottenTomatoesScreen {
-    //convinient locator  
+    //convenient locator  
     private List<AndroidElement> titles;
  
-    //convinient locator  
+    //convenient locator  
     private List<AndroidElement> scores;
 
-    //convinient locator  
+    //convenient locator  
     private List<AndroidElement> castings;
     //element declaration goes on 
 
@@ -371,13 +371,13 @@ public class Movie extends Widget{
         super(element);
    }
     
-   //convinient locator  
+   //convenient locator  
    private AndroidElement title;
  
-   //convinient locator  
+   //convenient locator  
    private AndroidElement score;
 
-   //convinient locator  
+   //convenient locator  
    private AndroidElement casting;
 
    public String getTitle(params){
@@ -404,7 +404,7 @@ So, now page object looks
 ```java
 public class RottenTomatoesScreen {
 
-     @AndroidFindBy(a locator which convinient to find a single movie-root - element)
+     @AndroidFindBy(a locator which convenient to find a single movie-root - element)
      private List<Movie> movies;
 
       //element declaration goes on 
@@ -427,7 +427,7 @@ public class RottenTomatoesScreen {
 Then
 ```java
 //the class is annotated !!!
-@AndroidFindBy(a locator which convinient to find a single movie-root - element)
+@AndroidFindBy(a locator which convenient to find a single movie-root - element)
 public class Movie extends Widget{
 ...
 }
@@ -658,7 +658,7 @@ This use case has some restrictions;
 
 - All classes which are declared by the OverrideWidget annotation should be subclasses of the class declared by field
 
-- All classes which are declared by the OverrideWidget should not be abstract. If a declared class is overriden partially like 
+- All classes which are declared by the OverrideWidget should not be abstract. If a declared class is overridden partially like 
 
 ```java
   //above is the other field declaration

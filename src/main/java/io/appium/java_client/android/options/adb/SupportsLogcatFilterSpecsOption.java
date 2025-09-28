@@ -33,7 +33,7 @@ public interface SupportsLogcatFilterSpecsOption<T extends BaseOptions<T>> exten
      * @param format The filter specifier. Consists from series of `tag[:priority]` items,
      *               where `tag` is a log component tag (or `*` to match any value)
      *               and `priority`: V (Verbose), D (Debug), I (Info), W (Warn), E (Error), F (Fatal),
-     *               S (Silent - supresses all output). `tag` without `priority` defaults to `tag:v`.
+     *               S (Silent - suppresses all output). `tag` without `priority` defaults to `tag:v`.
      *               If not specified, filterspec is set from ANDROID_LOG_TAGS environment variable.
      *               If no filterspec is found, filter defaults to `*:I`, which means
      *               to only show log lines with any tag and the log level INFO or higher.
