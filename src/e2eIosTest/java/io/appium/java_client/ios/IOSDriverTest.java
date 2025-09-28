@@ -50,17 +50,17 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test
     public void addCustomCommandTest() {
-        driver.addCommand(HttpMethod.GET, "/sessions", "getSessions");
+        driver.addCommand(HttpMethod.GET, "/appium/sessions", "getSessions");
         final Response getSessions = driver.execute("getSessions");
         assertNotNull(getSessions.getSessionId());
     }
 
     @Test
     public void addCustomCommandWithSessionIdTest() {
-        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/app/strings",
-                "getAppStrings");
-        final Response getStrings = driver.execute("getAppStrings");
-        assertNotNull(getStrings.getSessionId());
+        driver.addCommand(HttpMethod.POST, "/session/" + driver.getSessionId() + "/appium/capabilities",
+                "getSessionCapabilities");
+        final Response getSessionCapabilities = driver.execute("getSessionCapabilities");
+        assertNotNull(getSessionCapabilities.getSessionId());
     }
 
     @Test
