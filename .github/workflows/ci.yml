@@ -37,7 +37,7 @@ jobs:
     strategy:
       matrix:
         include:
-        - java: 11
+        - java: 17
           # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
           platform: macos-14
           e2e-tests: ios
