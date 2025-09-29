@@ -37,7 +37,7 @@ jobs:
     strategy:
       matrix:
         include:
-        - java: 11
+        - java: 17
           # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
           platform: macos-14
           e2e-tests: ios
@@ -59,7 +59,7 @@ jobs:
 
     name: JDK ${{ matrix.java }} - ${{ matrix.platform }} ${{ matrix.e2e-tests }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Enable KVM group perms
       if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
@@ -69,7 +69,7 @@ jobs:
         sudo udevadm trigger --name-match=kvm
 
     - name: Set up JDK ${{ matrix.java }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'zulu'
         java-version: ${{ matrix.java }}
@@ -107,7 +107,7 @@ jobs:
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
       with:
         node-version: 'lts/*'
 

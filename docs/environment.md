@@ -32,4 +32,4 @@ Remember to reload the config after it has been changed by restarting the comman
 Also, it is possible to set variables on [per-process](https://stackoverflow.com/questions/10856129/setting-an-environment-variable-before-a-command-in-bash-not-working-for-second) basis. 
 This might be handy if Appium is set up to start automatically with the operating system, because on early stages of system initialization it is possible that the "usual" environment has not been loaded yet.
 
-In case the Appium process is started programatically, for example with java client's `AppiumDriverLocalService` helper class, then it might be necessary to setup the environment [in the client code](https://github.com/appium/java-client/pull/753), because prior to version 6.0 the client does not inherit it from the parent process by default.
+In case the Appium process is started programmatically, for example with java client's `AppiumDriverLocalService` helper class, then it might be necessary to setup the environment [in the client code](https://github.com/appium/java-client/pull/753), because prior to version 6.0 the client does not inherit it from the parent process by default.

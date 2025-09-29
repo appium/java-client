@@ -48,7 +48,7 @@ XCUIElementTypeCell[$label == 'here'$]
 #### Handling Quote Marks
 
 Most of the time, you can treat pairs of single quotes or double quotes
-interchangably. If you're searching with a string that contains quote marks,
+interchangeably. If you're searching with a string that contains quote marks,
 though, you [need to be careful](https://stackoverflow.com/q/14116217).
 
 ```c

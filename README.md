@@ -6,6 +6,11 @@
 
 This is the Java language bindings for writing Appium Tests that conform to [WebDriver Protocol](https://w3c.github.io/webdriver/)
 
+
+## v9 to v10 Migration
+
+Follow the [v9 to v10 Migration Guide](./docs/v9-to-v10-migration-guide.md) to streamline the migration process.
+
 ## v8 to v9 Migration
 
 Since v9 the client only supports Java 11 and above.
@@ -95,6 +100,7 @@ dependencies {
 ### Compatibility Matrix
  Appium Java Client                                                                                 | Selenium client
 ----------------------------------------------------------------------------------------------------|-----------------------------
+`10.0.0`                                                                                            | `4.35.0`
 `9.5.0`                                                                                             | `4.34.0`
 `9.4.0`                                                                                             | `4.26.0`, `4.27.0`, `4.28.0`, `4.28.1`, `4.29.0`, `4.30.0`, `4.31.0`, `4.32.0`, `4.33.0`
  `9.2.1`(known issues: appium/java-client#2145, appium/java-client#2146), `9.2.2`, `9.2.3`, `9.3.0` | `4.19.0`, `4.19.1`, `4.20.0`, `4.21.0`, `4.22.0`, `4.23.0`, `4.23.1`, `4.24.0`, `4.25.0`, `4.26.0`, `4.27.0`

@@ -42,7 +42,7 @@ public abstract class ComparisonResult {
     }
 
     /**
-     * Verifies if the corresponding property is present in the commend result
+     * Verifies if the corresponding property is present in the command result
      * and throws an exception if not.
      *
      * @param propertyName the actual property name to be verified for presence

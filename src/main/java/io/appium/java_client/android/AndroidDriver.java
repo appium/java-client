@@ -43,7 +43,6 @@ import io.appium.java_client.ws.StringWebSocketClient;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.html5.RemoteLocationContext;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -249,20 +248,6 @@ public class AndroidDriver extends AppiumDriver implements
     @Override
     public AndroidBatteryInfo getBatteryInfo() {
         return new AndroidBatteryInfo(CommandExecutionHelper.executeScript(this, "mobile: batteryInfo"));
-    }
-
-    /**
-     * Provides the location context.
-     *
-     * @return instance of {@link RemoteLocationContext}
-     * @deprecated This method, {@link org.openqa.selenium.html5.LocationContext} and {@link RemoteLocationContext}
-     *     interface are deprecated, use {@link #getLocation()} and
-     *     {@link #setLocation(io.appium.java_client.Location)} instead.
-     */
-    @Override
-    @Deprecated(forRemoval = true)
-    public RemoteLocationContext getLocationContext() {
-        return locationContext;
     }
 
     @Override
