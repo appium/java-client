@@ -21,6 +21,8 @@ import org.openqa.selenium.ScreenOrientation;
 
 import java.util.Optional;
 
+import static java.util.Locale.ROOT;
+
 public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String ORIENTATION_OPTION = "orientation";
@@ -44,7 +46,7 @@ public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
         return Optional.ofNullable(getCapability(ORIENTATION_OPTION))
                 .map(v -> v instanceof ScreenOrientation
                         ? (ScreenOrientation) v
-                        : ScreenOrientation.valueOf((String.valueOf(v)).toUpperCase())
+                        : ScreenOrientation.valueOf((String.valueOf(v)).toUpperCase(ROOT))
                 );
     }
 }

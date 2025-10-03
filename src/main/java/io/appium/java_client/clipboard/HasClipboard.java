@@ -27,6 +27,7 @@ import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.GET_CLIPBOARD;
 import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
 public interface HasClipboard extends ExecutesMethod, CanRememberExtensionPresence {
@@ -40,7 +41,7 @@ public interface HasClipboard extends ExecutesMethod, CanRememberExtensionPresen
         final String extName = "mobile: setClipboard";
         var args = Map.of(
                 "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
-                "contentType", contentType.name().toLowerCase()
+                "contentType", contentType.name().toLowerCase(ROOT)
         );
         try {
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
@@ -58,7 +59,7 @@ public interface HasClipboard extends ExecutesMethod, CanRememberExtensionPresen
      */
     default String getClipboard(ClipboardContentType contentType) {
         final String extName = "mobile: getClipboard";
-        var args = Map.of("contentType", contentType.name().toLowerCase());
+        var args = Map.of("contentType", contentType.name().toLowerCase(ROOT));
         try {
             return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
         } catch (UnsupportedCommandException e) {

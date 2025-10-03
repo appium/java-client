@@ -49,6 +49,7 @@ import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
@@ -143,7 +144,7 @@ public final class AppiumServiceBuilder
 
     private static File findMainScript() {
         File npm = findNpm();
-        List<String> cmdLine = System.getProperty("os.name").toLowerCase().contains("win")
+        List<String> cmdLine = System.getProperty("os.name").toLowerCase(ROOT).contains("win")
                 // npm is a batch script, so on windows we need to use cmd.exe in order to execute it
                 ? Arrays.asList("cmd.exe", "/c", String.format("\"%s\" root -g", npm.getAbsolutePath()))
                 : Arrays.asList(npm.getAbsolutePath(), "root", "-g");

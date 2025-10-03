@@ -25,6 +25,8 @@ import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 
+import static java.util.Locale.ROOT;
+
 public interface SupportsRotation extends WebDriver, ExecutesMethod {
     /**
      * Get device rotation.
@@ -43,7 +45,7 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod {
 
     default void rotate(ScreenOrientation orientation) {
         execute(MobileCommand.SET_SCREEN_ORIENTATION,
-                Map.of("orientation", orientation.value().toUpperCase()));
+                Map.of("orientation", orientation.value().toUpperCase(ROOT)));
     }
 
     /**
@@ -54,6 +56,6 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod {
     default ScreenOrientation getOrientation() {
         Response response = execute(MobileCommand.GET_SCREEN_ORIENTATION);
         String orientation = String.valueOf(response.getValue());
-        return ScreenOrientation.valueOf(orientation.toUpperCase());
+        return ScreenOrientation.valueOf(orientation.toUpperCase(ROOT));
     }
 }

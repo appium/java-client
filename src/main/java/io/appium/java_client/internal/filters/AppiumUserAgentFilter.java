@@ -24,6 +24,8 @@ import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
 import org.openqa.selenium.remote.http.HttpHeader;
 
+import static java.util.Locale.ROOT;
+
 /**
  * Manage Appium Client configurations.
  */
@@ -54,7 +56,7 @@ public class AppiumUserAgentFilter implements Filter {
      *         like by this filter.
      */
     private static boolean containsAppiumName(@Nullable String userAgent) {
-        return userAgent != null && userAgent.toLowerCase().contains(USER_AGENT_PREFIX.toLowerCase());
+        return userAgent != null && userAgent.toLowerCase(ROOT).contains(USER_AGENT_PREFIX.toLowerCase(ROOT));
     }
 
     /**

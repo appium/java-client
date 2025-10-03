@@ -22,6 +22,8 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+import static java.util.Locale.ROOT;
+
 public interface SupportsVerbosityOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String VERBOSITY_OPTION = "verbosity";
@@ -34,7 +36,7 @@ public interface SupportsVerbosityOption<T extends BaseOptions<T>> extends
      * @return self instance for chaining.
      */
     default T setVerbosity(Verbosity verbosity) {
-        return amend(VERBOSITY_OPTION, verbosity.name().toLowerCase());
+        return amend(VERBOSITY_OPTION, verbosity.name().toLowerCase(ROOT));
     }
 
     /**
@@ -45,7 +47,7 @@ public interface SupportsVerbosityOption<T extends BaseOptions<T>> extends
     default Optional<Verbosity> getVerbosity() {
         return Optional.ofNullable(getCapability(VERBOSITY_OPTION))
                 .map(String::valueOf)
-                .map(String::toUpperCase)
+                .map(verbosity -> verbosity.toUpperCase(ROOT))
                 .map(Verbosity::valueOf);
     }
 }

@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.CapabilityType;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
 public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
@@ -34,7 +35,7 @@ public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
         }
         try {
             var context = ((SupportsContextSwitching) this).getContext();
-            return context != null && !context.toUpperCase().contains(NATIVE_CONTEXT);
+            return context != null && !context.toUpperCase(ROOT).contains(NATIVE_CONTEXT);
         } catch (WebDriverException e) {
             return false;
         }

@@ -28,6 +28,7 @@ import static io.appium.java_client.pagefactory.WidgetConstructorUtil.findConven
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
+import static java.util.Locale.ROOT;
 
 class OverrideWidgetReader {
     private static final Class<? extends Widget> EMPTY = Widget.class;
@@ -74,7 +75,7 @@ class OverrideWidgetReader {
 
     static Class<? extends Widget> getMobileNativeWidgetClass(Class<? extends Widget> declaredClass,
                                                               AnnotatedElement annotatedElement, String platform) {
-        String transformedPlatform = String.valueOf(platform).toUpperCase().trim();
+        String transformedPlatform = String.valueOf(platform).toUpperCase(ROOT).trim();
 
         if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
             return getConvenientClass(declaredClass, annotatedElement, ANDROID_UI_AUTOMATOR);

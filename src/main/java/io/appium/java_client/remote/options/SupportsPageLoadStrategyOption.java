@@ -21,6 +21,8 @@ import org.openqa.selenium.PageLoadStrategy;
 
 import java.util.Optional;
 
+import static java.util.Locale.ROOT;
+
 public interface SupportsPageLoadStrategyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String PAGE_LOAD_STRATEGY_OPTION = "pageLoadStrategy";
@@ -43,7 +45,7 @@ public interface SupportsPageLoadStrategyOption<T extends BaseOptions<T>> extend
     default Optional<PageLoadStrategy> getPageLoadStrategy() {
         return Optional.ofNullable(getCapability(PAGE_LOAD_STRATEGY_OPTION))
                 .map(String::valueOf)
-                .map(String::toUpperCase)
+                .map(strategy -> strategy.toUpperCase(ROOT))
                 .map(PageLoadStrategy::valueOf);
     }
 }

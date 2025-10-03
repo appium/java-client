@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
@@ -59,7 +60,7 @@ public class ScriptOptions {
      */
     public Map<String, Object> build() {
         var map = new HashMap<String, Object>();
-        ofNullable(scriptType).ifPresent(x -> map.put("type", x.name().toLowerCase()));
+        ofNullable(scriptType).ifPresent(x -> map.put("type", x.name().toLowerCase(ROOT)));
         ofNullable(timeoutMs).ifPresent(x -> map.put("timeout", x));
         return Collections.unmodifiableMap(map);
     }

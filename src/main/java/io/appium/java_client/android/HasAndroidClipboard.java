@@ -25,6 +25,7 @@ import java.util.Base64;
 import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
 public interface HasAndroidClipboard extends HasClipboard {
@@ -39,7 +40,7 @@ public interface HasAndroidClipboard extends HasClipboard {
         CommandExecutionHelper.execute(this, Map.entry(SET_CLIPBOARD,
                 Map.of(
                         "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
-                        "contentType", contentType.name().toLowerCase(),
+                        "contentType", contentType.name().toLowerCase(ROOT),
                         "label", requireNonNull(label)
                 )
         ));

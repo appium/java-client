@@ -22,6 +22,8 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+import static java.util.Locale.ROOT;
+
 public interface SupportsSimulatorPasteboardAutomaticSyncOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     String SIMULATOR_PASTEBOARD_AUTOMATIC_SYNC = "simulatorPasteboardAutomaticSync";
@@ -37,7 +39,7 @@ public interface SupportsSimulatorPasteboardAutomaticSyncOption<T extends BaseOp
      * @return self instance for chaining.
      */
     default T setSimulatorPasteboardAutomaticSync(PasteboardSyncState state) {
-        return amend(SIMULATOR_PASTEBOARD_AUTOMATIC_SYNC, state.toString().toLowerCase());
+        return amend(SIMULATOR_PASTEBOARD_AUTOMATIC_SYNC, state.toString().toLowerCase(ROOT));
     }
 
     /**
@@ -47,6 +49,6 @@ public interface SupportsSimulatorPasteboardAutomaticSyncOption<T extends BaseOp
      */
     default Optional<PasteboardSyncState> getSimulatorPasteboardAutomaticSync() {
         return Optional.ofNullable(getCapability(SIMULATOR_PASTEBOARD_AUTOMATIC_SYNC))
-                .map(v -> PasteboardSyncState.valueOf(String.valueOf(v).toUpperCase()));
+                .map(v -> PasteboardSyncState.valueOf(String.valueOf(v).toUpperCase(ROOT)));
     }
 }
