@@ -20,7 +20,8 @@ import org.openqa.selenium.remote.http.Filter;
 import org.openqa.selenium.remote.http.HttpHandler;
 import org.openqa.selenium.remote.http.HttpMethod;
 
-import java.util.UUID;
+import static java.util.Locale.ROOT;
+import static java.util.UUID.randomUUID;
 
 public class AppiumIdempotencyFilter implements Filter {
     // https://github.com/appium/appium-base-driver/pull/400
@@ -30,7 +31,7 @@ public class AppiumIdempotencyFilter implements Filter {
     public HttpHandler apply(HttpHandler next) {
         return req -> {
             if (req.getMethod() == HttpMethod.POST && req.getUri().endsWith("/session")) {
-                req.setHeader(IDEMPOTENCY_KEY_HEADER, UUID.randomUUID().toString().toLowerCase());
+                req.setHeader(IDEMPOTENCY_KEY_HEADER, randomUUID().toString().toLowerCase(ROOT));
             }
             return next.execute(req);
         };

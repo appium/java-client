@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriverException;
 
 import java.time.Duration;
 
+import static java.util.Locale.ROOT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
@@ -26,7 +27,7 @@ public class AndroidScreenRecordTest extends BaseAndroidTest {
                             .withTimeLimit(Duration.ofSeconds(5))
             );
         } catch (WebDriverException e) {
-            if (e.getMessage().toLowerCase().contains("emulator")) {
+            if (e.getMessage() != null && e.getMessage().toLowerCase(ROOT).contains("emulator")) {
                 // screen recording only works on real devices
                 return;
             }

@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 import static org.slf4j.event.Level.DEBUG;
@@ -407,7 +408,7 @@ public final class AppiumDriverLocalService extends DriverService {
         String loggerName = APPIUM_SERVICE_SLF4J_LOGGER_PREFIX;
         Level level = INFO;
         if (m.find()) {
-            loggerName += "." + m.group(2).toLowerCase().replaceAll("\\s+", "");
+            loggerName += "." + m.group(2).toLowerCase(ROOT).replaceAll("\\s+", "");
             if (m.group(1) != null) {
                 level = DEBUG;
             }

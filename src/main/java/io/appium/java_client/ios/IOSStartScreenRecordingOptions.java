@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
@@ -73,7 +74,7 @@ public class IOSStartScreenRecordingOptions
      * @return self instance for chaining.
      */
     public IOSStartScreenRecordingOptions withVideoQuality(VideoQuality videoQuality) {
-        this.videoQuality = requireNonNull(videoQuality).name().toLowerCase();
+        this.videoQuality = requireNonNull(videoQuality).name().toLowerCase(ROOT);
         return this;
     }
 

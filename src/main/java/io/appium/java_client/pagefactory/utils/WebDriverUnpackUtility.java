@@ -30,6 +30,7 @@ import java.util.Optional;
 import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
+import static java.util.Locale.ROOT;
 
 public final class WebDriverUnpackUtility {
     private WebDriverUnpackUtility() {
@@ -108,7 +109,7 @@ public final class WebDriverUnpackUtility {
 
         var contextAware = unpackObjectFromSearchContext(context, SupportsContextSwitching.class);
         if (contextAware.map(SupportsContextSwitching::getContext)
-                .filter(c -> c.toUpperCase().contains(NATIVE_CONTEXT)).isPresent()) {
+                .filter(c -> c.toUpperCase(ROOT).contains(NATIVE_CONTEXT)).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
 

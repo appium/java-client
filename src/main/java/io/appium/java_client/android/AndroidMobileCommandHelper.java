@@ -21,6 +21,8 @@ import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Map;
 
+import static java.util.Locale.ROOT;
+
 /**
  * This util class helps to prepare parameters of Android-specific JSONWP
  * commands.
@@ -241,7 +243,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
             String phoneNumber, GsmCallActions gsmCallActions) {
         return Map.entry(GSM_CALL, Map.of(
                 "phoneNumber", phoneNumber,
-                "action", gsmCallActions.name().toLowerCase()
+                "action", gsmCallActions.name().toLowerCase(ROOT)
         ));
     }
 
@@ -275,7 +277,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> gsmVoiceCommand(
             GsmVoiceState gsmVoiceState) {
-        return Map.entry(GSM_VOICE, Map.of("state", gsmVoiceState.name().toLowerCase()));
+        return Map.entry(GSM_VOICE, Map.of("state", gsmVoiceState.name().toLowerCase(ROOT)));
     }
 
     /**
@@ -289,7 +291,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> networkSpeedCommand(
             NetworkSpeed networkSpeed) {
-        return Map.entry(NETWORK_SPEED, Map.of("netspeed", networkSpeed.name().toLowerCase()));
+        return Map.entry(NETWORK_SPEED, Map.of("netspeed", networkSpeed.name().toLowerCase(ROOT)));
     }
 
     /**
@@ -317,7 +319,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> powerACCommand(
             PowerACState powerACState) {
-        return Map.entry(POWER_AC_STATE, Map.of("state", powerACState.name().toLowerCase()));
+        return Map.entry(POWER_AC_STATE, Map.of("state", powerACState.name().toLowerCase(ROOT)));
     }
 
     /**

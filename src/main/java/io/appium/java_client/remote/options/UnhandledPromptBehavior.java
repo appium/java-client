@@ -19,6 +19,8 @@ package io.appium.java_client.remote.options;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static java.util.Locale.ROOT;
+
 public enum UnhandledPromptBehavior {
     DISMISS, ACCEPT,
     DISMISS_AND_NOTIFY, ACCEPT_AND_NOTIFY,
@@ -26,7 +28,7 @@ public enum UnhandledPromptBehavior {
 
     @Override
     public String toString() {
-        return name().toLowerCase().replace("_", " ");
+        return name().toLowerCase(ROOT).replace("_", " ");
     }
 
     /**
