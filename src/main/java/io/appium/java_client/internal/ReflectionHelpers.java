@@ -44,23 +44,4 @@ public class ReflectionHelpers {
         }
         return target;
     }
-
-    /**
-     * Fetches the value of a private instance field.
-     *
-     * @param cls       The target class or a superclass.
-     * @param target    Target instance.
-     * @param fieldName Target field name.
-     * @param fieldType Field type.
-     * @return The retrieved field value.
-     */
-    public static <T> T getPrivateFieldValue(Class<?> cls, Object target, String fieldName, Class<T> fieldType) {
-        try {
-            final Field f = cls.getDeclaredField(fieldName);
-            f.setAccessible(true);
-            return fieldType.cast(f.get(target));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new WebDriverException(e);
-        }
-    }
 }

@@ -121,25 +121,17 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
 
     @Deprecated
     @SuppressWarnings("SameParameterValue")
-    protected <B> B getPrivateFieldValue(
-            Class<? extends CommandExecutor> cls, String fieldName, Class<B> fieldType) {
-        return ReflectionHelpers.getPrivateFieldValue(cls, this, fieldName, fieldType);
-    }
-
-    @Deprecated
-    @SuppressWarnings("SameParameterValue")
     protected void setPrivateFieldValue(
             Class<? extends CommandExecutor> cls, String fieldName, Object newValue) {
         ReflectionHelpers.setPrivateFieldValue(cls, this, fieldName, newValue);
     }
 
     public Map<String, CommandInfo> getAdditionalCommands() {
-        //noinspection unchecked
-        return getPrivateFieldValue(HttpCommandExecutor.class, "additionalCommands", Map.class);
+        return additionalCommands;
     }
 
     public Factory getHttpClientFactory() {
-        return getPrivateFieldValue(HttpCommandExecutor.class, "httpClientFactory", Factory.class);
+        return httpClientFactory;
     }
 
     @Nullable
