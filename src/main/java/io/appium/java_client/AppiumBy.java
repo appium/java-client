@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -25,7 +26,9 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -169,9 +172,9 @@ public abstract class AppiumBy extends By implements Remotable {
      *                    as for OpenCV library.
      * @return an instance of {@link ByImage}
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
-     *     The documentation on Image Comparison Features</a>
+     * The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     *     The settings available for lookup fine-tuning</a>
+     * The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
      */
     public static By image(final String b64Template) {
@@ -248,6 +251,53 @@ public abstract class AppiumBy extends By implements Remotable {
      */
     public static FlutterBy flutterSemanticsLabel(final String semanticsLabel) {
         return new ByFlutterSemanticsLabel(semanticsLabel);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param of represents the parent widget locator
+     * @param matching represents the descendant widget locator to match
+     * @param matchRoot determines whether to include the root widget in the search
+     * @param skipOffstage determines whether to skip offstage widgets
+     * @return an instance of {@link AppiumBy.ByFlutterDescendant}
+     */
+    public static FlutterBy flutterDescendant(final FlutterBy of, final FlutterBy matching, boolean matchRoot, boolean skipOffstage) {
+        return new ByFlutterDescendant(of, matching, matchRoot, skipOffstage);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param of represents the parent widget locator
+     * @param matching represents the descendant widget locator to match
+     * @return an instance of {@link AppiumBy.ByFlutterDescendant}
+     */
+    public static FlutterBy flutterDescendant(final FlutterBy of, final FlutterBy matching) {
+        return flutterDescendant(of, matching, false, true);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param of represents the child widget locator
+     * @param matching represents the ancestor widget locator to match
+     * @param matchRoot determines whether to include the root widget in the search
+     * @return an instance of {@link AppiumBy.ByFlutterAncestor}
+     */
+    public static FlutterBy flutterAncestor(final FlutterBy of, final FlutterBy matching, boolean matchRoot) {
+        return new ByFlutterAncestor(of, matching, matchRoot);
+    }
+
+    /**
+     * This locator strategy is available in FlutterIntegration Driver mode.
+     *
+     * @param of represents the child widget locator
+     * @param matching represents the ancestor widget locator to match
+     * @return an instance of {@link AppiumBy.ByFlutterAncestor}
+     */
+    public static FlutterBy flutterAncestor(final FlutterBy of, final FlutterBy matching) {
+        return flutterAncestor(of, matching, false);
     }
 
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
@@ -328,6 +378,27 @@ public abstract class AppiumBy extends By implements Remotable {
         }
     }
 
+    public abstract static class FlutterByHierarchy extends FlutterBy {
+        private static final Gson GSON = new Gson();
+
+        protected FlutterByHierarchy(String selector, FlutterBy of, FlutterBy matching, Map<String, Object> properties, String locatorName) {
+            super(selector, formatLocator(of, matching, properties), locatorName);
+        }
+
+        static Map<String, Object> parseFlutterLocator(FlutterBy by) {
+            Parameters params = by.getRemoteParameters();
+            return Map.of("using", params.using(), "value", params.value());
+        }
+
+        static String formatLocator(FlutterBy of, FlutterBy matching, Map<String, Object> properties) {
+            Map<String, Object> locator = new HashMap<>();
+            locator.put("of", parseFlutterLocator(of));
+            locator.put("matching", parseFlutterLocator(matching));
+            locator.put("parameters", properties);
+            return GSON.toJson(locator);
+        }
+    }
+
     public static class ByFlutterType extends FlutterBy implements Serializable {
         protected ByFlutterType(String locatorString) {
             super("-flutter type", locatorString, "flutterType");
@@ -358,4 +429,15 @@ public abstract class AppiumBy extends By implements Remotable {
         }
     }
 
+    public static class ByFlutterDescendant extends FlutterByHierarchy implements Serializable {
+        protected ByFlutterDescendant(FlutterBy of, FlutterBy matching, boolean matchRoot, boolean skipOffstage) {
+            super("-flutter descendant", of, matching, Map.of("matchRoot", matchRoot, "skipOffstage", skipOffstage), "flutterDescendant");
+        }
+    }
+
+    public static class ByFlutterAncestor extends FlutterByHierarchy implements Serializable {
+        protected ByFlutterAncestor(FlutterBy of, FlutterBy matching, boolean matchRoot) {
+            super("-flutter ancestor", of, matching, Map.of("matchRoot", matchRoot), "flutterAncestor");
+        }
+    }
 }

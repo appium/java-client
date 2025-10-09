@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class FinderTests extends BaseFlutterTest {
@@ -50,5 +51,34 @@ class FinderTests extends BaseFlutterTest {
         WebElement messageField = driver.findElement(AppiumBy.flutterSemanticsLabel("message_field"));
         assertEquals(messageField.getText(),
                 "Hello world");
+    }
+
+    @Test
+    void  testFlutterDescendant() {
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
+        loginButton.click();
+        openScreen("Nested Scroll");
+
+        AppiumBy descendantBy = AppiumBy.flutterDescendant(
+                AppiumBy.flutterKey("parent_card_1"),
+                AppiumBy.flutterText("Child 2")
+        );
+        WebElement childElement =  driver.findElement(descendantBy);
+        assertEquals("Child 2",
+                childElement.getText());
+    }
+
+    @Test
+    void  testFlutterAncestor() {
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
+        loginButton.click();
+        openScreen("Nested Scroll");
+
+        AppiumBy ancestorBy = AppiumBy.flutterAncestor(
+                AppiumBy.flutterText("Child 2"),
+                AppiumBy.flutterKey("parent_card_1")
+        );
+        WebElement parentElement =  driver.findElement(ancestorBy);
+        assertTrue(parentElement.isDisplayed());
     }
 }
