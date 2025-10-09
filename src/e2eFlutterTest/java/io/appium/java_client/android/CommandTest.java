@@ -190,6 +190,7 @@ class CommandTest extends BaseFlutterTest {
 
         assertEquals(0, driver.findElements(descendantBy).size());
         driver.scrollTillVisible(new ScrollParameter(descendantBy));
+        // Make sure the card is visible after scrolling
         assertEquals(1, driver.findElements(descendantBy).size());
     }
 }
