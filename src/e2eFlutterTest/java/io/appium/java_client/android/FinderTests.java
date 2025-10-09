@@ -54,7 +54,7 @@ class FinderTests extends BaseFlutterTest {
     }
 
     @Test
-    void  testFlutterDescendant() {
+    void testFlutterDescendant() {
         WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Nested Scroll");
@@ -63,13 +63,13 @@ class FinderTests extends BaseFlutterTest {
                 AppiumBy.flutterKey("parent_card_1"),
                 AppiumBy.flutterText("Child 2")
         );
-        WebElement childElement =  driver.findElement(descendantBy);
+        WebElement childElement = driver.findElement(descendantBy);
         assertEquals("Child 2",
                 childElement.getText());
     }
 
     @Test
-    void  testFlutterAncestor() {
+    void testFlutterAncestor() {
         WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
         loginButton.click();
         openScreen("Nested Scroll");
@@ -78,7 +78,7 @@ class FinderTests extends BaseFlutterTest {
                 AppiumBy.flutterText("Child 2"),
                 AppiumBy.flutterKey("parent_card_1")
         );
-        WebElement parentElement =  driver.findElement(ancestorBy);
+        WebElement parentElement = driver.findElement(ancestorBy);
         assertTrue(parentElement.isDisplayed());
     }
 }

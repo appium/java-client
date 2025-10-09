@@ -172,9 +172,9 @@ public abstract class AppiumBy extends By implements Remotable {
      *                    as for OpenCV library.
      * @return an instance of {@link ByImage}
      * @see <a href="https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/image-comparison.md">
-     * The documentation on Image Comparison Features</a>
+     *     The documentation on Image Comparison Features</a>
      * @see <a href="https://github.com/appium/appium-base-driver/blob/master/lib/basedriver/device-settings.js">
-     * The settings available for lookup fine-tuning</a>
+     *     The settings available for lookup fine-tuning</a>
      * @since Appium 1.8.2
      */
     public static By image(final String b64Template) {
@@ -262,7 +262,11 @@ public abstract class AppiumBy extends By implements Remotable {
      * @param skipOffstage determines whether to skip offstage widgets
      * @return an instance of {@link AppiumBy.ByFlutterDescendant}
      */
-    public static FlutterBy flutterDescendant(final FlutterBy of, final FlutterBy matching, boolean matchRoot, boolean skipOffstage) {
+    public static FlutterBy flutterDescendant(
+            final FlutterBy of,
+            final FlutterBy matching,
+            boolean matchRoot,
+            boolean skipOffstage) {
         return new ByFlutterDescendant(of, matching, matchRoot, skipOffstage);
     }
 
@@ -381,7 +385,12 @@ public abstract class AppiumBy extends By implements Remotable {
     public abstract static class FlutterByHierarchy extends FlutterBy {
         private static final Gson GSON = new Gson();
 
-        protected FlutterByHierarchy(String selector, FlutterBy of, FlutterBy matching, Map<String, Object> properties, String locatorName) {
+        protected FlutterByHierarchy(
+                String selector,
+                FlutterBy of,
+                FlutterBy matching,
+                Map<String, Object> properties,
+                String locatorName) {
             super(selector, formatLocator(of, matching, properties), locatorName);
         }
 
@@ -431,13 +440,21 @@ public abstract class AppiumBy extends By implements Remotable {
 
     public static class ByFlutterDescendant extends FlutterByHierarchy implements Serializable {
         protected ByFlutterDescendant(FlutterBy of, FlutterBy matching, boolean matchRoot, boolean skipOffstage) {
-            super("-flutter descendant", of, matching, Map.of("matchRoot", matchRoot, "skipOffstage", skipOffstage), "flutterDescendant");
+            super(
+                    "-flutter descendant",
+                    of,
+                    matching,
+                    Map.of("matchRoot", matchRoot, "skipOffstage", skipOffstage), "flutterDescendant");
         }
     }
 
     public static class ByFlutterAncestor extends FlutterByHierarchy implements Serializable {
         protected ByFlutterAncestor(FlutterBy of, FlutterBy matching, boolean matchRoot) {
-            super("-flutter ancestor", of, matching, Map.of("matchRoot", matchRoot), "flutterAncestor");
+            super(
+                    "-flutter ancestor",
+                    of,
+                    matching,
+                    Map.of("matchRoot", matchRoot), "flutterAncestor");
         }
     }
 }
