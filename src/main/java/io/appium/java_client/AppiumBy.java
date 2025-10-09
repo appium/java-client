@@ -254,7 +254,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * This locator strategy is available in FlutterIntegration Driver mode.
+     * This locator strategy is available in FlutterIntegration Driver mode since version 1.4.0.
      *
      * @param of represents the parent widget locator
      * @param matching represents the descendant widget locator to match
@@ -271,7 +271,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * This locator strategy is available in FlutterIntegration Driver mode.
+     * This locator strategy is available in FlutterIntegration Driver mode since version 1.4.0.
      *
      * @param of represents the parent widget locator
      * @param matching represents the descendant widget locator to match
@@ -282,7 +282,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * This locator strategy is available in FlutterIntegration Driver mode.
+     * This locator strategy is available in FlutterIntegration Driver mode since version 1.4.0.
      *
      * @param of represents the child widget locator
      * @param matching represents the ancestor widget locator to match
@@ -294,7 +294,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     /**
-     * This locator strategy is available in FlutterIntegration Driver mode.
+     * This locator strategy is available in FlutterIntegration Driver mode since version 1.4.0.
      *
      * @param of represents the child widget locator
      * @param matching represents the ancestor widget locator to match
