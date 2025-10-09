@@ -160,4 +160,37 @@ class CommandTest extends BaseFlutterTest {
         driver.findElement(AppiumBy.flutterText("PICK")).click();
         assertTrue(driver.findElement(AppiumBy.flutterText("Success!")).isDisplayed());
     }
+
+    @Test
+    void testScrollTillVisibleForAncestor() {
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
+        loginButton.click();
+        openScreen("Nested Scroll");
+
+        AppiumBy.FlutterBy ancestorBy = AppiumBy.flutterAncestor(
+                AppiumBy.flutterText("Child 2"),
+                AppiumBy.flutterKey("parent_card_4")
+        );
+
+        assertEquals(0, driver.findElements(ancestorBy).size());
+        driver.scrollTillVisible(new ScrollParameter(ancestorBy));
+        assertEquals(1, driver.findElements(ancestorBy).size());
+    }
+
+    @Test
+    void testScrollTillVisibleForDescendant() {
+        WebElement loginButton = driver.findElement(BaseFlutterTest.LOGIN_BUTTON);
+        loginButton.click();
+        openScreen("Nested Scroll");
+
+        AppiumBy.FlutterBy descendantBy = AppiumBy.flutterDescendant(
+                AppiumBy.flutterKey("parent_card_4"),
+                AppiumBy.flutterText("Child 2")
+        );
+
+        assertEquals(0, driver.findElements(descendantBy).size());
+        driver.scrollTillVisible(new ScrollParameter(descendantBy));
+        // Make sure the card is visible after scrolling
+        assertEquals(1, driver.findElements(descendantBy).size());
+    }
 }
