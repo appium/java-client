@@ -53,6 +53,8 @@ jobs:
           e2e-tests: flutter-android
         - java: 21
           platform: ubuntu-latest
+        - java: 25
+          platform: ubuntu-latest
       fail-fast: false
 
     runs-on: ${{ matrix.platform }}
