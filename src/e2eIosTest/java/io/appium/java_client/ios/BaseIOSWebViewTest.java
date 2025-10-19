@@ -17,13 +17,15 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.ios.options.XCUITestOptions;
-import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.function.Supplier;
+
+import static io.appium.java_client.utils.TestUtils.IOS_SIM_VODQA_RELEASE_URL;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(2);
@@ -38,7 +40,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                 .setDeviceName(DEVICE_NAME)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
-                .setApp(TestUtils.fetchIosSimVodQaApp().toString());
+                .setApp(new URL(IOS_SIM_VODQA_RELEASE_URL));
         if (PREBUILT_WDA_PATH != null) {
             options.usePreinstalledWda().setPrebuiltWdaPath(PREBUILT_WDA_PATH);
         }

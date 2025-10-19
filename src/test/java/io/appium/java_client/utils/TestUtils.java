@@ -6,7 +6,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
-import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -19,7 +18,7 @@ import java.time.Duration;
 import java.util.function.Supplier;
 
 public class TestUtils {
-    private static final String IOS_SIM_VODQA_RELEASE_URL =
+    public static final String IOS_SIM_VODQA_RELEASE_URL =
             "https://github.com/appium/VodQAReactNative/releases/download/v1.0.1/VodQAReactNative-simulator-release.zip";
 
     private TestUtils() {
@@ -85,15 +84,5 @@ public class TestUtils {
 
     public static boolean isCiEnv() {
         return System.getenv("CI") != null;
-    }
-
-    /**
-     * Fetches the VodQA React Native app from GitHub release with ETag-based caching.
-     *
-     * @return Path to the local cached file
-     * @throws IOException if there's an error fetching or caching the file
-     */
-    public static Path fetchIosSimVodQaApp() throws IOException {
-        return new GitHubReleaseFetcher(IOS_SIM_VODQA_RELEASE_URL).fetch();
     }
 }
