@@ -16,7 +16,7 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;

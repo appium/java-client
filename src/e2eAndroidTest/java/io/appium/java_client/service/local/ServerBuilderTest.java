@@ -1,6 +1,6 @@
 package io.appium.java_client.service.local;
 
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.android.TestResources;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static io.appium.java_client.TestUtils.getLocalIp4Address;
+import static io.appium.java_client.utils.TestUtils.getLocalIp4Address;
 import static io.appium.java_client.service.local.AppiumDriverLocalService.buildDefaultService;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PATH;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;

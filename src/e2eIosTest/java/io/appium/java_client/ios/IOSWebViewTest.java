@@ -1,7 +1,7 @@
 package io.appium.java_client.ios;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;

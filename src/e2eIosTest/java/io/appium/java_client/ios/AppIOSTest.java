@@ -1,6 +1,6 @@
 package io.appium.java_client.ios;
 
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;

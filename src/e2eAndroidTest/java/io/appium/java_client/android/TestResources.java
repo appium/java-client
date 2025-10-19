@@ -1,6 +1,6 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 
 import java.nio.file.Path;
 

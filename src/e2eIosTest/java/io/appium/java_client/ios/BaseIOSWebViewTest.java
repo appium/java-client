@@ -16,22 +16,21 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.SessionNotCreatedException;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.function.Supplier;
 
 public class BaseIOSWebViewTest extends BaseIOSTest {
-    private static final String VODQA_ZIP = TestUtils.resourcePathToAbsolutePath("vodqa.zip").toString();
-
     private static final Duration WEB_VIEW_DETECT_INTERVAL = Duration.ofSeconds(2);
     private static final Duration WEB_VIEW_DETECT_DURATION = Duration.ofSeconds(30);
 
     @BeforeAll
-    public static void beforeClass() {
+    public static void beforeClass() throws IOException {
         startAppiumServer();
 
         XCUITestOptions options = new XCUITestOptions()
@@ -39,7 +38,7 @@ public class BaseIOSWebViewTest extends BaseIOSTest {
                 .setDeviceName(DEVICE_NAME)
                 .setWdaLaunchTimeout(WDA_LAUNCH_TIMEOUT)
                 .setCommandTimeouts(Duration.ofSeconds(240))
-                .setApp(VODQA_ZIP);
+                .setApp(TestUtils.fetchIosSimVodQaApp().toString());
         if (PREBUILT_WDA_PATH != null) {
             options.usePreinstalledWda().setPrebuiltWdaPath(PREBUILT_WDA_PATH);
         }

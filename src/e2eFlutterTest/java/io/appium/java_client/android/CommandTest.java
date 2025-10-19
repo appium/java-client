@@ -1,7 +1,7 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.flutter.commands.DoubleClickParameter;
 import io.appium.java_client.flutter.commands.DragAndDropParameter;
 import io.appium.java_client.flutter.commands.LongPressParameter;

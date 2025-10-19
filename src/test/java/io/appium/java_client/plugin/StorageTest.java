@@ -16,7 +16,7 @@
 
 package io.appium.java_client.plugin;
 
-import io.appium.java_client.TestUtils;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.plugins.storage.StorageClient;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
