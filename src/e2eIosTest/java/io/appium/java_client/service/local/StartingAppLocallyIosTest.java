@@ -16,13 +16,13 @@
 
 package io.appium.java_client.service.local;
 
-import io.appium.java_client.TestUtils;
 import io.appium.java_client.ios.BaseIOSTest;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;

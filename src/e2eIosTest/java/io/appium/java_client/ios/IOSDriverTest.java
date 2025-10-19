@@ -31,7 +31,7 @@ import org.openqa.selenium.remote.http.HttpMethod;
 import java.time.Duration;
 import java.util.Map;
 
-import static io.appium.java_client.TestUtils.waitUntilTrue;
+import static io.appium.java_client.utils.TestUtils.waitUntilTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -16,13 +16,13 @@
 
 package io.appium.java_client.pagefactory_tests;
 
-import io.appium.java_client.TestUtils;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;

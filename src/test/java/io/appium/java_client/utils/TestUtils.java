@@ -1,4 +1,4 @@
-package io.appium.java_client;
+package io.appium.java_client.utils;
 
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Dimension;
@@ -18,6 +18,9 @@ import java.time.Duration;
 import java.util.function.Supplier;
 
 public class TestUtils {
+    public static final String IOS_SIM_VODQA_RELEASE_URL =
+            "https://github.com/appium/VodQAReactNative/releases/download/v1.0.1/VodQAReactNative-simulator-release.zip";
+
     private TestUtils() {
     }
 
