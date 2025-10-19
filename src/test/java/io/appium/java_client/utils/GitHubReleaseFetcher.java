@@ -32,9 +32,6 @@ import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Generic utility class for fetching files from GitHub releases with ETag-based caching.
- */
 public class GitHubReleaseFetcher {
 
     private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -58,6 +55,11 @@ public class GitHubReleaseFetcher {
     private final Path appFile;
     private final Path etagFile;
 
+    /**
+     * Generic utility class for fetching files from GitHub releases with ETag-based caching.
+     *
+     * @param releaseUrl The URL to the GitHub release to fetch.
+     */
     public GitHubReleaseFetcher(String releaseUrl) {
         this.releaseUrl = releaseUrl;
         this.releaseInfo = parseGitHubReleaseUrl(releaseUrl);
@@ -186,15 +188,20 @@ public class GitHubReleaseFetcher {
         }
     }
 
-    /**
-     * Information about a GitHub release parsed from URL.
-     */
     public static class GitHubReleaseInfo {
         public final String owner;
         public final String repo;
         public final String tag;
         public final String filename;
 
+        /**
+         * Information about a GitHub release parsed from URL.
+         *
+         * @param owner project owner.
+         * @param repo repo name.
+         * @param tag project tag.
+         * @param filename filename string.
+         */
         public GitHubReleaseInfo(String owner, String repo, String tag, String filename) {
             this.owner = owner;
             this.repo = repo;

@@ -16,9 +16,9 @@
 
 package io.appium.java_client.utils;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -124,8 +124,11 @@ public class GitHubReleaseFetcherTest {
 
         // Verify ETag file was created
         Path cacheDir = appPath.getParent();
-        String[] etagFiles = cacheDir.toFile().list((dir, name) ->
-            name.contains("appium_VodQAReactNative_v1.0.1_VodQAReactNative-simulator-release.zip") && name.endsWith(".etag"));
+        String[] etagFiles = cacheDir.toFile().list(
+                (dir, name) ->
+                    name.contains("appium_VodQAReactNative_v1.0.1_VodQAReactNative-simulator-release.zip")
+                    && name.endsWith(".etag")
+        );
         assertNotNull(etagFiles);
         assertTrue(etagFiles.length > 0);
 
@@ -140,17 +143,17 @@ public class GitHubReleaseFetcherTest {
     @Test
     public void testSecondFetchUsesCache() throws IOException {
         // First fetch - should download from remote
-        long startTime1 = System.currentTimeMillis();
+        final long startTime1 = System.currentTimeMillis();
         Path appPath1 = fetcher.fetch();
-        long fetchTime1 = System.currentTimeMillis() - startTime1;
+        final long fetchTime1 = System.currentTimeMillis() - startTime1;
 
         assertTrue(Files.exists(appPath1));
         assertTrue(Files.size(appPath1) > 0);
 
         // Second fetch - should use cache (much faster)
-        long startTime2 = System.currentTimeMillis();
+        final long startTime2 = System.currentTimeMillis();
         Path appPath2 = fetcher.fetch();
-        long fetchTime2 = System.currentTimeMillis() - startTime2;
+        final long fetchTime2 = System.currentTimeMillis() - startTime2;
 
         // Verify same file path is returned
         assertEquals(appPath1, appPath2);
