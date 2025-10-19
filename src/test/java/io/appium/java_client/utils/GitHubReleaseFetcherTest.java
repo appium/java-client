@@ -169,7 +169,8 @@ public class GitHubReleaseFetcherTest {
         fetcher.clearCache();
 
         int numberOfThreads = 5;
-        try (ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads)) {
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+        try {
             CountDownLatch latch = new CountDownLatch(numberOfThreads);
             List<Future<Path>> futures = new ArrayList<>();
 
@@ -203,6 +204,8 @@ public class GitHubReleaseFetcherTest {
             for (Path result : results) {
                 assertEquals(firstResult, result, "All concurrent fetchers should return the same cached file path");
             }
+        } finally {
+            executor.shutdown();
         }
     }
 }
