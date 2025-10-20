@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.AppiumBy;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -35,33 +34,9 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class IOSAlertTest extends AppIOSTest {
-
     private static final Duration ALERT_TIMEOUT = Duration.ofSeconds(5);
     private static final int CLICK_RETRIES = 2;
-    private static final String IOS_AUTOMATION_TEXT = "show alert";
-
     private final WebDriverWait waiter = new WebDriverWait(driver, ALERT_TIMEOUT);
-
-    private void ensureAlertPresence() {
-        int retry = 0;
-        // CI might not be performant enough, so we need to retry
-        while (true) {
-            try {
-                driver.findElement(AppiumBy.accessibilityId(IOS_AUTOMATION_TEXT)).click();
-            } catch (WebDriverException e) {
-                // ignore
-            }
-            try {
-                waiter.until(alertIsPresent());
-                return;
-            } catch (TimeoutException e) {
-                retry++;
-                if (retry >= CLICK_RETRIES) {
-                    throw e;
-                }
-            }
-        }
-    }
 
     @AfterEach
     public void afterEach() {
@@ -96,5 +71,27 @@ public class IOSAlertTest extends AppIOSTest {
     public void getAlertTextTest() {
         ensureAlertPresence();
         assertFalse(StringUtils.isBlank(driver.switchTo().alert().getText()));
+    }
+
+    private void ensureAlertPresence() {
+        int retry = 0;
+        // CI might not be performant enough, so we need to retry
+        while (true) {
+            try {
+                driver.findElement(PASSWORD_EDIT_PREDICATE).sendKeys("foo");
+                driver.findElement(LOGIN_LINK_ID).click();
+            } catch (WebDriverException e) {
+                // ignore
+            }
+            try {
+                waiter.until(alertIsPresent());
+                return;
+            } catch (TimeoutException e) {
+                retry++;
+                if (retry >= CLICK_RETRIES) {
+                    throw e;
+                }
+            }
+        }
     }
 }
