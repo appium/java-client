@@ -21,9 +21,7 @@ import io.appium.java_client.appmanagement.ApplicationState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
@@ -65,13 +63,12 @@ public class IOSDriverTest extends AppIOSTest {
 
     @Test
     public void addCustomCommandWithElementIdTest() {
-        WebElement intA = driver.findElement(By.id("IntegerA"));
-        intA.clear();
+        var usernameEdit = driver.findElement(USERNAME_EDIT_PREDICATE);
         driver.addCommand(HttpMethod.POST,
                 String.format("/session/%s/appium/element/%s/value", driver.getSessionId(),
-                        ((RemoteWebElement) intA).getId()), "setNewValue");
+                        ((RemoteWebElement) usernameEdit).getId()), "setNewValue");
         final Response setNewValue = driver.execute("setNewValue",
-                Map.of("id", ((RemoteWebElement) intA).getId(), "text", "8"));
+                Map.of("id", ((RemoteWebElement) usernameEdit).getId(), "text", "foo"));
         assertNotNull(setNewValue.getSessionId());
     }
 
@@ -114,17 +111,15 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void pullFileTest() {
-        byte[] data = driver.pullFile(String.format("@%s/TestApp", BUNDLE_ID));
+        byte[] data = driver.pullFile(String.format("@%s/VodQAReactNative", BUNDLE_ID));
         assertThat(data.length, greaterThan(0));
     }
 
     @Test public void keyboardTest() {
-        WebElement element = driver.findElement(By.id("IntegerA"));
-        element.click();
+        driver.findElement(USERNAME_EDIT_PREDICATE).click();
         assertTrue(driver.isKeyboardShown());
     }
 
-    @Disabled("The app crashes when restored from the background")
     @Test
     public void putAppIntoBackgroundAndRestoreTest() {
         final long msStarted = System.currentTimeMillis();
@@ -132,7 +127,6 @@ public class IOSDriverTest extends AppIOSTest {
         assertThat(System.currentTimeMillis() - msStarted, greaterThan(3000L));
     }
 
-    @Disabled("The app crashes when restored from the background")
     @Test
     public void applicationsManagementTest() {
         driver.runAppInBackground(Duration.ofSeconds(-1));
@@ -143,25 +137,5 @@ public class IOSDriverTest extends AppIOSTest {
         waitUntilTrue(
                 () -> driver.queryAppState(BUNDLE_ID) == ApplicationState.RUNNING_IN_FOREGROUND,
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
-    }
-
-    @Disabled("The app crashes when restored from the background")
-    @Test
-    public void putAIntoBackgroundWithoutRestoreTest() {
-        waitUntilTrue(() -> !driver.findElements(By.id("IntegerA")).isEmpty(),
-                Duration.ofSeconds(10), Duration.ofSeconds(1));
-        driver.runAppInBackground(Duration.ofSeconds(-1));
-        waitUntilTrue(() -> driver.findElements(By.id("IntegerA")).isEmpty(),
-                Duration.ofSeconds(10), Duration.ofSeconds(1));
-        driver.activateApp(BUNDLE_ID);
-    }
-
-    @Disabled
-    @Test public void touchIdTest() {
-        driver.toggleTouchIDEnrollment(true);
-        driver.performTouchID(true);
-        driver.performTouchID(false);
-        //noinspection SimplifiableAssertion,EqualsWithItself
-        assertEquals(true, true);
     }
 }

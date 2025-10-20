@@ -22,6 +22,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.junit.jupiter.api.AfterAll;
 
 import java.time.Duration;
+import java.util.Optional;
 
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class BaseIOSTest {
@@ -29,12 +30,10 @@ public class BaseIOSTest {
     protected static AppiumDriverLocalService service;
     protected static IOSDriver driver;
     protected static final int PORT = 4723;
-    public static final String DEVICE_NAME = System.getenv("IOS_DEVICE_NAME") != null
-            ? System.getenv("IOS_DEVICE_NAME")
-            : "iPhone 12";
-    public static final String PLATFORM_VERSION = System.getenv("IOS_PLATFORM_VERSION") != null
-            ? System.getenv("IOS_PLATFORM_VERSION")
-            : "14.5";
+    public static final String DEVICE_NAME = Optional.ofNullable(System.getenv("IOS_DEVICE_NAME"))
+            .orElse("iPhone 17");
+    public static final String PLATFORM_VERSION = Optional.ofNullable(System.getenv("IOS_PLATFORM_VERSION"))
+            .orElse("26.0");
     public static final Duration WDA_LAUNCH_TIMEOUT = Duration.ofMinutes(4);
     public static final Duration SERVER_START_TIMEOUT = Duration.ofMinutes(3);
     protected static String PREBUILT_WDA_PATH = System.getenv("PREBUILT_WDA_PATH");

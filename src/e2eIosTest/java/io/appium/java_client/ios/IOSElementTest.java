@@ -1,37 +1,38 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.appium.java_client.ios;
 
-import io.appium.java_client.AppiumBy;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
 
-import java.time.Duration;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.openqa.selenium.By.className;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-@TestMethodOrder(MethodOrderer.MethodName.class)
 public class IOSElementTest extends AppIOSTest {
+    private static final By SLIDER_CLASS = className("XCUIElementTypeSlider");
 
-    @Test
-    public void findByAccessibilityIdTest() {
-        assertThat(driver.findElements(AppiumBy.accessibilityId("Compute Sum")).size(), not(is(0)));
-    }
-
-    // FIXME: Stabilize the test on CI
-    @Disabled
     @Test
     public void setValueTest() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        driver.findElement(LOGIN_LINK_ID).click();
+        driver.findElement(SLIDER_MENU_ITEM_PREDICATE).click();
 
-        WebElement slider = wait.until(
-                driver1 -> driver1.findElement(AppiumBy.className("XCUIElementTypeSlider")));
-        slider.sendKeys("0%");
-        assertEquals("0%", slider.getAttribute("value"));
+        var slider = driver.findElement(SLIDER_CLASS);
+        var previousValue = slider.getAttribute("value");
+        slider.sendKeys("0.5");
+        assertNotEquals(slider.getAttribute("value"), previousValue);
     }
 }

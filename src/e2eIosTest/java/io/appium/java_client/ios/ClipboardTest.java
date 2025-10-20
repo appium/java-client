@@ -25,6 +25,6 @@ public class ClipboardTest extends AppIOSTest {
     @Test public void verifySetAndGetClipboardText() {
         final String text = "Happy testing";
         driver.setClipboardText(text);
-        assertEquals(driver.getClipboardText(), text);
+        assertEquals(text, driver.getClipboardText());
     }
 }

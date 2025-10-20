@@ -16,37 +16,25 @@
 
 package io.appium.java_client.ios;
 
-import io.appium.java_client.AppiumBy;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class IOSSearchingTest extends AppIOSTest {
-
-    @Test public void findByAccessibilityIdTest() {
-        assertNotEquals(driver
-                .findElement(AppiumBy.accessibilityId("ComputeSumButton"))
-                .getText(), null);
-        assertNotEquals(driver
-                .findElements(AppiumBy.accessibilityId("ComputeSumButton"))
-                .size(), 0);
+    @Test
+    public void findByAccessibilityIdTest() {
+        assertNotNull(driver.findElement(LOGIN_LINK_ID).getText());
+        assertNotEquals(0, driver.findElements(LOGIN_LINK_ID).size());
     }
 
-    @Test public void findByByIosPredicatesTest() {
-        assertNotEquals(driver
-                .findElement(AppiumBy.iOSNsPredicateString("name like 'Answer'"))
-                .getText(), null);
-        assertNotEquals(driver
-                .findElements(AppiumBy.iOSNsPredicateString("name like 'Answer'"))
-                .size(), 0);
+    @Test
+    public void findByByIosPredicatesTest() {
+        assertNotNull(driver.findElement(USERNAME_EDIT_PREDICATE).getText());
+        assertNotEquals(0, driver.findElements(USERNAME_EDIT_PREDICATE).size());
     }
 
     @Test public void findByByIosClassChainTest() {
-        assertNotEquals(driver
-                .findElement(AppiumBy.iOSClassChain("**/XCUIElementTypeButton"))
-                .getText(), null);
-        assertNotEquals(driver
-                .findElements(AppiumBy.iOSClassChain("**/XCUIElementTypeButton"))
-                .size(), 0);
+        assertNotEquals(0, driver.findElements(VODQA_LOGO_CLASS_CHAIN).size());
     }
 }
