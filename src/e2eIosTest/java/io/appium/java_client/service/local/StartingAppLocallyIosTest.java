@@ -22,12 +22,16 @@ import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Objects;
+
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
+import static io.appium.java_client.utils.TestUtils.IOS_SIM_VODQA_RELEASE_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,14 +39,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyIosTest {
-    private static final String UI_CATALOG_ZIP = TestUtils.resourcePathToAbsolutePath("UICatalog.app.zip").toString();
-
     @Test
-    void startingIOSAppWithCapabilitiesOnlyTest() {
+    void startingIOSAppWithCapabilitiesOnlyTest() throws MalformedURLException {
+        var appUrl = new URL(IOS_SIM_VODQA_RELEASE_URL);
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
-                .setApp(UI_CATALOG_ZIP)
+                .setApp(appUrl)
                 .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
         IOSDriver driver = new IOSDriver(options);
         try {
@@ -52,19 +55,19 @@ class StartingAppLocallyIosTest {
             assertEquals(Platform.IOS, caps.getPlatformName());
             assertNotNull(caps.getDeviceName().orElse(null));
             assertEquals(BaseIOSTest.PLATFORM_VERSION, caps.getPlatformVersion().orElse(null));
-            assertEquals(UI_CATALOG_ZIP, caps.getApp().orElse(null));
+            assertEquals(appUrl.toString(), caps.getApp().orElse(null));
         } finally {
             driver.quit();
         }
     }
 
-
     @Test
-    void startingIOSAppWithCapabilitiesAndServiceTest() {
+    void startingIOSAppWithCapabilitiesAndServiceTest() throws MalformedURLException {
+        var appUrl = new URL(IOS_SIM_VODQA_RELEASE_URL);
         XCUITestOptions options = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
-                .setApp(UI_CATALOG_ZIP)
+                .setApp(appUrl)
                 .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
@@ -75,7 +78,7 @@ class StartingAppLocallyIosTest {
         IOSDriver driver = new IOSDriver(builder, options);
         try {
             Capabilities caps = driver.getCapabilities();
-            assertTrue(caps.getCapability(PLATFORM_NAME)
+            assertTrue(Objects.requireNonNull(caps.getCapability(PLATFORM_NAME))
                     .toString().equalsIgnoreCase(MobilePlatform.IOS));
             assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
         } finally {
@@ -84,14 +87,15 @@ class StartingAppLocallyIosTest {
     }
 
     @Test
-    void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() {
+    void startingIOSAppWithCapabilitiesAndFlagsOnServerSideTest() throws MalformedURLException {
+        var appUrl = new URL(IOS_SIM_VODQA_RELEASE_URL);
         XCUITestOptions serverOptions = new XCUITestOptions()
                 .setPlatformVersion(BaseIOSTest.PLATFORM_VERSION)
                 .setDeviceName(BaseIOSTest.DEVICE_NAME)
                 .setWdaLaunchTimeout(BaseIOSTest.WDA_LAUNCH_TIMEOUT);
 
         XCUITestOptions clientOptions = new XCUITestOptions()
-                .setApp(UI_CATALOG_ZIP);
+                .setApp(appUrl);
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
