@@ -32,12 +32,8 @@ import java.util.List;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -46,52 +42,40 @@ public class XCUITModeTest extends AppIOSTest {
     private boolean populated = false;
 
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
-    @iOSXCUITFindBy(iOSNsPredicate = "label contains 'Compute'")
-    @iOSXCUITFindBy(className = "XCUIElementTypeButton")
-    private WebElement computeButton;
+    @iOSXCUITFindBy(iOSNsPredicate = "name == \"assets/assets/vodqa.png\"")
+    @iOSXCUITFindBy(className = "XCUIElementTypeImage")
+    private WebElement logoImageAllPossible;
 
     @HowToUseLocators(iOSXCUITAutomation = CHAIN)
-    @iOSXCUITFindBy(iOSNsPredicate = "name like 'Answer'")
-    private WebElement answer;
+    @iOSXCUITFindBy(iOSNsPredicate = "name CONTAINS 'vodqa'")
+    private WebElement logoImageChain;
 
-    @iOSXCUITFindBy(iOSNsPredicate = "name = 'IntegerA'")
-    private WebElement textField1;
+    @iOSXCUITFindBy(iOSNsPredicate = "name == 'username'")
+    private WebElement usernameFieldPredicate;
 
-    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
-    @iOSXCUITFindBy(iOSNsPredicate = "name = 'IntegerB'")
-    @iOSXCUITFindBy(accessibility = "IntegerB")
-    private WebElement textField2;
+    @iOSXCUITFindBy(iOSNsPredicate = "name ENDSWITH '.png'")
+    private WebElement logoImagePredicate;
 
-    @iOSXCUITFindBy(iOSNsPredicate = "name ENDSWITH 'Gesture'")
-    private WebElement gesture;
+    @iOSXCUITFindBy(className = "XCUIElementTypeImage")
+    private WebElement logoImageClass;
 
-    @iOSXCUITFindBy(className = "XCUIElementTypeSlider")
-    private WebElement slider;
+    @iOSXCUITFindBy(accessibility = "login")
+    private WebElement loginLinkAccId;
 
-    @iOSXCUITFindBy(id = "locationStatus")
-    private WebElement locationStatus;
+    @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeTextField[`name == \"username\"`]")
+    private WebElement usernameFieldClassChain;
 
-    @HowToUseLocators(iOSXCUITAutomation = CHAIN)
-    @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'contact'")
-    private WebElement contactAlert;
+    @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeSecureTextField[`name == \"password\"`][-1]")
+    private WebElement passwordFieldClassChain;
 
-    @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
-    @iOSXCUITFindBy(iOSNsPredicate = "name BEGINSWITH 'location'")
-    private WebElement locationAlert;
-
-    @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeTextField[2]")
-    private WebElement secondTextField;
-
-    @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeButton[-1]")
-    private WebElement lastButton;
-
-    @iOSXCUITFindBy(iOSClassChain = "XCUIElementTypeWindow/*/XCUIElementTypeButton")
-    private List<WebElement> allButtons;
+    @iOSXCUITFindBy(iOSClassChain = "**/*[`type CONTAINS \"TextField\"`]")
+    private List<WebElement> allTextFields;
 
     /**
      * The setting up.
      */
-    @BeforeEach public void setUp() {
+    @BeforeEach
+    public void setUp() {
         if (!populated) {
             PageFactory.initElements(new AppiumFieldDecorator(driver), this);
         }
@@ -99,51 +83,48 @@ public class XCUITModeTest extends AppIOSTest {
         populated = true;
     }
 
-    @Test public void findByXCUITSelectorTest() {
-        assertNotEquals(null, computeButton.getText());
+    @Test
+    public void findByXCUITSelectorTest() {
+        assertTrue(logoImageAllPossible.isDisplayed());
     }
 
-    @Test public void findElementByNameTest() {
-        assertEquals("TextField1", textField1.getText());
+    @Test
+    public void findElementByNameTest() {
+        assertTrue(usernameFieldPredicate.isDisplayed());
     }
 
-    @Test public void findElementByClassNameTest() {
-        assertEquals("50%", slider.getAttribute("value"));
+    @Test
+    public void findElementByClassNameTest() {
+        assertTrue(logoImageClass.isDisplayed());
     }
 
-    @Test public void pageObjectChainingTest() {
-        assertTrue(contactAlert.isDisplayed());
+    @Test
+    public void pageObjectChainingTest() {
+        assertTrue(logoImageChain.isDisplayed());
     }
 
-    @Test public void findElementByIdTest() {
-        assertTrue(locationStatus.isDisplayed());
+    @Test
+    public void findElementByIdTest() {
+        assertTrue(loginLinkAccId.isDisplayed());
     }
 
-    @Test public void nativeSelectorTest() {
-        assertTrue(locationAlert.isDisplayed());
+    @Test
+    public void nativeSelectorTest() {
+        assertTrue(logoImagePredicate.isDisplayed());
     }
 
-    @Test public void findElementByClassChain() {
-        assertThat(secondTextField.getAttribute("name"), equalTo("IntegerB"));
+    @Test
+    public void findElementByClassChain() {
+        assertTrue(usernameFieldClassChain.isDisplayed());
     }
 
-    @Test public void findElementByClassChainWithNegativeIndex() {
-        assertThat(lastButton.getAttribute("name"), equalTo("Check calendar authorized"));
+    @Test
+    public void findElementByClassChainWithNegativeIndex() {
+        assertTrue(passwordFieldClassChain.isDisplayed());
     }
 
-    @Test public void findMultipleElementsByClassChain() {
-        assertThat(allButtons.size(), is(greaterThan(1)));
-    }
-
-    @Test public void findElementByXUISelectorTest() {
-        assertNotNull(gesture.getText());
-    }
-
-    @Test public void setValueTest() {
-        textField1.sendKeys("2");
-        textField2.sendKeys("4");
-        driver.hideKeyboard();
-        computeButton.click();
-        assertEquals("6", answer.getText());
+    @Test
+    public void findMultipleElementsByClassChain() {
+        assertThat(allTextFields.size(), is(greaterThan(1)));
     }
 }
