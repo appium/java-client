@@ -109,7 +109,7 @@ jobs:
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@v6
       with:
         node-version: 'lts/*'
 
