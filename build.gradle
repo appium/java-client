@@ -9,7 +9,7 @@ plugins {
     id 'signing'
     id 'org.owasp.dependencycheck' version '12.1.8'
     id 'com.gradleup.shadow' version '9.2.2'
-    id 'org.jreleaser' version '1.20.0'
+    id 'org.jreleaser' version '1.21.0'
 }
 
 ext {
