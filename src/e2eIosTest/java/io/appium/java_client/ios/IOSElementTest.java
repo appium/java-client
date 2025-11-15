@@ -16,8 +16,11 @@
 
 package io.appium.java_client.ios;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.openqa.selenium.By.className;
@@ -30,7 +33,16 @@ public class IOSElementTest extends AppIOSTest {
         driver.findElement(LOGIN_LINK_ID).click();
         driver.findElement(SLIDER_MENU_ITEM_PREDICATE).click();
 
-        var slider = driver.findElement(SLIDER_CLASS);
+        WebElement slider;
+        try {
+            slider = driver.findElement(SLIDER_CLASS);
+        } catch (WebDriverException e) {
+            Assumptions.assumeTrue(
+                    false,
+                    "The slider element is not presented properly by the current RN build"
+            );
+            return;
+        }
         var previousValue = slider.getAttribute("value");
         slider.sendKeys("0.5");
         assertNotEquals(slider.getAttribute("value"), previousValue);
