@@ -35,7 +35,7 @@ import java.util.function.Supplier;
 
 public class TestUtils {
     public static final String IOS_SIM_VODQA_RELEASE_URL =
-            "https://github.com/appium/VodQAReactNative/releases/download/v1.0.1/VodQAReactNative-simulator-release.zip";
+            "https://github.com/appium/VodQAReactNative/releases/download/v1.2.3/VodQAReactNative-simulator-release.zip";
 
     private TestUtils() {
     }

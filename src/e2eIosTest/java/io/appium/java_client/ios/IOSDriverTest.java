@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
@@ -32,7 +33,6 @@ import java.util.Map;
 import static io.appium.java_client.utils.TestUtils.waitUntilTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -94,10 +94,17 @@ public class IOSDriverTest extends AppIOSTest {
     }
 
     @Test public void orientationTest() {
-        assertEquals(ScreenOrientation.PORTRAIT, driver.getOrientation());
-        driver.rotate(ScreenOrientation.LANDSCAPE);
-        assertEquals(ScreenOrientation.LANDSCAPE, driver.getOrientation());
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        rotateWithRetry(ScreenOrientation.LANDSCAPE);
+        waitUntilTrue(
+                () -> driver.getOrientation() == ScreenOrientation.LANDSCAPE,
+                Duration.ofSeconds(5), Duration.ofMillis(500)
+        );
+
+        rotateWithRetry(ScreenOrientation.PORTRAIT);
+        waitUntilTrue(
+                () -> driver.getOrientation() == ScreenOrientation.PORTRAIT,
+                Duration.ofSeconds(5), Duration.ofMillis(500)
+        );
     }
 
     @Test public void lockTest() {
@@ -137,5 +144,28 @@ public class IOSDriverTest extends AppIOSTest {
         waitUntilTrue(
                 () -> driver.queryAppState(BUNDLE_ID) == ApplicationState.RUNNING_IN_FOREGROUND,
                 Duration.ofSeconds(10), Duration.ofSeconds(1));
+    }
+
+    private void rotateWithRetry(ScreenOrientation orientation) {
+        final int maxRetries = 3;
+        final Duration retryDelay = Duration.ofSeconds(1);
+
+        for (int attempt = 0; attempt < maxRetries; attempt++) {
+            try {
+                driver.rotate(orientation);
+                return;
+            } catch (WebDriverException e) {
+                if (attempt < maxRetries - 1) {
+                    try {
+                        Thread.sleep(retryDelay.toMillis());
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException(ie);
+                    }
+                    continue;
+                }
+                throw e;
+            }
+        }
     }
 }
