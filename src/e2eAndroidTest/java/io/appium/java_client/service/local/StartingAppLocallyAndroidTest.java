@@ -18,10 +18,10 @@ package io.appium.java_client.service.local;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
-import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.appium.java_client.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Capabilities;
