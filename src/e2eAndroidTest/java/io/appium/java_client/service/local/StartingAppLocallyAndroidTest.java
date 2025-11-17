@@ -17,8 +17,8 @@
 package io.appium.java_client.service.local;
 
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.TestResources;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.utils.TestUtils;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -44,7 +44,7 @@ class StartingAppLocallyAndroidTest {
         AndroidDriver driver = new AndroidDriver(new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
-                .setApp(TestResources.API_DEMOS_APK.toString()));
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL));
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -53,7 +53,7 @@ class StartingAppLocallyAndroidTest {
             );
             assertEquals(AutomationName.ANDROID_UIAUTOMATOR2, caps.getCapability(AUTOMATION_NAME_OPTION));
             assertNotNull(caps.getCapability(DEVICE_NAME_OPTION));
-            assertEquals(TestResources.API_DEMOS_APK.toString(), caps.getCapability(APP_OPTION));
+            assertEquals(TestUtils.ANDROID_APIDEMOS_APK_URL, caps.getCapability(APP_OPTION));
         } finally {
             driver.quit();
         }
@@ -68,7 +68,7 @@ class StartingAppLocallyAndroidTest {
         AndroidDriver driver = new AndroidDriver(builder, new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .autoGrantPermissions()
-                .setApp(TestResources.API_DEMOS_APK.toString()));
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL));
         try {
             Capabilities caps = driver.getCapabilities();
 
@@ -88,7 +88,7 @@ class StartingAppLocallyAndroidTest {
                 .fullReset()
                 .autoGrantPermissions()
                 .setNewCommandTimeout(Duration.ofSeconds(60))
-                .setApp(TestResources.API_DEMOS_APK.toString());
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL);
 
         WebDriverManager chromeManager = chromedriver();
         chromeManager.setup();
