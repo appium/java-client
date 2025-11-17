@@ -1,6 +1,5 @@
 package io.appium.java_client.service.local;
 
-import io.appium.java_client.android.TestResources;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -148,7 +147,7 @@ class ServerBuilderTest {
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
-                .setApp(TestResources.API_DEMOS_APK.toString())
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL)
                 .setChromedriverExecutable(chromeManager.getDownloadedDriverPath());
 
         service = new AppiumServiceBuilder().withCapabilities(options).build();
@@ -164,7 +163,7 @@ class ServerBuilderTest {
                 .setNewCommandTimeout(Duration.ofSeconds(60))
                 .setAppPackage("io.appium.android.apis")
                 .setAppActivity(".view.WebView1")
-                .setApp(TestResources.API_DEMOS_APK.toString())
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL)
                 .setChromedriverExecutable(chromeManager.getDownloadedDriverPath())
                 .amend("winPath", "C:\\selenium\\app.apk")
                 .amend("unixPath", "/selenium/app.apk")

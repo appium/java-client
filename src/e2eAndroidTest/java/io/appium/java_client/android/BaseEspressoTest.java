@@ -19,6 +19,7 @@ package io.appium.java_client.android;
 import io.appium.java_client.android.options.EspressoOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
+import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -42,7 +43,7 @@ public class BaseEspressoTest {
 
         EspressoOptions options = new EspressoOptions()
                 .setDeviceName("Android Emulator")
-                .setApp(TestResources.API_DEMOS_APK.toString())
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL)
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }

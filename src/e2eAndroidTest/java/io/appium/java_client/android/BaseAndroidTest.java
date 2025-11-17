@@ -19,6 +19,7 @@ package io.appium.java_client.android;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -45,7 +46,7 @@ public class BaseAndroidTest {
         UiAutomator2Options options = new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
                 .enableBiDi()
-                .setApp(TestResources.API_DEMOS_APK.toString())
+                .setApp(TestUtils.ANDROID_APIDEMOS_APK_URL)
                 .eventTimings();
         driver = new AndroidDriver(service.getUrl(), options);
     }
