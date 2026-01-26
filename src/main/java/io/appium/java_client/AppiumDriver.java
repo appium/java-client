@@ -413,14 +413,15 @@ public class AppiumDriver extends RemoteWebDriver implements
         }
         var executor = getCommandExecutor();
         final HttpClient wsClient;
+        AppiumClientConfig wsConfig;
         if (executor instanceof AppiumCommandExecutor) {
-            var wsConfig = ((AppiumCommandExecutor) executor).getAppiumClientConfig().baseUri(biDiUri);
+            wsConfig = ((AppiumCommandExecutor) executor).getAppiumClientConfig().baseUri(biDiUri);
             wsClient = ((AppiumCommandExecutor) executor).getHttpClientFactory().createClient(wsConfig);
         } else {
-            var wsConfig = AppiumClientConfig.defaultConfig().baseUri(biDiUri);
+            wsConfig = AppiumClientConfig.defaultConfig().baseUri(biDiUri);
             wsClient = HttpClient.Factory.createDefault().createClient(wsConfig);
         }
         var biDiConnection = new org.openqa.selenium.bidi.Connection(wsClient, biDiUri.toString());
-        this.biDi = new BiDi(biDiConnection);
+        this.biDi = new BiDi(biDiConnection, wsConfig.wsTimeout());
     }
 }
