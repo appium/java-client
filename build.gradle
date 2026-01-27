@@ -26,9 +26,13 @@ repositories {
 
     if (project.hasProperty("isCI")) {
         maven {
-            url uri('https://central.sonatype.com/api/v1/publisher')
+            name = 'Central Portal Snapshots'
+            url = 'https://central.sonatype.com/repository/maven-snapshots/'
             mavenContent {
                 snapshotsOnly()
+            }
+            content {
+                includeGroup("org.seleniumhq.selenium")
             }
         }
     }
