@@ -16,6 +16,7 @@
 
 package io.appium.java_client;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.Response;
@@ -37,8 +38,7 @@ public class AppiumExecutionMethod implements ExecuteMethod {
      * @return a command execution result
      */
     @Nullable
-    @SuppressWarnings("unchecked")
-    public <T> T execute(String commandName, @Nullable Map<String, ?> parameters) {
+    public Object execute(@NonNull String commandName, @Nullable Map<String, ?> parameters) {
         Response response;
 
         if (parameters == null || parameters.isEmpty()) {
@@ -47,6 +47,6 @@ public class AppiumExecutionMethod implements ExecuteMethod {
             response = driver.execute(commandName, parameters);
         }
 
-        return (T) response.getValue();
+        return response.getValue();
     }
 }
