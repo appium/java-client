@@ -62,8 +62,20 @@ class ListOutputStream extends OutputStream {
 
     @Override
     public void close() throws IOException {
+        IOException first = null;
         for (OutputStream stream : streams) {
-            stream.close();
+            try {
+                stream.close();
+            } catch (IOException e) {
+                if (first == null) {
+                    first = e;
+                } else {
+                    first.addSuppressed(e);
+                }
+            }
+        }
+        if (first != null) {
+            throw first;
         }
     }
 
