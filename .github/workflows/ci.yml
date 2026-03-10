@@ -79,14 +79,7 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v5
 
-    - name: Build with Gradle against Selenium nightly build
-      run: |
-        latest_snapshot=$(curl -sf https://raw.githubusercontent.com/SeleniumHQ/selenium/refs/heads/trunk/java/version.bzl | grep 'SE_VERSION' | sed 's/.*"\(.*\)".*/\1/')
-        echo ">>> $latest_snapshot"
-        echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
-        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
-
-    - name: Build with Gradle against stable Selenium version
+    - name: Build with Gradle
       run: |
         ./gradlew clean build -PisCI
 
