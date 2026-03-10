@@ -23,10 +23,10 @@ env:
   ANDROID_SDK_VERSION: "28"
   ANDROID_EMU_NAME: test
   ANDROID_EMU_TARGET: default
-  # https://github.com/actions/runner-images/blob/main/images/macos/macos-14-arm64-Readme.md
-  XCODE_VERSION: "15.4"
-  IOS_DEVICE_NAME: iPhone 15
-  IOS_PLATFORM_VERSION: "17.5"
+  # https://github.com/actions/runner-images/blob/main/images/macos (macos-15 for Xcode 16 / iOS 18.5)
+  XCODE_VERSION: "16.4"
+  IOS_DEVICE_NAME: iPhone 16
+  IOS_PLATFORM_VERSION: "18.5"
   FLUTTER_ANDROID_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/app-debug.apk"
   FLUTTER_IOS_APP: "https://github.com/AppiumTestDistribution/appium-flutter-server/releases/latest/download/ios.zip"
   PREBUILT_WDA_PATH: ${{ github.workspace }}/wda/WebDriverAgentRunner-Runner.app
@@ -38,28 +38,56 @@ jobs:
       matrix:
         include:
         - java: 17
-          # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
-          platform: macos-14
+          platform: macos-15
           e2e-tests: ios
+          selenium: stable
         - java: 17
-          # Need to use specific (not `-latest`) version of macOS to be sure the required version of Xcode/simulator is available
-          platform: macos-14
+          platform: macos-15
+          e2e-tests: ios
+          selenium: snapshot
+        - java: 17
+          platform: macos-15
           e2e-tests: flutter-ios
+          selenium: stable
+        - java: 17
+          platform: macos-15
+          e2e-tests: flutter-ios
+          selenium: snapshot
         - java: 17
           platform: ubuntu-latest
           e2e-tests: android
+          selenium: stable
+        - java: 17
+          platform: ubuntu-latest
+          e2e-tests: android
+          selenium: snapshot
         - java: 17
           platform: ubuntu-latest
           e2e-tests: flutter-android
+          selenium: stable
+        - java: 17
+          platform: ubuntu-latest
+          e2e-tests: flutter-android
+          selenium: snapshot
         - java: 21
           platform: ubuntu-latest
+          selenium: stable
+        - java: 21
+          platform: ubuntu-latest
+          selenium: snapshot
         - java: 25
           platform: ubuntu-latest
+          selenium: stable
+        - java: 25
+          platform: ubuntu-latest
+          selenium: snapshot
       fail-fast: false
 
     runs-on: ${{ matrix.platform }}
 
-    name: JDK ${{ matrix.java }} - ${{ matrix.platform }} ${{ matrix.e2e-tests }}
+    continue-on-error: ${{ matrix.selenium == 'snapshot' }}
+
+    name: JDK ${{ matrix.java }} - ${{ matrix.platform }} ${{ matrix.e2e-tests || 'build' }} (${{ matrix.selenium }})
     steps:
     - uses: actions/checkout@v6
 
@@ -79,16 +107,20 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v5
 
-    - name: Build with Gradle against Selenium nightly build
+    - name: Resolve Selenium snapshot version
+      if: matrix.selenium == 'snapshot'
       run: |
         latest_snapshot=$(curl -sf https://raw.githubusercontent.com/SeleniumHQ/selenium/refs/heads/trunk/java/version.bzl | grep 'SE_VERSION' | sed 's/.*"\(.*\)".*/\1/')
         echo ">>> $latest_snapshot"
         echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
-        ./gradlew clean build -PisCI -Pselenium.version=$latest_snapshot
 
-    - name: Build with Gradle against stable Selenium version
-      run: |
-        ./gradlew clean build -PisCI
+    - name: Build with Gradle (stable Selenium)
+      if: matrix.selenium == 'stable'
+      run: ./gradlew clean build
+
+    - name: Build with Gradle (snapshot Selenium)
+      if: matrix.selenium == 'snapshot'
+      run: ./gradlew clean build -Pselenium.version=$latest_snapshot
 
     - name: Install Node.js
       if: ${{ matrix.e2e-tests }}
@@ -112,7 +144,12 @@ jobs:
       if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        script: ./gradlew e2eAndroidTest -PisCI -Pselenium.version=$latest_snapshot
+        script: |
+          if [ "${{ matrix.selenium }}" = "snapshot" ]; then
+            ./gradlew e2eAndroidTest -Pselenium.version=$latest_snapshot
+          else
+            ./gradlew e2eAndroidTest
+          fi
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
         disable-spellchecker: true
@@ -123,7 +160,12 @@ jobs:
       if: matrix.e2e-tests == 'flutter-android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        script: ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
+        script: |
+          if [ "${{ matrix.selenium }}" = "snapshot" ]; then
+            ./gradlew e2eFlutterTest -Pplatform="android" -Pselenium.version=$latest_snapshot -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
+          else
+            ./gradlew e2eFlutterTest -Pplatform="android" -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
+          fi
         api-level: ${{ env.ANDROID_SDK_VERSION }}
         avd-name: ${{ env.ANDROID_EMU_NAME }}
         disable-spellchecker: true
@@ -151,8 +193,18 @@ jobs:
       run: appium driver run xcuitest download-wda-sim  --platform=ios --outdir=$(dirname "$PREBUILT_WDA_PATH")
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
-      run: ./gradlew e2eIosTest -PisCI -Pselenium.version=$latest_snapshot
+      run: |
+        if [ "${{ matrix.selenium }}" = "snapshot" ]; then
+          ./gradlew e2eIosTest -Pselenium.version=$latest_snapshot
+        else
+          ./gradlew e2eIosTest
+        fi
 
     - name: Run Flutter iOS E2E tests
       if: matrix.e2e-tests == 'flutter-ios'
-      run: ./gradlew e2eFlutterTest -Pplatform="ios" -Pselenium.version=$latest_snapshot -PisCI -PflutterApp=${{ env.FLUTTER_IOS_APP }}
+      run: |
+        if [ "${{ matrix.selenium }}" = "snapshot" ]; then
+          ./gradlew e2eFlutterTest -Pplatform="ios" -Pselenium.version=$latest_snapshot -PflutterApp=${{ env.FLUTTER_IOS_APP }}
+        else
+          ./gradlew e2eFlutterTest -Pplatform="ios" -PflutterApp=${{ env.FLUTTER_IOS_APP }}
+        fi
