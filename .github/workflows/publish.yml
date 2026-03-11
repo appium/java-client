@@ -2,11 +2,20 @@ name: Publish package to the Maven Central Repository
 on:
   release:
     types: [created]
+  workflow_dispatch:
+    branches: [master]
+    inputs:
+      release_tag:
+        description: 'Tag to publish (e.g. v10.1.0). Use for re-publishing a release.'
+        required: true
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.release.target_commitish == 'master'
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.release_tag) || github.ref }}
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
