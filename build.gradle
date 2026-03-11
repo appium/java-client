@@ -38,6 +38,10 @@ repositories {
     }
 }
 
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
