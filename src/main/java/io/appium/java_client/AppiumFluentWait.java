@@ -216,7 +216,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         return performIteration(isTrue, start, end);
     }
 
-    private <V extends @Nullable Object> @NonNull V performIteration(Function<? super T, ? extends V> isTrue, Instant start, Instant end) {
+    private <V extends @Nullable Object> @NonNull V performIteration(
+            Function<? super T, ? extends V> isTrue, Instant start, Instant end) {
         var iterationNumber = 1;
         Throwable lastException;
 
@@ -250,7 +251,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         }
     }
 
-    private <V> void handleTimeoutException(@Nullable Throwable lastException, Function<? super T, ? extends V> isTrue) {
+    private <V> void handleTimeoutException(
+            @Nullable Throwable lastException, Function<? super T, ? extends V> isTrue) {
         var message = Optional.of(getMessageSupplier())
                 .map(Supplier::get)
                 .orElseGet(() -> "waiting for " + isTrue);
