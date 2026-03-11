@@ -11,7 +11,6 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event.release.target_commitish == 'master'
     steps:
       - uses: actions/checkout@v6
         with:
