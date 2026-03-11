@@ -157,7 +157,7 @@ jobs:
         xcode-version: "${{ env.XCODE_VERSION }}"
     - name: Prepare iOS simulator
       if: (matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios') && matrix.selenium == 'stable'
-      uses: futureware-tech/simulator-action@v4
+      uses: futureware-tech/simulator-action@v5
       with:
         model: "${{ env.IOS_DEVICE_NAME }}"
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
