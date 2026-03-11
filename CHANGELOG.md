@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_10.1.0_
+- **[ENHANCEMENTS]**
+  - Add support for descendant and ancestor flutter locators [#2357](https://github.com/appium/java-client/pull/2357)
+- **[BUG FIX]**
+  - Fix `ListOutputStream.close()` to close all streams on failure [#2392](https://github.com/appium/java-client/pull/2392)
+  - Avoid using system default locale [#2352](https://github.com/appium/java-client/pull/2352)
+- **[REFACTOR]**
+  - Avoid using reflection to manage `AppiumCommandExecutor` state [#2356](https://github.com/appium/java-client/pull/2356)
+- **[DEPENDENCY CHANGE]**
+  - Bump minimum Selenium version from `4.35.0` to `4.40.0` [#2383](https://github.com/appium/java-client/pull/2383)
+  - Bump com.google.code.gson:gson from `2.13.1` to `2.13.2` [#2342](https://github.com/appium/java-client/pull/2342)
+  - Bump org.apache.commons:commons-lang3 from `3.18.0` to `3.20.0` [#2350](https://github.com/appium/java-client/pull/2350), [#2374](https://github.com/appium/java-client/pull/2374)
+
 _10.0.0_
 - **[DOCUMENTATION]**
   - Document the migration guide from v9 to v10 [#2331](https://github.com/appium/java-client/pull/2331) 
