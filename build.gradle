@@ -24,7 +24,9 @@ version = appiumClientVersion
 repositories {
     mavenCentral()
 
-    if (project.hasProperty("isCI")) {
+    // Only add Selenium snapshot repo when resolving a SNAPSHOT version.
+    // Release versions (e.g. from gradle.properties) resolve from Maven Central only.
+    if (project.property('selenium.version').toString().contains('SNAPSHOT')) {
         maven {
             name = 'Central Portal Snapshots'
             url = 'https://central.sonatype.com/repository/maven-snapshots/'
@@ -49,7 +51,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.42'
     annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
-    if (project.hasProperty("isCI")) {
+    // Pin exact Selenium version when using a SNAPSHOT (needs snapshot repo); otherwise use version range.
+    if (seleniumVersion.toString().contains('SNAPSHOT')) {
         api "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
         api "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
         api "org.seleniumhq.selenium:selenium-support:${seleniumVersion}"
