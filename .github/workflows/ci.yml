@@ -102,7 +102,7 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
 
-    name: e2e: ${{ matrix.platform }} ${{ matrix.e2e-tests }}
+    name: "e2e - ${{ matrix.platform }} ${{ matrix.e2e-tests }}"
     steps:
     - uses: actions/checkout@v6
 
