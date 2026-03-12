@@ -85,6 +85,7 @@ jobs:
       run: ./gradlew clean build -Pselenium.version=$latest_snapshot
 
   e2e:
+    needs: [build]
     if: github.event_name == 'pull_request'
 
     strategy:
