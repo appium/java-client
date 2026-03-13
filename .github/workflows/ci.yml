@@ -38,53 +38,26 @@ jobs:
       matrix:
         include:
         - java: 17
-          platform: macos-15
-          e2e-tests: ios
-          selenium: stable
-        - java: 17
-          platform: macos-15
-          e2e-tests: flutter-ios
-          selenium: stable
-        - java: 17
-          platform: ubuntu-latest
-          e2e-tests: android
-          selenium: stable
-        - java: 17
-          platform: ubuntu-latest
-          e2e-tests: flutter-android
           selenium: stable
         - java: 21
-          platform: ubuntu-latest
           selenium: stable
         - java: 25
-          platform: ubuntu-latest
           selenium: stable
-        # Snapshot: compile-only (no E2E) to verify compatibility with latest Selenium
         - java: 17
-          platform: ubuntu-latest
           selenium: snapshot
         - java: 21
-          platform: ubuntu-latest
           selenium: snapshot
         - java: 25
-          platform: ubuntu-latest
           selenium: snapshot
       fail-fast: false
 
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
 
     continue-on-error: ${{ matrix.selenium == 'snapshot' }}
 
-    name: JDK ${{ matrix.java }} - ${{ matrix.platform }} ${{ matrix.e2e-tests || 'build' }} (${{ matrix.selenium }})
+    name: JDK ${{ matrix.java }} build (${{ matrix.selenium }})
     steps:
     - uses: actions/checkout@v6
-
-    - name: Enable KVM group perms
-      if: (matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android') && matrix.selenium == 'stable'
-      run: |
-        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-        sudo udevadm control --reload-rules
-        sudo udevadm trigger --name-match=kvm
 
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v5
@@ -110,26 +83,63 @@ jobs:
       if: matrix.selenium == 'snapshot'
       run: ./gradlew clean build -Pselenium.version=$latest_snapshot
 
+  e2e:
+    needs: [build]
+    if: github.event_name == 'pull_request'
+
+    strategy:
+      matrix:
+        include:
+        - platform: macos-15
+          e2e-tests: ios
+        - platform: macos-15
+          e2e-tests: flutter-ios
+        - platform: ubuntu-latest
+          e2e-tests: android
+        - platform: ubuntu-latest
+          e2e-tests: flutter-android
+      fail-fast: false
+
+    runs-on: ${{ matrix.platform }}
+
+    name: "e2e - ${{ matrix.platform }} ${{ matrix.e2e-tests }}"
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Enable KVM group perms
+      if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+
+    - name: Set up JDK
+      uses: actions/setup-java@v5
+      with:
+        distribution: 'zulu'
+        java-version: 17
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v5
+
     - name: Install Node.js
-      if: ${{ matrix.e2e-tests && matrix.selenium == 'stable' }}
       uses: actions/setup-node@v6
       with:
         node-version: 'lts/*'
 
     - name: Install Appium
-      if: ${{ matrix.e2e-tests && matrix.selenium == 'stable' }}
       run: npm install --location=global appium
 
     - name: Install UIA2 driver
-      if: (matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android') && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
       run: appium driver install uiautomator2
 
     - name: Install Flutter Integration driver
-      if: (matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios') && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver install appium-flutter-integration-driver --source npm
 
     - name: Run Android E2E tests
-      if: matrix.e2e-tests == 'android' && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
         script: ./gradlew e2eAndroidTest
@@ -140,7 +150,7 @@ jobs:
         target: ${{ env.ANDROID_EMU_TARGET }}
 
     - name: Run Flutter Android E2E tests
-      if: matrix.e2e-tests == 'flutter-android' && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'flutter-android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
         script: ./gradlew e2eFlutterTest -Pplatform="android" -PflutterApp=${{ env.FLUTTER_ANDROID_APP }}
@@ -151,28 +161,32 @@ jobs:
         target: ${{ env.ANDROID_EMU_TARGET }}
 
     - name: Select Xcode
-      if: (matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios') && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: "${{ env.XCODE_VERSION }}"
+
     - name: Prepare iOS simulator
-      if: (matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios') && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       uses: futureware-tech/simulator-action@v5
       with:
         model: "${{ env.IOS_DEVICE_NAME }}"
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
         wait_for_boot: true
         shutdown_after_job: false
+
     - name: Install XCUITest driver
-      if: (matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios') && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver install xcuitest
+
     - name: Download prebuilt WDA
-      if: (matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios') && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
       run: appium driver run xcuitest download-wda-sim  --platform=ios --outdir=$(dirname "$PREBUILT_WDA_PATH")
+
     - name: Run iOS E2E tests
-      if: matrix.e2e-tests == 'ios' && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'ios'
       run: ./gradlew e2eIosTest
 
     - name: Run Flutter iOS E2E tests
-      if: matrix.e2e-tests == 'flutter-ios' && matrix.selenium == 'stable'
+      if: matrix.e2e-tests == 'flutter-ios'
       run: ./gradlew e2eFlutterTest -Pplatform="ios" -PflutterApp=${{ env.FLUTTER_IOS_APP }}
