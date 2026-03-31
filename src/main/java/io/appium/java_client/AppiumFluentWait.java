@@ -19,6 +19,9 @@ package io.appium.java_client;
 import com.google.common.base.Throwables;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -32,7 +35,9 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@NullMarked
 public class AppiumFluentWait<T> extends FluentWait<T> {
+    @Nullable
     private Function<IterationInfo, Duration> pollingStrategy = null;
 
     private static final Duration DEFAULT_POLL_DELAY_DURATION = Duration.ZERO;
@@ -133,7 +138,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         return ignoredExceptions;
     }
 
-    protected Supplier<String> getMessageSupplier() {
+    protected Supplier<@Nullable String> getMessageSupplier() {
         return messageSupplier;
     }
 
@@ -203,7 +208,7 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
      * @throws TimeoutException If the timeout expires.
      */
     @Override
-    public <V> V until(Function<? super T, V> isTrue) {
+    public <V extends @Nullable Object> @NonNull V until(Function<? super T, ? extends V> isTrue) {
         final var start = getClock().instant();
         // Adding pollDelay to end instant will allow to verify the condition for the expected timeout duration.
         final var end = start.plus(getTimeout()).plus(pollDelay);
@@ -211,7 +216,8 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         return performIteration(isTrue, start, end);
     }
 
-    private <V> V performIteration(Function<? super T, V> isTrue, Instant start, Instant end) {
+    private <V extends @Nullable Object> @NonNull V performIteration(
+            Function<? super T, ? extends V> isTrue, Instant start, Instant end) {
         var iterationNumber = 1;
         Throwable lastException;
 
@@ -245,8 +251,9 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         }
     }
 
-    private <V> void handleTimeoutException(Throwable lastException, Function<? super T, V> isTrue) {
-        var message = Optional.ofNullable(getMessageSupplier())
+    private <V> void handleTimeoutException(
+            @Nullable Throwable lastException, Function<? super T, ? extends V> isTrue) {
+        var message = Optional.of(getMessageSupplier())
                 .map(Supplier::get)
                 .orElseGet(() -> "waiting for " + isTrue);
 
