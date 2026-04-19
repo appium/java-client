@@ -1,7 +1,7 @@
 # Requirements
-- Installed Node.js 7 or greater. 
+- Installed Node.js 7 or greater.
 
-- At least an appium server instance installed via __npm__. 
+- At least an appium server instance installed via __npm__.
 
 # The basic principle.
 
@@ -10,7 +10,7 @@ It works the similar way as common [ChromeDriver](https://seleniumhq.github.io/s
 # How to prepare the local service before the starting
 
 
-## If there is no specific parameters then 
+## If there is no specific parameters then
 
 ```java
     import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -20,7 +20,7 @@ It works the similar way as common [ChromeDriver](https://seleniumhq.github.io/s
     service.start();
     ...
     service.stop();
-``` 
+```
 
 ### FYI
 
@@ -32,20 +32,23 @@ AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService(
 
 It is more usual for UNIX/LINUX-like OS's. Also there are situations when should be used an another Node.JS instance, e.g. the instance which is installed in the directory that differs from one defined at the PATH environmental variable. The same may be true for Appium node server (it is related to _appium.js_ file (v <= 1.4.16) and _main.js_ (v >= 1.5.0)).
 
-At this case user is able to set up values of the **NODE_BINARY_PATH** (The environmental variable used to define the path to executable NodeJS file (node.exe for WIN and node for Linux/MacOS X)) and the **APPIUM_BINARY_PATH** (The environmental variable used to define the path to executable appium.js (1.4.x and lower) or main.js (1.5.x and higher)) environmental variables/system properties. Also it is possible to define these values programmatically: 
+At this case user is able to set up values of the **NODE_BINARY_PATH** (The environmental variable used to define the path to executable NodeJS file (node.exe for WIN and node for Linux/MacOS X)) and the **APPIUM_BINARY_PATH** (The environmental variable used to define the path to executable appium.js (1.4.x and lower) or main.js (1.5.x and higher)) environmental variables/system properties. Also it is possible to define these values programmatically:
 
 ```java
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+
 //appium.node.js.exec.path
-System.setProperty(AppiumServiceBuilder.NODE_PATH , 
+System.setProperty(AppiumServiceBuilder.NODE_PATH,
 "the path to the desired node.js executable");
 
-System.setProperty(AppiumServiceBuilder.APPIUM_PATH , 
+System.setProperty(AppiumServiceBuilder.APPIUM_PATH,
 "the path to the desired appium.js or main.js");
 
 AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
 ```
 
-## If there should be non default parameters specified then 
+## If there should be non default parameters specified then
 
 ```java
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -57,9 +60,9 @@ AppiumDriverLocalService service = AppiumDriverLocalService.
 buildService(new AppiumServiceBuilder().
 withArgument(GeneralServerFlag.TEMP_DIRECTORY,
                     "The_path_to_the_temporary_directory"));
-``` 
+```
 
-or 
+or
 
 ```java
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -70,7 +73,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 AppiumDriverLocalService service = new AppiumServiceBuilder().
 withArgument(GeneralServerFlag.TEMP_DIRECTORY,
                     "The_path_to_the_temporary_directory").build();
-``` 
+```
 
 Lists of available server side flags are here:
 
@@ -78,56 +81,56 @@ Lists of available server side flags are here:
 - io.appium.java_client.service.local.flags.AndroidServerFlag;
 - io.appium.java_client.service.local.flags.IOSServerFlag
 
- 
+
 ## Which parameters also can be defined
 
 - If it is necessary to define some specific port or any free port
 
 ```java
 new AppiumServiceBuilder().usingPort(4000);
-``` 
+```
 
-or 
+or
 
 ```java
 new AppiumServiceBuilder().usingAnyFreePort();
-``` 
+```
 
 - If it is necessary to use another IP address
 
 ```java
 new AppiumServiceBuilder().withIPAddress("127.0.0.1");
-``` 
+```
 
 - If it is necessary to define output log file
 
 ```java
-import java.io.File; 
+import java.io.File;
   ...
 
 new AppiumServiceBuilder().withLogFile(logFile);
-``` 
+```
 
 - If it is necessary to define another Node.js executable file
 
 ```java
 import java.io.File;
- 
+
 ...
 
 new AppiumServiceBuilder().usingDriverExecutable(nodeJSExecutable);
-``` 
+```
 
 - If it is necessary to define another appium.js/main.js file
 
 ```java
 import java.io.File;
- 
+
 ...
-//appiumJS is the full or relative path to 
+//appiumJS is the full or relative path to
 //the appium.js (v<=1.4.16) or main.js (v>=1.5.0)
 new AppiumServiceBuilder().withAppiumJS(new File(appiumJS));
-``` 
+```
 
 - It is possible to define server capabilities (node server v >= 1.5.0)
 
@@ -152,7 +155,7 @@ serverCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emul
 serverCapabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
 serverCapabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
 serverCapabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE, 
+serverCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
 chrome.getAbsolutePath()); //this capability set can be used for all cases
 
 AppiumServiceBuilder builder = new AppiumServiceBuilder().
@@ -160,31 +163,31 @@ withCapabilities(serverCapabilities);
 AppiumDriverLocalService service = builder.build();
 
 DesiredCapabilities clientCapabilities = new DesiredCapabilities();
-clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, 
+clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,
 "io.appium.android.apis");
-clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, 
+clientCapabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,
 ".view.WebView1");
 ```
 
 then
 
 ```java
-AndroidDriver<MobileElement> driver = 
+AndroidDriver<MobileElement> driver =
 new AndroidDriver<>(service, clientCapabilities);
 ```
 
-or 
+or
 
 ```java
-AndroidDriver<MobileElement> driver = 
+AndroidDriver<MobileElement> driver =
 new AndroidDriver<>(builder, clientCapabilities);
 ```
 
-or 
+or
 
 ```java
 service.start();
-AndroidDriver<MobileElement> driver = 
+AndroidDriver<MobileElement> driver =
 new AndroidDriver<>(service.getUrl(), clientCapabilities);
 ```
 
@@ -219,7 +222,7 @@ public AndroidDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClie
             org.openqa.selenium.Capabilities desiredCapabilities)
 
 public AndroidDriver(org.openqa.selenium.Capabilities desiredCapabilities)
-``` 
+```
 
 ```java
 public IOSDriver(URL remoteAddress,
@@ -247,20 +250,20 @@ public IOSDriver(org.openqa.selenium.remote.http.HttpClient.Factory httpClientFa
             org.openqa.selenium.Capabilities desiredCapabilities)
 
 public IOSDriver(org.openqa.selenium.Capabilities desiredCapabilities)
-``` 
+```
 
 An instance of __AppiumDriverLocalService__ which has passed through constructors will be stopped when
 
 ```java
   driver.quit();
-``` 
+```
 
 If it is necessary to keep the service alive during a long time then something like that is available
 
 ```java
   service.start();
-  
+
   ....
 
   new IOSDriver<MobileElement>(service.getUrl(), capabilities)
-``` 
+```

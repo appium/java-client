@@ -64,11 +64,10 @@ public final class AppiumServiceBuilder
     public static final String APPIUM_PATH = "APPIUM_BINARY_PATH";
 
     /**
-     * The environmental variable used to define
-     * the path to executable NodeJS file (node.exe for WIN and
-     * node for Linux/MacOS X).
+     * System property and environment variable name for the Node.js executable path
+     * (node.exe on Windows, node on Linux/macOS).
      */
-    private static final String NODE_PATH = "NODE_BINARY_PATH";
+    public static final String NODE_PATH = "NODE_BINARY_PATH";
 
     public static final String BROADCAST_IP4_ADDRESS = "0.0.0.0";
     public static final String BROADCAST_IP6_ADDRESS = "::";
