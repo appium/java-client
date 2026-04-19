@@ -118,6 +118,24 @@ public final class AppiumDriverLocalService extends DriverService {
         return basePath == null ? url : addSuffix(url, basePath);
     }
 
+    /**
+     * System property checked by Selenium {@code DriverFinder} when the executable path is not set
+     * explicitly. Matches {@link AppiumServiceBuilder#NODE_PATH}.
+     */
+    @Override
+    public String getDriverProperty() {
+        return AppiumServiceBuilder.NODE_PATH;
+    }
+
+    /**
+     * Environment variable checked by Selenium {@code DriverFinder} when the executable path is not
+     * set explicitly. Matches {@link AppiumServiceBuilder#NODE_PATH}.
+     */
+    @Override
+    public String getDriverEnvironmentVariable() {
+        return AppiumServiceBuilder.NODE_PATH;
+    }
+
     @Override
     public boolean isRunning() {
         lock.lock();
