@@ -16,6 +16,8 @@
 
 package io.appium.java_client;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.Response;
 
@@ -35,7 +37,8 @@ public class AppiumExecutionMethod implements ExecuteMethod {
      * @param parameters is a map which contains parameter names as keys and parameter values
      * @return a command execution result
      */
-    public Object execute(String commandName, Map<String, ?> parameters) {
+    @Nullable
+    public Object execute(@NonNull String commandName, @Nullable Map<String, ?> parameters) {
         Response response;
 
         if (parameters == null || parameters.isEmpty()) {
