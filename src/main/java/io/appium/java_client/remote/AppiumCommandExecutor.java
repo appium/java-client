@@ -18,6 +18,7 @@ package io.appium.java_client.remote;
 
 import com.google.common.base.Throwables;
 import io.appium.java_client.AppiumClientConfig;
+import io.appium.java_client.internal.DirectConnectUrlSafety;
 import io.appium.java_client.internal.ReflectionHelpers;
 import lombok.Getter;
 import org.jspecify.annotations.NullMarked;
@@ -155,9 +156,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * Override the http client in the HttpCommandExecutor class with a new http client instance with the given URL.
      * It uses the same http client factory and client config for the new http client instance
      * if the constructor got them.
-     * @param serverUrl A url to override.
+     *
+     * @param serverUrl A url to override. The host must resolve only to routable addresses; loopback,
+     *                  link-local (including metadata service ranges), wildcard, and multicast targets
+     *                  are rejected.
      */
     protected void overrideServerUrl(URL serverUrl) {
+        DirectConnectUrlSafety.requireSafeOverrideTarget(serverUrl);
         HttpClient newClient = getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl));
         setPrivateFieldValue(HttpCommandExecutor.class, "client", newClient);
     }
