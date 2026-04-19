@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_10.1.1_
+- **[BUG FIX]**
+  - Perform additional security checks on `overrideServerUrl` API [#2408](https://github.com/appium/java-client/pull/2408)
+  - Make the library compatible to Selenium 4.44 [#2410](https://github.com/appium/java-client/pull/2410)
+- **[DEPENDENCY CHANGE]**
+  - Bump minimum Selenium version from `4.40.0` to `4.42.0` [#2390](https://github.com/appium/java-client/pull/2390)
+
 _10.1.0_
 - **[ENHANCEMENTS]**
   - Add support for descendant and ancestor flutter locators [#2357](https://github.com/appium/java-client/pull/2357)
@@ -20,7 +27,7 @@ _10.1.0_
 
 _10.0.0_
 - **[DOCUMENTATION]**
-  - Document the migration guide from v9 to v10 [#2331](https://github.com/appium/java-client/pull/2331) 
+  - Document the migration guide from v9 to v10 [#2331](https://github.com/appium/java-client/pull/2331)
   - updated maven central release badge [#2316](https://github.com/appium/java-client/pull/2316)
   - updated CI badge to use ci.yml workflow [#2317](https://github.com/appium/java-client/pull/2317)
 - **[BREAKING CHANGE]** [#2327](https://github.com/appium/java-client/pull/2327)
