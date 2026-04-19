@@ -21,9 +21,14 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 /**
- * Validates URLs supplied for {@code overrideServerUrl} so that session traffic cannot be
- * silently redirected to loopback, link-local (including cloud metadata), wildcard, or multicast
- * destinations.
+ * Validates URLs used with {@code overrideServerUrl} (for example after a {@code directConnect}
+ * response). Refuses the override when any resolved address is loopback, link-local (including
+ * typical cloud metadata IPv4 link-local space), unspecified, or multicast.
+ *
+ * <p>This is not a full &quot;public internet only&quot; policy: RFC 1918 private space, shared
+ * address space ({@code 100.64.0.0/10}), IPv6 unique-local ({@code fc00::/7}), and other addresses
+ * outside the checks above are still accepted. Stricter control belongs at the application or
+ * network layer (allowlists, egress rules, etc.).
  */
 public final class DirectConnectUrlSafety {
 
@@ -31,12 +36,12 @@ public final class DirectConnectUrlSafety {
     }
 
     /**
-     * Ensures the given URL's host does not resolve to an address that is unsafe for automatic
-     * redirection after session creation.
+     * Ensures the given URL's host does not resolve to loopback, link-local, unspecified, or
+     * multicast addresses (see class documentation for what is still allowed).
      *
      * @param url candidate server URL
      * @throws SessionNotCreatedException if the host is missing, cannot be resolved, or resolves
-     *         to a disallowed address
+     *         to any address in the disallowed categories
      */
     public static void requireSafeOverrideTarget(URL url) throws SessionNotCreatedException {
         String host = url.getHost();

@@ -157,9 +157,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * It uses the same http client factory and client config for the new http client instance
      * if the constructor got them.
      *
-     * @param serverUrl A url to override. The host must resolve only to routable addresses; loopback,
-     *                  link-local (including metadata service ranges), wildcard, and multicast targets
-     *                  are rejected.
+     * @param serverUrl URL to use for subsequent HTTP requests. Before switching clients, the host is
+     *                  resolved and the override is refused if any resolved address is loopback,
+     *                  link-local (including IPv4 link-local such as metadata-service ranges),
+     *                  unspecified ({@code 0.0.0.0} / {@code ::}), or multicast. Private (RFC 1918),
+     *                  carrier-grade NAT ({@code 100.64.0.0/10}), IPv6 unique-local ({@code fc00::/7}),
+     *                  and other non-special addresses are not rejected by this check.
      */
     protected void overrideServerUrl(URL serverUrl) {
         DirectConnectUrlSafety.requireSafeOverrideTarget(serverUrl);

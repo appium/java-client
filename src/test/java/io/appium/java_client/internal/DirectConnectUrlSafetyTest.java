@@ -1,6 +1,8 @@
 package io.appium.java_client.internal;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.SessionNotCreatedException;
 
 import java.net.MalformedURLException;
@@ -18,27 +20,18 @@ class DirectConnectUrlSafetyTest {
                 new URL("https://203.0.113.1/wd/hub")));
     }
 
-    @Test
-    void rejectsIpv4Loopback() throws MalformedURLException {
-        assertThrows(SessionNotCreatedException.class, () -> DirectConnectUrlSafety.requireSafeOverrideTarget(
-                new URL("https://127.0.0.1:4443/wd/hub")));
-    }
-
-    @Test
-    void rejectsLocalhost() throws MalformedURLException {
-        assertThrows(SessionNotCreatedException.class, () -> DirectConnectUrlSafety.requireSafeOverrideTarget(
-                new URL("https://localhost:4443/wd/hub")));
-    }
-
-    @Test
-    void rejectsLinkLocalMetadataIp() throws MalformedURLException {
-        assertThrows(SessionNotCreatedException.class, () -> DirectConnectUrlSafety.requireSafeOverrideTarget(
-                new URL("https://169.254.169.254/wd/hub")));
-    }
-
-    @Test
-    void rejectsIpv6Loopback() throws MalformedURLException {
-        assertThrows(SessionNotCreatedException.class, () -> DirectConnectUrlSafety.requireSafeOverrideTarget(
-                new URL("https://[::1]:4443/wd/hub")));
+    @ParameterizedTest(name = "[{index}] {0}")
+    @ValueSource(strings = {
+        "https://127.0.0.1:4443/wd/hub",
+        "https://localhost:4443/wd/hub",
+        "https://169.254.169.254/wd/hub",
+        "https://[::1]:4443/wd/hub",
+        "https://0.0.0.0:4443/wd/hub",
+        "https://[::]:4443/wd/hub",
+        "https://224.0.0.1:4443/wd/hub",
+    })
+    void rejectsDisallowedOverrideTargets(String urlSpec) throws MalformedURLException {
+        assertThrows(SessionNotCreatedException.class,
+                () -> DirectConnectUrlSafety.requireSafeOverrideTarget(new URL(urlSpec)));
     }
 }
