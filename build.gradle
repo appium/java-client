@@ -52,8 +52,8 @@ java {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.44'
-    annotationProcessor 'org.projectlombok:lombok:1.18.44'
+    compileOnly 'org.projectlombok:lombok:1.18.46'
+    annotationProcessor 'org.projectlombok:lombok:1.18.46'
 
     // Pin exact Selenium version when using a SNAPSHOT (needs snapshot repo); otherwise use version range.
     if (seleniumVersion.toString().contains('SNAPSHOT')) {
