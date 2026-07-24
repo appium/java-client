@@ -170,6 +170,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         );
         executor.setCommandCodec(new AppiumW3CHttpCommandCodec());
         executor.setResponseCodec(new W3CHttpResponseCodec());
+        executor.refreshAdditionalCommands();
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
