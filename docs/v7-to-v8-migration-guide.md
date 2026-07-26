@@ -85,7 +85,7 @@ Please use [W3C Actions](https://w3c.github.io/webdriver/#actions) instead
 or the corresponding extension methods for the driver (if available).
 Check
   - https://www.youtube.com/watch?v=oAJ7jwMNFVU
-  - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
+  - https://www.headspin.io/blog/ios-specific-touch-action-methods
   - Android gesture shortcuts:
     * [mobile: longClickGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-longclickgesture)
     * [mobile: doubleClickGesture](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md#mobile-doubleclickgesture)
@@ -107,7 +107,7 @@ Check
     * [mobile: dragFromToForDuration](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-dragfromtoforduration)
     * [mobile: dragFromToWithVelocity](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-dragfromtowithvelocity)
     * [mobile: scrollToElement](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/execute-methods.md#mobile-scrolltoelement)
-  - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
+  - https://www.headspin.io/blog/automating-complex-gestures-with-the-w3c-actions-api
 for more details on how to properly apply W3C Actions to your automation context.
 
 ## resetApp/launchApp/closeApp

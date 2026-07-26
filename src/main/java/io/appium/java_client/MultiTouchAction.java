@@ -45,8 +45,8 @@ import static java.util.stream.Collectors.toList;
  *     extension methods for the driver (if available).
  *     Check
  *     - https://www.youtube.com/watch?v=oAJ7jwMNFVU
- *     - https://appiumpro.com/editions/30-ios-specific-touch-action-methods
- *     - https://appiumpro.com/editions/29-automating-complex-gestures-with-the-w3c-actions-api
+ *     - https://www.headspin.io/blog/ios-specific-touch-action-methods
+ *     - https://www.headspin.io/blog/automating-complex-gestures-with-the-w3c-actions-api
  *     for more details.
  */
 @Deprecated
