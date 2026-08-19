@@ -7,7 +7,7 @@ plugins {
     id 'maven-publish'
     id 'jacoco'
     id 'signing'
-    id 'org.owasp.dependencycheck' version '12.2.2'
+    id 'org.owasp.dependencycheck' version '13.0.0'
     id 'com.gradleup.shadow' version '9.6.1'
     id 'org.jreleaser' version '1.25.0'
 }
