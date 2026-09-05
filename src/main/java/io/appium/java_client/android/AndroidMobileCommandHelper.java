@@ -141,7 +141,8 @@ public class AndroidMobileCommandHelper extends MobileCommand {
     /**
      * This method forms a {@link Map} of parameters for the finger print authentication invocation.
      *
-     * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
+     * @param fingerPrintId enrolled virtual fingerprint id passed to
+     *                      {@code adb emu finger touch}, not the emulator UI Finger 1-10 labels
      * @return a key-value pair. The key is the command name. The value is a {@link Map} command arguments.
      */
     @Deprecated
