@@ -59,6 +59,11 @@ enum Strategies {
             return By.tagName(getValue(annotation, this));
         }
     },
+    BY_VIEW_TAG("viewTag") {
+        @Override By getBy(Annotation annotation) {
+            return AppiumBy.androidViewTag(getValue(annotation, this));
+        }
+    },
     BYNAME("name") {
         @Override By getBy(Annotation annotation) {
             return AppiumBy.name(getValue(annotation, this));
