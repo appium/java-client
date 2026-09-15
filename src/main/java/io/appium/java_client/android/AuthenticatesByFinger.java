@@ -14,7 +14,8 @@ public interface AuthenticatesByFinger extends ExecutesMethod, CanRememberExtens
     /**
      * Authenticate users by using their finger print scans on supported emulators.
      *
-     * @param fingerPrintId finger prints stored in Android Keystore system (from 1 to 10)
+     * @param fingerPrintId enrolled virtual fingerprint id passed to
+     *                      {@code adb emu finger touch}, not the emulator UI Finger 1-10 labels
      */
     default void fingerPrint(int fingerPrintId) {
         final String extName = "mobile: fingerprint";
