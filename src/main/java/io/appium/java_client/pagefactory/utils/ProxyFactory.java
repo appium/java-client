@@ -28,7 +28,6 @@ import java.util.Set;
 
 import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
-import static net.bytebuddy.matcher.ElementMatchers.isAbstract;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
@@ -89,8 +88,6 @@ public final class ProxyFactory {
     ) {
         ElementMatcher<MethodDescription> extraMatcher = not(
                 namedOneOf(NON_PROXYABLE_METHODS.toArray(new String[0]))
-        ).and(
-                not(isAbstract())
         );
         return createProxy(
                 cls,
