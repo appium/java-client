@@ -51,6 +51,14 @@ java {
     withSourcesJar()
 }
 
+['jar', 'sourcesJar', 'javadocJar'].each { archiveTask ->
+    tasks.named(archiveTask, Jar) {
+        from(rootProject.files('LICENSE', 'NOTICE')) {
+            into 'META-INF'
+        }
+    }
+}
+
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.48'
     annotationProcessor 'org.projectlombok:lombok:1.18.48'
