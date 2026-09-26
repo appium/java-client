@@ -39,7 +39,12 @@ public class ElementInterceptor extends InterceptorOfASingleElement {
     protected Object getObject(WebElement element, Method method, Object[] args)
         throws Throwable {
         try {
-            return method.invoke(element, args);
+            Method methodToInvoke = method;
+            if (!method.getDeclaringClass().isInstance(element)) {
+                // Selenium decorators may expose WebElement without extending RemoteWebElement.
+                methodToInvoke = WebElement.class.getMethod(method.getName(), method.getParameterTypes());
+            }
+            return methodToInvoke.invoke(element, args);
         } catch (Throwable t) {
             throw extractReadableException(t);
         }
