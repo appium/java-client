@@ -51,21 +51,22 @@ public class ErrorCodesMobile extends ErrorCodes {
     }
 
     /**
-     * Returns the exception type that corresponds to the given {@code message}or {@code null} if
-     * there are no matching mobile exceptions.
+     * Returns the exception type that corresponds to the given {@code message}. Messages that do not
+     * match a mobile exception are resolved by the standard W3C error mapping.
      *
      * @param message message An error message returned by Appium server
-     * @return The exception type that corresponds to the provided error message or {@code null} if
-     *     there are no matching mobile exceptions.
+     * @return The exception type that corresponds to the provided error message.
      */
     @Override
     public Class<? extends WebDriverException> getExceptionType(String message) {
-        for (Map.Entry<Integer, String> entry : statusToState.entrySet()) {
-            if (message.contains(entry.getValue())) {
-                return getExceptionType(entry.getKey());
+        if (message != null) {
+            for (Map.Entry<Integer, String> entry : statusToState.entrySet()) {
+                if (message.contains(entry.getValue())) {
+                    return getExceptionType(entry.getKey());
+                }
             }
         }
-        return null;
+        return super.getExceptionType(message);
     }
 
     /**
