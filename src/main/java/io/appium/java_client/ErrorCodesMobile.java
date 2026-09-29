@@ -17,6 +17,7 @@
 
 package io.appium.java_client;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.ErrorCodes;
 
@@ -58,7 +59,7 @@ public class ErrorCodesMobile extends ErrorCodes {
      * @return The exception type that corresponds to the provided error message.
      */
     @Override
-    public Class<? extends WebDriverException> getExceptionType(String message) {
+    public Class<? extends WebDriverException> getExceptionType(@Nullable String message) {
         if (message != null) {
             for (Map.Entry<Integer, String> entry : statusToState.entrySet()) {
                 if (message.contains(entry.getValue())) {
