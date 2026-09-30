@@ -15,7 +15,7 @@ plugins {
 ext {
     seleniumVersion = project.property('selenium.version')
     appiumClientVersion = project.property('appiumClient.version')
-    slf4jVersion = '2.0.19'
+    slf4jVersion = '2.0.20'
 }
 
 group = 'io.appium'
