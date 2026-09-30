@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableOption;
 import io.appium.java_client.android.options.signing.SupportsKeystoreOptions;
+import io.appium.java_client.internal.process.ExecutableFinder;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.options.SupportsAppOption;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -28,7 +29,6 @@ import lombok.SneakyThrows;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.os.ExecutableFinder;
 import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.service.DriverService;
 
