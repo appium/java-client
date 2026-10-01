@@ -60,6 +60,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private final Optional<DriverService> serviceOptional;
     @Getter
     private final AppiumClientConfig appiumClientConfig;
+    // HttpCommandExecutor no longer keeps the factory, but direct connect and BiDi need it.
+    private final Factory httpClientFactory;
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -74,13 +76,21 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             @Nullable DriverService service,
             @Nullable Factory httpClientFactory,
             AppiumClientConfig appiumClientConfig) {
-        super(additionalCommands,
-                appiumClientConfig,
-                ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
-        );
+        this(ofNullable(httpClientFactory).orElseGet(Factory::createDefault),
+                additionalCommands, service, appiumClientConfig);
+    }
+
+    private AppiumCommandExecutor(
+            Factory httpClientFactory,
+            Map<String, CommandInfo> additionalCommands,
+            @Nullable DriverService service,
+            AppiumClientConfig appiumClientConfig) {
+        super(httpClientFactory.createClient(appiumClientConfig), additionalCommands,
+                appiumClientConfig.baseUrl());
         serviceOptional = ofNullable(service);
 
         this.appiumClientConfig = appiumClientConfig;
+        this.httpClientFactory = httpClientFactory;
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
@@ -148,7 +158,9 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this.responseCodec = codec;
     }
 
-    protected HttpClient getClient() {
+    // Selenium deprecated only the public access to this field; subclasses can keep reading it.
+    @SuppressWarnings("removal")
+    public HttpClient getClient() {
         return this.client;
     }
 

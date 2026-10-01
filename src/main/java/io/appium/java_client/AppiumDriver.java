@@ -17,6 +17,7 @@
 package io.appium.java_client;
 
 import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
@@ -34,6 +35,7 @@ import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.bidi.BiDi;
 import org.openqa.selenium.bidi.BiDiException;
+import org.openqa.selenium.bidi.Handle;
 import org.openqa.selenium.bidi.HasBiDi;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.CommandInfo;
@@ -98,7 +100,17 @@ public class AppiumDriver extends RemoteWebDriver implements
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
+        this.remoteAddress = getServerUrl(executor);
+    }
+
+    // Selenium deprecated getAddressOfRemoteServer() without a replacement, so it is only used
+    // for executors that are not Appium's.
+    @SuppressWarnings("removal")
+    private static URL getServerUrl(HttpCommandExecutor executor) {
+        if (executor instanceof AppiumCommandExecutor) {
+            return ((AppiumCommandExecutor) executor).getAppiumClientConfig().baseUrl();
+        }
+        return executor.getAddressOfRemoteServer();
     }
 
     public AppiumDriver(AppiumClientConfig clientConfig, Capabilities capabilities) {
@@ -174,7 +186,7 @@ public class AppiumDriver extends RemoteWebDriver implements
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
+        this.remoteAddress = executor.getAppiumClientConfig().baseUrl();
 
         setSessionId(sessionAddress.getId());
     }
@@ -265,11 +277,15 @@ public class AppiumDriver extends RemoteWebDriver implements
         return this;
     }
 
+    // Selenium deprecated getBiDi() and maybeGetBiDi(), but has no replacement yet for listeners
+    // scoped to a browsing context (e.g. NATIVE_CONTEXT), so Appium keeps them for its users.
+    @SuppressWarnings("removal")
     @Override
     public Optional<BiDi> maybeGetBiDi() {
         return Optional.ofNullable(this.biDi);
     }
 
+    @SuppressWarnings("removal")
     @Override
     @NonNull
     public BiDi getBiDi() {
@@ -299,8 +315,19 @@ public class AppiumDriver extends RemoteWebDriver implements
         return this.biDi;
     }
 
+    @Override
+    public Handle getHandle() {
+        return getBiDi().asHandle();
+    }
+
     protected HttpClient getHttpClient() {
-        return ((HttpCommandExecutor) getCommandExecutor()).client;
+        var executor = getCommandExecutor();
+        if (executor instanceof AppiumCommandExecutor) {
+            return ((AppiumCommandExecutor) executor).getClient();
+        }
+        // HttpCommandExecutor.client is becoming protected in Selenium, so read it reflectively.
+        return ReflectionHelpers.getPrivateFieldValue(
+                HttpCommandExecutor.class, executor, "client", HttpClient.class);
     }
 
     @Override
