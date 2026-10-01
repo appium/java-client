@@ -16,8 +16,9 @@
 
 package io.appium.java_client.plugins.storage;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.json.Json;
 import org.openqa.selenium.remote.ErrorCodec;
 import org.openqa.selenium.remote.codec.AbstractHttpResponseCodec;
 import org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec;
@@ -31,6 +32,7 @@ import org.openqa.selenium.remote.http.HttpResponse;
 import org.openqa.selenium.remote.http.WebSocket;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,7 +56,8 @@ import static io.appium.java_client.plugins.storage.StorageUtils.streamFileToWeb
  */
 public class StorageClient {
     public static final String PREFIX = "/storage";
-    private final Json json = new Json();
+    private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();
+    private final Gson gson = new Gson();
     private final AbstractHttpResponseCodec responseCodec = new W3CHttpResponseCodec();
     private final ErrorCodec errorCodec = ErrorCodec.createDefault();
 
@@ -186,7 +189,7 @@ public class StorageClient {
     }
 
     private HttpRequest setJsonPayload(HttpRequest request, Map<String, Object> payload) {
-        var strData = json.toJson(payload);
+        var strData = gson.toJson(payload);
         var data = strData.getBytes(StandardCharsets.UTF_8);
         request.setHeader(HttpHeader.ContentLength.getName(), String.valueOf(data.length));
         request.setHeader(HttpHeader.ContentType.getName(), "application/json; charset=utf-8");
@@ -233,7 +236,7 @@ public class StorageClient {
 
         private Optional<WebDriverException> extractException(String payload) {
             try {
-                Map<String, Object> record = json.toType(payload, Json.MAP_TYPE);
+                Map<String, Object> record = gson.fromJson(payload, MAP_TYPE);
                 //noinspection unchecked
                 var value = (Map<String, Object>) record.get("value");
                 if ((Boolean) value.get("success")) {

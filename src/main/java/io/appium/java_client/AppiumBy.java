@@ -17,13 +17,13 @@
 package io.appium.java_client;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.Remotable;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.json.Json;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -383,7 +383,7 @@ public abstract class AppiumBy extends By implements Remotable {
     }
 
     public abstract static class FlutterByHierarchy extends FlutterBy {
-        private static final Json JSON = new Json();
+        private static final Gson GSON = new Gson();
 
         protected FlutterByHierarchy(
                 String selector,
@@ -404,7 +404,7 @@ public abstract class AppiumBy extends By implements Remotable {
             locator.put("of", parseFlutterLocator(of));
             locator.put("matching", parseFlutterLocator(matching));
             locator.put("parameters", properties);
-            return JSON.toJson(locator);
+            return GSON.toJson(locator);
         }
     }
 

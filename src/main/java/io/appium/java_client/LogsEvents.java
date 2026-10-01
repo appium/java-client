@@ -16,11 +16,11 @@
 
 package io.appium.java_client;
 
+import com.google.gson.Gson;
 import io.appium.java_client.serverevents.CommandEvent;
 import io.appium.java_client.serverevents.CustomEvent;
 import io.appium.java_client.serverevents.ServerEvents;
 import io.appium.java_client.serverevents.TimedEvent;
-import org.openqa.selenium.json.Json;
 import org.openqa.selenium.remote.Response;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public interface LogsEvents extends ExecutesMethod {
      */
     default ServerEvents getEvents() {
         Response response = execute(GET_EVENTS);
-        String jsonData = new Json().toJson(response.getValue());
+        String jsonData = new Gson().toJson(response.getValue());
 
         //noinspection unchecked
         Map<String, Object> value = (Map<String, Object>) response.getValue();
