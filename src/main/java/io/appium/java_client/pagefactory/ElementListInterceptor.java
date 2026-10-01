@@ -17,8 +17,8 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
+import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Method;
 import java.util.List;

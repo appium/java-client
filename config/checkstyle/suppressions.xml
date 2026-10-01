@@ -2,4 +2,5 @@
 <!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 <suppressions>
     <suppress checks="MissingJavadocMethod" files="(.*Test(s)?|/TestUtils|/EmptyWebDriver).java" />
+    <suppress checks="ImportControl" files="[\\/]src[\\/](test|e2e[A-Za-z]*)[\\/]" />
 </suppressions>

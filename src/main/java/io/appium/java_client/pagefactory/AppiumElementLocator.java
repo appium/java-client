@@ -18,6 +18,7 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.support.ui.FluentWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -25,7 +26,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
 
 import java.lang.ref.WeakReference;
 import java.time.Duration;

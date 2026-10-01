@@ -16,12 +16,12 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static io.appium.java_client.support.PageFactory.initElements;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
 @SuppressWarnings({"unused", "unchecked"})
 public class CombinedAppTest {

@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static io.appium.java_client.support.PageFactory.initElements;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThan;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
 
 @SuppressWarnings({"unchecked", "unused"})

@@ -22,6 +22,9 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.utils.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -29,9 +32,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 

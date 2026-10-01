@@ -1,3 +1,7 @@
+> **Note**: Appium Java Client does not depend on `selenium-support` anymore. If your code uses its classes
+> (`WebDriverWait`, `ExpectedConditions`, `Select`, `EventFiringDecorator`, etc.), declare it in your own
+> build the same way as the other Selenium dependencies below.
+
 # Maven
 
 Maven downloads dependency of [the latest version](https://cwiki.apache.org/confluence/display/MAVENOLD/Dependency+Mediation+and+Conflict+Resolution#DependencyMediationandConflictResolution-DependencyVersionRanges)
@@ -21,10 +25,6 @@ In order to pin Selenium dependencies they should be declared in `pom.xml` in th
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-remote-driver</artifactId>
             </exclusion>
-            <exclusion>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-support</artifactId>
-            </exclusion>
         </exclusions>
     </dependency>
     <dependency>
@@ -35,11 +35,6 @@ In order to pin Selenium dependencies they should be declared in `pom.xml` in th
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-remote-driver</artifactId>
-        <version>A.B.C</version>
-    </dependency>
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-support</artifactId>
         <version>A.B.C</version>
     </dependency>
 </dependencies>
@@ -63,6 +58,5 @@ dependencies {
     implementation('io.appium:java-client:X.Y.Z')
     implementation('org.seleniumhq.selenium:selenium-api:A.B.C')
     implementation('org.seleniumhq.selenium:selenium-remote-driver:A.B.C')
-    implementation('org.seleniumhq.selenium:selenium-support:A.B.C')
 }
 ```

@@ -21,13 +21,13 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
+import io.appium.java_client.support.ByIdOrName;
+import io.appium.java_client.support.CacheLookup;
+import io.appium.java_client.support.FindAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.pagefactory.ByAll;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ByIdOrName;
-import org.openqa.selenium.support.CacheLookup;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.pagefactory.ByAll;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -82,10 +82,10 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
-        FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
+        FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
+        FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
         checkDisallowedAnnotationPairs(findBy, findBys);
-        FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
+        FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
         checkDisallowedAnnotationPairs(findBy, findAll);
         checkDisallowedAnnotationPairs(findBys, findAll);
     }
@@ -94,20 +94,20 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         By defaultBy = null;
-        FindBy findBy = annotatedElement.getAnnotation(FindBy.class);
+        FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
         if (findBy != null) {
             defaultBy = new FindBy.FindByBuilder().buildIt(findBy, (Field) annotatedElement);
         }
 
         if (defaultBy == null) {
-            FindBys findBys = annotatedElement.getAnnotation(FindBys.class);
+            FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
             if (findBys != null) {
                 defaultBy = new FindBys.FindByBuilder().buildIt(findBys, (Field) annotatedElement);
             }
         }
 
         if (defaultBy == null) {
-            FindAll findAll = annotatedElement.getAnnotation(FindAll.class);
+            FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
             if (findAll != null) {
                 defaultBy = new FindAll.FindByBuilder().buildIt(findAll, (Field) annotatedElement);
             }
@@ -181,7 +181,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     public boolean isLookupCached() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        return annotatedElement.getAnnotation(CacheLookup.class) != null;
+        return SeleniumAnnotationsCompat.isPresent(annotatedElement, CacheLookup.class);
     }
 
     private By returnMappedBy(By byDefault, By nativeAppBy) {

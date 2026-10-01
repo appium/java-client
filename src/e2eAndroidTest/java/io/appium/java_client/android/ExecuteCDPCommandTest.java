@@ -20,13 +20,13 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.PageFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.HashMap;
 import java.util.Map;

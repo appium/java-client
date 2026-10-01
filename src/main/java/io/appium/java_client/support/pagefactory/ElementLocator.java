@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.functions;
+package io.appium.java_client.support.pagefactory;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 /**
- * This is extended version of {@link org.openqa.selenium.support.ui.ExpectedCondition}. It is combined
- * with {@link java.util.function.Function}.
- *
- * @param <T> The return type
- * @deprecated Use {@link org.openqa.selenium.support.ui.ExpectedCondition} instead
+ * The interface used by the {@code PageFactory} to locate elements.
+ * Adapted from Selenium's {@code org.openqa.selenium.support.pagefactory.ElementLocator}
+ * (Apache License 2.0).
  */
-@Deprecated
-@FunctionalInterface
-public interface ExpectedCondition<T> extends org.openqa.selenium.support.ui.ExpectedCondition<T>,
-        AppiumFunction<WebDriver, T> {
+public interface ElementLocator {
+    /**
+     * Find the element.
+     *
+     * @return The WebElement that matches the selector.
+     */
+    WebElement findElement();
+
+    /**
+     * Find the elements.
+     *
+     * @return A list of all {@link WebElement}s that match the selector.
+     */
+    List<WebElement> findElements();
 }
