@@ -17,7 +17,6 @@
 package io.appium.java_client;
 
 import io.appium.java_client.internal.CapabilityHelpers;
-import io.appium.java_client.internal.ReflectionHelpers;
 import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
@@ -87,6 +86,8 @@ public class AppiumDriver extends RemoteWebDriver implements
     private URI biDiUri;
     private BiDi biDi;
     private boolean wasBiDiRequested = false;
+    // Used for log websockets when the command executor is not an AppiumCommandExecutor.
+    private HttpClient ownHttpClient;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -320,14 +321,31 @@ public class AppiumDriver extends RemoteWebDriver implements
         return getBiDi().asHandle();
     }
 
-    protected HttpClient getHttpClient() {
+    protected synchronized HttpClient getHttpClient() {
         var executor = getCommandExecutor();
         if (executor instanceof AppiumCommandExecutor) {
             return ((AppiumCommandExecutor) executor).getClient();
         }
-        // HttpCommandExecutor.client is becoming protected in Selenium, so read it reflectively.
-        return ReflectionHelpers.getPrivateFieldValue(
-                HttpCommandExecutor.class, executor, "client", HttpClient.class);
+        // Selenium does not expose the client of other executors, so create one, as BiDi does.
+        // Keep a strong reference: StringWebSocketClient only holds the client weakly.
+        if (ownHttpClient == null) {
+            ownHttpClient = HttpClient.Factory.createDefault().createClient(remoteAddress);
+        }
+        return ownHttpClient;
+    }
+
+    @Override
+    public void quit() {
+        try {
+            super.quit();
+        } finally {
+            synchronized (this) {
+                if (ownHttpClient != null) {
+                    ownHttpClient.close();
+                    ownHttpClient = null;
+                }
+            }
+        }
     }
 
     @Override

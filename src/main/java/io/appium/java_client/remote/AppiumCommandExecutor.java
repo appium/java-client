@@ -62,6 +62,8 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     private final AppiumClientConfig appiumClientConfig;
     // HttpCommandExecutor no longer keeps the factory, but direct connect and BiDi need it.
     private final Factory httpClientFactory;
+    // Lets direct connect point to a new server URL without changing HttpCommandExecutor.client.
+    private final SwitchableHttpClient switchableClient;
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -85,12 +87,22 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             Map<String, CommandInfo> additionalCommands,
             @Nullable DriverService service,
             AppiumClientConfig appiumClientConfig) {
-        super(httpClientFactory.createClient(appiumClientConfig), additionalCommands,
-                appiumClientConfig.baseUrl());
+        this(new SwitchableHttpClient(httpClientFactory.createClient(appiumClientConfig)),
+                httpClientFactory, additionalCommands, service, appiumClientConfig);
+    }
+
+    private AppiumCommandExecutor(
+            SwitchableHttpClient switchableClient,
+            Factory httpClientFactory,
+            Map<String, CommandInfo> additionalCommands,
+            @Nullable DriverService service,
+            AppiumClientConfig appiumClientConfig) {
+        super(switchableClient, additionalCommands, appiumClientConfig.baseUrl());
         serviceOptional = ofNullable(service);
 
         this.appiumClientConfig = appiumClientConfig;
         this.httpClientFactory = httpClientFactory;
+        this.switchableClient = switchableClient;
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
@@ -158,16 +170,14 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this.responseCodec = codec;
     }
 
-    // Selenium deprecated only the public access to this field; subclasses can keep reading it.
-    @SuppressWarnings("removal")
     public HttpClient getClient() {
-        return this.client;
+        return this.switchableClient;
     }
 
     /**
-     * Override the http client in the HttpCommandExecutor class with a new http client instance with the given URL.
-     * It uses the same http client factory and client config for the new http client instance
-     * if the constructor got them.
+     * Switch the http client of this executor to a new http client instance with the given URL.
+     * It uses the same http client factory and client config for the new http client instance.
+     * The previous http client is closed.
      *
      * @param serverUrl URL to use for subsequent HTTP requests. Before switching clients, the host is
      *                  resolved and the override is refused if any resolved address is loopback,
@@ -178,8 +188,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      */
     protected void overrideServerUrl(URL serverUrl) {
         DirectConnectUrlSafety.requireSafeOverrideTarget(serverUrl);
-        HttpClient newClient = getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl));
-        setPrivateFieldValue(HttpCommandExecutor.class, "client", newClient);
+        switchableClient.switchTo(getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl)));
     }
 
     private Response createSession(Command command) throws IOException {
