@@ -19,7 +19,6 @@ package io.appium.java_client.windows;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileCommand;
-import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
 import io.appium.java_client.remote.AutomationName;
@@ -35,7 +34,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import java.net.URL;
 
 public class WindowsDriver extends AppiumDriver implements
-        PerformsTouchActions,
         PullsFiles,
         PushesFiles,
         CanRecordScreen {

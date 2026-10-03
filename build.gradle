@@ -297,7 +297,6 @@ testing {
                         exclude '**/AndroidElementTest.class'
                         exclude '**/AndroidFunctionTest.class'
                         exclude '**/AndroidSearchingTest.class'
-                        exclude '**/AndroidTouchTest.class'
                         exclude '**/AndroidViewMatcherTest.class'
                         exclude '**/ExecuteCDPCommandTest.class'
                         exclude '**/ExecuteDriverScriptTest.class'

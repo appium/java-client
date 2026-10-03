@@ -26,7 +26,6 @@ import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.HidesKeyboardWithKeyName;
 import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.LocksDevice;
-import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
 import io.appium.java_client.battery.HasBattery;
@@ -62,7 +61,6 @@ public class IOSDriver extends AppiumDriver implements
         PullsFiles,
         InteractsWithApps,
         HasAppStrings,
-        PerformsTouchActions,
         HidesKeyboardWithKeyName,
         ShakesDevice,
         HasIOSSettings,
