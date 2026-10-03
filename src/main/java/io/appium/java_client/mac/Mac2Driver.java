@@ -18,7 +18,6 @@ package io.appium.java_client.mac;
 
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -41,7 +40,6 @@ import java.net.URL;
  * @since Appium 1.20.0
  */
 public class Mac2Driver extends AppiumDriver implements
-        PerformsTouchActions,
         CanRecordScreen {
     private static final String PLATFORM_NAME = Platform.MAC.name();
     private static final String AUTOMATION_NAME = AutomationName.MAC2;

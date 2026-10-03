@@ -56,10 +56,6 @@ public class MobileCommand {
     @Deprecated
     public static final String RUN_APP_IN_BACKGROUND;
     @Deprecated
-    protected static final String PERFORM_TOUCH_ACTION;
-    @Deprecated
-    protected static final String PERFORM_MULTI_TOUCH;
-    @Deprecated
     public static final String LAUNCH_APP;
     @Deprecated
     public static final String CLOSE_APP;
@@ -200,8 +196,6 @@ public class MobileCommand {
         PULL_FILE = "pullFile";
         PULL_FOLDER = "pullFolder";
         RUN_APP_IN_BACKGROUND = "runAppInBackground";
-        PERFORM_TOUCH_ACTION = "performTouchAction";
-        PERFORM_MULTI_TOUCH = "performMultiTouch";
         LAUNCH_APP = "launchApp";
         CLOSE_APP = "closeApp";
         GET_DEVICE_TIME = "getDeviceTime";
@@ -278,8 +272,6 @@ public class MobileCommand {
         commandRepository.put(PULL_FOLDER, postC("/session/:sessionId/appium/device/pull_folder"));
         commandRepository.put(HIDE_KEYBOARD, postC("/session/:sessionId/appium/device/hide_keyboard"));
         commandRepository.put(RUN_APP_IN_BACKGROUND, postC("/session/:sessionId/appium/app/background"));
-        commandRepository.put(PERFORM_TOUCH_ACTION, postC("/session/:sessionId/touch/perform"));
-        commandRepository.put(PERFORM_MULTI_TOUCH, postC("/session/:sessionId/touch/multi/perform"));
         commandRepository.put(LAUNCH_APP, postC("/session/:sessionId/appium/app/launch"));
         commandRepository.put(CLOSE_APP, postC("/session/:sessionId/appium/app/close"));
         commandRepository.put(LOCK, postC("/session/:sessionId/appium/device/lock"));
