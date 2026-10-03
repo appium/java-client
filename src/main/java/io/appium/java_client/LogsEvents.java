@@ -17,11 +17,11 @@
 package io.appium.java_client;
 
 import com.google.gson.Gson;
+import io.appium.java_client.remote.Response;
 import io.appium.java_client.serverevents.CommandEvent;
 import io.appium.java_client.serverevents.CustomEvent;
 import io.appium.java_client.serverevents.ServerEvents;
 import io.appium.java_client.serverevents.TimedEvent;
-import org.openqa.selenium.remote.Response;
 
 import java.util.List;
 import java.util.Map;

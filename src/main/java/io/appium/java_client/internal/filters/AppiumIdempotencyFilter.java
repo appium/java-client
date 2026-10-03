@@ -16,9 +16,9 @@
 
 package io.appium.java_client.internal.filters;
 
-import org.openqa.selenium.remote.http.Filter;
-import org.openqa.selenium.remote.http.HttpHandler;
-import org.openqa.selenium.remote.http.HttpMethod;
+import io.appium.java_client.http.Filter;
+import io.appium.java_client.http.HttpHandler;
+import io.appium.java_client.http.HttpMethod;
 
 import static java.util.Locale.ROOT;
 import static java.util.UUID.randomUUID;

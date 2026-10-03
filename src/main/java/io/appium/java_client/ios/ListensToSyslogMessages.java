@@ -18,10 +18,10 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import io.appium.java_client.remote.AppiumCommandExecutor;
+import io.appium.java_client.remote.AppiumRemoteWebDriver;
+import io.appium.java_client.remote.SessionId;
 import io.appium.java_client.ws.StringWebSocketClient;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.SessionId;
 
 import java.net.URI;
 import java.net.URL;
@@ -59,8 +59,8 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startSyslogBroadcast(String host, int port) {
-        var remoteWebDriver = (RemoteWebDriver) this;
-        URL serverUrl = ((HttpCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
+        var remoteWebDriver = (AppiumRemoteWebDriver) this;
+        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
         var scheme = "https".equals(serverUrl.getProtocol()) ? "wss" : "ws";
         CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
         SessionId sessionId = remoteWebDriver.getSessionId();

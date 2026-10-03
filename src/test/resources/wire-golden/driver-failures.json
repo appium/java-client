@@ -1,0 +1,156 @@
+{
+  "noSuchElement": {
+    "result": {
+      "thrown": "org.openqa.selenium.NoSuchElementException",
+      "message": "nope"
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "emptyElements": {
+    "result": [],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "unknownError": {
+    "result": {
+      "thrown": "org.openqa.selenium.WebDriverException",
+      "message": "boom"
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "noSuchContext": {
+    "result": {
+      "thrown": "io.appium.java_client.NoSuchContextException",
+      "message": "No such context found (error code: \"no such context\")"
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/context",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "name": "X"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "unsupported": {
+    "result": {
+      "thrown": "org.openqa.selenium.UnsupportedCommandException",
+      "message": "not implemented"
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "connectionRefused": {
+    "result": {
+      "thrown": "org.openqa.selenium.WebDriverException",
+      "message": "Connection refused"
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "staleElement": {
+    "result": {
+      "thrown": "org.openqa.selenium.StaleElementReferenceException",
+      "message": "stale"
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/text",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  }
+}

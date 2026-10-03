@@ -17,12 +17,12 @@
 package io.appium.java_client.pagefactory.interceptors;
 
 import io.appium.java_client.proxy.MethodCallListener;
+import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -44,12 +44,12 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
     private static boolean areElementsEqual(Object we1, Object we2) {
-        if (!(we1 instanceof RemoteWebElement) || !(we2 instanceof RemoteWebElement)) {
+        if (!(we1 instanceof AppiumWebElement) || !(we2 instanceof AppiumWebElement)) {
             return false;
         }
 
         return we1 == we2
-                || (Objects.equals(((RemoteWebElement) we1).getId(), ((RemoteWebElement) we2).getId()));
+                || (Objects.equals(((AppiumWebElement) we1).getId(), ((AppiumWebElement) we2).getId()));
     }
 
     @Override

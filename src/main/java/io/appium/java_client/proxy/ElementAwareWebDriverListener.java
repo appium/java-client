@@ -16,10 +16,10 @@
 
 package io.appium.java_client.proxy;
 
+import io.appium.java_client.remote.AppiumRemoteWebDriver;
+import io.appium.java_client.remote.AppiumWebElement;
 import net.bytebuddy.matcher.ElementMatchers;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
     /**
      * Attaches the WebDriver proxy instance to this listener.
      * <p>
-     * The listener stores the WebDriver instance to associate it as parent to RemoteWebElement proxies.
+     * The listener stores the WebDriver instance to associate it as parent to AppiumWebElement proxies.
      *
      * @param proxy A proxy instance of {@link WebDriver}.
      */
@@ -51,9 +51,9 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
     /**
      * Intercepts method calls on a proxied WebDriver.
      * <p>
-     * If the result of the method call is a {@link RemoteWebElement},
-     * it is wrapped with a proxy to allow further interception of RemoteWebElement method calls.
-     * If the result is a list, each item is checked, and all RemoteWebElements are
+     * If the result of the method call is a {@link AppiumWebElement},
+     * it is wrapped with a proxy to allow further interception of AppiumWebElement method calls.
+     * If the result is a list, each item is checked, and all AppiumWebElements are
      * individually proxied. All other return types are passed through unmodified.
      * Avoid overriding this method, it will alter the behaviour of the listener.
      *
@@ -68,25 +68,25 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         Object result = original.call();
 
-        if (result instanceof RemoteWebElement) {
-            return wrapElement((RemoteWebElement) result);
+        if (result instanceof AppiumWebElement) {
+            return wrapElement((AppiumWebElement) result);
         }
 
         if (result instanceof List) {
             return ((List<?>) result).stream()
-                    .map(item -> item instanceof RemoteWebElement ? wrapElement(
-                            (RemoteWebElement) item) : item)
+                    .map(item -> item instanceof AppiumWebElement ? wrapElement(
+                            (AppiumWebElement) item) : item)
                     .collect(Collectors.toList());
         }
 
         return result;
     }
 
-    private RemoteWebElement wrapElement(
-            RemoteWebElement original
+    private AppiumWebElement wrapElement(
+            AppiumWebElement original
     ) {
-        RemoteWebElement proxy = createProxy(
-                RemoteWebElement.class,
+        AppiumWebElement proxy = createProxy(
+                AppiumWebElement.class,
                 new Object[]{},
                 new Class[]{},
                 Collections.singletonList(this),
@@ -99,7 +99,7 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
 
         proxy.setId(original.getId());
 
-        proxy.setParent((RemoteWebDriver) parent);
+        proxy.setParent((AppiumRemoteWebDriver) parent);
 
         return proxy;
     }

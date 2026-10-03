@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.CacheLookup;
 import io.appium.java_client.support.FindBy;
 import io.appium.java_client.support.PageFactory;
@@ -25,7 +26,6 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.reflect.Proxy;
 import java.time.Duration;
@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AppiumFieldDecoratorTest {
 
-    private static final class FoundElement extends RemoteWebElement {
+    private static final class FoundElement extends AppiumWebElement {
         @Override
         public String getText() {
             return "text";

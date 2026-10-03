@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.remote;
+package io.appium.java_client.http;
 
-import org.openqa.selenium.remote.ProtocolHandshake;
+import static java.util.Objects.requireNonNull;
 
-/**
- * This class is deprecated and should be removed.
- *
- * @deprecated Use ProtocolHandshake instead.
- */
-@Deprecated
-public class AppiumProtocolHandshake extends ProtocolHandshake {
+public class TextMessage implements Message {
+    private final String text;
+
+    public TextMessage(CharSequence text) {
+        this.text = requireNonNull(text, "Message text").toString();
+    }
+
+    public String text() {
+        return text;
+    }
 }

@@ -3,8 +3,8 @@ package io.appium.java_client.android;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.appium.java_client.internal.Preconditions.checkArgument;
+import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 
 /**
  * This is a simple POJO class to support the {@link StartsActivity}.

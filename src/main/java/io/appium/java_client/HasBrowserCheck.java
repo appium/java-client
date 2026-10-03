@@ -1,12 +1,12 @@
 package io.appium.java_client;
 
 import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.remote.CapabilityType;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.CapabilityType;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 

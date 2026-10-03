@@ -140,13 +140,14 @@ Appium java client has dedicated classes to support the following Appium drivers
 To automate other platforms that are not listed above you could use
 [AppiumDriver](src/main/java/io/appium/java_client/AppiumDriver.java) or its custom derivatives.
 
-Appium java client is built on top of Selenium and implements the same interfaces that the foundation
-[RemoteWebDriver](https://github.com/SeleniumHQ/selenium/blob/trunk/java/src/org/openqa/selenium/remote/RemoteWebDriver.java)
-does. However, Selenium lib is mostly focused on web browser automation while
-Appium is universal and covers a wide range of possible platforms, e.g. mobile and desktop
-operating systems, IOT devices, etc. Thus, the foundation `AppiumDriver` class in this package
-extends `RemoteWebDriver` with additional features, and makes it more flexible, so it is not so
-strictly focused on web-browser related operations.
+Appium java client implements the same `WebDriver` interfaces from `selenium-api` that the foundation
+Selenium `RemoteWebDriver` does, and it is the only part of Selenium it depends on. However, Selenium
+lib is mostly focused on web browser automation while Appium is universal and covers a wide range of
+possible platforms, e.g. mobile and desktop operating systems, IOT devices, etc. Thus, the foundation
+`AppiumDriver` class in this package extends
+[AppiumRemoteWebDriver](src/main/java/io/appium/java_client/remote/AppiumRemoteWebDriver.java), which
+talks to the server through its own HTTP client, and it is not so strictly focused on web-browser
+related operations.
 
 ## Appium Server Service Wrapper
 

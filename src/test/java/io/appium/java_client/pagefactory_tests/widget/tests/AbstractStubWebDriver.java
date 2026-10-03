@@ -1,6 +1,7 @@
 package io.appium.java_client.pagefactory_tests.widget.tests;
 
 import io.appium.java_client.HasBrowserCheck;
+import io.appium.java_client.remote.Response;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
@@ -9,7 +10,6 @@ import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.Logs;
-import org.openqa.selenium.remote.Response;
 
 import java.time.Duration;
 import java.util.HashSet;

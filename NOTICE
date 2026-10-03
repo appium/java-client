@@ -1,5 +1,5 @@
 Copyright 2014-2018 Appium Contributors
 
 This product includes software adapted from Selenium (https://www.selenium.dev/),
-licensed under the Apache License, Version 2.0. See individual source files under
-io.appium.java_client.internal for details of which classes are adapted and from where.
+licensed under the Apache License, Version 2.0. Classes that are adapted are marked as such
+in their Javadoc, look for "Adapted from Selenium".

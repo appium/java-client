@@ -17,8 +17,8 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.internal.json.WireJson;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,7 +32,7 @@ public class AndroidViewMatcherTest extends BaseEspressoTest {
 
     @Test
     public void testFindByViewMatcher() {
-        String selector = new Json().toJson(Map.of(
+        String selector = WireJson.toJson(Map.of(
             "name", "withText",
             "args", List.of("Animation"),
             "class", "androidx.test.espresso.matcher.ViewMatchers"

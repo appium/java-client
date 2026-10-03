@@ -6,6 +6,8 @@
     The io.appium.java_client.support package tree is a self-contained page factory and wait engine,
     kept free of the rest of java-client so that it can be extracted into its own module later.
     It may only depend on selenium-api, jspecify and the JDK.
+    The http transport and the JSON wire layer are likewise independent of the rest of java-client,
+    and of the Selenium modules other than selenium-api.
 -->
 <import-control pkg="io.appium.java_client" strategyOnMismatch="allowed">
     <subpackage name="support" strategyOnMismatch="disallowed">
@@ -18,5 +20,47 @@
         <allow pkg="org.openqa.selenium"/>
         <allow pkg="org.jspecify"/>
         <allow pkg="java"/>
+    </subpackage>
+    <subpackage name="http" strategyOnMismatch="disallowed">
+        <allow pkg="io.appium.java_client.http"/>
+        <allow pkg="io.appium.java_client.internal.http"/>
+        <disallow pkg="org.openqa.selenium.remote"/>
+        <disallow pkg="org.openqa.selenium.support"/>
+        <disallow pkg="org.openqa.selenium.json"/>
+        <disallow pkg="org.openqa.selenium.os"/>
+        <disallow pkg="org.openqa.selenium.bidi"/>
+        <allow pkg="org.openqa.selenium"/>
+        <allow pkg="org.jspecify"/>
+        <allow pkg="org.slf4j"/>
+        <allow pkg="javax.net"/>
+        <allow pkg="java"/>
+    </subpackage>
+    <subpackage name="internal">
+        <subpackage name="http" strategyOnMismatch="disallowed">
+            <allow pkg="io.appium.java_client.http"/>
+            <allow pkg="io.appium.java_client.internal.http"/>
+            <disallow pkg="org.openqa.selenium.remote"/>
+            <disallow pkg="org.openqa.selenium.support"/>
+            <disallow pkg="org.openqa.selenium.json"/>
+            <disallow pkg="org.openqa.selenium.os"/>
+            <disallow pkg="org.openqa.selenium.bidi"/>
+            <allow pkg="org.openqa.selenium"/>
+            <allow pkg="org.jspecify"/>
+            <allow pkg="org.slf4j"/>
+            <allow pkg="javax.net"/>
+            <allow pkg="java"/>
+        </subpackage>
+        <subpackage name="json" strategyOnMismatch="disallowed">
+            <allow pkg="io.appium.java_client.internal.json"/>
+            <disallow pkg="org.openqa.selenium.remote"/>
+            <disallow pkg="org.openqa.selenium.support"/>
+            <disallow pkg="org.openqa.selenium.json"/>
+            <disallow pkg="org.openqa.selenium.os"/>
+            <disallow pkg="org.openqa.selenium.bidi"/>
+            <allow pkg="org.openqa.selenium"/>
+            <allow pkg="com.google.gson"/>
+            <allow pkg="org.jspecify"/>
+            <allow pkg="java"/>
+        </subpackage>
     </subpackage>
 </import-control>

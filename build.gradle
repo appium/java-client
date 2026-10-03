@@ -66,7 +66,6 @@ dependencies {
     // Pin exact Selenium version when using a SNAPSHOT (needs snapshot repo); otherwise use version range.
     if (seleniumVersion.toString().contains('SNAPSHOT')) {
         api "org.seleniumhq.selenium:selenium-api:${seleniumVersion}"
-        api "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
     } else {
         api('org.seleniumhq.selenium:selenium-api') {
             version {
@@ -74,14 +73,9 @@ dependencies {
                 prefer "${seleniumVersion}"
             }
         }
-        api('org.seleniumhq.selenium:selenium-remote-driver') {
-            version {
-                strictly "[${seleniumVersion}, 5.0)"
-                prefer "${seleniumVersion}"
-            }
-        }
     }
     implementation 'com.google.code.gson:gson:2.14.0'
+    implementation 'net.bytebuddy:byte-buddy:1.18.8'
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     implementation 'org.jspecify:jspecify:1.0.1'
 }

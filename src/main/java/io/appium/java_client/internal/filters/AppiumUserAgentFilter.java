@@ -16,13 +16,14 @@
 
 package io.appium.java_client.internal.filters;
 
+import io.appium.java_client.http.Filter;
+import io.appium.java_client.http.HttpHandler;
+import io.appium.java_client.http.HttpHeader;
 import io.appium.java_client.internal.Config;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.remote.http.AddSeleniumUserAgent;
-import org.openqa.selenium.remote.http.Filter;
-import org.openqa.selenium.remote.http.HttpHandler;
-import org.openqa.selenium.remote.http.HttpHeader;
+import org.openqa.selenium.BuildInfo;
+import org.openqa.selenium.Platform;
 
 import static java.util.Locale.ROOT;
 
@@ -40,7 +41,14 @@ public class AppiumUserAgentFilter implements Filter {
      * A default User Agent name for Appium Java client.
      * e.g. appium/8.2.0 (selenium/4.5.0 (java mac))
      */
-    public static final String USER_AGENT = buildUserAgentHeaderValue(AddSeleniumUserAgent.USER_AGENT);
+    public static final String USER_AGENT = buildUserAgentHeaderValue(buildSeleniumUserAgent());
+
+    private static String buildSeleniumUserAgent() {
+        Platform platform = Platform.getCurrent();
+        Platform family = platform.family() == null ? platform : platform.family();
+        return String.format("selenium/%s (java %s)", new BuildInfo().getReleaseLabel(),
+                family.toString().toLowerCase(ROOT));
+    }
 
     private static String buildUserAgentHeaderValue(@NonNull String previousUA) {
         return String.format("%s%s (%s)",

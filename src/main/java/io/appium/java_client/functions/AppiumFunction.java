@@ -16,15 +16,12 @@
 
 package io.appium.java_client.functions;
 
-import com.google.common.base.Function;
-
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * This is extended version of {@link com.google.common.base.Function}. It is combined
- * with {@link java.util.function.Function}. It was designed in order to provide compatibility
- * with the {@link io.appium.java_client.support.ui.Wait}.
+ * This is extended version of {@link java.util.function.Function}. It was designed in order to provide
+ * compatibility with the {@link io.appium.java_client.support.ui.Wait}.
  *
  * @param <F> The input type
  * @param <T> The return type
@@ -32,7 +29,7 @@ import java.util.Optional;
  */
 @Deprecated
 @FunctionalInterface
-public interface AppiumFunction<F, T> extends Function<F, T>, java.util.function.Function<F, T> {
+public interface AppiumFunction<F, T> extends java.util.function.Function<F, T> {
 
     @Override default <V> AppiumFunction<V, T> compose(java.util.function.Function<? super V, ? extends F> before) {
         Objects.requireNonNull(before);

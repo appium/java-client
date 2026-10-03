@@ -4,8 +4,8 @@ import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.MobileCommand;
+import io.appium.java_client.remote.AppiumWebElement;
 import org.openqa.selenium.UnsupportedCommandException;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExten
      *              be emulated after it is entered (the `\\n` substring itself will be cut
      *              off from the typed text).
      */
-    default void replaceElementValue(RemoteWebElement element, String value) {
+    default void replaceElementValue(AppiumWebElement element, String value) {
         final String extName = "mobile: replaceElementValue";
         try {
             CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(

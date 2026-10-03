@@ -30,13 +30,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
+import static io.appium.java_client.remote.CapabilityType.PLATFORM_NAME;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
 import static io.appium.java_client.utils.TestUtils.IOS_SIM_VODQA_RELEASE_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyIosTest {
     @Test

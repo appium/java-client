@@ -18,14 +18,14 @@ package io.appium.java_client.proxy;
 
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
+import io.appium.java_client.remote.AppiumRemoteWebDriver;
+import io.appium.java_client.remote.AppiumWebElement;
+import io.appium.java_client.remote.UnreachableBrowserException;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -54,7 +54,7 @@ class ProxyHelpersTest {
 
         @Override
         public WebElement findElement(By locator) {
-            RemoteWebElement webElement = new RemoteWebElement();
+            AppiumWebElement webElement = new AppiumWebElement();
             webElement.setId(locator.toString());
             webElement.setParent(this);
             return webElement;
@@ -64,12 +64,12 @@ class ProxyHelpersTest {
         public List<WebElement> findElements(By locator) {
             List<WebElement> webElements = new ArrayList<>();
 
-            RemoteWebElement webElement1 = new RemoteWebElement();
+            AppiumWebElement webElement1 = new AppiumWebElement();
             webElement1.setId("1234");
             webElement1.setParent(this);
             webElements.add(webElement1);
 
-            RemoteWebElement webElement2 = new RemoteWebElement();
+            AppiumWebElement webElement2 = new AppiumWebElement();
             webElement2.setId("5678");
             webElement2.setParent(this);
             webElements.add(webElement2);
@@ -96,7 +96,7 @@ class ProxyHelpersTest {
                 throw new IllegalStateException();
             }
         };
-        RemoteWebDriver driver = createProxy(RemoteWebDriver.class, Collections.singletonList(listener));
+        AppiumRemoteWebDriver driver = createProxy(AppiumRemoteWebDriver.class, Collections.singletonList(listener));
 
         assertThrows(
                 UnreachableBrowserException.class,
@@ -123,7 +123,7 @@ class ProxyHelpersTest {
                 throw new IllegalStateException();
             }
         };
-        RemoteWebDriver driver = createProxy(RemoteWebDriver.class, Collections.singletonList(listener));
+        AppiumRemoteWebDriver driver = createProxy(AppiumRemoteWebDriver.class, Collections.singletonList(listener));
         assertThrows(
                 IllegalStateException.class,
                 () -> driver.get("http://example.com/")

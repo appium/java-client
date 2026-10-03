@@ -2,13 +2,12 @@ package io.appium.java_client.flutter.ios;
 
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.flutter.FlutterIntegrationTestDriver;
+import io.appium.java_client.http.HttpClient;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.http.ClientConfig;
-import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 
@@ -17,7 +16,7 @@ import java.net.URL;
  */
 public class FlutterIOSDriver extends IOSDriver implements FlutterIntegrationTestDriver {
 
-    public FlutterIOSDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public FlutterIOSDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
     }
 
@@ -49,10 +48,6 @@ public class FlutterIOSDriver extends IOSDriver implements FlutterIntegrationTes
 
     public FlutterIOSDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, capabilities);
-    }
-
-    public FlutterIOSDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(clientConfig, capabilities);
     }
 
     public FlutterIOSDriver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {

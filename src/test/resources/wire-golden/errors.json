@@ -1,0 +1,248 @@
+{
+  "newSession": {
+    "thrown": "none"
+  },
+  "null": {
+    "thrown": "none"
+  },
+  "string": {
+    "thrown": "none"
+  },
+  "list": {
+    "thrown": "none"
+  },
+  "long": {
+    "thrown": "none"
+  },
+  "double": {
+    "thrown": "none"
+  },
+  "wholeDouble": {
+    "thrown": "none"
+  },
+  "bool": {
+    "thrown": "none"
+  },
+  "element": {
+    "thrown": "none"
+  },
+  "elements": {
+    "thrown": "none"
+  },
+  "noContentType": {
+    "thrown": "none"
+  },
+  "emptyBody200": {
+    "thrown": "none"
+  },
+  "textBody200": {
+    "thrown": "none"
+  },
+  "emptyBody500": {
+    "thrown": "io.appium.java_client.internal.json.WireJson$WireJsonException",
+    "rawMessage": "Unable to parse an empty JSON document",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "textBody502": {
+    "thrown": "org.openqa.selenium.WebDriverException",
+    "rawMessage": "<html>Bad gateway</html>\nCommand duration or timeout: 100 milliseconds",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "noValueKey": {
+    "thrown": "none"
+  },
+  "noSuchContext": {
+    "thrown": "org.openqa.selenium.WebDriverException",
+    "rawMessage": "No such context found",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:detached shadow root": {
+    "thrown": "org.openqa.selenium.DetachedShadowRootException",
+    "rawMessage": "msg for detached shadow root",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:element click intercepted": {
+    "thrown": "org.openqa.selenium.ElementClickInterceptedException",
+    "rawMessage": "msg for element click intercepted",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:element not interactable": {
+    "thrown": "org.openqa.selenium.ElementNotInteractableException",
+    "rawMessage": "msg for element not interactable",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:insecure certificate": {
+    "thrown": "org.openqa.selenium.InsecureCertificateException",
+    "rawMessage": "msg for insecure certificate",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:invalid argument": {
+    "thrown": "org.openqa.selenium.InvalidArgumentException",
+    "rawMessage": "msg for invalid argument",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:invalid cookie domain": {
+    "thrown": "org.openqa.selenium.InvalidCookieDomainException",
+    "rawMessage": "msg for invalid cookie domain",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:invalid element state": {
+    "thrown": "org.openqa.selenium.InvalidElementStateException",
+    "rawMessage": "msg for invalid element state",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:invalid selector": {
+    "thrown": "org.openqa.selenium.InvalidSelectorException",
+    "rawMessage": "msg for invalid selector",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:invalid session id": {
+    "thrown": "org.openqa.selenium.NoSuchSessionException",
+    "rawMessage": "msg for invalid session id",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:javascript error": {
+    "thrown": "org.openqa.selenium.JavascriptException",
+    "rawMessage": "msg for javascript error",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:move target out of bounds": {
+    "thrown": "org.openqa.selenium.interactions.MoveTargetOutOfBoundsException",
+    "rawMessage": "msg for move target out of bounds",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such alert": {
+    "thrown": "org.openqa.selenium.NoAlertPresentException",
+    "rawMessage": "msg for no such alert",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such context": {
+    "thrown": "org.openqa.selenium.WebDriverException",
+    "rawMessage": "msg for no such context (error code: \"no such context\")",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such cookie": {
+    "thrown": "org.openqa.selenium.NoSuchCookieException",
+    "rawMessage": "msg for no such cookie",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such element": {
+    "thrown": "org.openqa.selenium.NoSuchElementException",
+    "rawMessage": "msg for no such element",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such frame": {
+    "thrown": "org.openqa.selenium.NoSuchFrameException",
+    "rawMessage": "msg for no such frame",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such shadow root": {
+    "thrown": "org.openqa.selenium.NoSuchShadowRootException",
+    "rawMessage": "msg for no such shadow root",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:no such window": {
+    "thrown": "org.openqa.selenium.NoSuchWindowException",
+    "rawMessage": "msg for no such window",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:script timeout": {
+    "thrown": "org.openqa.selenium.ScriptTimeoutException",
+    "rawMessage": "msg for script timeout",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:session not created": {
+    "thrown": "org.openqa.selenium.SessionNotCreatedException",
+    "rawMessage": "Could not start a new session. msg for session not created ",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:stale element reference": {
+    "thrown": "org.openqa.selenium.StaleElementReferenceException",
+    "rawMessage": "msg for stale element reference",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:timeout": {
+    "thrown": "org.openqa.selenium.TimeoutException",
+    "rawMessage": "msg for timeout",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unable to set cookie": {
+    "thrown": "org.openqa.selenium.UnableToSetCookieException",
+    "rawMessage": "msg for unable to set cookie",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unable to capture screen": {
+    "thrown": "io.appium.java_client.remote.ScreenshotException",
+    "rawMessage": "msg for unable to capture screen",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unexpected alert open": {
+    "thrown": "org.openqa.selenium.UnhandledAlertException",
+    "rawMessage": "msg for unexpected alert open: null",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unknown command": {
+    "thrown": "org.openqa.selenium.UnsupportedCommandException",
+    "rawMessage": "msg for unknown command",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unknown error": {
+    "thrown": "org.openqa.selenium.WebDriverException",
+    "rawMessage": "msg for unknown error",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unknown method": {
+    "thrown": "org.openqa.selenium.UnsupportedCommandException",
+    "rawMessage": "{\"value\":{\"error\":\"unknown method\",\"message\":\"msg for unknown method\",\"stacktrace\":\"at foo (bar.js:1:2)\\nat baz (qux.js:3:4)\"}}\nCommand duration or timeout: 100 milliseconds",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unsupported operation": {
+    "thrown": "org.openqa.selenium.UnsupportedCommandException",
+    "rawMessage": "msg for unsupported operation",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:unrecognized": {
+    "thrown": "org.openqa.selenium.WebDriverException",
+    "rawMessage": "boom (error code: \"totally new error\")",
+    "cause": null,
+    "serverStackFrames": []
+  },
+  "error:noStacktrace": {
+    "thrown": "org.openqa.selenium.NoSuchElementException",
+    "rawMessage": "nope",
+    "cause": null,
+    "serverStackFrames": []
+  }
+}

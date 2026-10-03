@@ -16,11 +16,11 @@
 
 package io.appium.java_client.ws;
 
+import io.appium.java_client.http.HttpClient;
+import io.appium.java_client.http.HttpMethod;
+import io.appium.java_client.http.HttpRequest;
+import io.appium.java_client.http.WebSocket;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpMethod;
-import org.openqa.selenium.remote.http.HttpRequest;
-import org.openqa.selenium.remote.http.WebSocket;
 
 import java.lang.ref.WeakReference;
 import java.net.URI;

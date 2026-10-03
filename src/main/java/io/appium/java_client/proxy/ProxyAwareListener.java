@@ -25,7 +25,7 @@ package io.appium.java_client.proxy;
  * allowing the listener to bind to it before any method interception begins.
  * <p>
  * Example usage: Working with elements such as
- * {@code RemoteWebElement} that require runtime mutation (e.g. setting parent driver or element ID).
+ * {@code AppiumWebElement} that require runtime mutation (e.g. setting parent driver or element ID).
  */
 public interface ProxyAwareListener extends MethodCallListener {
 
