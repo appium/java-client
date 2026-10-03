@@ -1,7 +1,6 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.functions.AppiumFunction;
-import io.appium.java_client.functions.ExpectedCondition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,7 +103,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         };
 
         AppiumFunction<Pattern, List<WebElement>> compositeFunction = waitingForContext
-                .andThen((ExpectedCondition<List<WebElement>>) input -> {
+                .andThen((AppiumFunction<WebDriver, List<WebElement>>) input -> {
                     List<WebElement> result = searchingFunction.apply(input);
                     if (result != null) {
                         calls.add(true);

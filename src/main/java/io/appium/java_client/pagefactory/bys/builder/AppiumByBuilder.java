@@ -16,10 +16,10 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+import io.appium.java_client.support.pagefactory.AbstractAnnotations;
+import io.appium.java_client.support.pagefactory.ByAll;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
-import org.openqa.selenium.support.pagefactory.ByAll;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

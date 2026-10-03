@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+        "-//Checkstyle//DTD ImportControl Configuration 1.4//EN"
+        "https://checkstyle.org/dtds/import_control_1_4.dtd">
+<!--
+    The io.appium.java_client.support package tree is a self-contained page factory and wait engine,
+    kept free of the rest of java-client so that it can be extracted into its own module later.
+    It may only depend on selenium-api, jspecify and the JDK.
+-->
+<import-control pkg="io.appium.java_client" strategyOnMismatch="allowed">
+    <subpackage name="support" strategyOnMismatch="disallowed">
+        <allow pkg="io.appium.java_client.support"/>
+        <disallow pkg="org.openqa.selenium.remote"/>
+        <disallow pkg="org.openqa.selenium.support"/>
+        <disallow pkg="org.openqa.selenium.json"/>
+        <disallow pkg="org.openqa.selenium.os"/>
+        <disallow pkg="org.openqa.selenium.bidi"/>
+        <allow pkg="org.openqa.selenium"/>
+        <allow pkg="org.jspecify"/>
+        <allow pkg="java"/>
+    </subpackage>
+</import-control>

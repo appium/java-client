@@ -32,6 +32,9 @@
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <module name="AvoidStarImport"/>
+        <module name="ImportControl">
+          <property name="file" value="${config_loc}/import-control.xml"/>
+        </module>
         <module name="CustomImportOrder">
           <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
           <property name="specialImportsRegExp" value="^javax\."/>

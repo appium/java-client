@@ -17,6 +17,8 @@
 package io.appium.java_client;
 
 import com.google.common.base.Throwables;
+import io.appium.java_client.support.ui.FluentWait;
+import io.appium.java_client.support.ui.Sleeper;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.NonNull;
@@ -24,8 +26,6 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Sleeper;
 
 import java.time.Clock;
 import java.time.Duration;

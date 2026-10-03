@@ -17,12 +17,12 @@
 package io.appium.java_client.pagefactory.interceptors;
 
 import io.appium.java_client.proxy.MethodCallListener;
+import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;

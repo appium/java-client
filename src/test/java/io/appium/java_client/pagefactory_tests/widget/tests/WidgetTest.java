@@ -7,11 +7,11 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
+import static io.appium.java_client.support.PageFactory.initElements;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
 public abstract class WidgetTest {
 

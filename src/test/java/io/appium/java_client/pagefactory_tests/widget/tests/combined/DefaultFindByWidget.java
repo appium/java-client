@@ -1,8 +1,8 @@
 package io.appium.java_client.pagefactory_tests.widget.tests.combined;
 
 import io.appium.java_client.pagefactory_tests.widget.tests.DefaultStubWidget;
+import io.appium.java_client.support.FindBy;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 

@@ -18,6 +18,8 @@ package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.WithTimeout;
+import io.appium.java_client.support.FindAll;
+import io.appium.java_client.support.FindBy;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,13 +28,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 
 import java.time.Duration;
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.AppiumFieldDecorator.DEFAULT_WAITING_TIMEOUT;
+import static io.appium.java_client.support.PageFactory.initElements;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.lang.Math.abs;
 import static java.lang.String.format;
@@ -42,7 +43,6 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class TimeoutTest {
 

@@ -28,7 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Used to mark a field on a Page Object to indicate an alternative mechanism for locating the
  * element or a list of elements. Used in conjunction with
- * {@link org.openqa.selenium.support.PageFactory}
+ * {@link io.appium.java_client.support.PageFactory}
  * this allows users to quickly and easily create PageObjects.
  * using Android UI selectors, accessibility, id, name, class name, tag and xpath
  */

@@ -16,7 +16,7 @@
 
 package io.appium.java_client.pagefactory.locator;
 
-import org.openqa.selenium.support.pagefactory.ElementLocator;
+import io.appium.java_client.support.pagefactory.ElementLocator;
 
 public interface CacheableLocator extends ElementLocator {
     boolean isLookUpCached();

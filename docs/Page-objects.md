@@ -1,10 +1,19 @@
 Appium Java client has facilities which components to [Page Object](https://github.com/SeleniumHQ/selenium/wiki/PageObjects) design pattern and [Selenium PageFactory](https://github.com/SeleniumHQ/selenium/wiki/PageFactory).
 
+> **Migrating from Selenium's page factory**: `@FindBy`, `@FindBys`, `@FindAll`, `@CacheLookup`, `PageFactory` and
+> the related classes are now provided by the `io.appium.java_client.support` package (same names and attributes as
+> `org.openqa.selenium.support`), because Appium Java Client does not depend on `selenium-support` anymore.
+> Replace the `org.openqa.selenium.support` imports with `io.appium.java_client.support` ones.
+> Page objects that still use Selenium's `@FindBy`, `@FindBys`, `@FindAll` and `@CacheLookup` keep working with
+> `AppiumFieldDecorator` as long as `selenium-support` is on your classpath.
+> `PageFactory.initElements(driver, page)` shortcuts that rely on Selenium's own decorator are not provided,
+> use `PageFactory.initElements(new AppiumFieldDecorator(driver), page)` instead.
+
 
 # WebElement/list of WebElement field can be populated by default:
 ```java
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import io.appium.java_client.support.FindBy;
 ...
 
 @FindBy(someStrategy) //for browser or web view html UI 
@@ -62,7 +71,7 @@ List<WebElement> someElements;
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBy;
+import io.appium.java_client.support.FindBy;
 
 //the fully cross platform example
 @FindBy(someStrategy) //for browser or web view html UI
@@ -84,8 +93,8 @@ List<RemoteWebElement> someElements;
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.FindBy;
 
 @FindBys({@FindBy(someStrategy1), @FindBy(someStrategy2)}) 
 @AndroidFindBy(someStrategy1) @AndroidFindBy(someStrategy2)
@@ -103,8 +112,8 @@ or
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.FindBy;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
 
@@ -126,8 +135,8 @@ List<RemoteWebElement> someElements;
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindByAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindAll;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 
@@ -149,8 +158,8 @@ List<RemoteWebElement> someElements;
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindByAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindAll;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.CHAIN;
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
@@ -173,8 +182,8 @@ or
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindByAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindAll;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 
@@ -203,8 +212,8 @@ If the using of _xpath_ is not convenient for some reasons so there are possible
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.FindBy;
 
 //it is necessary to define priorities at this case. The lower number means the higher priority.
 //The default value is 0 (the highest priority)
@@ -229,8 +238,8 @@ List<RemoteWebElement> someElements;
 ```java
 import org.openqa.selenium.remote.RemoteWebElement;
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.FindBy;
 
 //it is not necessary to define priorities at this case. But it can manage the searching.
 //The lower number means the higher priority.
@@ -261,7 +270,7 @@ Object fields are populated as below:
 - 
 ```java
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.PageFactory;
+import io.appium.java_client.support.PageFactory;
 
 PageFactory.initElements(new AppiumFieldDecorator(searchContext 
               /*searchContext is a WebDriver or WebElement
@@ -273,7 +282,7 @@ PageFactory.initElements(new AppiumFieldDecorator(searchContext
 -
 ```java
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.PageFactory;
+import io.appium.java_client.support.PageFactory;
 import java.util.concurrent.TimeUnit;
 
 PageFactory.initElements(new AppiumFieldDecorator(searchContext, 
@@ -288,7 +297,7 @@ PageFactory.initElements(new AppiumFieldDecorator(searchContext,
 - 
 ```java
 import io.appium.java_client.pagefactory.*;
-import org.openqa.selenium.support.PageFactory;
+import io.appium.java_client.support.PageFactory;
 import java.util.concurrent.TimeUnit;
 
 PageFactory.initElements(new AppiumFieldDecorator(searchContext, 
