@@ -4,12 +4,14 @@ import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.MobileCommand;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AppiumCommandExecutorTest {
@@ -34,6 +36,23 @@ class AppiumCommandExecutorTest {
     @Test
     void getHttpClientFactory() {
         assertNotNull(createExecutor().getHttpClientFactory());
+    }
+
+    @Test
+    void keepsTheHttpClientFactoryPassedToTheConstructor() throws MalformedURLException {
+        HttpClient.Factory factory = HttpClient.Factory.createDefault();
+        AppiumCommandExecutor executor = new AppiumCommandExecutor(
+                MobileCommand.commandRepository, new URL(APPIUM_URL), factory);
+
+        assertSame(factory, executor.getHttpClientFactory());
+    }
+
+    @Test
+    void usesADefaultHttpClientFactoryWhenNoneIsPassed() throws MalformedURLException {
+        AppiumCommandExecutor executor = new AppiumCommandExecutor(
+                MobileCommand.commandRepository, new URL(APPIUM_URL), (HttpClient.Factory) null);
+
+        assertNotNull(executor.getHttpClientFactory());
     }
 
     @Test
