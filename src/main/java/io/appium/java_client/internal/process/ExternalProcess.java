@@ -28,8 +28,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**
  * A child process whose combined stdout/stderr is forwarded to a stream and
@@ -75,9 +78,15 @@ public final class ExternalProcess {
      * @return true if the process has exited
      */
     public boolean waitFor(Duration timeout) {
-        boolean exited = awaitExit(timeout);
+        boolean exited;
+        try {
+            exited = process.waitFor(timeout.toMillis(), MILLISECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
         if (exited) {
-            stopWorker();
+            runUninterruptibly(this::stopWorker);
         }
         return exited;
     }
@@ -91,49 +100,72 @@ public final class ExternalProcess {
 
     /**
      * Terminates the process gracefully, then forcibly if it is still alive after the given timeout.
+     * The termination always completes, even if the calling thread is interrupted;
+     * the interrupt status is restored afterwards.
      *
      * @param timeout how long to wait for each termination attempt
      */
     public void shutdown(Duration timeout) {
-        try {
-            // Use the handle to avoid closing the process streams
-            var handle = process.toHandle();
-            if (handle.supportsNormalTermination()) {
-                handle.destroy();
-                if (awaitExit(timeout)) {
-                    return;
-                }
-            }
-            handle.destroyForcibly();
-            awaitExit(timeout);
-        } finally {
-            stopWorker();
-        }
-    }
-
-    private boolean awaitExit(Duration timeout) {
-        try {
-            return process.waitFor(timeout.toMillis(), MILLISECONDS);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return false;
-        }
-    }
-
-    private void stopWorker() {
-        try {
-            worker.join(8000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } finally {
-            // No-op if the worker has finished, otherwise unblocks it
-            worker.interrupt();
+        runUninterruptibly(interrupts -> {
             try {
-                worker.join(2000);
-            } catch (InterruptedException e) {
+                // Use the handle to avoid closing the process streams
+                var handle = process.toHandle();
+                if (handle.supportsNormalTermination()) {
+                    handle.destroy();
+                    if (awaitExit(timeout, interrupts)) {
+                        return;
+                    }
+                }
+                handle.destroyForcibly();
+                awaitExit(timeout, interrupts);
+            } finally {
+                stopWorker(interrupts);
+            }
+        });
+    }
+
+    private void runUninterruptibly(Consumer<AtomicBoolean> action) {
+        var interrupts = new AtomicBoolean();
+        try {
+            action.accept(interrupts);
+        } finally {
+            if (interrupts.get()) {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    private boolean awaitExit(Duration timeout, AtomicBoolean interrupts) {
+        long deadline = System.nanoTime() + timeout.toNanos();
+        while (true) {
+            try {
+                return process.waitFor(Math.max(0, deadline - System.nanoTime()), NANOSECONDS);
+            } catch (InterruptedException e) {
+                interrupts.set(true);
+            }
+        }
+    }
+
+    private void joinWorker(Duration timeout, AtomicBoolean interrupts) {
+        long deadline = System.nanoTime() + timeout.toNanos();
+        while (worker.isAlive()) {
+            long remainingMs = NANOSECONDS.toMillis(deadline - System.nanoTime());
+            if (remainingMs <= 0) {
+                return;
+            }
+            try {
+                worker.join(remainingMs);
+            } catch (InterruptedException e) {
+                interrupts.set(true);
+            }
+        }
+    }
+
+    private void stopWorker(AtomicBoolean interrupts) {
+        joinWorker(Duration.ofSeconds(8), interrupts);
+        // No-op if the worker has finished, otherwise unblocks it
+        worker.interrupt();
+        joinWorker(Duration.ofSeconds(2), interrupts);
     }
 
     public static final class Builder {

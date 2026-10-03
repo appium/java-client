@@ -92,6 +92,23 @@ class ExternalProcessTest {
     }
 
     @Test
+    void shutdownCompletesAndKeepsTheInterruptStatusWhenTheCallerIsInterrupted() throws IOException {
+        var process = startSource("Thread.sleep(600000);", new ByteArrayOutputStream());
+        assertTrue(process.isAlive());
+
+        Thread.currentThread().interrupt();
+        try {
+            process.shutdown(Duration.ofSeconds(30));
+
+            assertFalse(process.isAlive());
+            assertTrue(Thread.currentThread().isInterrupted());
+        } finally {
+            // Clear the status so it does not leak into other tests
+            Thread.interrupted();
+        }
+    }
+
+    @Test
     void failsToStartANonExistingExecutable() {
         var missing = new File(tempDir.toFile(), "no-such-executable").getAbsolutePath();
 
