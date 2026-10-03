@@ -16,16 +16,16 @@
 
 package io.appium.java_client.service.local;
 
+import io.appium.java_client.internal.process.ExternalProcess;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.os.ExternalProcess;
-import org.openqa.selenium.remote.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -50,7 +50,7 @@ import static java.util.Optional.ofNullable;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
-public final class AppiumDriverLocalService extends DriverService {
+public final class AppiumDriverLocalService implements Closeable {
 
     private static final String URL_MASK = "http://%s:%d/";
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
@@ -76,7 +76,6 @@ public final class AppiumDriverLocalService extends DriverService {
                              int nodeJSPort, Duration startupTimeout,
                              List<String> nodeJSArgs, Map<String, String> nodeJSEnvironment
     ) throws IOException {
-        super(nodeJSExec, nodeJSPort, startupTimeout, nodeJSArgs, nodeJSEnvironment);
         this.nodeJSExec = nodeJSExec;
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
@@ -113,30 +112,15 @@ public final class AppiumDriverLocalService extends DriverService {
      *
      * @return The base URL for the managed appium server.
      */
-    @Override
     public URL getUrl() {
         return basePath == null ? url : addSuffix(url, basePath);
     }
 
     /**
-     * System property checked by Selenium {@code DriverFinder} when the executable path is not set
-     * explicitly. Matches {@link AppiumServiceBuilder#NODE_PATH}.
+     * Checks whether the server process is alive and responds to status requests.
+     *
+     * @return true if the server is running
      */
-    @Override
-    public String getDriverProperty() {
-        return AppiumServiceBuilder.NODE_PATH;
-    }
-
-    /**
-     * Environment variable checked by Selenium {@code DriverFinder} when the executable path is not
-     * set explicitly. Matches {@link AppiumServiceBuilder#NODE_PATH}.
-     */
-    @Override
-    public String getDriverEnvironmentVariable() {
-        return AppiumServiceBuilder.NODE_PATH;
-    }
-
-    @Override
     public boolean isRunning() {
         lock.lock();
         try {
@@ -181,7 +165,6 @@ public final class AppiumDriverLocalService extends DriverService {
      * @throws AppiumServerHasNotBeenStartedLocallyException If an error occurs on Appium server startup.
      * @see #stop()
      */
-    @Override
     public void start() throws AppiumServerHasNotBeenStartedLocallyException {
         lock.lock();
         try {
@@ -265,7 +248,6 @@ public final class AppiumDriverLocalService extends DriverService {
      *
      * @see #start()
      */
-    @Override
     public void stop() {
         lock.lock();
         try {
@@ -276,6 +258,14 @@ public final class AppiumDriverLocalService extends DriverService {
         } finally {
             lock.unlock();
         }
+    }
+
+    /**
+     * Stops the service if it is running.
+     */
+    @Override
+    public void close() {
+        stop();
     }
 
     /**
