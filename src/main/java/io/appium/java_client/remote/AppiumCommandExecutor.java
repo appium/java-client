@@ -20,6 +20,7 @@ import com.google.common.base.Throwables;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.internal.DirectConnectUrlSafety;
 import io.appium.java_client.internal.ReflectionHelpers;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import lombok.Getter;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -40,7 +41,6 @@ import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.remote.http.HttpClient.Factory;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
-import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -57,7 +57,7 @@ import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 @NullMarked
 public class AppiumCommandExecutor extends HttpCommandExecutor {
 
-    private final Optional<DriverService> serviceOptional;
+    private final Optional<AppiumDriverLocalService> serviceOptional;
     @Getter
     private final AppiumClientConfig appiumClientConfig;
 
@@ -65,13 +65,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * Create an AppiumCommandExecutor instance.
      *
      * @param additionalCommands is the map of Appium commands
-     * @param service take a look at {@link DriverService}
+     * @param service take a look at {@link AppiumDriverLocalService}
      * @param httpClientFactory take a look at {@link Factory}
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public AppiumCommandExecutor(
             Map<String, CommandInfo> additionalCommands,
-            @Nullable DriverService service,
+            @Nullable AppiumDriverLocalService service,
             @Nullable Factory httpClientFactory,
             AppiumClientConfig appiumClientConfig) {
         super(additionalCommands,
@@ -83,7 +83,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         this.appiumClientConfig = appiumClientConfig;
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service,
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumDriverLocalService service,
                                  @Nullable Factory httpClientFactory) {
         this(additionalCommands, requireNonNull(service), httpClientFactory,
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(service).getUrl()));
@@ -110,13 +110,13 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                 appiumClientConfig.baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, DriverService service) {
+    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumDriverLocalService service) {
         this(additionalCommands, service, HttpClient.Factory.createDefault(),
                 AppiumClientConfig.defaultConfig().baseUrl(service.getUrl()));
     }
 
     public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
-                                 DriverService service, AppiumClientConfig appiumClientConfig) {
+                                 AppiumDriverLocalService service, AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, service, HttpClient.Factory.createDefault(), appiumClientConfig);
     }
 
@@ -230,13 +230,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     @Override
     public Response execute(Command command) throws WebDriverException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
-            serviceOptional.ifPresent(driverService -> {
-                try {
-                    driverService.start();
-                } catch (IOException e) {
-                    throw new WebDriverException(e.getMessage(), e);
-                }
-            });
+            serviceOptional.ifPresent(AppiumDriverLocalService::start);
         }
 
         try {
@@ -257,7 +251,7 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
             throw new WebDriverException(t);
         } finally {
             if (DriverCommand.QUIT.equals(command.getName())) {
-                serviceOptional.ifPresent(DriverService::stop);
+                serviceOptional.ifPresent(AppiumDriverLocalService::stop);
             }
         }
     }
