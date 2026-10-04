@@ -322,7 +322,7 @@ class DriverWireScenariosTest {
             var authenticator = c.driver.addVirtualAuthenticator(new VirtualAuthenticatorOptions());
             authenticator.addCredential(Credential.createNonResidentCredential(
                     new byte[]{1, 2, 3}, "example.com", new PKCS8EncodedKeySpec(new byte[]{9, 9}), 7));
-            var credentials = authenticator.getCredentials();
+            final var credentials = authenticator.getCredentials();
             authenticator.removeCredential(new byte[]{1, 2, 3});
             authenticator.removeCredential("AQID");
             authenticator.removeAllCredentials();
