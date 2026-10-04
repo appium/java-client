@@ -152,5 +152,21 @@
         "client": "https://appium.example.com:4723"
       }
     ]
+  },
+  "noFedCmDialog": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/getdialogtype",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
   }
 }

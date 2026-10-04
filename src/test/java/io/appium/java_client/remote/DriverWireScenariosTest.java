@@ -38,11 +38,14 @@ import org.openqa.selenium.WindowType;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.print.PrintOptions;
+import org.openqa.selenium.virtualauthenticator.Credential;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 
 import java.io.UncheckedIOException;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -176,6 +179,19 @@ class DriverWireScenariosTest {
                             "{\"value\":[" + el + ",{\"k\":1,\"d\":1.5},\"s\",true,null]}")
                     .route("POST", "/session/s1/window/new", 200,
                             "{\"value\":{\"handle\":\"w3\",\"type\":\"tab\"}}")
+                    .route("GET", "/session/s1/element/el1/shadow", 200,
+                            "{\"value\":{\"" + ShadowRoot.SHADOW_ROOT_KEY + "\":\"sh1\"}}")
+                    .route("POST", "/session/s1/shadow/sh1/element", 200, "{\"value\":" + el2 + "}")
+                    .route("POST", "/session/s1/shadow/sh1/elements", 200, "{\"value\":[" + el + "," + el2 + "]}")
+                    .route("POST", "/session/s1/webauthn/authenticator", 200, "{\"value\":\"auth1\"}")
+                    .route("GET", "/session/s1/webauthn/authenticator/auth1/credentials", 200,
+                            "{\"value\":[{\"credentialId\":\"AQID\",\"isResidentCredential\":false,"
+                                    + "\"rpId\":\"example.com\",\"privateKey\":\"CQk\",\"signCount\":7}]}")
+                    .route("GET", "/session/s1/fedcm/getdialogtype", 200, "{\"value\":\"AccountChooser\"}")
+                    .route("GET", "/session/s1/fedcm/gettitle", 200,
+                            "{\"value\":{\"title\":\"Sign in\",\"subtitle\":\"with IdP\"}}")
+                    .route("GET", "/session/s1/fedcm/accountlist", 200,
+                            "{\"value\":[{\"accountId\":\"a1\",\"email\":\"a@example.com\"}]}")
                     .route("GET", "/session/s1/context", 200, "{\"value\":\"NATIVE_APP\"}")
                     .route("GET", "/session/s1/contexts", 200, "{\"value\":[\"NATIVE_APP\",\"WEBVIEW_1\"]}")
                     .route("GET", "/session/s1/orientation", 200, "{\"value\":\"PORTRAIT\"}")
@@ -295,6 +311,36 @@ class DriverWireScenariosTest {
             c.driver.manage().logs().get("logcat");
             return types;
         });
+        SCENARIOS.put("shadowRoot", c -> {
+            var shadow = c.element.getShadowRoot();
+            var found = shadow.findElement(By.cssSelector("#in"));
+            var all = shadow.findElements(By.className("cls"));
+            var scripted = c.driver.executeScript("return arguments[0]", shadow);
+            return List.of(shadow, found, all, scripted);
+        });
+        SCENARIOS.put("virtualAuthenticator", c -> {
+            var authenticator = c.driver.addVirtualAuthenticator(new VirtualAuthenticatorOptions());
+            authenticator.addCredential(Credential.createNonResidentCredential(
+                    new byte[]{1, 2, 3}, "example.com", new PKCS8EncodedKeySpec(new byte[]{9, 9}), 7));
+            var credentials = authenticator.getCredentials();
+            authenticator.removeCredential(new byte[]{1, 2, 3});
+            authenticator.removeCredential("AQID");
+            authenticator.removeAllCredentials();
+            authenticator.setUserVerified(true);
+            c.driver.removeVirtualAuthenticator(authenticator);
+            return List.of(authenticator.getId(), credentials.get(0).toMap());
+        });
+        SCENARIOS.put("federatedCredentialManagement", c -> {
+            c.driver.setDelayEnabled(false);
+            c.driver.resetCooldown();
+            var dialog = c.driver.getFederatedCredentialManagementDialog();
+            dialog.selectAccount(1);
+            dialog.clickDialog();
+            dialog.cancelDialog();
+            var account = dialog.getAccounts().get(0);
+            return List.of(dialog.getDialogType(), dialog.getTitle(), dialog.getSubtitle(),
+                    account.getAccountid(), account.getEmail());
+        });
         SCENARIOS.put("windowHandles", c -> List.of(c.driver.getWindowHandle(), c.driver.getWindowHandles()));
         SCENARIOS.put("switchToWindowAndFrame", c -> {
             c.driver.switchTo().window("w2");
@@ -360,6 +406,9 @@ class DriverWireScenariosTest {
         }
         if (value instanceof WebElement) {
             return "element:" + elementId((WebElement) value);
+        }
+        if (value instanceof ShadowRoot) {
+            return "shadowRoot:" + ((ShadowRoot) value).getId();
         }
         if (value instanceof byte[]) {
             return "bytes:" + new String((byte[]) value, java.nio.charset.StandardCharsets.UTF_8);
@@ -483,6 +532,10 @@ class DriverWireScenariosTest {
                 FakeTransport.withDefaults().route("GET", "/session/s1/element/el1/text", 404,
                         "{\"value\":{\"error\":\"stale element reference\",\"message\":\"stale\"}}"),
                 d -> d.findElement(By.id("a")).getText()));
+        setups.put("noFedCmDialog", new Failure(
+                FakeTransport.withDefaults().route("GET", "/session/s1/fedcm/getdialogtype", 404,
+                        "{\"value\":{\"error\":\"no such alert\",\"message\":\"no dialog\"}}"),
+                d -> d.getFederatedCredentialManagementDialog()));
         Map<String, Object> result = new LinkedHashMap<>();
         setups.forEach((name, failure) -> {
             var driver = newDriver(failure.transport);

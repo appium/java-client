@@ -27,6 +27,7 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.OutputType;
@@ -40,18 +41,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
+import org.openqa.selenium.federatedcredentialmanagement.FederatedCredentialManagementDialog;
+import org.openqa.selenium.federatedcredentialmanagement.HasFederatedCredentialManagement;
 import org.openqa.selenium.interactions.Interactive;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.print.PrintOptions;
+import org.openqa.selenium.virtualauthenticator.Credential;
+import org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticator;
+import org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +79,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * (Apache License 2.0), without the features that are specific to browsers.
  */
 public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, HasCapabilities, Interactive,
-        PrintsPage, TakesScreenshot {
+        PrintsPage, TakesScreenshot, HasVirtualAuthenticator, HasFederatedCredentialManagement {
     private static final Logger LOG = LoggerFactory.getLogger(AppiumRemoteWebDriver.class);
 
     private final ElementLocation elementLocation = new ElementLocation();
@@ -408,6 +417,40 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
     }
 
     @Override
+    public VirtualAuthenticator addVirtualAuthenticator(VirtualAuthenticatorOptions options) {
+        var authenticatorId = (String) execute(DriverCommand.ADD_VIRTUAL_AUTHENTICATOR, options.toMap()).getValue();
+        return new RemoteVirtualAuthenticator(authenticatorId);
+    }
+
+    @Override
+    public void removeVirtualAuthenticator(VirtualAuthenticator authenticator) {
+        execute(DriverCommand.REMOVE_VIRTUAL_AUTHENTICATOR, Map.of("authenticatorId", authenticator.getId()));
+    }
+
+    @Override
+    public void setDelayEnabled(boolean enabled) {
+        execute(DriverCommand.SET_DELAY_ENABLED(enabled));
+    }
+
+    @Override
+    public void resetCooldown() {
+        execute(DriverCommand.RESET_COOLDOWN);
+    }
+
+    @Nullable
+    @Override
+    public FederatedCredentialManagementDialog getFederatedCredentialManagementDialog() {
+        FederatedCredentialManagementDialog dialog = new FedCmDialog(executeMethod);
+        try {
+            // As long as this does not throw, there is a dialog
+            dialog.getDialogType();
+            return dialog;
+        } catch (NoAlertPresentException e) {
+            return null;
+        }
+    }
+
+    @Override
     public void resetInputState() {
         execute(DriverCommand.CLEAR_ACTIONS_STATE);
     }
@@ -723,6 +766,54 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
         public void sendKeys(String keysToSend) {
             requireNonNull(keysToSend, "Keys to send should be a not null CharSequence");
             execute(DriverCommand.SET_ALERT_VALUE(keysToSend));
+        }
+    }
+
+    private class RemoteVirtualAuthenticator implements VirtualAuthenticator {
+        private final String id;
+
+        RemoteVirtualAuthenticator(String id) {
+            this.id = requireNonNull(id, "Id");
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public void addCredential(Credential credential) {
+            Map<String, Object> parameters = new LinkedHashMap<>(credential.toMap());
+            parameters.put("authenticatorId", id);
+            execute(DriverCommand.ADD_CREDENTIAL, parameters);
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public List<Credential> getCredentials() {
+            var response = (List<Map<String, Object>>)
+                    execute(DriverCommand.GET_CREDENTIALS, Map.of("authenticatorId", id)).getValue();
+            return response.stream().map(Credential::fromMap).collect(Collectors.toList());
+        }
+
+        @Override
+        public void removeCredential(byte[] credentialId) {
+            removeCredential(Base64.getUrlEncoder().encodeToString(credentialId));
+        }
+
+        @Override
+        public void removeCredential(String credentialId) {
+            execute(DriverCommand.REMOVE_CREDENTIAL, Map.of("authenticatorId", id, "credentialId", credentialId));
+        }
+
+        @Override
+        public void removeAllCredentials() {
+            execute(DriverCommand.REMOVE_ALL_CREDENTIALS, Map.of("authenticatorId", id));
+        }
+
+        @Override
+        public void setUserVerified(boolean verified) {
+            execute(DriverCommand.SET_USER_VERIFIED, Map.of("authenticatorId", id, "isUserVerified", verified));
         }
     }
 }

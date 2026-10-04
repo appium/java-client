@@ -173,6 +173,11 @@ public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot,
     }
 
     @Override
+    public SearchContext getShadowRoot() {
+        return (SearchContext) execute(DriverCommand.GET_ELEMENT_SHADOW_ROOT(getId())).getValue();
+    }
+
+    @Override
     public WebElement findElement(By locator) {
         return parent.findElement(this, (using, value) -> FIND_CHILD_ELEMENT(getId(), using, value), locator);
     }

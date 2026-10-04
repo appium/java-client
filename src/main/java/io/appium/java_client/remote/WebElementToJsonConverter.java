@@ -49,6 +49,10 @@ class WebElementToJsonConverter implements Function<@Nullable Object, @Nullable 
             return Map.of(AppiumWebElement.ELEMENT_KEY, ((AppiumWebElement) arg).getId());
         }
 
+        if (arg instanceof ShadowRoot) {
+            return ((ShadowRoot) arg).toJson();
+        }
+
         if (arg.getClass().isArray()) {
             arg = arrayToList(arg);
         }

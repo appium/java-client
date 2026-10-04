@@ -1980,6 +1980,318 @@
       }
     ]
   },
+  "shadowRoot": {
+    "result": [
+      "shadowRoot:sh1",
+      "element:el2",
+      [
+        "element:el1",
+        "element:el2"
+      ],
+      [
+        "element:el1",
+        {
+          "d": "Double:1.5",
+          "k": "Long:1"
+        },
+        "String:s",
+        "Boolean:true",
+        "null"
+      ]
+    ],
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/shadow",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/shadow/sh1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "shadowId": "sh1",
+          "using": "css selector",
+          "value": "#in"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/shadow/sh1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "shadowId": "sh1",
+          "using": "class name",
+          "value": "cls"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/execute/sync",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "args": [
+            {
+              "shadow-6066-11e4-a52e-4f735466cecf": "sh1"
+            }
+          ],
+          "script": "return arguments[0]"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "virtualAuthenticator": {
+    "result": [
+      "String:auth1",
+      {
+        "credentialId": "String:AQID",
+        "isResidentCredential": "Boolean:false",
+        "privateKey": "String:CQk=",
+        "rpId": "String:example.com",
+        "signCount": "Integer:7"
+      }
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "hasResidentKey": false,
+          "hasUserVerification": false,
+          "isUserConsenting": true,
+          "isUserVerified": false,
+          "protocol": "ctap2",
+          "transport": "usb"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credential",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "authenticatorId": "auth1",
+          "credentialId": "AQID",
+          "isResidentCredential": false,
+          "privateKey": "CQk=",
+          "rpId": "example.com",
+          "signCount": 7
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials/AQID",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials/AQID",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/uv",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "authenticatorId": "auth1",
+          "isUserVerified": true
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "federatedCredentialManagement": {
+    "result": [
+      "String:AccountChooser",
+      "String:Sign in",
+      "String:with IdP",
+      "String:a1",
+      "String:a@example.com"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/setdelayenabled",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "enabled": false
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/resetcooldown",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/getdialogtype",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/selectaccount",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "accountIndex": 1
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/clickdialogbutton",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "dialogButton": "ConfirmIdpLoginContinue"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/canceldialog",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/accountlist",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/getdialogtype",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/gettitle",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/gettitle",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
   "windowHandles": {
     "result": [
       "String:w1",

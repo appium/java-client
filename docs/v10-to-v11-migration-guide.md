@@ -30,8 +30,9 @@ requires them (for example the Selenium `Augmenter`), must be replaced.
 `CommandInfo` is replaced by `io.appium.java_client.AppiumCommandInfo`.
 `CapabilityType` is replaced by `io.appium.java_client.remote.CapabilityType`, which only contains
 `PLATFORM_NAME` and `BROWSER_NAME`.
-- Features that are specific to browsers are not available anymore: virtual authenticators, federated
-credential management, downloads, shadow DOM, DevTools, web storage commands and file upload.
+- Features that Appium servers do not serve are not available anymore: downloads, file upload, web storage
+commands, DevTools and tracing. Shadow roots, virtual authenticators, federated credential management and
+`manage().logs()` keep working.
 - `AppiumCommandExecutor` does not extend `HttpCommandExecutor` anymore. Its constructors accept
 `AppiumCommandInfo` maps, and `AppiumDriverLocalService` instead of `DriverService`.
 The `setPrivateFieldValue` method and the public `client` field are removed, use `getClient()`.

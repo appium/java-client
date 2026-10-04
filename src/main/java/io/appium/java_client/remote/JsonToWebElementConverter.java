@@ -49,6 +49,9 @@ class JsonToWebElementConverter implements Function<Object, Object> {
                 element.setId(String.valueOf(resultAsMap.get(AppiumWebElement.ELEMENT_KEY)));
                 return element;
             }
+            if (resultAsMap.containsKey(ShadowRoot.SHADOW_ROOT_KEY) && driver != null) {
+                return new ShadowRoot(driver, String.valueOf(resultAsMap.get(ShadowRoot.SHADOW_ROOT_KEY)));
+            }
             // Some values are converted to null, so Collectors.toMap cannot be used
             Map<Object, Object> converted = new LinkedHashMap<>();
             resultAsMap.forEach((k, v) -> converted.put(k, apply(v)));

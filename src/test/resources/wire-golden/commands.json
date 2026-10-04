@@ -31,6 +31,32 @@
     },
     "body": {}
   },
+  "addCredential": {
+    "method": "POST",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credential",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "authenticatorId": "sample-authenticatorId"
+    }
+  },
+  "addVirtualAuthenticator": {
+    "method": "POST",
+    "uri": "/session/test-session/webauthn/authenticator",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "cancelDialog": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/canceldialog",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
   "clearActionState": {
     "method": "DELETE",
     "uri": "/session/test-session/actions",
@@ -46,6 +72,14 @@
     "body": {
       "id": "sample-id"
     }
+  },
+  "clickDialog": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/clickdialogbutton",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
   },
   "clickElement": {
     "method": "POST",
@@ -183,6 +217,16 @@
     },
     "body": {}
   },
+  "findElementFromShadowRoot": {
+    "method": "POST",
+    "uri": "/session/test-session/shadow/sample-shadowId/element",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "shadowId": "sample-shadowId"
+    }
+  },
   "findElements": {
     "method": "POST",
     "uri": "/session/test-session/elements",
@@ -190,6 +234,16 @@
       "content-type": "application/json; charset=utf-8"
     },
     "body": {}
+  },
+  "findElementsFromShadowRoot": {
+    "method": "POST",
+    "uri": "/session/test-session/shadow/sample-shadowId/elements",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "shadowId": "sample-shadowId"
+    }
   },
   "fingerPrint": {
     "method": "POST",
@@ -214,6 +268,14 @@
       "content-type": "application/json; charset=utf-8"
     },
     "body": {}
+  },
+  "getAccounts": {
+    "method": "GET",
+    "uri": "/session/test-session/fedcm/accountlist",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
   },
   "getActiveElement": {
     "method": "GET",
@@ -282,6 +344,14 @@
   "getCookies": {
     "method": "GET",
     "uri": "/session/test-session/cookie",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCredentials": {
+    "method": "GET",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials",
     "headers": {
       "cache-control": "no-cache"
     },
@@ -393,6 +463,14 @@
     },
     "body": null
   },
+  "getElementShadowRoot": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/shadow",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
   "getElementSize": "unsupported",
   "getElementTagName": {
     "method": "GET",
@@ -413,6 +491,22 @@
   "getElementValueOfCssProperty": {
     "method": "GET",
     "uri": "/session/test-session/element/sample-id/css/sample-propertyName",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getFedCmDialogType": {
+    "method": "GET",
+    "uri": "/session/test-session/fedcm/getdialogtype",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getFedCmTitle": {
+    "method": "GET",
+    "uri": "/session/test-session/fedcm/gettitle",
     "headers": {
       "cache-control": "no-cache"
     },
@@ -824,6 +918,12 @@
     },
     "body": {}
   },
+  "removeAllCredentials": {
+    "method": "DELETE",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials",
+    "headers": {},
+    "body": null
+  },
   "removeApp": {
     "method": "POST",
     "uri": "/session/test-session/appium/device/remove_app",
@@ -831,6 +931,18 @@
       "content-type": "application/json; charset=utf-8"
     },
     "body": {}
+  },
+  "removeCredential": {
+    "method": "DELETE",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials/sample-credentialId",
+    "headers": {},
+    "body": null
+  },
+  "removeVirtualAuthenticator": {
+    "method": "DELETE",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId",
+    "headers": {},
+    "body": null
   },
   "replaceValue": {
     "method": "POST",
@@ -845,6 +957,14 @@
   "reset": {
     "method": "POST",
     "uri": "/session/test-session/appium/app/reset",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "resetCooldown": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/resetcooldown",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -865,6 +985,14 @@
       "cache-control": "no-cache"
     },
     "body": null
+  },
+  "selectAccount": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/selectaccount",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
   },
   "sendKeysToElement": "error:NullPointerException",
   "sendSMS": {
@@ -894,6 +1022,14 @@
   "setCurrentWindowSize": {
     "method": "POST",
     "uri": "/session/test-session/window/rect",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setDelayEnabled": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/setdelayenabled",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -954,6 +1090,16 @@
       "content-type": "application/json; charset=utf-8"
     },
     "body": {}
+  },
+  "setUserVerified": {
+    "method": "POST",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/uv",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "authenticatorId": "sample-authenticatorId"
+    }
   },
   "setValue": {
     "method": "POST",

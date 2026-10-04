@@ -90,6 +90,24 @@ public final class DriverCommand {
     public static final String GET_ELEMENT_VALUE_OF_CSS_PROPERTY = "getElementValueOfCssProperty";
     public static final String GET_ELEMENT_ARIA_ROLE = "getElementAriaRole";
     public static final String GET_ELEMENT_ACCESSIBLE_NAME = "getElementAccessibleName";
+    public static final String GET_ELEMENT_SHADOW_ROOT = "getElementShadowRoot";
+    public static final String FIND_ELEMENT_FROM_SHADOW_ROOT = "findElementFromShadowRoot";
+    public static final String FIND_ELEMENTS_FROM_SHADOW_ROOT = "findElementsFromShadowRoot";
+    public static final String ADD_VIRTUAL_AUTHENTICATOR = "addVirtualAuthenticator";
+    public static final String REMOVE_VIRTUAL_AUTHENTICATOR = "removeVirtualAuthenticator";
+    public static final String ADD_CREDENTIAL = "addCredential";
+    public static final String GET_CREDENTIALS = "getCredentials";
+    public static final String REMOVE_CREDENTIAL = "removeCredential";
+    public static final String REMOVE_ALL_CREDENTIALS = "removeAllCredentials";
+    public static final String SET_USER_VERIFIED = "setUserVerified";
+    public static final String CANCEL_DIALOG = "cancelDialog";
+    public static final String SELECT_ACCOUNT = "selectAccount";
+    public static final String CLICK_DIALOG = "clickDialog";
+    public static final String GET_ACCOUNTS = "getAccounts";
+    public static final String GET_FEDCM_TITLE = "getFedCmTitle";
+    public static final String GET_FEDCM_DIALOG_TYPE = "getFedCmDialogType";
+    public static final String SET_DELAY_ENABLED = "setDelayEnabled";
+    public static final String RESET_COOLDOWN = "resetCooldown";
     public static final String SCREENSHOT = "screenshot";
     public static final String ELEMENT_SCREENSHOT = "elementScreenshot";
     public static final String ACCEPT_ALERT = "acceptAlert";
@@ -256,6 +274,32 @@ public final class DriverCommand {
 
     public static CommandPayload GET_ELEMENT_ACCESSIBLE_NAME(String id) {
         return new CommandPayload(GET_ELEMENT_ACCESSIBLE_NAME, Map.of("id", id));
+    }
+
+    public static CommandPayload GET_ELEMENT_SHADOW_ROOT(String id) {
+        return new CommandPayload(GET_ELEMENT_SHADOW_ROOT, Map.of("id", requireNonNull(id, "Element ID")));
+    }
+
+    public static CommandPayload FIND_ELEMENT_FROM_SHADOW_ROOT(String shadowId, String strategy, Object value) {
+        return new CommandPayload(FIND_ELEMENT_FROM_SHADOW_ROOT, shadowFinder(shadowId, strategy, value));
+    }
+
+    public static CommandPayload FIND_ELEMENTS_FROM_SHADOW_ROOT(String shadowId, String strategy, Object value) {
+        return new CommandPayload(FIND_ELEMENTS_FROM_SHADOW_ROOT, shadowFinder(shadowId, strategy, value));
+    }
+
+    private static Map<String, Object> shadowFinder(String shadowId, String strategy, Object value) {
+        return Map.of("shadowId", requireNonNull(shadowId, "Shadow root ID"),
+                "using", requireNonNull(strategy, "Element finding strategy"),
+                "value", requireNonNull(value, "Value for finding strategy"));
+    }
+
+    public static CommandPayload SELECT_ACCOUNT(int index) {
+        return new CommandPayload(SELECT_ACCOUNT, Map.of("accountIndex", index));
+    }
+
+    public static CommandPayload SET_DELAY_ENABLED(boolean enabled) {
+        return new CommandPayload(SET_DELAY_ENABLED, Map.of("enabled", enabled));
     }
 
     public static CommandPayload ELEMENT_SCREENSHOT(String id) {
