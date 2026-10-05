@@ -337,6 +337,17 @@ public class JdkHttpClient implements HttpClient {
                 LOG.warn("Failed to close the websocket: {}", websocket, e);
             }
         }
+        // java.net.http.HttpClient is AutoCloseable since Java 21; it releases pooled connections
+        if (this.client instanceof AutoCloseable) {
+            AutoCloseable closeable = (AutoCloseable) this.client;
+            executorService.submit(() -> {
+                try {
+                    closeable.close();
+                } catch (Exception e) {
+                    LOG.warn("Failed to close the http client: {}", closeable, e);
+                }
+            });
+        }
         this.client = null;
         executorService.shutdown();
     }

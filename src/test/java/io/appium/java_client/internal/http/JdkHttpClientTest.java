@@ -34,8 +34,10 @@ import javax.net.ssl.SSLContext;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.ServerSocket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -43,8 +45,10 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -52,6 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class JdkHttpClientTest {
     private static final class Config implements ClientConfig {
@@ -346,5 +351,41 @@ class JdkHttpClientTest {
         client.execute(new HttpRequest(HttpMethod.GET, "/echo"));
 
         assertNull(seenHeaders.get(0).get("x-appium-test"));
+    }
+
+    @Test
+    void closesPooledConnectionsOnClose() throws Exception {
+        assumeTrue(Runtime.version().feature() >= 21, "java.net.http.HttpClient is AutoCloseable since Java 21");
+        try (var rawServer = new ServerSocket(0, 0, InetAddress.getLoopbackAddress())) {
+            var connectionClosed = new CompletableFuture<Boolean>();
+            var serverThread = new Thread(() -> serveKeepAliveAndAwaitClose(rawServer, connectionClosed));
+            serverThread.setDaemon(true);
+            serverThread.start();
+            var client = newClient(new Config(URI.create("http://127.0.0.1:" + rawServer.getLocalPort())));
+
+            var response = client.execute(new HttpRequest(HttpMethod.GET, "/echo"));
+            client.close();
+
+            assertEquals("ok", response.contentAsString());
+            assertTrue(connectionClosed.get(5, TimeUnit.SECONDS));
+        }
+    }
+
+    private static void serveKeepAliveAndAwaitClose(ServerSocket rawServer, CompletableFuture<Boolean> closed) {
+        try (var socket = rawServer.accept()) {
+            socket.setSoTimeout(5000);
+            var in = socket.getInputStream();
+            var received = new StringBuilder();
+            while (!received.toString().endsWith("\r\n\r\n")) {
+                received.append((char) in.read());
+            }
+            var out = socket.getOutputStream();
+            var reply = "HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: keep-alive\r\n\r\nok";
+            out.write(reply.getBytes(StandardCharsets.US_ASCII));
+            out.flush();
+            closed.complete(in.read() == -1);
+        } catch (IOException e) {
+            closed.completeExceptionally(e);
+        }
     }
 }
