@@ -1,4 +1,5 @@
 import org.apache.tools.ant.filters.*
+import org.gradle.api.publish.maven.MavenPom
 
 plugins {
     id 'java-library'
@@ -21,20 +22,22 @@ ext {
 group = 'io.appium'
 version = appiumClientVersion
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
 
-    // Only add Selenium snapshot repo when resolving a SNAPSHOT version.
-    // Release versions (e.g. from gradle.properties) resolve from Maven Central only.
-    if (project.property('selenium.version').toString().contains('SNAPSHOT')) {
-        maven {
-            name = 'Central Portal Snapshots'
-            url = 'https://central.sonatype.com/repository/maven-snapshots/'
-            mavenContent {
-                snapshotsOnly()
-            }
-            content {
-                includeGroup("org.seleniumhq.selenium")
+        // Only add Selenium snapshot repo when resolving a SNAPSHOT version.
+        // Release versions (e.g. from gradle.properties) resolve from Maven Central only.
+        if (project.property('selenium.version').toString().contains('SNAPSHOT')) {
+            maven {
+                name = 'Central Portal Snapshots'
+                url = 'https://central.sonatype.com/repository/maven-snapshots/'
+                mavenContent {
+                    snapshotsOnly()
+                }
+                content {
+                    includeGroup("org.seleniumhq.selenium")
+                }
             }
         }
     }
@@ -111,6 +114,53 @@ javadoc {
     options.addStringOption('encoding', 'UTF-8')
 }
 
+ext.configureCommonPom = { MavenPom pom ->
+    pom.url = 'http://appium.io'
+    pom.developers {
+        developer {
+            name = 'Jonah Stiennon'
+            email = 'jonahss@gmail.com'
+            url = 'https://github.com/jonahss'
+            id = 'jonahss'
+        }
+        developer {
+            name = 'Sergey Tikhomirov'
+            email = 'tichomirovsergey@gmail.com'
+            url = 'https://github.com/TikhomirovSergey'
+            id = 'TikhomirovSergey'
+        }
+        developer {
+            name = 'Srinivasan Sekar'
+            email = 'srinivasan.sekar1990@gmail.com'
+            url = 'https://github.com/SrinivasanTarget'
+            id = 'SrinivasanTarget'
+        }
+        developer {
+            name = 'Mykola Mokhnach'
+            url = 'https://github.com/mykola-mokhnach'
+            id = 'mykola-mokhnach'
+        }
+        developer {
+            name = 'Valery Yatsynovich'
+            url = 'https://github.com/valfirst'
+            id = 'valfirst'
+        }
+    }
+    pom.licenses {
+        license {
+            name = 'Apache License, Version 2.0'
+            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution = 'repo'
+        }
+    }
+    pom.scm {
+        url = 'https://github.com/appium/java-client'
+        connection = 'scm:git:ssh://git@github.com/appium/java-client.git'
+        developerConnection = 'scm:git:ssh://git@github.com/appium/java-client.git'
+        tag = 'HEAD'
+    }
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -121,50 +171,7 @@ publishing {
             pom {
                 name = 'java-client'
                 description = 'Java client for Appium Mobile Webdriver'
-                url = 'http://appium.io'
-                developers {
-                    developer {
-                        name = 'Jonah Stiennon'
-                        email = 'jonahss@gmail.com'
-                        url = 'https://github.com/jonahss'
-                        id = 'jonahss'
-                    }
-                    developer {
-                        name = 'Sergey Tikhomirov'
-                        email = 'tichomirovsergey@gmail.com'
-                        url = 'https://github.com/TikhomirovSergey'
-                        id = 'TikhomirovSergey'
-                    }
-                    developer {
-                        name = 'Srinivasan Sekar'
-                        email = 'srinivasan.sekar1990@gmail.com'
-                        url = 'https://github.com/SrinivasanTarget'
-                        id = 'SrinivasanTarget'
-                    }
-                    developer {
-                        name = 'Mykola Mokhnach'
-                        url = 'https://github.com/mykola-mokhnach'
-                        id = 'mykola-mokhnach'
-                    }
-                    developer {
-                        name = 'Valery Yatsynovich'
-                        url = 'https://github.com/valfirst'
-                        id = 'valfirst'
-                    }
-                }
-                licenses {
-                    license {
-                        name = 'Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution = 'repo'
-                    }
-                }
-                scm {
-                    url = 'https://github.com/appium/java-client'
-                    connection = 'scm:git:ssh://git@github.com/appium/java-client.git'
-                    developerConnection = 'scm:git:ssh://git@github.com/appium/java-client.git'
-                    tag = 'HEAD'
-                }
+                configureCommonPom(it)
             }
         }
     }
@@ -187,6 +194,7 @@ jreleaser {
                     active = 'ALWAYS'
                     url = 'https://central.sonatype.com/api/v1/publisher'
                     stagingRepository('build/staging-deploy')
+                    stagingRepository('selenium-bridge/build/staging-deploy')
                 }
             }
         }

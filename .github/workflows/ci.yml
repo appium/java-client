@@ -127,12 +127,22 @@ jobs:
       with:
         node-version: 'lts/*'
 
+    # The beta versions of the server and of the driver are used if both are newer than the stable ones,
+    # except for the Flutter tests, which always use the stable ones
+    - name: Resolve Appium versions
+      id: appium-versions
+      run: >-
+        node .github/scripts/resolve-appium-versions.mjs
+        ${{ startsWith(matrix.e2e-tests, 'flutter') && '--stable' || '' }}
+        appium
+        ${{ (matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android') && 'appium-uiautomator2-driver' || 'appium-xcuitest-driver' }}
+
     - name: Install Appium
-      run: npm install --location=global appium
+      run: npm install --location=global appium@${{ steps.appium-versions.outputs.server }}
 
     - name: Install UIA2 driver
       if: matrix.e2e-tests == 'android' || matrix.e2e-tests == 'flutter-android'
-      run: appium driver install uiautomator2
+      run: appium driver install uiautomator2@${{ steps.appium-versions.outputs.driver }}
 
     - name: Install Flutter Integration driver
       if: matrix.e2e-tests == 'flutter-android' || matrix.e2e-tests == 'flutter-ios'
@@ -168,16 +178,17 @@ jobs:
 
     - name: Prepare iOS simulator
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
-      uses: futureware-tech/simulator-action@v5
+      uses: futureware-tech/simulator-action@v6
       with:
         model: "${{ env.IOS_DEVICE_NAME }}"
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
         wait_for_boot: true
+        settle_timeout_seconds: 180
         shutdown_after_job: false
 
     - name: Install XCUITest driver
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
-      run: appium driver install xcuitest
+      run: appium driver install xcuitest@${{ steps.appium-versions.outputs.driver }}
 
     - name: Download prebuilt WDA
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'

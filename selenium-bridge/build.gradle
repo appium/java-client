@@ -1,0 +1,139 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'checkstyle'
+}
+
+evaluationDependsOn(':')
+
+group = 'io.appium'
+version = rootProject.version
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    withJavadocJar()
+    withSourcesJar()
+}
+
+['jar', 'sourcesJar', 'javadocJar'].each { archiveTask ->
+    tasks.named(archiveTask, Jar) {
+        from(rootProject.files('LICENSE', 'NOTICE')) {
+            into 'META-INF'
+        }
+    }
+}
+
+def seleniumVersion = rootProject.ext.seleniumVersion
+def slf4jVersion = rootProject.ext.slf4jVersion
+
+dependencies {
+    api project(':')
+    // Same range as the core module, so that both resolve to a single Selenium version
+    if (seleniumVersion.toString().contains('SNAPSHOT')) {
+        api "org.seleniumhq.selenium:selenium-remote-driver:${seleniumVersion}"
+    } else {
+        api('org.seleniumhq.selenium:selenium-remote-driver') {
+            version {
+                strictly "[${seleniumVersion}, 5.0)"
+                prefer "${seleniumVersion}"
+            }
+        }
+    }
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation 'org.jspecify:jspecify:1.0.1'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-Xlint:deprecation', '-Xlint:removal']
+}
+
+checkstyle {
+    toolVersion = '10.23.1'
+    configFile = rootProject.file('config/checkstyle/appium-style.xml')
+    configDirectory = rootProject.file('config/checkstyle')
+    showViolations = true
+    ignoreFailures = false
+}
+
+javadoc {
+    options.addStringOption('encoding', 'UTF-8')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.appium'
+            artifactId = 'java-client-selenium-bridge'
+            version = rootProject.version
+            from components.java
+            pom {
+                name = 'java-client-selenium-bridge'
+                description = 'Selenium interoperability (RemoteWebDriver adapter and BiDi) for Appium Java client'
+                rootProject.ext.configureCommonPom(it)
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir('staging-deploy')
+        }
+    }
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+            dependencies {
+                implementation 'org.junit.jupiter:junit-jupiter:5.14.4'
+                runtimeOnly 'org.junit.platform:junit-platform-launcher'
+                runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
+            }
+            targets.configureEach {
+                testTask.configure {
+                    testLogging {
+                        showStandardStreams = true
+                        exceptionFormat = 'full'
+                    }
+                }
+            }
+        }
+
+        e2eIosTest(JvmTestSuite) {
+            sources {
+                java {
+                    srcDirs = ['src/e2eIosTest/java']
+                }
+            }
+            dependencies {
+                implementation project()
+                implementation(rootProject.sourceSets.test.output)
+                implementation(rootProject.sourceSets.e2eIosTest.output)
+            }
+            targets.configureEach {
+                testTask.configure {
+                    shouldRunAfter(test)
+                }
+            }
+        }
+
+        e2eAndroidTest(JvmTestSuite) {
+            sources {
+                java {
+                    srcDirs = ['src/e2eAndroidTest/java']
+                }
+            }
+            dependencies {
+                implementation project()
+                implementation(rootProject.sourceSets.test.output)
+                implementation(rootProject.sourceSets.e2eAndroidTest.output)
+            }
+            targets.configureEach {
+                testTask.configure {
+                    shouldRunAfter(test)
+                }
+            }
+        }
+    }
+}

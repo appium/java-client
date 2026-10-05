@@ -23,7 +23,9 @@ in your own build.
 are `io.appium.java_client.remote.AppiumWebElement` instead of `org.openqa.selenium.remote.RemoteWebElement`.
 Both still implement `WebDriver` and `WebElement` from `selenium-api`, so code that is typed against the
 interfaces does not need any change. Casts to `RemoteWebDriver` and `RemoteWebElement`, and code that
-requires them (for example the Selenium `Augmenter`), must be replaced.
+requires them (for example the Selenium `Augmenter`), must be replaced. The optional
+`io.appium:java-client-selenium-bridge` artifact adapts an Appium driver to a `RemoteWebDriver` that works in the
+same session, see [Selenium interoperability](selenium-bridge.md).
 - The following types moved to the `io.appium.java_client.remote` package: `Response`, `Command`,
 `CommandPayload`, `SessionId`, `DriverCommand`, `ExecuteMethod`, `CommandExecutor`, `ErrorHandler`,
 `ErrorCodes`, `ScreenshotException` and `UnreachableBrowserException`.
@@ -77,3 +79,6 @@ returns a `Map`, because Guava is not a dependency anymore.
 - `AppiumDriver` does not implement `HasBiDi` anymore and the `getBiDi` and `maybeGetBiDi` methods are removed.
 Selenium deprecated them for removal and changed the BiDi API in an incompatible way in the recent releases.
 The BiDi session address is still available in the `webSocketUrl` capability of the created session.
+- To use the Selenium BiDi modules (for example `LogInspector`), add the `io.appium:java-client-selenium-bridge`
+artifact and wrap the driver with `SeleniumBridge.asRemoteWebDriver(driver)`. See
+[Selenium interoperability](selenium-bridge.md).
