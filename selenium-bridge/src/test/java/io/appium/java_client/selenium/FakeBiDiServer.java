@@ -44,6 +44,7 @@ final class FakeBiDiServer implements AutoCloseable {
 
     private final ServerSocket serverSocket;
     private final AtomicInteger connections = new AtomicInteger();
+    private final AtomicInteger closedConnections = new AtomicInteger();
     private final CountDownLatch eventSent = new CountDownLatch(1);
 
     FakeBiDiServer() throws IOException {
@@ -59,6 +60,14 @@ final class FakeBiDiServer implements AutoCloseable {
 
     int connections() {
         return connections.get();
+    }
+
+    boolean awaitClosedConnections(int expected, long timeout, TimeUnit unit) throws InterruptedException {
+        var deadline = System.nanoTime() + unit.toNanos(timeout);
+        while (closedConnections.get() < expected && System.nanoTime() < deadline) {
+            Thread.sleep(50);
+        }
+        return closedConnections.get() >= expected;
     }
 
     boolean awaitEvent(long timeout, TimeUnit unit) throws InterruptedException {
@@ -103,6 +112,8 @@ final class FakeBiDiServer implements AutoCloseable {
             }
         } catch (IOException | NoSuchAlgorithmException e) {
             // The client closed the connection
+        } finally {
+            closedConnections.incrementAndGet();
         }
     }
 

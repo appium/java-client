@@ -36,9 +36,18 @@ import static java.util.Objects.requireNonNull;
  */
 final class SeleniumCommandExecutor implements CommandExecutor {
     private final AppiumRemoteWebDriver delegate;
+    private volatile boolean quitEnabled;
 
     SeleniumCommandExecutor(AppiumRemoteWebDriver delegate) {
         this.delegate = delegate;
+    }
+
+    /**
+     * Lets the quit command end the session. Selenium quits the driver if its constructor fails, which must not
+     * end the session of the Appium driver, so the quit command is ignored until the bridge is created.
+     */
+    void enableQuit() {
+        quitEnabled = true;
     }
 
     @Override
@@ -46,6 +55,11 @@ final class SeleniumCommandExecutor implements CommandExecutor {
     public Response execute(Command command) throws IOException {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
             return existingSession();
+        }
+        if (DriverCommand.QUIT.equals(command.getName()) && !quitEnabled) {
+            var ignored = new Response();
+            ignored.setState("success");
+            return ignored;
         }
         var sessionId = command.getSessionId() == null
                 ? null : new io.appium.java_client.remote.SessionId(command.getSessionId().toString());

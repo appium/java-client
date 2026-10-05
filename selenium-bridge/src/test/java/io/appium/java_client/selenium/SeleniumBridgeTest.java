@@ -29,6 +29,7 @@ import org.openqa.selenium.bidi.BiDiException;
 import org.openqa.selenium.bidi.HasBiDi;
 import org.openqa.selenium.bidi.log.GenericLogEntry;
 import org.openqa.selenium.bidi.module.LogInspector;
+import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -43,8 +44,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,6 +59,7 @@ class SeleniumBridgeTest {
     private FakeBiDiServer biDiServer;
     private final List<String> requests = new CopyOnWriteArrayList<>();
     private String webSocketUrl;
+    private String extraCapabilities = "";
 
     @BeforeEach
     void startServers() throws IOException {
@@ -82,6 +86,7 @@ class SeleniumBridgeTest {
             case "POST /session":
                 body = "{\"value\":{\"sessionId\":\"s1\",\"capabilities\":{\"platformName\":\"Android\","
                         + (webSocketUrl == null ? "" : "\"webSocketUrl\":\"" + webSocketUrl + "\",")
+                        + extraCapabilities
                         + "\"appium:automationName\":\"UiAutomator2\"}}}";
                 break;
             case "GET /session/s1/title":
@@ -123,7 +128,7 @@ class SeleniumBridgeTest {
 
         assertInstanceOf(RemoteWebDriver.class, seleniumDriver);
         assertEquals("s1", String.valueOf(seleniumDriver.getSessionId()));
-        assertSame(appiumDriver, ((BridgedRemoteWebDriver) seleniumDriver).getWrappedDriver());
+        assertSame(appiumDriver, seleniumDriver.getWrappedDriver());
         assertEquals("UiAutomator2", seleniumDriver.getCapabilities().getCapability("appium:automationName"));
         assertEquals(appiumDriver.getCapabilities().getPlatformName(),
                 seleniumDriver.getCapabilities().getPlatformName());
@@ -185,6 +190,68 @@ class SeleniumBridgeTest {
         assertEquals(1, logs.size());
         assertEquals("hello", logs.get(0).getText());
         seleniumDriver.quit();
+    }
+
+    @Test
+    void worksWithTheSeleniumAugmenterWhenItAugmentsTheDriver() throws IOException {
+        extraCapabilities = "\"se:cdp\":\"ws://127.0.0.1:1/devtools\",";
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(newAppiumDriver());
+
+        var augmented = new Augmenter().augment(seleniumDriver);
+
+        assertInstanceOf(HasDevTools.class, augmented);
+        assertEquals("A title", augmented.getTitle());
+    }
+
+    @Test
+    void keepsTheSessionOfTheAppiumDriverIfTheBridgeCannotBeCreated() throws IOException {
+        var appiumDriver = newAppiumDriver();
+        requests.clear();
+
+        assertThrows(IllegalStateException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver, config -> {
+            throw new IllegalStateException("bad factory");
+        }));
+
+        assertEquals("A title", appiumDriver.getTitle());
+        assertFalse(requests.contains("DELETE /session/s1"));
+    }
+
+    @Test
+    void opensOneBiDiConnectionForRepeatedCalls() throws IOException {
+        var appiumDriver = newAppiumDriver();
+
+        var first = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        var second = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        var third = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+
+        assertSame(first, second);
+        assertSame(first, third);
+        assertEquals(1, biDiServer.connections());
+    }
+
+    @Test
+    void closesTheBiDiConnectionWithoutQuittingTheSession() throws Exception {
+        var appiumDriver = newAppiumDriver();
+        var first = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        requests.clear();
+
+        first.closeBiDi();
+
+        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
+        assertFalse(requests.contains("DELETE /session/s1"));
+        assertEquals("A title", first.getTitle());
+        var second = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        assertNotSame(first, second);
+        assertEquals(2, biDiServer.connections());
+    }
+
+    @Test
+    void closesTheBiDiConnectionOnQuit() throws Exception {
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(newAppiumDriver());
+
+        seleniumDriver.quit();
+
+        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
     }
 
     @Test

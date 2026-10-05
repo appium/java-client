@@ -28,16 +28,34 @@ import org.openqa.selenium.remote.http.HttpClient;
 /**
  * A Selenium {@link RemoteWebDriver} that works in the session of an Appium driver. Commands go through the
  * command executor of the Appium driver. If the session was created with the {@code webSocketUrl} capability,
- * the BiDi connection is made by Selenium itself, so Selenium BiDi modules and the {@code Augmenter} can be used.
- * Quitting it quits the session of the Appium driver.
+ * the BiDi connection is made by Selenium itself when the bridge is created, so Selenium BiDi modules and the
+ * {@code Augmenter} can be used.
+ *
+ * <p>The BiDi connection stays open until {@link #closeBiDi()} or {@link #quit()}. Quitting the bridge quits
+ * the session of the Appium driver. Elements are not interchangeable between the drivers.
  */
 public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriver {
-    private final AppiumRemoteWebDriver delegate;
+    private AppiumRemoteWebDriver delegate;
+    private WebSocketClients webSocketClients;
+    private volatile boolean biDiClosed;
+
+    /**
+     * Used by the Selenium {@code Augmenter}, which subclasses the driver and copies its fields.
+     */
+    protected BridgedRemoteWebDriver() {
+        super();
+    }
 
     BridgedRemoteWebDriver(AppiumRemoteWebDriver delegate, HttpClient.Factory webSocketClientFactory) {
-        super(new SeleniumCommandExecutor(delegate), new ImmutableCapabilities(), webSocketClientFactory,
-                toSeleniumConfig(delegate));
+        this(delegate, new SeleniumCommandExecutor(delegate), new WebSocketClients(webSocketClientFactory));
+    }
+
+    private BridgedRemoteWebDriver(AppiumRemoteWebDriver delegate, SeleniumCommandExecutor executor,
+                                   WebSocketClients webSocketClients) {
+        super(executor, new ImmutableCapabilities(), webSocketClients.asFactory(), toSeleniumConfig(delegate));
         this.delegate = delegate;
+        this.webSocketClients = webSocketClients;
+        executor.enableQuit();
     }
 
     @Override
@@ -45,12 +63,37 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
         return delegate;
     }
 
+    /**
+     * Closes the BiDi connection, while the session stays open. The BiDi modules that were created with
+     * this driver cannot be used afterwards.
+     */
+    public void closeBiDi() {
+        biDiClosed = true;
+        webSocketClients.closeAll();
+    }
+
+    boolean isBiDiClosed() {
+        return biDiClosed;
+    }
+
+    /**
+     * Quits the session of the Appium driver and closes the BiDi connection.
+     */
+    @Override
+    public void quit() {
+        try {
+            super.quit();
+        } finally {
+            closeBiDi();
+        }
+    }
+
     private static ClientConfig toSeleniumConfig(AppiumRemoteWebDriver delegate) {
         var config = ClientConfig.defaultConfig();
         if (!(delegate.getCommandExecutor() instanceof AppiumCommandExecutor)) {
             return config;
         }
-        var source = ((AppiumCommandExecutor) delegate.getCommandExecutor()).getClientConfig();
+        var source = ((AppiumCommandExecutor) delegate.getCommandExecutor()).getAppiumClientConfig();
         config = config.baseUri(source.baseUri())
                 .connectionTimeout(source.connectionTimeout())
                 .readTimeout(source.readTimeout())

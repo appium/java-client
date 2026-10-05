@@ -35,6 +35,8 @@ public class AndroidBiDiTest extends BaseAndroidTest {
         try (var logInspector = new LogInspector(selenium)) {
             logInspector.onLog(logs::add);
             driver.getPageSource();
+        } finally {
+            selenium.closeBiDi();
         }
         assertFalse(logs.isEmpty());
     }
@@ -46,6 +48,8 @@ public class AndroidBiDiTest extends BaseAndroidTest {
         try (var logInspector = new LogInspector(NATIVE_CONTEXT, selenium)) {
             logInspector.onLog(logs::add);
             driver.getPageSource();
+        } finally {
+            selenium.closeBiDi();
         }
         assertFalse(logs.isEmpty());
     }
