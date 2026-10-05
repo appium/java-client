@@ -178,11 +178,12 @@ jobs:
 
     - name: Prepare iOS simulator
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
-      uses: futureware-tech/simulator-action@v5
+      uses: futureware-tech/simulator-action@v6
       with:
         model: "${{ env.IOS_DEVICE_NAME }}"
         os_version: "${{ env.IOS_PLATFORM_VERSION }}"
         wait_for_boot: true
+        settle_timeout_seconds: 180
         shutdown_after_job: false
 
     - name: Install XCUITest driver
