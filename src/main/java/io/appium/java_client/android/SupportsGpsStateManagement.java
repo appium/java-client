@@ -1,14 +1,11 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleLocationServicesCommand;
 import static java.util.Objects.requireNonNull;
 
-public interface SupportsGpsStateManagement extends ExecutesMethod, CanRememberExtensionPresence {
+public interface SupportsGpsStateManagement extends ExecutesMethod {
 
     /**
      * Toggles GPS service state.
@@ -16,12 +13,7 @@ public interface SupportsGpsStateManagement extends ExecutesMethod, CanRememberE
      */
     default void toggleLocationServices() {
         final String extName = "mobile: toggleGps";
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), toggleLocationServicesCommand());
-        }
+        CommandExecutionHelper.executeScript(this, extName);
     }
 
     /**

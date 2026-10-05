@@ -1,16 +1,11 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.Map;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getDisplayDensityCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getSystemBarsCommand;
-
-public interface HasAndroidDeviceDetails extends ExecutesMethod, CanRememberExtensionPresence {
+public interface HasAndroidDeviceDetails extends ExecutesMethod {
 
     /**
      Retrieve the display density of the Android device.
@@ -19,12 +14,7 @@ public interface HasAndroidDeviceDetails extends ExecutesMethod, CanRememberExte
      */
     default Long getDisplayDensity() {
         final String extName = "mobile: getDisplayDensity";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(markExtensionAbsence(extName), getDisplayDensityCommand());
-        }
+        return CommandExecutionHelper.executeScript(this, extName);
     }
 
     /**
@@ -34,12 +24,7 @@ public interface HasAndroidDeviceDetails extends ExecutesMethod, CanRememberExte
      */
     default Map<String, Map<String, Object>> getSystemBars() {
         final String extName = "mobile: getSystemBars";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(markExtensionAbsence(extName), getSystemBarsCommand());
-        }
+        return CommandExecutionHelper.executeScript(this, extName);
     }
 
 }

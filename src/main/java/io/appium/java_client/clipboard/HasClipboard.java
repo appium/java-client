@@ -16,21 +16,17 @@
 
 package io.appium.java_client.clipboard;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
-import static io.appium.java_client.MobileCommand.GET_CLIPBOARD;
-import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
-public interface HasClipboard extends ExecutesMethod, CanRememberExtensionPresence {
+public interface HasClipboard extends ExecutesMethod {
     /**
      * Set the content of device's clipboard.
      *
@@ -43,12 +39,7 @@ public interface HasClipboard extends ExecutesMethod, CanRememberExtensionPresen
                 "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
                 "contentType", contentType.name().toLowerCase(ROOT)
         );
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(this, Map.entry(SET_CLIPBOARD, args));
-        }
+        CommandExecutionHelper.executeScript(this, extName, args);
     }
 
     /**
@@ -60,12 +51,7 @@ public interface HasClipboard extends ExecutesMethod, CanRememberExtensionPresen
     default String getClipboard(ClipboardContentType contentType) {
         final String extName = "mobile: getClipboard";
         var args = Map.of("contentType", contentType.name().toLowerCase(ROOT));
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(this, Map.entry(GET_CLIPBOARD, args));
-        }
+        return CommandExecutionHelper.executeScript(this, extName, args);
     }
 
     /**

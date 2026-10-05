@@ -15,14 +15,6 @@
     },
     "body": {}
   },
-  "activateApp": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/activate_app",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "addCookie": {
     "method": "POST",
     "uri": "/session/test-session/cookie",
@@ -97,14 +89,6 @@
     "headers": {},
     "body": null
   },
-  "closeApp": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/app/close",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "compareImages": {
     "method": "POST",
     "uri": "/session/test-session/appium/compare_images",
@@ -112,14 +96,6 @@
       "content-type": "application/json; charset=utf-8"
     },
     "body": {}
-  },
-  "currentActivity": {
-    "method": "GET",
-    "uri": "/session/test-session/appium/device/current_activity",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
   },
   "deleteAllCookies": {
     "method": "DELETE",
@@ -148,14 +124,6 @@
       "cache-control": "no-cache"
     },
     "body": null
-  },
-  "endTestCoverage": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/app/end_test_coverage",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
   },
   "executeAsyncScript": {
     "method": "POST",
@@ -245,14 +213,6 @@
       "shadowId": "sample-shadowId"
     }
   },
-  "fingerPrint": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/finger_print",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "fullscreenCurrentWindow": {
     "method": "POST",
     "uri": "/session/test-session/window/fullscreen",
@@ -317,14 +277,6 @@
     },
     "body": null
   },
-  "getClipboard": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/get_clipboard",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "getContextHandles": {
     "method": "GET",
     "uri": "/session/test-session/contexts",
@@ -365,14 +317,6 @@
     },
     "body": null
   },
-  "getCurrentPackage": {
-    "method": "GET",
-    "uri": "/session/test-session/appium/device/current_package",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
-  },
   "getCurrentUrl": {
     "method": "GET",
     "uri": "/session/test-session/url",
@@ -392,22 +336,6 @@
   "getCurrentWindowSize": {
     "method": "GET",
     "uri": "/session/test-session/window/rect",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
-  },
-  "getDeviceTime": {
-    "method": "GET",
-    "uri": "/session/test-session/appium/device/system_time",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
-  },
-  "getDisplayDensity": {
-    "method": "GET",
-    "uri": "/session/test-session/appium/device/display_density",
     "headers": {
       "cache-control": "no-cache"
     },
@@ -536,14 +464,6 @@
     },
     "body": {}
   },
-  "getNetworkConnection": {
-    "method": "GET",
-    "uri": "/session/test-session/network_connection",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
-  },
   "getPageSource": {
     "method": "GET",
     "uri": "/session/test-session/source",
@@ -551,14 +471,6 @@
       "cache-control": "no-cache"
     },
     "body": null
-  },
-  "getPerformanceData": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/getPerformanceData",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
   },
   "getScreenOrientation": {
     "method": "GET",
@@ -587,30 +499,6 @@
   "getSettings": {
     "method": "GET",
     "uri": "/session/test-session/appium/settings",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
-  },
-  "getStrings": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/app/strings",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "getSuppportedPerformanceDataTypes": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/performanceData/types",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "getSystemBars": {
-    "method": "GET",
-    "uri": "/session/test-session/appium/device/system_bars",
     "headers": {
       "cache-control": "no-cache"
     },
@@ -664,57 +552,9 @@
     },
     "body": {}
   },
-  "gsmCall": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/gsm_call",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "gsmSignal": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/gsm_signal",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "gsmVoice": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/gsm_voice",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "hideKeyboard": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/hide_keyboard",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "implicitlyWait": {
     "method": "POST",
     "uri": "/session/test-session/timeouts/implicit_wait",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "installApp": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/install_app",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "isAppInstalled": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/app_installed",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -744,49 +584,9 @@
     },
     "body": null
   },
-  "isKeyboardShown": {
-    "method": "GET",
-    "uri": "/session/test-session/appium/device/is_keyboard_shown",
-    "headers": {
-      "cache-control": "no-cache"
-    },
-    "body": null
-  },
-  "isLocked": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/is_locked",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "launchApp": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/app/launch",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "lock": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/lock",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "logCustomEvent": {
     "method": "POST",
     "uri": "/session/test-session/appium/log_event",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "longPressKeyCode": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/long_press_keycode",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -808,14 +608,6 @@
     },
     "body": {}
   },
-  "networkSpeed": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/network_speed",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "newSession": {
     "method": "POST",
     "uri": "/session",
@@ -827,38 +619,6 @@
   "newWindow": {
     "method": "POST",
     "uri": "/session/test-session/window/new",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "openNotifications": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/open_notifications",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "powerAC": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/power_ac",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "powerCapacity": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/power_capacity",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "pressKeyCode": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/press_keycode",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -896,14 +656,6 @@
     },
     "body": {}
   },
-  "queryAppState": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/app_state",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "quit": {
     "method": "DELETE",
     "uri": "/session/test-session",
@@ -924,14 +676,6 @@
     "headers": {},
     "body": null
   },
-  "removeApp": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/remove_app",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "removeCredential": {
     "method": "DELETE",
     "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials/sample-credentialId",
@@ -944,35 +688,9 @@
     "headers": {},
     "body": null
   },
-  "replaceValue": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/element/sample-id/replace_value",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {
-      "id": "sample-id"
-    }
-  },
-  "reset": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/app/reset",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "resetCooldown": {
     "method": "POST",
     "uri": "/session/test-session/fedcm/resetcooldown",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "runAppInBackground": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/app/background",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -995,25 +713,9 @@
     "body": {}
   },
   "sendKeysToElement": "error:NullPointerException",
-  "sendSMS": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/send_sms",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
   "setAlertValue": {
     "method": "POST",
     "uri": "/session/test-session/alert/text",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "setClipboard": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/set_clipboard",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -1038,14 +740,6 @@
   "setLocation": {
     "method": "POST",
     "uri": "/session/test-session/location",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "setNetworkConnection": {
-    "method": "POST",
-    "uri": "/session/test-session/network_connection",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -1101,35 +795,9 @@
       "authenticatorId": "sample-authenticatorId"
     }
   },
-  "setValue": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/element/sample-id/value",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {
-      "id": "sample-id"
-    }
-  },
   "setWindowPosition": {
     "method": "POST",
     "uri": "/session/test-session/window/rect",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "shake": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/shake",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "startActivity": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/start_activity",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },
@@ -1187,70 +855,6 @@
   "switchToWindow": {
     "method": "POST",
     "uri": "/session/test-session/window",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "terminateApp": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/terminate_app",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "toggleData": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/toggle_data",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "toggleEnrollTouchId": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/simulator/toggle_touch_id_enrollment",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "toggleFlightMode": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/toggle_airplane_mode",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "toggleLocationServices": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/toggle_location_services",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "toggleWiFi": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/toggle_wifi",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "touchId": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/simulator/touch_id",
-    "headers": {
-      "content-type": "application/json; charset=utf-8"
-    },
-    "body": {}
-  },
-  "unlock": {
-    "method": "POST",
-    "uri": "/session/test-session/appium/device/unlock",
     "headers": {
       "content-type": "application/json; charset=utf-8"
     },

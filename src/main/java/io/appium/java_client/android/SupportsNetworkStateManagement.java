@@ -1,35 +1,25 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.Map;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleAirplaneCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleDataCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.toggleWifiCommand;
 import static java.util.Objects.requireNonNull;
 
-public interface SupportsNetworkStateManagement extends ExecutesMethod, CanRememberExtensionPresence {
+public interface SupportsNetworkStateManagement extends ExecutesMethod {
 
     /**
      * Toggles Wifi on and off.
      */
     default void toggleWifi() {
         final String extName = "mobile: setConnectivity";
-        try {
-            Map<String, Object> result = requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), "mobile: getConnectivity")
-            );
-            CommandExecutionHelper.executeScript(this, extName, Map.of(
-                    "wifi", !((Boolean) result.get("wifi"))
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), toggleWifiCommand());
-        }
+        Map<String, Object> result = requireNonNull(
+                CommandExecutionHelper.executeScript(this, "mobile: getConnectivity")
+        );
+        CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "wifi", !((Boolean) result.get("wifi"))
+        ));
     }
 
     /**
@@ -38,17 +28,12 @@ public interface SupportsNetworkStateManagement extends ExecutesMethod, CanRemem
      */
     default void toggleAirplaneMode() {
         final String extName = "mobile: setConnectivity";
-        try {
-            Map<String, Object> result = requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), "mobile: getConnectivity")
-            );
-            CommandExecutionHelper.executeScript(this, extName, Map.of(
-                    "airplaneMode", !((Boolean) result.get("airplaneMode"))
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), toggleAirplaneCommand());
-        }
+        Map<String, Object> result = requireNonNull(
+                CommandExecutionHelper.executeScript(this, "mobile: getConnectivity")
+        );
+        CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "airplaneMode", !((Boolean) result.get("airplaneMode"))
+        ));
     }
 
     /**
@@ -57,16 +42,11 @@ public interface SupportsNetworkStateManagement extends ExecutesMethod, CanRemem
      */
     default void toggleData() {
         final String extName = "mobile: setConnectivity";
-        try {
-            Map<String, Object> result = requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), "mobile: getConnectivity")
-            );
-            CommandExecutionHelper.executeScript(this, extName, Map.of(
-                    "data", !((Boolean) result.get("data"))
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), toggleDataCommand());
-        }
+        Map<String, Object> result = requireNonNull(
+                CommandExecutionHelper.executeScript(this, "mobile: getConnectivity")
+        );
+        CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "data", !((Boolean) result.get("data"))
+        ));
     }
 }

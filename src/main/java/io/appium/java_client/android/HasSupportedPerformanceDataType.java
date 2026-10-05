@@ -1,17 +1,12 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.List;
 import java.util.Map;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getPerformanceDataCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getSupportedPerformanceDataTypesCommand;
-
-public interface HasSupportedPerformanceDataType extends ExecutesMethod, CanRememberExtensionPresence {
+public interface HasSupportedPerformanceDataType extends ExecutesMethod {
 
     /**
      * returns the information type of the system state which is supported to read
@@ -22,14 +17,7 @@ public interface HasSupportedPerformanceDataType extends ExecutesMethod, CanReme
      */
     default List<String> getSupportedPerformanceDataTypes() {
         final String extName = "mobile: getPerformanceDataTypes";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName), getSupportedPerformanceDataTypesCommand()
-            );
-        }
+        return CommandExecutionHelper.executeScript(this, extName);
     }
 
     /**
@@ -62,16 +50,9 @@ public interface HasSupportedPerformanceDataType extends ExecutesMethod, CanReme
      */
     default List<List<Object>> getPerformanceData(String packageName, String dataType, int dataReadTimeout) {
         final String extName = "mobile: getPerformanceData";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
-                    "packageName", packageName,
-                    "dataType", dataType
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName), getPerformanceDataCommand(packageName, dataType, dataReadTimeout)
-            );
-        }
+        return CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "packageName", packageName,
+                "dataType", dataType
+        ));
     }
 }

@@ -16,18 +16,11 @@
 
 package io.appium.java_client.android;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.UnsupportedCommandException;
 
-import java.util.Map;
-
-import static io.appium.java_client.MobileCommand.CURRENT_ACTIVITY;
-import static io.appium.java_client.MobileCommand.GET_CURRENT_PACKAGE;
-
-public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPresence {
+public interface StartsActivity extends ExecutesMethod {
     /**
      * Get the current activity being run on the mobile device.
      *
@@ -36,15 +29,7 @@ public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPres
     @Nullable
     default String currentActivity() {
         final String extName = "mobile: getCurrentActivity";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(CURRENT_ACTIVITY, Map.of())
-            );
-        }
+        return CommandExecutionHelper.executeScript(this, extName);
     }
 
     /**
@@ -55,14 +40,6 @@ public interface StartsActivity extends ExecutesMethod, CanRememberExtensionPres
     @Nullable
     default String getCurrentPackage() {
         final String extName = "mobile: getCurrentPackage";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(GET_CURRENT_PACKAGE, Map.of())
-            );
-        }
+        return CommandExecutionHelper.executeScript(this, extName);
     }
 }

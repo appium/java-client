@@ -18,7 +18,7 @@ package io.appium.java_client.windows;
 
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileCommand;
+import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.PullsFiles;
 import io.appium.java_client.PushesFiles;
 import io.appium.java_client.http.HttpClient;
@@ -27,10 +27,19 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Map;
+
+import static io.appium.java_client.MobileCommand.PULL_FILE;
+import static io.appium.java_client.MobileCommand.PULL_FOLDER;
+import static io.appium.java_client.MobileCommand.PUSH_FILE;
+import static java.util.Objects.requireNonNull;
 
 public class WindowsDriver extends AppiumDriver implements
         PullsFiles,
@@ -112,16 +121,56 @@ public class WindowsDriver extends AppiumDriver implements
     }
 
     /**
+     * Pulls a file from the remote system. The Windows driver has no `mobile:` extension for it.
+     *
+     * @param remotePath Path to the file to read data from the remote device.
+     * @return A byte array of Base64 encoded data.
+     */
+    @Override
+    public byte[] pullFile(String remotePath) {
+        return decodeBase64(CommandExecutionHelper.execute(this, Map.entry(PULL_FILE, Map.of("path", remotePath))));
+    }
+
+    /**
+     * Pulls the content of a folder from the remote system. The Windows driver has no `mobile:` extension for it.
+     *
+     * @param remotePath Path to the folder to read data from the remote device.
+     * @return A byte array of Base64 encoded zip archive data.
+     */
+    @Override
+    public byte[] pullFolder(String remotePath) {
+        return decodeBase64(CommandExecutionHelper.execute(this, Map.entry(PULL_FOLDER, Map.of("path", remotePath))));
+    }
+
+    /**
+     * Saves base64-encoded data as a file on the remote system. The Windows driver has no `mobile:` extension for it.
+     *
+     * @param remotePath Path to the file to write data to on the remote device.
+     * @param base64Data Base64 encoded byte array of the data to write to the remote device.
+     */
+    @Override
+    public void pushFile(String remotePath, byte[] base64Data) {
+        CommandExecutionHelper.execute(this, Map.entry(PUSH_FILE, Map.of(
+                "path", remotePath,
+                "data", new String(base64Data, StandardCharsets.UTF_8)
+        )));
+    }
+
+    private static byte[] decodeBase64(@Nullable String base64String) {
+        return Base64.getDecoder().decode(requireNonNull(base64String).getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
      * Launch the application app under test after it was closed.
      */
     public void launchApp() {
-        execute(MobileCommand.LAUNCH_APP);
+        CommandExecutionHelper.executeScript(this, "windows: launchApp");
     }
 
     /**
      * Close the app under test.
      */
     public void closeApp() {
-        execute(MobileCommand.CLOSE_APP);
+        CommandExecutionHelper.executeScript(this, "windows: closeApp");
     }
 }

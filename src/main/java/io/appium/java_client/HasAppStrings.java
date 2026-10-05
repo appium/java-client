@@ -16,13 +16,9 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.UnsupportedCommandException;
-
 import java.util.Map;
 
-import static io.appium.java_client.MobileCommand.GET_STRINGS;
-
-public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPresence {
+public interface HasAppStrings extends ExecutesMethod {
     /**
      * Get all defined Strings from an app for the default language.
      * See the documentation for 'mobile: getAppStrings' extension for more details.
@@ -31,12 +27,7 @@ public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPrese
      */
     default Map<String, String> getAppStringMap() {
         final String extName = "mobile: getAppStrings";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(markExtensionAbsence(extName), GET_STRINGS);
-        }
+        return CommandExecutionHelper.executeScript(this, extName);
     }
 
     /**
@@ -48,17 +39,9 @@ public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPrese
      */
     default Map<String, String> getAppStringMap(String language) {
         final String extName = "mobile: getAppStrings";
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
-                    "language", language
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(GET_STRINGS, Map.of("language", language))
-            );
-        }
+        return CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "language", language
+        ));
     }
 
     /**
@@ -76,15 +59,7 @@ public interface HasAppStrings extends ExecutesMethod, CanRememberExtensionPrese
                 "language", language,
                 "stringFile", stringFile
         );
-        try {
-            return CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(GET_STRINGS, args)
-            );
-        }
+        return CommandExecutionHelper.executeScript(this, extName, args);
     }
 
 }
