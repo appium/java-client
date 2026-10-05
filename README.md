@@ -149,6 +149,9 @@ possible platforms, e.g. mobile and desktop operating systems, IOT devices, etc.
 talks to the server through its own HTTP client, and it is not so strictly focused on web-browser
 related operations.
 
+Code that needs the Selenium `RemoteWebDriver`, for example the Selenium `Augmenter`, or Selenium BiDi modules,
+can use the optional `io.appium:java-client-selenium-bridge` artifact. See [Selenium interoperability](docs/selenium-bridge.md).
+
 ## Appium Server Service Wrapper
 
 Appium java client provides a dedicated class to control Appium server execution.
