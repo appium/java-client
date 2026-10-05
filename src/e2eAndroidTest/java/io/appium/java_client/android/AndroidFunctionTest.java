@@ -1,6 +1,5 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.functions.AppiumFunction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,7 @@ import org.openqa.selenium.support.ui.Wait;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AndroidFunctionTest extends BaseAndroidTest {
 
-    private final AppiumFunction<WebDriver, List<WebElement>> searchingFunction = input -> {
+    private final Function<WebDriver, List<WebElement>> searchingFunction = input -> {
         List<WebElement> result = input.findElements(By.tagName("a"));
 
         if (result.size() > 0) {
@@ -36,7 +36,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
-    private final AppiumFunction<Pattern, WebDriver> contextFunction = input -> {
+    private final Function<Pattern, WebDriver> contextFunction = input -> {
         Set<String> contexts = driver.getContextHandles();
         String current = driver.getContext();
         contexts.forEach(context -> {
@@ -51,7 +51,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
         return null;
     };
 
-    private final AppiumFunction<List<WebElement>, List<WebElement>> filteringFunction = input -> {
+    private final Function<List<WebElement>, List<WebElement>> filteringFunction = input -> {
         final List<WebElement> result = new ArrayList<>();
         input.forEach(element -> {
             if (element.getText().equals("Hello World! - 1")) {
@@ -80,7 +80,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
 
     @Test
     public void complexWaitingTestWithPreCondition() {
-        AppiumFunction<Pattern, List<WebElement>> compositeFunction =
+        Function<Pattern, List<WebElement>> compositeFunction =
                 searchingFunction.compose(contextFunction);
 
         Wait<Pattern> wait = new FluentWait<>(Pattern.compile("WEBVIEW"))
@@ -94,7 +94,7 @@ public class AndroidFunctionTest extends BaseAndroidTest {
     @Test public void complexWaitingTestWithPostConditions() {
         final List<Boolean> calls = new ArrayList<>();
 
-        AppiumFunction<Pattern, WebDriver> waitingForContext = input -> {
+        Function<Pattern, WebDriver> waitingForContext = input -> {
             WebDriver result = contextFunction.apply(input);
             if (result != null) {
                 calls.add(true);
@@ -102,15 +102,15 @@ public class AndroidFunctionTest extends BaseAndroidTest {
             return result;
         };
 
-        AppiumFunction<Pattern, List<WebElement>> compositeFunction = waitingForContext
-                .andThen((AppiumFunction<WebDriver, List<WebElement>>) input -> {
+        Function<Pattern, List<WebElement>> compositeFunction = waitingForContext
+                .andThen((Function<WebDriver, List<WebElement>>) input -> {
                     List<WebElement> result = searchingFunction.apply(input);
                     if (result != null) {
                         calls.add(true);
                     }
                     return result;
                 })
-                .andThen((AppiumFunction<List<WebElement>, List<WebElement>>) input -> {
+                .andThen((Function<List<WebElement>, List<WebElement>>) input -> {
                     List<WebElement> result = filteringFunction.apply(input);
                     if (result != null) {
                         calls.add(true);
