@@ -1,0 +1,1259 @@
+{
+  "acceptAlert": {
+    "method": "POST",
+    "uri": "/session/test-session/alert/accept",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "actions": {
+    "method": "POST",
+    "uri": "/session/test-session/actions",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "activateApp": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/activate_app",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "addCookie": {
+    "method": "POST",
+    "uri": "/session/test-session/cookie",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "addCredential": {
+    "method": "POST",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credential",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "authenticatorId": "sample-authenticatorId"
+    }
+  },
+  "addVirtualAuthenticator": {
+    "method": "POST",
+    "uri": "/session/test-session/webauthn/authenticator",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "cancelDialog": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/canceldialog",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "clearActionState": {
+    "method": "DELETE",
+    "uri": "/session/test-session/actions",
+    "headers": {},
+    "body": null
+  },
+  "clearElement": {
+    "method": "POST",
+    "uri": "/session/test-session/element/sample-id/clear",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "sample-id"
+    }
+  },
+  "clickDialog": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/clickdialogbutton",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "clickElement": {
+    "method": "POST",
+    "uri": "/session/test-session/element/sample-id/click",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "sample-id"
+    }
+  },
+  "close": {
+    "method": "DELETE",
+    "uri": "/session/test-session/window",
+    "headers": {},
+    "body": null
+  },
+  "closeApp": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/app/close",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "compareImages": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/compare_images",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "currentActivity": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/device/current_activity",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "deleteAllCookies": {
+    "method": "DELETE",
+    "uri": "/session/test-session/cookie",
+    "headers": {},
+    "body": null
+  },
+  "deleteCookie": {
+    "method": "DELETE",
+    "uri": "/session/test-session/cookie/sample-name",
+    "headers": {},
+    "body": null
+  },
+  "dismissAlert": {
+    "method": "POST",
+    "uri": "/session/test-session/alert/dismiss",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "elementScreenshot": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/screenshot",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "endTestCoverage": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/app/end_test_coverage",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "executeAsyncScript": {
+    "method": "POST",
+    "uri": "/session/test-session/execute/async",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "executeCdp": {
+    "method": "POST",
+    "uri": "/session/test-session/goog/cdp/execute",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "executeDriverScript": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/execute_driver",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "executeScript": {
+    "method": "POST",
+    "uri": "/session/test-session/execute/sync",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "findChildElement": {
+    "method": "POST",
+    "uri": "/session/test-session/element/sample-id/element",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "sample-id"
+    }
+  },
+  "findChildElements": {
+    "method": "POST",
+    "uri": "/session/test-session/element/sample-id/elements",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "sample-id"
+    }
+  },
+  "findElement": {
+    "method": "POST",
+    "uri": "/session/test-session/element",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "findElementFromShadowRoot": {
+    "method": "POST",
+    "uri": "/session/test-session/shadow/sample-shadowId/element",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "shadowId": "sample-shadowId"
+    }
+  },
+  "findElements": {
+    "method": "POST",
+    "uri": "/session/test-session/elements",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "findElementsFromShadowRoot": {
+    "method": "POST",
+    "uri": "/session/test-session/shadow/sample-shadowId/elements",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "shadowId": "sample-shadowId"
+    }
+  },
+  "fingerPrint": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/finger_print",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "fullscreenCurrentWindow": {
+    "method": "POST",
+    "uri": "/session/test-session/window/fullscreen",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "get": {
+    "method": "POST",
+    "uri": "/session/test-session/url",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getAccounts": {
+    "method": "GET",
+    "uri": "/session/test-session/fedcm/accountlist",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getActiveElement": {
+    "method": "GET",
+    "uri": "/session/test-session/element/active",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getAlertText": {
+    "method": "GET",
+    "uri": "/session/test-session/alert/text",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getAllSessions": {
+    "method": "GET",
+    "uri": "/sessions",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getAvailableLogTypes": {
+    "method": "GET",
+    "uri": "/session/test-session/se/log/types",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCapabilities": {
+    "method": "GET",
+    "uri": "/session/test-session",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getClipboard": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/get_clipboard",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getContextHandles": {
+    "method": "GET",
+    "uri": "/session/test-session/contexts",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCookie": {
+    "method": "GET",
+    "uri": "/session/test-session/cookie/sample-name",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCookies": {
+    "method": "GET",
+    "uri": "/session/test-session/cookie",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCredentials": {
+    "method": "GET",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCurrentContextHandle": {
+    "method": "GET",
+    "uri": "/session/test-session/context",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCurrentPackage": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/device/current_package",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCurrentUrl": {
+    "method": "GET",
+    "uri": "/session/test-session/url",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCurrentWindowHandle": {
+    "method": "GET",
+    "uri": "/session/test-session/window",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getCurrentWindowSize": {
+    "method": "GET",
+    "uri": "/session/test-session/window/rect",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getDeviceTime": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/device/system_time",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getDisplayDensity": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/device/display_density",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementAccessibleName": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/computedlabel",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementAriaRole": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/computedrole",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementAttribute": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/attribute/sample-name",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementDomAttribute": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/attribute/sample-name",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementDomProperty": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/property/sample-name",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementLocation": "unsupported",
+  "getElementLocationOnceScrolledIntoView": "unsupported",
+  "getElementRect": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/rect",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementShadowRoot": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/shadow",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementSize": "unsupported",
+  "getElementTagName": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/name",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementText": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/text",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getElementValueOfCssProperty": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/css/sample-propertyName",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getFedCmDialogType": {
+    "method": "GET",
+    "uri": "/session/test-session/fedcm/getdialogtype",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getFedCmTitle": {
+    "method": "GET",
+    "uri": "/session/test-session/fedcm/gettitle",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getLocation": {
+    "method": "GET",
+    "uri": "/session/test-session/location",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getLog": {
+    "method": "POST",
+    "uri": "/session/test-session/se/log",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getLogEvents": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/events",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getNetworkConnection": {
+    "method": "GET",
+    "uri": "/session/test-session/network_connection",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getPageSource": {
+    "method": "GET",
+    "uri": "/session/test-session/source",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getPerformanceData": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/getPerformanceData",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getScreenOrientation": {
+    "method": "GET",
+    "uri": "/session/test-session/orientation",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getScreenRotation": {
+    "method": "GET",
+    "uri": "/session/test-session/rotation",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getSession": {
+    "method": "GET",
+    "uri": "/session/test-session",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getSettings": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/settings",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getStrings": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/app/strings",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getSuppportedPerformanceDataTypes": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/performanceData/types",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "getSystemBars": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/device/system_bars",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getTimeouts": {
+    "method": "GET",
+    "uri": "/session/test-session/timeouts",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getTitle": {
+    "method": "GET",
+    "uri": "/session/test-session/title",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getWindowHandles": {
+    "method": "GET",
+    "uri": "/session/test-session/window/handles",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "getWindowPosition": {
+    "method": "GET",
+    "uri": "/session/test-session/window/rect",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "goBack": {
+    "method": "POST",
+    "uri": "/session/test-session/back",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "goForward": {
+    "method": "POST",
+    "uri": "/session/test-session/forward",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "gsmCall": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/gsm_call",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "gsmSignal": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/gsm_signal",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "gsmVoice": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/gsm_voice",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "hideKeyboard": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/hide_keyboard",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "implicitlyWait": {
+    "method": "POST",
+    "uri": "/session/test-session/timeouts/implicit_wait",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "installApp": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/install_app",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "isAppInstalled": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/app_installed",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "isElementDisplayed": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/displayed",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "isElementEnabled": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/enabled",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "isElementSelected": {
+    "method": "GET",
+    "uri": "/session/test-session/element/sample-id/selected",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "isKeyboardShown": {
+    "method": "GET",
+    "uri": "/session/test-session/appium/device/is_keyboard_shown",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "isLocked": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/is_locked",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "launchApp": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/app/launch",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "lock": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/lock",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "logCustomEvent": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/log_event",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "longPressKeyCode": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/long_press_keycode",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "maximizeCurrentWindow": {
+    "method": "POST",
+    "uri": "/session/test-session/window/maximize",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "minimizeCurrentWindow": {
+    "method": "POST",
+    "uri": "/session/test-session/window/minimize",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "networkSpeed": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/network_speed",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "newSession": {
+    "method": "POST",
+    "uri": "/session",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "newWindow": {
+    "method": "POST",
+    "uri": "/session/test-session/window/new",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "openNotifications": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/open_notifications",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "powerAC": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/power_ac",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "powerCapacity": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/power_capacity",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "pressKeyCode": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/press_keycode",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "printPage": {
+    "method": "POST",
+    "uri": "/session/test-session/print",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "pullFile": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/pull_file",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "pullFolder": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/pull_folder",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "pushFile": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/push_file",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "queryAppState": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/app_state",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "quit": {
+    "method": "DELETE",
+    "uri": "/session/test-session",
+    "headers": {},
+    "body": null
+  },
+  "refresh": {
+    "method": "POST",
+    "uri": "/session/test-session/refresh",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "removeAllCredentials": {
+    "method": "DELETE",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials",
+    "headers": {},
+    "body": null
+  },
+  "removeApp": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/remove_app",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "removeCredential": {
+    "method": "DELETE",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/credentials/sample-credentialId",
+    "headers": {},
+    "body": null
+  },
+  "removeVirtualAuthenticator": {
+    "method": "DELETE",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId",
+    "headers": {},
+    "body": null
+  },
+  "replaceValue": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/element/sample-id/replace_value",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "sample-id"
+    }
+  },
+  "reset": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/app/reset",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "resetCooldown": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/resetcooldown",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "runAppInBackground": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/app/background",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "screenshot": {
+    "method": "GET",
+    "uri": "/session/test-session/screenshot",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "selectAccount": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/selectaccount",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "sendKeysToElement": "error:NullPointerException",
+  "sendSMS": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/send_sms",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setAlertValue": {
+    "method": "POST",
+    "uri": "/session/test-session/alert/text",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setClipboard": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/set_clipboard",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setCurrentWindowSize": {
+    "method": "POST",
+    "uri": "/session/test-session/window/rect",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setDelayEnabled": {
+    "method": "POST",
+    "uri": "/session/test-session/fedcm/setdelayenabled",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setLocation": {
+    "method": "POST",
+    "uri": "/session/test-session/location",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setNetworkConnection": {
+    "method": "POST",
+    "uri": "/session/test-session/network_connection",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setScreenOrientation": {
+    "method": "POST",
+    "uri": "/session/test-session/orientation",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setScreenRotation": {
+    "method": "POST",
+    "uri": "/session/test-session/rotation",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setScriptTimeout": {
+    "method": "POST",
+    "uri": "/session/test-session/timeouts/async_script",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setSettings": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/settings",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setTimeout": {
+    "method": "POST",
+    "uri": "/session/test-session/timeouts",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "setUserVerified": {
+    "method": "POST",
+    "uri": "/session/test-session/webauthn/authenticator/sample-authenticatorId/uv",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "authenticatorId": "sample-authenticatorId"
+    }
+  },
+  "setValue": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/element/sample-id/value",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "sample-id"
+    }
+  },
+  "setWindowPosition": {
+    "method": "POST",
+    "uri": "/session/test-session/window/rect",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "shake": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/shake",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "startActivity": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/start_activity",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "startRecordingScreen": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/start_recording_screen",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "status": {
+    "method": "GET",
+    "uri": "/status",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "stopRecordingScreen": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/stop_recording_screen",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "submitElement": "unsupported",
+  "switchToContext": {
+    "method": "POST",
+    "uri": "/session/test-session/context",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "switchToFrame": {
+    "method": "POST",
+    "uri": "/session/test-session/frame",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "switchToParentFrame": {
+    "method": "POST",
+    "uri": "/session/test-session/frame/parent",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "switchToWindow": {
+    "method": "POST",
+    "uri": "/session/test-session/window",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "terminateApp": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/terminate_app",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "toggleData": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/toggle_data",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "toggleEnrollTouchId": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/simulator/toggle_touch_id_enrollment",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "toggleFlightMode": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/toggle_airplane_mode",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "toggleLocationServices": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/toggle_location_services",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "toggleWiFi": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/toggle_wifi",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "touchId": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/simulator/touch_id",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  },
+  "unlock": {
+    "method": "POST",
+    "uri": "/session/test-session/appium/device/unlock",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {}
+  }
+}

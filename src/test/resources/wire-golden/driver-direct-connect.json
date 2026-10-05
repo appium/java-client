@@ -1,0 +1,46 @@
+{
+  "valid": {
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/title",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://203.0.113.1:4443"
+      }
+    ]
+  },
+  "loopbackRejected": {
+    "result": {
+      "thrown": "org.openqa.selenium.SessionNotCreatedException",
+      "message": "Could not start a new session. Refusing to override the server URL: host '127.0.0.1' resolves to 127.0.0.1, which is not allowed (loopback, link-local, unspecified, or multicast address). "
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))",
+          "x-idempotency-key": "<uuid>"
+        },
+        "body": {
+          "capabilities": {
+            "firstMatch": [
+              {
+                "appium:automationName": "UIAutomator2",
+                "appium:deviceName": "emu",
+                "platformName": "ANDROID"
+              }
+            ]
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  }
+}

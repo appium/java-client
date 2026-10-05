@@ -28,6 +28,7 @@ import org.openqa.selenium.Capabilities;
 
 import java.time.Duration;
 
+import static io.appium.java_client.remote.CapabilityType.PLATFORM_NAME;
 import static io.appium.java_client.remote.options.SupportsAppOption.APP_OPTION;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static io.appium.java_client.remote.options.SupportsDeviceNameOption.DEVICE_NAME_OPTION;
@@ -35,7 +36,6 @@ import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 class StartingAppLocallyAndroidTest {
 

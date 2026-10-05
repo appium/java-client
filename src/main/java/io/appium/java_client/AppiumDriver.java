@@ -16,39 +16,29 @@
 
 package io.appium.java_client;
 
+import io.appium.java_client.http.HttpClient;
+import io.appium.java_client.http.HttpMethod;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
+import io.appium.java_client.remote.AppiumRemoteWebDriver;
 import io.appium.java_client.remote.AppiumW3CHttpCommandCodec;
+import io.appium.java_client.remote.AppiumW3CHttpResponseCodec;
+import io.appium.java_client.remote.DriverCommand;
+import io.appium.java_client.remote.ErrorHandler;
+import io.appium.java_client.remote.ExecuteMethod;
+import io.appium.java_client.remote.Response;
 import io.appium.java_client.remote.options.BaseOptions;
-import io.appium.java_client.remote.options.SupportsWebSocketUrlOption;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import lombok.Getter;
-import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.bidi.BiDi;
-import org.openqa.selenium.bidi.BiDiException;
-import org.openqa.selenium.bidi.HasBiDi;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.ErrorHandler;
-import org.openqa.selenium.remote.ExecuteMethod;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpMethod;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,44 +47,41 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
+import static io.appium.java_client.internal.Strings.isNullOrEmpty;
+import static io.appium.java_client.remote.CapabilityType.BROWSER_NAME;
+import static io.appium.java_client.remote.CapabilityType.PLATFORM_NAME;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static java.util.Collections.singleton;
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 /**
  * Default Appium driver implementation.
  */
-public class AppiumDriver extends RemoteWebDriver implements
+public class AppiumDriver extends AppiumRemoteWebDriver implements
         ExecutesMethod,
         ComparesImages,
         ExecutesDriverScript,
         LogsEvents,
         HasBrowserCheck,
         CanRememberExtensionPresence,
-        HasSettings,
-        HasBiDi {
+        HasSettings {
 
-    private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile(), true);
+    private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile());
     // frequently used command parameters
     @Getter
     private final URL remoteAddress;
     private final ExecuteMethod executeMethod;
     private final Set<String> absentExtensionNames = new HashSet<>();
-    private URI biDiUri;
-    private BiDi biDi;
-    private boolean wasBiDiRequested = false;
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
      *
-     * @param executor     is an instance of {@link HttpCommandExecutor}
+     * @param executor     is an instance of {@link AppiumCommandExecutor}
      *                     or class that extends it. Default commands or another vendor-specific
      *                     commands may be specified there.
      * @param capabilities take a look at {@link Capabilities}
      */
-    public AppiumDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public AppiumDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
@@ -169,7 +156,7 @@ public class AppiumDriver extends RemoteWebDriver implements
                 MobileCommand.commandRepository, sessionAddress.getServerUrl()
         );
         executor.setCommandCodec(new AppiumW3CHttpCommandCodec());
-        executor.setResponseCodec(new W3CHttpResponseCodec());
+        executor.setResponseCodec(new AppiumW3CHttpResponseCodec());
         executor.refreshAdditionalCommands();
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
@@ -202,7 +189,7 @@ public class AppiumDriver extends RemoteWebDriver implements
      * @param methodName The name of custom appium command.
      */
     public void addCommand(HttpMethod httpMethod, String url, String methodName) {
-        CommandInfo commandInfo;
+        AppiumCommandInfo commandInfo;
         switch (httpMethod) {
             case GET:
                 commandInfo = MobileCommand.getC(url);
@@ -265,42 +252,8 @@ public class AppiumDriver extends RemoteWebDriver implements
         return this;
     }
 
-    @Override
-    public Optional<BiDi> maybeGetBiDi() {
-        return Optional.ofNullable(this.biDi);
-    }
-
-    @Override
-    @NonNull
-    public BiDi getBiDi() {
-        var webSocketUrl = ((BaseOptions<?>) this.capabilities).getWebSocketUrl().orElseThrow(
-                () -> {
-                    var suffix = wasBiDiRequested
-                            ? "Do both the server and the driver declare BiDi support?"
-                            : String.format("Did you set %s to true?", SupportsWebSocketUrlOption.WEB_SOCKET_URL);
-                    return new BiDiException(String.format(
-                            "BiDi is not enabled for this driver session. %s", suffix
-                    ));
-                }
-        );
-        if (this.biDiUri == null) {
-            throw new BiDiException(
-                    String.format(
-                            "BiDi is not enabled for this driver session. "
-                                    + "Is the %s '%s' received from the create session response valid?",
-                            SupportsWebSocketUrlOption.WEB_SOCKET_URL, webSocketUrl
-                    )
-            );
-        }
-        if (this.biDi == null) {
-            // This should not happen
-            throw new IllegalStateException();
-        }
-        return this.biDi;
-    }
-
     protected HttpClient getHttpClient() {
-        return ((HttpCommandExecutor) getCommandExecutor()).client;
+        return ((AppiumCommandExecutor) getCommandExecutor()).getClient();
     }
 
     @Override
@@ -328,17 +281,11 @@ public class AppiumDriver extends RemoteWebDriver implements
 
         // TODO: remove this workaround for Selenium API enforcing some legacy capability values in major version
         rawResponseCapabilities.remove("platform");
-        if (rawResponseCapabilities.containsKey(CapabilityType.BROWSER_NAME)
-                && isNullOrEmpty((String) rawResponseCapabilities.get(CapabilityType.BROWSER_NAME))) {
-            rawResponseCapabilities.remove(CapabilityType.BROWSER_NAME);
+        if (rawResponseCapabilities.containsKey(BROWSER_NAME)
+                && isNullOrEmpty((String) rawResponseCapabilities.get(BROWSER_NAME))) {
+            rawResponseCapabilities.remove(BROWSER_NAME);
         }
         this.capabilities = new BaseOptions<>(rawResponseCapabilities);
-        this.wasBiDiRequested = Boolean.TRUE.equals(
-                requestCapabilities.getCapability(SupportsWebSocketUrlOption.WEB_SOCKET_URL)
-        );
-        if (wasBiDiRequested) {
-            this.initBiDi((BaseOptions<?>) capabilities);
-        }
         setSessionId(response.getSessionId());
     }
 
@@ -388,41 +335,5 @@ public class AppiumDriver extends RemoteWebDriver implements
             Capabilities originalCapabilities, String defaultPlatformName, String defaultAutomationName) {
         Capabilities capsWithPlatformFixed = ensurePlatformName(originalCapabilities, defaultPlatformName);
         return ensureAutomationName(capsWithPlatformFixed, defaultAutomationName);
-    }
-
-    private void initBiDi(BaseOptions<?> responseCaps) {
-        var webSocketUrl = responseCaps.getWebSocketUrl();
-        if (webSocketUrl.isEmpty()) {
-            return;
-        }
-        URISyntaxException uriSyntaxError = null;
-        try {
-            this.biDiUri = new URI(String.valueOf(webSocketUrl.get()));
-        } catch (URISyntaxException e) {
-            uriSyntaxError = e;
-        }
-        if (uriSyntaxError != null || this.biDiUri.getScheme() == null) {
-            var message = String.format(
-                    "BiDi cannot be enabled for this driver session. "
-                            + "Is the %s '%s' received from the create session response valid?",
-                    SupportsWebSocketUrlOption.WEB_SOCKET_URL, webSocketUrl.get()
-            );
-            if (uriSyntaxError == null) {
-                throw new BiDiException(message);
-            }
-            throw new BiDiException(message, uriSyntaxError);
-        }
-        var executor = getCommandExecutor();
-        final HttpClient wsClient;
-        AppiumClientConfig wsConfig;
-        if (executor instanceof AppiumCommandExecutor) {
-            wsConfig = ((AppiumCommandExecutor) executor).getAppiumClientConfig().baseUri(biDiUri);
-            wsClient = ((AppiumCommandExecutor) executor).getHttpClientFactory().createClient(wsConfig);
-        } else {
-            wsConfig = AppiumClientConfig.defaultConfig().baseUri(biDiUri);
-            wsClient = HttpClient.Factory.createDefault().createClient(wsConfig);
-        }
-        var biDiConnection = new org.openqa.selenium.bidi.Connection(wsClient, biDiUri.toString());
-        this.biDi = new BiDi(biDiConnection, wsConfig.wsTimeout());
     }
 }

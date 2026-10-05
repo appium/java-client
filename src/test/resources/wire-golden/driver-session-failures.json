@@ -1,0 +1,118 @@
+{
+  "sessionNotCreated": {
+    "result": {
+      "thrown": "org.openqa.selenium.SessionNotCreatedException",
+      "message": "Could not start a new session. Response code 500. Message: no device "
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))",
+          "x-idempotency-key": "<uuid>"
+        },
+        "body": {
+          "capabilities": {
+            "firstMatch": [
+              {
+                "appium:automationName": "UIAutomator2",
+                "appium:deviceName": "emu",
+                "platformName": "ANDROID"
+              }
+            ]
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "jsonWireResponse": {
+    "result": {
+      "thrown": "org.openqa.selenium.SessionNotCreatedException",
+      "message": "Could not start a new session. Handshake response does not match any supported protocol. Response payload: {\"status\":0,\"sessionId\":\"s1\",\"value\":{\"platformName\":\"Android\"}} "
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))",
+          "x-idempotency-key": "<uuid>"
+        },
+        "body": {
+          "capabilities": {
+            "firstMatch": [
+              {
+                "appium:automationName": "UIAutomator2",
+                "appium:deviceName": "emu",
+                "platformName": "ANDROID"
+              }
+            ]
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "emptyResponse": {
+    "result": {
+      "thrown": "org.openqa.selenium.SessionNotCreatedException",
+      "message": "Could not start a new session. Handshake response does not match any supported protocol. Response payload: {\"value\":null} "
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))",
+          "x-idempotency-key": "<uuid>"
+        },
+        "body": {
+          "capabilities": {
+            "firstMatch": [
+              {
+                "appium:automationName": "UIAutomator2",
+                "appium:deviceName": "emu",
+                "platformName": "ANDROID"
+              }
+            ]
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "connectionRefused": {
+    "result": {
+      "thrown": "org.openqa.selenium.SessionNotCreatedException",
+      "message": "Could not start a new session. Possible causes are invalid address of the remote server or browser start-up failure. Connection refused "
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))",
+          "x-idempotency-key": "<uuid>"
+        },
+        "body": {
+          "capabilities": {
+            "firstMatch": [
+              {
+                "appium:automationName": "UIAutomator2",
+                "appium:deviceName": "emu",
+                "platformName": "ANDROID"
+              }
+            ]
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  }
+}

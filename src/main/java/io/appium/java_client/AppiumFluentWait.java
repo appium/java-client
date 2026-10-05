@@ -16,7 +16,6 @@
 
 package io.appium.java_client;
 
-import com.google.common.base.Throwables;
 import io.appium.java_client.support.ui.FluentWait;
 import io.appium.java_client.support.ui.Sleeper;
 import lombok.AccessLevel;
@@ -293,7 +292,12 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
                 return e;
             }
         }
-        Throwables.throwIfUnchecked(e);
+        if (e instanceof RuntimeException) {
+            throw (RuntimeException) e;
+        }
+        if (e instanceof Error) {
+            throw (Error) e;
+        }
         throw new WebDriverException(e);
     }
 }

@@ -17,11 +17,11 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.remote.AppiumWebElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -62,7 +62,7 @@ public class AndroidElementTest extends BaseAndroidTest {
         editElement.sendKeys(originalValue);
         assertEquals(originalValue, editElement.getText());
         String replacedValue = "replaced value";
-        driver.replaceElementValue((RemoteWebElement) editElement, replacedValue);
+        driver.replaceElementValue((AppiumWebElement) editElement, replacedValue);
         assertEquals(replacedValue, editElement.getText());
     }
 

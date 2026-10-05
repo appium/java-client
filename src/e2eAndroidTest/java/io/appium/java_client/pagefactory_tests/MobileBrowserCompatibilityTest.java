@@ -20,6 +20,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.support.FindBy;
@@ -31,7 +32,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class MobileBrowserCompatibilityTest {
 
     @AndroidFindBy(className = "someClass")
     @AndroidFindBy(xpath = "//someTag")
-    private RemoteWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
+    private AppiumWebElement btnG; //this element should be found by id = 'btnG' or name = 'btnG'
 
     @FindBy(name = "q")
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/someId\")")

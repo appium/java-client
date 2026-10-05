@@ -18,8 +18,8 @@ package io.appium.java_client;
 
 import io.appium.java_client.driverscripts.ScriptOptions;
 import io.appium.java_client.driverscripts.ScriptValue;
+import io.appium.java_client.remote.Response;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.remote.Response;
 
 import java.util.HashMap;
 import java.util.Map;

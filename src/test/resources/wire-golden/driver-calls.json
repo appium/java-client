@@ -1,0 +1,2742 @@
+{
+  "get": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/url",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "url": "https://example.com/a?b=c"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getCurrentUrl": {
+    "result": "String:https://example.com/",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/url",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getTitle": {
+    "result": "String:Title",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/title",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getPageSource": {
+    "result": "String:<hierarchy/>",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/source",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "navigate": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/url",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "url": "https://example.com/"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/back",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/forward",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/refresh",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.id: a": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.id: a": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.id: a": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.id: a": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "id",
+          "value": "a"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.name: n": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "name",
+          "value": "n"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.name: n": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "name",
+          "value": "n"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.name: n": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "name",
+          "value": "n"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.name: n": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "name",
+          "value": "n"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.className: c": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "class name",
+          "value": "c"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.className: c": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "class name",
+          "value": "c"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.className: c": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "class name",
+          "value": "c"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.className: c": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "class name",
+          "value": "c"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.cssSelector: .x > y": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "css selector",
+          "value": ".x > y"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.cssSelector: .x > y": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "css selector",
+          "value": ".x > y"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.cssSelector: .x > y": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "css selector",
+          "value": ".x > y"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.cssSelector: .x > y": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "css selector",
+          "value": ".x > y"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.xpath: //a[@b='c']": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "xpath",
+          "value": "//a[@b='c']"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.xpath: //a[@b='c']": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "xpath",
+          "value": "//a[@b='c']"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.xpath: //a[@b='c']": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "xpath",
+          "value": "//a[@b='c']"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.xpath: //a[@b='c']": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "xpath",
+          "value": "//a[@b='c']"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.linkText: l": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "link text",
+          "value": "l"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.linkText: l": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "link text",
+          "value": "l"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.linkText: l": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "link text",
+          "value": "l"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.linkText: l": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "link text",
+          "value": "l"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.partialLinkText: p": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "partial link text",
+          "value": "p"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.partialLinkText: p": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "partial link text",
+          "value": "p"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.partialLinkText: p": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "partial link text",
+          "value": "p"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.partialLinkText: p": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "partial link text",
+          "value": "p"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement By.tagName: t": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "tag name",
+          "value": "t"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements By.tagName: t": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "tag name",
+          "value": "t"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement By.tagName: t": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "tag name",
+          "value": "t"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements By.tagName: t": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "tag name",
+          "value": "t"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.accessibilityId: acc": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "accessibility id",
+          "value": "acc"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.accessibilityId: acc": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "accessibility id",
+          "value": "acc"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.accessibilityId: acc": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "accessibility id",
+          "value": "acc"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.accessibilityId: acc": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "accessibility id",
+          "value": "acc"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.androidUIAutomator: new UiSelector()": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-android uiautomator",
+          "value": "new UiSelector()"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.androidUIAutomator: new UiSelector()": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-android uiautomator",
+          "value": "new UiSelector()"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.androidUIAutomator: new UiSelector()": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-android uiautomator",
+          "value": "new UiSelector()"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.androidUIAutomator: new UiSelector()": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-android uiautomator",
+          "value": "new UiSelector()"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.iOSClassChain: **/XCUIElementTypeButton": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-ios class chain",
+          "value": "**/XCUIElementTypeButton"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.iOSClassChain: **/XCUIElementTypeButton": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-ios class chain",
+          "value": "**/XCUIElementTypeButton"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.iOSClassChain: **/XCUIElementTypeButton": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-ios class chain",
+          "value": "**/XCUIElementTypeButton"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.iOSClassChain: **/XCUIElementTypeButton": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-ios class chain",
+          "value": "**/XCUIElementTypeButton"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.id: appium-id": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "appium-id"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.id: appium-id": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "id",
+          "value": "appium-id"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.id: appium-id": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "id",
+          "value": "appium-id"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.id: appium-id": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "id",
+          "value": "appium-id"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.image: aGVsbG8=": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-image",
+          "value": "aGVsbG8="
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.image: aGVsbG8=": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-image",
+          "value": "aGVsbG8="
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.image: aGVsbG8=": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-image",
+          "value": "aGVsbG8="
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.image: aGVsbG8=": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-image",
+          "value": "aGVsbG8="
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.className: cn": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "class name",
+          "value": "cn"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.className: cn": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "class name",
+          "value": "cn"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.className: cn": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "class name",
+          "value": "cn"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.className: cn": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "class name",
+          "value": "cn"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement chained": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "css selector",
+          "value": "#a"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "id",
+          "value": "b"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el2/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el2",
+          "using": "id",
+          "value": "b"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "click": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/click",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "clear": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/clear",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "sendKeys": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/value",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "text": "abc",
+          "value": [
+            "a",
+            "b",
+            "c"
+          ]
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "submit": {
+    "result": {
+      "thrown": "org.openqa.selenium.UnsupportedCommandException",
+      "message": "submitElement"
+    },
+    "requests": []
+  },
+  "getText": {
+    "result": "String:hi",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/text",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getTagName": {
+    "result": "String:button",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/name",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getAttribute": {
+    "result": "String:attr",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/attribute/content-desc",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getDomAttribute": {
+    "result": "String:attr",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/attribute/x",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getDomProperty": {
+    "result": "String:prop",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/property/x",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getCssValue": {
+    "result": "String:red",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/css/color",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "isDisplayed": {
+    "result": "Boolean:true",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/displayed",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "isEnabled": {
+    "result": "Boolean:true",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/enabled",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "isSelected": {
+    "result": "Boolean:true",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/selected",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getRect": {
+    "result": "String:org.openqa.selenium.Rectangle@e93e1",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/rect",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getLocation": {
+    "result": "Point:(1, 2)",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/rect",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getSize": {
+    "result": "Dimension:(3, 4)",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/rect",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "elementScreenshot": {
+    "result": "bytes:hello",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/screenshot",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "screenshotBase64": {
+    "result": "String:aGVsbG8=",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/screenshot",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "screenshotBytes": {
+    "result": "bytes:hello",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/screenshot",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "print": {
+    "result": "pdf:aGVsbG8=",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/print",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "background": false,
+          "margin": {
+            "bottom": 1.0,
+            "left": 1.0,
+            "right": 1.0,
+            "top": 1.0
+          },
+          "orientation": "portrait",
+          "page": {
+            "height": 29.7,
+            "width": 21.0
+          },
+          "scale": 1.0,
+          "shrinkToFit": true
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "executeScript": {
+    "result": [
+      "element:el1",
+      {
+        "d": "Double:1.5",
+        "k": "Long:1"
+      },
+      "String:s",
+      "Boolean:true",
+      "null"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/execute/sync",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "args": [
+            {
+              "args": [
+                "-l"
+              ],
+              "command": "ls"
+            }
+          ],
+          "script": "mobile: shell"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "executeScriptWithElements": {
+    "result": [
+      "element:el1",
+      {
+        "d": "Double:1.5",
+        "k": "Long:1"
+      },
+      "String:s",
+      "Boolean:true",
+      "null"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/execute/sync",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "args": [
+            {
+              "element-6066-11e4-a52e-4f735466cecf": "el1"
+            },
+            [
+              {
+                "element-6066-11e4-a52e-4f735466cecf": "el1"
+              },
+              {
+                "e": {
+                  "element-6066-11e4-a52e-4f735466cecf": "el1"
+                }
+              }
+            ],
+            [
+              {
+                "element-6066-11e4-a52e-4f735466cecf": "el1"
+              },
+              1,
+              "s",
+              null
+            ]
+          ],
+          "script": "return 1"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "executeAsyncScript": {
+    "result": [
+      "element:el1",
+      {
+        "d": "Double:1.5",
+        "k": "Long:1"
+      },
+      "String:s",
+      "Boolean:true",
+      "null"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/execute/async",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "args": [
+            1
+          ],
+          "script": "cb()"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "timeouts": {
+    "result": [
+      "Duration:PT1S",
+      "Duration:PT2S",
+      "Duration:PT3S"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/timeouts",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "implicit": 5000
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/timeouts",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "pageLoad": 6000
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/timeouts",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "script": 7500
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/timeouts",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/timeouts",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/timeouts",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "window": {
+    "result": [
+      "Dimension:(1080, 1920)",
+      "Point:(0, 0)"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window/rect",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "height": 400,
+          "width": 300
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window/rect",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "x": 5,
+          "y": 6
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window/maximize",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window/minimize",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window/fullscreen",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/window/rect",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/window/rect",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "cookies": {
+    "result": [
+      "Cookie:a=b; expires=Tue, 14 Nov 2023 22:13:20 GMT; path=/; domain=d"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/cookie",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "cookie": {
+            "httpOnly": false,
+            "name": "n",
+            "path": "/",
+            "secure": false,
+            "value": "v"
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/cookie",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/cookie",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/cookie/a",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/cookie/b",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/cookie",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "logs": {
+    "result": [
+      "String:logcat"
+    ],
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/se/log/types",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/se/log",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "type": "logcat"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "shadowRoot": {
+    "result": [
+      "shadowRoot:sh1",
+      "element:el2",
+      [
+        "element:el1",
+        "element:el2"
+      ],
+      [
+        "element:el1",
+        {
+          "d": "Double:1.5",
+          "k": "Long:1"
+        },
+        "String:s",
+        "Boolean:true",
+        "null"
+      ]
+    ],
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/el1/shadow",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/shadow/sh1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "shadowId": "sh1",
+          "using": "css selector",
+          "value": "#in"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/shadow/sh1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "shadowId": "sh1",
+          "using": "class name",
+          "value": "cls"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/execute/sync",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "args": [
+            {
+              "shadow-6066-11e4-a52e-4f735466cecf": "sh1"
+            }
+          ],
+          "script": "return arguments[0]"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "virtualAuthenticator": {
+    "result": [
+      "String:auth1",
+      {
+        "credentialId": "String:AQID",
+        "isResidentCredential": "Boolean:false",
+        "privateKey": "String:CQk=",
+        "rpId": "String:example.com",
+        "signCount": "Integer:7"
+      }
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "hasResidentKey": false,
+          "hasUserVerification": false,
+          "isUserConsenting": true,
+          "isUserVerified": false,
+          "protocol": "ctap2",
+          "transport": "usb"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credential",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "authenticatorId": "auth1",
+          "credentialId": "AQID",
+          "isResidentCredential": false,
+          "privateKey": "CQk=",
+          "rpId": "example.com",
+          "signCount": 7
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials/AQID",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials/AQID",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/credentials",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1/uv",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "authenticatorId": "auth1",
+          "isUserVerified": true
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/webauthn/authenticator/auth1",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "federatedCredentialManagement": {
+    "result": [
+      "String:AccountChooser",
+      "String:Sign in",
+      "String:with IdP",
+      "String:a1",
+      "String:a@example.com"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/setdelayenabled",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "enabled": false
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/resetcooldown",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/getdialogtype",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/selectaccount",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "accountIndex": 1
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/clickdialogbutton",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "dialogButton": "ConfirmIdpLoginContinue"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/fedcm/canceldialog",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/accountlist",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/getdialogtype",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/gettitle",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/fedcm/gettitle",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "windowHandles": {
+    "result": [
+      "String:w1",
+      [
+        "String:w1",
+        "String:w2"
+      ]
+    ],
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/window",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/window/handles",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "switchToWindowAndFrame": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "handle": "w2"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/frame",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": 0
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "css selector",
+          "value": "frame[name='name'],iframe[name='name']"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/frame",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": {
+            "element-6066-11e4-a52e-4f735466cecf": "el1"
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/frame",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": {
+            "element-6066-11e4-a52e-4f735466cecf": "el1"
+          }
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/frame/parent",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/frame",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": null
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window/new",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "type": "tab"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/window",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "handle": "w3"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/element/active",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "alert": {
+    "result": "String:alert text",
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/alert/text",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/alert/text",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "text": "text"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/alert/accept",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/alert/dismiss",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {},
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/alert/text",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "perform": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/actions",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "actions": [
+            {
+              "actions": [
+                {
+                  "duration": 0,
+                  "origin": "viewport",
+                  "type": "pointerMove",
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "button": 0,
+                  "type": "pointerDown"
+                },
+                {
+                  "button": 0,
+                  "type": "pointerUp"
+                }
+              ],
+              "id": "finger",
+              "parameters": {
+                "pointerType": "touch"
+              },
+              "type": "pointer"
+            }
+          ]
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/actions",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "quit": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "close": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "DELETE",
+        "uri": "/wd/hub/session/s1/window",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getStatus": {
+    "result": {
+      "build": {
+        "version": "String:2.0.0"
+      },
+      "ready": "Boolean:true"
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/status",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "getCapabilities": {
+    "result": {
+      "appium:automationName": "String:UiAutomator2",
+      "appium:width": "Long:1080",
+      "platformName": "enum:ANDROID"
+    },
+    "requests": []
+  },
+  "getSessionId": {
+    "result": "String:s1",
+    "requests": []
+  },
+  "customCommand": {
+    "result": "Response:(Response: SessionID: s1, Status: 0, State: success, Value: null)",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/appium/custom",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "a": 1
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "contexts": {
+    "result": [
+      "String:NATIVE_APP",
+      [
+        "String:NATIVE_APP",
+        "String:WEBVIEW_1"
+      ]
+    ],
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/context",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/contexts",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "switchContext": {
+    "result": "null",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/context",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "name": "WEBVIEW_1"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "orientation": {
+    "result": "enum:PORTRAIT",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/orientation",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "orientation": "LANDSCAPE"
+        },
+        "client": "https://appium.example.com:4723"
+      },
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/orientation",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "settings": {
+    "result": {
+      "waitForIdleTimeout": "Long:10000"
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "uri": "/wd/hub/session/s1/appium/settings",
+        "headers": {
+          "cache-control": "no-cache",
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": null,
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  }
+}

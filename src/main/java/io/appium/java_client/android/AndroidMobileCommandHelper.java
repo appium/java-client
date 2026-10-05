@@ -17,7 +17,7 @@
 package io.appium.java_client.android;
 
 import io.appium.java_client.MobileCommand;
-import org.openqa.selenium.remote.RemoteWebElement;
+import io.appium.java_client.remote.AppiumWebElement;
 
 import java.util.Map;
 
@@ -205,7 +205,7 @@ public class AndroidMobileCommandHelper extends MobileCommand {
      */
     @Deprecated
     public static Map.Entry<String, Map<String, ?>> replaceElementValueCommand(
-        RemoteWebElement remoteWebElement, String value) {
+        AppiumWebElement remoteWebElement, String value) {
         return Map.entry(REPLACE_VALUE, Map.of(
                 "id", remoteWebElement.getId(),
                 "value", value

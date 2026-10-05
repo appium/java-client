@@ -60,7 +60,7 @@ public final class WebDriverUnpackUtility {
             return unpackObjectFromSearchContext(((WrapsDriver) searchContext).getWrappedDriver(), cls);
         }
         // Search context it is not only WebDriver. WebElement is search context too.
-        // RemoteWebElement implements WrapsDriver
+        // AppiumWebElement implements WrapsDriver
         if (searchContext instanceof WrapsElement) {
             return unpackObjectFromSearchContext(((WrapsElement) searchContext).getWrappedElement(), cls);
         }

@@ -16,50 +16,53 @@
 
 package io.appium.java_client.remote;
 
-import com.google.common.base.Throwables;
 import io.appium.java_client.AppiumClientConfig;
+import io.appium.java_client.AppiumCommandInfo;
+import io.appium.java_client.http.HttpClient;
+import io.appium.java_client.http.HttpClient.Factory;
+import io.appium.java_client.http.HttpRequest;
+import io.appium.java_client.http.HttpResponse;
 import io.appium.java_client.internal.DirectConnectUrlSafety;
-import io.appium.java_client.internal.ReflectionHelpers;
+import io.appium.java_client.internal.webdriver.ProtocolHandshake;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import lombok.Getter;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.Command;
-import org.openqa.selenium.remote.CommandCodec;
-import org.openqa.selenium.remote.CommandExecutor;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.Dialect;
-import org.openqa.selenium.remote.DriverCommand;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.ProtocolHandshake;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.ResponseCodec;
-import org.openqa.selenium.remote.codec.w3c.W3CHttpCommandCodec;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpClient.Factory;
-import org.openqa.selenium.remote.http.HttpRequest;
-import org.openqa.selenium.remote.http.HttpResponse;
 
-import java.io.IOException;
+import java.io.Closeable;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.google.common.base.Throwables.throwIfUnchecked;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
-import static org.openqa.selenium.remote.DriverCommand.NEW_SESSION;
 
+/**
+ * Executes the commands of a driver by sending them to an Appium server over HTTP.
+ * Adapted from Selenium's {@code HttpCommandExecutor} (Apache License 2.0).
+ */
 @NullMarked
-public class AppiumCommandExecutor extends HttpCommandExecutor {
+public class AppiumCommandExecutor implements CommandExecutor, Closeable {
+    private static final String JSON_UTF_8 = "application/json; charset=utf-8";
 
     private final Optional<AppiumDriverLocalService> serviceOptional;
     @Getter
     private final AppiumClientConfig appiumClientConfig;
+    private final @Nullable URL remoteServer;
+    private final Map<String, AppiumCommandInfo> additionalCommands;
+    @Getter
+    private final Factory httpClientFactory;
+    private HttpClient client;
+    private @Nullable CommandCodec commandCodec;
+    private @Nullable ResponseCodec responseCodec;
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -70,90 +73,91 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
      * @param appiumClientConfig take a look at {@link AppiumClientConfig}
      */
     public AppiumCommandExecutor(
-            Map<String, CommandInfo> additionalCommands,
+            Map<String, AppiumCommandInfo> additionalCommands,
             @Nullable AppiumDriverLocalService service,
             @Nullable Factory httpClientFactory,
             AppiumClientConfig appiumClientConfig) {
-        super(additionalCommands,
-                appiumClientConfig,
-                ofNullable(httpClientFactory).orElseGet(HttpCommandExecutor::getDefaultClientFactory)
-        );
-        serviceOptional = ofNullable(service);
-
-        this.appiumClientConfig = appiumClientConfig;
+        this.additionalCommands = new HashMap<>(requireNonNull(additionalCommands, "Additional commands"));
+        this.appiumClientConfig = requireNonNull(appiumClientConfig, "HTTP client configuration");
+        this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(Factory::createDefault);
+        this.client = this.httpClientFactory.createClient(appiumClientConfig);
+        this.remoteServer = appiumClientConfig.baseUrl();
+        this.serviceOptional = ofNullable(service);
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumDriverLocalService service,
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
+                                 AppiumDriverLocalService service,
                                  @Nullable Factory httpClientFactory) {
         this(additionalCommands, requireNonNull(service), httpClientFactory,
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(service).getUrl()));
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer,
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands, URL addressOfRemoteServer,
                                  @Nullable Factory httpClientFactory) {
         this(additionalCommands, null, httpClientFactory,
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumClientConfig appiumClientConfig) {
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
+                                 AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, null, null, appiumClientConfig);
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer) {
-        this(additionalCommands, null, HttpClient.Factory.createDefault(),
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands, URL addressOfRemoteServer) {
+        this(additionalCommands, null, Factory.createDefault(),
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, URL addressOfRemoteServer,
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands, URL addressOfRemoteServer,
                                  AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, null, HttpClient.Factory.createDefault(),
+        this(additionalCommands, null, Factory.createDefault(),
                 appiumClientConfig.baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands, AppiumDriverLocalService service) {
-        this(additionalCommands, service, HttpClient.Factory.createDefault(),
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
+                                 AppiumDriverLocalService service) {
+        this(additionalCommands, service, Factory.createDefault(),
                 AppiumClientConfig.defaultConfig().baseUrl(service.getUrl()));
     }
 
-    public AppiumCommandExecutor(Map<String, CommandInfo> additionalCommands,
+    public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
                                  AppiumDriverLocalService service, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, service, HttpClient.Factory.createDefault(), appiumClientConfig);
+        this(additionalCommands, service, Factory.createDefault(), appiumClientConfig);
     }
 
-    @Deprecated
-    @SuppressWarnings("SameParameterValue")
-    protected void setPrivateFieldValue(
-            Class<? extends CommandExecutor> cls, String fieldName, Object newValue) {
-        ReflectionHelpers.setPrivateFieldValue(cls, this, fieldName, newValue);
+    public Map<String, AppiumCommandInfo> getAdditionalCommands() {
+        return Collections.unmodifiableMap(additionalCommands);
     }
 
-    public Map<String, CommandInfo> getAdditionalCommands() {
-        return additionalCommands;
-    }
-
-    public Factory getHttpClientFactory() {
-        return httpClientFactory;
+    /**
+     * The address of the server the commands are sent to.
+     *
+     * @return the base URL of the client configuration
+     */
+    @Nullable
+    public URL getAddressOfRemoteServer() {
+        return remoteServer;
     }
 
     @Nullable
-    protected CommandCodec<HttpRequest> getCommandCodec() {
+    protected CommandCodec getCommandCodec() {
         return this.commandCodec;
     }
 
-    public void setCommandCodec(CommandCodec<HttpRequest> newCodec) {
+    public void setCommandCodec(CommandCodec newCodec) {
         this.commandCodec = newCodec;
     }
 
-    public void setResponseCodec(ResponseCodec<HttpResponse> codec) {
+    public void setResponseCodec(ResponseCodec codec) {
         this.responseCodec = codec;
     }
 
-    protected HttpClient getClient() {
+    public HttpClient getClient() {
         return this.client;
     }
 
     /**
-     * Override the http client in the HttpCommandExecutor class with a new http client instance with the given URL.
+     * Override the http client with a new http client instance with the given URL.
      * It uses the same http client factory and client config for the new http client instance
      * if the constructor got them.
      *
@@ -167,23 +171,20 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     protected void overrideServerUrl(URL serverUrl) {
         DirectConnectUrlSafety.requireSafeOverrideTarget(serverUrl);
         HttpClient newClient = getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl));
-        setPrivateFieldValue(HttpCommandExecutor.class, "client", newClient);
+        HttpClient oldClient = this.client;
+        this.client = newClient;
+        oldClient.close();
     }
 
-    private Response createSession(Command command) throws IOException {
+    private Response createSession(Command command) {
         if (getCommandCodec() != null) {
             throw new SessionNotCreatedException("Session already exists");
         }
 
-        var result = new ProtocolHandshake().createSession(getClient(), command);
-        Dialect dialect = result.getDialect();
-        if (!(dialect.getCommandCodec() instanceof W3CHttpCommandCodec)) {
-            throw new SessionNotCreatedException("Only W3C sessions are supported. "
-                    + "Please make sure your server is up to date.");
-        }
+        final var result = new ProtocolHandshake().createSession(getClient(), command);
         setCommandCodec(new AppiumW3CHttpCommandCodec());
         refreshAdditionalCommands();
-        setResponseCodec(dialect.getResponseCodec());
+        setResponseCodec(new AppiumW3CHttpResponseCodec());
         Response response = result.createResponse();
         if (appiumClientConfig.isDirectConnectEnabled()) {
             setDirectConnect(response);
@@ -193,11 +194,20 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
     }
 
     public void refreshAdditionalCommands() {
-        getAdditionalCommands().forEach(super::defineCommand);
+        getAdditionalCommands().forEach(this::defineCommand);
     }
 
-    public void defineCommand(String commandName, CommandInfo info) {
-        super.defineCommand(commandName, info);
+    /**
+     * Defines a command that is not part of the standard ones.
+     *
+     * @param commandName the command name
+     * @param info the HTTP method and the URL template of the command
+     */
+    public void defineCommand(String commandName, AppiumCommandInfo info) {
+        requireNonNull(commandName, "Command name");
+        requireNonNull(info, "Command info");
+        requireNonNull(commandCodec, "The session has not been started yet")
+                .defineCommand(commandName, info.getMethod(), info.getUrl());
     }
 
     @SuppressWarnings("unchecked")
@@ -234,11 +244,12 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
         }
 
         try {
-            return NEW_SESSION.equals(command.getName()) ? createSession(command) : super.execute(command);
+            return DriverCommand.NEW_SESSION.equals(command.getName())
+                    ? createSession(command) : executeInSession(command);
         } catch (Throwable t) {
-            Throwable rootCause = Throwables.getRootCause(t);
+            Throwable rootCause = getRootCause(t);
             if (rootCause instanceof ConnectException
-                    && rootCause.getMessage().contains("Connection refused")) {
+                    && String.valueOf(rootCause.getMessage()).contains("Connection refused")) {
                 throw serviceOptional.map(service -> {
                     if (service.isRunning()) {
                         return new WebDriverException("The session is closed!", rootCause);
@@ -247,12 +258,70 @@ public class AppiumCommandExecutor extends HttpCommandExecutor {
                     return new WebDriverException("The appium server has accidentally died!", rootCause);
                 }).orElseGet(() -> new WebDriverException(rootCause.getMessage(), rootCause));
             }
-            throwIfUnchecked(t);
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            }
+            if (t instanceof Error) {
+                throw (Error) t;
+            }
             throw new WebDriverException(t);
         } finally {
             if (DriverCommand.QUIT.equals(command.getName())) {
                 serviceOptional.ifPresent(AppiumDriverLocalService::stop);
             }
         }
+    }
+
+    private Response executeInSession(Command command) {
+        if (command.getSessionId() == null) {
+            if (DriverCommand.QUIT.equals(command.getName())) {
+                return new Response();
+            }
+            throw new NoSuchSessionException("Session ID is null. Using WebDriver after calling quit()?");
+        }
+
+        if (commandCodec == null || responseCodec == null) {
+            throw new WebDriverException("No command or response codec has been defined. Unable to proceed");
+        }
+
+        HttpRequest httpRequest = commandCodec.encode(command);
+
+        // Ensure that the required headers are set
+        if (httpRequest.getHeader("Content-Type") == null) {
+            httpRequest.addHeader("Content-Type", JSON_UTF_8);
+        }
+
+        try {
+            HttpResponse httpResponse = client.execute(httpRequest);
+
+            Response response = responseCodec.decode(httpResponse);
+            if (response.getSessionId() == null) {
+                // Spam in the session id from the request
+                response.setSessionId(command.getSessionId().toString());
+            }
+            if (DriverCommand.QUIT.equals(command.getName())) {
+                client.close();
+            }
+            return response;
+        } catch (UnsupportedCommandException e) {
+            if (e.getMessage() == null || e.getMessage().isEmpty()) {
+                throw new UnsupportedOperationException(
+                        "No information from server. Command name was: " + command.getName(), e.getCause());
+            }
+            throw e;
+        }
+    }
+
+    private static Throwable getRootCause(Throwable throwable) {
+        Throwable cause = throwable;
+        while (cause.getCause() != null && cause.getCause() != cause) {
+            cause = cause.getCause();
+        }
+        return cause;
+    }
+
+    @Override
+    public void close() {
+        client.close();
     }
 }

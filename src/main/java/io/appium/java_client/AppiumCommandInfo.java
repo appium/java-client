@@ -16,14 +16,16 @@
 
 package io.appium.java_client;
 
-import lombok.AccessLevel;
+import io.appium.java_client.http.HttpMethod;
 import lombok.Getter;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.http.HttpMethod;
 
-public class AppiumCommandInfo extends CommandInfo {
-    @Getter(AccessLevel.PUBLIC) private final String url;
-    @Getter(AccessLevel.PUBLIC) private final HttpMethod method;
+/**
+ * The HTTP method and the URL template of a command.
+ */
+@Getter
+public class AppiumCommandInfo {
+    private final String url;
+    private final HttpMethod method;
 
     /**
      * It contains method and URL of the command.
@@ -32,7 +34,6 @@ public class AppiumCommandInfo extends CommandInfo {
      * @param method is http-method
      */
     public AppiumCommandInfo(String url, HttpMethod method) {
-        super(url, method);
         this.url = url;
         this.method = method;
     }

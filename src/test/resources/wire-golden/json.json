@@ -1,0 +1,89 @@
+{
+  "null": null,
+  "integer": 1,
+  "long": 12345678901234,
+  "double": 1.5,
+  "wholeDouble": 2.0,
+  "float": 1.25,
+  "boolean": true,
+  "specialString": "a<b>&'\"\\\n\t\u0001é\u2028😀",
+  "optionalPresent": "x",
+  "optionalEmpty": null,
+  "enum": "ANDROID",
+  "date": 1700000000,
+  "instant": "2023-11-14T22:13:20Z",
+  "uri": "https://example.com/a?b=c",
+  "uuid": "00000000-0000-0001-0000-000000000002",
+  "objectArray": [
+    "a",
+    1,
+    null,
+    {
+      "k": "v"
+    }
+  ],
+  "charSequenceArray": [
+    "ab",
+    "c"
+  ],
+  "nestedMap": {
+    "a": {
+      "b": [
+        1,
+        2.5,
+        "3"
+      ]
+    },
+    "n": null
+  },
+  "cookie": {
+    "domain": "d",
+    "expiry": 1700000000,
+    "httpOnly": false,
+    "name": "n",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "v"
+  },
+  "immutableCapabilities": {
+    "appium:deviceName": "x",
+    "appium:width": 1080,
+    "platformName": "ANDROID"
+  },
+  "mutableCapabilitiesWithPlatform": {
+    "platformName": "ANDROID"
+  },
+  "element": {
+    "element-6066-11e4-a52e-4f735466cecf": "e1"
+  },
+  "elementList": [
+    {
+      "element-6066-11e4-a52e-4f735466cecf": "e1"
+    }
+  ],
+  "sequence": {
+    "actions": [
+      {
+        "duration": 100,
+        "origin": "viewport",
+        "type": "pointerMove",
+        "x": 10,
+        "y": 20
+      },
+      {
+        "button": 0,
+        "type": "pointerDown"
+      },
+      {
+        "button": 0,
+        "type": "pointerUp"
+      }
+    ],
+    "id": "finger",
+    "parameters": {
+      "pointerType": "touch"
+    },
+    "type": "pointer"
+  }
+}

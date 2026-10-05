@@ -21,7 +21,6 @@ import io.appium.java_client.MobileCommand;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.Response;
 
 import java.util.Map;
 

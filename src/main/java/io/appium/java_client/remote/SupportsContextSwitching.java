@@ -22,7 +22,6 @@ import io.appium.java_client.NoSuchContextException;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.Response;
 
 import java.util.LinkedHashSet;
 import java.util.List;

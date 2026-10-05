@@ -19,6 +19,8 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.internal.CapabilityHelpers;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.remote.AppiumWebElement;
+import io.appium.java_client.remote.CapabilityType;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import io.appium.java_client.support.pagefactory.ElementLocatorFactory;
@@ -29,8 +31,6 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -45,7 +45,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
@@ -57,14 +57,14 @@ import static java.time.Duration.ofSeconds;
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory.
- * Please pay attention: fields of {@link WebElement} or {@link RemoteWebElement}
+ * Please pay attention: fields of {@link WebElement} or {@link AppiumWebElement}
  * to use with this decorator
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
     private static final List<Class<? extends WebElement>> AVAILABLE_ELEMENT_CLASSES = List.of(
             WebElement.class,
-            RemoteWebElement.class
+            AppiumWebElement.class
     );
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private final WeakReference<WebDriver> webDriverReference;
@@ -255,6 +255,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
     private WebElement proxyForAnElement(ElementLocator locator) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriverReference);
-        return getEnhancedProxy(RemoteWebElement.class, elementInterceptor);
+        return getEnhancedProxy(AppiumWebElement.class, elementInterceptor);
     }
 }

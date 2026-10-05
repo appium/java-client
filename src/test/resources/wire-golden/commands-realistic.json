@@ -1,0 +1,195 @@
+{
+  "sendKeysToElement": {
+    "method": "POST",
+    "uri": "/session/test-session/element/e1/value",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "e1",
+      "text": "abc",
+      "value": [
+        "a",
+        "b",
+        "c"
+      ]
+    }
+  },
+  "setTimeout": {
+    "method": "POST",
+    "uri": "/session/test-session/timeouts",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "implicit": 5000,
+      "pageLoad": 10000,
+      "script": 3000
+    }
+  },
+  "findElement": {
+    "method": "POST",
+    "uri": "/session/test-session/element",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "using": "css selector",
+      "value": "[id=\"x\"]"
+    }
+  },
+  "findChildElements": {
+    "method": "POST",
+    "uri": "/session/test-session/element/e1/elements",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": "e1",
+      "using": "xpath",
+      "value": "//a"
+    }
+  },
+  "executeScript": {
+    "method": "POST",
+    "uri": "/session/test-session/execute/sync",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "args": [
+        {
+          "a": 1
+        }
+      ],
+      "script": "mobile: shell"
+    }
+  },
+  "addCookie": {
+    "method": "POST",
+    "uri": "/session/test-session/cookie",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "cookie": {
+        "httpOnly": false,
+        "name": "n",
+        "path": "/",
+        "secure": false,
+        "value": "v"
+      }
+    }
+  },
+  "setCurrentWindowSize": {
+    "method": "POST",
+    "uri": "/session/test-session/window/rect",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "height": 400,
+      "width": 300,
+      "x": 1,
+      "y": 2
+    }
+  },
+  "switchToWindow": {
+    "method": "POST",
+    "uri": "/session/test-session/window",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "handle": "w1"
+    }
+  },
+  "switchToFrame": {
+    "method": "POST",
+    "uri": "/session/test-session/frame",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "id": 1
+    }
+  },
+  "get": {
+    "method": "POST",
+    "uri": "/session/test-session/url",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "url": "https://example.com/a?b=c&d=<e>"
+    }
+  },
+  "getElementAttribute": {
+    "method": "GET",
+    "uri": "/session/test-session/element/e+1/attribute/a%2Fb+c",
+    "headers": {
+      "cache-control": "no-cache"
+    },
+    "body": null
+  },
+  "actions": {
+    "method": "POST",
+    "uri": "/session/test-session/actions",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "actions": [
+        {
+          "actions": [
+            {
+              "duration": 100,
+              "origin": "viewport",
+              "type": "pointerMove",
+              "x": 10,
+              "y": 20
+            },
+            {
+              "button": 0,
+              "type": "pointerDown"
+            },
+            {
+              "button": 0,
+              "type": "pointerUp"
+            }
+          ],
+          "id": "finger",
+          "parameters": {
+            "pointerType": "touch"
+          },
+          "type": "pointer"
+        }
+      ]
+    }
+  },
+  "setAlertValue": {
+    "method": "POST",
+    "uri": "/session/test-session/alert/text",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "text": "hi",
+      "value": [
+        "h",
+        "i"
+      ]
+    }
+  },
+  "printPage": {
+    "method": "POST",
+    "uri": "/session/test-session/print",
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "orientation": "portrait",
+      "scale": 1.0
+    }
+  }
+}

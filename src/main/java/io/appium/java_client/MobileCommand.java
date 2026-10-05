@@ -16,23 +16,22 @@
 
 package io.appium.java_client;
 
-import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.http.HttpMethod;
 import io.appium.java_client.imagecomparison.BaseComparisonOptions;
 import io.appium.java_client.imagecomparison.ComparisonMode;
 import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.remote.CommandInfo;
-import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 
 /**
  * The repository of mobile commands defined in the Mobile JSON
@@ -187,7 +186,7 @@ public class MobileCommand {
     public static final String GET_LOCATION = "getLocation";
     public static final String SET_LOCATION = "setLocation";
 
-    public static final Map<String, CommandInfo> commandRepository;
+    public static final Map<String, AppiumCommandInfo> commandRepository;
 
     static {
         RESET = "reset";
@@ -370,7 +369,7 @@ public class MobileCommand {
      * This methods forms GET commands.
      *
      * @param url is the command URL
-     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     * @return an instance of {@link AppiumCommandInfo}
      */
     public static AppiumCommandInfo getC(String url) {
         return new AppiumCommandInfo(url, HttpMethod.GET);
@@ -380,7 +379,7 @@ public class MobileCommand {
      * This methods forms POST commands.
      *
      * @param url is the command URL
-     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     * @return an instance of {@link AppiumCommandInfo}
      */
     public static AppiumCommandInfo postC(String url) {
         return new AppiumCommandInfo(url, HttpMethod.POST);
@@ -390,7 +389,7 @@ public class MobileCommand {
      * This methods forms DELETE commands.
      *
      * @param url is the command URL
-     * @return an instance of {@link org.openqa.selenium.remote.CommandInfo}
+     * @return an instance of {@link AppiumCommandInfo}
      */
     public static AppiumCommandInfo deleteC(String url) {
         return new AppiumCommandInfo(url, HttpMethod.DELETE);
@@ -432,15 +431,12 @@ public class MobileCommand {
      *
      * @param param is a parameter name.
      * @param value is the parameter value.
-     * @return built {@link ImmutableMap}.
+     * @return built {@link Map}.
      * @deprecated Use {@link Map#of(Object, Object)}
      */
     @Deprecated
-    public static ImmutableMap<String, Object> prepareArguments(String param,
-                                                                Object value) {
-        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
-        builder.put(param, value);
-        return builder.build();
+    public static Map<String, Object> prepareArguments(String param, Object value) {
+        return Map.of(param, value);
     }
 
     /**
@@ -448,19 +444,18 @@ public class MobileCommand {
      *
      * @param params is the array with parameter names.
      * @param values is the array with parameter values.
-     * @return built {@link ImmutableMap}.
+     * @return built {@link Map}.
      * @deprecated Use {@link Map#of(Object, Object, Object, Object)}
      */
     @Deprecated
-    public static ImmutableMap<String, Object> prepareArguments(String[] params,
-                                                                Object[] values) {
-        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
+    public static Map<String, Object> prepareArguments(String[] params, Object[] values) {
+        Map<String, Object> result = new LinkedHashMap<>();
         for (int i = 0; i < params.length; i++) {
             if (!isNullOrEmpty(params[i]) && values[i] != null) {
-                builder.put(params[i], values[i]);
+                result.put(params[i], values[i]);
             }
         }
-        return builder.build();
+        return Collections.unmodifiableMap(result);
     }
 
     /**

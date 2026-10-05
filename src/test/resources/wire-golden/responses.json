@@ -1,0 +1,319 @@
+{
+  "newSession": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": {
+      "capabilities": {
+        "appium:scale": "Double:2.5",
+        "appium:width": "Long:1080",
+        "flag": "Boolean:true",
+        "nested": {
+          "arr": [
+            "Long:1",
+            "Long:2",
+            "String:3"
+          ],
+          "n": "null"
+        },
+        "platformName": "String:Android"
+      },
+      "sessionId": "String:abc"
+    }
+  },
+  "null": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "null"
+  },
+  "string": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "String:text"
+  },
+  "list": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": [
+      "Long:1",
+      "Long:2",
+      "Long:3"
+    ]
+  },
+  "long": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "Long:123456789012"
+  },
+  "double": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "Double:1.5"
+  },
+  "wholeDouble": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "Long:2"
+  },
+  "bool": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "Boolean:true"
+  },
+  "element": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": {
+      "ELEMENT": "String:e1",
+      "element-6066-11e4-a52e-4f735466cecf": "String:e1"
+    }
+  },
+  "elements": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": [
+      {
+        "element-6066-11e4-a52e-4f735466cecf": "String:e1"
+      },
+      {
+        "element-6066-11e4-a52e-4f735466cecf": "String:e2"
+      }
+    ]
+  },
+  "noContentType": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "null"
+  },
+  "emptyBody200": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "null"
+  },
+  "textBody200": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": "null"
+  },
+  "emptyBody500": {
+    "error": "WireJsonException"
+  },
+  "textBody502": {
+    "state": "unknown error",
+    "status": 13,
+    "sessionId": null,
+    "value": "String:<html>Bad gateway</html>"
+  },
+  "noValueKey": {
+    "state": "success",
+    "status": 0,
+    "sessionId": null,
+    "value": {
+      "status": "Long:0"
+    }
+  },
+  "noSuchContext": {
+    "state": "unknown error",
+    "status": 13,
+    "sessionId": null,
+    "value": "WebDriverException:No such context found"
+  },
+  "error:detached shadow root": {
+    "state": "detached shadow root",
+    "status": 13,
+    "sessionId": null,
+    "value": "DetachedShadowRootException:msg for detached shadow root"
+  },
+  "error:element click intercepted": {
+    "state": "element click intercepted",
+    "status": 64,
+    "sessionId": null,
+    "value": "ElementClickInterceptedException:msg for element click intercepted"
+  },
+  "error:element not interactable": {
+    "state": "element not interactable",
+    "status": 60,
+    "sessionId": null,
+    "value": "ElementNotInteractableException:msg for element not interactable"
+  },
+  "error:insecure certificate": {
+    "state": "insecure certificate",
+    "status": 13,
+    "sessionId": null,
+    "value": "InsecureCertificateException:msg for insecure certificate"
+  },
+  "error:invalid argument": {
+    "state": "invalid argument",
+    "status": 61,
+    "sessionId": null,
+    "value": "InvalidArgumentException:msg for invalid argument"
+  },
+  "error:invalid cookie domain": {
+    "state": "invalid cookie domain",
+    "status": 24,
+    "sessionId": null,
+    "value": "InvalidCookieDomainException:msg for invalid cookie domain"
+  },
+  "error:invalid element state": {
+    "state": "invalid element state",
+    "status": 12,
+    "sessionId": null,
+    "value": "InvalidElementStateException:msg for invalid element state"
+  },
+  "error:invalid selector": {
+    "state": "invalid selector",
+    "status": 32,
+    "sessionId": null,
+    "value": "InvalidSelectorException:msg for invalid selector"
+  },
+  "error:invalid session id": {
+    "state": "invalid session id",
+    "status": 6,
+    "sessionId": null,
+    "value": "NoSuchSessionException:msg for invalid session id"
+  },
+  "error:javascript error": {
+    "state": "javascript error",
+    "status": 17,
+    "sessionId": null,
+    "value": "JavascriptException:msg for javascript error"
+  },
+  "error:move target out of bounds": {
+    "state": "move target out of bounds",
+    "status": 34,
+    "sessionId": null,
+    "value": "MoveTargetOutOfBoundsException:msg for move target out of bounds"
+  },
+  "error:no such alert": {
+    "state": "no such alert",
+    "status": 27,
+    "sessionId": null,
+    "value": "NoAlertPresentException:msg for no such alert"
+  },
+  "error:no such context": {
+    "state": "no such context",
+    "status": 13,
+    "sessionId": null,
+    "value": "WebDriverException:msg for no such context (error code: \"no such context\")"
+  },
+  "error:no such cookie": {
+    "state": "no such cookie",
+    "status": 62,
+    "sessionId": null,
+    "value": "NoSuchCookieException:msg for no such cookie"
+  },
+  "error:no such element": {
+    "state": "no such element",
+    "status": 7,
+    "sessionId": null,
+    "value": "NoSuchElementException:msg for no such element"
+  },
+  "error:no such frame": {
+    "state": "no such frame",
+    "status": 8,
+    "sessionId": null,
+    "value": "NoSuchFrameException:msg for no such frame"
+  },
+  "error:no such shadow root": {
+    "state": "no such shadow root",
+    "status": 65,
+    "sessionId": null,
+    "value": "NoSuchShadowRootException:msg for no such shadow root"
+  },
+  "error:no such window": {
+    "state": "no such window",
+    "status": 23,
+    "sessionId": null,
+    "value": "NoSuchWindowException:msg for no such window"
+  },
+  "error:script timeout": {
+    "state": "script timeout",
+    "status": 28,
+    "sessionId": null,
+    "value": "ScriptTimeoutException:msg for script timeout"
+  },
+  "error:session not created": {
+    "state": "session not created",
+    "status": 33,
+    "sessionId": null,
+    "value": "SessionNotCreatedException:Could not start a new session. msg for session not created "
+  },
+  "error:stale element reference": {
+    "state": "stale element reference",
+    "status": 10,
+    "sessionId": null,
+    "value": "StaleElementReferenceException:msg for stale element reference"
+  },
+  "error:timeout": {
+    "state": "timeout",
+    "status": 21,
+    "sessionId": null,
+    "value": "TimeoutException:msg for timeout"
+  },
+  "error:unable to set cookie": {
+    "state": "unable to set cookie",
+    "status": 25,
+    "sessionId": null,
+    "value": "UnableToSetCookieException:msg for unable to set cookie"
+  },
+  "error:unable to capture screen": {
+    "state": "unable to capture screen",
+    "status": 63,
+    "sessionId": null,
+    "value": "ScreenshotException:msg for unable to capture screen"
+  },
+  "error:unexpected alert open": {
+    "state": "unexpected alert open",
+    "status": 26,
+    "sessionId": null,
+    "value": "UnhandledAlertException:msg for unexpected alert open: null"
+  },
+  "error:unknown command": {
+    "state": "unknown command",
+    "status": 9,
+    "sessionId": null,
+    "value": "UnsupportedCommandException:msg for unknown command"
+  },
+  "error:unknown error": {
+    "state": "unknown error",
+    "status": 13,
+    "sessionId": null,
+    "value": "WebDriverException:msg for unknown error"
+  },
+  "error:unknown method": {
+    "state": "unknown command",
+    "status": 9,
+    "sessionId": null,
+    "value": "String:{\"value\":{\"error\":\"unknown method\",\"message\":\"msg for unknown method\",\"stacktrace\":\"at foo (bar.js:1:2)\\nat baz (qux.js:3:4)\"}}"
+  },
+  "error:unsupported operation": {
+    "state": "unsupported operation",
+    "status": 405,
+    "sessionId": null,
+    "value": "UnsupportedCommandException:msg for unsupported operation"
+  },
+  "error:unrecognized": {
+    "state": "totally new error",
+    "status": 13,
+    "sessionId": null,
+    "value": "WebDriverException:boom (error code: \"totally new error\")"
+  },
+  "error:noStacktrace": {
+    "state": "no such element",
+    "status": 7,
+    "sessionId": null,
+    "value": "NoSuchElementException:nope"
+  }
+}

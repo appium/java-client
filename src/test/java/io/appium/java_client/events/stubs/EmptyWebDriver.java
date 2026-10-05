@@ -22,6 +22,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -30,7 +31,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.logging.Logs;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -115,7 +115,7 @@ public class EmptyWebDriver implements WebDriver, JavascriptExecutor, HasCapabil
         Map<String, Object> map = new HashMap<>();
         map.put("0", "");
         map.put("1", "");
-        return new DesiredCapabilities(map);
+        return new MutableCapabilities(map);
     }
 
     public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {

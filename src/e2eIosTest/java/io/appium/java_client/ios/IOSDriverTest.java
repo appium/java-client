@@ -18,14 +18,14 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.Location;
 import io.appium.java_client.appmanagement.ApplicationState;
+import io.appium.java_client.http.HttpMethod;
+import io.appium.java_client.remote.AppiumWebElement;
+import io.appium.java_client.remote.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.Response;
-import org.openqa.selenium.remote.http.HttpMethod;
 
 import java.time.Duration;
 import java.util.Map;
@@ -66,9 +66,9 @@ public class IOSDriverTest extends AppIOSTest {
         var usernameEdit = driver.findElement(USERNAME_EDIT_PREDICATE);
         driver.addCommand(HttpMethod.POST,
                 String.format("/session/%s/appium/element/%s/value", driver.getSessionId(),
-                        ((RemoteWebElement) usernameEdit).getId()), "setNewValue");
+                        ((AppiumWebElement) usernameEdit).getId()), "setNewValue");
         final Response setNewValue = driver.execute("setNewValue",
-                Map.of("id", ((RemoteWebElement) usernameEdit).getId(), "text", "foo"));
+                Map.of("id", ((AppiumWebElement) usernameEdit).getId(), "text", "foo"));
         assertNotNull(setNewValue.getSessionId());
     }
 

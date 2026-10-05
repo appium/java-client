@@ -16,7 +16,7 @@
 
 package io.appium.java_client.proxy;
 
-import com.google.common.base.Preconditions;
+import io.appium.java_client.internal.Preconditions;
 import lombok.Value;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;

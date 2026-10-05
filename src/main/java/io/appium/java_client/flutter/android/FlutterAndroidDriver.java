@@ -3,12 +3,11 @@ package io.appium.java_client.flutter.android;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.flutter.FlutterIntegrationTestDriver;
+import io.appium.java_client.http.HttpClient;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.http.ClientConfig;
-import org.openqa.selenium.remote.http.HttpClient;
 
 import java.net.URL;
 
@@ -17,7 +16,7 @@ import java.net.URL;
  */
 public class FlutterAndroidDriver extends AndroidDriver implements FlutterIntegrationTestDriver {
 
-    public FlutterAndroidDriver(HttpCommandExecutor executor, Capabilities capabilities) {
+    public FlutterAndroidDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, capabilities);
     }
 
@@ -49,10 +48,6 @@ public class FlutterAndroidDriver extends AndroidDriver implements FlutterIntegr
 
     public FlutterAndroidDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, capabilities);
-    }
-
-    public FlutterAndroidDriver(ClientConfig clientConfig, Capabilities capabilities) {
-        super(clientConfig, capabilities);
     }
 
     public FlutterAndroidDriver(AppiumClientConfig appiumClientConfig, Capabilities capabilities) {

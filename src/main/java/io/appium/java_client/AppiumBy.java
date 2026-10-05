@@ -16,8 +16,8 @@
 
 package io.appium.java_client;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import io.appium.java_client.internal.Preconditions;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 
 @EqualsAndHashCode(callSuper = true)
 public abstract class AppiumBy extends By implements Remotable {

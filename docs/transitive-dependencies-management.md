@@ -1,6 +1,7 @@
-> **Note**: Appium Java Client does not depend on `selenium-support` anymore. If your code uses its classes
-> (`WebDriverWait`, `ExpectedConditions`, `Select`, `EventFiringDecorator`, etc.), declare it in your own
-> build the same way as the other Selenium dependencies below.
+> **Note**: Appium Java Client depends on `selenium-api` only. It does not depend on `selenium-support`,
+> `selenium-remote-driver`, `selenium-http`, `selenium-json` and `selenium-os` anymore. If your code uses classes
+> from them (`WebDriverWait`, `ExpectedConditions`, `Select`, `EventFiringDecorator`, `RemoteWebDriver`, etc.),
+> declare them in your own build.
 
 # Maven
 
@@ -21,20 +22,11 @@ In order to pin Selenium dependencies they should be declared in `pom.xml` in th
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-api</artifactId>
             </exclusion>
-            <exclusion>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-remote-driver</artifactId>
-            </exclusion>
         </exclusions>
     </dependency>
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-api</artifactId>
-        <version>A.B.C</version>
-    </dependency>
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-remote-driver</artifactId>
         <version>A.B.C</version>
     </dependency>
 </dependencies>
@@ -57,6 +49,5 @@ In order to use newer Selenium dependencies they should be explicitly added to G
 dependencies {
     implementation('io.appium:java-client:X.Y.Z')
     implementation('org.seleniumhq.selenium:selenium-api:A.B.C')
-    implementation('org.seleniumhq.selenium:selenium-remote-driver:A.B.C')
 }
 ```

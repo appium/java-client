@@ -17,9 +17,9 @@
 
 package io.appium.java_client;
 
+import io.appium.java_client.remote.ErrorCodes;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.ErrorCodes;
 
 import java.util.Map;
 

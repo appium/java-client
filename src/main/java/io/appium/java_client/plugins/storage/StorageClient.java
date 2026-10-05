@@ -18,18 +18,17 @@ package io.appium.java_client.plugins.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.appium.java_client.AppiumClientConfig;
+import io.appium.java_client.http.Contents;
+import io.appium.java_client.http.HttpClient;
+import io.appium.java_client.http.HttpHeader;
+import io.appium.java_client.http.HttpMethod;
+import io.appium.java_client.http.HttpRequest;
+import io.appium.java_client.http.HttpResponse;
+import io.appium.java_client.http.WebSocket;
+import io.appium.java_client.internal.webdriver.ErrorCodec;
+import io.appium.java_client.remote.AppiumW3CHttpResponseCodec;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.ErrorCodec;
-import org.openqa.selenium.remote.codec.AbstractHttpResponseCodec;
-import org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec;
-import org.openqa.selenium.remote.http.ClientConfig;
-import org.openqa.selenium.remote.http.Contents;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpHeader;
-import org.openqa.selenium.remote.http.HttpMethod;
-import org.openqa.selenium.remote.http.HttpRequest;
-import org.openqa.selenium.remote.http.HttpResponse;
-import org.openqa.selenium.remote.http.WebSocket;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -58,18 +57,23 @@ public class StorageClient {
     public static final String PREFIX = "/storage";
     private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();
     private final Gson gson = new Gson();
-    private final AbstractHttpResponseCodec responseCodec = new W3CHttpResponseCodec();
-    private final ErrorCodec errorCodec = ErrorCodec.createDefault();
+    private final AppiumW3CHttpResponseCodec responseCodec = new AppiumW3CHttpResponseCodec();
 
     private final URL baseUrl;
     private final HttpClient httpClient;
 
+    /**
+     * Creates a client of the storage plugin.
+     *
+     * @param baseUrl the address of the Appium server
+     */
     public StorageClient(URL baseUrl) {
         this.baseUrl = baseUrl;
-        this.httpClient = HttpClient.Factory.createDefault().createClient(baseUrl);
+        this.httpClient = HttpClient.Factory.createDefault()
+                .createClient(AppiumClientConfig.defaultConfig().baseUrl(baseUrl));
     }
 
-    public StorageClient(ClientConfig clientConfig) {
+    public StorageClient(AppiumClientConfig clientConfig) {
         this.httpClient = HttpClient.Factory.createDefault().createClient(clientConfig);
         this.baseUrl = clientConfig.baseUrl();
     }
@@ -242,7 +246,7 @@ public class StorageClient {
                 if ((Boolean) value.get("success")) {
                     return Optional.empty();
                 }
-                return Optional.of(errorCodec.decode(record));
+                return Optional.of(ErrorCodec.decode(record));
             } catch (Exception e) {
                 return Optional.of(new WebDriverException(payload, e));
             }

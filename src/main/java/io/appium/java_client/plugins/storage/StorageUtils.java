@@ -16,7 +16,7 @@
 
 package io.appium.java_client.plugins.storage;
 
-import org.openqa.selenium.remote.http.WebSocket;
+import io.appium.java_client.http.WebSocket;
 
 import java.io.BufferedInputStream;
 import java.io.File;

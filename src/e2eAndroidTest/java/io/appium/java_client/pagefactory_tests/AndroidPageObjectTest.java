@@ -23,6 +23,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
+import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.CacheLookup;
 import io.appium.java_client.support.FindBy;
 import io.appium.java_client.support.PageFactory;
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -71,7 +71,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     private List<WebElement> mobiletextVieWs;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private List<RemoteWebElement> remoteElementViews;
+    private List<AppiumWebElement> remoteElementViews;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
     @AndroidFindBy(className = "android.widget.TextView")
@@ -101,7 +101,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     private WebElement mobiletextVieW;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
-    private RemoteWebElement remotetextVieW;
+    private AppiumWebElement remotetextVieW;
 
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/list\")")
     @AndroidFindBy(className = "android.widget.TextView")
@@ -352,7 +352,7 @@ public class AndroidPageObjectTest extends BaseAndroidTest {
     }
 
     @Test public void checkCachedElements() {
-        assertEquals(((RemoteWebElement) cached).getId(), ((RemoteWebElement) cached).getId());
+        assertEquals(((AppiumWebElement) cached).getId(), ((AppiumWebElement) cached).getId());
         assertEquals(cached.hashCode(), cached.hashCode());
         //noinspection SimplifiableAssertion,EqualsWithItself
         assertTrue(cached.equals(cached));

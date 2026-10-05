@@ -46,8 +46,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Strings.isNullOrEmpty;
+import static io.appium.java_client.internal.Preconditions.checkArgument;
+import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
