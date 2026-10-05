@@ -16,14 +16,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static io.appium.java_client.remote.AutomationName.ANDROID_UIAUTOMATOR2;
 import static io.appium.java_client.remote.AutomationName.IOS_XCUI_TEST;
 import static io.appium.java_client.remote.MobilePlatform.ANDROID;
 import static io.appium.java_client.remote.MobilePlatform.IOS;
 import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public abstract class AbstractStubWebDriver implements
         WebDriver,
@@ -150,72 +148,17 @@ public abstract class AbstractStubWebDriver implements
 
             @Override
             public Cookie getCookieNamed(String name) {
-                return new Cookie(name, EMPTY);
+                return new Cookie(name, "");
             }
 
             @Override
             public Timeouts timeouts() {
                 return new Timeouts() {
-                    /**
-                     * Does nothing.
-                     *
-                     * @param time The amount of time to wait.
-                     * @param unit The unit of measure for {@code time}.
-                     * @return A self reference.
-                     * @deprecated Kept for the backward compatibility, should be removed when a minimum Selenium
-                     *     version is bumped to 4.33.0 or higher.
-                     */
-                    @Deprecated
-                    public Timeouts implicitlyWait(long time, TimeUnit unit) {
-                        return this;
-                    }
-
                     public Timeouts implicitlyWait(Duration duration) {
                         return this;
                     }
 
-                    /**
-                     * Does nothing.
-                     *
-                     * @param time The timeout value.
-                     * @param unit The unit of time.
-                     * @return A self reference.
-                     * @deprecated Kept for the backward compatibility, should be removed when Selenium client removes
-                     *     this method from its interface.
-                     */
-                    @Deprecated
-                    public Timeouts setScriptTimeout(long time, TimeUnit unit) {
-                        return this;
-                    }
-
-                    /**
-                     * Does nothing.
-                     *
-                     * @param duration The timeout value.
-                     * @return A self reference.
-                     * @deprecated Kept for the backward compatibility, should be removed when Selenium client removes
-                     *     this method from its interface.
-                     */
-                    @Deprecated
-                    public Timeouts setScriptTimeout(Duration duration) {
-                        return this;
-                    }
-
                     public Timeouts scriptTimeout(Duration duration) {
-                        return this;
-                    }
-
-                    /**
-                     * Does nothing.
-                     *
-                     * @param time The timeout value.
-                     * @param unit The unit of time.
-                     * @return A self reference.
-                     * @deprecated Kept for the backward compatibility, should be removed when Selenium client removes
-                     *     this method from its interface.
-                     */
-                    @Deprecated
-                    public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
                         return this;
                     }
 
@@ -280,12 +223,12 @@ public abstract class AbstractStubWebDriver implements
 
         @Override
         public String getPlatformName() {
-            return EMPTY;
+            return "";
         }
 
         @Override
         public String getAutomationName() {
-            return EMPTY;
+            return "";
         }
     }
 
