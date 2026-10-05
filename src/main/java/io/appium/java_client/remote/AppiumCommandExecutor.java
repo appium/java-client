@@ -156,6 +156,10 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         return this.client;
     }
 
+    public AppiumClientConfig getClientConfig() {
+        return this.appiumClientConfig;
+    }
+
     /**
      * Override the http client with a new http client instance with the given URL.
      * It uses the same http client factory and client config for the new http client instance
