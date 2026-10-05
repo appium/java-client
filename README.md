@@ -126,6 +126,13 @@ build tools. Sometimes users may want to pin used Selenium dependencies for [var
 Follow the [Transitive Dependencies Management article](docs/transitive-dependencies-management.md) for more information
 about establishing a fixed Selenium version for your Java test framework.
 
+### Appium Server Compatibility
+
+A major release of the client guarantees support only for the Appium server API of the major server version that is
+current at the time of the release and of the previous major version. Endpoints and commands that were removed or
+deprecated in the server earlier may not be supported anymore. For example, if Appium 4 is the current version, the API
+that existed in Appium 2 and was removed or deprecated in Appium 3 is not guaranteed to work.
+
 ## Drivers Support
 
 Appium java client has dedicated classes to support the following Appium drivers:
