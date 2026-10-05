@@ -243,7 +243,7 @@ public class StorageClient {
                 Map<String, Object> record = gson.fromJson(payload, MAP_TYPE);
                 //noinspection unchecked
                 var value = (Map<String, Object>) record.get("value");
-                if ((Boolean) value.get("success")) {
+                if (Boolean.TRUE.equals(value.get("success"))) {
                     return Optional.empty();
                 }
                 return Optional.of(ErrorCodec.decode(record));
