@@ -29,8 +29,9 @@ The commands of Selenium that Appium does not serve, like downloads, are not ava
 ## BiDi
 
 Create the session with the `webSocketUrl` capability (`options.enableBiDi()`), then pass the Selenium driver
-to a BiDi module. The WebSocket connection is opened on the first use, with the timeouts, proxy,
-credentials and SSL context of the `AppiumClientConfig` of the driver.
+to a BiDi module. Selenium opens the WebSocket connection when the bridge is created, with the timeouts, proxy,
+credentials and SSL context of the `AppiumClientConfig` of the driver. If the connection cannot be made, the
+BiDi modules fail with a `BiDiException`.
 
 ```java
 var driver = new AndroidDriver(serverUrl, options.enableBiDi());

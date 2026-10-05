@@ -18,7 +18,6 @@ package io.appium.java_client.selenium;
 
 import io.appium.java_client.android.BaseAndroidTest;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.bidi.Event;
 import org.openqa.selenium.bidi.log.LogEntry;
 import org.openqa.selenium.bidi.module.LogInspector;
 
@@ -30,26 +29,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class AndroidBiDiTest extends BaseAndroidTest {
 
     @Test
-    public void listenForAndroidLogsGeneric() {
-        var selenium = (BridgedRemoteWebDriver) SeleniumBridge.asRemoteWebDriver(driver);
-        var logs = new CopyOnWriteArrayList<>();
-        try (var biDi = selenium.maybeGetBiDi().orElseThrow()) {
-            var listenerId = biDi.addListener(
-                    NATIVE_CONTEXT,
-                    new Event<Object>("log.entryAdded", m -> m),
-                    logs::add
-            );
-            try {
-                driver.getPageSource();
-            } finally {
-                biDi.removeListener(listenerId);
-            }
+    public void listenForAndroidLogsOfAllContexts() {
+        var selenium = SeleniumBridge.asRemoteWebDriver(driver);
+        var logs = new CopyOnWriteArrayList<LogEntry>();
+        try (var logInspector = new LogInspector(selenium)) {
+            logInspector.onLog(logs::add);
+            driver.getPageSource();
         }
         assertFalse(logs.isEmpty());
     }
 
     @Test
-    public void listenForAndroidLogsSpecific() {
+    public void listenForAndroidLogsOfTheNativeContext() {
         var selenium = SeleniumBridge.asRemoteWebDriver(driver);
         var logs = new CopyOnWriteArrayList<LogEntry>();
         try (var logInspector = new LogInspector(NATIVE_CONTEXT, selenium)) {

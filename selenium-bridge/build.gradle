@@ -44,6 +44,10 @@ dependencies {
     implementation 'org.jspecify:jspecify:1.0.1'
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-Xlint:deprecation', '-Xlint:removal']
+}
+
 checkstyle {
     toolVersion = '10.23.1'
     configFile = rootProject.file('config/checkstyle/appium-style.xml')

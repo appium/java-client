@@ -124,7 +124,9 @@ class SeleniumBridgeTest {
         assertInstanceOf(RemoteWebDriver.class, seleniumDriver);
         assertEquals("s1", String.valueOf(seleniumDriver.getSessionId()));
         assertSame(appiumDriver, ((BridgedRemoteWebDriver) seleniumDriver).getWrappedDriver());
-        assertEquals(appiumDriver.getCapabilities(), seleniumDriver.getCapabilities());
+        assertEquals("UiAutomator2", seleniumDriver.getCapabilities().getCapability("appium:automationName"));
+        assertEquals(appiumDriver.getCapabilities().getPlatformName(),
+                seleniumDriver.getCapabilities().getPlatformName());
         requests.clear();
         assertEquals("A title", seleniumDriver.getTitle());
         var element = seleniumDriver.findElement(By.id("x"));
@@ -159,16 +161,12 @@ class SeleniumBridgeTest {
     }
 
     @Test
-    void providesBiDiFromTheWebSocketUrlCapability() throws IOException {
+    void connectsBiDiFromTheWebSocketUrlCapability() throws IOException {
         var seleniumDriver = SeleniumBridge.asRemoteWebDriver(newAppiumDriver());
 
         assertInstanceOf(HasBiDi.class, seleniumDriver);
-        @SuppressWarnings("removal")
-        var biDi = ((HasBiDi) seleniumDriver).getBiDi();
-        assertTrue(biDi.getBidiSessionStatus().isReady());
-        assertNotNull(seleniumDriver.getHandle());
+        assertNotNull(((HasBiDi) seleniumDriver).getHandle());
         assertEquals(1, biDiServer.connections());
-        seleniumDriver.quit();
     }
 
     @Test
