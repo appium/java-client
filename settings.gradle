@@ -1,2 +1,3 @@
 rootProject.name = 'java-client'
 
+include 'selenium-bridge'
