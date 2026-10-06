@@ -22,30 +22,23 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
+import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver.StubBrowserDriver;
 import io.appium.java_client.support.FindBy;
 import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.PageFactory;
-import io.appium.java_client.utils.TestUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static java.time.Duration.ofSeconds;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DesktopBrowserCompatibilityTest {
-    private static final String HELLO_APPIUM_HTML =
-            TestUtils.resourcePathToAbsolutePath("html/hello appium - saved page.htm").toUri().toString();
-
     @HowToUseLocators(iOSXCUITAutomation = ALL_POSSIBLE)
     @AndroidFindBy(className = "someClass")
     @iOSXCUITFindBy(xpath = "//selector[1]") @iOSXCUITFindBy(xpath = "//someTag")
@@ -55,25 +48,13 @@ public class DesktopBrowserCompatibilityTest {
     private WebDriver trap1;
     private List<AndroidDriver> trap2;
 
-    /**
-     * The starting.
-     */
-    @BeforeAll public static void beforeClass() {
-        chromedriver().setup();
-    }
-
-    @Test public void chromeTest() {
-        WebDriver driver = new ChromeDriver(new ChromeOptions().addArguments("--headless=new"));
-        try {
-            PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(15)), this);
-            driver.get(HELLO_APPIUM_HTML);
-            assertNotEquals(0, foundLinks.size());
-            assertNotEquals(0, main.size());
-            assertNull(trap1);
-            assertNull(trap2);
-            foundLinks.forEach(element -> assertFalse(Widget.class.isAssignableFrom(element.getClass())));
-        } finally {
-            driver.quit();
-        }
+    @Test public void browserDriverTest() {
+        WebDriver driver = new StubBrowserDriver();
+        PageFactory.initElements(new AppiumFieldDecorator(driver, ofSeconds(15)), this);
+        assertNotEquals(0, foundLinks.size());
+        assertNotEquals(0, main.size());
+        assertNull(trap1);
+        assertNull(trap2);
+        foundLinks.forEach(element -> assertFalse(Widget.class.isAssignableFrom(element.getClass())));
     }
 }

@@ -1,15 +1,12 @@
 package io.appium.java_client.android;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.MobileCommand;
 import io.appium.java_client.remote.AppiumWebElement;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.Map;
 
-public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExtensionPresence {
+public interface CanReplaceElementValue extends ExecutesMethod {
     /**
      * Sends a text to the given element by replacing its previous content.
      *
@@ -22,21 +19,9 @@ public interface CanReplaceElementValue extends ExecutesMethod, CanRememberExten
      */
     default void replaceElementValue(AppiumWebElement element, String value) {
         final String extName = "mobile: replaceElementValue";
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
-                "elementId", element.getId(),
-                "text", value
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(MobileCommand.REPLACE_VALUE, Map.of(
-                            "id", element.getId(),
-                            "text", value,
-                            "value", value
-                    ))
-            );
-        }
+        CommandExecutionHelper.executeScript(this, extName, Map.of(
+            "elementId", element.getId(),
+            "text", value
+        ));
     }
 }

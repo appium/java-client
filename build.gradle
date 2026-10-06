@@ -235,12 +235,6 @@ testing {
         }
 
         test {
-            dependencies {
-                implementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumVersion}"
-                implementation('io.github.bonigarcia:webdrivermanager:6.4.0') {
-                    exclude group: 'org.seleniumhq.selenium'
-                }
-            }
             targets.configureEach {
                 testTask.configure {
                     finalizedBy jacocoTestReport

@@ -23,25 +23,16 @@ import io.appium.java_client.appmanagement.BaseOptions;
 import io.appium.java_client.appmanagement.BaseRemoveApplicationOptions;
 import io.appium.java_client.appmanagement.BaseTerminateApplicationOptions;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.InvalidArgumentException;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.appium.java_client.MobileCommand.ACTIVATE_APP;
-import static io.appium.java_client.MobileCommand.INSTALL_APP;
-import static io.appium.java_client.MobileCommand.IS_APP_INSTALLED;
-import static io.appium.java_client.MobileCommand.QUERY_APP_STATE;
-import static io.appium.java_client.MobileCommand.REMOVE_APP;
-import static io.appium.java_client.MobileCommand.RUN_APP_IN_BACKGROUND;
-import static io.appium.java_client.MobileCommand.TERMINATE_APP;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionPresence {
+public interface InteractsWithApps extends ExecutesMethod {
 
     /**
      * Install an app on the mobile device.
@@ -61,19 +52,11 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default void installApp(String appPath, @Nullable BaseInstallApplicationOptions options) {
         final String extName = "mobile: installApp";
-        try {
-            var args = new HashMap<String, Object>();
-            args.put("app", appPath);
-            args.put("appPath", appPath);
-            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            // TODO: Remove the fallback
-            var args = new HashMap<String, Object>();
-            args.put("appPath", appPath);
-            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), Map.entry(INSTALL_APP, args));
-        }
+        var args = new HashMap<String, Object>();
+        args.put("app", appPath);
+        args.put("appPath", appPath);
+        ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        CommandExecutionHelper.executeScript(this, extName, args);
     }
 
     /**
@@ -84,22 +67,12 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default boolean isAppInstalled(String bundleId) {
         final String extName = "mobile: isAppInstalled";
-        try {
-            return requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
-                            "bundleId", bundleId,
-                            "appId", bundleId
-                    ))
-            );
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            // TODO: Remove the fallback
-            return requireNonNull(
-                    CommandExecutionHelper.execute(
-                            markExtensionAbsence(extName),
-                            Map.entry(IS_APP_INSTALLED, Map.of("bundleId", bundleId))
-                    )
-            );
-        }
+        return requireNonNull(
+                CommandExecutionHelper.executeScript(this, extName, Map.of(
+                        "bundleId", bundleId,
+                        "appId", bundleId
+                ))
+        );
     }
 
     /**
@@ -112,17 +85,9 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default void runAppInBackground(Duration duration) {
         final String extName = "mobile: backgroundApp";
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
-                    "seconds", duration.toMillis() / 1000.0
-            ));
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(RUN_APP_IN_BACKGROUND, Map.of("seconds", duration.toMillis() / 1000.0))
-            );
-        }
+        CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "seconds", duration.toMillis() / 1000.0
+        ));
     }
 
     /**
@@ -145,27 +110,13 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default boolean removeApp(String bundleId, @Nullable BaseRemoveApplicationOptions options) {
         final String extName = "mobile: removeApp";
-        try {
-            var args = new HashMap<String, Object>();
-            args.put("bundleId", bundleId);
-            args.put("appId", bundleId);
-            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-            return requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args)
-            );
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            // TODO: Remove the fallback
-            var args = new HashMap<String, Object>();
-            args.put("bundleId", bundleId);
-            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
-            //noinspection RedundantCast
-            return requireNonNull(
-                    (Boolean) CommandExecutionHelper.execute(
-                            markExtensionAbsence(extName),
-                            Map.entry(REMOVE_APP, args)
-                    )
-            );
-        }
+        var args = new HashMap<String, Object>();
+        args.put("bundleId", bundleId);
+        args.put("appId", bundleId);
+        ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        return requireNonNull(
+                CommandExecutionHelper.executeScript(this, extName, args)
+        );
     }
 
     /**
@@ -188,19 +139,11 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default void activateApp(String bundleId, @Nullable BaseActivateApplicationOptions options) {
         final String extName = "mobile: activateApp";
-        try {
-            var args = new HashMap<String, Object>();
-            args.put("bundleId", bundleId);
-            args.put("appId", bundleId);
-            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            // TODO: Remove the fallback
-            var args = new HashMap<String, Object>();
-            args.put("bundleId", bundleId);
-            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), Map.entry(ACTIVATE_APP, args));
-        }
+        var args = new HashMap<String, Object>();
+        args.put("bundleId", bundleId);
+        args.put("appId", bundleId);
+        ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        CommandExecutionHelper.executeScript(this, extName, args);
     }
 
     /**
@@ -211,29 +154,17 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default ApplicationState queryAppState(String bundleId) {
         final String extName = "mobile: queryAppState";
-        try {
-            return ApplicationState.ofCode(
-                    requireNonNull(
-                            CommandExecutionHelper.executeScript(
-                                    assertExtensionExists(extName),
-                                    extName, Map.of(
-                                            "bundleId", bundleId,
-                                            "appId", bundleId
-                                    )
-                            )
-                    )
-            );
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            // TODO: Remove the fallback
-            return ApplicationState.ofCode(
-                    requireNonNull(
-                        CommandExecutionHelper.execute(
-                                markExtensionAbsence(extName),
-                                Map.entry(QUERY_APP_STATE, Map.of("bundleId", bundleId))
+        return ApplicationState.ofCode(
+                requireNonNull(
+                        CommandExecutionHelper.executeScript(
+                                this,
+                                extName, Map.of(
+                                        "bundleId", bundleId,
+                                        "appId", bundleId
+                                )
                         )
-                    )
-            );
-        }
+                )
+        );
     }
 
     /**
@@ -256,25 +187,12 @@ public interface InteractsWithApps extends ExecutesMethod, CanRememberExtensionP
      */
     default boolean terminateApp(String bundleId, @Nullable BaseTerminateApplicationOptions options) {
         final String extName = "mobile: terminateApp";
-        try {
-            var args = new HashMap<String, Object>();
-            args.put("bundleId", bundleId);
-            args.put("appId", bundleId);
-            ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
-            return requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args)
-            );
-        } catch (UnsupportedCommandException | InvalidArgumentException e) {
-            // TODO: Remove the fallback
-            var args = new HashMap<String, Object>();
-            args.put("bundleId", bundleId);
-            ofNullable(options).map(BaseOptions::build).ifPresent(opts -> args.put("options", opts));
-            //noinspection RedundantCast
-            return requireNonNull(
-                    (Boolean) CommandExecutionHelper.execute(
-                            markExtensionAbsence(extName), Map.entry(TERMINATE_APP, args)
-                    )
-            );
-        }
+        var args = new HashMap<String, Object>();
+        args.put("bundleId", bundleId);
+        args.put("appId", bundleId);
+        ofNullable(options).map(BaseOptions::build).ifPresent(args::putAll);
+        return requireNonNull(
+                CommandExecutionHelper.executeScript(this, extName, args)
+        );
     }
 }

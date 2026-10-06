@@ -16,17 +16,13 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.UnsupportedCommandException;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
-import static io.appium.java_client.MobileCommand.PULL_FILE;
-import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 import static java.util.Objects.requireNonNull;
 
-public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence {
+public interface PullsFiles extends ExecutesMethod {
 
     /**
      * Pull a file from the remote system.
@@ -43,20 +39,11 @@ public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence
     default byte[] pullFile(String remotePath) {
         final String extName = "mobile: pullFile";
         String base64String;
-        try {
-            base64String = requireNonNull(
-                CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName,
-                        Map.of("remotePath", remotePath)
-                )
-            );
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            base64String = requireNonNull(
-                CommandExecutionHelper.execute(markExtensionAbsence(extName),
-                        Map.entry(PULL_FILE, Map.of("path", remotePath))
-                )
-            );
-        }
+        base64String = requireNonNull(
+            CommandExecutionHelper.executeScript(this, extName,
+                    Map.of("remotePath", remotePath)
+            )
+        );
         return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -75,20 +62,11 @@ public interface PullsFiles extends ExecutesMethod, CanRememberExtensionPresence
     default byte[] pullFolder(String remotePath) {
         final String extName = "mobile: pullFolder";
         String base64String;
-        try {
-            base64String = requireNonNull(
-                CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName,
-                        Map.of("remotePath", remotePath)
-                )
-            );
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            base64String = requireNonNull(
-                CommandExecutionHelper.execute(markExtensionAbsence(extName),
-                        Map.entry(PULL_FOLDER, Map.of("path", remotePath))
-                )
-            );
-        }
+        base64String = requireNonNull(
+            CommandExecutionHelper.executeScript(this, extName,
+                    Map.of("remotePath", remotePath)
+            )
+        );
         return Base64.getDecoder().decode(base64String.getBytes(StandardCharsets.UTF_8));
     }
 

@@ -16,18 +16,12 @@
 
 package io.appium.java_client.android.nativekey;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.HashMap;
-import java.util.Map;
 
-import static io.appium.java_client.MobileCommand.LONG_PRESS_KEY_CODE;
-import static io.appium.java_client.MobileCommand.PRESS_KEY_CODE;
-
-public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence {
+public interface PressesKey extends ExecutesMethod {
 
     /**
      * Send a key event to the device under test.
@@ -36,15 +30,7 @@ public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence
      */
     default void pressKey(KeyEvent keyEvent) {
         final String extName = "mobile: pressKey";
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, keyEvent.build());
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(PRESS_KEY_CODE, keyEvent.build())
-            );
-        }
+        CommandExecutionHelper.executeScript(this, extName, keyEvent.build());
     }
 
     /**
@@ -54,16 +40,8 @@ public interface PressesKey extends ExecutesMethod, CanRememberExtensionPresence
      */
     default void longPressKey(KeyEvent keyEvent) {
         final String extName = "mobile: pressKey";
-        try {
-            var args = new HashMap<>(keyEvent.build());
-            args.put("isLongPress", true);
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, args);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(
-                    markExtensionAbsence(extName),
-                    Map.entry(LONG_PRESS_KEY_CODE, keyEvent.build())
-            );
-        }
+        var args = new HashMap<>(keyEvent.build());
+        args.put("isLongPress", true);
+        CommandExecutionHelper.executeScript(this, extName, args);
     }
 }

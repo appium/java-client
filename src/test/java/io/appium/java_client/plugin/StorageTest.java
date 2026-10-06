@@ -18,45 +18,79 @@ package io.appium.java_client.plugin;
 
 import io.appium.java_client.plugins.storage.StorageClient;
 import io.appium.java_client.utils.TestUtils;
-import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriverException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
+import java.nio.file.Files;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Runs the storage client against a fake of the storage plugin of the Appium server.
+ */
 public class StorageTest {
+    private static final String NAME = "hello appium - saved page.htm";
+
+    private FakeStorageServer server;
     private StorageClient storageClient;
 
     @BeforeEach
-    void before() throws MalformedURLException {
-        // These tests assume Appium server with storage plugin is already running
-        // at the given baseUrl
-        Assumptions.assumeFalse(TestUtils.isCiEnv());
-        storageClient = new StorageClient(new URL("http://127.0.0.1:4723"));
+    void before() throws IOException {
+        server = new FakeStorageServer();
+        storageClient = new StorageClient(server.url());
         storageClient.reset();
     }
 
+    @AfterEach
+    void after() throws IOException {
+        server.close();
+    }
+
     @Test
-    void shouldBeAbleToPerformBasicStorageActions() {
+    void shouldBeAbleToPerformBasicStorageActions() throws IOException {
         assertTrue(storageClient.list().isEmpty());
-        var name = "hello appium - saved page.htm";
-        var testFile = TestUtils.resourcePathToAbsolutePath("html/" + name).toFile();
+        var testFile = TestUtils.resourcePathToAbsolutePath("html/" + NAME).toFile();
         storageClient.add(testFile);
         assertItemsCount(1);
-        assertTrue(storageClient.delete(name));
+        var item = storageClient.list().get(0);
+        assertEquals(NAME, item.getName());
+        assertEquals(testFile.length(), item.getSize());
+        assertArrayEquals(Files.readAllBytes(testFile.toPath()), server.content(NAME));
+        assertTrue(storageClient.delete(NAME));
+        assertFalse(storageClient.delete(NAME));
         assertItemsCount(0);
         storageClient.add(testFile);
         assertItemsCount(1);
         storageClient.reset();
+        assertItemsCount(0);
+    }
+
+    @Test
+    void shouldAddAnItemUnderTheGivenName() {
+        var testFile = TestUtils.resourcePathToAbsolutePath("html/" + NAME).toFile();
+        storageClient.add(testFile, "renamed.htm");
+        assertEquals("renamed.htm", storageClient.list().get(0).getName());
+    }
+
+    @Test
+    void shouldFailIfTheServerReportsAFailedUpload() {
+        var testFile = TestUtils.resourcePathToAbsolutePath("html/" + NAME).toFile();
+        server.rejectUploads();
+        var error = assertThrows(WebDriverException.class, () -> storageClient.add(testFile));
+        assertTrue(error.getRawMessage().startsWith("The upload of '" + NAME + "' has failed"), error.getMessage());
+        assertNull(error.getCause());
         assertItemsCount(0);
     }
 
     private void assertItemsCount(int expected) {
-        var items = storageClient.list();
-        assertEquals(expected, items.size());
+        assertEquals(expected, storageClient.list().size());
     }
 }

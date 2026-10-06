@@ -36,16 +36,13 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.SessionNotCreatedException;
-import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
 import static io.appium.java_client.internal.Strings.isNullOrEmpty;
@@ -63,7 +60,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         ExecutesDriverScript,
         LogsEvents,
         HasBrowserCheck,
-        CanRememberExtensionPresence,
         HasSettings {
 
     private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile());
@@ -71,7 +67,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
     @Getter
     private final URL remoteAddress;
     private final ExecuteMethod executeMethod;
-    private final Set<String> absentExtensionNames = new HashSet<>();
 
     /**
      * Creates a new instance based on command {@code executor} and {@code capabilities}.
@@ -236,20 +231,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
                 return outputType.convertFromPngBytes(png);
             }
         });
-    }
-
-    @Override
-    public AppiumDriver assertExtensionExists(String extName) {
-        if (absentExtensionNames.contains(extName)) {
-            throw new UnsupportedCommandException();
-        }
-        return this;
-    }
-
-    @Override
-    public AppiumDriver markExtensionAbsence(String extName) {
-        absentExtensionNames.add(extName);
-        return this;
     }
 
     protected HttpClient getHttpClient() {

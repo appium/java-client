@@ -16,11 +16,7 @@
 
 package io.appium.java_client;
 
-import org.openqa.selenium.UnsupportedCommandException;
-
-import static io.appium.java_client.MobileCommand.HIDE_KEYBOARD;
-
-public interface HidesKeyboard extends ExecutesMethod, CanRememberExtensionPresence {
+public interface HidesKeyboard extends ExecutesMethod {
 
     /**
      * Hides the keyboard if it is showing.
@@ -31,11 +27,6 @@ public interface HidesKeyboard extends ExecutesMethod, CanRememberExtensionPrese
      */
     default void hideKeyboard() {
         final String extName = "mobile: hideKeyboard";
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName);
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            CommandExecutionHelper.execute(markExtensionAbsence(extName), HIDE_KEYBOARD);
-        }
+        CommandExecutionHelper.executeScript(this, extName);
     }
 }

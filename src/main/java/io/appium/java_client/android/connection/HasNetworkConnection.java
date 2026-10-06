@@ -16,18 +16,14 @@
 
 package io.appium.java_client.android.connection;
 
-import io.appium.java_client.CanRememberExtensionPresence;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import org.openqa.selenium.UnsupportedCommandException;
 
 import java.util.Map;
 
-import static io.appium.java_client.android.AndroidMobileCommandHelper.getNetworkConnectionCommand;
-import static io.appium.java_client.android.AndroidMobileCommandHelper.setConnectionCommand;
 import static java.util.Objects.requireNonNull;
 
-public interface HasNetworkConnection extends ExecutesMethod, CanRememberExtensionPresence {
+public interface HasNetworkConnection extends ExecutesMethod {
 
     /**
      * Set the network connection of the device.
@@ -37,24 +33,12 @@ public interface HasNetworkConnection extends ExecutesMethod, CanRememberExtensi
      */
     default ConnectionState setConnection(ConnectionState connection) {
         final String extName = "mobile: setConnectivity";
-        try {
-            CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName, Map.of(
-                    "wifi", connection.isWiFiEnabled(),
-                    "data", connection.isDataEnabled(),
-                    "airplaneMode", connection.isAirplaneModeEnabled()
-            ));
-            return getConnection();
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return new ConnectionState(
-                    requireNonNull(
-                            CommandExecutionHelper.execute(
-                                    markExtensionAbsence(extName),
-                                    setConnectionCommand(connection.getBitMask())
-                            )
-                    )
-            );
-        }
+        CommandExecutionHelper.executeScript(this, extName, Map.of(
+                "wifi", connection.isWiFiEnabled(),
+                "data", connection.isDataEnabled(),
+                "airplaneMode", connection.isAirplaneModeEnabled()
+        ));
+        return getConnection();
     }
 
     /**
@@ -64,25 +48,13 @@ public interface HasNetworkConnection extends ExecutesMethod, CanRememberExtensi
      */
     default ConnectionState getConnection() {
         final String extName = "mobile: getConnectivity";
-        try {
-            Map<String, Object> result = requireNonNull(
-                    CommandExecutionHelper.executeScript(assertExtensionExists(extName), extName)
-            );
-            return new ConnectionState(
-                    ((boolean) result.get("wifi") ? ConnectionState.WIFI_MASK : 0)
-                    | ((boolean) result.get("data") ? ConnectionState.DATA_MASK : 0)
-                    | ((boolean) result.get("airplaneMode") ? ConnectionState.AIRPLANE_MODE_MASK : 0)
-            );
-        } catch (UnsupportedCommandException e) {
-            // TODO: Remove the fallback
-            return new ConnectionState(
-                    requireNonNull(
-                            CommandExecutionHelper.execute(
-                                    markExtensionAbsence(extName),
-                                    getNetworkConnectionCommand()
-                            )
-                    )
-            );
-        }
+        Map<String, Object> result = requireNonNull(
+                CommandExecutionHelper.executeScript(this, extName)
+        );
+        return new ConnectionState(
+                ((boolean) result.get("wifi") ? ConnectionState.WIFI_MASK : 0)
+                | ((boolean) result.get("data") ? ConnectionState.DATA_MASK : 0)
+                | ((boolean) result.get("airplaneMode") ? ConnectionState.AIRPLANE_MODE_MASK : 0)
+        );
     }
 }

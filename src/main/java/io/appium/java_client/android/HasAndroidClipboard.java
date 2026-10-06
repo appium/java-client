@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
-import static io.appium.java_client.MobileCommand.SET_CLIPBOARD;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
@@ -37,12 +36,10 @@ public interface HasAndroidClipboard extends HasClipboard {
      * @param base64Content base64-encoded content to be set.
      */
     default void setClipboard(String label, ClipboardContentType contentType, byte[] base64Content) {
-        CommandExecutionHelper.execute(this, Map.entry(SET_CLIPBOARD,
-                Map.of(
-                        "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
-                        "contentType", contentType.name().toLowerCase(ROOT),
-                        "label", requireNonNull(label)
-                )
+        CommandExecutionHelper.executeScript(this, "mobile: setClipboard", Map.of(
+                "content", new String(requireNonNull(base64Content), StandardCharsets.UTF_8),
+                "contentType", contentType.name().toLowerCase(ROOT),
+                "label", requireNonNull(label)
         ));
     }
 
