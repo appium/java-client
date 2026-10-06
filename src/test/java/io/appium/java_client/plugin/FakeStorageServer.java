@@ -47,7 +47,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 final class FakeStorageServer implements AutoCloseable {
     private static final String GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-    private static final String UPLOAD_PREFIX = "/storage/add/";
     private static final long EVENTS_TIMEOUT_SEC = 10;
 
     private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();
@@ -57,7 +56,12 @@ final class FakeStorageServer implements AutoCloseable {
     private final Map<String, byte[]> items = new LinkedHashMap<>();
     private final Map<String, Upload> uploads = new ConcurrentHashMap<>();
     private final AtomicInteger uploadCounter = new AtomicInteger();
+    private final String basePath;
+    private final String routePrefix;
+    private final String storagePrefix;
+    private final AtomicInteger requestCounter = new AtomicInteger();
     private volatile boolean rejectUploads;
+    private volatile int failureStatus;
 
     private static final class Upload {
         private final String name;
@@ -71,6 +75,20 @@ final class FakeStorageServer implements AutoCloseable {
     }
 
     FakeStorageServer() throws IOException {
+        this("", true, "/appium/storage");
+    }
+
+    /**
+     * Creates a fake server with the given base path.
+     *
+     * @param basePath the base path of the imitated Appium server
+     * @param honorBasePath whether the routes are mounted under the base path (plugin v3+) or at the root (v2)
+     * @param storagePrefix the route prefix: /appium/storage, or /storage for plugins older than 1.2.0
+     */
+    FakeStorageServer(String basePath, boolean honorBasePath, String storagePrefix) throws IOException {
+        this.basePath = basePath;
+        this.storagePrefix = storagePrefix;
+        this.routePrefix = (honorBasePath ? basePath : "") + storagePrefix;
         serverSocket = new ServerSocket(0, 50, InetAddress.getLoopbackAddress());
         var thread = new Thread(this::acceptConnections, "fake-storage-server");
         thread.setDaemon(true);
@@ -78,12 +96,22 @@ final class FakeStorageServer implements AutoCloseable {
     }
 
     URL url() throws IOException {
-        return new URL("http://127.0.0.1:" + serverSocket.getLocalPort());
+        return new URL("http://127.0.0.1:" + serverSocket.getLocalPort() + basePath);
     }
 
     /** Makes the server report a failure for the uploads, as if the content could not be saved. */
     void rejectUploads() {
         rejectUploads = true;
+    }
+
+    /** Makes the served routes respond with the given HTTP error status, 0 restores the normal behavior. */
+    void failWith(int status) {
+        failureStatus = status;
+    }
+
+    /** The number of the plain HTTP requests received so far, web socket handshakes excluded. */
+    int requestCount() {
+        return requestCounter.get();
     }
 
     synchronized byte[] content(String name) {
@@ -134,18 +162,26 @@ final class FakeStorageServer implements AutoCloseable {
 
     private void respond(OutputStream out, String method, String path, String body) throws IOException {
         var route = method + " " + path;
+        var endpoint = method + " " + (path.startsWith(routePrefix + "/")
+                ? path.substring(routePrefix.length()) : path);
+        requestCounter.incrementAndGet();
+        if (failureStatus != 0 && path.startsWith(routePrefix + "/")) {
+            writeResponse(out, failureStatus,
+                    "{\"value\":{\"error\":\"unknown error\",\"message\":\"boom\",\"stacktrace\":\"\"}}");
+            return;
+        }
         String json;
-        switch (route) {
-            case "POST /storage/reset":
+        switch (endpoint) {
+            case "POST /reset":
                 synchronized (this) {
                     items.clear();
                 }
                 json = "{\"value\":null}";
                 break;
-            case "GET /storage/list":
+            case "GET /list":
                 json = gson.toJson(Map.of("value", list()));
                 break;
-            case "POST /storage/delete":
+            case "POST /delete":
                 Map<String, Object> deleteArgs = gson.fromJson(body, MAP_TYPE);
                 boolean deleted;
                 synchronized (this) {
@@ -153,7 +189,7 @@ final class FakeStorageServer implements AutoCloseable {
                 }
                 json = "{\"value\":" + deleted + "}";
                 break;
-            case "POST /storage/add":
+            case "POST /add":
                 json = gson.toJson(Map.of("value", startUpload(body)));
                 break;
             default:
@@ -167,7 +203,7 @@ final class FakeStorageServer implements AutoCloseable {
     private synchronized List<Map<String, Object>> list() {
         var result = new ArrayList<Map<String, Object>>();
         items.forEach((name, content) -> result.add(
-                Map.of("name", name, "path", "/storage/" + name, "size", (long) content.length)));
+                Map.of("name", name, "path", storagePrefix + "/" + name, "size", (long) content.length)));
         return result;
     }
 
@@ -175,8 +211,9 @@ final class FakeStorageServer implements AutoCloseable {
         Map<String, Object> args = gson.fromJson(body, MAP_TYPE);
         var id = String.valueOf(uploadCounter.incrementAndGet());
         uploads.put(id, new Upload((String) args.get("name"), (String) args.get("sha1")));
+        var wsPrefix = routePrefix + "/add/" + id;
         return Map.of(
-                "ws", Map.of("stream", UPLOAD_PREFIX + id + "/stream", "events", UPLOAD_PREFIX + id + "/events"),
+                "ws", Map.of("stream", wsPrefix + "/stream", "events", wsPrefix + "/events"),
                 "ttlMs", 10000L
         );
     }
@@ -188,7 +225,7 @@ final class FakeStorageServer implements AutoCloseable {
         out.write(("HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n"
                 + "Sec-WebSocket-Accept: " + accept + "\r\n\r\n").getBytes(StandardCharsets.US_ASCII));
         out.flush();
-        var parts = path.substring(UPLOAD_PREFIX.length()).split("/");
+        var parts = path.substring((routePrefix + "/add/").length()).split("/");
         var upload = uploads.get(parts[0]);
         if ("events".equals(parts[1])) {
             upload.events.complete(out);
