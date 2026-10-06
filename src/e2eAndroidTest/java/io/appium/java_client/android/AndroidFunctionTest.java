@@ -27,7 +27,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AndroidFunctionTest extends BaseAndroidTest {
 
+    // Function#compose and Function#andThen pass null on, so the steps of a wait must handle it themselves
     private final Function<WebDriver, List<WebElement>> searchingFunction = input -> {
+        if (input == null) {
+            return null;
+        }
         List<WebElement> result = input.findElements(By.tagName("a"));
 
         if (result.size() > 0) {
@@ -52,6 +56,9 @@ public class AndroidFunctionTest extends BaseAndroidTest {
     };
 
     private final Function<List<WebElement>, List<WebElement>> filteringFunction = input -> {
+        if (input == null) {
+            return null;
+        }
         final List<WebElement> result = new ArrayList<>();
         input.forEach(element -> {
             if (element.getText().equals("Hello World! - 1")) {
