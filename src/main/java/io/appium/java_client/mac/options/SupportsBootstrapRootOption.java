@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code bootstrapRoot} capability: the root folder of the WebDriverAgentMac project.
+ */
 public interface SupportsBootstrapRootOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code bootstrapRoot} capability.
+     */
     String BOOTSTRAP_ROOT_OPTION = "bootstrapRoot";
 
     /**

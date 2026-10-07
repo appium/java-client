@@ -18,10 +18,19 @@ package io.appium.java_client.internal;
 
 import org.jspecify.annotations.Nullable;
 
+/**
+ * String helpers.
+ */
 public final class Strings {
     private Strings() {
     }
 
+    /**
+     * Checks whether the string is null or empty.
+     *
+     * @param string the string to check
+     * @return true if the string is null or empty
+     */
     public static boolean isNullOrEmpty(@Nullable String string) {
         return string == null || string.isEmpty();
     }

@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code chromedriverExecutable} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsChromedriverExecutableOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code chromedriverExecutable} capability.
+     */
     String CHROMEDRIVER_EXECUTABLE_OPTION = "chromedriverExecutable";
 
     /**

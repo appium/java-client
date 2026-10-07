@@ -39,6 +39,11 @@ public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement
 
     private final SearchContext element;
 
+    /**
+     * Creates a new widget.
+     *
+     * @param element the element the widget is based on
+     */
     protected Widget(WebElement element) {
         this.element = element;
     }
@@ -59,6 +64,11 @@ public abstract class Widget implements SearchContext, WrapsDriver, WrapsElement
         return (WebElement) element;
     }
 
+    /**
+     * Returns the reference to this widget.
+     *
+     * @return this widget
+     */
     public Widget getSelfReference() {
         return this;
     }

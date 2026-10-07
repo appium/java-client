@@ -83,46 +83,106 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
+    /**
+     * Creates a new instance based on the HTTP client configuration and {@code capabilities}.
+     *
+     * @param clientConfig the HTTP client configuration
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(AppiumClientConfig clientConfig, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, clientConfig), capabilities);
     }
 
+    /**
+     * Creates a new instance based on the address of the server and {@code capabilities}.
+     *
+     * @param remoteAddress the address of the remote Appium server
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(URL remoteAddress, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress),
                 capabilities);
     }
 
+    /**
+     * Creates a new instance based on the address of the server, a custom HTTP client factory
+     * and {@code capabilities}.
+     *
+     * @param remoteAddress the address of the remote Appium server
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, remoteAddress,
                 httpClientFactory), capabilities);
     }
 
+    /**
+     * Creates a new instance based on the local Appium service and {@code capabilities}.
+     *
+     * @param service the local Appium service to start and connect to
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service),
                 capabilities);
     }
 
+    /**
+     * Creates a new instance based on the local Appium service, a custom HTTP client factory
+     * and {@code capabilities}.
+     *
+     * @param service the local Appium service to start and connect to
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
         this(new AppiumCommandExecutor(MobileCommand.commandRepository, service, httpClientFactory),
                 capabilities);
     }
 
+    /**
+     * Creates a new instance based on the builder of a local Appium service and {@code capabilities}.
+     *
+     * @param builder the builder of the local Appium service to start and connect to
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         this(builder.build(), capabilities);
     }
 
+    /**
+     * Creates a new instance based on the builder of a local Appium service, a custom HTTP client
+     * factory and {@code capabilities}.
+     *
+     * @param builder the builder of the local Appium service to start and connect to
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
         this(builder.build(), httpClientFactory, capabilities);
     }
 
+    /**
+     * Creates a new instance based on a custom HTTP client factory and {@code capabilities}.
+     * The default local Appium service is used.
+     *
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), httpClientFactory,
                 capabilities);
     }
 
+    /**
+     * Creates a new instance based on {@code capabilities} using the default local Appium service.
+     *
+     * @param capabilities the capabilities of the session to create
+     */
     public AppiumDriver(Capabilities capabilities) {
         this(AppiumDriverLocalService.buildDefaultService(), capabilities);
     }
@@ -233,6 +293,11 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         });
     }
 
+    /**
+     * Gets the HTTP client used by the command executor.
+     *
+     * @return the HTTP client
+     */
     protected HttpClient getHttpClient() {
         return ((AppiumCommandExecutor) getCommandExecutor()).getClient();
     }

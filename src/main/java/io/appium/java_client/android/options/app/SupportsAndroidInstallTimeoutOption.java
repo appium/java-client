@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code androidInstallTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAndroidInstallTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code androidInstallTimeout} capability.
+     */
     String ANDROID_INSTALL_TIMEOUT_OPTION = "androidInstallTimeout";
 
     /**

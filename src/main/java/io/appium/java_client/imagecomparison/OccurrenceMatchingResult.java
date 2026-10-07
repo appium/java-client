@@ -24,12 +24,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The result of the partial image occurrence matching.
+ */
 public class OccurrenceMatchingResult extends ComparisonResult {
     private static final String RECT = "rect";
     private static final String SCORE = "score";
 
     private final boolean hasMultiple;
 
+    /**
+     * Creates a result wrapper.
+     *
+     * @param input the raw command result, either a single match map or a list of matches
+     */
     public OccurrenceMatchingResult(Object input) {
         super(input);
         hasMultiple = input instanceof List;

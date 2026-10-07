@@ -31,6 +31,9 @@ import java.util.Base64;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * The interface for the drivers that can set the iOS-specific clipboard content.
+ */
 public interface HasIOSClipboard extends HasClipboard {
     /**
      * Set an image to the clipboard.

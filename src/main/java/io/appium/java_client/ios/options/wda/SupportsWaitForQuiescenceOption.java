@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code waitForQuiescence} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWaitForQuiescenceOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code waitForQuiescence} capability.
+     */
     String WAIT_FOR_QUIESCENCE_OPTION = "waitForQuiescence";
 
     /**

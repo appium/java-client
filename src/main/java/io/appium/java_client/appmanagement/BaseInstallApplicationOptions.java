@@ -16,6 +16,11 @@
 
 package io.appium.java_client.appmanagement;
 
+/**
+ * Base class for the options of the application installation commands.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseInstallApplicationOptions<T extends BaseInstallApplicationOptions<T>>
         extends BaseOptions<T> {
 

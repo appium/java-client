@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code useNewWDA} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsUseNewWdaOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code useNewWDA} capability.
+     */
     String USE_NEW_WDA_OPTION = "useNewWDA";
 
     /**

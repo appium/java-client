@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code safariSocketChunkSize} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariSocketChunkSizeOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariSocketChunkSize} capability.
+     */
     String SAFARI_SOCKET_CHUNK_SIZE_OPTION = "safariSocketChunkSize";
 
     /**

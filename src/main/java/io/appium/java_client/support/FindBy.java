@@ -115,6 +115,9 @@ public @interface FindBy {
      */
     String xpath() default "";
 
+    /**
+     * Builds the {@link By} locator from {@link FindBy}.
+     */
     class FindByBuilder extends AbstractFindByBuilder<FindBy> {
         @Override
         public By buildIt(FindBy findBy, Field field) {

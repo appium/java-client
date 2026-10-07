@@ -23,8 +23,16 @@ import org.openqa.selenium.internal.Either;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code espressoBuildConfig} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsEspressoBuildConfigOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code espressoBuildConfig} capability.
+     */
     String ESPRESSO_BUILD_CONFIG_OPTION = "espressoBuildConfig";
 
     /**

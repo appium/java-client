@@ -21,6 +21,9 @@ import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * The interface for the drivers that can lock and unlock the device.
+ */
 public interface LocksDevice extends ExecutesMethod {
 
     /**

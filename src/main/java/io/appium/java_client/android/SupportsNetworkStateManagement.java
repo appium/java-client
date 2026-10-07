@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
+/** Provides network state management: Wi-Fi, airplane mode and mobile data. */
 public interface SupportsNetworkStateManagement extends ExecutesMethod {
 
     /**

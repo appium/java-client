@@ -53,15 +53,26 @@ public class SafariOptions extends BaseOptions<SafariOptions> implements
         SupportsSetWindowRectOption<SafariOptions>,
         SupportsProxyOption<SafariOptions>,
         SupportsUnhandledPromptBehaviorOption<SafariOptions> {
+    /** Creates options with the default capabilities set. */
     public SafariOptions() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities.
+     *
+     * @param source The capabilities to copy.
+     */
     public SafariOptions(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities map.
+     *
+     * @param source The capabilities to copy.
+     */
     public SafariOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();

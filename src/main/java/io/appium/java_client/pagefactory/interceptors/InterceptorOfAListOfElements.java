@@ -26,13 +26,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+/** Base class of interceptors of method calls on a list of elements. */
 public abstract class InterceptorOfAListOfElements implements MethodCallListener {
+    /** The locator used to find the elements. */
     protected final ElementLocator locator;
 
+    /**
+     * Creates a new interceptor.
+     *
+     * @param locator the locator of the elements
+     */
     public InterceptorOfAListOfElements(@Nullable ElementLocator locator) {
         this.locator = locator;
     }
 
+    /**
+     * Handles the intercepted method call.
+     *
+     * @param elements the found elements
+     * @param method the intercepted method
+     * @param args the method arguments
+     * @return the call result
+     * @throws Throwable if the call fails
+     */
     protected abstract Object getObject(
             List<WebElement> elements, Method method, Object[] args
     ) throws Throwable;

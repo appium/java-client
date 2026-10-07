@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code webviewConnectTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWebviewConnectTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webviewConnectTimeout} capability.
+     */
     String WEBVIEW_CONNECT_TIMEOUT_OPTION = "webviewConnectTimeout";
 
     /**

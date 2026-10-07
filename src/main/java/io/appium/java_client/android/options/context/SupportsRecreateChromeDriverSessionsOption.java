@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code recreateChromeDriverSessions} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsRecreateChromeDriverSessionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code recreateChromeDriverSessions} capability.
+     */
     String RECREATE_CHROME_DRIVER_SESSIONS = "recreateChromeDriverSessions";
 
     /**

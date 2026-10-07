@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code appArguments} capability: the command line arguments for the application under test.
+ */
 public interface SupportsAppArgumentsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appArguments} capability.
+     */
     String APP_ARGUMENTS_OPTION = "appArguments";
 
     /**

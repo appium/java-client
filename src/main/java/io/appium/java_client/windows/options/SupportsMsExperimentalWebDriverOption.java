@@ -24,8 +24,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code ms:experimental-webdriver} capability: whether experimental driver features are enabled.
+ */
 public interface SupportsMsExperimentalWebDriverOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code ms:experimental-webdriver} capability.
+     */
     String MS_EXPERIMENTAL_WEBDRIVER_OPTION = "ms:experimental-webdriver";
 
     /**

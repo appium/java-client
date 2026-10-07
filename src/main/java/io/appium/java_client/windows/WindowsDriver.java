@@ -41,6 +41,10 @@ import static io.appium.java_client.MobileCommand.PULL_FOLDER;
 import static io.appium.java_client.MobileCommand.PUSH_FILE;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * WindowsDriver is an officially supported Appium driver created to automate Windows apps.
+ * Read https://github.com/appium/appium-windows-driver for more details.
+ */
 public class WindowsDriver extends AppiumDriver implements
         PullsFiles,
         PushesFiles,
@@ -48,45 +52,104 @@ public class WindowsDriver extends AppiumDriver implements
     private static final String PLATFORM_NAME = Platform.WINDOWS.name();
     private static final String AUTOMATION_NAME = AutomationName.WINDOWS;
 
+    /**
+     * Creates a new instance based on command {@code executor} and {@code capabilities}.
+     *
+     * @param executor is an instance of {@link AppiumCommandExecutor}
+     *                 or class that extends it. Default commands or another vendor-specific
+     *                 commands may be specified there.
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium server URL and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(URL remoteAddress, Capabilities capabilities) {
         super(remoteAddress, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium driver local service and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium driver local service, HTTP client factory and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities) {
         super(service, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium service builder and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium service builder, HTTP client factory and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                          Capabilities capabilities) {
         super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on HTTP client factory and {@code capabilities}.
+     *
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance connected to an already running driver session.
+     * Intended for debugging purposes only; the caller maintains the session state.
+     *
+     * @param remoteSessionAddress The address of the **running** session including the session identifier.
+     */
     public WindowsDriver(URL remoteSessionAddress) {
         super(remoteSessionAddress, PLATFORM_NAME, AUTOMATION_NAME);
     }
@@ -116,6 +179,11 @@ public class WindowsDriver extends AppiumDriver implements
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on {@code capabilities}.
+     *
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public WindowsDriver(Capabilities capabilities) {
         super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }

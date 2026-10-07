@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code appWorkingDir} capability: the working directory of the application under test.
+ */
 public interface SupportsAppWorkingDirOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appWorkingDir} capability.
+     */
     String APP_WORKING_DIR_OPTION = "appWorkingDir";
 
     /**

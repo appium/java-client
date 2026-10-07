@@ -22,6 +22,7 @@ import io.appium.java_client.MobileCommand;
 
 import java.util.Map;
 
+/** Provides setting of the geo location with the extended Android parameters. */
 public interface SupportsExtendedGeolocationCommands extends ExecutesMethod {
 
     /**

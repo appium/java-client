@@ -5,6 +5,7 @@ import io.appium.java_client.ExecutesMethod;
 
 import static java.util.Objects.requireNonNull;
 
+/** Provides GPS service state management. */
 public interface SupportsGpsStateManagement extends ExecutesMethod {
 
     /**

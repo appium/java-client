@@ -20,11 +20,28 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code prerun} capability: the script executed before the session is started.
+ */
 public interface SupportsPrerunOption<T extends BaseOptions<T>, S extends SystemScript<?>>
         extends Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code prerun} capability.
+     */
     String PRERUN_OPTION = "prerun";
 
+    /**
+     * Sets the script to execute before the session.
+     *
+     * @param script The script data.
+     * @return self instance for chaining.
+     */
     T setPrerun(S script);
 
+    /**
+     * Get the script to execute before the session.
+     *
+     * @return The script data.
+     */
     Optional<S> getPrerun();
 }

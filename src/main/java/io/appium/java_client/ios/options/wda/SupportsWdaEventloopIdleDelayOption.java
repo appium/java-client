@@ -26,8 +26,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
+/**
+ * Provides getters and setters for the {@code wdaEventloopIdleDelay} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWdaEventloopIdleDelayOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code wdaEventloopIdleDelay} capability.
+     */
     String WDA_EVENTLOOP_IDLE_DELAY_OPTION = "wdaEventloopIdleDelay";
 
     /**

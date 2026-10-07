@@ -16,17 +16,31 @@
 
 package io.appium.java_client.android.connection;
 
+/** Network connection state of an Android device, represented as a bit mask. */
 public class ConnectionState {
+    /** Bit mask of the airplane mode flag. */
     public static final long AIRPLANE_MODE_MASK = 0b001;
+    /** Bit mask of the Wi-Fi flag. */
     public static final long WIFI_MASK = 0b010;
+    /** Bit mask of the mobile data flag. */
     public static final long DATA_MASK = 0b100;
 
     private final long bitMask;
 
+    /**
+     * Gets the raw connection state bit mask.
+     *
+     * @return the bit mask combining the airplane mode, Wi-Fi and data flags.
+     */
     public long getBitMask() {
         return bitMask;
     }
 
+    /**
+     * Creates a connection state from the given bit mask.
+     *
+     * @param bitMask the bit mask combining the airplane mode, Wi-Fi and data flags.
+     */
     public ConnectionState(long bitMask) {
         this.bitMask = bitMask;
     }

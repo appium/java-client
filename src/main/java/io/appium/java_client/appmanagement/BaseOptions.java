@@ -18,6 +18,11 @@ package io.appium.java_client.appmanagement;
 
 import java.util.Map;
 
+/**
+ * Base class for the options of the application management commands.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseOptions<T extends BaseOptions<T>> {
 
     /**

@@ -20,6 +20,9 @@ import static io.appium.java_client.android.connection.ConnectionState.AIRPLANE_
 import static io.appium.java_client.android.connection.ConnectionState.DATA_MASK;
 import static io.appium.java_client.android.connection.ConnectionState.WIFI_MASK;
 
+/**
+ * Builds {@link ConnectionState} instances.
+ */
 public class ConnectionStateBuilder {
     private long bitMask;
 

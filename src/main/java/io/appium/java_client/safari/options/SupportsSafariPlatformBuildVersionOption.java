@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code safari:platformBuildVersion} capability: the platform build version of the device.
+ */
 public interface SupportsSafariPlatformBuildVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safari:platformBuildVersion} capability.
+     */
     String SAFARI_PLATFORM_BUILD_VERSION_OPTION = "safari:platformBuildVersion";
 
     /**

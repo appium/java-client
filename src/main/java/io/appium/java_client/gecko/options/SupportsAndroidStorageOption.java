@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code androidStorage} capability: the Android storage location used by Geckodriver.
+ */
 public interface SupportsAndroidStorageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code androidStorage} capability.
+     */
     String ANDROID_STORAGE_OPTION = "androidStorage";
 
     /**

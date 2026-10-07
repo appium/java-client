@@ -16,6 +16,11 @@
 
 package io.appium.java_client.appmanagement;
 
+/**
+ * Base class for the options of the application termination commands.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseTerminateApplicationOptions<T extends BaseTerminateApplicationOptions<T>>
         extends BaseOptions<T> {
 

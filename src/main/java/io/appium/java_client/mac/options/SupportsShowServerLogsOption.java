@@ -24,8 +24,15 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code showServerLogs} capability: whether the WebDriverAgentMac server logs are shown in the
+ * driver log.
+ */
 public interface SupportsShowServerLogsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code showServerLogs} capability.
+     */
     String SHOW_SERVER_LOGS_OPTION = "showServerLogs";
 
     /**

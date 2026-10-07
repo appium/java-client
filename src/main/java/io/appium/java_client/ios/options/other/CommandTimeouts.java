@@ -23,16 +23,33 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Custom timeouts for the WDA backend commands, keyed by command name.
+ */
 public class CommandTimeouts extends BaseMapOptionData<CommandTimeouts> {
+    /**
+     * Command name that defines the default timeout for all commands.
+     */
     public static final String DEFAULT_COMMAND = "default";
 
+    /** Creates empty command timeouts. */
     public CommandTimeouts() {
     }
 
+    /**
+     * Creates command timeouts from the given map.
+     *
+     * @param timeouts Mapping of command names to timeouts in milliseconds.
+     */
     public CommandTimeouts(Map<String, Object> timeouts) {
         super(timeouts);
     }
 
+    /**
+     * Creates command timeouts from the given JSON.
+     *
+     * @param json JSON object mapping command names to timeouts in milliseconds.
+     */
     public CommandTimeouts(String json) {
         super(json);
     }

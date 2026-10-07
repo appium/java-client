@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The parameters of the Flutter commands that wait for an element.
+ */
 @Accessors(chain = true)
 @Getter
 @Setter

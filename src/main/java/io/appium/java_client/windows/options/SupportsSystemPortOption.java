@@ -24,8 +24,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Support for the {@code systemPort} capability: the port the driver server listens on.
+ */
 public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code systemPort} capability.
+     */
     String SYSTEM_PORT_OPTION = "systemPort";
 
     /**

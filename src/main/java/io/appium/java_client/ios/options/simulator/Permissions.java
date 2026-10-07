@@ -21,14 +21,28 @@ import io.appium.java_client.remote.options.BaseMapOptionData;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Simulator permissions, keyed by application bundle identifier.
+ */
 public class Permissions extends BaseMapOptionData<Permissions> {
+    /** Creates empty permissions. */
     public Permissions() {
     }
 
+    /**
+     * Creates permissions from the given map.
+     *
+     * @param permissions Mapping of bundle identifiers to permission settings.
+     */
     public Permissions(Map<String, Object> permissions) {
         super(permissions);
     }
 
+    /**
+     * Creates permissions from the given JSON.
+     *
+     * @param json JSON object mapping bundle identifiers to permission settings.
+     */
     public Permissions(String json) {
         super(json);
     }

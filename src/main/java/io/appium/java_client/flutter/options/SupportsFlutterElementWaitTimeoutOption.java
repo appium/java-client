@@ -8,8 +8,14 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * The interface for the options that set the Flutter element wait timeout.
+ *
+ * @param <T> the type of the options class, returned for chaining
+ */
 public interface SupportsFlutterElementWaitTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /** The name of the Flutter element wait timeout capability. */
     String FLUTTER_ELEMENT_WAIT_TIMEOUT_OPTION = "flutterElementWaitTimeout";
 
     /**

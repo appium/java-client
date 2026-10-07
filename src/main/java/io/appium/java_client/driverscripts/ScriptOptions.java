@@ -24,7 +24,9 @@ import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
-
+/**
+ * Options of the driver script execution.
+ */
 public class ScriptOptions {
     private ScriptType scriptType;
     private Long timeoutMs;

@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code webkitResponseTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWebkitResponseTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webkitResponseTimeout} capability.
+     */
     String WEBKIT_RESPONSE_TIMEOUT_OPTION = "webkitResponseTimeout";
 
     /**

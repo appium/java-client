@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code wdaStartupRetryInterval} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWdaStartupRetryIntervalOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code wdaStartupRetryInterval} capability.
+     */
     String WDA_STARTUP_RETRY_INTERVAL_OPTION = "wdaStartupRetryInterval";
 
     /**

@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code wdaStartupRetries} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWdaStartupRetriesOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code wdaStartupRetries} capability.
+     */
     String WDA_STARTUP_RETRIES_OPTION = "wdaStartupRetries";
 
     /**

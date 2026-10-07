@@ -19,6 +19,7 @@ package io.appium.java_client.ios;
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 
+/** Provides the ability to shake the iOS Simulator. */
 public interface ShakesDevice extends ExecutesMethod {
 
     /**

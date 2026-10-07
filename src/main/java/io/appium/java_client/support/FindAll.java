@@ -49,6 +49,9 @@ public @interface FindAll {
      */
     FindBy[] value();
 
+    /**
+     * Builds the {@link By} locator from {@link FindAll}.
+     */
     class FindByBuilder extends AbstractFindByBuilder<FindAll> {
         @Override
         public By buildIt(FindAll findBys, Field field) {

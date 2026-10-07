@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code autoGrantPermissions} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAutoGrantPermissionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code autoGrantPermissions} capability.
+     */
     String AUTO_GRANT_PERMISSIONS_OPTION = "autoGrantPermissions";
 
     /**

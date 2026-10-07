@@ -51,6 +51,9 @@ import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Builds {@link AppiumDriverLocalService} instances.
+ */
 public final class AppiumServiceBuilder {
 
     /**
@@ -66,9 +69,12 @@ public final class AppiumServiceBuilder {
      */
     public static final String NODE_PATH = "NODE_BINARY_PATH";
 
+    /** The IPv4 address to listen on all network interfaces. */
     public static final String BROADCAST_IP4_ADDRESS = "0.0.0.0";
+    /** The IPv6 address to listen on all network interfaces. */
     public static final String BROADCAST_IP6_ADDRESS = "::";
     private static final Path APPIUM_PATH_SUFFIX = Paths.get("appium", "build", "lib", "main.js");
+    /** The default port of the Appium server. */
     public static final int DEFAULT_APPIUM_PORT = 4723;
     private static final Duration DEFAULT_STARTUP_TIMEOUT = Duration.ofSeconds(20);
     private final Map<String, String> serverArguments = new HashMap<>();
@@ -93,6 +99,9 @@ public final class AppiumServiceBuilder {
             SupportsAppOption.APP_OPTION
     );
 
+    /**
+     * Creates a builder using the default port and the current process environment.
+     */
     public AppiumServiceBuilder() {
         usingPort(DEFAULT_APPIUM_PORT);
         withEnvironment(System.getenv());
@@ -139,6 +148,12 @@ public final class AppiumServiceBuilder {
         return mainAppiumJs;
     }
 
+    /**
+     * Locates the Node.js executable: the configured one, then {@link #NODE_PATH}, then the system PATH.
+     *
+     * @return the Node.js executable
+     * @throws InvalidServerInstanceException if the executable cannot be found
+     */
     protected File findDefaultExecutable() {
         if (this.node != null) {
             validatePath(this.node.getAbsolutePath(), NODE_JS_NOT_EXIST_ERROR.apply(this.node));
@@ -252,6 +267,12 @@ public final class AppiumServiceBuilder {
         return this;
     }
 
+    /**
+     * Sets the IP address the server listens on.
+     *
+     * @param ipAddress the IP address
+     * @return the self-reference.
+     */
     public AppiumServiceBuilder withIPAddress(String ipAddress) {
         this.ipAddress = ipAddress;
         return this;

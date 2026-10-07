@@ -30,6 +30,7 @@ import java.time.Duration;
 import static io.appium.java_client.pagefactory.WithTimeout.DurationBuilder.build;
 import static java.util.Optional.ofNullable;
 
+/** Factory of locators for Appium-specific page object annotations. */
 public class AppiumElementLocatorFactory implements CacheableElementLocatorFactory {
     private final SearchContext searchContext;
     private final WeakReference<SearchContext> searchContextReference;

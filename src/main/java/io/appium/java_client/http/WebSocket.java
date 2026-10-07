@@ -22,15 +22,37 @@ import org.slf4j.LoggerFactory;
 import java.io.Closeable;
 import java.util.function.Consumer;
 
+/**
+ * A WebSocket connection.
+ */
 public interface WebSocket extends Closeable {
+    /** The logger shared by the WebSocket implementations. */
     Logger LOG = LoggerFactory.getLogger(WebSocket.class);
 
+    /**
+     * Sends a message.
+     *
+     * @param message the message to send
+     * @return this socket
+     */
     WebSocket send(Message message);
 
+    /**
+     * Sends a text message.
+     *
+     * @param data the text to send
+     * @return this socket
+     */
     default WebSocket sendText(CharSequence data) {
         return send(new TextMessage(data));
     }
 
+    /**
+     * Sends a binary message.
+     *
+     * @param data the bytes to send
+     * @return this socket
+     */
     default WebSocket sendBinary(byte[] data) {
         return send(new BinaryMessage(data));
     }
@@ -53,12 +75,28 @@ public interface WebSocket extends Closeable {
             }
         }
 
+        /**
+         * Handles a binary message.
+         *
+         * @param data the received bytes
+         */
         default void onBinary(byte[] data) {
         }
 
+        /**
+         * Handles the connection closure.
+         *
+         * @param code   the close status code
+         * @param reason the close reason
+         */
         default void onClose(int code, String reason) {
         }
 
+        /**
+         * Handles a text message.
+         *
+         * @param data the received text
+         */
         default void onText(CharSequence data) {
         }
 

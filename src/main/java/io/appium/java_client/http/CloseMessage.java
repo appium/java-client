@@ -16,23 +16,47 @@
 
 package io.appium.java_client.http;
 
+/**
+ * A WebSocket close message.
+ */
 public class CloseMessage implements Message {
     private final int code;
     private final String reason;
 
+    /**
+     * Creates a message with the given code and an empty reason.
+     *
+     * @param code the close status code
+     */
     public CloseMessage(int code) {
         this(code, "");
     }
 
+    /**
+     * Creates a message with the given code and reason.
+     *
+     * @param code   the close status code
+     * @param reason the close reason, null is treated as empty
+     */
     public CloseMessage(int code, String reason) {
         this.code = code;
         this.reason = reason == null ? "" : reason;
     }
 
+    /**
+     * Returns the close status code.
+     *
+     * @return the status code
+     */
     public int code() {
         return code;
     }
 
+    /**
+     * Returns the close reason.
+     *
+     * @return the reason, never null
+     */
     public String reason() {
         return reason;
     }

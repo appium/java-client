@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code executable} capability: the path to a custom Chrome driver executable.
+ */
 public interface SupportsExecutableOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code executable} capability.
+     */
     String EXECUTABLE = "executable";
 
     /**

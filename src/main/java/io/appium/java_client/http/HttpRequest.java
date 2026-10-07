@@ -26,6 +26,9 @@ import java.util.Map;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 
+/**
+ * An HTTP request.
+ */
 public class HttpRequest extends HttpMessage<HttpRequest> {
     private final HttpMethod method;
     private final String uri;
@@ -42,18 +45,41 @@ public class HttpRequest extends HttpMessage<HttpRequest> {
         this.uri = uri;
     }
 
+    /**
+     * Creates a request.
+     *
+     * @param method the HTTP method
+     * @param uri    the absolute request URI
+     */
     public HttpRequest(HttpMethod method, URI uri) {
         this(method, uri.toString());
     }
 
+    /**
+     * Returns the request URI.
+     *
+     * @return a path relative to the client base URI, or an absolute URI
+     */
     public String getUri() {
         return uri;
     }
 
+    /**
+     * Returns the HTTP method.
+     *
+     * @return the method
+     */
     public HttpMethod getMethod() {
         return method;
     }
 
+    /**
+     * Adds a query parameter. Repeated names are allowed.
+     *
+     * @param name  the parameter name
+     * @param value the parameter value
+     * @return this request
+     */
     public HttpRequest addQueryParameter(String name, String value) {
         queryParameters.computeIfAbsent(name, n -> new ArrayList<>()).add(value);
         return this;

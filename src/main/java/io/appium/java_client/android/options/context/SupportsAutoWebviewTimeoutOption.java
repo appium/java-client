@@ -25,8 +25,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
+/**
+ * Provides getters and setters for the {@code autoWebviewTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAutoWebviewTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code autoWebviewTimeout} capability.
+     */
     String AUTO_WEBVIEW_TIMEOUT_OPTION = "autoWebviewTimeout";
 
     /**

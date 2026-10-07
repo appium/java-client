@@ -20,8 +20,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code udid} capability: the unique device identifier.
+ */
 public interface SupportsUdidOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code udid} capability.
+     */
     String UDID_OPTION = "udid";
 
     /**

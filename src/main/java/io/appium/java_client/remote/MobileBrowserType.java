@@ -16,10 +16,18 @@
 
 package io.appium.java_client.remote;
 
+/**
+ * The names of the mobile browsers.
+ */
 public interface MobileBrowserType {
+    /** The stock Android browser. */
     String ANDROID = "Android";
+    /** The Safari browser. */
     String SAFARI = "Safari";
+    /** The generic default browser. */
     String BROWSER = "Browser";
+    /** The Chromium browser. */
     String CHROMIUM = "Chromium";
+    /** The Chrome browser. */
     String CHROME = "Chrome";
 }

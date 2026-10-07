@@ -22,9 +22,20 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code keychainPath} and {@code keychainPassword} capabilities.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsKeychainOptions<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code keychainPath} capability.
+     */
     String KEYCHAIN_PATH_OPTION = "keychainPath";
+    /**
+     * Name of the {@code keychainPassword} capability.
+     */
     String KEYCHAIN_PASSWORD_OPTION = "keychainPassword";
 
     /**

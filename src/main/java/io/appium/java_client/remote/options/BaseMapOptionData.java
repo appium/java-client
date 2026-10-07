@@ -24,17 +24,33 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Base class for option data objects that are stored as a key-value map.
+ *
+ * @param <T> The concrete data type, used for chaining.
+ */
 public abstract class BaseMapOptionData<T extends BaseMapOptionData<T>> {
     private Map<String, Object> options;
     private static final Gson GSON = new Gson();
 
+    /** Creates an empty data object. */
     public BaseMapOptionData() {
     }
 
+    /**
+     * Creates a data object backed by the given map.
+     *
+     * @param options The initial option values.
+     */
     public BaseMapOptionData(Map<String, Object> options) {
         this.options = options;
     }
 
+    /**
+     * Creates a data object from a JSON object string.
+     *
+     * @param json The JSON representation of the initial option values.
+     */
     public BaseMapOptionData(String json) {
         //noinspection unchecked
         this((Map<String, Object>) GSON.fromJson(json, Map.class));
@@ -73,10 +89,20 @@ public abstract class BaseMapOptionData<T extends BaseMapOptionData<T>> {
                 .map(opts -> (R) opts.getOrDefault(name, null));
     }
 
+    /**
+     * Get the option values as a map.
+     *
+     * @return The option values; empty if none have been set.
+     */
     public Map<String, Object> toMap() {
         return Optional.ofNullable(options).orElseGet(Collections::emptyMap);
     }
 
+    /**
+     * Get the option values as a JSON object.
+     *
+     * @return The JSON representation of the option values.
+     */
     public JsonObject toJson() {
         return GSON.toJsonTree(toMap()).getAsJsonObject();
     }

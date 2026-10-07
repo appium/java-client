@@ -32,6 +32,11 @@ import java.util.List;
 public class LocatingElementListHandler implements InvocationHandler {
     private final ElementLocator locator;
 
+    /**
+     * Creates a new handler.
+     *
+     * @param locator the locator of the elements
+     */
     public LocatingElementListHandler(ElementLocator locator) {
         this.locator = locator;
     }

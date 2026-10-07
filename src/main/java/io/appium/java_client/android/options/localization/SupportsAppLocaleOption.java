@@ -23,8 +23,16 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code appLocale} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAppLocaleOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appLocale} capability.
+     */
     String APP_LOCALE_OPTION = "appLocale";
 
     /**

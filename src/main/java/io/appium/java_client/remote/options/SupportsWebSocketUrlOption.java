@@ -20,8 +20,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code webSocketUrl} capability: the WebDriver BiDi session.
+ */
 public interface SupportsWebSocketUrlOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webSocketUrl} capability.
+     */
     String WEB_SOCKET_URL = "webSocketUrl";
 
     /**
@@ -36,6 +42,7 @@ public interface SupportsWebSocketUrlOption<T extends BaseOptions<T>> extends
     /**
      * Whether to enable BiDi session support.
      *
+     * @param value True to enable BiDi support.
      * @return self instance for chaining.
      */
     default T setWebSocketUrl(boolean value) {

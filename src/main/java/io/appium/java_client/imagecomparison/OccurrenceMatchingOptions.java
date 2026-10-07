@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+/**
+ * Options of the partial image occurrence matching.
+ */
 public class OccurrenceMatchingOptions extends BaseComparisonOptions<OccurrenceMatchingOptions> {
     private Double threshold;
     private Boolean multiple;

@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code safari:deviceName} capability: the name of the device or simulator to run Safari on.
+ */
 public interface SupportsSafariDeviceNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safari:deviceName} capability.
+     */
     String SAFARI_DEVICE_NAME_OPTION = "safari:deviceName";
 
     /**

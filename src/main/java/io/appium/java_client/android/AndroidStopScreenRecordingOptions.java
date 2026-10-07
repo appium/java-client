@@ -18,9 +18,15 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 
+/** Android-specific options for stopping a screen recording. */
 public class AndroidStopScreenRecordingOptions extends
         BaseStopScreenRecordingOptions<AndroidStopScreenRecordingOptions> {
 
+    /**
+     * Creates a new options instance.
+     *
+     * @return a new {@link AndroidStopScreenRecordingOptions} instance.
+     */
     public static AndroidStopScreenRecordingOptions stopScreenRecordingOptions() {
         return new AndroidStopScreenRecordingOptions();
     }

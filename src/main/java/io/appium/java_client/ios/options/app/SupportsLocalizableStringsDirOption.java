@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code localizableStringsDir} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsLocalizableStringsDirOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code localizableStringsDir} capability.
+     */
     String LOCALIZABLE_STRINGS_DIR_OPTION = "localizableStringsDir";
 
     /**

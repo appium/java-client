@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.net.URL;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code webDriverAgentUrl} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWebDriverAgentUrlOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webDriverAgentUrl} capability.
+     */
     String WEB_DRIVER_AGENT_URL_OPTION = "webDriverAgentUrl";
 
     /**

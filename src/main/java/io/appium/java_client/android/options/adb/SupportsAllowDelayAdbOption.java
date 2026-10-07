@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code allowDelayAdb} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAllowDelayAdbOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code allowDelayAdb} capability.
+     */
     String ALLOW_DELAY_ADB_OPTION = "allowDelayAdb";
 
     /**

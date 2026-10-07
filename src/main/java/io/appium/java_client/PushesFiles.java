@@ -23,6 +23,9 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.Map;
 
+/**
+ * The interface for the drivers that can push files to the device.
+ */
 public interface PushesFiles extends ExecutesMethod {
 
     /**

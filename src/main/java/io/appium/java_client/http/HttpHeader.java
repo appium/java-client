@@ -16,13 +16,37 @@
 
 package io.appium.java_client.http;
 
+/**
+ * Well-known HTTP header names.
+ */
 public enum HttpHeader {
+    /**
+     * The {@code cache-control} header.
+     */
     CacheControl("cache-control"),
+    /**
+     * The {@code content-length} header.
+     */
     ContentLength("content-length"),
+    /**
+     * The {@code content-type} header.
+     */
     ContentType("content-type"),
+    /**
+     * The {@code expires} header.
+     */
     Expires("expires"),
+    /**
+     * The {@code host} header.
+     */
     Host("host"),
+    /**
+     * The {@code user-agent} header.
+     */
     UserAgent("user-agent"),
+    /**
+     * The {@code x-forwarded-for} header.
+     */
     XForwardedFor("x-forwarded-for");
 
     private final String name;
@@ -31,6 +55,11 @@ public enum HttpHeader {
         this.name = name;
     }
 
+    /**
+     * Returns the lower-case header name.
+     *
+     * @return the header name
+     */
     public String getName() {
         return name;
     }

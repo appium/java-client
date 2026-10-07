@@ -29,28 +29,62 @@ public class Command {
     private final @Nullable SessionId sessionId;
     private final CommandPayload payload;
 
+    /**
+     * Creates a command without parameters.
+     *
+     * @param sessionId the session the command is executed in
+     * @param name the name of the command
+     */
     public Command(SessionId sessionId, String name) {
         this(sessionId, name, new HashMap<>());
     }
 
+    /**
+     * Creates a command with parameters.
+     *
+     * @param sessionId the session the command is executed in, or {@code null} for session-less commands
+     * @param name the name of the command
+     * @param parameters the parameters of the command
+     */
     public Command(@Nullable SessionId sessionId, String name, Map<String, ?> parameters) {
         this(sessionId, new CommandPayload(name, parameters));
     }
 
+    /**
+     * Creates a command from a payload.
+     *
+     * @param sessionId the session the command is executed in, or {@code null} for session-less commands
+     * @param payload the name and the parameters of the command
+     */
     public Command(@Nullable SessionId sessionId, CommandPayload payload) {
         this.sessionId = sessionId;
         this.payload = payload;
     }
 
+    /**
+     * Returns the session the command is executed in.
+     *
+     * @return the session id, or {@code null} for session-less commands
+     */
     @Nullable
     public SessionId getSessionId() {
         return sessionId;
     }
 
+    /**
+     * Returns the name of the command.
+     *
+     * @return the command name
+     */
     public String getName() {
         return payload.getName();
     }
 
+    /**
+     * Returns the parameters of the command.
+     *
+     * @return the command parameters
+     */
     public Map<String, ?> getParameters() {
         return payload.getParameters();
     }

@@ -22,8 +22,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code isHeadless} capability: whether the device or browser is started in headless mode.
+ */
 public interface SupportsIsHeadlessOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code isHeadless} capability.
+     */
     String IS_HEADLESS_OPTION = "isHeadless";
 
     /**

@@ -37,8 +37,14 @@ import java.util.List;
 public class ByAll extends By implements Serializable {
     private static final long serialVersionUID = 4573668832699497306L;
 
+    /** The locators to search with. */
     private final By[] bys;
 
+    /**
+     * Creates a locator that matches elements found by any of the given locators.
+     *
+     * @param bys the locators to search with
+     */
     public ByAll(By... bys) {
         this.bys = bys;
     }

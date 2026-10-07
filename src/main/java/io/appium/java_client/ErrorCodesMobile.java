@@ -30,6 +30,7 @@ import java.util.Map;
  */
 public class ErrorCodesMobile extends ErrorCodes {
 
+    /** The status code of the "no such context" error. */
     public static final int NO_SUCH_CONTEXT = 35;
 
     private static Map<Integer, String> statusToState = Map.of(NO_SUCH_CONTEXT, "No such context found");

@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The result of the features matching.
+ */
 public class FeaturesMatchingResult extends ComparisonResult {
     private static final String COUNT = "count";
     private static final String TOTAL_COUNT = "totalCount";
@@ -31,6 +34,11 @@ public class FeaturesMatchingResult extends ComparisonResult {
     private static final String POINTS2 = "points2";
     private static final String RECT2 = "rect2";
 
+    /**
+     * Creates a result wrapper.
+     *
+     * @param input the raw command result returned by the server
+     */
     public FeaturesMatchingResult(Map<String, Object> input) {
         super(input);
     }

@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code fullContextList} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsFullContextListOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code fullContextList} capability.
+     */
     String FULL_CONTEXT_LIST_OPTION = "fullContextList";
 
     /**

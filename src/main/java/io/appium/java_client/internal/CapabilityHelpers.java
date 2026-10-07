@@ -26,7 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Helpers for reading and converting capability values.
+ */
 public class CapabilityHelpers {
+    /** The vendor prefix of Appium-specific capability names. */
     public static final String APPIUM_PREFIX = "appium:";
 
     private CapabilityHelpers() {

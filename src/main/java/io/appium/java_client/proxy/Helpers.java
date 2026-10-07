@@ -40,7 +40,13 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
+/**
+ * Helpers for creating transparent proxies of classes.
+ */
 public class Helpers {
+    /**
+     * The names of the methods declared by {@link Object}, which are not proxied by default.
+     */
     public static final Set<String> OBJECT_METHOD_NAMES = Stream.of(Object.class.getMethods())
             .map(Method::getName)
             .collect(Collectors.toSet());

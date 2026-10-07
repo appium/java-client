@@ -29,15 +29,31 @@ public class CommandPayload {
     private final String name;
     private final Map<String, ? extends @Nullable Object> parameters;
 
+    /**
+     * Creates a payload.
+     *
+     * @param name the name of the command
+     * @param parameters the parameters of the command
+     */
     public CommandPayload(String name, Map<String, ? extends @Nullable Object> parameters) {
         this.name = requireNonNull(name, "name");
         this.parameters = requireNonNull(parameters, "parameters");
     }
 
+    /**
+     * Returns the name of the command.
+     *
+     * @return the command name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the parameters of the command.
+     *
+     * @return the command parameters
+     */
     public Map<String, ? extends @Nullable Object> getParameters() {
         return parameters;
     }

@@ -23,14 +23,30 @@ import org.openqa.selenium.WebDriverException;
  * Thrown if a screenshot cannot be taken, or if the server attached one to an error.
  */
 public class ScreenshotException extends WebDriverException {
+    /**
+     * Creates an exception with a message.
+     *
+     * @param message the detail message
+     */
     public ScreenshotException(String message) {
         super(message);
     }
 
+    /**
+     * Creates an exception with a cause.
+     *
+     * @param cause the cause
+     */
     public ScreenshotException(Throwable cause) {
         super(cause);
     }
 
+    /**
+     * Creates an exception with a message and a cause.
+     *
+     * @param message the detail message
+     * @param cause the cause, or {@code null} if there is none
+     */
     public ScreenshotException(String message, @Nullable Throwable cause) {
         super(message, cause);
     }

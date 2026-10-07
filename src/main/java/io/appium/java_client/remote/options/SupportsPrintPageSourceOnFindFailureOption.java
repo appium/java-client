@@ -22,8 +22,15 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code printPageSourceOnFindFailure} capability: whether the page source is logged if an element
+ * lookup fails.
+ */
 public interface SupportsPrintPageSourceOnFindFailureOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code printPageSourceOnFindFailure} capability.
+     */
     String PRINT_PAGE_SOURCE_ON_FIND_FAILURE_OPTION = "printPageSourceOnFindFailure";
 
     /**

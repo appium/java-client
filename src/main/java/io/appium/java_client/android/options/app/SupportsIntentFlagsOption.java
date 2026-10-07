@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code intentFlags} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsIntentFlagsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code intentFlags} capability.
+     */
     String INTENT_FLAGS_OPTION = "intentFlags";
 
     /**

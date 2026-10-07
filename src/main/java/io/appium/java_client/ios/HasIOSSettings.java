@@ -19,6 +19,9 @@ package io.appium.java_client.ios;
 import io.appium.java_client.HasSettings;
 import io.appium.java_client.Setting;
 
+/**
+ * The interface for the drivers that can change the iOS-specific Appium settings.
+ */
 public interface HasIOSSettings extends HasSettings {
     /**
      * Set the `nativeWebTap` setting. *iOS-only method*.

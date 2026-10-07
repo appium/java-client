@@ -20,7 +20,12 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+/**
+ * Predicate matching the capability names defined by the W3C WebDriver specification
+ * (plus extension capabilities with a vendor prefix).
+ */
 public class W3CCapabilityKeys implements Predicate<String> {
+    /** The shared instance of the predicate. */
     public static final W3CCapabilityKeys INSTANCE = new W3CCapabilityKeys();
     private static final Predicate<String> ACCEPTED_W3C_PATTERNS = Stream.of(
                     "^[\\w-\\.]+:.*$",
@@ -39,6 +44,9 @@ public class W3CCapabilityKeys implements Predicate<String> {
             .map(Pattern::asPredicate)
             .reduce(identity -> false, Predicate::or);
 
+    /**
+     * Creates the predicate; use {@link #INSTANCE} instead.
+     */
     protected W3CCapabilityKeys() {
     }
 

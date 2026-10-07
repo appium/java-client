@@ -45,15 +45,26 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
         SupportsShowServerLogsOption<Mac2Options>,
         SupportsPrerunOption<Mac2Options, AppleScriptData>,
         SupportsPostrunOption<Mac2Options, AppleScriptData> {
+    /** Creates options with the default capabilities set. */
     public Mac2Options() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities.
+     *
+     * @param source The capabilities to copy.
+     */
     public Mac2Options(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities map.
+     *
+     * @param source The capabilities to copy.
+     */
     public Mac2Options(Map<String, ?> source) {
         super(source);
         setCommonOptions();

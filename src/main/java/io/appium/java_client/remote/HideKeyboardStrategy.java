@@ -16,8 +16,13 @@
 
 package io.appium.java_client.remote;
 
+/**
+ * The strategies of hiding the on-screen keyboard.
+ */
 public interface HideKeyboardStrategy {
 
+    /** Hides the keyboard by tapping outside of it. */
     String TAP_OUTSIDE = "tapOutside";
+    /** Hides the keyboard by pressing a key. */
     String PRESS_KEY = "pressKey";
 }

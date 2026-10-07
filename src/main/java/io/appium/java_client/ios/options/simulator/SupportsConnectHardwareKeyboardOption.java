@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code connectHardwareKeyboard} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsConnectHardwareKeyboardOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code connectHardwareKeyboard} capability.
+     */
     String CONNECT_HARDWARE_KEYBOARD_OPTION = "connectHardwareKeyboard";
 
     /**

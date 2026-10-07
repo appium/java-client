@@ -16,9 +16,21 @@
 
 package io.appium.java_client.imagecomparison;
 
+/**
+ * Matching functions available for the features matching.
+ */
 public enum MatchingFunction {
-    FLANN_BASED("FlannBased"), BRUTE_FORCE("BruteForce"), BRUTE_FORCE1("BruteForceL1"),
-    BRUTE_FORCE_HAMMING("BruteForceHamming"), BRUTE_FORCE_HAMMING_LUT("BruteForceHammingLut"),
+    /** The FLANN-based matcher. */
+    FLANN_BASED("FlannBased"),
+    /** The brute-force matcher. */
+    BRUTE_FORCE("BruteForce"),
+    /** The brute-force matcher using the L1 norm. */
+    BRUTE_FORCE1("BruteForceL1"),
+    /** The brute-force matcher using the Hamming distance. */
+    BRUTE_FORCE_HAMMING("BruteForceHamming"),
+    /** The brute-force matcher using the Hamming distance with a lookup table. */
+    BRUTE_FORCE_HAMMING_LUT("BruteForceHammingLut"),
+    /** The brute-force matcher using the squared L2 norm. */
     BRUTE_FORCE_SL2("BruteForceSL2");
 
     private final String name;

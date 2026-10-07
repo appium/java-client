@@ -23,8 +23,14 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Support for the {@code environment} capability: the environment variables for the application under test.
+ */
 public interface SupportsEnvironmentOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code environment} capability.
+     */
     String ENVIRONMENT_OPTION = "environment";
 
     /**

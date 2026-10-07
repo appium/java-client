@@ -24,20 +24,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Process arguments and environment sent to the WebDriverAgent server.
+ */
 @ToString()
 public class ProcessArguments {
     private final List<String> args;
     private final Map<String, Object> env;
 
+    /**
+     * Creates process arguments with an environment.
+     *
+     * @param args Process arguments.
+     * @param env Process environment variables.
+     */
     public ProcessArguments(List<String> args, Map<String, Object> env) {
         this.args = args;
         this.env = env;
     }
 
+    /**
+     * Creates process arguments without an environment.
+     *
+     * @param args Process arguments.
+     */
     public ProcessArguments(List<String> args) {
         this(args, null);
     }
 
+    /**
+     * Creates an environment without process arguments.
+     *
+     * @param env Process environment variables.
+     */
     public ProcessArguments(Map<String, Object> env) {
         this(null, env);
     }

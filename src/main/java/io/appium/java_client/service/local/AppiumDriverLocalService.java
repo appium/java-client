@@ -50,6 +50,9 @@ import static java.util.Optional.ofNullable;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.INFO;
 
+/**
+ * Manages an Appium server process started on the local machine.
+ */
 public final class AppiumDriverLocalService implements Closeable {
 
     private static final String URL_MASK = "http://%s:%d/";
@@ -83,14 +86,31 @@ public final class AppiumDriverLocalService implements Closeable {
         this.url = new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
     }
 
+    /**
+     * Builds a service with the default settings.
+     *
+     * @return a new service instance
+     */
     public static AppiumDriverLocalService buildDefaultService() {
         return buildService(new AppiumServiceBuilder());
     }
 
+    /**
+     * Builds a service using the given builder.
+     *
+     * @param builder the service builder
+     * @return a new service instance
+     */
     public static AppiumDriverLocalService buildService(AppiumServiceBuilder builder) {
         return builder.build();
     }
 
+    /**
+     * Sets the base path of the server.
+     *
+     * @param basePath the base path the server is listening on
+     * @return self instance for chaining
+     */
     public AppiumDriverLocalService withBasePath(String basePath) {
         this.basePath = basePath;
         return this;
@@ -317,6 +337,7 @@ public final class AppiumDriverLocalService implements Closeable {
     /**
      * Remove the outputStream which is receiving server output data.
      *
+     * @param outputStream the {@link OutputStream} to remove
      * @return the outputStream has been removed if it is present
      */
     public Optional<OutputStream> removeOutPutStream(OutputStream outputStream) {

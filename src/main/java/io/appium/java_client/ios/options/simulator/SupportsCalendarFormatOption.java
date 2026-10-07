@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code calendarFormat} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsCalendarFormatOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code calendarFormat} capability.
+     */
     String CALENDAR_FORMAT_OPTION = "calendarFormat";
 
     /**

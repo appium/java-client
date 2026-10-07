@@ -23,8 +23,14 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Support for the {@code moz:firefoxOptions} capability: Firefox-specific options passed to Geckodriver.
+ */
 public interface SupportsMozFirefoxOptionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code moz:firefoxOptions} capability.
+     */
     String MOZ_FIREFOX_OPTIONS_OPTION = "moz:firefoxOptions";
 
     /**

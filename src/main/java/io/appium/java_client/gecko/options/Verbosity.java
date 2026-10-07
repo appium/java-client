@@ -16,6 +16,12 @@
 
 package io.appium.java_client.gecko.options;
 
+/**
+ * Geckodriver log verbosity levels.
+ */
 public enum Verbosity {
-    DEBUG, TRACE
+    /** Debug level logging. */
+    DEBUG,
+    /** Trace level logging. */
+    TRACE
 }

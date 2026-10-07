@@ -34,6 +34,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * A {@link FluentWait} that supports a poll delay and custom polling strategies.
+ *
+ * @param <T> the type of the input object
+ */
 @NullMarked
 public class AppiumFluentWait<T> extends FluentWait<T> {
     @Nullable
@@ -42,6 +47,9 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
     private static final Duration DEFAULT_POLL_DELAY_DURATION = Duration.ZERO;
     private Duration pollDelay = DEFAULT_POLL_DELAY_DURATION;
 
+    /**
+     * The information about the current polling iteration.
+     */
     public static class IterationInfo {
         /**
          * The current iteration number.
@@ -117,30 +125,65 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         return this;
     }
 
+    /**
+     * Gets the clock.
+     *
+     * @return the clock used for the time measurements
+     */
     protected Clock getClock() {
         return clock;
     }
 
+    /**
+     * Gets the timeout.
+     *
+     * @return the maximum time to wait for the condition
+     */
     protected Duration getTimeout() {
         return timeout;
     }
 
+    /**
+     * Gets the polling interval.
+     *
+     * @return the default time between the condition checks
+     */
     protected Duration getInterval() {
         return interval;
     }
 
+    /**
+     * Gets the sleeper.
+     *
+     * @return the sleeper used to pause between the condition checks
+     */
     protected Sleeper getSleeper() {
         return sleeper;
     }
 
+    /**
+     * Gets the ignored exceptions.
+     *
+     * @return the exception types that are ignored while waiting
+     */
     protected List<Class<? extends Throwable>> getIgnoredExceptions() {
         return ignoredExceptions;
     }
 
+    /**
+     * Gets the message supplier.
+     *
+     * @return the supplier of the timeout message
+     */
     protected Supplier<@Nullable String> getMessageSupplier() {
         return messageSupplier;
     }
 
+    /**
+     * Gets the input.
+     *
+     * @return the input value the condition is applied to
+     */
     protected T getInput() {
         return (T) input;
     }
@@ -286,6 +329,12 @@ public class AppiumFluentWait<T> extends FluentWait<T> {
         }
     }
 
+    /**
+     * Rethrows the exception unless it is one of the ignored ones.
+     *
+     * @param e the exception to check
+     * @return the exception if it is ignored
+     */
     protected Throwable propagateIfNotIgnored(Throwable e) {
         for (Class<? extends Throwable> ignoredException : getIgnoredExceptions()) {
             if (ignoredException.isInstance(e)) {

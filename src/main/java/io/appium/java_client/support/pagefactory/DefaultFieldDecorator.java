@@ -42,8 +42,14 @@ import java.util.List;
  */
 public class DefaultFieldDecorator implements FieldDecorator {
 
+    /** The factory of element locators. */
     protected ElementLocatorFactory factory;
 
+    /**
+     * Creates a new decorator.
+     *
+     * @param factory the factory of element locators
+     */
     public DefaultFieldDecorator(ElementLocatorFactory factory) {
         this.factory = factory;
     }
@@ -69,6 +75,12 @@ public class DefaultFieldDecorator implements FieldDecorator {
         }
     }
 
+    /**
+     * Checks whether the field is a list of {@link WebElement} with a locator annotation.
+     *
+     * @param field the field to check
+     * @return true if the field can be decorated
+     */
     protected boolean isDecoratableList(Field field) {
         if (!List.class.isAssignableFrom(field.getType())) {
             return false;
@@ -91,12 +103,26 @@ public class DefaultFieldDecorator implements FieldDecorator {
                 || field.getAnnotation(FindAll.class) != null;
     }
 
+    /**
+     * Creates a proxy of an element found by the locator.
+     *
+     * @param loader the class loader of the proxy
+     * @param locator the element locator
+     * @return the element proxy
+     */
     protected WebElement proxyForLocator(ClassLoader loader, ElementLocator locator) {
         InvocationHandler handler = new LocatingElementHandler(locator);
         return (WebElement) Proxy.newProxyInstance(
                 loader, new Class[]{WebElement.class, WrapsElement.class, Locatable.class}, handler);
     }
 
+    /**
+     * Creates a proxy of a list of elements found by the locator.
+     *
+     * @param loader the class loader of the proxy
+     * @param locator the element locator
+     * @return the list proxy
+     */
     @SuppressWarnings("unchecked")
     protected List<WebElement> proxyForListLocator(ClassLoader loader, ElementLocator locator) {
         InvocationHandler handler = new LocatingElementListHandler(locator);

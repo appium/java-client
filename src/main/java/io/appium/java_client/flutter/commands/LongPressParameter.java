@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The parameters of the Flutter long press gesture.
+ */
 @Accessors(chain = true)
 @Setter
 @Getter

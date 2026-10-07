@@ -16,6 +16,14 @@
 
 package io.appium.java_client.service.local.flags;
 
+/**
+ * A server command line argument.
+ */
 public interface ServerArgument {
+    /**
+     * Returns the argument name as it is passed to the server.
+     *
+     * @return the argument name
+     */
     String getArgument();
 }

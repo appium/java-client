@@ -18,8 +18,14 @@ package io.appium.java_client.remote.options;
 
 import org.openqa.selenium.Capabilities;
 
+/**
+ * Support for the {@code browserVersion} capability: the browser version.
+ */
 public interface SupportsBrowserVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code browserVersion} capability.
+     */
     String BROWSER_VERSION_OPTION = "browserVersion";
 
     /**

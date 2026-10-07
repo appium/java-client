@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code webviewConnectRetries} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWebviewConnectRetriesOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webviewConnectRetries} capability.
+     */
     String WEBVIEW_CONNECT_RETRIES_OPTION = "webviewConnectRetries";
 
     /**

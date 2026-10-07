@@ -20,8 +20,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code otherApps} capability: additional applications to install before the session.
+ */
 public interface SupportsOtherAppsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code otherApps} capability.
+     */
     String OTHER_APPS_OPTION = "otherApps";
 
     /**

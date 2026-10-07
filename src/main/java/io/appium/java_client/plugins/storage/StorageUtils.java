@@ -27,6 +27,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
+/**
+ * Helpers of the storage plugin client.
+ */
 public class StorageUtils {
     private static final int BUFFER_SIZE = 0xFFFF;
 

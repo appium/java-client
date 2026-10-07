@@ -22,8 +22,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code acceptInsecureCerts} capability: whether insecure TLS certificates are accepted.
+ */
 public interface SupportsAcceptInsecureCertsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code acceptInsecureCerts} capability.
+     */
     String ACCEPT_INSECURE_CERTS_OPTION = "acceptInsecureCerts";
 
     /**

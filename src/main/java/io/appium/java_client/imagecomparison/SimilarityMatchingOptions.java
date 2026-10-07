@@ -16,5 +16,8 @@
 
 package io.appium.java_client.imagecomparison;
 
+/**
+ * Options of the images similarity calculation.
+ */
 public class SimilarityMatchingOptions extends BaseComparisonOptions<SimilarityMatchingOptions> {
 }

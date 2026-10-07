@@ -8,6 +8,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Provides access to the client properties.
+ */
 public class Config {
     private static Config mainInstance = null;
     private static final String MAIN_CONFIG = "main.properties";

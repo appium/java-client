@@ -28,8 +28,15 @@ import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultO
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 import static java.util.Optional.ofNullable;
 
+/** Builds locators of widgets from Appium-specific page object annotations. */
 public class WidgetByBuilder extends DefaultElementByBuilder {
 
+    /**
+     * Creates a new builder.
+     *
+     * @param platform the name of the current platform
+     * @param automation the name of the current automation
+     */
     public WidgetByBuilder(String platform, String automation) {
         super(platform, automation);
     }

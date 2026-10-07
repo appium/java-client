@@ -16,6 +16,9 @@
 
 package io.appium.java_client;
 
+/**
+ * The interface for the drivers that can hide the on-screen keyboard.
+ */
 public interface HidesKeyboard extends ExecutesMethod {
 
     /**

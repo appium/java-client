@@ -23,8 +23,14 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Support for the {@code webkit:WebRTC} capability: the WebRTC behavior of Safari.
+ */
 public interface SupportsWebkitWebrtcOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webkit:WebRTC} capability.
+     */
     String WEBKIT_WEB_RTC_OPTION = "webkit:WebRTC";
 
     /**

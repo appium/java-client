@@ -29,6 +29,9 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
+/**
+ * A web socket client that handles text messages.
+ */
 public class StringWebSocketClient implements WebSocket.Listener,
         CanHandleMessages<String>, CanHandleErrors, CanHandleConnects, CanHandleDisconnects {
     private final List<Consumer<String>> messageHandlers = new CopyOnWriteArrayList<>();
@@ -40,6 +43,11 @@ public class StringWebSocketClient implements WebSocket.Listener,
 
     private final WeakReference<HttpClient> httpClient;
 
+    /**
+     * Creates a client.
+     *
+     * @param httpClient the HTTP client used to open the web socket
+     */
     public StringWebSocketClient(HttpClient httpClient) {
         this.httpClient = new WeakReference<>(httpClient);
     }
@@ -50,11 +58,21 @@ public class StringWebSocketClient implements WebSocket.Listener,
         this.endpoint = endpoint;
     }
 
+    /**
+     * Returns the endpoint the client is connected to.
+     *
+     * @return the endpoint or null if the client has not been connected yet
+     */
     @Nullable
     public URI getEndpoint() {
         return this.endpoint;
     }
 
+    /**
+     * Checks whether the web socket is open.
+     *
+     * @return true if the client is listening
+     */
     public boolean isListening() {
         return isListening;
     }

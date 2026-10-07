@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code safariInitialUrl} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariInitialUrlOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariInitialUrl} capability.
+     */
     String SAFARI_INITIAL_URL_OPTION = "safariInitialUrl";
 
     /**

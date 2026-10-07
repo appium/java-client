@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code screenshotQuality} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsScreenshotQualityOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code screenshotQuality} capability.
+     */
     String SCREENSHOT_QUALITY_OPTION = "screenshotQuality";
 
     /**

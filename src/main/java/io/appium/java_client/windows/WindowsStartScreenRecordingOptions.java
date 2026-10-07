@@ -25,6 +25,7 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+/** Windows-specific options for starting a screen recording. */
 public class WindowsStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<WindowsStartScreenRecordingOptions> {
     private Integer fps;
@@ -34,6 +35,11 @@ public class WindowsStartScreenRecordingOptions
     private Boolean captureClicks;
     private String audioInput;
 
+    /**
+     * Creates a new options instance.
+     *
+     * @return a new {@link WindowsStartScreenRecordingOptions} instance.
+     */
     public static WindowsStartScreenRecordingOptions startScreenRecordingOptions() {
         return new WindowsStartScreenRecordingOptions();
     }

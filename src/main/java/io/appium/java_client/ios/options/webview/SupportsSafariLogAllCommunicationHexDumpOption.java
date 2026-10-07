@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code safariLogAllCommunicationHexDump} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariLogAllCommunicationHexDumpOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariLogAllCommunicationHexDump} capability.
+     */
     String SAFARI_LOG_ALL_COMMUNICATION_HEX_DUMP_OPTION = "safariLogAllCommunicationHexDump";
 
     /**

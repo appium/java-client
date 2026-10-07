@@ -19,6 +19,9 @@ package io.appium.java_client.ws;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Supports handlers of the web socket errors.
+ */
 public interface CanHandleErrors {
 
     /**

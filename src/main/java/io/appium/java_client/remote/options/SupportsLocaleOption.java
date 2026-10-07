@@ -20,8 +20,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code locale} capability: the locale used by the device or application.
+ */
 public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code locale} capability.
+     */
     String LOCALE_OPTION = "locale";
 
     /**

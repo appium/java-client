@@ -24,8 +24,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Support for the {@code chromedriverPort} capability: the port the Chrome driver listens on.
+ */
 public interface SupportsChromeDrivePortOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code chromedriverPort} capability.
+     */
     String CHROME_DRIVER_PORT = "chromedriverPort";
 
     /**

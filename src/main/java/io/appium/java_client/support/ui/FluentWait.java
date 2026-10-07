@@ -45,18 +45,26 @@ import static java.util.Objects.requireNonNull;
  * @param <T> The input type for each condition used with this instance.
  */
 public class FluentWait<T> implements Wait<T> {
+    /** The default sleep timeout in milliseconds. */
     protected static final long DEFAULT_SLEEP_TIMEOUT = 500;
 
     private static final Duration DEFAULT_WAIT_DURATION = Duration.ofMillis(DEFAULT_SLEEP_TIMEOUT);
 
+    /** The input value passed to the evaluated conditions. */
     protected final T input;
+    /** The clock used to measure the timeout. */
     protected final Clock clock;
+    /** The sleeper used between the condition evaluations. */
     protected final Sleeper sleeper;
 
+    /** The maximum time to wait. */
     protected Duration timeout = DEFAULT_WAIT_DURATION;
+    /** The interval between the condition evaluations. */
     protected Duration interval = DEFAULT_WAIT_DURATION;
+    /** The supplier of the custom timeout message. */
     protected Supplier<@Nullable String> messageSupplier = () -> null;
 
+    /** The exception types ignored while waiting. */
     protected final List<Class<? extends Throwable>> ignoredExceptions = new ArrayList<>();
 
     /**

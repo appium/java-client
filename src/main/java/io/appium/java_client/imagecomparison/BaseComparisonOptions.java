@@ -22,6 +22,11 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+/**
+ * Base class for the image comparison options.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseComparisonOptions<T extends BaseComparisonOptions<T>> {
     private Boolean visualize;
 

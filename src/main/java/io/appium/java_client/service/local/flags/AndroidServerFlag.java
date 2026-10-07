@@ -39,7 +39,7 @@ public enum AndroidServerFlag implements ServerArgument {
      * ChromeDriver executable full path.
      */
     CHROME_DRIVER_EXECUTABLE("--chromedriver-executable"),
-    /*
+    /**
      * Reboot emulator after each session and kill it at the end. Default: false
      */
     REBOOT("--reboot");

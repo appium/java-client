@@ -16,8 +16,16 @@
 
 package io.appium.java_client.imagecomparison;
 
+/**
+ * Image comparison modes supported by the server.
+ */
 public enum ComparisonMode {
-    MATCH_FEATURES("matchFeatures"), GET_SIMILARITY("getSimilarity"), MATCH_TEMPLATE("matchTemplate");
+    /** Matches features of the images. */
+    MATCH_FEATURES("matchFeatures"),
+    /** Calculates the similarity score of the images. */
+    GET_SIMILARITY("getSimilarity"),
+    /** Finds the occurrence of a partial image in the full one. */
+    MATCH_TEMPLATE("matchTemplate");
 
     private final String name;
 

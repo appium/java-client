@@ -18,6 +18,12 @@ package io.appium.java_client.pagefactory.locator;
 
 import io.appium.java_client.support.pagefactory.ElementLocator;
 
+/** Element locator whose lookup results may be cached. */
 public interface CacheableLocator extends ElementLocator {
+    /**
+     * Checks whether the lookup result should be cached.
+     *
+     * @return true if the lookup result is cached
+     */
     boolean isLookUpCached();
 }

@@ -22,8 +22,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code clearSystemFiles} capability: whether temporary files created by the driver are deleted.
+ */
 public interface SupportsClearSystemFilesOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code clearSystemFiles} capability.
+     */
     String CLEAR_SYSTEM_FILES_OPTION = "clearSystemFiles";
 
     /**

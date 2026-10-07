@@ -27,6 +27,7 @@ import static io.appium.java_client.internal.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/** Android-specific options for terminating an application. */
 public class AndroidTerminateApplicationOptions extends
         BaseTerminateApplicationOptions<AndroidTerminateApplicationOptions> {
     private Duration timeout;

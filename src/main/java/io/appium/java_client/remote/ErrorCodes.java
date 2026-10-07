@@ -52,36 +52,66 @@ import java.util.stream.Collectors;
  * Adapted from Selenium's {@code ErrorCodes} (Apache License 2.0).
  */
 public class ErrorCodes {
+    /** The W3C-style success status string. */
     public static final String SUCCESS_STRING = "success";
+    /** The status code of a successful command. */
     public static final int SUCCESS = 0;
+    /** The session does not exist. */
     public static final int NO_SUCH_SESSION = 6;
+    /** The element could not be found. */
     public static final int NO_SUCH_ELEMENT = 7;
+    /** The frame could not be found. */
     public static final int NO_SUCH_FRAME = 8;
+    /** The command is not known to the server. */
     public static final int UNKNOWN_COMMAND = 9;
+    /** The element is no longer attached to the document. */
     public static final int STALE_ELEMENT_REFERENCE = 10;
+    /** The element is in a state that does not allow the operation. */
     public static final int INVALID_ELEMENT_STATE = 12;
+    /** An unknown server-side error occurred. */
     public static final int UNHANDLED_ERROR = 13;
+    /** The executed script has thrown an error. */
     public static final int JAVASCRIPT_ERROR = 17;
+    /** An XPath lookup failed. */
     public static final int XPATH_LOOKUP_ERROR = 19;
+    /** The operation has timed out. */
     public static final int TIMEOUT = 21;
+    /** The window could not be found. */
     public static final int NO_SUCH_WINDOW = 23;
+    /** The cookie domain is not valid for the current page. */
     public static final int INVALID_COOKIE_DOMAIN = 24;
+    /** The cookie could not be set. */
     public static final int UNABLE_TO_SET_COOKIE = 25;
+    /** An unexpected alert is open. */
     public static final int UNEXPECTED_ALERT_PRESENT = 26;
+    /** There is no alert to operate on. */
     public static final int NO_ALERT_PRESENT = 27;
+    /** The asynchronous script has timed out. */
     public static final int ASYNC_SCRIPT_TIMEOUT = 28;
+    /** The element locator is not valid. */
     public static final int INVALID_SELECTOR_ERROR = 32;
+    /** The session could not be created. */
     public static final int SESSION_NOT_CREATED = 33;
+    /** The move target is outside of the viewport. */
     public static final int MOVE_TARGET_OUT_OF_BOUNDS = 34;
+    /** The XPath expression is not valid. */
     public static final int INVALID_XPATH_SELECTOR = 51;
+    /** The XPath expression does not return the expected type. */
     public static final int INVALID_XPATH_SELECTOR_RETURN_TYPER = 52;
     // The JSON wire protocol has no status codes for the W3C errors below, so they are made up
+    /** The element cannot be interacted with. */
     public static final int ELEMENT_NOT_INTERACTABLE = 60;
+    /** An argument of the command is not valid. */
     public static final int INVALID_ARGUMENT = 61;
+    /** The cookie could not be found. */
     public static final int NO_SUCH_COOKIE = 62;
+    /** The screenshot could not be taken. */
     public static final int UNABLE_TO_CAPTURE_SCREEN = 63;
+    /** The click has been intercepted by another element. */
     public static final int ELEMENT_CLICK_INTERCEPTED = 64;
+    /** The shadow root could not be found. */
     public static final int NO_SUCH_SHADOW_ROOT = 65;
+    /** The HTTP method is not allowed for the endpoint. */
     public static final int METHOD_NOT_ALLOWED = 405;
 
     private static final List<KnownError> KNOWN_ERRORS = List.of(

@@ -19,6 +19,11 @@ package io.appium.java_client.ws;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Supports handlers of the web socket messages.
+ *
+ * @param <T> the message type
+ */
 public interface CanHandleMessages<T> {
     /**
      * Returns a list of all registered web socket messages handlers.

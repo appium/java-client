@@ -16,28 +16,31 @@
 
 package io.appium.java_client.remote;
 
+/**
+ * The names of the automation backends (drivers) supported by Appium.
+ */
 public interface AutomationName {
     // Officially supported drivers
-    // https://github.com/appium/appium-xcuitest-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-xcuitest-driver">XCUITest driver for iOS and tvOS</a>. */
     String IOS_XCUI_TEST = "XCuiTest";
-    // https://github.com/appium/appium-uiautomator2-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-uiautomator2-driver">UiAutomator2 driver for Android</a>. */
     String ANDROID_UIAUTOMATOR2 = "UIAutomator2";
-    // https://github.com/appium/appium-espresso-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-espresso-driver">Espresso driver for Android</a>. */
     String ESPRESSO = "Espresso";
-    // https://github.com/appium/appium-mac2-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-mac2-driver">Mac2 driver for macOS</a>. */
     String MAC2 = "Mac2";
-    // https://github.com/appium/appium-windows-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-windows-driver">Windows driver</a>. */
     String WINDOWS = "Windows";
-    // https://github.com/appium/appium-safari-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-safari-driver">Safari driver</a>. */
     String SAFARI = "Safari";
-    // https://github.com/appium/appium-geckodriver
+    /** The automation name of the <a href="https://github.com/appium/appium-geckodriver">Gecko driver for Firefox</a>. */
     String GECKO = "Gecko";
-    // https://github.com/appium/appium-chromium-driver
+    /** The automation name of the <a href="https://github.com/appium/appium-chromium-driver">Chromium driver</a>. */
     String CHROMIUM = "Chromium";
 
     // Third-party drivers
-    // https://github.com/YOU-i-Labs/appium-youiengine-driver
+    /** The automation name of the <a href="https://github.com/YOU-i-Labs/appium-youiengine-driver">YouiEngine driver</a>. */
     String YOUI_ENGINE = "youiengine";
-    //https://github.com/AppiumTestDistribution/appium-flutter-integration-driver
+    /** The automation name of the <a href="https://github.com/AppiumTestDistribution/appium-flutter-integration-driver">Flutter Integration driver</a>. */
     String FLUTTER_INTEGRATION = "FlutterIntegration";
 }

@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * The interface for the drivers that can pull files and folders from the device.
+ */
 public interface PullsFiles extends ExecutesMethod {
 
     /**

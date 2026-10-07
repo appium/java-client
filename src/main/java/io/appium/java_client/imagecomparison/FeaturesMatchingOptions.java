@@ -23,6 +23,9 @@ import java.util.Map;
 import static io.appium.java_client.internal.Preconditions.checkArgument;
 import static java.util.Optional.ofNullable;
 
+/**
+ * Options of the features matching.
+ */
 public class FeaturesMatchingOptions extends BaseComparisonOptions<FeaturesMatchingOptions> {
     private String detectorName;
     private String matchFunc;

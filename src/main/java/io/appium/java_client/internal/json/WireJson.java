@@ -272,10 +272,21 @@ public final class WireJson {
      * Thrown if a JSON document cannot be read or written.
      */
     public static class WireJsonException extends WebDriverException {
+        /**
+         * Creates an exception with the given message.
+         *
+         * @param message the detail message
+         */
         public WireJsonException(String message) {
             super(message);
         }
 
+        /**
+         * Creates an exception with the given message and cause.
+         *
+         * @param message the detail message
+         * @param cause   the cause
+         */
         public WireJsonException(String message, Throwable cause) {
             super(message, cause);
         }

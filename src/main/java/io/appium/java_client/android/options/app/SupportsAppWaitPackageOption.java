@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code appWaitPackage} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAppWaitPackageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appWaitPackage} capability.
+     */
     String APP_WAIT_PACKAGE_OPTION = "appWaitPackage";
 
     /**

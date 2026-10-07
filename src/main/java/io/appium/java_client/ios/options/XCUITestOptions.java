@@ -232,15 +232,26 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsShowIosLogOption<XCUITestOptions>,
         SupportsClearSystemFilesOption<XCUITestOptions> {
 
+    /** Creates options with the default capabilities set. */
     public XCUITestOptions() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities.
+     *
+     * @param source The capabilities to copy.
+     */
     public XCUITestOptions(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities map.
+     *
+     * @param source The capabilities to copy.
+     */
     public XCUITestOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();

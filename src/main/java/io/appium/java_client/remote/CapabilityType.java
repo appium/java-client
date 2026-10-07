@@ -20,7 +20,9 @@ package io.appium.java_client.remote;
  * The names of the standard W3C capabilities that java-client refers to.
  */
 public final class CapabilityType {
+    /** The name of the browser, as defined by W3C. */
     public static final String BROWSER_NAME = "browserName";
+    /** The name of the platform, as defined by W3C. */
     public static final String PLATFORM_NAME = "platformName";
 
     private CapabilityType() {

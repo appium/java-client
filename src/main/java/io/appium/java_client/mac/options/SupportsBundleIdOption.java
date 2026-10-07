@@ -22,8 +22,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code bundleId} capability: the bundle identifier of the application under test.
+ */
 public interface SupportsBundleIdOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code bundleId} capability.
+     */
     String BUNDLE_ID_OPTION = "bundleId";
 
     /**

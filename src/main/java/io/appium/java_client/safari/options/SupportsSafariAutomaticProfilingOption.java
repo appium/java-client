@@ -24,8 +24,15 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code safari:automaticProfiling} capability: whether the Web Inspector timeline profiling is
+ * started automatically.
+ */
 public interface SupportsSafariAutomaticProfilingOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safari:automaticProfiling} capability.
+     */
     String SAFARI_AUTOMATIC_PROFILING_OPTION = "safari:automaticProfiling";
 
     /**

@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code appPushTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAppPushTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appPushTimeout} capability.
+     */
     String APP_PUSH_TIMEOUT_OPTION = "appPushTimeout";
 
     /**

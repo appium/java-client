@@ -26,6 +26,9 @@ import java.util.stream.Collectors;
 import static io.appium.java_client.MobileCommand.getSettingsCommand;
 import static io.appium.java_client.MobileCommand.setSettingsCommand;
 
+/**
+ * The interface for the drivers that can read and change the Appium settings of the session.
+ */
 public interface HasSettings extends ExecutesMethod {
 
     /**

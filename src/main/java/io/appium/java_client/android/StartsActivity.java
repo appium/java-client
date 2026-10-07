@@ -20,6 +20,7 @@ import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
 import org.jspecify.annotations.Nullable;
 
+/** Provides information about the current activity and package. */
 public interface StartsActivity extends ExecutesMethod {
     /**
      * Get the current activity being run on the mobile device.

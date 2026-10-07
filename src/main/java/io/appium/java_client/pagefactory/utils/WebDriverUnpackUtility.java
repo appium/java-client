@@ -32,6 +32,9 @@ import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Locale.ROOT;
 
+/**
+ * Utilities to unpack drivers and related objects from a {@link SearchContext}.
+ */
 public final class WebDriverUnpackUtility {
     private WebDriverUnpackUtility() {
     }
@@ -40,6 +43,7 @@ public final class WebDriverUnpackUtility {
      * This method extracts an instance of the given interface from the given {@link SearchContext}.
      * It is expected that the {@link SearchContext} itself or the object it wraps implements it.
      *
+     * @param <T> the type of the object to extract
      * @param searchContext is an instance of {@link SearchContext}. It may be the instance of
      *                {@link WebDriver} or {@link org.openqa.selenium.WebElement} or some other
      *                user's extension/implementation.

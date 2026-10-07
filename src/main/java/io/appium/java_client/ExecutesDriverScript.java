@@ -27,6 +27,9 @@ import java.util.Map;
 import static io.appium.java_client.MobileCommand.EXECUTE_DRIVER_SCRIPT;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * The interface for the drivers that can execute driver scripts on the server side.
+ */
 public interface ExecutesDriverScript extends ExecutesMethod {
 
     /**

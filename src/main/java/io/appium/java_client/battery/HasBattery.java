@@ -18,6 +18,11 @@ package io.appium.java_client.battery;
 
 import io.appium.java_client.ExecutesMethod;
 
+/**
+ * Provides access to the battery information of the device under test.
+ *
+ * @param <T> the platform-specific {@link BatteryInfo} type
+ */
 public interface HasBattery<T extends BatteryInfo> extends ExecutesMethod {
 
     /**

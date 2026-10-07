@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code uninstallOtherPackages} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsUninstallOtherPackagesOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code uninstallOtherPackages} capability.
+     */
     String UNINSTALL_OTHER_PACKAGES_OPTION = "uninstallOtherPackages";
 
     /**

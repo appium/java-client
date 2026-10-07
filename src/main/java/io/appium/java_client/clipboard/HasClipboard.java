@@ -26,6 +26,9 @@ import java.util.Map;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Provides access to the clipboard of the device under test.
+ */
 public interface HasClipboard extends ExecutesMethod {
     /**
      * Set the content of device's clipboard.

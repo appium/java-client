@@ -26,6 +26,9 @@ import java.util.Map;
 import static io.appium.java_client.MobileCommand.EXECUTE_GOOGLE_CDP_COMMAND;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * The interface for the drivers that can execute Chrome DevTools Protocol commands.
+ */
 public interface ExecuteCDPCommand extends ExecutesMethod {
 
     /**

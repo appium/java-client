@@ -16,6 +16,12 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
+/** Defines how a group of locator annotations is used. */
 public enum HowToUseSelectors {
-    USE_ONE, BUILD_CHAINED, USE_ANY
+    /** Only the first annotation is used. */
+    USE_ONE,
+    /** The annotations are applied one after another as a chain. */
+    BUILD_CHAINED,
+    /** Any of the annotations may match. */
+    USE_ANY
 }

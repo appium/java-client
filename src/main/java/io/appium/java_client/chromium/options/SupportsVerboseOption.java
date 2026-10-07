@@ -24,8 +24,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code verbose} capability: whether verbose driver logging is enabled.
+ */
 public interface SupportsVerboseOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code verbose} capability.
+     */
     String VERBOSE = "verbose";
 
     /**

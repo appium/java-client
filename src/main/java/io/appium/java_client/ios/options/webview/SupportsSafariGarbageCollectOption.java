@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code safariGarbageCollect} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariGarbageCollectOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariGarbageCollect} capability.
+     */
     String SAFARI_GARBAGE_COLLECT_OPTION = "safariGarbageCollect";
 
     /**

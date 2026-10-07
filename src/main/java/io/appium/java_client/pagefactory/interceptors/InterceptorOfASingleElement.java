@@ -29,10 +29,18 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
+/** Base class of interceptors of method calls on a single element. */
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
+    /** The locator used to find the element. */
     protected final ElementLocator locator;
     private final WeakReference<WebDriver> driverReference;
 
+    /**
+     * Creates a new interceptor.
+     *
+     * @param locator the locator of the element
+     * @param driverReference the reference to the driver
+     */
     public InterceptorOfASingleElement(
             @Nullable ElementLocator locator,
             WeakReference<WebDriver> driverReference
@@ -41,6 +49,15 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
         this.driverReference = driverReference;
     }
 
+    /**
+     * Handles the intercepted method call.
+     *
+     * @param element the found element
+     * @param method the intercepted method
+     * @param args the method arguments
+     * @return the call result
+     * @throws Throwable if the call fails
+     */
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
     private static boolean areElementsEqual(Object we1, Object we2) {

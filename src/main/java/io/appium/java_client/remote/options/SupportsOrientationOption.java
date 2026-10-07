@@ -23,8 +23,14 @@ import java.util.Optional;
 
 import static java.util.Locale.ROOT;
 
+/**
+ * Support for the {@code orientation} capability: the screen orientation.
+ */
 public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code orientation} capability.
+     */
     String ORIENTATION_OPTION = "orientation";
 
     /**

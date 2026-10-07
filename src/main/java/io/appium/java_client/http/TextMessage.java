@@ -18,13 +18,26 @@ package io.appium.java_client.http;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * A text WebSocket message.
+ */
 public class TextMessage implements Message {
     private final String text;
 
+    /**
+     * Creates a message with the given text.
+     *
+     * @param text the message text
+     */
     public TextMessage(CharSequence text) {
         this.text = requireNonNull(text, "Message text").toString();
     }
 
+    /**
+     * Returns the message text.
+     *
+     * @return the text
+     */
     public String text() {
         return text;
     }

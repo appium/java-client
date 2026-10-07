@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code useJSONSource} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsUseJsonSourceOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code useJSONSource} capability.
+     */
     String USE_JSON_SOURCE_OPTION = "useJSONSource";
 
     /**

@@ -30,6 +30,11 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
  */
 public class ElementListInterceptor extends InterceptorOfAListOfElements {
 
+    /**
+     * Creates a new interceptor.
+     *
+     * @param locator the locator of the elements
+     */
     public ElementListInterceptor(ElementLocator locator) {
         super(locator);
     }

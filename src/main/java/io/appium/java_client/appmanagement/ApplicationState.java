@@ -18,9 +18,20 @@ package io.appium.java_client.appmanagement;
 
 import java.util.Arrays;
 
+/**
+ * Possible states of an application on the device under test.
+ */
 public enum ApplicationState {
-    NOT_INSTALLED, NOT_RUNNING, RUNNING_IN_BACKGROUND_SUSPENDED,
-    RUNNING_IN_BACKGROUND, RUNNING_IN_FOREGROUND;
+    /** The application is not installed. */
+    NOT_INSTALLED,
+    /** The application is installed, but not running. */
+    NOT_RUNNING,
+    /** The application is running in the background and is suspended. */
+    RUNNING_IN_BACKGROUND_SUSPENDED,
+    /** The application is running in the background. */
+    RUNNING_IN_BACKGROUND,
+    /** The application is running in the foreground. */
+    RUNNING_IN_FOREGROUND;
 
     /**
      * Creates {@link ApplicationState} instance based on the code.

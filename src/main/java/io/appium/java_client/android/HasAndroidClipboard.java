@@ -27,6 +27,7 @@ import java.util.Map;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
+/** Provides access to the clipboard of an Android device. */
 public interface HasAndroidClipboard extends HasClipboard {
     /**
      * Set the content of device's clipboard.

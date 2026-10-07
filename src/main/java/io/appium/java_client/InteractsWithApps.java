@@ -31,6 +31,9 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/**
+ * The interface for the drivers that can install, launch and manage the apps on the device.
+ */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public interface InteractsWithApps extends ExecutesMethod {
 

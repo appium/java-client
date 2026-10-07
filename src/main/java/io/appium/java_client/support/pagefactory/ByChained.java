@@ -38,8 +38,14 @@ import java.util.stream.Stream;
 public class ByChained extends By implements Serializable {
     private static final long serialVersionUID = 1563769051170172451L;
 
+    /** The locators of the chain. */
     private final By[] bys;
 
+    /**
+     * Creates a locator that applies the given locators one after another.
+     *
+     * @param bys the locators of the chain
+     */
     public ByChained(By... bys) {
         this.bys = bys;
     }

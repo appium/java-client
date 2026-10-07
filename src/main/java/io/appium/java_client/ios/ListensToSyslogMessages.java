@@ -29,8 +29,14 @@ import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
 
+/** Provides the ability to listen to syslog messages broadcast by the Appium server via web socket. */
 public interface ListensToSyslogMessages extends ExecutesMethod {
 
+    /**
+     * Returns the web socket client used to receive syslog messages.
+     *
+     * @return the syslog web socket client
+     */
     StringWebSocketClient getSyslogClient();
 
     /**

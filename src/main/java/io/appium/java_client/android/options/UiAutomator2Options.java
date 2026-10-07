@@ -207,15 +207,30 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsDisableSuppressAccessibilityServiceOption<UiAutomator2Options>,
         SupportsUserProfileOption<UiAutomator2Options>,
         SupportsSkipLogCaptureOption<UiAutomator2Options> {
+    /**
+     * Creates options with the default platform and automation names set.
+     */
     public UiAutomator2Options() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options with the default platform and automation names set,
+     * and copies the capabilities from the given source.
+     *
+     * @param source Capabilities to copy.
+     */
     public UiAutomator2Options(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options with the default platform and automation names set,
+     * and copies the capabilities from the given map.
+     *
+     * @param source Capabilities map to copy.
+     */
     public UiAutomator2Options(Map<String, ?> source) {
         super(source);
         setCommonOptions();

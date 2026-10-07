@@ -18,13 +18,27 @@ package io.appium.java_client;
 
 import org.openqa.selenium.NotFoundException;
 
+/**
+ * Thrown when the requested context does not exist.
+ */
 @SuppressWarnings("serial")
 public class NoSuchContextException extends NotFoundException {
 
+    /**
+     * Creates a new exception with the given reason.
+     *
+     * @param reason the reason of the failure
+     */
     public NoSuchContextException(String reason) {
         super(reason);
     }
 
+    /**
+     * Creates a new exception with the given reason and cause.
+     *
+     * @param reason the reason of the failure
+     * @param cause the cause of the failure
+     */
     public NoSuchContextException(String reason, Throwable cause) {
         super(reason, cause);
     }

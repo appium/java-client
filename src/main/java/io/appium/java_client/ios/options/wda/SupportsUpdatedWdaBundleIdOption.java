@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code updatedWDABundleId} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsUpdatedWdaBundleIdOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code updatedWDABundleId} capability.
+     */
     String UPDATED_WDA_BUNDLE_ID_OPTION = "updatedWDABundleId";
 
     /**

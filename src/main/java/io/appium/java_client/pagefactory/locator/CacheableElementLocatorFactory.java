@@ -21,9 +21,16 @@ import io.appium.java_client.support.pagefactory.ElementLocatorFactory;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
+/** Factory of locators whose lookup results may be cached. */
 public interface CacheableElementLocatorFactory extends ElementLocatorFactory {
 
     CacheableLocator createLocator(Field field);
 
+    /**
+     * Creates a locator for the given annotated element.
+     *
+     * @param annotatedElement the element annotated with locator annotations
+     * @return the locator or null if the element has no locator annotations
+     */
     CacheableLocator createLocator(AnnotatedElement annotatedElement);
 }

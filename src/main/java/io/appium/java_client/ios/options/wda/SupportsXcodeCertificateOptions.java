@@ -22,10 +22,24 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code xcodeOrgId} and {@code xcodeSigningId} capabilities.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsXcodeCertificateOptions<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code xcodeOrgId} capability.
+     */
     String XCODE_ORG_ID_OPTION = "xcodeOrgId";
+    /**
+     * Name of the {@code xcodeSigningId} capability.
+     */
     String XCODE_SIGNING_ID_OPTION = "xcodeSigningId";
+    /**
+     * Default signing identity used if none is provided.
+     */
     String DEFAULT_XCODE_SIGNING_ID = "iPhone Developer";
 
     /**

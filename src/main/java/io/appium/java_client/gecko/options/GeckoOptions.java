@@ -49,15 +49,26 @@ public class GeckoOptions extends BaseOptions<GeckoOptions> implements
         SupportsSetWindowRectOption<GeckoOptions>,
         SupportsProxyOption<GeckoOptions>,
         SupportsUnhandledPromptBehaviorOption<GeckoOptions> {
+    /** Creates options with the default capabilities set. */
     public GeckoOptions() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities.
+     *
+     * @param source The capabilities to copy.
+     */
     public GeckoOptions(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities map.
+     *
+     * @param source The capabilities to copy.
+     */
     public GeckoOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();

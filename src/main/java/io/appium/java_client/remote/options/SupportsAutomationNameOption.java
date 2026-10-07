@@ -20,8 +20,14 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code automationName} capability: the automation backend (driver) name.
+ */
 public interface SupportsAutomationNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code automationName} capability.
+     */
     String AUTOMATION_NAME_OPTION = "automationName";
 
     /**

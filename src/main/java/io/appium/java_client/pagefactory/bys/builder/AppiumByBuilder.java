@@ -45,6 +45,7 @@ import static io.appium.java_client.remote.MobilePlatform.WINDOWS;
  * - <a href="https://github.com/SeleniumHQ/selenium/wiki/PageFactory">Selenium Page Factory</a>
  */
 public abstract class AppiumByBuilder extends AbstractAnnotations {
+    /** The empty argument types of annotation methods. */
     protected static final Class<?>[] DEFAULT_ANNOTATION_METHOD_ARGUMENTS = new Class<?>[]{};
 
     private static final List<String> METHODS_TO_BE_EXCLUDED_WHEN_ANNOTATION_IS_READ = new ArrayList<String>() {
@@ -58,10 +59,19 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
                     .forEach(this::add);
         }
     };
+    /** Holder of the annotated element to build the locator for. */
     protected final AnnotatedElementContainer annotatedElementContainer;
+    /** The name of the current platform. */
     protected final String platform;
+    /** The name of the current automation. */
     protected final String automation;
 
+    /**
+     * Creates a new builder.
+     *
+     * @param platform the name of the current platform
+     * @param automation the name of the current automation
+     */
     protected AppiumByBuilder(String platform, String automation) {
         this.annotatedElementContainer = new AnnotatedElementContainer();
         this.platform = String.valueOf(platform);
@@ -130,6 +140,13 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         }
     }
 
+    /**
+     * Builds a locator from the given annotations.
+     *
+     * @param annotations the locator annotations
+     * @param howToUseLocators defines how to combine the annotations
+     * @return the locator or null if there are no annotations
+     */
     @Nullable
     protected static By createBy(Annotation[] annotations, HowToUseSelectors howToUseLocators) {
         if (annotations == null || annotations.length == 0) {
@@ -164,22 +181,47 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
         this.annotatedElementContainer.setAnnotated(annotated);
     }
 
+    /**
+     * Checks whether the current platform is Android.
+     *
+     * @return true if the platform is Android
+     */
     protected boolean isAndroid() {
         return ANDROID.equalsIgnoreCase(platform);
     }
 
+    /**
+     * Checks whether the current platform is iOS.
+     *
+     * @return true if the platform is iOS
+     */
     protected boolean isIOS() {
         return IOS.equalsIgnoreCase(platform);
     }
 
+    /**
+     * Checks whether the current platform is tvOS.
+     *
+     * @return true if the platform is tvOS
+     */
     protected boolean isTvOS() {
         return TVOS.equalsIgnoreCase(platform);
     }
 
+    /**
+     * Checks whether the current platform is iOS and the automation is XCUITest.
+     *
+     * @return true if the platform is iOS and the automation is XCUITest
+     */
     protected boolean isIOSXcuit() {
         return isIOS() && IOS_XCUI_TEST.equalsIgnoreCase(automation);
     }
 
+    /**
+     * Checks whether the current platform is Windows.
+     *
+     * @return true if the platform is Windows
+     */
     protected boolean isWindows() {
         return WINDOWS.equalsIgnoreCase(platform);
     }
@@ -196,9 +238,20 @@ public abstract class AppiumByBuilder extends AbstractAnnotations {
      */
     public abstract boolean isLookupCached();
 
+    /**
+     * Builds the locator for the default (HTML or web) content.
+     *
+     * @return the locator or null if it is not defined
+     */
     protected abstract By buildDefaultBy();
 
+    /**
+     * Builds the locator for the native mobile content.
+     *
+     * @return the locator or null if it is not defined
+     */
     protected abstract By buildMobileNativeBy();
 
+    /** Verifies that the annotations of the annotated element are valid. */
     protected abstract void assertValidAnnotations();
 }

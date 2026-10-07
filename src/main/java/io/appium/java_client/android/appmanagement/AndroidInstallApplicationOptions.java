@@ -27,6 +27,7 @@ import static io.appium.java_client.internal.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/** Android-specific options for installing an application. */
 public class AndroidInstallApplicationOptions extends
         BaseInstallApplicationOptions<AndroidInstallApplicationOptions> {
     private Boolean replace;

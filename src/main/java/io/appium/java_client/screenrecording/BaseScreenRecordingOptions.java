@@ -21,6 +21,11 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/**
+ * Base class for the screen recording options.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseScreenRecordingOptions<T extends BaseScreenRecordingOptions<T>> {
     private ScreenRecordingUploadOptions uploadOptions;
 

@@ -18,17 +18,36 @@ package io.appium.java_client.http;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
+/**
+ * An HTTP response.
+ */
 public class HttpResponse extends HttpMessage<HttpResponse> {
     private int status = HTTP_OK;
 
+    /**
+     * Checks whether the status is in the 2xx range.
+     *
+     * @return true if the response is successful
+     */
     public boolean isSuccessful() {
         return status >= HTTP_OK && status < 300;
     }
 
+    /**
+     * Returns the HTTP status code.
+     *
+     * @return the status code
+     */
     public int getStatus() {
         return status;
     }
 
+    /**
+     * Sets the HTTP status code.
+     *
+     * @param status the status code
+     * @return this response
+     */
     public HttpResponse setStatus(int status) {
         this.status = status;
         return this;

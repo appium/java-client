@@ -32,6 +32,9 @@ import java.util.Map;
 
 import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 
+/**
+ * The base class of the locator strategies supported by Appium.
+ */
 @EqualsAndHashCode(callSuper = true)
 public abstract class AppiumBy extends By implements Remotable {
 
@@ -39,6 +42,13 @@ public abstract class AppiumBy extends By implements Remotable {
     private final Parameters remoteParameters;
     private final String locatorName;
 
+    /**
+     * Creates a new locator.
+     *
+     * @param selector the name of the locator strategy
+     * @param locatorString the locator value; must not be empty
+     * @param locatorName the name of the factory method, used in the string representation
+     */
     protected AppiumBy(String selector, String locatorString, String locatorName) {
         Preconditions.checkArgument(!isNullOrEmpty(locatorString), "Must supply a not empty locator value.");
         this.remoteParameters = new Parameters(selector, locatorString);
@@ -304,87 +314,205 @@ public abstract class AppiumBy extends By implements Remotable {
         return flutterAncestor(of, matching, false);
     }
 
+    /**
+     * Locates elements by their accessibility id.
+     */
     public static class ByAccessibilityId extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given accessibility id.
+         *
+         * @param accessibilityId the accessibility id
+         */
         public ByAccessibilityId(String accessibilityId) {
             super("accessibility id", accessibilityId, "accessibilityId");
         }
     }
 
+    /**
+     * Locates elements by an Espresso data matcher (Espresso driver only).
+     */
     public static class ByAndroidDataMatcher extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByAndroidDataMatcher(String locatorString) {
             super("-android datamatcher", locatorString, "androidDataMatcher");
         }
     }
 
+    /**
+     * Locates elements by an Android UIAutomator expression.
+     */
     public static class ByAndroidUIAutomator extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param uiautomatorText the UIAutomator expression
+         */
         public ByAndroidUIAutomator(String uiautomatorText) {
             super("-android uiautomator", uiautomatorText, "androidUIAutomator");
         }
     }
 
+    /**
+     * Locates elements by an Espresso view matcher (Espresso driver only).
+     */
     public static class ByAndroidViewMatcher extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByAndroidViewMatcher(String locatorString) {
             super("-android viewmatcher", locatorString, "androidViewMatcher");
         }
     }
 
+    /**
+     * Locates elements by an Android view tag (Espresso driver only).
+     */
     public static class ByAndroidViewTag extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given tag.
+         *
+         * @param tag the view tag
+         */
         public ByAndroidViewTag(String tag) {
             super("-android viewtag", tag, "androidViewTag");
         }
     }
 
+    /**
+     * Locates elements by the id (the name on iOS, the resource id on Android).
+     */
     public static class ById extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given id.
+         *
+         * @param selector the element id
+         */
         protected ById(String selector) {
             super("id", selector, "id");
         }
     }
 
+    /**
+     * Locates elements by the name.
+     */
     public static class ByName extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given name.
+         *
+         * @param selector the element name
+         */
         protected ByName(String selector) {
             super("name", selector, "name");
         }
     }
 
+    /**
+     * Locates elements by the class name.
+     */
     public static class ByClassName extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given class name.
+         *
+         * @param selector the class name
+         */
         protected ByClassName(String selector) {
             super("class name", selector, "className");
         }
     }
 
+    /**
+     * Locates elements using a custom element finding plugin.
+     */
     public static class ByCustom extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given selector.
+         *
+         * @param selector the selector to pass to the plugin
+         */
         protected ByCustom(String selector) {
             super("-custom", selector, "custom");
         }
     }
 
+    /**
+     * Locates elements by an image template.
+     */
     public static class ByImage extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given template.
+         *
+         * @param b64Template the base64-encoded template image
+         */
         protected ByImage(String b64Template) {
             super("-image", b64Template, "image");
         }
     }
 
+    /**
+     * Locates elements by an iOS class chain (XCUITest driver only).
+     */
     public static class ByIosClassChain extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByIosClassChain(String locatorString) {
             super("-ios class chain", locatorString, "iOSClassChain");
         }
     }
 
+    /**
+     * Locates elements by an iOS NSPredicate string (XCUITest driver only).
+     */
     public static class ByIosNsPredicate extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByIosNsPredicate(String locatorString) {
             super("-ios predicate string", locatorString, "iOSNsPredicate");
         }
     }
 
+    /**
+     * The base class of the locator strategies of the Flutter integration driver.
+     */
     public abstract static class FlutterBy extends AppiumBy {
+        /**
+         * Creates a new Flutter locator.
+         *
+         * @param selector the name of the locator strategy
+         * @param locatorString the locator value
+         * @param locatorName the name of the factory method, used in the string representation
+         */
         protected FlutterBy(String selector, String locatorString, String locatorName) {
             super(selector, locatorString, locatorName);
         }
     }
 
+    /**
+     * The base class of the Flutter locators that combine two other Flutter locators.
+     */
     public abstract static class FlutterByHierarchy extends FlutterBy {
         private static final Gson GSON = new Gson();
 
+        /**
+         * Creates a new hierarchical Flutter locator.
+         *
+         * @param selector the name of the locator strategy
+         * @param of the base widget locator
+         * @param matching the related widget locator to match
+         * @param properties the additional locator parameters
+         * @param locatorName the name of the factory method, used in the string representation
+         */
         protected FlutterByHierarchy(
                 String selector,
                 FlutterBy of,
@@ -408,37 +536,88 @@ public abstract class AppiumBy extends By implements Remotable {
         }
     }
 
+    /**
+     * Locates Flutter widgets by their type.
+     */
     public static class ByFlutterType extends FlutterBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByFlutterType(String locatorString) {
             super("-flutter type", locatorString, "flutterType");
         }
     }
 
+    /**
+     * Locates Flutter widgets by the value of their key.
+     */
     public static class ByFlutterKey extends FlutterBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByFlutterKey(String locatorString) {
             super("-flutter key", locatorString, "flutterKey");
         }
     }
 
+    /**
+     * Locates Flutter widgets by their semantics label.
+     */
     public static class ByFlutterSemanticsLabel extends FlutterBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByFlutterSemanticsLabel(String locatorString) {
             super("-flutter semantics label", locatorString, "flutterSemanticsLabel");
         }
     }
 
+    /**
+     * Locates Flutter widgets by their text.
+     */
     public static class ByFlutterText extends FlutterBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByFlutterText(String locatorString) {
             super("-flutter text", locatorString, "flutterText");
         }
     }
 
+    /**
+     * Locates Flutter widgets by a part of their text.
+     */
     public static class ByFlutterTextContaining extends FlutterBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
         protected ByFlutterTextContaining(String locatorString) {
             super("-flutter text containing", locatorString, "flutterTextContaining");
         }
     }
 
+    /**
+     * Locates Flutter widgets that are descendants of another widget.
+     */
     public static class ByFlutterDescendant extends FlutterByHierarchy implements Serializable {
+        /**
+         * Creates a new instance for the given locators.
+         *
+         * @param of the parent widget locator
+         * @param matching the descendant widget locator to match
+         * @param matchRoot whether to include the root widget in the search
+         * @param skipOffstage whether to skip offstage widgets
+         */
         protected ByFlutterDescendant(FlutterBy of, FlutterBy matching, boolean matchRoot, boolean skipOffstage) {
             super(
                     "-flutter descendant",
@@ -448,7 +627,17 @@ public abstract class AppiumBy extends By implements Remotable {
         }
     }
 
+    /**
+     * Locates Flutter widgets that are ancestors of another widget.
+     */
     public static class ByFlutterAncestor extends FlutterByHierarchy implements Serializable {
+        /**
+         * Creates a new instance for the given locators.
+         *
+         * @param of the child widget locator
+         * @param matching the ancestor widget locator to match
+         * @param matchRoot whether to include the root widget in the search
+         */
         protected ByFlutterAncestor(FlutterBy of, FlutterBy matching, boolean matchRoot) {
             super(
                     "-flutter ancestor",

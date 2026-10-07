@@ -10,7 +10,11 @@ import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * The interface for the drivers that can check whether they are in a web browser context.
+ */
 public interface HasBrowserCheck extends ExecutesMethod, HasCapabilities {
+    /** The name of the native app context. */
     String NATIVE_CONTEXT = "NATIVE_APP";
 
     /**

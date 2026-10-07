@@ -5,6 +5,9 @@ import org.openqa.selenium.By;
 
 import java.util.Map;
 
+/**
+ * The base class of the parameters of the Flutter integration driver commands.
+ */
 public abstract class FlutterCommandParameter {
 
     /**
@@ -21,5 +24,10 @@ public abstract class FlutterCommandParameter {
         );
     }
 
+    /**
+     * Converts the parameters to the format expected by the Flutter integration driver.
+     *
+     * @return the command arguments
+     */
     public abstract Map<String, Object> toJson();
 }

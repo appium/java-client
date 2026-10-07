@@ -25,8 +25,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
+/**
+ * Support for the {@code ms:waitForAppLaunch} capability: the time to wait for the application to launch.
+ */
 public interface SupportsMsWaitForAppLaunchOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code ms:waitForAppLaunch} capability.
+     */
     String MS_WAIT_FOR_APP_LAUNCH_OPTION = "ms:waitForAppLaunch";
 
     /**

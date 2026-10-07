@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The parameters of the Flutter scroll command.
+ */
 @Accessors(chain = true)
 @Getter
 @Setter
@@ -70,11 +73,18 @@ public class ScrollParameter extends FlutterCommandParameter {
         return Collections.unmodifiableMap(params);
     }
 
+    /**
+     * The direction of the scroll.
+     */
     @Getter
     public static enum ScrollDirection {
+        /** Scroll up. */
         UP("up"),
+        /** Scroll to the right. */
         RIGHT("right"),
+        /** Scroll down. */
         DOWN("down"),
+        /** Scroll to the left. */
         LEFT("left");
 
         private final String direction;

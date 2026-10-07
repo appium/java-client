@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code allowProvisioningDeviceRegistration} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAllowProvisioningDeviceRegistrationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code allowProvisioningDeviceRegistration} capability.
+     */
     String ALLOW_PROVISIONING_DEVICE_REGISTRATION_OPTION = "allowProvisioningDeviceRegistration";
 
     /**

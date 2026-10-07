@@ -29,7 +29,13 @@ import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
 
+/** Provides listening to logcat messages broadcast via web socket. */
 public interface ListensToLogcatMessages extends ExecutesMethod {
+    /**
+     * Gets the web socket client used for receiving logcat messages.
+     *
+     * @return the logcat web socket client.
+     */
     StringWebSocketClient getLogcatClient();
 
     /**

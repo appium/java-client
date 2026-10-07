@@ -23,8 +23,14 @@ import java.util.Optional;
 
 import static java.util.Locale.ROOT;
 
+/**
+ * Support for the {@code pageLoadStrategy} capability: the page load strategy.
+ */
 public interface SupportsPageLoadStrategyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code pageLoadStrategy} capability.
+     */
     String PAGE_LOAD_STRATEGY_OPTION = "pageLoadStrategy";
 
     /**

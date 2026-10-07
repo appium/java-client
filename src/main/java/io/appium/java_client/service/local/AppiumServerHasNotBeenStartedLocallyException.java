@@ -16,15 +16,34 @@
 
 package io.appium.java_client.service.local;
 
+/**
+ * Thrown if a local Appium server cannot be started.
+ */
 public class AppiumServerHasNotBeenStartedLocallyException extends RuntimeException {
+    /**
+     * Creates an exception with the given message and cause.
+     *
+     * @param message the detail message
+     * @param cause   the cause
+     */
     public AppiumServerHasNotBeenStartedLocallyException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Creates an exception with the given message.
+     *
+     * @param message the detail message
+     */
     public AppiumServerHasNotBeenStartedLocallyException(String message) {
         super(message);
     }
 
+    /**
+     * Creates an exception with the given cause.
+     *
+     * @param cause the cause
+     */
     public AppiumServerHasNotBeenStartedLocallyException(Throwable cause) {
         super(cause);
     }

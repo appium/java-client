@@ -23,6 +23,9 @@ import java.time.Duration;
  * Adapted from Selenium's {@code org.openqa.selenium.support.ui.Sleeper} (Apache License 2.0).
  */
 public interface Sleeper {
+    /**
+     * The sleeper based on {@link Thread#sleep(long)}.
+     */
     Sleeper SYSTEM_SLEEPER = duration -> Thread.sleep(duration.toMillis());
 
     /**

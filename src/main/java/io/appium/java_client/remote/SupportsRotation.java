@@ -26,6 +26,7 @@ import java.util.Map;
 
 import static java.util.Locale.ROOT;
 
+/** Provides access to the rotation and the orientation of the device. */
 public interface SupportsRotation extends WebDriver, ExecutesMethod {
     /**
      * Get device rotation.
@@ -38,10 +39,20 @@ public interface SupportsRotation extends WebDriver, ExecutesMethod {
         return new DeviceRotation((Map<String, Number>) response.getValue());
     }
 
+    /**
+     * Sets the device rotation.
+     *
+     * @param rotation the rotation to apply
+     */
     default void rotate(DeviceRotation rotation) {
         execute(MobileCommand.SET_SCREEN_ROTATION, rotation.parameters());
     }
 
+    /**
+     * Sets the device orientation.
+     *
+     * @param orientation the orientation to apply
+     */
     default void rotate(ScreenOrientation orientation) {
         execute(MobileCommand.SET_SCREEN_ORIENTATION,
                 Map.of("orientation", orientation.value().toUpperCase(ROOT)));

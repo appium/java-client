@@ -23,9 +23,17 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
+/**
+ * The {@link ExecuteMethod} implementation that executes the commands via an {@link AppiumDriver}.
+ */
 public class AppiumExecutionMethod implements ExecuteMethod {
     private final AppiumDriver driver;
 
+    /**
+     * Creates a new instance for the given driver.
+     *
+     * @param driver the driver instance
+     */
     public AppiumExecutionMethod(AppiumDriver driver) {
         this.driver = driver;
     }

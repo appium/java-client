@@ -18,10 +18,26 @@ package io.appium.java_client.http;
 
 import java.io.UncheckedIOException;
 
+/**
+ * Executes HTTP requests.
+ */
 @FunctionalInterface
 public interface HttpHandler {
+    /**
+     * Executes the request.
+     *
+     * @param req the request to send
+     * @return the response
+     * @throws UncheckedIOException if an I/O error occurs
+     */
     HttpResponse execute(HttpRequest req) throws UncheckedIOException;
 
+    /**
+     * Wraps this handler with the given filter.
+     *
+     * @param filter the filter to apply
+     * @return the filtered handler
+     */
     default HttpHandler with(Filter filter) {
         return filter.andFinally(this);
     }

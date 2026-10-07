@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 import static io.appium.java_client.MobileCommand.GET_EVENTS;
 import static io.appium.java_client.MobileCommand.LOG_EVENT;
 
+/**
+ * The interface for the drivers that can log and retrieve the server events.
+ */
 public interface LogsEvents extends ExecutesMethod {
 
     /**

@@ -8,8 +8,14 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * The interface for the options that set the Flutter server port.
+ *
+ * @param <T> the type of the options class, returned for chaining
+ */
 public interface SupportsFlutterSystemPortOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /** The name of the Flutter server port capability. */
     String FLUTTER_SYSTEM_PORT_OPTION = "flutterSystemPort";
 
     /**

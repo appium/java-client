@@ -6,6 +6,7 @@ import io.appium.java_client.ExecutesMethod;
 import java.util.List;
 import java.util.Map;
 
+/** Provides Android performance data retrieval. */
 public interface HasSupportedPerformanceDataType extends ExecutesMethod {
 
     /**
