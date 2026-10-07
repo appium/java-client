@@ -7,6 +7,13 @@
 This is the Java language bindings for writing Appium Tests that conform to [WebDriver Protocol](https://w3c.github.io/webdriver/)
 
 
+## v10 to v11 Migration
+
+Since v11 the client depends on `selenium-api` only, the minimum supported Selenium version is `4.50.0`, and the
+minimum supported Appium server version is 3.
+Follow the [v10 to v11 Migration Guide](./docs/v10-to-v11-migration-guide.md) to streamline the migration process,
+it includes an [OpenRewrite](https://docs.openrewrite.org) recipe that fixes most of the imports automatically.
+
 ## v9 to v10 Migration
 
 Follow the [v9 to v10 Migration Guide](./docs/v9-to-v10-migration-guide.md) to streamline the migration process.

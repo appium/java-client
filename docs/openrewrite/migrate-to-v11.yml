@@ -1,0 +1,216 @@
+# OpenRewrite recipes for the Appium Java client v10 -> v11 migration.
+# See docs/v10-to-v11-migration-guide.md for how to run them.
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.appium.java_client.MigrateToV11
+displayName: Migrate to Appium Java client 11
+description: >
+  Moves the types that the Appium Java client took over from selenium-remote-driver and selenium-http
+  to the Appium packages. Run it with the v10 client still on the classpath, then upgrade the dependency.
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.RemoteWebElement
+      newFullyQualifiedTypeName: io.appium.java_client.remote.AppiumWebElement
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.HttpCommandExecutor
+      newFullyQualifiedTypeName: io.appium.java_client.remote.AppiumCommandExecutor
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.CommandInfo
+      newFullyQualifiedTypeName: io.appium.java_client.AppiumCommandInfo
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: io.appium.java_client.functions.ExpectedCondition
+      newFullyQualifiedTypeName: org.openqa.selenium.support.ui.ExpectedCondition
+  - io.appium.java_client.MigrateToV11RemoteTypes
+  - io.appium.java_client.MigrateToV11HttpTypes
+  - io.appium.java_client.MigrateToV11PageFactoryEngine
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.appium.java_client.MigrateToV11RemoteTypes
+displayName: Move the org.openqa.selenium.remote types to io.appium.java_client.remote
+description: Session, command and error types of the remote package.
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.SessionId
+      newFullyQualifiedTypeName: io.appium.java_client.remote.SessionId
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.Response
+      newFullyQualifiedTypeName: io.appium.java_client.remote.Response
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.Command
+      newFullyQualifiedTypeName: io.appium.java_client.remote.Command
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.CommandPayload
+      newFullyQualifiedTypeName: io.appium.java_client.remote.CommandPayload
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.DriverCommand
+      newFullyQualifiedTypeName: io.appium.java_client.remote.DriverCommand
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.ExecuteMethod
+      newFullyQualifiedTypeName: io.appium.java_client.remote.ExecuteMethod
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.CommandExecutor
+      newFullyQualifiedTypeName: io.appium.java_client.remote.CommandExecutor
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.ErrorHandler
+      newFullyQualifiedTypeName: io.appium.java_client.remote.ErrorHandler
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.ErrorCodes
+      newFullyQualifiedTypeName: io.appium.java_client.remote.ErrorCodes
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.ScreenshotException
+      newFullyQualifiedTypeName: io.appium.java_client.remote.ScreenshotException
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.UnreachableBrowserException
+      newFullyQualifiedTypeName: io.appium.java_client.remote.UnreachableBrowserException
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.CapabilityType
+      newFullyQualifiedTypeName: io.appium.java_client.remote.CapabilityType
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.appium.java_client.MigrateToV11HttpTypes
+displayName: Move the org.openqa.selenium.remote.http types to io.appium.java_client.http
+description: The HTTP client SPI that the Appium drivers use.
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.ClientConfig
+      newFullyQualifiedTypeName: io.appium.java_client.http.ClientConfig
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpClient
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpClient
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpRequest
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpRequest
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpResponse
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpResponse
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpMethod
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpMethod
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpHandler
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpHandler
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpHeader
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpHeader
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.HttpMessage
+      newFullyQualifiedTypeName: io.appium.java_client.http.HttpMessage
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.Filter
+      newFullyQualifiedTypeName: io.appium.java_client.http.Filter
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.Contents
+      newFullyQualifiedTypeName: io.appium.java_client.http.Contents
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.WebSocket
+      newFullyQualifiedTypeName: io.appium.java_client.http.WebSocket
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.Message
+      newFullyQualifiedTypeName: io.appium.java_client.http.Message
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.TextMessage
+      newFullyQualifiedTypeName: io.appium.java_client.http.TextMessage
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.BinaryMessage
+      newFullyQualifiedTypeName: io.appium.java_client.http.BinaryMessage
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.CloseMessage
+      newFullyQualifiedTypeName: io.appium.java_client.http.CloseMessage
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.remote.http.ConnectionFailedException
+      newFullyQualifiedTypeName: io.appium.java_client.http.ConnectionFailedException
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.appium.java_client.MigrateToV11PageFactoryEngine
+displayName: Move the page factory extension points to io.appium.java_client.support
+description: >
+  The types that custom element locators and decorators extend or implement, and the PageFactory
+  that accepts the Appium field decorators.
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.PageFactory
+      newFullyQualifiedTypeName: io.appium.java_client.support.PageFactory
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.ElementLocator
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.ElementLocator
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.ElementLocatorFactory
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.ElementLocatorFactory
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.FieldDecorator
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.FieldDecorator
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.DefaultFieldDecorator
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.DefaultFieldDecorator
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.AbstractAnnotations
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.AbstractAnnotations
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.ByAll
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.ByAll
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.appium.java_client.MigrateToV11PageObjectAnnotations
+displayName: Use the Appium page object annotations
+description: >
+  Optional. The Selenium annotations keep working with the Appium decorators while selenium-support is
+  available, but they are not seen by the Selenium PageFactory once replaced. Do not run it on the code
+  that also initializes page objects with the Selenium PageFactory.
+recipeList:
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.FindBy
+      newFullyQualifiedTypeName: io.appium.java_client.support.FindBy
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.FindBys
+      newFullyQualifiedTypeName: io.appium.java_client.support.FindBys
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.FindAll
+      newFullyQualifiedTypeName: io.appium.java_client.support.FindAll
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.CacheLookup
+      newFullyQualifiedTypeName: io.appium.java_client.support.CacheLookup
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.How
+      newFullyQualifiedTypeName: io.appium.java_client.support.How
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: io.appium.java_client.FindV11Breakages
+displayName: Mark the code that needs a manual change for Appium Java client 11
+description: >
+  Marks the usages of the types that have no automatic replacement with a /*~~> comment.
+  Run it with the v10 client still on the classpath and search for the markers afterwards.
+recipeList:
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.openqa.selenium.remote.RemoteWebDriver
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.openqa.selenium.bidi.HasBiDi
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.openqa.selenium.bidi.BiDi
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.TouchAction
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.MultiTouchAction
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.PerformsTouchActions
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.android.AndroidTouchAction
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.ios.IOSTouchAction
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.touch..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.ios.touch..*
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: org.openqa.selenium.remote.service.DriverService
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.remote.AppiumProtocolHandshake
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.functions.ActionSupplier
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.functions.AppiumFunction
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.android.AndroidMobileCommandHelper
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.ios.IOSMobileCommandHelper
+  - org.openrewrite.java.search.FindTypes:
+      fullyQualifiedTypeName: io.appium.java_client.CanRememberExtensionPresence
