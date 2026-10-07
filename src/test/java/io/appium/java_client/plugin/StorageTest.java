@@ -90,6 +90,58 @@ public class StorageTest {
         assertItemsCount(0);
     }
 
+    @Test
+    void shouldUseTheServerBasePath() throws IOException {
+        assertBasicActionsWork(new FakeStorageServer("/wd/hub", true, "/appium/storage"));
+    }
+
+    @Test
+    void shouldFallBackToTheServerRootIfTheBasePathIsIgnored() throws IOException {
+        assertBasicActionsWork(new FakeStorageServer("/wd/hub", false, "/appium/storage"));
+    }
+
+    @Test
+    void shouldFallBackToTheLegacyPrefix() throws IOException {
+        assertBasicActionsWork(new FakeStorageServer("", false, "/storage"));
+    }
+
+    @Test
+    void shouldFallBackToTheLegacyPrefixAtTheServerRoot() throws IOException {
+        assertBasicActionsWork(new FakeStorageServer("/wd/hub", false, "/storage"));
+    }
+
+    @Test
+    void shouldRememberTheRouteOnlyAfterASuccessfulResponse() throws IOException {
+        try (var customServer = new FakeStorageServer("/wd/hub", false, "/storage")) {
+            var client = new StorageClient(customServer.url());
+            // 3 unserved layouts answer with 404, the 4th one fails
+            customServer.failWith(500);
+            assertThrows(WebDriverException.class, client::list);
+            assertEquals(4, customServer.requestCount());
+            // the failed route is not remembered, so the probing starts over
+            customServer.failWith(0);
+            assertTrue(client.list().isEmpty());
+            assertEquals(8, customServer.requestCount());
+            // the successful route is remembered
+            assertTrue(client.list().isEmpty());
+            assertEquals(9, customServer.requestCount());
+        }
+    }
+
+    private void assertBasicActionsWork(FakeStorageServer customServer) throws IOException {
+        try (customServer) {
+            var client = new StorageClient(customServer.url());
+            var testFile = TestUtils.resourcePathToAbsolutePath("html/" + NAME).toFile();
+            assertTrue(client.list().isEmpty());
+            client.add(testFile);
+            assertEquals(NAME, client.list().get(0).getName());
+            assertArrayEquals(Files.readAllBytes(testFile.toPath()), customServer.content(NAME));
+            assertTrue(client.delete(NAME));
+            client.reset();
+            assertTrue(client.list().isEmpty());
+        }
+    }
+
     private void assertItemsCount(int expected) {
         assertEquals(expected, storageClient.list().size());
     }

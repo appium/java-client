@@ -32,6 +32,7 @@ import org.openqa.selenium.WebDriverException;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,6 +45,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.appium.java_client.plugins.storage.StorageUtils.calcSha1Digest;
 import static io.appium.java_client.plugins.storage.StorageUtils.streamFileToWebSocket;
@@ -54,28 +56,40 @@ import static io.appium.java_client.plugins.storage.StorageUtils.streamFileToWeb
  * for more details.
  */
 public class StorageClient {
-    public static final String PREFIX = "/storage";
+    public static final String PREFIX = "/appium/storage";
+    private static final String LEGACY_PREFIX = "/storage";
     private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();
     private final Gson gson = new Gson();
     private final AppiumW3CHttpResponseCodec responseCodec = new AppiumW3CHttpResponseCodec();
 
     private final URL baseUrl;
     private final HttpClient httpClient;
+    // Candidate route roots, the most recent plugin layout first:
+    // v3+ mounts the routes under the server base path, v2 at the server root, <1.2.0 also under the legacy prefix
+    private final List<URL> routeRoots;
+    private volatile int routeRootIndex = 0;
 
     /**
      * Creates a client of the storage plugin.
      *
-     * @param baseUrl the address of the Appium server
+     * @param baseUrl the address of the Appium server, including the base path if there is one
      */
     public StorageClient(URL baseUrl) {
         this.baseUrl = baseUrl;
         this.httpClient = HttpClient.Factory.createDefault()
                 .createClient(AppiumClientConfig.defaultConfig().baseUrl(baseUrl));
+        this.routeRoots = buildRouteRoots(baseUrl);
     }
 
+    /**
+     * Creates a client of the storage plugin.
+     *
+     * @param clientConfig the client config, which base URL is the address of the Appium server
+     */
     public StorageClient(AppiumClientConfig clientConfig) {
         this.httpClient = HttpClient.Factory.createDefault().createClient(clientConfig);
         this.baseUrl = clientConfig.baseUrl();
+        this.routeRoots = buildRouteRoots(baseUrl);
     }
 
     /**
@@ -95,11 +109,10 @@ public class StorageClient {
      * @param name The remote file name.
      */
     public void add(File file, String name) {
-        var request = new HttpRequest(HttpMethod.POST, formatPath(baseUrl, PREFIX, "add").toString());
-        var httpResponse = httpClient.execute(setJsonPayload(request, Map.of(
+        var httpResponse = execute(HttpMethod.POST, "add", Map.of(
                 "name", name,
                 "sha1", calcSha1Digest(file)
-        )));
+        ));
         Map<String, Object> value = requireResponseValue(httpResponse);
         final var wsTtlMs = (Long) value.get("ttlMs");
         //noinspection unchecked
@@ -109,10 +122,10 @@ public class StorageClient {
         final var completion = new CountDownLatch(1);
         final var lastException = new AtomicReference<Throwable>(null);
         try (var streamWs = httpClient.openSocket(
-                new HttpRequest(HttpMethod.POST, formatPath(baseUrl, streamWsPathname).toString()),
+                new HttpRequest(HttpMethod.POST, withPath(baseUrl, streamWsPathname).toString()),
                 new WebSocket.Listener() {}
         ); var eventsWs = httpClient.openSocket(
-                new HttpRequest(HttpMethod.POST, formatPath(baseUrl, eventWsPathname).toString()),
+                new HttpRequest(HttpMethod.POST, withPath(baseUrl, eventWsPathname).toString()),
                 new EventWsListener(lastException, completion)
         )) {
             streamFileToWebSocket(file, streamWs);
@@ -138,8 +151,7 @@ public class StorageClient {
      * @return All storage items.
      */
     public List<StorageItem> list() {
-        var request = new HttpRequest(HttpMethod.GET, formatPath(baseUrl, PREFIX, "list").toString());
-        var httpResponse = httpClient.execute(request);
+        var httpResponse = execute(HttpMethod.GET, "list", null);
         List<Map<String, Object>> items = requireResponseValue(httpResponse);
         return items.stream().map(item -> new StorageItem(
                 (String) item.get("name"),
@@ -155,10 +167,9 @@ public class StorageClient {
      * @return true if the dletion was successful.
      */
     public boolean delete(String name) {
-        var request = new HttpRequest(HttpMethod.POST, formatPath(baseUrl, PREFIX, "delete").toString());
-        var httpResponse = httpClient.execute(setJsonPayload(request, Map.of(
+        var httpResponse = execute(HttpMethod.POST, "delete", Map.of(
                 "name", name
-        )));
+        ));
         return requireResponseValue(httpResponse);
     }
 
@@ -166,24 +177,49 @@ public class StorageClient {
      * Resets all items of the server storage.
      */
     public void reset() {
-        var request = new HttpRequest(HttpMethod.POST, formatPath(baseUrl, PREFIX, "reset").toString());
-        var httpResponse = httpClient.execute(request);
+        var httpResponse = execute(HttpMethod.POST, "reset", null);
         requireResponseValue(httpResponse);
     }
 
-    private static URL formatPath(URL url, String... suffixes) {
-        if (suffixes.length == 0) {
-            return url;
+    private static List<URL> buildRouteRoots(URL baseUrl) {
+        var serverRoots = baseUrl.getPath().replace("/", "").isEmpty()
+                ? List.of(baseUrl) : List.of(baseUrl, withPath(baseUrl, "/"));
+        return Stream.of(PREFIX, LEGACY_PREFIX)
+                .flatMap(prefix -> serverRoots.stream().map(root -> withPath(root, root.getPath() + prefix)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Executes the storage endpoint, trying the next route root on 404. Only a successful route is remembered.
+     */
+    private HttpResponse execute(HttpMethod method, String endpoint, Map<String, Object> payload) {
+        HttpResponse response = null;
+        for (int i = routeRootIndex; i < routeRoots.size(); i++) {
+            var root = routeRoots.get(i);
+            var request = new HttpRequest(method, withPath(root, root.getPath() + "/" + endpoint).toString());
+            response = httpClient.execute(payload == null ? request : setJsonPayload(request, payload));
+            if (response.getStatus() != HttpURLConnection.HTTP_NOT_FOUND) {
+                if (response.isSuccessful()) {
+                    routeRootIndex = i;
+                }
+                break;
+            }
         }
+        return response;
+    }
+
+    /**
+     * Replaces the path of the URL. The web socket paths reported by the plugin are always server-root-relative.
+     */
+    private static URL withPath(URL url, String path) {
         try {
             var uri = url.toURI();
-            var updatedPath = (uri.getPath() + "/" + String.join("/", suffixes)).replaceAll("(/{2,})", "/");
             return new URI(
                     uri.getScheme(),
-                    uri.getAuthority(),
+                    uri.getUserInfo(),
                     uri.getHost(),
                     uri.getPort(),
-                    updatedPath,
+                    ("/" + path).replaceAll("(/{2,})", "/"),
                     uri.getQuery(),
                     uri.getFragment()
             ).toURL();
