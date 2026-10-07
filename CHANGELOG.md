@@ -19,7 +19,6 @@ _11.0.0_
   - Support the base path and the new API prefix in the storage client [#2468](https://github.com/appium/java-client/pull/2468)
 - **[BUG FIX]**
   - Fall back to standard error mapping in `ErrorCodesMobile.getExceptionType(String)` [#2449](https://github.com/appium/java-client/pull/2449)
-  - Validate `RemoteWebElement` in `ElementOption.withElement` [#2441](https://github.com/appium/java-client/pull/2441)
   - Ensure additional commands get added to the attach-to-session constructor [#2431](https://github.com/appium/java-client/pull/2431)
   - Proxy abstract widget methods for platform overrides [#2451](https://github.com/appium/java-client/pull/2451)
   - Support Selenium-decorated page elements [#2452](https://github.com/appium/java-client/pull/2452)
@@ -28,7 +27,7 @@ _11.0.0_
   - Document the public API and fail the build on javadoc warnings [#2470](https://github.com/appium/java-client/pull/2470)
   - Clarify that `fingerPrint` id is the enrolled emulator id [#2442](https://github.com/appium/java-client/pull/2442)
 - **[DEPENDENCY CHANGE]**
-  - Bump org.apache.commons:commons-lang3 from `3.20.0` to `3.21.0` [#2465](https://github.com/appium/java-client/pull/2465)
+  - Bump org.slf4j:slf4j-api from `2.0.17` to `2.0.20` [#2417](https://github.com/appium/java-client/pull/2417), [#2445](https://github.com/appium/java-client/pull/2445), [#2453](https://github.com/appium/java-client/pull/2453)
   - Bump net.bytebuddy:byte-buddy from `1.18.8` to `1.18.14` [#2464](https://github.com/appium/java-client/pull/2464)
   - Bump com.google.code.gson:gson from `2.13.2` to `2.14.0` [#2413](https://github.com/appium/java-client/pull/2413)
   - Bump org.jspecify:jspecify from `1.0.0` to `1.0.1` [#2434](https://github.com/appium/java-client/pull/2434)
