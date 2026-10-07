@@ -25,6 +25,8 @@ import static java.util.Locale.ROOT;
 
 /**
  * Support for the {@code pageLoadStrategy} capability: the page load strategy.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsPageLoadStrategyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

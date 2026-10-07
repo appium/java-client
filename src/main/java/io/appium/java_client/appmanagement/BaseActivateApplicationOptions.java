@@ -23,5 +23,10 @@ package io.appium.java_client.appmanagement;
  */
 public abstract class BaseActivateApplicationOptions<T extends BaseActivateApplicationOptions<T>>
         extends BaseOptions<T> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseActivateApplicationOptions() {
+    }
 
 }

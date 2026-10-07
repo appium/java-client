@@ -38,6 +38,17 @@ public class SessionHelpers {
     @Data public static class SessionAddress {
         private final URL serverUrl;
         private final String id;
+
+        /**
+         * Creates a new session address.
+         *
+         * @param serverUrl the URL of the server hosting the session
+         * @param id the session identifier
+         */
+        public SessionAddress(URL serverUrl, String id) {
+            this.serverUrl = serverUrl;
+            this.id = id;
+        }
     }
 
     /**

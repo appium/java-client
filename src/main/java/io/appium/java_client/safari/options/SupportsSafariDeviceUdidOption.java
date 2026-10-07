@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code safari:deviceUdid} capability: the UDID of the device or simulator to run Safari on.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSafariDeviceUdidOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

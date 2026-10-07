@@ -21,6 +21,19 @@ public class ServerEvents {
     public final String jsonData;
 
     /**
+     * Creates a new server events log.
+     *
+     * @param commands the executed commands
+     * @param events the timed events
+     * @param jsonData the raw JSON data returned by the server
+     */
+    public ServerEvents(List<CommandEvent> commands, List<TimedEvent> events, String jsonData) {
+        this.commands = commands;
+        this.events = events;
+        this.jsonData = jsonData;
+    }
+
+    /**
      * Saves the raw JSON data to a file.
      *
      * @param output the file to write to

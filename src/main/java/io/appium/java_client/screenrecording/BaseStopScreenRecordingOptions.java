@@ -23,6 +23,11 @@ package io.appium.java_client.screenrecording;
  */
 public abstract class BaseStopScreenRecordingOptions<T extends BaseStopScreenRecordingOptions<T>>
         extends BaseScreenRecordingOptions<BaseStopScreenRecordingOptions<T>> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseStopScreenRecordingOptions() {
+    }
 
     /**
      * The remotePath upload option is the path to the remote location,

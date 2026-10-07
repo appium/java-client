@@ -36,6 +36,12 @@ import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
  * so that their method calls can be intercepted too.
  */
 public class ElementAwareWebDriverListener implements MethodCallListener, ProxyAwareListener {
+    /**
+     * Creates a new instance.
+     */
+    public ElementAwareWebDriverListener() {
+    }
+
     private WebDriver parent;
 
     /**

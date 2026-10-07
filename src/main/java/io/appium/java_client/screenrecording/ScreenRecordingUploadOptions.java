@@ -27,6 +27,12 @@ import static java.util.Optional.ofNullable;
  * Options of the screen recording upload to a remote location.
  */
 public class ScreenRecordingUploadOptions {
+    /**
+     * Creates a new instance.
+     */
+    public ScreenRecordingUploadOptions() {
+    }
+
     private String remotePath;
     private String user;
     private String pass;

@@ -522,6 +522,12 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
      * The {@link Options} implementation backed by the remote session.
      */
     protected class RemoteWebDriverOptions implements Options {
+        /**
+         * Creates a new instance.
+         */
+        protected RemoteWebDriverOptions() {
+        }
+
         @Override
         public Logs logs() {
             return remoteLogs;
@@ -604,6 +610,12 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
          * The {@link Timeouts} implementation backed by the remote session.
          */
         protected class RemoteTimeouts implements Timeouts {
+            /**
+             * Creates a new instance.
+             */
+            protected RemoteTimeouts() {
+            }
+
             @Override
             public Timeouts implicitlyWait(Duration duration) {
                 execute(DriverCommand.SET_IMPLICIT_WAIT_TIMEOUT(duration));
@@ -648,6 +660,12 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
          * The {@link Window} implementation backed by the remote session.
          */
         protected class RemoteWindow implements Window {
+            /**
+             * Creates a new instance.
+             */
+            protected RemoteWindow() {
+            }
+
             @Override
             @SuppressWarnings("unchecked")
             public Dimension getSize() {
@@ -723,6 +741,12 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
      * The {@link TargetLocator} implementation backed by the remote session.
      */
     protected class RemoteTargetLocator implements TargetLocator {
+        /**
+         * Creates a new instance.
+         */
+        protected RemoteTargetLocator() {
+        }
+
         @Override
         public WebDriver frame(int frameIndex) {
             execute(DriverCommand.SWITCH_TO_FRAME(frameIndex));

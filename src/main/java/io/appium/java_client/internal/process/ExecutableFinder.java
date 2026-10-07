@@ -36,6 +36,11 @@ import static java.util.Collections.singletonList;
  * trimmed to bare-name PATH lookup, the only way this class is actually called.
  */
 public class ExecutableFinder {
+    /**
+     * Creates a new instance.
+     */
+    public ExecutableFinder() {
+    }
 
     private static final boolean IS_WINDOWS = osNameContains("win");
     private static final boolean IS_MAC = osNameContains("mac");

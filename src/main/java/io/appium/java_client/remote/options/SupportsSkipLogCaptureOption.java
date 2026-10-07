@@ -24,6 +24,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code skipLogCapture} capability: whether the driver skips capturing device logs.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSkipLogCaptureOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

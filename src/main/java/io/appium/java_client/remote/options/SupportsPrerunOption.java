@@ -22,6 +22,9 @@ import java.util.Optional;
 
 /**
  * Support for the {@code prerun} capability: the script executed before the session is started.
+  *
+  * @param <T> the concrete options type, returned for chaining
+  * @param <S> the concrete options type, returned for chaining
  */
 public interface SupportsPrerunOption<T extends BaseOptions<T>, S extends SystemScript<?>>
         extends Capabilities, CanSetCapability<T> {

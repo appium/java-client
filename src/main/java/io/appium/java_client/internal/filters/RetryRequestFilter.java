@@ -32,6 +32,12 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
  * Adapted from Selenium's {@code RetryRequest} (Apache License 2.0).
  */
 public class RetryRequestFilter implements Filter {
+    /**
+     * Creates a new instance.
+     */
+    public RetryRequestFilter() {
+    }
+
     private static final Logger LOG = LoggerFactory.getLogger(RetryRequestFilter.class);
     private static final int RETRIES_ON_CONNECTION_FAILURE = 3;
     private static final int RETRIES_ON_SERVER_ERROR = 2;

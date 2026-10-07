@@ -34,6 +34,12 @@ import java.util.Optional;
  * Checks the availability of an Appium server by polling its status endpoint.
  */
 public class AppiumServerAvailabilityChecker {
+    /**
+     * Creates a new instance.
+     */
+    public AppiumServerAvailabilityChecker() {
+    }
+
     private static final Duration CONNECT_TIMEOUT = Duration.ofMillis(500);
     private static final Duration READ_TIMEOUT = Duration.ofSeconds(1);
     private static final Duration MAX_POLL_INTERVAL = Duration.ofMillis(320);

@@ -24,6 +24,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code enablePerformanceLogging} capability: whether performance logging is enabled.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

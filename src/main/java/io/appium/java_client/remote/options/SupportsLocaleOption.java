@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code locale} capability: the locale used by the device or application.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsLocaleOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

@@ -26,6 +26,12 @@ import java.lang.reflect.AnnotatedElement;
  * This is the POJO for the setting/getting of an AnnotatedElement instances.
  */
 public class AnnotatedElementContainer {
+    /**
+     * Creates a new instance.
+     */
+    public AnnotatedElementContainer() {
+    }
+
     @Getter(AccessLevel.PUBLIC) @Setter(AccessLevel.PACKAGE)
     private AnnotatedElement annotated;
 }

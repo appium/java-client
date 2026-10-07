@@ -23,6 +23,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code app} capability: the application to test.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsAppOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

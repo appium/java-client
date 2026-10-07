@@ -25,6 +25,8 @@ import static java.util.Locale.ROOT;
 
 /**
  * Support for the {@code orientation} capability: the screen orientation.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsOrientationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

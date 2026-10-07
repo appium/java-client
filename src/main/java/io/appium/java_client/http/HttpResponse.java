@@ -22,6 +22,12 @@ import static java.net.HttpURLConnection.HTTP_OK;
  * An HTTP response.
  */
 public class HttpResponse extends HttpMessage<HttpResponse> {
+    /**
+     * Creates a new instance.
+     */
+    public HttpResponse() {
+    }
+
     private int status = HTTP_OK;
 
     /**

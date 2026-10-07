@@ -19,6 +19,12 @@ import java.util.Optional;
 @Setter
 @Getter
 public class LongPressParameter extends FlutterCommandParameter {
+    /**
+     * Creates a new instance.
+     */
+    public LongPressParameter() {
+    }
+
     private WebElement element;
     private Point offset;
 

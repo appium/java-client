@@ -30,6 +30,12 @@ import static java.util.Optional.ofNullable;
 /** Android-specific options for installing an application. */
 public class AndroidInstallApplicationOptions extends
         BaseInstallApplicationOptions<AndroidInstallApplicationOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public AndroidInstallApplicationOptions() {
+    }
+
     private Boolean replace;
     private Duration timeout;
     private Boolean allowTestPackages;

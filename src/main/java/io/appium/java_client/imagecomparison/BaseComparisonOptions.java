@@ -28,6 +28,12 @@ import static java.util.Optional.ofNullable;
  * @param <T> the actual options type, used for chaining
  */
 public abstract class BaseComparisonOptions<T extends BaseComparisonOptions<T>> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseComparisonOptions() {
+    }
+
     private Boolean visualize;
 
     /**

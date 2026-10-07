@@ -45,6 +45,12 @@ import static java.util.Objects.requireNonNull;
  */
 public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot, WrapsDriver {
     /**
+     * Creates a new instance.
+     */
+    public AppiumWebElement() {
+    }
+
+    /**
      * The key of an element reference in the W3C protocol.
      */
     public static final String ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf";

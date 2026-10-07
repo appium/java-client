@@ -28,6 +28,12 @@ import static java.util.Optional.ofNullable;
 /** Mac2-specific options for starting a screen recording. */
 public class Mac2StartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<Mac2StartScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public Mac2StartScreenRecordingOptions() {
+    }
+
     private Integer fps;
     private String videoFilter;
     private String preset;

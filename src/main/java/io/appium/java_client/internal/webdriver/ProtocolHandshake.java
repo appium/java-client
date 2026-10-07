@@ -53,6 +53,12 @@ import static java.util.Collections.singleton;
  * which also negotiated the legacy JSON wire protocol.
  */
 public class ProtocolHandshake {
+    /**
+     * Creates a new instance.
+     */
+    public ProtocolHandshake() {
+    }
+
     private static final Logger LOG = LoggerFactory.getLogger(ProtocolHandshake.class);
     private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();
     private static final Predicate<String> ACCEPTED_W3C_PATTERNS = W3CCapabilityKeys.INSTANCE;

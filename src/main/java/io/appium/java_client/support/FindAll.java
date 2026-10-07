@@ -53,6 +53,12 @@ public @interface FindAll {
      * Builds the {@link By} locator from {@link FindAll}.
      */
     class FindByBuilder extends AbstractFindByBuilder<FindAll> {
+        /**
+         * Creates a new instance.
+         */
+        public FindByBuilder() {
+        }
+
         @Override
         public By buildIt(FindAll findBys, Field field) {
             assertValidFindAll(findBys);

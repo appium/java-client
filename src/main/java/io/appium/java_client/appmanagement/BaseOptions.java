@@ -24,6 +24,11 @@ import java.util.Map;
  * @param <T> the actual options type, used for chaining
  */
 public abstract class BaseOptions<T extends BaseOptions<T>> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseOptions() {
+    }
 
     /**
      * Creates a map based on the provided options.

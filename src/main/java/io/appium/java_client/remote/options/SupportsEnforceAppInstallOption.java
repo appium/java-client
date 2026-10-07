@@ -24,6 +24,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code enforceAppInstall} capability: whether the application is reinstalled even if already present.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsEnforceAppInstallOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

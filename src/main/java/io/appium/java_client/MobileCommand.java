@@ -35,6 +35,12 @@ import java.util.Optional;
  */
 @SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "checkstyle:ConstantName"})
 public class MobileCommand {
+    /**
+     * Creates a new instance.
+     */
+    public MobileCommand() {
+    }
+
     /** The command that gets the session details. */
     @Deprecated
     protected static final String GET_SESSION;

@@ -25,6 +25,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code webkit:WebRTC} capability: the WebRTC behavior of Safari.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsWebkitWebrtcOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

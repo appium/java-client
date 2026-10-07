@@ -20,6 +20,12 @@ import java.util.Optional;
 @Getter
 @Setter
 public class WaitParameter extends FlutterCommandParameter {
+    /**
+     * Creates a new instance.
+     */
+    public WaitParameter() {
+    }
+
     private WebElement element;
     private AppiumBy.FlutterBy locator;
     private Duration timeout;

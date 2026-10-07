@@ -32,6 +32,12 @@ import java.util.Set;
  */
 public abstract class AbstractFindByBuilder<T> {
     /**
+     * Creates a new instance.
+     */
+    public AbstractFindByBuilder() {
+    }
+
+    /**
      * Builds the locator from the annotation.
      *
      * @param annotation the annotation to read

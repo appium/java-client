@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code androidStorage} capability: the Android storage location used by Geckodriver.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsAndroidStorageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

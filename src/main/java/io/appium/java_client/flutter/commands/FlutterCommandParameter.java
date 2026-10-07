@@ -9,6 +9,11 @@ import java.util.Map;
  * The base class of the parameters of the Flutter integration driver commands.
  */
 public abstract class FlutterCommandParameter {
+    /**
+     * Creates a new instance.
+     */
+    public FlutterCommandParameter() {
+    }
 
     /**
      * Parses an Appium Flutter locator into a Map representation suitable for Flutter Integration Driver.

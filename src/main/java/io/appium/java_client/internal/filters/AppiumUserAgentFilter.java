@@ -32,6 +32,11 @@ import static java.util.Locale.ROOT;
  */
 
 public class AppiumUserAgentFilter implements Filter {
+    /**
+     * Creates a new instance.
+     */
+    public AppiumUserAgentFilter() {
+    }
 
     /** The config key of the client version. */
     public static final String VERSION_KEY = "appiumClient.version";

@@ -26,6 +26,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code skipAppKill} capability: whether the application is left running after the session ends.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSkipAppKillOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

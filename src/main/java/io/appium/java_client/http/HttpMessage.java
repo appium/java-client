@@ -38,6 +38,12 @@ import static java.util.Objects.requireNonNull;
  * @param <M> the concrete message type
  */
 public abstract class HttpMessage<M extends HttpMessage<M>> {
+    /**
+     * Creates a new instance.
+     */
+    public HttpMessage() {
+    }
+
     private final Map<String, List<String>> headers = new HashMap<>();
     private Contents.Supplier content = Contents.empty();
 

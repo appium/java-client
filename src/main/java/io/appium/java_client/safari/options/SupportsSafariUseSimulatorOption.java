@@ -26,6 +26,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code safari:useSimulator} capability: whether Safari is started in a simulator.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSafariUseSimulatorOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

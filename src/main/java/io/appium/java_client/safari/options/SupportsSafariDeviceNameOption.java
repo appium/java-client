@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code safari:deviceName} capability: the name of the device or simulator to run Safari on.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSafariDeviceNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

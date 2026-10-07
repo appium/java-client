@@ -29,6 +29,11 @@ import java.util.Map;
  * @author jonahss@gmail.com (Jonah Stiennon)
  */
 public class ErrorCodesMobile extends ErrorCodes {
+    /**
+     * Creates a new instance.
+     */
+    public ErrorCodesMobile() {
+    }
 
     /** The status code of the "no such context" error. */
     public static final int NO_SUCH_CONTEXT = 35;

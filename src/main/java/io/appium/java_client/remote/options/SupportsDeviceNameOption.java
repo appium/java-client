@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code deviceName} capability: the device name.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

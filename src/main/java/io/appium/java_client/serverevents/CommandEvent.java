@@ -13,4 +13,17 @@ public class CommandEvent {
     public final long startTimestamp;
     /** The command end time as a Unix timestamp. */
     public final long endTimestamp;
+
+    /**
+     * Creates a new command event.
+     *
+     * @param name the command name
+     * @param startTimestamp the command start time as a Unix timestamp
+     * @param endTimestamp the command end time as a Unix timestamp
+     */
+    public CommandEvent(String name, long startTimestamp, long endTimestamp) {
+        this.name = name;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
+    }
 }

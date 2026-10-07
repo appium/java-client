@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code automationName} capability: the automation backend (driver) name.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsAutomationNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

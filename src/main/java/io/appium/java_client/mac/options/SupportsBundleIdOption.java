@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code bundleId} capability: the bundle identifier of the application under test.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsBundleIdOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

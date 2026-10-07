@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code webSocketUrl} capability: the WebDriver BiDi session.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsWebSocketUrlOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

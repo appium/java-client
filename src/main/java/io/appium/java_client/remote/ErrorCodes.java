@@ -52,6 +52,12 @@ import java.util.stream.Collectors;
  * Adapted from Selenium's {@code ErrorCodes} (Apache License 2.0).
  */
 public class ErrorCodes {
+    /**
+     * Creates a new instance.
+     */
+    public ErrorCodes() {
+    }
+
     /** The W3C-style success status string. */
     public static final String SUCCESS_STRING = "success";
     /** The status code of a successful command. */

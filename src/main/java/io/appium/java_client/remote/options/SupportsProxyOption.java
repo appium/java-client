@@ -25,6 +25,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code proxy} capability: the proxy configuration.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsProxyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

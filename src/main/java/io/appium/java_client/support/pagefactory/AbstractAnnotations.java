@@ -26,6 +26,12 @@ import org.openqa.selenium.By;
  */
 public abstract class AbstractAnnotations {
     /**
+     * Creates a new instance.
+     */
+    public AbstractAnnotations() {
+    }
+
+    /**
      * Defines how to transform given object (field, class, etc.) into {@link By}
      * class used by webdriver to locate elements.
      *

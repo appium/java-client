@@ -7,6 +7,12 @@ import lombok.Data;
  */
 @Data
 public class CustomEvent {
+    /**
+     * Creates a new instance.
+     */
+    public CustomEvent() {
+    }
+
     private String vendor;
     private String eventName;
 }

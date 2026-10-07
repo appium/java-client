@@ -13,4 +13,15 @@ public class TimedEvent {
     public final String name;
     /** The Unix timestamps of the event occurrences. */
     public final List<Long> occurrences;
+
+    /**
+     * Creates a new timed event.
+     *
+     * @param name the event name
+     * @param occurrences the Unix timestamps of the event occurrences
+     */
+    public TimedEvent(String name, List<Long> occurrences) {
+        this.name = name;
+        this.occurrences = occurrences;
+    }
 }

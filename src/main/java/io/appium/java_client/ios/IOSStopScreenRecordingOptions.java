@@ -21,6 +21,11 @@ import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 /** iOS-specific options for stopping a screen recording. */
 public class IOSStopScreenRecordingOptions extends
         BaseStopScreenRecordingOptions<IOSStopScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public IOSStopScreenRecordingOptions() {
+    }
 
     /**
      * Creates a new options instance.

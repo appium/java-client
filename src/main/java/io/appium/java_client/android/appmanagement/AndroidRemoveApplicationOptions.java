@@ -30,6 +30,12 @@ import static java.util.Optional.ofNullable;
 /** Android-specific options for removing an application. */
 public class AndroidRemoveApplicationOptions extends
         BaseRemoveApplicationOptions<AndroidRemoveApplicationOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public AndroidRemoveApplicationOptions() {
+    }
+
     private Duration timeout;
     private Boolean keepData;
 

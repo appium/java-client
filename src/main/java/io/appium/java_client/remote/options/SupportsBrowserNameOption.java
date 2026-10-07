@@ -20,6 +20,8 @@ import org.openqa.selenium.Capabilities;
 
 /**
  * Support for the {@code browserName} capability: the browser name.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsBrowserNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

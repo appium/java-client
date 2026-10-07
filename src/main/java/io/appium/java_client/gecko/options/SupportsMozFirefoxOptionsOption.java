@@ -25,6 +25,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code moz:firefoxOptions} capability: Firefox-specific options passed to Geckodriver.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsMozFirefoxOptionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

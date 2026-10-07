@@ -21,6 +21,11 @@ import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 /** Mac2-specific options for stopping a screen recording. */
 public class Mac2StopScreenRecordingOptions extends
         BaseStopScreenRecordingOptions<Mac2StopScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public Mac2StopScreenRecordingOptions() {
+    }
 
     /**
      * Creates a new options instance.

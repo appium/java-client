@@ -31,6 +31,12 @@ import static java.util.Optional.ofNullable;
  */
 public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenRecordingOptions<T>>
         extends BaseScreenRecordingOptions<BaseStartScreenRecordingOptions<T>> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseStartScreenRecordingOptions() {
+    }
+
     private Boolean forceRestart;
     private Duration timeLimit;
 

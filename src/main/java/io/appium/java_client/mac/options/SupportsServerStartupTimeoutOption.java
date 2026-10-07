@@ -27,6 +27,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 /**
  * Support for the {@code serverStartupTimeout} capability: the timeout for building and starting WebDriverAgentMac.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsServerStartupTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

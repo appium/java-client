@@ -27,6 +27,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 /**
  * Support for the {@code createSessionTimeout} capability: the timeout for creating a session.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsCreateSessionTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

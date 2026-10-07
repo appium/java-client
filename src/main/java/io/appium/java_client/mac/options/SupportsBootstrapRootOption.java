@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code bootstrapRoot} capability: the root folder of the WebDriverAgentMac project.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsBootstrapRootOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

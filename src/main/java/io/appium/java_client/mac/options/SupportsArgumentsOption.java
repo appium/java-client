@@ -25,6 +25,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code arguments} capability: the command line arguments for the application under test.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsArgumentsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

@@ -31,6 +31,12 @@ import static java.util.Optional.ofNullable;
 /** iOS-specific options for starting a screen recording. */
 public class IOSStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<IOSStartScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public IOSStartScreenRecordingOptions() {
+    }
+
     private String videoType;
     private String videoQuality;
     private String videoScale;

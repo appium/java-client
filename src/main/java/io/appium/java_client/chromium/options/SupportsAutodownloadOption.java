@@ -26,6 +26,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code autodownloadEnabled} capability: whether Chrome drivers are downloaded automatically.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsAutodownloadOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

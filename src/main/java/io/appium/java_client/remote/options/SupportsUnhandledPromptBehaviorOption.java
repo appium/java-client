@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code unhandledPromptBehavior} capability: how unexpected user prompts are handled.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsUnhandledPromptBehaviorOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

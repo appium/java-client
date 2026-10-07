@@ -24,6 +24,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code setWindowRect} capability: whether the window resize and reposition commands are supported.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSetWindowRectOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

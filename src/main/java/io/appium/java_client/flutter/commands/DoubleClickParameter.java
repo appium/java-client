@@ -19,6 +19,12 @@ import java.util.Optional;
 @Setter
 @Getter
 public class DoubleClickParameter extends FlutterCommandParameter {
+    /**
+     * Creates a new instance.
+     */
+    public DoubleClickParameter() {
+    }
+
     private WebElement element;
     private Point offset;
 

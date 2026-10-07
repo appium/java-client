@@ -28,6 +28,12 @@ import static java.util.Optional.ofNullable;
  * Options of the driver script execution.
  */
 public class ScriptOptions {
+    /**
+     * Creates a new instance.
+     */
+    public ScriptOptions() {
+    }
+
     private ScriptType scriptType;
     private Long timeoutMs;
 

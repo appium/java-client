@@ -21,6 +21,11 @@ import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 /** Windows-specific options for stopping a screen recording. */
 public class WindowsStopScreenRecordingOptions extends
         BaseStopScreenRecordingOptions<WindowsStopScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public WindowsStopScreenRecordingOptions() {
+    }
 
     /**
      * Creates a new options instance.

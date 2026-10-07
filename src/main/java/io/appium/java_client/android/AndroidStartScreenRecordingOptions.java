@@ -29,6 +29,12 @@ import static java.util.Optional.ofNullable;
 /** Android-specific options for starting a screen recording. */
 public class AndroidStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<AndroidStartScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public AndroidStartScreenRecordingOptions() {
+    }
+
     private Integer bitRate;
     private String videoSize;
     private Boolean isBugReportEnabled;

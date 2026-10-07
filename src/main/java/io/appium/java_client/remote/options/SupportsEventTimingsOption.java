@@ -24,6 +24,8 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code eventTimings} capability: whether Appium event timings are reported.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsEventTimingsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

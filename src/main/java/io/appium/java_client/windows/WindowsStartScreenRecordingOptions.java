@@ -28,6 +28,12 @@ import static java.util.Optional.ofNullable;
 /** Windows-specific options for starting a screen recording. */
 public class WindowsStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<WindowsStartScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public WindowsStartScreenRecordingOptions() {
+    }
+
     private Integer fps;
     private String videoFilter;
     private String preset;

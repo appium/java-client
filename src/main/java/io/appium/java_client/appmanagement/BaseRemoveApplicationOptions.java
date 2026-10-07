@@ -23,5 +23,10 @@ package io.appium.java_client.appmanagement;
  */
 public abstract class BaseRemoveApplicationOptions<T extends BaseRemoveApplicationOptions<T>>
         extends BaseOptions<T> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseRemoveApplicationOptions() {
+    }
 
 }

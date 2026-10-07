@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code executable} capability: the path to a custom Chrome driver executable.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsExecutableOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

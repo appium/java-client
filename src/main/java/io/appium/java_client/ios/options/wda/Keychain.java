@@ -27,4 +27,15 @@ import lombok.ToString;
 public class Keychain {
     private final String path;
     private final String password;
+
+    /**
+     * Creates a new keychain description.
+     *
+     * @param path the keychain path
+     * @param password the keychain password
+     */
+    public Keychain(String path, String password) {
+        this.path = path;
+        this.password = password;
+    }
 }

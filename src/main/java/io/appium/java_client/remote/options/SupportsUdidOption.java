@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code udid} capability: the unique device identifier.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsUdidOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

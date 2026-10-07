@@ -25,6 +25,8 @@ import java.util.Optional;
 /**
  * Support for the {@code appTopLevelWindow} capability: the handle of an existing application top level window to
  * attach to.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsAppTopLevelWindowOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

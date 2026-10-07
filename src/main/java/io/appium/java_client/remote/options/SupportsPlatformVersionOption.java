@@ -22,6 +22,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code platformVersion} capability: the platform version.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsPlatformVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

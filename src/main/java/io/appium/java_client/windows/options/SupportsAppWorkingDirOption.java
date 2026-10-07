@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code appWorkingDir} capability: the working directory of the application under test.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsAppWorkingDirOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {

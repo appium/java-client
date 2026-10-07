@@ -24,6 +24,8 @@ import java.util.Optional;
 
 /**
  * Support for the {@code safari:platformBuildVersion} capability: the platform build version of the device.
+  *
+  * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSafariPlatformBuildVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
