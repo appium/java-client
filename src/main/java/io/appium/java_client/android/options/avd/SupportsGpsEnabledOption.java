@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code gpsEnabled} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsGpsEnabledOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code gpsEnabled} capability.
+     */
     String GPS_ENABLED_OPTION = "gpsEnabled";
 
     /**

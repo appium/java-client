@@ -115,7 +115,16 @@ public @interface FindBy {
      */
     String xpath() default "";
 
+    /**
+     * Builds the {@link By} locator from {@link FindBy}.
+     */
     class FindByBuilder extends AbstractFindByBuilder<FindBy> {
+        /**
+         * Creates a new instance.
+         */
+        public FindByBuilder() {
+        }
+
         @Override
         public By buildIt(FindBy findBy, Field field) {
             assertValidFindBy(findBy);

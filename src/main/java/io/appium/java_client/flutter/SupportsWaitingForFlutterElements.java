@@ -2,6 +2,9 @@ package io.appium.java_client.flutter;
 
 import io.appium.java_client.flutter.commands.WaitParameter;
 
+/**
+ * The interface for the drivers that can wait for Flutter elements.
+ */
 public interface SupportsWaitingForFlutterElements extends CanExecuteFlutterScripts {
 
     /**

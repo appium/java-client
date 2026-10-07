@@ -24,6 +24,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/** Marks a field or a type to be located by iOS XCUITest-specific locators. */
 @Retention(RUNTIME) @Target({FIELD, TYPE})
 @Repeatable(iOSXCUITFindBySet.class)
 public @interface iOSXCUITFindBy {

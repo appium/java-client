@@ -5,6 +5,7 @@ import io.appium.java_client.ExecutesMethod;
 
 import java.util.Map;
 
+/** Provides fingerprint authentication on Android emulators. */
 public interface AuthenticatesByFinger extends ExecutesMethod {
 
     /**

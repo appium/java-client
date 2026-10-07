@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code safari:deviceType} capability: the type of the device to run Safari on.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsSafariDeviceTypeOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safari:deviceType} capability.
+     */
     String SAFARI_DEVICE_TYPE_OPTION = "safari:deviceType";
 
     /**

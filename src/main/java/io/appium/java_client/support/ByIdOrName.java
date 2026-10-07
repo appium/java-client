@@ -34,8 +34,11 @@ import java.util.List;
 public class ByIdOrName extends By implements Serializable {
     private static final long serialVersionUID = 3986638402799576701L;
 
+    /** The locator by id. */
     private final By idFinder;
+    /** The locator by name. */
     private final By nameFinder;
+    /** The id or name value to look for. */
     private final String idOrName;
 
     /**

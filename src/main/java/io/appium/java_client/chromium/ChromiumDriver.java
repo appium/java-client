@@ -39,36 +39,91 @@ import java.net.URL;
 public class ChromiumDriver extends AppiumDriver {
     private static final String AUTOMATION_NAME = AutomationName.CHROMIUM;
 
+    /**
+     * Creates a new instance based on command {@code executor} and {@code capabilities}.
+     *
+     * @param executor the command executor that sends the commands to the server
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on the server address and {@code capabilities}.
+     *
+     * @param remoteAddress the address of the remote Appium server
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(URL remoteAddress, Capabilities capabilities) {
         super(remoteAddress, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on the server address, a custom HTTP client factory
+     * and {@code capabilities}.
+     *
+     * @param remoteAddress the address of the remote Appium server
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(remoteAddress, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on the local Appium service and {@code capabilities}.
+     *
+     * @param service the local Appium service to start and connect to
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on the local Appium service, a custom HTTP client factory
+     * and {@code capabilities}.
+     *
+     * @param service the local Appium service to start and connect to
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                           Capabilities capabilities) {
         super(service, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on the local Appium service builder and {@code capabilities}.
+     *
+     * @param builder the builder of the local Appium service to start and connect to
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on the local Appium service builder, a custom HTTP client
+     * factory and {@code capabilities}.
+     *
+     * @param builder the builder of the local Appium service to start and connect to
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                           Capabilities capabilities) {
         super(builder, httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on a custom HTTP client factory and {@code capabilities}.
+     * The default local Appium service is used.
+     *
+     * @param httpClientFactory the factory that creates the HTTP client
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
@@ -111,6 +166,11 @@ public class ChromiumDriver extends AppiumDriver {
         super(appiumClientConfig, ensureAutomationName(capabilities, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on {@code capabilities} using the default local Appium service.
+     *
+     * @param capabilities the capabilities of the session to create
+     */
     public ChromiumDriver(Capabilities capabilities) {
         super(ensureAutomationName(capabilities, AUTOMATION_NAME));
     }

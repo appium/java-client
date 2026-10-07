@@ -25,8 +25,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
+/**
+ * Provides getters and setters for the {@code uiautomator2ServerLaunchTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsUiautomator2ServerLaunchTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code uiautomator2ServerLaunchTimeout} capability.
+     */
     String UIAUTOMATOR2_SERVER_LAUNCH_TIMEOUT_OPTION = "uiautomator2ServerLaunchTimeout";
 
     /**

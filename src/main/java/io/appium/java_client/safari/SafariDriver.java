@@ -41,42 +41,95 @@ public class SafariDriver extends AppiumDriver {
     private static final String PLATFORM_NAME = Platform.IOS.toString();
     private static final String AUTOMATION_NAME = AutomationName.SAFARI;
 
+    /**
+     * Creates a new instance based on command {@code executor} and {@code capabilities}.
+     *
+     * @param executor is an instance of {@link AppiumCommandExecutor}
+     *                 or class that extends it. Default commands or another vendor-specific
+     *                 commands may be specified there.
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(AppiumCommandExecutor executor, Capabilities capabilities) {
         super(executor, ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium server URL and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(URL remoteAddress, Capabilities capabilities) {
         super(remoteAddress, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium server URL, HTTP client factory and {@code capabilities}.
+     *
+     * @param remoteAddress is the address of remotely/locally started Appium server
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(URL remoteAddress, HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(remoteAddress, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium driver local service and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(AppiumDriverLocalService service, Capabilities capabilities) {
         super(service, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium driver local service, HTTP client factory and {@code capabilities}.
+     *
+     * @param service take a look at {@link AppiumDriverLocalService}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(AppiumDriverLocalService service, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
         super(service, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium service builder and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(AppiumServiceBuilder builder, Capabilities capabilities) {
         super(builder, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on Appium service builder, HTTP client factory and {@code capabilities}.
+     *
+     * @param builder take a look at {@link AppiumServiceBuilder}
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(AppiumServiceBuilder builder, HttpClient.Factory httpClientFactory,
                         Capabilities capabilities) {
         super(builder, httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on HTTP client factory and {@code capabilities}.
+     *
+     * @param httpClientFactory take a look at {@link HttpClient.Factory}
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(HttpClient.Factory httpClientFactory, Capabilities capabilities) {
         super(httpClientFactory, ensurePlatformAndAutomationNames(
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
@@ -120,6 +173,11 @@ public class SafariDriver extends AppiumDriver {
                 capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }
 
+    /**
+     * Creates a new instance based on {@code capabilities}.
+     *
+     * @param capabilities take a look at {@link Capabilities}
+     */
     public SafariDriver(Capabilities capabilities) {
         super(ensurePlatformAndAutomationNames(capabilities, PLATFORM_NAME, AUTOMATION_NAME));
     }

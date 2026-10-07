@@ -23,13 +23,26 @@ import java.net.ConnectException;
  * Thrown if a connection to the server cannot be established.
  */
 public class ConnectionException extends UncheckedIOException {
+    /** The URI the connection was attempted to. */
     private final String uri;
 
+    /**
+     * Creates an exception.
+     *
+     * @param message the detail message
+     * @param uri     the URI the connection was attempted to
+     * @param cause   the cause
+     */
     public ConnectionException(String message, String uri, ConnectException cause) {
         super(message, cause);
         this.uri = uri;
     }
 
+    /**
+     * Returns the URI the connection was attempted to.
+     *
+     * @return the URI
+     */
     public String uri() {
         return uri;
     }

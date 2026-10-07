@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code permissions} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsPermissionsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code permissions} capability.
+     */
     String PERMISSIONS_OPTION = "permissions";
 
     /**

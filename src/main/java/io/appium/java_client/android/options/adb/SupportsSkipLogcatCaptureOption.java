@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code skipLogcatCapture} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSkipLogcatCaptureOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code skipLogcatCapture} capability.
+     */
     String SKIP_LOGCAT_CAPTURE_OPTION = "skipLogcatCapture";
 
     /**

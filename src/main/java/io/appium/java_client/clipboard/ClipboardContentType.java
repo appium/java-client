@@ -16,6 +16,14 @@
 
 package io.appium.java_client.clipboard;
 
+/**
+ * Content types supported by the device clipboard.
+ */
 public enum ClipboardContentType {
-    PLAINTEXT, IMAGE, URL
+    /** Plain text. */
+    PLAINTEXT,
+    /** An image. */
+    IMAGE,
+    /** A URL. */
+    URL
 }

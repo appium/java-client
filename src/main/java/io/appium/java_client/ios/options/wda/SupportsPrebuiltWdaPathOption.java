@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code prebuiltWDAPath} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsPrebuiltWdaPathOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code prebuiltWDAPath} capability.
+     */
     String PREBUILT_WDA_PATH_OPTION = "prebuiltWDAPath";
 
     /**

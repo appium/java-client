@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static java.util.Locale.ROOT;
 
+/**
+ * Support for the {@code verbosity} capability: the Geckodriver log verbosity level.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsVerbosityOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code verbosity} capability.
+     */
     String VERBOSITY_OPTION = "verbosity";
 
     /**

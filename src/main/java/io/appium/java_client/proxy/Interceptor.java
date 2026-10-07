@@ -29,6 +29,9 @@ import java.util.concurrent.Callable;
 
 import static io.appium.java_client.proxy.MethodCallListener.UNSET;
 
+/**
+ * Wraps the public method calls of the proxied classes and delegates them to the listeners.
+ */
 public class Interceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Interceptor.class);
 
@@ -48,6 +51,7 @@ public class Interceptor {
      *                 have no superclass implementation, so this may be null; unhandled calls retain
      *                 their {@link AbstractMethodError} behavior.
      * @return Either the original method result or the patched one.
+     * @throws Throwable if the original method or a listener throws
      */
     @SuppressWarnings("unused")
     @RuntimeType

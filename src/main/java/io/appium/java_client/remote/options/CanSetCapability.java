@@ -16,7 +16,18 @@
 
 package io.appium.java_client.remote.options;
 
+/**
+ * Marks types that allow setting capabilities and provides a chainable way to do so.
+ *
+ * @param <T> The concrete options type, used for chaining.
+ */
 public interface CanSetCapability<T extends BaseOptions<T>> {
+    /**
+     * Sets a capability.
+     *
+     * @param key Capability name.
+     * @param value Capability value.
+     */
     void setCapability(String key, Object value);
 
     /**

@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code safariWebInspectorMaxFrameLength} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariWebInspectorMaxFrameLengthOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariWebInspectorMaxFrameLength} capability.
+     */
     String SAFARI_WEB_INSPECTOR_MAX_FRAME_LENGTH_OPTION = "safariWebInspectorMaxFrameLength";
 
     /**

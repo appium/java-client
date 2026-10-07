@@ -34,6 +34,9 @@ import java.util.function.Supplier;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/**
+ * Verifies the similarity of the screenshots taken at different moments of time.
+ */
 @Accessors(chain = true)
 public class ScreenshotState {
     private static final Duration DEFAULT_INTERVAL_MS = Duration.ofMillis(500);
@@ -85,6 +88,12 @@ public class ScreenshotState {
         this.stateProvider = stateProvider;
     }
 
+    /**
+     * Creates a new instance without a screenshot provider.
+     * A custom initial state has to be set via {@link #remember(BufferedImage)}.
+     *
+     * @param comparator the image comparator
+     */
     public ScreenshotState(ComparesImages comparator) {
         this(comparator, null);
     }
@@ -114,6 +123,9 @@ public class ScreenshotState {
         return this;
     }
 
+    /**
+     * Thrown when the screenshots comparison fails.
+     */
     public static class ScreenshotComparisonError extends RuntimeException {
         private static final long serialVersionUID = -7011854909939194466L;
 
@@ -126,8 +138,12 @@ public class ScreenshotState {
         }
     }
 
+    /**
+     * Thrown when the screenshots do not become similar within the given timeout.
+     */
     public static class ScreenshotComparisonTimeout extends RuntimeException {
         private static final long serialVersionUID = 6336247721154252476L;
+        /** The similarity score of the last comparison. */
         private final double currentScore;
 
         ScreenshotComparisonTimeout(String message, double currentScore) {
@@ -135,6 +151,11 @@ public class ScreenshotState {
             this.currentScore = currentScore;
         }
 
+        /**
+         * Gets the similarity score of the last comparison.
+         *
+         * @return the similarity score
+         */
         public double getCurrentScore() {
             return currentScore;
         }

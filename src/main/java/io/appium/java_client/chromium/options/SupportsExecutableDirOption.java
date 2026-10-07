@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code executableDir} capability: the directory where Chrome driver executables are stored.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsExecutableDirOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code executableDir} capability.
+     */
     String EXECUTABLE_DIR = "executableDir";
 
     /**

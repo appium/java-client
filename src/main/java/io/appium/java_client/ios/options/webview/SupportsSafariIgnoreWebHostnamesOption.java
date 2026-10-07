@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code safariIgnoreWebHostnames} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariIgnoreWebHostnamesOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariIgnoreWebHostnames} capability.
+     */
     String SAFARI_IGNORE_WEB_HOSTNAMES_OPTION = "safariIgnoreWebHostnames";
 
     /**

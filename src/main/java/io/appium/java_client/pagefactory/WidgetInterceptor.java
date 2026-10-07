@@ -37,6 +37,7 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.util.Optional.ofNullable;
 
+/** Proxy interceptor class for widgets. */
 public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
@@ -45,7 +46,13 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     private WeakReference<WebElement> cachedElementReference;
 
     /**
-     * Proxy interceptor class for widgets.
+     * Creates a new interceptor.
+     *
+     * @param locator the locator of the widget element
+     * @param driverReference the reference to the driver
+     * @param cachedElementReference the reference to the cached widget element
+     * @param instantiationMap the widget constructors mapped by the content type
+     * @param duration the timeout of waiting for an element presence
      */
     public WidgetInterceptor(
             @Nullable CacheableLocator locator,

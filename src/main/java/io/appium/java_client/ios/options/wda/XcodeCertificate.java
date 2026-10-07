@@ -19,17 +19,31 @@ package io.appium.java_client.ios.options.wda;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+ * Signing certificate details for the WebDriverAgent compilation.
+ */
 @ToString()
 @Data()
 public class XcodeCertificate {
     private final String xcodeOrgId;
     private final String xcodeSigningId;
 
+    /**
+     * Creates a certificate from the given team and signing identifiers.
+     *
+     * @param xcodeOrgId Apple developer team identifier.
+     * @param xcodeSigningId Signing identity.
+     */
     public XcodeCertificate(String xcodeOrgId, String xcodeSigningId) {
         this.xcodeOrgId = xcodeOrgId;
         this.xcodeSigningId = xcodeSigningId;
     }
 
+    /**
+     * Creates a certificate with the default signing identity.
+     *
+     * @param xcodeOrgId Apple developer team identifier.
+     */
     public XcodeCertificate(String xcodeOrgId) {
         this(xcodeOrgId, null);
     }

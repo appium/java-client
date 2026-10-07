@@ -19,9 +19,23 @@ package io.appium.java_client.ios.options.wda;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+ * Custom keychain details: its path and password.
+ */
 @ToString()
 @Data()
 public class Keychain {
     private final String path;
     private final String password;
+
+    /**
+     * Creates a new keychain description.
+     *
+     * @param path the keychain path
+     * @param password the keychain password
+     */
+    public Keychain(String path, String password) {
+        this.path = path;
+        this.password = password;
+    }
 }

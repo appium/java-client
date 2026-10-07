@@ -36,6 +36,12 @@ public interface Filter extends Function<HttpHandler, HttpHandler> {
         return req -> apply(next.apply(req));
     }
 
+    /**
+     * Applies this filter to the final handler.
+     *
+     * @param end the handler to run after this filter
+     * @return the resulting handler
+     */
     default HttpHandler andFinally(HttpHandler end) {
         requireNonNull(end, "HTTP handler");
         return request -> Filter.this.apply(end).execute(request);

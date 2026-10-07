@@ -22,5 +22,11 @@ import io.appium.java_client.http.HttpResponse;
  * Translates HTTP responses into command responses.
  */
 public interface ResponseCodec {
+    /**
+     * Decodes an HTTP response.
+     *
+     * @param encodedResponse the HTTP response to decode
+     * @return the decoded response
+     */
     Response decode(HttpResponse encodedResponse);
 }

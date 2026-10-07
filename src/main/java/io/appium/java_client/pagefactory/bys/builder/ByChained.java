@@ -28,8 +28,10 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
+/** Finds an element by applying the given locators one after another. */
 public class ByChained extends io.appium.java_client.support.pagefactory.ByChained {
 
+    /** The locators of the chain. */
     private final By[] bys;
 
     private static Function<SearchContext, WebElement> getSearchingFunction(By by) {

@@ -21,11 +21,22 @@ import io.appium.java_client.remote.options.BaseMapOptionData;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Locale of the app under test, mapped to the {@code appLocale} capability.
+ */
 public class AppLocale extends BaseMapOptionData<AppLocale> {
+    /**
+     * Creates empty options.
+     */
     public AppLocale() {
         super();
     }
 
+    /**
+     * Creates options from the given map.
+     *
+     * @param options Initial option values.
+     */
     public AppLocale(Map<String, Object> options) {
         super(options);
     }

@@ -16,6 +16,26 @@
 
 package io.appium.java_client.imagecomparison;
 
+/**
+ * Feature detectors available for the features matching.
+ */
 public enum FeatureDetector {
-    AKAZE, AGAST, BRISK, FAST, GFTT, KAZE, MSER, SIFT, ORB
+    /** The AKAZE detector. */
+    AKAZE,
+    /** The AGAST detector. */
+    AGAST,
+    /** The BRISK detector. */
+    BRISK,
+    /** The FAST detector. */
+    FAST,
+    /** The GFTT detector. */
+    GFTT,
+    /** The KAZE detector. */
+    KAZE,
+    /** The MSER detector. */
+    MSER,
+    /** The SIFT detector. */
+    SIFT,
+    /** The ORB detector. */
+    ORB
 }

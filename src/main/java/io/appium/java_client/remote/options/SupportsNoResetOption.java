@@ -22,8 +22,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code noReset} capability: whether the application state is preserved between sessions.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsNoResetOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code noReset} capability.
+     */
     String NO_RESET_OPTION = "noReset";
 
     /**

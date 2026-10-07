@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code systemHost} capability: the host name the WebDriverAgentMac server listens on.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsSystemHostOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code systemHost} capability.
+     */
     String SYSTEM_HOST_OPTION = "systemHost";
 
     /**

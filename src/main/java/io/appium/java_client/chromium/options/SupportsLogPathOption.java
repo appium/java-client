@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code logPath} capability: the path to the driver log file.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsLogPathOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code logPath} capability.
+     */
     String LOG_PATH = "logPath";
 
     /**

@@ -31,13 +31,23 @@ import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
+/**
+ * Proxies {@link AppiumWebElement} instances returned by a proxied WebDriver
+ * so that their method calls can be intercepted too.
+ */
 public class ElementAwareWebDriverListener implements MethodCallListener, ProxyAwareListener {
+    /**
+     * Creates a new instance.
+     */
+    public ElementAwareWebDriverListener() {
+    }
+
     private WebDriver parent;
 
     /**
      * Attaches the WebDriver proxy instance to this listener.
-     * <p>
-     * The listener stores the WebDriver instance to associate it as parent to AppiumWebElement proxies.
+     *
+     * <p>The listener stores the WebDriver instance to associate it as parent to AppiumWebElement proxies.
      *
      * @param proxy A proxy instance of {@link WebDriver}.
      */
@@ -50,8 +60,8 @@ public class ElementAwareWebDriverListener implements MethodCallListener, ProxyA
 
     /**
      * Intercepts method calls on a proxied WebDriver.
-     * <p>
-     * If the result of the method call is a {@link AppiumWebElement},
+     *
+     * <p>If the result of the method call is a {@link AppiumWebElement},
      * it is wrapped with a proxy to allow further interception of AppiumWebElement method calls.
      * If the result is a list, each item is checked, and all AppiumWebElements are
      * individually proxied. All other return types are passed through unmodified.

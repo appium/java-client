@@ -24,16 +24,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Build configuration of the Espresso server, mapped to the {@code espressoBuildConfig} capability.
+ */
 public class EspressoBuildConfig extends BaseMapOptionData<EspressoBuildConfig> {
+    /** Name of the tools versions section. */
     public static final String TOOLS_VERSION = "toolsVersions";
+    /** Name of the additional app dependencies option. */
     public static final String ADDITIONAL_APP_DEPENDENCIES = "additionalAppDependencies";
+    /** Name of the additional Android test dependencies option. */
     public static final String ADDITIONAL_ANDROID_TEST_DEPENDENCIES
             = "additionalAndroidTestDependencies";
 
+    /**
+     * Creates an empty build config.
+     */
     public EspressoBuildConfig() {
         super();
     }
 
+    /**
+     * Creates a build config from the given JSON.
+     *
+     * @param json JSON string with the build config.
+     */
     public EspressoBuildConfig(String json) {
         super(json);
     }

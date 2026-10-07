@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/** Provides access to the geolocation of the device. */
 public interface SupportsLocation extends WebDriver, ExecutesMethod {
 
     /**

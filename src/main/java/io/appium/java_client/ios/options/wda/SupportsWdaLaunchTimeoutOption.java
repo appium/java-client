@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code wdaLaunchTimeout} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWdaLaunchTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code wdaLaunchTimeout} capability.
+     */
     String WDA_LAUNCH_TIMEOUT_OPTION = "wdaLaunchTimeout";
 
     /**

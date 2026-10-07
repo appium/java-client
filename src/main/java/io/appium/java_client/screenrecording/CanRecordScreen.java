@@ -24,6 +24,9 @@ import static io.appium.java_client.MobileCommand.STOP_RECORDING_SCREEN;
 import static io.appium.java_client.MobileCommand.startRecordingScreenCommand;
 import static io.appium.java_client.MobileCommand.stopRecordingScreenCommand;
 
+/**
+ * Provides the screen recording of the device under test.
+ */
 public interface CanRecordScreen extends ExecutesMethod {
 
     /**

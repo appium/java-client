@@ -16,5 +16,14 @@
 
 package io.appium.java_client.proxy;
 
+/**
+ * Thrown by a listener callback to be skipped as not implemented.
+ */
 public class NotImplementedException extends RuntimeException {
+    /**
+     * Creates a new instance.
+     */
+    public NotImplementedException() {
+    }
+
 }

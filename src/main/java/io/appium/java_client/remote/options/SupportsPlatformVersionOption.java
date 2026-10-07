@@ -20,8 +20,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code platformVersion} capability: the platform version.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsPlatformVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code platformVersion} capability.
+     */
     String PLATFORM_VERSION_OPTION = "platformVersion";
 
     /**

@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code safari:automaticInspection} capability: whether Web Inspector is opened automatically.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsSafariAutomaticInspectionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safari:automaticInspection} capability.
+     */
     String SAFARI_AUTOMATIC_INSPECTION_OPTION = "safari:automaticInspection";
 
     /**

@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.net.URL;
 import java.util.Optional;
 
+/**
+ * Support for the {@code webDriverAgentMacUrl} capability: the URL of an already running WebDriverAgentMac server.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsWebDriverAgentMacUrlOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code webDriverAgentMacUrl} capability.
+     */
     String WEB_DRIVER_AGENT_MAC_URL_OPTION = "webDriverAgentMacUrl";
 
     /**

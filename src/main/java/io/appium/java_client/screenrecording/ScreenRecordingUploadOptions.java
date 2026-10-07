@@ -23,7 +23,16 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/**
+ * Options of the screen recording upload to a remote location.
+ */
 public class ScreenRecordingUploadOptions {
+    /**
+     * Creates a new instance.
+     */
+    public ScreenRecordingUploadOptions() {
+    }
+
     private String remotePath;
     private String user;
     private String pass;
@@ -32,6 +41,11 @@ public class ScreenRecordingUploadOptions {
     private Map<String, String> headers;
     private Map<String, Object> formFields;
 
+    /**
+     * Creates an empty options instance.
+     *
+     * @return a new options instance
+     */
     public static ScreenRecordingUploadOptions uploadOptions() {
         return new ScreenRecordingUploadOptions();
     }
@@ -61,8 +75,14 @@ public class ScreenRecordingUploadOptions {
         return this;
     }
 
+    /**
+     * HTTP methods supported for the upload.
+     */
     public enum RequestMethod {
-        POST, PUT
+        /** The POST method. */
+        POST,
+        /** The PUT method. */
+        PUT
     }
 
     /**

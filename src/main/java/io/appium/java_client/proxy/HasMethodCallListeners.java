@@ -16,6 +16,9 @@
 
 package io.appium.java_client.proxy;
 
+/**
+ * Gives access to the method call listeners of a proxy instance.
+ */
 public interface HasMethodCallListeners {
     /**
      * The setter is dynamically created by ByteBuddy to store

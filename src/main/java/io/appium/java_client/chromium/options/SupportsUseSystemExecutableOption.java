@@ -24,8 +24,17 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code useSystemExecutable} capability: whether the Chrome driver executable found on the system
+ * is used.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsUseSystemExecutableOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code useSystemExecutable} capability.
+     */
     String USE_SYSTEM_EXECUTABLE = "useSystemExecutable";
 
     /**

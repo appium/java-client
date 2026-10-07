@@ -23,8 +23,16 @@ import org.openqa.selenium.Proxy;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Support for the {@code proxy} capability: the proxy configuration.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsProxyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code proxy} capability.
+     */
     String PROXY_OPTION = "proxy";
 
     /**

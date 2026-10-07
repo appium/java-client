@@ -38,15 +38,26 @@ public class ChromiumOptions extends BaseOptions<ChromiumOptions> implements
         SupportsBuildCheckOption<ChromiumOptions>,
         SupportsAutodownloadOption<ChromiumOptions>,
         SupportsUseSystemExecutableOption<ChromiumOptions> {
+    /** Creates options with the default capabilities set. */
     public ChromiumOptions() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities.
+     *
+     * @param source The capabilities to copy.
+     */
     public ChromiumOptions(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities map.
+     *
+     * @param source The capabilities to copy.
+     */
     public ChromiumOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();

@@ -1,5 +1,6 @@
 package io.appium.java_client.android.nativekey;
 
+/** Native Android key event meta modifiers. */
 public enum KeyEventMetaModifier {
     /**
      * SHIFT key locked in CAPS mode.
@@ -151,6 +152,11 @@ public enum KeyEventMetaModifier {
         this.value = value;
     }
 
+    /**
+     * Gets the native modifier value.
+     *
+     * @return the integer modifier value.
+     */
     public int getValue() {
         return value;
     }

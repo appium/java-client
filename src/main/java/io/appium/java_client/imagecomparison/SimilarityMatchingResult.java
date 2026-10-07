@@ -18,9 +18,17 @@ package io.appium.java_client.imagecomparison;
 
 import java.util.Map;
 
+/**
+ * The result of the images similarity calculation.
+ */
 public class SimilarityMatchingResult extends ComparisonResult {
     private static final String SCORE = "score";
 
+    /**
+     * Creates a result wrapper.
+     *
+     * @param input the raw command result returned by the server
+     */
     public SimilarityMatchingResult(Map<String, Object> input) {
         super(input);
     }

@@ -24,8 +24,16 @@ import org.openqa.selenium.Capabilities;
 import java.net.URL;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code mjpegScreenshotUrl} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsMjpegScreenshotUrlOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code mjpegScreenshotUrl} capability.
+     */
     String MJPEG_SCREENSHOT_URL_OPTION = "mjpegScreenshotUrl";
 
     /**

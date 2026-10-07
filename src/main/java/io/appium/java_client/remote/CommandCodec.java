@@ -32,6 +32,12 @@ public interface CommandCodec {
      */
     HttpRequest encode(Command command);
 
+    /**
+     * Checks whether the command is supported by this codec.
+     *
+     * @param commandName the name of the command
+     * @return {@code true} if the command is defined
+     */
     boolean isSupported(String commandName);
 
     /**

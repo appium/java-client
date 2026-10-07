@@ -23,8 +23,16 @@ import org.openqa.selenium.Capabilities;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code chromeLoggingPrefs} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsChromeLoggingPrefsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code chromeLoggingPrefs} capability.
+     */
     String CHROME_LOGGING_PREFS_OPTION = "chromeLoggingPrefs";
 
     /**

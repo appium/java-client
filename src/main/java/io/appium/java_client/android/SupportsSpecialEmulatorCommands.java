@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static java.util.Locale.ROOT;
 
+/** Provides special Android emulator commands, such as SMS and GSM events. */
 public interface SupportsSpecialEmulatorCommands extends ExecutesMethod {
 
     /**

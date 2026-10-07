@@ -6,6 +6,7 @@ import io.appium.java_client.remote.AppiumWebElement;
 
 import java.util.Map;
 
+/** Provides replacing of the whole value of an element. */
 public interface CanReplaceElementValue extends ExecutesMethod {
     /**
      * Sends a text to the given element by replacing its previous content.

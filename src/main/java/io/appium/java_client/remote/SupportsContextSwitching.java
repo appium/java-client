@@ -30,6 +30,7 @@ import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
+/** Provides the ability to switch between native and web contexts. */
 public interface SupportsContextSwitching extends WebDriver, ExecutesMethod {
     /**
      * Switches to the given context.

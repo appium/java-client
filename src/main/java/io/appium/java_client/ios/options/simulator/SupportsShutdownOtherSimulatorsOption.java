@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code shutdownOtherSimulators} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsShutdownOtherSimulatorsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code shutdownOtherSimulators} capability.
+     */
     String SHUTDOWN_OTHER_SIMULATORS_OPTION = "shutdownOtherSimulators";
 
     /**

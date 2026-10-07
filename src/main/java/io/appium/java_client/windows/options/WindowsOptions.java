@@ -41,15 +41,26 @@ public class WindowsOptions extends BaseOptions<WindowsOptions> implements
         SupportsSystemPortOption<WindowsOptions>,
         SupportsPrerunOption<WindowsOptions, PowerShellData>,
         SupportsPostrunOption<WindowsOptions, PowerShellData> {
+    /** Creates options with the default capabilities set. */
     public WindowsOptions() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities.
+     *
+     * @param source The capabilities to copy.
+     */
     public WindowsOptions(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options from the given capabilities map.
+     *
+     * @param source The capabilities to copy.
+     */
     public WindowsOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();

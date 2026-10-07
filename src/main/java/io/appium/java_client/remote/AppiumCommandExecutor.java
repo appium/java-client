@@ -85,6 +85,13 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         this.serviceOptional = ofNullable(service);
     }
 
+    /**
+     * Creates an executor that talks to a local Appium service.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param service the local Appium service to send the commands to
+     * @param httpClientFactory the HTTP client factory, or {@code null} for the default one
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
                                  AppiumDriverLocalService service,
                                  @Nullable Factory httpClientFactory) {
@@ -92,39 +99,83 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(service).getUrl()));
     }
 
+    /**
+     * Creates an executor that talks to the given server address.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param addressOfRemoteServer the address of the Appium server
+     * @param httpClientFactory the HTTP client factory, or {@code null} for the default one
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands, URL addressOfRemoteServer,
                                  @Nullable Factory httpClientFactory) {
         this(additionalCommands, null, httpClientFactory,
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
+    /**
+     * Creates an executor using the given client configuration.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param appiumClientConfig the HTTP client configuration
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
                                  AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, null, null, appiumClientConfig);
     }
 
+    /**
+     * Creates an executor that talks to the given server address.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param addressOfRemoteServer the address of the Appium server
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands, URL addressOfRemoteServer) {
         this(additionalCommands, null, Factory.createDefault(),
                 AppiumClientConfig.defaultConfig().baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
+    /**
+     * Creates an executor that talks to the given server address using the given client configuration.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param addressOfRemoteServer the address of the Appium server
+     * @param appiumClientConfig the HTTP client configuration
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands, URL addressOfRemoteServer,
                                  AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, null, Factory.createDefault(),
                 appiumClientConfig.baseUrl(requireNonNull(addressOfRemoteServer)));
     }
 
+    /**
+     * Creates an executor that talks to a local Appium service.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param service the local Appium service to send the commands to
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
                                  AppiumDriverLocalService service) {
         this(additionalCommands, service, Factory.createDefault(),
                 AppiumClientConfig.defaultConfig().baseUrl(service.getUrl()));
     }
 
+    /**
+     * Creates an executor that talks to a local Appium service using the given client configuration.
+     *
+     * @param additionalCommands the map of Appium commands
+     * @param service the local Appium service to send the commands to
+     * @param appiumClientConfig the HTTP client configuration
+     */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
                                  AppiumDriverLocalService service, AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, service, Factory.createDefault(), appiumClientConfig);
     }
 
+    /**
+     * Returns the additional (non-standard) commands known to this executor.
+     *
+     * @return the unmodifiable map of the additional commands
+     */
     public Map<String, AppiumCommandInfo> getAdditionalCommands() {
         return Collections.unmodifiableMap(additionalCommands);
     }
@@ -139,19 +190,39 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         return remoteServer;
     }
 
+    /**
+     * Returns the codec used to encode commands.
+     *
+     * @return the command codec, or {@code null} if the session has not been created yet
+     */
     @Nullable
     protected CommandCodec getCommandCodec() {
         return this.commandCodec;
     }
 
+    /**
+     * Sets the codec used to encode commands.
+     *
+     * @param newCodec the command codec
+     */
     public void setCommandCodec(CommandCodec newCodec) {
         this.commandCodec = newCodec;
     }
 
+    /**
+     * Sets the codec used to decode responses.
+     *
+     * @param codec the response codec
+     */
     public void setResponseCodec(ResponseCodec codec) {
         this.responseCodec = codec;
     }
 
+    /**
+     * Returns the HTTP client used to send the commands.
+     *
+     * @return the HTTP client
+     */
     public HttpClient getClient() {
         return this.client;
     }
@@ -193,6 +264,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         return response;
     }
 
+    /** Re-registers the additional commands in the current command codec. */
     public void refreshAdditionalCommands() {
         getAdditionalCommands().forEach(this::defineCommand);
     }

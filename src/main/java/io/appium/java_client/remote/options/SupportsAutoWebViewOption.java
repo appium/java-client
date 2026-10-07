@@ -22,8 +22,17 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code autoWebview} capability: whether the session switches to the first available web view
+ * automatically.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsAutoWebViewOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code autoWebview} capability.
+     */
     String AUTO_WEB_VIEW_OPTION = "autoWebview";
 
     /**

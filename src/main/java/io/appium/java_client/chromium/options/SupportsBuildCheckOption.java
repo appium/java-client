@@ -24,8 +24,17 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code disableBuildCheck} capability: whether the Chrome driver and browser version compatibility
+ * check is disabled.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsBuildCheckOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code disableBuildCheck} capability.
+     */
     String DISABLE_BUILD_CHECK = "disableBuildCheck";
 
     /**

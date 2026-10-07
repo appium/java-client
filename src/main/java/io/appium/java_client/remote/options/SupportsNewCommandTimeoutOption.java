@@ -23,8 +23,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
+/**
+ * Support for the {@code newCommandTimeout} capability: the idle timeout after which the session is terminated.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code newCommandTimeout} capability.
+     */
     String NEW_COMMAND_TIMEOUT_OPTION = "newCommandTimeout";
 
     /**

@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code optionalIntentArguments} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsOptionalIntentArgumentsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code optionalIntentArguments} capability.
+     */
     String OPTIONAL_INTENT_ARGUMENTS_OPTION = "optionalIntentArguments";
 
     /**

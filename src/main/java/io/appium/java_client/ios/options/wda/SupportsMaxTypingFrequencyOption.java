@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code maxTypingFrequency} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsMaxTypingFrequencyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code maxTypingFrequency} capability.
+     */
     String MAX_TYPING_FREQUENCY_OPTION = "maxTypingFrequency";
 
     /**

@@ -24,11 +24,22 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Custom options for the intent used to start the app, mapped to the {@code intentOptions} capability.
+ */
 public class IntentOptions extends BaseMapOptionData<IntentOptions> {
+    /**
+     * Creates empty options.
+     */
     public IntentOptions() {
         super();
     }
 
+    /**
+     * Creates options from the given map.
+     *
+     * @param options Initial option values.
+     */
     public IntentOptions(Map<String, Object> options) {
         super(options);
     }

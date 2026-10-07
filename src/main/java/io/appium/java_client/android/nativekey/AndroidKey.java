@@ -1,5 +1,6 @@
 package io.appium.java_client.android.nativekey;
 
+/** Android native key codes. */
 public enum AndroidKey {
     /**
      * Key code constant: Unknown key code.
@@ -1285,6 +1286,11 @@ public enum AndroidKey {
         this.code = code;
     }
 
+    /**
+     * Gets the native Android key code.
+     *
+     * @return the integer key code.
+     */
     public int getCode() {
         return code;
     }

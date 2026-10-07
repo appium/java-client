@@ -19,6 +19,9 @@ package io.appium.java_client;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The interface for the drivers that can hide the on-screen keyboard by pressing a named key.
+ */
 public interface HidesKeyboardWithKeyName extends HidesKeyboard {
 
     /**

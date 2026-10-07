@@ -18,13 +18,26 @@ package io.appium.java_client.http;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * A binary WebSocket message.
+ */
 public class BinaryMessage implements Message {
     private final byte[] data;
 
+    /**
+     * Creates a message from the given bytes.
+     *
+     * @param data the message payload (copied)
+     */
     public BinaryMessage(byte[] data) {
         this.data = requireNonNull(data, "Data to use").clone();
     }
 
+    /**
+     * Returns the message payload.
+     *
+     * @return the payload bytes
+     */
     public byte[] data() {
         return data;
     }

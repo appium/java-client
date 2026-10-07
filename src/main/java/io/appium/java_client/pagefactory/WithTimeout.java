@@ -43,6 +43,9 @@ public @interface WithTimeout {
      */
     ChronoUnit chronoUnit();
 
+    /**
+     * Builds a {@link Duration} from the {@link WithTimeout} annotation.
+     */
     class DurationBuilder {
         private DurationBuilder() {
         }

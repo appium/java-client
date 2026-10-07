@@ -21,6 +21,9 @@ import lombok.Getter;
 
 import java.util.Map;
 
+/**
+ * The result of the driver script execution.
+ */
 public class ScriptValue {
     /**
      * The result of ExecuteDriverScript call.
@@ -37,6 +40,12 @@ public class ScriptValue {
      */
     @Getter(AccessLevel.PUBLIC) private final Map<String, Object> logs;
 
+    /**
+     * Creates a new script value.
+     *
+     * @param result the value returned by the script
+     * @param logs   the logs mapping produced by the script
+     */
     public ScriptValue(Object result, Map<String, Object> logs) {
         this.result = result;
         this.logs = logs;

@@ -2,9 +2,17 @@ package io.appium.java_client.battery;
 
 import java.util.Map;
 
+/**
+ * Battery information of the device under test.
+ */
 public abstract class BatteryInfo {
     private final Map<String, Object> input;
 
+    /**
+     * Creates a new instance from the raw battery data.
+     *
+     * @param input the raw battery info mapping returned by the server
+     */
     public BatteryInfo(Map<String, Object> input) {
         this.input = input;
     }
@@ -30,6 +38,11 @@ public abstract class BatteryInfo {
      */
     public abstract <T> T getState();
 
+    /**
+     * Returns the raw battery data.
+     *
+     * @return the raw battery info mapping
+     */
     protected Map<String, Object> getInput() {
         return this.input;
     }

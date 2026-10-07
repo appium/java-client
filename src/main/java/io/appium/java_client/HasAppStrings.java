@@ -18,6 +18,9 @@ package io.appium.java_client;
 
 import java.util.Map;
 
+/**
+ * The interface for the drivers that can retrieve the localized strings of the app under test.
+ */
 public interface HasAppStrings extends ExecutesMethod {
     /**
      * Get all defined Strings from an app for the default language.

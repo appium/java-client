@@ -26,8 +26,21 @@ import java.util.concurrent.CompletableFuture;
  * the filter of the {@link ClientConfig} they were created with.
  */
 public interface HttpClient extends Closeable, HttpHandler {
+    /**
+     * Opens a WebSocket connection.
+     *
+     * @param request  the request describing the WebSocket endpoint
+     * @param listener the listener to receive the socket events
+     * @return the opened socket
+     */
     WebSocket openSocket(HttpRequest request, WebSocket.Listener listener);
 
+    /**
+     * Executes the request asynchronously.
+     *
+     * @param req the request to send
+     * @return the future completed with the response
+     */
     default CompletableFuture<HttpResponse> executeAsync(HttpRequest req) {
         return CompletableFuture.supplyAsync(() -> execute(req));
     }
@@ -49,6 +62,12 @@ public interface HttpClient extends Closeable, HttpHandler {
             return new JdkHttpClient.Factory();
         }
 
+        /**
+         * Creates a client with the given settings.
+         *
+         * @param config the client settings
+         * @return the new client
+         */
         HttpClient createClient(ClientConfig config);
     }
 }

@@ -24,6 +24,12 @@ import java.util.Map;
 public class InvalidResponseException extends IllegalArgumentException {
     private static final String W3C_ERRORS_URL = "https://www.w3.org/TR/webdriver2/#errors";
 
+    /**
+     * Creates an exception.
+     *
+     * @param message  the detail message
+     * @param response the response that cannot be interpreted
+     */
     public InvalidResponseException(String message, Map<String, Object> response) {
         super(String.format("%s: %s%nSee %s", message, response, W3C_ERRORS_URL));
     }

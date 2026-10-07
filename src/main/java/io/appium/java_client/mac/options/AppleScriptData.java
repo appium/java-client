@@ -21,10 +21,19 @@ import io.appium.java_client.remote.options.SystemScript;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Data object describing an AppleScript to execute, either as a script or as a command.
+ */
 public class AppleScriptData extends SystemScript<AppleScriptData> {
+    /** Creates an empty data object. */
     public AppleScriptData() {
     }
 
+    /**
+     * Creates a data object backed by the given map.
+     *
+     * @param options The initial option values.
+     */
     public AppleScriptData(Map<String, Object> options) {
         super(options);
     }

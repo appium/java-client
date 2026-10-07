@@ -35,10 +35,16 @@ public class ErrorHandler {
 
     private final ErrorCodes errorCodes;
 
+    /** Creates a handler with the default error codes. */
     public ErrorHandler() {
         this(new ErrorCodes());
     }
 
+    /**
+     * Creates a handler with the given error codes.
+     *
+     * @param codes the error codes mapping
+     */
     public ErrorHandler(ErrorCodes codes) {
         this.errorCodes = codes;
     }

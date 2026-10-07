@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code showXcodeLog} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsShowXcodeLogOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code showXcodeLog} capability.
+     */
     String SHOW_XCODE_LOG_OPTION = "showXcodeLog";
 
     /**

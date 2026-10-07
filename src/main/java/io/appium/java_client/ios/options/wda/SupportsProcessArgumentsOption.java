@@ -24,8 +24,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code processArguments} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsProcessArgumentsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code processArguments} capability.
+     */
     String PROCESS_ARGUMENTS_OPTION = "processArguments";
 
     /**

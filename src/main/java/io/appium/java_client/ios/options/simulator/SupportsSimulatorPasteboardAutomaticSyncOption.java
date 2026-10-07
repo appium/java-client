@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static java.util.Locale.ROOT;
 
+/**
+ * Provides getters and setters for the {@code simulatorPasteboardAutomaticSync} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSimulatorPasteboardAutomaticSyncOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code simulatorPasteboardAutomaticSync} capability.
+     */
     String SIMULATOR_PASTEBOARD_AUTOMATIC_SYNC = "simulatorPasteboardAutomaticSync";
 
     /**

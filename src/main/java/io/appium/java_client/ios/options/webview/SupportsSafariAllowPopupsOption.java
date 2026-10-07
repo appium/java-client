@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code safariAllowPopups} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSafariAllowPopupsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code safariAllowPopups} capability.
+     */
     String SAFARI_ALLOW_POPUPS_OPTION = "safariAllowPopups";
 
     /**

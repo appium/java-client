@@ -18,15 +18,27 @@ package io.appium.java_client.http;
 
 import java.util.Locale;
 
+/**
+ * Supported HTTP methods.
+ */
 public enum HttpMethod {
+    /** The DELETE method. */
     DELETE,
+    /** The GET method. */
     GET,
+    /** The POST method. */
     POST,
+    /** The PUT method. */
     PUT,
+    /** The OPTIONS method. */
     OPTIONS,
+    /** The PATCH method. */
     PATCH,
+    /** The HEAD method. */
     HEAD,
+    /** The CONNECT method. */
     CONNECT,
+    /** The TRACE method. */
     TRACE;
 
     /**

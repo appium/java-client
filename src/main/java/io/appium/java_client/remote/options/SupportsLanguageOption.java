@@ -20,8 +20,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code language} capability: the language used by the device or application.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsLanguageOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code language} capability.
+     */
     String LANGUAGE_OPTION = "language";
 
     /**

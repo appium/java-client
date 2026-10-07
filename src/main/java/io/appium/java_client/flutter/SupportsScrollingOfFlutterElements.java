@@ -3,6 +3,9 @@ package io.appium.java_client.flutter;
 import io.appium.java_client.flutter.commands.ScrollParameter;
 import org.openqa.selenium.WebElement;
 
+/**
+ * The interface for the drivers that can scroll to Flutter elements.
+ */
 public interface SupportsScrollingOfFlutterElements extends CanExecuteFlutterScripts {
 
     /**

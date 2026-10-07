@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toInteger;
 
+/**
+ * Provides getters and setters for the {@code wdaLocalPort} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsWdaLocalPortOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code wdaLocalPort} capability.
+     */
     String WDA_LOCAL_PORT_OPTION = "wdaLocalPort";
 
     /**

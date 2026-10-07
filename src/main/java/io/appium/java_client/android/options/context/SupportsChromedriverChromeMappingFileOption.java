@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code chromedriverChromeMappingFile} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsChromedriverChromeMappingFileOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code chromedriverChromeMappingFile} capability.
+     */
     String CHROMEDRIVER_CHROME_MAPPING_FILE_OPTION = "chromedriverChromeMappingFile";
 
     /**

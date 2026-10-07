@@ -25,15 +25,30 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Helpers for working with remote session addresses.
+ */
 public class SessionHelpers {
     private static final Pattern SESSION = Pattern.compile("/session/([^/]+)");
 
     private SessionHelpers() {
     }
 
+    /** The server URL and the session identifier of a remote session. */
     @Data public static class SessionAddress {
         private final URL serverUrl;
         private final String id;
+
+        /**
+         * Creates a new session address.
+         *
+         * @param serverUrl the URL of the server hosting the session
+         * @param id the session identifier
+         */
+        public SessionAddress(URL serverUrl, String id) {
+            this.serverUrl = serverUrl;
+            this.id = id;
+        }
     }
 
     /**

@@ -5,6 +5,9 @@ import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.Map;
 
+/**
+ * The interface for the drivers that can execute Flutter integration driver scripts.
+ */
 public interface CanExecuteFlutterScripts extends JavascriptExecutor {
 
     /**

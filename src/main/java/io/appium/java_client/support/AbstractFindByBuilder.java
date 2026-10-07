@@ -31,8 +31,27 @@ import java.util.Set;
  * @param <T> the annotation type handled by the builder
  */
 public abstract class AbstractFindByBuilder<T> {
+    /**
+     * Creates a new instance.
+     */
+    public AbstractFindByBuilder() {
+    }
+
+    /**
+     * Builds the locator from the annotation.
+     *
+     * @param annotation the annotation to read
+     * @param field the annotated field
+     * @return the locator
+     */
     public abstract By buildIt(T annotation, Field field);
 
+    /**
+     * Builds the locator from the {@link FindBy} annotation.
+     *
+     * @param findBy the annotation to read
+     * @return the locator
+     */
     protected By buildByFromFindBy(FindBy findBy) {
         assertValidFindBy(findBy);
 
@@ -44,6 +63,12 @@ public abstract class AbstractFindByBuilder<T> {
         return ans;
     }
 
+    /**
+     * Builds the locator from the short form of {@link FindBy}, for example {@code id}.
+     *
+     * @param findBy the annotation to read
+     * @return the locator or null if no short form is used
+     */
     @Nullable
     protected By buildByFromShortFindBy(FindBy findBy) {
         if (!"".equals(findBy.className())) {
@@ -81,16 +106,33 @@ public abstract class AbstractFindByBuilder<T> {
         return null;
     }
 
+    /**
+     * Builds the locator from the long form of {@link FindBy}, which is {@code how} and {@code using}.
+     *
+     * @param findBy the annotation to read
+     * @return the locator
+     */
     protected By buildByFromLongFindBy(FindBy findBy) {
         return findBy.how().buildBy(findBy.using());
     }
 
+    /**
+     * Verifies that every {@link FindBy} in {@link FindBys} is valid.
+     *
+     * @param findBys the annotation to verify
+     */
     protected void assertValidFindBys(FindBys findBys) {
         for (FindBy findBy : findBys.value()) {
             assertValidFindBy(findBy);
         }
     }
 
+    /**
+     * Verifies that at most one location strategy is set in {@link FindBy}.
+     *
+     * @param findBy the annotation to verify
+     * @throws IllegalArgumentException if several location strategies are set
+     */
     protected void assertValidFindBy(FindBy findBy) {
         Set<String> finders = new HashSet<>();
         if (!"".equals(findBy.using())) {
@@ -129,6 +171,11 @@ public abstract class AbstractFindByBuilder<T> {
         }
     }
 
+    /**
+     * Verifies that every {@link FindBy} in {@link FindAll} is valid.
+     *
+     * @param findBys the annotation to verify
+     */
     protected void assertValidFindAll(FindAll findBys) {
         for (FindBy findBy : findBys.value()) {
             assertValidFindBy(findBy);

@@ -32,6 +32,11 @@ import java.lang.reflect.Method;
 public class LocatingElementHandler implements InvocationHandler {
     private final ElementLocator locator;
 
+    /**
+     * Creates a new handler.
+     *
+     * @param locator the locator of the element
+     */
     public LocatingElementHandler(ElementLocator locator) {
         this.locator = locator;
     }

@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code includeDeviceCapsToSessionInfo} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsIncludeDeviceCapsToSessionInfoOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code includeDeviceCapsToSessionInfo} capability.
+     */
     String INCLUDE_DEVICE_CAPS_TO_SESSION_INFO_OPTION = "includeDeviceCapsToSessionInfo";
 
     /**

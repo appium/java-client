@@ -33,6 +33,9 @@ import java.util.Map;
 
 import static io.appium.java_client.MobileCommand.compareImagesCommand;
 
+/**
+ * The interface for the drivers that can compare images and find image occurrences.
+ */
 public interface ComparesImages extends ExecutesMethod {
 
     /**

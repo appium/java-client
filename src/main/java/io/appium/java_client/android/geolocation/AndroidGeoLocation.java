@@ -22,6 +22,7 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+/** Geo location with the extended parameters available on Android. */
 public class AndroidGeoLocation {
     private Double longitude;
     private Double latitude;

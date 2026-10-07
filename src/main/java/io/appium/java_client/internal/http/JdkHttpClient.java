@@ -356,6 +356,12 @@ public class JdkHttpClient implements HttpClient {
      * Creates {@link JdkHttpClient} instances.
      */
     public static class Factory implements HttpClient.Factory {
+        /**
+         * Creates a new instance.
+         */
+        public Factory() {
+        }
+
         @Override
         public HttpClient createClient(ClientConfig config) {
             return new JdkHttpClient(Objects.requireNonNull(config, "Client config must be set"));

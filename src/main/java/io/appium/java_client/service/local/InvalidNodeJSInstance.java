@@ -16,10 +16,19 @@
 
 package io.appium.java_client.service.local;
 
+/**
+ * Thrown if the Node.js instance is invalid.
+ */
 public class InvalidNodeJSInstance extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates an exception with the given message and cause.
+     *
+     * @param message the detail message
+     * @param t       the cause
+     */
     public InvalidNodeJSInstance(String message, Throwable t) {
         super(message, t);
     }

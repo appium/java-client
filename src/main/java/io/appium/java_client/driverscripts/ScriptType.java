@@ -16,6 +16,10 @@
 
 package io.appium.java_client.driverscripts;
 
+/**
+ * Supported driver script types.
+ */
 public enum ScriptType {
+    /** A WebdriverIO script. */
     WEBDRIVERIO
 }

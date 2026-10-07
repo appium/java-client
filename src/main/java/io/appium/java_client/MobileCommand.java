@@ -35,40 +35,70 @@ import java.util.Optional;
  */
 @SuppressWarnings({"checkstyle:HideUtilityClassConstructor", "checkstyle:ConstantName"})
 public class MobileCommand {
+    /**
+     * Creates a new instance.
+     */
+    public MobileCommand() {
+    }
+
+    /** The command that gets the session details. */
     @Deprecated
     protected static final String GET_SESSION;
+    /** The command that logs a custom event on the server. */
     protected static final String LOG_EVENT;
+    /** The command that gets the server events. */
     protected static final String GET_EVENTS;
 
     // The file transfer commands of the drivers that have no `mobile:` extensions for them, e.g. Windows
+    /** The command that pulls a file from the device. */
     public static final String PULL_FILE;
+    /** The command that pulls a folder from the device. */
     public static final String PULL_FOLDER;
+    /** The command that pushes a file to the device. */
     public static final String PUSH_FILE;
 
+    /** The command that starts the screen recording. */
     public static final String START_RECORDING_SCREEN;
+    /** The command that stops the screen recording. */
     public static final String STOP_RECORDING_SCREEN;
 
     //Android
+    /** The command that gets the Appium settings. */
     protected static final String GET_SETTINGS;
+    /** The command that changes the Appium settings. */
     protected static final String SET_SETTINGS;
+    /** The command that compares images. */
     protected static final String COMPARE_IMAGES;
+    /** The command that executes a driver script on the server side. */
     protected static final String EXECUTE_DRIVER_SCRIPT;
+    /** The command that gets all the sessions. */
     @Deprecated
     protected static final String GET_ALLSESSION;
+    /** The command that executes a Chrome DevTools Protocol command. */
     protected static final String EXECUTE_GOOGLE_CDP_COMMAND;
 
+    /** The command that gets the screen orientation. */
     public static final String GET_SCREEN_ORIENTATION = "getScreenOrientation";
+    /** The command that sets the screen orientation. */
     public static final String SET_SCREEN_ORIENTATION = "setScreenOrientation";
+    /** The command that gets the screen rotation. */
     public static final String GET_SCREEN_ROTATION = "getScreenRotation";
+    /** The command that sets the screen rotation. */
     public static final String SET_SCREEN_ROTATION = "setScreenRotation";
 
+    /** The command that gets the available context handles. */
     public static final String GET_CONTEXT_HANDLES = "getContextHandles";
+    /** The command that gets the current context handle. */
     public static final String GET_CURRENT_CONTEXT_HANDLE = "getCurrentContextHandle";
+    /** The command that switches to the given context. */
     public static final String SWITCH_TO_CONTEXT = "switchToContext";
 
+    /** The command that gets the device location. */
     public static final String GET_LOCATION = "getLocation";
+    /** The command that sets the device location. */
     public static final String SET_LOCATION = "setLocation";
 
+    /** The repository of the Appium command definitions by the command name. */
     public static final Map<String, AppiumCommandInfo> commandRepository;
 
     static {
@@ -155,22 +185,52 @@ public class MobileCommand {
         return new AppiumCommandInfo(url, HttpMethod.DELETE);
     }
 
+    /**
+     * Creates the command that gets the Appium settings.
+     *
+     * @return key-value pairs
+     */
     public static Map.Entry<String, Map<String, ?>> getSettingsCommand() {
         return Map.entry(GET_SETTINGS, Map.of());
     }
 
+    /**
+     * Creates the command that changes a single Appium setting.
+     *
+     * @param setting the setting name
+     * @param value the setting value
+     * @return key-value pairs
+     */
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(String setting, Object value) {
         return setSettingsCommand(Map.of(setting, value));
     }
 
+    /**
+     * Creates the command that changes several Appium settings.
+     *
+     * @param settings the setting names mapped to their values
+     * @return key-value pairs
+     */
     public static Map.Entry<String, Map<String, ?>> setSettingsCommand(Map<String, Object> settings) {
         return Map.entry(SET_SETTINGS, Map.of("settings", settings));
     }
 
+    /**
+     * Creates the command that starts the screen recording.
+     *
+     * @param opts the recording options
+     * @return key-value pairs
+     */
     public static Map.Entry<String, Map<String, ?>> startRecordingScreenCommand(BaseStartScreenRecordingOptions opts) {
         return Map.entry(START_RECORDING_SCREEN, Map.of("options", opts.build()));
     }
 
+    /**
+     * Creates the command that stops the screen recording.
+     *
+     * @param opts the recording options
+     * @return key-value pairs
+     */
     public static Map.Entry<String, Map<String, ?>> stopRecordingScreenCommand(BaseStopScreenRecordingOptions opts) {
         return Map.entry(STOP_RECORDING_SCREEN, Map.of("options", opts.build()));
     }

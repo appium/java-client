@@ -19,6 +19,9 @@ package io.appium.java_client.android.options.signing;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+ * Configuration of a custom keystore used to sign the app under test.
+ */
 @ToString()
 @Data()
 public class KeystoreConfig {
@@ -26,4 +29,19 @@ public class KeystoreConfig {
     private final String password;
     private final String keyAlias;
     private final String keyPassword;
+
+    /**
+     * Creates a new keystore configuration.
+     *
+     * @param path the keystore path
+     * @param password the keystore password
+     * @param keyAlias the key alias
+     * @param keyPassword the key password
+     */
+    public KeystoreConfig(String path, String password, String keyAlias, String keyPassword) {
+        this.path = path;
+        this.password = password;
+        this.keyAlias = keyAlias;
+        this.keyPassword = keyPassword;
+    }
 }

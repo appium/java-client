@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code disableWindowAnimation} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsDisableWindowAnimationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code disableWindowAnimation} capability.
+     */
     String DISABLE_WINDOWS_ANIMATION_OPTION = "disableWindowAnimation";
 
     /**

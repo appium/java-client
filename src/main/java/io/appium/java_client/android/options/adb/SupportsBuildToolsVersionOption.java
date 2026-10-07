@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code buildToolsVersion} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsBuildToolsVersionOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code buildToolsVersion} capability.
+     */
     String BUILD_TOOLS_VERSION_OPTION = "buildToolsVersion";
 
     /**

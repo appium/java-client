@@ -25,8 +25,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
+/**
+ * Provides getters and setters for the {@code appWaitDuration} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAppWaitDurationOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appWaitDuration} capability.
+     */
     String APP_WAIT_DURATION_OPTION = "appWaitDuration";
 
     /**

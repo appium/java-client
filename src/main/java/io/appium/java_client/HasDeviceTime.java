@@ -18,6 +18,9 @@ package io.appium.java_client;
 
 import java.util.Map;
 
+/**
+ * The interface for the drivers that can retrieve the device date and time.
+ */
 public interface HasDeviceTime extends ExecutesMethod {
 
     /**

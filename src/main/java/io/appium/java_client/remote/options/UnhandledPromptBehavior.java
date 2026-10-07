@@ -21,9 +21,19 @@ import java.util.stream.Collectors;
 
 import static java.util.Locale.ROOT;
 
+/**
+ * Supported values of the {@code unhandledPromptBehavior} capability.
+ */
 public enum UnhandledPromptBehavior {
-    DISMISS, ACCEPT,
-    DISMISS_AND_NOTIFY, ACCEPT_AND_NOTIFY,
+    /** Dismisses the prompt. */
+    DISMISS,
+    /** Accepts the prompt. */
+    ACCEPT,
+    /** Dismisses the prompt and notifies about it. */
+    DISMISS_AND_NOTIFY,
+    /** Accepts the prompt and notifies about it. */
+    ACCEPT_AND_NOTIFY,
+    /** Leaves the prompt as is. */
     IGNORE;
 
     @Override

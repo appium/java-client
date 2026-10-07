@@ -16,6 +16,14 @@
 
 package io.appium.java_client.ios.options.simulator;
 
+/**
+ * Possible values of the {@code simulatorPasteboardAutomaticSync} capability.
+ */
 public enum PasteboardSyncState {
-    ON, OFF, SYSTEM
+    /** Forces the pasteboard sync flag enabled. */
+    ON,
+    /** Disables the pasteboard sync. */
+    OFF,
+    /** Does not provide the flag to the simulator launch command. */
+    SYSTEM
 }

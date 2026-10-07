@@ -5,6 +5,7 @@ import io.appium.java_client.ExecutesMethod;
 
 import java.util.Map;
 
+/** Provides Android device details, such as the display density and system bars. */
 public interface HasAndroidDeviceDetails extends ExecutesMethod {
 
     /**

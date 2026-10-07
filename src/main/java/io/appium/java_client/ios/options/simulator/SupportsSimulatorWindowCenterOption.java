@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code simulatorWindowCenter} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsSimulatorWindowCenterOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code simulatorWindowCenter} capability.
+     */
     String SIMULATOR_WINDOW_CENTER_OPTION = "simulatorWindowCenter";
 
     /**

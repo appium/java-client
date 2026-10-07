@@ -28,14 +28,26 @@ import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/** iOS-specific options for starting a screen recording. */
 public class IOSStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<IOSStartScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public IOSStartScreenRecordingOptions() {
+    }
+
     private String videoType;
     private String videoQuality;
     private String videoScale;
     private String videoFilters;
     private Integer fps;
 
+    /**
+     * Creates a new options instance.
+     *
+     * @return a new {@link IOSStartScreenRecordingOptions} instance.
+     */
     public static IOSStartScreenRecordingOptions startScreenRecordingOptions() {
         return new IOSStartScreenRecordingOptions();
     }
@@ -62,8 +74,16 @@ public class IOSStartScreenRecordingOptions
         return this;
     }
 
+    /** Video encoding quality presets. */
     public enum VideoQuality {
-        LOW, MEDIUM, HIGH, PHOTO
+        /** Low quality. */
+        LOW,
+        /** Medium quality. */
+        MEDIUM,
+        /** High quality. */
+        HIGH,
+        /** Photo quality. */
+        PHOTO
     }
 
     /**

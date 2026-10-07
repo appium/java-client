@@ -8,8 +8,14 @@ import org.openqa.selenium.Capabilities;
 import java.time.Duration;
 import java.util.Optional;
 
+/**
+ * The interface for the options that set the Flutter server launch timeout.
+ *
+ * @param <T> the type of the options class, returned for chaining
+ */
 public interface SupportsFlutterServerLaunchTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /** The name of the Flutter server launch timeout capability. */
     String FLUTTER_SERVER_LAUNCH_TIMEOUT_OPTION = "flutterServerLaunchTimeout";
 
     /**

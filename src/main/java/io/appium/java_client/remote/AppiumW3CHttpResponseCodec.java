@@ -36,6 +36,12 @@ import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
  * {@code W3CHttpResponseCodec} (Apache License 2.0).
  */
 public class AppiumW3CHttpResponseCodec implements ResponseCodec {
+    /**
+     * Creates a new instance.
+     */
+    public AppiumW3CHttpResponseCodec() {
+    }
+
     private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();
 
     private final ErrorCodes errorCodes = new ErrorCodes();

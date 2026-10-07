@@ -195,15 +195,30 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         // Other options: https://github.com/appium/appium-uiautomator2-driver#other
         SupportsDisableSuppressAccessibilityServiceOption<EspressoOptions>,
         SupportsSkipLogCaptureOption<EspressoOptions> {
+    /**
+     * Creates options with the default platform and automation names set.
+     */
     public EspressoOptions() {
         setCommonOptions();
     }
 
+    /**
+     * Creates options with the default platform and automation names set,
+     * and copies the capabilities from the given source.
+     *
+     * @param source Capabilities to copy.
+     */
     public EspressoOptions(Capabilities source) {
         super(source);
         setCommonOptions();
     }
 
+    /**
+     * Creates options with the default platform and automation names set,
+     * and copies the capabilities from the given map.
+     *
+     * @param source Capabilities map to copy.
+     */
     public EspressoOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();

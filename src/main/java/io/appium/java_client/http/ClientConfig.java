@@ -37,10 +37,25 @@ public interface ClientConfig {
     @Nullable
     URI baseUri();
 
+    /**
+     * The maximum time to wait for a connection to be established.
+     *
+     * @return the connection timeout
+     */
     Duration connectionTimeout();
 
+    /**
+     * The maximum time to wait for a response to be read.
+     *
+     * @return the read timeout
+     */
     Duration readTimeout();
 
+    /**
+     * The maximum time to wait for a WebSocket connection to be established.
+     *
+     * @return the WebSocket timeout
+     */
     Duration wsTimeout();
 
     /**
@@ -50,12 +65,27 @@ public interface ClientConfig {
      */
     Filter filter();
 
+    /**
+     * The proxy to route requests through.
+     *
+     * @return the proxy or null if none is used
+     */
     @Nullable
     Proxy proxy();
 
+    /**
+     * The credentials to authenticate requests with.
+     *
+     * @return the credentials or null if none are configured
+     */
     @Nullable
     Credentials credentials();
 
+    /**
+     * The SSL context used for secure connections.
+     *
+     * @return the SSL context or null for the transport default
+     */
     @Nullable
     SSLContext sslContext();
 

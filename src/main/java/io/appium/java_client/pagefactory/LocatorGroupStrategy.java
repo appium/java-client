@@ -16,6 +16,10 @@
 
 package io.appium.java_client.pagefactory;
 
+/** The strategy of using a group of locators. */
 public enum LocatorGroupStrategy {
-    CHAIN, ALL_POSSIBLE;
+    /** The locators are applied one after another as a chain. */
+    CHAIN,
+    /** Any of the locators may match. */
+    ALL_POSSIBLE;
 }

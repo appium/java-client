@@ -16,7 +16,17 @@
 
 package io.appium.java_client.appmanagement;
 
+/**
+ * Base class for the options of the application removal commands.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseRemoveApplicationOptions<T extends BaseRemoveApplicationOptions<T>>
         extends BaseOptions<T> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseRemoveApplicationOptions() {
+    }
 
 }

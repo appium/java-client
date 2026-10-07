@@ -27,15 +27,29 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
+/**
+ * Base class for the image comparison results.
+ */
 public abstract class ComparisonResult {
     private static final String VISUALIZATION = "visualization";
 
+    /** The raw command result returned by the server. */
     protected final Object commandResult;
 
+    /**
+     * Creates a result wrapper.
+     *
+     * @param commandResult the raw command result returned by the server
+     */
     public ComparisonResult(Object commandResult) {
         this.commandResult = commandResult;
     }
 
+    /**
+     * Returns the raw command result as a map.
+     *
+     * @return the result mapping
+     */
     protected Map<String, Object> getResultAsMap() {
         //noinspection unchecked
         return (Map<String, Object>) commandResult;

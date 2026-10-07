@@ -66,6 +66,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             WebElement.class,
             AppiumWebElement.class
     );
+    /** The default timeout of waiting for an element presence. */
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private final WeakReference<WebDriver> webDriverReference;
     private final DefaultFieldDecorator defaultElementFieldDecorator;
@@ -96,6 +97,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
         );
     }
 
+    /**
+     * Creates field decorator based on {@link SearchContext} and the default timeout.
+     *
+     * @param context is an instance of {@link SearchContext}, for example {@link WebDriver},
+     *                {@link WebElement} or {@link Widget}.
+     */
     public AppiumFieldDecorator(SearchContext context) {
         this(context, DEFAULT_WAITING_TIMEOUT);
     }

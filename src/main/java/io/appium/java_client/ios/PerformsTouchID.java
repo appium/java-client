@@ -21,6 +21,7 @@ import io.appium.java_client.ExecutesMethod;
 
 import java.util.Map;
 
+/** Provides Touch ID simulation on iOS Simulator. */
 public interface PerformsTouchID extends ExecutesMethod {
 
     /**

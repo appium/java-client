@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code extractChromeAndroidPackageFromContextName} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsExtractChromeAndroidPackageFromContextNameOption
         <T extends BaseOptions<T>> extends Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code extractChromeAndroidPackageFromContextName} capability.
+     */
     String EXTRACT_CHROME_ANDROID_PACKAGE_FROM_CONTEXT_NAME_OPTION =
             "extractChromeAndroidPackageFromContextName";
 

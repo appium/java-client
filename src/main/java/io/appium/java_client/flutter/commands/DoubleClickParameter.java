@@ -12,10 +12,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The parameters of the Flutter double click gesture.
+ */
 @Accessors(chain = true)
 @Setter
 @Getter
 public class DoubleClickParameter extends FlutterCommandParameter {
+    /**
+     * Creates a new instance.
+     */
+    public DoubleClickParameter() {
+    }
+
     private WebElement element;
     private Point offset;
 

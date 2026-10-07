@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code iosSimulatorLogsPredicate} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsIosSimulatorLogsPredicateOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code iosSimulatorLogsPredicate} capability.
+     */
     String IOS_SIMULATOR_LOGS_PREDICATE_OPTION = "iosSimulatorLogsPredicate";
 
     /**

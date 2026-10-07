@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code keychainsExcludePatterns} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsKeychainsExcludePatternsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code keychainsExcludePatterns} capability.
+     */
     String KEYCHAINS_EXCLUDE_PATTERNS_OPTION = "keychainsExcludePatterns";
 
     /**

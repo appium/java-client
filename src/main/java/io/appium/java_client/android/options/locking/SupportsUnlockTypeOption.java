@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code unlockType} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsUnlockTypeOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code unlockType} capability.
+     */
     String UNLOCK_TYPE_OPTION = "unlockType";
 
     /**

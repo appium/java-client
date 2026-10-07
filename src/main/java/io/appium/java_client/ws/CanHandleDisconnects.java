@@ -18,6 +18,9 @@ package io.appium.java_client.ws;
 
 import java.util.List;
 
+/**
+ * Supports handlers of the web socket disconnection events.
+ */
 public interface CanHandleDisconnects {
 
     /**

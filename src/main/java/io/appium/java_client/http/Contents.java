@@ -45,8 +45,20 @@ public final class Contents {
         @Override
         void close() throws IOException;
 
+        /**
+         * Reads the whole body as a string.
+         *
+         * @param charset the charset to decode the body with
+         * @return the body as string
+         */
         String contentAsString(Charset charset);
 
+        /**
+         * Opens a reader over the body.
+         *
+         * @param charset the charset to decode the body with
+         * @return the reader
+         */
         default Reader reader(Charset charset) {
             return new InputStreamReader(get(), charset);
         }
@@ -55,10 +67,21 @@ public final class Contents {
     private Contents() {
     }
 
+    /**
+     * Creates an empty body.
+     *
+     * @return the empty body
+     */
     public static Supplier empty() {
         return bytes(new byte[0]);
     }
 
+    /**
+     * Creates a body from the given bytes.
+     *
+     * @param bytes the body bytes (copied)
+     * @return the body
+     */
     public static Supplier bytes(byte[] bytes) {
         return new BytesSupplier(bytes);
     }
@@ -77,14 +100,33 @@ public final class Contents {
         }
     }
 
+    /**
+     * Creates a body from the given string encoded as UTF-8.
+     *
+     * @param value the body text
+     * @return the body
+     */
     public static Supplier utf8String(CharSequence value) {
         return string(value, UTF_8);
     }
 
+    /**
+     * Reads the whole body as a UTF-8 string.
+     *
+     * @param supplier the body
+     * @return the body as string
+     */
     public static String utf8String(Supplier supplier) {
         return supplier.contentAsString(UTF_8);
     }
 
+    /**
+     * Creates a body from the given string.
+     *
+     * @param value   the body text
+     * @param charset the charset to encode the text with
+     * @return the body
+     */
     public static Supplier string(CharSequence value, Charset charset) {
         return bytes(value.toString().getBytes(charset));
     }
@@ -99,6 +141,13 @@ public final class Contents {
         return message.contentAsString();
     }
 
+    /**
+     * Creates a body backed by a stream, which can be read only once.
+     *
+     * @param stream the body stream
+     * @param length the body length in bytes or -1 if unknown
+     * @return the body
+     */
     public static Supplier fromStream(InputStream stream, long length) {
         return new StreamSupplier(stream, length);
     }

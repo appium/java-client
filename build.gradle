@@ -112,6 +112,7 @@ checkstyle {
 
 javadoc {
     options.addStringOption('encoding', 'UTF-8')
+    options.addBooleanOption('Xwerror', true)
 }
 
 ext.configureCommonPom = { MavenPom pom ->

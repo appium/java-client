@@ -22,14 +22,21 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
+/** Describes a native Android key event. */
 public class KeyEvent {
     private Integer keyCode;
     private Integer metaState;
     private Integer flags;
 
+    /** Creates an empty key event. The key must be set before sending it. */
     public KeyEvent() {
     }
 
+    /**
+     * Creates a key event for the given key.
+     *
+     * @param key Native Android key.
+     */
     public KeyEvent(AndroidKey key) {
         this.keyCode = key.getCode();
     }

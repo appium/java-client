@@ -21,10 +21,19 @@ import io.appium.java_client.remote.options.SystemScript;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Data object describing a PowerShell script to execute, either as a script or as a command.
+ */
 public class PowerShellData extends SystemScript<PowerShellData> {
+    /** Creates an empty data object. */
     public PowerShellData() {
     }
 
+    /**
+     * Creates a data object backed by the given map.
+     *
+     * @param options The initial option values.
+     */
     public PowerShellData(Map<String, Object> options) {
         super(options);
     }

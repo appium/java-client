@@ -21,6 +21,7 @@ import io.appium.java_client.Setting;
 
 import java.time.Duration;
 
+/** Provides Android-specific driver settings. */
 public interface HasAndroidSettings extends HasSettings {
     /**
      * Set the `ignoreUnimportantViews` setting. *Android-only method*.

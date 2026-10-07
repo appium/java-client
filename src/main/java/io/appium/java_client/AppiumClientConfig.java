@@ -154,6 +154,12 @@ public class AppiumClientConfig implements ClientConfig {
         return baseUri;
     }
 
+    /**
+     * Sets the base URI.
+     *
+     * @param baseUri the URI requests are sent to
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig baseUri(URI baseUri) {
         return new AppiumClientConfig(requireNonNull(baseUri, "Base URI"), connectionTimeout, readTimeout, wsTimeout,
                 filters, proxy, credentials, sslContext, version, directConnect);
@@ -195,6 +201,12 @@ public class AppiumClientConfig implements ClientConfig {
         return connectionTimeout;
     }
 
+    /**
+     * Sets the connection timeout.
+     *
+     * @param timeout the maximum time to wait for a connection
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig connectionTimeout(Duration timeout) {
         return new AppiumClientConfig(baseUri, timeout, readTimeout, wsTimeout, filters, proxy, credentials,
                 sslContext, version, directConnect);
@@ -205,6 +217,12 @@ public class AppiumClientConfig implements ClientConfig {
         return readTimeout;
     }
 
+    /**
+     * Sets the read timeout.
+     *
+     * @param timeout the maximum time to wait for a response
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig readTimeout(Duration timeout) {
         return new AppiumClientConfig(baseUri, connectionTimeout, timeout, wsTimeout, filters, proxy, credentials,
                 sslContext, version, directConnect);
@@ -215,6 +233,12 @@ public class AppiumClientConfig implements ClientConfig {
         return wsTimeout;
     }
 
+    /**
+     * Sets the web socket timeout.
+     *
+     * @param timeout the maximum time to wait for a web socket message
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig wsTimeout(Duration timeout) {
         return new AppiumClientConfig(baseUri, connectionTimeout, readTimeout, timeout, filters, proxy, credentials,
                 sslContext, version, directConnect);
@@ -254,6 +278,12 @@ public class AppiumClientConfig implements ClientConfig {
         return proxy;
     }
 
+    /**
+     * Sets the proxy used to connect to the server.
+     *
+     * @param proxy the proxy to use
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig proxy(Proxy proxy) {
         return new AppiumClientConfig(baseUri, connectionTimeout, readTimeout, wsTimeout, filters,
                 requireNonNull(proxy, "Proxy"), credentials, sslContext, version, directConnect);
@@ -265,6 +295,12 @@ public class AppiumClientConfig implements ClientConfig {
         return credentials;
     }
 
+    /**
+     * Sets the credentials used to authenticate the requests.
+     *
+     * @param credentials the credentials to use
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig authenticateAs(Credentials credentials) {
         return new AppiumClientConfig(baseUri, connectionTimeout, readTimeout, wsTimeout, filters, proxy,
                 requireNonNull(credentials, "Credentials"), sslContext, version, directConnect);
@@ -276,6 +312,12 @@ public class AppiumClientConfig implements ClientConfig {
         return sslContext;
     }
 
+    /**
+     * Sets the SSL context used for secure connections.
+     *
+     * @param sslContext the SSL context to use
+     * @return A new instance of AppiumClientConfig
+     */
     public AppiumClientConfig sslContext(SSLContext sslContext) {
         return new AppiumClientConfig(baseUri, connectionTimeout, readTimeout, wsTimeout, filters, proxy,
                 credentials, requireNonNull(sslContext, "SSL Context"), version, directConnect);

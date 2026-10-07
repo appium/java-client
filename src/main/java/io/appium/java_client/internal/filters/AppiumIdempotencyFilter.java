@@ -23,7 +23,16 @@ import io.appium.java_client.http.HttpMethod;
 import static java.util.Locale.ROOT;
 import static java.util.UUID.randomUUID;
 
+/**
+ * Adds the idempotency key header to the session creation requests.
+ */
 public class AppiumIdempotencyFilter implements Filter {
+    /**
+     * Creates a new instance.
+     */
+    public AppiumIdempotencyFilter() {
+    }
+
     // https://github.com/appium/appium-base-driver/pull/400
     private static final String IDEMPOTENCY_KEY_HEADER = "X-Idempotency-Key";
 

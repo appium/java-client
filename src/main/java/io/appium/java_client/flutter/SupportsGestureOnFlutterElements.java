@@ -4,6 +4,9 @@ import io.appium.java_client.flutter.commands.DoubleClickParameter;
 import io.appium.java_client.flutter.commands.DragAndDropParameter;
 import io.appium.java_client.flutter.commands.LongPressParameter;
 
+/**
+ * The interface for the drivers that can perform gestures on Flutter elements.
+ */
 public interface SupportsGestureOnFlutterElements extends CanExecuteFlutterScripts {
 
     /**

@@ -16,7 +16,17 @@
 
 package io.appium.java_client;
 
+/**
+ * The interface for the objects that can perform the accumulated actions.
+ *
+ * @param <T> the type of the implementing class, returned for chaining
+ */
 public interface PerformsActions<T extends PerformsActions<T>> {
 
+    /**
+     * Performs the accumulated actions.
+     *
+     * @return self instance for chaining
+     */
     T perform();
 }

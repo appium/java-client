@@ -29,12 +29,23 @@ import static java.util.Objects.requireNonNull;
 public class SessionId implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /** The raw session identifier. */
     private final String opaqueKey;
 
+    /**
+     * Creates a session id from a UUID.
+     *
+     * @param uuid the UUID of the session
+     */
     public SessionId(UUID uuid) {
         this(requireNonNull(uuid, "Session ID key").toString());
     }
 
+    /**
+     * Creates a session id from a raw value.
+     *
+     * @param opaqueKey the raw session identifier
+     */
     public SessionId(String opaqueKey) {
         this.opaqueKey = requireNonNull(opaqueKey, "Session ID key");
     }

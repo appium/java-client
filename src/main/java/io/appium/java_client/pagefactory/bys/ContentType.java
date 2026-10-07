@@ -16,6 +16,10 @@
 
 package io.appium.java_client.pagefactory.bys;
 
+/** The type of the content an element belongs to. */
 public enum ContentType {
-    HTML_OR_DEFAULT, NATIVE_MOBILE_SPECIFIC
+    /** The HTML (web) or default content. */
+    HTML_OR_DEFAULT,
+    /** The native mobile content. */
+    NATIVE_MOBILE_SPECIFIC
 }

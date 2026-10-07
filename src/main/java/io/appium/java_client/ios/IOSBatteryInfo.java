@@ -4,8 +4,14 @@ import io.appium.java_client.battery.BatteryInfo;
 
 import java.util.Map;
 
+/** Battery information of an iOS device. */
 public class IOSBatteryInfo extends BatteryInfo {
 
+    /**
+     * Creates the battery info from the raw server response.
+     *
+     * @param input The raw battery info map.
+     */
     public IOSBatteryInfo(Map<String, Object> input) {
         super(input);
     }
@@ -26,7 +32,15 @@ public class IOSBatteryInfo extends BatteryInfo {
         }
     }
 
+    /** iOS battery charging state. */
     public enum BatteryState {
-        UNKNOWN, UNPLUGGED, CHARGING, FULL
+        /** The state is not known. */
+        UNKNOWN,
+        /** The device is not plugged in. */
+        UNPLUGGED,
+        /** The battery is charging. */
+        CHARGING,
+        /** The battery is fully charged. */
+        FULL
     }
 }

@@ -56,6 +56,7 @@ import static io.appium.java_client.plugins.storage.StorageUtils.streamFileToWeb
  * for more details.
  */
 public class StorageClient {
+    /** The route prefix of the storage plugin. */
     public static final String PREFIX = "/appium/storage";
     private static final String LEGACY_PREFIX = "/storage";
     private static final Type MAP_TYPE = new TypeToken<Map<String, Object>>() { }.getType();

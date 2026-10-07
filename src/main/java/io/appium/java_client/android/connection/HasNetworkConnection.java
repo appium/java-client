@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
+/** Provides network connection state management of an Android device. */
 public interface HasNetworkConnection extends ExecutesMethod {
 
     /**

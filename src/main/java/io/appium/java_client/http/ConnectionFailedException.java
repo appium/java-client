@@ -18,11 +18,25 @@ package io.appium.java_client.http;
 
 import org.openqa.selenium.WebDriverException;
 
+/**
+ * Thrown if a connection to the server could not be established.
+ */
 public class ConnectionFailedException extends WebDriverException {
+    /**
+     * Creates an exception with the given message.
+     *
+     * @param message the detail message
+     */
     public ConnectionFailedException(String message) {
         super(message);
     }
 
+    /**
+     * Creates an exception with the given message and cause.
+     *
+     * @param message the detail message
+     * @param cause   the cause
+     */
     public ConnectionFailedException(String message, Throwable cause) {
         super(message, cause);
     }

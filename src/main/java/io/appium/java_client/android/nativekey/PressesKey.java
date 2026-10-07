@@ -21,6 +21,7 @@ import io.appium.java_client.ExecutesMethod;
 
 import java.util.HashMap;
 
+/** Provides sending of native key events to an Android device. */
 public interface PressesKey extends ExecutesMethod {
 
     /**

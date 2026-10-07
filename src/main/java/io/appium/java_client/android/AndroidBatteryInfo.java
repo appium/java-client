@@ -4,8 +4,14 @@ import io.appium.java_client.battery.BatteryInfo;
 
 import java.util.Map;
 
+/** Battery information of an Android device. */
 public class AndroidBatteryInfo extends BatteryInfo {
 
+    /**
+     * Creates the battery info from the raw server response.
+     *
+     * @param input The raw battery info map.
+     */
     public AndroidBatteryInfo(Map<String, Object> input) {
         super(input);
     }
@@ -28,7 +34,17 @@ public class AndroidBatteryInfo extends BatteryInfo {
         }
     }
 
+    /** Android battery charging state. */
     public enum BatteryState {
-        UNKNOWN, CHARGING, DISCHARGING, NOT_CHARGING, FULL
+        /** The state is not known. */
+        UNKNOWN,
+        /** The battery is charging. */
+        CHARGING,
+        /** The battery is discharging. */
+        DISCHARGING,
+        /** The device is plugged in, but the battery is not charging. */
+        NOT_CHARGING,
+        /** The battery is fully charged. */
+        FULL
     }
 }

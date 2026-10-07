@@ -22,8 +22,17 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code appTopLevelWindow} capability: the handle of an existing application top level window to
+ * attach to.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsAppTopLevelWindowOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code appTopLevelWindow} capability.
+     */
     String APP_TOP_LEVEL_WINDOW_OPTION = "appTopLevelWindow";
 
     /**

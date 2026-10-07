@@ -22,10 +22,21 @@ import org.openqa.selenium.WebDriverException;
  * Thrown if the server cannot be reached, because its address is invalid or it has died.
  */
 public class UnreachableBrowserException extends WebDriverException {
+    /**
+     * Creates an exception with a message.
+     *
+     * @param message the detail message
+     */
     public UnreachableBrowserException(String message) {
         super(message);
     }
 
+    /**
+     * Creates an exception with a message and a cause.
+     *
+     * @param message the detail message
+     * @param cause the cause
+     */
     public UnreachableBrowserException(String message, Throwable cause) {
         super(message, cause);
     }

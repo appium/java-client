@@ -22,8 +22,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Support for the {@code fullReset} capability: whether a full reset is performed before the session.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsFullResetOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code fullReset} capability.
+     */
     String FULL_RESET_OPTION = "fullReset";
 
     /**

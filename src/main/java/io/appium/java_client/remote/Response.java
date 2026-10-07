@@ -29,9 +29,15 @@ public class Response {
     private volatile @Nullable Integer status;
     private volatile @Nullable String state;
 
+    /** Creates an empty response. */
     public Response() {
     }
 
+    /**
+     * Creates a response bound to a session.
+     *
+     * @param sessionId the session the response belongs to
+     */
     public Response(SessionId sessionId) {
         this.sessionId = String.valueOf(sessionId);
     }
@@ -46,6 +52,11 @@ public class Response {
         return status;
     }
 
+    /**
+     * Sets the legacy numeric status.
+     *
+     * @param status the status
+     */
     public void setStatus(@Nullable Integer status) {
         this.status = status;
     }
@@ -60,24 +71,49 @@ public class Response {
         return state;
     }
 
+    /**
+     * Sets the W3C error code or "success".
+     *
+     * @param state the state
+     */
     public void setState(@Nullable String state) {
         this.state = state;
     }
 
+    /**
+     * Returns the payload of the response.
+     *
+     * @return the value or null if it is not set
+     */
     @Nullable
     public Object getValue() {
         return value;
     }
 
+    /**
+     * Sets the payload of the response.
+     *
+     * @param value the value
+     */
     public void setValue(@Nullable Object value) {
         this.value = value;
     }
 
+    /**
+     * Returns the identifier of the session the response belongs to.
+     *
+     * @return the session id or null if it is not set
+     */
     @Nullable
     public String getSessionId() {
         return sessionId;
     }
 
+    /**
+     * Sets the identifier of the session the response belongs to.
+     *
+     * @param sessionId the session id
+     */
     public void setSessionId(@Nullable String sessionId) {
         this.sessionId = sessionId;
     }

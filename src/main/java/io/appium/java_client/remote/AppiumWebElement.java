@@ -45,27 +45,57 @@ import static java.util.Objects.requireNonNull;
  */
 public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot, WrapsDriver {
     /**
+     * Creates a new instance.
+     */
+    public AppiumWebElement() {
+    }
+
+    /**
      * The key of an element reference in the W3C protocol.
      */
     public static final String ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf";
 
     private @Nullable String foundBy;
+    /** The element reference id assigned by the server. */
     protected String id;
+    /** The driver that found this element. */
     protected AppiumRemoteWebDriver parent;
 
+    /**
+     * Records how the element has been found.
+     *
+     * @param foundFrom the search context the element has been found in
+     * @param locator the name of the locator strategy
+     * @param term the locator value
+     */
     protected void setFoundBy(SearchContext foundFrom, String locator, String term) {
         this.foundBy = String.format("[%s] -> %s: %s", foundFrom, locator, term);
     }
 
+    /**
+     * Sets the driver that found this element.
+     *
+     * @param parent the parent driver
+     */
     public void setParent(AppiumRemoteWebDriver parent) {
         this.parent = parent;
     }
 
+    /**
+     * Returns the element reference id.
+     *
+     * @return the element id, or {@code null} if it is not set
+     */
     @Nullable
     public String getId() {
         return id;
     }
 
+    /**
+     * Sets the element reference id.
+     *
+     * @param id the element id
+     */
     public void setId(String id) {
         this.id = id;
     }
@@ -182,6 +212,12 @@ public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot,
         return parent.findElement(this, (using, value) -> FIND_CHILD_ELEMENT(getId(), using, value), locator);
     }
 
+    /**
+     * Executes the command payload in the context of this element.
+     *
+     * @param payload the command payload
+     * @return the response of the server
+     */
     protected Response execute(CommandPayload payload) {
         try {
             return parent.execute(payload);
@@ -191,6 +227,13 @@ public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot,
         }
     }
 
+    /**
+     * Executes the command in the context of this element.
+     *
+     * @param command the name of the command
+     * @param parameters the parameters of the command
+     * @return the response of the server
+     */
     protected Response execute(String command, Map<String, ?> parameters) {
         try {
             return parent.execute(command, parameters);

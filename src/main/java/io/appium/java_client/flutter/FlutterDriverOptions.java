@@ -24,24 +24,49 @@ public class FlutterDriverOptions extends BaseOptions<FlutterDriverOptions> impl
         SupportsFlutterElementWaitTimeoutOption<FlutterDriverOptions>,
         SupportsFlutterEnableMockCamera<FlutterDriverOptions> {
 
+    /**
+     * Creates a new instance with the default Flutter driver options.
+     */
     public FlutterDriverOptions() {
         setDefaultOptions();
     }
 
+    /**
+     * Creates a new instance from the given capabilities with the default Flutter driver options.
+     *
+     * @param source the capabilities to copy
+     */
     public FlutterDriverOptions(Capabilities source) {
         super(source);
         setDefaultOptions();
     }
 
+    /**
+     * Creates a new instance from the given map with the default Flutter driver options.
+     *
+     * @param source the capabilities to copy
+     */
     public FlutterDriverOptions(Map<String, ?> source) {
         super(source);
         setDefaultOptions();
     }
 
+    /**
+     * Merges the given UiAutomator2 options into these options.
+     *
+     * @param uiAutomator2Options the Android options to merge
+     * @return self instance for chaining
+     */
     public FlutterDriverOptions setUiAutomator2Options(UiAutomator2Options uiAutomator2Options) {
         return setDefaultOptions(merge(uiAutomator2Options));
     }
 
+    /**
+     * Merges the given XCUITest options into these options.
+     *
+     * @param xcuiTestOptions the iOS options to merge
+     * @return self instance for chaining
+     */
     public FlutterDriverOptions setXCUITestOptions(XCUITestOptions xcuiTestOptions) {
         return setDefaultOptions(merge(xcuiTestOptions));
     }

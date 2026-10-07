@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code intentCategory} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsIntentCategoryOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code intentCategory} capability.
+     */
     String INTENT_CATEGORY_OPTION = "intentCategory";
 
     /**

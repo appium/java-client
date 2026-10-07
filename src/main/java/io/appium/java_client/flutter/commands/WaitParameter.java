@@ -13,10 +13,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The parameters of the Flutter commands that wait for an element.
+ */
 @Accessors(chain = true)
 @Getter
 @Setter
 public class WaitParameter extends FlutterCommandParameter {
+    /**
+     * Creates a new instance.
+     */
+    public WaitParameter() {
+    }
+
     private WebElement element;
     private AppiumBy.FlutterBy locator;
     private Duration timeout;

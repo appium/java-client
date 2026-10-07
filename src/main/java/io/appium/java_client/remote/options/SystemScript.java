@@ -19,26 +19,59 @@ package io.appium.java_client.remote.options;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Base class for data objects that describe a system script, provided either as a script or as a command.
+ *
+ * @param <T> The concrete data type, used for chaining.
+ */
 public abstract class SystemScript<T extends SystemScript<T>> extends BaseMapOptionData<T> {
+    /** Creates an empty data object. */
     public SystemScript() {
     }
 
+    /**
+     * Creates a data object backed by the given map.
+     *
+     * @param options The initial option values.
+     */
     public SystemScript(Map<String, Object> options) {
         super(options);
     }
 
+    /**
+     * Sets a multiline script.
+     *
+     * @param script The script content.
+     * @return self instance for chaining.
+     */
     public T withScript(String script) {
         return assignOptionValue("script", script);
     }
 
+    /**
+     * Get the multiline script.
+     *
+     * @return The script content.
+     */
     public Optional<String> getScript() {
         return getOptionValue("script");
     }
 
+    /**
+     * Sets a single-line command.
+     *
+     * @param command The command to execute.
+     * @return self instance for chaining.
+     */
     public T withCommand(String command) {
         return assignOptionValue("command", command);
     }
 
+    /**
+     * Get the single-line command.
+     *
+     * @return The command to execute.
+     */
     public Optional<String> getCommand() {
         return getOptionValue("command");
     }

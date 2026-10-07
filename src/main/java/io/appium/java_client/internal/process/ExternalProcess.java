@@ -54,6 +54,11 @@ public final class ExternalProcess {
         this.worker = worker;
     }
 
+    /**
+     * Creates a process builder.
+     *
+     * @return a new builder
+     */
     public static Builder builder() {
         return new Builder();
     }
@@ -67,6 +72,11 @@ public final class ExternalProcess {
         return output.toString(Charset.defaultCharset());
     }
 
+    /**
+     * Checks whether the process is still running.
+     *
+     * @return true if the process is alive
+     */
     public boolean isAlive() {
         return process.isAlive();
     }
@@ -168,6 +178,9 @@ public final class ExternalProcess {
         joinWorker(Duration.ofSeconds(2), interrupts);
     }
 
+    /**
+     * Builds {@link ExternalProcess} instances.
+     */
     public static final class Builder {
         private final ProcessBuilder builder = new ProcessBuilder();
         private @Nullable OutputStream copyOutputTo;
@@ -190,11 +203,24 @@ public final class ExternalProcess {
             return this;
         }
 
+        /**
+         * Sets an environment variable of the process.
+         *
+         * @param name  the variable name
+         * @param value the variable value
+         * @return this instance
+         */
         public Builder environment(String name, String value) {
             builder.environment().put(name, value);
             return this;
         }
 
+        /**
+         * Sets environment variables of the process.
+         *
+         * @param environment the variable names mapped to their values
+         * @return this instance
+         */
         public Builder environment(Map<String, String> environment) {
             environment.forEach(this::environment);
             return this;

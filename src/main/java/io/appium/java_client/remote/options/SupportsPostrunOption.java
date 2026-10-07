@@ -20,11 +20,31 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code postrun} capability: the script executed after the session is finished.
+  *
+  * @param <T> the concrete options type, returned for chaining
+  * @param <S> the concrete options type, returned for chaining
+ */
 public interface SupportsPostrunOption<T extends BaseOptions<T>, S extends SystemScript<?>>
         extends Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code postrun} capability.
+     */
     String POSTRUN_OPTION = "postrun";
 
+    /**
+     * Sets the script to execute after the session.
+     *
+     * @param script The script data.
+     * @return self instance for chaining.
+     */
     T setPostrun(S script);
 
+    /**
+     * Get the script to execute after the session.
+     *
+     * @return The script data.
+     */
     Optional<S> getPostrun();
 }

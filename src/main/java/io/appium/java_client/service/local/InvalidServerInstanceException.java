@@ -16,15 +16,28 @@
 
 package io.appium.java_client.service.local;
 
-
+/**
+ * Thrown if the Appium server instance is invalid.
+ */
 public class InvalidServerInstanceException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates an exception with the given message and cause.
+     *
+     * @param message the detail message
+     * @param t       the cause
+     */
     public InvalidServerInstanceException(String message, Throwable t) {
         super(message, t);
     }
 
+    /**
+     * Creates an exception with the given message.
+     *
+     * @param message the detail message
+     */
     public InvalidServerInstanceException(String message) {
         super(message);
     }

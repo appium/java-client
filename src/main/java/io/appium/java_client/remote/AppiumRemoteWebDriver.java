@@ -85,6 +85,7 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
     private final ElementLocation elementLocation = new ElementLocation();
     private ErrorHandler errorHandler = new ErrorHandler();
     private CommandExecutor executor;
+    /** The capabilities of the session. */
     protected Capabilities capabilities;
     private @Nullable SessionId sessionId;
     private final ExecuteMethod executeMethod = (commandName, parameters) -> {
@@ -126,11 +127,21 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
         }
     }
 
+    /**
+     * Returns the identifier of the current session.
+     *
+     * @return the session id, or {@code null} if there is no session
+     */
     @Nullable
     public SessionId getSessionId() {
         return sessionId;
     }
 
+    /**
+     * Sets the identifier of the current session.
+     *
+     * @param opaqueKey the raw session id
+     */
     protected void setSessionId(String opaqueKey) {
         sessionId = new SessionId(opaqueKey);
     }
@@ -161,18 +172,38 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
         this.sessionId = new SessionId(response.getSessionId());
     }
 
+    /**
+     * Returns the handler of the error responses.
+     *
+     * @return the error handler
+     */
     public ErrorHandler getErrorHandler() {
         return errorHandler;
     }
 
+    /**
+     * Sets the handler of the error responses.
+     *
+     * @param handler the error handler
+     */
     public void setErrorHandler(ErrorHandler handler) {
         this.errorHandler = handler;
     }
 
+    /**
+     * Returns the executor of the commands.
+     *
+     * @return the command executor
+     */
     public CommandExecutor getCommandExecutor() {
         return executor;
     }
 
+    /**
+     * Sets the executor of the commands.
+     *
+     * @param executor the command executor
+     */
     protected void setCommandExecutor(CommandExecutor executor) {
         this.executor = executor;
     }
@@ -389,10 +420,23 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
         return response;
     }
 
+    /**
+     * Executes a command with the given parameters.
+     *
+     * @param driverCommand the name of the command
+     * @param parameters the parameters of the command
+     * @return the response of the server
+     */
     protected Response execute(String driverCommand, Map<String, ?> parameters) {
         return execute(new CommandPayload(driverCommand, parameters));
     }
 
+    /**
+     * Executes a command without parameters.
+     *
+     * @param command the name of the command
+     * @return the response of the server
+     */
     protected Response execute(String command) {
         return execute(command, Map.of());
     }
@@ -407,6 +451,11 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
         }
     }
 
+    /**
+     * Returns the helper that executes commands on behalf of extension code.
+     *
+     * @return the execute method
+     */
     protected ExecuteMethod getExecuteMethod() {
         return executeMethod;
     }
@@ -469,7 +518,16 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
                 getSessionId());
     }
 
+    /**
+     * The {@link Options} implementation backed by the remote session.
+     */
     protected class RemoteWebDriverOptions implements Options {
+        /**
+         * Creates a new instance.
+         */
+        protected RemoteWebDriverOptions() {
+        }
+
         @Override
         public Logs logs() {
             return remoteLogs;
@@ -548,7 +606,16 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
             return new RemoteWindow();
         }
 
+        /**
+         * The {@link Timeouts} implementation backed by the remote session.
+         */
         protected class RemoteTimeouts implements Timeouts {
+            /**
+             * Creates a new instance.
+             */
+            protected RemoteTimeouts() {
+            }
+
             @Override
             public Timeouts implicitlyWait(Duration duration) {
                 execute(DriverCommand.SET_IMPLICIT_WAIT_TIMEOUT(duration));
@@ -589,7 +656,16 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
             }
         }
 
+        /**
+         * The {@link Window} implementation backed by the remote session.
+         */
         protected class RemoteWindow implements Window {
+            /**
+             * Creates a new instance.
+             */
+            protected RemoteWindow() {
+            }
+
             @Override
             @SuppressWarnings("unchecked")
             public Dimension getSize() {
@@ -661,7 +737,16 @@ public class AppiumRemoteWebDriver implements WebDriver, JavascriptExecutor, Has
         }
     }
 
+    /**
+     * The {@link TargetLocator} implementation backed by the remote session.
+     */
     protected class RemoteTargetLocator implements TargetLocator {
+        /**
+         * Creates a new instance.
+         */
+        protected RemoteTargetLocator() {
+        }
+
         @Override
         public WebDriver frame(int frameIndex) {
             execute(DriverCommand.SWITCH_TO_FRAME(frameIndex));

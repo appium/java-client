@@ -31,6 +31,12 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
  */
 public class ElementInterceptor extends InterceptorOfASingleElement {
 
+    /**
+     * Creates a new interceptor.
+     *
+     * @param locator the locator of the element
+     * @param driver the reference to the driver
+     */
     public ElementInterceptor(ElementLocator locator, WeakReference<WebDriver> driver) {
         super(locator, driver);
     }

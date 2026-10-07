@@ -16,12 +16,21 @@
 
 package io.appium.java_client.remote;
 
+/**
+ * The names of the mobile and desktop platforms supported by Appium.
+ */
 public interface MobilePlatform {
 
+    /** The Android platform. */
     String ANDROID = "Android";
+    /** The iOS platform. */
     String IOS = "iOS";
+    /** The Firefox OS platform. */
     String FIREFOX_OS = "FirefoxOS";
+    /** The Windows platform. */
     String WINDOWS = "Windows";
+    /** The tvOS platform. */
     String TVOS = "tvOS";
+    /** The macOS platform. */
     String MAC = "Mac";
 }

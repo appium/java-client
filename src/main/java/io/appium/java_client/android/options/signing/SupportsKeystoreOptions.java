@@ -24,12 +24,32 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the keystore signing capabilities.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsKeystoreOptions<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code useKeystore} capability.
+     */
     String USE_KEYSTORE_OPTION = "useKeystore";
+    /**
+     * Name of the {@code keystorePath} capability.
+     */
     String KEYSTORE_PATH_OPTION = "keystorePath";
+    /**
+     * Name of the {@code keystorePassword} capability.
+     */
     String KEYSTORE_PASSWORD_OPTION = "keystorePassword";
+    /**
+     * Name of the {@code keyAlias} capability.
+     */
     String KEY_ALIAS_OPTION = "keyAlias";
+    /**
+     * Name of the {@code keyPassword} capability.
+     */
     String KEY_PASSWORD_OPTION = "keyPassword";
 
     /**

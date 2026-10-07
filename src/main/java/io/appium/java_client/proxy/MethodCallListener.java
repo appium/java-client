@@ -20,7 +20,11 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
+/**
+ * Listens to the method calls of a proxied instance and may customize their behavior.
+ */
 public interface MethodCallListener {
+    /** The marker returned by the callbacks that do not provide a result. */
     UUID UNSET = UUID.randomUUID();
 
     /**
@@ -47,6 +51,7 @@ public interface MethodCallListener {
      * @param args     Array of method arguments
      * @param original The reference to the original method in case it is necessary to instrument its result.
      * @return The type of the returned result should be castable to the returned type of the original method.
+     * @throws Throwable if the replacement fails, the exception replaces the original one
      */
     default Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         return UNSET;
@@ -60,6 +65,7 @@ public interface MethodCallListener {
      * @param obj    The proxy instance
      * @param method Method to be called
      * @param args   Array of method arguments
+     * @param result The result of the method call or null if there is none
      */
     default void afterCall(Object obj, Method method, Object[] args, Object result) {
     }
@@ -75,6 +81,7 @@ public interface MethodCallListener {
      * @return You could either (re)throw the exception in this callback or
      *     overwrite the behavior and return a result from it. It is expected that the
      *     type of the returned argument could be cast to the returned type of the original method.
+     * @throws Throwable if the exception is rethrown or replaced
      */
     default Object onError(Object obj, Method method, Object[] args, Throwable e) throws Throwable {
         return UNSET;

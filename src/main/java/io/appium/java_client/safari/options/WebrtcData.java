@@ -21,10 +21,19 @@ import io.appium.java_client.remote.options.BaseMapOptionData;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Data object holding the {@code webkit:WebRTC} capability values.
+ */
 public class WebrtcData extends BaseMapOptionData<WebrtcData> {
+    /** Creates an empty data object. */
     public WebrtcData() {
     }
 
+    /**
+     * Creates a data object backed by the given map.
+     *
+     * @param options The initial option values.
+     */
     public WebrtcData(Map<String, Object> options) {
         super(options);
     }

@@ -24,8 +24,19 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
+/**
+ * Base class for the options of the screen recording start.
+ *
+ * @param <T> the actual options type, used for chaining
+ */
 public abstract class BaseStartScreenRecordingOptions<T extends BaseStartScreenRecordingOptions<T>>
         extends BaseScreenRecordingOptions<BaseStartScreenRecordingOptions<T>> {
+    /**
+     * Creates a new instance.
+     */
+    public BaseStartScreenRecordingOptions() {
+    }
+
     private Boolean forceRestart;
     private Duration timeLimit;
 

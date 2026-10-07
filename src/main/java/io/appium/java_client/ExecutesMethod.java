@@ -20,6 +20,9 @@ import io.appium.java_client.remote.Response;
 
 import java.util.Map;
 
+/**
+ * The interface for the objects that can execute Appium commands.
+ */
 public interface ExecutesMethod {
     /**
      * Executes the given command and returns a response.

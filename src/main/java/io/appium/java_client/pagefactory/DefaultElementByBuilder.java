@@ -46,6 +46,7 @@ import static java.lang.Integer.signum;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 
+/** Builds locators of elements from Appium-specific page object annotations. */
 public class DefaultElementByBuilder extends AppiumByBuilder {
 
     private static final String PRIORITY = "priority";
@@ -53,6 +54,12 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     private static final Class<?>[] ANNOTATION_ARGUMENTS = new Class[]{};
     private static final Object[] ANNOTATION_PARAMETERS = new Object[]{};
 
+    /**
+     * Creates a new builder.
+     *
+     * @param platform the name of the current platform
+     * @param automation the name of the current automation
+     */
     public DefaultElementByBuilder(String platform, String automation) {
         super(platform, automation);
     }

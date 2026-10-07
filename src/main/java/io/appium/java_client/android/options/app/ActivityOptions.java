@@ -22,11 +22,22 @@ import io.appium.java_client.remote.options.BaseMapOptionData;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Custom options for the main app activity, mapped to the {@code activityOptions} capability.
+ */
 public class ActivityOptions extends BaseMapOptionData<ActivityOptions> {
+    /**
+     * Creates empty options.
+     */
     public ActivityOptions() {
         super();
     }
 
+    /**
+     * Creates options from the given map.
+     *
+     * @param options Initial option values.
+     */
     public ActivityOptions(Map<String, Object> options) {
         super(options);
     }

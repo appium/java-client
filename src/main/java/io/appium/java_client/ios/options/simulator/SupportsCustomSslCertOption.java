@@ -22,8 +22,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Provides getters and setters for the {@code customSSLCert} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsCustomSslCertOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code customSSLCert} capability.
+     */
     String CUSTOM_SSLCERT_OPTION = "customSSLCert";
 
     /**

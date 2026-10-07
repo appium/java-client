@@ -7,6 +7,9 @@ import org.openqa.selenium.internal.Require;
 
 import java.util.Map;
 
+/**
+ * The parameters of the Flutter drag and drop gesture.
+ */
 @Accessors(chain = true)
 @Getter
 public class DragAndDropParameter extends FlutterCommandParameter {

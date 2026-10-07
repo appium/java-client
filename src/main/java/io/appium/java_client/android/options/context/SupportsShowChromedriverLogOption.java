@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code showChromedriverLog} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsShowChromedriverLogOption<T extends BaseOptions<T>>
         extends Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code showChromedriverLog} capability.
+     */
     String SHOW_CHROMEDRIVER_LOG_OPTION = "showChromedriverLog";
 
     /**

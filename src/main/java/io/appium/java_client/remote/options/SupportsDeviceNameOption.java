@@ -20,8 +20,16 @@ import org.openqa.selenium.Capabilities;
 
 import java.util.Optional;
 
+/**
+ * Support for the {@code deviceName} capability: the device name.
+  *
+  * @param <T> the concrete options type, returned for chaining
+ */
 public interface SupportsDeviceNameOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code deviceName} capability.
+     */
     String DEVICE_NAME_OPTION = "deviceName";
 
     /**

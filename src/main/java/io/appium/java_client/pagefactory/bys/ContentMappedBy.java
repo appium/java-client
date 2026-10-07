@@ -28,11 +28,17 @@ import java.util.Map;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Objects.requireNonNull;
 
+/** Locator which selects the underlying locator by the current content type. */
 @EqualsAndHashCode(callSuper = true)
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
     private ContentType currentContent = NATIVE_MOBILE_SPECIFIC;
 
+    /**
+     * Creates a new locator.
+     *
+     * @param map the locators mapped by the content type
+     */
     public ContentMappedBy(Map<ContentType, By> map) {
         this.map = map;
     }

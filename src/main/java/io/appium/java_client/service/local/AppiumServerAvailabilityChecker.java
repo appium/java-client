@@ -30,7 +30,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Checks the availability of an Appium server by polling its status endpoint.
+ */
 public class AppiumServerAvailabilityChecker {
+    /**
+     * Creates a new instance.
+     */
+    public AppiumServerAvailabilityChecker() {
+    }
+
     private static final Duration CONNECT_TIMEOUT = Duration.ofMillis(500);
     private static final Duration READ_TIMEOUT = Duration.ofSeconds(1);
     private static final Duration MAX_POLL_INTERVAL = Duration.ofMillis(320);
@@ -91,12 +100,18 @@ public class AppiumServerAvailabilityChecker {
         throw new ConnectionError(connection.getURL(), responseCode, is);
     }
 
+    /**
+     * Thrown if the server status endpoint responds with an error.
+     */
     @Getter
     public static class ConnectionError extends RuntimeException {
         private static final int MAX_PAYLOAD_LEN = 1024;
 
+        /** The server status URL. */
         private final URL statusUrl;
+        /** The response code received from the status URL. */
         private final int responseCode;
+        /** The tail of the response body, if any. */
         private final Optional<String> payload;
 
         /**
@@ -140,8 +155,12 @@ public class AppiumServerAvailabilityChecker {
         }
     }
 
+    /**
+     * Thrown if the server does not respond in time.
+     */
     @Getter
     public static class ConnectionTimeout extends RuntimeException {
+        /** The timeout value. */
         private final Duration timeout;
 
         /**

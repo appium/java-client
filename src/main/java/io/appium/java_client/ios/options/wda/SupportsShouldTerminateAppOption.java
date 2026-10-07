@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code shouldTerminateApp} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsShouldTerminateAppOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code shouldTerminateApp} capability.
+     */
     String SHOULD_TERMINATE_APP_OPTION = "shouldTerminateApp";
 
     /**

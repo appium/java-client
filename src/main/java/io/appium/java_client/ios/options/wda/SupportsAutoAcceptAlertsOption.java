@@ -24,8 +24,16 @@ import java.util.Optional;
 
 import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
+/**
+ * Provides getters and setters for the {@code autoAcceptAlerts} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
 public interface SupportsAutoAcceptAlertsOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code autoAcceptAlerts} capability.
+     */
     String AUTO_ACCEPT_ALERTS_OPTION = "autoAcceptAlerts";
 
     /**
