@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_11.0.0_
+- **[BREAKING CHANGE]**
+  - The client depends on `selenium-api` only. Bump minimum Selenium version from `4.42.0` to `4.50.0`. `selenium-support`, `selenium-remote-driver`, `selenium-http`, `selenium-json` and `selenium-os` are not dependencies anymore, declare them yourself if you use them [#2462](https://github.com/appium/java-client/pull/2462), [#2459](https://github.com/appium/java-client/pull/2459), [#2456](https://github.com/appium/java-client/pull/2456), [#2457](https://github.com/appium/java-client/pull/2457)
+  - `AppiumDriver` is not a `RemoteWebDriver` anymore and returns `AppiumWebElement` instead of `RemoteWebElement`. `Response`, `Command`, `SessionId`, `DriverCommand`, `ExecuteMethod` and the error types moved to `io.appium.java_client.remote`. `org.openqa.selenium.remote.http` is replaced by `io.appium.java_client.http` [#2462](https://github.com/appium/java-client/pull/2462)
+  - `HasBiDi`, `getBiDi()` and `maybeGetBiDi()` are removed from `AppiumDriver`. Use the new optional Selenium bridge instead [#2462](https://github.com/appium/java-client/pull/2462)
+  - The page factory (`FindBy`, `FindBys`, `FindAll`, `CacheLookup`, `PageFactory`) and the wait engine are vendored into `io.appium.java_client.support` [#2459](https://github.com/appium/java-client/pull/2459)
+  - `AppiumDriverLocalService` and `AppiumServiceBuilder` are not `DriverService` types anymore [#2460](https://github.com/appium/java-client/pull/2460)
+  - Remove the deprecated touch actions API (`TouchAction`, `MultiTouchAction`, `PerformsTouchActions`, etc.). Use W3C Actions or `mobile:` gesture extensions [#2461](https://github.com/appium/java-client/pull/2461)
+  - Remove the deprecated APIs: `AppiumFunction`, `AndroidMobileCommandHelper`, `IOSMobileCommandHelper`, `CanRememberExtensionPresence` and the deprecated `MobileCommand` constants and helpers. The minimum supported Appium server version is now Appium 3. Driver interfaces call the `mobile:` extensions only, without the fallback to the legacy commands [#2467](https://github.com/appium/java-client/pull/2467)
+- **[ENHANCEMENTS]**
+  - Add the optional `java-client-selenium-bridge` artifact for `RemoteWebDriver` and Selenium BiDi interoperability [#2463](https://github.com/appium/java-client/pull/2463)
+  - Support the base path and the new API prefix in the storage client [#2468](https://github.com/appium/java-client/pull/2468)
+- **[BUG FIX]**
+  - Fall back to standard error mapping in `ErrorCodesMobile.getExceptionType(String)` [#2449](https://github.com/appium/java-client/pull/2449)
+  - Ensure additional commands get added to the attach-to-session constructor [#2431](https://github.com/appium/java-client/pull/2431)
+  - Proxy abstract widget methods for platform overrides [#2451](https://github.com/appium/java-client/pull/2451)
+  - Support Selenium-decorated page elements [#2452](https://github.com/appium/java-client/pull/2452)
+- **[DOCUMENTATION]**
+  - Add the v10 to v11 migration guide and an OpenRewrite recipe [#2469](https://github.com/appium/java-client/pull/2469)
+  - Document the public API and fail the build on javadoc warnings [#2470](https://github.com/appium/java-client/pull/2470)
+  - Clarify that `fingerPrint` id is the enrolled emulator id [#2442](https://github.com/appium/java-client/pull/2442)
+- **[DEPENDENCY CHANGE]**
+  - Bump org.slf4j:slf4j-api from `2.0.17` to `2.0.20` [#2417](https://github.com/appium/java-client/pull/2417), [#2445](https://github.com/appium/java-client/pull/2445), [#2453](https://github.com/appium/java-client/pull/2453)
+  - Bump net.bytebuddy:byte-buddy from `1.18.8` to `1.18.14` [#2464](https://github.com/appium/java-client/pull/2464)
+  - Bump com.google.code.gson:gson from `2.13.2` to `2.14.0` [#2413](https://github.com/appium/java-client/pull/2413)
+  - Bump org.jspecify:jspecify from `1.0.0` to `1.0.1` [#2434](https://github.com/appium/java-client/pull/2434)
+
 _10.1.1_
 - **[BUG FIX]**
   - Perform additional security checks on `overrideServerUrl` API [#2408](https://github.com/appium/java-client/pull/2408)
