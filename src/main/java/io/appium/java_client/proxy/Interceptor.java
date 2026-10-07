@@ -44,7 +44,9 @@ public class Interceptor {
      * @param self     The reference to the original instance.
      * @param method   The reference to the original method.
      * @param args     The reference to method args.
-     * @param callable The reference to the non-patched callable to avoid call recursion.
+     * @param callable The reference to the non-patched callable to avoid call recursion. Abstract methods
+     *                 have no superclass implementation, so this may be null; unhandled calls retain
+     *                 their {@link AbstractMethodError} behavior.
      * @return Either the original method result or the patched one.
      */
     @SuppressWarnings("unused")
@@ -53,11 +55,16 @@ public class Interceptor {
             @This Object self,
             @Origin Method method,
             @AllArguments Object[] args,
-            @SuperCall Callable<?> callable
+            @SuperCall(nullIfImpossible = true) Callable<?> callable
     ) throws Throwable {
+        Callable<?> original = callable == null
+                ? () -> {
+                    throw new AbstractMethodError(method.toString());
+                }
+                : callable;
         var listeners = ((HasMethodCallListeners) self).getMethodCallListeners();
         if (listeners == null || listeners.length == 0) {
-            return callable.call();
+            return original.call();
         }
 
         for (var listener : listeners) {
@@ -75,7 +82,7 @@ public class Interceptor {
         Object result = UNSET;
         for (var listener : listeners) {
             try {
-                result = listener.call(self, method, args, callable);
+                result = listener.call(self, method, args, original);
                 if (result != UNSET) {
                     break;
                 }
@@ -95,7 +102,7 @@ public class Interceptor {
         }
         if (UNSET == result) {
             try {
-                result = callable.call();
+                result = original.call();
             } catch (Exception e) {
                 for (var listener : listeners) {
                     try {

@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.proxy.Helpers.createProxy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -42,6 +43,16 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProxyHelpersTest {
+
+    public abstract static class AbstractAction {
+        public abstract String run();
+    }
+
+    @Test
+    void unhandledAbstractMethodRetainsAbstractMethodError() {
+        AbstractAction proxy = getEnhancedProxy(AbstractAction.class, new MethodCallListener() { });
+        assertThrows(AbstractMethodError.class, proxy::run);
+    }
 
     public static class FakeIOSDriver extends IOSDriver {
         public FakeIOSDriver(URL url, Capabilities caps) {
