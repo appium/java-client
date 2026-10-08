@@ -16,11 +16,9 @@
 
 package io.appium.java_client.pagefactory.bys.builder;
 
-import io.appium.java_client.support.ui.FluentWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import java.util.Optional;
@@ -70,10 +68,11 @@ public class ByChained extends io.appium.java_client.support.pagefactory.ByChain
         }
         requireNonNull(searchingFunction);
 
-        try {
-            return new FluentWait<>(context).until(searchingFunction);
-        } catch (TimeoutException e) {
+        // A single pass: the page object locator owns the wait and the timeout
+        WebElement result = searchingFunction.apply(context);
+        if (result == null) {
             throw new NoSuchElementException("Cannot locate an element using " + this);
         }
+        return result;
     }
 }
