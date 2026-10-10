@@ -90,6 +90,7 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.SupportsAppOption;
+import io.appium.java_client.remote.options.SupportsAutoLaunchOption;
 import io.appium.java_client.remote.options.SupportsAutoWebViewOption;
 import io.appium.java_client.remote.options.SupportsClearSystemFilesOption;
 import io.appium.java_client.remote.options.SupportsDeviceNameOption;
@@ -141,6 +142,7 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsIntentFlagsOption<UiAutomator2Options>,
         SupportsOptionalIntentArgumentsOption<UiAutomator2Options>,
         SupportsAutoGrantPermissionsOption<UiAutomator2Options>,
+        SupportsAutoLaunchOption<UiAutomator2Options>,
         SupportsOtherAppsOption<UiAutomator2Options>,
         SupportsUninstallOtherPackagesOption<UiAutomator2Options>,
         SupportsAllowTestPackagesOption<UiAutomator2Options>,

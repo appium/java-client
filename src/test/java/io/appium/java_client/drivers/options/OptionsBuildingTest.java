@@ -94,6 +94,26 @@ public class OptionsBuildingTest {
     }
 
     @Test
+    public void canSetAutoLaunchOnUiAutomator2Options() {
+        UiAutomator2Options options = new UiAutomator2Options();
+        assertFalse(options.doesAutoLaunch().isPresent());
+        options.autoLaunch();
+        assertTrue(options.doesAutoLaunch().orElse(false));
+        options.setAutoLaunch(false);
+        assertFalse(options.doesAutoLaunch().orElse(true));
+    }
+
+    @Test
+    public void canSetAutoLaunchOnXcuiTestOptions() {
+        XCUITestOptions options = new XCUITestOptions();
+        assertFalse(options.doesAutoLaunch().isPresent());
+        options.setAutoLaunch(false);
+        assertFalse(options.doesAutoLaunch().orElse(true));
+        options.autoLaunch();
+        assertTrue(options.doesAutoLaunch().orElse(false));
+    }
+
+    @Test
     public void canBuildEspressoOptions() {
         EspressoOptions options = new EspressoOptions();
         assertEquals(Platform.ANDROID, options.getPlatformName());

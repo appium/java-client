@@ -104,6 +104,7 @@ import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.SupportsAppOption;
+import io.appium.java_client.remote.options.SupportsAutoLaunchOption;
 import io.appium.java_client.remote.options.SupportsAutoWebViewOption;
 import io.appium.java_client.remote.options.SupportsClearSystemFilesOption;
 import io.appium.java_client.remote.options.SupportsDeviceNameOption;
@@ -142,6 +143,7 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsOtherAppsOption<XCUITestOptions>,
         SupportsAppPushTimeoutOption<XCUITestOptions>,
         SupportsAppInstallStrategyOption<XCUITestOptions>,
+        SupportsAutoLaunchOption<XCUITestOptions>,
         SupportsEnforceAppInstallOption<XCUITestOptions>,
         // WebDriverAgent options: https://github.com/appium/appium-xcuitest-driver#webdriveragent
         SupportsXcodeCertificateOptions<XCUITestOptions>,
