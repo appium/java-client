@@ -71,7 +71,7 @@ jobs:
     - name: Resolve Selenium snapshot version
       if: matrix.selenium == 'snapshot'
       run: |
-        latest_snapshot=$(curl -sf https://raw.githubusercontent.com/SeleniumHQ/selenium/refs/heads/trunk/java/version.bzl | grep 'SE_VERSION' | sed 's/.*"\(.*\)".*/\1/')
+        latest_snapshot=$(curl -sf https://raw.githubusercontent.com/SeleniumHQ/selenium/refs/heads/trunk/version.bzl | grep '"java"' | sed 's/.*"java": *"\([^"]*\)".*/\1/')
         echo ">>> $latest_snapshot"
         echo "latest_snapshot=$latest_snapshot" >> "$GITHUB_ENV"
 
