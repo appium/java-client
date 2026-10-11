@@ -40,9 +40,7 @@ public interface SupportsMarionettePortOption<T extends BaseOptions<T>> extends
      * Selects the port for Geckodriver’s connection to the Marionette
      * remote protocol. The existing Firefox instance must have Marionette
      * enabled. To enable the remote protocol in Firefox, you can pass the
-     * -marionette flag. Unless the marionette.port preference has been
-     * user-set, Marionette will listen on port 2828, which is the default
-     * value for this capability.
+     * -marionette flag. The default is 2828, applied only if {@code noReset} is set.
      *
      * @param port port number in range 0..65535
      * @return self instance for chaining.

@@ -37,7 +37,7 @@ public interface SupportsArgumentsOption<T extends BaseOptions<T>> extends
 
     /**
      * Array of application command line arguments. This capability is
-     * only going to be applied if the application is not running on session startup.
+     * only going to be applied if the application is not running or is relaunched on session startup.
      *
      * @param arguments E.g. ["--help"].
      * @return self instance for chaining.

@@ -38,7 +38,7 @@ public interface SupportsSafariAutomaticProfilingOption<T extends BaseOptions<T>
     String SAFARI_AUTOMATIC_PROFILING_OPTION = "safari:automaticProfiling";
 
     /**
-     * Enforces safaridriver to use Automatic Inspection.
+     * Enforces safaridriver to use Automatic Profiling.
      *
      * @return self instance for chaining.
      */

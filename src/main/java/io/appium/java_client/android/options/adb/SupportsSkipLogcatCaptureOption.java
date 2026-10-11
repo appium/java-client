@@ -49,7 +49,7 @@ public interface SupportsSkipLogcatCaptureOption<T extends BaseOptions<T>> exten
      * Being set to true disables automatic logcat output collection during the test run.
      * false by default
      *
-     * @param value Whether to delete all the existing device logs before starting a new test.
+     * @param value Whether to disable automatic logcat output collection.
      * @return self instance for chaining.
      */
     default T setSkipLogcatCapture(boolean value) {
@@ -57,8 +57,7 @@ public interface SupportsSkipLogcatCaptureOption<T extends BaseOptions<T>> exten
     }
 
     /**
-     * Get whether to delete all the existing logs in the
-     * device buffer before starting a new test.
+     * Get whether automatic logcat output collection is disabled.
      *
      * @return True or false.
      */

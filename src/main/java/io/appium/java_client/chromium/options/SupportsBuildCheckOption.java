@@ -38,9 +38,8 @@ public interface SupportsBuildCheckOption<T extends BaseOptions<T>> extends
     String DISABLE_BUILD_CHECK = "disableBuildCheck";
 
     /**
-     * Set to true to add the --disable-build-check flag when starting WebDriver.
-     * Unless disable build check preference has been user-set, the capability
-     * is not present because the default value is false.
+     * Set to true to skip the check that chromedriver/msedgedriver and the browser
+     * versions match (the --disable-build-check flag). False by default.
      *
      * @param buildCheckDisabled flag for --disable-build-check.
      * @return self instance for chaining.

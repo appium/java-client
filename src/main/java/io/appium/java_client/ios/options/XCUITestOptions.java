@@ -126,6 +126,7 @@ import java.util.Map;
  * <p>For more details, refer to the
  * <a href="https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/">capabilities documentation</a></p>
  */
+@SuppressWarnings("deprecation")
 public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         // General options: https://github.com/appium/appium-xcuitest-driver#general
         SupportsDeviceNameOption<XCUITestOptions>,

@@ -35,8 +35,9 @@ public interface SupportsCustomSslCertOption<T extends BaseOptions<T>> extends
     String CUSTOM_SSLCERT_OPTION = "customSSLCert";
 
     /**
-     * Adds a root SSL certificate to IOS Simulator.
-     * The certificate content must be provided in PEM format.
+     * Adds a root SSL certificate to iOS Simulators and real devices.
+     * The certificate content must be provided in PEM format. On real devices
+     * running iOS/tvOS 18+ the appium-ios-remotexpc package must be installed.
      *
      * @param cert Certificate content in PEM format.
      * @return self instance for chaining.

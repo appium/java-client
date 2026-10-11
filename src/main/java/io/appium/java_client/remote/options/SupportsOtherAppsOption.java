@@ -35,7 +35,7 @@ public interface SupportsOtherAppsOption<T extends BaseOptions<T>> extends
     /**
      * Set the location of the app(s) to install before running a test.
      *
-     * @param apps is the apps to install.
+     * @param apps is the app path/URL, or a JSON array string to install multiple apps.
      * @return self instance for chaining.
      */
     default T setOtherApps(String apps) {

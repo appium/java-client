@@ -20,7 +20,7 @@ public interface SupportsFlutterServerLaunchTimeoutOption<T extends BaseOptions<
 
     /**
      * Timeout to wait for FlutterServer to be pingable,
-     * e.g. finishes building. Defaults to 60000ms.
+     * e.g. finishes building. Defaults to 5000ms.
      *
      * @param timeout Timeout to wait until FlutterServer is listening.
      * @return self instance for chaining.

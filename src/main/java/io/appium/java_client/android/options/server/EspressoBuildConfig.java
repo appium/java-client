@@ -289,8 +289,8 @@ public class EspressoBuildConfig extends BaseMapOptionData<EspressoBuildConfig> 
 
     /**
      * Set a non-empty array of dependent module names with their versions.
-     * The scripts add all these items as "implementation" lines of dependencies
-     * category in the app build.gradle script.
+     * The scripts add all these items as "api" lines of dependencies
+     * category in the app/build.gradle.kts script of the Espresso server.
      *
      * @param dependencies E.g. ["xerces.xercesImpl:2.8.0", "xerces.xmlParserAPIs:2.6.2"].
      * @return self instance for chaining.

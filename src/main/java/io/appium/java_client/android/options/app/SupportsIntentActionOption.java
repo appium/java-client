@@ -37,6 +37,7 @@ public interface SupportsIntentActionOption<T extends BaseOptions<T>> extends
     /**
      * Set an optional intent action to be applied when
      * starting the given appActivity by Activity Manager.
+     * {@code android.intent.action.MAIN} by default.
      *
      * @param intentAction Intent action class name.
      * @return self instance for chaining.

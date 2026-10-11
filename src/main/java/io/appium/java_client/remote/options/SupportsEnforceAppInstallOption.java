@@ -47,8 +47,9 @@ public interface SupportsEnforceAppInstallOption<T extends BaseOptions<T>> exten
     /**
      * Allows setting whether the application under test is always reinstalled even
      * if a newer version of it already exists on the device under test. False (Android), true (iOS) by default.
+     * On Android it has no effect if {@code noReset} is true.
      *
-     * @param value True to allow test packages installation.
+     * @param value True to always reinstall the application.
      * @return self instance for chaining.
      */
     default T setEnforceAppInstall(boolean value) {

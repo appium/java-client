@@ -28,7 +28,9 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
  * Provides getters and setters for the {@code includeDeviceCapsToSessionInfo} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability has no effect since XCUITest driver version 5.
  */
+@Deprecated
 public interface SupportsIncludeDeviceCapsToSessionInfoOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

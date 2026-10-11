@@ -38,7 +38,7 @@ public interface SupportsShowServerLogsOption<T extends BaseOptions<T>> extends
     String SHOW_SERVER_LOGS_OPTION = "showServerLogs";
 
     /**
-     * Enforce showing of WDA server logs in the Appium log..
+     * Enforce showing of WebDriverAgentMac server logs in the Appium log.
      *
      * @return self instance for chaining.
      */
@@ -50,7 +50,7 @@ public interface SupportsShowServerLogsOption<T extends BaseOptions<T>> extends
      * Set it to true in order to include xcodebuild output to the Appium
      * server log. false by default.
      *
-     * @param value Whether to show WDA server logs in the Appium log.
+     * @param value Whether to show WebDriverAgentMac server logs in the Appium log.
      * @return self instance for chaining.
      */
     default T setShowServerLogs(boolean value) {
@@ -58,7 +58,7 @@ public interface SupportsShowServerLogsOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get whether to show WDA server logs in the Appium log.
+     * Get whether to show WebDriverAgentMac server logs in the Appium log.
      *
      * @return True or false.
      */

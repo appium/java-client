@@ -19,7 +19,8 @@ public interface SupportsFlutterSystemPortOption<T extends BaseOptions<T>> exten
     String FLUTTER_SYSTEM_PORT_OPTION = "flutterSystemPort";
 
     /**
-     * Set the port where Flutter server starts.
+     * Set the port where Flutter server starts. By default the first free port
+     * in the 10000..11000 range is used.
      *
      * @param flutterSystemPort is the port number
      * @return self instance for chaining.

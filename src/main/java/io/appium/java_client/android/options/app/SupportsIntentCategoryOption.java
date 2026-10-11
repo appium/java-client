@@ -37,6 +37,7 @@ public interface SupportsIntentCategoryOption<T extends BaseOptions<T>> extends
     /**
      * Set an optional intent category to be applied when
      * starting the given appActivity by Activity Manager.
+     * {@code android.intent.category.LAUNCHER} by default.
      *
      * @param intentCategory Intent category class name.
      * @return self instance for chaining.

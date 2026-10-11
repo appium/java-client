@@ -37,7 +37,7 @@ public interface SupportsIgnoreHiddenApiPolicyErrorOption<T extends BaseOptions<
     String IGNORE_HIDDEN_API_POLICY_ERROR_OPTION = "ignoreHiddenApiPolicyError";
 
     /**
-     * Prevents the driver from ever killing the ADB server explicitl.
+     * Ignores a failure while changing hidden API access policies.
      *
      * @return self instance for chaining.
      */

@@ -46,7 +46,9 @@ public interface SupportsUsePreinstalledWdaOption<T extends BaseOptions<T>> exte
     }
 
     /**
-     * Whether to launch a preinstalled WebDriverAgentRunner application using a custom XCTest API client.
+     * Whether to launch a preinstalled WebDriverAgentRunner application without xcodebuild.
+     * The runner is started via devicectl on iOS/tvOS 17+ (macOS hosts) or via RemoteXPC
+     * on iOS/tvOS 18+. If prebuiltWDAPath is set, that app bundle is installed first.
      * Defaults to false.
      *
      * @param value Either true or false.

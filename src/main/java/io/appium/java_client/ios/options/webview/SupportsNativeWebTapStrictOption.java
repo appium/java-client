@@ -37,7 +37,7 @@ public interface SupportsNativeWebTapStrictOption<T extends BaseOptions<T>> exte
     String NATIVE_WEB_TAP_STRICT_OPTION = "nativeWebTapStrict";
 
     /**
-     * Enforce native taps to be done by XCUITest driver rather than WebDriverAgent.
+     * Skip the additional logic that tries to match web view elements to native ones.
      *
      * @return self instance for chaining.
      */
@@ -46,10 +46,11 @@ public interface SupportsNativeWebTapStrictOption<T extends BaseOptions<T>> exte
     }
 
     /**
-     * Configure native taps to be done by XCUITest driver rather than WebDriverAgent.
-     * Only applicable if nativeWebTap is enabled. false by default.
+     * Whether to skip the additional logic that tries to match web view elements
+     * to native ones. That logic may fail and slow down each tap. Only applicable
+     * if nativeWebTap is enabled. false by default.
      *
-     * @param value Whether native taps are done by XCUITest driver rather than WebDriverAgent.
+     * @param value Whether to skip matching web view elements to native ones.
      * @return self instance for chaining.
      */
     default T setNativeWebTapStrict(boolean value) {
@@ -57,7 +58,7 @@ public interface SupportsNativeWebTapStrictOption<T extends BaseOptions<T>> exte
     }
 
     /**
-     * Get whether native taps are done by XCUITest driver rather than WebDriverAgent.
+     * Get whether matching web view elements to native ones is skipped.
      *
      * @return True or false.
      */

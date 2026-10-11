@@ -38,11 +38,9 @@ public interface SupportsUseSystemExecutableOption<T extends BaseOptions<T>> ext
     String USE_SYSTEM_EXECUTABLE = "useSystemExecutable";
 
     /**
-     * Set to true to use the version of WebDriver bundled with this driver,
-     * rather than attempting to download a new one based on the version of the
-     * browser under test.
-     * Unless disable build check preference has been user-set, the capability
-     * is not present because the default value is false.
+     * Set to true to use the chromedriver binary bundled with the Chromium driver.
+     * False by default. Mostly relevant for driver versions 1.3.35 or older,
+     * which downloaded chromedriver on installation.
      *
      * @param useSystemExecutable flag.
      * @return self instance for chaining.

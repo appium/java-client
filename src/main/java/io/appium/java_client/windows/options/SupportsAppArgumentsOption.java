@@ -48,8 +48,19 @@ public interface SupportsAppArgumentsOption<T extends BaseOptions<T>> extends
      * Get application arguments.
      *
      * @return Application arguments.
+     * @deprecated Misnamed getter, use {@link #getAppArguments()} instead.
      */
+    @Deprecated
     default Optional<String> setAppArguments() {
+        return getAppArguments();
+    }
+
+    /**
+     * Get application arguments.
+     *
+     * @return Application arguments.
+     */
+    default Optional<String> getAppArguments() {
         return Optional.ofNullable((String) getCapability(APP_ARGUMENTS_OPTION));
     }
 }

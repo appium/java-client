@@ -37,9 +37,7 @@ public interface SupportsChromeDrivePortOption<T extends BaseOptions<T>> extends
     String CHROME_DRIVER_PORT = "chromedriverPort";
 
     /**
-     * The port to start WebDriver processes on. Unless the chrome drive port preference
-     * has been user-set, it will listen on port 9515, which is the default
-     * value for this capability.
+     * The port to start chromedriver/msedgedriver on. 9515 by default.
      *
      * @param port port number in range 0..65535.
      * @return self instance for chaining.

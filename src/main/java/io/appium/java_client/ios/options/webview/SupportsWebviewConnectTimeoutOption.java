@@ -38,7 +38,7 @@ public interface SupportsWebviewConnectTimeoutOption<T extends BaseOptions<T>> e
 
     /**
      * The time to wait for the initial presence of webviews in
-     * MobileSafari or hybrid apps. Defaults to 0ms.
+     * MobileSafari or hybrid apps. Defaults to 5000ms.
      *
      * @param timeout Timeout to wait for the initial presence of webviews.
      * @return self instance for chaining.

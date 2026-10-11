@@ -35,7 +35,7 @@ public interface SupportsNoResetOption<T extends BaseOptions<T>> extends
     String NO_RESET_OPTION = "noReset";
 
     /**
-     * Set the app not to do a reset.
+     * Set the app not to do a reset. Cannot be combined with {@code fullReset}.
      *
      * @return self instance for chaining.
      */
@@ -44,7 +44,7 @@ public interface SupportsNoResetOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Set whether the app does not do a reset.
+     * Set whether the app does not do a reset. Cannot be combined with {@code fullReset}.
      *
      * @param bool is whether the app does not do a reset.
      * @return self instance for chaining.

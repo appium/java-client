@@ -16,7 +16,6 @@
 
 package io.appium.java_client.gecko.options;
 
-import io.appium.java_client.mac.options.SupportsSystemPortOption;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.remote.options.SupportsAcceptInsecureCertsOption;
@@ -34,7 +33,7 @@ import java.util.Map;
  * Provides options specific to the Geckodriver.
  *
  * <p>For more details, refer to the
- * <a href="https://github.com/appium/appium-geckodriver#capabilities">capabilities documentation</a></p>
+ * <a href="https://appium.github.io/appium-geckodriver/latest/reference/capabilities/">capabilities documentation</a></p>
  */
 public class GeckoOptions extends BaseOptions<GeckoOptions> implements
         SupportsBrowserNameOption<GeckoOptions>,

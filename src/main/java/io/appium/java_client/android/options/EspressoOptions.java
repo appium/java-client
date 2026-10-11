@@ -98,19 +98,21 @@ import io.appium.java_client.remote.options.SupportsSkipLogCaptureOption;
 import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
+import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Provides options specific to the Espresso Driver.
  *
  * <p>For more details, refer to the
- * <a href="https://github.com/appium/appium-espresso-driver#capabilities">capabilities documentation</a></p>
+ * <a href="https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/">capabilities documentation</a></p>
  */
 public class EspressoOptions extends BaseOptions<EspressoOptions> implements
-        // General options: https://github.com/appium/appium-uiautomator2-driver#general
+        // General options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#general
         SupportsDeviceNameOption<EspressoOptions>,
         SupportsUdidOption<EspressoOptions>,
-        // Driver/Server options: https://github.com/appium/appium-uiautomator2-driver#driverserver
+        // Driver/Server options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#espresso-server
         SupportsSystemPortOption<EspressoOptions>,
         SupportsSkipServerInstallationOption<EspressoOptions>,
         SupportsEspressoServerLaunchTimeoutOption<EspressoOptions>,
@@ -118,7 +120,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsShowGradleLogOption<EspressoOptions>,
         SupportsOrientationOption<EspressoOptions>,
         SupportsEspressoBuildConfigOption<EspressoOptions>,
-        // App options: https://github.com/appium/appium-uiautomator2-driver#app
+        // App options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#app-management
         SupportsAppOption<EspressoOptions>,
         SupportsAppPackageOption<EspressoOptions>,
         SupportsAppActivityOption<EspressoOptions>,
@@ -134,12 +136,12 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsAllowTestPackagesOption<EspressoOptions>,
         SupportsRemoteAppsCacheLimitOption<EspressoOptions>,
         SupportsEnforceAppInstallOption<EspressoOptions>,
-        // App localization options: https://github.com/appium/appium-uiautomator2-driver#app-localization
+        // App localization options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#app-localization
         SupportsLocaleScriptOption<EspressoOptions>,
         SupportsLanguageOption<EspressoOptions>,
         SupportsLocaleOption<EspressoOptions>,
         SupportsAppLocaleOption<EspressoOptions>,
-        // ADB options: https://github.com/appium/appium-uiautomator2-driver#adb
+        // ADB options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#adb
         SupportsAdbPortOption<EspressoOptions>,
         SupportsRemoteAdbHostOption<EspressoOptions>,
         SupportsAdbExecTimeoutOption<EspressoOptions>,
@@ -152,7 +154,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsLogcatFormatOption<EspressoOptions>,
         SupportsLogcatFilterSpecsOption<EspressoOptions>,
         SupportsAllowDelayAdbOption<EspressoOptions>,
-        // AVD options: https://github.com/appium/appium-uiautomator2-driver#emulator-android-virtual-device
+        // AVD options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#emulator-avd
         SupportsAvdOption<EspressoOptions>,
         SupportsAvdLaunchTimeoutOption<EspressoOptions>,
         SupportsAvdReadyTimeoutOption<EspressoOptions>,
@@ -161,19 +163,19 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsNetworkSpeedOption<EspressoOptions>,
         SupportsGpsEnabledOption<EspressoOptions>,
         SupportsIsHeadlessOption<EspressoOptions>,
-        // App signing options: https://github.com/appium/appium-uiautomator2-driver#app-signing
+        // App signing options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#app-signing
         SupportsKeystoreOptions<EspressoOptions>,
         SupportsNoSignOption<EspressoOptions>,
-        // Device locking options: https://github.com/appium/appium-uiautomator2-driver#device-locking
+        // Device locking options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#device-under-test
         SupportsSkipUnlockOption<EspressoOptions>,
         SupportsUnlockTypeOption<EspressoOptions>,
         SupportsUnlockKeyOption<EspressoOptions>,
         SupportsUnlockStrategyOption<EspressoOptions>,
         SupportsUnlockSuccessTimeoutOption<EspressoOptions>,
-        // MJPEG options: https://github.com/appium/appium-uiautomator2-driver#mjpeg
+        // MJPEG options (not defined by the Espresso driver, deprecated)
         SupportsMjpegServerPortOption<EspressoOptions>,
         SupportsMjpegScreenshotUrlOption<EspressoOptions>,
-        // Web Context options: https://github.com/appium/appium-uiautomator2-driver#web-context
+        // Web Context options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#web-context
         SupportsAutoWebViewOption<EspressoOptions>,
         SupportsWebviewDevtoolsPortOption<EspressoOptions>,
         SupportsEnsureWebviewsHavePagesOption<EspressoOptions>,
@@ -192,7 +194,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsShowChromedriverLogOption<EspressoOptions>,
         SupportsChromeOptionsOption<EspressoOptions>,
         SupportsChromeLoggingPrefsOption<EspressoOptions>,
-        // Other options: https://github.com/appium/appium-uiautomator2-driver#other
+        // Other options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#device-under-test
         SupportsDisableSuppressAccessibilityServiceOption<EspressoOptions>,
         SupportsSkipLogCaptureOption<EspressoOptions> {
     /**
@@ -227,5 +229,105 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
     private void setCommonOptions() {
         setPlatformName(MobilePlatform.ANDROID);
         setAutomationName(AutomationName.ESPRESSO);
+    }
+
+    /**
+     * Skips capturing system logs (iOS only).
+     *
+     * @return self instance for chaining.
+     * @deprecated Not an Android capability, use {@code skipLogcatCapture} instead.
+     */
+    @Override
+    @Deprecated
+    public EspressoOptions skipLogCapture() {
+        return SupportsSkipLogCaptureOption.super.skipLogCapture();
+    }
+
+    /**
+     * Sets whether to skip capturing system logs (iOS only).
+     *
+     * @param value Capability value.
+     * @return self instance for chaining.
+     * @deprecated Not an Android capability, use {@code skipLogcatCapture} instead.
+     */
+    @Override
+    @Deprecated
+    public EspressoOptions setSkipLogCapture(boolean value) {
+        return SupportsSkipLogCaptureOption.super.setSkipLogCapture(value);
+    }
+
+    /**
+     * Gets whether to skip capturing system logs (iOS only).
+     *
+     * @return the value.
+     * @deprecated Not an Android capability, use {@code skipLogcatCapture} instead.
+     */
+    @Override
+    @Deprecated
+    public Optional<Boolean> doesSkipLogCapture() {
+        return SupportsSkipLogCaptureOption.super.doesSkipLogCapture();
+    }
+
+    /**
+     * Sets the MJPEG server port.
+     *
+     * @param port Port number.
+     * @return self instance for chaining.
+     * @deprecated Not defined by the Espresso driver.
+     */
+    @Override
+    @Deprecated
+    public EspressoOptions setMjpegServerPort(int port) {
+        return SupportsMjpegServerPortOption.super.setMjpegServerPort(port);
+    }
+
+    /**
+     * Gets the MJPEG server port.
+     *
+     * @return the value.
+     * @deprecated Not defined by the Espresso driver.
+     */
+    @Override
+    @Deprecated
+    public Optional<Integer> getMjpegServerPort() {
+        return SupportsMjpegServerPortOption.super.getMjpegServerPort();
+    }
+
+    /**
+     * Sets the MJPEG screenshot URL.
+     *
+     * @param url Screenshot URL.
+     * @return self instance for chaining.
+     * @deprecated Not defined by the Espresso driver.
+     */
+    @Override
+    @Deprecated
+    public EspressoOptions setMjpegScreenshotUrl(URL url) {
+        return SupportsMjpegScreenshotUrlOption.super.setMjpegScreenshotUrl(url);
+    }
+
+    /**
+     * Sets the MJPEG screenshot URL.
+     *
+     * @param url Screenshot URL.
+     * @return self instance for chaining.
+     * @deprecated Not defined by the Espresso driver.
+     */
+    @Override
+    @Deprecated
+    public EspressoOptions setMjpegScreenshotUrl(String url) {
+        return SupportsMjpegScreenshotUrlOption.super.setMjpegScreenshotUrl(url);
+    }
+
+    /**
+     * Gets the MJPEG screenshot URL.
+     *
+     * @return the value.
+     * @deprecated Not defined by the Espresso driver.
+     */
+    @Override
+    @Deprecated
+    public Optional<URL> getMjpegScreenshotUrl() {
+        return SupportsMjpegScreenshotUrlOption.super.getMjpegScreenshotUrl();
     }
 }

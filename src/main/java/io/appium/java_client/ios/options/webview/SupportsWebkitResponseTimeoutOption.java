@@ -28,7 +28,10 @@ import java.util.Optional;
  * Provides getters and setters for the {@code webkitResponseTimeout} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability has been removed from the XCUITest driver and has no effect.
+ *     Use {@link SupportsWebviewConnectTimeoutOption} instead.
  */
+@Deprecated
 public interface SupportsWebkitResponseTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**
@@ -37,13 +40,12 @@ public interface SupportsWebkitResponseTimeoutOption<T extends BaseOptions<T>> e
     String WEBKIT_RESPONSE_TIMEOUT_OPTION = "webkitResponseTimeout";
 
     /**
-     * (Real device only) Set the time to wait for a response from WebKit in
-     * a Safari session. Defaults to 5000ms.
+     * Set the time to wait for a response from WebKit in a Safari session.
      *
      * @param timeout Timeout to wait for a response from WebKit in a Safari session.
      * @return self instance for chaining.
      */
-    default T setWebviewConnectTimeout(Duration timeout) {
+    default T setWebkitResponseTimeout(Duration timeout) {
         return amend(WEBKIT_RESPONSE_TIMEOUT_OPTION, timeout.toMillis());
     }
 
@@ -52,9 +54,32 @@ public interface SupportsWebkitResponseTimeoutOption<T extends BaseOptions<T>> e
      *
      * @return Timeout value.
      */
-    default Optional<Duration> getWebviewConnectTimeout() {
+    default Optional<Duration> getWebkitResponseTimeout() {
         return Optional.ofNullable(
                 CapabilityHelpers.toDuration(getCapability(WEBKIT_RESPONSE_TIMEOUT_OPTION))
         );
+    }
+
+    /**
+     * Set the time to wait for a response from WebKit in a Safari session.
+     *
+     * @param timeout Timeout to wait for a response from WebKit in a Safari session.
+     * @return self instance for chaining.
+     * @deprecated Use {@link #setWebkitResponseTimeout(Duration)} instead.
+     */
+    @Deprecated
+    default T setWebviewConnectTimeout(Duration timeout) {
+        return setWebkitResponseTimeout(timeout);
+    }
+
+    /**
+     * Get the timeout to wait for a response from WebKit in a Safari session.
+     *
+     * @return Timeout value.
+     * @deprecated Use {@link #getWebkitResponseTimeout()} instead.
+     */
+    @Deprecated
+    default Optional<Duration> getWebviewConnectTimeout() {
+        return getWebkitResponseTimeout();
     }
 }

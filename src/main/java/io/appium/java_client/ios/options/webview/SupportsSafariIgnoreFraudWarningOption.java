@@ -47,7 +47,8 @@ public interface SupportsSafariIgnoreFraudWarningOption<T extends BaseOptions<T>
 
     /**
      * Prevent Safari from showing a fraudulent website warning.
-     * Default keeps current sim setting..
+     * Default keeps the current setting. Real devices only since driver version 7.9.0;
+     * a new Safari instance must be launched on startup for this to take effect.
      *
      * @param value Whether to prevent Safari from showing a fraudulent website warning.
      * @return self instance for chaining.

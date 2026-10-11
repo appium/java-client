@@ -35,7 +35,8 @@ public interface SupportsAndroidStorageOption<T extends BaseOptions<T>> extends
     String ANDROID_STORAGE_OPTION = "androidStorage";
 
     /**
-     * See
+     * One of {@code auto}, {@code app}, {@code internal} or {@code sdcard}. Deprecated
+     * on the geckodriver side. See
      * https://firefox-source-docs.mozilla.org/testing/geckodriver
      * /Flags.html#code-android-storage-var-android-storage-var-code
      *

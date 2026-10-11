@@ -39,6 +39,7 @@ public class W3CCapabilityKeys implements Predicate<String> {
                     "^strictFileInteractability$",
                     "^timeouts$",
                     "^unhandledPromptBehavior$",
+                    "^userAgent$",
                     "^webSocketUrl$")  // from webdriver-bidi
             .map(Pattern::compile)
             .map(Pattern::asPredicate)

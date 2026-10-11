@@ -47,7 +47,7 @@ public interface SupportsSkipUnlockOption<T extends BaseOptions<T>> extends
 
     /**
      * Whether to skip the check for lock screen presence (true). By default,
-     * UiAutomator2 driver tries to detect if the device's screen is locked
+     * the driver tries to detect if the device's screen is locked
      * before starting the test and to unlock that (which sometimes might be unstable).
      * Note, that this operation takes some time, so it is highly recommended to set
      * this capability to true and disable screen locking on devices under test.

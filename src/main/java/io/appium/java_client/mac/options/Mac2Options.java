@@ -30,7 +30,7 @@ import java.util.Optional;
  * Provides options specific to the Appium Mac2 Driver.
  *
  * <p>For more details, refer to the
- * <a href="https://github.com/appium/appium-mac2-driver#capabilities">capabilities documentation</a></p>
+ * <a href="https://appium.github.io/appium-mac2-driver/latest/reference/capabilities/">capabilities documentation</a></p>
  */
 public class Mac2Options extends BaseOptions<Mac2Options> implements
         SupportsSystemPortOption<Mac2Options>,
@@ -78,8 +78,8 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
     /**
      * An object containing either script or command key. The value of
      * each key must be a valid AppleScript script or command to be
-     * executed after before Mac2Driver session is started. See
-     * https://github.com/appium/appium-mac2-driver#applescript-commands-execution
+     * executed before Mac2Driver session is started. See
+     * https://appium.github.io/appium-mac2-driver/latest/guides/applescript/
      * for more details.
      *
      * @param script A valid AppleScript snippet.
@@ -104,7 +104,7 @@ public class Mac2Options extends BaseOptions<Mac2Options> implements
      * An object containing either script or command key. The value of
      * each key must be a valid AppleScript script or command to be
      * executed after Mac2Driver session is stopped. See
-     * https://github.com/appium/appium-mac2-driver#applescript-commands-execution
+     * https://appium.github.io/appium-mac2-driver/latest/guides/applescript/
      * for more details.
      *
      * @param script A valid AppleScript snippet.

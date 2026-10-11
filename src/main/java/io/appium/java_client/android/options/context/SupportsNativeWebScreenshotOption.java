@@ -37,7 +37,7 @@ public interface SupportsNativeWebScreenshotOption<T extends BaseOptions<T>> ext
     String NATIVE_WEB_SCREENSHOT_OPTION = "nativeWebScreenshot";
 
     /**
-     * Enforce to use screenshoting endpoint provided by UiAutomator framework
+     * Enforce to use screenshoting endpoint provided by the native automation framework
      * rather than the one provided by chromedriver.
      *
      * @return self instance for chaining.
@@ -47,7 +47,7 @@ public interface SupportsNativeWebScreenshotOption<T extends BaseOptions<T>> ext
     }
 
     /**
-     * Whether to use screenshoting endpoint provided by UiAutomator framework (true)
+     * Whether to use screenshoting endpoint provided by the native automation framework (true)
      * rather than the one provided by chromedriver (false, the default value).
      * Use it when you experience issues with the latter.
      *

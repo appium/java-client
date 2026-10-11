@@ -37,7 +37,7 @@ public interface SupportsClearDeviceLogsOnStartOption<T extends BaseOptions<T>> 
     String CLEAR_DEVICE_LOGS_ON_START_OPTION = "clearDeviceLogsOnStart";
 
     /**
-     * Makes UiAutomator2 to delete all the existing logs in the
+     * Makes the driver delete all the existing logs in the
      * device buffer before starting a new test.
      *
      * @return self instance for chaining.
@@ -48,10 +48,10 @@ public interface SupportsClearDeviceLogsOnStartOption<T extends BaseOptions<T>> 
 
 
     /**
-     * If set to true then UiAutomator2 deletes all the existing logs in the
+     * If set to true then the driver deletes all the existing logs in the
      * device buffer before starting a new test.
      *
-     * @param value Set to false if you don't want to wait for the app to finish its launch.
+     * @param value Whether to delete all the existing device logs before starting a new test.
      * @return self instance for chaining.
      */
     default T setClearDeviceLogsOnStart(boolean value) {

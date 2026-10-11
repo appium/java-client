@@ -28,7 +28,10 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
  * Provides getters and setters for the {@code waitForQuiescence} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability has been removed from the XCUITest driver and has no effect.
+ *     Use {@link SupportsWaitForIdleTimeoutOption} instead.
  */
+@Deprecated
 public interface SupportsWaitForQuiescenceOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

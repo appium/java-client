@@ -37,7 +37,7 @@ public interface SupportsMjpegServerPortOption<T extends BaseOptions<T>> extends
     String MJPEG_SERVER_PORT_OPTION = "mjpegServerPort";
 
     /**
-     * The number of the port UiAutomator2 server starts the MJPEG server on.
+     * The number of the local port the device MJPEG server port (always 7810) gets forwarded to.
      * If not provided then the screenshots broadcasting service on the remote
      * device does not get exposed to a local port (e.g. no adb port forwarding
      * is happening).
@@ -50,7 +50,7 @@ public interface SupportsMjpegServerPortOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get the number of the port UiAutomator2 server starts the MJPEG server on.
+     * Get the number of the local port the device MJPEG server port gets forwarded to.
      *
      * @return Port number.
      */

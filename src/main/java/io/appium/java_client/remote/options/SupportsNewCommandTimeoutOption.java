@@ -36,7 +36,7 @@ public interface SupportsNewCommandTimeoutOption<T extends BaseOptions<T>> exten
     String NEW_COMMAND_TIMEOUT_OPTION = "newCommandTimeout";
 
     /**
-     * Set the timeout for new commands.
+     * Set the timeout for new commands. It is sent in seconds; zero disables the timeout, 60 seconds by default.
      *
      * @param duration is the allowed time before seeing a new command.
      * @return self instance for chaining.

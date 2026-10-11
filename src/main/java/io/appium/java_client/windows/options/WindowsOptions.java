@@ -29,6 +29,9 @@ import java.util.Optional;
 
 /**
  * <a href="https://github.com/appium/appium-windows-driver#usage">https://github.com/appium/appium-windows-driver#usage</a>.
+ *
+ * <p>Note: appium-windows-driver is deprecated in favor of appium-wincore-driver,
+ * which has its own automation name and capability set.</p>
  */
 public class WindowsOptions extends BaseOptions<WindowsOptions> implements
         SupportsAppOption<WindowsOptions>,

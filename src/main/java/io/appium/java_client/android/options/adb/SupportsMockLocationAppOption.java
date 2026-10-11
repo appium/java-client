@@ -37,9 +37,9 @@ public interface SupportsMockLocationAppOption<T extends BaseOptions<T>> extends
     /**
      * Sets the package identifier of the app, which is used as a system mock location
      * provider since Appium 1.18.0+. This capability has no effect on emulators.
-     * If the value is set to null or an empty string, then Appium will skip the mocked
-     * location provider setup procedure. Defaults to Appium Setting package
-     * identifier (io.appium.settings).
+     * If the value is set to null or an empty string, then the driver will reset the mocked
+     * location provider instead. Defaults to Appium Setting package
+     * identifier (io.appium.settings) only if the capability is not set at all.
      *
      * @param appIdentifier The identifier of the mock location provider app.
      * @return self instance for chaining.
