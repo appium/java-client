@@ -24,6 +24,7 @@ import io.appium.java_client.PushesFiles;
 import io.appium.java_client.http.HttpClient;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -49,6 +50,7 @@ import static java.util.Objects.requireNonNull;
 public class WincoreDriver extends AppiumDriver implements
         PullsFiles,
         PushesFiles,
+        SupportsContextSwitching,
         CanRecordScreen {
     private static final String PLATFORM_NAME = Platform.WINDOWS.name();
     private static final String AUTOMATION_NAME = AutomationName.WINCORE;
@@ -224,6 +226,17 @@ public class WincoreDriver extends AppiumDriver implements
                 "path", remotePath,
                 "data", new String(base64Data, StandardCharsets.UTF_8)
         )));
+    }
+
+    /**
+     * Starts the screen recording with the default options. The driver returns no value,
+     * so the options overload is used to stay null-safe.
+     *
+     * @return `not used`.
+     */
+    @Override
+    public String startRecordingScreen() {
+        return startRecordingScreen(new WincoreStartScreenRecordingOptions());
     }
 
     private static byte[] decodeBase64(@Nullable String base64String) {

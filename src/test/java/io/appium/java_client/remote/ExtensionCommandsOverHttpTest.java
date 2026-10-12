@@ -40,11 +40,14 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Checks the commands that the drivers send for the features that have `mobile:` or `windows:` extensions
@@ -83,6 +86,12 @@ class ExtensionCommandsOverHttpTest {
             case "POST /session/s1/appium/device/pull_folder":
                 json = "{\"value\":\"" + Base64.getEncoder().encodeToString("data".getBytes(StandardCharsets.UTF_8))
                         + "\"}";
+                break;
+            case "GET /session/s1/contexts":
+                json = "{\"value\":[\"NATIVE_APP\",\"WEBVIEW_1\"]}";
+                break;
+            case "GET /session/s1/context":
+                json = "{\"value\":\"WEBVIEW_1\"}";
                 break;
             default:
                 json = "{\"value\":null}";
@@ -184,5 +193,30 @@ class ExtensionCommandsOverHttpTest {
         var options = (Map<?, ?>) lastBody().get("options");
         assertEquals(30, ((Number) options.get("videoFps")).intValue());
         assertFalse(options.containsKey("fps"));
+    }
+
+    @Test
+    void wincoreDefaultScreenRecordingToleratesTheEmptyResponse() throws IOException {
+        var driver = new WincoreDriver(url(), new WincoreOptions());
+
+        assertNull(driver.startRecordingScreen());
+        assertEquals("POST /session/s1/appium/start_recording_screen", lastRequest());
+    }
+
+    @Test
+    void wincoreSwitchesContexts() throws IOException {
+        var driver = new WincoreDriver(url(), new WincoreOptions());
+
+        assertEquals(Set.of("NATIVE_APP", "WEBVIEW_1"), driver.getContextHandles());
+        assertEquals("GET /session/s1/contexts", lastRequest());
+
+        assertEquals("WEBVIEW_1", driver.getContext());
+        assertEquals("GET /session/s1/context", lastRequest());
+
+        driver.context("WEBVIEW_1");
+        assertEquals("POST /session/s1/context", lastRequest());
+        assertEquals(Map.of("name", "WEBVIEW_1"), lastBody());
+
+        assertTrue(driver.isBrowser());
     }
 }

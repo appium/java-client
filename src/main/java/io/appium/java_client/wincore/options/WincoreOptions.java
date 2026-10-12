@@ -29,7 +29,6 @@ import io.appium.java_client.windows.options.SupportsAppArgumentsOption;
 import io.appium.java_client.windows.options.SupportsAppTopLevelWindowOption;
 import io.appium.java_client.windows.options.SupportsAppWorkingDirOption;
 import io.appium.java_client.windows.options.SupportsMsExperimentalWebDriverOption;
-import io.appium.java_client.windows.options.SupportsMsWaitForAppLaunchOption;
 import io.appium.java_client.windows.options.SupportsSystemPortOption;
 import org.openqa.selenium.Capabilities;
 
@@ -50,7 +49,7 @@ public class WincoreOptions extends BaseOptions<WincoreOptions> implements
         SupportsAppArgumentsOption<WincoreOptions>,
         SupportsAppTopLevelWindowOption<WincoreOptions>,
         SupportsAppWorkingDirOption<WincoreOptions>,
-        SupportsMsWaitForAppLaunchOption<WincoreOptions>,
+        SupportsWaitForAppLaunchOption<WincoreOptions>,
         SupportsMsExperimentalWebDriverOption<WincoreOptions>,
         SupportsMsForceQuitOption<WincoreOptions>,
         SupportsSystemPortOption<WincoreOptions>,

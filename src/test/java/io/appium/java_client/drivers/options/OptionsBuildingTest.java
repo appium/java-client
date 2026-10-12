@@ -153,6 +153,24 @@ public class OptionsBuildingTest {
     }
 
     @Test
+    public void wincoreWaitForAppLaunchRespectsTheDriverUnitDetection() {
+        var options = new WincoreOptions();
+        var cases = new Object[][] {
+            {Duration.ofSeconds(90), 90L, Duration.ofSeconds(90)},
+            {Duration.ofSeconds(120), 120L, Duration.ofSeconds(120)},
+            {Duration.ofSeconds(121), 121_000L, Duration.ofSeconds(121)},
+            {Duration.ofMinutes(3), 180_000L, Duration.ofMinutes(3)},
+            {Duration.ofMillis(1500), 1500L, Duration.ofMillis(1500)},
+            {Duration.ofMillis(50), 1L, Duration.ofSeconds(1)},
+        };
+        for (var c : cases) {
+            options.setWaitForAppLaunch((Duration) c[0]);
+            assertEquals(c[1], options.asMap().get("ms:waitForAppLaunch"));
+            assertEquals(c[2], options.doesWaitForAppLaunch().orElse(null));
+        }
+    }
+
+    @Test
     public void canBuildMac2Options() {
         Mac2Options options = new Mac2Options();
         assertEquals(Platform.MAC, options.getPlatformName());
