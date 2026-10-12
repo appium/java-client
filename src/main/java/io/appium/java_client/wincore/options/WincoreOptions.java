@@ -29,7 +29,6 @@ import io.appium.java_client.windows.options.SupportsAppArgumentsOption;
 import io.appium.java_client.windows.options.SupportsAppTopLevelWindowOption;
 import io.appium.java_client.windows.options.SupportsAppWorkingDirOption;
 import io.appium.java_client.windows.options.SupportsMsExperimentalWebDriverOption;
-import io.appium.java_client.windows.options.SupportsSystemPortOption;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Map;
@@ -52,7 +51,6 @@ public class WincoreOptions extends BaseOptions<WincoreOptions> implements
         SupportsWaitForAppLaunchOption<WincoreOptions>,
         SupportsMsExperimentalWebDriverOption<WincoreOptions>,
         SupportsMsForceQuitOption<WincoreOptions>,
-        SupportsSystemPortOption<WincoreOptions>,
         SupportsShouldCloseAppOption<WincoreOptions>,
         SupportsIsolatedScriptExecutionOption<WincoreOptions>,
         SupportsSmoothPointerMoveOption<WincoreOptions>,
@@ -92,30 +90,6 @@ public class WincoreOptions extends BaseOptions<WincoreOptions> implements
     public WincoreOptions(Map<String, ?> source) {
         super(source);
         setCommonOptions();
-    }
-
-    /**
-     * Sets the {@code systemPort} capability. It has no effect for the Wincore driver,
-     * which ignores it because it communicates with its server over stdin/stdout.
-     * The capability is only kept for compatibility with the Windows driver configuration.
-     *
-     * @param port port number in range 0..65535
-     * @return self instance for chaining.
-     */
-    @Override
-    public WincoreOptions setSystemPort(int port) {
-        return SupportsSystemPortOption.super.setSystemPort(port);
-    }
-
-    /**
-     * Get the {@code systemPort} capability. It has no effect for the Wincore driver,
-     * see {@link #setSystemPort(int)}.
-     *
-     * @return System port value.
-     */
-    @Override
-    public Optional<Integer> getSystemPort() {
-        return SupportsSystemPortOption.super.getSystemPort();
     }
 
     private void setCommonOptions() {
