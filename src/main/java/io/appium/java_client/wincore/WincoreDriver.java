@@ -193,6 +193,8 @@ public class WincoreDriver extends AppiumDriver implements
 
     /**
      * Pulls a file from the remote system. The Wincore driver has no `mobile:` extension for it.
+     * The server must enable the {@code wincore:modify_fs} insecure feature,
+     * for example {@code --allow-insecure=wincore:modify_fs}.
      *
      * @param remotePath Path to the file to read data from the remote device.
      * @return A byte array of Base64 encoded data.
@@ -216,6 +218,8 @@ public class WincoreDriver extends AppiumDriver implements
 
     /**
      * Saves base64-encoded data as a file on the remote system. The Wincore driver has no `mobile:` extension for it.
+     * The server must enable the {@code wincore:modify_fs} insecure feature,
+     * for example {@code --allow-insecure=wincore:modify_fs}.
      *
      * @param remotePath Path to the file to write data to on the remote device.
      * @param base64Data Base64 encoded byte array of the data to write to the remote device.
