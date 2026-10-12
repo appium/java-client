@@ -42,8 +42,11 @@ import static io.appium.java_client.MobileCommand.PUSH_FILE;
 import static java.util.Objects.requireNonNull;
 
 /**
- * WindowsDriver is an officially supported Appium driver created to automate Windows apps.
+ * WindowsDriver is an Appium driver created to automate Windows apps.
  * Read https://github.com/appium/appium-windows-driver for more details.
+ *
+ * <p>Note: the Windows driver is deprecated and not supported since Appium 4,
+ * use {@link io.appium.java_client.wincore.WincoreDriver} instead.</p>
  */
 public class WindowsDriver extends AppiumDriver implements
         PullsFiles,

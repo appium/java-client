@@ -22,6 +22,9 @@ import com.sun.net.httpserver.HttpServer;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.PowerACState;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.wincore.WincoreDriver;
+import io.appium.java_client.wincore.WincoreStartScreenRecordingOptions;
+import io.appium.java_client.wincore.options.WincoreOptions;
 import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.options.WindowsOptions;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +43,8 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Checks the commands that the drivers send for the features that have `mobile:` or `windows:` extensions
@@ -141,5 +146,43 @@ class ExtensionCommandsOverHttpTest {
 
         driver.launchApp();
         assertEquals("windows: launchApp", lastBody().get("script"));
+    }
+
+    @Test
+    void wincoreFilesAreTransferredWithTheDriverCommands() throws IOException {
+        var driver = new WincoreDriver(url(), new WincoreOptions());
+
+        assertArrayEquals("data".getBytes(StandardCharsets.UTF_8), driver.pullFile("C:\\a.txt"));
+        assertEquals("POST /session/s1/appium/device/pull_file", lastRequest());
+        assertEquals(Map.of("path", "C:\\a.txt"), lastBody());
+
+        driver.pushFile("C:\\b.txt", "ZGF0YQ==".getBytes(StandardCharsets.UTF_8));
+        assertEquals("POST /session/s1/appium/device/push_file", lastRequest());
+        assertEquals(Map.of("path", "C:\\b.txt", "data", "ZGF0YQ=="), lastBody());
+
+        assertThrows(UnsupportedOperationException.class, () -> driver.pullFolder("C:\\dir"));
+    }
+
+    @Test
+    void wincoreAppIsLaunchedAndClosedWithTheDriverExtensions() throws IOException {
+        var driver = new WincoreDriver(url(), new WincoreOptions());
+
+        driver.closeApp();
+        assertEquals("windows: closeApp", lastBody().get("script"));
+
+        driver.launchApp();
+        assertEquals("windows: launchApp", lastBody().get("script"));
+    }
+
+    @Test
+    void wincoreScreenRecordingUsesTheVideoFpsParameter() throws IOException {
+        var driver = new WincoreDriver(url(), new WincoreOptions());
+
+        driver.startRecordingScreen(new WincoreStartScreenRecordingOptions().withFps(30));
+
+        assertEquals("POST /session/s1/appium/start_recording_screen", lastRequest());
+        var options = (Map<?, ?>) lastBody().get("options");
+        assertEquals(30, ((Number) options.get("videoFps")).intValue());
+        assertFalse(options.containsKey("fps"));
     }
 }
