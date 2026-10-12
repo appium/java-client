@@ -35,7 +35,7 @@ public interface SupportsAppActivityOption<T extends BaseOptions<T>> extends
     String APP_ACTIVITY_OPTION = "appActivity";
 
     /**
-     * Main application activity identifier. If not provided then UiAutomator2
+     * Main application activity identifier. If not provided then the driver
      * will try to detect it automatically from the package provided by the app capability.
      *
      * @param appActivity Fully qualified app activity class name.

@@ -38,8 +38,8 @@ public interface SupportsSystemPortOption<T extends BaseOptions<T>> extends
 
     /**
      * The number of the port for the driver to listen on. Must be unique
-     * for each session. If not provided then Appium will try to detect
-     * it automatically.
+     * for each session. If not provided then the first free port
+     * in the 5200..5300 range is used.
      *
      * @param port port number in range 0..65535
      * @return self instance for chaining.

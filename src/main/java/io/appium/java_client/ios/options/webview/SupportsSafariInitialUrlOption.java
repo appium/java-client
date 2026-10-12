@@ -35,7 +35,8 @@ public interface SupportsSafariInitialUrlOption<T extends BaseOptions<T>> extend
     String SAFARI_INITIAL_URL_OPTION = "safariInitialUrl";
 
     /**
-     * Set initial safari url, default is a local welcome page.
+     * Set initial safari url, default is a local welcome page. An empty string skips
+     * the initial navigation. Ignored if the initialDeeplinkUrl capability is set.
      *
      * @param url Initial safari url.
      * @return self instance for chaining.

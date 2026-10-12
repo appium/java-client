@@ -35,8 +35,8 @@ public interface SupportsLogPathOption<T extends BaseOptions<T>> extends
     String LOG_PATH = "logPath";
 
     /**
-     * If set, the path to use with the --log-path parameter directing
-     * WebDriver to write its log to that path.
+     * If set, chromedriver/msedgedriver writes its log to this file (the --log-path
+     * flag) instead of the default logger.
      *
      * @param logPath where to write the logs.
      * @return self instance for chaining.
@@ -46,7 +46,7 @@ public interface SupportsLogPathOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get the log path where the WebDrive writes the logs.
+     * Get the log path where the driver writes the logs.
      *
      * @return the log path.
      */

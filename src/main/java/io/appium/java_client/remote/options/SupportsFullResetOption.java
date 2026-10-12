@@ -35,7 +35,7 @@ public interface SupportsFullResetOption<T extends BaseOptions<T>> extends
     String FULL_RESET_OPTION = "fullReset";
 
     /**
-     * Set the app to do a full reset.
+     * Set the app to do a full reset. Cannot be combined with {@code noReset}.
      *
      * @return self instance for chaining.
      */
@@ -44,7 +44,7 @@ public interface SupportsFullResetOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Set whether the app does a full reset.
+     * Set whether the app does a full reset. Cannot be combined with {@code noReset}.
      *
      * @param bool is whether the app does a full reset.
      * @return self instance for chaining.

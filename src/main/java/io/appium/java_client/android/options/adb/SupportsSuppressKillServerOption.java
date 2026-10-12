@@ -37,7 +37,7 @@ public interface SupportsSuppressKillServerOption<T extends BaseOptions<T>> exte
     String SUPPRESS_KILL_SERVER_OPTION = "suppressKillServer";
 
     /**
-     * Prevents the driver from ever killing the ADB server explicitl.
+     * Prevents the driver from ever killing the ADB server explicitly.
      *
      * @return self instance for chaining.
      */

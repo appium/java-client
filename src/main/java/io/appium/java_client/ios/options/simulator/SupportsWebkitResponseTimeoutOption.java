@@ -28,7 +28,10 @@ import java.util.Optional;
  * Provides getters and setters for the {@code webkitResponseTimeout} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability has been removed from the XCUITest driver and has no effect.
+ *     Use {@link io.appium.java_client.ios.options.webview.SupportsWebviewConnectTimeoutOption} instead.
  */
+@Deprecated
 public interface SupportsWebkitResponseTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

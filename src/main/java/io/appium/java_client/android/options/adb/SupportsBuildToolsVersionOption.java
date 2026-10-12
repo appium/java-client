@@ -35,7 +35,7 @@ public interface SupportsBuildToolsVersionOption<T extends BaseOptions<T>> exten
     String BUILD_TOOLS_VERSION_OPTION = "buildToolsVersion";
 
     /**
-     * The version of Android build tools to use. By default, UiAutomator2
+     * The version of Android build tools to use. By default, the
      * driver uses the most recent version of build tools installed on
      * the machine, but sometimes it might be necessary to give it a hint
      * (let say if there is a known bug in the most recent tools version).

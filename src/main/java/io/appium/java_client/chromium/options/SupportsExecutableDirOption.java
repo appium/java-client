@@ -35,11 +35,10 @@ public interface SupportsExecutableDirOption<T extends BaseOptions<T>> extends
     String EXECUTABLE_DIR = "executableDir";
 
     /**
-     * A directory within which is found any number of WebDriver binaries.
-     * If set, the driver will search this directory for WebDrivers of the
-     * appropriate version to use for your browser.
+     * A directory containing any number of chromedriver/msedgedriver binaries.
+     * If set, the driver will search it for the binary matching the browser version.
      *
-     * @param directory of WebDriver binaries.
+     * @param directory of chromedriver/msedgedriver binaries.
      * @return self instance for chaining.
      */
     default T setExecutableDir(String directory) {
@@ -47,9 +46,9 @@ public interface SupportsExecutableDirOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get a directory within which is found any number of WebDriver binaries.
+     * Get the directory containing chromedriver/msedgedriver binaries.
      *
-     * @return executable directory of a Driver binary.
+     * @return directory of the driver binaries.
      */
     default Optional<String> getExecutableDir() {
         return Optional.ofNullable((String) getCapability(EXECUTABLE_DIR));

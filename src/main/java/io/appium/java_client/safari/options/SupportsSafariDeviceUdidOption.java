@@ -23,16 +23,16 @@ import org.openqa.selenium.Capabilities;
 import java.util.Optional;
 
 /**
- * Support for the {@code safari:deviceUdid} capability: the UDID of the device or simulator to run Safari on.
+ * Support for the {@code safari:deviceUDID} capability: the UDID of the device or simulator to run Safari on.
   *
   * @param <T> the concrete options type, returned for chaining
  */
 public interface SupportsSafariDeviceUdidOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**
-     * Name of the {@code safari:deviceUdid} capability.
+     * Name of the {@code safari:deviceUDID} capability.
      */
-    String SAFARI_DEVICE_UDID_OPTION = "safari:deviceUdid";
+    String SAFARI_DEVICE_UDID_OPTION = "safari:deviceUDID";
 
     /**
      * safaridriver will only create a session using hosts whose device UDID

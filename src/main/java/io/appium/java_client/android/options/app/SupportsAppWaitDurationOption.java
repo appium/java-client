@@ -41,7 +41,7 @@ public interface SupportsAppWaitDurationOption<T extends BaseOptions<T>> extends
      * Maximum amount of time to wait until the application under test is started
      * (e.g. an activity returns the control to the caller). 20000 ms by default.
      *
-     * @param appWaitDuration Package identifier to wait for.
+     * @param appWaitDuration Maximum duration to wait for the app to start.
      * @return self instance for chaining.
      */
     default T setAppWaitDuration(Duration appWaitDuration) {
@@ -49,9 +49,9 @@ public interface SupportsAppWaitDurationOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get the identifier of the app package to wait for.
+     * Get the maximum amount of time to wait until the application under test is started.
      *
-     * @return Package identifier.
+     * @return Wait duration.
      */
     default Optional<Duration> getAppWaitDuration() {
         return Optional.ofNullable(toDuration(getCapability(APP_WAIT_DURATION_OPTION)));

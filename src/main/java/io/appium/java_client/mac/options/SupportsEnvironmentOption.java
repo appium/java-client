@@ -39,9 +39,9 @@ public interface SupportsEnvironmentOption<T extends BaseOptions<T>> extends
      * A dictionary of environment variables (name-&gt;value) that are going to be passed
      * to the application under test on top of environment variables inherited from
      * the parent process. This capability is only going to be applied if the application
-     * is not running on session startup.
+     * is not running or is relaunched on session startup.
      *
-     * @param env E.g. ["--help"].
+     * @param env The environment variables as a name-to-value map.
      * @return self instance for chaining.
      */
     default T setEnvironment(Map<String, String> env) {

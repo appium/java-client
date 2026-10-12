@@ -35,11 +35,11 @@ public interface SupportsLocaleScriptOption<T extends BaseOptions<T>> extends
     String LOCALE_SCRIPT_OPTION = "localeScript";
 
     /**
-     * Set canonical name of the locale to be set for the app under test,
-     * for example zh-Hans-CN.
+     * Set the script part of the locale to be set for the app under test,
+     * for example Hans in zh-Hans-CN.
      * See https://developer.android.com/reference/java/util/Locale.html for more details.
      *
-     * @param localeScript is the language abbreviation.
+     * @param localeScript is the locale script, for example Hans.
      * @return this MobileOptions, for chaining.
      */
     default T setLocaleScript(String localeScript) {
@@ -47,7 +47,7 @@ public interface SupportsLocaleScriptOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get canonical name of the locale to be set for the app under test.
+     * Get the script part of the locale to be set for the app under test.
      *
      * @return Locale script value.
      */

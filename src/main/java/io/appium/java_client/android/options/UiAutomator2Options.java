@@ -105,6 +105,7 @@ import io.appium.java_client.remote.options.SupportsUdidOption;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Provides options specific to the UiAutomator2 Driver.
@@ -239,5 +240,116 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
     private void setCommonOptions() {
         setPlatformName(MobilePlatform.ANDROID);
         setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);
+    }
+
+    /**
+     * Skips capturing system logs (iOS only).
+     *
+     * @return self instance for chaining.
+     * @deprecated Not an Android capability, use {@code skipLogcatCapture} instead.
+     */
+    @Override
+    @Deprecated
+    public UiAutomator2Options skipLogCapture() {
+        return SupportsSkipLogCaptureOption.super.skipLogCapture();
+    }
+
+    /**
+     * Sets whether to skip capturing system logs (iOS only).
+     *
+     * @param value Capability value.
+     * @return self instance for chaining.
+     * @deprecated Not an Android capability, use {@code skipLogcatCapture} instead.
+     */
+    @Override
+    @Deprecated
+    public UiAutomator2Options setSkipLogCapture(boolean value) {
+        return SupportsSkipLogCaptureOption.super.setSkipLogCapture(value);
+    }
+
+    /**
+     * Gets whether to skip capturing system logs (iOS only).
+     *
+     * @return the value.
+     * @deprecated Not an Android capability, use {@code skipLogcatCapture} instead.
+     */
+    @Override
+    @Deprecated
+    public Optional<Boolean> doesSkipLogCapture() {
+        return SupportsSkipLogCaptureOption.super.doesSkipLogCapture();
+    }
+
+    /**
+     * Clears system files (iOS only).
+     *
+     * @return self instance for chaining.
+     * @deprecated The Android drivers never read this capability.
+     */
+    @Override
+    @Deprecated
+    public UiAutomator2Options clearSystemFiles() {
+        return SupportsClearSystemFilesOption.super.clearSystemFiles();
+    }
+
+    /**
+     * Sets whether to clear system files (iOS only).
+     *
+     * @param bool Capability value.
+     * @return self instance for chaining.
+     * @deprecated The Android drivers never read this capability.
+     */
+    @Override
+    @Deprecated
+    public UiAutomator2Options setClearSystemFiles(boolean bool) {
+        return SupportsClearSystemFilesOption.super.setClearSystemFiles(bool);
+    }
+
+    /**
+     * Gets whether to clear system files (iOS only).
+     *
+     * @return the value.
+     * @deprecated The Android drivers never read this capability.
+     */
+    @Override
+    @Deprecated
+    public Optional<Boolean> doesClearSystemFiles() {
+        return SupportsClearSystemFilesOption.super.doesClearSystemFiles();
+    }
+
+    /**
+     * Enables performance logging.
+     *
+     * @return self instance for chaining.
+     * @deprecated Deprecated by the Android driver, use {@code chromeLoggingPrefs} with {@code performance: ALL}.
+     */
+    @Override
+    @Deprecated
+    public UiAutomator2Options enablePerformanceLogging() {
+        return SupportsEnablePerformanceLoggingOption.super.enablePerformanceLogging();
+    }
+
+    /**
+     * Sets whether to enable performance logging.
+     *
+     * @param bool Capability value.
+     * @return self instance for chaining.
+     * @deprecated Deprecated by the Android driver, use {@code chromeLoggingPrefs} with {@code performance: ALL}.
+     */
+    @Override
+    @Deprecated
+    public UiAutomator2Options setEnablePerformanceLogging(boolean bool) {
+        return SupportsEnablePerformanceLoggingOption.super.setEnablePerformanceLogging(bool);
+    }
+
+    /**
+     * Gets whether performance logging is enabled.
+     *
+     * @return the value.
+     * @deprecated Deprecated by the Android driver, use {@code chromeLoggingPrefs} with {@code performance: ALL}.
+     */
+    @Override
+    @Deprecated
+    public Optional<Boolean> isEnablePerformanceLogging() {
+        return SupportsEnablePerformanceLoggingOption.super.isEnablePerformanceLogging();
     }
 }

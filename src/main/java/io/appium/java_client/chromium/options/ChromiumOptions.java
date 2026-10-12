@@ -25,8 +25,10 @@ import java.util.Map;
 
 /**
  * Options class that sets options for Chromium when testing websites.
+ * Set the browser name to {@code MicrosoftEdge} (case-sensitive) to automate MS Edge.
  * <br>
- * @see <a href='https://github.com/appium/appium-chromium-driver#usage'>appium-chromium-driver usage section</a>
+ * @see <a href='https://appium.github.io/appium-chromium-driver/latest/reference/capabilities/'>
+ *     appium-chromium-driver capabilities</a>
  */
 public class ChromiumOptions extends BaseOptions<ChromiumOptions> implements
         SupportsBrowserNameOption<ChromiumOptions>,

@@ -37,6 +37,7 @@ public interface SupportsIntentFlagsOption<T extends BaseOptions<T>> extends
     /**
      * Set an optional intent flags to be applied when
      * starting the given appActivity by Activity Manager.
+     * {@code 0x10200000} by default.
      *
      * @param intentFlags Intent flags hexadecimal string.
      * @return self instance for chaining.

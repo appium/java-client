@@ -28,7 +28,9 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
  * Provides getters and setters for the {@code launchWithIDB} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability has been removed from the XCUITest driver (idb is no longer supported) and has no effect.
  */
+@Deprecated
 public interface SupportsLaunchWithIdbOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

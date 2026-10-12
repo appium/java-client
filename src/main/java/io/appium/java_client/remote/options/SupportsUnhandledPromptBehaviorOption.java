@@ -33,9 +33,9 @@ public interface SupportsUnhandledPromptBehaviorOption<T extends BaseOptions<T>>
     String UNHANDLED_PROMPT_BEHAVIOR_OPTION = "unhandledPromptBehavior";
 
     /**
-     * Defines the current session’s page load strategy.
+     * Defines how unexpected user prompts (alerts) are handled in the current session.
      *
-     * @param strategy Page load strategy.
+     * @param strategy Unhandled prompt behavior.
      * @return self instance for chaining.
      */
     default T setUnhandledPromptBehavior(UnhandledPromptBehavior strategy) {
@@ -43,9 +43,9 @@ public interface SupportsUnhandledPromptBehaviorOption<T extends BaseOptions<T>>
     }
 
     /**
-     * Get the current session’s page load strategy.
+     * Get how unexpected user prompts (alerts) are handled in the current session.
      *
-     * @return Page load strategy.
+     * @return Unhandled prompt behavior.
      */
     default Optional<UnhandledPromptBehavior> getUnhandledPromptBehavior() {
         return Optional.ofNullable(getCapability(UNHANDLED_PROMPT_BEHAVIOR_OPTION))

@@ -37,13 +37,13 @@ public interface SupportsScreenshotQualityOption<T extends BaseOptions<T>> exten
     String SCREENSHOT_QUALITY_OPTION = "screenshotQuality";
 
     /**
-     * Changes the quality of phone display screenshots following
-     * xctest/xctimagequality Default value is 1. 0 is the highest and
-     * 2 is the lowest quality. You can also change it via settings
-     * command. 0 might cause OutOfMemory crash on high-resolution
-     * devices like iPad Pro.
+     * Changes the quality of phone display screenshots. Supported values:
+     * 0 - lossless PNG, 1 - high-quality JPEG, 2 - low-quality JPEG,
+     * 3 - lossless HEIC (falls back to PNG if hardware HEIC encoding is not
+     * supported). The default is defined by the driver/WebDriverAgent version.
+     * You can also change it via settings command.
      *
-     * @param quality Quality value in range 0..2.
+     * @param quality Quality value in range 0..3.
      * @return self instance for chaining.
      */
     default T setScreenshotQuality(int quality) {

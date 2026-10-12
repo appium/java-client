@@ -28,7 +28,9 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
  * Provides getters and setters for the {@code useSimpleBuildTest} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability is no longer declared by the XCUITest driver.
  */
+@Deprecated
 public interface SupportsUseSimpleBuildTestOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

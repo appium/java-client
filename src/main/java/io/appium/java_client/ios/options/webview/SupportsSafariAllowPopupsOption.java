@@ -46,7 +46,9 @@ public interface SupportsSafariAllowPopupsOption<T extends BaseOptions<T>> exten
     }
 
     /**
-     * Allow javascript to open new windows in Safari. Default keeps current sim setting.
+     * Allow javascript to open new windows in Safari.
+     * Default keeps the current setting. Real devices only since driver version 7.9.0;
+     * a new Safari instance must be launched on startup for this to take effect.
      *
      * @param value Whether to allow javascript to open popups in Safari.
      * @return self instance for chaining.

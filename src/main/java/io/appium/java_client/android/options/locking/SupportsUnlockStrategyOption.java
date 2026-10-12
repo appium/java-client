@@ -39,7 +39,7 @@ public interface SupportsUnlockStrategyOption<T extends BaseOptions<T>> extends
      * Setting it to 'uiautomator' will enforce the driver to avoid using special
      * ADB shortcuts in order to speed up the unlock procedure.
      *
-     * @param strategy The unlock strategy.
+     * @param strategy The unlock strategy: 'locksettings' or 'uiautomator' (case-insensitive).
      * @return self instance for chaining.
      */
     default T setUnlockStrategy(String strategy) {

@@ -38,14 +38,26 @@ public interface SupportsEspressoServerLaunchTimeoutOption<T extends BaseOptions
     String ESPRESSO_SERVER_LAUNCH_TIMEOUT_OPTION = "espressoServerLaunchTimeout";
 
     /**
-     * Set the maximum timeout to wait util Espresso  is listening on the device.
+     * Set the maximum timeout to wait until Espresso server is listening on the device.
      * 45000 ms by default
      *
      * @param timeout Timeout value.
      * @return self instance for chaining.
      */
-    default T setUiautomator2ServerInstallTimeout(Duration timeout) {
+    default T setEspressoServerLaunchTimeout(Duration timeout) {
         return amend(ESPRESSO_SERVER_LAUNCH_TIMEOUT_OPTION, timeout.toMillis());
+    }
+
+    /**
+     * Set the maximum timeout to wait until Espresso server is listening on the device.
+     *
+     * @param timeout Timeout value.
+     * @return self instance for chaining.
+     * @deprecated Misnamed accessor, use {@link #setEspressoServerLaunchTimeout(Duration)}.
+     */
+    @Deprecated
+    default T setUiautomator2ServerInstallTimeout(Duration timeout) {
+        return setEspressoServerLaunchTimeout(timeout);
     }
 
     /**
@@ -53,9 +65,20 @@ public interface SupportsEspressoServerLaunchTimeoutOption<T extends BaseOptions
      *
      * @return The timeout value.
      */
-    default Optional<Duration> getUiautomator2ServerInstallTimeout() {
+    default Optional<Duration> getEspressoServerLaunchTimeout() {
         return Optional.ofNullable(
                 toDuration(getCapability(ESPRESSO_SERVER_LAUNCH_TIMEOUT_OPTION))
         );
+    }
+
+    /**
+     * Get the maximum timeout to wait until Espresso server is listening on the device.
+     *
+     * @return The timeout value.
+     * @deprecated Misnamed accessor, use {@link #getEspressoServerLaunchTimeout()}.
+     */
+    @Deprecated
+    default Optional<Duration> getUiautomator2ServerInstallTimeout() {
+        return getEspressoServerLaunchTimeout();
     }
 }

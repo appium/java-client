@@ -35,7 +35,8 @@ public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>
     String ENABLE_PERFORMANCE_LOGGING_OPTION = "enablePerformanceLogging";
 
     /**
-     * Set the app to enable performance logging.
+     * Set the app to enable performance logging. Safari performance logging on iOS,
+     * Chrome performance logging on Android (deprecated there, use {@code chromeLoggingPrefs}).
      *
      * @return self instance for chaining.
      */
@@ -44,9 +45,10 @@ public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>
     }
 
     /**
-     * Set whether the app logs performance.
+     * Set whether performance logging is enabled. Safari performance logging on iOS,
+     * Chrome performance logging on Android (deprecated there, use {@code chromeLoggingPrefs}).
      *
-     * @param bool is whether the app logs performance.
+     * @param bool is whether performance logging is enabled.
      * @return self instance for chaining.
      */
     default T setEnablePerformanceLogging(boolean bool) {
@@ -54,9 +56,9 @@ public interface SupportsEnablePerformanceLoggingOption<T extends BaseOptions<T>
     }
 
     /**
-     * Get the app logs performance.
+     * Get whether performance logging is enabled.
      *
-     * @return true if the app logs performance.
+     * @return true if performance logging is enabled.
      */
     default Optional<Boolean> isEnablePerformanceLogging() {
         return Optional.ofNullable(toSafeBoolean(getCapability(ENABLE_PERFORMANCE_LOGGING_OPTION)));

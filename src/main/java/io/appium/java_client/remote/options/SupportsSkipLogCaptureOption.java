@@ -24,6 +24,7 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code skipLogCapture} capability: whether the driver skips capturing device logs.
+ * Only the XCUITest driver defines it; Android drivers use {@code skipLogcatCapture}.
   *
   * @param <T> the concrete options type, returned for chaining
  */
@@ -44,10 +45,10 @@ public interface SupportsSkipLogCaptureOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Skips to start capturing system logs. It might improve network performance.
-     * Log-related commands won't work if the capability is enabled. Defaults to false.
+     * Skips to start capturing system logs. Log-related commands won't work
+     * if the capability is enabled. Defaults to false.
      *
-     * @param value Set it to true in order to skip logcat capture.
+     * @param value Set it to true in order to skip system log capture.
      * @return self instance for chaining.
      */
     default T setSkipLogCapture(boolean value) {

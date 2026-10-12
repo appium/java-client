@@ -38,7 +38,7 @@ public interface SupportsAppPushTimeoutOption<T extends BaseOptions<T>> extends
 
     /**
      * The timeout for application upload.
-     * Works for real devices only. The default value is 30000ms.
+     * Works for real devices only. The default value is 240000ms (4 minutes).
      *
      * @param timeout App push timeout.
      * @return self instance for chaining.

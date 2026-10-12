@@ -47,7 +47,8 @@ public interface SupportsSafariOpenLinksInBackgroundOption<T extends BaseOptions
 
     /**
      * Whether Safari should allow links to open in new windows.
-     * Default keeps current sim setting.
+     * Default keeps the current setting. Real devices only since driver version 7.9.0;
+     * a new Safari instance must be launched on startup for this to take effect.
      *
      * @param value Whether Safari should allow links to open in new windows.
      * @return self instance for chaining.

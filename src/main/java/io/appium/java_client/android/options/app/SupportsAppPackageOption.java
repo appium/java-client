@@ -35,7 +35,7 @@ public interface SupportsAppPackageOption<T extends BaseOptions<T>> extends
     String APP_PACKAGE_OPTION = "appPackage";
 
     /**
-     * Application package identifier to be started. If not provided then UiAutomator2 will
+     * Application package identifier to be started. If not provided then the driver will
      * try to detect it automatically from the package provided by the app capability.
      *
      * @param appPackage App package identifier.

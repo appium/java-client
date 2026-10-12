@@ -47,7 +47,8 @@ public interface SupportsUsePrebuiltWdaOption<T extends BaseOptions<T>> extends
 
     /**
      * Skips the build phase of running the WDA app. Building is then the responsibility
-     * of the user. Only works for Xcode 8+. Defaults to false.
+     * of the user. The derivedDataPath capability value, if set, is used as the
+     * {@code -derivedDataPath} xcodebuild argument. Defaults to false.
      *
      * @param value Whether to skip the build phase of running the WDA app.
      * @return self instance for chaining.

@@ -51,7 +51,7 @@ public interface SupportsMsWaitForAppLaunchOption<T extends BaseOptions<T>> exte
     }
 
     /**
-     * Get the timeout used to retry Appium Windows Driver session startup.
+     * Get the time to wait after an app launch is initiated before attaching to it.
      *
      * @return The timeout value.
      */

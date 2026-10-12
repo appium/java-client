@@ -37,9 +37,8 @@ public interface SupportsAutodownloadOption<T extends BaseOptions<T>> extends
     String AUTODOWNLOAD_ENABLED = "autodownloadEnabled";
 
     /**
-     * Set to false for disabling automatic downloading of Chrome drivers.
-     * Unless disable build check preference has been user-set, the capability
-     * is present because the default value is true.
+     * Set to false for disabling automatic downloading of a compatible
+     * chromedriver/msedgedriver on session start. True by default.
      *
      * @param autodownloadEnabled flag.
      * @return self instance for chaining.

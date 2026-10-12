@@ -37,9 +37,8 @@ public interface SupportsVerboseOption<T extends BaseOptions<T>> extends
     String VERBOSE = "verbose";
 
     /**
-     * Set to true to add the --verbose flag when starting WebDriver.
-     * Unless the verbose preference has been user-set, the capability
-     * is not present because the default value is false.
+     * Set to true to add the --verbose flag when starting chromedriver/msedgedriver.
+     * False by default.
      *
      * @param verbose flag for --verbose.
      * @return self instance for chaining.

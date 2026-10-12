@@ -38,6 +38,7 @@ public interface SupportsChromedriverPortsOption<T extends BaseOptions<T>> exten
     /**
      * Array of possible port numbers to assign for Chromedriver communication.
      * If none of the port in this array is free then a server error is thrown.
+     * The driver also accepts [start, stop] range pairs, which this type cannot express.
      *
      * @param ports one or more port numbers in range 0..65535
      * @return self instance for chaining.

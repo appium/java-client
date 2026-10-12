@@ -38,7 +38,7 @@ public interface SupportsWebviewConnectRetriesOption<T extends BaseOptions<T>> e
 
     /**
      * Number of times to send connection message to remote debugger,
-     * to get a webview. Default: 8.
+     * to get a webview. Default: 20. There is a 500ms delay between retries.
      *
      * @param retries Max retries count.
      * @return self instance for chaining.

@@ -26,7 +26,9 @@ import java.util.Optional;
  * Provides getters and setters for the {@code appInstallStrategy} capability.
  *
  * @param <T> options type, used for chaining.
+ * @deprecated The capability has been removed from the XCUITest driver and has no effect.
  */
+@Deprecated
 public interface SupportsAppInstallStrategyOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

@@ -35,10 +35,10 @@ public interface SupportsExecutableOption<T extends BaseOptions<T>> extends
     String EXECUTABLE = "executable";
 
     /**
-     * The absolute path to a WebDriver binary executable.
-     * If set, the driver will use that path instead of its own WebDriver.
+     * The absolute path to a chromedriver/msedgedriver binary.
+     * If set, the driver will use it instead of its own binary.
      *
-     * @param path absolute of a WebDriver.
+     * @param path absolute path to the binary.
      * @return self instance for chaining.
      */
     default T setExecutable(String path) {
@@ -46,7 +46,7 @@ public interface SupportsExecutableOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get the absolute path to a WebDriver binary executable.
+     * Get the absolute path to a chromedriver/msedgedriver binary.
      *
      * @return executable absolute path.
      */

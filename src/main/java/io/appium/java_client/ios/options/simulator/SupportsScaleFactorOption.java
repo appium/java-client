@@ -38,10 +38,7 @@ public interface SupportsScaleFactorOption<T extends BaseOptions<T>> extends
      * Simulator scale factor. This is useful to have if the default resolution
      * of simulated device is greater than the actual display resolution.
      * So you can scale the simulator to see the whole device screen without scrolling.
-     * Acceptable values for simulators running Xcode SDK 8 and older are: '1.0',
-     * '0.75', '0.5', '0.33' and '0.25', where '1.0' means 100% scale.
-     * For simulators running Xcode SDK 9 and above the value could be any valid
-     * positive float number.
+     * The value must be a string containing a positive float number, for example '2.0'.
      *
      * @param scaleFactor Scale factor value.
      * @return self instance for chaining.

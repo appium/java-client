@@ -36,7 +36,7 @@ public interface SupportsRemoteAdbHostOption<T extends BaseOptions<T>> extends
 
     /**
      * Address of the host where ADB is running (the value of -H ADB command line option).
-     * Localhost by default.
+     * Unset by default, which makes the driver fall back to localhost.
      *
      * @param host The name host where ADB server is running.
      * @return self instance for chaining.

@@ -38,7 +38,8 @@ public interface SupportsWdaStartupRetriesOption<T extends BaseOptions<T>> exten
 
     /**
      * Number of times to try to build and launch WebDriverAgent onto the device.
-     * Defaults to 2.
+     * Defaults to 2 for simulators and 1 for real devices. Does not apply to
+     * {@code webDriverAgentUrl} and {@code usePreinstalledWDA}.
      *
      * @param count Retries count.
      * @return self instance for chaining.
