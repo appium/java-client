@@ -28,7 +28,6 @@ import io.appium.java_client.windows.options.PowerShellData;
 import io.appium.java_client.windows.options.SupportsAppArgumentsOption;
 import io.appium.java_client.windows.options.SupportsAppTopLevelWindowOption;
 import io.appium.java_client.windows.options.SupportsAppWorkingDirOption;
-import io.appium.java_client.windows.options.SupportsMsExperimentalWebDriverOption;
 import org.openqa.selenium.Capabilities;
 
 import java.util.Map;
@@ -49,7 +48,6 @@ public class WincoreOptions extends BaseOptions<WincoreOptions> implements
         SupportsAppTopLevelWindowOption<WincoreOptions>,
         SupportsAppWorkingDirOption<WincoreOptions>,
         SupportsWaitForAppLaunchOption<WincoreOptions>,
-        SupportsMsExperimentalWebDriverOption<WincoreOptions>,
         SupportsMsForceQuitOption<WincoreOptions>,
         SupportsShouldCloseAppOption<WincoreOptions>,
         SupportsIsolatedScriptExecutionOption<WincoreOptions>,
