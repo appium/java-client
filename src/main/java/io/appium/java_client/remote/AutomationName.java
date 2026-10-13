@@ -29,7 +29,13 @@ public interface AutomationName {
     String ESPRESSO = "Espresso";
     /** The automation name of the <a href="https://github.com/appium/appium-mac2-driver">Mac2 driver for macOS</a>. */
     String MAC2 = "Mac2";
-    /** The automation name of the <a href="https://github.com/appium/appium-windows-driver">Windows driver</a>, deprecated and not supported since Appium 4. */
+    /**
+     * The automation name of the <a href="https://github.com/appium/appium-windows-driver">Windows driver</a>.
+     *
+     * @deprecated The Windows driver is deprecated and not supported since Appium 4.
+     *     Use {@link #WINCORE} instead.
+     */
+    @Deprecated
     String WINDOWS = "Windows";
     /** The automation name of the <a href="https://github.com/appium/appium-wincore-driver">Wincore driver</a>, the successor of the Windows driver. */
     String WINCORE = "Wincore";
