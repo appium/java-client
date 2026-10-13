@@ -25,7 +25,13 @@ import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
-/** Windows-specific options for starting a screen recording. */
+/**
+ * Windows-specific options for starting a screen recording.
+ *
+ * @deprecated The Windows driver is deprecated and not supported since Appium 4.
+ *     Use {@link io.appium.java_client.wincore.WincoreStartScreenRecordingOptions} instead.
+ */
+@Deprecated
 public class WindowsStartScreenRecordingOptions
         extends BaseStartScreenRecordingOptions<WindowsStartScreenRecordingOptions> {
     /**

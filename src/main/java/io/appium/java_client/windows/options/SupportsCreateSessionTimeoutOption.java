@@ -27,9 +27,13 @@ import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 /**
  * Support for the {@code createSessionTimeout} capability: the timeout for creating a session.
-  *
-  * @param <T> the concrete options type, returned for chaining
+ *
+ * @param <T> the concrete options type, returned for chaining
+ *
+ * @deprecated The Windows driver is deprecated and not supported since Appium 4.
+ *     Its successor, the Wincore driver, does not support this capability.
  */
+@Deprecated
 public interface SupportsCreateSessionTimeoutOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**
