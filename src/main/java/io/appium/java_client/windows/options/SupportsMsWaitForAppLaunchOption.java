@@ -27,9 +27,13 @@ import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
 
 /**
  * Support for the {@code ms:waitForAppLaunch} capability: the time to wait for the application to launch.
-  *
-  * @param <T> the concrete options type, returned for chaining
+ *
+ * @param <T> the concrete options type, returned for chaining
+ *
+ * @deprecated The Windows driver is deprecated and not supported since Appium 4.
+ *     Use {@link io.appium.java_client.wincore.options.SupportsWaitForAppLaunchOption} instead.
  */
+@Deprecated
 public interface SupportsMsWaitForAppLaunchOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**

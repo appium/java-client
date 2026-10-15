@@ -1,0 +1,39 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.appium.java_client.wincore;
+
+import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
+
+/** Wincore-specific options for stopping a screen recording. */
+public class WincoreStopScreenRecordingOptions extends
+        BaseStopScreenRecordingOptions<WincoreStopScreenRecordingOptions> {
+    /**
+     * Creates a new instance.
+     */
+    public WincoreStopScreenRecordingOptions() {
+    }
+
+    /**
+     * Creates a new options instance.
+     *
+     * @return a new {@link WincoreStopScreenRecordingOptions} instance.
+     */
+    public static WincoreStopScreenRecordingOptions stopScreenRecordingOptions() {
+        return new WincoreStopScreenRecordingOptions();
+    }
+
+}

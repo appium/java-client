@@ -1,0 +1,58 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.appium.java_client.wincore.options;
+
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
+import org.openqa.selenium.Capabilities;
+
+import java.time.Duration;
+import java.util.Optional;
+
+import static io.appium.java_client.internal.CapabilityHelpers.toDuration;
+
+/**
+ * Provides getters and setters for the {@code delayBeforeClick} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
+public interface SupportsDelayBeforeClickOption<T extends BaseOptions<T>> extends
+        Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code delayBeforeClick} capability.
+     */
+    String DELAY_BEFORE_CLICK_OPTION = "delayBeforeClick";
+
+    /**
+     * The delay before each click. The minimum time resolution unit is one millisecond.
+     *
+     * @param value The delay value.
+     * @return self instance for chaining.
+     */
+    default T setDelayBeforeClick(Duration value) {
+        return amend(DELAY_BEFORE_CLICK_OPTION, value.toMillis());
+    }
+
+    /**
+     * Get the delay before each click.
+     *
+     * @return The capability value.
+     */
+    default Optional<Duration> getDelayBeforeClick() {
+        return Optional.ofNullable(toDuration(getCapability(DELAY_BEFORE_CLICK_OPTION)));
+    }
+}

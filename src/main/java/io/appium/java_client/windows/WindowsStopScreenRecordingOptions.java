@@ -18,7 +18,13 @@ package io.appium.java_client.windows;
 
 import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 
-/** Windows-specific options for stopping a screen recording. */
+/**
+ * Windows-specific options for stopping a screen recording.
+ *
+ * @deprecated The Windows driver is deprecated and not supported since Appium 4.
+ *     Use {@link io.appium.java_client.wincore.WincoreStopScreenRecordingOptions} instead.
+ */
+@Deprecated
 public class WindowsStopScreenRecordingOptions extends
         BaseStopScreenRecordingOptions<WindowsStopScreenRecordingOptions> {
     /**

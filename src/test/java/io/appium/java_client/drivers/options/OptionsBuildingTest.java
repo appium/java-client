@@ -32,6 +32,7 @@ import io.appium.java_client.mac.options.Mac2Options;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.safari.options.SafariOptions;
 import io.appium.java_client.safari.options.WebrtcData;
+import io.appium.java_client.wincore.options.WincoreOptions;
 import io.appium.java_client.windows.options.PowerShellData;
 import io.appium.java_client.windows.options.WindowsOptions;
 import org.junit.jupiter.api.Test;
@@ -128,6 +129,45 @@ public class OptionsBuildingTest {
         assertEquals(Duration.ofSeconds(10), options.getNewCommandTimeout().orElse(null));
         assertEquals("yolo prescript", options.getPrerun().orElse(null).getScript().orElse(null));
         assertEquals("yolo command", options.getPostrun().orElse(null).getCommand().orElse(null));
+    }
+
+    @Test
+    public void canBuildWincoreOptions() {
+        WincoreOptions options = new WincoreOptions();
+        assertEquals(Platform.WINDOWS, options.getPlatformName());
+        assertEquals(AutomationName.WINCORE, options.getAutomationName().orElse(null));
+        options.setShouldCloseApp(false)
+                .setDelayBeforeClick(Duration.ofMillis(150))
+                .setSmoothPointerMove("ease-in")
+                .setPerfMetrics(true)
+                .setForceQuit(true)
+                .setPrerun(new PowerShellData().withScript("yolo prescript"));
+        assertEquals(false, options.isShouldCloseApp().orElse(null));
+        assertEquals(Duration.ofMillis(150), options.getDelayBeforeClick().orElse(null));
+        assertEquals("ease-in", options.getSmoothPointerMove().orElse(null));
+        assertTrue(options.isPerfMetrics().orElse(false));
+        assertTrue(options.isForceQuit().orElse(false));
+        assertEquals("yolo prescript", options.getPrerun().orElse(null).getScript().orElse(null));
+        assertEquals(150L, options.asMap().get("appium:delayBeforeClick"));
+        assertEquals(true, options.asMap().get("ms:forcequit"));
+    }
+
+    @Test
+    public void wincoreWaitForAppLaunchRespectsTheDriverUnitDetection() {
+        var options = new WincoreOptions();
+        var cases = new Object[][] {
+            {Duration.ofSeconds(90), 90L, Duration.ofSeconds(90)},
+            {Duration.ofSeconds(120), 120L, Duration.ofSeconds(120)},
+            {Duration.ofSeconds(121), 121_000L, Duration.ofSeconds(121)},
+            {Duration.ofMinutes(3), 180_000L, Duration.ofMinutes(3)},
+            {Duration.ofMillis(1500), 1500L, Duration.ofMillis(1500)},
+            {Duration.ofMillis(50), 1L, Duration.ofSeconds(1)},
+        };
+        for (var c : cases) {
+            options.setWaitForAppLaunch((Duration) c[0]);
+            assertEquals(c[1], options.asMap().get("ms:waitForAppLaunch"));
+            assertEquals(c[2], options.doesWaitForAppLaunch().orElse(null));
+        }
     }
 
     @Test

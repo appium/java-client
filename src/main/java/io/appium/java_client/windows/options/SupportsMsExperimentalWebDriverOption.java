@@ -26,9 +26,13 @@ import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
 
 /**
  * Support for the {@code ms:experimental-webdriver} capability: whether experimental driver features are enabled.
-  *
-  * @param <T> the concrete options type, returned for chaining
+ *
+ * @param <T> the concrete options type, returned for chaining
+ *
+ * @deprecated The Windows driver is deprecated and not supported since Appium 4.
+ *     Its successor, the Wincore driver, does not support this capability.
  */
+@Deprecated
 public interface SupportsMsExperimentalWebDriverOption<T extends BaseOptions<T>> extends
         Capabilities, CanSetCapability<T> {
     /**
