@@ -37,7 +37,7 @@ public class TestUtils {
     public static final String IOS_SIM_VODQA_RELEASE_URL =
             "https://github.com/appium/VodQAReactNative/releases/download/v1.2.3/VodQAReactNative-simulator-release.zip";
     public static final String ANDROID_APIDEMOS_APK_URL =
-            "https://github.com/appium/android-apidemos/releases/download/v6.0.2/ApiDemos-debug.apk";
+            "https://github.com/appium/appium-android/releases/download/android-apidemos@6.1.2/ApiDemos-debug.apk";
 
     private TestUtils() {
     }

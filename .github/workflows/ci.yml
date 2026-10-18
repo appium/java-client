@@ -192,7 +192,7 @@ jobs:
 
     - name: Download prebuilt WDA
       if: matrix.e2e-tests == 'ios' || matrix.e2e-tests == 'flutter-ios'
-      run: appium driver run xcuitest download-wda-sim  --platform=ios --outdir=$(dirname "$PREBUILT_WDA_PATH")
+      run: appium driver run xcuitest download-wda -- --platform=ios --kind=sim --outdir=$(dirname "$PREBUILT_WDA_PATH")
 
     - name: Run iOS E2E tests
       if: matrix.e2e-tests == 'ios'
