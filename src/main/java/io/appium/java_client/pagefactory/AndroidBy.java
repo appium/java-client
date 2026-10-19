@@ -59,6 +59,14 @@ public @interface AndroidBy {
     String tagName() default "";
 
     /**
+     * It is an Android view tag (mapped from React Native {@code testID} and similar).
+     * Corresponds to {@link io.appium.java_client.AppiumBy#androidViewTag(String)}.
+     *
+     * @return a desired Android view tag
+     */
+    String viewTag() default "";
+
+    /**
      * It is a xpath to the target element.
      *
      * @return a xpath to the target element
