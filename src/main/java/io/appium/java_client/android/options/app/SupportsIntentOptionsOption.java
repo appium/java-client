@@ -38,7 +38,7 @@ public interface SupportsIntentOptionsOption<T extends BaseOptions<T>> extends
     /**
      * The mapping of custom options for the intent that is going to be passed
      * to the main app activity. Check
-     * https://github.com/appium/appium-espresso-driver#intent-options
+     * https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#intentoptions
      * for more details.
      *
      * @param options Intent options.

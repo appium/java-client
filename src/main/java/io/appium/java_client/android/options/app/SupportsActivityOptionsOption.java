@@ -38,7 +38,7 @@ public interface SupportsActivityOptionsOption<T extends BaseOptions<T>> extends
     /**
      * The mapping of custom options for the main app activity that is going to
      * be started. Check
-     * https://github.com/appium/appium-espresso-driver#activity-options
+     * https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#activityoptions
      * for more details.
      *
      * @param options Activity options.

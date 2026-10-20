@@ -33,7 +33,7 @@ import java.net.URL;
  * Mac2Driver is an officially supported Appium driver
  * created to automate Mac OS apps. The driver uses W3C
  * WebDriver protocol and is built on top of Apple's XCTest
- * automation framework. Read https://github.com/appium/appium-mac2-driver
+ * automation framework. Read https://appium.github.io/appium-mac2-driver
  * for more details on how to configure and use it.
  *
  * @since Appium 1.20.0

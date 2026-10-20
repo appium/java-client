@@ -38,7 +38,7 @@ public interface SupportsEspressoBuildConfigOption<T extends BaseOptions<T>> ext
     /**
      * This config allows to customize several important properties of
      * Espresso server. Refer to
-     * https://github.com/appium/appium-espresso-driver#espresso-build-config
+     * https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#espressobuildconfig
      * for more information on how to properly construct such config.
      *
      * @param configPath The path to the config file on the server file system.
@@ -51,7 +51,7 @@ public interface SupportsEspressoBuildConfigOption<T extends BaseOptions<T>> ext
     /**
      * This config allows to customize several important properties of
      * Espresso server. Refer to
-     * https://github.com/appium/appium-espresso-driver#espresso-build-config
+     * https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#espressobuildconfig
      * for more information on how to properly construct such config.
      *
      * @param config Config instance.

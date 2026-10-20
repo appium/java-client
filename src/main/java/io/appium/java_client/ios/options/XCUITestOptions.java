@@ -128,7 +128,7 @@ import java.util.Map;
  */
 @SuppressWarnings("deprecation")
 public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
-        // General options: https://github.com/appium/appium-xcuitest-driver#general
+        // General options: https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/#general
         SupportsDeviceNameOption<XCUITestOptions>,
         SupportsUdidOption<XCUITestOptions>,
         SupportsIncludeDeviceCapsToSessionInfoOption<XCUITestOptions>,
@@ -137,14 +137,14 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsLocalizableStringsDirOption<XCUITestOptions>,
         SupportsLanguageOption<XCUITestOptions>,
         SupportsLocaleOption<XCUITestOptions>,
-        // App Options: https://github.com/appium/appium-xcuitest-driver#app
+        // App Options: https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/#app
         SupportsAppOption<XCUITestOptions>,
         SupportsBundleIdOption<XCUITestOptions>,
         SupportsOtherAppsOption<XCUITestOptions>,
         SupportsAppPushTimeoutOption<XCUITestOptions>,
         SupportsAppInstallStrategyOption<XCUITestOptions>,
         SupportsEnforceAppInstallOption<XCUITestOptions>,
-        // WebDriverAgent options: https://github.com/appium/appium-xcuitest-driver#webdriveragent
+        // WebDriverAgent options: https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/#webdriveragent
         SupportsXcodeCertificateOptions<XCUITestOptions>,
         SupportsKeychainOptions<XCUITestOptions>,
         SupportsUpdatedWdaBundleIdOption<XCUITestOptions>,
@@ -180,7 +180,7 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsShouldTerminateAppOption<XCUITestOptions>,
         SupportsForceAppLaunchOption<XCUITestOptions>,
         SupportsUseNativeCachingStrategyOption<XCUITestOptions>,
-        // Simulator options: https://github.com/appium/appium-xcuitest-driver#simulator
+        // Simulator options: https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/#simulator
         SupportsOrientationOption<XCUITestOptions>,
         SupportsScaleFactorOption<XCUITestOptions>,
         SupportsConnectHardwareKeyboardOption<XCUITestOptions>,
@@ -201,7 +201,7 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsSimulatorPasteboardAutomaticSyncOption<XCUITestOptions>,
         SupportsSimulatorDevicesSetPathOption<XCUITestOptions>,
         SupportsCustomSslCertOption<XCUITestOptions>,
-        // Web context options: https://github.com/appium/appium-xcuitest-driver#web-context
+        // Web context options: https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/#web-context
         SupportsAutoWebViewOption<XCUITestOptions>,
         SupportsAbsoluteWebLocationsOption<XCUITestOptions>,
         SupportsSafariGarbageCollectOption<XCUITestOptions>,
@@ -224,7 +224,7 @@ public class XCUITestOptions extends BaseOptions<XCUITestOptions> implements
         SupportsEnableAsyncExecuteFromHttpsOption<XCUITestOptions>,
         SupportsFullContextListOption<XCUITestOptions>,
         SupportsEnablePerformanceLoggingOption<XCUITestOptions>,
-        // Other options: https://github.com/appium/appium-xcuitest-driver#other
+        // Other options: https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/#other
         SupportsResetOnSessionStartOnlyOption<XCUITestOptions>,
         SupportsCommandTimeoutsOption<XCUITestOptions>,
         SupportsUseJsonSourceOption<XCUITestOptions>,

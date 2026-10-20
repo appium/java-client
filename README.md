@@ -145,13 +145,13 @@ that existed in Appium 2 and was removed or deprecated in Appium 3 is not guaran
 
 Appium java client has dedicated classes to support the following Appium drivers:
 
-- [UiAutomator2](https://github.com/appium/appium-uiautomator2-driver) and [Espresso](https://github.com/appium/appium-espresso-driver): [AndroidDriver](src/main/java/io/appium/java_client/android/AndroidDriver.java)
-- [XCUITest](https://github.com/appium/appium-xcuitest-driver): [IOSDriver](src/main/java/io/appium/java_client/ios/IOSDriver.java)
+- [UiAutomator2](https://appium.github.io/appium-uiautomator2-driver) and [Espresso](https://appium.github.io/appium-espresso-driver): [AndroidDriver](src/main/java/io/appium/java_client/android/AndroidDriver.java)
+- [XCUITest](https://appium.github.io/appium-xcuitest-driver): [IOSDriver](src/main/java/io/appium/java_client/ios/IOSDriver.java)
 - [Windows (deprecated, not supported since Appium 4)](https://github.com/appium/appium-windows-driver): [WindowsDriver](src/main/java/io/appium/java_client/windows/WindowsDriver.java)
-- [Wincore](https://github.com/appium/appium-wincore-driver): [WincoreDriver](src/main/java/io/appium/java_client/wincore/WincoreDriver.java)
-- [Safari](https://github.com/appium/appium-safari-driver): [SafariDriver](src/main/java/io/appium/java_client/safari/SafariDriver.java)
-- [Gecko](https://github.com/appium/appium-geckodriver): [GeckoDriver](src/main/java/io/appium/java_client/gecko/GeckoDriver.java)
-- [Mac2](https://github.com/appium/appium-mac2-driver): [Mac2Driver](src/main/java/io/appium/java_client/mac/Mac2Driver.java)
+- [Wincore](https://appium.github.io/appium-wincore-driver): [WincoreDriver](src/main/java/io/appium/java_client/wincore/WincoreDriver.java)
+- [Safari](https://appium.github.io/appium-safari-driver): [SafariDriver](src/main/java/io/appium/java_client/safari/SafariDriver.java)
+- [Gecko](https://appium.github.io/appium-geckodriver): [GeckoDriver](src/main/java/io/appium/java_client/gecko/GeckoDriver.java)
+- [Mac2](https://appium.github.io/appium-mac2-driver): [Mac2Driver](src/main/java/io/appium/java_client/mac/Mac2Driver.java)
 
 To automate other platforms that are not listed above you could use
 [AppiumDriver](src/main/java/io/appium/java_client/AppiumDriver.java) or its custom derivatives.

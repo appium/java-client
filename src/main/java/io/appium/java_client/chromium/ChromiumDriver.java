@@ -33,7 +33,7 @@ import java.net.URL;
  * on top of chromium driver server.
  * <br>
  *
- * <p>Read <a href='https://github.com/appium/appium-chromium-driver'>appium-chromium-driver</a>
+ * <p>Read <a href='https://appium.github.io/appium-chromium-driver'>appium-chromium-driver</a>
  * for more details on how to configure and use it.</p>
  */
 public class ChromiumDriver extends AppiumDriver {

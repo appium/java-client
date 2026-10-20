@@ -36,7 +36,7 @@ or [Espresso driver options](../src/main/java/io/appium/java_client/android/opti
 [driver options](../src/main/java/io/appium/java_client/remote/options/BaseOptions.java) instead.
 - Several misspelled methods. Use properly spelled alternatives instead.
 - `startActivity` method from AndroidDriver. Use 
-[mobile: startActivity](https://github.com/appium/appium-uiautomator2-driver#mobile-startactivity) 
+[mobile: startActivity](https://appium.github.io/appium-uiautomator2-driver/latest/reference/execute-methods/#mobile-startactivity) 
 extension method instead.
 - `APPIUM` constant from the AutomationName interface. It is not needed anymore.
 - `PRE_LAUNCH` value from the GeneralServerFlag enum. It is not needed anymore.
