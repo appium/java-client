@@ -32,7 +32,7 @@ import java.net.URL;
  * created to automate Mobile browsers and web views based on
  * the Gecko engine. The driver uses W3C
  * WebDriver protocol and is built on top of Mozilla's geckodriver
- * server. Read https://github.com/appium/appium-geckodriver
+ * server. Read https://appium.github.io/appium-geckodriver
  * for more details on how to configure and use it.
  *
  * @since Appium 1.20.0

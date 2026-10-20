@@ -34,7 +34,7 @@ import java.util.Map;
  * Provides options specific to the Safari Driver.
  *
  * <p>For more details, refer to the
- * <a href="https://github.com/appium/appium-safari-driver#usage">capabilities documentation</a></p>
+ * <a href="https://appium.github.io/appium-safari-driver/latest/reference/capabilities/">capabilities documentation</a></p>
  */
 public class SafariOptions extends BaseOptions<SafariOptions> implements
         SupportsBrowserNameOption<SafariOptions>,

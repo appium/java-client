@@ -36,7 +36,7 @@ public interface SupportsUnlockKeyOption<T extends BaseOptions<T>> extends
 
     /**
      * Allows to set an unlock key.
-     * Read [Unlock tutorial](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/unlock/main.md)
+     * Read [Unlock tutorial](https://appium.github.io/appium-uiautomator2-driver/latest/guides/unlock/)
      * for more details.
      *
      * @param unlockKey The unlock key.

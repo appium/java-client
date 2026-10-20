@@ -36,7 +36,7 @@ public interface SupportsUnlockTypeOption<T extends BaseOptions<T>> extends
 
     /**
      * Set one of the possible types of Android lock screens to unlock.
-     * Read the [Unlock tutorial](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/unlock/main.md)
+     * Read the [Unlock tutorial](https://appium.github.io/appium-uiautomator2-driver/latest/guides/unlock/)
      * for more details.
      *
      * @param unlockType One of possible unlock types.

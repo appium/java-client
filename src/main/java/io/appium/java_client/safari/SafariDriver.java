@@ -29,10 +29,10 @@ import org.openqa.selenium.Platform;
 import java.net.URL;
 
 /**
- * GeckoDriver is an officially supported Appium driver
+ * SafariDriver is an officially supported Appium driver
  * created to automate mobile Safari browser. The driver uses W3C
  * WebDriver protocol and is built on top of Apple's safaridriver
- * server. Read https://github.com/appium/appium-safari-driver
+ * server. Read https://appium.github.io/appium-safari-driver
  * for more details on how to configure and use it.
  *
  * @since Appium 1.20.0
