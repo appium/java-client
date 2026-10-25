@@ -44,6 +44,7 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final List<Widget> cachedWidgets = new ArrayList<>();
     private final Class<? extends Widget> declaredType;
     private final Duration duration;
+    private final LocatorGroupStrategy defaultLocatorGroupStrategy;
     private final WeakReference<WebDriver> driver;
     private final List<WeakReference<WebElement>> cachedElementReferences = new ArrayList<>();
 
@@ -63,10 +64,33 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
             Class<? extends Widget> declaredType,
             Duration duration
     ) {
+        this(locator, driver, instantiationMap, declaredType, duration, LocatorGroupStrategy.CHAIN);
+    }
+
+    /**
+     * Creates a new interceptor with a custom default {@link LocatorGroupStrategy}.
+     *
+     * @param locator the locator of the widget elements
+     * @param driver the reference to the driver
+     * @param instantiationMap the widget constructors mapped by the content type
+     * @param declaredType the declared widget type
+     * @param duration the timeout of waiting for an element presence
+     * @param defaultLocatorGroupStrategy the default strategy used when {@link HowToUseLocators} is not present
+     */
+    public WidgetListInterceptor(
+            @Nullable CacheableLocator locator,
+            WeakReference<WebDriver> driver,
+            Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+            Class<? extends Widget> declaredType,
+            Duration duration,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
         super(locator);
         this.instantiationMap = instantiationMap;
         this.declaredType = declaredType;
         this.duration = duration;
+        this.defaultLocatorGroupStrategy = ofNullable(defaultLocatorGroupStrategy)
+                .orElse(LocatorGroupStrategy.CHAIN);
         this.driver = driver;
     }
 
@@ -89,7 +113,14 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
                 cachedWidgets.add(
                         getEnhancedProxy(
                                 declaredType, params, new Object[] {element},
-                                new WidgetInterceptor(null, driver, elementReference, instantiationMap, duration)
+                                new WidgetInterceptor(
+                                        null,
+                                        driver,
+                                        elementReference,
+                                        instantiationMap,
+                                        duration,
+                                        defaultLocatorGroupStrategy
+                                )
                         )
                 );
                 cachedElementReferences.add(elementReference);

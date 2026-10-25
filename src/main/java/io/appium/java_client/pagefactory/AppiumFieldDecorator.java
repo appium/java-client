@@ -74,6 +74,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final String platform;
     private final String automation;
     private final Duration duration;
+    private final LocatorGroupStrategy defaultLocatorGroupStrategy;
 
     /**
      * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
@@ -84,16 +85,35 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     public AppiumFieldDecorator(SearchContext context, Duration duration) {
+        this(context, duration, LocatorGroupStrategy.CHAIN);
+    }
+
+    /**
+     * Creates field decorator based on {@link SearchContext}, timeout {@code duration},
+     * and a custom default {@link LocatorGroupStrategy}.
+     *
+     * @param context                     is an instance of {@link SearchContext}
+     * @param duration                    is a desired duration of the waiting for an element presence.
+     * @param defaultLocatorGroupStrategy is the default strategy used when {@link HowToUseLocators} is not present.
+     */
+    public AppiumFieldDecorator(
+            SearchContext context,
+            Duration duration,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
         this.webDriverReference = requireWebDriverReference(context);
         this.platform = readStringCapability(context, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(context, AUTOMATION_NAME_OPTION);
         this.duration = duration;
+        this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy != null
+                ? defaultLocatorGroupStrategy
+                : LocatorGroupStrategy.CHAIN;
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
-                context, duration, new DefaultElementByBuilder(platform, automation)
+                context, duration, new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         ));
         widgetLocatorFactory = new AppiumElementLocatorFactory(
-                context, duration, new WidgetByBuilder(platform, automation)
+                context, duration, new WidgetByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         );
     }
 
@@ -108,6 +128,17 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     /**
+     * Creates field decorator based on {@link SearchContext}, the default timeout,
+     * and a custom default {@link LocatorGroupStrategy}.
+     *
+     * @param context                     is an instance of {@link SearchContext}
+     * @param defaultLocatorGroupStrategy is the default strategy used when {@link HowToUseLocators} is not present.
+     */
+    public AppiumFieldDecorator(SearchContext context, LocatorGroupStrategy defaultLocatorGroupStrategy) {
+        this(context, DEFAULT_WAITING_TIMEOUT, defaultLocatorGroupStrategy);
+    }
+
+    /**
      * Creates field decorator based on {@link SearchContext} and timeout {@code duration}.
      *
      * @param contextReference  reference to {@link SearchContext}
@@ -116,17 +147,32 @@ public class AppiumFieldDecorator implements FieldDecorator {
      * @param duration is a desired duration of the waiting for an element presence.
      */
     AppiumFieldDecorator(WeakReference<SearchContext> contextReference, Duration duration) {
+        this(contextReference, duration, LocatorGroupStrategy.CHAIN);
+    }
+
+    AppiumFieldDecorator(
+            WeakReference<SearchContext> contextReference,
+            Duration duration,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
         var cr = contextReference.get();
         this.webDriverReference = requireWebDriverReference(cr);
         this.platform = readStringCapability(cr, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(cr, AUTOMATION_NAME_OPTION);
         this.duration = duration;
+        this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy != null
+                ? defaultLocatorGroupStrategy
+                : LocatorGroupStrategy.CHAIN;
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
-                contextReference, duration, new DefaultElementByBuilder(platform, automation)
+                contextReference,
+                duration,
+                new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         ));
         widgetLocatorFactory = new AppiumElementLocatorFactory(
-                contextReference, duration, new WidgetByBuilder(platform, automation)
+                contextReference,
+                duration,
+                new WidgetByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         );
     }
 
@@ -247,7 +293,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
         if (isAlist) {
             return getEnhancedProxy(
                     ArrayList.class,
-                    new WidgetListInterceptor(locator, webDriverReference, map, widgetType, duration)
+                    new WidgetListInterceptor(
+                            locator,
+                            webDriverReference,
+                            map,
+                            widgetType,
+                            duration,
+                            defaultLocatorGroupStrategy
+                    )
             );
         }
 
@@ -256,7 +309,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 widgetType,
                 new Class[]{constructor.getParameterTypes()[0]},
                 new Object[]{proxyForAnElement(locator)},
-                new WidgetInterceptor(locator, webDriverReference, null, map, duration)
+                new WidgetInterceptor(
+                        locator,
+                        webDriverReference,
+                        null,
+                        map,
+                        duration,
+                        defaultLocatorGroupStrategy
+                )
         );
     }
 

@@ -309,6 +309,20 @@ PageFactory.initElements(new AppiumFieldDecorator(searchContext,
 );
 ```
 
+- To change the default `LocatorGroupStrategy` (for example to `LocatorGroupStrategy.ALL_POSSIBLE`) for all fields that do not declare their own `@HowToUseLocators`:
+```java
+import io.appium.java_client.pagefactory.*;
+import io.appium.java_client.support.PageFactory;
+import java.time.Duration;
+import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+
+PageFactory.initElements(
+    new AppiumFieldDecorator(searchContext, Duration.ofSeconds(15), ALL_POSSIBLE),
+    pageObject
+);
+```
+You can also annotate the page object class itself with `@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSXCUITAutomation = ALL_POSSIBLE)`.
+
 If time of the waiting for elements differs from usual (longer, or shorter when element is needed only for quick checkings/assertions) then 
 
 ```java

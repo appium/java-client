@@ -53,6 +53,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     private static final String VALUE = "value";
     private static final Class<?>[] ANNOTATION_ARGUMENTS = new Class[]{};
     private static final Object[] ANNOTATION_PARAMETERS = new Object[]{};
+    private final LocatorGroupStrategy defaultLocatorGroupStrategy;
 
     /**
      * Creates a new builder.
@@ -61,7 +62,24 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
      * @param automation the name of the current automation
      */
     public DefaultElementByBuilder(String platform, String automation) {
+        this(platform, automation, LocatorGroupStrategy.CHAIN);
+    }
+
+    /**
+     * Creates a new builder with a custom default {@link LocatorGroupStrategy}.
+     *
+     * @param platform the name of the current platform
+     * @param automation the name of the current automation
+     * @param defaultLocatorGroupStrategy the default strategy used when {@link HowToUseLocators} is not present
+     */
+    public DefaultElementByBuilder(
+            String platform,
+            String automation,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
         super(platform, automation);
+        this.defaultLocatorGroupStrategy = ofNullable(defaultLocatorGroupStrategy)
+                .orElse(LocatorGroupStrategy.CHAIN);
     }
 
     private static void checkDisallowedAnnotationPairs(Annotation a1, Annotation a2)
@@ -165,21 +183,48 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return result.toArray(new By[0]);
     }
 
+    private static Optional<HowToUseLocators> findHowToUseLocators(AnnotatedElement annotatedElement) {
+        if (annotatedElement == null) {
+            return Optional.empty();
+        }
+        HowToUseLocators direct = annotatedElement.getAnnotation(HowToUseLocators.class);
+        if (direct != null) {
+            return Optional.of(direct);
+        }
+        if (annotatedElement instanceof Field) {
+            Class<?> declaringClass = ((Field) annotatedElement).getDeclaringClass();
+            while (declaringClass != null && !declaringClass.equals(Object.class)) {
+                HowToUseLocators onClass = declaringClass.getAnnotation(HowToUseLocators.class);
+                if (onClass != null) {
+                    return Optional.of(onClass);
+                }
+                declaringClass = declaringClass.getSuperclass();
+            }
+        }
+        return Optional.empty();
+    }
+
     @Override
     protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        HowToUseLocators howToUseLocators = annotatedElement.getAnnotation(HowToUseLocators.class);
-
-        Optional<HowToUseLocators> howToUseLocatorsOptional = ofNullable(howToUseLocators);
+        Optional<HowToUseLocators> howToUseLocatorsOptional = findHowToUseLocators(annotatedElement);
 
         if (isAndroid()) {
-            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::androidAutomation).orElse(null),
-                    getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class));
+            return buildMobileBy(
+                    howToUseLocatorsOptional
+                            .map(HowToUseLocators::androidAutomation)
+                            .orElse(defaultLocatorGroupStrategy),
+                    getBys(AndroidFindBy.class, AndroidFindBys.class, AndroidFindAll.class)
+            );
         }
 
         if (isIOSXcuit() || isIOS() || isTvOS()) {
-            return buildMobileBy(howToUseLocatorsOptional.map(HowToUseLocators::iOSXCUITAutomation).orElse(null),
-                    getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class));
+            return buildMobileBy(
+                    howToUseLocatorsOptional
+                            .map(HowToUseLocators::iOSXCUITAutomation)
+                            .orElse(defaultLocatorGroupStrategy),
+                    getBys(iOSXCUITFindBy.class, iOSXCUITFindBys.class, iOSXCUITFindAll.class)
+            );
         }
 
         return null;
