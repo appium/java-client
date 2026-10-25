@@ -82,13 +82,7 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
     @Nullable
     @Override
     public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
-        Duration customDuration;
-        if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
-            WithTimeout withTimeout = annotatedElement.getAnnotation(WithTimeout.class);
-            customDuration = build(withTimeout);
-        } else {
-            customDuration = duration;
-        }
+        Duration customDuration = resolveCustomDuration(annotatedElement);
         builder.setAnnotated(annotatedElement);
         try {
             return ofNullable(builder.buildBy())
@@ -103,5 +97,27 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
             // unleak element reference after the locator is built
             builder.setAnnotated(null);
         }
+    }
+
+    private Duration resolveCustomDuration(AnnotatedElement annotatedElement) {
+        if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
+            return build(annotatedElement.getAnnotation(WithTimeout.class));
+        }
+
+        Class<?> candidateClass = null;
+        if (annotatedElement instanceof Field) {
+            candidateClass = ((Field) annotatedElement).getDeclaringClass();
+        } else if (annotatedElement instanceof Class<?>) {
+            candidateClass = (Class<?>) annotatedElement;
+        }
+
+        while (candidateClass != null && !Object.class.equals(candidateClass)) {
+            if (candidateClass.isAnnotationPresent(WithTimeout.class)) {
+                return build(candidateClass.getAnnotation(WithTimeout.class));
+            }
+            candidateClass = candidateClass.getSuperclass();
+        }
+
+        return duration;
     }
 }

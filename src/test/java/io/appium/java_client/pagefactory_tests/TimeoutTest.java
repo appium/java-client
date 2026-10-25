@@ -63,8 +63,10 @@ public class TimeoutTest {
                 lessThanOrEqualTo(expected.toMillis() + ACCEPTABLE_OVERRUN_MS));
     }
 
+    private WebDriver driver;
+
     @BeforeEach public void setUp() {
-        WebDriver driver = new AbstractStubWebDriver() {
+        driver = new AbstractStubWebDriver() {
             @Override
             public List<WebElement> findElements(By by) {
                 return List.of();
@@ -76,5 +78,35 @@ public class TimeoutTest {
     @Test public void withCustomizedTimeOutTest() {
         assertWaitsFor(DEFAULT_TIMEOUT, () -> stubElements.size());
         assertWaitsFor(ofMillis(800), () -> stubElements2.size());
+    }
+
+    @Test public void withClassLevelTimeOutTest() {
+        ClassWithTimeoutPage page = new ClassWithTimeoutPage();
+        initElements(new AppiumFieldDecorator(driver, DEFAULT_TIMEOUT), page);
+
+        assertWaitsFor(ofMillis(600), () -> page.classTimeoutElements.size());
+        assertWaitsFor(ofMillis(900), () -> page.fieldOverrideElements.size());
+    }
+
+    @Test public void withInheritedClassLevelTimeOutTest() {
+        InheritedClassTimeoutPage page = new InheritedClassTimeoutPage();
+        initElements(new AppiumFieldDecorator(driver, DEFAULT_TIMEOUT), page);
+
+        assertWaitsFor(ofMillis(600), () -> page.subclassElements.size());
+    }
+
+    @WithTimeout(time = 600, chronoUnit = MILLIS)
+    private static class ClassWithTimeoutPage {
+        @FindBy(className = "ClassWhichDoesNotExist")
+        private List<WebElement> classTimeoutElements;
+
+        @WithTimeout(time = 900, chronoUnit = MILLIS)
+        @FindBy(className = "ClassWhichDoesNotExist")
+        private List<WebElement> fieldOverrideElements;
+    }
+
+    private static class InheritedClassTimeoutPage extends ClassWithTimeoutPage {
+        @FindBy(className = "ClassWhichDoesNotExist")
+        private List<WebElement> subclassElements;
     }
 }

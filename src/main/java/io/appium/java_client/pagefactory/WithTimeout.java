@@ -24,10 +24,10 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
 /**
- * This annotation is used when some element waits for time
- * that differs from defined by default.
+ * This annotation is used when some element or all elements in a page object/widget class
+ * wait for time that differs from the default duration.
  */
-@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface WithTimeout {
     /**
      * Desired waiting duration.
