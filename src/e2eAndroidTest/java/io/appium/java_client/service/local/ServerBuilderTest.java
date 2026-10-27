@@ -21,7 +21,6 @@ import static io.appium.java_client.service.local.AppiumServiceBuilder.APPIUM_PA
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH;
-import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
 import static io.appium.java_client.utils.TestUtils.getLocalIp4Address;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
@@ -133,7 +132,6 @@ class ServerBuilderTest {
     @Test
     void checkAbilityToStartServiceUsingFlags() {
         service = new AppiumServiceBuilder()
-                .withArgument(CALLBACK_ADDRESS, testIP)
                 .withArgument(SESSION_OVERRIDE)
                 .build();
         service.start();
@@ -173,7 +171,6 @@ class ServerBuilderTest {
                 );
 
         service = new AppiumServiceBuilder()
-                .withArgument(CALLBACK_ADDRESS, testIP)
                 .withArgument(SESSION_OVERRIDE)
                 .withCapabilities(options).build();
         service.start();

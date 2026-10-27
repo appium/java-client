@@ -78,8 +78,8 @@ withArgument(GeneralServerFlag.TEMP_DIRECTORY,
 Lists of available server side flags are here:
 
 - io.appium.java_client.service.local.flags.GeneralServerFlag;
-- io.appium.java_client.service.local.flags.AndroidServerFlag;
-- io.appium.java_client.service.local.flags.IOSServerFlag
+- io.appium.java_client.service.local.flags.AndroidServerFlag (deprecated, none of its arguments exist in Appium 4);
+- io.appium.java_client.service.local.flags.IOSServerFlag (deprecated, none of its arguments exist in Appium 4)
 
 
 ## Which parameters also can be defined

@@ -62,8 +62,7 @@ class StartingAppLocallyAndroidTest {
     @Test
     void startingAndroidAppWithCapabilitiesAndServiceTest() {
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
-                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.STRICT_CAPS);
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE);
 
         AndroidDriver driver = new AndroidDriver(builder, new UiAutomator2Options()
                 .setDeviceName("Android Emulator")
@@ -96,7 +95,6 @@ class StartingAppLocallyAndroidTest {
 
         AppiumServiceBuilder builder = new AppiumServiceBuilder()
                 .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.STRICT_CAPS)
                 .withCapabilities(serverOptions);
 
         UiAutomator2Options clientOptions = new UiAutomator2Options()

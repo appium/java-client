@@ -22,17 +22,26 @@ package io.appium.java_client.service.local.flags;
 public enum GeneralServerFlag implements ServerArgument {
     /**
      * Enter REPL mode.
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     SHELL("--shell"),
     /**
      * callback IP Address (default: same as address).
      * Sample: --callback-address 127.0.0.1
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     CALLBACK_ADDRESS("--callback-address"),
     /**
      * callback port (default: same as port).
      * Sample: --callback-port 4723
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     CALLBACK_PORT("--callback-port"),
     /**
      * Enables session override (clobbering). Default: false
@@ -66,7 +75,10 @@ public enum GeneralServerFlag implements ServerArgument {
     /**
      * Configuration JSON file to register Appium with selenium grid. Sample:
      * --nodeconfig /abs/path/to/nodeconfig.json
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     CONFIGURATION_FILE("--nodeconfig"),
     /**
      * Show info about the Appium server configuration and exit. Default: false
@@ -79,7 +91,10 @@ public enum GeneralServerFlag implements ServerArgument {
     /**
      * Cause sessions to fail if desired caps are sent in that Appium does not
      * recognize as valid for the selected device. Default: false
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     STRICT_CAPS("--strict-caps"),
     /**
      * Absolute path to directory Appium can use to manage temporary files, like
@@ -89,12 +104,18 @@ public enum GeneralServerFlag implements ServerArgument {
     TEMP_DIRECTORY("--tmp"),
     /**
      * Add exaggerated spacing in logs to help with visual inspection. Default: false
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     DEBUG_LOG_SPACING("--debug-log-spacing"),
     /**
      * Add long stack traces to log entries. Recommended for debugging only.
      * Default: false
+     *
+     * @deprecated Removed in Appium 4. Use {@code --long-stacktrace} instead.
      */
+    @Deprecated
     ASYNC_TRACE("--async-trace"),
     /**
      * Disable additional security checks. Only enable it if all the clients are in the trusted network.
@@ -103,7 +124,10 @@ public enum GeneralServerFlag implements ServerArgument {
     RELAXED_SECURITY("--relaxed-security"),
     /**
      * Enables NodeJS memory dumps collection feature.
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     ENABLE_HEAP_DUMP("--enable-heapdump"),
     /**
      * Allow a list of features which are considered insecure and must be turned on
