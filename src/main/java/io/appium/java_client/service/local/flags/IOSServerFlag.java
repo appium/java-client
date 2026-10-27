@@ -20,7 +20,7 @@ package io.appium.java_client.service.local.flags;
  * Here is the list of iOS specific server arguments.
  *
  * @deprecated None of these arguments exist in Appium 4. Driver-specific server options
- *     are now set via the {@code --driver-xcuitest-*} arguments instead.
+ *     are now set via the {@link XCUITestServerFlag} arguments instead.
  */
 @Deprecated
 public enum IOSServerFlag implements ServerArgument {
