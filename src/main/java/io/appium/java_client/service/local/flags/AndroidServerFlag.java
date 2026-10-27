@@ -18,7 +18,10 @@ package io.appium.java_client.service.local.flags;
 
 /**
  * Here is the list of Android specific server arguments.
+ *
+ * @deprecated None of these arguments exist in Appium 4.
  */
+@Deprecated
 public enum AndroidServerFlag implements ServerArgument {
     /**
      * Port to use on device to talk to Appium. Sample:

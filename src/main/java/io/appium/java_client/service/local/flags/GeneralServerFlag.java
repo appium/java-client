@@ -22,17 +22,26 @@ package io.appium.java_client.service.local.flags;
 public enum GeneralServerFlag implements ServerArgument {
     /**
      * Enter REPL mode.
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     SHELL("--shell"),
     /**
      * callback IP Address (default: same as address).
      * Sample: --callback-address 127.0.0.1
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     CALLBACK_ADDRESS("--callback-address"),
     /**
      * callback port (default: same as port).
      * Sample: --callback-port 4723
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     CALLBACK_PORT("--callback-port"),
     /**
      * Enables session override (clobbering). Default: false
@@ -66,7 +75,10 @@ public enum GeneralServerFlag implements ServerArgument {
     /**
      * Configuration JSON file to register Appium with selenium grid. Sample:
      * --nodeconfig /abs/path/to/nodeconfig.json
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     CONFIGURATION_FILE("--nodeconfig"),
     /**
      * Show info about the Appium server configuration and exit. Default: false
@@ -79,7 +91,10 @@ public enum GeneralServerFlag implements ServerArgument {
     /**
      * Cause sessions to fail if desired caps are sent in that Appium does not
      * recognize as valid for the selected device. Default: false
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     STRICT_CAPS("--strict-caps"),
     /**
      * Absolute path to directory Appium can use to manage temporary files, like
@@ -89,12 +104,18 @@ public enum GeneralServerFlag implements ServerArgument {
     TEMP_DIRECTORY("--tmp"),
     /**
      * Add exaggerated spacing in logs to help with visual inspection. Default: false
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     DEBUG_LOG_SPACING("--debug-log-spacing"),
     /**
      * Add long stack traces to log entries. Recommended for debugging only.
      * Default: false
+     *
+     * @deprecated Removed in Appium 4. Use {@code --long-stacktrace} instead.
      */
+    @Deprecated
     ASYNC_TRACE("--async-trace"),
     /**
      * Disable additional security checks. Only enable it if all the clients are in the trusted network.
@@ -103,7 +124,10 @@ public enum GeneralServerFlag implements ServerArgument {
     RELAXED_SECURITY("--relaxed-security"),
     /**
      * Enables NodeJS memory dumps collection feature.
+     *
+     * @deprecated Removed in Appium 4 and has no effect there.
      */
+    @Deprecated
     ENABLE_HEAP_DUMP("--enable-heapdump"),
     /**
      * Allow a list of features which are considered insecure and must be turned on
@@ -139,7 +163,79 @@ public enum GeneralServerFlag implements ServerArgument {
      * Base path to use as the prefix for all webdriver routes running on this server.
      * Sample: --base-path=/wd/hub
      */
-    BASEPATH("--base-path");
+    BASEPATH("--base-path"),
+    /**
+     * Do not exit if unrecognized command-line arguments are passed to the server; ignore them instead.
+     * Default: false
+     */
+    ALLOW_UNKNOWN_ARGS("--allow-unknown-args"),
+    /**
+     * Rules that remote application URLs (e.g. in the "appium:app" capability) must satisfy
+     * before the server downloads them. Either a path to a JSON file or raw JSON.
+     * Sample: --app-url-rules=/path/to/rules.json
+     */
+    APP_URL_RULES("--app-url-rules"),
+    /**
+     * The maximum amount of drivers that could be imported in parallel on server startup.
+     * Default: 3
+     */
+    DRIVERS_IMPORT_CHUNK_SIZE("--drivers-import-chunk-size"),
+    /**
+     * The maximum amount of plugins that could be imported in parallel on server startup.
+     * Default: 7
+     */
+    PLUGINS_IMPORT_CHUNK_SIZE("--plugins-import-chunk-size"),
+    /**
+     * Number of seconds to use as both the keep-alive timeout and the connection timeout
+     * for all requests. Zero disables the timeout.
+     * Default: 600
+     */
+    KEEP_ALIVE_TIMEOUT("--keep-alive-timeout"),
+    /**
+     * Number of seconds for receiving the entire HTTP request from the client.
+     * Requests running longer are rejected with HTTP 408. Zero disables the timeout.
+     * Default: 3600
+     */
+    REQUEST_TIMEOUT("--request-timeout"),
+    /**
+     * For how long (in milliseconds) the server delays its shutdown before force-closing
+     * all open connections. Zero closes the server without waiting for active connections.
+     * Default: 5000
+     */
+    SHUTDOWN_TIMEOUT("--shutdown-timeout"),
+    /**
+     * Log filtering rules. See the Appium log filtering guide for the format.
+     */
+    LOG_FILTERS("--log-filters"),
+    /**
+     * The log format. Supported values: text, json, pretty_json.
+     * Default: text
+     * Sample: --log-format=json
+     */
+    LOG_FORMAT("--log-format"),
+    /**
+     * Add long stack traces to log entries. Recommended for debugging only.
+     * Default: false
+     */
+    LONG_STACKTRACE("--long-stacktrace"),
+    /**
+     * Maximum size in bytes for IPC messages.
+     * Default: 1048576
+     */
+    MAX_IPC_DATA_SIZE("--max-ipc-data-size"),
+    /**
+     * Maximum number of IPC topics per session.
+     * Default: 1000
+     */
+    MAX_IPC_TOPICS("--max-ipc-topics"),
+    /**
+     * Full path to the .cert file if TLS is used. Must be provided together with {@link #SSL_KEY_PATH}.
+     */
+    SSL_CERT_PATH("--ssl-cert-path"),
+    /**
+     * Full path to the .key file if TLS is used. Must be provided together with {@link #SSL_CERT_PATH}.
+     */
+    SSL_KEY_PATH("--ssl-key-path");
 
     private final String arg;
 
