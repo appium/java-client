@@ -68,21 +68,11 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
                 cachedElementReference,
                 instantiationMap,
                 duration,
-                LocatorGroupStrategy.CHAIN
+                AppiumFieldDecorator.currentDefaultStrategy()
         );
     }
 
-    /**
-     * Creates a new interceptor with a custom default {@link LocatorGroupStrategy}.
-     *
-     * @param locator the locator of the widget element
-     * @param driverReference the reference to the driver
-     * @param cachedElementReference the reference to the cached widget element
-     * @param instantiationMap the widget constructors mapped by the content type
-     * @param duration the timeout of waiting for an element presence
-     * @param defaultLocatorGroupStrategy the default strategy used when {@link HowToUseLocators} is not present
-     */
-    public WidgetInterceptor(
+    WidgetInterceptor(
             @Nullable CacheableLocator locator,
             WeakReference<WebDriver> driverReference,
             @Nullable WeakReference<WebElement> cachedElementReference,
@@ -94,8 +84,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
         this.cachedElementReference = cachedElementReference;
         this.instantiationMap = instantiationMap;
         this.duration = duration;
-        this.defaultLocatorGroupStrategy = ofNullable(defaultLocatorGroupStrategy)
-                .orElse(LocatorGroupStrategy.CHAIN);
+        this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy;
     }
 
     @Override

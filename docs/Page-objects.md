@@ -320,8 +320,13 @@ PageFactory.initElements(
     new AppiumFieldDecorator(searchContext, Duration.ofSeconds(15), ALL_POSSIBLE),
     pageObject
 );
+// Or with the default waiting timeout:
+PageFactory.initElements(
+    new AppiumFieldDecorator(searchContext, ALL_POSSIBLE),
+    pageObject
+);
 ```
-You can also annotate the page object class itself with `@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSXCUITAutomation = ALL_POSSIBLE)`.
+You can also annotate a page object or `Widget` class (or a superclass, enclosing class, or interface) with `@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSXCUITAutomation = ALL_POSSIBLE)` (new behavior). Precedence order is: field-level `@HowToUseLocators` > widget class `@HowToUseLocators` > page/declaring class `@HowToUseLocators` (including superclasses, interfaces, and enclosing classes) > the `defaultLocatorGroupStrategy` passed to `AppiumFieldDecorator` > `LocatorGroupStrategy.CHAIN`. Note that `@HowToUseLocators` attributes default to `LocatorGroupStrategy.CHAIN`, so when `@HowToUseLocators` is present on a field or class, any platform attribute not explicitly specified in that annotation resolves to `CHAIN`.
 
 If time of the waiting for elements differs from usual (longer, or shorter when element is needed only for quick checkings/assertions) then 
 

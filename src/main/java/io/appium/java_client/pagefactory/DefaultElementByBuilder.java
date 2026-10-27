@@ -26,7 +26,9 @@ import io.appium.java_client.support.CacheLookup;
 import io.appium.java_client.support.FindAll;
 import io.appium.java_client.support.FindBy;
 import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.ByAll;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.Annotation;
@@ -34,6 +36,8 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -44,7 +48,7 @@ import java.util.Optional;
 
 import static java.lang.Integer.signum;
 import static java.util.Arrays.asList;
-import static java.util.Optional.ofNullable;
+import static java.util.Objects.requireNonNull;
 
 /** Builds locators of elements from Appium-specific page object annotations. */
 public class DefaultElementByBuilder extends AppiumByBuilder {
@@ -78,8 +82,10 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             LocatorGroupStrategy defaultLocatorGroupStrategy
     ) {
         super(platform, automation);
-        this.defaultLocatorGroupStrategy = ofNullable(defaultLocatorGroupStrategy)
-                .orElse(LocatorGroupStrategy.CHAIN);
+        this.defaultLocatorGroupStrategy = requireNonNull(
+                defaultLocatorGroupStrategy,
+                "Default locator group strategy must not be null"
+        );
     }
 
     private static void checkDisallowedAnnotationPairs(Annotation a1, Annotation a2)
@@ -96,9 +102,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         if (bys.length == 0) {
             return null;
         }
-        LocatorGroupStrategy strategy = ofNullable(locatorGroupStrategy)
-                .orElse(LocatorGroupStrategy.CHAIN);
-        if (strategy.equals(LocatorGroupStrategy.ALL_POSSIBLE)) {
+        if (LocatorGroupStrategy.ALL_POSSIBLE.equals(locatorGroupStrategy)) {
             return new ByAll(bys);
         }
         return new ByChained(bys);
@@ -192,16 +196,98 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             return Optional.of(direct);
         }
         if (annotatedElement instanceof Field) {
-            Class<?> declaringClass = ((Field) annotatedElement).getDeclaringClass();
-            while (declaringClass != null && !declaringClass.equals(Object.class)) {
-                HowToUseLocators onClass = declaringClass.getAnnotation(HowToUseLocators.class);
-                if (onClass != null) {
-                    return Optional.of(onClass);
+            Field field = (Field) annotatedElement;
+            Class<?> widgetClass = extractWidgetClass(field);
+            if (widgetClass != null) {
+                HowToUseLocators widgetAnnotation = findClassHowToUseLocators(widgetClass);
+                if (widgetAnnotation != null) {
+                    return Optional.of(widgetAnnotation);
                 }
-                declaringClass = declaringClass.getSuperclass();
             }
+            Class<?> currentPageClass = PageFactory.getCurrentPageClass();
+            if (currentPageClass != null && field.getDeclaringClass().isAssignableFrom(currentPageClass)) {
+                HowToUseLocators pageAnnotation = findClassHowToUseLocators(currentPageClass);
+                if (pageAnnotation != null) {
+                    return Optional.of(pageAnnotation);
+                }
+            }
+            return Optional.ofNullable(findClassHowToUseLocators(field.getDeclaringClass()));
+        }
+        if (annotatedElement instanceof Class<?>) {
+            return Optional.ofNullable(findClassHowToUseLocators((Class<?>) annotatedElement));
         }
         return Optional.empty();
+    }
+
+    @Nullable
+    private static HowToUseLocators findClassHowToUseLocators(@Nullable Class<?> clazz) {
+        for (Class<?> current = clazz; current != null; current = current.getEnclosingClass()) {
+            HowToUseLocators annotation = current.getAnnotation(HowToUseLocators.class);
+            if (annotation != null) {
+                return annotation;
+            }
+            HowToUseLocators interfaceAnnotation = findInterfaceHowToUseLocators(current);
+            if (interfaceAnnotation != null) {
+                return interfaceAnnotation;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private static HowToUseLocators findInterfaceHowToUseLocators(@Nullable Class<?> clazz) {
+        for (Class<?> current = clazz; current != null && !Object.class.equals(current);
+                current = current.getSuperclass()) {
+            for (Class<?> iface : current.getInterfaces()) {
+                HowToUseLocators annotation = findOnInterfaceHierarchy(iface);
+                if (annotation != null) {
+                    return annotation;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private static HowToUseLocators findOnInterfaceHierarchy(Class<?> iface) {
+        HowToUseLocators direct = iface.getAnnotation(HowToUseLocators.class);
+        if (direct != null) {
+            return direct;
+        }
+        for (Class<?> parentIface : iface.getInterfaces()) {
+            HowToUseLocators parentAnnotation = findOnInterfaceHierarchy(parentIface);
+            if (parentAnnotation != null) {
+                return parentAnnotation;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private static Class<?> extractWidgetClass(Field field) {
+        Class<?> fieldType = field.getType();
+        if (Widget.class.isAssignableFrom(fieldType)) {
+            return fieldType;
+        }
+        if (!List.class.isAssignableFrom(fieldType)) {
+            return null;
+        }
+        Type genericType = field.getGenericType();
+        if (!(genericType instanceof ParameterizedType)) {
+            return null;
+        }
+        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+        if (typeArguments.length == 0) {
+            return null;
+        }
+        Type listType = typeArguments[0];
+        if (listType instanceof ParameterizedType) {
+            listType = ((ParameterizedType) listType).getRawType();
+        }
+        if (listType instanceof Class<?> && Widget.class.isAssignableFrom((Class<?>) listType)) {
+            return (Class<?>) listType;
+        }
+        return null;
     }
 
     @Override

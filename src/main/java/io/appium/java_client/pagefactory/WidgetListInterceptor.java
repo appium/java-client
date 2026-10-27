@@ -64,20 +64,17 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
             Class<? extends Widget> declaredType,
             Duration duration
     ) {
-        this(locator, driver, instantiationMap, declaredType, duration, LocatorGroupStrategy.CHAIN);
+        this(
+                locator,
+                driver,
+                instantiationMap,
+                declaredType,
+                duration,
+                AppiumFieldDecorator.currentDefaultStrategy()
+        );
     }
 
-    /**
-     * Creates a new interceptor with a custom default {@link LocatorGroupStrategy}.
-     *
-     * @param locator the locator of the widget elements
-     * @param driver the reference to the driver
-     * @param instantiationMap the widget constructors mapped by the content type
-     * @param declaredType the declared widget type
-     * @param duration the timeout of waiting for an element presence
-     * @param defaultLocatorGroupStrategy the default strategy used when {@link HowToUseLocators} is not present
-     */
-    public WidgetListInterceptor(
+    WidgetListInterceptor(
             @Nullable CacheableLocator locator,
             WeakReference<WebDriver> driver,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
@@ -89,8 +86,7 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
         this.instantiationMap = instantiationMap;
         this.declaredType = declaredType;
         this.duration = duration;
-        this.defaultLocatorGroupStrategy = ofNullable(defaultLocatorGroupStrategy)
-                .orElse(LocatorGroupStrategy.CHAIN);
+        this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy;
         this.driver = driver;
     }
 
