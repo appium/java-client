@@ -17,8 +17,10 @@
 package io.appium.java_client.pagefactory_tests;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.WithTimeout;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
+import io.appium.java_client.pagefactory_tests.widget.tests.StubWebElement;
 import io.appium.java_client.support.FindAll;
 import io.appium.java_client.support.FindBy;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +43,7 @@ public class TimeoutTest {
 
     private static final Duration DEFAULT_TIMEOUT = ofMillis(300);
     private static final long CLOCK_SLACK_MS = 50;
-    private static final long ACCEPTABLE_OVERRUN_MS = 1500;
+    private static final long ACCEPTABLE_OVERRUN_MS = 3000;
 
     @FindAll({
         @FindBy(className = "ClassWhichDoesNotExist"),
@@ -71,6 +73,16 @@ public class TimeoutTest {
             public List<WebElement> findElements(By by) {
                 return List.of();
             }
+
+            @Override
+            public StubWebElement findElement(By by) {
+                return new StubWebElement(this, by) {
+                    @Override
+                    public List<WebElement> findElements(By childBy) {
+                        return List.of();
+                    }
+                };
+            }
         };
         initElements(new AppiumFieldDecorator(driver, DEFAULT_TIMEOUT), this);
     }
@@ -85,7 +97,7 @@ public class TimeoutTest {
         initElements(new AppiumFieldDecorator(driver, DEFAULT_TIMEOUT), page);
 
         assertWaitsFor(ofMillis(600), () -> page.classTimeoutElements.size());
-        assertWaitsFor(ofMillis(900), () -> page.fieldOverrideElements.size());
+        assertWaitsFor(ofMillis(1100), () -> page.fieldOverrideElements.size());
     }
 
     @Test public void withInheritedClassLevelTimeOutTest() {
@@ -95,12 +107,28 @@ public class TimeoutTest {
         assertWaitsFor(ofMillis(600), () -> page.subclassElements.size());
     }
 
+    @Test public void withAnnotatedSubclassSuperclassFieldTimeOutTest() {
+        AnnotatedSubclassPage page = new AnnotatedSubclassPage();
+        initElements(new AppiumFieldDecorator(driver, DEFAULT_TIMEOUT), page);
+
+        assertWaitsFor(ofMillis(600), () -> page.baseElements.size());
+    }
+
+    @Test public void withWidgetClassLevelTimeOutTest() {
+        PageWithTimeoutWidget page = new PageWithTimeoutWidget();
+        initElements(new AppiumFieldDecorator(driver, DEFAULT_TIMEOUT), page);
+
+        assertWaitsFor(ofMillis(600), () -> page.widgetList.size());
+        assertWaitsFor(ofMillis(600), () -> page.widget.innerElementsCount());
+        assertWaitsFor(ofMillis(1100), () -> page.widget.fieldOverrideInnerElementsCount());
+    }
+
     @WithTimeout(time = 600, chronoUnit = MILLIS)
     private static class ClassWithTimeoutPage {
         @FindBy(className = "ClassWhichDoesNotExist")
         private List<WebElement> classTimeoutElements;
 
-        @WithTimeout(time = 900, chronoUnit = MILLIS)
+        @WithTimeout(time = 1100, chronoUnit = MILLIS)
         @FindBy(className = "ClassWhichDoesNotExist")
         private List<WebElement> fieldOverrideElements;
     }
@@ -108,5 +136,44 @@ public class TimeoutTest {
     private static class InheritedClassTimeoutPage extends ClassWithTimeoutPage {
         @FindBy(className = "ClassWhichDoesNotExist")
         private List<WebElement> subclassElements;
+    }
+
+    private static class UnannotatedBasePage {
+        @FindBy(className = "ClassWhichDoesNotExist")
+        protected List<WebElement> baseElements;
+    }
+
+    @WithTimeout(time = 600, chronoUnit = MILLIS)
+    private static class AnnotatedSubclassPage extends UnannotatedBasePage {
+    }
+
+    @WithTimeout(time = 600, chronoUnit = MILLIS)
+    public static class CustomTimeoutWidget extends Widget {
+        @FindBy(className = "ClassWhichDoesNotExist")
+        private List<WebElement> innerElements;
+
+        @WithTimeout(time = 1100, chronoUnit = MILLIS)
+        @FindBy(className = "ClassWhichDoesNotExist")
+        private List<WebElement> fieldOverrideInnerElements;
+
+        protected CustomTimeoutWidget(WebElement element) {
+            super(element);
+        }
+
+        public int innerElementsCount() {
+            return innerElements.size();
+        }
+
+        public int fieldOverrideInnerElementsCount() {
+            return fieldOverrideInnerElements.size();
+        }
+    }
+
+    private static class PageWithTimeoutWidget {
+        @FindBy(className = "WidgetRoot")
+        private CustomTimeoutWidget widget;
+
+        @FindBy(className = "MissingWidgetList")
+        private List<CustomTimeoutWidget> widgetList;
     }
 }

@@ -19,13 +19,17 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.locator.CacheableElementLocatorFactory;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.support.PageFactory;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.SearchContext;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.time.Duration;
+import java.util.List;
 
 import static io.appium.java_client.pagefactory.WithTimeout.DurationBuilder.build;
 import static java.util.Optional.ofNullable;
@@ -104,20 +108,71 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
             return build(annotatedElement.getAnnotation(WithTimeout.class));
         }
 
-        Class<?> candidateClass = null;
         if (annotatedElement instanceof Field) {
-            candidateClass = ((Field) annotatedElement).getDeclaringClass();
-        } else if (annotatedElement instanceof Class<?>) {
-            candidateClass = (Class<?>) annotatedElement;
-        }
-
-        while (candidateClass != null && !Object.class.equals(candidateClass)) {
-            if (candidateClass.isAnnotationPresent(WithTimeout.class)) {
-                return build(candidateClass.getAnnotation(WithTimeout.class));
+            Field field = (Field) annotatedElement;
+            Class<?> widgetClass = extractWidgetClass(field);
+            if (widgetClass != null) {
+                WithTimeout widgetTimeout = findClassTimeout(widgetClass);
+                if (widgetTimeout != null) {
+                    return build(widgetTimeout);
+                }
             }
-            candidateClass = candidateClass.getSuperclass();
+            Class<?> currentPageClass = PageFactory.getCurrentPageClass();
+            if (currentPageClass != null && field.getDeclaringClass().isAssignableFrom(currentPageClass)) {
+                WithTimeout pageTimeout = findClassTimeout(currentPageClass);
+                if (pageTimeout != null) {
+                    return build(pageTimeout);
+                }
+            }
+            WithTimeout declaringTimeout = findClassTimeout(field.getDeclaringClass());
+            if (declaringTimeout != null) {
+                return build(declaringTimeout);
+            }
+        } else if (annotatedElement instanceof Class<?>) {
+            WithTimeout classTimeout = findClassTimeout((Class<?>) annotatedElement);
+            if (classTimeout != null) {
+                return build(classTimeout);
+            }
         }
 
         return duration;
+    }
+
+    @Nullable
+    private static WithTimeout findClassTimeout(@Nullable Class<?> clazz) {
+        for (Class<?> current = clazz; current != null; current = current.getEnclosingClass()) {
+            WithTimeout annotation = current.getAnnotation(WithTimeout.class);
+            if (annotation != null) {
+                return annotation;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private static Class<?> extractWidgetClass(Field field) {
+        Class<?> fieldType = field.getType();
+        if (Widget.class.isAssignableFrom(fieldType)) {
+            return fieldType;
+        }
+        if (!List.class.isAssignableFrom(fieldType)) {
+            return null;
+        }
+        Type genericType = field.getGenericType();
+        if (!(genericType instanceof ParameterizedType)) {
+            return null;
+        }
+        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+        if (typeArguments.length == 0) {
+            return null;
+        }
+        Type listType = typeArguments[0];
+        if (listType instanceof ParameterizedType) {
+            listType = ((ParameterizedType) listType).getRawType();
+        }
+        if (listType instanceof Class<?> && Widget.class.isAssignableFrom((Class<?>) listType)) {
+            return (Class<?>) listType;
+        }
+        return null;
     }
 }
