@@ -19,8 +19,11 @@ package io.appium.java_client.support;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.support.pagefactory.ElementLocatorFactory;
 import io.appium.java_client.support.pagefactory.FieldDecorator;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Factory class to make using Page Objects simpler and easier.
@@ -28,7 +31,22 @@ import java.lang.reflect.Field;
  */
 public final class PageFactory {
 
+    private static final ThreadLocal<Deque<Class<?>>> PAGE_CLASS_STACK =
+            ThreadLocal.withInitial(ArrayDeque::new);
+
     private PageFactory() {
+    }
+
+    /**
+     * Returns the runtime class of the page object currently being initialized by
+     * {@link #initElements(FieldDecorator, Object)} on the current thread, or {@code null}
+     * if no page initialization is active.
+     *
+     * @return the current page class or {@code null}
+     */
+    @Nullable
+    public static Class<?> getCurrentPageClass() {
+        return PAGE_CLASS_STACK.get().peek();
     }
 
     /**
@@ -51,10 +69,19 @@ public final class PageFactory {
      * @param page The object to decorate the fields of
      */
     public static void initElements(FieldDecorator decorator, Object page) {
-        Class<?> proxyIn = page.getClass();
-        while (proxyIn != Object.class) {
-            proxyFields(decorator, page, proxyIn);
-            proxyIn = proxyIn.getSuperclass();
+        Deque<Class<?>> stack = PAGE_CLASS_STACK.get();
+        stack.push(page.getClass());
+        try {
+            Class<?> proxyIn = page.getClass();
+            while (proxyIn != Object.class) {
+                proxyFields(decorator, page, proxyIn);
+                proxyIn = proxyIn.getSuperclass();
+            }
+        } finally {
+            stack.pop();
+            if (stack.isEmpty()) {
+                PAGE_CLASS_STACK.remove();
+            }
         }
     }
 
