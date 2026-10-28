@@ -41,6 +41,21 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
         super(platform, automation);
     }
 
+    /**
+     * Creates a new builder with a custom default {@link LocatorGroupStrategy}.
+     *
+     * @param platform the name of the current platform
+     * @param automation the name of the current automation
+     * @param defaultLocatorGroupStrategy the default strategy used when {@link HowToUseLocators} is not present
+     */
+    public WidgetByBuilder(
+            String platform,
+            String automation,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
+        super(platform, automation, defaultLocatorGroupStrategy);
+    }
+
     private static Class<?> getClassFromAListField(Field field) {
         Type genericType = field.getGenericType();
         if (!(genericType instanceof ParameterizedType)) {

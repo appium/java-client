@@ -43,6 +43,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
     private final Map<ContentType, Widget> cachedInstances = new HashMap<>();
     private final Duration duration;
+    private final LocatorGroupStrategy defaultLocatorGroupStrategy;
     private WeakReference<WebElement> cachedElementReference;
 
     /**
@@ -61,10 +62,29 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
             Duration duration
     ) {
+        this(
+                locator,
+                driverReference,
+                cachedElementReference,
+                instantiationMap,
+                duration,
+                AppiumFieldDecorator.currentDefaultStrategy()
+        );
+    }
+
+    WidgetInterceptor(
+            @Nullable CacheableLocator locator,
+            WeakReference<WebDriver> driverReference,
+            @Nullable WeakReference<WebElement> cachedElementReference,
+            Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+            Duration duration,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
         super(locator, driverReference);
         this.cachedElementReference = cachedElementReference;
         this.instantiationMap = instantiationMap;
         this.duration = duration;
+        this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy;
     }
 
     @Override
@@ -87,7 +107,10 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
 
             Widget widget = constructor.newInstance(element);
             cachedInstances.put(type, widget);
-            PageFactory.initElements(new AppiumFieldDecorator(new WeakReference<>(widget), duration), widget);
+            PageFactory.initElements(
+                    new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
+                    widget
+            );
         }
         try {
             method.setAccessible(true);
