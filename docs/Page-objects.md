@@ -309,7 +309,7 @@ PageFactory.initElements(new AppiumFieldDecorator(searchContext,
 );
 ```
 
-- To change the default `LocatorGroupStrategy` (for example to `LocatorGroupStrategy.ALL_POSSIBLE`) for all fields that do not declare their own `@HowToUseLocators`:
+- To change the default `LocatorGroupStrategy` (for example to `LocatorGroupStrategy.ALL_POSSIBLE`) for all fields that do not declare their own `@HowToUseLocators` (supported since Appium Java Client 11.1.0):
 ```java
 import io.appium.java_client.pagefactory.*;
 import io.appium.java_client.support.PageFactory;
@@ -326,7 +326,7 @@ PageFactory.initElements(
     pageObject
 );
 ```
-You can also annotate a page object or `Widget` class (or a superclass, enclosing class, or interface) with `@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSXCUITAutomation = ALL_POSSIBLE)` (new behavior). Precedence order is: field-level `@HowToUseLocators` > widget class `@HowToUseLocators` > page/declaring class `@HowToUseLocators` (including superclasses, interfaces, and enclosing classes) > the `defaultLocatorGroupStrategy` passed to `AppiumFieldDecorator` > `LocatorGroupStrategy.CHAIN`. Note that `@HowToUseLocators` attributes default to `LocatorGroupStrategy.CHAIN`, so when `@HowToUseLocators` is present on a field or class, any platform attribute not explicitly specified in that annotation resolves to `CHAIN`.
+You can also annotate a page object or `Widget` class (or a superclass, enclosing class, or interface) with `@HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSXCUITAutomation = ALL_POSSIBLE)` (supported since Appium Java Client 11.1.0). Precedence order is: field-level `@HowToUseLocators` > widget class `@HowToUseLocators` > page/declaring class `@HowToUseLocators` (including superclasses, interfaces, and enclosing classes) > the `defaultLocatorGroupStrategy` passed to `AppiumFieldDecorator` > `LocatorGroupStrategy.CHAIN`. Note that `@HowToUseLocators` attributes default to `LocatorGroupStrategy.CHAIN`, so when `@HowToUseLocators` is present on a field or class, any platform attribute not explicitly specified in that annotation resolves to `CHAIN`.
 
 If time of the waiting for elements differs from usual (longer, or shorter when element is needed only for quick checkings/assertions) then 
 
