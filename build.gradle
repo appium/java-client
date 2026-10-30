@@ -300,7 +300,6 @@ testing {
                         exclude '**/FingerPrintTest.class'
                         exclude '**/ImagesComparisonTest.class'
                         exclude '**/KeyCodeTest.class'
-                        exclude '**/LogEventTest.class'
                         exclude '**/UIAutomator2Test.class'
                         exclude '**/AndroidPageObjectTest.class'
                         exclude '**/MobileBrowserCompatibilityTest.class'
