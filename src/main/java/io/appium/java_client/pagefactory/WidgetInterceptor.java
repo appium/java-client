@@ -77,6 +77,12 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
             cachedElementReference = new WeakReference<>(element);
 
             Constructor<? extends Widget> constructor = instantiationMap.get(type);
+            if (constructor == null) {
+                throw new InstantiationException(String.format(
+                        "No concrete @OverrideWidget class is declared for %s. "
+                                + "A field typed as an interface needs a widget class for this content.",
+                        type));
+            }
             Class<? extends Widget> clazz = constructor.getDeclaringClass();
 
             if (Modifier.isAbstract(clazz.getModifiers())) {

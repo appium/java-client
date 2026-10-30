@@ -34,6 +34,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedInterfaceProxy;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.util.Optional.ofNullable;
@@ -41,8 +42,8 @@ import static java.util.Optional.ofNullable;
 /** Proxy interceptor class for lists of widgets. */
 public class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
-    private final List<Widget> cachedWidgets = new ArrayList<>();
-    private final Class<? extends Widget> declaredType;
+    private final List<Object> cachedWidgets = new ArrayList<>();
+    private final Class<?> declaredType;
     private final Duration duration;
     private final WeakReference<WebDriver> driver;
     private final List<WeakReference<WebElement>> cachedElementReferences = new ArrayList<>();
@@ -53,14 +54,14 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
      * @param locator the locator of the widget elements
      * @param driver the reference to the driver
      * @param instantiationMap the widget constructors mapped by the content type
-     * @param declaredType the declared widget type
+     * @param declaredType the declared widget class, or an interface implemented by the override classes
      * @param duration the timeout of waiting for an element presence
      */
     public WidgetListInterceptor(
             @Nullable CacheableLocator locator,
             WeakReference<WebDriver> driver,
             Map<ContentType, Constructor<? extends Widget>> instantiationMap,
-            Class<? extends Widget> declaredType,
+            Class<?> declaredType,
             Duration duration
     ) {
         super(locator);
@@ -84,14 +85,15 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
             ContentType type = null;
             for (WebElement element : elements) {
                 type = ofNullable(type).orElseGet(() -> getCurrentContentType(element));
-                Class<?>[] params = new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
                 WeakReference<WebElement> elementReference = new WeakReference<>(element);
-                cachedWidgets.add(
-                        getEnhancedProxy(
-                                declaredType, params, new Object[] {element},
-                                new WidgetInterceptor(null, driver, elementReference, instantiationMap, duration)
-                        )
-                );
+                WidgetInterceptor interceptor = new WidgetInterceptor(
+                        null, driver, elementReference, instantiationMap, duration);
+                if (declaredType.isInterface()) {
+                    cachedWidgets.add(getEnhancedInterfaceProxy(declaredType, interceptor));
+                } else {
+                    Class<?>[] params = new Class<?>[] {instantiationMap.get(type).getParameterTypes()[0]};
+                    cachedWidgets.add(proxyWidget(declaredType, params, element, interceptor));
+                }
                 cachedElementReferences.add(elementReference);
             }
         }
@@ -100,5 +102,15 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
         } catch (Throwable t) {
             throw extractReadableException(t);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Widget proxyWidget(
+            Class<?> declaredType,
+            Class<?>[] params,
+            WebElement element,
+            WidgetInterceptor interceptor
+    ) {
+        return getEnhancedProxy((Class<Widget>) declaredType, params, new Object[] {element}, interceptor);
     }
 }
