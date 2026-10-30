@@ -55,7 +55,6 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
         return (Class<?>) listType;
     }
 
-    @SuppressWarnings("unchecked")
     private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         Field field = (Field) annotatedElement;
@@ -72,15 +71,12 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
             Class<?> convenientClass;
 
             if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
-                convenientClass =
-                    getDefaultOrHTMLWidgetClass((Class<? extends Widget>) declaredClass, field);
+                convenientClass = getDefaultOrHTMLWidgetClass(declaredClass, field);
             } else {
-                convenientClass =
-                    getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field,
-                        platform);
+                convenientClass = getMobileNativeWidgetClass(declaredClass, field, platform);
             }
 
-            while (result == null && !convenientClass.equals(Object.class)) {
+            while (result == null && convenientClass != null && !convenientClass.equals(Object.class)) {
                 setAnnotated(convenientClass);
                 if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
                     result = super.buildDefaultBy();
