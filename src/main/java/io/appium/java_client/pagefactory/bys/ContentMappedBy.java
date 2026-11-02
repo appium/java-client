@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.util.Objects.requireNonNull;
 
 /** Locator which selects the underlying locator by the current content type. */
@@ -57,11 +58,13 @@ public class ContentMappedBy extends By {
 
     @Override
     public WebElement findElement(SearchContext context) {
+        useContent(getCurrentContentType(context));
         return context.findElement(map.get(currentContent));
     }
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
+        useContent(getCurrentContentType(context));
         return context.findElements(map.get(currentContent));
     }
 

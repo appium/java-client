@@ -23,6 +23,12 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.CapabilityType;
+import io.appium.java_client.support.FindAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.PageFactory;
+import io.appium.java_client.support.pagefactory.ByAll;
+import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import io.appium.java_client.support.pagefactory.ElementLocatorFactory;
@@ -38,6 +44,7 @@ import org.openqa.selenium.WebElement;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -50,7 +57,6 @@ import java.util.Map;
 
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static java.time.Duration.ofSeconds;
@@ -76,8 +82,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private static final ThreadLocal<LocatorGroupStrategy> CURRENT_DEFAULT_STRATEGY =
             ThreadLocal.withInitial(() -> LocatorGroupStrategy.CHAIN);
-    private final SearchContext searchContext;
-    private final WeakReference<SearchContext> searchContextReference;
     private final WeakReference<WebDriver> webDriverReference;
     private final DefaultFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
@@ -122,8 +126,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
             Duration duration,
             LocatorGroupStrategy defaultLocatorGroupStrategy
     ) {
-        this.searchContext = context;
-        this.searchContextReference = null;
         this.webDriverReference = requireWebDriverReference(context);
         this.platform = readStringCapability(context, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(context, AUTOMATION_NAME_OPTION);
@@ -181,8 +183,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
             LocatorGroupStrategy defaultLocatorGroupStrategy
     ) {
         var cr = contextReference.get();
-        this.searchContext = null;
-        this.searchContextReference = contextReference;
         this.webDriverReference = requireWebDriverReference(cr);
         this.platform = readStringCapability(cr, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(cr, AUTOMATION_NAME_OPTION);
@@ -295,48 +295,92 @@ public class AppiumFieldDecorator implements FieldDecorator {
     @Nullable
     private Object decorateBy(Field field) {
         Class<?> type = field.getType();
-        if (!By.class.isAssignableFrom(type)) {
+        int modifiers = field.getModifiers();
+        if (!By.class.isAssignableFrom(type)
+                || Modifier.isStatic(modifiers)
+                || Modifier.isFinal(modifiers)
+                || isFieldAlreadyInitialized(field)) {
             return null;
         }
 
         elementByBuilder.setAnnotated(field);
         try {
-            elementByBuilder.assertValidAnnotations();
-            By defaultBy = elementByBuilder.buildDefaultBy();
-            By mobileNativeBy = elementByBuilder.buildMobileNativeBy();
-            if (defaultBy == null && mobileNativeBy == null) {
-                return null;
-            }
-
             if (ContentMappedBy.class.isAssignableFrom(type)) {
                 return elementByBuilder.buildBy();
             }
-
-            By result;
-            if (defaultBy == null) {
-                result = mobileNativeBy;
-            } else if (mobileNativeBy == null) {
-                result = defaultBy;
-            } else {
-                SearchContext currentContext = searchContext != null
-                        ? searchContext
-                        : (searchContextReference != null ? searchContextReference.get() : null);
-                ContentType contentType = currentContext != null
-                        ? getCurrentContentType(currentContext)
-                        : ContentType.NATIVE_MOBILE_SPECIFIC;
-                result = contentType == ContentType.HTML_OR_DEFAULT ? defaultBy : mobileNativeBy;
+            if (!hasLocatorAnnotations(field)) {
+                return null;
+            }
+            if (type.isAssignableFrom(ContentMappedBy.class)) {
+                return elementByBuilder.buildBy();
             }
 
-            if (!type.isInstance(result)) {
-                throw new IllegalArgumentException(String.format(
-                        "Field '%s' of type %s is not compatible with built locator of type %s",
-                        field.getName(), type.getName(), result.getClass().getName()
-                ));
+            elementByBuilder.assertValidAnnotations();
+            By result = coerceToType(type, elementByBuilder.buildMobileNativeBy());
+            if (result == null) {
+                result = coerceToType(type, elementByBuilder.buildDefaultBy());
             }
             return result;
         } finally {
             elementByBuilder.setAnnotated(null);
         }
+    }
+
+    private static boolean isFieldAlreadyInitialized(Field field) {
+        Object currentPage = PageFactory.getCurrentPage();
+        if (currentPage == null || !field.getDeclaringClass().isInstance(currentPage)) {
+            return false;
+        }
+        try {
+            field.setAccessible(true);
+            return field.get(currentPage) != null;
+        } catch (IllegalAccessException | RuntimeException e) {
+            return false;
+        }
+    }
+
+    private static boolean hasLocatorAnnotations(Field field) {
+        return SeleniumAnnotationsCompat.isPresent(field, FindBy.class)
+                || SeleniumAnnotationsCompat.isPresent(field, FindBys.class)
+                || SeleniumAnnotationsCompat.isPresent(field, FindAll.class)
+                || field.getAnnotationsByType(AndroidFindBy.class).length > 0
+                || field.getAnnotationsByType(AndroidFindBys.class).length > 0
+                || field.getAnnotationsByType(AndroidFindAll.class).length > 0
+                || field.getAnnotationsByType(iOSXCUITFindBy.class).length > 0
+                || field.getAnnotationsByType(iOSXCUITFindBys.class).length > 0
+                || field.getAnnotationsByType(iOSXCUITFindAll.class).length > 0;
+    }
+
+    @Nullable
+    private static By coerceToType(Class<?> type, @Nullable By candidate) {
+        if (candidate == null) {
+            return null;
+        }
+        if (type.isInstance(candidate)) {
+            return candidate;
+        }
+        By unwrapped = unwrapSingleBy(candidate);
+        return type.isInstance(unwrapped) ? unwrapped : null;
+    }
+
+    @Nullable
+    private static By unwrapSingleBy(@Nullable By by) {
+        By current = by;
+        while (current instanceof ByChained || current instanceof ByAll) {
+            Class<?> holderClass = current instanceof ByAll ? ByAll.class : ByChained.class;
+            try {
+                Field bysField = holderClass.getDeclaredField("bys");
+                bysField.setAccessible(true);
+                By[] bys = (By[]) bysField.get(current);
+                if (bys == null || bys.length != 1) {
+                    break;
+                }
+                current = bys[0];
+            } catch (ReflectiveOperationException e) {
+                break;
+            }
+        }
+        return current;
     }
 
     @Nullable

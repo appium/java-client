@@ -24,6 +24,7 @@ import io.appium.java_client.pagefactory.AndroidFindBys;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.Widget;
+import io.appium.java_client.pagefactory.WithTimeout;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.iOSXCUITBy;
@@ -31,21 +32,160 @@ import io.appium.java_client.pagefactory.iOSXCUITFindAll;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.appium.java_client.pagefactory.iOSXCUITFindBys;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
+import io.appium.java_client.pagefactory_tests.widget.tests.StubWebElement;
+import io.appium.java_client.remote.SupportsContextSwitching;
+import io.appium.java_client.support.ByIdOrName;
+import io.appium.java_client.support.CacheLookup;
+import io.appium.java_client.support.FindAll;
 import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.pagefactory.ByAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
 import static io.appium.java_client.support.PageFactory.initElements;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ByFieldDecorationTest {
+
+    private interface ByRecorder {
+        List<By> recordedBys();
+    }
+
+    private static class RecordingStubElement extends StubWebElement {
+        private final List<By> recordedBys;
+
+        RecordingStubElement(WebDriver driver, By by, List<By> recordedBys) {
+            super(driver, by);
+            this.recordedBys = recordedBys;
+        }
+
+        @Override
+        public RecordingStubElement findElement(By by) {
+            if (by instanceof ContentMappedBy) {
+                return (RecordingStubElement) by.findElement(this);
+            }
+            recordedBys.add(by);
+            return new RecordingStubElement(getWrappedDriver(), by, recordedBys);
+        }
+
+        @Override
+        public List<WebElement> findElements(By by) {
+            if (by instanceof ContentMappedBy) {
+                return by.findElements(this);
+            }
+            recordedBys.add(by);
+            return List.of(
+                    new RecordingStubElement(getWrappedDriver(), by, recordedBys),
+                    new RecordingStubElement(getWrappedDriver(), by, recordedBys)
+            );
+        }
+    }
+
+    private static class ContextSwitchingAndroidDriver
+            extends AbstractStubWebDriver.StubAndroidDriver
+            implements SupportsContextSwitching, ByRecorder {
+        private final List<By> recordedBys = new ArrayList<>();
+        private String currentContext = "NATIVE_APP";
+        private int contextCheckCount;
+
+        @Override
+        public List<By> recordedBys() {
+            return recordedBys;
+        }
+
+        @Override
+        public WebDriver context(String name) {
+            this.currentContext = name;
+            return this;
+        }
+
+        @Override
+        public boolean isBrowser() {
+            contextCheckCount++;
+            return !"NATIVE_APP".equals(currentContext);
+        }
+
+        @Override
+        public String getContext() {
+            contextCheckCount++;
+            return currentContext;
+        }
+
+        int getContextCheckCount() {
+            return contextCheckCount;
+        }
+
+        @Override
+        public StubWebElement findElement(By by) {
+            if (by instanceof ContentMappedBy) {
+                return (StubWebElement) by.findElement(this);
+            }
+            recordedBys.add(by);
+            return new RecordingStubElement(this, by, recordedBys);
+        }
+
+        @Override
+        public List<WebElement> findElements(By by) {
+            if (by instanceof ContentMappedBy) {
+                return by.findElements(this);
+            }
+            recordedBys.add(by);
+            return List.of(
+                    new RecordingStubElement(this, by, recordedBys),
+                    new RecordingStubElement(this, by, recordedBys)
+            );
+        }
+    }
+
+    private static class RecordingIOSDriver
+            extends AbstractStubWebDriver.StubIOSXCUITDriver
+            implements ByRecorder {
+        private final List<By> recordedBys = new ArrayList<>();
+
+        @Override
+        public List<By> recordedBys() {
+            return recordedBys;
+        }
+
+        @Override
+        public StubWebElement findElement(By by) {
+            if (by instanceof ContentMappedBy) {
+                return (StubWebElement) by.findElement(this);
+            }
+            recordedBys.add(by);
+            return new RecordingStubElement(this, by, recordedBys);
+        }
+
+        @Override
+        public List<WebElement> findElements(By by) {
+            if (by instanceof ContentMappedBy) {
+                return by.findElements(this);
+            }
+            recordedBys.add(by);
+            return List.of(
+                    new RecordingStubElement(this, by, recordedBys),
+                    new RecordingStubElement(this, by, recordedBys)
+            );
+        }
+    }
+
+    private static By lastRecordedBy(ByRecorder recorder, Runnable lookup) {
+        recorder.recordedBys().clear();
+        lookup.run();
+        List<By> bys = recorder.recordedBys();
+        return bys.get(bys.size() - 1);
+    }
 
     public static class CrossPlatformByPage {
         @AndroidFindBy(id = "something_android")
@@ -68,32 +208,47 @@ public class ByFieldDecorationTest {
         @AndroidFindBy(id = "chain2")
         @iOSXCUITFindBy(id = "chain1")
         @iOSXCUITFindBy(id = "chain2")
-        private By multiLocatorBy;
+        private ByChained multiLocatorBy;
 
         @HowToUseLocators(androidAutomation = ALL_POSSIBLE, iOSXCUITAutomation = ALL_POSSIBLE)
         @AndroidFindBy(id = "any1")
         @AndroidFindBy(id = "any2")
         @iOSXCUITFindBy(id = "any1")
         @iOSXCUITFindBy(id = "any2")
-        private By allPossibleBy;
+        private ByAll allPossibleBy;
 
         @AndroidFindBys({@AndroidBy(id = "parent"), @AndroidBy(id = "child")})
         @iOSXCUITFindBys({@iOSXCUITBy(id = "parent"), @iOSXCUITBy(id = "child")})
-        private By findBysField;
+        private ByChained findBysField;
 
         @AndroidFindAll({@AndroidBy(id = "opt1"), @AndroidBy(id = "opt2")})
         @iOSXCUITFindAll({@iOSXCUITBy(id = "opt1"), @iOSXCUITBy(id = "opt2")})
-        private By findAllField;
+        private ByAll findAllField;
 
         @FindBy(id = "mapped_web")
         @AndroidFindBy(id = "mapped_android")
         private ContentMappedBy contentMappedBy;
 
+        private ContentMappedBy unannotatedContentMappedBy;
+
+        @CacheLookup
+        @WithTimeout(time = 5, chronoUnit = ChronoUnit.SECONDS)
+        @FindBy(id = "cached_web")
+        @AndroidFindBy(id = "cached_android")
+        private By cachedAndTimedBy;
+
         @AndroidFindBy(id = "widget_root")
         @iOSXCUITFindBy(id = "widget_root")
         private ByHoldingWidget widget;
 
-        private final By preInitializedBy = By.id("constant_id");
+        @FindBy(id = "ignored_final")
+        private final By finalAnnotatedBy = By.id("constant_id");
+
+        @FindBy(id = "ignored_static")
+        private static By staticAnnotatedBy = By.id("static_id");
+
+        @FindBy(id = "ignored_preinit")
+        private By preInitializedAnnotatedBy = By.id("preserved_id");
 
         private By unannotatedNullBy;
     }
@@ -112,85 +267,175 @@ public class ByFieldDecorationTest {
         }
     }
 
-    public static class IncompatibleByTypePage {
+    public static class IncompatibleBySubTypePage {
         @AndroidFindBy(xpath = "//android.widget.TextView")
         private AppiumBy xpathAssignedToAppiumBy;
+
+        @AndroidFindBy(id = "first")
+        @AndroidFindBy(id = "second")
+        private AppiumBy chainedAssignedToAppiumBy;
+
+        @AndroidFindBy(id = "valid_android")
+        private AppiumBy validAppiumBy;
+    }
+
+    public static class ConflictingSeleniumAnnotationsByPage {
+        @FindBy(id = "one")
+        @FindBys({@FindBy(id = "two"), @FindBy(id = "three")})
+        private By conflictingBy;
+    }
+
+    public static class ConflictingSeleniumOnAppiumByPage {
+        @FindBy(id = "one")
+        @FindAll({@FindBy(id = "two"), @FindBy(id = "three")})
+        private AppiumBy conflictingAppiumBy;
     }
 
     @Test
-    public void decoratesByAndAppiumByFieldsOnAndroid() {
+    public void decoratesByAndAppiumByFieldsAndSwitchesContextLazilyOnAndroid() {
+        ContextSwitchingAndroidDriver driver = new ContextSwitchingAndroidDriver();
         CrossPlatformByPage page = new CrossPlatformByPage();
-        initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()), page);
+        initElements(new AppiumFieldDecorator(driver), page);
 
-        assertEquals(AppiumBy.id("something_android"), page.somethingBy);
+        // No remote context round-trips happen at initElements time
+        assertEquals(0, driver.getContextCheckCount());
+
+        assertInstanceOf(ContentMappedBy.class, page.somethingBy);
+        assertInstanceOf(ContentMappedBy.class, page.hybridBy);
+        assertInstanceOf(ContentMappedBy.class, page.webFallbackBy);
+        assertInstanceOf(ContentMappedBy.class, page.contentMappedBy);
+        assertInstanceOf(ContentMappedBy.class, page.unannotatedContentMappedBy);
+        assertInstanceOf(ContentMappedBy.class, page.cachedAndTimedBy);
+
         assertEquals(AppiumBy.id("appium_android"), page.somethingAppiumBy);
-        assertEquals(AppiumBy.id("native_android"), page.hybridBy);
-        assertEquals(By.cssSelector(".web-button"), page.webFallbackBy);
         assertInstanceOf(ByChained.class, page.multiLocatorBy);
         assertInstanceOf(ByAll.class, page.allPossibleBy);
         assertInstanceOf(ByChained.class, page.findBysField);
         assertInstanceOf(ByAll.class, page.findAllField);
-        assertNotNull(page.contentMappedBy);
         assertEquals(AppiumBy.accessibilityId("inner_android"), page.widget.getInnerAppiumBy());
-        assertEquals(By.id("constant_id"), page.preInitializedBy);
+
+        // Pre-initialized, final, static, and unannotated By fields are left untouched
+        assertEquals(By.id("constant_id"), page.finalAnnotatedBy);
+        assertEquals(By.id("static_id"), CrossPlatformByPage.staticAnnotatedBy);
+        assertEquals(By.id("preserved_id"), page.preInitializedAnnotatedBy);
         assertNull(page.unannotatedNullBy);
+
+        // In NATIVE_APP context, hybridBy and somethingBy resolve to native locators
+        assertEquals(
+                new ByChained(new By[]{AppiumBy.id("native_android")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.hybridBy)).toString()
+        );
+        assertEquals(
+                new ByChained(new By[]{AppiumBy.id("something_android")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.somethingBy)).toString()
+        );
+        assertEquals(
+                By.id("unannotatedContentMappedBy"),
+                lastRecordedBy(driver, () -> driver.findElement(page.unannotatedContentMappedBy))
+        );
+
+        // Switching to WEBVIEW_1 updates the same By and ContentMappedBy fields lazily
+        driver.context("WEBVIEW_1");
+        assertEquals(
+                By.id("web_only"),
+                lastRecordedBy(driver, () -> driver.findElement(page.hybridBy))
+        );
+        assertEquals(
+                By.id("web_only"),
+                lastRecordedBy(driver, () -> driver.findElements(page.hybridBy))
+        );
+        assertEquals(
+                By.id("mapped_web"),
+                lastRecordedBy(driver, () -> driver.findElement(page.contentMappedBy))
+        );
+        // Field with only @AndroidFindBy falls back to ByIdOrName in webview context
+        assertEquals(
+                new ByIdOrName("somethingBy").toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.somethingBy)).toString()
+        );
+        assertEquals(
+                new ByIdOrName("unannotatedContentMappedBy").toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.unannotatedContentMappedBy)).toString()
+        );
+
+        // Switching back to NATIVE_APP restores native locators
+        driver.context("NATIVE_APP");
+        assertEquals(
+                new ByChained(new By[]{AppiumBy.id("native_android")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElements(page.hybridBy)).toString()
+        );
     }
 
     @Test
     public void decoratesByAndAppiumByFieldsOnIOS() {
+        RecordingIOSDriver driver = new RecordingIOSDriver();
         CrossPlatformByPage page = new CrossPlatformByPage();
-        initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubIOSXCUITDriver()), page);
+        initElements(new AppiumFieldDecorator(driver), page);
 
-        assertEquals(AppiumBy.accessibilityId("something_ios"), page.somethingBy);
         assertEquals(AppiumBy.accessibilityId("appium_ios"), page.somethingAppiumBy);
-        assertEquals(AppiumBy.accessibilityId("native_ios"), page.hybridBy);
-        assertEquals(By.cssSelector(".web-button"), page.webFallbackBy);
+        assertEquals(
+                new ByChained(new By[]{AppiumBy.accessibilityId("something_ios")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.somethingBy)).toString()
+        );
+        assertEquals(
+                new ByChained(new By[]{AppiumBy.accessibilityId("native_ios")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.hybridBy)).toString()
+        );
+        assertEquals(
+                By.cssSelector(".web-button"),
+                lastRecordedBy(driver, () -> driver.findElement(page.webFallbackBy))
+        );
         assertInstanceOf(ByChained.class, page.multiLocatorBy);
         assertInstanceOf(ByAll.class, page.allPossibleBy);
         assertInstanceOf(ByChained.class, page.findBysField);
         assertInstanceOf(ByAll.class, page.findAllField);
         assertEquals(AppiumBy.iOSNsPredicateString("name == 'inner_ios'"), page.widget.getInnerAppiumBy());
-        assertEquals(By.id("constant_id"), page.preInitializedBy);
+        assertEquals(By.id("constant_id"), page.finalAnnotatedBy);
+        assertEquals(By.id("preserved_id"), page.preInitializedAnnotatedBy);
         assertNull(page.unannotatedNullBy);
     }
 
     @Test
-    public void selectsDefaultByInBrowserOrWebViewContext() {
-        CrossPlatformByPage browserPage = new CrossPlatformByPage();
-        initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubBrowserDriver()), browserPage);
-
-        assertNull(browserPage.somethingBy);
-        assertNull(browserPage.somethingAppiumBy);
-        assertEquals(By.id("web_only"), browserPage.hybridBy);
-        assertEquals(By.cssSelector(".web-button"), browserPage.webFallbackBy);
-        assertEquals(By.id("constant_id"), browserPage.preInitializedBy);
-
-        CrossPlatformByPage webViewPage = new CrossPlatformByPage();
-        initElements(
-                new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidBrowserOrWebViewDriver()),
-                webViewPage
-        );
-        assertEquals(By.id("web_only"), webViewPage.hybridBy);
-        assertEquals(AppiumBy.id("something_android"), webViewPage.somethingBy);
-    }
-
-    @Test
     public void respectsProgrammaticDefaultLocatorGroupStrategyForByFields() {
+        ContextSwitchingAndroidDriver driver = new ContextSwitchingAndroidDriver();
         CrossPlatformByPage page = new CrossPlatformByPage();
-        initElements(
-                new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver(), ALL_POSSIBLE),
-                page
+        initElements(new AppiumFieldDecorator(driver, ALL_POSSIBLE), page);
+
+        assertEquals(
+                new ByAll(new By[]{AppiumBy.id("native_android")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.hybridBy)).toString()
         );
-        assertInstanceOf(ByAll.class, page.multiLocatorBy);
+        assertEquals(
+                new ByAll(new By[]{AppiumBy.id("something_android")}).toString(),
+                lastRecordedBy(driver, () -> driver.findElement(page.somethingBy)).toString()
+        );
     }
 
     @Test
-    public void throwsWhenBuiltByDoesNotMatchDeclaredSubType() {
-        IncompatibleByTypePage page = new IncompatibleByTypePage();
+    public void leavesIncompatibleNarrowSubTypeFieldsNullWithoutAbortingPageInit() {
+        IncompatibleBySubTypePage page = new IncompatibleBySubTypePage();
+        initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()), page);
+
+        assertNull(page.xpathAssignedToAppiumBy);
+        assertNull(page.chainedAssignedToAppiumBy);
+        assertEquals(AppiumBy.id("valid_android"), page.validAppiumBy);
+    }
+
+    @Test
+    public void throwsOnConflictingAnnotationsOnByFields() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()), page)
+                () -> initElements(
+                        new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()),
+                        new ConflictingSeleniumAnnotationsByPage()
+                )
+        );
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> initElements(
+                        new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()),
+                        new ConflictingSeleniumOnAppiumByPage()
+                )
         );
     }
 }
-

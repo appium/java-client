@@ -31,7 +31,7 @@ import java.util.Deque;
  */
 public final class PageFactory {
 
-    private static final ThreadLocal<Deque<Class<?>>> PAGE_CLASS_STACK =
+    private static final ThreadLocal<Deque<Object>> PAGE_STACK =
             ThreadLocal.withInitial(ArrayDeque::new);
 
     private PageFactory() {
@@ -46,7 +46,20 @@ public final class PageFactory {
      */
     @Nullable
     public static Class<?> getCurrentPageClass() {
-        return PAGE_CLASS_STACK.get().peek();
+        Object page = PAGE_STACK.get().peek();
+        return page == null ? null : page.getClass();
+    }
+
+    /**
+     * Returns the page object currently being initialized by
+     * {@link #initElements(FieldDecorator, Object)} on the current thread, or {@code null}
+     * if no page initialization is active.
+     *
+     * @return the current page object or {@code null}
+     */
+    @Nullable
+    public static Object getCurrentPage() {
+        return PAGE_STACK.get().peek();
     }
 
     /**
@@ -69,8 +82,8 @@ public final class PageFactory {
      * @param page The object to decorate the fields of
      */
     public static void initElements(FieldDecorator decorator, Object page) {
-        Deque<Class<?>> stack = PAGE_CLASS_STACK.get();
-        stack.push(page.getClass());
+        Deque<Object> stack = PAGE_STACK.get();
+        stack.push(page);
         try {
             Class<?> proxyIn = page.getClass();
             while (proxyIn != Object.class) {
@@ -80,7 +93,7 @@ public final class PageFactory {
         } finally {
             stack.pop();
             if (stack.isEmpty()) {
-                PAGE_CLASS_STACK.remove();
+                PAGE_STACK.remove();
             }
         }
     }
