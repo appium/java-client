@@ -44,6 +44,7 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
     private final List<Widget> cachedWidgets = new ArrayList<>();
     private final Class<? extends Widget> declaredType;
     private final Duration duration;
+    private final LocatorGroupStrategy defaultLocatorGroupStrategy;
     private final WeakReference<WebDriver> driver;
     private final List<WeakReference<WebElement>> cachedElementReferences = new ArrayList<>();
 
@@ -63,10 +64,29 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
             Class<? extends Widget> declaredType,
             Duration duration
     ) {
+        this(
+                locator,
+                driver,
+                instantiationMap,
+                declaredType,
+                duration,
+                AppiumFieldDecorator.currentDefaultStrategy()
+        );
+    }
+
+    WidgetListInterceptor(
+            @Nullable CacheableLocator locator,
+            WeakReference<WebDriver> driver,
+            Map<ContentType, Constructor<? extends Widget>> instantiationMap,
+            Class<? extends Widget> declaredType,
+            Duration duration,
+            LocatorGroupStrategy defaultLocatorGroupStrategy
+    ) {
         super(locator);
         this.instantiationMap = instantiationMap;
         this.declaredType = declaredType;
         this.duration = duration;
+        this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy;
         this.driver = driver;
     }
 
@@ -89,7 +109,14 @@ public class WidgetListInterceptor extends InterceptorOfAListOfElements {
                 cachedWidgets.add(
                         getEnhancedProxy(
                                 declaredType, params, new Object[] {element},
-                                new WidgetInterceptor(null, driver, elementReference, instantiationMap, duration)
+                                new WidgetInterceptor(
+                                        null,
+                                        driver,
+                                        elementReference,
+                                        instantiationMap,
+                                        duration,
+                                        defaultLocatorGroupStrategy
+                                )
                         )
                 );
                 cachedElementReferences.add(elementReference);
