@@ -61,7 +61,7 @@ public class SettingTest extends AppIOSTest {
     }
 
     @Test public void testSetScreenshotQuality() {
-        assertEquals(1L, driver.getSettings()
+        assertEquals(3L, driver.getSettings()
             .get(Setting.SCREENSHOT_QUALITY.toString()));
         driver.setScreenshotQuality(2);
         assertEquals(2L, driver.getSettings()
