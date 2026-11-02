@@ -76,13 +76,13 @@ public class SettingTest extends AppIOSTest {
 
     @Test public void testSetKeyboardAutocorrection() {
         driver.setKeyboardAutocorrection(true);
-        assertEquals(1L, driver.getSettings()
+        assertEquals(true, driver.getSettings()
             .get(Setting.KEYBOARD_AUTOCORRECTION.toString()));
     }
 
     @Test public void testSetKeyboardPrediction() {
         driver.setKeyboardPrediction(true);
-        assertEquals(1L, driver.getSettings()
+        assertEquals(true, driver.getSettings()
             .get(Setting.KEYBOARD_PREDICTION.toString()));
     }
 
