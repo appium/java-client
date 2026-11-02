@@ -16,7 +16,9 @@
 
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.AppiumWebElement;
@@ -27,6 +29,7 @@ import io.appium.java_client.support.pagefactory.ElementLocatorFactory;
 import io.appium.java_client.support.pagefactory.FieldDecorator;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.openqa.selenium.By;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -47,6 +50,7 @@ import java.util.Map;
 
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
 import static java.time.Duration.ofSeconds;
@@ -54,12 +58,13 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
- * WebElement fields and 2) List of WebElement that have
+ * WebElement fields, 2) List of WebElement that have
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
- * elements using the passed in ElementLocatorFactory.
- * Please pay attention: fields of {@link WebElement} or {@link AppiumWebElement}
- * to use with this decorator
+ * elements using the passed in ElementLocatorFactory, and 3) {@link By} / {@link AppiumBy}
+ * fields annotated with Appium or Selenium locator annotations.
+ * Please pay attention: fields of {@link WebElement}, {@link AppiumWebElement},
+ * {@link By}, or {@link AppiumBy} are supported by this decorator.
  */
 public class AppiumFieldDecorator implements FieldDecorator {
 
@@ -71,9 +76,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private static final ThreadLocal<LocatorGroupStrategy> CURRENT_DEFAULT_STRATEGY =
             ThreadLocal.withInitial(() -> LocatorGroupStrategy.CHAIN);
+    private final SearchContext searchContext;
+    private final WeakReference<SearchContext> searchContextReference;
     private final WeakReference<WebDriver> webDriverReference;
     private final DefaultFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
+    private final DefaultElementByBuilder elementByBuilder;
     private final String platform;
     private final String automation;
     private final Duration duration;
@@ -114,6 +122,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
             Duration duration,
             LocatorGroupStrategy defaultLocatorGroupStrategy
     ) {
+        this.searchContext = context;
+        this.searchContextReference = null;
         this.webDriverReference = requireWebDriverReference(context);
         this.platform = readStringCapability(context, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(context, AUTOMATION_NAME_OPTION);
@@ -122,9 +132,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 defaultLocatorGroupStrategy,
                 "Default locator group strategy must not be null"
         );
+        this.elementByBuilder = new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy);
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
-                context, duration, new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
+                context, duration, this.elementByBuilder
         ));
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 context, duration, new WidgetByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
@@ -170,6 +181,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
             LocatorGroupStrategy defaultLocatorGroupStrategy
     ) {
         var cr = contextReference.get();
+        this.searchContext = null;
+        this.searchContextReference = contextReference;
         this.webDriverReference = requireWebDriverReference(cr);
         this.platform = readStringCapability(cr, CapabilityType.PLATFORM_NAME);
         this.automation = readStringCapability(cr, AUTOMATION_NAME_OPTION);
@@ -178,11 +191,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 defaultLocatorGroupStrategy,
                 "Default locator group strategy must not be null"
         );
+        this.elementByBuilder = new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy);
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
                 contextReference,
                 duration,
-                new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
+                this.elementByBuilder
         ));
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 contextReference,
@@ -265,6 +279,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
         CURRENT_DEFAULT_STRATEGY.set(defaultLocatorGroupStrategy);
         try {
             Object result = decorateWidget(field);
+            if (result == null) {
+                result = decorateBy(field);
+            }
             return result == null ? defaultElementFieldDecorator.decorate(ignored, field) : result;
         } finally {
             if (previous == LocatorGroupStrategy.CHAIN) {
@@ -272,6 +289,53 @@ public class AppiumFieldDecorator implements FieldDecorator {
             } else {
                 CURRENT_DEFAULT_STRATEGY.set(previous);
             }
+        }
+    }
+
+    @Nullable
+    private Object decorateBy(Field field) {
+        Class<?> type = field.getType();
+        if (!By.class.isAssignableFrom(type)) {
+            return null;
+        }
+
+        elementByBuilder.setAnnotated(field);
+        try {
+            elementByBuilder.assertValidAnnotations();
+            By defaultBy = elementByBuilder.buildDefaultBy();
+            By mobileNativeBy = elementByBuilder.buildMobileNativeBy();
+            if (defaultBy == null && mobileNativeBy == null) {
+                return null;
+            }
+
+            if (ContentMappedBy.class.isAssignableFrom(type)) {
+                return elementByBuilder.buildBy();
+            }
+
+            By result;
+            if (defaultBy == null) {
+                result = mobileNativeBy;
+            } else if (mobileNativeBy == null) {
+                result = defaultBy;
+            } else {
+                SearchContext currentContext = searchContext != null
+                        ? searchContext
+                        : (searchContextReference != null ? searchContextReference.get() : null);
+                ContentType contentType = currentContext != null
+                        ? getCurrentContentType(currentContext)
+                        : ContentType.NATIVE_MOBILE_SPECIFIC;
+                result = contentType == ContentType.HTML_OR_DEFAULT ? defaultBy : mobileNativeBy;
+            }
+
+            if (!type.isInstance(result)) {
+                throw new IllegalArgumentException(String.format(
+                        "Field '%s' of type %s is not compatible with built locator of type %s",
+                        field.getName(), type.getName(), result.getClass().getName()
+                ));
+            }
+            return result;
+        } finally {
+            elementByBuilder.setAnnotated(null);
         }
     }
 

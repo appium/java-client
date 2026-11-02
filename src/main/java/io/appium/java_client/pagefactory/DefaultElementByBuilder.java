@@ -102,6 +102,9 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         if (bys.length == 0) {
             return null;
         }
+        if (bys.length == 1) {
+            return bys[0];
+        }
         if (LocatorGroupStrategy.ALL_POSSIBLE.equals(locatorGroupStrategy)) {
             return new ByAll(bys);
         }
