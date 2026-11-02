@@ -17,11 +17,25 @@
 package io.appium.java_client.pagefactory;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/** Defines how groups of platform-specific locator annotations are used. */
+/**
+ * Defines how groups of platform-specific locator annotations are used.
+ *
+ * <p>Can be placed on a specific field or on a page object / {@link Widget} class or interface
+ * (inherited by subclasses). Precedence order is: field-level {@code @HowToUseLocators}
+ * &gt; widget class {@code @HowToUseLocators}
+ * &gt; page/declaring class {@code @HowToUseLocators} (including superclasses, interfaces, and enclosing classes)
+ * &gt; the default {@link LocatorGroupStrategy} configured on {@link AppiumFieldDecorator}.
+ *
+ * <p>Note that both {@link #androidAutomation()} and {@link #iOSXCUITAutomation()} default to
+ * {@link LocatorGroupStrategy#CHAIN}, so when {@code @HowToUseLocators} is present on a field or class,
+ * any platform attribute not explicitly specified in that annotation resolves to {@code CHAIN}.
+ */
+@Inherited
 @Retention(RetentionPolicy.RUNTIME) @Target({ElementType.FIELD, ElementType.TYPE})
 public @interface HowToUseLocators {
     /**
